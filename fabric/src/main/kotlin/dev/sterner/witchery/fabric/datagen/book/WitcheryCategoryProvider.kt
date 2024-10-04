@@ -62,6 +62,5 @@ class WitcheryCategoryProvider(
     override fun additionalSetup(category: BookCategoryModel?): BookCategoryModel {
         return super.additionalSetup(category)
             .withBackground(Witchery.id("textures/gui/modonomicon/parallax.png"))
-            .withBackgroundSize(1183,1183)
     }
 }

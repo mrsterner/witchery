@@ -6,6 +6,7 @@ import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
+import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Items
 
 class BeginningEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
@@ -15,19 +16,7 @@ class BeginningEntryProvider(parent: CategoryProviderBase?) : EntryProvider(pare
     }
 
     override fun generatePages() {
-        this.page("beginning.1") {
-            BookTextPageModel.create()
-                .withTitle("beginning.title")
-                .withText("beginning.page.1")
-        }
-        this.page("beginning.2") {
-            BookTextPageModel.create()
-                .withText("beginning.page.2")
-        }
-        this.page("beginning.3") {
-            BookTextPageModel.create()
-                .withText("beginning.page.3")
-        }
+
     }
 
     override fun entryName(): String {
@@ -35,7 +24,7 @@ class BeginningEntryProvider(parent: CategoryProviderBase?) : EntryProvider(pare
     }
 
     override fun entryDescription(): String {
-        return "The microwaved banana of this mod"
+        return ""
     }
 
     override fun entryBackground(): Pair<Int, Int> {
@@ -43,7 +32,7 @@ class BeginningEntryProvider(parent: CategoryProviderBase?) : EntryProvider(pare
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(Items.HONEYCOMB)
+        return BookIconModel.create(WitcheryItems.GUIDEBOOK.get())
     }
 
     override fun entryId(): String {
