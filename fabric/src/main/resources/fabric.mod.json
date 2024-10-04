@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "witchery",
+  "version": "${version}",
+  "name": "Witchery",
+  "description": "Witchery",
+  "authors": [
+    "MrSterner"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+  "license": "ARR",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.sterner.witchery.fabric.WitcheryFabric"
+    ],
+    "client": [
+      "dev.sterner.witchery.fabric.WitcheryFabric"
+    ],
+    "fabric-datagen": [
+      "dev.sterner.witchery.fabric.datagen.WitcheryDatagen"
+    ],
+    "emi": [
+      "dev.sterner.witchery.integration.emi.WitcheryEmiPlugin"
+    ]
+  },
+  "mixins": [
+    "witchery.mixins.json",
+    "witchery-common.mixins.json"
+  ],
+  "custom": {
+    "modmenu": {
+      "parent": {
+        "id": "witchery",
+        "name": "Witchery",
+        "description": "wicthing",
+        "icon": "icon.png"
+      },
+      "update_checker": true
+    }
+  },
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.21.1"
+  }
+}
