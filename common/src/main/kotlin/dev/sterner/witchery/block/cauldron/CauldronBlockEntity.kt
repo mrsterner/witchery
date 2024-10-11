@@ -12,6 +12,7 @@ import dev.sterner.witchery.recipe.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.IngredientWithColor
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
@@ -55,12 +56,10 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     private var complete = false
 
     override fun init(level: Level, pos: BlockPos, state: BlockState) {
-        refreshCraftingRecipe(level)
+        refreshCraftingAndBrewingRecipe(level)
     }
 
-
-
-    private fun refreshCraftingRecipe(level: Level) {
+    private fun refreshCraftingAndBrewingRecipe(level: Level) {
         val allRecipesOfType = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())
         val nonEmptyItems = inputItems.filter { !it.isEmpty }
 
@@ -123,6 +122,10 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             consumeItem(level, pos)
         }
 
+        if (complete && !brewItemOutput.isEmpty) {
+            //TODO add spiraling enchantment particle effect
+        }
+
         // Handle crafting progress and execution
         if (cauldronCraftingRecipe != null || cauldronBrewingRecipe != null) {
             // Only start ticking when the recipe is complete
@@ -154,7 +157,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
 
                 // Refresh recipe to match current inputItems
-                refreshCraftingRecipe(level)
+                refreshCraftingAndBrewingRecipe(level)
 
                 updateColor(level, cacheForColorItem)
             }
@@ -219,18 +222,13 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
         }
 
-        level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.5f, 1.0f)
+        WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPacket(pos))
 
-        val players = (level as ServerLevel).chunkSource.chunkMap.getPlayers(ChunkPos(worldPosition), false)
-        for (player in players) {
-            NetworkManager.sendToPlayer(
-                player as ServerPlayer,
-                SyncCauldronS2CPacket(pos)
-            )
-        }
         if (cauldronCraftingRecipe != null) {
+            level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.5f, 1.0f)
             spawnSmokeParticle(level, pos)
         }
+
         resetCauldronPartial()
     }
 
@@ -262,34 +260,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         fluidTank = WitcheryFluidTank(this)
         brewItemOutput = ItemStack.EMPTY
         setChanged()
-    }
-
-    override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
-        super.loadAdditional(pTag, pRegistries)
-        fluidTank.loadFluidAdditional(pTag, pRegistries)
-        craftingProgressTicker = pTag.getInt("craftingProgressTicker")
-        color = pTag.getInt("color")
-        complete = pTag.getBoolean("complete")
-        if (pTag.contains("Item", 10)) {
-            val compoundTag: CompoundTag = pTag.getCompound("Item")
-            brewItemOutput = ItemStack.parse(pRegistries, compoundTag).orElse(ItemStack.EMPTY) as ItemStack
-        } else {
-            brewItemOutput = ItemStack.EMPTY
-        }
-        this.inputItems = NonNullList.withSize(this.containerSize, ItemStack.EMPTY)
-        ContainerHelper.loadAllItems(pTag, inputItems, pRegistries)
-    }
-
-    override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
-        super.saveAdditional(tag, registries)
-        fluidTank.saveFluidAdditional(tag, registries)
-        tag.putInt("craftingProgressTicker", craftingProgressTicker)
-        tag.putInt("color", color)
-        tag.putBoolean("complete", complete)
-        if (!brewItemOutput.isEmpty) {
-            tag.put("Item", brewItemOutput.save(registries))
-        }
-        ContainerHelper.saveAllItems(tag, inputItems, registries)
     }
 
     override fun getUpdateTag(registries: HolderLookup.Provider): CompoundTag {
@@ -360,15 +330,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     }
 
     private fun spawnSmokeParticle(level: Level, pos: BlockPos) {
-        if (level is ServerLevel) {
-            val players = level.chunkSource.chunkMap.getPlayers(ChunkPos(pos), false)
-            for (player in players) {
-                NetworkManager.sendToPlayer(
-                    player,
-                    CauldronPoofS2CPacket(pos, color)
-                )
-            }
-        }
+        WitcheryPayloads.sendToPlayers(level, pos, CauldronPoofS2CPacket(pos, color))
     }
 
     private fun getFirstEmptyIndex(): Int {
@@ -378,6 +340,34 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
         }
         return -1
+    }
+
+    override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
+        super.loadAdditional(pTag, pRegistries)
+        fluidTank.loadFluidAdditional(pTag, pRegistries)
+        craftingProgressTicker = pTag.getInt("craftingProgressTicker")
+        color = pTag.getInt("color")
+        complete = pTag.getBoolean("complete")
+        if (pTag.contains("Item", 10)) {
+            val compoundTag: CompoundTag = pTag.getCompound("Item")
+            brewItemOutput = ItemStack.parse(pRegistries, compoundTag).orElse(ItemStack.EMPTY) as ItemStack
+        } else {
+            brewItemOutput = ItemStack.EMPTY
+        }
+        this.inputItems = NonNullList.withSize(this.containerSize, ItemStack.EMPTY)
+        ContainerHelper.loadAllItems(pTag, inputItems, pRegistries)
+    }
+
+    override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
+        super.saveAdditional(tag, registries)
+        fluidTank.saveFluidAdditional(tag, registries)
+        tag.putInt("craftingProgressTicker", craftingProgressTicker)
+        tag.putInt("color", color)
+        tag.putBoolean("complete", complete)
+        if (!brewItemOutput.isEmpty) {
+            tag.put("Item", brewItemOutput.save(registries))
+        }
+        ContainerHelper.saveAllItems(tag, inputItems, registries)
     }
 
     //INVENTORY IMPL
@@ -415,7 +405,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
     companion object {
         const val WATER_COLOR = 0x3f76e4
-        const val PROGRESS_TICKS = 20 * 5
+        const val PROGRESS_TICKS = 20 * 3
 
         private fun isOrderRight(inputItems: List<ItemStack>, recipeItems: List<IngredientWithColor>?): Boolean {
             if (recipeItems == null) return false

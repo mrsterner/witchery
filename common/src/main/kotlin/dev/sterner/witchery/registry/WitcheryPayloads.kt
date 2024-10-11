@@ -1,13 +1,19 @@
 package dev.sterner.witchery.registry
 
 import dev.architectury.networking.NetworkManager
+import dev.architectury.networking.transformers.PacketSink
 import dev.architectury.platform.Platform
 import dev.architectury.utils.Env
 import dev.sterner.witchery.payload.CauldronPoofS2CPacket
 import dev.sterner.witchery.payload.SyncCauldronS2CPacket
+import net.minecraft.core.BlockPos
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.Level
 
 
 object WitcheryPayloads {
@@ -38,6 +44,22 @@ object WitcheryPayloads {
             NetworkManager.registerReceiver(NetworkManager.s2c(), type, codec, receiver)
         } else {
             NetworkManager.registerS2CPayloadType(type, codec)
+        }
+    }
+
+    fun <T : CustomPacketPayload?> sendToPlayers(level: Level, pos: BlockPos, payload: T) {
+        if (level is ServerLevel) {
+            sendToPlayers(level, pos, payload)
+        }
+    }
+
+    fun <T : CustomPacketPayload?> sendToPlayers(level: ServerLevel, pos: BlockPos, payload: T) {
+        val players = level.chunkSource.chunkMap.getPlayers(ChunkPos(pos), false)
+        for (player in players) {
+            NetworkManager.sendToPlayer(
+                player as ServerPlayer,
+                payload
+            )
         }
     }
 }
