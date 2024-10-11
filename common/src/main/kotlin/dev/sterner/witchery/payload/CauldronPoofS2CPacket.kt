@@ -2,19 +2,16 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.block.WitcheryFluidTank
-import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.client.particle.ColorBubbleData
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.util.Mth
 
-class CauldronSmokeS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class CauldronPoofS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -35,7 +32,7 @@ class CauldronSmokeS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf?.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: CauldronSmokeS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: CauldronPoofS2CPacket, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
         val pos = BlockPos(payload.nbt.getInt("x"), payload.nbt.getInt("y"), payload.nbt.getInt("z"))
         val color = nbt.getInt("color")
@@ -57,13 +54,13 @@ class CauldronSmokeS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<CauldronSmokeS2CPacket> =
+        val ID: CustomPacketPayload.Type<CauldronPoofS2CPacket> =
             CustomPacketPayload.Type(Witchery.id("cauldron_smoke"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, CauldronSmokeS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, CauldronPoofS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> CauldronSmokeS2CPacket(buf!!) }
+                { buf -> CauldronPoofS2CPacket(buf!!) }
             )
     }
 }

@@ -5,7 +5,7 @@ import dev.architectury.hooks.fluid.FluidStackHooks
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.api.block.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.payload.CauldronSmokeS2CPacket
+import dev.sterner.witchery.payload.CauldronPoofS2CPacket
 import dev.sterner.witchery.payload.SyncCauldronS2CPacket
 import dev.sterner.witchery.recipe.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.CauldronCraftingRecipe
@@ -151,7 +151,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             val firstEmpty = getFirstEmptyIndex()
             if (firstEmpty != -1) {
                 setItem(firstEmpty, item.split(1))
-                level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.25f, 1f)
+                level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
 
                 // Refresh recipe to match current inputItems
                 refreshCraftingRecipe(level)
@@ -228,7 +228,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 SyncCauldronS2CPacket(pos)
             )
         }
-        spawnSmokeParticle(level, pos)
+        if (cauldronCraftingRecipe != null) {
+            spawnSmokeParticle(level, pos)
+        }
         resetCauldronPartial()
     }
 
@@ -260,20 +262,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         fluidTank = WitcheryFluidTank(this)
         brewItemOutput = ItemStack.EMPTY
         setChanged()
-    }
-
-    private fun spawnSmokeParticle(level: Level, pos: BlockPos) {
-        if (level is ServerLevel) {
-            val players = level.chunkSource.chunkMap.getPlayers(ChunkPos(worldPosition), false)
-            if (cauldronCraftingRecipe != null) {
-                for (player in players) {
-                    NetworkManager.sendToPlayer(
-                        player,
-                        CauldronSmokeS2CPacket(pos, color)
-                    )
-                }
-            }
-        }
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
@@ -346,6 +334,8 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 pStack.shrink(1)
                 Containers.dropItemStack(level, pPlayer.x, pPlayer.y, pPlayer.z, ItemStack(brewItemOutput.copy().item))
                 fluidTank.fluidStorage.remove(FluidStackHooks.bucketAmount() / 3, false)
+                playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
+                playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)
                 if (fluidTank.fluidStorage.getAmount() < (FluidStackHooks.bucketAmount() / 3)) {
                     fullReset()
                 }
@@ -358,15 +348,27 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
-    private fun playSound(level: Level?, player: Player, blockPos: BlockPos, sound: SoundEvent) {
+    private fun playSound(level: Level?, player: Player, blockPos: BlockPos, sound: SoundEvent, volume: Float = 1.0f) {
         level!!.playSound(
             player,
             blockPos,
             sound,
             SoundSource.BLOCKS,
-            1.0f,
+            volume,
             level.getRandom().nextFloat() * 0.4f + 0.8f
         )
+    }
+
+    private fun spawnSmokeParticle(level: Level, pos: BlockPos) {
+        if (level is ServerLevel) {
+            val players = level.chunkSource.chunkMap.getPlayers(ChunkPos(pos), false)
+            for (player in players) {
+                NetworkManager.sendToPlayer(
+                    player,
+                    CauldronPoofS2CPacket(pos, color)
+                )
+            }
+        }
     }
 
     private fun getFirstEmptyIndex(): Int {
