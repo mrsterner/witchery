@@ -2,14 +2,13 @@ package dev.sterner.witchery.block.cauldron
 
 import dev.architectury.fluid.FluidStack
 import dev.architectury.hooks.fluid.FluidStackHooks
-import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.api.block.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.payload.CauldronPoofS2CPacket
 import dev.sterner.witchery.payload.SyncCauldronS2CPacket
 import dev.sterner.witchery.recipe.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.CauldronCraftingRecipe
-import dev.sterner.witchery.recipe.IngredientWithColor
+import dev.sterner.witchery.recipe.ItemStackWithColor
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
@@ -19,8 +18,6 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -31,7 +28,6 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.Potions
-import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
@@ -180,7 +176,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             recipe.value.inputItems.forEach { ingredientWithColor ->
                 // Check if the ingredient matches and the order is correct
                 val orderIsCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
-                if (ingredientWithColor.ingredient.test(cacheForColorItem) && orderIsCorrect) {
+                if (ItemStack.isSameItem(ingredientWithColor.itemStack, cacheForColorItem) && orderIsCorrect) {
                     color = ingredientWithColor.color // Set color based on the matched ingredient
                     colorSet = true // Flag that a color was successfully set
                 }
@@ -193,7 +189,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 recipe.value.inputItems.forEach { ingredientWithColor ->
                     // Check if the ingredient matches and the order is correct
                     val orderIsCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
-                    if (ingredientWithColor.ingredient.test(cacheForColorItem) && orderIsCorrect) {
+                    if (ItemStack.isSameItem(ingredientWithColor.itemStack, cacheForColorItem) && orderIsCorrect) {
                         color = ingredientWithColor.color // Set color based on the matched ingredient
                         colorSet = true // Flag that a color was successfully set
                     }
@@ -407,7 +403,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         const val WATER_COLOR = 0x3f76e4
         const val PROGRESS_TICKS = 20 * 3
 
-        private fun isOrderRight(inputItems: List<ItemStack>, recipeItems: List<IngredientWithColor>?): Boolean {
+        private fun isOrderRight(inputItems: List<ItemStack>, recipeItems: List<ItemStackWithColor>?): Boolean {
             if (recipeItems == null) return false
 
             // Check if the number of input items is larger than the recipe items
@@ -421,7 +417,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 val recipeItem = recipeItems.find { it.order == index }
 
                 // If there's no recipe item at this order or the input item doesn't match the ingredient, return false
-                if (recipeItem == null || !recipeItem.ingredient.test(inputItem)) {
+                if (recipeItem == null || !ItemStack.isSameItem(recipeItem.itemStack, inputItem)) {
                     return false
                 }
             }

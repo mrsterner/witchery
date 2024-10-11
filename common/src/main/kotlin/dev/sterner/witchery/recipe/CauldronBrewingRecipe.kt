@@ -10,27 +10,25 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
-import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
 
 
-class CauldronBrewingRecipe(val inputItems: List<IngredientWithColor>, val outputItem: ItemStack, val altarPower: Int) :
+class CauldronBrewingRecipe(val inputItems: List<ItemStackWithColor>, val outputItem: ItemStack, val altarPower: Int) :
     Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
 
-        val filteredInputItems = inputItems.filter { !it.ingredient.isEmpty }
+        val filteredInputItems = inputItems.filter { !it.itemStack.isEmpty }
         val filteredInputList = input.list.filter { !it.isEmpty }
 
         if (filteredInputList.size != filteredInputItems.size) {
             return false
         }
 
-        return filteredInputList.all { ingredient -> filteredInputItems.any { it.ingredient.test(ingredient) } }
+        return filteredInputList.all { ingredient -> filteredInputItems.any { ItemStack.isSameItem(it.itemStack, ingredient) } }
     }
 
     override fun assemble(input: MultipleItemRecipeInput, registries: HolderLookup.Provider): ItemStack {
@@ -66,7 +64,7 @@ class CauldronBrewingRecipe(val inputItems: List<IngredientWithColor>, val outpu
             val CODEC: MapCodec<CauldronBrewingRecipe> =
                 RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<CauldronBrewingRecipe> ->
                     obj.group(
-                        IngredientWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
+                        ItemStackWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
                         ItemStack.CODEC.fieldOf("outputItem").forGetter { it.outputItem },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower }
                     ).apply(obj, ::CauldronBrewingRecipe)

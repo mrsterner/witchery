@@ -18,19 +18,19 @@ import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
 
 
-class CauldronCraftingRecipe(val inputItems: List<IngredientWithColor>, val outputItems: List<Ingredient>, val altarPower: Int) :
+class CauldronCraftingRecipe(val inputItems: List<ItemStackWithColor>, val outputItems: List<Ingredient>, val altarPower: Int) :
     Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
 
-        val filteredInputItems = inputItems.filter { !it.ingredient.isEmpty }
+        val filteredInputItems = inputItems.filter { !it.itemStack.isEmpty }
         val filteredInputList = input.list.filter { !it.isEmpty }
 
         if (filteredInputList.size != filteredInputItems.size) {
             return false
         }
 
-        return filteredInputList.all { ingredient -> filteredInputItems.any { it.ingredient.test(ingredient) } }
+        return filteredInputList.all { ingredient -> filteredInputItems.any {ItemStack.isSameItem(it.itemStack, ingredient) } }
     }
 
     override fun assemble(input: MultipleItemRecipeInput, registries: HolderLookup.Provider): ItemStack {
@@ -66,7 +66,7 @@ class CauldronCraftingRecipe(val inputItems: List<IngredientWithColor>, val outp
             val CODEC: MapCodec<CauldronCraftingRecipe> =
                 RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<CauldronCraftingRecipe> ->
                     obj.group(
-                        IngredientWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
+                        ItemStackWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
                         Ingredient.CODEC.listOf().fieldOf("outputItems").forGetter { it.outputItems },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower }
                     ).apply(obj, ::CauldronCraftingRecipe)

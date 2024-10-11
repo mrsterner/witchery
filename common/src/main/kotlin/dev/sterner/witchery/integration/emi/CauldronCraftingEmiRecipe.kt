@@ -14,6 +14,7 @@ import dev.sterner.witchery.recipe.CauldronCraftingRecipe
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.crafting.Ingredient
 import org.joml.Matrix4f
 
 class CauldronCraftingEmiRecipe(val recipe: CauldronCraftingRecipe) : EmiRecipe {
@@ -29,7 +30,7 @@ class CauldronCraftingEmiRecipe(val recipe: CauldronCraftingRecipe) : EmiRecipe 
     override fun getInputs(): MutableList<EmiIngredient> {
         val mutableList = mutableListOf<EmiIngredient>()
         for (ingredients in recipe.inputItems) {
-            mutableList.add(EmiIngredient.of(ingredients.ingredient))
+            mutableList.add(EmiIngredient.of(Ingredient.of(ingredients.itemStack)))
         }
         return mutableList
     }
@@ -47,7 +48,7 @@ class CauldronCraftingEmiRecipe(val recipe: CauldronCraftingRecipe) : EmiRecipe 
     }
 
     override fun getDisplayHeight(): Int {
-        return 18 * 6 + if (recipe.inputItems.size > 5) recipe.inputItems.size * 18 else 0
+        return 18 * 6 + if (recipe.inputItems.size > 5) (recipe.inputItems.size - 5) * 18 else 0
     }
 
     override fun addWidgets(widgets: WidgetHolder) {
@@ -55,7 +56,7 @@ class CauldronCraftingEmiRecipe(val recipe: CauldronCraftingRecipe) : EmiRecipe 
             widgets.addDrawable(2, 20 * index, 48, 18) { ctx, _, _, _ ->
                 ctx.blit(Witchery.id("textures/gui/order_widget.png"), 0,0,0f,0f,48, 18, 48, 18)
                 blitWithAlpha(ctx.pose(), Witchery.id("textures/gui/index_${ingredient.order + 1}.png"), 2,2,0f,0f,13, 13, 13, 13)
-                ctx.renderItem(ingredient.ingredient.items[0], 2 + 18,0)
+                ctx.renderItem(ingredient.itemStack, 2 + 18,0)
             }
         }
 

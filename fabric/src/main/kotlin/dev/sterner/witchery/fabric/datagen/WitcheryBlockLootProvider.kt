@@ -1,5 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.sterner.witchery.registry.WitcheryBlocks
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.core.HolderLookup
@@ -11,6 +12,6 @@ class WitcheryBlockLootProvider(
 ) : FabricBlockLootTableProvider(dataOutput, registryLookup) {
 
     override fun generate() {
-
+        dropSelf(WitcheryBlocks.CAULDRON.get())
     }
 }

@@ -44,7 +44,7 @@ class CauldronBrewingEmiRecipe(val recipe: CauldronBrewingRecipe) : EmiRecipe {
     }
 
     override fun getDisplayHeight(): Int {
-        return 18 * 6 + if (recipe.inputItems.size > 5) recipe.inputItems.size * 18 else 0
+        return 18 * 6 + if (recipe.inputItems.size > 5) (recipe.inputItems.size - 5) * 18 else 0
     }
 
     override fun addWidgets(widgets: WidgetHolder) {
@@ -52,7 +52,7 @@ class CauldronBrewingEmiRecipe(val recipe: CauldronBrewingRecipe) : EmiRecipe {
             widgets.addDrawable(2, 20 * index, 48, 18) { ctx, _, _, _ ->
                 ctx.blit(Witchery.id("textures/gui/order_widget.png"), 0,0,0f,0f,48, 18, 48, 18)
                 blitWithAlpha(ctx.pose(), Witchery.id("textures/gui/index_${ingredient.order + 1}.png"), 2,2,0f,0f,13, 13, 13, 13)
-                ctx.renderItem(ingredient.ingredient.items[0], 2 + 18,0)
+                ctx.renderItem(ingredient.itemStack, 2 + 18,0)
             }
         }
 
