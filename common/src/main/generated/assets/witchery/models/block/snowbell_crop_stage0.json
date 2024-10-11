@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "witchery:block/snowbell_crop_stage0"
+  }
+}
