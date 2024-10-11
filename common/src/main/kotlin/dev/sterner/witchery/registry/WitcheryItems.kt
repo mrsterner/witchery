@@ -3,6 +3,8 @@ package dev.sterner.witchery.registry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.multiblock.MultiBlockItem
+import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.item.GuideBookItem
 import dev.sterner.witchery.item.MutandisItem
 import net.minecraft.core.registries.Registries
@@ -19,5 +21,9 @@ object WitcheryItems {
 
     val GUIDEBOOK: RegistrySupplier<GuideBookItem> = ITEMS.register("guidebook") {
         GuideBookItem(Item.Properties())
+    }
+
+    val ALTAR: RegistrySupplier<MultiBlockItem> = ITEMS.register("altar") {
+        MultiBlockItem(WitcheryBlocks.ALTAR.get(), Item.Properties(), AltarBlock.STRUCTURE)
     }
 }

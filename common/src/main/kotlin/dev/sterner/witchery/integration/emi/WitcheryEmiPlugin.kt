@@ -11,8 +11,5 @@ class WitcheryEmiPlugin : EmiPlugin {
 
     }
 
-    companion object {
-
-
-    }
+    companion object
 }

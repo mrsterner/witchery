@@ -1,6 +1,8 @@
 package dev.sterner.witchery.neoforge
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.model.AltarBlockEntityModel
+import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
 import net.neoforged.bus.api.SubscribeEvent
@@ -57,7 +59,12 @@ object WitcheryNeoForge {
 
     @SubscribeEvent
     private fun registerLayerDefinitions(event: EntityRenderersEvent.RegisterLayerDefinitions) {
-
+        event.registerLayerDefinition(
+            AltarBlockEntityModel.LAYER_LOCATION,
+            AltarBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            AltarClothBlockEntityModel.LAYER_LOCATION,
+            AltarClothBlockEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent

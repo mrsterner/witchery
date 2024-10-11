@@ -1,7 +1,5 @@
 package dev.sterner.witchery.item
 
-import com.klikli_dev.modonomicon.client.gui.BookGuiManager
-import com.klikli_dev.modonomicon.client.gui.book.BookAddress
 import com.klikli_dev.modonomicon.data.BookDataManager
 import com.klikli_dev.modonomicon.item.ModonomiconItem
 import dev.sterner.witchery.Witchery
@@ -17,11 +15,11 @@ import net.minecraft.world.level.Level
 class GuideBookItem(pProperties: Properties) : ModonomiconItem(pProperties) {
 
     override fun use(pLevel: Level, pPlayer: Player, pUsedHand: InteractionHand): InteractionResultHolder<ItemStack> {
-        val itemInHand = pPlayer.getItemInHand(pUsedHand);
+        val itemInHand = pPlayer.getItemInHand(pUsedHand)
 
         if (pLevel.isClientSide) {
             val book = BookDataManager.get().getBook(ID)
-            BookGuiManager.get().openBook(BookAddress.defaultFor(book))
+            //TODO BookGuiManager.get().openBook(BookAddress.defaultFor(book))
         }
 
         return InteractionResultHolder.sidedSuccess(itemInHand, pLevel.isClientSide)

@@ -11,7 +11,7 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Block
 import kotlin.jvm.optionals.getOrNull
 
-class MutandisItem(properties: Properties): Item(properties) {
+class MutandisItem(properties: Properties) : Item(properties) {
     override fun useOn(useOnContext: UseOnContext): InteractionResult {
         val level = useOnContext.level as? ServerLevel ?: return super.useOn(useOnContext)
         val pos = useOnContext.clickedPos
