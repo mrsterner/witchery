@@ -3,8 +3,8 @@ package dev.sterner.witchery.registry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.CauldronBrewingRecipe
-import dev.sterner.witchery.recipe.CauldronCraftingRecipe
+import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
+import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeType

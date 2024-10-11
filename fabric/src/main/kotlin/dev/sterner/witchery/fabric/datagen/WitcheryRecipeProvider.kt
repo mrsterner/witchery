@@ -1,9 +1,8 @@
 package dev.sterner.witchery.fabric.datagen
 
-import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.CauldronBrewingRecipeBuilder
-import dev.sterner.witchery.recipe.CauldronCraftingRecipeBuilder
-import dev.sterner.witchery.recipe.ItemStackWithColor
+import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
+import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
+import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
@@ -86,6 +85,22 @@ class WitcheryRecipeProvider(output: FabricDataOutput, registriesFuture: Complet
             100
         )
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
+            .save(exporter)
+
+        CauldronCraftingRecipeBuilder(
+            listOf(
+                ItemStackWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, 123456, 0),
+                ItemStackWithColor(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get().defaultInstance, 654321, 1),
+                ItemStackWithColor(Items.EGG.defaultInstance, 654321, 2)
+            ),
+            listOf(
+                Ingredient.of(WitcheryItems.MUTANDIS.get()),
+                Ingredient.of(WitcheryItems.MUTANDIS.get()),
+                Ingredient.of(WitcheryItems.MUTANDIS.get()),
+                Ingredient.of(WitcheryItems.MUTANDIS.get())),
+            100
+        )
+            .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
             .save(exporter)
     }
 }
