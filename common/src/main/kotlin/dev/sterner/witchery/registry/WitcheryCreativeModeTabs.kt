@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryItems.ALTAR
 import dev.sterner.witchery.registry.WitcheryItems.BELLADONNA_FLOWER
+import dev.sterner.witchery.registry.WitcheryItems.BELLADONNA_SEEDS
 import dev.sterner.witchery.registry.WitcheryItems.BONE_NEEDLE
 import dev.sterner.witchery.registry.WitcheryItems.BREATH_OF_THE_GODDESS
 import dev.sterner.witchery.registry.WitcheryItems.CAULDRON
@@ -20,6 +21,7 @@ import dev.sterner.witchery.registry.WitcheryItems.GOLDEN_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.GUIDEBOOK
 import dev.sterner.witchery.registry.WitcheryItems.GYPSUM
 import dev.sterner.witchery.registry.WitcheryItems.HINT_OF_REBIRTH
+import dev.sterner.witchery.registry.WitcheryItems.ICY_NEEDLE
 import dev.sterner.witchery.registry.WitcheryItems.INFERNAL_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.JAR
 import dev.sterner.witchery.registry.WitcheryItems.MANDRAKE_ROOT
@@ -53,11 +55,13 @@ object WitcheryCreativeModeTabs {
                 output.accept(ALTAR.get())
                 output.accept(CAULDRON.get())
                 output.accept(OVEN.get())
+                output.accept(ICY_NEEDLE.get())
                 output.accept(GLINTWEED.get())
                 output.accept(EMBER_MOSS.get())
                 output.accept(SPANISH_MOSS.get())
                 output.accept(MANDRAKE_SEEDS.get())
                 output.accept(MANDRAKE_ROOT.get())
+                output.accept(BELLADONNA_SEEDS.get())
                 output.accept(BELLADONNA_FLOWER.get())
                 output.accept(WATER_ARTICHOKE_GLOBE.get())
                 output.accept(WOOD_ASH.get())

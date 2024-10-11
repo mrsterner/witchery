@@ -1,5 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
@@ -31,7 +32,13 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.INFERNAL_CHALK.get(), "Infernal Chalk")
         builder.add(WitcheryItems.OTHERWHERE_CHALK.get(), "Otherwhere Chalk")
         builder.add(WitcheryItems.GOLDEN_CHALK.get(), "Golden Chalk")
+        builder.add(WitcheryItems.ICY_NEEDLE.get(), "Icy Needle")
+        builder.add(WitcheryItems.BELLADONNA_SEEDS.get(), "Belladonna Seeds")
+        builder.add(WitcheryItems.MANDRAKE_SEEDS.get(), "Mandrake Seeds")
 
+        builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
+        builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
+        builder.add(WitcheryBlocks.SPANISH_MOSS.get(), "Spanish Moss")
 
         builder.add(WitcheryItems.CLAY_JAR.get(), "Clay Jar")
         builder.add(WitcheryItems.JAR.get(), "Jar")

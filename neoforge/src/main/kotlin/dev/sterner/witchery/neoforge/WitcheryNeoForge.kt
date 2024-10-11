@@ -68,6 +68,7 @@ object WitcheryNeoForge {
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.EMBER_MOSS.get(), RenderType.cutout())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.SPANISH_MOSS.get(), RenderType.cutout())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.MANDRAKE_CROP.get(), RenderType.cutout())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.BELLADONNAE_CROP.get(), RenderType.cutout())
     }
 
     @SubscribeEvent

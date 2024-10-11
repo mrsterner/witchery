@@ -38,13 +38,21 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.SPANISH_MOSS.get(), Item.Properties())
     }
 
+    //start RESOURCES
     val MANDRAKE_SEEDS = ITEMS.register("mandrake_seeds") {
         ItemNameBlockItem(WitcheryBlocks.MANDRAKE_CROP.get(), Item.Properties())
     }
 
-    //start RESOURCES
+    val ICY_NEEDLE = ITEMS.register("icy_needle") {
+        Item(Item.Properties())
+    }
+
     val MANDRAKE_ROOT = ITEMS.register("mandrake_root") {
         Item(Item.Properties())
+    }
+
+    val BELLADONNA_SEEDS = ITEMS.register("belladonna_seeds") {
+        ItemNameBlockItem(WitcheryBlocks.BELLADONNAE_CROP.get(), Item.Properties())
     }
 
     val BELLADONNA_FLOWER = ITEMS.register("belladonna_flower") {

@@ -99,4 +99,16 @@ object WitcheryBlocks {
                 .pushReaction(PushReaction.DESTROY)
         )
     }
+
+    val BELLADONNAE_CROP = BLOCKS.register("belladonna_crop") {
+        MandrakeCropBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .instabreak()
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY)
+        )
+    }
 }
