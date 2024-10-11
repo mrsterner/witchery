@@ -102,5 +102,17 @@ class WitcheryRecipeProvider(output: FabricDataOutput, registriesFuture: Complet
         )
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
             .save(exporter)
+
+        CauldronCraftingRecipeBuilder(
+            listOf(
+                ItemStackWithColor(Items.NETHER_WART.defaultInstance, 123456, 0),
+                ItemStackWithColor(WitcheryItems.MUTANDIS.get().defaultInstance, 654321, 1)
+            ),
+            listOf(
+                Ingredient.of(WitcheryItems.MUTANDIS_EXTREMIS.get())),
+            100
+        )
+            .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
+            .save(exporter)
     }
 }

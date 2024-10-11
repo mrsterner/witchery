@@ -29,7 +29,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             )
         }
 
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(), WitcheryBlocks.CAULDRON.get())
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(), WitcheryBlocks.CAULDRON.get(), WitcheryBlocks.GLINTWEED.get(), WitcheryBlocks.EMBER_MOSS.get())
 
     }
 }

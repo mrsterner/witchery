@@ -19,6 +19,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.CAULDRON.get(), "Cauldron")
         builder.add(WitcheryItems.ALTAR.get(), "Altar")
         builder.add(WitcheryItems.MUTANDIS.get(), "Mutandis")
+        builder.add(WitcheryItems.MUTANDIS_EXTREMIS.get(), "MutandisExtremsi")
         builder.add(WitcheryItems.MANDRAKE_ROOT.get(), "Mandrake Root")
         builder.add(WitcheryItems.GYPSUM.get(), "Gypsum")
         builder.add(WitcheryItems.WOOD_ASH.get(), "Wood Ash")

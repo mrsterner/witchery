@@ -22,6 +22,17 @@ object WitcheryItems {
         MutandisItem(Item.Properties())
     }
 
+    val MUTANDIS_EXTREMIS = ITEMS.register("mutandis_extremis") {
+        MutandisItem(Item.Properties())
+    }
+
+    val GLINTWEED = ITEMS.register("glintweed") {
+        BlockItem(WitcheryBlocks.GLINTWEED.get(), Item.Properties())
+    }
+    val EMBERMOSS = ITEMS.register("ember_moss") {
+        BlockItem(WitcheryBlocks.EMBER_MOSS.get(), Item.Properties())
+    }
+
     //start RESOURCES
     val MANDRAKE_ROOT = ITEMS.register("mandrake_root") {
         Item(Item.Properties())

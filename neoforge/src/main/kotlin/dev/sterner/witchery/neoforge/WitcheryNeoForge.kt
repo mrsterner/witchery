@@ -62,6 +62,8 @@ object WitcheryNeoForge {
     @SubscribeEvent
     private fun initializeClient(event: RegisterClientExtensionsEvent) {
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.CAULDRON.get(), RenderType.cutout())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.GLINTWEED.get(), RenderType.cutout())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.EMBER_MOSS.get(), RenderType.cutout())
     }
 
     @SubscribeEvent
