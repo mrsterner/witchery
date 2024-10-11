@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.FormattedCharSequence
 import net.minecraft.world.inventory.tooltip.TooltipComponent
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.crafting.Ingredient
 import java.util.List
 
 class CauldronBrewingEmiRecipe(val recipe: CauldronBrewingRecipe) : EmiRecipe {
@@ -54,40 +55,20 @@ class CauldronBrewingEmiRecipe(val recipe: CauldronBrewingRecipe) : EmiRecipe {
             widgets.addDrawable(2, 20 * index, 48, 18) { ctx, _, _, _ ->
                 ctx.blit(Witchery.id("textures/gui/order_widget.png"), 0,0,0f,0f,48, 18, 48, 18)
                 blitWithAlpha(ctx.pose(), Witchery.id("textures/gui/index_${ingredient.order + 1}.png"), 2,2,0f,0f,13, 13, 13, 13)
-                ctx.renderItem(ingredient.itemStack, 2 + 18,0)
-            }.tooltip { t, u ->
-                listOf(
-                    ClientTooltipComponent.create(
-                        ingredient.itemStack.hoverName.visualOrderText
-                    )
-                )
             }
+
+            widgets.add(WitcherySlotWidget(EmiIngredient.of(Ingredient.of(ingredient.itemStack)), 2 + 2 + 18, 20 * index)
+                .drawBack(false))
         }
-
-
 
         widgets.addDrawable(48 + 18 + 9, 20 * 1, 18, 18) { ctx, _, _, _ ->
             ctx.blit(Witchery.id("textures/gui/cauldron.png"), 0,8,0f,0f,35, 56, 35, 56)
         }
 
-        widgets.addDrawable(48 + 18 + 9 - 12, 20 * 1 + 6, 16, 16) { ctx, _, _, _ ->
-            ctx.renderItem(Items.GLASS_BOTTLE.defaultInstance, 0, 0)
-        }.tooltip { t, u ->
-            listOf(
-                ClientTooltipComponent.create(
-                    Items.GLASS_BOTTLE.defaultInstance.hoverName.visualOrderText
-                )
-            )
-        }
+        widgets.add(WitcherySlotWidget(EmiIngredient.of(Ingredient.of(Items.GLASS_BOTTLE.defaultInstance)), 48 + 18 + 9 - 12, 20 * 1 + 6)
+            .drawBack(false))
 
-        widgets.addDrawable(48 + 18 + 9 + 18 + 9 + 4, 20 * 1 + 6, 16, 16) { ctx, _, _, _ ->
-            ctx.renderItem(recipe.outputItem, 0, 0)
-        }.tooltip { t, u ->
-            listOf(
-                ClientTooltipComponent.create(
-                    recipe.outputItem.hoverName.visualOrderText
-                )
-            )
-        }
+        widgets.add(WitcherySlotWidget(EmiIngredient.of(Ingredient.of(recipe.outputItem)), 48 + 18 + 9 + 18 + 9 + 4, 20 * 1 + 6)
+            .drawBack(false))
     }
 }

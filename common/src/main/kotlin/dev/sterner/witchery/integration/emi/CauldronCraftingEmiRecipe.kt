@@ -57,26 +57,15 @@ class CauldronCraftingEmiRecipe(val recipe: CauldronCraftingRecipe) : EmiRecipe 
             widgets.addDrawable(2, 20 * index, 48, 18) { ctx, _, _, _ ->
                 ctx.blit(Witchery.id("textures/gui/order_widget.png"), 0,0,0f,0f,48, 18, 48, 18)
                 blitWithAlpha(ctx.pose(), Witchery.id("textures/gui/index_${ingredient.order + 1}.png"), 2,2,0f,0f,13, 13, 13, 13)
-                ctx.renderItem(ingredient.itemStack, 2 + 18,0)
-            }.tooltip { t, u ->
-                listOf(
-                    ClientTooltipComponent.create(
-                        ingredient.itemStack.hoverName.visualOrderText
-                    )
-                )
             }
+
+            widgets.add(WitcherySlotWidget(EmiIngredient.of(Ingredient.of(ingredient.itemStack)), 2 + 2 + 18, 20 * index)
+                .drawBack(false))
         }
 
         for ((index, ingredient) in recipe.outputItems.withIndex()) {
-            widgets.addDrawable(48 + 18 + 9 + 18 + 9 + 4 + (18 * index), 20 * 1 + 6, 16, 16) { ctx, _, _, _ ->
-                ctx.renderItem(ingredient.items[0], 0, 0)
-            }.tooltip { t, u ->
-                listOf(
-                    ClientTooltipComponent.create(
-                        ingredient.items[0].hoverName.visualOrderText
-                    )
-                )
-            }
+            widgets.add(WitcherySlotWidget(EmiIngredient.of(ingredient), 48 + 18 + 9 + 18 + 9 + 4 + (18 * index), 20 * 1 + 6)
+                .drawBack(false))
         }
 
         widgets.addDrawable(48 + 18 + 9, 20 * 1, 18, 18) { ctx, _, _, _ ->
