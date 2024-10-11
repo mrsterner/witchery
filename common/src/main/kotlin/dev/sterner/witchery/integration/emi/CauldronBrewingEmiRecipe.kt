@@ -1,6 +1,5 @@
 package dev.sterner.witchery.integration.emi
 
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
 import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
@@ -10,10 +9,13 @@ import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.recipe.CauldronBrewingRecipe
-import net.minecraft.client.renderer.GameRenderer
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
+import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.FormattedCharSequence
+import net.minecraft.world.inventory.tooltip.TooltipComponent
 import net.minecraft.world.item.Items
-import org.joml.Matrix4f
+import java.util.List
 
 class CauldronBrewingEmiRecipe(val recipe: CauldronBrewingRecipe) : EmiRecipe {
 
@@ -53,16 +55,39 @@ class CauldronBrewingEmiRecipe(val recipe: CauldronBrewingRecipe) : EmiRecipe {
                 ctx.blit(Witchery.id("textures/gui/order_widget.png"), 0,0,0f,0f,48, 18, 48, 18)
                 blitWithAlpha(ctx.pose(), Witchery.id("textures/gui/index_${ingredient.order + 1}.png"), 2,2,0f,0f,13, 13, 13, 13)
                 ctx.renderItem(ingredient.itemStack, 2 + 18,0)
+            }.tooltip { t, u ->
+                listOf(
+                    ClientTooltipComponent.create(
+                        ingredient.itemStack.hoverName.visualOrderText
+                    )
+                )
             }
         }
 
-        widgets.addDrawable(48 + 18 + 9, 20 * 1, 48, 18) { ctx, _, _, _ ->
-            ctx.renderItem(Items.GLASS_BOTTLE.defaultInstance, -5, + 6)
+
+
+        widgets.addDrawable(48 + 18 + 9, 20 * 1, 18, 18) { ctx, _, _, _ ->
+            ctx.blit(Witchery.id("textures/gui/cauldron.png"), 0,8,0f,0f,35, 56, 35, 56)
         }
 
-        widgets.addDrawable(48 + 18 + 9, 20 * 1, 48, 18) { ctx, _, _, _ ->
-            ctx.renderItem(recipe.outputItem, 18 + 9 + 4, + 6)
-            ctx.blit(Witchery.id("textures/gui/cauldron.png"), 0,8,0f,0f,35, 56, 35, 56)
+        widgets.addDrawable(48 + 18 + 9 - 12, 20 * 1 + 6, 16, 16) { ctx, _, _, _ ->
+            ctx.renderItem(Items.GLASS_BOTTLE.defaultInstance, 0, 0)
+        }.tooltip { t, u ->
+            listOf(
+                ClientTooltipComponent.create(
+                    Items.GLASS_BOTTLE.defaultInstance.hoverName.visualOrderText
+                )
+            )
+        }
+
+        widgets.addDrawable(48 + 18 + 9 + 18 + 9 + 4, 20 * 1 + 6, 16, 16) { ctx, _, _, _ ->
+            ctx.renderItem(recipe.outputItem, 0, 0)
+        }.tooltip { t, u ->
+            listOf(
+                ClientTooltipComponent.create(
+                    recipe.outputItem.hoverName.visualOrderText
+                )
+            )
         }
     }
 }
