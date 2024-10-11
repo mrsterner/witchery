@@ -33,7 +33,8 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryBlocks.CAULDRON.get(),
             WitcheryBlocks.GLINTWEED.get(),
             WitcheryBlocks.EMBER_MOSS.get(),
-            WitcheryBlocks.SPANISH_MOSS.get()
+            WitcheryBlocks.SPANISH_MOSS.get(),
+            WitcheryBlocks.MANDRAKE_CROP.get()
         )
 
     }

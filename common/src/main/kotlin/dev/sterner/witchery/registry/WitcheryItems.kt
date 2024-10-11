@@ -12,6 +12,8 @@ import dev.sterner.witchery.item.MutandisItem
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemNameBlockItem
+import net.minecraft.world.item.Items
 
 
 object WitcheryItems {
@@ -34,6 +36,10 @@ object WitcheryItems {
     }
     val SPANISH_MOSS = ITEMS.register("spanish_moss") {
         BlockItem(WitcheryBlocks.SPANISH_MOSS.get(), Item.Properties())
+    }
+
+    val MANDRAKE_SEEDS = ITEMS.register("mandrake_seeds") {
+        ItemNameBlockItem(WitcheryBlocks.MANDRAKE_CROP.get(), Item.Properties())
     }
 
     //start RESOURCES

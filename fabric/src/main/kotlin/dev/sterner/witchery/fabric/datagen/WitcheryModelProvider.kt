@@ -1,5 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.sterner.witchery.block.MandrakeCropBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -17,6 +18,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.createCrossBlockWithDefaultItem(WitcheryBlocks.GLINTWEED.get(), BlockModelGenerators.TintState.NOT_TINTED)
         createCrossBlock(generator, WitcheryBlocks.EMBER_MOSS.get())
         generator.createMultiface(WitcheryBlocks.SPANISH_MOSS.get())
+        generator.createCropBlock(WitcheryBlocks.MANDRAKE_CROP.get(), MandrakeCropBlock.AGE, 0,1,2,3,4)
     }
 
     private fun createCrossBlock(

@@ -26,6 +26,8 @@ class CauldronCraftingRecipe(
 ) :
     Recipe<MultipleItemRecipeInput> {
 
+
+
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
 
         val filteredInputItems = inputItems.filter { !it.itemStack.isEmpty }

@@ -12,14 +12,14 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 
-class CauldronBrewingEmiRecipe(val recipe: CauldronBrewingRecipe) : EmiRecipe {
+class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: CauldronBrewingRecipe) : EmiRecipe {
 
     override fun getCategory(): EmiRecipeCategory {
         return WitcheryEmiPlugin.CAULDRON_BREWING_CATEGORY
     }
 
     override fun getId(): ResourceLocation {
-        return Witchery.id(CauldronBrewingRecipe.NAME)
+        return recipeId
     }
 
     override fun getInputs(): MutableList<EmiIngredient> {

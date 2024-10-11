@@ -3,7 +3,9 @@ package dev.sterner.witchery.neoforge
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
+import dev.sterner.witchery.client.model.MandrakeEntityModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.entity.MandrakeEntity
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.Minecraft
@@ -65,6 +67,7 @@ object WitcheryNeoForge {
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.GLINTWEED.get(), RenderType.cutout())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.EMBER_MOSS.get(), RenderType.cutout())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.SPANISH_MOSS.get(), RenderType.cutout())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.MANDRAKE_CROP.get(), RenderType.cutout())
     }
 
     @SubscribeEvent

@@ -11,14 +11,14 @@ import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.crafting.Ingredient
 
-class CauldronCraftingEmiRecipe(val recipe: CauldronCraftingRecipe) : EmiRecipe {
+class CauldronCraftingEmiRecipe(val recipeId: ResourceLocation, val recipe: CauldronCraftingRecipe) : EmiRecipe {
 
     override fun getCategory(): EmiRecipeCategory {
         return WitcheryEmiPlugin.CAULDRON_CRAFTING_CATEGORY
     }
 
     override fun getId(): ResourceLocation {
-        return Witchery.id(CauldronCraftingRecipe.NAME)
+        return recipeId
     }
 
     override fun getInputs(): MutableList<EmiIngredient> {

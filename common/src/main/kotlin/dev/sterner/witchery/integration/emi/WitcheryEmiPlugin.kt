@@ -20,11 +20,11 @@ class WitcheryEmiPlugin : EmiPlugin {
         val manager: RecipeManager = registry.recipeManager
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())) {
-            registry.addRecipe(CauldronBrewingEmiRecipe(recipe.value))
+            registry.addRecipe(CauldronBrewingEmiRecipe(recipe.id, recipe.value))
         }
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())) {
-            registry.addRecipe(CauldronCraftingEmiRecipe(recipe.value))
+            registry.addRecipe(CauldronCraftingEmiRecipe(recipe.id, recipe.value))
         }
     }
 

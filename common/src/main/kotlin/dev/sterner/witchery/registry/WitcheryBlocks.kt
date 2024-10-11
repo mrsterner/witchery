@@ -6,6 +6,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.block.EmbermossBlock
 import dev.sterner.witchery.block.GlintweedBlock
+import dev.sterner.witchery.block.MandrakeCropBlock
 import dev.sterner.witchery.block.SpanishMossBlock
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
@@ -85,5 +86,17 @@ object WitcheryBlocks {
             .sound(SoundType.VINE)
             .ignitedByLava()
             .pushReaction(PushReaction.DESTROY))
+    }
+
+    val MANDRAKE_CROP = BLOCKS.register("mandrake_crop") {
+        MandrakeCropBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .instabreak()
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY)
+        )
     }
 }

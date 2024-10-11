@@ -23,6 +23,7 @@ import dev.sterner.witchery.registry.WitcheryItems.HINT_OF_REBIRTH
 import dev.sterner.witchery.registry.WitcheryItems.INFERNAL_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.JAR
 import dev.sterner.witchery.registry.WitcheryItems.MANDRAKE_ROOT
+import dev.sterner.witchery.registry.WitcheryItems.MANDRAKE_SEEDS
 import dev.sterner.witchery.registry.WitcheryItems.MUTANDIS
 import dev.sterner.witchery.registry.WitcheryItems.ODOR_OF_PURITY
 import dev.sterner.witchery.registry.WitcheryItems.OIL_OF_VITRIOL
@@ -55,6 +56,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(GLINTWEED.get())
                 output.accept(EMBER_MOSS.get())
                 output.accept(SPANISH_MOSS.get())
+                output.accept(MANDRAKE_SEEDS.get())
                 output.accept(MANDRAKE_ROOT.get())
                 output.accept(BELLADONNA_FLOWER.get())
                 output.accept(WATER_ARTICHOKE_GLOBE.get())
