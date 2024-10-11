@@ -57,7 +57,7 @@ class CauldronBrewingEmiRecipe(val recipe: CauldronBrewingRecipe) : EmiRecipe {
         }
 
         widgets.addDrawable(48 + 18 + 9, 20 * 1, 48, 18) { ctx, _, _, _ ->
-            ctx.renderItem(Items.GLASS_BOTTLE.defaultInstance, 0, + 6)
+            ctx.renderItem(Items.GLASS_BOTTLE.defaultInstance, -5, + 6)
         }
 
         widgets.addDrawable(48 + 18 + 9, 20 * 1, 48, 18) { ctx, _, _, _ ->
