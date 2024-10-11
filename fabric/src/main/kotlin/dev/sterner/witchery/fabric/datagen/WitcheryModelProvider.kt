@@ -9,23 +9,19 @@ import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 
 class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(output) {
 
     override fun generateBlockStateModels(generator: BlockModelGenerators) {
         generator.createCrossBlockWithDefaultItem(WitcheryBlocks.GLINTWEED.get(), BlockModelGenerators.TintState.NOT_TINTED)
         createCrossBlock(generator, WitcheryBlocks.EMBER_MOSS.get())
+        generator.createMultiface(WitcheryBlocks.SPANISH_MOSS.get())
     }
 
-    fun createCrossBlock(generator: BlockModelGenerators, crossBlock: Block?) {
-        val textureMapping = TextureMapping.cross(crossBlock)
-        createCrossBlock(generator, crossBlock, textureMapping)
-    }
-
-    fun createCrossBlock(
+    private fun createCrossBlock(
         generator: BlockModelGenerators,
-        crossBlock: Block?,
-        textureMapping: TextureMapping?
+        crossBlock: Block
     ) {
         val resourceLocation = generator.createSuffixedVariant(crossBlock, "", ModelTemplates.CROP, TextureMapping::crop)
         generator.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(crossBlock, resourceLocation))

@@ -6,6 +6,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.block.EmbermossBlock
 import dev.sterner.witchery.block.GlintweedBlock
+import dev.sterner.witchery.block.SpanishMossBlock
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
 import dev.sterner.witchery.block.cauldron.CauldronBlock
@@ -13,9 +14,10 @@ import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.oven.OvenBlock
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.FlowerBlock
-import net.minecraft.world.level.block.TwistingVinesPlantBlock
+import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.material.MapColor
+import net.minecraft.world.level.material.PushReaction
 
 
 object WitcheryBlocks {
@@ -35,22 +37,53 @@ object WitcheryBlocks {
     }
 
     val CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("cauldron") {
-        CauldronBlock(BlockBehaviour.Properties.of())
+        CauldronBlock(BlockBehaviour.Properties.of()
+            .sound(SoundType.METAL)
+        )
     }
 
     val CAULDRON_COMPONENT: RegistrySupplier<CauldronBlockComponent> = BLOCKS.register("cauldron_component") {
-        CauldronBlockComponent(BlockBehaviour.Properties.of())
+        CauldronBlockComponent(BlockBehaviour.Properties.of()
+            .sound(SoundType.METAL)
+        )
     }
 
     val OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("oven") {
-        OvenBlock(BlockBehaviour.Properties.of())
+        OvenBlock(BlockBehaviour.Properties.of()
+            .sound(SoundType.METAL)
+        )
     }
 
     val GLINTWEED: RegistrySupplier<GlintweedBlock> = BLOCKS.register("glintweed") {
-        GlintweedBlock(BlockBehaviour.Properties.of())
-    }
-    val EMBER_MOSS: RegistrySupplier<EmbermossBlock> = BLOCKS.register("ember_moss") {
-        EmbermossBlock(BlockBehaviour.Properties.of())
+        GlintweedBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .instabreak()
+                .sound(SoundType.GRASS)
+                .offsetType(BlockBehaviour.OffsetType.XZ)
+                .pushReaction(PushReaction.DESTROY))
     }
 
+    val EMBER_MOSS: RegistrySupplier<EmbermossBlock> = BLOCKS.register("ember_moss") {
+        EmbermossBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .instabreak()
+                .sound(SoundType.GRASS)
+                .offsetType(BlockBehaviour.OffsetType.XZ)
+                .pushReaction(PushReaction.DESTROY))
+    }
+
+    val SPANISH_MOSS: RegistrySupplier<SpanishMossBlock> = BLOCKS.register("spanish_moss") {
+        SpanishMossBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+            .replaceable()
+            .noCollission()
+            .randomTicks()
+            .strength(0.2F)
+            .sound(SoundType.VINE)
+            .ignitedByLava()
+            .pushReaction(PushReaction.DESTROY))
+    }
 }

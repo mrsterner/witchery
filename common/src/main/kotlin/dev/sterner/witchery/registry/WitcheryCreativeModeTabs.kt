@@ -11,7 +11,7 @@ import dev.sterner.witchery.registry.WitcheryItems.CAULDRON
 import dev.sterner.witchery.registry.WitcheryItems.CLAY_JAR
 import dev.sterner.witchery.registry.WitcheryItems.DEMON_HEART
 import dev.sterner.witchery.registry.WitcheryItems.DROP_OF_LUCK
-import dev.sterner.witchery.registry.WitcheryItems.EMBERMOSS
+import dev.sterner.witchery.registry.WitcheryItems.EMBER_MOSS
 import dev.sterner.witchery.registry.WitcheryItems.ENDER_DEW
 import dev.sterner.witchery.registry.WitcheryItems.EXHALE_OF_THE_HORNED_ONE
 import dev.sterner.witchery.registry.WitcheryItems.FOUL_FUME
@@ -30,6 +30,7 @@ import dev.sterner.witchery.registry.WitcheryItems.OTHERWHERE_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.OVEN
 import dev.sterner.witchery.registry.WitcheryItems.REEK_OF_MISFORTUNE
 import dev.sterner.witchery.registry.WitcheryItems.RITUAL_CHALK
+import dev.sterner.witchery.registry.WitcheryItems.SPANISH_MOSS
 import dev.sterner.witchery.registry.WitcheryItems.TEAR_OF_THE_GODDESS
 import dev.sterner.witchery.registry.WitcheryItems.WATER_ARTICHOKE_GLOBE
 import dev.sterner.witchery.registry.WitcheryItems.WHIFF_OF_MAGIC
@@ -52,7 +53,8 @@ object WitcheryCreativeModeTabs {
                 output.accept(CAULDRON.get())
                 output.accept(OVEN.get())
                 output.accept(GLINTWEED.get())
-                output.accept(EMBERMOSS.get())
+                output.accept(EMBER_MOSS.get())
+                output.accept(SPANISH_MOSS.get())
                 output.accept(MANDRAKE_ROOT.get())
                 output.accept(BELLADONNA_FLOWER.get())
                 output.accept(WATER_ARTICHOKE_GLOBE.get())

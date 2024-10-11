@@ -29,8 +29,11 @@ object WitcheryItems {
     val GLINTWEED = ITEMS.register("glintweed") {
         BlockItem(WitcheryBlocks.GLINTWEED.get(), Item.Properties())
     }
-    val EMBERMOSS = ITEMS.register("ember_moss") {
+    val EMBER_MOSS = ITEMS.register("ember_moss") {
         BlockItem(WitcheryBlocks.EMBER_MOSS.get(), Item.Properties())
+    }
+    val SPANISH_MOSS = ITEMS.register("spanish_moss") {
+        BlockItem(WitcheryBlocks.SPANISH_MOSS.get(), Item.Properties())
     }
 
     //start RESOURCES
