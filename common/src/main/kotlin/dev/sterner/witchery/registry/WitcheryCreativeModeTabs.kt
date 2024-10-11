@@ -33,6 +33,7 @@ import dev.sterner.witchery.registry.WitcheryItems.OTHERWHERE_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.OVEN
 import dev.sterner.witchery.registry.WitcheryItems.REEK_OF_MISFORTUNE
 import dev.sterner.witchery.registry.WitcheryItems.RITUAL_CHALK
+import dev.sterner.witchery.registry.WitcheryItems.SNOWBELL_SEEDS
 import dev.sterner.witchery.registry.WitcheryItems.SPANISH_MOSS
 import dev.sterner.witchery.registry.WitcheryItems.TEAR_OF_THE_GODDESS
 import dev.sterner.witchery.registry.WitcheryItems.WATER_ARTICHOKE_GLOBE
@@ -55,12 +56,13 @@ object WitcheryCreativeModeTabs {
                 output.accept(ALTAR.get())
                 output.accept(CAULDRON.get())
                 output.accept(OVEN.get())
-                output.accept(ICY_NEEDLE.get())
                 output.accept(GLINTWEED.get())
                 output.accept(EMBER_MOSS.get())
                 output.accept(SPANISH_MOSS.get())
                 output.accept(MANDRAKE_SEEDS.get())
                 output.accept(MANDRAKE_ROOT.get())
+                output.accept(SNOWBELL_SEEDS.get())
+                output.accept(ICY_NEEDLE.get())
                 output.accept(BELLADONNA_SEEDS.get())
                 output.accept(BELLADONNA_FLOWER.get())
                 output.accept(WATER_ARTICHOKE_GLOBE.get())

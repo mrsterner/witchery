@@ -20,6 +20,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.createMultiface(WitcheryBlocks.SPANISH_MOSS.get())
         generator.createCropBlock(WitcheryBlocks.MANDRAKE_CROP.get(), MandrakeCropBlock.AGE, 0,1,2,3,4)
         generator.createCropBlock(WitcheryBlocks.BELLADONNAE_CROP.get(), MandrakeCropBlock.AGE, 0,1,2,3,4)
+        generator.createCropBlock(WitcheryBlocks.SNOWBELL_CROP.get(), MandrakeCropBlock.AGE, 0,1,2,3,4)
 
     }
 
@@ -38,6 +39,8 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
         genetaror.generateFlatItem(WitcheryItems.MANDRAKE_ROOT.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.ICY_NEEDLE.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.WOOD_ASH.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.GYPSUM.get(), ModelTemplates.FLAT_ITEM)
 
         genetaror.generateFlatItem(WitcheryItems.CLAY_JAR.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.JAR.get(), ModelTemplates.FLAT_ITEM)

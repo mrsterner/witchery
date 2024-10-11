@@ -35,10 +35,12 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.ICY_NEEDLE.get(), "Icy Needle")
         builder.add(WitcheryItems.BELLADONNA_SEEDS.get(), "Belladonna Seeds")
         builder.add(WitcheryItems.MANDRAKE_SEEDS.get(), "Mandrake Seeds")
+        builder.add(WitcheryItems.SNOWBELL_SEEDS.get(), "Snowbell Seeds")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
         builder.add(WitcheryBlocks.SPANISH_MOSS.get(), "Spanish Moss")
+        builder.add(WitcheryBlocks.OVEN.get(), "Oven")
 
         builder.add(WitcheryItems.CLAY_JAR.get(), "Clay Jar")
         builder.add(WitcheryItems.JAR.get(), "Jar")

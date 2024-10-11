@@ -111,4 +111,16 @@ object WitcheryBlocks {
                 .pushReaction(PushReaction.DESTROY)
         )
     }
+
+    val SNOWBELL_CROP = BLOCKS.register("snowbell_crop") {
+        MandrakeCropBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .instabreak()
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY)
+        )
+    }
 }
