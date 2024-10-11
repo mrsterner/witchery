@@ -2,10 +2,13 @@ package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
+import dev.architectury.registry.client.particle.ParticleProviderRegistry
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
+import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.renderer.AltarBlockEntityRenderer
+import dev.sterner.witchery.client.renderer.CauldronBlockEntityRenderer
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -27,6 +30,8 @@ object Witchery {
         WitcherySounds.SOUNDS.register()
         WitcheryCreativeModeTabs.TABS.register()
         WitcheryParticleTypes.PARTICLES.register()
+        WitcheryRecipeTypes.RECIPE_TYPES.register()
+        WitcheryRecipeSerializers.RECIPE_SERIALIZERS.register()
 
         WitcheryPayloads.register()
 
@@ -41,6 +46,14 @@ object Witchery {
             WitcheryBlockEntityTypes.ALTAR.get(),
             ::AltarBlockEntityRenderer
         )
+
+        BlockEntityRendererRegistry.register(
+            WitcheryBlockEntityTypes.CAULDRON.get(),
+            ::CauldronBlockEntityRenderer
+        )
+
+        ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
+
     }
 
     fun id(name: String): ResourceLocation {

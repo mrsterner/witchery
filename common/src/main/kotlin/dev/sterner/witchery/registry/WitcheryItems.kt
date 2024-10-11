@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockItem
 import dev.sterner.witchery.block.altar.AltarBlock
+import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.item.GuideBookItem
 import dev.sterner.witchery.item.MutandisItem
 import net.minecraft.core.registries.Registries
@@ -25,5 +26,9 @@ object WitcheryItems {
 
     val ALTAR: RegistrySupplier<MultiBlockItem> = ITEMS.register("altar") {
         MultiBlockItem(WitcheryBlocks.ALTAR.get(), Item.Properties(), AltarBlock.STRUCTURE)
+    }
+
+    val CAULDRON: RegistrySupplier<MultiBlockItem> = ITEMS.register("cauldron") {
+        MultiBlockItem(WitcheryBlocks.CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
     }
 }

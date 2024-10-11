@@ -4,9 +4,11 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
+    "ClientPacketListenerMixin"
   ],
   "mixins": [
-    "BookCategoryNodeScreenMixin"
+    "BookCategoryNodeScreenMixin",
+    "LevelChunkMixin"
   ],
   "injectors": {
     "defaultRequire": 1

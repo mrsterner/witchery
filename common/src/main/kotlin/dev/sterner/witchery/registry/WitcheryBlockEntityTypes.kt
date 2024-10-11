@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
 
@@ -18,7 +19,8 @@ object WitcheryBlockEntityTypes {
             BlockEntityType.Builder.of(
                 { pos, state -> MultiBlockComponentBlockEntity(pos, state) },
                 WitcheryBlocks.COMPONENT.get(),
-                WitcheryBlocks.ALTAR_COMPONENT.get()
+                WitcheryBlocks.ALTAR_COMPONENT.get(),
+                WitcheryBlocks.CAULDRON_COMPONENT.get()
             )
                 .build(null)
         }
@@ -27,6 +29,14 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             { pos, state -> AltarBlockEntity(pos, state) },
             WitcheryBlocks.ALTAR.get(),
+        )
+            .build(null)
+    }
+
+    val CAULDRON: RegistrySupplier<BlockEntityType<CauldronBlockEntity>> = BLOCK_ENTITY_TYPES.register("cauldron") {
+        BlockEntityType.Builder.of(
+            { pos, state -> CauldronBlockEntity(pos, state) },
+            WitcheryBlocks.CAULDRON.get(),
         )
             .build(null)
     }

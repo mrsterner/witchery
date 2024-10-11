@@ -1,0 +1,36 @@
+{
+  "type": "witchery:cauldron_crafting",
+  "inputItems": [
+    {
+      "ingredient": {
+        "item": "minecraft:raw_iron",
+        "count": 1
+      },
+      "color": 123456,
+      "order": 0
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:raw_copper",
+        "count": 1
+      },
+      "color": 654321,
+      "order": 1
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:raw_gold",
+        "count": 1
+      },
+      "color": 321654,
+      "order": 2
+    }
+  ],
+  "outputItems": [
+    {
+      "item": "minecraft:stick",
+      "count": 1
+    }
+  ],
+  "altarPower": 100
+}

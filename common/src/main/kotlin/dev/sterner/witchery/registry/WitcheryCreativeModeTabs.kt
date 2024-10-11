@@ -4,6 +4,7 @@ import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryItems.ALTAR
+import dev.sterner.witchery.registry.WitcheryItems.CAULDRON
 import dev.sterner.witchery.registry.WitcheryItems.GUIDEBOOK
 import dev.sterner.witchery.registry.WitcheryItems.MUTANDIS
 import net.minecraft.core.registries.Registries
@@ -21,6 +22,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(GUIDEBOOK.get())
                 output.accept(MUTANDIS.get())
                 output.accept(ALTAR.get())
+                output.accept(CAULDRON.get())
             }
         }
     }

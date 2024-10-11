@@ -6,6 +6,8 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
+import dev.sterner.witchery.block.cauldron.CauldronBlock
+import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockBehaviour
@@ -25,5 +27,13 @@ object WitcheryBlocks {
 
     val ALTAR_COMPONENT: RegistrySupplier<AltarBlockComponent> = BLOCKS.register("altar_component") {
         AltarBlockComponent(BlockBehaviour.Properties.of())
+    }
+
+    val CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("cauldron") {
+        CauldronBlock(BlockBehaviour.Properties.of())
+    }
+
+    val CAULDRON_COMPONENT: RegistrySupplier<CauldronBlockComponent> = BLOCKS.register("cauldron_component") {
+        CauldronBlockComponent(BlockBehaviour.Properties.of())
     }
 }

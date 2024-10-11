@@ -1,0 +1,25 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "inputItems": [
+    {
+      "ingredient": {
+        "item": "minecraft:apple",
+        "count": 1
+      },
+      "color": 10257594,
+      "order": 0
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:sugar",
+        "count": 1
+      },
+      "color": 16755227,
+      "order": 1
+    }
+  ],
+  "outputItem": {
+    "id": "minecraft:honey_bottle"
+  },
+  "altarPower": 100
+}

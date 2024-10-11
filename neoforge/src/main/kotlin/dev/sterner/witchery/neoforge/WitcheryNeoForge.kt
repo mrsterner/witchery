@@ -3,7 +3,12 @@ package dev.sterner.witchery.neoforge
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
+import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.ItemBlockRenderTypes
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
@@ -44,8 +49,10 @@ object WitcheryNeoForge {
     }
 
     @SubscribeEvent
-    fun regParticle(event: RegisterParticleProvidersEvent){
-
+    fun registerParticle(event: RegisterParticleProvidersEvent){
+        event.registerSpriteSet(WitcheryParticleTypes.COLOR_BUBBLE.get()){ o ->
+            ColorBubbleParticle.Provider(o)
+        }
     }
 
     private fun onClientSetup(event: FMLClientSetupEvent) {
@@ -54,7 +61,7 @@ object WitcheryNeoForge {
 
     @SubscribeEvent
     private fun initializeClient(event: RegisterClientExtensionsEvent) {
-
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.CAULDRON.get(), RenderType.cutout())
     }
 
     @SubscribeEvent
