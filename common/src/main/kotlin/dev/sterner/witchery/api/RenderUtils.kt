@@ -33,16 +33,21 @@ object RenderUtils {
         RenderSystem.setShader { GameRenderer.getPositionTexColorShader() }
 
         val matrix4f: Matrix4f = poseStack.last().pose()
-        val bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR)
+        val bufferBuilder =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR)
         val minU = uOffset / textureWidth.toFloat()
         val maxU = (uOffset + width) / textureWidth.toFloat()
         val minV = vOffset / textureHeight.toFloat()
         val maxV = (vOffset + height) / textureHeight.toFloat()
 
-        bufferBuilder.addVertex(matrix4f, x.toFloat(), y.toFloat(), 0f).setColor(red, green, blue, alpha).setUv(minU, minV)
-        bufferBuilder.addVertex(matrix4f, x.toFloat(), (y + height).toFloat(), 0f).setColor(red, green, blue, alpha).setUv(minU, maxV)
-        bufferBuilder.addVertex(matrix4f, (x + width).toFloat(), (y + height).toFloat(), 0f).setColor(red, green, blue, alpha).setUv(maxU, maxV)
-        bufferBuilder.addVertex(matrix4f, (x + width).toFloat(), y.toFloat(), 0f).setColor(red, green, blue, alpha).setUv(maxU, minV)
+        bufferBuilder.addVertex(matrix4f, x.toFloat(), y.toFloat(), 0f).setColor(red, green, blue, alpha)
+            .setUv(minU, minV)
+        bufferBuilder.addVertex(matrix4f, x.toFloat(), (y + height).toFloat(), 0f).setColor(red, green, blue, alpha)
+            .setUv(minU, maxV)
+        bufferBuilder.addVertex(matrix4f, (x + width).toFloat(), (y + height).toFloat(), 0f)
+            .setColor(red, green, blue, alpha).setUv(maxU, maxV)
+        bufferBuilder.addVertex(matrix4f, (x + width).toFloat(), y.toFloat(), 0f).setColor(red, green, blue, alpha)
+            .setUv(maxU, minV)
 
         BufferUploader.drawWithShader(bufferBuilder.buildOrThrow())
 

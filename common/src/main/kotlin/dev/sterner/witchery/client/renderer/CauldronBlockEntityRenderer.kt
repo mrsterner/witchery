@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.texture.TextureAtlas
 import net.minecraft.client.resources.model.Material
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
-import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import org.joml.Matrix4f
 
@@ -30,7 +29,8 @@ class CauldronBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         packedOverlay: Int
     ) {
         if (blockEntity.fluidTank.fluidStorage.getAmount() > 0) {
-            val le: Double = blockEntity.fluidTank.fluidStorage.getAmount().toDouble() / FluidStack.bucketAmount().toDouble() * 3
+            val le: Double =
+                blockEntity.fluidTank.fluidStorage.getAmount().toDouble() / FluidStack.bucketAmount().toDouble() * 3
             renderWater(poseStack, bufferSource, le.toInt(), blockEntity.color, packedLight, packedOverlay)
 
             if (blockEntity.blockState.getValue(BlockStateProperties.LIT)) {
@@ -44,14 +44,16 @@ class CauldronBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     private fun addBubble(cauldron: CauldronBlockEntity, color: Int, fluidLevel: Double) {
         val pos = cauldron.blockPos
         cauldron.level!!.addAlwaysVisibleParticle(
-            ColorBubbleData(((color shr 16) and 0xff) / 255.0f,
+            ColorBubbleData(
+                ((color shr 16) and 0xff) / 255.0f,
                 ((color shr 8) and 0xff) / 255.0f,
-                (color and 0xff) / 255.0f),
+                (color and 0xff) / 255.0f
+            ),
             true,
             pos.x + 0.5 + Mth.nextDouble(cauldron.level!!.random, -0.25, 0.25),
             (pos.y + (fluidLevel * 0.25)),
             pos.z + 0.5 + Mth.nextDouble(cauldron.level!!.random, -0.25, 0.25),
-            0.0,0.0,0.0
+            0.0, 0.0, 0.0
         )
     }
 

@@ -2,9 +2,7 @@ package dev.sterner.witchery.recipe
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.crafting.Ingredient
 
 class ItemStackWithColor(val itemStack: ItemStack, val color: Int, val order: Int) {
 

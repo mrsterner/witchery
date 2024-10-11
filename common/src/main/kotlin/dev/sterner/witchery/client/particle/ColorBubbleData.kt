@@ -19,13 +19,14 @@ class ColorBubbleData(val red: Float, val green: Float, val blue: Float) : Parti
 
     companion object {
 
-        val CODEC: MapCodec<ColorBubbleData> = RecordCodecBuilder.mapCodec { instance: RecordCodecBuilder.Instance<ColorBubbleData> ->
-            instance.group(
-                Codec.FLOAT.fieldOf("red").forGetter { data -> data.red },
-                Codec.FLOAT.fieldOf("green").forGetter { data -> data.green },
-                Codec.FLOAT.fieldOf("blue").forGetter { data -> data.blue }
-            ).apply(instance) { red, green, blue -> ColorBubbleData(red, green, blue) }
-        }
+        val CODEC: MapCodec<ColorBubbleData> =
+            RecordCodecBuilder.mapCodec { instance: RecordCodecBuilder.Instance<ColorBubbleData> ->
+                instance.group(
+                    Codec.FLOAT.fieldOf("red").forGetter { data -> data.red },
+                    Codec.FLOAT.fieldOf("green").forGetter { data -> data.green },
+                    Codec.FLOAT.fieldOf("blue").forGetter { data -> data.blue }
+                ).apply(instance) { red, green, blue -> ColorBubbleData(red, green, blue) }
+            }
 
         val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, ColorBubbleData> =
             StreamCodec.composite(

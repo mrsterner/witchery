@@ -3,10 +3,16 @@ package dev.sterner.witchery.client.particle
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.*
 import net.minecraft.world.phys.Vec3
-import kotlin.math.max
 
 
-class ColorBubbleParticle(level: ClientLevel, pos: Vec3, red: Float, green: Float, blue: Float, val spriteSet: SpriteSet) : TextureSheetParticle(level, pos.x, pos.y, pos.z) {
+class ColorBubbleParticle(
+    level: ClientLevel,
+    pos: Vec3,
+    red: Float,
+    green: Float,
+    blue: Float,
+    val spriteSet: SpriteSet
+) : TextureSheetParticle(level, pos.x, pos.y, pos.z) {
 
 
     init {

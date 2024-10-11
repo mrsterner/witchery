@@ -28,7 +28,7 @@ class CauldronCraftingRecipeBuilder(
     }
 
     override fun getResult(): Item {
-       return outputStack[0].items[0].item
+        return outputStack[0].items[0].item
     }
 
     override fun save(recipeOutput: RecipeOutput, id: ResourceLocation) {

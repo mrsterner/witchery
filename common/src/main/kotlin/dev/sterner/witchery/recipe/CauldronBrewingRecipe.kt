@@ -28,7 +28,14 @@ class CauldronBrewingRecipe(val inputItems: List<ItemStackWithColor>, val output
             return false
         }
 
-        return filteredInputList.all { ingredient -> filteredInputItems.any { ItemStack.isSameItem(it.itemStack, ingredient) } }
+        return filteredInputList.all { ingredient ->
+            filteredInputItems.any {
+                ItemStack.isSameItem(
+                    it.itemStack,
+                    ingredient
+                )
+            }
+        }
     }
 
     override fun assemble(input: MultipleItemRecipeInput, registries: HolderLookup.Provider): ItemStack {
@@ -64,7 +71,8 @@ class CauldronBrewingRecipe(val inputItems: List<ItemStackWithColor>, val output
             val CODEC: MapCodec<CauldronBrewingRecipe> =
                 RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<CauldronBrewingRecipe> ->
                     obj.group(
-                        ItemStackWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
+                        ItemStackWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems")
+                            .forGetter { it.inputItems },
                         ItemStack.CODEC.fieldOf("outputItem").forGetter { it.outputItem },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower }
                     ).apply(obj, ::CauldronBrewingRecipe)

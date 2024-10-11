@@ -38,16 +38,18 @@ class CauldronPoofS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val color = nbt.getInt("color")
         client.execute {
 
-            for (i in 0 .. 32) {
+            for (i in 0..32) {
                 client.level!!.addAlwaysVisibleParticle(
-                    ColorBubbleData(((color shr 16) and 0xff) / 255.0f,
+                    ColorBubbleData(
+                        ((color shr 16) and 0xff) / 255.0f,
                         ((color shr 8) and 0xff) / 255.0f,
-                        (color and 0xff) / 255.0f),
+                        (color and 0xff) / 255.0f
+                    ),
                     true,
                     pos.x + 0.5 + Mth.nextDouble(client.level!!.random, -0.25, 0.25),
                     (pos.y + 1.0),
                     pos.z + 0.5 + Mth.nextDouble(client.level!!.random, -0.25, 0.25),
-                    0.0,0.2,0.0
+                    0.0, 0.2, 0.0
                 )
             }
         }
@@ -60,7 +62,7 @@ class CauldronPoofS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, CauldronPoofS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> CauldronPoofS2CPacket(buf!!) }
+                { buf -> CauldronPoofS2CPacket(buf) }
             )
     }
 }

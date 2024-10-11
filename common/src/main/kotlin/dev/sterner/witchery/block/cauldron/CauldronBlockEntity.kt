@@ -60,7 +60,8 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         val nonEmptyItems = inputItems.filter { !it.isEmpty }
 
         // Find the possible recipe based on current input items
-        val possibleRecipe = allRecipesOfType.firstOrNull { it.value.matches(MultipleItemRecipeInput(nonEmptyItems), level) }
+        val possibleRecipe =
+            allRecipesOfType.firstOrNull { it.value.matches(MultipleItemRecipeInput(nonEmptyItems), level) }
 
         // If a recipe is found and the order is correct, set cauldronCraftingRecipe
         possibleRecipe?.let { recipe ->
@@ -81,11 +82,13 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     }
 
     private fun refreshBrewingRecipe(level: Level) {
-        val allRecipesOfType = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
+        val allRecipesOfType =
+            level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
         val nonEmptyItems = inputItems.filter { !it.isEmpty }
 
         // Find the possible recipe based on current input items
-        val possibleRecipe = allRecipesOfType.firstOrNull { it.value.matches(MultipleItemRecipeInput(nonEmptyItems), level) }
+        val possibleRecipe =
+            allRecipesOfType.firstOrNull { it.value.matches(MultipleItemRecipeInput(nonEmptyItems), level) }
 
         // If a recipe is found and the order is correct, set cauldronBrewingRecipe
         possibleRecipe?.let { recipe ->
@@ -168,7 +171,8 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
         // Get all recipes for crafting and brewing
         val allCraftingRecipes = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())
-        val allBrewingRecipes = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
+        val allBrewingRecipes =
+            level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
         val nonEmptyItems = inputItems.filter { !it.isEmpty }
 
         // Check crafting recipes
@@ -247,7 +251,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         setChanged()
     }
 
-    private fun fullReset(){
+    private fun fullReset() {
         color = WATER_COLOR
         clearContent()
         cauldronCraftingRecipe = null
@@ -288,7 +292,12 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                         pPlayer.setItemInHand(pHand, Items.GLASS_BOTTLE.defaultInstance)
                     }
                     val currentFluidAmount = fluidTank.fluidStorage.getAmount()
-                    fluidTank.fluidStorage.setFluidStack(FluidStack.create(Fluids.WATER, currentFluidAmount + FluidStack.bucketAmount() / 3))
+                    fluidTank.fluidStorage.setFluidStack(
+                        FluidStack.create(
+                            Fluids.WATER,
+                            currentFluidAmount + FluidStack.bucketAmount() / 3
+                        )
+                    )
                     setChanged()
                     return ItemInteractionResult.SUCCESS
                 }

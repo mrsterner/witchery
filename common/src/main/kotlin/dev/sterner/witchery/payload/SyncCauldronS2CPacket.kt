@@ -2,7 +2,6 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.block.WitcheryFluidTank
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
@@ -10,7 +9,6 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.world.item.ItemStack
 
 class SyncCauldronS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
@@ -49,7 +47,7 @@ class SyncCauldronS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncCauldronS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncCauldronS2CPacket(buf!!) }
+                { buf -> SyncCauldronS2CPacket(buf) }
             )
     }
 }

@@ -26,7 +26,8 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 import java.util.function.ToIntFunction
 
-class CauldronBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(7))) {
+class CauldronBlock(properties: Properties) :
+    WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(7))) {
 
     init {
         this.registerDefaultState(
@@ -102,6 +103,7 @@ class CauldronBlock(properties: Properties) : WitcheryBaseEntityBlock(properties
                     )
                 ))
             }
+
         fun litBlockEmission(lightValue: Int): ToIntFunction<BlockState> {
             return ToIntFunction { blockState: BlockState ->
                 if (blockState.getValue(
