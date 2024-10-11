@@ -37,7 +37,7 @@ class SyncCauldronS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val pos = BlockPos(payload.nbt.getInt("x"), payload.nbt.getInt("y"), payload.nbt.getInt("z"))
         client.execute {
             if (client.level?.getBlockEntity(pos) is CauldronBlockEntity) {
-                (client.level?.getBlockEntity(pos) as CauldronBlockEntity).resetCauldron(client.level!!, pos)
+                (client.level?.getBlockEntity(pos) as CauldronBlockEntity).resetCauldronPartial()
             }
         }
     }

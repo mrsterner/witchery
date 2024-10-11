@@ -50,7 +50,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     private var craftingProgressTicker = 0
     private var brewItemOutput: ItemStack = ItemStack.EMPTY
 
-    var color = 0x3f76e4
+    var color = WATER_COLOR
     var fluidTank = WitcheryFluidTank(this)
     private var complete = false
 
@@ -58,28 +58,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         refreshCraftingRecipe(level)
     }
 
-    private fun isOrderRight(inputItems: List<ItemStack>, recipeItems: List<IngredientWithColor>?): Boolean {
-        if (recipeItems == null) return false
 
-        // Check if the number of input items is larger than the recipe items
-        if (inputItems.size > recipeItems.size) return false
-
-        // Iterate through the input items
-        for (index in inputItems.indices) {
-            val inputItem = inputItems[index]
-
-            // Check if the corresponding recipe item order matches the index
-            val recipeItem = recipeItems.find { it.order == index }
-
-            // If there's no recipe item at this order or the input item doesn't match the ingredient, return false
-            if (recipeItem == null || !recipeItem.ingredient.test(inputItem)) {
-                return false
-            }
-        }
-
-        // If all items match, return true
-        return true
-    }
 
     private fun refreshCraftingRecipe(level: Level) {
         val allRecipesOfType = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())
@@ -148,7 +127,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         if (cauldronCraftingRecipe != null || cauldronBrewingRecipe != null) {
             // Only start ticking when the recipe is complete
             if (complete) {
-                if (craftingProgressTicker < 20 * 5) {
+                if (craftingProgressTicker < PROGRESS_TICKS) {
                     craftingProgressTicker++
                     setChanged()
                 } else {
@@ -177,47 +156,51 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 // Refresh recipe to match current inputItems
                 refreshCraftingRecipe(level)
 
-                // Default color to brown (indicating no correct order match)
-                var colorSet = false
-
-                // Get all recipes for crafting and brewing
-                val allCraftingRecipes = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())
-                val allBrewingRecipes = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
-                val nonEmptyItems = inputItems.filter { !it.isEmpty }
-
-                // Check crafting recipes
-                allCraftingRecipes.forEach { recipe ->
-                    recipe.value.inputItems.forEach { ingredientWithColor ->
-                        // Check if the ingredient matches and the order is correct
-                        val orderIsCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
-                        if (ingredientWithColor.ingredient.test(cacheForColorItem) && orderIsCorrect) {
-                            color = ingredientWithColor.color // Set color based on the matched ingredient
-                            colorSet = true // Flag that a color was successfully set
-                        }
-                    }
-                }
-
-                // Check brewing recipes if no crafting match was found
-                if (!colorSet) {
-                    allBrewingRecipes.forEach { recipe ->
-                        recipe.value.inputItems.forEach { ingredientWithColor ->
-                            // Check if the ingredient matches and the order is correct
-                            val orderIsCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
-                            if (ingredientWithColor.ingredient.test(cacheForColorItem) && orderIsCorrect) {
-                                color = ingredientWithColor.color // Set color based on the matched ingredient
-                                colorSet = true // Flag that a color was successfully set
-                            }
-                        }
-                    }
-                }
-
-                // If no recipe fully or partially matches, set the color to brown
-                if (!colorSet) {
-                    color = 0x5a2d0d // Set color to brown if no matching order is found
-                }
+                updateColor(level, cacheForColorItem)
             }
 
             setChanged()
+        }
+    }
+
+    private fun updateColor(level: Level, cacheForColorItem: ItemStack) {
+        // Default color to brown (indicating no correct order match)
+        var colorSet = false
+
+        // Get all recipes for crafting and brewing
+        val allCraftingRecipes = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())
+        val allBrewingRecipes = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
+        val nonEmptyItems = inputItems.filter { !it.isEmpty }
+
+        // Check crafting recipes
+        allCraftingRecipes.forEach { recipe ->
+            recipe.value.inputItems.forEach { ingredientWithColor ->
+                // Check if the ingredient matches and the order is correct
+                val orderIsCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
+                if (ingredientWithColor.ingredient.test(cacheForColorItem) && orderIsCorrect) {
+                    color = ingredientWithColor.color // Set color based on the matched ingredient
+                    colorSet = true // Flag that a color was successfully set
+                }
+            }
+        }
+
+        // Check brewing recipes if no crafting match was found
+        if (!colorSet) {
+            allBrewingRecipes.forEach { recipe ->
+                recipe.value.inputItems.forEach { ingredientWithColor ->
+                    // Check if the ingredient matches and the order is correct
+                    val orderIsCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
+                    if (ingredientWithColor.ingredient.test(cacheForColorItem) && orderIsCorrect) {
+                        color = ingredientWithColor.color // Set color based on the matched ingredient
+                        colorSet = true // Flag that a color was successfully set
+                    }
+                }
+            }
+        }
+
+        // If no recipe fully or partially matches, set the color to brown
+        if (!colorSet) {
+            color = 0x5a2d0d // Set color to brown if no matching order is found
         }
     }
 
@@ -245,12 +228,43 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 SyncCauldronS2CPacket(pos)
             )
         }
-        resetCauldron(level, pos)
+        spawnSmokeParticle(level, pos)
+        resetCauldronPartial()
     }
 
-    fun resetCauldron(level: Level, pos: BlockPos) {
+    fun resetCauldronPartial() {
+        if (cauldronCraftingRecipe != null) {
+            fluidTank = WitcheryFluidTank(this)
+            brewItemOutput = ItemStack.EMPTY
+        }
+
+        if (cauldronBrewingRecipe != null) {
+            brewItemOutput = cauldronBrewingRecipe!!.outputItem
+        } else {
+            color = WATER_COLOR
+        }
+
+        clearContent()
+        cauldronCraftingRecipe = null
+        cauldronBrewingRecipe = null
+        complete = false
+        setChanged()
+    }
+
+    private fun fullReset(){
+        color = WATER_COLOR
+        clearContent()
+        cauldronCraftingRecipe = null
+        cauldronBrewingRecipe = null
+        complete = false
+        fluidTank = WitcheryFluidTank(this)
+        brewItemOutput = ItemStack.EMPTY
+        setChanged()
+    }
+
+    private fun spawnSmokeParticle(level: Level, pos: BlockPos) {
         if (level is ServerLevel) {
-            val players = (level).chunkSource.chunkMap.getPlayers(ChunkPos(worldPosition), false)
+            val players = level.chunkSource.chunkMap.getPlayers(ChunkPos(worldPosition), false)
             if (cauldronCraftingRecipe != null) {
                 for (player in players) {
                     NetworkManager.sendToPlayer(
@@ -260,24 +274,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 }
             }
         }
-        if (cauldronCraftingRecipe != null) {
-            fluidTank = WitcheryFluidTank(this)
-            brewItemOutput = ItemStack.EMPTY
-        }
-
-
-        if (cauldronBrewingRecipe != null) {
-            brewItemOutput = cauldronBrewingRecipe!!.outputItem
-        } else {
-            color = 0x3f76e4
-        }
-
-        clearContent()
-        cauldronCraftingRecipe = null
-        cauldronBrewingRecipe = null
-
-        complete = false
-        setChanged()
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
@@ -351,13 +347,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 Containers.dropItemStack(level, pPlayer.x, pPlayer.y, pPlayer.z, ItemStack(brewItemOutput.copy().item))
                 fluidTank.fluidStorage.remove(FluidStackHooks.bucketAmount() / 3, false)
                 if (fluidTank.fluidStorage.getAmount() < (FluidStackHooks.bucketAmount() / 3)) {
-                    color = 0x3f76e4
-                    clearContent()
-                    cauldronCraftingRecipe = null
-                    cauldronBrewingRecipe = null
-                    complete = false
-                    fluidTank = WitcheryFluidTank(this)
-                    brewItemOutput = ItemStack.EMPTY
+                    fullReset()
                 }
                 setChanged()
 
@@ -419,5 +409,33 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
     override fun stillValid(player: Player): Boolean {
         return true
+    }
+
+    companion object {
+        const val WATER_COLOR = 0x3f76e4
+        const val PROGRESS_TICKS = 20 * 5
+
+        private fun isOrderRight(inputItems: List<ItemStack>, recipeItems: List<IngredientWithColor>?): Boolean {
+            if (recipeItems == null) return false
+
+            // Check if the number of input items is larger than the recipe items
+            if (inputItems.size > recipeItems.size) return false
+
+            // Iterate through the input items
+            for (index in inputItems.indices) {
+                val inputItem = inputItems[index]
+
+                // Check if the corresponding recipe item order matches the index
+                val recipeItem = recipeItems.find { it.order == index }
+
+                // If there's no recipe item at this order or the input item doesn't match the ingredient, return false
+                if (recipeItem == null || !recipeItem.ingredient.test(inputItem)) {
+                    return false
+                }
+            }
+
+            // If all items match, return true
+            return true
+        }
     }
 }
