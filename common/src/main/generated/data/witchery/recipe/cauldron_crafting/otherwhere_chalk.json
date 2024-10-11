@@ -1,0 +1,43 @@
+{
+  "type": "witchery:cauldron_crafting",
+  "altarPower": 100,
+  "inputItems": [
+    {
+      "color": 123456,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:nether_wart"
+      },
+      "order": 0
+    },
+    {
+      "color": 654321,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:tear_of_the_goddess"
+      },
+      "order": 1
+    },
+    {
+      "color": 321654,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:ender_pearl"
+      },
+      "order": 2
+    },
+    {
+      "color": 654321,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:ritual_chalk"
+      },
+      "order": 3
+    }
+  ],
+  "outputItems": [
+    {
+      "item": "witchery:otherwhere_chalk"
+    }
+  ]
+}

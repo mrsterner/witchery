@@ -38,6 +38,6 @@ class CauldronCraftingRecipeBuilder(
             .requirements(AdvancementRequirements.Strategy.OR)
         criteria.forEach { (name, criterion) -> builder.addCriterion(name, criterion) }
         val abstractCookingRecipe = CauldronCraftingRecipe(inputItems, outputStack, altarPower)
-        recipeOutput.accept(id, abstractCookingRecipe, builder.build(id.withPrefix("recipes/")))
+        recipeOutput.accept(id.withPrefix("cauldron_crafting/"), abstractCookingRecipe, builder.build(id.withPrefix("recipes/cauldron_crafting/")))
     }
 }
