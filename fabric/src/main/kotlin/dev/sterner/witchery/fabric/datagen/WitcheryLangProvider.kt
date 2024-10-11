@@ -11,6 +11,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
     override fun generateTranslations(registryLookup: HolderLookup.Provider?, builder: TranslationBuilder) {
         builder.add("witchery.main", "Witchery")
+
+        builder.add("emi.category.witchery.cauldron_brewing", "Cauldron Brewing")
+        builder.add("emi.category.witchery.cauldron_crafting", "Cauldron Crafting")
+
         builder.add(WitcheryItems.GUIDEBOOK.get(), "Guidebook")
     }
 }
