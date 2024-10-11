@@ -10,6 +10,7 @@ import dev.sterner.witchery.item.ChalkItem
 import dev.sterner.witchery.item.GuideBookItem
 import dev.sterner.witchery.item.MutandisItem
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
 
 
@@ -138,5 +139,9 @@ object WitcheryItems {
 
     val CAULDRON: RegistrySupplier<MultiBlockItem> = ITEMS.register("cauldron") {
         MultiBlockItem(WitcheryBlocks.CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
+    }
+
+    val OVEN: RegistrySupplier<BlockItem> = ITEMS.register("oven") {
+        BlockItem(WitcheryBlocks.OVEN.get(), Item.Properties())
     }
 }

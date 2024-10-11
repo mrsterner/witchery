@@ -25,6 +25,7 @@ import dev.sterner.witchery.registry.WitcheryItems.MUTANDIS
 import dev.sterner.witchery.registry.WitcheryItems.ODOR_OF_PURITY
 import dev.sterner.witchery.registry.WitcheryItems.OIL_OF_VITRIOL
 import dev.sterner.witchery.registry.WitcheryItems.OTHERWHERE_CHALK
+import dev.sterner.witchery.registry.WitcheryItems.OVEN
 import dev.sterner.witchery.registry.WitcheryItems.REEK_OF_MISFORTUNE
 import dev.sterner.witchery.registry.WitcheryItems.RITUAL_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.TEAR_OF_THE_GODDESS
@@ -47,6 +48,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(MUTANDIS.get())
                 output.accept(ALTAR.get())
                 output.accept(CAULDRON.get())
+                output.accept(OVEN.get())
                 output.accept(MANDRAKE_ROOT.get())
                 output.accept(BELLADONNA_FLOWER.get())
                 output.accept(WATER_ARTICHOKE_GLOBE.get())
