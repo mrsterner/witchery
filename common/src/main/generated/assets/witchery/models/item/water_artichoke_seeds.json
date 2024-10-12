@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "witchery:item/demon_blood"
+    "layer0": "witchery:item/water_artichoke_seeds"
   }
 }

@@ -30,9 +30,15 @@ class WitcheryBlockLootProvider(
         val builder3: LootItemCondition.Builder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(
             WitcheryBlocks.SNOWBELL_CROP.get()
         ).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(MandrakeCropBlock.AGE, 4))
+        val builder4: LootItemCondition.Builder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(
+            WitcheryBlocks.WATER_ARTICHOKE_CROP.get()
+        ).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(MandrakeCropBlock.AGE, 4))
+
+
 
         createCropDrops(WitcheryBlocks.MANDRAKE_CROP.get(),WitcheryItems.MANDRAKE_ROOT.get(), WitcheryItems.MANDRAKE_SEEDS.get(), builder)
         createCropDrops(WitcheryBlocks.BELLADONNAE_CROP.get(),WitcheryItems.BELLADONNA_FLOWER.get(), WitcheryItems.BELLADONNA_SEEDS.get(), builder2)
+        createCropDrops(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), WitcheryItems.WATER_ARTICHOKE_SEEDS.get(), builder)
         createCropDrops(WitcheryBlocks.SNOWBELL_CROP.get(),WitcheryItems.ICY_NEEDLE.get(), WitcheryItems.SNOWBELL_SEEDS.get(), builder3)
     }
 }

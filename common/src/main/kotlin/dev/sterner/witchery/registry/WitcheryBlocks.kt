@@ -88,7 +88,7 @@ object WitcheryBlocks {
             .pushReaction(PushReaction.DESTROY))
     }
 
-    val MANDRAKE_CROP = BLOCKS.register("mandrake_crop") {
+    val MANDRAKE_CROP = BLOCKS.register("mandrake") {
         MandrakeCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
@@ -100,7 +100,7 @@ object WitcheryBlocks {
         )
     }
 
-    val BELLADONNAE_CROP = BLOCKS.register("belladonna_crop") {
+    val BELLADONNAE_CROP = BLOCKS.register("belladonna") {
         MandrakeCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
@@ -112,7 +112,19 @@ object WitcheryBlocks {
         )
     }
 
-    val SNOWBELL_CROP = BLOCKS.register("snowbell_crop") {
+    val SNOWBELL_CROP = BLOCKS.register("snowbell") {
+        MandrakeCropBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .instabreak()
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY)
+        )
+    }
+
+    val WATER_ARTICHOKE_CROP = BLOCKS.register("water_artichoke") {
         MandrakeCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)

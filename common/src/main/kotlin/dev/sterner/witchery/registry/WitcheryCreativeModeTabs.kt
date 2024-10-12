@@ -10,6 +10,7 @@ import dev.sterner.witchery.registry.WitcheryItems.BONE_NEEDLE
 import dev.sterner.witchery.registry.WitcheryItems.BREATH_OF_THE_GODDESS
 import dev.sterner.witchery.registry.WitcheryItems.CAULDRON
 import dev.sterner.witchery.registry.WitcheryItems.CLAY_JAR
+import dev.sterner.witchery.registry.WitcheryItems.DEMONS_BLOOD
 import dev.sterner.witchery.registry.WitcheryItems.DEMON_HEART
 import dev.sterner.witchery.registry.WitcheryItems.DROP_OF_LUCK
 import dev.sterner.witchery.registry.WitcheryItems.EMBER_MOSS
@@ -37,6 +38,7 @@ import dev.sterner.witchery.registry.WitcheryItems.SNOWBELL_SEEDS
 import dev.sterner.witchery.registry.WitcheryItems.SPANISH_MOSS
 import dev.sterner.witchery.registry.WitcheryItems.TEAR_OF_THE_GODDESS
 import dev.sterner.witchery.registry.WitcheryItems.WATER_ARTICHOKE_GLOBE
+import dev.sterner.witchery.registry.WitcheryItems.WATER_ARTICHOKE_SEEDS
 import dev.sterner.witchery.registry.WitcheryItems.WAYSTONE
 import dev.sterner.witchery.registry.WitcheryItems.WHIFF_OF_MAGIC
 import dev.sterner.witchery.registry.WitcheryItems.WOOD_ASH
@@ -67,6 +69,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(ICY_NEEDLE.get())
                 output.accept(BELLADONNA_SEEDS.get())
                 output.accept(BELLADONNA_FLOWER.get())
+                output.accept(WATER_ARTICHOKE_SEEDS.get())
                 output.accept(WATER_ARTICHOKE_GLOBE.get())
                 output.accept(WOOD_ASH.get())
                 output.accept(BONE_NEEDLE.get())
@@ -85,6 +88,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(ODOR_OF_PURITY.get())
                 output.accept(DROP_OF_LUCK.get())
                 output.accept(ENDER_DEW.get())
+                output.accept(DEMONS_BLOOD.get())
                 output.accept(RITUAL_CHALK.get())
                 output.accept(GOLDEN_CHALK.get())
                 output.accept(INFERNAL_CHALK.get())

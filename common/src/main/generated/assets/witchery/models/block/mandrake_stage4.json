@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/crop",
   "textures": {
-    "crop": "witchery:block/snowbell_crop_stage1"
+    "crop": "witchery:block/mandrake_stage4"
   }
 }

@@ -36,6 +36,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.BELLADONNA_SEEDS.get(), "Belladonna Seeds")
         builder.add(WitcheryItems.MANDRAKE_SEEDS.get(), "Mandrake Seeds")
         builder.add(WitcheryItems.SNOWBELL_SEEDS.get(), "Snowbell Seeds")
+        builder.add(WitcheryItems.WATER_ARTICHOKE_SEEDS.get(), "Water Artichoke Seeds")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
@@ -56,7 +57,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.ODOR_OF_PURITY.get(), "Odor of Purity")
         builder.add(WitcheryItems.DROP_OF_LUCK.get(), "Drop of Luck")
         builder.add(WitcheryItems.ENDER_DEW.get(), "Ender Dew")
-        builder.add(WitcheryItems.DEMON_BLOOD.get(), "Demon Blood")
+        builder.add(WitcheryItems.DEMONS_BLOOD.get(), "Demon Blood")
 
     }
 }

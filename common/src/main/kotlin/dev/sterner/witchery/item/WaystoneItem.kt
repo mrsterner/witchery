@@ -1,49 +1,121 @@
 package dev.sterner.witchery.item
 
 import dev.sterner.witchery.registry.WitcheryDataComponents
+import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.component.DataComponents
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.component.ResolvableProfile
+import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
-import javax.xml.crypto.Data
+import java.awt.Color
+import java.util.*
 
 class WaystoneItem(properties: Properties) : Item(properties) {
 
-    fun bindGlobalBlockPos(level: Level, pos: BlockPos, stack: ItemStack) {
-        stack.set(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get(), GlobalPos.of(level.dimension(), pos))
+    override fun useOn(context: UseOnContext): InteractionResult {
+        val stack = context.itemInHand
+        bindGlobalBlockPos(context.level, context.clickedPos, stack)
+         return super.useOn(context)
     }
 
-    fun getGlobalPos(level: Level, stack: ItemStack): GlobalPos? {
-        return stack.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())
-    }
 
-    fun bindLivingEntity(level: Level, livingEntity: LivingEntity, stack: ItemStack) {
-        stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), livingEntity.id)
-    }
 
-    fun getLivingEntity(level: Level, stack: ItemStack): LivingEntity? {
-        val id = stack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-        if (id != null && level.getEntity(id) is LivingEntity) {
-            val living = level.getEntity(id) as LivingEntity
-            return living
+    override fun appendHoverText(
+        stack: ItemStack,
+        context: TooltipContext,
+        tooltipComponents: MutableList<Component>,
+        tooltipFlag: TooltipFlag
+    ) {
+        val glob = getGlobalPos(stack)
+        if (glob != null) {
+            val dimension = capitalizeString(glob.dimension.location().path)
+            val color = when (dimension) {
+                "The Nether" -> {
+                    Color(255,0,0).rgb
+                }
+                "The End" -> {
+                    Color(255,0,255).rgb
+                }
+                else -> {
+                    Color(0,255,0).rgb
+                }
+            }
+            tooltipComponents.add(Component.literal(dimension).setStyle(Style.EMPTY).withColor(color))
+
+            tooltipComponents.add(Component.literal("Position: ").withColor(0xFFAA00)
+                .append(Component.literal("${glob.pos.x} : ${glob.pos.y} : ${glob.pos.z}").withColor(0x55FFFF)))
         }
-       return null
-    }
-
-    fun bindPlayer(level: Level, player: Player, stack: ItemStack) {
-        stack.set(DataComponents.PROFILE, ResolvableProfile(player.gameProfile))
-    }
-
-    fun getPlayer(level: Level, stack: ItemStack): Player? {
-        val profile = stack.get(DataComponents.PROFILE)
-        if (profile != null && profile.id.isPresent) {
-            return level.getPlayerByUUID(profile.id.get())
+        val player = Minecraft.getInstance().level?.let { getPlayer(it, stack) }
+        if (player != null) {
+            tooltipComponents.add(
+                Component.literal(player.gameProfile.name.replaceFirstChar(Char::uppercase))
+                    .setStyle(Style.EMPTY.withColor(Color(255,2,100).rgb)))
         }
-        return null
+        val living = Minecraft.getInstance().level?.let { getLivingEntity(it, stack) }
+        if (living != null) {
+            tooltipComponents.add(living.name.plainCopy().setStyle(Style.EMPTY.withColor(Color(255,100,100).rgb)))
+        }
+
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
+
+    companion object {
+        fun bindGlobalBlockPos(level: Level, pos: BlockPos, stack: ItemStack) {
+            stack.set(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get(), GlobalPos.of(level.dimension(), pos))
+        }
+
+        fun getGlobalPos(stack: ItemStack): GlobalPos? {
+            return stack.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())
+        }
+
+        fun bindLivingEntity(livingEntity: LivingEntity, stack: ItemStack) {
+            stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), livingEntity.id)
+        }
+
+        fun getLivingEntity(level: Level, stack: ItemStack): LivingEntity? {
+            val id = stack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+            if (id != null && level.getEntity(id) is LivingEntity) {
+                val living = level.getEntity(id) as LivingEntity
+                return living
+            }
+            return null
+        }
+
+        fun bindPlayer(player: Player, stack: ItemStack) {
+            stack.set(DataComponents.PROFILE, ResolvableProfile(player.gameProfile))
+        }
+
+        fun getPlayer(level: Level, stack: ItemStack): Player? {
+            val profile = stack.get(DataComponents.PROFILE)
+            if (profile != null && profile.id.isPresent) {
+                return level.getPlayerByUUID(profile.id.get())
+            }
+            return null
+        }
+
+        fun capitalizeString(string: String): String {
+            val chars = string.lowercase(Locale.getDefault()).toCharArray()
+            var found = false
+            for (i in chars.indices) {
+                if (!found && Character.isLetter(chars[i])) {
+                    chars[i] = chars[i].uppercaseChar()
+                    found = true
+                } else if (Character.isWhitespace(chars[i]) || chars[i] == '.' || chars[i] == '\'' || chars[i] == '_') {
+                    chars[i] = ' '
+                    found = false
+                }
+            }
+            return String(chars)
+        }
+    }
+
 }

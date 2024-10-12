@@ -10,7 +10,6 @@ import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
 
 class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(output) {
 
@@ -21,6 +20,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.createCropBlock(WitcheryBlocks.MANDRAKE_CROP.get(), MandrakeCropBlock.AGE, 0,1,2,3,4)
         generator.createCropBlock(WitcheryBlocks.BELLADONNAE_CROP.get(), MandrakeCropBlock.AGE, 0,1,2,3,4)
         generator.createCropBlock(WitcheryBlocks.SNOWBELL_CROP.get(), MandrakeCropBlock.AGE, 0,1,2,3,4)
+        generator.createCropBlock(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), MandrakeCropBlock.AGE, 0,1,2,3,4)
 
     }
 
@@ -36,7 +36,6 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.GUIDEBOOK.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.MUTANDIS.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.MUTANDIS_EXTREMIS.get(), ModelTemplates.FLAT_ITEM)
-        genetaror.generateFlatItem(WitcheryItems.WAYSTONE.get(), ModelTemplates.FLAT_ITEM)
 
         genetaror.generateFlatItem(WitcheryItems.MANDRAKE_ROOT.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.ICY_NEEDLE.get(), ModelTemplates.FLAT_ITEM)
@@ -56,7 +55,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.ODOR_OF_PURITY.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.DROP_OF_LUCK.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.ENDER_DEW.get(), ModelTemplates.FLAT_ITEM)
-        genetaror.generateFlatItem(WitcheryItems.DEMON_BLOOD.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.DEMONS_BLOOD.get(), ModelTemplates.FLAT_ITEM)
 
         genetaror.generateFlatItem(WitcheryItems.RITUAL_CHALK.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.INFERNAL_CHALK.get(), ModelTemplates.FLAT_ITEM)

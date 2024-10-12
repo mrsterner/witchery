@@ -1,11 +1,15 @@
 package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
+import dev.architectury.core.item.ArchitecturyBucketItem
+import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientLifecycleEvent
+import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.architectury.registry.client.particle.ParticleProviderRegistry
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
+import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
@@ -17,10 +21,15 @@ import dev.sterner.witchery.client.renderer.CauldronBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.MandrakeEntityRenderer
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import org.slf4j.Logger
 
 
@@ -52,6 +61,22 @@ object Witchery {
                 ::OvenScreen
             )
         }
+
+        InteractionEvent.INTERACT_ENTITY.register(::interactEntityWaystone)
+    }
+
+    private fun interactEntityWaystone(player: Player, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
+        if (player.mainHandItem.`is`(WitcheryItems.WAYSTONE.get()) && interactionHand == InteractionHand.MAIN_HAND) {
+            if (entity is Player) {
+                WaystoneItem.bindPlayer(entity, player.mainHandItem)
+                return EventResult.interruptTrue()
+            } else if (entity is LivingEntity) {
+                WaystoneItem.bindLivingEntity(entity, player.mainHandItem)
+                return EventResult.interruptTrue()
+            }
+        }
+
+        return EventResult.pass()
     }
 
     @JvmStatic
@@ -75,6 +100,18 @@ object Witchery {
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
 
+        ItemPropertiesRegistry.register(
+            WitcheryItems.WAYSTONE.get(),
+            ResourceLocation.fromNamespaceAndPath(MODID, "is_bound")
+        ) { itemStack, _, _, _ ->
+            var ret = 0f
+            val customData = itemStack.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())
+            val customData2 = itemStack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+            if (customData != null || customData2 != null) {
+                ret = 1.0f
+            }
+            ret
+        }
     }
 
     fun id(name: String): ResourceLocation {

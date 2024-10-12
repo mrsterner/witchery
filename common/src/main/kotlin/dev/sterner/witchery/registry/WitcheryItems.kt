@@ -63,6 +63,10 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val WATER_ARTICHOKE_SEEDS: RegistrySupplier<ItemNameBlockItem> = ITEMS.register("water_artichoke_seeds") {
+        ItemNameBlockItem(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), Item.Properties())
+    }
+
     val WATER_ARTICHOKE_GLOBE: RegistrySupplier<Item> = ITEMS.register("water_artichoke_globe") {
         Item(Item.Properties())
     }
@@ -137,7 +141,7 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
-    val DEMON_BLOOD: RegistrySupplier<Item> = ITEMS.register("demon_blood") {
+    val DEMONS_BLOOD: RegistrySupplier<Item> = ITEMS.register("demons_blood") {
         Item(Item.Properties())
     }
 

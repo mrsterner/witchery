@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "witchery:block/water_artichoke_stage0"
+    },
+    "age=1": {
+      "model": "witchery:block/water_artichoke_stage1"
+    },
+    "age=2": {
+      "model": "witchery:block/water_artichoke_stage2"
+    },
+    "age=3": {
+      "model": "witchery:block/water_artichoke_stage3"
+    },
+    "age=4": {
+      "model": "witchery:block/water_artichoke_stage4"
+    }
+  }
+}

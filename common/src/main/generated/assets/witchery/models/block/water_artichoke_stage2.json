@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/crop",
   "textures": {
-    "crop": "witchery:block/mandrake_crop_stage3"
+    "crop": "witchery:block/water_artichoke_stage2"
   }
 }
