@@ -107,9 +107,9 @@ object Witchery {
             var ret = 0f
             val customData = itemStack.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())
             val customData2 = itemStack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-            if (WaystoneItem.getPlayerProfile(itemStack) != null) {
+            if (WaystoneItem.getPlayerProfile(itemStack) != null || customData2 != null) {
                 ret = 2.0f
-            } else if (customData != null || customData2 != null) {
+            } else if (customData != null) {
                 ret = 1.0f
             }
             ret
