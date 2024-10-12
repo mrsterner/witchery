@@ -27,8 +27,6 @@ class WaystoneItem(properties: Properties) : Item(properties) {
          return super.useOn(context)
     }
 
-
-
     override fun appendHoverText(
         stack: ItemStack,
         context: TooltipContext,
@@ -52,7 +50,7 @@ class WaystoneItem(properties: Properties) : Item(properties) {
             tooltipComponents.add(Component.literal(dimension).setStyle(Style.EMPTY).withColor(color))
 
             tooltipComponents.add(Component.literal("Position: ").withColor(0xFFAA00)
-                .append(Component.literal("${glob.pos.x} : ${glob.pos.y} : ${glob.pos.z}").withColor(0x55FFFF)))
+                .append(Component.literal("${glob.pos.x} ${glob.pos.y} ${glob.pos.z}").withColor(0x55FFFF)))
         }
         val player = Minecraft.getInstance().level?.let { getPlayer(it, stack) }
         if (player != null) {
@@ -92,6 +90,10 @@ class WaystoneItem(properties: Properties) : Item(properties) {
 
         fun bindPlayer(player: Player, stack: ItemStack) {
             stack.set(DataComponents.PROFILE, ResolvableProfile(player.gameProfile))
+        }
+
+        fun getPlayerProfile(stack: ItemStack): ResolvableProfile? {
+            return stack.get(DataComponents.PROFILE)
         }
 
         fun getPlayer(level: Level, stack: ItemStack): Player? {

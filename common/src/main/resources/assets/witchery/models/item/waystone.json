@@ -9,6 +9,12 @@
         "witchery:is_bound": 1
       },
       "model": "witchery:item/waystone_bound"
+    },
+    {
+      "predicate": {
+        "witchery:is_bound": 2
+      },
+      "model": "witchery:item/waystone_bound_player"
     }
   ]
 }
