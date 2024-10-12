@@ -177,8 +177,12 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
     }
 
-    val OVEN: RegistrySupplier<BlockItem> = ITEMS.register("oven") {
-        BlockItem(WitcheryBlocks.OVEN.get(), Item.Properties())
+    val IRON_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("iron_witches_oven") {
+        BlockItem(WitcheryBlocks.IRON_WITCHES_OVEN.get(), Item.Properties())
+    }
+
+    val COPPER_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("copper_witches_oven") {
+        BlockItem(WitcheryBlocks.COPPER_WITCHES_OVEN.get(), Item.Properties())
     }
 
     val WAYSTONE = ITEMS.register("waystone") {

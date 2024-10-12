@@ -45,7 +45,8 @@ object WitcheryBlockEntityTypes {
     val OVEN: RegistrySupplier<BlockEntityType<OvenBlockEntity>> = BLOCK_ENTITY_TYPES.register("oven") {
         BlockEntityType.Builder.of(
             { pos, state -> OvenBlockEntity(pos, state) },
-            WitcheryBlocks.OVEN.get(),
+            WitcheryBlocks.IRON_WITCHES_OVEN.get(),
+            WitcheryBlocks.COPPER_WITCHES_OVEN.get(),
         )
             .build(null)
     }

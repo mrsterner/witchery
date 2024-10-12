@@ -27,7 +27,7 @@ import java.util.function.Supplier
 import java.util.function.ToIntFunction
 
 class CauldronBlock(properties: Properties) :
-    WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(7))) {
+    WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(8))) {
 
     init {
         this.registerDefaultState(

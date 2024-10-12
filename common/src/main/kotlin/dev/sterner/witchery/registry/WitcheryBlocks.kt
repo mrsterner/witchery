@@ -49,7 +49,13 @@ object WitcheryBlocks {
         )
     }
 
-    val OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("oven") {
+    val IRON_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("iron_witches_oven") {
+        OvenBlock(BlockBehaviour.Properties.of()
+            .sound(SoundType.METAL)
+        )
+    }
+
+    val COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("copper_witches_oven") {
         OvenBlock(BlockBehaviour.Properties.of()
             .sound(SoundType.METAL)
         )

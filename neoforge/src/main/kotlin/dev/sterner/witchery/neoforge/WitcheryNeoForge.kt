@@ -70,6 +70,8 @@ object WitcheryNeoForge {
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.MANDRAKE_CROP.get(), RenderType.cutout())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.BELLADONNAE_CROP.get(), RenderType.cutout())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.SNOWBELL_CROP.get(), RenderType.cutout())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.COPPER_WITCHES_OVEN.get(), RenderType.cutout())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.IRON_WITCHES_OVEN.get(), RenderType.cutout())
     }
 
     @SubscribeEvent
