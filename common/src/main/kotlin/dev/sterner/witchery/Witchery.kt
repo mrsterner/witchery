@@ -41,6 +41,7 @@ object Witchery {
         WitcheryRecipeTypes.RECIPE_TYPES.register()
         WitcheryRecipeSerializers.RECIPE_SERIALIZERS.register()
         WitcheryMenuTypes.MENU_TYPES.register()
+        WitcheryDataComponents.DATA.register()
 
         WitcheryPayloads.register()
 

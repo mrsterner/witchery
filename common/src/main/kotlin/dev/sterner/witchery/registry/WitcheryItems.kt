@@ -9,11 +9,9 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.item.ChalkItem
 import dev.sterner.witchery.item.GuideBookItem
 import dev.sterner.witchery.item.MutandisItem
+import dev.sterner.witchery.item.WaystoneItem
 import net.minecraft.core.registries.Registries
-import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemNameBlockItem
-import net.minecraft.world.item.Items
+import net.minecraft.world.item.*
 
 
 object WitcheryItems {
@@ -177,5 +175,9 @@ object WitcheryItems {
 
     val OVEN: RegistrySupplier<BlockItem> = ITEMS.register("oven") {
         BlockItem(WitcheryBlocks.OVEN.get(), Item.Properties())
+    }
+
+    val WAYSTONE = ITEMS.register("waystone") {
+        WaystoneItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON))
     }
 }

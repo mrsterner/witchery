@@ -36,6 +36,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.GUIDEBOOK.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.MUTANDIS.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.MUTANDIS_EXTREMIS.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.WAYSTONE.get(), ModelTemplates.FLAT_ITEM)
 
         genetaror.generateFlatItem(WitcheryItems.MANDRAKE_ROOT.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.ICY_NEEDLE.get(), ModelTemplates.FLAT_ITEM)

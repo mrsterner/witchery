@@ -37,6 +37,7 @@ import dev.sterner.witchery.registry.WitcheryItems.SNOWBELL_SEEDS
 import dev.sterner.witchery.registry.WitcheryItems.SPANISH_MOSS
 import dev.sterner.witchery.registry.WitcheryItems.TEAR_OF_THE_GODDESS
 import dev.sterner.witchery.registry.WitcheryItems.WATER_ARTICHOKE_GLOBE
+import dev.sterner.witchery.registry.WitcheryItems.WAYSTONE
 import dev.sterner.witchery.registry.WitcheryItems.WHIFF_OF_MAGIC
 import dev.sterner.witchery.registry.WitcheryItems.WOOD_ASH
 import net.minecraft.core.registries.Registries
@@ -56,6 +57,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(ALTAR.get())
                 output.accept(CAULDRON.get())
                 output.accept(OVEN.get())
+                output.accept(WAYSTONE.get())
                 output.accept(GLINTWEED.get())
                 output.accept(EMBER_MOSS.get())
                 output.accept(SPANISH_MOSS.get())

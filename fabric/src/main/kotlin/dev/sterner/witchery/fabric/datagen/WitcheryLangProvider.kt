@@ -42,6 +42,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.SPANISH_MOSS.get(), "Spanish Moss")
         builder.add(WitcheryBlocks.OVEN.get(), "Oven")
 
+        builder.add(WitcheryItems.WAYSTONE.get(), "Waystone")
         builder.add(WitcheryItems.CLAY_JAR.get(), "Clay Jar")
         builder.add(WitcheryItems.JAR.get(), "Jar")
         builder.add(WitcheryItems.BREATH_OF_THE_GODDESS.get(), "Breath of the Goddess")
