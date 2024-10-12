@@ -29,8 +29,8 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.createCropBlock(WitcheryBlocks.MANDRAKE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
         generator.createCropBlock(WitcheryBlocks.BELLADONNAE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
         createCrossCropBlock(generator, WitcheryBlocks.SNOWBELL_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
-        generator.createCropBlock(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
-        generator.createCropBlock(WitcheryBlocks.WOLFSFBANE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
+        createCrossCropBlock(generator, WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
+        createCrossCropBlock(generator, WitcheryBlocks.WOLFSFBANE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
         generator.createCropBlock(WitcheryBlocks.GARLIC_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
 
     }

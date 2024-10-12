@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/crop",
+  "parent": "minecraft:block/cross",
   "textures": {
-    "crop": "witchery:block/water_artichoke_stage0"
+    "cross": "witchery:block/water_artichoke_stage0"
   }
 }
