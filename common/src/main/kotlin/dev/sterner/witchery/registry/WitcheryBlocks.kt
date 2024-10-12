@@ -4,10 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
-import dev.sterner.witchery.block.EmbermossBlock
-import dev.sterner.witchery.block.GlintweedBlock
-import dev.sterner.witchery.block.MandrakeCropBlock
-import dev.sterner.witchery.block.SpanishMossBlock
+import dev.sterner.witchery.block.*
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
 import dev.sterner.witchery.block.cauldron.CauldronBlock
@@ -107,7 +104,7 @@ object WitcheryBlocks {
     }
 
     val BELLADONNAE_CROP = BLOCKS.register("belladonna") {
-        MandrakeCropBlock(
+        WitcheryCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
                 .noCollission()
@@ -119,7 +116,7 @@ object WitcheryBlocks {
     }
 
     val SNOWBELL_CROP = BLOCKS.register("snowbell") {
-        MandrakeCropBlock(
+        WitcheryCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
                 .noCollission()
@@ -131,7 +128,43 @@ object WitcheryBlocks {
     }
 
     val WATER_ARTICHOKE_CROP = BLOCKS.register("water_artichoke") {
-        MandrakeCropBlock(
+        WaterArtichokeCropBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .instabreak()
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY)
+        )
+    }
+
+    val WOLFSFBANE_CROP = BLOCKS.register("wolfsbane") {
+        WitcheryCropBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .instabreak()
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY)
+        )
+    }
+
+    val GARLIC_CROP = BLOCKS.register("garlic") {
+        WitcheryCropBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .instabreak()
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY)
+        )
+    }
+
+    val WORMWOOD_CROP = BLOCKS.register("wormwood") {
+        WormwoodCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
                 .noCollission()

@@ -12,23 +12,7 @@ import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.IntegerProperty
 
-class MandrakeCropBlock(properties: Properties) : CropBlock(properties) {
-
-    override fun getAgeProperty(): IntegerProperty {
-        return AGE
-    }
-
-    override fun getMaxAge(): Int {
-        return 4
-    }
-
-    override fun getAge(state: BlockState): Int {
-        return state.getValue(this.ageProperty) as Int
-    }
-
-    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
-        builder.add(AGE)
-    }
+class MandrakeCropBlock(properties: Properties) : WitcheryCropBlock(properties) {
 
     override fun playerDestroy(
         level: Level,
@@ -40,9 +24,5 @@ class MandrakeCropBlock(properties: Properties) : CropBlock(properties) {
     ) {
         //TODO spawn mandrake entity
         super.playerDestroy(level, player, pos, state, blockEntity, tool)
-    }
-
-    companion object {
-        val AGE: IntegerProperty = BlockStateProperties.AGE_4
     }
 }

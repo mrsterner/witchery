@@ -6,10 +6,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockItem
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
-import dev.sterner.witchery.item.ChalkItem
-import dev.sterner.witchery.item.GuideBookItem
-import dev.sterner.witchery.item.MutandisItem
-import dev.sterner.witchery.item.WaystoneItem
+import dev.sterner.witchery.item.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.*
 
@@ -63,11 +60,31 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
-    val WATER_ARTICHOKE_SEEDS: RegistrySupplier<ItemNameBlockItem> = ITEMS.register("water_artichoke_seeds") {
-        ItemNameBlockItem(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), Item.Properties())
+    val WATER_ARTICHOKE_SEEDS: RegistrySupplier<WaterCropBlockItem> = ITEMS.register("water_artichoke_seeds") {
+        WaterCropBlockItem(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), Item.Properties())
     }
 
     val WATER_ARTICHOKE_GLOBE: RegistrySupplier<Item> = ITEMS.register("water_artichoke_globe") {
+        Item(Item.Properties())
+    }
+
+    val GARLIC: RegistrySupplier<ItemNameBlockItem> = ITEMS.register("garlic") {
+        ItemNameBlockItem(WitcheryBlocks.GARLIC_CROP.get(), Item.Properties())
+    }
+
+    val WORMWOOD_SEEDS: RegistrySupplier<ItemNameBlockItem> = ITEMS.register("wormwood_seeds") {
+        ItemNameBlockItem(WitcheryBlocks.WORMWOOD_CROP.get(), Item.Properties())
+    }
+
+    val WORMWOOD: RegistrySupplier<Item> = ITEMS.register("wormwood") {
+        Item(Item.Properties())
+    }
+
+    val WOLFSBANE_SEEDS: RegistrySupplier<ItemNameBlockItem> = ITEMS.register("wolfsbane_seeds") {
+        ItemNameBlockItem(WitcheryBlocks.WOLFSFBANE_CROP.get(), Item.Properties())
+    }
+
+    val WOLFSBANE: RegistrySupplier<Item> = ITEMS.register("wolfsbane") {
         Item(Item.Properties())
     }
 

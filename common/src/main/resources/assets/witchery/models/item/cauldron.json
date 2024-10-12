@@ -2,9 +2,21 @@
   "parent": "witchery:block/cauldron_off",
   "display": {
     "gui": {
-      "rotation": [ 30, 225, 0 ],
-      "translation": [ 0, 0, 0],
-      "scale":[ 0.55, 0.55, 0.55 ]
+      "rotation": [
+        25,
+        -137,
+        0
+      ],
+      "translation": [
+        0.25,
+        0,
+        0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ]
     },
     "ground": {
       "rotation": [ 0, 0, 0 ],

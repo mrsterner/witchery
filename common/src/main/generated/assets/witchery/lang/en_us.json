@@ -19,6 +19,7 @@
   "item.witchery.ender_dew": "Ender Dew",
   "item.witchery.exhale_of_the_horned_one": "Exhale of the Horned One",
   "item.witchery.foul_fume": "Foul Fume",
+  "item.witchery.garlic": "Garlic",
   "item.witchery.golden_chalk": "Golden Chalk",
   "item.witchery.guidebook": "Lesser Key of Solomon",
   "item.witchery.gypsum": "Gypsum",
@@ -41,6 +42,10 @@
   "item.witchery.water_artichoke_seeds": "Water Artichoke Seeds",
   "item.witchery.waystone": "Waystone",
   "item.witchery.whiff_of_magic": "Whiff of Magic",
+  "item.witchery.wolfsbane": "Wolfsbane",
+  "item.witchery.wolfsbane_seeds": "Wolfsbane Seeds",
   "item.witchery.wood_ash": "Wood Ash",
+  "item.witchery.wormwood": "Wormwood",
+  "item.witchery.wormwood_seeds": "Wormwood Seeds",
   "witchery.main": "Witchery"
 }

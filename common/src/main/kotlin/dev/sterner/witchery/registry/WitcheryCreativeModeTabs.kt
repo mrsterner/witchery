@@ -18,6 +18,7 @@ import dev.sterner.witchery.registry.WitcheryItems.EMBER_MOSS
 import dev.sterner.witchery.registry.WitcheryItems.ENDER_DEW
 import dev.sterner.witchery.registry.WitcheryItems.EXHALE_OF_THE_HORNED_ONE
 import dev.sterner.witchery.registry.WitcheryItems.FOUL_FUME
+import dev.sterner.witchery.registry.WitcheryItems.GARLIC
 import dev.sterner.witchery.registry.WitcheryItems.GLINTWEED
 import dev.sterner.witchery.registry.WitcheryItems.GOLDEN_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.GUIDEBOOK
@@ -42,7 +43,11 @@ import dev.sterner.witchery.registry.WitcheryItems.WATER_ARTICHOKE_GLOBE
 import dev.sterner.witchery.registry.WitcheryItems.WATER_ARTICHOKE_SEEDS
 import dev.sterner.witchery.registry.WitcheryItems.WAYSTONE
 import dev.sterner.witchery.registry.WitcheryItems.WHIFF_OF_MAGIC
+import dev.sterner.witchery.registry.WitcheryItems.WOLFSBANE
+import dev.sterner.witchery.registry.WitcheryItems.WOLFSBANE_SEEDS
 import dev.sterner.witchery.registry.WitcheryItems.WOOD_ASH
+import dev.sterner.witchery.registry.WitcheryItems.WORMWOOD
+import dev.sterner.witchery.registry.WitcheryItems.WORMWOOD_SEEDS
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 
@@ -73,6 +78,11 @@ object WitcheryCreativeModeTabs {
                 output.accept(BELLADONNA_FLOWER.get())
                 output.accept(WATER_ARTICHOKE_SEEDS.get())
                 output.accept(WATER_ARTICHOKE_GLOBE.get())
+                output.accept(WOLFSBANE_SEEDS.get())
+                output.accept(WOLFSBANE.get())
+                output.accept(WORMWOOD_SEEDS.get())
+                output.accept(WORMWOOD.get())
+                output.accept(GARLIC.get())
                 output.accept(WOOD_ASH.get())
                 output.accept(BONE_NEEDLE.get())
                 output.accept(DEMON_HEART.get())
