@@ -19,3 +19,4 @@ classes/
 *.launch
 /common/src/generated/resources/.cache/
 /common/src/main/generated/.cache/
+/.kotlin/
