@@ -28,8 +28,11 @@ class OvenMenu(id: Int, val inventory: Inventory, val buf: FriendlyByteBuf) : Ab
         }
 
         this.addSlot(Slot(blockEntity!!, INGREDIENT_SLOT, 56, 17))
+        this.addSlot(Slot(blockEntity!!, EXTRA_INGREDIENT_SLOT, 56 + 22, 17))
+
         this.addSlot(OvenFuelSlot(this, blockEntity, FUEL_SLOT, 56, 53))
         this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, RESULT_SLOT, 116, 35))
+        this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, EXTRA_RESULT_SLOT, 116, 35 + 22))
         
         for (i in 0..2) {
             for (j in 0..8) {
@@ -131,6 +134,8 @@ class OvenMenu(id: Int, val inventory: Inventory, val buf: FriendlyByteBuf) : Ab
         const val INGREDIENT_SLOT: Int = 0
         const val FUEL_SLOT: Int = 1
         const val RESULT_SLOT: Int = 2
+        const val EXTRA_INGREDIENT_SLOT: Int = 3
+        const val EXTRA_RESULT_SLOT: Int = 4
 
         const val INV_SLOT_START: Int = 3
         const val USE_ROW_SLOT_START: Int = 30

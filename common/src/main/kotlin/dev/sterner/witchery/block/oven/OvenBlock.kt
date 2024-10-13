@@ -33,19 +33,6 @@ class OvenBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noO
         )
     }
 
-    override fun useWithoutItem(
-        pState: BlockState,
-        pLevel: Level,
-        pPos: BlockPos,
-        pPlayer: Player,
-        pHitResult: BlockHitResult
-    ): InteractionResult {
-
-        //TODO remove
-        //pLevel.setBlockAndUpdate(pPos, pState.setValue(BlockStateProperties.LIT, !pState.getValue(BlockStateProperties.LIT)))
-        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult)
-    }
-
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
         return WitcheryBlockEntityTypes.OVEN.get().create(pos, state)
     }

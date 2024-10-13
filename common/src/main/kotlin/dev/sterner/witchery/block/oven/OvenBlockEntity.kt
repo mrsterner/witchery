@@ -16,10 +16,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Mth
-import net.minecraft.world.Container
-import net.minecraft.world.ContainerHelper
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.WorldlyContainer
+import net.minecraft.world.*
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.player.StackedContents
@@ -42,7 +39,7 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
 ) : WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.OVEN.get(), blockPos, blockState), Container, WorldlyContainer,
     RecipeCraftingHolder, StackedContentsCompatible {
 
-    var items: NonNullList<ItemStack> = NonNullList.withSize(3, ItemStack.EMPTY)
+    var items: NonNullList<ItemStack> = NonNullList.withSize(5, ItemStack.EMPTY)
     var litTime: Int = 0
     var litDuration: Int = 0
     var cookingProgress: Int = 0
@@ -83,55 +80,59 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
 
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
         super.tick(level, pos, state)
-        val bl: Boolean = isLit()
-        var bl2 = false
+        val wasLit: Boolean = isLit()
+        var shouldUpdateBlock = false
+
+        // Decrease lit time if the oven is lit
         if (isLit()) {
             litTime--
         }
 
-        val itemStack: ItemStack = items[SLOT_FUEL]
-        val itemStack2: ItemStack = items[SLOT_INPUT]
-        val bl3 = !itemStack2.isEmpty
-        val bl4 = !itemStack.isEmpty
-        if (isLit() || bl4 && bl3) {
-            val recipeHolder = if (bl3) {
-                quickCheck.getRecipeFor(SingleRecipeInput(itemStack2), level).orElse(null)
-            } else {
-                null
-            }
-            val recipeCookHolder = if (bl3) {
-                quickCookCheck.getRecipeFor(SingleRecipeInput(itemStack2), level).orElse(null)
-            } else {
-                null
-            }
+        // Fetch the fuel and input items
+        val fuelStack: ItemStack = items[SLOT_FUEL]
+        val inputStack: ItemStack = items[SLOT_INPUT]
+        val hasInput = !inputStack.isEmpty
+        val hasFuel = !fuelStack.isEmpty
 
-            val i: Int = maxStackSize
-            if (!isLit() && canBurn(level.registryAccess(), recipeHolder ?: recipeCookHolder, items, i)) {
-                litTime = getBurnDuration(itemStack)
+        // If the oven is lit or there's fuel and input, proceed
+        if (isLit() || hasFuel && hasInput) {
+            // Get the current recipes (both regular and cooking)
+            val ovenRecipe = if (hasInput) quickCheck.getRecipeFor(SingleRecipeInput(inputStack), level).orElse(null) else null
+            val cookRecipe = if (hasInput) quickCookCheck.getRecipeFor(SingleRecipeInput(inputStack), level).orElse(null) else null
+
+            // Get the maximum stack size
+            val maxStackSize: Int = maxStackSize
+
+            // If the oven is not lit but we can burn the recipe, start burning
+            if (!isLit() && canBurn(level.registryAccess(), ovenRecipe ?: cookRecipe, items, maxStackSize)) {
+                litTime = getBurnDuration(fuelStack)
                 litDuration = litTime
                 if (isLit()) {
-                    bl2 = true
-                    if (bl4) {
-                        val item = itemStack.item
-                        itemStack.shrink(1)
-                        if (itemStack.isEmpty) {
-                            val item2 = item.craftingRemainingItem
-                            items[SLOT_FUEL] = if (item2 == null) ItemStack.EMPTY else ItemStack(item2)
+                    shouldUpdateBlock = true
+                    if (hasFuel) {
+                        val fuelItem = fuelStack.item
+                        fuelStack.shrink(1)
+                        if (fuelStack.isEmpty) {
+                            val remainingFuelItem = fuelItem.craftingRemainingItem
+                            items[SLOT_FUEL] = remainingFuelItem?.let { ItemStack(it) } ?: ItemStack.EMPTY
                         }
                     }
                 }
             }
 
-            if (isLit() && canBurn(level.registryAccess(), recipeHolder ?: recipeCookHolder, items, i)) {
+            // If the oven is lit and can burn, progress the cooking
+            if (isLit() && canBurn(level.registryAccess(), ovenRecipe ?: cookRecipe, items, maxStackSize)) {
                 cookingProgress++
                 if (cookingProgress == cookingTotalTime) {
                     cookingProgress = 0
                     cookingTotalTime = getTotalCookTime(level)
-                    if (burn(level.registryAccess(), recipeHolder ?: recipeCookHolder, items, i)) {
-                        recipeUsed = recipeHolder ?: recipeCookHolder
+
+
+                    if (burn(level.registryAccess(), ovenRecipe ?: cookRecipe, items, maxStackSize)) {
+                        recipeUsed = ovenRecipe ?: cookRecipe
                     }
 
-                    bl2 = true
+                    shouldUpdateBlock = true
                 }
             } else {
                 cookingProgress = 0
@@ -140,28 +141,36 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
             cookingProgress = Mth.clamp(cookingProgress - BURN_COOL_SPEED, 0, cookingTotalTime)
         }
 
-        if (bl != isLit()) {
-            bl2 = true
+        // Update block state if lit status changed
+        if (wasLit != isLit()) {
+            shouldUpdateBlock = true
             val newState = state.setValue(AbstractFurnaceBlock.LIT, isLit())
             level.setBlock(pos, newState, 3)
         }
 
-        if (bl2) {
+        // Mark block entity as changed if necessary
+        if (shouldUpdateBlock) {
             setChanged(level, pos, state)
         }
     }
 
-    override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-
-        if (pPlayer is ServerPlayer) {
-            openMenu(pPlayer)
-            return InteractionResult.SUCCESS
+    override fun onUseWithItem(player: Player, stack: ItemStack, hand: InteractionHand): ItemInteractionResult {
+        if (player is ServerPlayer) {
+            openMenu(player)
+            return ItemInteractionResult.SUCCESS
         }
-
-        return super.onUseWithoutItem(pPlayer)
+        return super.onUseWithItem(player, stack, hand)
     }
 
-    private fun openMenu(player: ServerPlayer){
+    override fun onUseWithoutItem(player: Player): InteractionResult {
+        if (player is ServerPlayer) {
+            openMenu(player)
+            return InteractionResult.SUCCESS
+        }
+        return super.onUseWithoutItem(player)
+    }
+
+    private fun openMenu(player: ServerPlayer) {
         MenuRegistry.openExtendedMenu(player, object : ExtendedMenuProvider {
             override fun createMenu(id: Int, inventory: Inventory, player: Player): AbstractContainerMenu {
                 val buf = FriendlyByteBuf(Unpooled.buffer())
@@ -186,19 +195,18 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
         maxStackSize: Int
     ): Boolean {
         if (!inventory[SLOT_INPUT].isEmpty && recipe != null) {
-            val itemStack = recipe.value().getResultItem(registryAccess)
-            if (itemStack.isEmpty) {
+            val resultStack = recipe.value().getResultItem(registryAccess)
+            if (resultStack.isEmpty) {
                 return false
             } else {
-                val itemStack2 = inventory[SLOT_RESULT]
-                return if (itemStack2.isEmpty) {
+                val outputStack = inventory[SLOT_RESULT]
+                return if (outputStack.isEmpty) {
                     true
-                } else if (!ItemStack.isSameItemSameComponents(itemStack2, itemStack)) {
+                } else if (!ItemStack.isSameItemSameComponents(outputStack, resultStack)) {
                     false
                 } else {
-                    if (itemStack2.count < maxStackSize && itemStack2.count < itemStack2.maxStackSize
-                    ) true
-                    else itemStack2.count < itemStack.maxStackSize
+                    if (outputStack.count < maxStackSize && outputStack.count < outputStack.maxStackSize
+                    ) true else outputStack.count < resultStack.maxStackSize
                 }
             }
         } else {
@@ -213,20 +221,43 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
         maxStackSize: Int
     ): Boolean {
         if (recipe != null && canBurn(registryAccess, recipe, inventory, maxStackSize)) {
-            val itemStack = inventory[SLOT_INPUT]
-            val itemStack2 = recipe.value().getResultItem(registryAccess)
-            val itemStack3 = inventory[SLOT_RESULT]
-            if (itemStack3.isEmpty) {
-                inventory[SLOT_RESULT] = itemStack2.copy()
-            } else if (ItemStack.isSameItemSameComponents(itemStack3, itemStack2)) {
-                itemStack3.grow(1)
+            val inputStack = inventory[SLOT_INPUT]
+            val resultStack = recipe.value().getResultItem(registryAccess)
+            val outputStack = inventory[SLOT_RESULT]
+
+            // Handle the main output
+            if (outputStack.isEmpty) {
+                inventory[SLOT_RESULT] = resultStack.copy()
+            } else if (ItemStack.isSameItemSameComponents(outputStack, resultStack)) {
+                outputStack.grow(1)
             }
 
-            if (itemStack.`is`(Blocks.WET_SPONGE.asItem()) && !inventory[SLOT_FUEL].isEmpty && inventory[SLOT_FUEL].`is`(Items.BUCKET)) {
+            // Special handling for oven recipes with extra output
+            if (recipe.value() is OvenCookingRecipe) {
+                val ovenRecipe = recipe.value() as OvenCookingRecipe
+                val extraResultStack = ovenRecipe.extraOutput
+                val extraInputStack = ovenRecipe.extraIngredient
+                val extraOutputStack = inventory[SLOT_EXTRA_RESULT]
+                if (extraInputStack.test(inventory[SLOT_EXTRA_INPUT])) {
+                    // Handle the extra output
+                    if (!extraResultStack.isEmpty) {
+                        if (extraOutputStack.isEmpty) {
+                            inventory[SLOT_EXTRA_RESULT] = extraResultStack.copy()
+                        } else if (ItemStack.isSameItemSameComponents(extraOutputStack, extraResultStack)) {
+                            extraOutputStack.grow(1)
+                        }
+                    }
+                    inventory[SLOT_EXTRA_INPUT].shrink(1)
+                }
+            }
+
+            // Handle special case for wet sponge and bucket interaction
+            if (inputStack.`is`(Blocks.WET_SPONGE.asItem()) && !inventory[SLOT_FUEL].isEmpty && inventory[SLOT_FUEL].`is`(Items.BUCKET)) {
                 inventory[SLOT_FUEL] = ItemStack(Items.WATER_BUCKET)
             }
 
-            itemStack.shrink(1)
+            // Shrink the input stack after processing
+            inputStack.shrink(1)
             return true
         } else {
             return false
@@ -245,7 +276,7 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
     private fun getTotalCookTime(level: Level): Int {
         val singleRecipeInput = SingleRecipeInput(getItem(SLOT_INPUT))
 
-        val cookquick = quickCookCheck
+        val cookQuickTime = quickCookCheck
             .getRecipeFor(singleRecipeInput, level)
             .map { recipeHolder: RecipeHolder<SmokingRecipe?> -> (recipeHolder.value() as SmokingRecipe).cookingTime }
             .orElse(BURN_TIME_STANDARD)
@@ -253,11 +284,7 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
         return quickCheck
             .getRecipeFor(singleRecipeInput, level)
             .map { recipeHolder: RecipeHolder<OvenCookingRecipe?> -> (recipeHolder.value() as OvenCookingRecipe).cookingTime }
-            .orElse(cookquick)
-    }
-
-    fun isFuel(stack: ItemStack): Boolean {
-        return AbstractFurnaceBlockEntity.getFuel().containsKey(stack.item)
+            .orElse(cookQuickTime)
     }
 
     override fun getSlotsForFace(side: Direction): IntArray {
@@ -390,6 +417,10 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
         const val SLOT_INPUT: Int = 0
         const val SLOT_FUEL: Int = 1
         const val SLOT_RESULT: Int = 2
+
+        const val SLOT_EXTRA_INPUT: Int = 3
+        const val SLOT_EXTRA_RESULT: Int = 4
+
         val SLOTS_FOR_UP: IntArray = intArrayOf(0)
         val SLOTS_FOR_DOWN: IntArray = intArrayOf(2, 1)
         val SLOTS_FOR_SIDES: IntArray = intArrayOf(1)
