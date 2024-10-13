@@ -3,6 +3,7 @@ package dev.sterner.witchery.fabric.datagen
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
+import dev.sterner.witchery.recipe.oven.OvenCookingRecipeBuilder
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
@@ -10,11 +11,14 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.tags.ItemTags
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.item.crafting.RecipeType
+import net.minecraft.world.item.crafting.SmokingRecipe
 import java.util.concurrent.CompletableFuture
 
-class WitcheryRecipeProvider(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
+class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricRecipeProvider(output, registriesFuture) {
 
     override fun buildRecipes(exporter: RecipeOutput) {
@@ -26,17 +30,6 @@ class WitcheryRecipeProvider(output: FabricDataOutput, registriesFuture: Complet
                 ItemStackWithColor(Items.SUGAR.defaultInstance, 16755227, 1)
             ),
             Items.HONEY_BOTTLE.defaultInstance,
-            100
-        ).save(exporter)
-
-        //TODO remove
-        CauldronCraftingRecipeBuilder(
-            listOf(
-                ItemStackWithColor(Items.RAW_IRON.defaultInstance, 123456, 0),
-                ItemStackWithColor(Items.RAW_COPPER.defaultInstance, 654321, 1),
-                ItemStackWithColor(Items.RAW_GOLD.defaultInstance, 321654, 2)
-            ),
-            listOf(Ingredient.of(Items.STICK)),
             100
         ).save(exporter)
 
@@ -114,5 +107,65 @@ class WitcheryRecipeProvider(output: FabricDataOutput, registriesFuture: Complet
         )
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
             .save(exporter)
+
+        OvenCookingRecipeBuilder(
+            Ingredient.of(Items.OAK_SAPLING),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
+
+        OvenCookingRecipeBuilder(
+            Ingredient.of(Items.DARK_OAK_SAPLING),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
+
+        OvenCookingRecipeBuilder(
+            Ingredient.of(Items.BIRCH_SAPLING),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.BREATH_OF_THE_GODDESS.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
+
+        OvenCookingRecipeBuilder(
+            Ingredient.of(Items.CHERRY_SAPLING),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.BREATH_OF_THE_GODDESS.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
+
+        OvenCookingRecipeBuilder(
+            Ingredient.of(Items.SPRUCE_SAPLING),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.HINT_OF_REBIRTH.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
+
+        OvenCookingRecipeBuilder(
+            Ingredient.of(Items.JUNGLE_SAPLING),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.HINT_OF_REBIRTH.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
     }
 }

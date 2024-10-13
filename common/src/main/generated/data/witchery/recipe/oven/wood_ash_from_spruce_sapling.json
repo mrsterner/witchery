@@ -1,0 +1,18 @@
+{
+  "type": "witchery:oven_cooking",
+  "cookingTime": 85,
+  "experience": 0.5,
+  "extraIngredient": {
+    "item": "witchery:jar"
+  },
+  "extraOutput": {
+    "id": "witchery:hint_of_rebirth"
+  },
+  "extraOutputChance": 0.5,
+  "ingredient": {
+    "item": "minecraft:spruce_sapling"
+  },
+  "result": {
+    "id": "witchery:wood_ash"
+  }
+}

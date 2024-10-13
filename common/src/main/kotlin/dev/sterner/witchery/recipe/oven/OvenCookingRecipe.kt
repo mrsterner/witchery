@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.*
 import net.minecraft.world.level.Level
 
-class OvenCookingRecipe(val ingredient: Ingredient, val result: ItemStack, val extraOutput: ItemStack, val extraOutputChance: Float, val experience: Float, val cookingTime: Int) : Recipe<SingleRecipeInput> {
+class OvenCookingRecipe(val ingredient: Ingredient, val extraIngredient: Ingredient, val result: ItemStack, val extraOutput: ItemStack, val extraOutputChance: Float, val experience: Float, val cookingTime: Int) : Recipe<SingleRecipeInput> {
 
 
     override fun matches(input: SingleRecipeInput, level: Level): Boolean {
@@ -58,6 +58,7 @@ class OvenCookingRecipe(val ingredient: Ingredient, val result: ItemStack, val e
                 RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<OvenCookingRecipe> ->
                     obj.group(
                         Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter { it.ingredient },
+                        Ingredient.CODEC_NONEMPTY.fieldOf("extraIngredient").orElse(Ingredient.of()).forGetter { it.extraIngredient },
                         ItemStack.STRICT_SINGLE_ITEM_CODEC.fieldOf("result").forGetter {it.result},
                         ItemStack.STRICT_SINGLE_ITEM_CODEC.fieldOf("extraOutput").forGetter {it.extraOutput},
                         Codec.FLOAT.fieldOf("extraOutputChance").orElse(1.0F).forGetter{it.extraOutputChance},
