@@ -187,6 +187,10 @@ object WitcheryItems {
         GuideBookItem(Item.Properties())
     }
 
+    val DEEPSLATE_ALTAR_BLOCK = ITEMS.register("deepslate_altar_block") {
+        BlockItem(WitcheryBlocks.DEEPLSTAE_ALTAR_BLOCK.get(), Item.Properties())
+    }
+
     val ALTAR: RegistrySupplier<MultiBlockItem> = ITEMS.register("altar") {
         MultiBlockItem(WitcheryBlocks.ALTAR.get(), Item.Properties(), AltarBlock.STRUCTURE)
     }

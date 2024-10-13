@@ -14,6 +14,7 @@ import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockComponent
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.material.MapColor
@@ -26,6 +27,10 @@ object WitcheryBlocks {
 
     val COMPONENT: RegistrySupplier<MultiBlockComponentBlock> = BLOCKS.register("component") {
         MultiBlockComponentBlock(BlockBehaviour.Properties.of())
+    }
+
+    val DEEPLSTAE_ALTAR_BLOCK = BLOCKS.register("deepslate_altar_block") {
+        AltarCreationBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE))
     }
 
     val ALTAR: RegistrySupplier<AltarBlock> = BLOCKS.register("altar") {

@@ -11,6 +11,7 @@ import dev.sterner.witchery.registry.WitcheryItems.BREATH_OF_THE_GODDESS
 import dev.sterner.witchery.registry.WitcheryItems.CAULDRON
 import dev.sterner.witchery.registry.WitcheryItems.CLAY_JAR
 import dev.sterner.witchery.registry.WitcheryItems.COPPER_WITCHES_OVEN
+import dev.sterner.witchery.registry.WitcheryItems.DEEPSLATE_ALTAR_BLOCK
 import dev.sterner.witchery.registry.WitcheryItems.DEMONS_BLOOD
 import dev.sterner.witchery.registry.WitcheryItems.DEMON_HEART
 import dev.sterner.witchery.registry.WitcheryItems.DROP_OF_LUCK
@@ -63,6 +64,7 @@ object WitcheryCreativeModeTabs {
             it.displayItems { _, output ->
                 output.accept(GUIDEBOOK.get())
                 output.accept(MUTANDIS.get())
+                output.accept(DEEPSLATE_ALTAR_BLOCK.get())
                 output.accept(ALTAR.get())
                 output.accept(CAULDRON.get())
                 output.accept(IRON_WITCHES_OVEN.get())
