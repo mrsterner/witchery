@@ -62,7 +62,7 @@ class OvenCookingRecipe(val ingredient: Ingredient, val result: ItemStack, val e
                         ItemStack.STRICT_SINGLE_ITEM_CODEC.fieldOf("extraOutput").forGetter {it.extraOutput},
                         Codec.FLOAT.fieldOf("extraOutputChance").orElse(1.0F).forGetter{it.extraOutputChance},
                         Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter{it.experience},
-                        Codec.INT.fieldOf("cookingtime").forGetter { it.cookingTime },
+                        Codec.INT.fieldOf("cookingTime").forGetter { it.cookingTime },
                     ).apply(obj, ::OvenCookingRecipe)
                 }
 
