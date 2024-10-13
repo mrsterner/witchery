@@ -3,26 +3,25 @@ package dev.sterner.witchery.neoforge
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
-import dev.sterner.witchery.client.model.MandrakeEntityModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
-import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryMenuTypes
 import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.screens.MenuScreens
 import net.minecraft.client.renderer.ItemBlockRenderTypes
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.resources.ResourceLocation
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import net.neoforged.neoforge.registries.DataPackRegistryEvent.NewRegistry
-import org.jetbrains.annotations.NotNull
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
 
@@ -91,5 +90,12 @@ object WitcheryNeoForge {
 
     @SubscribeEvent
     fun createDataPackRegistries(event: NewRegistry) {
+    }
+
+    @SubscribeEvent
+    private fun registerScreens(event: RegisterMenuScreensEvent) {
+        event.register(WitcheryMenuTypes.OVEN_MENU_TYPE.get()) { arg, arg2, arg3 ->
+            OvenScreen(arg, arg2, arg3)
+        }
     }
 }
