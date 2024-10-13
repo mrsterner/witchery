@@ -29,10 +29,7 @@ import net.minecraft.world.inventory.RecipeCraftingHolder
 import net.minecraft.world.inventory.StackedContentsCompatible
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.crafting.AbstractCookingRecipe
-import net.minecraft.world.item.crafting.RecipeHolder
-import net.minecraft.world.item.crafting.RecipeManager
-import net.minecraft.world.item.crafting.SingleRecipeInput
+import net.minecraft.world.item.crafting.*
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.AbstractFurnaceBlock
 import net.minecraft.world.level.block.Blocks
@@ -78,6 +75,7 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
 
     private val recipesUsed = Object2IntOpenHashMap<ResourceLocation>()
     private val quickCheck = RecipeManager.createCheck(WitcheryRecipeTypes.OVEN_RECIPE_TYPE.get())
+    private val quickCookCheck = RecipeManager.createCheck(RecipeType.SMOKING)
 
     private fun isLit(): Boolean {
         return this.litTime > 0
@@ -91,26 +89,24 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
             litTime--
         }
 
-        val itemStack: ItemStack = items.get(SLOT_FUEL)
-        val itemStack2: ItemStack = items.get(SLOT_INPUT)
+        val itemStack: ItemStack = items[SLOT_FUEL]
+        val itemStack2: ItemStack = items[SLOT_INPUT]
         val bl3 = !itemStack2.isEmpty
         val bl4 = !itemStack.isEmpty
         if (isLit() || bl4 && bl3) {
             val recipeHolder = if (bl3) {
-                quickCheck.getRecipeFor(SingleRecipeInput(itemStack2), level)
-                    .orElse(null)
+                quickCheck.getRecipeFor(SingleRecipeInput(itemStack2), level).orElse(null)
+            } else {
+                null
+            }
+            val recipeCookHolder = if (bl3) {
+                quickCookCheck.getRecipeFor(SingleRecipeInput(itemStack2), level).orElse(null)
             } else {
                 null
             }
 
-            val i: Int = getMaxStackSize()
-            if (!isLit() && canBurn(
-                    level.registryAccess(),
-                    recipeHolder,
-                    items,
-                    i
-                )
-            ) {
+            val i: Int = maxStackSize
+            if (!isLit() && canBurn(level.registryAccess(), recipeHolder ?: recipeCookHolder, items, i)) {
                 litTime = getBurnDuration(itemStack)
                 litDuration = litTime
                 if (isLit()) {
@@ -120,25 +116,19 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
                         itemStack.shrink(1)
                         if (itemStack.isEmpty) {
                             val item2 = item.craftingRemainingItem
-                            items.set(SLOT_FUEL, if (item2 == null) ItemStack.EMPTY else ItemStack(item2))
+                            items[SLOT_FUEL] = if (item2 == null) ItemStack.EMPTY else ItemStack(item2)
                         }
                     }
                 }
             }
 
-            if (isLit() && canBurn(
-                    level.registryAccess(),
-                    recipeHolder,
-                    items,
-                    i
-                )
-            ) {
+            if (isLit() && canBurn(level.registryAccess(), recipeHolder ?: recipeCookHolder, items, i)) {
                 cookingProgress++
                 if (cookingProgress == cookingTotalTime) {
                     cookingProgress = 0
                     cookingTotalTime = getTotalCookTime(level)
-                    if (burn(level.registryAccess(), recipeHolder, items, i)) {
-                        setRecipeUsed(recipeHolder)
+                    if (burn(level.registryAccess(), recipeHolder ?: recipeCookHolder, items, i)) {
+                        recipeUsed = recipeHolder ?: recipeCookHolder
                     }
 
                     bl2 = true
@@ -254,10 +244,16 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
 
     private fun getTotalCookTime(level: Level): Int {
         val singleRecipeInput = SingleRecipeInput(getItem(SLOT_INPUT))
+
+        val cookquick = quickCookCheck
+            .getRecipeFor(singleRecipeInput, level)
+            .map { recipeHolder: RecipeHolder<SmokingRecipe?> -> (recipeHolder.value() as SmokingRecipe).cookingTime }
+            .orElse(BURN_TIME_STANDARD)
+
         return quickCheck
             .getRecipeFor(singleRecipeInput, level)
             .map { recipeHolder: RecipeHolder<OvenCookingRecipe?> -> (recipeHolder.value() as OvenCookingRecipe).cookingTime }
-            .orElse(BURN_TIME_STANDARD) as Int
+            .orElse(cookquick)
     }
 
     fun isFuel(stack: ItemStack): Boolean {
