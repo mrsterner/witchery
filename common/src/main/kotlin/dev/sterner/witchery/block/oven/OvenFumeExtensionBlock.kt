@@ -29,6 +29,32 @@ class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(p
         return WitcheryBlockEntityTypes.OVEN_FUME_EXTENSION.get().create(pos, state)
     }
 
+    override fun neighborChanged(
+        pState: BlockState,
+        pLevel: Level,
+        pPos: BlockPos,
+        pBlock: Block,
+        pFromPos: BlockPos,
+        pIsMoving: Boolean
+    ) {
+        super.neighborChanged(pState, pLevel, pPos, pBlock, pFromPos, pIsMoving)
+
+        // Check if this block is placed next to an oven
+        val (canSurvive, isOvenRight) = checkOvenPlacement(pState, pLevel, pPos)
+
+        if (canSurvive) {
+            // Get the oven block state depending on which side it's on
+            val ovenPos = if (isOvenRight == true) pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).clockWise)
+            else pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).counterClockWise)
+
+            val ovenState = pLevel.getBlockState(ovenPos)
+
+            // Check if the oven is lit and set this block's LIT state accordingly
+            val isOvenLit = ovenState.getValue(BlockStateProperties.LIT)
+            pLevel.setBlock(pPos, pState.setValue(BlockStateProperties.LIT, isOvenLit), 3)
+        }
+    }
+
     private fun checkOvenPlacement(state: BlockState, level: LevelReader, pos: BlockPos): Pair<Boolean, Boolean?> {
         // Get the facing direction of this block
         val blockFacing = state.getValue(BlockStateProperties.HORIZONTAL_FACING)

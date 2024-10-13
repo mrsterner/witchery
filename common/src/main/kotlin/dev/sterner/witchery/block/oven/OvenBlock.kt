@@ -5,12 +5,16 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmiss
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.BlockHitResult
 
 class OvenBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(8))) {
 
@@ -27,6 +31,19 @@ class OvenBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noO
             BlockStateProperties.HORIZONTAL_FACING,
             blockPlaceContext.horizontalDirection.opposite
         )
+    }
+
+    override fun useWithoutItem(
+        pState: BlockState,
+        pLevel: Level,
+        pPos: BlockPos,
+        pPlayer: Player,
+        pHitResult: BlockHitResult
+    ): InteractionResult {
+
+        //TODO remove
+        pLevel.setBlockAndUpdate(pPos, pState.setValue(BlockStateProperties.LIT, !pState.getValue(BlockStateProperties.LIT)))
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult)
     }
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {

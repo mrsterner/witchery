@@ -10,7 +10,7 @@ import net.minecraft.world.item.Items
 class OvenScreen(menu: OvenMenu, inventory: Inventory, title: Component) : AbstractContainerScreen<OvenMenu>(menu, inventory, title) {
 
     override fun isPauseScreen(): Boolean {
-        return true
+        return false
     }
 
     override fun renderBg(guiGraphics: GuiGraphics, partialTick: Float, mouseX: Int, mouseY: Int) {
