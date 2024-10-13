@@ -278,7 +278,7 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
             return 0
         } else {
             val item = fuel.item
-            return AbstractFurnaceBlockEntity.getFuel().getOrDefault(item, 0) as Int
+            return AbstractFurnaceBlockEntity.getFuel().getOrDefault(item, 0)
         }
     }
 
