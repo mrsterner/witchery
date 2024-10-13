@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeType
@@ -24,6 +25,11 @@ object WitcheryRecipeTypes {
     val CAULDRON_BREWING_RECIPE_TYPE: RegistrySupplier<RecipeType<CauldronBrewingRecipe>> =
         RECIPE_TYPES.register(CauldronBrewingRecipe.NAME) {
             registerRecipeType(CauldronBrewingRecipe.NAME)
+        }
+
+    val OVEN_RECIPE_TYPE: RegistrySupplier<RecipeType<OvenCookingRecipe>> =
+        RECIPE_TYPES.register(OvenCookingRecipe.NAME) {
+            registerRecipeType(OvenCookingRecipe.NAME)
         }
 
     private fun <T : Recipe<*>> registerRecipeType(identifier: String): RecipeType<T> {
