@@ -24,7 +24,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
     override fun generateBlockStateModels(generator: BlockModelGenerators) {
         generator.createCrossBlockWithDefaultItem(WitcheryBlocks.GLINTWEED.get(), BlockModelGenerators.TintState.NOT_TINTED)
-        createCrossBlock(generator, WitcheryBlocks.EMBER_MOSS.get())
+        createCropPlantBlock(generator, WitcheryBlocks.EMBER_MOSS.get())
         generator.createMultiface(WitcheryBlocks.SPANISH_MOSS.get())
         generator.createCropBlock(WitcheryBlocks.MANDRAKE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
         generator.createCropBlock(WitcheryBlocks.BELLADONNAE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
@@ -35,11 +35,14 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
     }
 
-    private fun createCrossBlock(
+
+    fun createCropPlantBlock(
         generator: BlockModelGenerators,
-        crossBlock: Block
+        crossBlock: Block?
     ) {
-        val resourceLocation = generator.createSuffixedVariant(crossBlock, "", ModelTemplates.CROP, TextureMapping::crop)
+        generator.createSimpleFlatItemModel(crossBlock)
+        val textureMapping = TextureMapping.crop(TextureMapping.getBlockTexture(crossBlock))
+        val resourceLocation = ModelTemplates.CROP.create(crossBlock, textureMapping, generator.modelOutput)
         generator.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(crossBlock, resourceLocation))
     }
 

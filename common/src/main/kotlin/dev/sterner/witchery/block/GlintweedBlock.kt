@@ -3,13 +3,10 @@ package dev.sterner.witchery.block
 import com.mojang.serialization.MapCodec
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockGetter
-import net.minecraft.world.level.block.AzaleaBlock
-import net.minecraft.world.level.block.BaseEntityBlock
 import net.minecraft.world.level.block.BushBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
-import java.util.function.Function
 
 class GlintweedBlock(properties: Properties) : BushBlock(properties.lightLevel { 14 }) {
 

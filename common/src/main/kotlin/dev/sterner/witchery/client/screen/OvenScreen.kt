@@ -28,9 +28,13 @@ class OvenScreen(menu: OvenMenu, inventory: Inventory, title: Component) : Abstr
             val l = Mth.ceil(menu.getLitProgress() * 13.0f) + 1
             guiGraphics.blitSprite(this.litProgressSprite, k, k, 0, k - l, i + 56 - 18 - 2, j + 36 + k - l, k, l)
         }
-
         val k = 24
         val l = Mth.ceil(menu.getBurnProgress() * k)
         guiGraphics.blitSprite(this.burnProgressSprite, 24, 16, 0, 0, i + 79 - 18 - 2, j + 34, l, 16)
+    }
+
+    override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick)
+        this.renderTooltip(guiGraphics, mouseX, mouseY)
     }
 }

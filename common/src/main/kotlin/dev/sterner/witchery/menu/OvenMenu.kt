@@ -32,7 +32,7 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) : AbstractCo
 
         this.addSlot(OvenFuelSlot(this, blockEntity, FUEL_SLOT, 36, 53))
         this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, RESULT_SLOT, 96, 35))
-        this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, EXTRA_RESULT_SLOT, 123, 16))
+        this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, EXTRA_RESULT_SLOT, 124, 16))
         
         for (i in 0..2) {
             for (j in 0..8) {
