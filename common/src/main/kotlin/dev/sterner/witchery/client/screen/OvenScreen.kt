@@ -1,5 +1,6 @@
 package dev.sterner.witchery.client.screen
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.menu.OvenMenu
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
@@ -12,7 +13,7 @@ class OvenScreen(menu: OvenMenu, inventory: Inventory, title: Component) : Abstr
 
     val litProgressSprite: ResourceLocation = ResourceLocation.withDefaultNamespace("container/furnace/lit_progress")
     val burnProgressSprite: ResourceLocation = ResourceLocation.withDefaultNamespace("container/furnace/burn_progress")
-    val texture: ResourceLocation = ResourceLocation.withDefaultNamespace("textures/gui/container/furnace.png")
+    val texture: ResourceLocation = Witchery.id("textures/gui/oven.png")
 
     override fun isPauseScreen(): Boolean {
         return false
@@ -25,11 +26,11 @@ class OvenScreen(menu: OvenMenu, inventory: Inventory, title: Component) : Abstr
         if (menu.isLit()) {
             val k = 14
             val l = Mth.ceil(menu.getLitProgress() * 13.0f) + 1
-            guiGraphics.blitSprite(this.litProgressSprite, k, k, 0, k - l, i + 56, j + 36 + k - l, k, l)
+            guiGraphics.blitSprite(this.litProgressSprite, k, k, 0, k - l, i + 56 - 18 - 2, j + 36 + k - l, k, l)
         }
 
         val k = 24
         val l = Mth.ceil(menu.getBurnProgress() * k)
-        guiGraphics.blitSprite(this.burnProgressSprite, 24, 16, 0, 0, i + 79, j + 34, l, 16)
+        guiGraphics.blitSprite(this.burnProgressSprite, 24, 16, 0, 0, i + 79 - 18 - 2, j + 34, l, 16)
     }
 }

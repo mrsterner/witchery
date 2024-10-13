@@ -85,6 +85,11 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
 
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
         super.tick(level, pos, state)
+
+        if (level.isClientSide) {
+            return
+        }
+
         val wasLit: Boolean = isLit()
         var shouldUpdateBlock = false
 
@@ -125,7 +130,7 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
             // If the oven is lit and can burn, progress the cooking
             if (isLit() && canBurn(level.registryAccess(), ovenRecipe ?: cookRecipe, items, maxStackSize)) {
                 cookingProgress++
-                if (cookingProgress >= cookingTotalTime) {
+                if (cookingProgress == cookingTotalTime) {
                     cookingProgress = 0
                     cookingTotalTime = getTotalCookTime(level)
 
@@ -235,16 +240,18 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
             // Special handling for oven recipes with extra output
             if (recipe.value() is OvenCookingRecipe) {
                 val ovenRecipe = recipe.value() as OvenCookingRecipe
-                val extraResultStack = ovenRecipe.extraOutput
+                val extraResultStack = ovenRecipe.extraOutput.copy()
                 val extraInputStack = ovenRecipe.extraIngredient
                 val extraOutputStack = inventory[SLOT_EXTRA_RESULT]
-                val extraOutputChanceIncrease = fumeHoodCount * 0.25 + filteredFumeHoodCount * 0.35
-                if (extraInputStack.test(inventory[SLOT_EXTRA_INPUT]) && level!!.random.nextDouble() > 0.67 * extraOutputChanceIncrease) {
+                val extraOutputChanceIncrease = fumeHoodCount * 0.2 + filteredFumeHoodCount * 0.3
+                println("${level!!.isClientSide} : $extraOutputChanceIncrease")
+                if (extraInputStack.test(inventory[SLOT_EXTRA_INPUT]) && level!!.random.nextDouble() > 0.75 - extraOutputChanceIncrease) {
                     // Handle the extra output
                     if (!extraResultStack.isEmpty) {
                         if (extraOutputStack.isEmpty) {
                             inventory[SLOT_EXTRA_RESULT] = extraResultStack.copy()
                         } else if (ItemStack.isSameItemSameComponents(extraOutputStack, extraResultStack)) {
+                            println("AE: ${level!!.isClientSide} : $extraOutputStack")
                             extraOutputStack.grow(1)
                         }
                     }

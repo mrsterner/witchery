@@ -15,6 +15,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add("emi.category.witchery.cauldron_brewing", "Cauldron Brewing")
         builder.add("emi.category.witchery.cauldron_crafting", "Cauldron Crafting")
+        builder.add("container.witchery.oven", "Witches Oven")
 
         builder.add(WitcheryItems.GUIDEBOOK.get(), "Lesser Key of Solomon")
         builder.add(WitcheryItems.CAULDRON.get(), "Cauldron")

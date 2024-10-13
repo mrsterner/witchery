@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.SingleRecipeInput
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity
 
-class OvenMenu(id: Int, val inventory: Inventory, val buf: FriendlyByteBuf) : AbstractContainerMenu(WitcheryMenuTypes.OVEN_MENU_TYPE.get(), id) {
+class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) : AbstractContainerMenu(WitcheryMenuTypes.OVEN_MENU_TYPE.get(), id) {
 
     private var data: ContainerData = SimpleContainerData(4)
     private var level: Level = inventory.player.level()
@@ -27,12 +27,12 @@ class OvenMenu(id: Int, val inventory: Inventory, val buf: FriendlyByteBuf) : Ab
             data = blockEntity!!.dataAccess
         }
 
-        this.addSlot(Slot(blockEntity!!, INGREDIENT_SLOT, 56, 17))
-        this.addSlot(Slot(blockEntity!!, EXTRA_INGREDIENT_SLOT, 56 + 22, 17))
+        this.addSlot(Slot(blockEntity!!, INGREDIENT_SLOT, 36, 17))
+        this.addSlot(Slot(blockEntity!!, EXTRA_INGREDIENT_SLOT, 124, 55))
 
-        this.addSlot(OvenFuelSlot(this, blockEntity, FUEL_SLOT, 56, 53))
-        this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, RESULT_SLOT, 116, 35))
-        this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, EXTRA_RESULT_SLOT, 116, 35 + 22))
+        this.addSlot(OvenFuelSlot(this, blockEntity, FUEL_SLOT, 36, 53))
+        this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, RESULT_SLOT, 96, 35))
+        this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, EXTRA_RESULT_SLOT, 123, 16))
         
         for (i in 0..2) {
             for (j in 0..8) {
