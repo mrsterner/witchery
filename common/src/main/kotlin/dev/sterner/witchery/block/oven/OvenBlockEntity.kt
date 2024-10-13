@@ -6,6 +6,7 @@ import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.menu.OvenMenu
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import io.netty.buffer.Unpooled
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
@@ -248,6 +249,14 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
                         }
                     }
                     inventory[SLOT_EXTRA_INPUT].shrink(1)
+                }
+            } else {
+                val foulFume = WitcheryItems.FOUL_FUME.get().defaultInstance
+                val extraOutputStack = inventory[SLOT_EXTRA_RESULT]
+                if (extraOutputStack.isEmpty) {
+                    inventory[SLOT_EXTRA_RESULT] = foulFume
+                } else if (ItemStack.isSameItemSameComponents(extraOutputStack, foulFume)) {
+                    extraOutputStack.grow(1)
                 }
             }
 
