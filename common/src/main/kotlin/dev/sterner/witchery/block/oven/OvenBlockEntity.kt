@@ -87,7 +87,6 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
         val wasLit: Boolean = isLit()
         var shouldUpdateBlock = false
 
-        println(fumeHoodCount)
         // Decrease lit time if the oven is lit
         if (isLit()) {
             litTime--
@@ -238,7 +237,8 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
                 val extraResultStack = ovenRecipe.extraOutput
                 val extraInputStack = ovenRecipe.extraIngredient
                 val extraOutputStack = inventory[SLOT_EXTRA_RESULT]
-                if (extraInputStack.test(inventory[SLOT_EXTRA_INPUT])) {
+                val extraOutputChanceIncrease = fumeHoodCount * 0.25 + filteredFumeHoodCount * 0.35
+                if (extraInputStack.test(inventory[SLOT_EXTRA_INPUT]) && level!!.random.nextDouble() > 0.67 * extraOutputChanceIncrease) {
                     // Handle the extra output
                     if (!extraResultStack.isEmpty) {
                         if (extraOutputStack.isEmpty) {

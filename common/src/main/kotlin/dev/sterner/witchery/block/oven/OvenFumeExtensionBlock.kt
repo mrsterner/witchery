@@ -43,16 +43,19 @@ class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(p
         val (canSurvive, isOvenRight) = checkOvenPlacement(pState, pLevel, pPos)
 
         if (canSurvive) {
-            // Get the oven block state depending on which side it's on
-            val ovenPos = if (isOvenRight == true) pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).clockWise)
-            else pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).counterClockWise)
-
-            val ovenState = pLevel.getBlockState(ovenPos)
-
-            // Check if the oven is lit and set this block's LIT state accordingly
-            val isOvenLit = ovenState.getValue(BlockStateProperties.LIT)
-            pLevel.setBlock(pPos, pState.setValue(BlockStateProperties.LIT, isOvenLit), 3)
+            updateLit(pLevel, isOvenRight, pPos, pState)
         }
+    }
+
+    fun updateLit(pLevel: Level, isOvenRight: Boolean?, pPos: BlockPos, pState: BlockState) {
+        val ovenPos = if (isOvenRight == true) pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).clockWise)
+        else pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).counterClockWise)
+
+        val ovenState = pLevel.getBlockState(ovenPos)
+
+        // Check if the oven is lit and set this block's LIT state accordingly
+        val isOvenLit = ovenState.getValue(BlockStateProperties.LIT)
+        pLevel.setBlock(pPos, pState.setValue(BlockStateProperties.LIT, isOvenLit), 3)
     }
 
     private fun checkOvenPlacement(state: BlockState, level: LevelReader, pos: BlockPos): Pair<Boolean, Boolean?> {
@@ -94,7 +97,7 @@ class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(p
 
         if (canSurvive) {
             // Set ALT based on whether the oven is on the right
-            level.setBlock(pos, state.setValue(OvenFumeExtensionBlockComponent.ALT, isOvenRight == false), 3)
+            updateLit(level, isOvenRight, pos, state.setValue(OvenFumeExtensionBlockComponent.ALT, isOvenRight == false))
         }
     }
 
