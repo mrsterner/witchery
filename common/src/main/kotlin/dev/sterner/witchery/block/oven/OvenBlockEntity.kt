@@ -39,11 +39,15 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
 ) : WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.OVEN.get(), blockPos, blockState), Container, WorldlyContainer,
     RecipeCraftingHolder, StackedContentsCompatible {
 
+
     var items: NonNullList<ItemStack> = NonNullList.withSize(5, ItemStack.EMPTY)
     var litTime: Int = 0
     var litDuration: Int = 0
     var cookingProgress: Int = 0
     var cookingTotalTime: Int = 0
+
+    var fumeHoodCount = 0
+    var filteredFumeHoodCount: Int = 0
 
     val dataAccess: ContainerData = object : ContainerData {
         override fun get(index: Int): Int {
@@ -83,6 +87,7 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
         val wasLit: Boolean = isLit()
         var shouldUpdateBlock = false
 
+        println(fumeHoodCount)
         // Decrease lit time if the oven is lit
         if (isLit()) {
             litTime--
@@ -96,14 +101,11 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
 
         // If the oven is lit or there's fuel and input, proceed
         if (isLit() || hasFuel && hasInput) {
-            // Get the current recipes (both regular and cooking)
             val ovenRecipe = if (hasInput) quickCheck.getRecipeFor(SingleRecipeInput(inputStack), level).orElse(null) else null
             val cookRecipe = if (hasInput) quickCookCheck.getRecipeFor(SingleRecipeInput(inputStack), level).orElse(null) else null
 
-            // Get the maximum stack size
             val maxStackSize: Int = maxStackSize
 
-            // If the oven is not lit but we can burn the recipe, start burning
             if (!isLit() && canBurn(level.registryAccess(), ovenRecipe ?: cookRecipe, items, maxStackSize)) {
                 litTime = getBurnDuration(fuelStack)
                 litDuration = litTime
@@ -123,7 +125,7 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
             // If the oven is lit and can burn, progress the cooking
             if (isLit() && canBurn(level.registryAccess(), ovenRecipe ?: cookRecipe, items, maxStackSize)) {
                 cookingProgress++
-                if (cookingProgress == cookingTotalTime) {
+                if (cookingProgress >= cookingTotalTime) {
                     cookingProgress = 0
                     cookingTotalTime = getTotalCookTime(level)
 
@@ -141,14 +143,12 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
             cookingProgress = Mth.clamp(cookingProgress - BURN_COOL_SPEED, 0, cookingTotalTime)
         }
 
-        // Update block state if lit status changed
         if (wasLit != isLit()) {
             shouldUpdateBlock = true
             val newState = state.setValue(AbstractFurnaceBlock.LIT, isLit())
             level.setBlock(pos, newState, 3)
         }
 
-        // Mark block entity as changed if necessary
         if (shouldUpdateBlock) {
             setChanged(level, pos, state)
         }
@@ -276,15 +276,25 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
     private fun getTotalCookTime(level: Level): Int {
         val singleRecipeInput = SingleRecipeInput(getItem(SLOT_INPUT))
 
+        // Get the cooking time for quick cook (smoking) recipes
         val cookQuickTime = quickCookCheck
             .getRecipeFor(singleRecipeInput, level)
             .map { recipeHolder: RecipeHolder<SmokingRecipe?> -> (recipeHolder.value() as SmokingRecipe).cookingTime }
             .orElse(BURN_TIME_STANDARD)
 
-        return quickCheck
+        // Get the cooking time for oven recipes
+        val baseCookTime = quickCheck
             .getRecipeFor(singleRecipeInput, level)
             .map { recipeHolder: RecipeHolder<OvenCookingRecipe?> -> (recipeHolder.value() as OvenCookingRecipe).cookingTime }
             .orElse(cookQuickTime)
+
+        // Calculate the speed boost based on fume hoods
+        val speedBoost = fumeHoodCount * 0.25 + filteredFumeHoodCount * 0.35
+
+        // Apply the speed boost by reducing the total cooking time
+        val finalCookTime = (baseCookTime / (1.0 + speedBoost)).toInt()
+
+        return finalCookTime.coerceAtLeast(1) // Ensure the cooking time is at least 1 tick
     }
 
     override fun getSlotsForFace(side: Direction): IntArray {
@@ -355,6 +365,8 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
         this.cookingProgress = tag.getShort("CookTime").toInt()
         this.cookingTotalTime = tag.getShort("CookTimeTotal").toInt()
         this.litDuration = this.getBurnDuration(items[SLOT_FUEL])
+        this.fumeHoodCount = tag.getInt("FumeHoodCount")
+        this.filteredFumeHoodCount = tag.getInt("FilteredFumeHoodCount")
         val compoundTag = tag.getCompound("RecipesUsed")
 
         for (string in compoundTag.allKeys) {
@@ -367,6 +379,8 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
         tag.putShort("BurnTime", litTime.toShort())
         tag.putShort("CookTime", cookingProgress.toShort())
         tag.putShort("CookTimeTotal", cookingTotalTime.toShort())
+        tag.putInt("FumeHoodCount", fumeHoodCount)
+        tag.putInt("FilteredFumeHoodCount", filteredFumeHoodCount)
         ContainerHelper.saveAllItems(tag, this.items, registries)
         val compoundTag = CompoundTag()
         recipesUsed.forEach { (resourceLocation: ResourceLocation, integer: Int?) ->
