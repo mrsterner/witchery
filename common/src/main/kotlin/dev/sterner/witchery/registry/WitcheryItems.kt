@@ -6,6 +6,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockItem
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
+import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.*
@@ -192,6 +193,10 @@ object WitcheryItems {
 
     val CAULDRON: RegistrySupplier<MultiBlockItem> = ITEMS.register("cauldron") {
         MultiBlockItem(WitcheryBlocks.CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
+    }
+
+    val IRON_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> = ITEMS.register("iron_witches_oven_fume_extension") {
+        MultiBlockItem(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(), Item.Properties(), OvenFumeExtensionBlock.STRUCTURE)
     }
 
     val IRON_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("iron_witches_oven") {

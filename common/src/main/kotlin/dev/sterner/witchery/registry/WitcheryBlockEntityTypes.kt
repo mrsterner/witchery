@@ -7,6 +7,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
+import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
 
@@ -21,7 +22,8 @@ object WitcheryBlockEntityTypes {
                 { pos, state -> MultiBlockComponentBlockEntity(pos, state) },
                 WitcheryBlocks.COMPONENT.get(),
                 WitcheryBlocks.ALTAR_COMPONENT.get(),
-                WitcheryBlocks.CAULDRON_COMPONENT.get()
+                WitcheryBlocks.CAULDRON_COMPONENT.get(),
+                WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get()
             )
                 .build(null)
         }
@@ -47,6 +49,14 @@ object WitcheryBlockEntityTypes {
             { pos, state -> OvenBlockEntity(pos, state) },
             WitcheryBlocks.IRON_WITCHES_OVEN.get(),
             WitcheryBlocks.COPPER_WITCHES_OVEN.get(),
+        )
+            .build(null)
+    }
+
+    val OVEN_FUME_EXTENSION: RegistrySupplier<BlockEntityType<OvenFumeExtensionBlockEntity>> = BLOCK_ENTITY_TYPES.register("oven_fume_extension") {
+        BlockEntityType.Builder.of(
+            { pos, state -> OvenFumeExtensionBlockEntity(pos, state) },
+            WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(),
         )
             .build(null)
     }

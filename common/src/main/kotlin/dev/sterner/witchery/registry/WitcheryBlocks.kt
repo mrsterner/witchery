@@ -10,6 +10,8 @@ import dev.sterner.witchery.block.altar.AltarBlockComponent
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.oven.OvenBlock
+import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
+import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockComponent
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SoundType
@@ -48,6 +50,18 @@ object WitcheryBlocks {
 
     val IRON_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("iron_witches_oven") {
         OvenBlock(BlockBehaviour.Properties.of()
+            .sound(SoundType.METAL)
+        )
+    }
+
+    val IRON_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> = BLOCKS.register("iron_witches_oven_fume_extension") {
+        OvenFumeExtensionBlock(BlockBehaviour.Properties.of()
+            .sound(SoundType.METAL)
+        )
+    }
+
+    val IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT: RegistrySupplier<OvenFumeExtensionBlockComponent> = BLOCKS.register("iron_witches_oven_fume_extension_component") {
+        OvenFumeExtensionBlockComponent(BlockBehaviour.Properties.of()
             .sound(SoundType.METAL)
         )
     }

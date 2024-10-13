@@ -1,0 +1,124 @@
+package dev.sterner.witchery.block.oven
+
+import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryBlocks
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.shapes.BooleanOp
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.phys.shapes.VoxelShape
+import java.util.function.Supplier
+
+class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion()) {
+
+    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
+        return WitcheryBlockEntityTypes.OVEN_FUME_EXTENSION.get().create(pos, state)
+    }
+
+    private fun checkOvenPlacement(state: BlockState, level: LevelReader, pos: BlockPos): Pair<Boolean, Boolean?> {
+        // Get the facing direction of this block
+        val blockFacing = state.getValue(BlockStateProperties.HORIZONTAL_FACING)
+
+        // Check positions on the left and right of the current block
+        val leftPos = pos.relative(blockFacing.counterClockWise)
+        val rightPos = pos.relative(blockFacing.clockWise)
+
+        // Check if there's an oven at either of those positions
+        val leftState = level.getBlockState(leftPos)
+        val rightState = level.getBlockState(rightPos)
+
+        val isOvenLeft = leftState.block is OvenBlock
+        val isOvenRight = rightState.block is OvenBlock
+
+        // Return false if the block isn't next to an oven
+        if (!isOvenLeft && !isOvenRight) {
+            return Pair(false, null)
+        }
+
+        // Get the oven's facing direction and compare it with this block's facing
+        val ovenFacing = if (isOvenLeft) leftState.getValue(BlockStateProperties.HORIZONTAL_FACING) else rightState.getValue(BlockStateProperties.HORIZONTAL_FACING)
+
+        // Return true if the facings match, and also return whether the oven is on the right (ALT)
+        return Pair(blockFacing == ovenFacing, isOvenRight)
+    }
+
+    override fun canSurvive(state: BlockState, level: LevelReader, pos: BlockPos): Boolean {
+        val (canSurvive, _) = checkOvenPlacement(state, level, pos)
+        return canSurvive
+    }
+
+    override fun onPlace(state: BlockState, level: Level, pos: BlockPos, oldState: BlockState, movedByPiston: Boolean) {
+        super.onPlace(state, level, pos, oldState, movedByPiston)
+
+        val (canSurvive, isOvenRight) = checkOvenPlacement(state, level, pos)
+
+        if (canSurvive) {
+            // Set ALT based on whether the oven is on the right
+            level.setBlock(pos, state.setValue(OvenFumeExtensionBlockComponent.ALT, isOvenRight == false), 3)
+        }
+    }
+
+    init {
+        this.registerDefaultState(
+            stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(BlockStateProperties.LIT, false)
+                .setValue(OvenFumeExtensionBlockComponent.ALT, false)
+        )
+    }
+
+    override fun getRenderShape(state: BlockState): RenderShape {
+        return RenderShape.MODEL
+    }
+
+    override fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState {
+        return defaultBlockState().setValue(
+            BlockStateProperties.HORIZONTAL_FACING,
+            blockPlaceContext.horizontalDirection.opposite
+        )
+    }
+
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.LIT, OvenFumeExtensionBlockComponent.ALT)
+    }
+
+    override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
+        return SHAPE
+    }
+
+    companion object {
+        val STRUCTURE: Supplier<MultiBlockHorizontalDirectionStructure> =
+            Supplier<MultiBlockHorizontalDirectionStructure> {
+                (MultiBlockHorizontalDirectionStructure.of(
+                    MultiBlockStructure.StructurePiece(
+                        0,
+                        1,
+                        0,
+                        WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get().defaultBlockState()
+                    )
+                ))
+            }
+
+        val shape = box(3.0, 0.0, 3.0, 13.0, 3.0, 13.0)
+        val shape2 = box(3.0, 12.0, 3.0, 13.0, 15.0, 13.0)
+        val smallShape = box(5.0, 14.0, 5.0, 11.0, 15.0, 11.0)
+        val SHAPE: VoxelShape = Shapes.join(
+            shape,
+            Shapes.join(shape2, smallShape, BooleanOp.OR),
+            BooleanOp.OR
+        )
+    }
+}

@@ -34,6 +34,7 @@ import dev.sterner.witchery.registry.WitcheryItems.ODOR_OF_PURITY
 import dev.sterner.witchery.registry.WitcheryItems.OIL_OF_VITRIOL
 import dev.sterner.witchery.registry.WitcheryItems.OTHERWHERE_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.IRON_WITCHES_OVEN
+import dev.sterner.witchery.registry.WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION
 import dev.sterner.witchery.registry.WitcheryItems.REEK_OF_MISFORTUNE
 import dev.sterner.witchery.registry.WitcheryItems.RITUAL_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.SNOWBELL_SEEDS
@@ -65,6 +66,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(ALTAR.get())
                 output.accept(CAULDRON.get())
                 output.accept(IRON_WITCHES_OVEN.get())
+                output.accept(IRON_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(COPPER_WITCHES_OVEN.get())
                 output.accept(WAYSTONE.get())
                 output.accept(GLINTWEED.get())

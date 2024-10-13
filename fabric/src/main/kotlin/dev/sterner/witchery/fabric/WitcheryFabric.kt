@@ -39,6 +39,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryBlocks.COPPER_WITCHES_OVEN.get(),
             WitcheryBlocks.IRON_WITCHES_OVEN.get(),
             WitcheryBlocks.SNOWBELL_CROP.get(),
+            WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(),
 
             WitcheryBlocks.GARLIC_CROP.get(),
             WitcheryBlocks.WORMWOOD_CROP.get(),

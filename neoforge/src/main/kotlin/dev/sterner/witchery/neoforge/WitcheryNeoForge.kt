@@ -76,6 +76,7 @@ object WitcheryNeoForge {
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.WOLFSFBANE_CROP.get(), RenderType.cutout())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.GARLIC_CROP.get(), RenderType.cutout())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.WORMWOOD_CROP.get(), RenderType.cutout())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(), RenderType.cutout())
     }
 
     @SubscribeEvent
