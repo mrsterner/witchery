@@ -1,0 +1,132 @@
+[
+  {
+    "block": "minecraft:grass_block",
+    "power": 2,
+    "limit": 80
+  },
+  {
+    "block": "minecraft:podzol",
+    "power": 1,
+    "limit": 80
+  },
+  {
+    "block": "minecraft:dirt",
+    "power": 1,
+    "limit": 80
+  },
+  {
+    "block": "minecraft:mycelium",
+    "power": 1,
+    "limit": 80
+  },
+  {
+    "block": "minecraft:water",
+    "power": 1,
+    "limit": 50
+  },
+  {
+    "block": "minecraft:sugarcane",
+    "power": 3,
+    "limit": 50
+  },
+  {
+    "tag": "minecraft:saplings",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:dandelion",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:poppy",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:blue_orchid",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:allium",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:azure_bluet",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:red_tulip",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:orange_tulip",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:white_tulip",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:pink_tulip",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:oxeye_daisy",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:brown_mushroom",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:red_mushroom",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:cactus",
+    "power": 3,
+    "limit": 50
+  },
+  {
+    "block": "minecraft:short_grass and minecraft:fern, need a tag",
+    "power": 3,
+    "limit": 50
+  },
+  {
+    "tag": "minecraft:logs",
+    "power": 3,
+    "limit": 50
+  },
+  {
+    "tag": "minecraft:leaves",
+    "power": 3,
+    "limit": 100
+  },
+  {
+    "block": "minecraft:pumpkin",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:melon",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:vines",
+    "power": 2,
+    "limit": 50
+  }
+]
