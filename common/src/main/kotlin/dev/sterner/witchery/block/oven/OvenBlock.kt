@@ -42,7 +42,7 @@ class OvenBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noO
     ): InteractionResult {
 
         //TODO remove
-        pLevel.setBlockAndUpdate(pPos, pState.setValue(BlockStateProperties.LIT, !pState.getValue(BlockStateProperties.LIT)))
+        //pLevel.setBlockAndUpdate(pPos, pState.setValue(BlockStateProperties.LIT, !pState.getValue(BlockStateProperties.LIT)))
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult)
     }
 
