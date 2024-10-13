@@ -144,8 +144,9 @@ class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(p
         val shape = box(3.0, 0.0, 3.0, 13.0, 3.0, 13.0)
         val shape2 = box(3.0, 12.0, 3.0, 13.0, 15.0, 13.0)
         val smallShape = box(5.0, 14.0, 5.0, 11.0, 15.0, 11.0)
+        val bigShape = box(5.0, 3.0, 5.0, 11.0, 15.0, 11.0)
         val SHAPE: VoxelShape = Shapes.join(
-            shape,
+            Shapes.join(shape, bigShape, BooleanOp.OR),
             Shapes.join(shape2, smallShape, BooleanOp.OR),
             BooleanOp.OR
         )

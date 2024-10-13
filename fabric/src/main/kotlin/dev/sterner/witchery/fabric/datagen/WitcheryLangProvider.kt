@@ -15,7 +15,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add("emi.category.witchery.cauldron_brewing", "Cauldron Brewing")
         builder.add("emi.category.witchery.cauldron_crafting", "Cauldron Crafting")
-        builder.add("container.witchery.oven", "Witches Oven")
+        builder.add("container.witchery.oven_menu", "Witches Oven")
 
         builder.add(WitcheryItems.GUIDEBOOK.get(), "Lesser Key of Solomon")
         builder.add(WitcheryItems.CAULDRON.get(), "Cauldron")
@@ -48,6 +48,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
         builder.add(WitcheryBlocks.SPANISH_MOSS.get(), "Spanish Moss")
         builder.add(WitcheryBlocks.IRON_WITCHES_OVEN.get(), "Iron Witches Oven")
+        builder.add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(), "Iron Witches Oven Fume Filter")
         builder.add(WitcheryBlocks.COPPER_WITCHES_OVEN.get(), "Copper Witches Oven")
 
         builder.add(WitcheryItems.WAYSTONE.get(), "Waystone")

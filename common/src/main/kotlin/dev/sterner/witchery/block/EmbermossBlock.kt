@@ -45,6 +45,6 @@ class EmbermossBlock(properties: Properties) : BushBlock(properties.lightLevel {
                 arg
             )
         }
-        val SHAPE: VoxelShape = box(5.0, 0.0, 5.0, 11.0, 10.0, 11.0)
+        val SHAPE: VoxelShape = box(4.0, 0.0, 4.0, 12.0, 14.0, 12.0)
     }
 }

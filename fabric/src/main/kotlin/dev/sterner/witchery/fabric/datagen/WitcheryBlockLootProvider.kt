@@ -22,8 +22,22 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.CAULDRON.get())
         dropSelf(WitcheryBlocks.IRON_WITCHES_OVEN.get())
         dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN.get())
-        dropSelf(WitcheryBlocks.EMBER_MOSS.get())
-        dropSelf(WitcheryBlocks.GLINTWEED.get())
+
+        this.add(
+            WitcheryBlocks.EMBER_MOSS.get()
+        ) { itemLike: Block ->
+            createShearsOnlyDrop(
+                itemLike
+            )
+        }
+
+        this.add(
+            WitcheryBlocks.GLINTWEED.get()
+        ) { itemLike: Block ->
+            createShearsOnlyDrop(
+                itemLike
+            )
+        }
 
         this.add(
             WitcheryBlocks.SPANISH_MOSS.get()

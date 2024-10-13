@@ -5,8 +5,7 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmiss
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.entity.player.Player
+import net.minecraft.world.Containers
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
@@ -15,8 +14,6 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import net.minecraft.world.phys.BlockHitResult
-import kotlin.experimental.or
 
 class OvenBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(8))) {
 
@@ -75,6 +72,17 @@ class OvenBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noO
             if (rightState is OvenFumeExtensionBlockEntity && rightState.isFiltered) count++
         }
         return count
+    }
+
+    override fun onRemove(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        newState: BlockState,
+        movedByPiston: Boolean
+    ) {
+        Containers.dropContentsOnDestroy(state, newState, level, pos)
+        super.onRemove(state, level, pos, newState, movedByPiston)
     }
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
