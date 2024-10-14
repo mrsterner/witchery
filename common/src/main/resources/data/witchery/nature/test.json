@@ -1,0 +1,17 @@
+[
+  {
+    "block": "minecraft:grass",
+    "power": 10,
+    "limit": 100
+  },
+  {
+    "block": "minecraft:grass_block",
+    "power": 20,
+    "limit": 100
+  },
+  {
+    "tag": "minecraft:flowers",
+    "power": 50,
+    "limit": 200
+  }
+]

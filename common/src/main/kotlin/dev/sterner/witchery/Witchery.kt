@@ -20,6 +20,7 @@ import dev.sterner.witchery.client.renderer.CauldronBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.FloatingItemEntityRenderer
 import dev.sterner.witchery.client.renderer.MandrakeEntityRenderer
 import dev.sterner.witchery.client.screen.OvenScreen
+import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.MandrakeEntity
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.registry.*
@@ -63,6 +64,8 @@ object Witchery {
         }
 
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityWaystone)
+
+        NaturePowerHandler.registerListener()
     }
 
     private fun interactEntityWaystone(player: Player, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
