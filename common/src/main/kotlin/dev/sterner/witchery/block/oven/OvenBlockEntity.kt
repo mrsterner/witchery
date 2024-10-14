@@ -244,14 +244,12 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
                 val extraInputStack = ovenRecipe.extraIngredient
                 val extraOutputStack = inventory[SLOT_EXTRA_RESULT]
                 val extraOutputChanceIncrease = fumeHoodCount * 0.2 + filteredFumeHoodCount * 0.3
-                println("${level!!.isClientSide} : $extraOutputChanceIncrease")
                 if (extraInputStack.test(inventory[SLOT_EXTRA_INPUT]) && level!!.random.nextDouble() > 0.75 - extraOutputChanceIncrease) {
                     // Handle the extra output
                     if (!extraResultStack.isEmpty) {
                         if (extraOutputStack.isEmpty) {
                             inventory[SLOT_EXTRA_RESULT] = extraResultStack.copy()
                         } else if (ItemStack.isSameItemSameComponents(extraOutputStack, extraResultStack)) {
-                            println("AE: ${level!!.isClientSide} : $extraOutputStack")
                             extraOutputStack.grow(1)
                         }
                     }
