@@ -6,19 +6,28 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.block.ritual.RitualManager
 import dev.sterner.witchery.block.ritual.RitualManager.CommandType
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
-import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.*
 import net.minecraft.world.level.Level
 
-class RitualRecipe(val inputItems: List<ItemStack>, val outputItems: List<ItemStack>, val altarPower: Int, val commands: Set<CommandType>) :
+class RitualRecipe(
+    val inputItems: List<ItemStack>,
+    val inputEntities: List<EntityType<*>>,
+    val outputItems: List<ItemStack>,
+    val outputEntities: List<EntityType<*>>,
+    val altarPower: Int,
+    val commands: Set<CommandType>,
+    val floatingItemOutput: Boolean) :
     Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
@@ -72,9 +81,12 @@ class RitualRecipe(val inputItems: List<ItemStack>, val outputItems: List<ItemSt
                 RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<RitualRecipe> ->
                     obj.group(
                         ItemStack.STRICT_SINGLE_ITEM_CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().fieldOf("inputEntities").forGetter { it.inputEntities },
                         ItemStack.STRICT_SINGLE_ITEM_CODEC.listOf().fieldOf("outputItems").forGetter { it.outputItems },
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().fieldOf("outputEntities").forGetter { it.outputEntities },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
-                        COMMANDS_SET_CODEC.fieldOf("commands").forGetter { recipe -> recipe.commands }
+                        COMMANDS_SET_CODEC.fieldOf("commands").forGetter { recipe -> recipe.commands },
+                        Codec.BOOL.fieldOf("floatingItemOutput").forGetter { recipe -> recipe.floatingItemOutput },
                     ).apply(obj, ::RitualRecipe)
                 }
 

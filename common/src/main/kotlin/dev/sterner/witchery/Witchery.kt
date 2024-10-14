@@ -17,6 +17,7 @@ import dev.sterner.witchery.client.model.MandrakeEntityModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.renderer.AltarBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.CauldronBlockEntityRenderer
+import dev.sterner.witchery.client.renderer.FloatingItemEntityRenderer
 import dev.sterner.witchery.client.renderer.MandrakeEntityRenderer
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.entity.MandrakeEntity
@@ -87,6 +88,8 @@ object Witchery {
         EntityRendererRegistry.register(WitcheryEntityTypes.MANDRAKE) { MandrakeEntityRenderer(it) }
         EntityModelLayerRegistry.register(MandrakeEntityModel.LAYER_LOCATION) { MandrakeEntityModel.createBodyLayer() }
 
+        EntityRendererRegistry.register(WitcheryEntityTypes.FLOATING_ITEM, ::FloatingItemEntityRenderer)
+
         BlockEntityRendererRegistry.register(
             WitcheryBlockEntityTypes.ALTAR.get(),
             ::AltarBlockEntityRenderer
@@ -96,6 +99,7 @@ object Witchery {
             WitcheryBlockEntityTypes.CAULDRON.get(),
             ::CauldronBlockEntityRenderer
         )
+
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
 
