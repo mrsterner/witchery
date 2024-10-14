@@ -10,6 +10,7 @@ import dev.sterner.witchery.registry.WitcheryItems.BONE_NEEDLE
 import dev.sterner.witchery.registry.WitcheryItems.BREATH_OF_THE_GODDESS
 import dev.sterner.witchery.registry.WitcheryItems.CAULDRON
 import dev.sterner.witchery.registry.WitcheryItems.CLAY_JAR
+import dev.sterner.witchery.registry.WitcheryItems.CONDENSED_FEAR
 import dev.sterner.witchery.registry.WitcheryItems.COPPER_WITCHES_OVEN
 import dev.sterner.witchery.registry.WitcheryItems.DEEPSLATE_ALTAR_BLOCK
 import dev.sterner.witchery.registry.WitcheryItems.DEMONS_BLOOD
@@ -18,6 +19,7 @@ import dev.sterner.witchery.registry.WitcheryItems.DROP_OF_LUCK
 import dev.sterner.witchery.registry.WitcheryItems.EMBER_MOSS
 import dev.sterner.witchery.registry.WitcheryItems.ENDER_DEW
 import dev.sterner.witchery.registry.WitcheryItems.EXHALE_OF_THE_HORNED_ONE
+import dev.sterner.witchery.registry.WitcheryItems.FOCUSED_WILL
 import dev.sterner.witchery.registry.WitcheryItems.FOUL_FUME
 import dev.sterner.witchery.registry.WitcheryItems.GARLIC
 import dev.sterner.witchery.registry.WitcheryItems.GLINTWEED
@@ -36,6 +38,7 @@ import dev.sterner.witchery.registry.WitcheryItems.OIL_OF_VITRIOL
 import dev.sterner.witchery.registry.WitcheryItems.OTHERWHERE_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.IRON_WITCHES_OVEN
 import dev.sterner.witchery.registry.WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION
+import dev.sterner.witchery.registry.WitcheryItems.MELLIFLUOUS_HUNGER
 import dev.sterner.witchery.registry.WitcheryItems.REEK_OF_MISFORTUNE
 import dev.sterner.witchery.registry.WitcheryItems.RITUAL_CHALK
 import dev.sterner.witchery.registry.WitcheryItems.SNOWBELL_SEEDS
@@ -105,6 +108,9 @@ object WitcheryCreativeModeTabs {
                 output.accept(DROP_OF_LUCK.get())
                 output.accept(ENDER_DEW.get())
                 output.accept(DEMONS_BLOOD.get())
+                output.accept(MELLIFLUOUS_HUNGER.get())
+                output.accept(FOCUSED_WILL.get())
+                output.accept(CONDENSED_FEAR.get())
                 output.accept(RITUAL_CHALK.get())
                 output.accept(GOLDEN_CHALK.get())
                 output.accept(INFERNAL_CHALK.get())

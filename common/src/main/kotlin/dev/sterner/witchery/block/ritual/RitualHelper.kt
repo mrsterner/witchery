@@ -13,7 +13,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-class RitualManager {
+object RitualHelper {
 
     fun summonItems(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
         val x = blockPos.x + 0.5
@@ -42,15 +42,11 @@ class RitualManager {
                     val distance: Double = level.random.nextDouble() * 2
                     val x = blockPos.x + distance * cos(Math.toRadians(angle.toDouble()))
                     val z = blockPos.z + distance * sin(Math.toRadians(angle.toDouble()))
-                    entity.moveTo(x, blockPos.y + 1.0, z, level.random.nextFloat() * 360, 0f)
+                    entity.moveTo(x, blockPos.y + 0.2, z, level.random.nextFloat() * 360, 0f)
                     level.addFreshEntity(entity)
                 }
             }
         }
-    }
-
-    fun consumeSacrifices(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) : Boolean {
-        return false
     }
 
     fun runCommand(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity, phase: String) {

@@ -3,18 +3,16 @@ package dev.sterner.witchery.recipe.ritual
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.block.ritual.RitualManager
-import dev.sterner.witchery.block.ritual.RitualManager.CommandType
+import dev.sterner.witchery.block.ritual.RitualHelper
+import dev.sterner.witchery.block.ritual.RitualHelper.CommandType
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.core.registries.Registries
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.*
@@ -71,7 +69,7 @@ class RitualRecipe(
                 instance.group(
                     Codec.STRING.fieldOf("command").forGetter(CommandType::command),
                     Codec.STRING.fieldOf("type").forGetter(CommandType::type)
-                ).apply(instance, RitualManager::CommandType)
+                ).apply(instance, RitualHelper::CommandType)
             }
 
             val COMMANDS_SET_CODEC: Codec<Set<CommandType>> = COMMAND_TYPE_CODEC.listOf().xmap(

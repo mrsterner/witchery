@@ -163,6 +163,18 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val MELLIFLUOUS_HUNGER: RegistrySupplier<Item> = ITEMS.register("mellifluous_hunger") {
+        Item(Item.Properties())
+    }
+
+    val CONDENSED_FEAR: RegistrySupplier<Item> = ITEMS.register("condensed_fear") {
+        Item(Item.Properties())
+    }
+
+    val FOCUSED_WILL: RegistrySupplier<Item> = ITEMS.register("focused_will") {
+        Item(Item.Properties())
+    }
+
     //end JARS
 
     //start CHALK

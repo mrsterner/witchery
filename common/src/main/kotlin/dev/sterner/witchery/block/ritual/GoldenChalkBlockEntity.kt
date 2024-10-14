@@ -1,7 +1,6 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.block.oven.OvenBlockEntity.Companion.SLOT_INPUT
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
@@ -17,7 +16,6 @@ import net.minecraft.world.*
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.ai.behavior.SetWalkTargetAwayFrom.pos
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -33,7 +31,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private var consumedSacrifices = mutableListOf<EntityType<*>>()
 
     var ritualRecipe: RitualRecipe? = null
-    private var ritualManager = RitualManager()
     private var shouldRun: Boolean = false
     private var shouldStartConsumingItems: Boolean = false
     private var shouldStartConsumingSacrifices: Boolean = false
@@ -62,7 +59,11 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             tickCounter++
 
             if (isRitualActive) {
-                shouldStartConsumingSacrifices = false
+
+                if(!consumeAltarPower(level)){
+                    resetRitual()
+                }
+
                 ritualTickCounter++
 
                 onTickRitual(level)
@@ -75,26 +76,26 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             } else {
                 ritualTickCounter = 0
             }
-
         }
     }
 
     private fun onStartRitual(level: Level) {
         level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
-        ritualManager.runCommand(level, blockPos, this, RitualManager.CommandType.START)
+        RitualHelper.runCommand(level, blockPos, this, RitualHelper.CommandType.START)
     }
 
     private fun onTickRitual(level: Level) {
-        if (tickCounter % 20 == 0) {
+        if (tickCounter % 20 == 0) { // TODO remove
             level.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_HARP.value(), SoundSource.BLOCKS)
         }
+        RitualHelper.runCommand(level, blockPos, this, RitualHelper.CommandType.TICK)
     }
 
     private fun onEndRitual(level: Level) {
         level.playSound(null, blockPos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0f, 1.0f)
-        ritualManager.runCommand(level, blockPos, this, RitualManager.CommandType.END)
-        ritualManager.summonItems(level, blockPos, this)
-        ritualManager.summonSummons(level,blockPos, this)
+        RitualHelper.runCommand(level, blockPos, this, RitualHelper.CommandType.END)
+        RitualHelper.summonItems(level, blockPos, this)
+        RitualHelper.summonSummons(level,blockPos, this)
         items.clear()
         setChanged()
     }
@@ -102,8 +103,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun startConsumingSacrifices(level: Level) {
         val entities: MutableList<LivingEntity> = level.getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
         val recipeEntities: List<EntityType<*>> = ritualRecipe!!.inputEntities
-
-        tickCounter++
 
         if (tickCounter % 20 == 0) {
             val matchingEntity = entities.find { entity ->
@@ -174,7 +173,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         consumedSacrifices = mutableListOf()
 
         ritualRecipe = null
-        ritualManager = RitualManager()
         shouldRun = false
         shouldStartConsumingItems = false
         shouldStartConsumingSacrifices = false
@@ -206,7 +204,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-        if (ritualRecipe == null) {
+        if (ritualRecipe == null && level != null) {
             val items: List<ItemEntity> = pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }
             val entities: List<LivingEntity> = pPlayer.level().getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
 
@@ -219,22 +217,20 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
-            val validSacrifices = validItemRecipes?.filter { recipe ->
+            val validSacrificesAndItemsRecipe = validItemRecipes?.filter { recipe ->
                 val requiredSacrifices = recipe.value.inputEntities
                 requiredSacrifices.all { requiredEntity ->
                     entities.any { entity -> entity.type == requiredEntity }
                 }
             }
 
-            if (validSacrifices != null && validSacrifices.isNotEmpty()) {
-                ritualRecipe = validSacrifices[0].value
+            if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(level!!) && hasEnoughAltarPower(level!!)) {
+                ritualRecipe = validSacrificesAndItemsRecipe[0].value
                 shouldRun = true
                 shouldStartConsumingItems = true
                 setChanged()
                 level?.playSound(pPlayer, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
                 level?.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
-
-                ritualManager.runCommand(level!!, blockPos, this, RitualManager.CommandType.START)
             } else {
                 level?.playSound(pPlayer, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
                 level?.playSound(null, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
@@ -242,6 +238,18 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         return super.onUseWithoutItem(pPlayer)
+    }
+
+    private fun hasEnoughAltarPower(level: Level): Boolean {
+        return true //TODO implement return true of altar has enough power, without consuming any
+    }
+
+    private fun validateRitualCircle(level: Level): Boolean {
+        return true //TODO implement
+    }
+
+    private fun consumeAltarPower(level: Level): Boolean {
+        return true //TODO implement, return true if successful altar power drain
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
