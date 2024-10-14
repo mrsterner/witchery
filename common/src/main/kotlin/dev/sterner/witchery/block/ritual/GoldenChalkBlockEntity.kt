@@ -70,7 +70,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             if (isRitualActive) {
 
                 if(!consumeAltarPower(level)){
-                    println("2")
                     resetRitual()
                 }
 
@@ -80,7 +79,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
                 if (tickCounter >= ritualRecipe!!.ticks && !ritualRecipe!!.isInfinite) {
                     onEndRitual(level)
-                    println("3")
                     resetRitual()
                 }
                 setChanged()
@@ -212,6 +210,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         targetPlayer = null
         targetEntity = null
         targetPos = null
+        ownerName = null
         setChanged()
     }
 
@@ -296,6 +295,9 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tickCounter = pTag.getInt("tickCounter")
         ritualTickCounter = pTag.getInt("ritualTickCounter")
 
+        if (pTag.contains("ownerName")) {
+            ownerName = pTag.getString("ownerName")
+        }
         if (pTag.contains("targetPlayer")) {
             targetPlayer = pTag.getUUID("targetPlayer")
         }
@@ -347,6 +349,9 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putInt("tickCounter", tickCounter)
         tag.putInt("ritualTickCounter", ritualTickCounter)
 
+        if (ownerName != null) {
+            tag.putString("ownerName", ownerName!!)
+        }
         if (targetPlayer != null) {
             tag.putUUID("targetPlayer", targetPlayer!!)
         }
