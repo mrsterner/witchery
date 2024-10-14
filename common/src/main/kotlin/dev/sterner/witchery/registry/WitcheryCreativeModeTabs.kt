@@ -43,6 +43,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.GARLIC.get())
                 output.accept(WitcheryItems.WOOD_ASH.get())
                 output.accept(WitcheryItems.BONE_NEEDLE.get())
+                output.accept(WitcheryItems.TAGLOCK.get())
                 output.accept(WitcheryItems.DEMON_HEART.get())
                 output.accept(WitcheryItems.GYPSUM.get())
                 output.accept(WitcheryItems.CLAY_JAR.get())

@@ -66,7 +66,6 @@ object Witchery {
             MenuRegistry.registerScreenFactory(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
         }
 
-        InteractionEvent.INTERACT_ENTITY.register(::interactEntityWaystone)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
 
         NaturePowerHandler.registerListener()
@@ -78,18 +77,7 @@ object Witchery {
                 TaglockItem.bindPlayer(entity, player.mainHandItem)
                 return EventResult.interruptTrue()
             } else if (entity is LivingEntity) {
-                WaystoneItem.bindLivingEntity(entity, player.mainHandItem)
-                return EventResult.interruptTrue()
-            }
-        }
-
-        return EventResult.pass()
-    }
-
-    private fun interactEntityWaystone(player: Player, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
-        if (player.mainHandItem.`is`(WitcheryItems.WAYSTONE.get()) && interactionHand == InteractionHand.MAIN_HAND) {
-            if (entity is LivingEntity) {
-                WaystoneItem.bindLivingEntity(entity, player.mainHandItem)
+                TaglockItem.bindLivingEntity(entity, player.mainHandItem)
                 return EventResult.interruptTrue()
             }
         }
@@ -131,6 +119,18 @@ object Witchery {
             if (TaglockItem.getPlayerProfile(itemStack) != null || customData2 != null) {
                 ret = 2.0f
             } else if (customData != null) {
+                ret = 1.0f
+            }
+            ret
+        }
+
+        ItemPropertiesRegistry.register(
+            WitcheryItems.TAGLOCK.get(),
+            ResourceLocation.fromNamespaceAndPath(MODID, "expired")
+        ) { itemStack, _, _, _ ->
+            var ret = 0f
+            val customData = itemStack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())
+            if (customData != null && customData) {
                 ret = 1.0f
             }
             ret

@@ -22,7 +22,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.CAULDRON.get(), "Cauldron")
         builder.add(WitcheryItems.ALTAR.get(), "Altar")
         builder.add(WitcheryItems.MUTANDIS.get(), "Mutandis")
-        builder.add(WitcheryItems.MUTANDIS_EXTREMIS.get(), "MutandisExtremsi")
+        builder.add(WitcheryItems.MUTANDIS_EXTREMIS.get(), "Mutandis Extremis")
         builder.add(WitcheryItems.MANDRAKE_ROOT.get(), "Mandrake Root")
         builder.add(WitcheryItems.GYPSUM.get(), "Gypsum")
         builder.add(WitcheryItems.WOOD_ASH.get(), "Wood Ash")
@@ -44,6 +44,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.WOLFSBANE.get(), "Wolfsbane")
         builder.add(WitcheryItems.GARLIC.get(), "Garlic")
         builder.add(WitcheryItems.WOLFSBANE_SEEDS.get(), "Wolfsbane Seeds")
+        builder.add(WitcheryItems.TAGLOCK.get(), "Taglock")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")

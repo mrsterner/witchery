@@ -21,4 +21,12 @@ object WitcheryDataComponents  {
     val ENTITY_NAME_COMPONENT = DATA.register("entity_name") {
         DataComponentType.builder<String>().persistent(Codec.STRING).build()
     }
+
+    val EXPIRED_TAGLOCK = DATA.register("expired_taglock") {
+        DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
+    }
+
+    val TIMESTAMP = DATA.register("timestamp") {
+        DataComponentType.builder<Long>().persistent(Codec.LONG).build()
+    }
 }

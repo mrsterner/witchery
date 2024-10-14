@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchery:item/taglock"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "witchery:expired": 1
+      },
+      "model": "witchery:item/taglock_expired"
+    }
+  ]
+}

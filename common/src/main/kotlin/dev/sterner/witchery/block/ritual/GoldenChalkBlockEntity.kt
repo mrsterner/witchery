@@ -5,6 +5,7 @@ import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.core.BlockPos
@@ -185,14 +186,13 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun addWaystoneOrTaglockToContext(stack: ItemStack) {
         if (stack.`is`(WitcheryItems.WAYSTONE.get())) {
+            targetPos =  WaystoneItem.getGlobalPos(stack)
+        } else if (stack.`is`(WitcheryItems.TAGLOCK.get())
+            && !(stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get())
+            && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) == true)) {
+
             targetPlayer = TaglockItem.getPlayer(level!!, stack)?.uuid
             targetEntity = WaystoneItem.getLivingEntity(level!!, stack)?.id
-            targetPos =  WaystoneItem.getGlobalPos(stack)
-        } else if (stack.`is`(WitcheryItems.TAGLOCK.get())) {
-            //TODO set these
-            targetPlayer
-            targetEntity
-            targetPos
         }
     }
 

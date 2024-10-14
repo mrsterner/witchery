@@ -94,7 +94,7 @@ object WitcheryItems {
     }
 
     val BONE_NEEDLE: RegistrySupplier<Item> = ITEMS.register("bone_needle") {
-        Item(Item.Properties())
+        BoneNeedleItem(Item.Properties())
     }
 
     val DEMON_HEART: RegistrySupplier<Item> = ITEMS.register("demon_heart") {
