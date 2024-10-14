@@ -6,6 +6,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
+import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.crafting.RecipeSerializer
 
@@ -24,6 +25,9 @@ object WitcheryRecipeSerializers {
 
     val OVEN_RECIPE_SERIALIZER: RegistrySupplier<OvenCookingRecipe.Serializer> =
         RECIPE_SERIALIZERS.register(OvenCookingRecipe.NAME) { OvenCookingRecipe.Serializer() }
+
+    val RITUAL_RECIPE_SERIALIZER: RegistrySupplier<RitualRecipe.Serializer> =
+        RECIPE_SERIALIZERS.register(RitualRecipe.NAME) { RitualRecipe.Serializer() }
 
 
 }
