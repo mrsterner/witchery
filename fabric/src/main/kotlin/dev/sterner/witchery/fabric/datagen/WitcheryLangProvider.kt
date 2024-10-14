@@ -66,6 +66,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.DROP_OF_LUCK.get(), "Drop of Luck")
         builder.add(WitcheryItems.ENDER_DEW.get(), "Ender Dew")
         builder.add(WitcheryItems.DEMONS_BLOOD.get(), "Demon Blood")
+        builder.add(WitcheryItems.FOCUSED_WILL.get(), "Focused Will")
+        builder.add(WitcheryItems.CONDENSED_FEAR.get(), "Condensed Fear")
+        builder.add(WitcheryItems.MELLIFLUOUS_HUNGER.get(), "Mellifluous Hunger")
 
     }
 }
