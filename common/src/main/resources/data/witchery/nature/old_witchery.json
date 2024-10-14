@@ -160,6 +160,16 @@
     "limit": 20
   },
   {
+    "block": "minecraft:cocoa",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:dragon_egg",
+    "power": 250,
+    "limit": 1
+  },
+  {
     "block": "witchery:belladonna",
     "power": 4,
     "limit": 20
@@ -223,5 +233,10 @@
     "block": "witchery:wispy_cotton",
     "power": 3,
     "limit": 20
+  },
+  {
+    "block": "witchery:demon_heart",
+    "power": 40,
+    "limit": 2
   }
 ]
