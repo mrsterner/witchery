@@ -167,19 +167,19 @@ object WitcheryItems {
 
     //start CHALK
     val RITUAL_CHALK: RegistrySupplier<ChalkItem> = ITEMS.register("ritual_chalk") {
-        ChalkItem(Item.Properties())
+        ChalkItem(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), Item.Properties())
     }
 
     val GOLDEN_CHALK: RegistrySupplier<ChalkItem> = ITEMS.register("golden_chalk") {
-        ChalkItem(Item.Properties())
+        ChalkItem(WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(), Item.Properties())
     }
 
     val INFERNAL_CHALK: RegistrySupplier<ChalkItem> = ITEMS.register("infernal_chalk") {
-        ChalkItem(Item.Properties())
+        ChalkItem(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(), Item.Properties())
     }
 
     val OTHERWHERE_CHALK: RegistrySupplier<ChalkItem> = ITEMS.register("otherwhere_chalk") {
-        ChalkItem(Item.Properties())
+        ChalkItem(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(), Item.Properties())
     }
     //end CHALK
 

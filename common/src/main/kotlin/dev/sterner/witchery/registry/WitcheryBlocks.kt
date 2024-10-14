@@ -12,6 +12,9 @@ import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.oven.OvenBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockComponent
+import dev.sterner.witchery.block.ritual.GoldenChalkBlock
+import dev.sterner.witchery.block.ritual.RitualChalkBlock
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
@@ -192,5 +195,21 @@ object WitcheryBlocks {
                 .sound(SoundType.CROP)
                 .pushReaction(PushReaction.DESTROY)
         )
+    }
+
+    val RITUAL_CHALK_BLOCK = BLOCKS.register("ritual_chalk") {
+        RitualChalkBlock(null, BlockBehaviour.Properties.of())
+    }
+
+    val INFERNAL_CHALK_BLOCK = BLOCKS.register("infernal_chalk") {
+        RitualChalkBlock(ParticleTypes.FLAME, BlockBehaviour.Properties.of())
+    }
+
+    val OTHERWHERE_CHALK_BLOCK = BLOCKS.register("otherwhere_chalk") {
+        RitualChalkBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.of())
+    }
+
+    val GOLDEN_CHALK_BLOCK = BLOCKS.register("golden_chalk") {
+        GoldenChalkBlock(BlockBehaviour.Properties.of())
     }
 }

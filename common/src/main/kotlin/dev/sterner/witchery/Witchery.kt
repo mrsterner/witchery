@@ -1,10 +1,8 @@
 package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
-import dev.architectury.core.item.ArchitecturyBucketItem
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientLifecycleEvent
-import dev.architectury.event.events.common.BlockEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
@@ -26,18 +24,11 @@ import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.tags.BlockTags
-import net.minecraft.tags.ItemTags
 import net.minecraft.world.InteractionHand
-import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.state.BlockState
 import org.slf4j.Logger
 
 
@@ -71,42 +62,6 @@ object Witchery {
         }
 
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityWaystone)
-        BlockEvent.PLACE.register(::makeAltar)
-    }
-
-    private fun makeAltar(level: Level, blockPos: BlockPos, blockState: BlockState, entity: Entity?): EventResult? {
-
-        if (blockState.`is`(BlockTags.WOOL_CARPETS) && level.getBlockState(blockPos.below()).`is`(WitcheryBlocks.DEEPLSTAE_ALTAR_BLOCK.get())) {
-            val directions = listOf(
-                Pair(Direction.NORTH, Direction.SOUTH),
-                Pair(Direction.EAST, Direction.WEST)
-            )
-
-            for (dirPair in directions) {
-                val firstDir = dirPair.first
-                val secondDir = dirPair.second
-
-                val validStructure = check3x2AltarStructure(level, blockPos.below(), firstDir, secondDir)
-
-                if (validStructure != null) {
-                    val middleBlockPos = validStructure[1]
-                    executeActionOnMiddleAltar(level, middleBlockPos)
-                    return EventResult.interruptTrue()
-                }
-            }
-        }
-        return EventResult.pass()
-    }
-
-
-    private fun hasCarpetOnTop(level: Level, pos: BlockPos): Boolean {
-        val blockAbovePos = pos.above()
-        val blockAboveState = level.getBlockState(blockAbovePos)
-        return blockAboveState.`is`(BlockTags.WOOL_CARPETS)
-    }
-
-    private fun executeActionOnMiddleAltar(level: Level, middlePos: BlockPos) {
-        println("3x2 altar structure complete at $middlePos!")
     }
 
     private fun interactEntityWaystone(player: Player, entity: Entity?, interactionHand: InteractionHand?): EventResult? {

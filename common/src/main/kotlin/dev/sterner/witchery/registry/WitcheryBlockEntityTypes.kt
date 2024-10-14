@@ -8,6 +8,7 @@ import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
+import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
 
@@ -57,6 +58,14 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             { pos, state -> OvenFumeExtensionBlockEntity(pos, state) },
             WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(),
+        )
+            .build(null)
+    }
+
+    val GOLDEN_CHALK: RegistrySupplier<BlockEntityType<GoldenChalkBlockEntity>> = BLOCK_ENTITY_TYPES.register("golden_chalk") {
+        BlockEntityType.Builder.of(
+            { pos, state -> GoldenChalkBlockEntity(pos, state) },
+            WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),
         )
             .build(null)
     }

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "variant=1": {
+      "model": "witchery:block/chalk_1"
+    },
+    "variant=2": {
+      "model": "witchery:block/chalk_2"
+    },
+    "variant=3": {
+      "model": "witchery:block/chalk_3"
+    },
+    "variant=4": {
+      "model": "witchery:block/chalk_4"
+    },
+    "variant=5": {
+      "model": "witchery:block/chalk_5"
+    }
+  }
+}
