@@ -226,4 +226,8 @@ object WitcheryItems {
     val WAYSTONE = ITEMS.register("waystone") {
         WaystoneItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON))
     }
+
+    val TAGLOCK = ITEMS.register("taglock") {
+        TaglockItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON))
+    }
 }

@@ -1,15 +1,17 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.core.BlockPos
+import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.*
+import net.minecraft.resources.ResourceKey
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.*
@@ -22,10 +24,17 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
+import java.util.Optional
+import java.util.UUID
 
 
 class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.GOLDEN_CHALK.get(), blockPos, blockState), Container {
+
+    var targetPlayer: UUID? = null
+    var targetEntity: Int? = null
+    var targetPos: GlobalPos? = null
+    var ownerName: String? = null
 
     var items: NonNullList<ItemStack> = NonNullList.withSize(16, ItemStack.EMPTY)
     private var consumedSacrifices = mutableListOf<EntityType<*>>()
@@ -61,6 +70,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             if (isRitualActive) {
 
                 if(!consumeAltarPower(level)){
+                    println("2")
                     resetRitual()
                 }
 
@@ -70,6 +80,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
                 if (tickCounter >= ritualRecipe!!.ticks && !ritualRecipe!!.isInfinite) {
                     onEndRitual(level)
+                    println("3")
                     resetRitual()
                 }
                 setChanged()
@@ -81,19 +92,19 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun onStartRitual(level: Level) {
         level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
-        RitualHelper.runCommand(level, blockPos, this, RitualHelper.CommandType.START)
+        RitualHelper.runCommand(level, blockPos, this, CommandType.START)
     }
 
     private fun onTickRitual(level: Level) {
         if (tickCounter % 20 == 0) { // TODO remove
             level.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_HARP.value(), SoundSource.BLOCKS)
         }
-        RitualHelper.runCommand(level, blockPos, this, RitualHelper.CommandType.TICK)
+        RitualHelper.runCommand(level, blockPos, this, CommandType.TICK)
     }
 
     private fun onEndRitual(level: Level) {
         level.playSound(null, blockPos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0f, 1.0f)
-        RitualHelper.runCommand(level, blockPos, this, RitualHelper.CommandType.END)
+        RitualHelper.runCommand(level, blockPos, this, CommandType.END)
         RitualHelper.summonItems(level, blockPos, this)
         RitualHelper.summonSummons(level,blockPos, this)
         items.clear()
@@ -103,6 +114,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun startConsumingSacrifices(level: Level) {
         val entities: MutableList<LivingEntity> = level.getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
         val recipeEntities: List<EntityType<*>> = ritualRecipe!!.inputEntities
+
+        if (consumedSacrifices.size == recipeEntities.size) {
+            return
+        }
 
         if (tickCounter % 20 == 0) {
             val matchingEntity = entities.find { entity ->
@@ -141,17 +156,19 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 val stack = itemEntity.item
 
                 val matchingRecipeItem = recipeItems.find { recipeItem ->
-                    ItemStack.isSameItemSameComponents(stack, recipeItem)
+                    ItemStack.isSameItem(stack, recipeItem)
                 }
 
                 if (matchingRecipeItem != null) {
+                    addWaystoneOrTaglockToContext(stack)
+
                     addItemToInventory(items, stack)
                     level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
                     stack.shrink(1)
                     if (stack.isEmpty) {
                         itemEntity.remove(Entity.RemovalReason.DISCARDED)
                     }
-
+                    setChanged()
                     break
                 }
             }
@@ -167,6 +184,19 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
+    private fun addWaystoneOrTaglockToContext(stack: ItemStack) {
+        if (stack.`is`(WitcheryItems.WAYSTONE.get())) {
+            targetPlayer = WaystoneItem.getPlayer(level!!, stack)?.uuid
+            targetEntity = WaystoneItem.getLivingEntity(level!!, stack)?.id
+            targetPos =  WaystoneItem.getGlobalPos(stack)
+        } else if (stack.`is`(WitcheryItems.TAGLOCK.get())) {
+            //TODO set these
+            targetPlayer
+            targetEntity
+            targetPos
+        }
+    }
+
     private fun resetRitual() {
         Containers.dropContents(level, blockPos, this)
         items = NonNullList.withSize(16, ItemStack.EMPTY)
@@ -179,13 +209,16 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         isRitualActive = false
         tickCounter = 0
         ritualTickCounter = 0
+        targetPlayer = null
+        targetEntity = null
+        targetPos = null
         setChanged()
     }
 
     private fun itemsMatchRecipe(items: NonNullList<ItemStack>, recipeItems: List<ItemStack>): Boolean {
         return recipeItems.all { recipeItem ->
             items.any { inventoryItem ->
-                ItemStack.isSameItemSameComponents(inventoryItem, recipeItem) && inventoryItem.count >= recipeItem.count
+                ItemStack.isSameItem(inventoryItem, recipeItem) && inventoryItem.count >= recipeItem.count
             }
         }
     }
@@ -195,7 +228,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             if (items[i].isEmpty) {
                 items[i] = stack.copy()
                 return
-            } else if (ItemStack.isSameItemSameComponents(items[i], stack)) {
+            } else if (ItemStack.isSameItem(items[i], stack)) {
                 items[i].grow(1)
                 stack.shrink(1)
                 if (stack.isEmpty) return
@@ -213,7 +246,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             val validItemRecipes = recipes?.filter { recipe ->
                 val recipeItems = recipe.value.inputItems
                 recipeItems.all { recipeItem ->
-                    items.any { itemEntity -> ItemStack.isSameItemSameComponents(itemEntity.item, recipeItem) }
+                    items.any { itemEntity -> ItemStack.isSameItem(itemEntity.item, recipeItem) }
                 }
             }
 
@@ -225,6 +258,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
 
             if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(level!!) && hasEnoughAltarPower(level!!)) {
+                ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
                 ritualRecipe = validSacrificesAndItemsRecipe[0].value
                 shouldRun = true
                 shouldStartConsumingItems = true
@@ -262,9 +296,44 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tickCounter = pTag.getInt("tickCounter")
         ritualTickCounter = pTag.getInt("ritualTickCounter")
 
+        if (pTag.contains("targetPlayer")) {
+            targetPlayer = pTag.getUUID("targetPlayer")
+        }
+        if (pTag.contains("targetEntity")) {
+            targetEntity = pTag.getInt("targetEntity")
+        }
+        if (pTag.contains("globalPos")) {
+            val optionalDimension = getLodestoneDimension(pTag)
+            if (optionalDimension.isPresent) {
+                val blockPos = NbtUtils.readBlockPos(pTag, "targetPos")
+                targetPos = GlobalPos.of(optionalDimension.get(), blockPos.get())
+            }
+        }
+
         consumedSacrifices = pTag.getList("ConsumedSacrifices", 8)
             .map { EntityType.byString(it.asString).get() }
             .toMutableList()
+    }
+
+    private fun getLodestoneDimension(compoundTag: CompoundTag): Optional<ResourceKey<Level>> {
+        val dimensionTag = compoundTag["Dimension"]
+        return if (dimensionTag != null) {
+            Level.RESOURCE_KEY_CODEC.parse(NbtOps.INSTANCE, dimensionTag).result()
+        } else {
+            Optional.empty()
+        }
+    }
+
+    private fun addGlobalPosTag(
+        lodestoneDimension: ResourceKey<Level>,
+        compoundTag: CompoundTag
+    ) {
+        Level.RESOURCE_KEY_CODEC
+            .encodeStart(NbtOps.INSTANCE, lodestoneDimension)
+            .resultOrPartial { _: String? -> }
+            .ifPresent { tag: Tag ->
+                compoundTag.put("Dimension", tag)
+            }
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
@@ -277,6 +346,19 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putBoolean("isRitualActive", isRitualActive)
         tag.putInt("tickCounter", tickCounter)
         tag.putInt("ritualTickCounter", ritualTickCounter)
+
+        if (targetPlayer != null) {
+            tag.putUUID("targetPlayer", targetPlayer!!)
+        }
+        if (targetEntity != null) {
+            tag.putInt("targetEntity", targetEntity!!)
+        }
+        if (targetPos != null) {
+            val posTag = CompoundTag()
+            NbtUtils.writeBlockPos(targetPos!!.pos()).let { blockPosTag -> posTag.put("targetPos", blockPosTag) }
+            addGlobalPosTag(targetPos!!.dimension(), posTag)
+            tag.put("globalPos", posTag)
+        }
 
         val sacrificesList = consumedSacrifices.map { EntityType.getKey(it).toString() }
         tag.put("ConsumedSacrifices", sacrificesList.fold(ListTag()) { list, entity ->

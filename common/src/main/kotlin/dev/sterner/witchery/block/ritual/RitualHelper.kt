@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.Containers
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import kotlin.math.cos
 import kotlin.math.sin
@@ -54,31 +55,68 @@ object RitualHelper {
         if (blockEntity.ritualRecipe != null) {
             for (commandType in blockEntity.ritualRecipe!!.commands) {
                 if (commandType.type == phase) {
-                    runCommand(server, blockPos, commandType.command)
+                    when (commandType.ctx) {
+                        CommandContext.NOTHING -> {
+                            runCommand(blockEntity, level, server, blockPos, commandType.command, null, null)
+                        }
+                        CommandContext.PLAYER -> {
+                            val playerUuid = blockEntity.targetPlayer
+                            val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
+                            runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
+                        }
+                        CommandContext.PLAYER_OR_ENTITY -> {
+                            val playerUuid = blockEntity.targetPlayer
+                            val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
+                            if (player != null) {
+                                runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
+                            } else {
+                                val targetEntity = blockEntity.targetEntity
+                                runCommand(blockEntity, level, server, blockPos, commandType.command, null, targetEntity)
+                            }
+                        }
+                        CommandContext.ENTITY -> {
+                            val targetEntity = blockEntity.targetEntity
+                            runCommand(blockEntity, level, server, blockPos, commandType.command, null, targetEntity)
+                        }
+                        CommandContext.BLOCKPOS -> {
+                            if (blockEntity.targetPos != null) {//TODO allow for executing in dimensions
+                                runCommand(blockEntity, level, server, blockEntity.targetPos!!.pos, commandType.command, null, null)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    private fun runCommand(minecraftServer: MinecraftServer?, blockPos: BlockPos, command: String) {
+    private fun runCommand(blockEntity: GoldenChalkBlockEntity, level: Level, minecraftServer: MinecraftServer?, blockPos: BlockPos, command: String, player: Player?, entityId: Int?) {
         var formattedCommand = command
         if (minecraftServer != null && formattedCommand.isNotEmpty()) {
-            formattedCommand = "execute positioned {pos} run $formattedCommand"
-            val posString = blockPos.x.toString() + " " + blockPos.y + " " + blockPos.z
-            val parsedCommand = formattedCommand.replace("\\{pos}".toRegex(), posString)
-            val commandSource: CommandSourceStack = minecraftServer.createCommandSourceStack()
+            val commandSource: CommandSourceStack = minecraftServer.createCommandSourceStack().withSuppressedOutput()
             val commandManager: Commands = minecraftServer.commands
-            val parseResults: ParseResults<CommandSourceStack> = commandManager.dispatcher.parse(parsedCommand, commandSource)
-            commandManager.performCommand(parseResults, parsedCommand)
-        }
-    }
 
-    @JvmRecord
-    data class CommandType(val command: String, val type: String) {
-        companion object {
-            const val START = "start"
-            const val TICK = "tick"
-            const val END = "end"
+            if (player != null) {
+                formattedCommand = formattedCommand.replace("{player}", player.name.string)
+            }
+
+            if (entityId != null) {
+                val entity = level.getEntity(entityId)
+                if (entity is LivingEntity) {
+                    val tag = "Waystone_${entity.uuid}" // Create the dynamic tag based on the entity ID
+
+                    // Add the tag to the entity if it doesn't already have it
+                    if (!entity.tags.contains(tag)) {
+                        entity.addTag(tag)
+                    }
+                    // Replace {entity} with the @e[tag="Waystone_${entity.id}"] selector
+                    formattedCommand = formattedCommand.replace("{entity}", "@e[tag=$tag]")
+                }
+            }
+            // Replace {blockPos} with the coordinates
+            formattedCommand = formattedCommand.replace("{blockPos}", "${blockPos.x} ${blockPos.y} ${blockPos.z}")
+            formattedCommand = "execute as ${blockEntity.ownerName} run " + formattedCommand
+            val parseResults: ParseResults<CommandSourceStack> = commandManager.dispatcher.parse(formattedCommand, commandSource)
+            commandManager.performCommand(parseResults, formattedCommand)
         }
     }
 }

@@ -3,8 +3,9 @@
   "altarPower": 100,
   "commands": [
     {
-      "type": "tick",
-      "command": ""
+      "type": "end",
+      "command": "kill {entity}",
+      "context": "entity"
     }
   ],
   "floatingItemOutput": false,
@@ -14,6 +15,9 @@
   "inputItems": [
     {
       "id": "minecraft:stick"
+    },
+    {
+      "id": "witchery:waystone"
     }
   ],
   "isInfinite": false,

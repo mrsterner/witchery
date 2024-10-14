@@ -3,8 +3,9 @@ package dev.sterner.witchery.recipe.ritual
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.block.ritual.CommandContext
+import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.block.ritual.RitualHelper
-import dev.sterner.witchery.block.ritual.RitualHelper.CommandType
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
@@ -65,14 +66,15 @@ class RitualRecipe(
 
         companion object {
 
-            val COMMAND_TYPE_CODEC: Codec<CommandType> = RecordCodecBuilder.create { instance ->
+            private val COMMAND_TYPE_CODEC: Codec<CommandType> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.STRING.fieldOf("command").forGetter(CommandType::command),
-                    Codec.STRING.fieldOf("type").forGetter(CommandType::type)
-                ).apply(instance, RitualHelper::CommandType)
+                    Codec.STRING.fieldOf("type").forGetter(CommandType::type),
+                    CommandContext.CODEC.fieldOf("context").orElse(CommandContext.NOTHING).forGetter(CommandType::ctx)
+                ).apply(instance, ::CommandType)
             }
 
-            val COMMANDS_SET_CODEC: Codec<Set<CommandType>> = COMMAND_TYPE_CODEC.listOf().xmap(
+            private val COMMANDS_SET_CODEC: Codec<Set<CommandType>> = COMMAND_TYPE_CODEC.listOf().xmap(
                 { it.toSet() },
                 { it.toList() }
             )
@@ -81,14 +83,14 @@ class RitualRecipe(
                 RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<RitualRecipe> ->
                     obj.group(
                         ItemStack.STRICT_SINGLE_ITEM_CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
-                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().fieldOf("inputEntities").forGetter { it.inputEntities },
-                        ItemStack.STRICT_SINGLE_ITEM_CODEC.listOf().fieldOf("outputItems").forGetter { it.outputItems },
-                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().fieldOf("outputEntities").forGetter { it.outputEntities },
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("inputEntities").forGetter { it.inputEntities },
+                        ItemStack.STRICT_SINGLE_ITEM_CODEC.listOf().orElse(listOf()).fieldOf("outputItems").forGetter { it.outputItems },
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("outputEntities").forGetter { it.outputEntities },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
-                        COMMANDS_SET_CODEC.fieldOf("commands").forGetter { recipe -> recipe.commands },
-                        Codec.BOOL.fieldOf("isInfinite").forGetter { recipe -> recipe.isInfinite },
-                        Codec.BOOL.fieldOf("floatingItemOutput").forGetter { recipe -> recipe.floatingItemOutput },
-                        Codec.INT.fieldOf("ticks").forGetter { recipe -> recipe.ticks },
+                        COMMANDS_SET_CODEC.fieldOf("commands").orElse(setOf(CommandType.DEFAULT)).forGetter { recipe -> recipe.commands },
+                        Codec.BOOL.fieldOf("isInfinite").orElse(false).forGetter { recipe -> recipe.isInfinite },
+                        Codec.BOOL.fieldOf("floatingItemOutput").orElse(false).forGetter { recipe -> recipe.floatingItemOutput },
+                        Codec.INT.fieldOf("ticks").orElse(0).forGetter { recipe -> recipe.ticks },
                     ).apply(obj, ::RitualRecipe)
                 }
 

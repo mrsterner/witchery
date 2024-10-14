@@ -1,5 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.sterner.witchery.block.ritual.CommandContext
+import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.block.ritual.RitualHelper
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
@@ -170,14 +172,14 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         //TODO remove
         RitualRecipeBuilder(
-            listOf(Items.STICK.defaultInstance),
+            listOf(Items.STICK.defaultInstance, WitcheryItems.WAYSTONE.get().defaultInstance),
             listOf(EntityType.SHEEP),
 
             listOf(Items.DIAMOND.defaultInstance),
 
             listOf(EntityType.COW),
             100,
-            setOf(RitualHelper.CommandType("", RitualHelper.CommandType.TICK)),
+            setOf(CommandType("kill {entity}", CommandType.END, CommandContext.ENTITY)),
             false,
             false,
             20 * 10

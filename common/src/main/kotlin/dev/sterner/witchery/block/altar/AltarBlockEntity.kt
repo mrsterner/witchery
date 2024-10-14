@@ -45,7 +45,12 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             }
         }
 
-        override fun set(index: Int, value: Int) {}
+        override fun set(index: Int, value: Int) {
+            when (index) {
+                0 -> currentPower = value
+                1 -> maxPower = value
+            }
+        }
 
         override fun getCount() = 2
     }

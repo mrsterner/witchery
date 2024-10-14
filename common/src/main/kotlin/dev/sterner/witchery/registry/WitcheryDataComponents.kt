@@ -14,7 +14,11 @@ object WitcheryDataComponents  {
         DataComponentType.builder<GlobalPos>().persistent(GlobalPos.CODEC).build()
     }
 
-    val ENTITY_ID_COMPONENT = DATA.register("entity_id") {
-        DataComponentType.builder<Int>().persistent(Codec.INT).build()
+    val ENTITY_ID_COMPONENT = DATA.register("entity_uuid") {
+        DataComponentType.builder<String>().persistent(Codec.STRING).build()
+    }
+
+    val ENTITY_NAME_COMPONENT = DATA.register("entity_name") {
+        DataComponentType.builder<String>().persistent(Codec.STRING).build()
     }
 }

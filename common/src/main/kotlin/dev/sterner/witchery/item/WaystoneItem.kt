@@ -7,7 +7,9 @@ import net.minecraft.core.GlobalPos
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
@@ -58,9 +60,9 @@ class WaystoneItem(properties: Properties) : Item(properties) {
                 Component.literal(player.gameProfile.name.replaceFirstChar(Char::uppercase))
                     .setStyle(Style.EMPTY.withColor(Color(255,2,100).rgb)))
         }
-        val living = Minecraft.getInstance().level?.let { getLivingEntity(it, stack) }
+        val living = Minecraft.getInstance().level?.let { getLivingEntityName(stack) }
         if (living != null) {
-            tooltipComponents.add(living.name.plainCopy().setStyle(Style.EMPTY.withColor(Color(255,100,100).rgb)))
+            tooltipComponents.add(Component.translatable(living).setStyle(Style.EMPTY.withColor(Color(255,100,100).rgb)))
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
@@ -76,16 +78,25 @@ class WaystoneItem(properties: Properties) : Item(properties) {
         }
 
         fun bindLivingEntity(livingEntity: LivingEntity, stack: ItemStack) {
-            stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), livingEntity.id)
+            stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), livingEntity.stringUUID)
+            stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), livingEntity.type.descriptionId.toString())
         }
 
         fun getLivingEntity(level: Level, stack: ItemStack): LivingEntity? {
             val id = stack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-            if (id != null && level.getEntity(id) is LivingEntity) {
-                val living = level.getEntity(id) as LivingEntity
-                return living
+            for (serverLevel in level.server!!.allLevels) {
+                val liv = serverLevel.getEntity(UUID.fromString(id))
+                if (liv is LivingEntity) {
+                    return liv
+                }
             }
             return null
+        }
+
+        fun getLivingEntityName(stack: ItemStack): String? {
+            val id = stack.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get())
+
+            return id
         }
 
         fun bindPlayer(player: Player, stack: ItemStack) {
