@@ -79,8 +79,12 @@ object RitualHelper {
                             runCommand(level, server, blockPos, commandType.command, null, targetEntity)
                         }
                         CommandContext.BLOCKPOS -> {
-                            if (blockEntity.targetPos != null) {//TODO allow for executing in dimensions
-                                runCommand(level, server, blockEntity.targetPos!!.pos, commandType.command, null, null)
+                            val targetPos = blockEntity.targetPos
+                            if (targetPos != null) {
+                                val dimensionLevel = server?.getLevel(targetPos.dimension()) // Get the correct dimension's level
+                                if (dimensionLevel != null) {
+                                    runCommand(dimensionLevel, server, targetPos.pos(), commandType.command, null, null)
+                                }
                             }
                         }
                     }
@@ -102,18 +106,19 @@ object RitualHelper {
             if (entityId != null) {
                 val entity = level.getEntity(entityId)
                 if (entity is LivingEntity) {
-                    val tag = "Waystone_${entity.uuid}" // Create the dynamic tag based on the entity ID
+                    val tag = "Waystone_${entity.uuid}" // Create the dynamic tag based on the entity UUID
 
                     // Add the tag to the entity if it doesn't already have it
                     if (!entity.tags.contains(tag)) {
                         entity.addTag(tag)
                     }
-                    // Replace {entity} with the @e[tag="Waystone_${entity.id}"] selector
+                    // Replace {entity} with the @e[tag="Waystone_${entity.uuid}"] selector
                     formattedCommand = formattedCommand.replace("{entity}", "@e[tag=$tag]")
                 }
             }
             // Replace {blockPos} with the coordinates
             formattedCommand = formattedCommand.replace("{blockPos}", "${blockPos.x} ${blockPos.y} ${blockPos.z}")
+            formattedCommand = "execute in ${level.dimension().location().path} run " + formattedCommand
             val parseResults: ParseResults<CommandSourceStack> = commandManager.dispatcher.parse(formattedCommand, commandSource)
             commandManager.performCommand(parseResults, formattedCommand)
         }
