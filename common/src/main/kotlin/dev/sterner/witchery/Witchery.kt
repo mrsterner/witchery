@@ -19,6 +19,7 @@ import dev.sterner.witchery.client.renderer.AltarBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.CauldronBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.FloatingItemEntityRenderer
 import dev.sterner.witchery.client.renderer.MandrakeEntityRenderer
+import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.MandrakeEntity
@@ -61,6 +62,7 @@ object Witchery {
             MenuRegistry.registerScreenFactory(WitcheryMenuTypes.OVEN_MENU_TYPE.get(),
                 ::OvenScreen
             )
+            MenuRegistry.registerScreenFactory(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
         }
 
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityWaystone)

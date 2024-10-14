@@ -71,13 +71,13 @@ object NaturePowerHandler {
      * This method gets the limit for the Block.
      * Please check against this value to determine if its base power should be added!!!!
      */
-    fun getLimit(block: Block): Int? {
+    fun getLimit(block: Block): Pair<ResourceLocation, Int>? {
         var limit = NATURE_POWER_VALUES[Either.left(block)]?.second
-        if (limit != null) return limit
+        if (limit != null) return Pair(BuiltInRegistries.BLOCK.getKey(block), limit)
 
         val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.defaultBlockState().`is`(it.right().get()) }.keys
         if (tags.isNotEmpty()) limit = NATURE_POWER_VALUES[tags.first()]?.second
-        return limit
+        return limit?.let { Pair(tags.first().right().get().location, it) }
     }
 
     private fun addEitherBlockOrTag(either: Either<Block, TagKey<Block>>, power: Int, limit: Int) {
@@ -131,10 +131,6 @@ object NaturePowerHandler {
             resourceManager: ResourceManager,
             profiler: ProfilerFiller
         ) {
-            LifecycleEvent.SERVER_LEVEL_LOAD.register { level ->
-                addPending()
-            }
-
             `object`.forEach { (file, element) ->
                 try {
                     if (element.isJsonArray)
@@ -145,6 +141,15 @@ object NaturePowerHandler {
                         LOGGER.error("The file $file seems to have neither a JSON object or a JSON array... Skipping...")
                 } catch (e: Exception) {
                     throw IllegalArgumentException(e.fillInStackTrace())
+                }
+            }
+
+            if (NATURE_POWER_VALUES.isNotEmpty()) {
+                NATURE_POWER_VALUES.clear()
+                addPending()
+            } else {
+                LifecycleEvent.SERVER_LEVEL_LOAD.register { level ->
+                    addPending()
                 }
             }
         }
