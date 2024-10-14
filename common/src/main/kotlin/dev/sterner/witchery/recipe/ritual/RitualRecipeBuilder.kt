@@ -42,6 +42,6 @@ class RitualRecipeBuilder(
             .requirements(AdvancementRequirements.Strategy.OR)
         criteria.forEach { (name, criterion) -> builder.addCriterion(name, criterion) }
         val abstractCookingRecipe = RitualRecipe(inputItems, outputItems, altarPower, commands)
-        recipeOutput.accept(id.withPrefix("cauldron_brewing/").withSuffix("_from_${inputItems[0].item.`arch$registryName`()!!.path}"), abstractCookingRecipe, builder.build(id.withPrefix("recipes/cauldron_brewing/")))
+        recipeOutput.accept(id.withPrefix("ritual/").withSuffix("_from_${inputItems[0].item.`arch$registryName`()!!.path}"), abstractCookingRecipe, builder.build(id.withPrefix("recipes/ritual/")))
     }
 }
