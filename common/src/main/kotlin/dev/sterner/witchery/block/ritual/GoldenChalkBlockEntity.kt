@@ -100,8 +100,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val entities: MutableList<LivingEntity> = level.getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
         val recipeEntities: List<EntityType<*>> = ritualRecipe!!.inputEntities
 
-        tickCounter++
-
         if (tickCounter % 20 == 0) {
             val matchingEntity = entities.find { entity ->
                 recipeEntities.any { recipeEntityType ->
