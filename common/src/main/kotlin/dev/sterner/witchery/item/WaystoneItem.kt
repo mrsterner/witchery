@@ -26,7 +26,7 @@ class WaystoneItem(properties: Properties) : Item(properties) {
     override fun useOn(context: UseOnContext): InteractionResult {
         val stack = context.itemInHand
         bindGlobalBlockPos(context.level, context.clickedPos, stack)
-         return super.useOn(context)
+        return super.useOn(context)
     }
 
     override fun appendHoverText(
@@ -54,7 +54,7 @@ class WaystoneItem(properties: Properties) : Item(properties) {
             tooltipComponents.add(Component.literal("Position: ").withColor(0xFFAA00)
                 .append(Component.literal("${glob.pos.x} ${glob.pos.y} ${glob.pos.z}").withColor(0x55FFFF)))
         }
-        val player = Minecraft.getInstance().level?.let { getPlayer(it, stack) }
+        val player = Minecraft.getInstance().level?.let { TaglockItem.getPlayer(it, stack) }
         if (player != null) {
             tooltipComponents.add(
                 Component.literal(player.gameProfile.name.replaceFirstChar(Char::uppercase))
@@ -99,21 +99,7 @@ class WaystoneItem(properties: Properties) : Item(properties) {
             return id
         }
 
-        fun bindPlayer(player: Player, stack: ItemStack) {
-            stack.set(DataComponents.PROFILE, ResolvableProfile(player.gameProfile))
-        }
 
-        fun getPlayerProfile(stack: ItemStack): ResolvableProfile? {
-            return stack.get(DataComponents.PROFILE)
-        }
-
-        fun getPlayer(level: Level, stack: ItemStack): Player? {
-            val profile = stack.get(DataComponents.PROFILE)
-            if (profile != null && profile.id.isPresent) {
-                return level.getPlayerByUUID(profile.id.get())
-            }
-            return null
-        }
 
         fun capitalizeString(string: String): String {
             val chars = string.lowercase(Locale.getDefault()).toCharArray()

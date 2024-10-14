@@ -19,7 +19,7 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class GoldenChalkBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) {
+class GoldenChalkBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().noCollission()) {
 
     init {
         this.registerDefaultState(

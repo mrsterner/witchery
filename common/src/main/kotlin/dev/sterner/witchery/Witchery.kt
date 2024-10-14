@@ -23,6 +23,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
@@ -66,16 +67,28 @@ object Witchery {
         }
 
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityWaystone)
+        InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
 
         NaturePowerHandler.registerListener()
     }
 
-    private fun interactEntityWaystone(player: Player, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
-        if (player.mainHandItem.`is`(WitcheryItems.WAYSTONE.get()) && interactionHand == InteractionHand.MAIN_HAND) {
+    private fun interactEntityTaglock(player: Player, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
+        if (player.mainHandItem.`is`(WitcheryItems.TAGLOCK.get()) && interactionHand == InteractionHand.MAIN_HAND) {
             if (entity is Player) {
-                WaystoneItem.bindPlayer(entity, player.mainHandItem)
+                TaglockItem.bindPlayer(entity, player.mainHandItem)
                 return EventResult.interruptTrue()
             } else if (entity is LivingEntity) {
+                WaystoneItem.bindLivingEntity(entity, player.mainHandItem)
+                return EventResult.interruptTrue()
+            }
+        }
+
+        return EventResult.pass()
+    }
+
+    private fun interactEntityWaystone(player: Player, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
+        if (player.mainHandItem.`is`(WitcheryItems.WAYSTONE.get()) && interactionHand == InteractionHand.MAIN_HAND) {
+            if (entity is LivingEntity) {
                 WaystoneItem.bindLivingEntity(entity, player.mainHandItem)
                 return EventResult.interruptTrue()
             }
@@ -115,7 +128,7 @@ object Witchery {
             var ret = 0f
             val customData = itemStack.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())
             val customData2 = itemStack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-            if (WaystoneItem.getPlayerProfile(itemStack) != null || customData2 != null) {
+            if (TaglockItem.getPlayerProfile(itemStack) != null || customData2 != null) {
                 ret = 2.0f
             } else if (customData != null) {
                 ret = 1.0f

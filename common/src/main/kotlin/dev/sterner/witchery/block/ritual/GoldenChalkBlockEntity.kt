@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
@@ -184,7 +185,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun addWaystoneOrTaglockToContext(stack: ItemStack) {
         if (stack.`is`(WitcheryItems.WAYSTONE.get())) {
-            targetPlayer = WaystoneItem.getPlayer(level!!, stack)?.uuid
+            targetPlayer = TaglockItem.getPlayer(level!!, stack)?.uuid
             targetEntity = WaystoneItem.getLivingEntity(level!!, stack)?.id
             targetPos =  WaystoneItem.getGlobalPos(stack)
         } else if (stack.`is`(WitcheryItems.TAGLOCK.get())) {
