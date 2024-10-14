@@ -3,6 +3,7 @@ package dev.sterner.witchery.registry
 import dev.architectury.networking.NetworkManager
 import dev.architectury.platform.Platform
 import dev.architectury.utils.Env
+import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
 import dev.sterner.witchery.payload.CauldronPoofS2CPacket
 import dev.sterner.witchery.payload.SyncCauldronS2CPacket
 import net.minecraft.core.BlockPos
@@ -22,6 +23,9 @@ object WitcheryPayloads {
             payload.handleS2C(payload, context)
         }
         registerS2C(CauldronPoofS2CPacket.ID, CauldronPoofS2CPacket.STREAM_CODEC) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
+        registerS2C(AltarMultiplierSyncS2CPacket.ID, AltarMultiplierSyncS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
     }

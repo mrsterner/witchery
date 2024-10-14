@@ -2,16 +2,16 @@ package dev.sterner.witchery.block.altar
 
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.BlockEvent
+import dev.architectury.networking.NetworkManager
 import dev.architectury.registry.menu.ExtendedMenuProvider
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.menu.AltarMenu
+import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryDataComponents
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -30,6 +30,8 @@ import kotlin.math.floor
 
 class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.ALTAR.get(), AltarBlock.STRUCTURE.get(), pos, state) {
+
+    var powerUpdateQueued = false
 
     var currentPower = 0
     var maxPower = 0
@@ -58,33 +60,49 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     val limitTracker = mutableMapOf<ResourceLocation, Int>()
     var ticks = 0
 
-    fun getLocalAABB() = AABB.ofSize(blockPos.center, range.toDouble(), range.toDouble(), range.toDouble())
+    init {
+        // So, while itll auto-update in 5 seconds, we can have it execute on the next tick after a block is placed/broken
+
+        powerUpdateQueued = true
+
+        BlockEvent.PLACE.register { level, pos, state, entity ->
+            if (!level.isClientSide && getLocalAABB().contains(pos.center))
+                powerUpdateQueued = true
+
+            EventResult.pass()
+        }
+
+        BlockEvent.BREAK.register { level, pos, state, player, xp ->
+            if (!level.isClientSide && getLocalAABB().contains(pos.center))
+                powerUpdateQueued = true
+
+            EventResult.pass()
+        }
+    }
+
+    private fun getLocalAABB() = AABB.ofSize(blockPos.center, range.toDouble(), range.toDouble(), range.toDouble())
 
     // Based on speed and potential lag, lets call this every 5 or so seconds
-    fun collectAllLocalNaturePower(level: ServerLevel) {
+    private fun collectAllLocalNaturePower(level: ServerLevel) {
         limitTracker.clear()
         maxPower = 0
         val aabb = getLocalAABB()
         level.getBlockStatesIfLoaded(aabb).forEach { state ->
             val power = NaturePowerHandler.getPower(state.block) ?: return@forEach
             val limit = NaturePowerHandler.getLimit(state.block) ?: return@forEach
-            if (limitTracker.getOrDefault(limit.first, 0) > limit.second)
+            if (limitTracker.getOrDefault(limit.first, 0) >= limit.second)
                 return@forEach
             maxPower += power
             limitTracker.compute(limit.first) { _, count -> count?.let { it + 1 } ?: 1 }
         }
-
-        println("Nature Power Colleted: $maxPower")
     }
 
-    fun updateCurrentPower() {
+    private fun updateCurrentPower() {
         val rate = 10 * powerMultiplier
         if (currentPower + rate >= maxPower)
             currentPower = maxPower
         else
             currentPower = floor(currentPower + rate).toInt()
-
-        println("Current Power: $currentPower")
     }
 
     fun augmentAltar(level: ServerLevel, corePos: BlockPos) {
@@ -95,12 +113,16 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-        if (pPlayer is ServerPlayer)
+        if (pPlayer is ServerPlayer) {
             openMenu(pPlayer)
-        return InteractionResult.SUCCESS
+            return InteractionResult.SUCCESS
+        }
+        return super.onUseWithoutItem(pPlayer)
     }
 
-    fun openMenu(player: ServerPlayer) {
+    private fun openMenu(player: ServerPlayer) {
+        NetworkManager.sendToPlayer(player, AltarMultiplierSyncS2CPacket(blockPos, powerMultiplier))
+
         MenuRegistry.openExtendedMenu(player, object : ExtendedMenuProvider {
             override fun createMenu(i: Int, inventory: Inventory, player: Player): AbstractContainerMenu? {
                 val buf = FriendlyByteBuf(Unpooled.buffer())
@@ -121,7 +143,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         if (level !is ServerLevel) return
 
-        if (ticks / 20 == 5) {
+        if (ticks / 20 == 5 || powerUpdateQueued) {
             collectAllLocalNaturePower(level)
         } else if (ticks % 20 == 0) {
             augmentAltar(level, pos)

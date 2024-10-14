@@ -26,7 +26,7 @@ class SyncCauldronS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
+    fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
         friendlyByteBuf?.writeNbt(nbt)
     }
 
