@@ -9,8 +9,12 @@ abstract class WitcheryRecipeBuilder : RecipeBuilder {
     fun suffixHash(input: ResourceLocation, itemStack: List<ItemStack>): ResourceLocation {
         var hashedId = input
 
-        for (item in itemStack) {
-            val suffix = "_from_${item.item.`arch$registryName`()!!.path}"
+        itemStack.forEachIndexed { index, item ->
+            val suffix = if (index == 0) {
+                "_from_${item.item.`arch$registryName`()!!.path}"
+            } else {
+                "_and_${item.item.`arch$registryName`()!!.path}"
+            }
             hashedId = hashedId.withSuffix(suffix)
         }
 
