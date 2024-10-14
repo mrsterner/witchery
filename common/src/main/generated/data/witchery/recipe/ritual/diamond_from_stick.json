@@ -1,0 +1,29 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 100,
+  "commands": [
+    {
+      "type": "tick",
+      "command": ""
+    }
+  ],
+  "floatingItemOutput": false,
+  "inputEntities": [
+    "minecraft:sheep"
+  ],
+  "inputItems": [
+    {
+      "id": "minecraft:stick"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [
+    "minecraft:cow"
+  ],
+  "outputItems": [
+    {
+      "id": "minecraft:diamond"
+    }
+  ],
+  "ticks": 200
+}

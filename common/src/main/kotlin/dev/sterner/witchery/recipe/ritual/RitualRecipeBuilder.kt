@@ -1,7 +1,6 @@
 package dev.sterner.witchery.recipe.ritual
 
 import dev.sterner.witchery.block.ritual.RitualManager.CommandType
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
@@ -12,7 +11,6 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.crafting.Ingredient
 
 class RitualRecipeBuilder(
     val inputItems: List<ItemStack>,
@@ -21,7 +19,9 @@ class RitualRecipeBuilder(
     val outputEntities: List<EntityType<*>>,
     val altarPower: Int,
     val commands: Set<CommandType>,
-    val floatingItemOutput: Boolean
+    val isInfinite: Boolean,
+    val floatingItemOutput: Boolean,
+    val ticks: Int
 ) : RecipeBuilder {
 
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
@@ -45,7 +45,7 @@ class RitualRecipeBuilder(
             .rewards(AdvancementRewards.Builder.recipe(id))
             .requirements(AdvancementRequirements.Strategy.OR)
         criteria.forEach { (name, criterion) -> builder.addCriterion(name, criterion) }
-        val abstractCookingRecipe = RitualRecipe(inputItems, inputEntities, outputItems, outputEntities, altarPower, commands, floatingItemOutput)
+        val abstractCookingRecipe = RitualRecipe(inputItems, inputEntities, outputItems, outputEntities, altarPower, commands, isInfinite, floatingItemOutput, ticks)
         recipeOutput.accept(id.withPrefix("ritual/").withSuffix("_from_${inputItems[0].item.`arch$registryName`()!!.path}"), abstractCookingRecipe, builder.build(id.withPrefix("recipes/ritual/")))
     }
 }

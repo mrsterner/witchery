@@ -1,9 +1,12 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.sterner.witchery.block.ritual.RitualManager
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipeBuilder
+import dev.sterner.witchery.recipe.ritual.RitualRecipe
+import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
@@ -12,6 +15,8 @@ import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.tags.ItemTags
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.RecipeType
@@ -166,6 +171,22 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
+        ).save(exporter)
+
+        //TODO remove
+        RitualRecipeBuilder(
+            listOf(Items.STICK.defaultInstance),
+            listOf(EntityType.SHEEP),
+
+            listOf(Items.DIAMOND.defaultInstance),
+
+            listOf(EntityType.COW),
+            100,
+            setOf(RitualManager.CommandType("", RitualManager.CommandType.TICK)),
+            false,
+            false,
+            20 * 10
+
         ).save(exporter)
     }
 }

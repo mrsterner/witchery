@@ -27,8 +27,10 @@ class RitualRecipe(
     val outputEntities: List<EntityType<*>>,
     val altarPower: Int,
     val commands: Set<CommandType>,
-    val floatingItemOutput: Boolean) :
-    Recipe<MultipleItemRecipeInput> {
+    val isInfinite: Boolean,
+    val floatingItemOutput: Boolean,
+    val ticks: Int
+) : Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
         return true
@@ -86,7 +88,9 @@ class RitualRecipe(
                         BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().fieldOf("outputEntities").forGetter { it.outputEntities },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
                         COMMANDS_SET_CODEC.fieldOf("commands").forGetter { recipe -> recipe.commands },
+                        Codec.BOOL.fieldOf("isInfinite").forGetter { recipe -> recipe.isInfinite },
                         Codec.BOOL.fieldOf("floatingItemOutput").forGetter { recipe -> recipe.floatingItemOutput },
+                        Codec.INT.fieldOf("ticks").forGetter { recipe -> recipe.ticks },
                     ).apply(obj, ::RitualRecipe)
                 }
 
@@ -98,7 +102,7 @@ class RitualRecipe(
     }
 
     companion object {
-        const val NAME: String = "cauldron_brewing"
+        const val NAME: String = "ritual"
     }
 
 }

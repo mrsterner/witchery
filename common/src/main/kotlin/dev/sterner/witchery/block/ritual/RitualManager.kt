@@ -78,5 +78,11 @@ class RitualManager {
     }
 
     @JvmRecord
-    data class CommandType(val command: String, val type: String)
+    data class CommandType(val command: String, val type: String) {
+        companion object {
+            const val START = "start"
+            const val TICK = "tick"
+            const val END = "end"
+        }
+    }
 }
