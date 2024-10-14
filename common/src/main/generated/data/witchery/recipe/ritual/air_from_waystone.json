@@ -1,0 +1,22 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 0,
+  "commands": [
+    {
+      "type": "end",
+      "command": "tp {owner} {blockPos}",
+      "context": "blockpos"
+    }
+  ],
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:waystone"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "ticks": 20
+}

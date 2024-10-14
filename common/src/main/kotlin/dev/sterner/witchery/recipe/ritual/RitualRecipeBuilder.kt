@@ -1,6 +1,7 @@
 package dev.sterner.witchery.recipe.ritual
 
 import dev.sterner.witchery.block.ritual.CommandType
+import dev.sterner.witchery.recipe.WitcheryRecipeBuilder
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
@@ -13,7 +14,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 
-class RitualRecipeBuilder private constructor() : RecipeBuilder {
+class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
 
     private var inputItems: MutableList<ItemStack> = mutableListOf()
     private var inputEntities: MutableList<EntityType<*>> = mutableListOf()
@@ -136,9 +137,9 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
         )
 
         recipeOutput.accept(
-            id.withPrefix("ritual/").withSuffix("_from_${inputItems.firstOrNull()?.item?.`arch$registryName`()!!.path}"),
+            suffixHash(id.withPrefix("ritual/"), inputItems),
             recipe,
-            builder.build(id.withPrefix("recipes/ritual/"))
+            builder.build(suffixHash(id.withPrefix("recipes/ritual/"), inputItems))
         )
     }
 }

@@ -78,7 +78,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 ritualTickCounter++
 
                 onTickRitual(level)
-
                 if (tickCounter >= ritualRecipe!!.ticks && !ritualRecipe!!.isInfinite) {
                     onEndRitual(level)
                     resetRitual()
@@ -93,6 +92,9 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun onStartRitual(level: Level) {
         level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
         RitualHelper.runCommand(level, blockPos, this, CommandType.START)
+        isRitualActive = true
+        shouldStartConsumingSacrifices = false
+        setChanged()
     }
 
     private fun onTickRitual(level: Level) {
@@ -114,6 +116,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun startConsumingSacrifices(level: Level) {
         val entities: MutableList<LivingEntity> = level.getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
         val recipeEntities: List<EntityType<*>> = ritualRecipe!!.inputEntities
+        if (recipeEntities.isEmpty()) {
+            onStartRitual(level)
+            return
+        }
 
         if (consumedSacrifices.size == recipeEntities.size) {
             return
@@ -134,9 +140,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
                 if (consumedSacrifices.containsAll(recipeEntities)) {
                     onStartRitual(level)
-                    isRitualActive = true
-                    shouldStartConsumingSacrifices = false
-                    setChanged()
                 }
             } else {
                 resetRitual()
@@ -151,6 +154,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         ) { true }
 
         val recipeItems = ritualRecipe?.inputItems ?: return
+
         if (tickCounter % 20 == 0) {
             for (itemEntity in itemEntities) {
                 val stack = itemEntity.item

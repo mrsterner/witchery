@@ -162,5 +162,11 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setTicks(20 * 5)
             .save(exporter)
 
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
+            .addCommand(CommandType("tp {owner} {blockPos}", CommandType.END, CommandContext.BLOCKPOS))
+            .setTicks(20)
+            .save(exporter)
+
     }
 }

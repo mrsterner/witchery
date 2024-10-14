@@ -57,33 +57,36 @@ object RitualHelper {
                 if (commandType.type == phase) {
                     when (commandType.ctx) {
                         CommandContext.NOTHING -> {
-                            runCommand(level, server, blockPos, commandType.command, null, null)
+                            runCommand(blockEntity, level, server, blockPos, commandType.command, null, null)
                         }
                         CommandContext.PLAYER -> {
                             val playerUuid = blockEntity.targetPlayer
                             val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
-                            runCommand(level, server, blockPos, commandType.command, player, null)
+                            runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
                         }
                         CommandContext.PLAYER_OR_ENTITY -> {
                             val playerUuid = blockEntity.targetPlayer
                             val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
                             if (player != null) {
-                                runCommand(level, server, blockPos, commandType.command, player, null)
+                                runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
                             } else {
                                 val targetEntity = blockEntity.targetEntity
-                                runCommand(level, server, blockPos, commandType.command, null, targetEntity)
+                                runCommand(blockEntity, level, server, blockPos, commandType.command, null, targetEntity)
                             }
                         }
                         CommandContext.ENTITY -> {
                             val targetEntity = blockEntity.targetEntity
-                            runCommand(level, server, blockPos, commandType.command, null, targetEntity)
+                            runCommand(blockEntity, level, server, blockPos, commandType.command, null, targetEntity)
                         }
                         CommandContext.BLOCKPOS -> {
                             val targetPos = blockEntity.targetPos
+                            println(targetPos)
                             if (targetPos != null) {
                                 val dimensionLevel = server?.getLevel(targetPos.dimension()) // Get the correct dimension's level
+                                println(dimensionLevel)
                                 if (dimensionLevel != null) {
-                                    runCommand(dimensionLevel, server, targetPos.pos(), commandType.command, null, null)
+                                    println("RUN")
+                                    runCommand(blockEntity, dimensionLevel, server, targetPos.pos(), commandType.command, null, null)
                                 }
                             }
                         }
@@ -93,7 +96,7 @@ object RitualHelper {
         }
     }
 
-    private fun runCommand(level: Level, minecraftServer: MinecraftServer?, blockPos: BlockPos, command: String, player: Player?, entityId: Int?) {
+    private fun runCommand(blockEntity: GoldenChalkBlockEntity, level: Level, minecraftServer: MinecraftServer?, blockPos: BlockPos, command: String, player: Player?, entityId: Int?) {
         var formattedCommand = command
         if (minecraftServer != null && formattedCommand.isNotEmpty()) {
             val commandSource: CommandSourceStack = minecraftServer.createCommandSourceStack().withSuppressedOutput()
@@ -116,9 +119,11 @@ object RitualHelper {
                     formattedCommand = formattedCommand.replace("{entity}", "@e[tag=$tag]")
                 }
             }
-            // Replace {blockPos} with the coordinates
+
+            formattedCommand = formattedCommand.replace("{time}", "${level.dayTime}")
+            formattedCommand = formattedCommand.replace("{owner}", "${blockEntity.ownerName}")
             formattedCommand = formattedCommand.replace("{blockPos}", "${blockPos.x} ${blockPos.y} ${blockPos.z}")
-            formattedCommand = "execute in ${level.dimension().location().path} run " + formattedCommand
+            formattedCommand = "execute as ${blockEntity.ownerName} run execute in ${level.dimension().location().path} run " + formattedCommand
             val parseResults: ParseResults<CommandSourceStack> = commandManager.dispatcher.parse(formattedCommand, commandSource)
             commandManager.performCommand(parseResults, formattedCommand)
         }
