@@ -1,6 +1,6 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 100,
+  "altarPower": 0,
   "commands": [
     {
       "type": "end",
@@ -21,13 +21,11 @@
     }
   ],
   "isInfinite": false,
-  "outputEntities": [
-    "minecraft:cow"
-  ],
+  "outputEntities": [],
   "outputItems": [
     {
       "id": "minecraft:diamond"
     }
   ],
-  "ticks": 200
+  "ticks": 100
 }

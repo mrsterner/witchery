@@ -12,17 +12,49 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 
 class OvenCookingRecipeBuilder(
-    val ingredient: Ingredient, val extraIngredient: Ingredient, val result: ItemStack, val extraOutput: ItemStack, val extraOutputChance: Float, val experience: Float, val cookingTime: Int
+    private val ingredient: Ingredient,
+    private val extraIngredient: Ingredient = Ingredient.EMPTY,
+    private val result: ItemStack,
+    private val extraOutput: ItemStack = ItemStack.EMPTY,
+    private val extraOutputChance: Float = 0.0f,
+    private val experience: Float = 0.0f,
+    private val cookingTime: Int = 200
 ) : RecipeBuilder {
 
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
+    private var group: String? = null
 
-    override fun unlockedBy(name: String, criterion: Criterion<*>): RecipeBuilder {
-        this.criteria[name] = criterion
+    fun requires(ingredient: Ingredient): OvenCookingRecipeBuilder {
+        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, cookingTime)
+    }
+
+    fun extraIngredient(extraIngredient: Ingredient): OvenCookingRecipeBuilder {
+        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, cookingTime)
+    }
+
+    fun result(result: ItemStack): OvenCookingRecipeBuilder {
+        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, cookingTime)
+    }
+
+    fun extraOutput(extraOutput: ItemStack, chance: Float): OvenCookingRecipeBuilder {
+        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, chance, experience, cookingTime)
+    }
+
+    fun experience(exp: Float): OvenCookingRecipeBuilder {
+        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, exp, cookingTime)
+    }
+
+    fun cookingTime(time: Int): OvenCookingRecipeBuilder {
+        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, time)
+    }
+
+    override fun unlockedBy(name: String, criterion: Criterion<*>): OvenCookingRecipeBuilder {
+        criteria[name] = criterion
         return this
     }
 
-    override fun group(groupName: String?): RecipeBuilder {
+    override fun group(groupName: String?): OvenCookingRecipeBuilder {
+        group = groupName
         return this
     }
 
@@ -35,25 +67,16 @@ class OvenCookingRecipeBuilder(
             .addCriterion("has_recipe", RecipeUnlockedTrigger.unlocked(id))
             .rewards(AdvancementRewards.Builder.recipe(id))
             .requirements(AdvancementRequirements.Strategy.OR)
-        criteria.forEach { (name, criterion) -> builder.addCriterion(name, criterion) }
-        val abstractCookingRecipe = OvenCookingRecipe(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience,  cookingTime)
-        recipeOutput.accept(id.withPrefix("oven/").withSuffix("_from_${ingredient.items[0].item.`arch$registryName`()!!.path}"), abstractCookingRecipe, builder.build(id.withPrefix("recipes/oven/")))
-    }
 
-    /*
-    @Override
-	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
-		this.ensureValid(id);
-		Advancement.Builder builder = recipeOutput.advancement()
-			.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id))
-			.rewards(AdvancementRewards.Builder.recipe(id))
-			.requirements(AdvancementRequirements.Strategy.OR);
-		this.criteria.forEach(builder::addCriterion);
-		AbstractCookingRecipe abstractCookingRecipe = this.factory
-			.create(
-				(String)Objects.requireNonNullElse(this.group, ""), this.bookCategory, this.ingredient, new ItemStack(this.result), this.experience, this.cookingTime
-			);
-		recipeOutput.accept(id, abstractCookingRecipe, builder.build(id.withPrefix("recipes/" + this.category.getFolderName() + "/")));
-	}
-     */
+        criteria.forEach { (name, criterion) ->
+            builder.addCriterion(name, criterion)
+        }
+
+        val ovenCookingRecipe = OvenCookingRecipe(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, cookingTime)
+        recipeOutput.accept(
+            id.withPrefix("oven/").withSuffix("_from_${ingredient.items[0].item.`arch$registryName`()!!.path}"),
+            ovenCookingRecipe,
+            builder.build(id.withPrefix("recipes/oven/"))
+        )
+    }
 }

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.recipe.cauldron
 
+import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
@@ -11,19 +12,50 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 
 class CauldronBrewingRecipeBuilder(
-    val inputItems: List<ItemStackWithColor>,
-    val outputStack: ItemStack,
-    val altarPower: Int,
+    private val inputItems: MutableList<ItemStackWithColor> = mutableListOf(),
+    private var outputStack: ItemStack = ItemStack.EMPTY,
+    private var altarPower: Int = 0
 ) : RecipeBuilder {
 
+    var order = 0
+
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
+    private var group: String? = null
+
+    companion object {
+        fun create(): CauldronBrewingRecipeBuilder {
+            return CauldronBrewingRecipeBuilder()
+        }
+    }
+
+    fun addInput(itemStackWithColor: ItemStackWithColor): CauldronBrewingRecipeBuilder {
+        inputItems.add(itemStackWithColor)
+        return this
+    }
+
+    fun addInputWithColor(itemStack: ItemStack, color: Int): CauldronBrewingRecipeBuilder {
+        inputItems.add(ItemStackWithColor(itemStack, color, order))
+        order++
+        return this
+    }
+
+    fun setOutput(outputStack: ItemStack): CauldronBrewingRecipeBuilder {
+        this.outputStack = outputStack
+        return this
+    }
+
+    fun setAltarPower(power: Int): CauldronBrewingRecipeBuilder {
+        altarPower = power
+        return this
+    }
 
     override fun unlockedBy(name: String, criterion: Criterion<*>): RecipeBuilder {
-        this.criteria[name] = criterion
+        criteria[name] = criterion
         return this
     }
 
     override fun group(groupName: String?): RecipeBuilder {
+        group = groupName
         return this
     }
 
@@ -36,8 +68,16 @@ class CauldronBrewingRecipeBuilder(
             .addCriterion("has_recipe", RecipeUnlockedTrigger.unlocked(id))
             .rewards(AdvancementRewards.Builder.recipe(id))
             .requirements(AdvancementRequirements.Strategy.OR)
-        criteria.forEach { (name, criterion) -> builder.addCriterion(name, criterion) }
-        val abstractCookingRecipe = CauldronBrewingRecipe(inputItems, outputStack, altarPower)
-        recipeOutput.accept(id.withPrefix("cauldron_brewing/").withSuffix("_from_${inputItems[0].itemStack.item.`arch$registryName`()!!.path}"), abstractCookingRecipe, builder.build(id.withPrefix("recipes/cauldron_brewing/")))
+
+        criteria.forEach { (name, criterion) ->
+            builder.addCriterion(name, criterion)
+        }
+
+        val cauldronBrewingRecipe = CauldronBrewingRecipe(inputItems, outputStack, altarPower)
+        recipeOutput.accept(
+            id.withPrefix("cauldron_brewing/").withSuffix("_from_${inputItems[0].itemStack.item.`arch$registryName`()!!.path}"),
+            cauldronBrewingRecipe,
+            builder.build(id.withPrefix("recipes/cauldron_brewing/"))
+        )
     }
 }
