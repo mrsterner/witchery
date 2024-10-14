@@ -1,6 +1,6 @@
 package dev.sterner.witchery.recipe.ritual
 
-import dev.sterner.witchery.block.ritual.RitualManager.CommandType
+import dev.sterner.witchery.block.ritual.RitualHelper.CommandType
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
