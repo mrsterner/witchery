@@ -94,7 +94,7 @@ class BoneNeedleItem(properties: Properties) : Item(properties.durability(16)) {
                     if (target is Mob) {
                         target.setPersistenceRequired()
                     }
-                    WaystoneItem.bindLivingEntity(target, taglock)
+                    TaglockItem.bindLivingEntity(target, taglock)
                     level.playSound(null, target.onPos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.NEUTRAL, 0.75f, 1f)
                     return true
                 }

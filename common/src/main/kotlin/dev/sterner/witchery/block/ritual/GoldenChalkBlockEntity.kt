@@ -192,7 +192,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) == true)) {
 
             targetPlayer = TaglockItem.getPlayer(level!!, stack)?.uuid
-            targetEntity = WaystoneItem.getLivingEntity(level!!, stack)?.id
+            targetEntity = TaglockItem.getLivingEntity(level!!, stack)?.id
         }
     }
 
