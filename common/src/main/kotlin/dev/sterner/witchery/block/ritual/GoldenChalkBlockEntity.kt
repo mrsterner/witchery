@@ -59,7 +59,11 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             tickCounter++
 
             if (isRitualActive) {
-                shouldStartConsumingSacrifices = false
+
+                if(!consumeAltarPower(level)){
+                    resetRitual()
+                }
+
                 ritualTickCounter++
 
                 onTickRitual(level)
@@ -81,7 +85,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun onTickRitual(level: Level) {
-        if (tickCounter % 20 == 0) {
+        if (tickCounter % 20 == 0) { // TODO remove
             level.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_HARP.value(), SoundSource.BLOCKS)
         }
         RitualHelper.runCommand(level, blockPos, this, RitualHelper.CommandType.TICK)
@@ -220,7 +224,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
-            if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(level!!)) {
+            if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(level!!) && hasEnoughAltarPower(level!!)) {
                 ritualRecipe = validSacrificesAndItemsRecipe[0].value
                 shouldRun = true
                 shouldStartConsumingItems = true
@@ -236,8 +240,16 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return super.onUseWithoutItem(pPlayer)
     }
 
+    private fun hasEnoughAltarPower(level: Level): Boolean {
+        return true //TODO implement return true of altar has enough power, without consuming any
+    }
+
     private fun validateRitualCircle(level: Level): Boolean {
         return true //TODO implement
+    }
+
+    private fun consumeAltarPower(level: Level): Boolean {
+        return true //TODO implement, return true if successful altar power drain
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
