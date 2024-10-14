@@ -202,7 +202,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-        if (ritualRecipe == null) {
+        if (ritualRecipe == null && level != null) {
             val items: List<ItemEntity> = pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }
             val entities: List<LivingEntity> = pPlayer.level().getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
 
@@ -215,15 +215,15 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
-            val validSacrifices = validItemRecipes?.filter { recipe ->
+            val validSacrificesAndItemsRecipe = validItemRecipes?.filter { recipe ->
                 val requiredSacrifices = recipe.value.inputEntities
                 requiredSacrifices.all { requiredEntity ->
                     entities.any { entity -> entity.type == requiredEntity }
                 }
             }
 
-            if (!validSacrifices.isNullOrEmpty()) {
-                ritualRecipe = validSacrifices[0].value
+            if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(level!!)) {
+                ritualRecipe = validSacrificesAndItemsRecipe[0].value
                 shouldRun = true
                 shouldStartConsumingItems = true
                 setChanged()
@@ -236,6 +236,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         return super.onUseWithoutItem(pPlayer)
+    }
+
+    private fun validateRitualCircle(level: Level): Boolean {
+        return true //TODO implement
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
