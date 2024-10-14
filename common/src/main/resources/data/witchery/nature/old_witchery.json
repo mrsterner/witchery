@@ -15,6 +15,11 @@
     "limit": 80
   },
   {
+    "block": "minecraft:farmland",
+    "power": 1,
+    "limit": 100
+  },
+  {
     "block": "minecraft:mycelium",
     "power": 1,
     "limit": 80
@@ -106,7 +111,7 @@
   },
   {
     "tag": "minecraft:logs",
-    "power": 3,
+    "power": 2,
     "limit": 50
   },
   {
@@ -128,5 +133,95 @@
     "block": "minecraft:vines",
     "power": 2,
     "limit": 50
+  },
+  {
+    "block": "minecraft:wheat",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:potato",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:carrot",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:pumpkin_seeds",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:melon_seeds",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "block": "witchery:belladonna",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "witchery:mandrake",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "witchery:snowbell",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "witchery:water_artichoke",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "witchery:glintweed",
+    "power": 2,
+    "limit": 20
+  },
+  {
+    "block": "witchery:ember_moss",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "witchery:spanish_moss",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "tag": "witchery:rowan",
+    "power": 3,
+    "limit": 50
+  },
+  {
+    "tag": "witchery:leaves",
+    "power": 4,
+    "limit": 50
+  },
+  {
+    "block": "witchery:critter_snare",
+    "power": 2,
+    "limit": 10
+  },
+  {
+    "block": "witchery:grassper",
+    "power": 2,
+    "limit": 10
+  },
+  {
+    "block": "witchery:blood_poppy",
+    "power": 2,
+    "limit": 10
+  },
+  {
+    "block": "witchery:wispy_cotton",
+    "power": 3,
+    "limit": 20
   }
 ]
