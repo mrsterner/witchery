@@ -95,7 +95,7 @@ object NaturePowerHandler {
     /**
      * Only call after world (read datapacks) are loaded so we can handle tags.
      */
-    fun addPending() {
+    private fun addPending() {
         tagQueue.forEach { (loc, power, limit) ->
             addEitherBlockOrTag(Either.right(TagKey.create(Registries.BLOCK, loc)), power, limit)
         }
