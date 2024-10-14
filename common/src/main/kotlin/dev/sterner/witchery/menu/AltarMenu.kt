@@ -25,6 +25,10 @@ class AltarMenu(containerId: Int, inventory: Inventory, buf: FriendlyByteBuf) : 
         this.addDataSlots(data)
     }
 
+    fun getCurrentPower() = data[0]
+
+    fun getMaxPower() = data[1]
+
     override fun quickMoveStack(player: Player, index: Int) = ItemStack.EMPTY
 
     override fun stillValid(player: Player) = true

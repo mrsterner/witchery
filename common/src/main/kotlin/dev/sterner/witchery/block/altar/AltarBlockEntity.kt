@@ -31,22 +31,6 @@ import kotlin.math.floor
 class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.ALTAR.get(), AltarBlock.STRUCTURE.get(), pos, state) {
 
-    init {
-        // May remove these tbh if it gets too laggy
-        BlockEvent.PLACE.register { level, pos, state, entity ->
-            if (level is ServerLevel && getLocalAABB().contains(pos.center) && NaturePowerHandler.getPower(state.block) != null)
-                collectAllLocalNaturePower(level)
-
-            EventResult.pass()
-        }
-        BlockEvent.BREAK.register { level, pos, state, player, xp ->
-            if (level is ServerLevel && getLocalAABB().contains(pos.center) && NaturePowerHandler.getPower(state.block) != null)
-                collectAllLocalNaturePower(level)
-
-            EventResult.pass()
-        }
-    }
-
     var currentPower = 0
     var maxPower = 0
     var powerMultiplier = 1.0 // Turned double to allow for more options (candles), will have to manually sync with client
@@ -73,6 +57,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     // Based on speed and potential lag, lets call this every 5 or so seconds
     fun collectAllLocalNaturePower(level: ServerLevel) {
+        limitTracker.clear()
         maxPower = 0
         val aabb = getLocalAABB()
         level.getBlockStatesIfLoaded(aabb).forEach { state ->
@@ -83,6 +68,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             maxPower += power
             limitTracker.compute(limit.first) { _, count -> count?.let { it + 1 } ?: 1 }
         }
+
+        println("Nature Power Colleted: $maxPower")
     }
 
     fun updateCurrentPower() {
@@ -91,6 +78,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             currentPower = maxPower
         else
             currentPower = floor(currentPower + rate).toInt()
+
+        println("Current Power: $currentPower")
     }
 
     fun augmentAltar(level: ServerLevel, corePos: BlockPos) {
@@ -122,17 +111,19 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         })
     }
 
-    override fun init(level: Level, pos: BlockPos, state: BlockState) {
+    override fun tick(level: Level, pos: BlockPos, state: BlockState) {
+        super.tick(level, pos, state)
+
         if (level !is ServerLevel) return
 
-        if (ticks % 20 == 5)
+        if (ticks / 20 == 5) {
             collectAllLocalNaturePower(level)
-        else if (ticks % 20 == 1) {
+        } else if (ticks % 20 == 0) {
             augmentAltar(level, pos)
             updateCurrentPower()
         }
 
-        if (ticks % 20 >= 5)
+        if (ticks / 20.0 >= 5)
             ticks = 0
         else
             ticks++
