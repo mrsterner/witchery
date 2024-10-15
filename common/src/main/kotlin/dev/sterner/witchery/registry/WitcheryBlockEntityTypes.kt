@@ -58,6 +58,7 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             { pos, state -> OvenFumeExtensionBlockEntity(pos, state) },
             WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(),
+            WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
         )
             .build(null)
     }

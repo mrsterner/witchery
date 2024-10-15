@@ -256,13 +256,17 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
                     inventory[SLOT_EXTRA_INPUT].shrink(1)
                 }
             } else {
-                val foulFume = WitcheryItems.FOUL_FUME.get().defaultInstance
-                val extraOutputStack = inventory[SLOT_EXTRA_RESULT]
-                if (extraOutputStack.isEmpty) {
-                    inventory[SLOT_EXTRA_RESULT] = foulFume
-                } else if (ItemStack.isSameItemSameComponents(extraOutputStack, foulFume)) {
-                    extraOutputStack.grow(1)
+                if (inventory[SLOT_EXTRA_INPUT].`is`(WitcheryItems.JAR.get())) {
+                    val foulFume = WitcheryItems.FOUL_FUME.get().defaultInstance
+                    val extraOutputStack = inventory[SLOT_EXTRA_RESULT]
+                    if (extraOutputStack.isEmpty) {
+                        inventory[SLOT_EXTRA_RESULT] = foulFume
+                    } else if (ItemStack.isSameItemSameComponents(extraOutputStack, foulFume)) {
+                        extraOutputStack.grow(1)
+                    }
+                    inventory[SLOT_EXTRA_INPUT].shrink(1)
                 }
+
             }
 
             // Handle special case for wet sponge and bucket interaction

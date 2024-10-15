@@ -215,6 +215,10 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(), Item.Properties(), OvenFumeExtensionBlock.STRUCTURE)
     }
 
+    val COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> = ITEMS.register("copper_witches_oven_fume_extension") {
+        MultiBlockItem(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), Item.Properties(), OvenFumeExtensionBlock.STRUCTURE)
+    }
+
     val IRON_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("iron_witches_oven") {
         BlockItem(WitcheryBlocks.IRON_WITCHES_OVEN.get(), Item.Properties())
     }

@@ -69,6 +69,12 @@ object WitcheryBlocks {
         )
     }
 
+    val COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> = BLOCKS.register("copper_witches_oven_fume_extension") {
+        OvenFumeExtensionBlock(BlockBehaviour.Properties.of()
+            .sound(SoundType.METAL)
+        )
+    }
+
     val IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT: RegistrySupplier<OvenFumeExtensionBlockComponent> = BLOCKS.register("iron_witches_oven_fume_extension_component") {
         OvenFumeExtensionBlockComponent(BlockBehaviour.Properties.of()
             .sound(SoundType.METAL)

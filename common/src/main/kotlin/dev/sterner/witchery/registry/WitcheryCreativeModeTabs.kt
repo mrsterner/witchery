@@ -23,6 +23,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN.get())
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.COPPER_WITCHES_OVEN.get())
+                output.accept(WitcheryItems.COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.WAYSTONE.get())
                 output.accept(WitcheryItems.GLINTWEED.get())
                 output.accept(WitcheryItems.EMBER_MOSS.get())

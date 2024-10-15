@@ -53,6 +53,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.IRON_WITCHES_OVEN.get(), "Iron Witches Oven")
         builder.add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(), "Iron Witches Oven Fume Filter")
         builder.add(WitcheryBlocks.COPPER_WITCHES_OVEN.get(), "Copper Witches Oven")
+        builder.add(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Copper Witches Oven Fume Filter")
 
         builder.add(WitcheryItems.WAYSTONE.get(), "Waystone")
         builder.add(WitcheryItems.CLAY_JAR.get(), "Clay Jar")

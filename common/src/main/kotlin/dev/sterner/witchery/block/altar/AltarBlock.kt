@@ -5,9 +5,14 @@ import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructur
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.world.Containers
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.entity.BlockEntity
@@ -41,6 +46,17 @@ class AltarBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.no
 
     override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity? {
         return WitcheryBlockEntityTypes.ALTAR.get().create(blockPos, blockState)
+    }
+
+    override fun onRemove(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        newState: BlockState,
+        movedByPiston: Boolean
+    ) {
+        Containers.dropItemStack(level, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, ItemStack(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), 6))
+        super.onRemove(state, level, pos, newState, movedByPiston)
     }
 
     companion object {
