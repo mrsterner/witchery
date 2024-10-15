@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.Ingredient
 
 class CauldronCraftingRecipeBuilder(
     private var inputItems: MutableList<ItemStackWithColor> = mutableListOf(),
-    private var outputStack: MutableList<Ingredient> = mutableListOf(),
+    private var outputStack: MutableList<ItemStack> = mutableListOf(),
     private val altarPower: Int = 0
 ) : WitcheryRecipeBuilder() {
 
@@ -40,13 +40,19 @@ class CauldronCraftingRecipeBuilder(
         return this
     }
 
-    fun addOutput(ingredient: Ingredient): CauldronCraftingRecipeBuilder {
-        outputStack += ingredient
+    fun addOutput(itemStack: ItemStack, count: Int): CauldronCraftingRecipeBuilder {
+        itemStack.count = count
+        outputStack += itemStack
+        return this
+    }
+
+    fun addOutput(itemStack: ItemStack): CauldronCraftingRecipeBuilder {
+        outputStack += itemStack
         return this
     }
 
     fun addOutput(item: Item): CauldronCraftingRecipeBuilder {
-        outputStack += Ingredient.of(item.defaultInstance)
+        outputStack += item.defaultInstance
         return this
     }
 
@@ -65,7 +71,7 @@ class CauldronCraftingRecipeBuilder(
     }
 
     override fun getResult(): Item {
-        return outputStack[0].items[0].item
+        return outputStack[0].item
     }
 
     override fun save(recipeOutput: RecipeOutput, id: ResourceLocation) {

@@ -21,7 +21,7 @@ import net.minecraft.world.level.Level
 
 class CauldronCraftingRecipe(
     val inputItems: List<ItemStackWithColor>,
-    val outputItems: List<Ingredient>,
+    val outputItems: List<ItemStack>,
     val altarPower: Int
 ) :
     Recipe<MultipleItemRecipeInput> {
@@ -82,7 +82,7 @@ class CauldronCraftingRecipe(
                     obj.group(
                         ItemStackWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems")
                             .forGetter { it.inputItems },
-                        Ingredient.CODEC.listOf().fieldOf("outputItems").forGetter { it.outputItems },
+                        ItemStack.CODEC.listOf().fieldOf("outputItems").forGetter { it.outputItems },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower }
                     ).apply(obj, ::CauldronCraftingRecipe)
                 }

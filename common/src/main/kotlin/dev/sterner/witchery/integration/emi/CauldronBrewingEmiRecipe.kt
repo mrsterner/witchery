@@ -63,7 +63,7 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
             }
 
             widgets.add(
-                WitcherySlotWidget(EmiIngredient.of(Ingredient.of(ingredient.itemStack)), 2 + 2 + 18, 20 * index)
+                WitcherySlotWidget(EmiStack.of(ingredient.itemStack), 2 + 2 + 18, 20 * index)
                     .drawBack(false)
             )
         }
@@ -74,7 +74,7 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
 
         widgets.add(
             WitcherySlotWidget(
-                EmiIngredient.of(Ingredient.of(Items.GLASS_BOTTLE.defaultInstance)),
+                EmiStack.of(Items.GLASS_BOTTLE.defaultInstance),
                 48 + 18 + 9 - 12,
                 20 * 1 + 6
             )
@@ -82,7 +82,7 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
         )
 
         widgets.add(
-            WitcherySlotWidget(EmiIngredient.of(Ingredient.of(recipe.outputItem)), 48 + 18 + 9 + 18 + 9 + 4, 20 * 1 + 6)
+            WitcherySlotWidget(EmiStack.of(recipe.outputItem), 48 + 18 + 9 + 18 + 9 + 4, 20 * 1 + 6)
                 .drawBack(false)
         )
     }

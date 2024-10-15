@@ -37,7 +37,8 @@
   ],
   "outputItems": [
     {
-      "item": "witchery:otherwhere_chalk"
+      "count": 1,
+      "id": "witchery:otherwhere_chalk"
     }
   ]
 }

@@ -31,8 +31,8 @@ class CauldronCraftingEmiRecipe(val recipeId: ResourceLocation, val recipe: Caul
 
     override fun getOutputs(): MutableList<EmiStack> {
         val mutableList = mutableListOf<EmiStack>()
-        for (ingredients in recipe.outputItems) {
-            mutableList.add(EmiStack.of(ingredients.items[0]))
+        for (itemStacks in recipe.outputItems) {
+            mutableList.add(EmiStack.of(itemStacks))
         }
         return mutableList
     }
@@ -64,14 +64,14 @@ class CauldronCraftingEmiRecipe(val recipeId: ResourceLocation, val recipe: Caul
             }
 
             widgets.add(
-                WitcherySlotWidget(EmiIngredient.of(Ingredient.of(ingredient.itemStack)), 2 + 2 + 18, 20 * index)
+                WitcherySlotWidget(EmiStack.of(ingredient.itemStack), 2 + 2 + 18, 20 * index)
                     .drawBack(false)
             )
         }
 
-        for ((index, ingredient) in recipe.outputItems.withIndex()) {
+        for ((index, itemStack) in recipe.outputItems.withIndex()) {
             widgets.add(
-                WitcherySlotWidget(EmiIngredient.of(ingredient), 48 + 18 + 9 + 18 + 9 + 4 + (18 * index), 20 * 1 + 6)
+                WitcherySlotWidget(EmiStack.of(itemStack), 48 + 18 + 9 + 18 + 9 + 4 + (18 * index), 20 * 1 + 6)
                     .drawBack(false)
             )
         }

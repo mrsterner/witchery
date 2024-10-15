@@ -29,16 +29,8 @@
   ],
   "outputItems": [
     {
-      "item": "witchery:mutandis"
-    },
-    {
-      "item": "witchery:mutandis"
-    },
-    {
-      "item": "witchery:mutandis"
-    },
-    {
-      "item": "witchery:mutandis"
+      "count": 4,
+      "id": "witchery:mutandis"
     }
   ]
 }
