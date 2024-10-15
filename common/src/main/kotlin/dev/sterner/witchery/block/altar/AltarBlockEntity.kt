@@ -76,10 +76,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         }
 
         BlockEvent.BREAK.register { level, pos, state, player, xp ->
-            if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
-                propagateAltarLocation(level as ServerLevel, pos)
+            if (!level.isClientSide && getLocalAABB().contains(pos.center))
                 powerUpdateQueued = true
-            }
 
             EventResult.pass()
         }
