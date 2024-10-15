@@ -1,0 +1,270 @@
+[
+  {
+    "block": "witchery:garlic",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "witchery:wolfsbane",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "witchery:wormwood",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:beetroots",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:nether_wart",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "tag": "minecraft:cave_vines",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:sweet_berry_bush",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "tag": "witchery:nature/torchflower",
+    "power": 4,
+    "limit": 30,
+    "_comment": "It has both a torchflower_crop and the torchflower itself"
+  },
+  {
+    "tag": "witchery:nature/pitcher",
+    "power": 3,
+    "limit": 60,
+    "_comment": "It has both a pitcher_crop and the pitcher_plant itself"
+  },
+  {
+    "tag": "witchery:nature/bamboo",
+    "power": 2,
+    "limit": 40,
+    "_comment": "bamboo and bamboo_sapling are different blocks"
+  },
+  {
+    "tag": "witchery:nature/mossy_blocks",
+    "power": 1,
+    "limit": 50,
+    "_comment": "Including Mossy Cobble, Mossy Stone Bricks and variants"
+  },
+  {
+    "block": "minecraft:amethyst_block",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "tag": "c:budding_blocks",
+    "power": 5,
+    "limit": 10
+  },
+  {
+    "tag": "c:clusters",
+    "power": 4,
+    "limit": 20
+  },
+  {
+    "tag": "c:buds",
+    "power": 2,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:rooted_dirt",
+    "power": 2,
+    "limit": 80
+  },
+  {
+    "tag": "witchery:nature/moss",
+    "power": 3,
+    "limit": 20,
+    "_comment": "Combining Moss Blocks and Moss Carpet"
+  },
+  {
+    "block": "minecraft:crimson_nylium",
+    "power": 3,
+    "limit": 80
+  },
+  {
+    "block": "minecraft:warped_nylium",
+    "power": 3,
+    "limit": 80
+  },
+  {
+    "block": "minecraft:mangrove_roots",
+    "power": 1,
+    "limit": 60
+  },
+  {
+    "block": "minecraft:muddy_mangrove_roots",
+    "power": 2,
+    "limit": 40
+  },
+  {
+    "block": "minecraft:mushroom_stem",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:shroomlight",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "tag": "witchery:nature/crimson_fungus",
+    "power": 3,
+    "limit": 40,
+    "_comment": "Crimson Fungus + Nether Wart Block"
+  },
+  {
+    "tag": "witchery:nature/warped_fungus",
+    "power": 3,
+    "limit": 40,
+    "_comment": "Warped Fungus + Warped Wart Block"
+  },
+  {
+    "block": "minecraft:cornflower",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:lily_of_the_valley",
+    "power": 4,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:wither_rose",
+    "power": 3,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:pink_petals",
+    "power": 2,
+    "limit": 50
+  },
+  {
+    "block": "minecraft:spore_blossom",
+    "power": 5,
+    "limit": 20
+  },
+  {
+    "tag": "witchery:nature/nether_foliage",
+    "power": 4,
+    "limit": 40,
+    "_comment": "Crimson Roots + Warped Roots + Nether Sprouts"
+  },
+  {
+    "block": "minecraft:weeping_vines",
+    "power": 3,
+    "limit": 50
+  },
+  {
+    "block": "minecraft:twisting_vines",
+    "power": 3,
+    "limit": 50
+  },
+  {
+    "block": "minecraft:sunflower",
+    "power": 2,
+    "limit": 60
+  },
+  {
+    "block": "minecraft:lilac",
+    "power": 2,
+    "limit": 60
+  },
+  {
+    "block": "minecraft:rose_bush",
+    "power": 2,
+    "limit": 60
+  },
+  {
+    "block": "minecraft:peony",
+    "power": 2,
+    "limit": 60
+  },
+  {
+    "tag": "witchery:nature/big_dripleaf",
+    "power": 3,
+    "limit": 60
+  },
+  {
+    "block": "minecraft:small_dripleaf",
+    "power": 2,
+    "limit": 60
+  },
+  {
+    "block": "minecraft:chorus_plant",
+    "power": 2,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:chorus_flower",
+    "power": 2,
+    "limit": 20
+  },
+  {
+    "block": "minecraft:glow_lichen",
+    "power": 1,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:lily_pad",
+    "power": 1,
+    "limit": 40
+  },
+  {
+    "block": "minecraft:sea_pickle",
+    "power": 2,
+    "limit": 30
+  },
+  {
+    "block": "minecraft:kelp",
+    "power": 1,
+    "limit": 80
+  },
+  {
+    "tag": "minecraft:coral_blocks",
+    "power": 4,
+    "limit": 40
+  },
+  {
+    "tag": "minecraft:corals",
+    "power": 2,
+    "limit": 80
+  },
+  {
+    "tag": "minecraft:beehives",
+    "power": 3,
+    "limit": 20
+  },
+  {
+    "tag": "witchery:nature/sculk",
+    "power": 2,
+    "limit": 80
+  },
+  {
+    "block": "minecraft:sculk_catalyst",
+    "power": 4,
+    "limit": 10
+  },
+  {
+    "block": "minecraft:sculk_shrieker",
+    "power": 4,
+    "limit": 10
+  },
+  {
+    "block": "minecraft:sculk_sensor",
+    "power": 3,
+    "limit": 30
+  }
+]

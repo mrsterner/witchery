@@ -81,13 +81,13 @@ object NaturePowerHandler {
     }
 
     private fun addEitherBlockOrTag(either: Either<Block, TagKey<Block>>, power: Int, limit: Int) {
-        var name = ""
+        /*var name = ""
         either.left().ifPresent { name = it.name.string }
         either.right().ifPresent { name = it.location.toString() }
         if (NATURE_POWER_VALUES.containsKey(either))
             LOGGER.info("Overriding $name from power ${NATURE_POWER_VALUES[either]?.first} and limit ${NATURE_POWER_VALUES[either]?.second} with a power of $power and a limit of $limit")
         else
-            LOGGER.info("Registering ${name} with a base power of $power and a limit of $limit")
+            LOGGER.info("Registering ${name} with a base power of $power and a limit of $limit")*/
 
         NATURE_POWER_VALUES[either] = Pair(power, limit)
     }

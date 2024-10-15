@@ -30,7 +30,7 @@
     "limit": 50
   },
   {
-    "block": "minecraft:sugarcane",
+    "block": "minecraft:sugar_cane",
     "power": 3,
     "limit": 50
   },
@@ -90,12 +90,12 @@
     "limit": 30
   },
   {
-    "block": "minecraft:brown_mushroom",
+    "tag": "witchery:nature/brown_mushroom",
     "power": 3,
     "limit": 20
   },
   {
-    "block": "minecraft:red_mushroom",
+    "tag": "witchery:nature/red_mushroom",
     "power": 3,
     "limit": 20
   },
@@ -105,9 +105,10 @@
     "limit": 50
   },
   {
-    "block": "minecraft:short_grass and minecraft:fern, need a tag",
-    "power": 3,
-    "limit": 50
+    "tag": "witchery:nature/overworld_foliage",
+    "power": 2,
+    "limit": 100,
+    "_comment": "Short Grass + Fern + Tall Grass + Large Fern + Hanging Roots + Sea Grass"
   },
   {
     "tag": "minecraft:logs",
@@ -130,7 +131,7 @@
     "limit": 20
   },
   {
-    "block": "minecraft:vines",
+    "block": "minecraft:vine",
     "power": 2,
     "limit": 50
   },
@@ -140,22 +141,22 @@
     "limit": 20
   },
   {
-    "block": "minecraft:potato",
+    "block": "minecraft:potatoes",
     "power": 4,
     "limit": 20
   },
   {
-    "block": "minecraft:carrot",
+    "block": "minecraft:carrots",
     "power": 4,
     "limit": 20
   },
   {
-    "block": "minecraft:pumpkin_seeds",
+    "block": "minecraft:pumpkin_stem",
     "power": 3,
     "limit": 20
   },
   {
-    "block": "minecraft:melon_seeds",
+    "block": "minecraft:melon_stem",
     "power": 3,
     "limit": 20
   },
@@ -205,7 +206,7 @@
     "limit": 20
   },
   {
-    "tag": "witchery:rowan",
+    "tag": "witchery:rowan_logs",
     "power": 3,
     "limit": 50
   },

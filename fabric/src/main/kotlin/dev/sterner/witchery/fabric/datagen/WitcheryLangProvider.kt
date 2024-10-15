@@ -26,7 +26,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.MANDRAKE_ROOT.get(), "Mandrake Root")
         builder.add(WitcheryItems.GYPSUM.get(), "Gypsum")
         builder.add(WitcheryItems.WOOD_ASH.get(), "Wood Ash")
-        builder.add(WitcheryItems.BELLADONNA_FLOWER.get(), "Wood Ash")
+        builder.add(WitcheryItems.BELLADONNA_FLOWER.get(), "Belladonna Flower")
         builder.add(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), "Water Artichoke Globe")
         builder.add(WitcheryItems.BONE_NEEDLE.get(), "Bone Needle")
         builder.add(WitcheryItems.DEMON_HEART.get(), "Demon Heart")
