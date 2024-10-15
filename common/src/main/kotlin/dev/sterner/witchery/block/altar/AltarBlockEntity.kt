@@ -5,6 +5,7 @@ import dev.architectury.event.events.common.BlockEvent
 import dev.architectury.networking.NetworkManager
 import dev.architectury.registry.menu.ExtendedMenuProvider
 import dev.architectury.registry.menu.MenuRegistry
+import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.menu.AltarMenu
@@ -66,15 +67,19 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         powerUpdateQueued = true
 
         BlockEvent.PLACE.register { level, pos, state, entity ->
-            if (!level.isClientSide && getLocalAABB().contains(pos.center))
+            if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
+                propagateAltarLocation(level as ServerLevel, pos)
                 powerUpdateQueued = true
+            }
 
             EventResult.pass()
         }
 
         BlockEvent.BREAK.register { level, pos, state, player, xp ->
-            if (!level.isClientSide && getLocalAABB().contains(pos.center))
+            if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
+                propagateAltarLocation(level as ServerLevel, pos)
                 powerUpdateQueued = true
+            }
 
             EventResult.pass()
         }
@@ -88,6 +93,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         maxPower = 0
         val aabb = getLocalAABB()
         level.getBlockStatesIfLoaded(aabb).forEach { state ->
+
             val power = NaturePowerHandler.getPower(state.block) ?: return@forEach
             val limit = NaturePowerHandler.getLimit(state.block) ?: return@forEach
             if (limitTracker.getOrDefault(limit.first, 0) >= limit.second)
@@ -110,6 +116,15 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         // Remember, certain augments effects dont stack, they take the best of em.
         // updating range
         // Updating multiplier
+    }
+
+    fun propagateAltarLocation(level: ServerLevel, pos: BlockPos) {
+        val block = level.getBlockState(pos).block
+        val be = level.getBlockEntity(pos)
+        if (be is AltarPowerConsumer)
+            be.receiveAltarPosition(blockPos)
+        if (block is AltarPowerConsumer)
+            block.receiveAltarPosition(blockPos)
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
@@ -155,5 +170,17 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             ticks = 0
         else
             ticks++
+    }
+
+    fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean {
+        val hasPower = amount <= currentPower
+
+        if (simulate || level?.isClientSide != false)
+            return hasPower
+        else if (!hasPower)
+            return false
+
+        currentPower -= amount
+        return true
     }
 }
