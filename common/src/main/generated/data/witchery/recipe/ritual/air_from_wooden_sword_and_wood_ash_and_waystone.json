@@ -1,6 +1,10 @@
 {
   "type": "witchery:ritual",
   "altarPower": 2000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "R": "witchery:ritual_chalk"
+  },
   "commands": [
     {
       "type": "end",
@@ -24,5 +28,14 @@
   "isInfinite": false,
   "outputEntities": [],
   "outputItems": [],
+  "pattern": [
+    "__RRR__",
+    "_R___R_",
+    "R_____R",
+    "R__G__R",
+    "R_____R",
+    "_R___R_",
+    "__RRR__"
+  ],
   "ticks": 20
 }

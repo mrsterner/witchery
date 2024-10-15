@@ -1,11 +1,11 @@
 package dev.sterner.witchery.recipe.ritual
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.block.ritual.CommandContext
 import dev.sterner.witchery.block.ritual.CommandType
-import dev.sterner.witchery.block.ritual.RitualHelper
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
@@ -16,8 +16,11 @@ import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.crafting.*
+import net.minecraft.world.item.crafting.Recipe
+import net.minecraft.world.item.crafting.RecipeSerializer
+import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
 
 class RitualRecipe(
     val inputItems: List<ItemStack>,
@@ -28,7 +31,9 @@ class RitualRecipe(
     val commands: Set<CommandType>,
     val isInfinite: Boolean,
     val floatingItemOutput: Boolean,
-    val ticks: Int
+    val ticks: Int,
+    val pattern: List<String>,
+    val blockMapping: Map<Char, Block>
 ) : Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
@@ -91,6 +96,9 @@ class RitualRecipe(
                         Codec.BOOL.fieldOf("isInfinite").orElse(false).forGetter { recipe -> recipe.isInfinite },
                         Codec.BOOL.fieldOf("floatingItemOutput").orElse(false).forGetter { recipe -> recipe.floatingItemOutput },
                         Codec.INT.fieldOf("ticks").orElse(0).forGetter { recipe -> recipe.ticks },
+                        Codec.STRING.listOf().fieldOf("pattern").forGetter { recipe -> recipe.pattern },
+                        Codec.unboundedMap(SYMBOL_CODEC, BuiltInRegistries.BLOCK.byNameCodec()).fieldOf("blockMapping").forGetter { recipe -> recipe.blockMapping }
+
                     ).apply(obj, ::RitualRecipe)
                 }
 
@@ -103,6 +111,18 @@ class RitualRecipe(
 
     companion object {
         const val NAME: String = "ritual"
+
+        val SYMBOL_CODEC: Codec<Char> = Codec.STRING.comapFlatMap(
+            { string: String ->
+                if (string.length != 1) {
+                    return@comapFlatMap DataResult.error<Char> { "Invalid key entry: '$string' is an invalid symbol (must be 1 character only)." }
+                } else {
+                    return@comapFlatMap if (" " == string) DataResult.error<Char> { "Invalid key entry: ' ' is a reserved symbol." } else DataResult.success<Char>(
+                        string[0]
+                    )
+                }
+            },
+            { obj: Char? -> java.lang.String.valueOf(obj) })
     }
 
 }

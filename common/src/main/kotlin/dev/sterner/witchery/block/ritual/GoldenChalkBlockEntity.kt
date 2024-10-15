@@ -261,7 +261,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
-            if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(level!!) && hasEnoughAltarPower(level!!)) {
+            if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(level!!, validSacrificesAndItemsRecipe[0].value) && hasEnoughAltarPower(level!!)) {
                 ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
                 ritualRecipe = validSacrificesAndItemsRecipe[0].value
                 shouldRun = true
@@ -282,8 +282,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return true //TODO implement return true of altar has enough power, without consuming any
     }
 
-    private fun validateRitualCircle(level: Level): Boolean {
-        return true //TODO implement
+    private fun validateRitualCircle(level: Level, recipe: RitualRecipe): Boolean {
+        return RitualPatternUtil.matchesPattern(level, blockPos, recipe)
     }
 
     private fun consumeAltarPower(level: Level): Boolean {

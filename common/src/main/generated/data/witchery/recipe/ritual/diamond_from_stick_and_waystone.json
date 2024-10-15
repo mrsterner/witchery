@@ -1,6 +1,7 @@
 {
   "type": "witchery:ritual",
   "altarPower": 0,
+  "blockMapping": {},
   "commands": [
     {
       "type": "end",
@@ -27,5 +28,6 @@
       "id": "minecraft:diamond"
     }
   ],
+  "pattern": [],
   "ticks": 100
 }

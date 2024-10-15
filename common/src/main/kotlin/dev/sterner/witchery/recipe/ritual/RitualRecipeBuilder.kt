@@ -13,6 +13,7 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.level.block.Block
 
 class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
 
@@ -26,6 +27,8 @@ class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
     private var floatingItemOutput: Boolean = false
     private var ticks: Int = 0
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
+    private var pattern: List<String> = listOf()
+    private val blockMapping: MutableMap<Char, Block> = mutableMapOf()
 
     companion object {
         fun create(): RitualRecipeBuilder {
@@ -103,6 +106,16 @@ class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
         return this
     }
 
+    fun pattern(vararg lines: String): RitualRecipeBuilder {
+        pattern = lines.toList()
+        return this
+    }
+
+    fun define(letter: Char, block: Block): RitualRecipeBuilder {
+        blockMapping[letter] = block
+        return this
+    }
+
     override fun unlockedBy(name: String, criterion: Criterion<*>): RitualRecipeBuilder {
         this.criteria[name] = criterion
         return this
@@ -133,7 +146,9 @@ class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
             commands = commands,
             isInfinite = isInfinite,
             floatingItemOutput = floatingItemOutput,
-            ticks = ticks
+            ticks = ticks,
+            pattern = pattern,
+            blockMapping = blockMapping
         )
 
         recipeOutput.accept(
