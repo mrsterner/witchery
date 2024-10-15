@@ -17,6 +17,7 @@ class WitcheryEmiPlugin : EmiPlugin {
     override fun register(registry: EmiRegistry) {
         registry.addCategory(CAULDRON_BREWING_CATEGORY)
         registry.addCategory(CAULDRON_CRAFTING_CATEGORY)
+        registry.addCategory(OVEN_COOKING_CATEGORY)
         val manager: RecipeManager = registry.recipeManager
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())) {
@@ -25,6 +26,10 @@ class WitcheryEmiPlugin : EmiPlugin {
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())) {
             registry.addRecipe(CauldronCraftingEmiRecipe(recipe.id, recipe.value))
+        }
+
+        for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.OVEN_RECIPE_TYPE.get())) {
+            registry.addRecipe(OvenCookingEmiRecipe(recipe.id, recipe.value))
         }
     }
 
@@ -38,6 +43,10 @@ class WitcheryEmiPlugin : EmiPlugin {
 
         val CAULDRON_CRAFTING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
             Witchery.id("cauldron_crafting"), ICON
+        )
+
+        val OVEN_COOKING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
+            Witchery.id("oven_cooking"), ICON
         )
     }
 }
