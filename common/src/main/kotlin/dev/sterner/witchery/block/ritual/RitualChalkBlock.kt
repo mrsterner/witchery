@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import kotlin.random.Random
 
 
-class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: Properties) : Block(properties.noOcclusion().noCollission()) {
+class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: Properties) : Block(properties.noOcclusion().noCollission().replaceable()) {
 
     init {
         this.registerDefaultState(
