@@ -1,5 +1,6 @@
 package dev.sterner.witchery.block
 
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
@@ -128,7 +129,7 @@ class AltarCreationBlock(properties: Properties) : Block(properties) {
 
         if (list.size == 2
             && isAltar(westBlockState)
-            && isAltar(southBlockState)) {
+            && isAltar(northBlockState)) {
 
             val ww = level.getBlockState(pos.west().west())
             val wn = level.getBlockState(pos.west().north())
@@ -165,8 +166,15 @@ class AltarCreationBlock(properties: Properties) : Block(properties) {
     }
 
     private fun makeAltar(level: Level, pos: BlockPos, dire: Direction) {
+        // Here, we assume that the core position should be the position of the altar
+        val corePosition = pos.relative(dire.getOpposite()) // Adjust core position as needed
         AltarBlock.STRUCTURE.get().placeNoContext(level, pos, dire)
         level.setBlockAndUpdate(pos, WitcheryBlocks.ALTAR.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dire.opposite))
+
+        // Ensure the corePos is set correctly
+        if (level.getBlockEntity(corePosition) is MultiBlockComponentBlockEntity) {
+            (level.getBlockEntity(corePosition) as MultiBlockComponentBlockEntity).corePos = corePosition
+        }
     }
 
     fun isAltar(state: BlockState): Boolean {

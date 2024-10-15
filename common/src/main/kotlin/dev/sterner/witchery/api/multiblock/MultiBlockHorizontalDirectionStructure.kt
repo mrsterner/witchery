@@ -25,19 +25,18 @@ class MultiBlockHorizontalDirectionStructure(structurePieces: ArrayList<Structur
         }
     }
 
-    fun placeNoContext(level: Level,  pos: BlockPos, horizontalDirection: Direction) {
+    fun placeNoContext(level: Level, pos: BlockPos, horizontalDirection: Direction) {
         val direction = horizontalDirection.opposite
         structurePieces.forEach { s: StructurePiece ->
             val rotatedOffset = rotateOffset(s.offset, direction)
-            val pos = pos.offset(rotatedOffset)
+            val componentPos = pos.offset(rotatedOffset)
             val stateWithDirection = s.state.setValue(BlockStateProperties.HORIZONTAL_FACING, direction)
-            level.setBlock(pos, stateWithDirection, 3)
+            level.setBlock(componentPos, stateWithDirection, 3)
 
-            val component = level.getBlockEntity(pos)
-            println(level.getBlockState(pos))
-            println(component)
+            // Check if the block entity is a MultiBlockComponentBlockEntity
+            val component = level.getBlockEntity(componentPos)
             if (component is MultiBlockComponentBlockEntity) {
-                component.corePos = pos
+                component.corePos = pos // Set corePos to the main altar position
             }
         }
     }
