@@ -59,7 +59,7 @@
       "y": 270
     },
     "facing=west,lit=true,alt=true": {
-      "model": "witchery:block/copper_witches_oven_on_fume_extension_alt_on",
+      "model": "witchery:block/copper_witches_oven_fume_extension_alt_on",
       "y": 270
     }
   }
