@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.3,
+  "ingredient": {
+    "item": "witchery:clay_jar"
+  },
+  "result": {
+    "id": "witchery:jar"
+  }
+}
