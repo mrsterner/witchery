@@ -19,14 +19,15 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
+import kotlin.random.Random
 
 
-class RitualChalkBlock(val type: ParticleType<*>?, properties: Properties) : Block(properties.noOcclusion().noCollission()) {
+class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: Properties) : Block(properties.noOcclusion().noCollission()) {
 
     init {
         this.registerDefaultState(
             stateDefinition.any()
-                .setValue(VARIANT, 1)
+                .setValue(VARIANT, 0)
         )
     }
 
@@ -57,7 +58,7 @@ class RitualChalkBlock(val type: ParticleType<*>?, properties: Properties) : Blo
     }
 
     override fun getStateForPlacement(context: BlockPlaceContext): BlockState? {
-        return super.getStateForPlacement(context)?.setValue(VARIANT, context.level.random.nextIntBetweenInclusive(1, VARIANTS))
+        return super.getStateForPlacement(context)?.setValue(VARIANT, context.level.random.nextIntBetweenInclusive(0, VARIANTS))
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
@@ -81,7 +82,7 @@ class RitualChalkBlock(val type: ParticleType<*>?, properties: Properties) : Blo
     }
 
     companion object {
-        const val VARIANTS = 5
-        val VARIANT: IntegerProperty = IntegerProperty.create("variant", 1, VARIANTS)
+        const val VARIANTS = 15
+        val VARIANT: IntegerProperty = IntegerProperty.create("variant", 0, VARIANTS)
     }
 }

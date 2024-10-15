@@ -145,6 +145,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         if (ticks / 20 == 5 || powerUpdateQueued) {
             collectAllLocalNaturePower(level)
+            if (powerUpdateQueued) powerUpdateQueued = false
         } else if (ticks % 20 == 0) {
             augmentAltar(level, pos)
             updateCurrentPower()

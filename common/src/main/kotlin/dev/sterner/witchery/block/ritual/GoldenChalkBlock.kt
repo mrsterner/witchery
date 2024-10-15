@@ -22,10 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape
 class GoldenChalkBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().noCollission()) {
 
     init {
-        this.registerDefaultState(
-            stateDefinition.any()
-                .setValue(VARIANT, 1)
-        )
+        this.registerDefaultState(stateDefinition.any())
     }
 
     override fun updateShape(
@@ -48,14 +45,6 @@ class GoldenChalkBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
 
     override fun canSurvive(state: BlockState, level: LevelReader, pos: BlockPos): Boolean {
         return !level.isEmptyBlock(pos.below())
-    }
-
-    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
-        builder.add(VARIANT)
-    }
-
-    override fun getStateForPlacement(context: BlockPlaceContext): BlockState? {
-        return super.getStateForPlacement(context)?.setValue(VARIANT, context.level.random.nextIntBetweenInclusive(1, VARIANTS))
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {

@@ -8,9 +8,13 @@ import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.architectury.registry.client.particle.ParticleProviderRegistry
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
+import dev.architectury.registry.client.rendering.ColorHandlerRegistry
+import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
+import dev.sterner.witchery.block.ritual.RitualChalkBlock
+import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import dev.sterner.witchery.client.model.MandrakeEntityModel
@@ -28,6 +32,9 @@ import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.color.block.BlockColor
+import net.minecraft.client.color.block.BlockColors
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
@@ -135,6 +142,17 @@ object Witchery {
             }
             ret
         }
+
+        ColorHandlerRegistry.registerBlockColors(RitualChalkColors,
+            WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
+            WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
+            WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+
+        RenderTypeRegistry.register(RenderType.cutout(),
+            WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),
+            WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
+            WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
+            WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
     }
 
     fun id(name: String): ResourceLocation {

@@ -198,15 +198,15 @@ object WitcheryBlocks {
     }
 
     val RITUAL_CHALK_BLOCK = BLOCKS.register("ritual_chalk") {
-        RitualChalkBlock(null, BlockBehaviour.Properties.of())
+        RitualChalkBlock(null, 0xFFFFFF, BlockBehaviour.Properties.of())
     }
 
     val INFERNAL_CHALK_BLOCK = BLOCKS.register("infernal_chalk") {
-        RitualChalkBlock(ParticleTypes.FLAME, BlockBehaviour.Properties.of())
+        RitualChalkBlock(ParticleTypes.FLAME, 0xFF0000, BlockBehaviour.Properties.of())
     }
 
     val OTHERWHERE_CHALK_BLOCK = BLOCKS.register("otherwhere_chalk") {
-        RitualChalkBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.of())
+        RitualChalkBlock(ParticleTypes.END_ROD, 0xFF00FF, BlockBehaviour.Properties.of())
     }
 
     val GOLDEN_CHALK_BLOCK = BLOCKS.register("golden_chalk") {
