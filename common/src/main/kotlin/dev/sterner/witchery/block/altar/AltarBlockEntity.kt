@@ -6,6 +6,7 @@ import dev.architectury.networking.NetworkManager
 import dev.architectury.registry.menu.ExtendedMenuProvider
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.block.AltarPowerConsumer
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.menu.AltarMenu
@@ -35,6 +36,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.ALTAR.get(), AltarBlock.STRUCTURE.get(), pos, state) {
 
     var powerUpdateQueued = false
+    var augmentUpdateQueued = false
 
     var currentPower = 0
     var maxPower = 0
@@ -67,11 +69,17 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         // So, while itll auto-update in 5 seconds, we can have it execute on the next tick after a block is placed/broken
 
         powerUpdateQueued = true
+        augmentUpdateQueued = true
 
         BlockEvent.PLACE.register { level, pos, state, entity ->
             if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
                 propagateAltarLocation(level as ServerLevel, pos)
                 powerUpdateQueued = true
+
+                val below = level.getBlockEntity(pos.below())
+                if ((below is MultiBlockComponentBlockEntity && below.corePos == blockPos) ||
+                    (below is AltarBlockEntity && below.blockPos == blockPos))
+                    augmentUpdateQueued = true
             }
 
             EventResult.pass()
@@ -161,10 +169,15 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         if (powerUpdateQueued) {
             collectAllLocalNaturePower(level)
             powerUpdateQueued = false
-        } else if (ticks % 20 == 0) {
-            augmentAltar(level, pos)
-            updateCurrentPower()
         }
+
+        if (augmentUpdateQueued) {
+            augmentAltar(level, pos)
+            augmentUpdateQueued = false
+        }
+
+        if (ticks % 20 == 0)
+            updateCurrentPower()
 
         if (ticks / 20.0 >= 1)
             ticks = 0
