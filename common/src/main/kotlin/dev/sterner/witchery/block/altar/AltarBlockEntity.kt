@@ -14,6 +14,7 @@ import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
@@ -27,7 +28,9 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.ContainerData
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
 import kotlin.math.floor
 
@@ -66,8 +69,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     var ticks = 0
 
     init {
-        // So, while itll auto-update in 5 seconds, we can have it execute on the next tick after a block is placed/broken
-
         powerUpdateQueued = true
         augmentUpdateQueued = true
 
@@ -76,9 +77,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                 propagateAltarLocation(level as ServerLevel, pos)
                 powerUpdateQueued = true
 
-                val below = level.getBlockEntity(pos.below())
-                if ((below is MultiBlockComponentBlockEntity && below.corePos == blockPos) ||
-                    (below is AltarBlockEntity && below.blockPos == blockPos))
+                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center))
                     augmentUpdateQueued = true
             }
 
@@ -86,8 +85,12 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         }
 
         BlockEvent.BREAK.register { level, pos, state, player, xp ->
-            if (!level.isClientSide && getLocalAABB().contains(pos.center))
+            if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
                 powerUpdateQueued = true
+
+                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center))
+                    augmentUpdateQueued = true
+            }
 
             EventResult.pass()
         }
@@ -102,8 +105,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         val aabb = getLocalAABB()
         level.getBlockStatesIfLoaded(aabb).forEach { state ->
 
-            val power = NaturePowerHandler.getPower(state.block) ?: return@forEach
-            val limit = NaturePowerHandler.getLimit(state.block) ?: return@forEach
+            val power = NaturePowerHandler.getPower(state) ?: return@forEach
+            val limit = NaturePowerHandler.getLimit(state) ?: return@forEach
             if (limitTracker.getOrDefault(limit.first, 0) >= limit.second)
                 return@forEach
             maxPower += power
@@ -119,11 +122,19 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             currentPower = floor(currentPower + rate).toInt()
     }
 
-    fun augmentAltar(level: ServerLevel, corePos: BlockPos) {
-        // Do augmentation stuff here
-        // Remember, certain augments effects dont stack, they take the best of em.
-        // updating range
-        // Updating multiplier
+    fun getLocalAugmentAABB(direction: Direction): AABB {
+        val forwardVec = direction.opposite.normal
+        val sidewaysVec = direction.counterClockWise.normal
+        val aabb = AABB(blockPos).move(0.0, 1.0, 0.0)
+            .expandTowards(forwardVec.x.toDouble(), 0.0, forwardVec.z.toDouble())
+            .expandTowards(sidewaysVec.x.toDouble(), 0.0, sidewaysVec.z.toDouble())
+            .expandTowards(-sidewaysVec.x.toDouble(), 0.0, -sidewaysVec.z.toDouble())
+        return aabb.setMaxX(aabb.maxX - 0.4).setMaxY(aabb.maxY - 0.4).setMaxZ(aabb.maxZ - 0.4)
+    }
+
+    fun augmentAltar(level: ServerLevel) {
+        val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+        // Do Stuff
     }
 
     fun propagateAltarLocation(level: ServerLevel, pos: BlockPos) {
@@ -172,7 +183,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         }
 
         if (augmentUpdateQueued) {
-            augmentAltar(level, pos)
+            augmentAltar(level)
             augmentUpdateQueued = false
         }
 
