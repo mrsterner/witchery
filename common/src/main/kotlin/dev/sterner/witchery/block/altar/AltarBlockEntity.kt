@@ -6,6 +6,7 @@ import dev.architectury.networking.NetworkManager
 import dev.architectury.registry.menu.ExtendedMenuProvider
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.block.AltarPowerConsumer
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.menu.AltarMenu
@@ -13,6 +14,9 @@ import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.core.HolderLookup
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -24,7 +28,9 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.ContainerData
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
 import kotlin.math.floor
 
@@ -33,6 +39,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.ALTAR.get(), AltarBlock.STRUCTURE.get(), pos, state) {
 
     var powerUpdateQueued = false
+    var augmentUpdateQueued = false
 
     var currentPower = 0
     var maxPower = 0
@@ -62,22 +69,28 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     var ticks = 0
 
     init {
-        // So, while itll auto-update in 5 seconds, we can have it execute on the next tick after a block is placed/broken
-
         powerUpdateQueued = true
+        augmentUpdateQueued = true
 
         BlockEvent.PLACE.register { level, pos, state, entity ->
             if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
                 propagateAltarLocation(level as ServerLevel, pos)
                 powerUpdateQueued = true
+
+                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center))
+                    augmentUpdateQueued = true
             }
 
             EventResult.pass()
         }
 
         BlockEvent.BREAK.register { level, pos, state, player, xp ->
-            if (!level.isClientSide && getLocalAABB().contains(pos.center))
+            if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
                 powerUpdateQueued = true
+
+                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center))
+                    augmentUpdateQueued = true
+            }
 
             EventResult.pass()
         }
@@ -92,8 +105,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         val aabb = getLocalAABB()
         level.getBlockStatesIfLoaded(aabb).forEach { state ->
 
-            val power = NaturePowerHandler.getPower(state.block) ?: return@forEach
-            val limit = NaturePowerHandler.getLimit(state.block) ?: return@forEach
+            val power = NaturePowerHandler.getPower(state) ?: return@forEach
+            val limit = NaturePowerHandler.getLimit(state) ?: return@forEach
             if (limitTracker.getOrDefault(limit.first, 0) >= limit.second)
                 return@forEach
             maxPower += power
@@ -109,11 +122,19 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             currentPower = floor(currentPower + rate).toInt()
     }
 
-    fun augmentAltar(level: ServerLevel, corePos: BlockPos) {
-        // Do augmentation stuff here
-        // Remember, certain augments effects dont stack, they take the best of em.
-        // updating range
-        // Updating multiplier
+    fun getLocalAugmentAABB(direction: Direction): AABB {
+        val forwardVec = direction.opposite.normal
+        val sidewaysVec = direction.counterClockWise.normal
+        val aabb = AABB(blockPos).move(0.0, 1.0, 0.0)
+            .expandTowards(forwardVec.x.toDouble(), 0.0, forwardVec.z.toDouble())
+            .expandTowards(sidewaysVec.x.toDouble(), 0.0, sidewaysVec.z.toDouble())
+            .expandTowards(-sidewaysVec.x.toDouble(), 0.0, -sidewaysVec.z.toDouble())
+        return aabb.setMaxX(aabb.maxX - 0.4).setMaxY(aabb.maxY - 0.4).setMaxZ(aabb.maxZ - 0.4)
+    }
+
+    fun augmentAltar(level: ServerLevel) {
+        val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+        // Do Stuff
     }
 
     fun propagateAltarLocation(level: ServerLevel, pos: BlockPos) {
@@ -156,18 +177,37 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         if (level !is ServerLevel) return
 
-        if (ticks / 20 == 5 || powerUpdateQueued) {
+        if (powerUpdateQueued) {
             collectAllLocalNaturePower(level)
-            if (powerUpdateQueued) powerUpdateQueued = false
-        } else if (ticks % 20 == 0) {
-            augmentAltar(level, pos)
-            updateCurrentPower()
+            powerUpdateQueued = false
         }
 
-        if (ticks / 20.0 >= 5)
+        if (augmentUpdateQueued) {
+            augmentAltar(level)
+            augmentUpdateQueued = false
+        }
+
+        if (ticks % 20 == 0)
+            updateCurrentPower()
+
+        if (ticks / 20.0 >= 1)
             ticks = 0
         else
             ticks++
+    }
+
+    override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
+        tag.putInt("currentPower", currentPower)
+        tag.putInt("maxPower", maxPower)
+
+        super.saveAdditional(tag, registries)
+    }
+
+    override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
+        super.loadAdditional(pTag, pRegistries)
+
+        currentPower = pTag.getInt("currentPower")
+        maxPower = pTag.getInt("maxPower")
     }
 
     fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean {

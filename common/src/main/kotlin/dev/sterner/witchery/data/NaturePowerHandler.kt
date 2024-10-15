@@ -24,6 +24,7 @@ import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.LevelEvent
 import net.minecraft.world.level.block.entity.SmokerBlockEntity
+import net.minecraft.world.level.block.state.BlockState
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.Executor
@@ -58,11 +59,11 @@ object NaturePowerHandler {
     /**
      * This method gets the base power provided by the given Block.
      */
-    fun getPower(block: Block): Int? {
-        var power = NATURE_POWER_VALUES[Either.left(block)]?.first
+    fun getPower(block: BlockState): Int? {
+        var power = NATURE_POWER_VALUES[Either.left(block.block)]?.first
         if (power != null) return power
         
-        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.defaultBlockState().`is`(it.right().get()) }.keys
+        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.`is`(it.right().get()) }.keys
         if (tags.isNotEmpty()) power = NATURE_POWER_VALUES[tags.first()]?.first
         return power
     }
@@ -71,11 +72,11 @@ object NaturePowerHandler {
      * This method gets the limit for the Block.
      * Please check against this value to determine if its base power should be added!!!!
      */
-    fun getLimit(block: Block): Pair<ResourceLocation, Int>? {
-        var limit = NATURE_POWER_VALUES[Either.left(block)]?.second
-        if (limit != null) return Pair(BuiltInRegistries.BLOCK.getKey(block), limit)
+    fun getLimit(block: BlockState): Pair<ResourceLocation, Int>? {
+        var limit = NATURE_POWER_VALUES[Either.left(block.block)]?.second
+        if (limit != null) return Pair(BuiltInRegistries.BLOCK.getKey(block.block), limit)
 
-        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.defaultBlockState().`is`(it.right().get()) }.keys
+        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.`is`(it.right().get()) }.keys
         if (tags.isNotEmpty()) limit = NATURE_POWER_VALUES[tags.first()]?.second
         return limit?.let { Pair(tags.first().right().get().location, it) }
     }
