@@ -8,6 +8,7 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.platform.neoforge.MutandisLevelDataAttachmentPlatformImpl
 import dev.sterner.witchery.registry.WitcheryMenuTypes
 import dev.sterner.witchery.registry.WitcheryParticleTypes
+import dev.sterner.witchery.registry.WitcheryRitualRegistry
 import net.minecraft.client.Minecraft
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
@@ -17,6 +18,7 @@ import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.neoforged.neoforge.registries.DataPackRegistryEvent
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
 
@@ -73,5 +75,10 @@ object WitcheryNeoForge {
         event.register(WitcheryMenuTypes.OVEN_MENU_TYPE.get()) { arg, arg2, arg3 ->
             OvenScreen(arg, arg2, arg3)
         }
+    }
+
+    @SubscribeEvent
+    fun createDataPackRegistries(event: DataPackRegistryEvent.NewRegistry) {
+        event.dataPackRegistry(WitcheryRitualRegistry.RITUAL_KEY, WitcheryRitualRegistry.CODEC, WitcheryRitualRegistry.CODEC)
     }
 }

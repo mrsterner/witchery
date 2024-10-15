@@ -4,11 +4,14 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.CommandContext
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.registry.WitcheryRitualRegistry
+import net.minecraft.core.Holder
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -24,6 +27,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 
 class RitualRecipe(
+    val ritualType: Ritual?,
     val inputItems: List<ItemStack>,
     val inputEntities: List<EntityType<*>>,
     val outputItems: List<ItemStack>,
@@ -89,6 +93,7 @@ class RitualRecipe(
             val CODEC: MapCodec<RitualRecipe> =
                 RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<RitualRecipe> ->
                     obj.group(
+                        WitcheryRitualRegistry.CODEC.fieldOf("ritual").forGetter { it.ritualType },
                         ItemStack.STRICT_SINGLE_ITEM_CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
                         BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("inputEntities")
                             .forGetter { it.inputEntities },

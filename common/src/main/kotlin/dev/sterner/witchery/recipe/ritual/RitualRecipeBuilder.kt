@@ -1,12 +1,16 @@
 package dev.sterner.witchery.recipe.ritual
 
+import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.recipe.WitcheryRecipeBuilder
 import dev.sterner.witchery.recipe.ritual.RitualRecipe.Celestial
+import dev.sterner.witchery.registry.WitcheryRitualRegistry
+import dev.sterner.witchery.ritual.EmptyRitual
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
+import net.minecraft.core.Holder
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
@@ -17,6 +21,7 @@ import net.minecraft.world.level.block.Block
 
 class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
 
+    private var ritual: Ritual = EmptyRitual()
     private var inputItems: MutableList<ItemStack> = mutableListOf()
     private var inputEntities: MutableList<EntityType<*>> = mutableListOf()
     private var outputItems: MutableList<ItemStack> = mutableListOf()
@@ -142,6 +147,11 @@ class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
         return this
     }
 
+    fun setCustomRitual(ritual: Ritual): RitualRecipeBuilder {
+        this.ritual = ritual
+        return this
+    }
+
     override fun unlockedBy(name: String, criterion: Criterion<*>): RitualRecipeBuilder {
         this.criteria[name] = criterion
         return this
@@ -164,6 +174,7 @@ class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
         criteria.forEach { (name, criterion) -> builder.addCriterion(name, criterion) }
 
         val recipe = RitualRecipe(
+            ritualType = ritual,
             inputItems = inputItems,
             inputEntities = inputEntities,
             outputItems = outputItems,

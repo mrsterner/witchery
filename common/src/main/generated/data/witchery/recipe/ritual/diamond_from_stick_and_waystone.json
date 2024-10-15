@@ -2,6 +2,7 @@
   "type": "witchery:ritual",
   "altarPower": 0,
   "blockMapping": {},
+  "celestialConditions": [],
   "commands": [
     {
       "type": "end",
@@ -29,5 +30,8 @@
     }
   ],
   "pattern": [],
+  "ritual": {
+    "id": "witchery:empty"
+  },
   "ticks": 100
 }

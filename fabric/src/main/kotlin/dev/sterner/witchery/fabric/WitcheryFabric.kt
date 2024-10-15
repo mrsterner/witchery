@@ -6,6 +6,7 @@ import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryParticleTypes
+import dev.sterner.witchery.registry.WitcheryRitualRegistry
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
@@ -13,6 +14,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.minecraft.client.renderer.RenderType
 
 
@@ -29,6 +31,8 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
     override fun onInitialize() {
         Witchery.init()
+
+        DynamicRegistries.registerSynced(WitcheryRitualRegistry.RITUAL_KEY, WitcheryRitualRegistry.CODEC)
     }
 
     override fun onInitializeClient() {

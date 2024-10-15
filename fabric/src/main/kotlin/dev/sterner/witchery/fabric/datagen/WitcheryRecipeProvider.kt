@@ -10,6 +10,7 @@ import dev.sterner.witchery.recipe.oven.OvenCookingRecipeBuilder
 import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.ritual.PushMobsRitual
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.core.HolderLookup
@@ -303,6 +304,25 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             )
             .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .save(exporter)
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.FEATHER.defaultInstance)
+            .addInputItem(Items.REDSTONE.defaultInstance)
+            .setAltarPower(20)
+            .setInfinite(true)
+            .pattern(
+                "__RRR__",
+                "_R___R_",
+                "R_____R",
+                "R__G__R",
+                "R_____R",
+                "_R___R_",
+                "__RRR__"
+            )
+            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .setCustomRitual(PushMobsRitual())
             .save(exporter)
 
     }

@@ -1,32 +1,23 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 2000,
+  "altarPower": 20,
   "blockMapping": {
     "G": "witchery:golden_chalk",
     "R": "witchery:ritual_chalk"
   },
   "celestialConditions": [],
-  "commands": [
-    {
-      "type": "end",
-      "command": "summon lightning_bolt {blockPos}",
-      "context": "blockpos"
-    }
-  ],
+  "commands": [],
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [
     {
-      "id": "minecraft:wooden_sword"
+      "id": "minecraft:feather"
     },
     {
-      "id": "witchery:wood_ash"
-    },
-    {
-      "id": "witchery:waystone"
+      "id": "minecraft:redstone"
     }
   ],
-  "isInfinite": false,
+  "isInfinite": true,
   "outputEntities": [],
   "outputItems": [],
   "pattern": [
@@ -39,7 +30,7 @@
     "__RRR__"
   ],
   "ritual": {
-    "id": "witchery:empty"
+    "id": "witchery:push_mobs"
   },
-  "ticks": 20
+  "ticks": 0
 }

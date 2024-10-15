@@ -48,6 +48,7 @@ object Witchery {
 
     @JvmStatic
     fun init() {
+        //WitcheryRitualRegistry.RITUALS.register()
         WitcheryBlocks.BLOCKS.register()
         WitcheryBlockEntityTypes.BLOCK_ENTITY_TYPES.register()
         WitcheryItems.ITEMS.register()

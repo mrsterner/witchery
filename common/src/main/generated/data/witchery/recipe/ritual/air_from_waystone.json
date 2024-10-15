@@ -5,6 +5,7 @@
     "G": "witchery:golden_chalk",
     "R": "witchery:otherwhere_chalk"
   },
+  "celestialConditions": [],
   "commands": [
     {
       "type": "end",
@@ -31,5 +32,8 @@
     "_R___R_",
     "__RRR__"
   ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
   "ticks": 20
 }
