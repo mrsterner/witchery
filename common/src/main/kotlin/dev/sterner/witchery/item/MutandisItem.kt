@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item
 
 import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform
+import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
@@ -30,12 +31,22 @@ class MutandisItem(properties: Properties) : Item(properties) {
                 BlockTags.SAPLINGS
             )
         ) return InteractionResult.SUCCESS
+
         if (handleTagReplacement(
                 useOnContext.player,
                 level,
                 pos,
                 state,
                 BlockTags.FLOWERS
+            )
+        ) return InteractionResult.SUCCESS
+
+        if (handleTagReplacement(
+                useOnContext.player,
+                level,
+                pos,
+                state,
+                WitcheryTags.VINES
             )
         ) return InteractionResult.SUCCESS
 

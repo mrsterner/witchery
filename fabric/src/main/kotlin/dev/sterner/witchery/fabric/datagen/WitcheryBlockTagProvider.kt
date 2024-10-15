@@ -18,6 +18,12 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
 
         getOrCreateTagBuilder(WitcheryTags.ROWAN_LOGS)
 
+        getOrCreateTagBuilder(BlockTags.FLOWERS)
+            .add(WitcheryBlocks.GLINTWEED.get())
+            .add(WitcheryBlocks.EMBER_MOSS.get())
+
+
+
         getOrCreateTagBuilder(BlockTags.CROPS)
             .add(WitcheryBlocks.MANDRAKE_CROP.get())
             .add(WitcheryBlocks.SNOWBELL_CROP.get())
@@ -100,6 +106,12 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             .add(Blocks.POTTED_WARPED_FUNGUS)
             .add(Blocks.WARPED_WART_BLOCK)
 
+        getOrCreateTagBuilder(WitcheryTags.VINES)
+            .addOptionalTag(BlockTags.CAVE_VINES)
+            .add(WitcheryBlocks.SPANISH_MOSS.get())
+            .add(Blocks.VINE)
+            .add(Blocks.WEEPING_VINES)
+            .add(Blocks.TWISTING_VINES)
 
     }
 }
