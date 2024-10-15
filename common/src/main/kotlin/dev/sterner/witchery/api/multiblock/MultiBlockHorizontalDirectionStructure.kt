@@ -34,6 +34,8 @@ class MultiBlockHorizontalDirectionStructure(structurePieces: ArrayList<Structur
             level.setBlock(pos, stateWithDirection, 3)
 
             val component = level.getBlockEntity(pos)
+            println(level.getBlockState(pos))
+            println(component)
             if (component is MultiBlockComponentBlockEntity) {
                 component.corePos = pos
             }
