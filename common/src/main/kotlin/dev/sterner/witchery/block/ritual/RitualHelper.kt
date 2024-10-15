@@ -34,7 +34,7 @@ object RitualHelper {
         }
     }
 
-    fun summonSummons(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity){
+    fun summonSummons(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
         if (blockEntity.ritualRecipe != null) {
             for (entityType in blockEntity.ritualRecipe!!.outputEntities) {
                 val entity = entityType.create(level)
@@ -59,11 +59,13 @@ object RitualHelper {
                         CommandContext.NOTHING -> {
                             runCommand(blockEntity, level, server, blockPos, commandType.command, null, null)
                         }
+
                         CommandContext.PLAYER -> {
                             val playerUuid = blockEntity.targetPlayer
                             val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
                             runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
                         }
+
                         CommandContext.PLAYER_OR_ENTITY -> {
                             val playerUuid = blockEntity.targetPlayer
                             val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
@@ -71,19 +73,38 @@ object RitualHelper {
                                 runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
                             } else {
                                 val targetEntity = blockEntity.targetEntity
-                                runCommand(blockEntity, level, server, blockPos, commandType.command, null, targetEntity)
+                                runCommand(
+                                    blockEntity,
+                                    level,
+                                    server,
+                                    blockPos,
+                                    commandType.command,
+                                    null,
+                                    targetEntity
+                                )
                             }
                         }
+
                         CommandContext.ENTITY -> {
                             val targetEntity = blockEntity.targetEntity
                             runCommand(blockEntity, level, server, blockPos, commandType.command, null, targetEntity)
                         }
+
                         CommandContext.BLOCKPOS -> {
                             val targetPos = blockEntity.targetPos
                             if (targetPos != null) {
-                                val dimensionLevel = server?.getLevel(targetPos.dimension()) // Get the correct dimension's level
+                                val dimensionLevel =
+                                    server?.getLevel(targetPos.dimension()) // Get the correct dimension's level
                                 if (dimensionLevel != null) {
-                                    runCommand(blockEntity, dimensionLevel, server, targetPos.pos(), commandType.command, null, null)
+                                    runCommand(
+                                        blockEntity,
+                                        dimensionLevel,
+                                        server,
+                                        targetPos.pos(),
+                                        commandType.command,
+                                        null,
+                                        null
+                                    )
                                 }
                             }
                         }
@@ -93,7 +114,15 @@ object RitualHelper {
         }
     }
 
-    private fun runCommand(blockEntity: GoldenChalkBlockEntity, level: Level, minecraftServer: MinecraftServer?, blockPos: BlockPos, command: String, player: Player?, entityId: Int?) {
+    private fun runCommand(
+        blockEntity: GoldenChalkBlockEntity,
+        level: Level,
+        minecraftServer: MinecraftServer?,
+        blockPos: BlockPos,
+        command: String,
+        player: Player?,
+        entityId: Int?
+    ) {
         var formattedCommand = command
         if (minecraftServer != null && formattedCommand.isNotEmpty()) {
             val commandSource: CommandSourceStack = minecraftServer.createCommandSourceStack().withSuppressedOutput()
@@ -120,8 +149,11 @@ object RitualHelper {
             formattedCommand = formattedCommand.replace("{time}", "${level.dayTime}")
             formattedCommand = formattedCommand.replace("{owner}", "${blockEntity.ownerName}")
             formattedCommand = formattedCommand.replace("{blockPos}", "${blockPos.x} ${blockPos.y} ${blockPos.z}")
-            formattedCommand = "execute as ${blockEntity.ownerName} run execute in ${level.dimension().location().path} run " + formattedCommand
-            val parseResults: ParseResults<CommandSourceStack> = commandManager.dispatcher.parse(formattedCommand, commandSource)
+            formattedCommand = "execute as ${blockEntity.ownerName} run execute in ${
+                level.dimension().location().path
+            } run " + formattedCommand
+            val parseResults: ParseResults<CommandSourceStack> =
+                commandManager.dispatcher.parse(formattedCommand, commandSource)
             commandManager.performCommand(parseResults, formattedCommand)
         }
     }

@@ -12,12 +12,14 @@ import net.minecraft.world.inventory.SimpleContainerData
 import net.minecraft.world.item.ItemStack
 import kotlin.jvm.optionals.getOrNull
 
-class AltarMenu(containerId: Int, inventory: Inventory, buf: FriendlyByteBuf) : AbstractContainerMenu(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), containerId) {
+class AltarMenu(containerId: Int, inventory: Inventory, buf: FriendlyByteBuf) :
+    AbstractContainerMenu(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), containerId) {
     var data: ContainerData = SimpleContainerData(2)
     var altar: AltarBlockEntity? = null
 
     init {
-        altar = inventory.player.level().getBlockEntity(buf.readBlockPos(), WitcheryBlockEntityTypes.ALTAR.get()).getOrNull()
+        altar = inventory.player.level().getBlockEntity(buf.readBlockPos(), WitcheryBlockEntityTypes.ALTAR.get())
+            .getOrNull()
         altar?.let { altar ->
             data = altar.data
         }

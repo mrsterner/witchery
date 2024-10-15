@@ -19,10 +19,10 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import kotlin.random.Random
 
 
-class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: Properties) : Block(properties.noOcclusion().noCollission().replaceable()) {
+class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: Properties) :
+    Block(properties.noOcclusion().noCollission().replaceable()) {
 
     init {
         this.registerDefaultState(
@@ -58,7 +58,8 @@ class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: P
     }
 
     override fun getStateForPlacement(context: BlockPlaceContext): BlockState? {
-        return super.getStateForPlacement(context)?.setValue(VARIANT, context.level.random.nextIntBetweenInclusive(0, VARIANTS))
+        return super.getStateForPlacement(context)
+            ?.setValue(VARIANT, context.level.random.nextIntBetweenInclusive(0, VARIANTS))
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {

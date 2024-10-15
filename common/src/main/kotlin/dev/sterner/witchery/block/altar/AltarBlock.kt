@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.Containers
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
@@ -55,7 +54,13 @@ class AltarBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.no
         newState: BlockState,
         movedByPiston: Boolean
     ) {
-        Containers.dropItemStack(level, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, ItemStack(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), 6))
+        Containers.dropItemStack(
+            level,
+            pos.x + 0.5,
+            pos.y + 0.5,
+            pos.z + 0.5,
+            ItemStack(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), 6)
+        )
         super.onRemove(state, level, pos, newState, movedByPiston)
     }
 

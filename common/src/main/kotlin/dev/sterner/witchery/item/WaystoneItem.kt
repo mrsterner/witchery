@@ -4,18 +4,12 @@ import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
-import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
-import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
-import net.minecraft.world.InteractionResultHolder
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
-import net.minecraft.world.item.component.ResolvableProfile
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import java.awt.Color
@@ -40,25 +34,30 @@ class WaystoneItem(properties: Properties) : Item(properties) {
             val dimension = capitalizeString(glob.dimension.location().path)
             val color = when (dimension) {
                 "The Nether" -> {
-                    Color(255,0,0).rgb
+                    Color(255, 0, 0).rgb
                 }
+
                 "The End" -> {
-                    Color(255,0,255).rgb
+                    Color(255, 0, 255).rgb
                 }
+
                 else -> {
-                    Color(0,255,0).rgb
+                    Color(0, 255, 0).rgb
                 }
             }
             tooltipComponents.add(Component.literal(dimension).setStyle(Style.EMPTY).withColor(color))
 
-            tooltipComponents.add(Component.literal("Position: ").withColor(0xFFAA00)
-                .append(Component.literal("${glob.pos.x} ${glob.pos.y} ${glob.pos.z}").withColor(0x55FFFF)))
+            tooltipComponents.add(
+                Component.literal("Position: ").withColor(0xFFAA00)
+                    .append(Component.literal("${glob.pos.x} ${glob.pos.y} ${glob.pos.z}").withColor(0x55FFFF))
+            )
         }
         val player = Minecraft.getInstance().level?.let { TaglockItem.getPlayer(it, stack) }
         if (player != null) {
             tooltipComponents.add(
                 Component.literal(player.gameProfile.name.replaceFirstChar(Char::uppercase))
-                    .setStyle(Style.EMPTY.withColor(Color(255,2,100).rgb)))
+                    .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
+            )
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
@@ -72,9 +71,6 @@ class WaystoneItem(properties: Properties) : Item(properties) {
         fun getGlobalPos(stack: ItemStack): GlobalPos? {
             return stack.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())
         }
-
-
-
 
 
         fun capitalizeString(string: String): String {

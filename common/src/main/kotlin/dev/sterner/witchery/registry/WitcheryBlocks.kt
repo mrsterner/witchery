@@ -46,44 +46,54 @@ object WitcheryBlocks {
     }
 
     val CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("cauldron") {
-        CauldronBlock(BlockBehaviour.Properties.of()
-            .sound(SoundType.METAL)
+        CauldronBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
         )
     }
 
     val CAULDRON_COMPONENT: RegistrySupplier<CauldronBlockComponent> = BLOCKS.register("cauldron_component") {
-        CauldronBlockComponent(BlockBehaviour.Properties.of()
-            .sound(SoundType.METAL)
+        CauldronBlockComponent(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
         )
     }
 
     val IRON_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("iron_witches_oven") {
-        OvenBlock(BlockBehaviour.Properties.of()
-            .sound(SoundType.METAL)
+        OvenBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
         )
     }
 
-    val IRON_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> = BLOCKS.register("iron_witches_oven_fume_extension") {
-        OvenFumeExtensionBlock(BlockBehaviour.Properties.of()
-            .sound(SoundType.METAL)
-        )
-    }
+    val IRON_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> =
+        BLOCKS.register("iron_witches_oven_fume_extension") {
+            OvenFumeExtensionBlock(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
 
-    val COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> = BLOCKS.register("copper_witches_oven_fume_extension") {
-        OvenFumeExtensionBlock(BlockBehaviour.Properties.of()
-            .sound(SoundType.METAL)
-        )
-    }
+    val COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> =
+        BLOCKS.register("copper_witches_oven_fume_extension") {
+            OvenFumeExtensionBlock(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
 
-    val IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT: RegistrySupplier<OvenFumeExtensionBlockComponent> = BLOCKS.register("iron_witches_oven_fume_extension_component") {
-        OvenFumeExtensionBlockComponent(BlockBehaviour.Properties.of()
-            .sound(SoundType.METAL)
-        )
-    }
+    val IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT: RegistrySupplier<OvenFumeExtensionBlockComponent> =
+        BLOCKS.register("iron_witches_oven_fume_extension_component") {
+            OvenFumeExtensionBlockComponent(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
 
     val COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("copper_witches_oven") {
-        OvenBlock(BlockBehaviour.Properties.of()
-            .sound(SoundType.METAL)
+        OvenBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
         )
     }
 
@@ -95,7 +105,8 @@ object WitcheryBlocks {
                 .instabreak()
                 .sound(SoundType.GRASS)
                 .offsetType(BlockBehaviour.OffsetType.XZ)
-                .pushReaction(PushReaction.DESTROY))
+                .pushReaction(PushReaction.DESTROY)
+        )
     }
 
     val EMBER_MOSS: RegistrySupplier<EmbermossBlock> = BLOCKS.register("ember_moss") {
@@ -106,18 +117,21 @@ object WitcheryBlocks {
                 .instabreak()
                 .sound(SoundType.GRASS)
                 .offsetType(BlockBehaviour.OffsetType.XZ)
-                .pushReaction(PushReaction.DESTROY))
+                .pushReaction(PushReaction.DESTROY)
+        )
     }
 
     val SPANISH_MOSS: RegistrySupplier<SpanishMossBlock> = BLOCKS.register("spanish_moss") {
-        SpanishMossBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
-            .replaceable()
-            .noCollission()
-            .randomTicks()
-            .strength(0.2F)
-            .sound(SoundType.VINE)
-            .ignitedByLava()
-            .pushReaction(PushReaction.DESTROY))
+        SpanishMossBlock(
+            BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+                .replaceable()
+                .noCollission()
+                .randomTicks()
+                .strength(0.2F)
+                .sound(SoundType.VINE)
+                .ignitedByLava()
+                .pushReaction(PushReaction.DESTROY)
+        )
     }
 
     val MANDRAKE_CROP = BLOCKS.register("mandrake") {
@@ -209,11 +223,11 @@ object WitcheryBlocks {
     }
 
     val INFERNAL_CHALK_BLOCK = BLOCKS.register("infernal_chalk") {
-        RitualChalkBlock(ParticleTypes.FLAME, Color(230,0,75).rgb, BlockBehaviour.Properties.of())
+        RitualChalkBlock(ParticleTypes.FLAME, Color(230, 0, 75).rgb, BlockBehaviour.Properties.of())
     }
 
     val OTHERWHERE_CHALK_BLOCK = BLOCKS.register("otherwhere_chalk") {
-        RitualChalkBlock(ParticleTypes.PORTAL, Color(190,55,250).rgb, BlockBehaviour.Properties.of())
+        RitualChalkBlock(ParticleTypes.PORTAL, Color(190, 55, 250).rgb, BlockBehaviour.Properties.of())
     }
 
     val GOLDEN_CHALK_BLOCK = BLOCKS.register("golden_chalk") {

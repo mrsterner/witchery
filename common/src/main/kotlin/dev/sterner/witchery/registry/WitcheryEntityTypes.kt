@@ -18,7 +18,7 @@ object WitcheryEntityTypes {
             { _: EntityType<MandrakeEntity>, level: Level ->
                 MandrakeEntity(level)
             }, MobCategory.CREATURE
-        ).sized(0.5f,0.5f).build(Witchery.id("mandrake").toString())
+        ).sized(0.5f, 0.5f).build(Witchery.id("mandrake").toString())
     }
 
 

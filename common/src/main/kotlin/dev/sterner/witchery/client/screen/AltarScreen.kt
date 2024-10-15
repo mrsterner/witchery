@@ -8,8 +8,9 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.player.Inventory
 
-class AltarScreen(menu: AltarMenu, inventory: Inventory, title: Component): AbstractContainerScreen<AltarMenu>(
-    menu, NamelessInventory(inventory), Component.empty().append(title).withStyle(ChatFormatting.WHITE)) {
+class AltarScreen(menu: AltarMenu, inventory: Inventory, title: Component) : AbstractContainerScreen<AltarMenu>(
+    menu, NamelessInventory(inventory), Component.empty().append(title).withStyle(ChatFormatting.WHITE)
+) {
 
     override fun isPauseScreen() = false
 
@@ -36,8 +37,10 @@ class AltarScreen(menu: AltarMenu, inventory: Inventory, title: Component): Abst
         super.render(guiGraphics, mouseX, mouseY, partialTick)
 
         // render current power, max power, multiplier
-        guiGraphics.drawCenteredString(font, POWER_FORMAT.format(menu.getCurrentPower(), menu.getMaxPower(), menu.altar?.powerMultiplier ?: 1),
-            this.width / 2, this.height / 2 - font.lineHeight / 2, ChatFormatting.WHITE.color ?: 0xFFFFFF)
+        guiGraphics.drawCenteredString(
+            font, POWER_FORMAT.format(menu.getCurrentPower(), menu.getMaxPower(), menu.altar?.powerMultiplier ?: 1),
+            this.width / 2, this.height / 2 - font.lineHeight / 2, ChatFormatting.WHITE.color ?: 0xFFFFFF
+        )
     }
 
     companion object {
@@ -46,7 +49,7 @@ class AltarScreen(menu: AltarMenu, inventory: Inventory, title: Component): Abst
         const val POWER_FORMAT = "%s/%s (%sx)"
     }
 
-    class NamelessInventory(inventory: Inventory): Inventory(inventory.player) {
+    class NamelessInventory(inventory: Inventory) : Inventory(inventory.player) {
         override fun getDisplayName() = Component.literal("")
     }
 }

@@ -2,7 +2,6 @@ package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
@@ -15,7 +14,12 @@ object RitualPatternUtil {
         return matchesPattern(level, center, pattern, blockMapping)
     }
 
-    fun matchesPattern(level: Level, center: BlockPos, pattern: List<String>, blockMapping: Map<Char, Block>): Boolean {
+    private fun matchesPattern(
+        level: Level,
+        center: BlockPos,
+        pattern: List<String>,
+        blockMapping: Map<Char, Block>
+    ): Boolean {
         val size = pattern.size
         val halfSize = size / 2
 

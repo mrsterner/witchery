@@ -64,8 +64,9 @@ object Witchery {
 
         EntityAttributeRegistry.register(WitcheryEntityTypes.MANDRAKE, MandrakeEntity::createAttributes)
 
-        ClientLifecycleEvent.CLIENT_SETUP.register{
-            MenuRegistry.registerScreenFactory(WitcheryMenuTypes.OVEN_MENU_TYPE.get(),
+        ClientLifecycleEvent.CLIENT_SETUP.register {
+            MenuRegistry.registerScreenFactory(
+                WitcheryMenuTypes.OVEN_MENU_TYPE.get(),
                 ::OvenScreen
             )
             MenuRegistry.registerScreenFactory(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
@@ -77,7 +78,11 @@ object Witchery {
         NaturePowerHandler.registerListener()
     }
 
-    private fun interactEntityTaglock(player: Player, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
+    private fun interactEntityTaglock(
+        player: Player,
+        entity: Entity?,
+        interactionHand: InteractionHand?
+    ): EventResult? {
         if (player.mainHandItem.`is`(WitcheryItems.TAGLOCK.get()) && interactionHand == InteractionHand.MAIN_HAND) {
             if (entity is Player) {
                 TaglockItem.bindPlayer(entity, player.mainHandItem)
@@ -142,13 +147,15 @@ object Witchery {
             ret
         }
 
-        ColorHandlerRegistry.registerBlockColors(RitualChalkColors,
+        ColorHandlerRegistry.registerBlockColors(
+            RitualChalkColors,
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
             WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
             WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get()
         )
 
-        RenderTypeRegistry.register(RenderType.cutout(),
+        RenderTypeRegistry.register(
+            RenderType.cutout(),
             WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
             WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),

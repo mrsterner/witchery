@@ -14,7 +14,8 @@ import net.minecraft.world.item.crafting.SingleRecipeInput
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity
 
-class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) : AbstractContainerMenu(WitcheryMenuTypes.OVEN_MENU_TYPE.get(), id) {
+class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
+    AbstractContainerMenu(WitcheryMenuTypes.OVEN_MENU_TYPE.get(), id) {
 
     private var data: ContainerData = SimpleContainerData(4)
     private var level: Level = inventory.player.level()
@@ -33,7 +34,7 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) : AbstractCo
         this.addSlot(OvenFuelSlot(this, blockEntity, FUEL_SLOT, 36, 53))
         this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, RESULT_SLOT, 96, 35))
         this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, EXTRA_RESULT_SLOT, 124, 16))
-        
+
         for (i in 0..2) {
             for (j in 0..8) {
                 this.addSlot(Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18))
@@ -76,7 +77,13 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) : AbstractCo
                     if (!this.moveItemStackTo(itemStack2, USE_ROW_SLOT_START, USE_ROW_SLOT_END, false)) {
                         return ItemStack.EMPTY
                     }
-                } else if (index in USE_ROW_SLOT_START..<USE_ROW_SLOT_END && !this.moveItemStackTo(itemStack2, 3, USE_ROW_SLOT_START, false)) {
+                } else if (index in USE_ROW_SLOT_START..<USE_ROW_SLOT_END && !this.moveItemStackTo(
+                        itemStack2,
+                        3,
+                        USE_ROW_SLOT_START,
+                        false
+                    )
+                ) {
                     return ItemStack.EMPTY
                 }
             } else if (!this.moveItemStackTo(itemStack2, 3, USE_ROW_SLOT_END, false)) {

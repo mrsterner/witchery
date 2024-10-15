@@ -9,7 +9,8 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Inventory
 
-class OvenScreen(menu: OvenMenu, inventory: Inventory, title: Component) : AbstractContainerScreen<OvenMenu>(menu, inventory, title) {
+class OvenScreen(menu: OvenMenu, inventory: Inventory, title: Component) :
+    AbstractContainerScreen<OvenMenu>(menu, inventory, title) {
 
     val litProgressSprite: ResourceLocation = ResourceLocation.withDefaultNamespace("container/furnace/lit_progress")
     val burnProgressSprite: ResourceLocation = ResourceLocation.withDefaultNamespace("container/furnace/burn_progress")

@@ -22,8 +22,22 @@ class MutandisItem(properties: Properties) : Item(properties) {
         val pos = useOnContext.clickedPos
         val state = level.getBlockState(pos)
 
-        if (handleTagReplacement(useOnContext.player, level, pos, state, BlockTags.SAPLINGS)) return InteractionResult.SUCCESS
-        if (handleTagReplacement(useOnContext.player,level, pos, state, BlockTags.FLOWERS)) return InteractionResult.SUCCESS
+        if (handleTagReplacement(
+                useOnContext.player,
+                level,
+                pos,
+                state,
+                BlockTags.SAPLINGS
+            )
+        ) return InteractionResult.SUCCESS
+        if (handleTagReplacement(
+                useOnContext.player,
+                level,
+                pos,
+                state,
+                BlockTags.FLOWERS
+            )
+        ) return InteractionResult.SUCCESS
 
         return super.useOn(useOnContext)
     }
@@ -31,7 +45,13 @@ class MutandisItem(properties: Properties) : Item(properties) {
     companion object {
 
         @JvmStatic
-        private fun handleTagReplacement(player: Player?, level: ServerLevel, pos: BlockPos, state: BlockState, tag: TagKey<Block>): Boolean {
+        private fun handleTagReplacement(
+            player: Player?,
+            level: ServerLevel,
+            pos: BlockPos,
+            state: BlockState,
+            tag: TagKey<Block>
+        ): Boolean {
             val existingTag = MutandisLevelDataAttachmentPlatform.getTagForBlockPos(level, pos)
 
             if (state.`is`(tag) || existingTag != null) {

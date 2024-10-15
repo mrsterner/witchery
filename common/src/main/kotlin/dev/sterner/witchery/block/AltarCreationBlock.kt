@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.BooleanProperty
-import net.minecraft.world.level.material.Fluids
 
 class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion()) {
 
@@ -80,7 +79,7 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
     private fun connectsTo(state: BlockState): Boolean {
         val block = state.block
         val bl2 = block is AltarCreationBlock
-        return  bl2
+        return bl2
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
@@ -102,7 +101,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
 
         if (list.size == 2
             && isAltar(northBlockState)
-            && isAltar(eastBlockState)) {
+            && isAltar(eastBlockState)
+        ) {
 
             val ne = level.getBlockState(pos.north().east())
             val nn = level.getBlockState(pos.north().north())
@@ -114,7 +114,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
 
         if (list.size == 2
             && isAltar(northBlockState)
-            && isAltar(westBlockState)) {
+            && isAltar(westBlockState)
+        ) {
 
             val nw = level.getBlockState(pos.north().west())
             val nn = level.getBlockState(pos.north().north())
@@ -126,7 +127,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
 
         if (list.size == 2
             && isAltar(southBlockState)
-            && isAltar(westBlockState)) {
+            && isAltar(westBlockState)
+        ) {
 
             val sw = level.getBlockState(pos.south().west())
             val ss = level.getBlockState(pos.south().north())
@@ -138,7 +140,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
 
         if (list.size == 2
             && isAltar(southBlockState)
-            && isAltar(eastBlockState)) {
+            && isAltar(eastBlockState)
+        ) {
 
             val se = level.getBlockState(pos.south().east())
             val ss = level.getBlockState(pos.south().north())
@@ -173,7 +176,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
 
         if (list.size == 2
             && isAltar(eastBlockState)
-            && isAltar(southBlockState)) {
+            && isAltar(southBlockState)
+        ) {
 
             val ee = level.getBlockState(pos.east().east())
             val es = level.getBlockState(pos.east().south())
@@ -185,7 +189,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
 
         if (list.size == 2
             && isAltar(eastBlockState)
-            && isAltar(northBlockState)) {
+            && isAltar(northBlockState)
+        ) {
 
             val ee = level.getBlockState(pos.east().east())
             val en = level.getBlockState(pos.east().north())
@@ -197,7 +202,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
 
         if (list.size == 2
             && isAltar(westBlockState)
-            && isAltar(southBlockState)) {
+            && isAltar(southBlockState)
+        ) {
 
             val ww = level.getBlockState(pos.west().west())
             val ws = level.getBlockState(pos.west().south())
@@ -209,7 +215,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
 
         if (list.size == 2
             && isAltar(westBlockState)
-            && isAltar(northBlockState)) {
+            && isAltar(northBlockState)
+        ) {
 
             val ww = level.getBlockState(pos.west().west())
             val wn = level.getBlockState(pos.west().north())
@@ -249,7 +256,10 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
         // Here, we assume that the core position should be the position of the altar
         val corePosition = pos.relative(dire.opposite) // Adjust core position as needed
         AltarBlock.STRUCTURE.get().placeNoContext(level, pos, dire)
-        level.setBlockAndUpdate(pos, WitcheryBlocks.ALTAR.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dire.opposite))
+        level.setBlockAndUpdate(pos,
+            WitcheryBlocks.ALTAR.get().defaultBlockState()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, dire.opposite)
+        )
 
         // Ensure the corePos is set correctly
         if (level.getBlockEntity(corePosition) is MultiBlockComponentBlockEntity) {

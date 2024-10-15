@@ -1,14 +1,10 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.block.ritual.RitualPatternUtil
-import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
-import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -16,7 +12,6 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.component.ResolvableProfile
-import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import java.awt.Color
 import java.util.*
@@ -50,11 +45,14 @@ class TaglockItem(properties: Properties) : Item(properties) {
         if (player != null) {
             tooltipComponents.add(
                 Component.literal(player.gameProfile.name.replaceFirstChar(Char::uppercase))
-                    .setStyle(Style.EMPTY.withColor(Color(255,2,100).rgb)))
+                    .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
+            )
         }
         val living = Minecraft.getInstance().level?.let { getLivingEntityName(stack) }
         if (living != null) {
-            tooltipComponents.add(Component.translatable(living).setStyle(Style.EMPTY.withColor(Color(255,100,100).rgb)))
+            tooltipComponents.add(
+                Component.translatable(living).setStyle(Style.EMPTY.withColor(Color(255, 100, 100).rgb))
+            )
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)

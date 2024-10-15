@@ -18,10 +18,8 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.ServerLevelAccessor
 import net.minecraft.world.level.block.BedBlock
 import net.minecraft.world.level.block.state.properties.BedPart
-import java.util.function.Consumer
 import kotlin.math.abs
 
 
@@ -79,15 +77,35 @@ class BoneNeedleItem(properties: Properties) : Item(properties.durability(16)) {
 
     companion object {
 
-        fun tryTaglockEntity(level: Level, player: Player, itemStack: ItemStack, target: LivingEntity, taglock: ItemStack): Boolean {
+        fun tryTaglockEntity(
+            level: Level,
+            player: Player,
+            itemStack: ItemStack,
+            target: LivingEntity,
+            taglock: ItemStack
+        ): Boolean {
             if (itemStack.`is`(WitcheryItems.BONE_NEEDLE.get()) && player.offhandItem.`is`(Items.GLASS_BOTTLE)) {
                 if (target is Player) {
                     if (trySneakyTaglocking(player, target)) {
                         bindPlayer(target, taglock)
-                        level.playSound(null, target.onPos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.NEUTRAL, 0.75f, 1f)
+                        level.playSound(
+                            null,
+                            target.onPos,
+                            SoundEvents.EXPERIENCE_ORB_PICKUP,
+                            SoundSource.NEUTRAL,
+                            0.75f,
+                            1f
+                        )
                         return true
                     } else {
-                        level.playSound(null, target.onPos, SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.NEUTRAL, 0.75f, 1f)
+                        level.playSound(
+                            null,
+                            target.onPos,
+                            SoundEvents.NOTE_BLOCK_BASS.value(),
+                            SoundSource.NEUTRAL,
+                            0.75f,
+                            1f
+                        )
                         return false
                     }
                 } else {
@@ -95,7 +113,14 @@ class BoneNeedleItem(properties: Properties) : Item(properties.durability(16)) {
                         target.setPersistenceRequired()
                     }
                     TaglockItem.bindLivingEntity(target, taglock)
-                    level.playSound(null, target.onPos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.NEUTRAL, 0.75f, 1f)
+                    level.playSound(
+                        null,
+                        target.onPos,
+                        SoundEvents.EXPERIENCE_ORB_PICKUP,
+                        SoundSource.NEUTRAL,
+                        0.75f,
+                        1f
+                    )
                     return true
                 }
             }
@@ -108,9 +133,9 @@ class BoneNeedleItem(properties: Properties) : Item(properties.durability(16)) {
             var chance = if (player.isInvisible) 0.5f else 0.1f
             val lightLevelPenalty: Double = 0.25 * (player.level().getMaxLocalRawBrightness(player.onPos) / 15.0)
             if (360.0 - delta % 360.0 < 90 || delta % 360.0 < 90) {
-                chance += if(player.isShiftKeyDown) 0.45f else 0.25f
+                chance += if (player.isShiftKeyDown) 0.45f else 0.25f
             }
-            return player.random.nextDouble() < chance - lightLevelPenalty;
+            return player.random.nextDouble() < chance - lightLevelPenalty
         }
 
         fun addItemToInventoryAndConsume(player: Player, hand: InteractionHand, itemToAdd: ItemStack) {

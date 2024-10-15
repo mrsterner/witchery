@@ -2,7 +2,6 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.particle.ColorBubbleData
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
@@ -54,7 +53,7 @@ class MutandisRemenantParticleS2CPacket(val nbt: CompoundTag) : CustomPacketPayl
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, MutandisRemenantParticleS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> MutandisRemenantParticleS2CPacket(buf!!) }
+                { buf -> MutandisRemenantParticleS2CPacket(buf) }
             )
     }
 }

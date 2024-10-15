@@ -49,7 +49,7 @@ class RitualRecipe(
     }
 
     override fun getResultItem(registries: HolderLookup.Provider): ItemStack {
-       return ItemStack.EMPTY
+        return ItemStack.EMPTY
     }
 
     override fun getSerializer(): RecipeSerializer<*> {
@@ -88,16 +88,22 @@ class RitualRecipe(
                 RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<RitualRecipe> ->
                     obj.group(
                         ItemStack.STRICT_SINGLE_ITEM_CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
-                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("inputEntities").forGetter { it.inputEntities },
-                        ItemStack.STRICT_SINGLE_ITEM_CODEC.listOf().orElse(listOf()).fieldOf("outputItems").forGetter { it.outputItems },
-                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("outputEntities").forGetter { it.outputEntities },
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("inputEntities")
+                            .forGetter { it.inputEntities },
+                        ItemStack.STRICT_SINGLE_ITEM_CODEC.listOf().orElse(listOf()).fieldOf("outputItems")
+                            .forGetter { it.outputItems },
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("outputEntities")
+                            .forGetter { it.outputEntities },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
-                        COMMANDS_SET_CODEC.fieldOf("commands").orElse(setOf(CommandType.DEFAULT)).forGetter { recipe -> recipe.commands },
+                        COMMANDS_SET_CODEC.fieldOf("commands").orElse(setOf(CommandType.DEFAULT))
+                            .forGetter { recipe -> recipe.commands },
                         Codec.BOOL.fieldOf("isInfinite").orElse(false).forGetter { recipe -> recipe.isInfinite },
-                        Codec.BOOL.fieldOf("floatingItemOutput").orElse(false).forGetter { recipe -> recipe.floatingItemOutput },
+                        Codec.BOOL.fieldOf("floatingItemOutput").orElse(false)
+                            .forGetter { recipe -> recipe.floatingItemOutput },
                         Codec.INT.fieldOf("ticks").orElse(0).forGetter { recipe -> recipe.ticks },
                         Codec.STRING.listOf().fieldOf("pattern").forGetter { recipe -> recipe.pattern },
-                        Codec.unboundedMap(SYMBOL_CODEC, BuiltInRegistries.BLOCK.byNameCodec()).fieldOf("blockMapping").forGetter { recipe -> recipe.blockMapping }
+                        Codec.unboundedMap(SYMBOL_CODEC, BuiltInRegistries.BLOCK.byNameCodec()).fieldOf("blockMapping")
+                            .forGetter { recipe -> recipe.blockMapping }
 
                     ).apply(obj, ::RitualRecipe)
                 }

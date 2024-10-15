@@ -6,10 +6,10 @@ import dev.sterner.witchery.api.block.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.payload.CauldronPoofS2CPacket
 import dev.sterner.witchery.payload.SyncCauldronS2CPacket
+import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
-import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryRecipeTypes

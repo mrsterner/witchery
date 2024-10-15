@@ -10,9 +10,10 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
-class MandrakeEntityRenderer(context: EntityRendererProvider.Context
+class MandrakeEntityRenderer(
+    context: EntityRendererProvider.Context
 ) : LivingEntityRenderer<MandrakeEntity, MandrakeEntityModel<MandrakeEntity>>
-        (context, MandrakeEntityModel(context.bakeLayer(MandrakeEntityModel.LAYER_LOCATION)), 0.1f) {
+    (context, MandrakeEntityModel(context.bakeLayer(MandrakeEntityModel.LAYER_LOCATION)), 0.1f) {
 
     override fun renderNameTag(
         entity: MandrakeEntity,

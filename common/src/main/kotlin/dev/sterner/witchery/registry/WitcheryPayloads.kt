@@ -29,7 +29,10 @@ object WitcheryPayloads {
         registerS2C(AltarMultiplierSyncS2CPacket.ID, AltarMultiplierSyncS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(MutandisRemenantParticleS2CPacket.ID, MutandisRemenantParticleS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(
+            MutandisRemenantParticleS2CPacket.ID,
+            MutandisRemenantParticleS2CPacket.STREAM_CODEC
+        ) { payload, context ->
             payload.handleS2C(payload, context)
         }
     }

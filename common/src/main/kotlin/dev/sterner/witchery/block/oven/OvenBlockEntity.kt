@@ -33,10 +33,10 @@ import net.minecraft.world.level.block.AbstractFurnaceBlock
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity
 import net.minecraft.world.level.block.state.BlockState
-import java.util.function.Function
 
 
-class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
+class OvenBlockEntity(
+    blockPos: BlockPos, blockState: BlockState
 ) : WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.OVEN.get(), blockPos, blockState), Container, WorldlyContainer,
     RecipeCraftingHolder, StackedContentsCompatible {
 
@@ -106,8 +106,10 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
 
         // If the oven is lit or there's fuel and input, proceed
         if (isLit() || hasFuel && hasInput) {
-            val ovenRecipe = if (hasInput) quickCheck.getRecipeFor(SingleRecipeInput(inputStack), level).orElse(null) else null
-            val cookRecipe = if (hasInput) quickCookCheck.getRecipeFor(SingleRecipeInput(inputStack), level).orElse(null) else null
+            val ovenRecipe =
+                if (hasInput) quickCheck.getRecipeFor(SingleRecipeInput(inputStack), level).orElse(null) else null
+            val cookRecipe =
+                if (hasInput) quickCookCheck.getRecipeFor(SingleRecipeInput(inputStack), level).orElse(null) else null
 
             val maxStackSize: Int = maxStackSize
 
@@ -270,7 +272,10 @@ class OvenBlockEntity(blockPos: BlockPos, blockState: BlockState
             }
 
             // Handle special case for wet sponge and bucket interaction
-            if (inputStack.`is`(Blocks.WET_SPONGE.asItem()) && !inventory[SLOT_FUEL].isEmpty && inventory[SLOT_FUEL].`is`(Items.BUCKET)) {
+            if (inputStack.`is`(Blocks.WET_SPONGE.asItem()) && !inventory[SLOT_FUEL].isEmpty && inventory[SLOT_FUEL].`is`(
+                    Items.BUCKET
+                )
+            ) {
                 inventory[SLOT_FUEL] = ItemStack(Items.WATER_BUCKET)
             }
 

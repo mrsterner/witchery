@@ -43,11 +43,11 @@ class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCooki
     }
 
     override fun addWidgets(widgets: WidgetHolder) {
-        widgets.addTexture(Witchery.id("textures/gui/oven_emi.png"), 18, 9, 108,57,0,0)
+        widgets.addTexture(Witchery.id("textures/gui/oven_emi.png"), 18, 9, 108, 57, 0, 0)
         EmiTexture.FULL_FLAME
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(recipe.result), 2 + 2 + 18 + 24 + 24+ 9, 50 - 18 - 4)
+            WitcherySlotWidget(EmiStack.of(recipe.result), 2 + 2 + 18 + 24 + 24 + 9, 50 - 18 - 4)
                 .drawBack(false)
         )
 

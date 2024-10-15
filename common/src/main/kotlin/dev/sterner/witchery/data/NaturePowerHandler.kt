@@ -5,9 +5,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.mojang.datafixers.util.Either
 import com.mojang.logging.LogUtils
-import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
-import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -19,16 +17,11 @@ import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener
 import net.minecraft.tags.TagKey
 import net.minecraft.util.profiling.ProfilerFiller
-import net.minecraft.world.SimpleContainer
-import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.LevelEvent
-import net.minecraft.world.level.block.entity.SmokerBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.Executor
-import kotlin.jvm.optionals.getOrNull
 
 object NaturePowerHandler {
     private val LOGGER = LogUtils.getLogger()
@@ -39,6 +32,7 @@ object NaturePowerHandler {
      * Do not touch. This is simply used to handle tags AFTER they are loaded!
      */
     val tagQueue = ConcurrentLinkedQueue<NaturePowerBlockData>()
+
     /**
      * Do not touch. This is simply used to handle blocks AFTER tags are handled!
      */
@@ -50,7 +44,7 @@ object NaturePowerHandler {
     fun getPower(block: BlockState): Int? {
         var power = NATURE_POWER_VALUES[Either.left(block.block)]?.first
         if (power != null) return power
-        
+
         val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.`is`(it.right().get()) }.keys
         if (tags.isNotEmpty()) power = NATURE_POWER_VALUES[tags.first()]?.first
         return power
@@ -99,9 +93,9 @@ object NaturePowerHandler {
      * Only call during initialization!!!
      */
     fun registerListener() {
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, object: PreparableReloadListener {
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
             override fun getName() = "nature"
-           
+
             override fun reload(
                 preparationBarrier: PreparableReloadListener.PreparationBarrier,
                 resourceManager: ResourceManager,
@@ -110,7 +104,14 @@ object NaturePowerHandler {
                 backgroundExecutor: Executor,
                 gameExecutor: Executor
             ): CompletableFuture<Void> {
-                return LOADER.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler, backgroundExecutor, gameExecutor)
+                return LOADER.reload(
+                    preparationBarrier,
+                    resourceManager,
+                    preparationsProfiler,
+                    reloadProfiler,
+                    backgroundExecutor,
+                    gameExecutor
+                )
             }
         })
     }
@@ -152,7 +153,10 @@ object NaturePowerHandler {
                     LOGGER.error("Invalid ResourceLocation of $tag in $file")
                     return
                 }
-                tagQueue.add(NaturePowerBlockData.TAG_CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(::IllegalArgumentException).first)
+                tagQueue.add(
+                    NaturePowerBlockData.TAG_CODEC.decode(JsonOps.INSTANCE, json)
+                        .getOrThrow(::IllegalArgumentException).first
+                )
             } else if (block != null) {
                 if (ResourceLocation.tryParse(block) == null) {
                     LOGGER.error("Invalid ResourceLocation of $block in $file")

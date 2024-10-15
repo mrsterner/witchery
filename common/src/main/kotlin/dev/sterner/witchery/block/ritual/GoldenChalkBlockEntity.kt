@@ -16,7 +16,10 @@ import net.minecraft.nbt.*
 import net.minecraft.resources.ResourceKey
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
-import net.minecraft.world.*
+import net.minecraft.world.Container
+import net.minecraft.world.ContainerHelper
+import net.minecraft.world.Containers
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
@@ -26,8 +29,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 
 
 class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
@@ -71,7 +73,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             if (isRitualActive) {
 
-                if(!consumeAltarPower(level)){
+                if (!consumeAltarPower(level)) {
                     resetRitual()
                 }
 
@@ -108,13 +110,14 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         level.playSound(null, blockPos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0f, 1.0f)
         RitualHelper.runCommand(level, blockPos, this, CommandType.END)
         RitualHelper.summonItems(level, blockPos, this)
-        RitualHelper.summonSummons(level,blockPos, this)
+        RitualHelper.summonSummons(level, blockPos, this)
         items.clear()
         setChanged()
     }
 
     private fun startConsumingSacrifices(level: Level) {
-        val entities: MutableList<LivingEntity> = level.getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
+        val entities: MutableList<LivingEntity> =
+            level.getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
         val recipeEntities: List<EntityType<*>> = ritualRecipe!!.inputEntities
         if (recipeEntities.isEmpty()) {
             onStartRitual(level)
@@ -190,10 +193,11 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun addWaystoneOrTaglockToContext(stack: ItemStack) {
         if (stack.`is`(WitcheryItems.WAYSTONE.get())) {
-            targetPos =  WaystoneItem.getGlobalPos(stack)
+            targetPos = WaystoneItem.getGlobalPos(stack)
         } else if (stack.`is`(WitcheryItems.TAGLOCK.get())
             && !(stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get())
-            && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) == true)) {
+                    && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) == true)
+        ) {
 
             targetPlayer = TaglockItem.getPlayer(level!!, stack)?.uuid
             targetEntity = TaglockItem.getLivingEntity(level!!, stack)?.id
@@ -242,8 +246,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
         if (ritualRecipe == null && level != null) {
-            val items: List<ItemEntity> = pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }
-            val entities: List<LivingEntity> = pPlayer.level().getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
+            val items: List<ItemEntity> =
+                pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }
+            val entities: List<LivingEntity> = pPlayer.level()
+                .getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
 
             val recipes = level?.recipeManager?.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())
 
@@ -261,7 +267,11 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
-            if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(level!!, validSacrificesAndItemsRecipe[0].value) && hasEnoughAltarPower(level!!)) {
+            if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(
+                    level!!,
+                    validSacrificesAndItemsRecipe[0].value
+                ) && hasEnoughAltarPower(level!!)
+            ) {
                 ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
                 ritualRecipe = validSacrificesAndItemsRecipe[0].value
                 shouldRun = true

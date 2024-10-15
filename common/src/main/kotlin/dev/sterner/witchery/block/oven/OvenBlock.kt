@@ -10,13 +10,13 @@ import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.CopperBulbBlock
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
-class OvenBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(8))) {
+class OvenBlock(properties: Properties) :
+    WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(8))) {
 
     init {
         this.registerDefaultState(

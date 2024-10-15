@@ -12,7 +12,6 @@ import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.item.crafting.RecipeType
@@ -25,7 +24,6 @@ class CauldronCraftingRecipe(
     val altarPower: Int
 ) :
     Recipe<MultipleItemRecipeInput> {
-
 
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {

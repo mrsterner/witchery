@@ -9,7 +9,10 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
 import net.minecraft.core.registries.Registries
-import net.minecraft.world.item.*
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemNameBlockItem
+import net.minecraft.world.item.Rarity
 
 
 object WitcheryItems {
@@ -211,13 +214,23 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
     }
 
-    val IRON_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> = ITEMS.register("iron_witches_oven_fume_extension") {
-        MultiBlockItem(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(), Item.Properties(), OvenFumeExtensionBlock.STRUCTURE)
-    }
+    val IRON_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> =
+        ITEMS.register("iron_witches_oven_fume_extension") {
+            MultiBlockItem(
+                WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(),
+                Item.Properties(),
+                OvenFumeExtensionBlock.STRUCTURE
+            )
+        }
 
-    val COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> = ITEMS.register("copper_witches_oven_fume_extension") {
-        MultiBlockItem(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), Item.Properties(), OvenFumeExtensionBlock.STRUCTURE)
-    }
+    val COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> =
+        ITEMS.register("copper_witches_oven_fume_extension") {
+            MultiBlockItem(
+                WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                Item.Properties(),
+                OvenFumeExtensionBlock.STRUCTURE
+            )
+        }
 
     val IRON_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("iron_witches_oven") {
         BlockItem(WitcheryBlocks.IRON_WITCHES_OVEN.get(), Item.Properties())

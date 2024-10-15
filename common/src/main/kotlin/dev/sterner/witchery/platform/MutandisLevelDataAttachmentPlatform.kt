@@ -7,7 +7,6 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.attachment.MutandisData
 import dev.sterner.witchery.api.attachment.MutandisLevelAttachment
 import dev.sterner.witchery.payload.MutandisRemenantParticleS2CPacket
-import dev.sterner.witchery.payload.SyncCauldronS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
@@ -34,19 +33,19 @@ object MutandisLevelDataAttachmentPlatform {
 
     @JvmStatic
     @ExpectPlatform
-    fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>)  {
+    fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>) {
         throw AssertionError()
     }
 
     @JvmStatic
     @ExpectPlatform
-    fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos)  {
+    fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos) {
         throw AssertionError()
     }
 
     @JvmStatic
     @ExpectPlatform
-    fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos)  {
+    fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
         throw AssertionError()
     }
 

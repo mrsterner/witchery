@@ -5,7 +5,6 @@ import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
-import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
@@ -26,27 +25,75 @@ class OvenCookingRecipeBuilder(
     private var group: String? = null
 
     fun requires(ingredient: Ingredient): OvenCookingRecipeBuilder {
-        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, cookingTime)
+        return OvenCookingRecipeBuilder(
+            ingredient,
+            extraIngredient,
+            result,
+            extraOutput,
+            extraOutputChance,
+            experience,
+            cookingTime
+        )
     }
 
     fun extraIngredient(extraIngredient: Ingredient): OvenCookingRecipeBuilder {
-        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, cookingTime)
+        return OvenCookingRecipeBuilder(
+            ingredient,
+            extraIngredient,
+            result,
+            extraOutput,
+            extraOutputChance,
+            experience,
+            cookingTime
+        )
     }
 
     fun result(result: ItemStack): OvenCookingRecipeBuilder {
-        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, cookingTime)
+        return OvenCookingRecipeBuilder(
+            ingredient,
+            extraIngredient,
+            result,
+            extraOutput,
+            extraOutputChance,
+            experience,
+            cookingTime
+        )
     }
 
     fun extraOutput(extraOutput: ItemStack, chance: Float): OvenCookingRecipeBuilder {
-        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, chance, experience, cookingTime)
+        return OvenCookingRecipeBuilder(
+            ingredient,
+            extraIngredient,
+            result,
+            extraOutput,
+            chance,
+            experience,
+            cookingTime
+        )
     }
 
     fun experience(exp: Float): OvenCookingRecipeBuilder {
-        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, exp, cookingTime)
+        return OvenCookingRecipeBuilder(
+            ingredient,
+            extraIngredient,
+            result,
+            extraOutput,
+            extraOutputChance,
+            exp,
+            cookingTime
+        )
     }
 
     fun cookingTime(time: Int): OvenCookingRecipeBuilder {
-        return OvenCookingRecipeBuilder(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, time)
+        return OvenCookingRecipeBuilder(
+            ingredient,
+            extraIngredient,
+            result,
+            extraOutput,
+            extraOutputChance,
+            experience,
+            time
+        )
     }
 
     override fun unlockedBy(name: String, criterion: Criterion<*>): OvenCookingRecipeBuilder {
@@ -73,7 +120,15 @@ class OvenCookingRecipeBuilder(
             builder.addCriterion(name, criterion)
         }
 
-        val ovenCookingRecipe = OvenCookingRecipe(ingredient, extraIngredient, result, extraOutput, extraOutputChance, experience, cookingTime)
+        val ovenCookingRecipe = OvenCookingRecipe(
+            ingredient,
+            extraIngredient,
+            result,
+            extraOutput,
+            extraOutputChance,
+            experience,
+            cookingTime
+        )
 
         recipeOutput.accept(
             suffixHash(id.withPrefix("oven/"), ingredient.items.toList()),

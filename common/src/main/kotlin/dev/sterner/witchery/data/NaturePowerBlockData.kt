@@ -8,28 +8,30 @@ class NaturePowerBlockData(val block: ResourceLocation, val power: Int, val limi
 
     companion object {
 
-        val CODEC: Codec<NaturePowerBlockData> = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<NaturePowerBlockData> ->
-            instance.group(
-                ResourceLocation.CODEC.fieldOf("block").forGetter(NaturePowerBlockData::block),
-                Codec.INT.fieldOf("power").forGetter(NaturePowerBlockData::power),
-                Codec.INT.fieldOf("limit").forGetter(NaturePowerBlockData::limit)
-            ).apply(
-                instance
-            ) { name, parentCombinations, mutationChance ->
-                NaturePowerBlockData(name, parentCombinations, mutationChance)
+        val CODEC: Codec<NaturePowerBlockData> =
+            RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<NaturePowerBlockData> ->
+                instance.group(
+                    ResourceLocation.CODEC.fieldOf("block").forGetter(NaturePowerBlockData::block),
+                    Codec.INT.fieldOf("power").forGetter(NaturePowerBlockData::power),
+                    Codec.INT.fieldOf("limit").forGetter(NaturePowerBlockData::limit)
+                ).apply(
+                    instance
+                ) { name, parentCombinations, mutationChance ->
+                    NaturePowerBlockData(name, parentCombinations, mutationChance)
+                }
             }
-        }
 
-        val TAG_CODEC: Codec<NaturePowerBlockData> = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<NaturePowerBlockData> ->
-            instance.group(
-                ResourceLocation.CODEC.fieldOf("tag").forGetter(NaturePowerBlockData::block),
-                Codec.INT.fieldOf("power").forGetter(NaturePowerBlockData::power),
-                Codec.INT.fieldOf("limit").forGetter(NaturePowerBlockData::limit)
-            ).apply(
-                instance
-            ) { name, parentCombinations, mutationChance ->
-                NaturePowerBlockData(name, parentCombinations, mutationChance)
+        val TAG_CODEC: Codec<NaturePowerBlockData> =
+            RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<NaturePowerBlockData> ->
+                instance.group(
+                    ResourceLocation.CODEC.fieldOf("tag").forGetter(NaturePowerBlockData::block),
+                    Codec.INT.fieldOf("power").forGetter(NaturePowerBlockData::power),
+                    Codec.INT.fieldOf("limit").forGetter(NaturePowerBlockData::limit)
+                ).apply(
+                    instance
+                ) { name, parentCombinations, mutationChance ->
+                    NaturePowerBlockData(name, parentCombinations, mutationChance)
+                }
             }
-        }
     }
 }

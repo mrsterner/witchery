@@ -17,8 +17,12 @@ class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block,
         if (level.isClientSide) return InteractionResult.sidedSuccess(true)
 
         if (state.block is RitualChalkBlock && state.`is`(item.block)) {
-            level.setBlockAndUpdate(pos, state.setValue(RitualChalkBlock.VARIANT,
-                context.level.random.nextIntBetweenInclusive(0, RitualChalkBlock.VARIANTS)))
+            level.setBlockAndUpdate(
+                pos, state.setValue(
+                    RitualChalkBlock.VARIANT,
+                    context.level.random.nextIntBetweenInclusive(0, RitualChalkBlock.VARIANTS)
+                )
+            )
             return InteractionResult.CONSUME
         } else if (state.block is GoldenChalkBlock && state.`is`(item.block))
             return InteractionResult.FAIL

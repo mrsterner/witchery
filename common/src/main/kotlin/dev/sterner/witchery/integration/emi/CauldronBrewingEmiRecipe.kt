@@ -10,7 +10,6 @@ import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.crafting.Ingredient
 
 class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: CauldronBrewingRecipe) : EmiRecipe {
 

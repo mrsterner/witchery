@@ -1,17 +1,9 @@
 package dev.sterner.witchery.entity.goal
 
-import net.minecraft.core.BlockPos
-import net.minecraft.tags.DamageTypeTags
-import net.minecraft.tags.FluidTags
-import net.minecraft.tags.TagKey
-import net.minecraft.world.damagesource.DamageType
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.ai.util.DefaultRandomPos
-import net.minecraft.world.level.BlockGetter
 import java.util.*
-import java.util.function.Function
 
 open class WitcheryPanicGoal(
     private val mob: PathfinderMob,
@@ -26,6 +18,7 @@ open class WitcheryPanicGoal(
     init {
         this.flags = EnumSet.of(Flag.MOVE)
     }
+
     override fun canUse(): Boolean {
         return if (!this.shouldPanic()) {
             false

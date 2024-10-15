@@ -1,25 +1,21 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.block.ritual.RitualChalkBlock.Companion.VARIANT
-import dev.sterner.witchery.block.ritual.RitualChalkBlock.Companion.VARIANTS
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
-import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class GoldenChalkBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().noCollission().replaceable()) {
+class GoldenChalkBlock(properties: Properties) :
+    WitcheryBaseEntityBlock(properties.noOcclusion().noCollission().replaceable()) {
 
     init {
         this.registerDefaultState(stateDefinition.any())

@@ -62,7 +62,7 @@ class CauldronPoofS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, CauldronPoofS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> CauldronPoofS2CPacket(buf!!) }
+                { buf -> CauldronPoofS2CPacket(buf) }
             )
     }
 }

@@ -54,20 +54,22 @@ object WitcheryBlockEntityTypes {
             .build(null)
     }
 
-    val OVEN_FUME_EXTENSION: RegistrySupplier<BlockEntityType<OvenFumeExtensionBlockEntity>> = BLOCK_ENTITY_TYPES.register("oven_fume_extension") {
-        BlockEntityType.Builder.of(
-            { pos, state -> OvenFumeExtensionBlockEntity(pos, state) },
-            WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(),
-            WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
-        )
-            .build(null)
-    }
+    val OVEN_FUME_EXTENSION: RegistrySupplier<BlockEntityType<OvenFumeExtensionBlockEntity>> =
+        BLOCK_ENTITY_TYPES.register("oven_fume_extension") {
+            BlockEntityType.Builder.of(
+                { pos, state -> OvenFumeExtensionBlockEntity(pos, state) },
+                WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(),
+                WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+            )
+                .build(null)
+        }
 
-    val GOLDEN_CHALK: RegistrySupplier<BlockEntityType<GoldenChalkBlockEntity>> = BLOCK_ENTITY_TYPES.register("golden_chalk") {
-        BlockEntityType.Builder.of(
-            { pos, state -> GoldenChalkBlockEntity(pos, state) },
-            WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),
-        )
-            .build(null)
-    }
+    val GOLDEN_CHALK: RegistrySupplier<BlockEntityType<GoldenChalkBlockEntity>> =
+        BLOCK_ENTITY_TYPES.register("golden_chalk") {
+            BlockEntityType.Builder.of(
+                { pos, state -> GoldenChalkBlockEntity(pos, state) },
+                WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),
+            )
+                .build(null)
+        }
 }

@@ -6,7 +6,6 @@ import dev.architectury.networking.NetworkManager
 import dev.architectury.registry.menu.ExtendedMenuProvider
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.block.AltarPowerConsumer
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.menu.AltarMenu
@@ -28,7 +27,6 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.ContainerData
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
@@ -36,17 +34,19 @@ import kotlin.math.floor
 
 
 class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
-    WitcheryBlockEntityTypes.ALTAR.get(), AltarBlock.STRUCTURE.get(), pos, state) {
+    WitcheryBlockEntityTypes.ALTAR.get(), AltarBlock.STRUCTURE.get(), pos, state
+) {
 
     var powerUpdateQueued = false
     var augmentUpdateQueued = false
 
     var currentPower = 0
     var maxPower = 0
-    var powerMultiplier = 1.0 // Turned double to allow for more options (candles), will have to manually sync with client
+    var powerMultiplier =
+        1.0 // Turned double to allow for more options (candles), will have to manually sync with client
     var range = 16
 
-    val data = object: ContainerData {
+    val data = object : ContainerData {
         override fun get(index: Int): Int {
             return when (index) {
                 0 -> currentPower
@@ -158,7 +158,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         NetworkManager.sendToPlayer(player, AltarMultiplierSyncS2CPacket(blockPos, powerMultiplier))
 
         MenuRegistry.openExtendedMenu(player, object : ExtendedMenuProvider {
-            override fun createMenu(i: Int, inventory: Inventory, player: Player): AbstractContainerMenu? {
+            override fun createMenu(i: Int, inventory: Inventory, player: Player): AbstractContainerMenu {
                 val buf = FriendlyByteBuf(Unpooled.buffer())
                 saveExtraData(buf)
                 return AltarMenu(i, inventory, buf)

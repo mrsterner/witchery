@@ -24,9 +24,11 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 
-class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(
-    litBlockEmission(8)
-)) {
+class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(
+    properties.noOcclusion().lightLevel(
+        litBlockEmission(8)
+    )
+) {
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
         return WitcheryBlockEntityTypes.OVEN_FUME_EXTENSION.get().create(pos, state)
@@ -51,8 +53,9 @@ class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(p
     }
 
     fun updateLit(pLevel: Level, isOvenRight: Boolean?, pPos: BlockPos, pState: BlockState) {
-        val ovenPos = if (isOvenRight == true) pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).clockWise)
-        else pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).counterClockWise)
+        val ovenPos =
+            if (isOvenRight == true) pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).clockWise)
+            else pPos.relative(pState.getValue(BlockStateProperties.HORIZONTAL_FACING).counterClockWise)
 
         val ovenState = pLevel.getBlockState(ovenPos)
 
@@ -82,7 +85,10 @@ class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(p
         }
 
         // Get the oven's facing direction and compare it with this block's facing
-        val ovenFacing = if (isOvenLeft) leftState.getValue(BlockStateProperties.HORIZONTAL_FACING) else rightState.getValue(BlockStateProperties.HORIZONTAL_FACING)
+        val ovenFacing =
+            if (isOvenLeft) leftState.getValue(BlockStateProperties.HORIZONTAL_FACING) else rightState.getValue(
+                BlockStateProperties.HORIZONTAL_FACING
+            )
 
         // Return true if the facings match, and also return whether the oven is on the right (ALT)
         return Pair(blockFacing == ovenFacing, isOvenRight)
@@ -100,7 +106,12 @@ class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(p
 
         if (canSurvive) {
             // Set ALT based on whether the oven is on the right
-            updateLit(level, isOvenRight, pos, state.setValue(OvenFumeExtensionBlockComponent.ALT, isOvenRight == false))
+            updateLit(
+                level,
+                isOvenRight,
+                pos,
+                state.setValue(OvenFumeExtensionBlockComponent.ALT, isOvenRight == false)
+            )
         }
     }
 
@@ -124,7 +135,11 @@ class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(p
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
-        builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.LIT, OvenFumeExtensionBlockComponent.ALT)
+        builder.add(
+            BlockStateProperties.HORIZONTAL_FACING,
+            BlockStateProperties.LIT,
+            OvenFumeExtensionBlockComponent.ALT
+        )
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
