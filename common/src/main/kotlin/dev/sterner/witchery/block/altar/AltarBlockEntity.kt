@@ -174,6 +174,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         tag.putInt("currentPower", currentPower)
+        tag.putInt("maxPower", maxPower)
 
         super.saveAdditional(tag, registries)
     }
@@ -182,6 +183,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         super.loadAdditional(pTag, pRegistries)
 
         currentPower = pTag.getInt("currentPower")
+        maxPower = pTag.getInt("maxPower")
     }
 
     fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean {
