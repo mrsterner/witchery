@@ -16,6 +16,28 @@ import kotlin.math.sin
 
 object RitualHelper {
 
+    fun isDaytime(level: Level): Boolean {
+        val timeOfDay = level.dayTime % 24000
+        return timeOfDay in 0..11999
+    }
+
+    fun isNighttime(level: Level): Boolean {
+        val timeOfDay = level.dayTime % 24000
+        level.moonPhase
+        return timeOfDay in 12000..23999
+    }
+
+    fun isFullMoon(level: Level): Boolean {
+        // Full moon occurs when the moon phase is 0.
+        return level.moonPhase == 0 && isNighttime(level)
+    }
+
+    fun isNewMoon(level: Level): Boolean {
+        // New moon occurs when the moon phase is 4.
+        return level.moonPhase == 4 && isNighttime(level)
+    }
+
+
     fun summonItems(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
         val x = blockPos.x + 0.5
         val y = blockPos.y + 0.5

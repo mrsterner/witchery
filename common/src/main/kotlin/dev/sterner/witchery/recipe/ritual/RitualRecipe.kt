@@ -14,6 +14,7 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
+import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Recipe
@@ -33,7 +34,8 @@ class RitualRecipe(
     val floatingItemOutput: Boolean,
     val ticks: Int,
     val pattern: List<String>,
-    val blockMapping: Map<Char, Block>
+    val blockMapping: Map<Char, Block>,
+    val celestialConditions: Set<Celestial>
 ) : Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
@@ -103,7 +105,9 @@ class RitualRecipe(
                         Codec.INT.fieldOf("ticks").orElse(0).forGetter { recipe -> recipe.ticks },
                         Codec.STRING.listOf().fieldOf("pattern").forGetter { recipe -> recipe.pattern },
                         Codec.unboundedMap(SYMBOL_CODEC, BuiltInRegistries.BLOCK.byNameCodec()).fieldOf("blockMapping")
-                            .forGetter { recipe -> recipe.blockMapping }
+                            .forGetter { recipe -> recipe.blockMapping },
+                        Celestial.CELESTIAL_SET_CODEC.fieldOf("celestialConditions").orElse(setOf()).forGetter { recipe -> recipe.celestialConditions }
+
 
                     ).apply(obj, ::RitualRecipe)
                 }
@@ -129,6 +133,26 @@ class RitualRecipe(
                 }
             },
             { obj: Char? -> java.lang.String.valueOf(obj) })
+
+
     }
 
+    enum class Celestial : StringRepresentable {
+        DAY,
+        NIGHT,
+        FULL_MOON,
+        NEW_MOON;
+
+        override fun getSerializedName(): String {
+            return name.lowercase()
+        }
+        companion object {
+            val CELESTIAL_CODEC: Codec<Celestial> = StringRepresentable.fromEnum(Celestial::values)
+
+            val CELESTIAL_SET_CODEC: Codec<Set<Celestial>> = CELESTIAL_CODEC.listOf().xmap(
+                { it.toSet() },
+                { it.toList() }
+            )
+        }
+    }
 }

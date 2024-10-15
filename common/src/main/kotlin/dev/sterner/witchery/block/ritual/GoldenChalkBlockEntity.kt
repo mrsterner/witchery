@@ -27,6 +27,7 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.entity.DaylightDetectorBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import java.util.*
@@ -246,6 +247,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
         if (ritualRecipe == null && level != null) {
+
             val items: List<ItemEntity> =
                 pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }
             val entities: List<LivingEntity> = pPlayer.level()
@@ -267,10 +269,13 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
-            if (!validSacrificesAndItemsRecipe.isNullOrEmpty() && validateRitualCircle(
+            if (!validSacrificesAndItemsRecipe.isNullOrEmpty()
+                && validateRitualCircle(
                     level!!,
                     validSacrificesAndItemsRecipe[0].value
-                ) && hasEnoughAltarPower(level!!)
+                )
+                && hasEnoughAltarPower(level!!)
+                && hasCelestialCondition(level!!, validSacrificesAndItemsRecipe[0].value)
             ) {
                 ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
                 ritualRecipe = validSacrificesAndItemsRecipe[0].value
@@ -286,6 +291,25 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         return super.onUseWithoutItem(pPlayer)
+    }
+
+    private fun hasCelestialCondition(level: Level, recipeHolder: RitualRecipe): Boolean {
+        if (recipeHolder.celestialConditions.isEmpty()) {
+            return true
+        }
+        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.DAY)) {
+            return RitualHelper.isDaytime(level)
+        }
+        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.FULL_MOON)) {
+            return RitualHelper.isFullMoon(level)
+        }
+        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.NEW_MOON)) {
+            return RitualHelper.isNewMoon(level)
+        }
+        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.NIGHT)) {
+            return RitualHelper.isNighttime(level)
+        }
+        return false
     }
 
     private fun hasEnoughAltarPower(level: Level): Boolean {

@@ -2,6 +2,7 @@ package dev.sterner.witchery.recipe.ritual
 
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.recipe.WitcheryRecipeBuilder
+import dev.sterner.witchery.recipe.ritual.RitualRecipe.Celestial
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
@@ -28,6 +29,7 @@ class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     private var pattern: List<String> = listOf()
     private val blockMapping: MutableMap<Char, Block> = mutableMapOf()
+    private var celestialConditions: Set<Celestial> = setOf()
 
     companion object {
         fun create(): RitualRecipeBuilder {
@@ -105,6 +107,31 @@ class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
         return this
     }
 
+    fun setCelestialConditions(celestialConditions: Set<Celestial>): RitualRecipeBuilder {
+        this.celestialConditions = celestialConditions
+        return this
+    }
+
+    fun setRequireNight(): RitualRecipeBuilder {
+        this.celestialConditions = setOf(Celestial.NIGHT)
+        return this
+    }
+
+    fun setRequireDay(): RitualRecipeBuilder {
+        this.celestialConditions = setOf(Celestial.DAY)
+        return this
+    }
+
+    fun setRequireFullMoon(): RitualRecipeBuilder {
+        this.celestialConditions = setOf(Celestial.NIGHT, Celestial.FULL_MOON)
+        return this
+    }
+
+    fun setRequireNewMoon(): RitualRecipeBuilder {
+        this.celestialConditions = setOf(Celestial.NIGHT, Celestial.NEW_MOON)
+        return this
+    }
+
     fun pattern(vararg lines: String): RitualRecipeBuilder {
         pattern = lines.toList()
         return this
@@ -147,7 +174,8 @@ class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
             floatingItemOutput = floatingItemOutput,
             ticks = ticks,
             pattern = pattern,
-            blockMapping = blockMapping
+            blockMapping = blockMapping,
+            celestialConditions = celestialConditions
         )
 
         recipeOutput.accept(
