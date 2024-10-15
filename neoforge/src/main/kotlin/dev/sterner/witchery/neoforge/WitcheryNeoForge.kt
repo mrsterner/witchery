@@ -5,6 +5,7 @@ import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.screen.OvenScreen
+import dev.sterner.witchery.platform.neoforge.MutandisLevelDataAttachmentPlatformImpl
 import dev.sterner.witchery.registry.WitcheryMenuTypes
 import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.Minecraft
@@ -26,6 +27,8 @@ object WitcheryNeoForge {
 
     init {
         Witchery.init()
+
+        MutandisLevelDataAttachmentPlatformImpl.ATTACHMENT_TYPES.register(MOD_BUS)
 
         runForDist(
             clientTarget = {

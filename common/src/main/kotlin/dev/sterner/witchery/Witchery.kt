@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientLifecycleEvent
 import dev.architectury.event.events.common.InteractionEvent
+import dev.architectury.event.events.common.TickEvent.ServerLevelTick
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.architectury.registry.client.particle.ParticleProviderRegistry
@@ -13,7 +14,6 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
-import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
@@ -28,12 +28,10 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.MandrakeEntity
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.item.WaystoneItem
+import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.color.block.BlockColor
-import net.minecraft.client.color.block.BlockColors
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
@@ -74,6 +72,7 @@ object Witchery {
         }
 
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
+        ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisLevelDataAttachmentPlatform.tick(serverLevel) }
 
         NaturePowerHandler.registerListener()
     }
