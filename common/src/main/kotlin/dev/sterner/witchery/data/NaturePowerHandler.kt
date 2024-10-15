@@ -35,26 +35,14 @@ object NaturePowerHandler {
     private val LOADER = NaturePowerLoader()
     private val NATURE_POWER_VALUES = mutableMapOf<Either<Block, TagKey<Block>>, Pair<Int, Int>>()
 
-    private val BLOCK_CODEC = RecordCodecBuilder.create { instance -> instance.group(
-        ResourceLocation.CODEC.fieldOf("block").forGetter(Triple<ResourceLocation, Int, Int>::first),
-        Codec.INT.fieldOf("power").forGetter(Triple<ResourceLocation, Int, Int>::second),
-        Codec.INT.fieldOf("limit").forGetter(Triple<ResourceLocation, Int, Int>::third)
-    ).apply(instance, ::Triple) }
-
-    private val TAG_CODEC = RecordCodecBuilder.create { instance -> instance.group(
-        ResourceLocation.CODEC.fieldOf("tag").forGetter(Triple<ResourceLocation, Int, Int>::first),
-        Codec.INT.fieldOf("power").forGetter(Triple<ResourceLocation, Int, Int>::second),
-        Codec.INT.fieldOf("limit").forGetter(Triple<ResourceLocation, Int, Int>::third)
-    ).apply(instance, ::Triple) }
-
     /**
      * Do not touch. This is simply used to handle tags AFTER they are loaded!
      */
-    val tagQueue = ConcurrentLinkedQueue<Triple<ResourceLocation, Int, Int>>()
+    val tagQueue = ConcurrentLinkedQueue<NaturePowerBlockData>()
     /**
      * Do not touch. This is simply used to handle blocks AFTER tags are handled!
      */
-    val blockQueue = ConcurrentLinkedQueue<Triple<ResourceLocation, Int, Int>>()
+    val blockQueue = ConcurrentLinkedQueue<NaturePowerBlockData>()
 
     /**
      * This method gets the base power provided by the given Block.
@@ -97,11 +85,12 @@ object NaturePowerHandler {
      * Only call after world (read datapacks) are loaded so we can handle tags.
      */
     private fun addPending() {
-        tagQueue.forEach { (loc, power, limit) ->
-            addEitherBlockOrTag(Either.right(TagKey.create(Registries.BLOCK, loc)), power, limit)
+        tagQueue.forEach {
+            addEitherBlockOrTag(Either.right(TagKey.create(Registries.BLOCK, it.block)), it.power, it.limit)
         }
-        blockQueue.forEach { (loc, power, limit) ->
-            addEitherBlockOrTag(Either.left(BuiltInRegistries.BLOCK.get(loc)), power, limit)
+
+        blockQueue.forEach {
+            addEitherBlockOrTag(Either.left(BuiltInRegistries.BLOCK.get(it.block)), it.power, it.limit)
         }
     }
 
@@ -163,21 +152,21 @@ object NaturePowerHandler {
                     LOGGER.error("Invalid ResourceLocation of $tag in $file")
                     return
                 }
-                tagQueue.add(TAG_CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(::IllegalArgumentException).first)
+                tagQueue.add(NaturePowerBlockData.TAG_CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(::IllegalArgumentException).first)
             } else if (block != null) {
                 if (ResourceLocation.tryParse(block) == null) {
                     LOGGER.error("Invalid ResourceLocation of $block in $file")
                     return
                 }
-                val (loc, power, limit) = BLOCK_CODEC.decode(JsonOps.INSTANCE, json)
+                val data = NaturePowerBlockData.CODEC.decode(JsonOps.INSTANCE, json)
                     .getOrThrow(::IllegalArgumentException).first
 
-                val block = BuiltInRegistries.BLOCK.getOptional(loc)
+                val block = BuiltInRegistries.BLOCK.getOptional(data.block)
 
                 if (block.isPresent)
-                    blockQueue.add(Triple(loc, power, limit))
+                    blockQueue.add(data)
                 else
-                    LOGGER.error("Invalid Block $loc from file $file!!!! Skipping it...")
+                    LOGGER.error("Invalid Block ${data.block} from file $file!!!! Skipping it...")
             } else
                 LOGGER.error("JSON missing block or tag in file $file!!!! Skipping it...")
         }

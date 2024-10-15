@@ -45,6 +45,14 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
                 WitcheryLangProvider(out, teg)
             }
         }
+
+        pack.addProvider { out, tag ->
+            WitcheryNatureBlockProvider(out, tag)
+        }
+
+        pack.addProvider { out, tag ->
+            WitcheryNatureBlockTagProvider(out, tag)
+        }
     }
 
     override fun buildRegistry(registryBuilder: RegistrySetBuilder) {

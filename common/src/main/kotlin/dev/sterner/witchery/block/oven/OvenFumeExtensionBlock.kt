@@ -3,6 +3,7 @@ package dev.sterner.witchery.block.oven
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmission
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
@@ -23,7 +24,9 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 
-class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion()) {
+class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(
+    litBlockEmission(8)
+)) {
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
         return WitcheryBlockEntityTypes.OVEN_FUME_EXTENSION.get().create(pos, state)
