@@ -1,0 +1,25 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 3000,
+  "commands": [
+    {
+      "type": "end",
+      "command": "time set midnight",
+      "context": "nothing"
+    }
+  ],
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "minecraft:wooden_axe"
+    },
+    {
+      "id": "witchery:wood_ash"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "ticks": 20
+}

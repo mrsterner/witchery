@@ -235,5 +235,30 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setTicks(20)
             .save(exporter)
 
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.WOODEN_SWORD.defaultInstance)
+            .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
+            .setAltarPower(1000)
+            .setTicks(20)
+            .addCommand(CommandType("summon lightning_bolt {blockPos}", CommandType.END, CommandContext.NOTHING))
+            .save(exporter)
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.WOODEN_SWORD.defaultInstance)
+            .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
+            .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
+            .setAltarPower(2000)
+            .setTicks(20)
+            .addCommand(CommandType("summon lightning_bolt {blockPos}", CommandType.END, CommandContext.BLOCKPOS))
+            .save(exporter)
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.WOODEN_AXE.defaultInstance)
+            .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
+            .setAltarPower(3000)
+            .setTicks(20)
+            .addCommand(CommandType("time set midnight", CommandType.END, CommandContext.NOTHING))
+            .save(exporter)
+
     }
 }

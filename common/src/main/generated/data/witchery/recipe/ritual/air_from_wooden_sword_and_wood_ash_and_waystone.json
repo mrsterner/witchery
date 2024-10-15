@@ -1,0 +1,28 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 2000,
+  "commands": [
+    {
+      "type": "end",
+      "command": "summon lightning_bolt {blockPos}",
+      "context": "blockpos"
+    }
+  ],
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "minecraft:wooden_sword"
+    },
+    {
+      "id": "witchery:wood_ash"
+    },
+    {
+      "id": "witchery:waystone"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "ticks": 20
+}

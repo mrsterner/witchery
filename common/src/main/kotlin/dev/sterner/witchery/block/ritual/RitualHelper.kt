@@ -80,12 +80,9 @@ object RitualHelper {
                         }
                         CommandContext.BLOCKPOS -> {
                             val targetPos = blockEntity.targetPos
-                            println(targetPos)
                             if (targetPos != null) {
                                 val dimensionLevel = server?.getLevel(targetPos.dimension()) // Get the correct dimension's level
-                                println(dimensionLevel)
                                 if (dimensionLevel != null) {
-                                    println("RUN")
                                     runCommand(blockEntity, dimensionLevel, server, targetPos.pos(), commandType.command, null, null)
                                 }
                             }

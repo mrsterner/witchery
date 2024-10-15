@@ -150,7 +150,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun startConsumingItems(level: Level) {
         val itemEntities: List<ItemEntity> = level.getEntities(
             EntityType.ITEM,
-            AABB(blockPos).inflate(3.0, 1.0, 3.0)
+            AABB(blockPos).inflate(3.0, 0.0, 3.0)
         ) { true }
 
         val recipeItems = ritualRecipe?.inputItems ?: return
