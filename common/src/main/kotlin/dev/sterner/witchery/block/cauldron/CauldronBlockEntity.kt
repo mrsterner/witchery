@@ -213,9 +213,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         for (item in itemsToCraft ?: emptyList()) {
             val list = NonNullList.create<ItemStack>()
 
-            item.items.forEach { stack ->
-                list.add(stack.copy())
-            }
+            list.add(item.copy())
 
             for (drop in list) {
                 Containers.dropItemStack(level, pos.x + 0.5, pos.y + 1.1, pos.z + 0.5, drop)

@@ -21,7 +21,8 @@
   ],
   "outputItems": [
     {
-      "item": "witchery:mutandis_extremis"
+      "count": 1,
+      "id": "witchery:mutandis_extremis"
     }
   ]
 }

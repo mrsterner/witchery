@@ -29,7 +29,8 @@
   ],
   "outputItems": [
     {
-      "item": "witchery:infernal_chalk"
+      "count": 1,
+      "id": "witchery:infernal_chalk"
     }
   ]
 }

@@ -29,7 +29,8 @@
   ],
   "outputItems": [
     {
-      "item": "witchery:golden_chalk"
+      "count": 1,
+      "id": "witchery:golden_chalk"
     }
   ]
 }
