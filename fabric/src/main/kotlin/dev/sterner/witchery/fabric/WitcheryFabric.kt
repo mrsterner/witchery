@@ -28,25 +28,6 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
                 sprite!!
             )
         }
-
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(),
-            WitcheryBlocks.CAULDRON.get(),
-            WitcheryBlocks.GLINTWEED.get(),
-            WitcheryBlocks.EMBER_MOSS.get(),
-            WitcheryBlocks.SPANISH_MOSS.get(),
-            WitcheryBlocks.MANDRAKE_CROP.get(),
-            WitcheryBlocks.BELLADONNAE_CROP.get(),
-            WitcheryBlocks.COPPER_WITCHES_OVEN.get(),
-            WitcheryBlocks.IRON_WITCHES_OVEN.get(),
-            WitcheryBlocks.SNOWBELL_CROP.get(),
-            WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(),
-
-            WitcheryBlocks.GARLIC_CROP.get(),
-            WitcheryBlocks.WORMWOOD_CROP.get(),
-            WitcheryBlocks.WOLFSFBANE_CROP.get(),
-            WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),
-        )
-
     }
 }
 

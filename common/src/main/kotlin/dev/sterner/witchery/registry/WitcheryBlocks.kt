@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.material.MapColor
 import net.minecraft.world.level.material.PushReaction
+import java.awt.Color
 
 
 object WitcheryBlocks {
@@ -202,11 +203,11 @@ object WitcheryBlocks {
     }
 
     val INFERNAL_CHALK_BLOCK = BLOCKS.register("infernal_chalk") {
-        RitualChalkBlock(ParticleTypes.FLAME, 0xFF0000, BlockBehaviour.Properties.of())
+        RitualChalkBlock(ParticleTypes.FLAME, Color(230,0,75).rgb, BlockBehaviour.Properties.of())
     }
 
     val OTHERWHERE_CHALK_BLOCK = BLOCKS.register("otherwhere_chalk") {
-        RitualChalkBlock(ParticleTypes.END_ROD, 0xFF00FF, BlockBehaviour.Properties.of())
+        RitualChalkBlock(ParticleTypes.PORTAL, Color(190,55,250).rgb, BlockBehaviour.Properties.of())
     }
 
     val GOLDEN_CHALK_BLOCK = BLOCKS.register("golden_chalk") {
