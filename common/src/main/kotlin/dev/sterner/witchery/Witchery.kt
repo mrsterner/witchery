@@ -145,6 +145,13 @@ object Witchery {
         ColorHandlerRegistry.registerBlockColors(RitualChalkColors,
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
             WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
+            WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get()
+        )
+
+        RenderTypeRegistry.register(RenderType.cutout(),
+            WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),
+            WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
+            WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
             WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(),
             WitcheryBlocks.CAULDRON.get(),
             WitcheryBlocks.GLINTWEED.get(),
@@ -161,12 +168,6 @@ object Witchery {
             WitcheryBlocks.WOLFSFBANE_CROP.get(),
             WitcheryBlocks.WATER_ARTICHOKE_CROP.get()
         )
-
-        RenderTypeRegistry.register(RenderType.cutout(),
-            WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),
-            WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
-            WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
-            WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
     }
 
     fun id(name: String): ResourceLocation {
