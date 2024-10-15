@@ -12,13 +12,18 @@ import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.core.HolderLookup
+import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.RecipeOutput
+import net.minecraft.data.recipes.RecipeProvider
 import net.minecraft.data.recipes.ShapedRecipeBuilder
+import net.minecraft.data.recipes.ShapelessRecipeBuilder
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 import java.util.concurrent.CompletableFuture
+import kotlin.math.exp
 
 class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricRecipeProvider(output, registriesFuture) {
@@ -34,6 +39,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
 
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.RITUAL_CHALK.get(), 2)
             .pattern("ATA")
             .pattern("AGA")
@@ -43,6 +49,66 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('G', WitcheryItems.GYPSUM.get())
             .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
             .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.CLAY_JAR.get(), 4)
+            .pattern(" C ")
+            .pattern("CCC")
+            .define('C', Items.CLAY_BALL)
+            .unlockedBy("has_clay", has(Items.CLAY_BALL))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.IRON_WITCHES_OVEN.get())
+            .pattern(" B ")
+            .pattern("III")
+            .pattern("IBI")
+            .define('B', Items.IRON_BARS)
+            .define('I', Items.IRON_INGOT)
+            .unlockedBy("has_iron", has(Items.IRON_INGOT))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.COPPER_WITCHES_OVEN.get())
+            .pattern(" T ")
+            .pattern("CCC")
+            .pattern("CTC")
+            .define('T', Items.COPPER_TRAPDOOR)
+            .define('C', Items.COPPER_INGOT)
+            .unlockedBy("has_copper", has(Items.COPPER_INGOT))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
+            .pattern("BLB")
+            .pattern("BGB")
+            .pattern("IAI")
+            .define('B', Items.BUCKET)
+            .define('L', Items.LAVA_BUCKET)
+            .define('G', Items.GLOWSTONE)
+            .define('A', Items.IRON_BARS)
+            .define('I', Items.IRON_BLOCK)
+            .unlockedBy("has_iron", has(Items.IRON_INGOT))
+            .save(exporter)
+
+
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())
+            .requires(Items.BONE)
+            .requires(Items.FLINT)
+            .unlockedBy("has_flint", has(Items.FLINT))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.WAYSTONE.get())
+            .requires(WitcheryItems.BONE_NEEDLE.get())
+            .requires(Items.QUARTZ)
+            .unlockedBy("has_flint", has(Items.FLINT))
+            .save(exporter)
+
+
+
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(WitcheryItems.CLAY_JAR.get()),
+            RecipeCategory.MISC, WitcheryItems.JAR.get(), 0.3f, 200)
+            .unlockedBy("has_clay_jar", has(WitcheryItems.CLAY_JAR.get()))
+            .save(exporter)
+
+
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, 123456)
@@ -88,6 +154,8 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
             .save(exporter)
+
+
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.OAK_SAPLING),
@@ -148,6 +216,8 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             85
         ).save(exporter)
+
+
 
         //TODO remove
         RitualRecipeBuilder.create()
