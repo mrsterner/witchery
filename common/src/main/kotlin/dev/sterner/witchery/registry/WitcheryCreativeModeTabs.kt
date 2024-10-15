@@ -19,7 +19,6 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.MUTANDIS.get())
                 output.accept(WitcheryItems.MUTANDIS_EXTREMIS.get())
                 output.accept(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get())
-                output.accept(WitcheryItems.ALTAR.get())
                 output.accept(WitcheryItems.CAULDRON.get())
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN.get())
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
