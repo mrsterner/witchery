@@ -13,6 +13,8 @@ import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
+import net.minecraft.core.HolderLookup
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -156,18 +158,30 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         if (level !is ServerLevel) return
 
-        if (ticks / 20 == 5 || powerUpdateQueued) {
+        if (powerUpdateQueued) {
             collectAllLocalNaturePower(level)
-            if (powerUpdateQueued) powerUpdateQueued = false
+            powerUpdateQueued = false
         } else if (ticks % 20 == 0) {
             augmentAltar(level, pos)
             updateCurrentPower()
         }
 
-        if (ticks / 20.0 >= 5)
+        if (ticks / 20.0 >= 1)
             ticks = 0
         else
             ticks++
+    }
+
+    override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
+        tag.putInt("currentPower", currentPower)
+
+        super.saveAdditional(tag, registries)
+    }
+
+    override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
+        super.loadAdditional(pTag, pRegistries)
+
+        currentPower = pTag.getInt("currentPower")
     }
 
     fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean {
