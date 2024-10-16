@@ -55,6 +55,8 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
         pack.addProvider { out, tag ->
             WitcheryNatureBlockTagProvider(out, tag)
         }
+
+        pack.addProvider(::WitcheryWorldGenProvider)
     }
 
     override fun buildRegistry(registryBuilder: RegistrySetBuilder) {
@@ -67,5 +69,6 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
         registryBuilder.add(WitcheryRitualRegistry.RITUAL_KEY, Lifecycle.stable()) {
             WitcheryRitualRegistry.bootstrap(it)
         }
+        super.buildRegistry(registryBuilder)
     }
 }
