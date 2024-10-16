@@ -4,8 +4,6 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.attachment.MutandisData
-import dev.sterner.witchery.api.attachment.MutandisAttachmentData
 import dev.sterner.witchery.payload.MutandisRemenantParticleS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
@@ -15,7 +13,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Block
 
-object MutandisLevelDataAttachmentPlatform {
+object MutandisDataAttachment {
 
     val CACHE_LIFETIME = 20 * 3
 
@@ -80,20 +78,28 @@ object MutandisLevelDataAttachmentPlatform {
 
     val ID: ResourceLocation = Witchery.id("mutandis_level_data")
 
-    val MUTANDIS_DATA_CODEC: Codec<MutandisData> = RecordCodecBuilder.create { inst ->
-        inst.group(
-            TagKey.codec(Registries.BLOCK).fieldOf("tag").forGetter(MutandisData::tag),
-            Codec.INT.fieldOf("time").forGetter(MutandisData::time)
-        ).apply(inst, ::MutandisData)
+    data class MutandisData(val tag: TagKey<Block>, val time: Int) {
+        companion object {
+            val MUTANDIS_DATA_CODEC: Codec<MutandisData> = RecordCodecBuilder.create { inst ->
+                inst.group(
+                    TagKey.codec(Registries.BLOCK).fieldOf("tag").forGetter(MutandisData::tag),
+                    Codec.INT.fieldOf("time").forGetter(MutandisData::time)
+                ).apply(inst, ::MutandisData)
+            }
+        }
     }
 
-    val CODEC: Codec<MutandisAttachmentData> = RecordCodecBuilder.create { inst ->
-        inst.group(
-            Codec.unboundedMap(
-                BlockPos.CODEC,
-                MUTANDIS_DATA_CODEC
-            ).fieldOf("mutandisCacheMap")
-                .forGetter(MutandisAttachmentData::mutandisCacheMap)
-        ).apply(inst, ::MutandisAttachmentData)
+    data class MutandisDataCodec(val mutandisCacheMap: MutableMap<BlockPos, MutandisData> = mutableMapOf()) {
+        companion object {
+           val CODEC: Codec<MutandisDataCodec> = RecordCodecBuilder.create { inst ->
+               inst.group(
+                   Codec.unboundedMap(
+                       BlockPos.CODEC,
+                       MutandisData.MUTANDIS_DATA_CODEC
+                   ).fieldOf("mutandisCacheMap")
+                       .forGetter(MutandisDataCodec::mutandisCacheMap)
+               ).apply(inst, ::MutandisDataCodec)
+           }
+        }
     }
 }

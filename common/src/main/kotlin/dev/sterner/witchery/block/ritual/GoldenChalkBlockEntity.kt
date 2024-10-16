@@ -1,14 +1,11 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
-import dev.sterner.witchery.platform.AltarDataAttachmentPlatform
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.ritual.PushMobsRitual
@@ -18,7 +15,6 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.*
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -33,13 +29,9 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity
-import net.minecraft.world.level.block.entity.DaylightDetectorBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import java.util.*
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 
 class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :

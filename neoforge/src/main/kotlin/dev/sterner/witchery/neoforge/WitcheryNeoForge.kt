@@ -1,22 +1,16 @@
 package dev.sterner.witchery.neoforge
 
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
-import dev.sterner.witchery.client.model.BoatModels
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.screen.OvenScreen
-import dev.sterner.witchery.platform.neoforge.MutandisLevelDataAttachmentPlatformImpl
+import dev.sterner.witchery.platform.neoforge.MutandisDataAttachmentImpl
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
-import net.minecraft.client.model.BoatModel
-import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.entity.BoatRenderer
-import net.neoforged.bus.api.IEventBus
 import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
@@ -37,7 +31,7 @@ object WitcheryNeoForge {
     init {
         Witchery.init()
 
-        MutandisLevelDataAttachmentPlatformImpl.ATTACHMENT_TYPES.register(MOD_BUS)
+        MutandisDataAttachmentImpl.ATTACHMENT_TYPES.register(MOD_BUS)
 
         runForDist(
             clientTarget = {

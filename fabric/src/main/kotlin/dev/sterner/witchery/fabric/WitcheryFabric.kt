@@ -1,10 +1,9 @@
 package dev.sterner.witchery.fabric
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.attachment.AltarAttachmentData
-import dev.sterner.witchery.api.attachment.MutandisAttachmentData
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
-import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform
+import dev.sterner.witchery.platform.AltarDataAttachment
+import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryFlammability
 import dev.sterner.witchery.registry.WitcheryParticleTypes
@@ -23,18 +22,18 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
     companion object {
         @Suppress("UnstableApiUsage")
-        val MUTANDIS_LEVEL_DATA_TYPE: AttachmentType<MutandisAttachmentData> =
-            AttachmentRegistry.builder<MutandisAttachmentData>()
-                .persistent(MutandisLevelDataAttachmentPlatform.CODEC)
-                .initializer { MutandisAttachmentData() }
-                .buildAndRegister(MutandisLevelDataAttachmentPlatform.ID)
+        val MUTANDIS_LEVEL_DATA_TYPE: AttachmentType<MutandisDataAttachment.MutandisDataCodec> =
+            AttachmentRegistry.builder<MutandisDataAttachment.MutandisDataCodec>()
+                .persistent(MutandisDataAttachment.MutandisDataCodec.CODEC)
+                .initializer { MutandisDataAttachment.MutandisDataCodec() }
+                .buildAndRegister(MutandisDataAttachment.ID)
 
         @Suppress("UnstableApiUsage")
-        val ALTAR_LEVEL_DATA_TYPE: AttachmentType<AltarAttachmentData> =
-            AttachmentRegistry.builder<AltarAttachmentData>()
-                .persistent(AltarAttachmentData.CODEC)
-                .initializer { AltarAttachmentData() }
-                .buildAndRegister(AltarAttachmentData.ID)
+        val ALTAR_LEVEL_DATA_TYPE: AttachmentType<AltarDataAttachment.AltarDataCodec> =
+            AttachmentRegistry.builder<AltarDataAttachment.AltarDataCodec>()
+                .persistent(AltarDataAttachment.AltarDataCodec.CODEC)
+                .initializer { AltarDataAttachment.AltarDataCodec() }
+                .buildAndRegister(AltarDataAttachment.AltarDataCodec.ID)
     }
 
     override fun onInitialize() {

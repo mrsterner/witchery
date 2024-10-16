@@ -31,7 +31,7 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.MandrakeEntity
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform
+import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -89,7 +89,7 @@ object Witchery {
 
         LootEvent.MODIFY_LOOT_TABLE.register(::addSeeds)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
-        ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisLevelDataAttachmentPlatform.tick(serverLevel) }
+        ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisDataAttachment.tick(serverLevel) }
 
         NaturePowerHandler.registerListener()
     }

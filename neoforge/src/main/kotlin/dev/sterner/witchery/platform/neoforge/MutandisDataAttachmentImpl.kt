@@ -1,10 +1,8 @@
 package dev.sterner.witchery.platform.neoforge
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.attachment.MutandisData
-import dev.sterner.witchery.api.attachment.MutandisAttachmentData
-import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform
-import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform.CACHE_LIFETIME
+import dev.sterner.witchery.platform.MutandisDataAttachment
+import dev.sterner.witchery.platform.MutandisDataAttachment.CACHE_LIFETIME
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.TagKey
@@ -14,23 +12,23 @@ import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
 import java.util.function.Supplier
 
-object MutandisLevelDataAttachmentPlatformImpl {
+object MutandisDataAttachmentImpl {
 
     @JvmStatic
-    fun getMap(level: ServerLevel): MutableMap<BlockPos, MutandisData> {
+    fun getMap(level: ServerLevel): MutableMap<BlockPos, MutandisDataAttachment.MutandisData> {
         return level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap
     }
 
     @JvmStatic
     fun getTagForBlockPos(level: ServerLevel, pos: BlockPos): TagKey<Block>? {
-        val levelData = level.getData(LEVEL_DATA_ATTACHMENT.get()) ?: MutandisAttachmentData()
+        val levelData = level.getData(LEVEL_DATA_ATTACHMENT.get()) ?: MutandisDataAttachment.MutandisDataCodec()
         return levelData.mutandisCacheMap[pos]?.tag
     }
 
     @JvmStatic
     fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>)  {
-        val levelData = level.getData(LEVEL_DATA_ATTACHMENT.get()) ?: MutandisAttachmentData()
-        levelData.mutandisCacheMap[pos] = MutandisData(tag, CACHE_LIFETIME)
+        val levelData = level.getData(LEVEL_DATA_ATTACHMENT.get()) ?: MutandisDataAttachment.MutandisDataCodec()
+        levelData.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(tag, CACHE_LIFETIME)
     }
 
     @JvmStatic
@@ -43,7 +41,7 @@ object MutandisLevelDataAttachmentPlatformImpl {
         val data = level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap[pos]
         if (data != null) {
             level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap[pos] =
-                MutandisData(data.tag, data.time - 1)
+                MutandisDataAttachment.MutandisData(data.tag, data.time - 1)
         }
     }
 
@@ -51,7 +49,7 @@ object MutandisLevelDataAttachmentPlatformImpl {
     fun resetTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
         val data = level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap[pos]
         if (data != null) {
-            level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap[pos] = MutandisData(data.tag, CACHE_LIFETIME)
+            level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.tag, CACHE_LIFETIME)
         }
     }
 
@@ -60,11 +58,11 @@ object MutandisLevelDataAttachmentPlatformImpl {
             DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Witchery.MODID)
 
     @JvmStatic
-    val LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<MutandisAttachmentData>> = ATTACHMENT_TYPES.register(
+    val LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<MutandisDataAttachment.MutandisDataCodec>> = ATTACHMENT_TYPES.register(
         "mutandis_level_data",
         Supplier {
-            AttachmentType.builder(Supplier { MutandisAttachmentData() })
-                .serialize(MutandisLevelDataAttachmentPlatform.CODEC)
+            AttachmentType.builder(Supplier { MutandisDataAttachment.MutandisDataCodec() })
+                .serialize(MutandisDataAttachment.MutandisDataCodec.CODEC)
                 .build()
         }
     )

@@ -4,7 +4,7 @@ import dev.sterner.witchery.fabric.WitcheryFabric
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 
-object AltarDataAttachmentPlatformImpl {
+object AltarDataAttachmentImpl {
 
     @JvmStatic
     fun setAltarPos(level: ServerLevel, pos: BlockPos) {
