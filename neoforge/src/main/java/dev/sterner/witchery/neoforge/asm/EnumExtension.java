@@ -11,6 +11,6 @@ import java.util.function.Supplier;
 
 public class EnumExtension {
     public static final EnumProxy<Boat.Type> ROWAN_BOAT_TYPE_PROXY = new EnumProxy<>(
-            Boat.Type.class, WitcheryBlocks.INSTANCE.getROWAN_PLANKS(), "witchery_rowan", WitcheryItems.INSTANCE.getROWAN_BOAT(), WitcheryItems.INSTANCE.getROWAN_CHEST_BOAT(), (Supplier<Item>) () -> Items.STICK, false
+            Boat.Type.class, WitcheryBlocks.INSTANCE.getROWAN_PLANKS(), "witchery:witchery_rowan", WitcheryItems.INSTANCE.getROWAN_BOAT(), WitcheryItems.INSTANCE.getROWAN_CHEST_BOAT(), (Supplier<Item>) () -> Items.STICK, false
     );
 }
