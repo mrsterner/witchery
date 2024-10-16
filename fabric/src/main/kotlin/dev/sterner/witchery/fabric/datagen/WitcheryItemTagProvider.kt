@@ -57,7 +57,13 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
         getOrCreateTagBuilder(ItemTags.SAPLINGS)
             .add(WitcheryItems.ROWAN_SAPLING.get())
 
-        //TODO: Signs (4 separate tags), Boats, Chest Boats
+        getOrCreateTagBuilder(ItemTags.SIGNS)
+            .add(WitcheryItems.ROWAN_SIGN.get())
+
+        getOrCreateTagBuilder(ItemTags.HANGING_SIGNS)
+            .add(WitcheryItems.ROWAN_HANGING_SIGN.get())
+
+        //TODO: Boats, Chest Boats
 
         getOrCreateTagBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS).add(
             WitcheryItems.MANDRAKE_SEEDS.get(),

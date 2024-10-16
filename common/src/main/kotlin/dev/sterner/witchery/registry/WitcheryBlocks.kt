@@ -14,6 +14,10 @@ import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockComponent
 import dev.sterner.witchery.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
+import dev.sterner.witchery.block.signs.CustomCeilingHangingSignBlock
+import dev.sterner.witchery.block.signs.CustomStandingSignBlock
+import dev.sterner.witchery.block.signs.CustomWallHangingSignBlock
+import dev.sterner.witchery.block.signs.CustomWallSignBlock
 import dev.sterner.witchery.platform.StrippableHelper
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
@@ -183,7 +187,21 @@ object WitcheryBlocks {
         FlowerPotBlock(ROWAN_SAPLING.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING))
     }
 
-    //TODO: Sign, Hanging Sign
+    val ROWAN_SIGN = BLOCKS.register("rowan_sign") {
+        CustomStandingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN))
+    }
+
+    val ROWAN_WALL_SIGN = BLOCKS.register("rowan_wall_sign") {
+        CustomWallSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN))
+    }
+
+    val ROWAN_HANGING_SIGN = BLOCKS.register("rowan_hanging_sign") {
+        CustomCeilingHangingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN))
+    }
+
+    val ROWAN_WALL_HANGING_SIGN = BLOCKS.register("rowan_wall_hanging_sign") {
+        CustomWallHangingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN))
+    }
 
 
 

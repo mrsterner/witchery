@@ -79,7 +79,17 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
         getOrCreateTagBuilder(BlockTags.FLOWER_POTS)
             .add(WitcheryBlocks.POTTED_ROWAN_SAPLING.get())
 
-        //TODO: Signs & Hanging Signs (4 separate tags)
+        getOrCreateTagBuilder(BlockTags.STANDING_SIGNS)
+            .add(WitcheryBlocks.ROWAN_SIGN.get())
+
+        getOrCreateTagBuilder(BlockTags.WALL_SIGNS)
+            .add(WitcheryBlocks.ROWAN_WALL_SIGN.get())
+
+        getOrCreateTagBuilder(BlockTags.CEILING_HANGING_SIGNS)
+            .add(WitcheryBlocks.ROWAN_HANGING_SIGN.get())
+
+        getOrCreateTagBuilder(BlockTags.WALL_HANGING_SIGNS)
+            .add(WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get())
 
 
         // Nature Grouping Tags

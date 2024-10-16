@@ -10,9 +10,11 @@ import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.HangingSignItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemNameBlockItem
 import net.minecraft.world.item.Rarity
+import net.minecraft.world.item.SignItem
 
 
 object WitcheryItems {
@@ -314,5 +316,13 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.ROWAN_SAPLING.get(), Item.Properties())
     }
 
-    //TODO: Need Sign, Hanging Sign, Boat, Chest Boat, Sapling
+    val ROWAN_SIGN = ITEMS.register("rowan_sign") {
+        SignItem(Item.Properties(), WitcheryBlocks.ROWAN_SIGN.get(), WitcheryBlocks.ROWAN_WALL_SIGN.get())
+    }
+
+    val ROWAN_HANGING_SIGN = ITEMS.register("rowan_hanging_sign") {
+        HangingSignItem(WitcheryBlocks.ROWAN_HANGING_SIGN.get(), WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(), Item.Properties())
+    }
+
+    //TODO: Need Boat, Chest Boat
 }

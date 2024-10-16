@@ -9,8 +9,12 @@ import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
+import dev.sterner.witchery.block.signs.CustomHangingSignBE
+import dev.sterner.witchery.block.signs.CustomSignBE
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.world.level.block.entity.HangingSignBlockEntity
+import net.minecraft.world.level.block.entity.SignBlockEntity
 
 object WitcheryBlockEntityTypes {
 
@@ -72,4 +76,20 @@ object WitcheryBlockEntityTypes {
             )
                 .build(null)
         }
+
+    val CUSTOM_SIGN = BLOCK_ENTITY_TYPES.register("custom_sign") {
+        BlockEntityType.Builder.of(
+            { pos, state -> CustomSignBE(pos, state) as SignBlockEntity },
+            WitcheryBlocks.ROWAN_SIGN.get(),
+            WitcheryBlocks.ROWAN_WALL_SIGN.get()
+        ).build(null)
+    }
+
+    val CUSTOM_HANGING_SIGN = BLOCK_ENTITY_TYPES.register("custom_hanging_sign") {
+        BlockEntityType.Builder.of(
+            { pos, state -> CustomHangingSignBE(pos, state) as SignBlockEntity },
+            WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
+            WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get()
+        ).build(null)
+    }
 }

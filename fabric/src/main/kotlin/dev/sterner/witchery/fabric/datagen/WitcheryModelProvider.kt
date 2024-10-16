@@ -48,7 +48,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.skipAutoItemBlock(WitcheryBlocks.ROWAN_SAPLING.get())
         generator.createSimpleFlatItemModel(WitcheryBlocks.ROWAN_SAPLING.get())
         generator.createNonTemplateModelBlock(WitcheryBlocks.POTTED_ROWAN_SAPLING.get())
-        //TODO: Need Hanging Signs
+        generator.createHangingSign(WitcheryBlocks.STRIPPED_ROWAN_LOG.get(), WitcheryBlocks.ROWAN_HANGING_SIGN.get(), WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get())
 
         val rowanFamily = BlockFamily.Builder(WitcheryBlocks.ROWAN_PLANKS.get())
             .stairs(WitcheryBlocks.ROWAN_STAIRS.get())
@@ -59,9 +59,9 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
             .trapdoor(WitcheryBlocks.ROWAN_TRAPDOOR.get())
             .pressurePlate(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get())
             .button(WitcheryBlocks.ROWAN_BUTTON.get())
+            .sign(WitcheryBlocks.ROWAN_SIGN.get(), WitcheryBlocks.ROWAN_WALL_SIGN.get())
             .recipeGroupPrefix("wooden")
             .recipeUnlockedBy("has_planks").family
-        // TODO: Needs Signs
         generator.family(rowanFamily.baseBlock).generateFor(rowanFamily)
     }
 

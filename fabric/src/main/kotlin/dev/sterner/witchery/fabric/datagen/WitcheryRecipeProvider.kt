@@ -141,6 +141,15 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, WitcheryItems.ROWAN_SIGN.get(), 3)
+            .pattern("PPP")
+            .pattern("PPP")
+            .pattern(" S ")
+            .define('P', WitcheryItems.ROWAN_PLANKS.get())
+            .define('S', Items.STICK)
+            .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
+            .save(exporter)
+
 
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())

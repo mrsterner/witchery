@@ -41,6 +41,10 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.ROWAN_BUTTON.get())
         dropSelf(WitcheryBlocks.ROWAN_SAPLING.get())
         this.add(WitcheryBlocks.POTTED_ROWAN_SAPLING.get(), createPotFlowerItemTable(WitcheryItems.ROWAN_SAPLING.get()))
+        dropOther(WitcheryBlocks.ROWAN_SIGN.get(), WitcheryItems.ROWAN_SIGN.get())
+        dropOther(WitcheryBlocks.ROWAN_WALL_SIGN.get(), WitcheryItems.ROWAN_SIGN.get())
+        dropOther(WitcheryBlocks.ROWAN_HANGING_SIGN.get(), WitcheryItems.ROWAN_HANGING_SIGN.get())
+        dropOther(WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(), WitcheryItems.ROWAN_HANGING_SIGN.get())
 
         this.add(
             WitcheryBlocks.EMBER_MOSS.get()
