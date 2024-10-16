@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.attachment.MutandisData
-import dev.sterner.witchery.api.attachment.MutandisLevelAttachment
+import dev.sterner.witchery.api.attachment.MutandisAttachmentData
 import dev.sterner.witchery.payload.MutandisRemenantParticleS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
@@ -87,13 +87,13 @@ object MutandisLevelDataAttachmentPlatform {
         ).apply(inst, ::MutandisData)
     }
 
-    val CODEC: Codec<MutandisLevelAttachment> = RecordCodecBuilder.create { inst ->
+    val CODEC: Codec<MutandisAttachmentData> = RecordCodecBuilder.create { inst ->
         inst.group(
             Codec.unboundedMap(
                 BlockPos.CODEC,
                 MUTANDIS_DATA_CODEC
             ).fieldOf("mutandisCacheMap")
-                .forGetter(MutandisLevelAttachment::mutandisCacheMap)
-        ).apply(inst, ::MutandisLevelAttachment)
+                .forGetter(MutandisAttachmentData::mutandisCacheMap)
+        ).apply(inst, ::MutandisAttachmentData)
     }
 }

@@ -13,45 +13,43 @@ object MutandisLevelDataAttachmentPlatformImpl {
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun getMap(level: ServerLevel): MutableMap<BlockPos, MutandisData> {
-        return  level.getAttachedOrCreate(WitcheryFabric.LEVEL_DATA_TYPE).mutandisCacheMap
+        return level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap
     }
 
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun getTagForBlockPos(level: ServerLevel, pos: BlockPos): TagKey<Block>? {
-        val attachments = level.getAttachedOrCreate(WitcheryFabric.LEVEL_DATA_TYPE)
+        val attachments = level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE)
         return attachments.mutandisCacheMap[pos]?.tag
     }
 
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>)  {
-        level.getAttachedOrCreate(WitcheryFabric.LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisData(tag, CACHE_LIFETIME)
+        level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisData(tag, CACHE_LIFETIME)
     }
 
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos)  {
-        level.getAttachedOrCreate(WitcheryFabric.LEVEL_DATA_TYPE).mutandisCacheMap.remove(pos)
+        level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap.remove(pos)
     }
 
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos)  {
-        val data = level.getAttachedOrCreate(WitcheryFabric.LEVEL_DATA_TYPE).mutandisCacheMap[pos]
+        val data = level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos]
         if (data != null) {
-            level.getAttachedOrCreate(WitcheryFabric.LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisData(data.tag, data.time - 1)
+            level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisData(data.tag, data.time - 1)
         }
     }
 
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun resetTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
-        val data = level.getAttachedOrCreate(WitcheryFabric.LEVEL_DATA_TYPE).mutandisCacheMap[pos]
+        val data = level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos]
         if (data != null) {
-            level.getAttachedOrCreate(WitcheryFabric.LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisData(data.tag, CACHE_LIFETIME)
+            level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisData(data.tag, CACHE_LIFETIME)
         }
     }
-
-
 }

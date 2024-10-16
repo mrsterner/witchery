@@ -72,29 +72,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     init {
         powerUpdateQueued = true
         augmentUpdateQueued = true
-
-        BlockEvent.PLACE.register { level, pos, state, entity ->
-            if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
-                propagateAltarLocation(level as ServerLevel, pos)
-                powerUpdateQueued = true
-
-                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center))
-                    augmentUpdateQueued = true
-            }
-
-            EventResult.pass()
-        }
-
-        BlockEvent.BREAK.register { level, pos, state, player, xp ->
-            if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
-                powerUpdateQueued = true
-
-                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center))
-                    augmentUpdateQueued = true
-            }
-
-            EventResult.pass()
-        }
     }
 
     private fun getLocalAABB() = AABB.ofSize(blockPos.center, range.toDouble(), range.toDouble(), range.toDouble())
@@ -136,15 +113,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     fun augmentAltar(level: ServerLevel) {
         val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
         // Do Stuff
-    }
-
-    fun propagateAltarLocation(level: ServerLevel, pos: BlockPos) {
-        val block = level.getBlockState(pos).block
-        val be = level.getBlockEntity(pos)
-        if (be is AltarPowerConsumer)
-            be.receiveAltarPosition(blockPos)
-        if (block is AltarPowerConsumer)
-            block.receiveAltarPosition(blockPos)
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
@@ -190,7 +158,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         if (ticks % 20 == 0) {
             updateCurrentPower()
-            sendAltarPos()
         }
 
 
@@ -198,14 +165,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             ticks = 0
         else
             ticks++
-    }
-
-    private fun sendAltarPos() {
-        val stream = BlockPos.withinManhattanStream(blockPos, range, range, range).filter { level?.getBlockEntity(it) is AltarPowerConsumer }
-        stream.forEach {
-            val consumer = level?.getBlockEntity(it) as AltarPowerConsumer
-            consumer.setAltarPos(blockPos)
-        }
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {

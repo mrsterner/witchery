@@ -1,11 +1,14 @@
 package dev.sterner.witchery.api.block
 
 import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.platform.AltarDataAttachmentPlatform
 import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.Level
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 interface AltarPowerConsumer {
-    fun receiveAltarPosition(corePos: BlockPos)
 
     fun tryConsumeAltarPower(level: Level, pos: BlockPos, amount: Int, simulate: Boolean): Boolean {
         val be = level.getBlockEntity(pos)
@@ -14,5 +17,14 @@ interface AltarPowerConsumer {
         return false
     }
 
-    fun setAltarPos(altarPos: BlockPos)
+    fun getAltarPos(level: ServerLevel, origin: BlockPos): BlockPos? {
+        return AltarDataAttachmentPlatform.getAltarPos(level).minByOrNull { pos ->
+            fun distance(pos1: BlockPos, pos2: BlockPos): Double {
+                return sqrt((pos1.x - pos2.x).toDouble().pow(2) +
+                        (pos1.y - pos2.y).toDouble().pow(2) +
+                        (pos1.z - pos2.z).toDouble().pow(2))
+            }
+            distance(origin, pos)
+        }
+    }
 }

@@ -8,6 +8,7 @@ import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
+import dev.sterner.witchery.platform.AltarDataAttachmentPlatform
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.ritual.PushMobsRitual
@@ -18,6 +19,7 @@ import net.minecraft.core.NonNullList
 import net.minecraft.nbt.*
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.Container
@@ -36,6 +38,8 @@ import net.minecraft.world.level.block.entity.DaylightDetectorBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import java.util.*
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
@@ -261,6 +265,12 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             return InteractionResult.SUCCESS
         }
 
+        if (cachedAltarPos == null && level is ServerLevel) {
+
+            cachedAltarPos = getAltarPos(level as ServerLevel, blockPos)
+            setChanged()
+        }
+
         if (ritualRecipe == null && level != null) {
 
             val items: List<ItemEntity> =
@@ -358,14 +368,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return requiredAltarPower == 0
     }
 
-    override fun receiveAltarPosition(corePos: BlockPos) {
-
-    }
-
-    override fun setAltarPos(altarPos: BlockPos) {
-        this.cachedAltarPos = altarPos
-        setChanged()
-    }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
         super.loadAdditional(pTag, pRegistries)

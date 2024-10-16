@@ -1,13 +1,16 @@
 package dev.sterner.witchery.block.altar
 
+import dev.sterner.witchery.api.attachment.AltarAttachmentData
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.platform.AltarDataAttachmentPlatform
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.Containers
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
@@ -47,6 +50,13 @@ class AltarBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.no
         return WitcheryBlockEntityTypes.ALTAR.get().create(blockPos, blockState)
     }
 
+    override fun onPlace(state: BlockState, level: Level, pos: BlockPos, oldState: BlockState, movedByPiston: Boolean) {
+        if (level is ServerLevel) {
+            AltarDataAttachmentPlatform.setAltarPos(level, pos)
+        }
+        super.onPlace(state, level, pos, oldState, movedByPiston)
+    }
+
     override fun onRemove(
         state: BlockState,
         level: Level,
@@ -54,6 +64,9 @@ class AltarBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.no
         newState: BlockState,
         movedByPiston: Boolean
     ) {
+        if (level is ServerLevel) {
+            AltarDataAttachmentPlatform.removeAltarPos(level, pos)
+        }
         Containers.dropItemStack(
             level,
             pos.x + 0.5,
