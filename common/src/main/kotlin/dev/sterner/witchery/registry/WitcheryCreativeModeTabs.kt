@@ -43,8 +43,8 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.ROWAN_SAPLING.get())
                 output.accept(WitcheryItems.ROWAN_SIGN.get())
                 output.accept(WitcheryItems.ROWAN_HANGING_SIGN.get())
-                // Boat
-                // Chest Boat
+                output.accept(WitcheryItems.ROWAN_BOAT.get())
+                output.accept(WitcheryItems.ROWAN_CHEST_BOAT.get())
 
                 output.accept(WitcheryItems.WAYSTONE.get())
                 output.accept(WitcheryItems.GLINTWEED.get())

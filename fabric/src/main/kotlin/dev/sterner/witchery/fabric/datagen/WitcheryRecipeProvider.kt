@@ -159,6 +159,13 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_logs", has(WitcheryItems.ROWAN_LOG.get())) // Should be an ITEM tag tbh
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, WitcheryItems.ROWAN_BOAT.get())
+            .pattern("P P")
+            .pattern("PPP")
+            .define('P', WitcheryItems.ROWAN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
+            .save(exporter)
+
 
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())
@@ -185,6 +192,12 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, WitcheryItems.ROWAN_BUTTON.get())
             .requires(WitcheryItems.ROWAN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TRANSPORTATION, WitcheryItems.ROWAN_CHEST_BOAT.get())
+            .requires(WitcheryItems.ROWAN_BOAT.get())
+            .requires(Items.CHEST)
             .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
             .save(exporter)
 

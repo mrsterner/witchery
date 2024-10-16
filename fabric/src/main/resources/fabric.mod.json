@@ -28,6 +28,12 @@
     ],
     "emi": [
       "dev.sterner.witchery.integration.emi.WitcheryEmiPlugin"
+    ],
+    "mm:early_risers": [
+      {
+        "adapter": "kotlin",
+        "value": "dev.sterner.witchery.fabric.asm.EarlyRiser"
+      }
     ]
   },
   "mixins": [

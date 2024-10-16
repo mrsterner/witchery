@@ -1,5 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.architectury.platform.Platform
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -63,7 +64,11 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
         getOrCreateTagBuilder(ItemTags.HANGING_SIGNS)
             .add(WitcheryItems.ROWAN_HANGING_SIGN.get())
 
-        //TODO: Boats, Chest Boats
+        getOrCreateTagBuilder(ItemTags.BOATS)
+            .add(WitcheryItems.ROWAN_BOAT.get())
+
+        getOrCreateTagBuilder(ItemTags.CHEST_BOATS)
+            .add(WitcheryItems.ROWAN_CHEST_BOAT.get())
 
         getOrCreateTagBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS).add(
             WitcheryItems.MANDRAKE_SEEDS.get(),
@@ -71,6 +76,25 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.SNOWBELL_SEEDS.get(),
             WitcheryItems.WATER_ARTICHOKE_SEEDS.get(),
             WitcheryItems.GARLIC.get(),
+            WitcheryItems.WOLFSBANE_SEEDS.get(),
+            WitcheryItems.WORMWOOD_SEEDS.get()
+        )
+
+        getOrCreateTagBuilder(ItemTags.CHICKEN_FOOD).add(
+            WitcheryItems.MANDRAKE_SEEDS.get(),
+            WitcheryItems.BELLADONNA_SEEDS.get(),
+            WitcheryItems.SNOWBELL_SEEDS.get(),
+            WitcheryItems.WATER_ARTICHOKE_SEEDS.get(),
+            WitcheryItems.WOLFSBANE_SEEDS.get(),
+            WitcheryItems.WORMWOOD_SEEDS.get()
+        )
+
+        // NeoForge Tag
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "seeds"))).add(
+            WitcheryItems.MANDRAKE_SEEDS.get(),
+            WitcheryItems.BELLADONNA_SEEDS.get(),
+            WitcheryItems.SNOWBELL_SEEDS.get(),
+            WitcheryItems.WATER_ARTICHOKE_SEEDS.get(),
             WitcheryItems.WOLFSBANE_SEEDS.get(),
             WitcheryItems.WORMWOOD_SEEDS.get()
         )

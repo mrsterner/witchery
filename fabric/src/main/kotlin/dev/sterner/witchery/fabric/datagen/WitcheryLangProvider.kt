@@ -1,6 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
@@ -94,7 +95,11 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.POTTED_ROWAN_SAPLING.get(), "Potted Rowan Sapling")
         builder.add(WitcheryBlocks.ROWAN_SIGN.get(), "Rowan Sign")
         builder.add(WitcheryBlocks.ROWAN_HANGING_SIGN.get(), "Rowan Hanging Sign")
+        builder.add(WitcheryItems.ROWAN_BOAT.get(), "Rowan Boat")
+        builder.add(WitcheryItems.ROWAN_CHEST_BOAT.get(), "Rowan Chest Boat")
 
-        // TODO: Boats, Chest Boats
+        builder.add(WitcheryEntityTypes.MANDRAKE.get(), "Mandrake")
+        builder.add("entity.witchery.rowan_boat", "Rowan Boat")
+        builder.add("entity.witchery.rowan_chest_boat", "Rowan Chest Boat")
     }
 }

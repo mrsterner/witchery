@@ -20,6 +20,7 @@ import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
+import dev.sterner.witchery.client.model.BoatModels
 import dev.sterner.witchery.client.model.MandrakeEntityModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.renderer.AltarBlockEntityRenderer
@@ -35,10 +36,13 @@ import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.model.BoatModel
+import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.Sheets
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
+import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
@@ -68,8 +72,6 @@ object Witchery {
         WitcheryRecipeSerializers.RECIPE_SERIALIZERS.register()
         WitcheryMenuTypes.MENU_TYPES.register()
         WitcheryDataComponents.DATA.register()
-
-        WitcheryFlammability.register()
 
         WitcheryPayloads.register()
 
@@ -115,6 +117,11 @@ object Witchery {
 
         EntityRendererRegistry.register(WitcheryEntityTypes.MANDRAKE) { MandrakeEntityRenderer(it) }
         EntityModelLayerRegistry.register(MandrakeEntityModel.LAYER_LOCATION) { MandrakeEntityModel.createBodyLayer() }
+
+        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_BOAT) { context -> BoatRenderer(context, false) }
+        EntityModelLayerRegistry.register(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)
+        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_CHEST_BOAT) { context -> BoatRenderer(context, true) }
+        EntityModelLayerRegistry.register(BoatModels.ROWAN_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
 
         EntityRendererRegistry.register(WitcheryEntityTypes.FLOATING_ITEM, ::FloatingItemEntityRenderer)
 

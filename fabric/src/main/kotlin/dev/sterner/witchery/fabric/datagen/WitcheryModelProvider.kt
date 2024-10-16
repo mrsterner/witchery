@@ -146,6 +146,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.BONE_NEEDLE.get(),  ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.DEMON_HEART.get(),  ModelTemplates.FLAT_ITEM)
 
-        //TODO: Need Boats, Chest Boats
+        genetaror.generateFlatItem(WitcheryItems.ROWAN_BOAT.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.ROWAN_CHEST_BOAT.get(), ModelTemplates.FLAT_ITEM)
     }
 }

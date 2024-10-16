@@ -39,6 +39,13 @@ loom {
     }
 }
 
+repositories {
+    maven { // Fabric ASM
+        name = "Jitpack"
+        url 'https://jitpack.io/'
+    }
+}
+
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
@@ -49,6 +56,9 @@ dependencies {
 
     // Architectury API. This is optional, and you can comment it out if you don't need it.
     modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+
+    // Fabric ASM, needed for expanding BoatType enum
+    include(modImplementation 'com.github.Chocohead:Fabric-ASM:v2.3')
 
     modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
     modLocalRuntime "dev.emi:emi-fabric:${emi_version}"

@@ -1,20 +1,27 @@
 package dev.sterner.witchery.neoforge
 
+import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
+import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
+import dev.sterner.witchery.client.model.BoatModels
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.platform.neoforge.MutandisLevelDataAttachmentPlatformImpl
-import dev.sterner.witchery.registry.WitcheryMenuTypes
-import dev.sterner.witchery.registry.WitcheryParticleTypes
-import dev.sterner.witchery.registry.WitcheryRitualRegistry
+import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
+import net.minecraft.client.model.BoatModel
+import net.minecraft.client.model.ChestBoatModel
+import net.minecraft.client.renderer.entity.BoatRenderer
+import net.neoforged.bus.api.IEventBus
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
@@ -35,10 +42,12 @@ object WitcheryNeoForge {
         runForDist(
             clientTarget = {
                 MOD_BUS.addListener(::onClientSetup)
+                MOD_BUS.addListener(::onEntityRendererRegistry)
                 Minecraft.getInstance()
             },
             serverTarget = {
                 MOD_BUS.addListener(::onServerSetup)
+                MOD_BUS.addListener(::onLoadComplete)
                 "test"
             }
         )
@@ -50,6 +59,15 @@ object WitcheryNeoForge {
 
     private fun onClientSetup(event: FMLClientSetupEvent) {
         Witchery.initClient()
+    }
+
+    private fun onLoadComplete(event: FMLLoadCompleteEvent) {
+        WitcheryFlammability.register()
+    }
+
+    private fun onEntityRendererRegistry(event: EntityRenderersEvent.RegisterRenderers) {
+        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_BOAT) { context -> BoatRenderer(context, false) }
+        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_CHEST_BOAT) { context -> BoatRenderer(context, true) }
     }
 
     @SubscribeEvent
