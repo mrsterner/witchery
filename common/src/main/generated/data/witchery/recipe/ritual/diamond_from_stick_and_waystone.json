@@ -1,7 +1,12 @@
 {
   "type": "witchery:ritual",
   "altarPower": 0,
-  "blockMapping": {},
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "I": "witchery:infernal_chalk",
+    "O": "witchery:otherwhere_chalk",
+    "R": "minecraft:shroomlight"
+  },
   "celestialConditions": [],
   "commands": [
     {
@@ -29,7 +34,23 @@
       "id": "minecraft:diamond"
     }
   ],
-  "pattern": [],
+  "pattern": [
+    "____IIIIIII____",
+    "___I_______I___",
+    "__I__OOOOO__I__",
+    "_I__O_____O__I_",
+    "I__O__RRR__O__I",
+    "I_O__R___R__O_I",
+    "I_O_R_____R_O_I",
+    "I_O_R__G__R_O_I",
+    "I_O_R_____R_O_I",
+    "I_O__R___R__O_I",
+    "I__O__RRR__O__I",
+    "_I__O_____O__I_",
+    "__I__OOOOO__I__",
+    "___I_______I___",
+    "____IIIIIII____"
+  ],
   "ritual": {
     "id": "witchery:empty"
   },

@@ -21,6 +21,10 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.CAULDRON.get())
         dropSelf(WitcheryBlocks.IRON_WITCHES_OVEN.get())
         dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN.get())
+        dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+        dropSelf(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
+        dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN.get())
+        dropSelf(WitcheryBlocks.IRON_CANDELABRA.get())
 
         dropSelf(WitcheryBlocks.ROWAN_LOG.get())
         dropSelf(WitcheryBlocks.ROWAN_WOOD.get())

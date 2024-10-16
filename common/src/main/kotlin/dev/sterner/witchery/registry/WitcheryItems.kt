@@ -7,11 +7,8 @@ import dev.sterner.witchery.api.multiblock.MultiBlockItem
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
-import dev.sterner.witchery.entity.CustomBoat
 import dev.sterner.witchery.item.*
-import dev.sterner.witchery.platform.BoatTypeHelper
 import net.minecraft.core.registries.Registries
-import net.minecraft.world.entity.vehicle.Boat
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.HangingSignItem
 import net.minecraft.world.item.Item
@@ -327,11 +324,5 @@ object WitcheryItems {
         HangingSignItem(WitcheryBlocks.ROWAN_HANGING_SIGN.get(), WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(), Item.Properties())
     }
 
-    val ROWAN_BOAT = ITEMS.register("rowan_boat") {
-        CustomBoatItem(false, BoatTypeHelper.getRowanBoatType(), Item.Properties())
-    }
-
-    val ROWAN_CHEST_BOAT = ITEMS.register("rowan_chest_boat") {
-        CustomBoatItem(true, BoatTypeHelper.getRowanBoatType(), Item.Properties())
-    }
+    //TODO: Need Boat, Chest Boat
 }

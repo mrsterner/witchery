@@ -25,6 +25,7 @@ import net.minecraft.data.recipes.SimpleCookingRecipeBuilder
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.level.block.Blocks
 import java.util.concurrent.CompletableFuture
 import kotlin.math.exp
 
@@ -327,6 +328,27 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutputItem(Items.DIAMOND.defaultInstance)
             .addCommand(CommandType("kill {entity}", CommandType.END, CommandContext.ENTITY))
             .setTicks(20 * 5)
+            .pattern(
+                "____IIIIIII____",
+                "___I_______I___",
+                "__I__OOOOO__I__",
+                "_I__O_____O__I_",
+                "I__O__RRR__O__I",
+                "I_O__R___R__O_I",
+                "I_O_R_____R_O_I",
+                "I_O_R__G__R_O_I",
+                "I_O_R_____R_O_I",
+                "I_O__R___R__O_I",
+                "I__O__RRR__O__I",
+                "_I__O_____O__I_",
+                "__I__OOOOO__I__",
+                "___I_______I___",
+                "____IIIIIII____"
+            )
+            .define('R', Blocks.SHROOMLIGHT)
+            .define('I', WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .define('O', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
             .save(exporter)
 
         RitualRecipeBuilder.create()
