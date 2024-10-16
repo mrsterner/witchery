@@ -89,7 +89,7 @@ object MutandisDataAttachment {
         }
     }
 
-    data class MutandisDataCodec(val mutandisCacheMap: MutableMap<BlockPos, MutandisData> = mutableMapOf()) {
+    data class MutandisDataCodec(var mutandisCacheMap: MutableMap<BlockPos, MutandisData> = mutableMapOf()) {
         companion object {
            val CODEC: Codec<MutandisDataCodec> = RecordCodecBuilder.create { inst ->
                inst.group(

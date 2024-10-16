@@ -26,30 +26,37 @@ object MutandisDataAttachmentImpl {
     }
 
     @JvmStatic
-    fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>)  {
-        val levelData = level.getData(LEVEL_DATA_ATTACHMENT.get()) ?: MutandisDataAttachment.MutandisDataCodec()
-        levelData.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(tag, CACHE_LIFETIME)
+    @Suppress("UnstableApiUsage")
+    fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>) {
+        val data = level.getData(LEVEL_DATA_ATTACHMENT)
+        val mutableMap = data.mutandisCacheMap.toMutableMap()
+        mutableMap[pos] = MutandisDataAttachment.MutandisData(tag, CACHE_LIFETIME)
+        data.mutandisCacheMap = mutableMap.toMutableMap()
+        level.setData(LEVEL_DATA_ATTACHMENT, data)
     }
 
     @JvmStatic
     fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos)  {
-        level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap.remove(pos)
+        val levelData = level.getData(LEVEL_DATA_ATTACHMENT)
+        levelData.mutandisCacheMap.remove(pos)
+        level.setData(LEVEL_DATA_ATTACHMENT, levelData)
     }
 
     @JvmStatic
     fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos)  {
-        val data = level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap[pos]
-        if (data != null) {
-            level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap[pos] =
-                MutandisDataAttachment.MutandisData(data.tag, data.time - 1)
+        val data = level.getData(LEVEL_DATA_ATTACHMENT)
+        if (data.mutandisCacheMap[pos] != null) {
+            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, data.mutandisCacheMap[pos]!!.time - 1)
+            level.setData(LEVEL_DATA_ATTACHMENT, data)
         }
     }
 
     @JvmStatic
     fun resetTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
-        val data = level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap[pos]
-        if (data != null) {
-            level.getData(LEVEL_DATA_ATTACHMENT).mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.tag, CACHE_LIFETIME)
+        val data = level.getData(LEVEL_DATA_ATTACHMENT)
+        if (data.mutandisCacheMap[pos] != null) {
+            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
+            level.setData(LEVEL_DATA_ATTACHMENT, data)
         }
     }
 

@@ -27,30 +27,38 @@ object MutandisDataAttachmentImpl {
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>) {
-        level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(tag, CACHE_LIFETIME)
+        val data = level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE)
+        val mutableMap = data.mutandisCacheMap.toMutableMap()
+        mutableMap[pos] = MutandisDataAttachment.MutandisData(tag, CACHE_LIFETIME)
+        data.mutandisCacheMap = mutableMap.toMutableMap()
+        level.setAttached(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE, data)
     }
 
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos)  {
-        level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap.remove(pos)
+        val data = level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE)
+        data.mutandisCacheMap.remove(pos)
+        level.setAttached(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE, data)
     }
 
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos)  {
-        val data = level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos]
-        if (data != null) {
-            level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.tag, data.time - 1)
+        val data = level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE)
+        if (data.mutandisCacheMap[pos] != null) {
+            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, data.mutandisCacheMap[pos]!!.time - 1)
+            level.setAttached(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE, data)
         }
     }
 
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun resetTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
-        val data = level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos]
-        if (data != null) {
-            level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.tag, CACHE_LIFETIME)
+        val data = level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE)
+        if (data.mutandisCacheMap[pos] != null) {
+            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
+            level.setAttached(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE, data)
         }
     }
 }
