@@ -34,6 +34,7 @@
   "emi.category.witchery.cauldron_brewing": "Cauldron Brewing",
   "emi.category.witchery.cauldron_crafting": "Cauldron Crafting",
   "emi.category.witchery.oven_cooking": "Oven Fumigation",
+  "emi.category.witchery.ritual": "Ritual",
   "item.witchery.belladonna_flower": "Belladonna Flower",
   "item.witchery.belladonna_seeds": "Belladonna Seeds",
   "item.witchery.bone_needle": "Bone Needle",
@@ -77,5 +78,10 @@
   "item.witchery.wood_ash": "Wood Ash",
   "item.witchery.wormwood": "Wormwood",
   "item.witchery.wormwood_seeds": "Wormwood Seeds",
-  "witchery.main": "Witchery"
+  "witchery.main": "Witchery",
+  "witchery:ritual/air_from_feather_and_redstone": "Push Mobs",
+  "witchery:ritual/air_from_waystone": "Teleportation",
+  "witchery:ritual/air_from_wooden_axe_and_wood_ash": "Turn Night",
+  "witchery:ritual/air_from_wooden_sword_and_wood_ash": "Lightning Strike",
+  "witchery:ritual/air_from_wooden_sword_and_wood_ash_and_waystone": "Lightning Strike"
 }

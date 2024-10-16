@@ -18,6 +18,7 @@ class WitcheryEmiPlugin : EmiPlugin {
         registry.addCategory(CAULDRON_BREWING_CATEGORY)
         registry.addCategory(CAULDRON_CRAFTING_CATEGORY)
         registry.addCategory(OVEN_COOKING_CATEGORY)
+        registry.addCategory(RITUAL_CATEGORY)
         val manager: RecipeManager = registry.recipeManager
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())) {
@@ -31,22 +32,32 @@ class WitcheryEmiPlugin : EmiPlugin {
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.OVEN_RECIPE_TYPE.get())) {
             registry.addRecipe(OvenCookingEmiRecipe(recipe.id, recipe.value))
         }
+
+        for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())) {
+            registry.addRecipe(RitualEmiRecipe(recipe.id, recipe.value))
+        }
     }
 
     companion object {
 
-        val ICON: EmiStack = EmiStack.of(WitcheryItems.CAULDRON.get())
+        val ICON_CAULDRON: EmiStack = EmiStack.of(WitcheryItems.CAULDRON.get())
+        val ICON_OVEN: EmiStack = EmiStack.of(WitcheryItems.IRON_WITCHES_OVEN.get())
+        val ICON_RITUAL: EmiStack = EmiStack.of(WitcheryItems.RITUAL_CHALK.get())
 
         val CAULDRON_BREWING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
-            Witchery.id("cauldron_brewing"), ICON
+            Witchery.id("cauldron_brewing"), ICON_CAULDRON
         )
 
         val CAULDRON_CRAFTING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
-            Witchery.id("cauldron_crafting"), ICON
+            Witchery.id("cauldron_crafting"), ICON_CAULDRON
         )
 
         val OVEN_COOKING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
-            Witchery.id("oven_cooking"), ICON
+            Witchery.id("oven_cooking"), ICON_OVEN
+        )
+
+        val RITUAL_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
+            Witchery.id("ritual"), ICON_RITUAL
         )
     }
 }

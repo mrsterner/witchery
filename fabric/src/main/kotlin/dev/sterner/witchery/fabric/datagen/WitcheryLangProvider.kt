@@ -15,9 +15,16 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add("emi.category.witchery.cauldron_brewing", "Cauldron Brewing")
         builder.add("emi.category.witchery.cauldron_crafting", "Cauldron Crafting")
+        builder.add("emi.category.witchery.ritual", "Ritual")
         builder.add("emi.category.witchery.oven_cooking", "Oven Fumigation")
         builder.add("container.witchery.oven_menu", "Witches Oven")
         builder.add("container.witchery.altar_menu", "Altar")
+
+        builder.add("witchery:ritual/air_from_wooden_sword_and_wood_ash_and_waystone", "Lightning Strike")
+        builder.add("witchery:ritual/air_from_wooden_sword_and_wood_ash", "Lightning Strike")
+        builder.add("witchery:ritual/air_from_wooden_axe_and_wood_ash", "Turn Night")
+        builder.add("witchery:ritual/air_from_feather_and_redstone", "Push Mobs")
+        builder.add("witchery:ritual/air_from_waystone", "Teleportation")
 
         builder.add(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), "Deepslate Altar Block")
         builder.add(WitcheryItems.GUIDEBOOK.get(), "Lesser Key of Solomon")
