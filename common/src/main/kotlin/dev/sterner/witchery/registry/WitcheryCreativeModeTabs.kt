@@ -41,8 +41,8 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.ROWAN_PRESSURE_PLATE.get())
                 output.accept(WitcheryItems.ROWAN_BUTTON.get())
                 output.accept(WitcheryItems.ROWAN_SAPLING.get())
-                //output.accept(WitcheryItems.ROWAN_SIGN.get()) TODO: Fix Sign Crashes
-                //output.accept(WitcheryItems.ROWAN_HANGING_SIGN.get())
+                output.accept(WitcheryItems.ROWAN_SIGN.get())
+                output.accept(WitcheryItems.ROWAN_HANGING_SIGN.get())
                 // Boat
                 // Chest Boat
 

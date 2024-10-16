@@ -3,6 +3,7 @@ package dev.sterner.witchery.registry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.Witchery.MODID
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.block.*
 import dev.sterner.witchery.block.altar.AltarBlock
@@ -157,7 +158,7 @@ object WitcheryBlocks {
         FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    val ROWAN_WOOD_TYPE = WoodType("rowan", BlockSetType.OAK)
+    val ROWAN_WOOD_TYPE = WoodType.register(WoodType("$MODID:rowan", BlockSetType.OAK))
 
     val ROWAN_FENCE_GATE = BLOCKS.register("rowan_fence_gate") {
         FenceGateBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
