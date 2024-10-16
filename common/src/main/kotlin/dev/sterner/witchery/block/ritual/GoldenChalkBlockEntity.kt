@@ -257,6 +257,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
         if (ritualRecipe != null && pPlayer.isShiftKeyDown) {
+            items.clear()
             resetRitual()
             return InteractionResult.SUCCESS
         }
