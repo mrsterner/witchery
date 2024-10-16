@@ -62,7 +62,7 @@ class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCooki
         )
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(recipe.ingredient.items[0]), 2 + 18 - 2, 10)
+            WitcherySlotWidget(EmiStack.of(recipe.ingredient.items[0]), 2 + 18 - 1, 10)
                 .drawBack(false)
         )
     }

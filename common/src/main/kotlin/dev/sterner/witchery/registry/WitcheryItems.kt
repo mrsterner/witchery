@@ -8,6 +8,7 @@ import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
+import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.BoatTypeHelper
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.BlockItem
@@ -100,7 +101,7 @@ object WitcheryItems {
     }
 
     val BONE_NEEDLE: RegistrySupplier<Item> = ITEMS.register("bone_needle") {
-        BoneNeedleItem(Item.Properties())
+        PlatformUtils.boneNeedle
     }
 
     val DEMON_HEART: RegistrySupplier<Item> = ITEMS.register("demon_heart") {

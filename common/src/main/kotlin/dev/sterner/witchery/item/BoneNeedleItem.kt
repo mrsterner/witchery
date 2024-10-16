@@ -23,7 +23,11 @@ import net.minecraft.world.level.block.state.properties.BedPart
 import kotlin.math.abs
 
 
-class BoneNeedleItem(properties: Properties) : Item(properties.durability(16)) {
+open class BoneNeedleItem(properties: Properties) : Item(properties.durability(16)) {
+
+    override fun hasCraftingRemainingItem(): Boolean {
+        return true
+    }
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
@@ -52,6 +56,8 @@ class BoneNeedleItem(properties: Properties) : Item(properties.durability(16)) {
 
         return super.useOn(context)
     }
+
+
 
     override fun interactLivingEntity(
         stack: ItemStack,
