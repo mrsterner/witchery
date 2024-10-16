@@ -61,7 +61,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (level.isClientSide) {
             return
         }
-        println("Rituvl: $ritualRecipe")
 
         if (!shouldRun) {
             return
