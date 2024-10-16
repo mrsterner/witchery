@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.advancements.critereon.StatePropertiesPredicate
 import net.minecraft.core.HolderLookup
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
 import java.util.concurrent.CompletableFuture
@@ -27,15 +26,21 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.ROWAN_WOOD.get())
         dropSelf(WitcheryBlocks.STRIPPED_ROWAN_LOG.get())
         dropSelf(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get())
+        this.add(WitcheryBlocks.ROWAN_LEAVES.get(), createLeavesDrops(WitcheryBlocks.ROWAN_LEAVES.get(),
+            WitcheryBlocks.ROWAN_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
+        this.add(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), createLeavesDrops(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(),
+            WitcheryBlocks.ROWAN_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
         dropSelf(WitcheryBlocks.ROWAN_PLANKS.get())
         dropSelf(WitcheryBlocks.ROWAN_STAIRS.get())
         dropSelf(WitcheryBlocks.ROWAN_SLAB.get())
         dropSelf(WitcheryBlocks.ROWAN_FENCE.get())
         dropSelf(WitcheryBlocks.ROWAN_FENCE_GATE.get())
+        this.add(WitcheryBlocks.ROWAN_DOOR.get(), createDoorTable(WitcheryBlocks.ROWAN_DOOR.get()))
+        dropSelf(WitcheryBlocks.ROWAN_TRAPDOOR.get())
         dropSelf(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get())
         dropSelf(WitcheryBlocks.ROWAN_BUTTON.get())
-
-        // TODO: Sapling, Leaves, Potted Sapling
+        dropSelf(WitcheryBlocks.ROWAN_SAPLING.get())
+        this.add(WitcheryBlocks.POTTED_ROWAN_SAPLING.get(), createPotFlowerItemTable(WitcheryItems.ROWAN_SAPLING.get()))
 
         this.add(
             WitcheryBlocks.EMBER_MOSS.get()

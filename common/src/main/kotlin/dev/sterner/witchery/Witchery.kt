@@ -179,7 +179,9 @@ object Witchery {
             WitcheryBlocks.WOLFSFBANE_CROP.get(),
             WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),
             WitcheryBlocks.ROWAN_LEAVES.get(),
-            WitcheryBlocks.ROWAN_BERRY_LEAVES.get()
+            WitcheryBlocks.ROWAN_BERRY_LEAVES.get(),
+            WitcheryBlocks.ROWAN_SAPLING.get(),
+            WitcheryBlocks.POTTED_ROWAN_SAPLING.get()
         )
     }
 

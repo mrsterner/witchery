@@ -44,17 +44,24 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.createTrivialBlock(WitcheryBlocks.ROWAN_LEAVES.get(), TexturedModel.LEAVES)
         generator.createTrivialBlock(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), TexturedModel.LEAVES)
 
-        //TODO: Need Hanging Signs, Saplings, Potted Saplings
+        generator.createCrossBlock(WitcheryBlocks.ROWAN_SAPLING.get(), BlockModelGenerators.TintState.NOT_TINTED)
+        generator.skipAutoItemBlock(WitcheryBlocks.ROWAN_SAPLING.get())
+        generator.createSimpleFlatItemModel(WitcheryBlocks.ROWAN_SAPLING.get())
+        generator.createNonTemplateModelBlock(WitcheryBlocks.POTTED_ROWAN_SAPLING.get())
+        //TODO: Need Hanging Signs
+
         val rowanFamily = BlockFamily.Builder(WitcheryBlocks.ROWAN_PLANKS.get())
             .stairs(WitcheryBlocks.ROWAN_STAIRS.get())
             .slab(WitcheryBlocks.ROWAN_SLAB.get())
             .fence(WitcheryBlocks.ROWAN_FENCE.get())
             .fenceGate(WitcheryBlocks.ROWAN_FENCE_GATE.get())
+            .door(WitcheryBlocks.ROWAN_DOOR.get())
+            .trapdoor(WitcheryBlocks.ROWAN_TRAPDOOR.get())
             .pressurePlate(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get())
             .button(WitcheryBlocks.ROWAN_BUTTON.get())
             .recipeGroupPrefix("wooden")
             .recipeUnlockedBy("has_planks").family
-        // TODO: Needs Signs, Doors, and Trapdoors
+        // TODO: Needs Signs
         generator.family(rowanFamily.baseBlock).generateFor(rowanFamily)
     }
 
@@ -139,6 +146,6 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.BONE_NEEDLE.get(),  ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.DEMON_HEART.get(),  ModelTemplates.FLAT_ITEM)
 
-        //TODO: Need Boats
+        //TODO: Need Boats, Chest Boats
     }
 }

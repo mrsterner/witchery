@@ -294,6 +294,14 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.ROWAN_FENCE_GATE.get(), Item.Properties())
     }
 
+    val ROWAN_DOOR = ITEMS.register("rowan_door") {
+        BlockItem(WitcheryBlocks.ROWAN_DOOR.get(), Item.Properties())
+    }
+
+    val ROWAN_TRAPDOOR = ITEMS.register("rowan_trapdoor") {
+        BlockItem(WitcheryBlocks.ROWAN_TRAPDOOR.get(), Item.Properties())
+    }
+
     val ROWAN_PRESSURE_PLATE = ITEMS.register("rowan_pressure_plate") {
         BlockItem(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get(), Item.Properties())
     }
@@ -302,5 +310,9 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.ROWAN_BUTTON.get(), Item.Properties())
     }
 
-    //TODO: Need Door, Trapdoor, Sign, Hanging Sign, Boat, Chest Boat
+    val ROWAN_SAPLING = ITEMS.register("rowan_sapling") {
+        BlockItem(WitcheryBlocks.ROWAN_SAPLING.get(), Item.Properties())
+    }
+
+    //TODO: Need Sign, Hanging Sign, Boat, Chest Boat, Sapling
 }

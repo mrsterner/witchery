@@ -1,6 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
@@ -66,7 +67,19 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
         getOrCreateTagBuilder(BlockTags.LEAVES)
             .addTag(WitcheryTags.LEAVES)
 
-        //TODO: Signs (4 separate tags), Doors (Wooden), Trapdoors (Wooden?), Saplings, Potted Saplings
+        getOrCreateTagBuilder(BlockTags.WOODEN_DOORS)
+            .add(WitcheryBlocks.ROWAN_DOOR.get())
+
+        getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS)
+            .add(WitcheryBlocks.ROWAN_TRAPDOOR.get())
+
+        getOrCreateTagBuilder(BlockTags.SAPLINGS)
+            .add(WitcheryBlocks.ROWAN_SAPLING.get())
+
+        getOrCreateTagBuilder(BlockTags.FLOWER_POTS)
+            .add(WitcheryBlocks.POTTED_ROWAN_SAPLING.get())
+
+        //TODO: Signs & Hanging Signs (4 separate tags)
 
 
         // Nature Grouping Tags

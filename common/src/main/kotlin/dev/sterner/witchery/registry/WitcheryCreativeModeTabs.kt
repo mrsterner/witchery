@@ -24,6 +24,28 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.COPPER_WITCHES_OVEN.get())
                 output.accept(WitcheryItems.COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+
+                output.accept(WitcheryItems.ROWAN_LOG.get())
+                output.accept(WitcheryItems.ROWAN_WOOD.get())
+                output.accept(WitcheryItems.STRIPPED_ROWAN_LOG.get())
+                output.accept(WitcheryItems.STRIPPED_ROWAN_WOOD.get())
+                output.accept(WitcheryItems.ROWAN_LEAVES.get())
+                output.accept(WitcheryItems.ROWAN_BERRY_LEAVES.get())
+                output.accept(WitcheryItems.ROWAN_PLANKS.get())
+                output.accept(WitcheryItems.ROWAN_STAIRS.get())
+                output.accept(WitcheryItems.ROWAN_SLAB.get())
+                output.accept(WitcheryItems.ROWAN_FENCE.get())
+                output.accept(WitcheryItems.ROWAN_FENCE_GATE.get())
+                output.accept(WitcheryItems.ROWAN_DOOR.get())
+                output.accept(WitcheryItems.ROWAN_TRAPDOOR.get())
+                output.accept(WitcheryItems.ROWAN_PRESSURE_PLATE.get())
+                output.accept(WitcheryItems.ROWAN_BUTTON.get())
+                output.accept(WitcheryItems.ROWAN_SAPLING.get())
+                // Sign
+                // Hanging Sign
+                // Boat
+                // Chest Boat
+
                 output.accept(WitcheryItems.WAYSTONE.get())
                 output.accept(WitcheryItems.GLINTWEED.get())
                 output.accept(WitcheryItems.EMBER_MOSS.get())

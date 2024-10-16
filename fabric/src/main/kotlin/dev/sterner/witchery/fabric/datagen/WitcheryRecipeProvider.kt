@@ -126,6 +126,21 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.ROWAN_DOOR.get(), 3)
+            .pattern("PP")
+            .pattern("PP")
+            .pattern("PP")
+            .define('P', WitcheryItems.ROWAN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.ROWAN_TRAPDOOR.get(), 2)
+            .pattern("PPP")
+            .pattern("PPP")
+            .define('P', WitcheryItems.ROWAN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
+            .save(exporter)
+
 
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())

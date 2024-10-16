@@ -20,14 +20,19 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.ButtonBlock
+import net.minecraft.world.level.block.DoorBlock
 import net.minecraft.world.level.block.FenceBlock
 import net.minecraft.world.level.block.FenceGateBlock
+import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.LeavesBlock
 import net.minecraft.world.level.block.PressurePlateBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
+import net.minecraft.world.level.block.SaplingBlock
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.StairBlock
+import net.minecraft.world.level.block.TrapDoorBlock
+import net.minecraft.world.level.block.grower.TreeGrower
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
@@ -154,6 +159,14 @@ object WitcheryBlocks {
         FenceGateBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
     }
 
+    val ROWAN_DOOR = BLOCKS.register("rowan_door") {
+        DoorBlock(ROWAN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR))
+    }
+
+    val ROWAN_TRAPDOOR = BLOCKS.register("rowan_trapdoor") {
+        TrapDoorBlock(ROWAN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR))
+    }
+
     val ROWAN_PRESSURE_PLATE = BLOCKS.register("rowan_pressure_plate") {
         PressurePlateBlock(ROWAN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE))
     }
@@ -162,7 +175,15 @@ object WitcheryBlocks {
         ButtonBlock(ROWAN_WOOD_TYPE.setType, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON))
     }
 
-    //TODO: Need Door, Trapdoor, Sign, Hanging Sign
+    val ROWAN_SAPLING = BLOCKS.register("rowan_sapling") {
+        SaplingBlock(TreeGrower.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING))
+    }
+
+    val POTTED_ROWAN_SAPLING = BLOCKS.register("potted_rowan_sapling") {
+        FlowerPotBlock(ROWAN_SAPLING.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING))
+    }
+
+    //TODO: Sign, Hanging Sign
 
 
 

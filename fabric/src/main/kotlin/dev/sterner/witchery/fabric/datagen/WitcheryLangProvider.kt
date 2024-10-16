@@ -86,9 +86,13 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.ROWAN_SLAB.get(), "Rowan Slab")
         builder.add(WitcheryBlocks.ROWAN_FENCE.get(), "Rowan Fence")
         builder.add(WitcheryBlocks.ROWAN_FENCE_GATE.get(), "Rowan Fence Gate")
+        builder.add(WitcheryBlocks.ROWAN_DOOR.get(), "Rowan Door")
+        builder.add(WitcheryBlocks.ROWAN_TRAPDOOR.get(), "Rowan Trapdoor")
         builder.add(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get(), "Rowan Pressure Plate")
         builder.add(WitcheryBlocks.ROWAN_BUTTON.get(), "Rowan Button")
+        builder.add(WitcheryBlocks.ROWAN_SAPLING.get(), "Rowan Sapling")
+        builder.add(WitcheryBlocks.POTTED_ROWAN_SAPLING.get(), "Potted Rowan Sapling")
 
-        // TODO: Signs, Hanging Signs, Doors, Trapdoors, Saplings, Potted Saplings, Boats, Chest Boats
+        // TODO: Signs, Hanging Signs, Boats, Chest Boats
     }
 }

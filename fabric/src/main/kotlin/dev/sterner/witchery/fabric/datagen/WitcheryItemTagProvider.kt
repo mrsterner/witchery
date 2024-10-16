@@ -48,7 +48,16 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.ROWAN_BERRY_LEAVES.get()
         )
 
-        //TODO: Signs (4 separate tags), Doors (Wooden), Trapdoors (Wooden?), Boats, Chest Boats, Saplings, Potted Saplings
+        getOrCreateTagBuilder(ItemTags.WOODEN_DOORS)
+            .add(WitcheryItems.ROWAN_DOOR.get())
+
+        getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS)
+            .add(WitcheryItems.ROWAN_TRAPDOOR.get())
+
+        getOrCreateTagBuilder(ItemTags.SAPLINGS)
+            .add(WitcheryItems.ROWAN_SAPLING.get())
+
+        //TODO: Signs (4 separate tags), Boats, Chest Boats
 
         getOrCreateTagBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS).add(
             WitcheryItems.MANDRAKE_SEEDS.get(),
