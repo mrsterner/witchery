@@ -1,4 +1,4 @@
-package dev.sterner.witchery.platform
+package dev.sterner.witchery.api
 
 import dev.architectury.fluid.FluidStack
 import net.minecraft.world.level.material.Fluid

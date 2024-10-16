@@ -1,6 +1,5 @@
 package dev.sterner.witchery.platform.fabric
 
-import dev.sterner.witchery.api.attachment.MutandisData
 import dev.sterner.witchery.fabric.WitcheryFabric
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment.CACHE_LIFETIME

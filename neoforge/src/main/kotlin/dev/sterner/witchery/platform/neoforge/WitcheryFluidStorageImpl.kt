@@ -2,7 +2,7 @@ package dev.sterner.witchery.platform.neoforge
 
 import dev.architectury.fluid.FluidStack
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge
-import dev.sterner.witchery.platform.WitcheryFluidStorage
+import dev.sterner.witchery.api.WitcheryFluidStorage
 import net.minecraft.world.level.material.Fluid
 import net.neoforged.neoforge.fluids.capability.IFluidHandler
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank
