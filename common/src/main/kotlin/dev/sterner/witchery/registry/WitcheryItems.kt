@@ -273,4 +273,34 @@ object WitcheryItems {
     val ROWAN_BERRY_LEAVES = ITEMS.register("rowan_berry_leaves") {
         BlockItem(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), Item.Properties())
     }
+
+    val ROWAN_PLANKS = ITEMS.register("rowan_planks") {
+        BlockItem(WitcheryBlocks.ROWAN_PLANKS.get(), Item.Properties())
+    }
+
+    val ROWAN_STAIRS = ITEMS.register("rowan_stairs") {
+        BlockItem(WitcheryBlocks.ROWAN_STAIRS.get(), Item.Properties())
+    }
+
+    val ROWAN_SLAB = ITEMS.register("rowan_slab") {
+        BlockItem(WitcheryBlocks.ROWAN_SLAB.get(), Item.Properties())
+    }
+
+    val ROWAN_FENCE = ITEMS.register("rowan_fence") {
+        BlockItem(WitcheryBlocks.ROWAN_FENCE.get(), Item.Properties())
+    }
+
+    val ROWAN_FENCE_GATE = ITEMS.register("rowan_fence_gate") {
+        BlockItem(WitcheryBlocks.ROWAN_FENCE_GATE.get(), Item.Properties())
+    }
+
+    val ROWAN_PRESSURE_PLATE = ITEMS.register("rowan_pressure_plate") {
+        BlockItem(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get(), Item.Properties())
+    }
+
+    val ROWAN_BUTTON = ITEMS.register("rowan_button") {
+        BlockItem(WitcheryBlocks.ROWAN_BUTTON.get(), Item.Properties())
+    }
+
+    //TODO: Need Door, Trapdoor, Sign, Hanging Sign, Boat, Chest Boat
 }

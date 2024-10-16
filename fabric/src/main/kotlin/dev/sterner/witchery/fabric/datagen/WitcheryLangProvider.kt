@@ -15,6 +15,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add("emi.category.witchery.cauldron_brewing", "Cauldron Brewing")
         builder.add("emi.category.witchery.cauldron_crafting", "Cauldron Crafting")
+        builder.add("emi.category.witchery.oven_cooking", "Oven Fumigation")
         builder.add("container.witchery.oven_menu", "Witches Oven")
         builder.add("container.witchery.altar_menu", "Altar")
 
@@ -74,5 +75,20 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.CONDENSED_FEAR.get(), "Condensed Fear")
         builder.add(WitcheryItems.MELLIFLUOUS_HUNGER.get(), "Mellifluous Hunger")
 
+        builder.add(WitcheryBlocks.ROWAN_LOG.get(), "Rowan Log")
+        builder.add(WitcheryBlocks.ROWAN_WOOD.get(), "Rowan Wood")
+        builder.add(WitcheryBlocks.STRIPPED_ROWAN_LOG.get(), "Stripped Rowan Log")
+        builder.add(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get(), "Stripped Rowan Wood")
+        builder.add(WitcheryBlocks.ROWAN_LEAVES.get(), "Rowan Leaves")
+        builder.add(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), "Rowan Berry Leaves")
+        builder.add(WitcheryBlocks.ROWAN_PLANKS.get(), "Rowan Planks")
+        builder.add(WitcheryBlocks.ROWAN_STAIRS.get(), "Rowan Stairs")
+        builder.add(WitcheryBlocks.ROWAN_SLAB.get(), "Rowan Slab")
+        builder.add(WitcheryBlocks.ROWAN_FENCE.get(), "Rowan Fence")
+        builder.add(WitcheryBlocks.ROWAN_FENCE_GATE.get(), "Rowan Fence Gate")
+        builder.add(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get(), "Rowan Pressure Plate")
+        builder.add(WitcheryBlocks.ROWAN_BUTTON.get(), "Rowan Button")
+
+        // TODO: Signs, Hanging Signs, Doors, Trapdoors, Saplings, Potted Saplings, Boats, Chest Boats
     }
 }

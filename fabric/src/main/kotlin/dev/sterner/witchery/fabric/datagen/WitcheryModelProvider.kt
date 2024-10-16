@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
+import net.minecraft.data.BlockFamily
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.data.models.blockstates.MultiVariantGenerator
@@ -42,6 +43,19 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
         generator.createTrivialBlock(WitcheryBlocks.ROWAN_LEAVES.get(), TexturedModel.LEAVES)
         generator.createTrivialBlock(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), TexturedModel.LEAVES)
+
+        //TODO: Need Hanging Signs, Saplings, Potted Saplings
+        val rowanFamily = BlockFamily.Builder(WitcheryBlocks.ROWAN_PLANKS.get())
+            .stairs(WitcheryBlocks.ROWAN_STAIRS.get())
+            .slab(WitcheryBlocks.ROWAN_SLAB.get())
+            .fence(WitcheryBlocks.ROWAN_FENCE.get())
+            .fenceGate(WitcheryBlocks.ROWAN_FENCE_GATE.get())
+            .pressurePlate(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get())
+            .button(WitcheryBlocks.ROWAN_BUTTON.get())
+            .recipeGroupPrefix("wooden")
+            .recipeUnlockedBy("has_planks").family
+        // TODO: Needs Signs, Doors, and Trapdoors
+        generator.family(rowanFamily.baseBlock).generateFor(rowanFamily)
     }
 
 
@@ -125,11 +139,6 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.BONE_NEEDLE.get(),  ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.DEMON_HEART.get(),  ModelTemplates.FLAT_ITEM)
 
-        //genetaror.generateFlatItem(WitcheryItems.ROWAN_LOG.get(), ModelTemplates.CUBE_COLUMN)
-        //genetaror.generateFlatItem(WitcheryItems.ROWAN_WOOD.get(), ModelTemplates.CUBE_COLUMN)
-        //genetaror.generateFlatItem(WitcheryItems.STRIPPED_ROWAN_LOG.get(), ModelTemplates.CUBE_COLUMN)
-        //genetaror.generateFlatItem(WitcheryItems.STRIPPED_ROWAN_WOOD.get(), ModelTemplates.CUBE_COLUMN)
-        //genetaror.generateFlatItem(WitcheryItems.ROWAN_LEAVES.get(), ModelTemplates.CUBE)
-        //genetaror.generateFlatItem(WitcheryItems.ROWAN_BERRY_LEAVES.get(), ModelTemplates.CUBE)
+        //TODO: Need Boats
     }
 }

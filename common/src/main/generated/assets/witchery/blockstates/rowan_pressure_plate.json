@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "witchery:block/rowan_pressure_plate"
+    },
+    "powered=true": {
+      "model": "witchery:block/rowan_pressure_plate_down"
+    }
+  }
+}

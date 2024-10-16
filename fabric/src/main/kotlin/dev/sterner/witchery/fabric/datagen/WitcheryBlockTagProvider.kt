@@ -14,15 +14,21 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {
 
-        getOrCreateTagBuilder(WitcheryTags.LEAVES)
+        getOrCreateTagBuilder(WitcheryTags.LEAVES).add(
+            WitcheryBlocks.ROWAN_LEAVES.get(),
+            WitcheryBlocks.ROWAN_BERRY_LEAVES.get()
+        )
 
-        getOrCreateTagBuilder(WitcheryTags.ROWAN_LOGS)
+        getOrCreateTagBuilder(WitcheryTags.ROWAN_LOGS).add(
+            WitcheryBlocks.ROWAN_LOG.get(),
+            WitcheryBlocks.ROWAN_WOOD.get(),
+            WitcheryBlocks.STRIPPED_ROWAN_LOG.get(),
+            WitcheryBlocks.STRIPPED_ROWAN_WOOD.get()
+        )
 
         getOrCreateTagBuilder(BlockTags.FLOWERS)
             .add(WitcheryBlocks.GLINTWEED.get())
             .add(WitcheryBlocks.EMBER_MOSS.get())
-
-
 
         getOrCreateTagBuilder(BlockTags.CROPS)
             .add(WitcheryBlocks.MANDRAKE_CROP.get())
@@ -32,6 +38,39 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             .add(WitcheryBlocks.WOLFSFBANE_CROP.get())
             .add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get())
             .add(WitcheryBlocks.GARLIC_CROP.get())
+
+        getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
+            .addTag(WitcheryTags.ROWAN_LOGS)
+
+        getOrCreateTagBuilder(BlockTags.WOODEN_FENCES)
+            .add(WitcheryBlocks.ROWAN_FENCE.get())
+
+        getOrCreateTagBuilder(BlockTags.FENCE_GATES)
+            .add(WitcheryBlocks.ROWAN_FENCE_GATE.get())
+
+        getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES)
+            .add(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get())
+
+        getOrCreateTagBuilder(BlockTags.WOODEN_SLABS)
+            .add(WitcheryBlocks.ROWAN_SLAB.get())
+
+        getOrCreateTagBuilder(BlockTags.WOODEN_STAIRS)
+            .add(WitcheryBlocks.ROWAN_STAIRS.get())
+
+        getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS)
+            .add(WitcheryBlocks.ROWAN_BUTTON.get())
+
+        getOrCreateTagBuilder(BlockTags.PLANKS)
+            .add(WitcheryBlocks.ROWAN_PLANKS.get())
+
+        getOrCreateTagBuilder(BlockTags.LEAVES)
+            .addTag(WitcheryTags.LEAVES)
+
+        //TODO: Signs (4 separate tags), Doors (Wooden), Trapdoors (Wooden?), Saplings, Potted Saplings
+
+
+        // Nature Grouping Tags
+
 
         getOrCreateTagBuilder(WitcheryTags.BAMBOO)
             .add(Blocks.BAMBOO_BLOCK)

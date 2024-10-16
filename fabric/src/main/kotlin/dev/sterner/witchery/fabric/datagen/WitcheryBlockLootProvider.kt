@@ -23,6 +23,20 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.IRON_WITCHES_OVEN.get())
         dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN.get())
 
+        dropSelf(WitcheryBlocks.ROWAN_LOG.get())
+        dropSelf(WitcheryBlocks.ROWAN_WOOD.get())
+        dropSelf(WitcheryBlocks.STRIPPED_ROWAN_LOG.get())
+        dropSelf(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get())
+        dropSelf(WitcheryBlocks.ROWAN_PLANKS.get())
+        dropSelf(WitcheryBlocks.ROWAN_STAIRS.get())
+        dropSelf(WitcheryBlocks.ROWAN_SLAB.get())
+        dropSelf(WitcheryBlocks.ROWAN_FENCE.get())
+        dropSelf(WitcheryBlocks.ROWAN_FENCE_GATE.get())
+        dropSelf(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get())
+        dropSelf(WitcheryBlocks.ROWAN_BUTTON.get())
+
+        // TODO: Sapling, Leaves, Potted Sapling
+
         this.add(
             WitcheryBlocks.EMBER_MOSS.get()
         ) { itemLike: Block ->

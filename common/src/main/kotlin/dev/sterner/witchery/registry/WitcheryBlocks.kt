@@ -19,10 +19,18 @@ import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.ButtonBlock
+import net.minecraft.world.level.block.FenceBlock
+import net.minecraft.world.level.block.FenceGateBlock
 import net.minecraft.world.level.block.LeavesBlock
+import net.minecraft.world.level.block.PressurePlateBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
+import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.SoundType
+import net.minecraft.world.level.block.StairBlock
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.state.properties.BlockSetType
+import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
 import net.minecraft.world.level.material.PushReaction
 import java.awt.Color
@@ -100,6 +108,8 @@ object WitcheryBlocks {
         )
     }
 
+
+
     val STRIPPED_ROWAN_LOG = BLOCKS.register("stripped_rowan_log") {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
     }
@@ -115,12 +125,46 @@ object WitcheryBlocks {
         BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)))
 
     val ROWAN_LEAVES = BLOCKS.register("rowan_leaves") {
-        LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES))
+        LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES))
     }
 
     val ROWAN_BERRY_LEAVES = BLOCKS.register("rowan_berry_leaves") {
         LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWERING_AZALEA_LEAVES))
     }
+
+    val ROWAN_PLANKS = BLOCKS.register("rowan_planks") {
+        Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS))
+    }
+
+    val ROWAN_STAIRS = BLOCKS.register("rowan_stairs") {
+        StairBlock(ROWAN_PLANKS.orElseGet { Blocks.OAK_PLANKS }.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS))
+    }
+
+    val ROWAN_SLAB = BLOCKS.register("rowan_slab") {
+        SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB))
+    }
+
+    val ROWAN_FENCE = BLOCKS.register("rowan_fence") {
+        FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
+    }
+
+    val ROWAN_WOOD_TYPE = WoodType("rowan", BlockSetType.OAK)
+
+    val ROWAN_FENCE_GATE = BLOCKS.register("rowan_fence_gate") {
+        FenceGateBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
+    }
+
+    val ROWAN_PRESSURE_PLATE = BLOCKS.register("rowan_pressure_plate") {
+        PressurePlateBlock(ROWAN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE))
+    }
+
+    val ROWAN_BUTTON = BLOCKS.register("rowan_button") {
+        ButtonBlock(ROWAN_WOOD_TYPE.setType, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON))
+    }
+
+    //TODO: Need Door, Trapdoor, Sign, Hanging Sign
+
+
 
     val GLINTWEED: RegistrySupplier<GlintweedBlock> = BLOCKS.register("glintweed") {
         GlintweedBlock(

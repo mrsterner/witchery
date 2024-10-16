@@ -175,12 +175,10 @@ object Witchery {
             WitcheryBlocks.GARLIC_CROP.get(),
             WitcheryBlocks.WORMWOOD_CROP.get(),
             WitcheryBlocks.WOLFSFBANE_CROP.get(),
-            WitcheryBlocks.WATER_ARTICHOKE_CROP.get()
-        )
-
-        RenderTypeRegistry.register(RenderType.cutout(),
+            WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),
             WitcheryBlocks.ROWAN_LEAVES.get(),
-            WitcheryBlocks.ROWAN_BERRY_LEAVES.get())
+            WitcheryBlocks.ROWAN_BERRY_LEAVES.get()
+        )
     }
 
     fun id(name: String): ResourceLocation {
