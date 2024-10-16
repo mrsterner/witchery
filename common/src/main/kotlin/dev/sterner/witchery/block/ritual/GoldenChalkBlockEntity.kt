@@ -1,19 +1,21 @@
 package dev.sterner.witchery.block.ritual
 
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.ritual.PushMobsRitual
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.*
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.Container
@@ -27,6 +29,7 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity
 import net.minecraft.world.level.block.entity.DaylightDetectorBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
@@ -58,6 +61,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (level.isClientSide) {
             return
         }
+        println("Rituvl: $ritualRecipe")
 
         if (!shouldRun) {
             return
@@ -79,8 +83,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
 
                 ritualTickCounter++
-
                 onTickRitual(level)
+
                 if (tickCounter >= ritualRecipe!!.ticks && !ritualRecipe!!.isInfinite) {
                     onEndRitual(level)
                     resetRitual()
@@ -94,6 +98,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun onStartRitual(level: Level) {
         level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
+        ritualRecipe?.ritualType?.onStartRitual(level, blockPos, this)
         RitualHelper.runCommand(level, blockPos, this, CommandType.START)
         isRitualActive = true
         shouldStartConsumingSacrifices = false
@@ -104,10 +109,16 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (tickCounter % 20 == 0) { // TODO remove
             level.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_HARP.value(), SoundSource.BLOCKS)
         }
+
+        if (ritualRecipe?.ritualType?.id == Witchery.id("push_mobs")) { // :(
+            PushMobsRitual.onTickRitual(level, blockPos, this)
+        }
+
         RitualHelper.runCommand(level, blockPos, this, CommandType.TICK)
     }
 
     private fun onEndRitual(level: Level) {
+        ritualRecipe?.ritualType?.onEndRitual(level, blockPos, this)
         level.playSound(null, blockPos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0f, 1.0f)
         RitualHelper.runCommand(level, blockPos, this, CommandType.END)
         RitualHelper.summonItems(level, blockPos, this)
@@ -246,6 +257,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
+        if (ritualRecipe != null && pPlayer.isShiftKeyDown) {
+            resetRitual()
+            return InteractionResult.SUCCESS
+        }
         if (ritualRecipe == null && level != null) {
 
             val items: List<ItemEntity> =
@@ -334,6 +349,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tickCounter = pTag.getInt("tickCounter")
         ritualTickCounter = pTag.getInt("ritualTickCounter")
 
+        if (pTag.contains("ritualId")) {
+            ritualRecipe = RitualRecipe.fromNbt(pTag.getCompound("ritualId"), pRegistries)
+        }
+
         if (pTag.contains("ownerName")) {
             ownerName = pTag.getString("ownerName")
         }
@@ -387,6 +406,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putBoolean("isRitualActive", isRitualActive)
         tag.putInt("tickCounter", tickCounter)
         tag.putInt("ritualTickCounter", ritualTickCounter)
+
+        if (ritualRecipe != null) {
+            tag.put("ritualId", ritualRecipe!!.toNbt(registries))
+        }
 
         if (ownerName != null) {
             tag.putString("ownerName", ownerName!!)

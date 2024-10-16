@@ -7,7 +7,15 @@ import net.minecraft.world.level.Level
 
 open class Ritual(val id: ResourceLocation) {
 
-    fun tick(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
+    open fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
+
+    }
+
+    open fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
+
+    }
+
+    open fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
 
     }
 }

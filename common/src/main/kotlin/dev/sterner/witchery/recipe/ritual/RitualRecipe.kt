@@ -11,12 +11,19 @@ import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.registry.WitcheryRitualRegistry
+import dev.sterner.witchery.ritual.EmptyRitual
+import dev.sterner.witchery.ritual.PushMobsRitual
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.StringTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
@@ -139,8 +146,129 @@ class RitualRecipe(
             },
             { obj: Char? -> java.lang.String.valueOf(obj) })
 
+        fun fromNbt(tag: CompoundTag, registries: HolderLookup.Provider): RitualRecipe? {
+            // Load ritual type
+            val ritualType = WitcheryRitualRegistry.getSadImplementation(tag)//TODO this is horrible
 
+            // Load input items
+            val inputItems = tag.getList("inputItems", 10).map { ItemStack.parse(registries, it as CompoundTag).get() }
+
+            // Load input entities
+            val inputEntities = tag.getList("inputEntities", 8).map { EntityType.byString(it.asString).orElse(null)!! }
+
+            // Load output items
+            val outputItems = tag.getList("outputItems", 10).map { ItemStack.parse(registries, it as CompoundTag).get() }
+
+            // Load output entities
+            val outputEntities = tag.getList("outputEntities", 8).map { EntityType.byString(it.asString).orElse(null)!! }
+
+            // Load altar power
+            val altarPower = tag.getInt("altarPower")
+
+            // Load commands
+            val commands = tag.getList("commands", 10).map {
+                val commandTag = it as CompoundTag
+                CommandType(commandTag.getString("command"), commandTag.getString("type"), CommandContext.valueOf(commandTag.getString("ctx")))
+            }.toSet()
+
+            // Load booleans
+            val isInfinite = tag.getBoolean("isInfinite")
+            val floatingItemOutput = tag.getBoolean("floatingItemOutput")
+
+            // Load ticks
+            val ticks = tag.getInt("ticks")
+
+            // Load pattern
+            val pattern = tag.getList("pattern", 8).map { it.asString }
+
+            // Load block mapping
+            val blockMapping = tag.getCompound("blockMapping").allKeys.associate { key ->
+                key[0] to BuiltInRegistries.BLOCK.get(ResourceLocation.parse(tag.getString(key)))
+            }
+
+            // Load celestial conditions
+            val celestialConditions = tag.getList("celestialConditions", 8).map {
+                Celestial.valueOf(it.asString.uppercase())
+            }.toSet()
+
+            return RitualRecipe(
+                ritualType,
+                inputItems,
+                inputEntities,
+                outputItems,
+                outputEntities,
+                altarPower,
+                commands,
+                isInfinite,
+                floatingItemOutput,
+                ticks,
+                pattern,
+                blockMapping,
+                celestialConditions
+            )
+        }
     }
+
+    fun toNbt(provider: HolderLookup.Provider): CompoundTag {
+        val tag = CompoundTag()
+
+        // Store the ritual type (if not null)
+        ritualType?.let { tag.putString("ritualType", it.id.toString()) }
+
+        // Store input items
+        val inputItemsTag = ListTag()
+        inputItems.forEach { inputItemsTag.add(it.save(provider, CompoundTag())) }
+        tag.put("inputItems", inputItemsTag)
+
+        // Store input entities
+        val inputEntitiesTag = ListTag()
+        inputEntities.forEach { inputEntitiesTag.add(StringTag.valueOf(EntityType.getKey(it).toString())) }
+        tag.put("inputEntities", inputEntitiesTag)
+
+        // Store output items
+        val outputItemsTag = ListTag()
+        outputItems.forEach { outputItemsTag.add(it.save(provider, CompoundTag())) }
+        tag.put("outputItems", outputItemsTag)
+
+        // Store output entities
+        val outputEntitiesTag = ListTag()
+        outputEntities.forEach { outputEntitiesTag.add(StringTag.valueOf(EntityType.getKey(it).toString())) }
+        tag.put("outputEntities", outputEntitiesTag)
+
+        // Store altar power
+        tag.putInt("altarPower", altarPower)
+
+        // Store commands (serialize to string)
+        val commandsTag = ListTag()
+        commands.forEach { commandsTag.add(CompoundTag().apply { putString("command", it.command) }) }
+        tag.put("commands", commandsTag)
+
+        // Store booleans
+        tag.putBoolean("isInfinite", isInfinite)
+        tag.putBoolean("floatingItemOutput", floatingItemOutput)
+
+        // Store ticks
+        tag.putInt("ticks", ticks)
+
+        // Store pattern
+        val patternTag = ListTag()
+        pattern.forEach { patternTag.add(StringTag.valueOf(it)) }
+        tag.put("pattern", patternTag)
+
+        // Store block mapping
+        val blockMappingTag = CompoundTag()
+        blockMapping.forEach { (key, block) -> blockMappingTag.putString(key.toString(), block.`arch$registryName`().toString()) }
+        tag.put("blockMapping", blockMappingTag)
+
+        // Store celestial conditions
+        val celestialTag = ListTag()
+        celestialConditions.forEach { celestialTag.add(StringTag.valueOf(it.name)) }
+        tag.put("celestialConditions", celestialTag)
+
+        return tag
+    }
+
+
 
     enum class Celestial : StringRepresentable {
         DAY,
