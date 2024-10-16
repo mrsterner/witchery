@@ -21,6 +21,7 @@ import dev.sterner.witchery.block.signs.CustomStandingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallHangingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallSignBlock
 import dev.sterner.witchery.platform.StrippableHelper
+import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
@@ -182,7 +183,7 @@ object WitcheryBlocks {
     }
 
     val ROWAN_SAPLING = BLOCKS.register("rowan_sapling") {
-        SaplingBlock(TreeGrower.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING))
+        SaplingBlock(WitcheryTreeGrowers.ROWAN, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING))
     }
 
     val POTTED_ROWAN_SAPLING = BLOCKS.register("potted_rowan_sapling") {
