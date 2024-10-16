@@ -61,7 +61,7 @@ object MutandisLevelDataAttachmentPlatformImpl {
 
     @JvmStatic
     val LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<MutandisAttachmentData>> = ATTACHMENT_TYPES.register(
-        "level_data",
+        "mutandis_level_data",
         Supplier {
             AttachmentType.builder(Supplier { MutandisAttachmentData() })
                 .serialize(MutandisLevelDataAttachmentPlatform.CODEC)

@@ -78,7 +78,7 @@ object MutandisLevelDataAttachmentPlatform {
         }
     }
 
-    val ID: ResourceLocation = Witchery.id("level_data")
+    val ID: ResourceLocation = Witchery.id("mutandis_level_data")
 
     val MUTANDIS_DATA_CODEC: Codec<MutandisData> = RecordCodecBuilder.create { inst ->
         inst.group(

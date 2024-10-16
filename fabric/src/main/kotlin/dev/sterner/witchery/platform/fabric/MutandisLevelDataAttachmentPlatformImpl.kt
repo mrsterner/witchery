@@ -25,7 +25,7 @@ object MutandisLevelDataAttachmentPlatformImpl {
 
     @JvmStatic
     @Suppress("UnstableApiUsage")
-    fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>)  {
+    fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>) {
         level.getAttachedOrCreate(WitcheryFabric.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap[pos] = MutandisData(tag, CACHE_LIFETIME)
     }
 

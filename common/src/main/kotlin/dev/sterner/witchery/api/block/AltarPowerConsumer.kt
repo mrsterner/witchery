@@ -27,4 +27,6 @@ interface AltarPowerConsumer {
             distance(origin, pos)
         }
     }
+
+    abstract fun receiveAltarPosition(blockPos: BlockPos)
 }
