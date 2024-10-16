@@ -150,6 +150,15 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, WitcheryItems.ROWAN_HANGING_SIGN.get(), 6)
+            .pattern("C C")
+            .pattern("LLL")
+            .pattern("LLL")
+            .define('C', WitcheryItems.STRIPPED_ROWAN_LOG.get())
+            .define('L', Items.CHAIN)
+            .unlockedBy("has_logs", has(WitcheryItems.ROWAN_LOG.get())) // Should be an ITEM tag tbh
+            .save(exporter)
+
 
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())

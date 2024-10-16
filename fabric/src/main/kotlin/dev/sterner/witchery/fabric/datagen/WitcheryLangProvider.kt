@@ -93,9 +93,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.ROWAN_SAPLING.get(), "Rowan Sapling")
         builder.add(WitcheryBlocks.POTTED_ROWAN_SAPLING.get(), "Potted Rowan Sapling")
         builder.add(WitcheryBlocks.ROWAN_SIGN.get(), "Rowan Sign")
-        builder.add(WitcheryBlocks.ROWAN_WALL_SIGN.get(), "Rowan Wall Sign")
         builder.add(WitcheryBlocks.ROWAN_HANGING_SIGN.get(), "Rowan Hanging Sign")
-        builder.add(WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(), "Rowan Wall Hanging Sign")
 
         // TODO: Boats, Chest Boats
     }
