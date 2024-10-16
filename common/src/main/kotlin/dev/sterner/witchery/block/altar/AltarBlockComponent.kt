@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
-class AltarBlockComponent(properties: Properties) : MultiBlockComponentBlock(properties) {
+class AltarBlockComponent(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
 
     init {
         this.registerDefaultState(

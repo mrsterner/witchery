@@ -6,6 +6,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
+import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
@@ -91,5 +92,13 @@ object WitcheryBlockEntityTypes {
             WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get()
         ).build(null)
+    }
+
+    val DISTILLERY: RegistrySupplier<BlockEntityType<DistilleryBlockEntity>> = BLOCK_ENTITY_TYPES.register("distillery") {
+        BlockEntityType.Builder.of(
+            { pos, state -> DistilleryBlockEntity(pos, state) },
+            WitcheryBlocks.DISTILLERY.get()
+        )
+            .build(null)
     }
 }

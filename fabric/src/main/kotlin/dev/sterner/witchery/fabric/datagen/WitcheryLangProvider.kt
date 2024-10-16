@@ -28,6 +28,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/air_from_waystone", "Teleportation")
 
         builder.add(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), "Deepslate Altar Block")
+        builder.add(WitcheryItems.DISTILLERY.get(), "Distillery")
         builder.add(WitcheryItems.GUIDEBOOK.get(), "Lesser Key of Solomon")
         builder.add(WitcheryItems.CAULDRON.get(), "Cauldron")
         builder.add(WitcheryItems.ALTAR.get(), "Altar")

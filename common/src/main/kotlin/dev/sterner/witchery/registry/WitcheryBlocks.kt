@@ -10,6 +10,7 @@ import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
+import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockComponent
@@ -345,5 +346,9 @@ object WitcheryBlocks {
 
     val IRON_CANDELABRA = BLOCKS.register("iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val DISTILLERY = BLOCKS.register("distillery") {
+        DistilleryBlock(BlockBehaviour.Properties.of())
     }
 }

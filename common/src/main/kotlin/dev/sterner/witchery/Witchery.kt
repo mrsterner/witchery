@@ -22,10 +22,7 @@ import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import dev.sterner.witchery.client.model.BoatModels
 import dev.sterner.witchery.client.model.MandrakeEntityModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
-import dev.sterner.witchery.client.renderer.AltarBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.CauldronBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.FloatingItemEntityRenderer
-import dev.sterner.witchery.client.renderer.MandrakeEntityRenderer
+import dev.sterner.witchery.client.renderer.*
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.data.NaturePowerHandler
@@ -164,20 +161,11 @@ object Witchery {
 
         EntityRendererRegistry.register(WitcheryEntityTypes.FLOATING_ITEM, ::FloatingItemEntityRenderer)
 
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.ALTAR.get(),
-            ::AltarBlockEntityRenderer
-        )
-
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.CAULDRON.get(),
-            ::CauldronBlockEntityRenderer
-        )
-
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DISTILLERY.get(), ::DistilleryBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_SIGN.get(), ::SignRenderer)
-
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get(), ::HangingSignRenderer)
-
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
 
@@ -239,7 +227,8 @@ object Witchery {
             WitcheryBlocks.ROWAN_LEAVES.get(),
             WitcheryBlocks.ROWAN_BERRY_LEAVES.get(),
             WitcheryBlocks.ROWAN_SAPLING.get(),
-            WitcheryBlocks.POTTED_ROWAN_SAPLING.get()
+            WitcheryBlocks.POTTED_ROWAN_SAPLING.get(),
+            WitcheryBlocks.DISTILLERY.get()
         )
     }
 

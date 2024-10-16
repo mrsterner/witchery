@@ -252,6 +252,10 @@ object WitcheryItems {
         TaglockItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON))
     }
 
+    val DISTILLERY = ITEMS.register("distillery") {
+        BlockItem(WitcheryBlocks.DISTILLERY.get(), Item.Properties())
+    }
+
     // start WOOD
 
     val ROWAN_LOG = ITEMS.register("rowan_log") {
