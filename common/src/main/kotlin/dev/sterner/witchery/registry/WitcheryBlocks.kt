@@ -14,10 +14,13 @@ import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockComponent
 import dev.sterner.witchery.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
+import dev.sterner.witchery.platform.StrippableHelper
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.LeavesBlock
+import net.minecraft.world.level.block.RotatedPillarBlock
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.material.MapColor
@@ -95,6 +98,28 @@ object WitcheryBlocks {
             BlockBehaviour.Properties.of()
                 .sound(SoundType.METAL)
         )
+    }
+
+    val STRIPPED_ROWAN_LOG = BLOCKS.register("stripped_rowan_log") {
+        RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
+    }
+
+    val ROWAN_LOG = BLOCKS.register("rowan_log", StrippableHelper.createStrippableLog(STRIPPED_ROWAN_LOG,
+        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)))
+
+    val STRIPPED_ROWAN_WOOD = BLOCKS.register("stripped_rowan_wood") {
+        RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD))
+    }
+
+    val ROWAN_WOOD = BLOCKS.register("rowan_wood", StrippableHelper.createStrippableLog(STRIPPED_ROWAN_WOOD,
+        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)))
+
+    val ROWAN_LEAVES = BLOCKS.register("rowan_leaves") {
+        LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES))
+    }
+
+    val ROWAN_BERRY_LEAVES = BLOCKS.register("rowan_berry_leaves") {
+        LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWERING_AZALEA_LEAVES))
     }
 
     val GLINTWEED: RegistrySupplier<GlintweedBlock> = BLOCKS.register("glintweed") {

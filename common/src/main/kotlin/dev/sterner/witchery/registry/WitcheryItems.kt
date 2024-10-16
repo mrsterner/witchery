@@ -247,4 +247,30 @@ object WitcheryItems {
     val TAGLOCK = ITEMS.register("taglock") {
         TaglockItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON))
     }
+
+    // start WOOD
+
+    val ROWAN_LOG = ITEMS.register("rowan_log") {
+        BlockItem(WitcheryBlocks.ROWAN_LOG.get(), Item.Properties())
+    }
+
+    val ROWAN_WOOD = ITEMS.register("rowan_wood") {
+        BlockItem(WitcheryBlocks.ROWAN_WOOD.get(), Item.Properties())
+    }
+
+    val STRIPPED_ROWAN_LOG = ITEMS.register("stripped_rowan_log") {
+        BlockItem(WitcheryBlocks.STRIPPED_ROWAN_LOG.get(), Item.Properties())
+    }
+
+    val STRIPPED_ROWAN_WOOD = ITEMS.register("stripped_rowan_wood") {
+        BlockItem(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get(), Item.Properties())
+    }
+
+    val ROWAN_LEAVES = ITEMS.register("rowan_leaves") {
+        BlockItem(WitcheryBlocks.ROWAN_LEAVES.get(), Item.Properties())
+    }
+
+    val ROWAN_BERRY_LEAVES = ITEMS.register("rowan_berry_leaves") {
+        BlockItem(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), Item.Properties())
+    }
 }

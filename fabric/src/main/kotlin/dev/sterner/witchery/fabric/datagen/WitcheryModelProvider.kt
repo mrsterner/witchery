@@ -16,6 +16,7 @@ import net.minecraft.data.models.blockstates.Variant
 import net.minecraft.data.models.blockstates.VariantProperties
 import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.models.model.TexturedModel
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.properties.Property
@@ -33,6 +34,14 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         createCrossCropBlock(generator, WitcheryBlocks.WOLFSFBANE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
         generator.createCropBlock(WitcheryBlocks.GARLIC_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
 
+        generator.woodProvider(WitcheryBlocks.ROWAN_LOG.get())
+            .logWithHorizontal(WitcheryBlocks.ROWAN_LOG.get()).wood(WitcheryBlocks.ROWAN_WOOD.get())
+
+        generator.woodProvider(WitcheryBlocks.STRIPPED_ROWAN_LOG.get())
+            .logWithHorizontal(WitcheryBlocks.STRIPPED_ROWAN_LOG.get()).wood(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get())
+
+        generator.createTrivialBlock(WitcheryBlocks.ROWAN_LEAVES.get(), TexturedModel.LEAVES)
+        generator.createTrivialBlock(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), TexturedModel.LEAVES)
     }
 
 
@@ -115,5 +124,12 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(),  ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.BONE_NEEDLE.get(),  ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.DEMON_HEART.get(),  ModelTemplates.FLAT_ITEM)
+
+        //genetaror.generateFlatItem(WitcheryItems.ROWAN_LOG.get(), ModelTemplates.CUBE_COLUMN)
+        //genetaror.generateFlatItem(WitcheryItems.ROWAN_WOOD.get(), ModelTemplates.CUBE_COLUMN)
+        //genetaror.generateFlatItem(WitcheryItems.STRIPPED_ROWAN_LOG.get(), ModelTemplates.CUBE_COLUMN)
+        //genetaror.generateFlatItem(WitcheryItems.STRIPPED_ROWAN_WOOD.get(), ModelTemplates.CUBE_COLUMN)
+        //genetaror.generateFlatItem(WitcheryItems.ROWAN_LEAVES.get(), ModelTemplates.CUBE)
+        //genetaror.generateFlatItem(WitcheryItems.ROWAN_BERRY_LEAVES.get(), ModelTemplates.CUBE)
     }
 }

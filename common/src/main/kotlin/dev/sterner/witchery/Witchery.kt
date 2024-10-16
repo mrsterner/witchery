@@ -177,6 +177,10 @@ object Witchery {
             WitcheryBlocks.WOLFSFBANE_CROP.get(),
             WitcheryBlocks.WATER_ARTICHOKE_CROP.get()
         )
+
+        RenderTypeRegistry.register(RenderType.cutout(),
+            WitcheryBlocks.ROWAN_LEAVES.get(),
+            WitcheryBlocks.ROWAN_BERRY_LEAVES.get())
     }
 
     fun id(name: String): ResourceLocation {

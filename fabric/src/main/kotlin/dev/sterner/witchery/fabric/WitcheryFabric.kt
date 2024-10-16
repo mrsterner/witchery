@@ -4,6 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.attachment.MutandisLevelAttachment
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform
+import dev.sterner.witchery.platform.fabric.StrippableHelperImpl
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryParticleTypes
 import dev.sterner.witchery.registry.WitcheryRitualRegistry
@@ -15,7 +16,10 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.minecraft.client.renderer.RenderType
+import net.minecraft.world.level.block.Block
+import java.util.function.Supplier
 
 
 class WitcheryFabric : ModInitializer, ClientModInitializer {
@@ -33,6 +37,9 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         Witchery.init()
 
         DynamicRegistries.registerSynced(WitcheryRitualRegistry.RITUAL_KEY, WitcheryRitualRegistry.CODEC)
+
+        StrippableBlockRegistry.register(WitcheryBlocks.ROWAN_LOG.get(), WitcheryBlocks.STRIPPED_ROWAN_LOG.get())
+        StrippableBlockRegistry.register(WitcheryBlocks.ROWAN_WOOD.get(), WitcheryBlocks.STRIPPED_ROWAN_WOOD.get())
     }
 
     override fun onInitializeClient() {
