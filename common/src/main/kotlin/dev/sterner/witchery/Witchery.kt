@@ -4,6 +4,8 @@ import com.mojang.logging.LogUtils
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientLifecycleEvent
 import dev.architectury.event.events.common.InteractionEvent
+import dev.architectury.event.events.common.LootEvent
+import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
@@ -14,9 +16,6 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
-import dev.architectury.registry.registries.RegistrarBuilder
-import dev.architectury.registry.registries.RegistrarManager
-import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
@@ -39,17 +38,20 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.Sheets
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
-import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
 import org.slf4j.Logger
 
 
@@ -85,10 +87,47 @@ object Witchery {
             MenuRegistry.registerScreenFactory(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
         }
 
+        LootEvent.MODIFY_LOOT_TABLE.register(::addSeeds)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
         ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisLevelDataAttachmentPlatform.tick(serverLevel) }
 
         NaturePowerHandler.registerListener()
+    }
+
+    private fun addSeeds(key: ResourceKey<LootTable>?, context: LootTableModificationContext, builtin: Boolean) {
+        if (builtin && Blocks.SHORT_GRASS.lootTable.equals(key) || Blocks.TALL_GRASS.lootTable.equals(key)) {
+            val pool: LootPool.Builder = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.BELLADONNA_SEEDS.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
+                )
+            context.addPool(pool)
+
+            val pool2: LootPool.Builder = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.WATER_ARTICHOKE_SEEDS.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
+                )
+            context.addPool(pool2)
+
+            val pool3: LootPool.Builder = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.MANDRAKE_SEEDS.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
+                )
+            context.addPool(pool3)
+
+            val pool4: LootPool.Builder = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.SNOWBELL_SEEDS.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
+                )
+            context.addPool(pool4)
+        }
     }
 
     private fun interactEntityTaglock(

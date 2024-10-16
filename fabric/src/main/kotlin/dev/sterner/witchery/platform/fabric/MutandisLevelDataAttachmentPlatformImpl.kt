@@ -1,12 +1,8 @@
 package dev.sterner.witchery.platform.fabric
 
 import dev.sterner.witchery.api.attachment.MutandisData
-import dev.sterner.witchery.api.attachment.MutandisLevelAttachment
 import dev.sterner.witchery.fabric.WitcheryFabric
-import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform
 import dev.sterner.witchery.platform.MutandisLevelDataAttachmentPlatform.CACHE_LIFETIME
-import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.TagKey
