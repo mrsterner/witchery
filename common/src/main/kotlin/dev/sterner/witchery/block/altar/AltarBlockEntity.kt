@@ -30,6 +30,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
+import java.util.Optional
 import kotlin.math.floor
 
 
@@ -187,13 +188,24 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             augmentUpdateQueued = false
         }
 
-        if (ticks % 20 == 0)
+        if (ticks % 20 == 0) {
             updateCurrentPower()
+            sendAltarPos()
+        }
+
 
         if (ticks / 20.0 >= 1)
             ticks = 0
         else
             ticks++
+    }
+
+    private fun sendAltarPos() {
+        val stream = BlockPos.withinManhattanStream(blockPos, range, range, range).filter { level?.getBlockEntity(it) is AltarPowerConsumer }
+        stream.forEach {
+            val consumer = level?.getBlockEntity(it) as AltarPowerConsumer
+            consumer.setAltarPos(blockPos)
+        }
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {

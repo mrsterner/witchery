@@ -2,7 +2,9 @@ package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Ritual
+import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
@@ -37,8 +39,9 @@ import java.util.*
 
 
 class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.GOLDEN_CHALK.get(), blockPos, blockState), Container {
+    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.GOLDEN_CHALK.get(), blockPos, blockState), Container, AltarPowerConsumer {
 
+    private var cachedAltarPos: BlockPos? = null
     var targetPlayer: UUID? = null
     var targetEntity: Int? = null
     var targetPos: GlobalPos? = null
@@ -77,14 +80,14 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             if (isRitualActive) {
 
-                if (!consumeAltarPower(level)) {
+                if (ritualRecipe != null && !consumeAltarPower(level, ritualRecipe!!)) {
                     resetRitual()
                 }
 
                 ritualTickCounter++
                 onTickRitual(level)
 
-                if (tickCounter >= ritualRecipe!!.ticks && !ritualRecipe!!.isInfinite) {
+                if (ritualRecipe != null && tickCounter >= ritualRecipe!!.ticks && !ritualRecipe!!.isInfinite) {
                     onEndRitual(level)
                     resetRitual()
                 }
@@ -257,6 +260,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             resetRitual()
             return InteractionResult.SUCCESS
         }
+
         if (ritualRecipe == null && level != null) {
 
             val items: List<ItemEntity> =
@@ -285,7 +289,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     level!!,
                     validSacrificesAndItemsRecipe[0].value
                 )
-                && hasEnoughAltarPower(level!!)
+                && hasEnoughAltarPower(level!!, validSacrificesAndItemsRecipe[0].value)
                 && hasCelestialCondition(level!!, validSacrificesAndItemsRecipe[0].value)
             ) {
                 ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
@@ -323,16 +327,44 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return false
     }
 
-    private fun hasEnoughAltarPower(level: Level): Boolean {
-        return true //TODO implement return true of altar has enough power, without consuming any
+    private fun hasEnoughAltarPower(level: Level, recipe: RitualRecipe): Boolean {
+        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
+            cachedAltarPos = null
+            setChanged()
+            return false
+        }
+        val requiredAltarPower = recipe.altarPower
+        if (requiredAltarPower > 0 && cachedAltarPos != null) {
+            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
+        }
+        return requiredAltarPower == 0
     }
 
     private fun validateRitualCircle(level: Level, recipe: RitualRecipe): Boolean {
         return RitualPatternUtil.matchesPattern(level, blockPos, recipe)
     }
 
-    private fun consumeAltarPower(level: Level): Boolean {
-        return true //TODO implement, return true if successful altar power drain
+    private fun consumeAltarPower(level: Level, recipe: RitualRecipe): Boolean {
+        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
+            cachedAltarPos = null
+            setChanged()
+            return false
+        }
+
+        val requiredAltarPower = recipe.altarPower
+        if (requiredAltarPower > 0 && cachedAltarPos != null) {
+            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
+        }
+        return requiredAltarPower == 0
+    }
+
+    override fun receiveAltarPosition(corePos: BlockPos) {
+
+    }
+
+    override fun setAltarPos(altarPos: BlockPos) {
+        this.cachedAltarPos = altarPos
+        setChanged()
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
@@ -344,6 +376,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         isRitualActive = pTag.getBoolean("isRitualActive")
         tickCounter = pTag.getInt("tickCounter")
         ritualTickCounter = pTag.getInt("ritualTickCounter")
+
+        if(pTag.contains("altarPos")){
+            cachedAltarPos = NbtUtils.readBlockPos(pTag, "altarPos").get()
+        }
 
         if (pTag.contains("ritualId")) {
             ritualRecipe = RitualRecipe.fromNbt(pTag.getCompound("ritualId"), pRegistries)
@@ -402,6 +438,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putBoolean("isRitualActive", isRitualActive)
         tag.putInt("tickCounter", tickCounter)
         tag.putInt("ritualTickCounter", ritualTickCounter)
+
+        if (cachedAltarPos != null) {
+            tag.put("altarPos", NbtUtils.writeBlockPos(cachedAltarPos!!))
+        }
 
         if (ritualRecipe != null) {
             tag.put("ritualId", ritualRecipe!!.toNbt(registries))

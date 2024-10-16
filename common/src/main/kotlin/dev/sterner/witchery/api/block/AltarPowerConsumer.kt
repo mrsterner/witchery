@@ -13,4 +13,6 @@ interface AltarPowerConsumer {
             return be.consumeAltarPower(amount, simulate)
         return false
     }
+
+    fun setAltarPos(altarPos: BlockPos)
 }

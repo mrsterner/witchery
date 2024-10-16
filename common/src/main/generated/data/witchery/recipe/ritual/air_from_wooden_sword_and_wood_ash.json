@@ -1,6 +1,6 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 1000,
+  "altarPower": 300,
   "blockMapping": {
     "G": "witchery:golden_chalk",
     "R": "witchery:ritual_chalk"
