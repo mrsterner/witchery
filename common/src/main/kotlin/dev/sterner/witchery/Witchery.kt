@@ -61,6 +61,8 @@ object Witchery {
         WitcheryMenuTypes.MENU_TYPES.register()
         WitcheryDataComponents.DATA.register()
 
+        WitcheryFlammability.register()
+
         WitcheryPayloads.register()
 
         EntityAttributeRegistry.register(WitcheryEntityTypes.MANDRAKE, MandrakeEntity::createAttributes)
