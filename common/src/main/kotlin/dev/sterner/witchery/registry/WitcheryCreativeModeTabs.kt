@@ -24,6 +24,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.COPPER_WITCHES_OVEN.get())
                 output.accept(WitcheryItems.COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+                output.accept(WitcheryItems.IRON_CANDELABRA.get())
 
                 output.accept(WitcheryItems.ROWAN_LOG.get())
                 output.accept(WitcheryItems.ROWAN_WOOD.get())

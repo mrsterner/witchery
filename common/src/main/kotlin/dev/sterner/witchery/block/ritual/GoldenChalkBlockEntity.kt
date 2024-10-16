@@ -105,10 +105,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun onTickRitual(level: Level) {
-        if (tickCounter % 20 == 0) { // TODO remove
-            level.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_HARP.value(), SoundSource.BLOCKS)
-        }
-
         if (ritualRecipe?.ritualType?.id == Witchery.id("push_mobs")) { // :(
             PushMobsRitual.onTickRitual(level, blockPos, this)
         }

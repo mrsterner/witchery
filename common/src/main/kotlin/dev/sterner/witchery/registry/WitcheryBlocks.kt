@@ -342,4 +342,8 @@ object WitcheryBlocks {
     val GOLDEN_CHALK_BLOCK = BLOCKS.register("golden_chalk") {
         GoldenChalkBlock(BlockBehaviour.Properties.of())
     }
+
+    val IRON_CANDELABRA = BLOCKS.register("iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
 }

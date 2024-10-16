@@ -324,5 +324,8 @@ object WitcheryItems {
         HangingSignItem(WitcheryBlocks.ROWAN_HANGING_SIGN.get(), WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(), Item.Properties())
     }
 
+    val IRON_CANDELABRA = ITEMS.register("iron_candelabra") {
+        BlockItem(WitcheryBlocks.IRON_CANDELABRA.get(), Item.Properties())
+    }
     //TODO: Need Boat, Chest Boat
 }
