@@ -2,6 +2,7 @@ package dev.sterner.witchery.api.multiblock
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.core.Vec3i
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
@@ -44,6 +45,16 @@ class MultiBlockHorizontalDirectionStructure(structurePieces: ArrayList<Structur
     companion object {
         fun of(vararg pieces: StructurePiece): MultiBlockHorizontalDirectionStructure {
             return MultiBlockHorizontalDirectionStructure(ArrayList(listOf(*pieces)))
+        }
+
+        fun rotateOffset(offset: Vec3i, direction: Direction): Vec3i {
+            return when (direction) {
+                Direction.NORTH -> Vec3i(offset.x, offset.y, offset.z)
+                Direction.SOUTH -> Vec3i(-offset.x, offset.y, -offset.z)
+                Direction.WEST -> Vec3i(offset.z, offset.y, -offset.x)
+                Direction.EAST -> Vec3i(-offset.z, offset.y, offset.x)
+                else -> offset
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package dev.sterner.witchery.api.multiblock
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.core.Vec3i
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 
@@ -11,12 +12,17 @@ interface IMultiBlockCore {
 
     val structure: MultiBlockStructure?
 
-    fun setupMultiBlock(pos: BlockPos, direction: Direction) {
+    fun setupMultiBlock(pos: BlockPos, direction: Direction?) {
         if (structure == null) {
             return
         }
         structure!!.structurePieces.forEach { piece ->
-            val rotatedOffset = MultiBlockStructure.rotateOffset(piece.offset, direction)
+            val rotatedOffset = if (structure is MultiBlockHorizontalDirectionStructure) {
+                MultiBlockHorizontalDirectionStructure.rotateOffset(piece.offset, direction!!)
+            } else {
+                piece.offset
+            }
+
             componentPositions.add(pos.offset(rotatedOffset))
         }
     }

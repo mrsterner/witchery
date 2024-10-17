@@ -17,10 +17,7 @@ import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.client.colors.RitualChalkColors
-import dev.sterner.witchery.client.model.AltarBlockEntityModel
-import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
-import dev.sterner.witchery.client.model.BoatModels
-import dev.sterner.witchery.client.model.MandrakeEntityModel
+import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.renderer.*
 import dev.sterner.witchery.client.screen.AltarScreen
@@ -150,6 +147,7 @@ object Witchery {
     fun initClient() {
         EntityModelLayerRegistry.register(AltarClothBlockEntityModel.LAYER_LOCATION) { AltarClothBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(AltarBlockEntityModel.LAYER_LOCATION) { AltarBlockEntityModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.MANDRAKE) { MandrakeEntityRenderer(it) }
         EntityModelLayerRegistry.register(MandrakeEntityModel.LAYER_LOCATION) { MandrakeEntityModel.createBodyLayer() }

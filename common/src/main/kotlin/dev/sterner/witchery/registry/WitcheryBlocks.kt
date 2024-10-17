@@ -11,6 +11,7 @@ import dev.sterner.witchery.block.altar.AltarBlockComponent
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.distillery.DistilleryBlock
+import dev.sterner.witchery.block.distillery.DistilleryCompanionBlock
 import dev.sterner.witchery.block.oven.OvenBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockComponent
@@ -77,6 +78,17 @@ object WitcheryBlocks {
 
     val CAULDRON_COMPONENT: RegistrySupplier<CauldronBlockComponent> = BLOCKS.register("cauldron_component") {
         CauldronBlockComponent(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val DISTILLERY = BLOCKS.register("distillery") {
+        DistilleryBlock(BlockBehaviour.Properties.of())
+    }
+
+    val DISTILLERY_COMPONENT: RegistrySupplier<DistilleryCompanionBlock> = BLOCKS.register("distillery_component") {
+        DistilleryCompanionBlock(
             BlockBehaviour.Properties.of()
                 .sound(SoundType.METAL)
         )
@@ -511,7 +523,5 @@ object WitcheryBlocks {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val DISTILLERY = BLOCKS.register("distillery") {
-        DistilleryBlock(BlockBehaviour.Properties.of())
-    }
+
 }

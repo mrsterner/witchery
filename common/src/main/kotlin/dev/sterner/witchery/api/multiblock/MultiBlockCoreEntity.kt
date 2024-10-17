@@ -2,6 +2,7 @@ package dev.sterner.witchery.api.multiblock
 
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
@@ -18,7 +19,7 @@ open class MultiBlockCoreEntity(
     override var componentPositions: ArrayList<BlockPos?> = ArrayList()
 
     init {
-        this.setupMultiBlock(pos, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+        this.setupMultiBlock(pos, if(state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) state.getValue(BlockStateProperties.HORIZONTAL_FACING) else null)
     }
 
     override fun onBreak(player: Player) {

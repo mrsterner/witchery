@@ -6,6 +6,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockItem
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
+import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
 import dev.sterner.witchery.platform.PlatformUtils
@@ -253,7 +254,7 @@ object WitcheryItems {
     }
 
     val DISTILLERY = ITEMS.register("distillery") {
-        BlockItem(WitcheryBlocks.DISTILLERY.get(), Item.Properties())
+        MultiBlockItem(WitcheryBlocks.DISTILLERY.get(), Item.Properties(), DistilleryBlock.STRUCTURE)
     }
 
     // start WOOD
