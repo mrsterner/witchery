@@ -615,6 +615,36 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
         ).save(exporter)
 
         OvenCookingRecipeBuilder(
+            Ingredient.of(WitcheryItems.ROWAN_SAPLING.get()),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
+
+        OvenCookingRecipeBuilder(
+            Ingredient.of(WitcheryItems.ALDER_SAPLING.get()),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.REEK_OF_MISFORTUNE.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
+
+        OvenCookingRecipeBuilder(
+            Ingredient.of(WitcheryItems.HAWTHORN_SAPLING.get()),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.ODOR_OF_PURITY.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
+
+        OvenCookingRecipeBuilder(
             Ingredient.of(ItemTags.LOGS),
             Ingredient.of(WitcheryItems.JAR.get()),
             WitcheryItems.WOOD_ASH.get().defaultInstance,
