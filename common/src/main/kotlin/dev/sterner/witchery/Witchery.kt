@@ -36,6 +36,7 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
+import net.minecraft.client.renderer.texture.TextureAtlas
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand

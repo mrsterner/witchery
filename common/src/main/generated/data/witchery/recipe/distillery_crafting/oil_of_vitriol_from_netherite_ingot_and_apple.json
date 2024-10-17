@@ -1,21 +1,18 @@
 {
   "type": "witchery:distillery_crafting",
-  "altarPower": 20,
+  "altarPower": 5,
   "cookingTime": 100,
   "inputItems": [
     {
       "count": 1,
-      "id": "minecraft:stick"
+      "id": "minecraft:netherite_ingot"
     },
     {
       "count": 1,
       "id": "minecraft:apple"
-    },
-    {
-      "count": 1,
-      "id": "witchery:jar"
     }
   ],
+  "jarConsumption": 2,
   "outputItems": [
     {
       "count": 1,

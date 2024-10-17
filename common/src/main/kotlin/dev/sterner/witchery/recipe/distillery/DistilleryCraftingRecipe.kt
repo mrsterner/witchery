@@ -22,7 +22,8 @@ class DistilleryCraftingRecipe(
     val inputItems: List<ItemStack>,
     val outputItems: List<ItemStack>,
     val altarPower: Int,
-    val cookingTime: Int
+    val cookingTime: Int,
+    val jarConsumption: Int
 ) :
     Recipe<MultipleItemRecipeInput> {
 
@@ -82,7 +83,8 @@ class DistilleryCraftingRecipe(
                         ItemStack.CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
                         ItemStack.CODEC.listOf().fieldOf("outputItems").forGetter { it.outputItems },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
-                        Codec.INT.fieldOf("cookingTime").forGetter { recipe -> recipe.cookingTime }
+                        Codec.INT.fieldOf("cookingTime").forGetter { recipe -> recipe.cookingTime },
+                        Codec.INT.fieldOf("jarConsumption").forGetter { recipe -> recipe.jarConsumption }
                     ).apply(obj, ::DistilleryCraftingRecipe)
                 }
 

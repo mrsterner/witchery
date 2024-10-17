@@ -741,13 +741,13 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
         DistilleryCraftingRecipeBuilder.create()
-            .addInput(Items.STICK.defaultInstance)
+            .addInput(Items.NETHERITE_INGOT.defaultInstance)
             .addInput(Items.APPLE.defaultInstance)
-            .addInput(WitcheryItems.JAR.get().defaultInstance)
-            .setAltarPower(20)
+            .setAltarPower(5)
             .setCookingTime(100)
             .addOutput(WitcheryItems.OIL_OF_VITRIOL.get().defaultInstance)
             .addOutput(WitcheryItems.BREATH_OF_THE_GODDESS.get().defaultInstance)
+            .setJarConsumption(2)
             .save(exporter)
     }
 }

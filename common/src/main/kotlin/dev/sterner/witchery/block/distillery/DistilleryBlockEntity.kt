@@ -4,12 +4,12 @@ import dev.architectury.registry.menu.ExtendedMenuProvider
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
-import dev.sterner.witchery.block.oven.OvenBlockEntity.Companion
 import dev.sterner.witchery.menu.DistilleryMenu
-import dev.sterner.witchery.menu.OvenMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
+import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import io.netty.buffer.Unpooled
@@ -17,12 +17,12 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
-import net.minecraft.core.RegistryAccess
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Mth
 import net.minecraft.world.Container
@@ -36,9 +36,9 @@ import net.minecraft.world.inventory.RecipeCraftingHolder
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.RecipeHolder
 import net.minecraft.world.item.crafting.RecipeManager
-import net.minecraft.world.item.crafting.SingleRecipeInput
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import kotlin.math.min
 
 class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     MultiBlockCoreEntity(WitcheryBlockEntityTypes.DISTILLERY.get(), DistilleryBlock.STRUCTURE.get(), blockPos, blockState),
@@ -86,13 +86,14 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val hasJar = !jarStack.isEmpty
 
         if (hasInput && hasJar) {
-            val distillingRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(listOf(inputStack, inputStack2, jarStack)), level).orElse(null)
-            if (distillingRecipe != null) {
-                println("${distillingRecipe.id}")
-            }
+            val distillingRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(listOf(inputStack, inputStack2)), level).orElse(null)
 
             if (canDistill(distillingRecipe, items, maxStackSize)) {
                 cookingProgress++
+                if (cookingProgress % 20 == 0) {
+                    consumeAltarPower(level, distillingRecipe.value)
+                }
+
                 if (cookingProgress == cookingTotalTime) {
                     cookingProgress = 0
                     cookingTotalTime = getTotalCookTime(level)
@@ -106,7 +107,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             } else {
                 cookingProgress = 0
             }
-        } else if (!hasAltarPower() && cookingProgress > 0) {
+        } else if (cookingProgress > 0) {
             cookingProgress = Mth.clamp(cookingProgress - OvenBlockEntity.BURN_COOL_SPEED, 0, cookingTotalTime)
         }
 
@@ -129,12 +130,16 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val outputItems = recipe.value.outputItems
         println("Attempting to distill with recipe: ${recipe.id} with inputs: $inputItems and outputs: $outputItems")
 
-        consumeInputItems(items, inputItems)
+        consumeInputItems(items, inputItems, recipe.value)
 
-        return placeOutputItems(items, outputItems, maxStackSize)
+        val success = placeOutputItems(items, outputItems, maxStackSize)
+        if (success) {
+            consumeAltarPower(level!!, recipe.value)
+        }
+        return success
     }
 
-    private fun consumeInputItems(items: NonNullList<ItemStack>, inputItems: List<ItemStack>) {
+    private fun consumeInputItems(items: NonNullList<ItemStack>, inputItems: List<ItemStack>, recipe: DistilleryCraftingRecipe) {
         val inputStack = items[SLOT_INPUT]
         val extraInputStack = items[SLOT_EXTRA_INPUT]
         val jarStack = items[SLOT_JAR]
@@ -153,7 +158,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             println("Inputs do not match recipe requirements.")
         }
 
-        jarStack.shrink(inputItems[2].count)
+        jarStack.shrink(recipe.jarConsumption)
         println("Jar consumed, remaining jar count: ${jarStack.count}")
     }
 
@@ -190,22 +195,16 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 return false
             }
         }
-
         return true
     }
 
-    private fun checkInputs(inputItems: List<ItemStack>, items: NonNullList<ItemStack>): Boolean {
-        if (inputItems.size != 3) {
-            println("Input size mismatch. Expected 3, got ${inputItems.size}.")
-            return false
-        }
+    private fun checkInputs(inputItems: List<ItemStack>, items: NonNullList<ItemStack>, recipe: DistilleryCraftingRecipe): Boolean {
 
         val jarStack = items[SLOT_JAR]
         val firstInput = inputItems[0]
         val secondInput = inputItems[1]
 
-        if (!ItemStack.isSameItemSameComponents(jarStack, inputItems[2])) {
-            println("Jar mismatch: Expected ${inputItems[2].item}, got ${jarStack.item}.")
+        if (jarStack.count < recipe.jarConsumption) {
             return false
         }
 
@@ -216,7 +215,6 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                         (ItemStack.isSameItemSameComponents(inputStack, secondInput) && ItemStack.isSameItemSameComponents(extraInputStack, firstInput))
                 )
 
-        println("Input items ${if (inputsMatch) "match" else "do not match"} the recipe.")
         return inputsMatch
     }
 
@@ -227,24 +225,19 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     ): Boolean {
         val outputSlots = listOf(SLOT_RESULT_1, SLOT_RESULT_2, SLOT_RESULT_3, SLOT_RESULT_4).map { items[it] }.toMutableList()
 
-        println("Checking if output items can fit into slots.")
-
         for (outputItem in outputItems) {
             var fits = false
             for (i in outputSlots.indices) {
                 val slot = outputSlots[i]
-                println("Checking if ${outputItem.item} (Count: ${outputItem.count}) fits in slot with ${slot.item} (Count: ${slot.count}).")
 
                 if (canFitInSlot(outputItem, slot, maxStackSize)) {
                     fits = true
                     outputSlots[i] = slot.copy().apply { grow(outputItem.count) }
-                    println("Output item ${outputItem.item} fits in slot.")
                     break
                 }
             }
 
             if (!fits) {
-                println("Output item ${outputItem.item} does not fit in any available slots.")
                 return false
             }
         }
@@ -252,8 +245,17 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return true
     }
 
-    private fun hasAltarPower(): Boolean {
-        return true //TODO
+    private fun hasEnoughAltarPower(level: Level, recipe: DistilleryCraftingRecipe): Boolean {
+        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
+            cachedAltarPos = null
+            setChanged()
+            return false
+        }
+        val requiredAltarPower = recipe.altarPower
+        if (requiredAltarPower > 0 && cachedAltarPos != null) {
+            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
+        }
+        return requiredAltarPower == 0
     }
 
     private fun canDistill(
@@ -263,19 +265,43 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     ): Boolean {
         if (recipe == null) return false
 
+        if (cachedAltarPos == null && level is ServerLevel) {
+
+            cachedAltarPos = getAltarPos(level as ServerLevel, blockPos)
+            setChanged()
+        }
+
+        if (!hasEnoughAltarPower(level!!, recipe.value)) {
+            return false
+        }
+
         val inputItems = recipe.value.inputItems
         val outputItems = recipe.value.outputItems
 
-        if (!checkInputs(inputItems, items)) return false
+        if (!checkInputs(inputItems, items, recipe.value)) return false
 
         return checkOutputs(outputItems, items, maxStackSize)
+    }
+
+    private fun consumeAltarPower(level: Level, recipe: DistilleryCraftingRecipe): Boolean {
+        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
+            cachedAltarPos = null
+            setChanged()
+            return false
+        }
+
+        val requiredAltarPower = recipe.altarPower
+        if (requiredAltarPower > 0 && cachedAltarPos != null) {
+            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
+        }
+        return requiredAltarPower == 0
     }
 
     private fun canFitInSlot(resultStack: ItemStack, outputSlot: ItemStack, maxStackSize: Int): Boolean {
         if (outputSlot.isEmpty) {
             return true
         } else if (ItemStack.isSameItemSameComponents(outputSlot, resultStack)) {
-            return outputSlot.count + resultStack.count <= Math.min(maxStackSize, outputSlot.maxStackSize)
+            return outputSlot.count + resultStack.count <= min(maxStackSize, outputSlot.maxStackSize)
         }
 
         return false
@@ -395,7 +421,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun getTotalCookTime(level: Level): Int {
-        val singleRecipeInput = MultipleItemRecipeInput(listOf(getItem(SLOT_INPUT), getItem(SLOT_EXTRA_INPUT), getItem(SLOT_JAR)))
+        val singleRecipeInput = MultipleItemRecipeInput(listOf(getItem(SLOT_INPUT), getItem(SLOT_EXTRA_INPUT)))
 
         val cookQuickTime = quickCheck
             .getRecipeFor(singleRecipeInput, level)
@@ -418,8 +444,8 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val SLOTS_FOR_UP: IntArray = intArrayOf(0)
         val SLOTS_FOR_DOWN: IntArray = intArrayOf(2, 1)
         val SLOTS_FOR_SIDES: IntArray = intArrayOf(1)
-        const val DATA_COOKING_PROGRESS: Int = 2
-        const val DATA_COOKING_TOTAL_TIME: Int = 3
+        const val DATA_COOKING_PROGRESS: Int = 0
+        const val DATA_COOKING_TOTAL_TIME: Int = 1
         const val NUM_DATA_VALUES: Int = 2
         const val BURN_TIME_STANDARD: Int = 200
         const val BURN_COOL_SPEED: Int = 2

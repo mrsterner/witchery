@@ -14,10 +14,9 @@ class DistilleryCraftingRecipeBuilder(
     private var inputItems: MutableList<ItemStack> = mutableListOf(),
     private var outputStack: MutableList<ItemStack> = mutableListOf(),
     private var altarPower: Int = 0,
-    private var cookingTime: Int = 0
+    private var cookingTime: Int = 0,
+    private var jarConsumption: Int = 1,
 ) : WitcheryRecipeBuilder() {
-
-    var order = 0
 
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     private var group: String? = null
@@ -30,7 +29,6 @@ class DistilleryCraftingRecipeBuilder(
 
     fun addInput(itemStack: ItemStack): DistilleryCraftingRecipeBuilder {
         inputItems.add(itemStack)
-        order++
         return this
     }
 
@@ -47,6 +45,11 @@ class DistilleryCraftingRecipeBuilder(
 
     fun addOutput(item: Item): DistilleryCraftingRecipeBuilder {
         outputStack += item.defaultInstance
+        return this
+    }
+
+    fun setJarConsumption(count: Int): DistilleryCraftingRecipeBuilder {
+        jarConsumption = count
         return this
     }
 
@@ -84,7 +87,7 @@ class DistilleryCraftingRecipeBuilder(
             builder.addCriterion(name, criterion)
         }
 
-        val cauldronCraftingRecipe = DistilleryCraftingRecipe(inputItems, outputStack, altarPower, cookingTime)
+        val cauldronCraftingRecipe = DistilleryCraftingRecipe(inputItems, outputStack, altarPower, cookingTime, jarConsumption)
         recipeOutput.accept(
             suffixHash(id.withPrefix("distillery_crafting/"), inputItems),
             cauldronCraftingRecipe,
