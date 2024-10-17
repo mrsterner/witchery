@@ -77,14 +77,7 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.MANDRAKE, MandrakeEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.IMP, ImpEntity::createAttributes)
 
-        ClientLifecycleEvent.CLIENT_SETUP.register {
-            MenuRegistry.registerScreenFactory(
-                WitcheryMenuTypes.OVEN_MENU_TYPE.get(),
-                ::OvenScreen
-            )
-            MenuRegistry.registerScreenFactory(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
-            MenuRegistry.registerScreenFactory(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get(), ::DistilleryScreen)
-        }
+
 
         LootEvent.MODIFY_LOOT_TABLE.register(::addSeeds)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
@@ -177,6 +170,15 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get(), ::HangingSignRenderer)
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
+
+        ClientLifecycleEvent.CLIENT_SETUP.register {
+            MenuRegistry.registerScreenFactory(
+                WitcheryMenuTypes.OVEN_MENU_TYPE.get(),
+                ::OvenScreen
+            )
+            MenuRegistry.registerScreenFactory(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
+            MenuRegistry.registerScreenFactory(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get(), ::DistilleryScreen)
+        }
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),
