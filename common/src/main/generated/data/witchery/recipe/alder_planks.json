@@ -2,20 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    [
-      {
-        "item": "witchery:alder_log"
-      },
-      {
-        "item": "witchery:alder_wood"
-      },
-      {
-        "item": "witchery:stripped_alder_log"
-      },
-      {
-        "item": "witchery:stripped_alder_wood"
-      }
-    ]
+    {
+      "tag": "witchery:alder_logs"
+    }
   ],
   "result": {
     "count": 4,

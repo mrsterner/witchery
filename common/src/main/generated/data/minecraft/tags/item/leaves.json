@@ -1,8 +1,5 @@
 {
   "values": [
-    "witchery:rowan_leaves",
-    "witchery:rowan_berry_leaves",
-    "witchery:alder_leaves",
-    "witchery:hawthorn_leaves"
+    "#witchery:leaves"
   ]
 }

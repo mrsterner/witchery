@@ -2,20 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    [
-      {
-        "item": "witchery:rowan_log"
-      },
-      {
-        "item": "witchery:rowan_wood"
-      },
-      {
-        "item": "witchery:stripped_rowan_log"
-      },
-      {
-        "item": "witchery:stripped_rowan_wood"
-      }
-    ]
+    {
+      "tag": "witchery:rowan_logs"
+    }
   ],
   "result": {
     "count": 4,

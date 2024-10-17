@@ -3,6 +3,7 @@ package dev.sterner.witchery.fabric.datagen
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.minecraft.core.HolderLookup
@@ -167,6 +168,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.HAWTHORN_CHEST_BOAT.get(), "Hawthorn Chest Boat")
 
         builder.add(WitcheryEntityTypes.MANDRAKE.get(), "Mandrake")
+
         builder.add("entity.witchery.rowan_boat", "Rowan Boat")
         builder.add("entity.witchery.rowan_chest_boat", "Rowan Chest Boat")
         builder.add("entity.witchery.alder_boat", "Alder Boat")

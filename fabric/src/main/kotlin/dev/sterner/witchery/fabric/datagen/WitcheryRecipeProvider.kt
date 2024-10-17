@@ -157,9 +157,9 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .pattern("C C")
             .pattern("LLL")
             .pattern("LLL")
-            .define('C', WitcheryItems.STRIPPED_ROWAN_LOG.get())
-            .define('L', Items.CHAIN)
-            .unlockedBy("has_logs", has(WitcheryItems.ROWAN_LOG.get())) // Should be an ITEM tag tbh
+            .define('L', WitcheryItems.STRIPPED_ROWAN_LOG.get())
+            .define('C', Items.CHAIN)
+            .unlockedBy("has_logs", has(WitcheryTags.ROWAN_LOG_ITEMS))
             .save(exporter)
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, WitcheryItems.ROWAN_BOAT.get())
@@ -233,9 +233,9 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .pattern("C C")
             .pattern("LLL")
             .pattern("LLL")
-            .define('C', WitcheryItems.STRIPPED_ALDER_LOG.get())
-            .define('L', Items.CHAIN)
-            .unlockedBy("has_logs", has(WitcheryItems.ALDER_LOG.get())) // Should be an ITEM tag tbh
+            .define('L', WitcheryItems.STRIPPED_ALDER_LOG.get())
+            .define('C', Items.CHAIN)
+            .unlockedBy("has_logs", has(WitcheryTags.ALDER_LOG_ITEMS))
             .save(exporter)
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, WitcheryItems.ALDER_BOAT.get())
@@ -309,9 +309,9 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .pattern("C C")
             .pattern("LLL")
             .pattern("LLL")
-            .define('C', WitcheryItems.STRIPPED_HAWTHORN_LOG.get())
-            .define('L', Items.CHAIN)
-            .unlockedBy("has_logs", has(WitcheryItems.HAWTHORN_LOG.get())) // Should be an ITEM tag tbh
+            .define('L', WitcheryItems.STRIPPED_HAWTHORN_LOG.get())
+            .define('C', Items.CHAIN)
+            .unlockedBy("has_logs", has(WitcheryTags.HAWTHORN_LOG_ITEMS))
             .save(exporter)
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, WitcheryItems.HAWTHORN_BOAT.get())
@@ -336,13 +336,8 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.ROWAN_PLANKS.get(), 4)
-            .requires(Ingredient.of(
-                WitcheryItems.ROWAN_LOG.get(),
-                WitcheryItems.ROWAN_WOOD.get(),
-                WitcheryItems.STRIPPED_ROWAN_LOG.get(),
-                WitcheryItems.STRIPPED_ROWAN_WOOD.get()
-            ))
-            .unlockedBy("has_logs", has(WitcheryItems.ROWAN_LOG.get())) // Should be an ITEM tag tbh
+            .requires(WitcheryTags.ROWAN_LOG_ITEMS)
+            .unlockedBy("has_logs", has(WitcheryTags.ROWAN_LOG_ITEMS))
             .save(exporter)
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, WitcheryItems.ROWAN_BUTTON.get())
@@ -357,13 +352,8 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.ALDER_PLANKS.get(), 4)
-            .requires(Ingredient.of(
-                WitcheryItems.ALDER_LOG.get(),
-                WitcheryItems.ALDER_WOOD.get(),
-                WitcheryItems.STRIPPED_ALDER_LOG.get(),
-                WitcheryItems.STRIPPED_ALDER_WOOD.get()
-            ))
-            .unlockedBy("has_logs", has(WitcheryItems.ALDER_LOG.get())) // Should be an ITEM tag tbh
+            .requires(WitcheryTags.ALDER_LOG_ITEMS)
+            .unlockedBy("has_logs", has(WitcheryTags.ALDER_LOG_ITEMS))
             .save(exporter)
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, WitcheryItems.ALDER_BUTTON.get())
@@ -378,13 +368,8 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.HAWTHORN_PLANKS.get(), 4)
-            .requires(Ingredient.of(
-                WitcheryItems.HAWTHORN_LOG.get(),
-                WitcheryItems.HAWTHORN_WOOD.get(),
-                WitcheryItems.STRIPPED_HAWTHORN_LOG.get(),
-                WitcheryItems.STRIPPED_HAWTHORN_WOOD.get()
-            ))
-            .unlockedBy("has_logs", has(WitcheryItems.HAWTHORN_LOG.get())) // Should be an ITEM tag tbh
+            .requires(WitcheryTags.HAWTHORN_LOG_ITEMS)
+            .unlockedBy("has_logs", has(WitcheryTags.HAWTHORN_LOG_ITEMS))
             .save(exporter)
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, WitcheryItems.HAWTHORN_BUTTON.get())

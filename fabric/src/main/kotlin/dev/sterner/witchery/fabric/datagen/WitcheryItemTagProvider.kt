@@ -17,20 +17,38 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
     FabricTagProvider.ItemTagProvider(output, registriesFuture) {
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {
-        getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN).add(
+        getOrCreateTagBuilder(WitcheryTags.LEAF_ITEMS).add(
+            WitcheryItems.ROWAN_LEAVES.get(),
+            WitcheryItems.ROWAN_BERRY_LEAVES.get(),
+            WitcheryItems.ALDER_LEAVES.get(),
+            WitcheryItems.HAWTHORN_LEAVES.get()
+        )
+
+        getOrCreateTagBuilder(WitcheryTags.ROWAN_LOG_ITEMS).add(
             WitcheryItems.ROWAN_LOG.get(),
             WitcheryItems.ROWAN_WOOD.get(),
             WitcheryItems.STRIPPED_ROWAN_LOG.get(),
-            WitcheryItems.STRIPPED_ROWAN_WOOD.get(),
+            WitcheryItems.STRIPPED_ROWAN_WOOD.get()
+        )
+
+        getOrCreateTagBuilder(WitcheryTags.ALDER_LOG_ITEMS).add(
             WitcheryItems.ALDER_LOG.get(),
             WitcheryItems.ALDER_WOOD.get(),
             WitcheryItems.STRIPPED_ALDER_LOG.get(),
-            WitcheryItems.STRIPPED_ALDER_WOOD.get(),
+            WitcheryItems.STRIPPED_ALDER_WOOD.get()
+        )
+
+        getOrCreateTagBuilder(WitcheryTags.HAWTHORN_LOG_ITEMS).add(
             WitcheryItems.HAWTHORN_LOG.get(),
             WitcheryItems.HAWTHORN_WOOD.get(),
             WitcheryItems.STRIPPED_HAWTHORN_LOG.get(),
             WitcheryItems.STRIPPED_HAWTHORN_WOOD.get()
         )
+        
+        getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
+            .addTag(WitcheryTags.ROWAN_LOG_ITEMS)
+            .addTag(WitcheryTags.ALDER_LOG_ITEMS)
+            .addTag(WitcheryTags.HAWTHORN_LOG_ITEMS)
 
         getOrCreateTagBuilder(ItemTags.WOODEN_FENCES).add(
             WitcheryItems.ROWAN_FENCE.get(),
@@ -74,12 +92,8 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.HAWTHORN_PLANKS.get()
         )
 
-        getOrCreateTagBuilder(ItemTags.LEAVES).add(
-            WitcheryItems.ROWAN_LEAVES.get(),
-            WitcheryItems.ROWAN_BERRY_LEAVES.get(),
-            WitcheryItems.ALDER_LEAVES.get(),
-            WitcheryItems.HAWTHORN_LEAVES.get()
-        )
+        getOrCreateTagBuilder(ItemTags.LEAVES)
+            .addTag(WitcheryTags.LEAF_ITEMS)
 
         getOrCreateTagBuilder(ItemTags.WOODEN_DOORS).add(
             WitcheryItems.ROWAN_DOOR.get(),

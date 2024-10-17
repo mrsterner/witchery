@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "witchery:alder_log"
+            "items": "#witchery:alder_logs"
           }
         ]
       },
