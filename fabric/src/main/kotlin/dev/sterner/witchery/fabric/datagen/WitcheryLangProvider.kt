@@ -169,6 +169,12 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add(WitcheryEntityTypes.MANDRAKE.get(), "Mandrake")
 
+        builder.add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")
+        builder.add(WitcheryTags.ALDER_LOG_ITEMS, "Alder Logs")
+        builder.add(WitcheryTags.HAWTHORN_LOG_ITEMS, "Hawthorn Logs")
+        builder.add(WitcheryTags.LEAF_ITEMS, "Witchery Leaves")
+        builder.add(WitcheryTags.CANDELABRA_ITEMS, "Candelabras")
+
         builder.add("entity.witchery.rowan_boat", "Rowan Boat")
         builder.add("entity.witchery.rowan_chest_boat", "Rowan Chest Boat")
         builder.add("entity.witchery.alder_boat", "Alder Boat")
