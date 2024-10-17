@@ -519,7 +519,73 @@ object WitcheryBlocks {
         GoldenChalkBlock(BlockBehaviour.Properties.of())
     }
 
+
+
     val IRON_CANDELABRA = BLOCKS.register("iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val WHITE_IRON_CANDELABRA = BLOCKS.register("white_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val ORANGE_IRON_CANDELABRA = BLOCKS.register("orange_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val MAGENTA_IRON_CANDELABRA = BLOCKS.register("magenta_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val LIGHT_BLUE_IRON_CANDELABRA = BLOCKS.register("light_blue_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val YELLOW_IRON_CANDELABRA = BLOCKS.register("yellow_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val LIME_IRON_CANDELABRA = BLOCKS.register("lime_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val PINK_IRON_CANDELABRA = BLOCKS.register("pink_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val GRAY_IRON_CANDELABRA = BLOCKS.register("gray_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val LIGHT_GRAY_IRON_CANDELABRA = BLOCKS.register("light_gray_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val CYAN_IRON_CANDELABRA = BLOCKS.register("cyan_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val PURPLE_IRON_CANDELABRA = BLOCKS.register("purple_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val BLUE_IRON_CANDELABRA = BLOCKS.register("blue_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val BROWN_IRON_CANDELABRA = BLOCKS.register("brown_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val GREEN_IRON_CANDELABRA = BLOCKS.register("green_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val RED_IRON_CANDELABRA = BLOCKS.register("red_iron_candelabra") {
+        CandelabraBlock(BlockBehaviour.Properties.of())
+    }
+
+    val BLACK_IRON_CANDELABRA = BLOCKS.register("black_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 

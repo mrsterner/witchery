@@ -500,4 +500,68 @@ object WitcheryItems {
     val IRON_CANDELABRA = ITEMS.register("iron_candelabra") {
         BlockItem(WitcheryBlocks.IRON_CANDELABRA.get(), Item.Properties())
     }
+
+    val WHITE_IRON_CANDELABRA = ITEMS.register("white_iron_candelabra") {
+        BlockItem(WitcheryBlocks.WHITE_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val ORANGE_IRON_CANDELABRA = ITEMS.register("orange_iron_candelabra") {
+        BlockItem(WitcheryBlocks.ORANGE_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val MAGENTA_IRON_CANDELABRA = ITEMS.register("magenta_iron_candelabra") {
+        BlockItem(WitcheryBlocks.MAGENTA_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val LIGHT_BLUE_IRON_CANDELABRA = ITEMS.register("light_blue_iron_candelabra") {
+        BlockItem(WitcheryBlocks.LIGHT_BLUE_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val YELLOW_IRON_CANDELABRA = ITEMS.register("yellow_iron_candelabra") {
+        BlockItem(WitcheryBlocks.YELLOW_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val LIME_IRON_CANDELABRA = ITEMS.register("lime_iron_candelabra") {
+        BlockItem(WitcheryBlocks.LIME_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val PINK_IRON_CANDELABRA = ITEMS.register("pink_iron_candelabra") {
+        BlockItem(WitcheryBlocks.PINK_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val GRAY_IRON_CANDELABRA = ITEMS.register("gray_iron_candelabra") {
+        BlockItem(WitcheryBlocks.GRAY_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val LIGHT_GRAY_IRON_CANDELABRA = ITEMS.register("light_gray_iron_candelabra") {
+        BlockItem(WitcheryBlocks.LIGHT_GRAY_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val CYAN_IRON_CANDELABRA = ITEMS.register("cyan_iron_candelabra") {
+        BlockItem(WitcheryBlocks.CYAN_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val PURPLE_IRON_CANDELABRA = ITEMS.register("purple_iron_candelabra") {
+        BlockItem(WitcheryBlocks.PURPLE_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val BLUE_IRON_CANDELABRA = ITEMS.register("blue_iron_candelabra") {
+        BlockItem(WitcheryBlocks.BLUE_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val BROWN_IRON_CANDELABRA = ITEMS.register("brown_iron_candelabra") {
+        BlockItem(WitcheryBlocks.BROWN_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val GREEN_IRON_CANDELABRA = ITEMS.register("green_iron_candelabra") {
+        BlockItem(WitcheryBlocks.GREEN_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val RED_IRON_CANDELABRA = ITEMS.register("red_iron_candelabra") {
+        BlockItem(WitcheryBlocks.RED_IRON_CANDELABRA.get(), Item.Properties())
+    }
+
+    val BLACK_IRON_CANDELABRA = ITEMS.register("black_iron_candelabra") {
+        BlockItem(WitcheryBlocks.BLACK_IRON_CANDELABRA.get(), Item.Properties())
+    }
 }
