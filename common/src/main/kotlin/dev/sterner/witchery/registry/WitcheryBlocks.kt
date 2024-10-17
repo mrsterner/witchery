@@ -83,6 +83,13 @@ object WitcheryBlocks {
         )
     }
 
+    val COPPER_CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("copper_cauldron") {
+        CauldronBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
     val DISTILLERY = BLOCKS.register("distillery") {
         DistilleryBlock(BlockBehaviour.Properties.of())
     }

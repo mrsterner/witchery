@@ -47,6 +47,7 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             { pos, state -> CauldronBlockEntity(pos, state) },
             WitcheryBlocks.CAULDRON.get(),
+            WitcheryBlocks.COPPER_CAULDRON.get(),
         )
             .build(null)
     }

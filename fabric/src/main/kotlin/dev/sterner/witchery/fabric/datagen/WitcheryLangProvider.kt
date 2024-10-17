@@ -33,6 +33,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.DISTILLERY.get(), "Distillery")
         builder.add(WitcheryItems.GUIDEBOOK.get(), "Lesser Key of Solomon")
         builder.add(WitcheryItems.CAULDRON.get(), "Cauldron")
+        builder.add(WitcheryItems.COPPER_CAULDRON.get(), "Copper Cauldron")
         builder.add(WitcheryItems.ALTAR.get(), "Altar")
         builder.add(WitcheryItems.MUTANDIS.get(), "Mutandis")
         builder.add(WitcheryItems.MUTANDIS_EXTREMIS.get(), "Mutandis Extremis")

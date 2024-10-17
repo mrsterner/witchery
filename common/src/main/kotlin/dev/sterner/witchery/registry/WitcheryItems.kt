@@ -235,6 +235,10 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
     }
 
+    val COPPER_CAULDRON: RegistrySupplier<MultiBlockItem> = ITEMS.register("copper_cauldron") {
+        MultiBlockItem(WitcheryBlocks.COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
+    }
+
     val IRON_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> =
         ITEMS.register("iron_witches_oven_fume_extension") {
             MultiBlockItem(

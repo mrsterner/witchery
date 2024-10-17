@@ -19,6 +19,7 @@ class WitcheryBlockLootProvider(
 
     override fun generate() {
         dropSelf(WitcheryBlocks.CAULDRON.get())
+        dropSelf(WitcheryBlocks.COPPER_CAULDRON.get())
         dropSelf(WitcheryBlocks.IRON_WITCHES_OVEN.get())
         dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN.get())
         dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get())

@@ -22,6 +22,7 @@ class ImpEntityRenderer(context: EntityRendererProvider.Context) :
     ) {
         poseStack.pushPose()
         poseStack.scale(1.0f, -1.0f, 1.0f)
+        poseStack.translate(0.0,-0.25,0.0)
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight)
         poseStack.popPose()
     }

@@ -20,6 +20,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.MUTANDIS_EXTREMIS.get())
                 output.accept(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get())
                 output.accept(WitcheryItems.CAULDRON.get())
+                output.accept(WitcheryItems.COPPER_CAULDRON.get())
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN.get())
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.COPPER_WITCHES_OVEN.get())

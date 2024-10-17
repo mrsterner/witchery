@@ -10,6 +10,7 @@ import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.crafting.Ingredient
 
 class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: CauldronBrewingRecipe) : EmiRecipe {
 
@@ -23,8 +24,8 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
 
     override fun getInputs(): MutableList<EmiIngredient> {
         val mutableList = mutableListOf<EmiIngredient>()
-        for (ingredients in recipe.ingredients) {
-            mutableList.add(EmiIngredient.of(ingredients))
+        for (ingredients in recipe.inputItems.map { it.itemStack }) {
+            mutableList.add(EmiIngredient.of(Ingredient.of(ingredients)))
         }
         return mutableList
     }
@@ -63,7 +64,7 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
 
             widgets.add(
                 WitcherySlotWidget(EmiStack.of(ingredient.itemStack), 2 + 2 + 18, 20 * index)
-                    .drawBack(false)
+                    .drawBack(false).recipeContext(this)
             )
         }
 
@@ -82,7 +83,7 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
 
         widgets.add(
             WitcherySlotWidget(EmiStack.of(recipe.outputItem), 48 + 18 + 9 + 18 + 9 + 4, 20 * 1 + 6)
-                .drawBack(false)
+                .drawBack(false).recipeContext(this)
         )
     }
 }
