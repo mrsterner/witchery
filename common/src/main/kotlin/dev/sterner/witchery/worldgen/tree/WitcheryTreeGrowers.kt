@@ -10,4 +10,16 @@ object WitcheryTreeGrowers {
         Optional.of(WitcheryWorldgenKeys.ROWAN_KEY),
         Optional.empty() // Flowers
     )
+
+    val ALDER = TreeGrower("rowan",
+        Optional.empty(), // Mega Tree
+        Optional.of(WitcheryWorldgenKeys.ALDER_KEY),
+        Optional.empty() // Flowers
+    )
+
+    val HAWTHORN = TreeGrower("rowan",
+        Optional.empty(), // Mega Tree
+        Optional.of(WitcheryWorldgenKeys.HAWTHORN_KEY),
+        Optional.empty() // Flowers
+    )
 }

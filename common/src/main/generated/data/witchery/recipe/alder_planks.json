@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    [
+      {
+        "item": "witchery:alder_log"
+      },
+      {
+        "item": "witchery:alder_wood"
+      },
+      {
+        "item": "witchery:stripped_alder_log"
+      },
+      {
+        "item": "witchery:stripped_alder_wood"
+      }
+    ]
+  ],
+  "result": {
+    "count": 4,
+    "id": "witchery:alder_planks"
+  }
+}

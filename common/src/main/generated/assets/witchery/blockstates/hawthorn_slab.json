@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "witchery:block/hawthorn_slab"
+    },
+    "type=double": {
+      "model": "witchery:block/hawthorn_planks"
+    },
+    "type=top": {
+      "model": "witchery:block/hawthorn_slab_top"
+    }
+  }
+}

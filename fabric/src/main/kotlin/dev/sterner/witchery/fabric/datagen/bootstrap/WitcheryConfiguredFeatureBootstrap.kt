@@ -1,6 +1,8 @@
 package dev.sterner.witchery.fabric.datagen.bootstrap
 
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ALDER_KEY
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.HAWTHORN_KEY
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ROWAN_KEY
 import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.util.random.SimpleWeightedRandomList
@@ -11,8 +13,10 @@ import net.minecraft.world.level.levelgen.feature.Feature
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider
+import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer
 
 object WitcheryConfiguredFeatureBootstrap {
@@ -26,6 +30,22 @@ object WitcheryConfiguredFeatureBootstrap {
                     .add(WitcheryBlocks.ROWAN_LEAVES.get().defaultBlockState())
                     .add(WitcheryBlocks.ROWAN_BERRY_LEAVES.get().defaultBlockState()).build()),
                 BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), 3),
+                TwoLayersFeatureSize(1, 0, 1)).build()))
+
+        bootstrapContext.register(ALDER_KEY, ConfiguredFeature(
+            Feature.TREE, TreeConfiguration.TreeConfigurationBuilder(
+                BlockStateProvider.simple(WitcheryBlocks.ALDER_LOG.get()),
+                FancyTrunkPlacer(5, 2, 0),
+                BlockStateProvider.simple(WitcheryBlocks.ALDER_LEAVES.get()),
+                FancyFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), 3),
+                TwoLayersFeatureSize(1, 0, 1)).build()))
+
+        bootstrapContext.register(HAWTHORN_KEY, ConfiguredFeature(
+            Feature.TREE, TreeConfiguration.TreeConfigurationBuilder(
+                BlockStateProvider.simple(WitcheryBlocks.HAWTHORN_LOG.get()),
+                FancyTrunkPlacer(7, 2, 0),
+                BlockStateProvider.simple(WitcheryBlocks.HAWTHORN_LEAVES.get()),
+                FancyFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), 3),
                 TwoLayersFeatureSize(1, 0, 1)).build()))
     }
 }

@@ -156,8 +156,12 @@ object Witchery {
 
         EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_BOAT) { context -> BoatRenderer(context, false) }
         EntityModelLayerRegistry.register(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)
+        EntityModelLayerRegistry.register(BoatModels.ALDER_BOAT_LAYER, BoatModel::createBodyModel)
+        EntityModelLayerRegistry.register(BoatModels.HAWTHORN_BOAT_LAYER, BoatModel::createBodyModel)
         EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_CHEST_BOAT) { context -> BoatRenderer(context, true) }
         EntityModelLayerRegistry.register(BoatModels.ROWAN_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
+        EntityModelLayerRegistry.register(BoatModels.ALDER_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
+        EntityModelLayerRegistry.register(BoatModels.HAWTHORN_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
 
         EntityRendererRegistry.register(WitcheryEntityTypes.FLOATING_ITEM, ::FloatingItemEntityRenderer)
 
@@ -230,6 +234,16 @@ object Witchery {
             WitcheryBlocks.ROWAN_TRAPDOOR.get(),
             WitcheryBlocks.ROWAN_SAPLING.get(),
             WitcheryBlocks.POTTED_ROWAN_SAPLING.get(),
+            WitcheryBlocks.ALDER_LEAVES.get(),
+            WitcheryBlocks.ALDER_DOOR.get(),
+            WitcheryBlocks.ALDER_TRAPDOOR.get(),
+            WitcheryBlocks.ALDER_SAPLING.get(),
+            WitcheryBlocks.POTTED_ALDER_SAPLING.get(),
+            WitcheryBlocks.HAWTHORN_LEAVES.get(),
+            WitcheryBlocks.HAWTHORN_DOOR.get(),
+            WitcheryBlocks.HAWTHORN_TRAPDOOR.get(),
+            WitcheryBlocks.HAWTHORN_SAPLING.get(),
+            WitcheryBlocks.POTTED_HAWTHORN_SAPLING.get(),
             WitcheryBlocks.DISTILLERY.get()
         )
     }

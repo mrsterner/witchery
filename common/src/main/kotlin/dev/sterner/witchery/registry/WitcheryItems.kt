@@ -338,6 +338,160 @@ object WitcheryItems {
         CustomBoatItem(true, BoatTypeHelper.getRowanBoatType(), Item.Properties())
     }
 
+
+    val ALDER_LOG = ITEMS.register("alder_log") {
+        BlockItem(WitcheryBlocks.ALDER_LOG.get(), Item.Properties())
+    }
+
+    val ALDER_WOOD = ITEMS.register("alder_wood") {
+        BlockItem(WitcheryBlocks.ALDER_WOOD.get(), Item.Properties())
+    }
+
+    val STRIPPED_ALDER_LOG = ITEMS.register("stripped_alder_log") {
+        BlockItem(WitcheryBlocks.STRIPPED_ALDER_LOG.get(), Item.Properties())
+    }
+
+    val STRIPPED_ALDER_WOOD = ITEMS.register("stripped_alder_wood") {
+        BlockItem(WitcheryBlocks.STRIPPED_ALDER_WOOD.get(), Item.Properties())
+    }
+
+    val ALDER_LEAVES = ITEMS.register("alder_leaves") {
+        BlockItem(WitcheryBlocks.ALDER_LEAVES.get(), Item.Properties())
+    }
+
+    val ALDER_PLANKS = ITEMS.register("alder_planks") {
+        BlockItem(WitcheryBlocks.ALDER_PLANKS.get(), Item.Properties())
+    }
+
+    val ALDER_STAIRS = ITEMS.register("alder_stairs") {
+        BlockItem(WitcheryBlocks.ALDER_STAIRS.get(), Item.Properties())
+    }
+
+    val ALDER_SLAB = ITEMS.register("alder_slab") {
+        BlockItem(WitcheryBlocks.ALDER_SLAB.get(), Item.Properties())
+    }
+
+    val ALDER_FENCE = ITEMS.register("alder_fence") {
+        BlockItem(WitcheryBlocks.ALDER_FENCE.get(), Item.Properties())
+    }
+
+    val ALDER_FENCE_GATE = ITEMS.register("alder_fence_gate") {
+        BlockItem(WitcheryBlocks.ALDER_FENCE_GATE.get(), Item.Properties())
+    }
+
+    val ALDER_DOOR = ITEMS.register("alder_door") {
+        BlockItem(WitcheryBlocks.ALDER_DOOR.get(), Item.Properties())
+    }
+
+    val ALDER_TRAPDOOR = ITEMS.register("alder_trapdoor") {
+        BlockItem(WitcheryBlocks.ALDER_TRAPDOOR.get(), Item.Properties())
+    }
+
+    val ALDER_PRESSURE_PLATE = ITEMS.register("alder_pressure_plate") {
+        BlockItem(WitcheryBlocks.ALDER_PRESSURE_PLATE.get(), Item.Properties())
+    }
+
+    val ALDER_BUTTON = ITEMS.register("alder_button") {
+        BlockItem(WitcheryBlocks.ALDER_BUTTON.get(), Item.Properties())
+    }
+
+    val ALDER_SAPLING = ITEMS.register("alder_sapling") {
+        BlockItem(WitcheryBlocks.ALDER_SAPLING.get(), Item.Properties())
+    }
+
+    val ALDER_SIGN = ITEMS.register("alder_sign") {
+        SignItem(Item.Properties(), WitcheryBlocks.ALDER_SIGN.get(), WitcheryBlocks.ALDER_WALL_SIGN.get())
+    }
+
+    val ALDER_HANGING_SIGN = ITEMS.register("alder_hanging_sign") {
+        HangingSignItem(WitcheryBlocks.ALDER_HANGING_SIGN.get(), WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get(), Item.Properties())
+    }
+
+    val ALDER_BOAT = ITEMS.register("alder_boat") {
+        CustomBoatItem(false, BoatTypeHelper.getAlderBoatType(), Item.Properties())
+    }
+
+    val ALDER_CHEST_BOAT = ITEMS.register("alder_chest_boat") {
+        CustomBoatItem(true, BoatTypeHelper.getAlderBoatType(), Item.Properties())
+    }
+
+
+    val HAWTHORN_LOG = ITEMS.register("hawthorn_log") {
+        BlockItem(WitcheryBlocks.HAWTHORN_LOG.get(), Item.Properties())
+    }
+
+    val HAWTHORN_WOOD = ITEMS.register("hawthorn_wood") {
+        BlockItem(WitcheryBlocks.HAWTHORN_WOOD.get(), Item.Properties())
+    }
+
+    val STRIPPED_HAWTHORN_LOG = ITEMS.register("stripped_hawthorn_log") {
+        BlockItem(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get(), Item.Properties())
+    }
+
+    val STRIPPED_HAWTHORN_WOOD = ITEMS.register("stripped_hawthorn_wood") {
+        BlockItem(WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get(), Item.Properties())
+    }
+
+    val HAWTHORN_LEAVES = ITEMS.register("hawthorn_leaves") {
+        BlockItem(WitcheryBlocks.HAWTHORN_LEAVES.get(), Item.Properties())
+    }
+
+    val HAWTHORN_PLANKS = ITEMS.register("hawthorn_planks") {
+        BlockItem(WitcheryBlocks.HAWTHORN_PLANKS.get(), Item.Properties())
+    }
+
+    val HAWTHORN_STAIRS = ITEMS.register("hawthorn_stairs") {
+        BlockItem(WitcheryBlocks.HAWTHORN_STAIRS.get(), Item.Properties())
+    }
+
+    val HAWTHORN_SLAB = ITEMS.register("hawthorn_slab") {
+        BlockItem(WitcheryBlocks.HAWTHORN_SLAB.get(), Item.Properties())
+    }
+
+    val HAWTHORN_FENCE = ITEMS.register("hawthorn_fence") {
+        BlockItem(WitcheryBlocks.HAWTHORN_FENCE.get(), Item.Properties())
+    }
+
+    val HAWTHORN_FENCE_GATE = ITEMS.register("hawthorn_fence_gate") {
+        BlockItem(WitcheryBlocks.HAWTHORN_FENCE_GATE.get(), Item.Properties())
+    }
+
+    val HAWTHORN_DOOR = ITEMS.register("hawthorn_door") {
+        BlockItem(WitcheryBlocks.HAWTHORN_DOOR.get(), Item.Properties())
+    }
+
+    val HAWTHORN_TRAPDOOR = ITEMS.register("hawthorn_trapdoor") {
+        BlockItem(WitcheryBlocks.HAWTHORN_TRAPDOOR.get(), Item.Properties())
+    }
+
+    val HAWTHORN_PRESSURE_PLATE = ITEMS.register("hawthorn_pressure_plate") {
+        BlockItem(WitcheryBlocks.HAWTHORN_PRESSURE_PLATE.get(), Item.Properties())
+    }
+
+    val HAWTHORN_BUTTON = ITEMS.register("hawthorn_button") {
+        BlockItem(WitcheryBlocks.HAWTHORN_BUTTON.get(), Item.Properties())
+    }
+
+    val HAWTHORN_SAPLING = ITEMS.register("hawthorn_sapling") {
+        BlockItem(WitcheryBlocks.HAWTHORN_SAPLING.get(), Item.Properties())
+    }
+
+    val HAWTHORN_SIGN = ITEMS.register("hawthorn_sign") {
+        SignItem(Item.Properties(), WitcheryBlocks.HAWTHORN_SIGN.get(), WitcheryBlocks.HAWTHORN_WALL_SIGN.get())
+    }
+
+    val HAWTHORN_HANGING_SIGN = ITEMS.register("hawthorn_hanging_sign") {
+        HangingSignItem(WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(), WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get(), Item.Properties())
+    }
+
+    val HAWTHORN_BOAT = ITEMS.register("hawthorn_boat") {
+        CustomBoatItem(false, BoatTypeHelper.getHawthornBoatType(), Item.Properties())
+    }
+
+    val HAWTHORN_CHEST_BOAT = ITEMS.register("hawthorn_chest_boat") {
+        CustomBoatItem(true, BoatTypeHelper.getHawthornBoatType(), Item.Properties())
+    }
+
     // end WOOD
 
     // start AUGMENTS

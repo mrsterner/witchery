@@ -167,6 +167,158 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.ALDER_STAIRS.get(), 4)
+            .pattern("P  ")
+            .pattern("PP ")
+            .pattern("PPP")
+            .define('P', WitcheryItems.ALDER_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.ALDER_SLAB.get(), 6)
+            .pattern("PPP")
+            .define('P', WitcheryItems.ALDER_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.ALDER_FENCE.get(), 3)
+            .pattern("PSP")
+            .pattern("PSP")
+            .define('P', WitcheryItems.ALDER_PLANKS.get())
+            .define('S', Items.STICK)
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.ALDER_FENCE_GATE.get())
+            .pattern("SPS")
+            .pattern("SPS")
+            .define('P', WitcheryItems.ALDER_PLANKS.get())
+            .define('S', Items.STICK)
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.ALDER_PRESSURE_PLATE.get())
+            .pattern("PP")
+            .define('P', WitcheryItems.ALDER_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.ALDER_DOOR.get(), 3)
+            .pattern("PP")
+            .pattern("PP")
+            .pattern("PP")
+            .define('P', WitcheryItems.ALDER_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.ALDER_TRAPDOOR.get(), 2)
+            .pattern("PPP")
+            .pattern("PPP")
+            .define('P', WitcheryItems.ALDER_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, WitcheryItems.ALDER_SIGN.get(), 3)
+            .pattern("PPP")
+            .pattern("PPP")
+            .pattern(" S ")
+            .define('P', WitcheryItems.ALDER_PLANKS.get())
+            .define('S', Items.STICK)
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, WitcheryItems.ALDER_HANGING_SIGN.get(), 6)
+            .pattern("C C")
+            .pattern("LLL")
+            .pattern("LLL")
+            .define('C', WitcheryItems.STRIPPED_ALDER_LOG.get())
+            .define('L', Items.CHAIN)
+            .unlockedBy("has_logs", has(WitcheryItems.ALDER_LOG.get())) // Should be an ITEM tag tbh
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, WitcheryItems.ALDER_BOAT.get())
+            .pattern("P P")
+            .pattern("PPP")
+            .define('P', WitcheryItems.ALDER_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.HAWTHORN_STAIRS.get(), 4)
+            .pattern("P  ")
+            .pattern("PP ")
+            .pattern("PPP")
+            .define('P', WitcheryItems.HAWTHORN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.HAWTHORN_SLAB.get(), 6)
+            .pattern("PPP")
+            .define('P', WitcheryItems.HAWTHORN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.HAWTHORN_FENCE.get(), 3)
+            .pattern("PSP")
+            .pattern("PSP")
+            .define('P', WitcheryItems.HAWTHORN_PLANKS.get())
+            .define('S', Items.STICK)
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.HAWTHORN_FENCE_GATE.get())
+            .pattern("SPS")
+            .pattern("SPS")
+            .define('P', WitcheryItems.HAWTHORN_PLANKS.get())
+            .define('S', Items.STICK)
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.HAWTHORN_PRESSURE_PLATE.get())
+            .pattern("PP")
+            .define('P', WitcheryItems.HAWTHORN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.HAWTHORN_DOOR.get(), 3)
+            .pattern("PP")
+            .pattern("PP")
+            .pattern("PP")
+            .define('P', WitcheryItems.HAWTHORN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, WitcheryItems.HAWTHORN_TRAPDOOR.get(), 2)
+            .pattern("PPP")
+            .pattern("PPP")
+            .define('P', WitcheryItems.HAWTHORN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, WitcheryItems.HAWTHORN_SIGN.get(), 3)
+            .pattern("PPP")
+            .pattern("PPP")
+            .pattern(" S ")
+            .define('P', WitcheryItems.HAWTHORN_PLANKS.get())
+            .define('S', Items.STICK)
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, WitcheryItems.HAWTHORN_HANGING_SIGN.get(), 6)
+            .pattern("C C")
+            .pattern("LLL")
+            .pattern("LLL")
+            .define('C', WitcheryItems.STRIPPED_HAWTHORN_LOG.get())
+            .define('L', Items.CHAIN)
+            .unlockedBy("has_logs", has(WitcheryItems.HAWTHORN_LOG.get())) // Should be an ITEM tag tbh
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, WitcheryItems.HAWTHORN_BOAT.get())
+            .pattern("P P")
+            .pattern("PPP")
+            .define('P', WitcheryItems.HAWTHORN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
 
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())
@@ -200,6 +352,48 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .requires(WitcheryItems.ROWAN_BOAT.get())
             .requires(Items.CHEST)
             .unlockedBy("has_planks", has(WitcheryItems.ROWAN_PLANKS.get()))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.ALDER_PLANKS.get(), 4)
+            .requires(Ingredient.of(
+                WitcheryItems.ALDER_LOG.get(),
+                WitcheryItems.ALDER_WOOD.get(),
+                WitcheryItems.STRIPPED_ALDER_LOG.get(),
+                WitcheryItems.STRIPPED_ALDER_WOOD.get()
+            ))
+            .unlockedBy("has_logs", has(WitcheryItems.ALDER_LOG.get())) // Should be an ITEM tag tbh
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, WitcheryItems.ALDER_BUTTON.get())
+            .requires(WitcheryItems.ALDER_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TRANSPORTATION, WitcheryItems.ALDER_CHEST_BOAT.get())
+            .requires(WitcheryItems.ALDER_BOAT.get())
+            .requires(Items.CHEST)
+            .unlockedBy("has_planks", has(WitcheryItems.ALDER_PLANKS.get()))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, WitcheryItems.HAWTHORN_PLANKS.get(), 4)
+            .requires(Ingredient.of(
+                WitcheryItems.HAWTHORN_LOG.get(),
+                WitcheryItems.HAWTHORN_WOOD.get(),
+                WitcheryItems.STRIPPED_HAWTHORN_LOG.get(),
+                WitcheryItems.STRIPPED_HAWTHORN_WOOD.get()
+            ))
+            .unlockedBy("has_logs", has(WitcheryItems.HAWTHORN_LOG.get())) // Should be an ITEM tag tbh
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, WitcheryItems.HAWTHORN_BUTTON.get())
+            .requires(WitcheryItems.HAWTHORN_PLANKS.get())
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TRANSPORTATION, WitcheryItems.HAWTHORN_CHEST_BOAT.get())
+            .requires(WitcheryItems.HAWTHORN_BOAT.get())
+            .requires(Items.CHEST)
+            .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
             .save(exporter)
 
 

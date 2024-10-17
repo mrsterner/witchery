@@ -11,6 +11,8 @@ object WitcheryTags {
     val PLANTS = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "plants"))
 
     val ROWAN_LOGS = TagKey.create(Registries.BLOCK, Witchery.id("rowan_logs"))
+    val ALDER_LOGS = TagKey.create(Registries.BLOCK, Witchery.id("alder_logs"))
+    val HAWTHORN_LOGS = TagKey.create(Registries.BLOCK, Witchery.id("hawthorn_logs"))
     val LEAVES = TagKey.create(Registries.BLOCK, Witchery.id("leaves"))
     val BROWN_MUCHROOM = TagKey.create(Registries.BLOCK, Witchery.id("brown_mushroom"))
     val RED_MUSHROOM = TagKey.create(Registries.BLOCK, Witchery.id("red_mushroom"))

@@ -14,6 +14,10 @@ object EarlyRiser: Runnable {
         ClassTinkerers.enumBuilder(boatType, block, "Ljava/lang/String;")
             .addEnum("WITCHERY_ROWAN") {
                 arrayOf(BuiltInRegistries.BLOCK.get(Witchery.id("rowan_planks")), "rowan")
+            }.addEnum("WITCHERY_ALDER") {
+                arrayOf(BuiltInRegistries.BLOCK.get(Witchery.id("alder_planks")), "alder")
+            }.addEnum("WITCHERY_HAWTHORN") {
+                arrayOf(BuiltInRegistries.BLOCK.get(Witchery.id("hawthorn_planks")), "hawthorn")
             }.build()
     }
 }

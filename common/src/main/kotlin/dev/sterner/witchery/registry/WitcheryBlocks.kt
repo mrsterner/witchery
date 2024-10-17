@@ -207,6 +207,168 @@ object WitcheryBlocks {
     }
 
 
+    val STRIPPED_ALDER_LOG = BLOCKS.register("stripped_alder_log") {
+        RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
+    }
+
+    val ALDER_LOG = BLOCKS.register("alder_log", StrippableHelper.createStrippableLog(STRIPPED_ALDER_LOG,
+        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)))
+
+    val STRIPPED_ALDER_WOOD = BLOCKS.register("stripped_alder_wood") {
+        RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD))
+    }
+
+    val ALDER_WOOD = BLOCKS.register("alder_wood", StrippableHelper.createStrippableLog(STRIPPED_ALDER_WOOD,
+        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)))
+
+    val ALDER_LEAVES = BLOCKS.register("alder_leaves") {
+        LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES))
+    }
+
+    val ALDER_PLANKS = BLOCKS.register("alder_planks") {
+        Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS))
+    }
+
+    val ALDER_STAIRS = BLOCKS.register("alder_stairs") {
+        StairBlock(ALDER_PLANKS.orElseGet { Blocks.OAK_PLANKS }.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS))
+    }
+
+    val ALDER_SLAB = BLOCKS.register("alder_slab") {
+        SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB))
+    }
+
+    val ALDER_FENCE = BLOCKS.register("alder_fence") {
+        FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
+    }
+
+    val ALDER_WOOD_TYPE = WoodType.register(WoodType("$MODID:alder", BlockSetType.OAK))
+
+    val ALDER_FENCE_GATE = BLOCKS.register("alder_fence_gate") {
+        FenceGateBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
+    }
+
+    val ALDER_DOOR = BLOCKS.register("alder_door") {
+        DoorBlock(ALDER_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR))
+    }
+
+    val ALDER_TRAPDOOR = BLOCKS.register("alder_trapdoor") {
+        TrapDoorBlock(ALDER_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR))
+    }
+
+    val ALDER_PRESSURE_PLATE = BLOCKS.register("alder_pressure_plate") {
+        PressurePlateBlock(ALDER_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE))
+    }
+
+    val ALDER_BUTTON = BLOCKS.register("alder_button") {
+        ButtonBlock(ALDER_WOOD_TYPE.setType, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON))
+    }
+
+    val ALDER_SAPLING = BLOCKS.register("alder_sapling") {
+        SaplingBlock(WitcheryTreeGrowers.ALDER, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING))
+    }
+
+    val POTTED_ALDER_SAPLING = BLOCKS.register("potted_alder_sapling") {
+        FlowerPotBlock(ALDER_SAPLING.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING))
+    }
+
+    val ALDER_SIGN = BLOCKS.register("alder_sign") {
+        CustomStandingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN))
+    }
+
+    val ALDER_WALL_SIGN = BLOCKS.register("alder_wall_sign") {
+        CustomWallSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN))
+    }
+
+    val ALDER_HANGING_SIGN = BLOCKS.register("alder_hanging_sign") {
+        CustomCeilingHangingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN))
+    }
+
+    val ALDER_WALL_HANGING_SIGN = BLOCKS.register("alder_wall_hanging_sign") {
+        CustomWallHangingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN))
+    }
+
+
+    val STRIPPED_HAWTHORN_LOG = BLOCKS.register("stripped_hawthorn_log") {
+        RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
+    }
+
+    val HAWTHORN_LOG = BLOCKS.register("hawthorn_log", StrippableHelper.createStrippableLog(STRIPPED_HAWTHORN_LOG,
+        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)))
+
+    val STRIPPED_HAWTHORN_WOOD = BLOCKS.register("stripped_hawthorn_wood") {
+        RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD))
+    }
+
+    val HAWTHORN_WOOD = BLOCKS.register("hawthorn_wood", StrippableHelper.createStrippableLog(STRIPPED_HAWTHORN_WOOD,
+        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)))
+
+    val HAWTHORN_LEAVES = BLOCKS.register("hawthorn_leaves") {
+        LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES))
+    }
+
+    val HAWTHORN_PLANKS = BLOCKS.register("hawthorn_planks") {
+        Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS))
+    }
+
+    val HAWTHORN_STAIRS = BLOCKS.register("hawthorn_stairs") {
+        StairBlock(HAWTHORN_PLANKS.orElseGet { Blocks.OAK_PLANKS }.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS))
+    }
+
+    val HAWTHORN_SLAB = BLOCKS.register("hawthorn_slab") {
+        SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB))
+    }
+
+    val HAWTHORN_FENCE = BLOCKS.register("hawthorn_fence") {
+        FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
+    }
+
+    val HAWTHORN_WOOD_TYPE = WoodType.register(WoodType("$MODID:hawthorn", BlockSetType.OAK))
+
+    val HAWTHORN_FENCE_GATE = BLOCKS.register("hawthorn_fence_gate") {
+        FenceGateBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
+    }
+
+    val HAWTHORN_DOOR = BLOCKS.register("hawthorn_door") {
+        DoorBlock(HAWTHORN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR))
+    }
+
+    val HAWTHORN_TRAPDOOR = BLOCKS.register("hawthorn_trapdoor") {
+        TrapDoorBlock(HAWTHORN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR))
+    }
+
+    val HAWTHORN_PRESSURE_PLATE = BLOCKS.register("hawthorn_pressure_plate") {
+        PressurePlateBlock(HAWTHORN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE))
+    }
+
+    val HAWTHORN_BUTTON = BLOCKS.register("hawthorn_button") {
+        ButtonBlock(HAWTHORN_WOOD_TYPE.setType, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON))
+    }
+
+    val HAWTHORN_SAPLING = BLOCKS.register("hawthorn_sapling") {
+        SaplingBlock(WitcheryTreeGrowers.HAWTHORN, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING))
+    }
+
+    val POTTED_HAWTHORN_SAPLING = BLOCKS.register("potted_hawthorn_sapling") {
+        FlowerPotBlock(HAWTHORN_SAPLING.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING))
+    }
+
+    val HAWTHORN_SIGN = BLOCKS.register("hawthorn_sign") {
+        CustomStandingSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN))
+    }
+
+    val HAWTHORN_WALL_SIGN = BLOCKS.register("hawthorn_wall_sign") {
+        CustomWallSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN))
+    }
+
+    val HAWTHORN_HANGING_SIGN = BLOCKS.register("hawthorn_hanging_sign") {
+        CustomCeilingHangingSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN))
+    }
+
+    val HAWTHORN_WALL_HANGING_SIGN = BLOCKS.register("hawthorn_wall_hanging_sign") {
+        CustomWallHangingSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN))
+    }
+
+
 
     val GLINTWEED: RegistrySupplier<GlintweedBlock> = BLOCKS.register("glintweed") {
         GlintweedBlock(

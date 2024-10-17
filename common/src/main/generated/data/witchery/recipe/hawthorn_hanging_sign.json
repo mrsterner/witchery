@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "witchery:stripped_hawthorn_log"
+    },
+    "L": {
+      "item": "minecraft:chain"
+    }
+  },
+  "pattern": [
+    "C C",
+    "LLL",
+    "LLL"
+  ],
+  "result": {
+    "count": 6,
+    "id": "witchery:hawthorn_hanging_sign"
+  }
+}

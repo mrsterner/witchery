@@ -17,7 +17,9 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
 
         getOrCreateTagBuilder(WitcheryTags.LEAVES).add(
             WitcheryBlocks.ROWAN_LEAVES.get(),
-            WitcheryBlocks.ROWAN_BERRY_LEAVES.get()
+            WitcheryBlocks.ROWAN_BERRY_LEAVES.get(),
+            WitcheryBlocks.ALDER_LEAVES.get(),
+            WitcheryBlocks.HAWTHORN_LEAVES.get()
         )
 
         getOrCreateTagBuilder(WitcheryTags.ROWAN_LOGS).add(
@@ -25,6 +27,20 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             WitcheryBlocks.ROWAN_WOOD.get(),
             WitcheryBlocks.STRIPPED_ROWAN_LOG.get(),
             WitcheryBlocks.STRIPPED_ROWAN_WOOD.get()
+        )
+
+        getOrCreateTagBuilder(WitcheryTags.ALDER_LOGS).add(
+            WitcheryBlocks.ALDER_LOG.get(),
+            WitcheryBlocks.ALDER_WOOD.get(),
+            WitcheryBlocks.STRIPPED_ALDER_LOG.get(),
+            WitcheryBlocks.STRIPPED_ALDER_WOOD.get()
+        )
+
+        getOrCreateTagBuilder(WitcheryTags.HAWTHORN_LOGS).add(
+            WitcheryBlocks.HAWTHORN_LOG.get(),
+            WitcheryBlocks.HAWTHORN_WOOD.get(),
+            WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get(),
+            WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get()
         )
 
         getOrCreateTagBuilder(BlockTags.FLOWERS)
@@ -42,54 +58,101 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
 
         getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
             .addTag(WitcheryTags.ROWAN_LOGS)
+            .addTag(WitcheryTags.ALDER_LOGS)
+            .addTag(WitcheryTags.HAWTHORN_LOGS)
 
-        getOrCreateTagBuilder(BlockTags.WOODEN_FENCES)
-            .add(WitcheryBlocks.ROWAN_FENCE.get())
+        getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(
+            WitcheryBlocks.ROWAN_FENCE.get(),
+            WitcheryBlocks.ALDER_FENCE.get(),
+            WitcheryBlocks.HAWTHORN_FENCE.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.FENCE_GATES)
-            .add(WitcheryBlocks.ROWAN_FENCE_GATE.get())
+        getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(
+            WitcheryBlocks.ROWAN_FENCE_GATE.get(),
+            WitcheryBlocks.ALDER_FENCE_GATE.get(),
+            WitcheryBlocks.HAWTHORN_FENCE_GATE.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES)
-            .add(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get())
+        getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES).add(
+            WitcheryBlocks.ROWAN_PRESSURE_PLATE.get(),
+            WitcheryBlocks.ALDER_PRESSURE_PLATE.get(),
+            WitcheryBlocks.HAWTHORN_PRESSURE_PLATE.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.WOODEN_SLABS)
-            .add(WitcheryBlocks.ROWAN_SLAB.get())
+        getOrCreateTagBuilder(BlockTags.WOODEN_SLABS).add(
+            WitcheryBlocks.ROWAN_SLAB.get(),
+            WitcheryBlocks.ALDER_SLAB.get(),
+            WitcheryBlocks.HAWTHORN_SLAB.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.WOODEN_STAIRS)
-            .add(WitcheryBlocks.ROWAN_STAIRS.get())
+        getOrCreateTagBuilder(BlockTags.WOODEN_STAIRS).add(
+            WitcheryBlocks.ROWAN_STAIRS.get(),
+            WitcheryBlocks.ALDER_STAIRS.get(),
+            WitcheryBlocks.HAWTHORN_STAIRS.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS)
-            .add(WitcheryBlocks.ROWAN_BUTTON.get())
+        getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS).add(
+            WitcheryBlocks.ROWAN_BUTTON.get(),
+            WitcheryBlocks.ALDER_BUTTON.get(),
+            WitcheryBlocks.HAWTHORN_BUTTON.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.PLANKS)
-            .add(WitcheryBlocks.ROWAN_PLANKS.get())
+        getOrCreateTagBuilder(BlockTags.PLANKS).add(
+            WitcheryBlocks.ROWAN_PLANKS.get(),
+            WitcheryBlocks.ALDER_PLANKS.get(),
+            WitcheryBlocks.HAWTHORN_PLANKS.get()
+        )
 
         getOrCreateTagBuilder(BlockTags.LEAVES)
             .addTag(WitcheryTags.LEAVES)
 
-        getOrCreateTagBuilder(BlockTags.WOODEN_DOORS)
-            .add(WitcheryBlocks.ROWAN_DOOR.get())
+        getOrCreateTagBuilder(BlockTags.WOODEN_DOORS).add(
+            WitcheryBlocks.ROWAN_DOOR.get(),
+            WitcheryBlocks.ALDER_DOOR.get(),
+            WitcheryBlocks.HAWTHORN_DOOR.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS)
-            .add(WitcheryBlocks.ROWAN_TRAPDOOR.get())
+        getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS).add(
+            WitcheryBlocks.ROWAN_TRAPDOOR.get(),
+            WitcheryBlocks.ALDER_TRAPDOOR.get(),
+            WitcheryBlocks.HAWTHORN_TRAPDOOR.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.SAPLINGS)
-            .add(WitcheryBlocks.ROWAN_SAPLING.get())
+        getOrCreateTagBuilder(BlockTags.SAPLINGS).add(
+            WitcheryBlocks.ROWAN_SAPLING.get(),
+            WitcheryBlocks.ALDER_SAPLING.get(),
+            WitcheryBlocks.HAWTHORN_SAPLING.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.FLOWER_POTS)
-            .add(WitcheryBlocks.POTTED_ROWAN_SAPLING.get())
+        getOrCreateTagBuilder(BlockTags.FLOWER_POTS).add(
+            WitcheryBlocks.POTTED_ROWAN_SAPLING.get(),
+            WitcheryBlocks.POTTED_ALDER_SAPLING.get(),
+            WitcheryBlocks.POTTED_HAWTHORN_SAPLING.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.STANDING_SIGNS)
-            .add(WitcheryBlocks.ROWAN_SIGN.get())
+        getOrCreateTagBuilder(BlockTags.STANDING_SIGNS).add(
+            WitcheryBlocks.ROWAN_SIGN.get(),
+            WitcheryBlocks.ALDER_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_SIGN.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.WALL_SIGNS)
-            .add(WitcheryBlocks.ROWAN_WALL_SIGN.get())
+        getOrCreateTagBuilder(BlockTags.WALL_SIGNS).add(
+            WitcheryBlocks.ROWAN_WALL_SIGN.get(),
+            WitcheryBlocks.ALDER_WALL_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_WALL_SIGN.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.CEILING_HANGING_SIGNS)
-            .add(WitcheryBlocks.ROWAN_HANGING_SIGN.get())
+        getOrCreateTagBuilder(BlockTags.CEILING_HANGING_SIGNS).add(
+            WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
+            WitcheryBlocks.ALDER_HANGING_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_HANGING_SIGN.get()
+        )
 
-        getOrCreateTagBuilder(BlockTags.WALL_HANGING_SIGNS)
-            .add(WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get())
+        getOrCreateTagBuilder(BlockTags.WALL_HANGING_SIGNS).add(
+            WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(),
+            WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get()
+        )
 
 
         // Nature Grouping Tags

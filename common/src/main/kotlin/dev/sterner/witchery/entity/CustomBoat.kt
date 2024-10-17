@@ -23,6 +23,8 @@ class CustomBoat(type: EntityType<out Boat>, level: Level) : Boat(type, level) {
     override fun getDropItem(): Item {
         return when(this.variant) {
             BoatTypeHelper.getRowanBoatType() -> WitcheryItems.ROWAN_BOAT.get()
+            BoatTypeHelper.getAlderBoatType() -> WitcheryItems.ALDER_BOAT.get()
+            BoatTypeHelper.getHawthornBoatType() -> WitcheryItems.HAWTHORN_BOAT.get()
             else -> super.getDropItem()
         }
     }

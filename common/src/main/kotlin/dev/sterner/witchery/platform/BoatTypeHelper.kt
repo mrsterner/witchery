@@ -9,4 +9,16 @@ object BoatTypeHelper {
     fun getRowanBoatType(): Boat.Type {
         throw AssertionError()
     }
+
+    @JvmStatic
+    @ExpectPlatform
+    fun getAlderBoatType(): Boat.Type {
+        throw AssertionError()
+    }
+
+    @JvmStatic
+    @ExpectPlatform
+    fun getHawthornBoatType(): Boat.Type {
+        throw AssertionError()
+    }
 }

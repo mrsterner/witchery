@@ -20,55 +20,107 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.ROWAN_LOG.get(),
             WitcheryItems.ROWAN_WOOD.get(),
             WitcheryItems.STRIPPED_ROWAN_LOG.get(),
-            WitcheryItems.STRIPPED_ROWAN_WOOD.get()
+            WitcheryItems.STRIPPED_ROWAN_WOOD.get(),
+            WitcheryItems.ALDER_LOG.get(),
+            WitcheryItems.ALDER_WOOD.get(),
+            WitcheryItems.STRIPPED_ALDER_LOG.get(),
+            WitcheryItems.STRIPPED_ALDER_WOOD.get(),
+            WitcheryItems.HAWTHORN_LOG.get(),
+            WitcheryItems.HAWTHORN_WOOD.get(),
+            WitcheryItems.STRIPPED_HAWTHORN_LOG.get(),
+            WitcheryItems.STRIPPED_HAWTHORN_WOOD.get()
         )
 
-        getOrCreateTagBuilder(ItemTags.WOODEN_FENCES)
-            .add(WitcheryItems.ROWAN_FENCE.get())
+        getOrCreateTagBuilder(ItemTags.WOODEN_FENCES).add(
+            WitcheryItems.ROWAN_FENCE.get(),
+            WitcheryItems.ALDER_FENCE.get(),
+            WitcheryItems.HAWTHORN_FENCE.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.FENCE_GATES)
-            .add(WitcheryItems.ROWAN_FENCE_GATE.get())
+        getOrCreateTagBuilder(ItemTags.FENCE_GATES).add(
+            WitcheryItems.ROWAN_FENCE_GATE.get(),
+            WitcheryItems.ALDER_FENCE_GATE.get(),
+            WitcheryItems.HAWTHORN_FENCE_GATE.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES)
-            .add(WitcheryItems.ROWAN_PRESSURE_PLATE.get())
+        getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES).add(
+            WitcheryItems.ROWAN_PRESSURE_PLATE.get(),
+            WitcheryItems.ALDER_PRESSURE_PLATE.get(),
+            WitcheryItems.HAWTHORN_PRESSURE_PLATE.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.WOODEN_SLABS)
-            .add(WitcheryItems.ROWAN_SLAB.get())
+        getOrCreateTagBuilder(ItemTags.WOODEN_SLABS).add(
+            WitcheryItems.ROWAN_SLAB.get(),
+            WitcheryItems.ALDER_SLAB.get(),
+            WitcheryItems.HAWTHORN_SLAB.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS)
-            .add(WitcheryItems.ROWAN_STAIRS.get())
+        getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS).add(
+            WitcheryItems.ROWAN_STAIRS.get(),
+            WitcheryItems.ALDER_STAIRS.get(),
+            WitcheryItems.HAWTHORN_STAIRS.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS)
-            .add(WitcheryItems.ROWAN_BUTTON.get())
+        getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS).add(
+            WitcheryItems.ROWAN_BUTTON.get(),
+            WitcheryItems.ALDER_BUTTON.get(),
+            WitcheryItems.HAWTHORN_BUTTON.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.PLANKS)
-            .add(WitcheryItems.ROWAN_PLANKS.get())
+        getOrCreateTagBuilder(ItemTags.PLANKS).add(
+            WitcheryItems.ROWAN_PLANKS.get(),
+            WitcheryItems.ALDER_PLANKS.get(),
+            WitcheryItems.HAWTHORN_PLANKS.get()
+        )
 
         getOrCreateTagBuilder(ItemTags.LEAVES).add(
             WitcheryItems.ROWAN_LEAVES.get(),
-            WitcheryItems.ROWAN_BERRY_LEAVES.get()
+            WitcheryItems.ROWAN_BERRY_LEAVES.get(),
+            WitcheryItems.ALDER_LEAVES.get(),
+            WitcheryItems.HAWTHORN_LEAVES.get()
         )
 
-        getOrCreateTagBuilder(ItemTags.WOODEN_DOORS)
-            .add(WitcheryItems.ROWAN_DOOR.get())
+        getOrCreateTagBuilder(ItemTags.WOODEN_DOORS).add(
+            WitcheryItems.ROWAN_DOOR.get(),
+            WitcheryItems.ALDER_DOOR.get(),
+            WitcheryItems.HAWTHORN_DOOR.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS)
-            .add(WitcheryItems.ROWAN_TRAPDOOR.get())
+        getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS).add(
+            WitcheryItems.ROWAN_TRAPDOOR.get(),
+            WitcheryItems.ALDER_TRAPDOOR.get(),
+            WitcheryItems.HAWTHORN_TRAPDOOR.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.SAPLINGS)
-            .add(WitcheryItems.ROWAN_SAPLING.get())
+        getOrCreateTagBuilder(ItemTags.SAPLINGS).add(
+            WitcheryItems.ROWAN_SAPLING.get(),
+            WitcheryItems.ALDER_SAPLING.get(),
+            WitcheryItems.HAWTHORN_SAPLING.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.SIGNS)
-            .add(WitcheryItems.ROWAN_SIGN.get())
+        getOrCreateTagBuilder(ItemTags.SIGNS).add(
+            WitcheryItems.ROWAN_SIGN.get(),
+            WitcheryItems.ALDER_SIGN.get(),
+            WitcheryItems.HAWTHORN_SIGN.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.HANGING_SIGNS)
-            .add(WitcheryItems.ROWAN_HANGING_SIGN.get())
+        getOrCreateTagBuilder(ItemTags.HANGING_SIGNS).add(
+            WitcheryItems.ROWAN_HANGING_SIGN.get(),
+            WitcheryItems.ALDER_HANGING_SIGN.get(),
+            WitcheryItems.HAWTHORN_HANGING_SIGN.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.BOATS)
-            .add(WitcheryItems.ROWAN_BOAT.get())
+        getOrCreateTagBuilder(ItemTags.BOATS).add(
+            WitcheryItems.ROWAN_BOAT.get(),
+            WitcheryItems.ALDER_BOAT.get(),
+            WitcheryItems.HAWTHORN_BOAT.get()
+        )
 
-        getOrCreateTagBuilder(ItemTags.CHEST_BOATS)
-            .add(WitcheryItems.ROWAN_CHEST_BOAT.get())
+        getOrCreateTagBuilder(ItemTags.CHEST_BOATS).add(
+            WitcheryItems.ROWAN_CHEST_BOAT.get(),
+            WitcheryItems.ALDER_CHEST_BOAT.get(),
+            WitcheryItems.HAWTHORN_CHEST_BOAT.get()
+        )
 
         getOrCreateTagBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS).add(
             WitcheryItems.MANDRAKE_SEEDS.get(),

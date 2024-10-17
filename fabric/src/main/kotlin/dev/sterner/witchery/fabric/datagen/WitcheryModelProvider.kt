@@ -63,6 +63,66 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
             .recipeGroupPrefix("wooden")
             .recipeUnlockedBy("has_planks").family
         generator.family(rowanFamily.baseBlock).generateFor(rowanFamily)
+
+
+
+        generator.woodProvider(WitcheryBlocks.ALDER_LOG.get())
+            .logWithHorizontal(WitcheryBlocks.ALDER_LOG.get()).wood(WitcheryBlocks.ALDER_WOOD.get())
+
+        generator.woodProvider(WitcheryBlocks.STRIPPED_ALDER_LOG.get())
+            .logWithHorizontal(WitcheryBlocks.STRIPPED_ALDER_LOG.get()).wood(WitcheryBlocks.STRIPPED_ALDER_WOOD.get())
+
+        generator.createTrivialBlock(WitcheryBlocks.ALDER_LEAVES.get(), TexturedModel.LEAVES)
+
+        generator.createCrossBlock(WitcheryBlocks.ALDER_SAPLING.get(), BlockModelGenerators.TintState.NOT_TINTED)
+        generator.skipAutoItemBlock(WitcheryBlocks.ALDER_SAPLING.get())
+        generator.createSimpleFlatItemModel(WitcheryBlocks.ALDER_SAPLING.get())
+        generator.createNonTemplateModelBlock(WitcheryBlocks.POTTED_ALDER_SAPLING.get())
+        generator.createHangingSign(WitcheryBlocks.STRIPPED_ALDER_LOG.get(), WitcheryBlocks.ALDER_HANGING_SIGN.get(), WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get())
+
+        val alderFamily = BlockFamily.Builder(WitcheryBlocks.ALDER_PLANKS.get())
+            .stairs(WitcheryBlocks.ALDER_STAIRS.get())
+            .slab(WitcheryBlocks.ALDER_SLAB.get())
+            .fence(WitcheryBlocks.ALDER_FENCE.get())
+            .fenceGate(WitcheryBlocks.ALDER_FENCE_GATE.get())
+            .door(WitcheryBlocks.ALDER_DOOR.get())
+            .trapdoor(WitcheryBlocks.ALDER_TRAPDOOR.get())
+            .pressurePlate(WitcheryBlocks.ALDER_PRESSURE_PLATE.get())
+            .button(WitcheryBlocks.ALDER_BUTTON.get())
+            .sign(WitcheryBlocks.ALDER_SIGN.get(), WitcheryBlocks.ALDER_WALL_SIGN.get())
+            .recipeGroupPrefix("wooden")
+            .recipeUnlockedBy("has_planks").family
+        generator.family(alderFamily.baseBlock).generateFor(alderFamily)
+
+
+
+        generator.woodProvider(WitcheryBlocks.HAWTHORN_LOG.get())
+            .logWithHorizontal(WitcheryBlocks.HAWTHORN_LOG.get()).wood(WitcheryBlocks.HAWTHORN_WOOD.get())
+
+        generator.woodProvider(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get())
+            .logWithHorizontal(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get()).wood(WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get())
+
+        generator.createTrivialBlock(WitcheryBlocks.HAWTHORN_LEAVES.get(), TexturedModel.LEAVES)
+
+        generator.createCrossBlock(WitcheryBlocks.HAWTHORN_SAPLING.get(), BlockModelGenerators.TintState.NOT_TINTED)
+        generator.skipAutoItemBlock(WitcheryBlocks.HAWTHORN_SAPLING.get())
+        generator.createSimpleFlatItemModel(WitcheryBlocks.HAWTHORN_SAPLING.get())
+        generator.createNonTemplateModelBlock(WitcheryBlocks.POTTED_HAWTHORN_SAPLING.get())
+        generator.createHangingSign(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get(), WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(), WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get())
+
+        val hawthornFamily = BlockFamily.Builder(WitcheryBlocks.HAWTHORN_PLANKS.get())
+            .stairs(WitcheryBlocks.HAWTHORN_STAIRS.get())
+            .slab(WitcheryBlocks.HAWTHORN_SLAB.get())
+            .fence(WitcheryBlocks.HAWTHORN_FENCE.get())
+            .fenceGate(WitcheryBlocks.HAWTHORN_FENCE_GATE.get())
+            .door(WitcheryBlocks.HAWTHORN_DOOR.get())
+            .trapdoor(WitcheryBlocks.HAWTHORN_TRAPDOOR.get())
+            .pressurePlate(WitcheryBlocks.HAWTHORN_PRESSURE_PLATE.get())
+            .button(WitcheryBlocks.HAWTHORN_BUTTON.get())
+            .sign(WitcheryBlocks.HAWTHORN_SIGN.get(), WitcheryBlocks.HAWTHORN_WALL_SIGN.get())
+            .recipeGroupPrefix("wooden")
+            .recipeUnlockedBy("has_planks").family
+        generator.family(hawthornFamily.baseBlock).generateFor(hawthornFamily)
     }
 
 
@@ -148,5 +208,11 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
         genetaror.generateFlatItem(WitcheryItems.ROWAN_BOAT.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.ROWAN_CHEST_BOAT.get(), ModelTemplates.FLAT_ITEM)
+
+        genetaror.generateFlatItem(WitcheryItems.ALDER_BOAT.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.ALDER_CHEST_BOAT.get(), ModelTemplates.FLAT_ITEM)
+
+        genetaror.generateFlatItem(WitcheryItems.HAWTHORN_BOAT.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.HAWTHORN_CHEST_BOAT.get(), ModelTemplates.FLAT_ITEM)
     }
 }

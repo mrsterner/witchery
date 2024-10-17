@@ -23,6 +23,8 @@ class CustomChestBoat(type: EntityType<out Boat>, level: Level) : Boat(type, lev
     override fun getDropItem(): Item {
         return when(this.variant) {
             BoatTypeHelper.getRowanBoatType() -> WitcheryItems.ROWAN_CHEST_BOAT.get()
+            BoatTypeHelper.getAlderBoatType() -> WitcheryItems.ALDER_CHEST_BOAT.get()
+            BoatTypeHelper.getHawthornBoatType() -> WitcheryItems.HAWTHORN_CHEST_BOAT.get()
             else -> super.getDropItem()
         }
     }
