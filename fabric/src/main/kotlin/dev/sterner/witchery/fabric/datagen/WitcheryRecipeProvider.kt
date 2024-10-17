@@ -25,6 +25,7 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder
 import net.minecraft.tags.ItemTags
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
@@ -782,13 +783,70 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
         DistilleryCraftingRecipeBuilder.create()
-            .addInput(Items.NETHERITE_INGOT.defaultInstance)
-            .addInput(Items.APPLE.defaultInstance)
+            .addInput(WitcheryItems.FOUL_FUME.get().defaultInstance)
+            .addInput(WitcheryItems.WOOD_ASH.get().defaultInstance)
             .setAltarPower(5)
             .setCookingTime(100)
             .addOutput(WitcheryItems.OIL_OF_VITRIOL.get().defaultInstance)
-            .addOutput(WitcheryItems.BREATH_OF_THE_GODDESS.get().defaultInstance)
+            .addOutput(WitcheryItems.GYPSUM.get().defaultInstance)
+            .addOutput(Items.SLIME_BALL.defaultInstance)
+            .setJarConsumption(1)
+            .save(exporter)
+
+        DistilleryCraftingRecipeBuilder.create()
+            .addInput(WitcheryItems.BREATH_OF_THE_GODDESS.get().defaultInstance)
+            .addInput(Items.LAPIS_LAZULI.defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance)
+            .addOutput(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance)
+            .addOutput(Items.SLIME_BALL.defaultInstance)
+            .addOutput(WitcheryItems.FOUL_FUME.get().defaultInstance)
+            .setJarConsumption(3)
+            .save(exporter)
+
+        DistilleryCraftingRecipeBuilder.create()
+            .addInput(Items.ENDER_PEARL.defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.ENDER_DEW.get().defaultInstance, 2)
+            .addOutput(WitcheryItems.ENDER_DEW.get().defaultInstance, 2)
+            .addOutput(WitcheryItems.ENDER_DEW.get().defaultInstance, 1)
+            .addOutput(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance)
+            .setJarConsumption(6)
+            .save(exporter)
+
+        DistilleryCraftingRecipeBuilder.create()
+            .addInput(Items.BLAZE_POWDER.defaultInstance)
+            .addInput(Items.GUNPOWDER.defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.REEK_OF_MISFORTUNE.get().defaultInstance)
+            .addOutput(Items.GLOWSTONE_DUST.defaultInstance)
+            .addOutput(Items.GLOWSTONE_DUST.defaultInstance)
+            .setJarConsumption(1)
+            .save(exporter)
+
+        DistilleryCraftingRecipeBuilder.create()
+            .addInput(WitcheryItems.DEMON_HEART.get().defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.DEMONS_BLOOD.get().defaultInstance, 2)
+            .addOutput(WitcheryItems.DEMONS_BLOOD.get().defaultInstance, 2)
+            .addOutput(WitcheryItems.REFINED_EVIL.get().defaultInstance)
+            .setJarConsumption(4)
+            .save(exporter)
+
+        DistilleryCraftingRecipeBuilder.create()
+            .addInput(WitcheryItems.DEMON_HEART.get().defaultInstance)
+            .addInput(Items.NETHERRACK.defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.DEMONS_BLOOD.get().defaultInstance)
+            .addOutput(WitcheryItems.DEMONS_BLOOD.get().defaultInstance)
+            .addOutput(Items.SOUL_SAND.defaultInstance)
             .setJarConsumption(2)
             .save(exporter)
+
     }
 }

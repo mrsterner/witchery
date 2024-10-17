@@ -1,0 +1,30 @@
+{
+  "type": "witchery:distillery_crafting",
+  "altarPower": 5,
+  "cookingTime": 100,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "witchery:foul_fume"
+    },
+    {
+      "count": 1,
+      "id": "witchery:wood_ash"
+    }
+  ],
+  "jarConsumption": 1,
+  "outputItems": [
+    {
+      "count": 1,
+      "id": "witchery:oil_of_vitriol"
+    },
+    {
+      "count": 1,
+      "id": "witchery:gypsum"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:slime_ball"
+    }
+  ]
+}

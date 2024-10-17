@@ -112,6 +112,10 @@ object WitcheryItems {
     val GYPSUM: RegistrySupplier<Item> = ITEMS.register("gypsum") {
         Item(Item.Properties())
     }
+
+    val REFINED_EVIL: RegistrySupplier<Item> = ITEMS.register("refined_evil") {
+        Item(Item.Properties())
+    }
     //end RESOURCES
 
     //start JARS

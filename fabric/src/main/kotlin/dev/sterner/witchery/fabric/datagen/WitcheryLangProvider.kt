@@ -58,6 +58,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.GARLIC.get(), "Garlic")
         builder.add(WitcheryItems.WOLFSBANE_SEEDS.get(), "Wolfsbane Seeds")
         builder.add(WitcheryItems.TAGLOCK.get(), "Taglock")
+        builder.add(WitcheryItems.REFINED_EVIL.get(), "Refined Evil")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")

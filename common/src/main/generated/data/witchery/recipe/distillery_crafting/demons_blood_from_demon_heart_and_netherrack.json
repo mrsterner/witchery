@@ -5,22 +5,26 @@
   "inputItems": [
     {
       "count": 1,
-      "id": "minecraft:netherite_ingot"
+      "id": "witchery:demon_heart"
     },
     {
       "count": 1,
-      "id": "minecraft:apple"
+      "id": "minecraft:netherrack"
     }
   ],
   "jarConsumption": 2,
   "outputItems": [
     {
       "count": 1,
-      "id": "witchery:oil_of_vitriol"
+      "id": "witchery:demons_blood"
     },
     {
       "count": 1,
-      "id": "witchery:breath_of_the_goddess"
+      "id": "witchery:demons_blood"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:soul_sand"
     }
   ]
 }

@@ -2,10 +2,7 @@ package dev.sterner.witchery.registry
 
 import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.CustomBoat
-import dev.sterner.witchery.entity.CustomChestBoat
-import dev.sterner.witchery.entity.FloatingItemEntity
-import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.entity.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobCategory
@@ -23,6 +20,13 @@ object WitcheryEntityTypes {
         ).sized(0.5f, 0.5f).build(Witchery.id("mandrake").toString())
     }
 
+    val IMP = ENTITY_TYPES.register("imp") {
+        EntityType.Builder.of(
+            { _: EntityType<ImpEntity>, level: Level ->
+                ImpEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(0.35F, 0.6F).eyeHeight(0.36F).build(Witchery.id("imp").toString())
+    }
 
     val FLOATING_ITEM =
         ENTITY_TYPES.register(
