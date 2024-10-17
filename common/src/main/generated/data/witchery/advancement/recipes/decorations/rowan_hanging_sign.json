@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "witchery:rowan_log"
+            "items": "#witchery:rowan_logs"
           }
         ]
       },

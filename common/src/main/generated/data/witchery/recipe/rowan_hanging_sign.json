@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "C": {
-      "item": "witchery:stripped_rowan_log"
+      "item": "minecraft:chain"
     },
     "L": {
-      "item": "minecraft:chain"
+      "item": "witchery:stripped_rowan_log"
     }
   },
   "pattern": [

@@ -2,20 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    [
-      {
-        "item": "witchery:hawthorn_log"
-      },
-      {
-        "item": "witchery:hawthorn_wood"
-      },
-      {
-        "item": "witchery:stripped_hawthorn_log"
-      },
-      {
-        "item": "witchery:stripped_hawthorn_wood"
-      }
-    ]
+    {
+      "tag": "witchery:hawthorn_logs"
+    }
   ],
   "result": {
     "count": 4,

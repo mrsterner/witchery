@@ -6,7 +6,10 @@ import dev.sterner.witchery.registry.WitcheryTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.BlockTags
+import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Blocks
 import java.util.concurrent.CompletableFuture
 
@@ -41,6 +44,26 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             WitcheryBlocks.HAWTHORN_WOOD.get(),
             WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get(),
             WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get()
+        )
+
+        getOrCreateTagBuilder(WitcheryTags.CANDELABRAS).add(
+            WitcheryBlocks.IRON_CANDELABRA.get(),
+            WitcheryBlocks.WHITE_IRON_CANDELABRA.get(),
+            WitcheryBlocks.ORANGE_IRON_CANDELABRA.get(),
+            WitcheryBlocks.MAGENTA_IRON_CANDELABRA.get(),
+            WitcheryBlocks.LIGHT_BLUE_IRON_CANDELABRA.get(),
+            WitcheryBlocks.YELLOW_IRON_CANDELABRA.get(),
+            WitcheryBlocks.LIME_IRON_CANDELABRA.get(),
+            WitcheryBlocks.PINK_IRON_CANDELABRA.get(),
+            WitcheryBlocks.GRAY_IRON_CANDELABRA.get(),
+            WitcheryBlocks.LIGHT_GRAY_IRON_CANDELABRA.get(),
+            WitcheryBlocks.CYAN_IRON_CANDELABRA.get(),
+            WitcheryBlocks.PURPLE_IRON_CANDELABRA.get(),
+            WitcheryBlocks.BLUE_IRON_CANDELABRA.get(),
+            WitcheryBlocks.BROWN_IRON_CANDELABRA.get(),
+            WitcheryBlocks.GREEN_IRON_CANDELABRA.get(),
+            WitcheryBlocks.RED_IRON_CANDELABRA.get(),
+            WitcheryBlocks.BLACK_IRON_CANDELABRA.get()
         )
 
         getOrCreateTagBuilder(BlockTags.FLOWERS)
@@ -153,6 +176,61 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get(),
             WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get()
         )
+
+
+        // Common Tags
+
+
+        //getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed")))
+        //    .addTag(WitcheryTags.CANDELABRAS)
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/white")))
+            .add(WitcheryBlocks.WHITE_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/orange")))
+            .add(WitcheryBlocks.ORANGE_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/magenta")))
+            .add(WitcheryBlocks.MAGENTA_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/light_blue")))
+            .add(WitcheryBlocks.LIGHT_BLUE_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/yellow")))
+            .add(WitcheryBlocks.YELLOW_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/lime")))
+            .add(WitcheryBlocks.LIME_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/pink")))
+            .add(WitcheryBlocks.PINK_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/gray")))
+            .add(WitcheryBlocks.GRAY_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/light_gray")))
+            .add(WitcheryBlocks.LIGHT_GRAY_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/cyan")))
+            .add(WitcheryBlocks.CYAN_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/purple")))
+            .add(WitcheryBlocks.PURPLE_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/blue")))
+            .add(WitcheryBlocks.BLUE_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/brown")))
+            .add(WitcheryBlocks.BROWN_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/green")))
+            .add(WitcheryBlocks.GREEN_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/red")))
+            .add(WitcheryBlocks.RED_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/black")))
+            .add(WitcheryBlocks.BLACK_IRON_CANDELABRA.get())
 
 
         // Nature Grouping Tags

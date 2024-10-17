@@ -1,16 +1,7 @@
 {
   "values": [
-    "witchery:rowan_log",
-    "witchery:rowan_wood",
-    "witchery:stripped_rowan_log",
-    "witchery:stripped_rowan_wood",
-    "witchery:alder_log",
-    "witchery:alder_wood",
-    "witchery:stripped_alder_log",
-    "witchery:stripped_alder_wood",
-    "witchery:hawthorn_log",
-    "witchery:hawthorn_wood",
-    "witchery:stripped_hawthorn_log",
-    "witchery:stripped_hawthorn_wood"
+    "#witchery:rowan_logs",
+    "#witchery:alder_logs",
+    "#witchery:hawthorn_logs"
   ]
 }
