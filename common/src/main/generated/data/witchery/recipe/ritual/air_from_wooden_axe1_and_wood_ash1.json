@@ -10,7 +10,9 @@
     {
       "type": "end",
       "command": "time set midnight",
-      "context": "nothing"
+      "context": [
+        "nothing"
+      ]
     }
   ],
   "floatingItemOutput": false,

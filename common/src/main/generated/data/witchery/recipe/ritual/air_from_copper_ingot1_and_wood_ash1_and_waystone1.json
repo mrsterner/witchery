@@ -10,7 +10,9 @@
     {
       "type": "end",
       "command": "summon lightning_bolt {blockPos}",
-      "context": "blockpos"
+      "context": [
+        "blockpos"
+      ]
     }
   ],
   "floatingItemOutput": false,

@@ -10,7 +10,9 @@
     {
       "type": "end",
       "command": "tp {owner} {blockPos}",
-      "context": "blockpos"
+      "context": [
+        "blockpos"
+      ]
     }
   ],
   "floatingItemOutput": false,

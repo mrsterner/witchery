@@ -258,13 +258,11 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (cachedAltarPos == null && level is ServerLevel) {
-
             cachedAltarPos = getAltarPos(level as ServerLevel, blockPos)
             setChanged()
         }
 
         if (ritualRecipe == null && level != null) {
-
             val items: List<ItemEntity> =
                 pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }
             val entities: List<LivingEntity> = pPlayer.level()
@@ -272,6 +270,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             val recipes = level?.recipeManager?.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())
 
+            // Filter valid recipes based on items
             val validItemRecipes = recipes?.filter { recipe ->
                 val recipeItems = recipe.value.inputItems
                 recipeItems.all { recipeItem ->
@@ -279,31 +278,41 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
+            // Further filter by entities
             val validSacrificesAndItemsRecipe = validItemRecipes?.filter { recipe ->
                 val requiredSacrifices = recipe.value.inputEntities
-                requiredSacrifices.all { requiredEntity ->
+                requiredSacrifices.isEmpty() || requiredSacrifices.all { requiredEntity ->
                     entities.any { entity -> entity.type == requiredEntity }
                 }
             }
 
-            if (!validSacrificesAndItemsRecipe.isNullOrEmpty()
-                && validateRitualCircle(
-                    level!!,
-                    validSacrificesAndItemsRecipe[0].value
-                )
-                && hasEnoughAltarPower(level!!, validSacrificesAndItemsRecipe[0].value)
-                && hasCelestialCondition(level!!, validSacrificesAndItemsRecipe[0].value)
-            ) {
-                ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
-                ritualRecipe = validSacrificesAndItemsRecipe[0].value
-                shouldRun = true
-                shouldStartConsumingItems = true
-                setChanged()
-                level?.playSound(pPlayer, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
-                level?.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
+            // Sort by number of inputs (items + entities), picking the longest recipe
+            val sortedRecipes = validSacrificesAndItemsRecipe?.sortedByDescending { recipe ->
+                recipe.value.inputItems.size + recipe.value.inputEntities.size
+            }
+
+            // Ensure that there are valid recipes and check conditions
+            if (!sortedRecipes.isNullOrEmpty()) {
+                val selectedRecipe = sortedRecipes[0] // Pick the longest recipe
+                val hasValidCircle = validateRitualCircle(level!!, selectedRecipe.value)
+                val hasEnoughPower = hasEnoughAltarPower(level!!, selectedRecipe.value)
+                val meetsCelestialCondition = hasCelestialCondition(level!!, selectedRecipe.value)
+
+                if (hasValidCircle && hasEnoughPower && meetsCelestialCondition) {
+
+                    ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
+                    ritualRecipe = selectedRecipe.value
+                    shouldRun = true
+                    shouldStartConsumingItems = true
+                    setChanged()
+                    level?.playSound(pPlayer, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
+                    level?.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
+                } else {
+                    level?.playSound(pPlayer, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
+                    level?.playSound(null, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
+                }
             } else {
                 level?.playSound(pPlayer, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
-                level?.playSound(null, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
             }
         }
 

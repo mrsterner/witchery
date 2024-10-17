@@ -88,7 +88,7 @@ class RitualRecipe(
                 instance.group(
                     Codec.STRING.fieldOf("command").forGetter(CommandType::command),
                     Codec.STRING.fieldOf("type").forGetter(CommandType::type),
-                    CommandContext.CODEC.fieldOf("context").orElse(CommandContext.NOTHING).forGetter(CommandType::ctx)
+                    CommandContext.CODEC.listOf().fieldOf("context").orElse(listOf(CommandContext.NOTHING)).forGetter(CommandType::ctx)
                 ).apply(instance, ::CommandType)
             }
 
@@ -179,11 +179,19 @@ class RitualRecipe(
                 val commandTag = commandElement as CompoundTag
                 val command = commandTag.getString("command")
                 val commandType = commandTag.getString("type")
-                val commandCtx = commandTag.getString("ctx")
+                val commandCtxString = commandTag.getString("ctx")
 
+                // Split the context string by commas (or another delimiter) into a list
+                val commandContexts = commandCtxString.split(",").mapNotNull {
+                    try {
+                        CommandContext.valueOf(it.trim())
+                    } catch (e: IllegalArgumentException) {
+                        null
+                    }
+                }
 
-                if (command.isNotBlank() && commandType.isNotBlank() && commandCtx.isNotBlank()) {
-                    CommandType(command, commandType, CommandContext.valueOf(commandCtx))
+                if (command.isNotBlank() && commandType.isNotBlank() && commandContexts.isNotEmpty()) {
+                    CommandType(command, commandType, commandContexts)
                 } else {
                     null
                 }
@@ -276,11 +284,14 @@ class RitualRecipe(
                 commandsTag.add(CompoundTag().apply {
                     putString("command", command.command)
                     putString("type", command.type)
-                    putString("ctx", command.ctx.toString())
+
+                    val contextString = command.ctx.joinToString(",") { context -> context.name }
+                    putString("ctx", contextString)
                 })
             }
             tag.put("commands", commandsTag)
         }
+
 
         tag.putBoolean("isInfinite", isInfinite ?: false)
         tag.putBoolean("floatingItemOutput", floatingItemOutput ?: false)

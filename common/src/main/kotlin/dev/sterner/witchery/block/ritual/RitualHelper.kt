@@ -77,44 +77,69 @@ object RitualHelper {
         if (blockEntity.ritualRecipe != null) {
             for (commandType in blockEntity.ritualRecipe!!.commands) {
                 if (commandType.type == phase) {
-                    when (commandType.ctx) {
-                        CommandContext.NOTHING -> {
-                            runCommand(blockEntity, level, server, blockPos, commandType.command, null, null)
-                        }
+                    val commandListLength = commandType.ctx.size
+                    if (commandListLength == 1) {
+                        when (commandType.ctx[0]) {
+                            CommandContext.NOTHING -> {
+                                runCommand(blockEntity, level, server, blockPos, commandType.command, null, null)
+                            }
 
-                        CommandContext.PLAYER -> {
-                            val playerUuid = blockEntity.targetPlayer
-                            val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
-                            runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
-                        }
-
-                        CommandContext.PLAYER_OR_ENTITY -> {
-                            val playerUuid = blockEntity.targetPlayer
-                            val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
-                            if (player != null) {
+                            CommandContext.PLAYER -> {
+                                val playerUuid = blockEntity.targetPlayer
+                                val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
                                 runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
-                            } else {
+                            }
+
+                            CommandContext.PLAYER_OR_ENTITY -> {
+                                val playerUuid = blockEntity.targetPlayer
+                                val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
+                                if (player != null) {
+                                    runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
+                                } else {
+                                    val targetEntity = blockEntity.targetEntity
+                                    runCommand(
+                                        blockEntity,
+                                        level,
+                                        server,
+                                        blockPos,
+                                        commandType.command,
+                                        null,
+                                        targetEntity
+                                    )
+                                }
+                            }
+
+                            CommandContext.ENTITY -> {
                                 val targetEntity = blockEntity.targetEntity
-                                runCommand(
-                                    blockEntity,
-                                    level,
-                                    server,
-                                    blockPos,
-                                    commandType.command,
-                                    null,
-                                    targetEntity
-                                )
+                                runCommand(blockEntity, level, server, blockPos, commandType.command, null, targetEntity)
+                            }
+
+                            CommandContext.BLOCKPOS -> {
+                                val targetPos = blockEntity.targetPos
+                                if (targetPos != null) {
+                                    val dimensionLevel =
+                                        server?.getLevel(targetPos.dimension()) // Get the correct dimension's level
+                                    if (dimensionLevel != null) {
+                                        runCommand(
+                                            blockEntity,
+                                            dimensionLevel,
+                                            server,
+                                            targetPos.pos(),
+                                            commandType.command,
+                                            null,
+                                            null
+                                        )
+                                    }
+                                }
                             }
                         }
-
-                        CommandContext.ENTITY -> {
-                            val targetEntity = blockEntity.targetEntity
-                            runCommand(blockEntity, level, server, blockPos, commandType.command, null, targetEntity)
-                        }
-
-                        CommandContext.BLOCKPOS -> {
+                    } else if(commandListLength == 2){
+                        if (commandType.ctx.contains(CommandContext.PLAYER_OR_ENTITY) && commandType.ctx.contains(CommandContext.BLOCKPOS)) {
                             val targetPos = blockEntity.targetPos
                             if (targetPos != null) {
+                                val targetEntity = blockEntity.targetEntity
+                                val playerUuid = blockEntity.targetPlayer
+                                val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
                                 val dimensionLevel =
                                     server?.getLevel(targetPos.dimension()) // Get the correct dimension's level
                                 if (dimensionLevel != null) {
@@ -124,13 +149,14 @@ object RitualHelper {
                                         server,
                                         targetPos.pos(),
                                         commandType.command,
-                                        null,
-                                        null
+                                        player,
+                                        targetEntity
                                     )
                                 }
                             }
                         }
                     }
+
                 }
             }
         }

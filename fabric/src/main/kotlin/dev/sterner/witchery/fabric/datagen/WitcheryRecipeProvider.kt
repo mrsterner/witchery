@@ -734,6 +734,31 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
         RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.ENDER_DEW.get().defaultInstance)
+            .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
+            .addInputItem(WitcheryItems.TAGLOCK.get().defaultInstance)
+            .addInputItem(Items.IRON_INGOT.defaultInstance)
+            .addCommand(CommandType("tp {entity} {blockPos}", CommandType.END, listOf(CommandContext.PLAYER_OR_ENTITY, CommandContext.BLOCKPOS)))
+            .setTicks(20 * 2)
+            .setAltarPower(3000)
+            .pattern(
+                "___OOOOO___",
+                "__O_____O__",
+                "_O_______O_",
+                "O_________O",
+                "O_________O",
+                "O____G____O",
+                "O_________O",
+                "O_________O",
+                "_O_______O_",
+                "__O_____O__",
+                "___OOOOO___"
+            )
+            .define('O', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .save(exporter)
+
+        RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
             .addCommand(CommandType("tp {owner} {blockPos}", CommandType.END, CommandContext.BLOCKPOS))
             .setTicks(20)

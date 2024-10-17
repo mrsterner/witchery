@@ -122,13 +122,11 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         maxStackSize: Int
     ): Boolean {
         if (recipe == null) {
-            println("Recipe is null, cannot distill.")
             return false
         }
 
         val inputItems = recipe.value.inputItems
         val outputItems = recipe.value.outputItems
-        println("Attempting to distill with recipe: ${recipe.id} with inputs: $inputItems and outputs: $outputItems")
 
         consumeInputItems(items, inputItems, recipe.value)
 
@@ -144,22 +142,16 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val extraInputStack = items[SLOT_EXTRA_INPUT]
         val jarStack = items[SLOT_JAR]
 
-        println("Consuming inputs: Input1 = ${inputStack.count}, Input2 = ${extraInputStack.count}, Jar = ${jarStack.count}")
 
         if (ItemStack.isSameItemSameComponents(inputStack, inputItems[0]) && ItemStack.isSameItemSameComponents(extraInputStack, inputItems[1])) {
-            println("Matching input slots with inputs.")
             inputStack.shrink(inputItems[0].count)
             extraInputStack.shrink(inputItems[1].count)
         } else if (ItemStack.isSameItemSameComponents(inputStack, inputItems[1]) && ItemStack.isSameItemSameComponents(extraInputStack, inputItems[0])) {
-            println("Matching input slots reversed.")
             inputStack.shrink(inputItems[1].count)
             extraInputStack.shrink(inputItems[0].count)
-        } else {
-            println("Inputs do not match recipe requirements.")
         }
 
         jarStack.shrink(recipe.jarConsumption)
-        println("Jar consumed, remaining jar count: ${jarStack.count}")
     }
 
     private fun placeOutputItems(
@@ -169,20 +161,15 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     ): Boolean {
         val outputSlots = listOf(SLOT_RESULT_1, SLOT_RESULT_2, SLOT_RESULT_3, SLOT_RESULT_4).toMutableList()
 
-        println("Attempting to place output items: $outputItems into result slots.")
-
         for (outputItem in outputItems) {
             var placed = false
             for (slot in outputSlots) {
                 val resultSlot = items[slot]
-                println("Checking if output item ${outputItem.item} can fit into slot $slot with existing stack ${resultSlot.item} (Count: ${resultSlot.count})")
 
                 if (canFitInSlot(outputItem, resultSlot, maxStackSize)) {
                     if (resultSlot.isEmpty) {
-                        println("Slot $slot is empty. Placing output item ${outputItem.item}.")
                         items[slot] = outputItem.copy()
                     } else {
-                        println("Growing stack in slot $slot with ${outputItem.count} items.")
                         resultSlot.grow(outputItem.count)
                     }
                     placed = true
@@ -191,7 +178,6 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
 
             if (!placed) {
-                println("Failed to place output item ${outputItem.item}.")
                 return false
             }
         }

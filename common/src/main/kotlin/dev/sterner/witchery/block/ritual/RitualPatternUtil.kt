@@ -22,7 +22,6 @@ object RitualPatternUtil {
     ): Boolean {
         val size = pattern.size
         val halfSize = size / 2
-
         for (z in pattern.indices) {
             for (x in pattern[z].indices) {
                 val char = pattern[z][x]
