@@ -705,7 +705,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
         RitualRecipeBuilder.create()
-            .addInputItem(Items.WOODEN_SWORD.defaultInstance)
+            .addInputItem(Items.COPPER_INGOT.defaultInstance)
             .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
             .setAltarPower(1000)
             .setTicks(20)
@@ -724,7 +724,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
         RitualRecipeBuilder.create()
-            .addInputItem(Items.WOODEN_SWORD.defaultInstance)
+            .addInputItem(Items.COPPER_INGOT.defaultInstance)
             .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
             .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
             .setAltarPower(2000)
