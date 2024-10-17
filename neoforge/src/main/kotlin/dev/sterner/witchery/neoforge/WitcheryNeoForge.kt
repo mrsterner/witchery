@@ -5,6 +5,8 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.client.screen.AltarScreen
+import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.platform.neoforge.MutandisDataAttachmentImpl
 import dev.sterner.witchery.registry.*
@@ -86,6 +88,12 @@ object WitcheryNeoForge {
     private fun registerScreens(event: RegisterMenuScreensEvent) {
         event.register(WitcheryMenuTypes.OVEN_MENU_TYPE.get()) { arg, arg2, arg3 ->
             OvenScreen(arg, arg2, arg3)
+        }
+        event.register(WitcheryMenuTypes.ALTAR_MENU_TYPE.get()) { arg, arg2, arg3 ->
+            AltarScreen(arg, arg2, arg3)
+        }
+        event.register(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get()) { arg, arg2, arg3 ->
+            DistilleryScreen(arg, arg2, arg3)
         }
     }
 

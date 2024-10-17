@@ -13,7 +13,8 @@ import net.minecraft.world.item.ItemStack
 class DistilleryCraftingRecipeBuilder(
     private var inputItems: MutableList<ItemStack> = mutableListOf(),
     private var outputStack: MutableList<ItemStack> = mutableListOf(),
-    private val altarPower: Int = 0
+    private var altarPower: Int = 0,
+    private var cookingTime: Int = 0
 ) : WitcheryRecipeBuilder() {
 
     var order = 0
@@ -50,7 +51,13 @@ class DistilleryCraftingRecipeBuilder(
     }
 
     fun setAltarPower(power: Int): DistilleryCraftingRecipeBuilder {
-        return DistilleryCraftingRecipeBuilder(inputItems, outputStack, power)
+        this.altarPower = power
+        return this
+    }
+
+    fun setCookingTime(cookingTime: Int): DistilleryCraftingRecipeBuilder {
+        this.cookingTime = cookingTime
+        return this
     }
 
     override fun unlockedBy(name: String, criterion: Criterion<*>): DistilleryCraftingRecipeBuilder {
@@ -77,7 +84,7 @@ class DistilleryCraftingRecipeBuilder(
             builder.addCriterion(name, criterion)
         }
 
-        val cauldronCraftingRecipe = DistilleryCraftingRecipe(inputItems, outputStack, altarPower)
+        val cauldronCraftingRecipe = DistilleryCraftingRecipe(inputItems, outputStack, altarPower, cookingTime)
         recipeOutput.accept(
             suffixHash(id.withPrefix("distillery_crafting/"), inputItems),
             cauldronCraftingRecipe,

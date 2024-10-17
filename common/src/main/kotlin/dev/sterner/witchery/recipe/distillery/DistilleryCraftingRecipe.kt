@@ -21,7 +21,8 @@ import net.minecraft.world.level.Level
 class DistilleryCraftingRecipe(
     val inputItems: List<ItemStack>,
     val outputItems: List<ItemStack>,
-    val altarPower: Int
+    val altarPower: Int,
+    val cookingTime: Int
 ) :
     Recipe<MultipleItemRecipeInput> {
 
@@ -80,7 +81,8 @@ class DistilleryCraftingRecipe(
                     obj.group(
                         ItemStack.CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
                         ItemStack.CODEC.listOf().fieldOf("outputItems").forGetter { it.outputItems },
-                        Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower }
+                        Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
+                        Codec.INT.fieldOf("cookingTime").forGetter { recipe -> recipe.cookingTime }
                     ).apply(obj, ::DistilleryCraftingRecipe)
                 }
 
