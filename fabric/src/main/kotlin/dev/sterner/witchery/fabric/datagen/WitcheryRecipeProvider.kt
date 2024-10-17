@@ -10,6 +10,7 @@ import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipeBuilder
 import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import dev.sterner.witchery.ritual.PushMobsRitual
@@ -703,35 +704,32 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
         ).save(exporter)
 
 
-
-        //TODO remove
         RitualRecipeBuilder.create()
-            .addInputItem(Items.STICK.defaultInstance)
-            .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
-            .addInputEntity(EntityType.SHEEP)
-            .addOutputItem(Items.DIAMOND.defaultInstance)
-            .addCommand(CommandType("kill {entity}", CommandType.END, CommandContext.ENTITY))
+            .addInputItem(Items.ENDER_PEARL.defaultInstance)
+            .addInputItem(WitcheryItems.REFINED_EVIL.get().defaultInstance)
+            .addInputItem(WitcheryItems.DEMONS_BLOOD.get().defaultInstance)
+            .addInputItem(Items.AMETHYST_SHARD.defaultInstance)
+            .addOutputEntity(WitcheryEntityTypes.IMP.get())
             .setTicks(20 * 5)
+            .setAltarPower(5000)
             .pattern(
-                "____IIIIIII____",
-                "___I_______I___",
-                "__I__OOOOO__I__",
-                "_I__O_____O__I_",
-                "I__O__RRR__O__I",
-                "I_O__R___R__O_I",
-                "I_O_R_____R_O_I",
-                "I_O_R__G__R_O_I",
-                "I_O_R_____R_O_I",
-                "I_O__R___R__O_I",
-                "I__O__RRR__O__I",
-                "_I__O_____O__I_",
-                "__I__OOOOO__I__",
-                "___I_______I___",
-                "____IIIIIII____"
+                "_______________",
+                "_______________",
+                "_____OOOOO_____",
+                "____O_____O____",
+                "___O_______O___",
+                "__O_________O__",
+                "__O_________O__",
+                "__O____G____O__",
+                "__O_________O__",
+                "__O_________O__",
+                "___O_______O___",
+                "____O_____O____",
+                "_____OOOOO_____",
+                "_______________",
+                "_______________"
             )
-            .define('R', Blocks.SHROOMLIGHT)
-            .define('I', WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
-            .define('O', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .define('O', WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
             .save(exporter)
 
