@@ -23,6 +23,7 @@ import net.minecraft.data.recipes.RecipeProvider
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.data.recipes.ShapelessRecipeBuilder
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder
+import net.minecraft.tags.ItemTags
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
@@ -608,6 +609,16 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             Ingredient.of(WitcheryItems.JAR.get()),
             WitcheryItems.WOOD_ASH.get().defaultInstance,
             WitcheryItems.HINT_OF_REBIRTH.get().defaultInstance,
+            0.5f,
+            0.5f,
+            85
+        ).save(exporter)
+
+        OvenCookingRecipeBuilder(
+            Ingredient.of(ItemTags.LOGS),
+            Ingredient.of(WitcheryItems.JAR.get()),
+            WitcheryItems.WOOD_ASH.get().defaultInstance,
+            WitcheryItems.FOUL_FUME.get().defaultInstance,
             0.5f,
             0.5f,
             85
