@@ -245,7 +245,8 @@ object Witchery {
             WitcheryBlocks.HAWTHORN_TRAPDOOR.get(),
             WitcheryBlocks.HAWTHORN_SAPLING.get(),
             WitcheryBlocks.POTTED_HAWTHORN_SAPLING.get(),
-            WitcheryBlocks.DISTILLERY.get()
+            WitcheryBlocks.DISTILLERY.get(),
+            WitcheryBlocks.DEMON_HEART.get()
         )
     }
 

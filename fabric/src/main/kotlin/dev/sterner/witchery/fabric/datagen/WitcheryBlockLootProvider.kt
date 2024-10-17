@@ -26,6 +26,7 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
         dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN.get())
         dropSelf(WitcheryBlocks.DISTILLERY.get())
+        dropSelf(WitcheryBlocks.DEMON_HEART.get())
 
         dropSelf(WitcheryBlocks.IRON_CANDELABRA.get())
         dropSelf(WitcheryBlocks.WHITE_IRON_CANDELABRA.get())

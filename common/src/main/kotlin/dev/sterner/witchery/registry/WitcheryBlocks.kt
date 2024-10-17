@@ -139,7 +139,9 @@ object WitcheryBlocks {
         )
     }
 
-
+    val DEMON_HEART = BLOCKS.register("demon_heart") {
+        DemonHeartBlock(BlockBehaviour.Properties.of())
+    }
 
     val STRIPPED_ROWAN_LOG = BLOCKS.register("stripped_rowan_log") {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))

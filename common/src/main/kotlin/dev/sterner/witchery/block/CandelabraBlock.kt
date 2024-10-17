@@ -56,16 +56,6 @@ class CandelabraBlock(properties: Properties) : AbstractCandleBlock(properties.n
         Vec3(0.5, 1.0, 0.2)
     )
 
-    /*override fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: RandomSource) {
-        if (state.getValue(BlockStateProperties.LIT)) {
-            level.addParticle(ParticleTypes.SMALL_FLAME, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5, 0.0, 0.0, 0.0)
-            level.addParticle(ParticleTypes.SMALL_FLAME, pos.x + 0.2, pos.y + 0.9, pos.z + 0.5, 0.0, 0.0, 0.0)
-            level.addParticle(ParticleTypes.SMALL_FLAME, pos.x + 0.8, pos.y + 0.9, pos.z + 0.5, 0.0, 0.0, 0.0)
-            level.addParticle(ParticleTypes.SMALL_FLAME, pos.x + 0.5, pos.y + 0.9, pos.z + 0.8, 0.0, 0.0, 0.0)
-            level.addParticle(ParticleTypes.SMALL_FLAME, pos.x + 0.5, pos.y + 0.9, pos.z + 0.2, 0.0, 0.0, 0.0)
-        }
-    }*/
-
     override fun useItemOn(
         stack: ItemStack,
         state: BlockState,
