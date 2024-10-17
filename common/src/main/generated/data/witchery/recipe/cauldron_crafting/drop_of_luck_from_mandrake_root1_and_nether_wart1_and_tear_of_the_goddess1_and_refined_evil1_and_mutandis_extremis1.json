@@ -3,42 +3,50 @@
   "altarPower": 100,
   "inputItems": [
     {
-      "color": 123456,
+      "color": -10210766,
       "itemStack": {
         "count": 1,
-        "id": "minecraft:nether_wart"
+        "id": "witchery:mandrake_root"
       },
       "order": 0
     },
     {
-      "color": 654321,
+      "color": -52686,
       "itemStack": {
         "count": 1,
-        "id": "witchery:tear_of_the_goddess"
+        "id": "minecraft:nether_wart"
       },
       "order": 1
     },
     {
-      "color": 321654,
+      "color": -13159686,
       "itemStack": {
         "count": 1,
-        "id": "minecraft:ender_pearl"
+        "id": "witchery:tear_of_the_goddess"
       },
       "order": 2
     },
     {
-      "color": 654321,
+      "color": -15461356,
       "itemStack": {
         "count": 1,
-        "id": "witchery:ritual_chalk"
+        "id": "witchery:refined_evil"
       },
       "order": 3
+    },
+    {
+      "color": -13495276,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:mutandis_extremis"
+      },
+      "order": 4
     }
   ],
   "outputItems": [
     {
       "count": 1,
-      "id": "witchery:otherwhere_chalk"
+      "id": "witchery:drop_of_luck"
     }
   ]
 }

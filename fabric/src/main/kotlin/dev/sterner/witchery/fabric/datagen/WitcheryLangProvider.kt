@@ -59,6 +59,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.WOLFSBANE_SEEDS.get(), "Wolfsbane Seeds")
         builder.add(WitcheryItems.TAGLOCK.get(), "Taglock")
         builder.add(WitcheryItems.REFINED_EVIL.get(), "Refined Evil")
+        builder.add(WitcheryItems.REDSTONE_SOUP.get(), "Redstone Soup")
+        builder.add(WitcheryItems.TONGUE_OF_DOG.get(), "Tongue of Dog")
+        builder.add(WitcheryItems.WOOL_OF_BAT.get(), "Wool of Bat")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")

@@ -32,6 +32,7 @@ import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.ShapedRecipe
 import net.minecraft.world.item.crafting.ShapelessRecipe
 import net.minecraft.world.level.block.Blocks
+import java.awt.Color
 import java.util.concurrent.CompletableFuture
 import kotlin.math.exp
 
@@ -42,9 +43,13 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         //TODO remove
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(Items.APPLE.defaultInstance, 10257594)
-            .addInputWithColor(Items.SUGAR.defaultInstance, 16755227)
-            .setOutput(Items.HONEY_BOTTLE.defaultInstance)
+            .addInputWithColor(Items.REDSTONE.defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(WitcheryItems.DROP_OF_LUCK.get().defaultInstance, Color(50,50,50).rgb)
+            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(150,50,50).rgb)
+            .addInputWithColor(WitcheryItems.TONGUE_OF_DOG.get().defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(WitcheryItems.BELLADONNA_FLOWER.get().defaultInstance, Color(255,50,170).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(255,50,50).rgb)
+            .setOutput(WitcheryItems.REDSTONE_SOUP.get().defaultInstance)
             .setAltarPower(100)
             .save(exporter)
 
@@ -499,7 +504,29 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_black_dye", has(Items.BLACK_DYE))
             .save(exporter)
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 6)
+            .requires(WitcheryItems.WOOD_ASH.get(), 6)
+            .requires(Items.BONE, 1)
+            .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
+            .save(exporter, "witchery:bone_meal_6")
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 7)
+            .requires(WitcheryItems.WOOD_ASH.get(), 8)
+            .requires(Items.BONE, 1)
+            .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
+            .save(exporter,"witchery:bone_meal_7")
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 5)
+            .requires(WitcheryItems.WOOD_ASH.get(), 4)
+            .requires(Items.BONE, 1)
+            .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
+            .save(exporter,"witchery:bone_meal_5")
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 4)
+            .requires(WitcheryItems.WOOD_ASH.get(), 2)
+            .requires(Items.BONE, 1)
+            .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
+            .save(exporter,"witchery:bone_meal_4")
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(WitcheryItems.CLAY_JAR.get()),
             RecipeCategory.MISC, WitcheryItems.JAR.get(), 0.3f, 200)
@@ -509,51 +536,71 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, 123456)
-            .addInputWithColor(Items.GOLD_NUGGET.defaultInstance, 654321)
-            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, 321654)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
+            .addInputWithColor(Items.GOLD_NUGGET.defaultInstance, Color(255,255,50).rgb)
+            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, Color(255,255,255).rgb)
             .addOutput(WitcheryItems.GOLDEN_CHALK.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
             .save(exporter)
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART.defaultInstance, 123456)
-            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, 654321)
-            .addInputWithColor(Items.ENDER_PEARL.defaultInstance, 321654)
-            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, 654321)
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, Color(105,50,250).rgb)
+            .addInputWithColor(Items.ENDER_PEARL.defaultInstance, Color(50,150,150).rgb)
+            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, Color(255,255,255).rgb)
             .addOutput(WitcheryItems.OTHERWHERE_CHALK.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
             .save(exporter)
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART.defaultInstance, 123456)
-            .addInputWithColor(Items.BLAZE_POWDER.defaultInstance, 654321)
-            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, 654321)
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(Items.BLAZE_POWDER.defaultInstance, Color(205,200,10).rgb)
+            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance,  Color(200,200,200).rgb)
             .addOutput(WitcheryItems.INFERNAL_CHALK.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
             .save(exporter)
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, 123456)
-            .addInputWithColor(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get().defaultInstance, 654321)
-            .addInputWithColor(Items.EGG.defaultInstance, 654321)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
+            .addInputWithColor(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get().defaultInstance, Color(100,150,50).rgb)
+            .addInputWithColor(Items.EGG.defaultInstance, Color(150,150,50).rgb)
             .addOutput(WitcheryItems.MUTANDIS.get().defaultInstance, 4)
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
             .save(exporter)
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART.defaultInstance, 123456)
-            .addInputWithColor(WitcheryItems.MUTANDIS.get().defaultInstance, 654321)
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(WitcheryItems.MUTANDIS.get().defaultInstance, Color(155,150,50).rgb)
             .addOutput(WitcheryItems.MUTANDIS_EXTREMIS.get())
+            .setAltarPower(100)
+            .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
+            .save(exporter)
+
+        CauldronCraftingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, Color(55,50,250).rgb)
+            .addInputWithColor(WitcheryItems.REFINED_EVIL.get().defaultInstance, Color(20,20,20).rgb)
+            .addInputWithColor(WitcheryItems.MUTANDIS_EXTREMIS.get().defaultInstance, Color(50,20,20).rgb)
+            .addOutput(WitcheryItems.DROP_OF_LUCK.get())
+            .setAltarPower(100)
+            .unlockedBy("has_refined_evil", has(WitcheryItems.REFINED_EVIL.get()))
+            .save(exporter)
+
+        CauldronCraftingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
+            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, Color(100,150,150).rgb)
+            .addInputWithColor(Items.ENDER_PEARL.defaultInstance, Color(50,150,150).rgb)
+            .addInputWithColor(Items.WHEAT.defaultInstance, Color(150,150,50).rgb)
+            .addInputWithColor(WitcheryItems.MUTANDIS.get().defaultInstance, Color(150,190,50).rgb)
+            .addOutput(Items.NETHER_WART.defaultInstance, 1)
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
             .save(exporter)
-
-
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.OAK_SAPLING),

@@ -3,34 +3,34 @@
   "altarPower": 100,
   "inputItems": [
     {
-      "color": 123456,
+      "color": -10210766,
       "itemStack": {
         "count": 1,
-        "id": "minecraft:nether_wart"
+        "id": "witchery:mandrake_root"
       },
       "order": 0
     },
     {
-      "color": 654321,
+      "color": -10185166,
       "itemStack": {
         "count": 1,
-        "id": "minecraft:blaze_powder"
+        "id": "witchery:exhale_of_the_horned_one"
       },
       "order": 1
     },
     {
-      "color": 654321,
+      "color": -6908366,
       "itemStack": {
         "count": 1,
-        "id": "witchery:ritual_chalk"
+        "id": "minecraft:egg"
       },
       "order": 2
     }
   ],
   "outputItems": [
     {
-      "count": 1,
-      "id": "witchery:infernal_chalk"
+      "count": 4,
+      "id": "witchery:mutandis"
     }
   ]
 }

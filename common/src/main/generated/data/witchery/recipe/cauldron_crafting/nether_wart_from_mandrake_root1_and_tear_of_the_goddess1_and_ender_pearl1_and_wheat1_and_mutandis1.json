@@ -1,0 +1,52 @@
+{
+  "type": "witchery:cauldron_crafting",
+  "altarPower": 100,
+  "inputItems": [
+    {
+      "color": -10210766,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:mandrake_root"
+      },
+      "order": 0
+    },
+    {
+      "color": -10185066,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:tear_of_the_goddess"
+      },
+      "order": 1
+    },
+    {
+      "color": -13461866,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:ender_pearl"
+      },
+      "order": 2
+    },
+    {
+      "color": -6908366,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:wheat"
+      },
+      "order": 3
+    },
+    {
+      "color": -6898126,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:mutandis"
+      },
+      "order": 4
+    }
+  ],
+  "outputItems": [
+    {
+      "count": 1,
+      "id": "minecraft:nether_wart"
+    }
+  ]
+}

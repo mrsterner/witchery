@@ -11,9 +11,9 @@ abstract class WitcheryRecipeBuilder : RecipeBuilder {
 
         itemStack.forEachIndexed { index, item ->
             val suffix = if (index == 0) {
-                "_from_${item.item.`arch$registryName`()!!.path}"
+                "_from_${item.item.`arch$registryName`()!!.path}${item.count}"
             } else {
-                "_and_${item.item.`arch$registryName`()!!.path}"
+                "_and_${item.item.`arch$registryName`()!!.path}${item.count}"
             }
             hashedId = hashedId.withSuffix(suffix)
         }

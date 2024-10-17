@@ -116,6 +116,18 @@ object WitcheryItems {
     val REFINED_EVIL: RegistrySupplier<Item> = ITEMS.register("refined_evil") {
         Item(Item.Properties())
     }
+
+    val WOOL_OF_BAT: RegistrySupplier<Item> = ITEMS.register("wool_of_bat") {
+        Item(Item.Properties())
+    }
+
+    val TONGUE_OF_DOG: RegistrySupplier<Item> = ITEMS.register("tongue_of_dog") {
+        Item(Item.Properties())
+    }
+
+    val REDSTONE_SOUP: RegistrySupplier<Item> = ITEMS.register("redstone_soup") {
+        Item(Item.Properties())
+    }
     //end RESOURCES
 
     //start JARS

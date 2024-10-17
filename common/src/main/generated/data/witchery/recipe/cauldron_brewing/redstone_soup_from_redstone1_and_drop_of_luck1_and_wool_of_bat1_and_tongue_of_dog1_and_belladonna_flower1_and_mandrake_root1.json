@@ -1,0 +1,58 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "altarPower": 100,
+  "inputItems": [
+    {
+      "color": -52686,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:redstone"
+      },
+      "order": 0
+    },
+    {
+      "color": -13487566,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:drop_of_luck"
+      },
+      "order": 1
+    },
+    {
+      "color": -6933966,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:wool_of_bat"
+      },
+      "order": 2
+    },
+    {
+      "color": -52686,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:tongue_of_dog"
+      },
+      "order": 3
+    },
+    {
+      "color": -52566,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:belladonna_flower"
+      },
+      "order": 4
+    },
+    {
+      "color": -52686,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:mandrake_root"
+      },
+      "order": 5
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:redstone_soup"
+  }
+}

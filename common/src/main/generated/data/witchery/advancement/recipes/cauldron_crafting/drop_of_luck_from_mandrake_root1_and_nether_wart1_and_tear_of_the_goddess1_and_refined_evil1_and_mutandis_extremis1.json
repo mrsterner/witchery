@@ -3,15 +3,15 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:mutandis_extremis"
+        "recipe": "witchery:drop_of_luck"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_ritual_chalk": {
+    "has_refined_evil": {
       "conditions": {
         "items": [
           {
-            "items": "witchery:mandrake_root"
+            "items": "witchery:refined_evil"
           }
         ]
       },
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_recipe",
-      "has_ritual_chalk"
+      "has_refined_evil"
     ]
   ],
   "rewards": {
     "recipes": [
-      "witchery:mutandis_extremis"
+      "witchery:drop_of_luck"
     ]
   }
 }
