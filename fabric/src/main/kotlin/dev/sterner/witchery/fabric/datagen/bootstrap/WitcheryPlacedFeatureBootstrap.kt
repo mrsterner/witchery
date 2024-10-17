@@ -14,7 +14,7 @@ object WitcheryPlacedFeatureBootstrap {
         val configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE)
 
         context.register(ROWAN_PLACED_KEY, PlacedFeature(configuredFeatures.getOrThrow(ROWAN_KEY),
-            VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
+            VegetationPlacements.treePlacement(PlacementUtils.countExtra(2, 0.1f, 2),
                 WitcheryBlocks.ROWAN_SAPLING.get()).toList()
         ))
     }

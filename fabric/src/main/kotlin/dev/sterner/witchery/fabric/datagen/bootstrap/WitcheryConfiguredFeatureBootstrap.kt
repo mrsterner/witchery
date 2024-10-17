@@ -20,11 +20,12 @@ object WitcheryConfiguredFeatureBootstrap {
         bootstrapContext.register(ROWAN_KEY, ConfiguredFeature(
             Feature.TREE, TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(WitcheryBlocks.ROWAN_LOG.get()),
-                StraightTrunkPlacer(5, 4, 3),
+                StraightTrunkPlacer(5, 2, 0),
                 WeightedStateProvider(SimpleWeightedRandomList.builder<BlockState>()
                     .add(WitcheryBlocks.ROWAN_LEAVES.get().defaultBlockState())
+                    .add(WitcheryBlocks.ROWAN_LEAVES.get().defaultBlockState())
                     .add(WitcheryBlocks.ROWAN_BERRY_LEAVES.get().defaultBlockState()).build()),
-                BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 4),
-                TwoLayersFeatureSize(1, 0, 2)).build()))
+                BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), 3),
+                TwoLayersFeatureSize(1, 0, 1)).build()))
     }
 }

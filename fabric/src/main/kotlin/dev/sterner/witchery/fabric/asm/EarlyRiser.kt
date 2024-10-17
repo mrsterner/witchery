@@ -13,7 +13,7 @@ object EarlyRiser: Runnable {
         val block = "L${remapper.mapClassName("intermediary", "net.minecraft.class_2248")};"
         ClassTinkerers.enumBuilder(boatType, block, "Ljava/lang/String;")
             .addEnum("WITCHERY_ROWAN") {
-                arrayOf(BuiltInRegistries.BLOCK.get(Witchery.id("rowan_planks")), "witchery_rowan")
+                arrayOf(BuiltInRegistries.BLOCK.get(Witchery.id("rowan_planks")), "rowan")
             }.build()
     }
 }
