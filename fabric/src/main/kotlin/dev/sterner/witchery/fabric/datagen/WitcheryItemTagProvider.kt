@@ -1,6 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.architectury.platform.Platform
+import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -141,7 +142,28 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.WORMWOOD_SEEDS.get()
         )
 
-        // NeoForge Tag
+        getOrCreateTagBuilder(ItemTags.BOOKSHELF_BOOKS).add(
+            WitcheryItems.GUIDEBOOK.get()
+        )
+
+        getOrCreateTagBuilder(ItemTags.LECTERN_BOOKS).add(
+            WitcheryItems.GUIDEBOOK.get()
+        )
+
+        getOrCreateTagBuilder(ItemTags.PARROT_FOOD).add(
+            WitcheryItems.MANDRAKE_SEEDS.get(),
+            WitcheryItems.BELLADONNA_SEEDS.get(),
+            WitcheryItems.SNOWBELL_SEEDS.get(),
+            WitcheryItems.WATER_ARTICHOKE_SEEDS.get(),
+            WitcheryItems.GARLIC.get(),
+            WitcheryItems.WOLFSBANE_SEEDS.get(),
+            WitcheryItems.WORMWOOD_SEEDS.get()
+        )
+
+        getOrCreateTagBuilder(ItemTags.PIGLIN_LOVED).add(
+            WitcheryItems.GOLDEN_CHALK.get()
+        )
+
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "seeds"))).add(
             WitcheryItems.MANDRAKE_SEEDS.get(),
             WitcheryItems.BELLADONNA_SEEDS.get(),
@@ -174,26 +196,72 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.OTHERWHERE_CHALK.get()
         )
 
-        getOrCreateTagBuilder(ItemTags.BOOKSHELF_BOOKS).add(
-            WitcheryItems.GUIDEBOOK.get()
+        getOrCreateTagBuilder(WitcheryTags.CANDELABRA_ITEMS).add(
+            WitcheryItems.IRON_CANDELABRA.get(),
+            WitcheryItems.WHITE_IRON_CANDELABRA.get(),
+            WitcheryItems.ORANGE_IRON_CANDELABRA.get(),
+            WitcheryItems.MAGENTA_IRON_CANDELABRA.get(),
+            WitcheryItems.LIGHT_BLUE_IRON_CANDELABRA.get(),
+            WitcheryItems.YELLOW_IRON_CANDELABRA.get(),
+            WitcheryItems.LIME_IRON_CANDELABRA.get(),
+            WitcheryItems.PINK_IRON_CANDELABRA.get(),
+            WitcheryItems.GRAY_IRON_CANDELABRA.get(),
+            WitcheryItems.LIGHT_GRAY_IRON_CANDELABRA.get(),
+            WitcheryItems.CYAN_IRON_CANDELABRA.get(),
+            WitcheryItems.PURPLE_IRON_CANDELABRA.get(),
+            WitcheryItems.BLUE_IRON_CANDELABRA.get(),
+            WitcheryItems.BROWN_IRON_CANDELABRA.get(),
+            WitcheryItems.GREEN_IRON_CANDELABRA.get(),
+            WitcheryItems.RED_IRON_CANDELABRA.get(),
+            WitcheryItems.BLACK_IRON_CANDELABRA.get()
         )
 
-        getOrCreateTagBuilder(ItemTags.LECTERN_BOOKS).add(
-            WitcheryItems.GUIDEBOOK.get()
-        )
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/white")))
+            .add(WitcheryItems.WHITE_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(ItemTags.PARROT_FOOD).add(
-            WitcheryItems.MANDRAKE_SEEDS.get(),
-            WitcheryItems.BELLADONNA_SEEDS.get(),
-            WitcheryItems.SNOWBELL_SEEDS.get(),
-            WitcheryItems.WATER_ARTICHOKE_SEEDS.get(),
-            WitcheryItems.GARLIC.get(),
-            WitcheryItems.WOLFSBANE_SEEDS.get(),
-            WitcheryItems.WORMWOOD_SEEDS.get()
-        )
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/orange")))
+            .add(WitcheryItems.ORANGE_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(ItemTags.PIGLIN_LOVED).add(
-            WitcheryItems.GOLDEN_CHALK.get()
-        )
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/magenta")))
+            .add(WitcheryItems.MAGENTA_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/light_blue")))
+            .add(WitcheryItems.LIGHT_BLUE_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/yellow")))
+            .add(WitcheryItems.YELLOW_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/lime")))
+            .add(WitcheryItems.LIME_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/pink")))
+            .add(WitcheryItems.PINK_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/gray")))
+            .add(WitcheryItems.GRAY_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/light_gray")))
+            .add(WitcheryItems.LIGHT_GRAY_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/cyan")))
+            .add(WitcheryItems.CYAN_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/purple")))
+            .add(WitcheryItems.PURPLE_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/blue")))
+            .add(WitcheryItems.BLUE_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/brown")))
+            .add(WitcheryItems.BROWN_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/green")))
+            .add(WitcheryItems.GREEN_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/red")))
+            .add(WitcheryItems.RED_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/black")))
+            .add(WitcheryItems.BLACK_IRON_CANDELABRA.get())
     }
 }

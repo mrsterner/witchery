@@ -25,6 +25,8 @@ import net.minecraft.data.recipes.SimpleCookingRecipeBuilder
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.item.crafting.ShapedRecipe
+import net.minecraft.world.item.crafting.ShapelessRecipe
 import net.minecraft.world.level.block.Blocks
 import java.util.concurrent.CompletableFuture
 import kotlin.math.exp
@@ -394,6 +396,118 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .requires(WitcheryItems.HAWTHORN_BOAT.get())
             .requires(Items.CHEST)
             .unlockedBy("has_planks", has(WitcheryItems.HAWTHORN_PLANKS.get()))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.WHITE_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.WHITE_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_white_dye", has(Items.WHITE_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.ORANGE_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.ORANGE_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_orange_dye", has(Items.ORANGE_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.MAGENTA_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.MAGENTA_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_magenta_dye", has(Items.MAGENTA_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.LIGHT_BLUE_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.LIGHT_BLUE_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_light_blue_dye", has(Items.LIGHT_BLUE_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.YELLOW_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.YELLOW_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_yellow_dye", has(Items.YELLOW_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.LIME_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.LIME_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_lime_dye", has(Items.LIME_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.PINK_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.PINK_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_pink_dye", has(Items.PINK_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.GRAY_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.GRAY_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_gray_dye", has(Items.GRAY_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.LIGHT_GRAY_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.LIGHT_GRAY_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_light_gray_dye", has(Items.LIGHT_GRAY_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.CYAN_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.CYAN_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_cyan_dye", has(Items.CYAN_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.PURPLE_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.PURPLE_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_purple_dye", has(Items.PURPLE_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.BLUE_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.BLUE_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_blue_dye", has(Items.BLUE_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.BROWN_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.BROWN_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_brown_dye", has(Items.BROWN_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.GREEN_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.GREEN_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_green_dye", has(Items.GREEN_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.RED_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.RED_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_red_dye", has(Items.RED_DYE))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.BLACK_IRON_CANDELABRA.get())
+            .requires(WitcheryItems.IRON_CANDELABRA.get())
+            .requires(Items.BLACK_DYE)
+            .group("dyed_candle")
+            .unlockedBy("has_black_dye", has(Items.BLACK_DYE))
             .save(exporter)
 
 
