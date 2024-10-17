@@ -9,6 +9,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.world.item.crafting.RecipeManager
+import net.minecraft.world.item.crafting.RecipeType
 
 
 @EmiEntrypoint
@@ -19,6 +20,7 @@ class WitcheryEmiPlugin : EmiPlugin {
         registry.addCategory(CAULDRON_CRAFTING_CATEGORY)
         registry.addCategory(OVEN_COOKING_CATEGORY)
         registry.addCategory(RITUAL_CATEGORY)
+        registry.addCategory(DISTILLING_CATEGORY)
         val manager: RecipeManager = registry.recipeManager
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())) {
@@ -30,11 +32,19 @@ class WitcheryEmiPlugin : EmiPlugin {
         }
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.OVEN_RECIPE_TYPE.get())) {
-            registry.addRecipe(OvenCookingEmiRecipe(recipe.id, recipe.value))
+            registry.addRecipe(OvenCookingEmiRecipe(recipe.id, recipe.value, null))
+        }
+
+        for (recipe in manager.getAllRecipesFor(RecipeType.SMOKING)) {
+            registry.addRecipe(OvenCookingEmiRecipe(Witchery.id(recipe.id.path.toString()), null, recipe.value))
         }
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())) {
             registry.addRecipe(RitualEmiRecipe(recipe.id, recipe.value))
+        }
+
+        for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.DISTILLERY_RECIPE_TYPE.get())) {
+            registry.addRecipe(DistillingEmiRecipe(recipe.id, recipe.value))
         }
     }
 
@@ -43,6 +53,7 @@ class WitcheryEmiPlugin : EmiPlugin {
         val ICON_CAULDRON: EmiStack = EmiStack.of(WitcheryItems.CAULDRON.get())
         val ICON_OVEN: EmiStack = EmiStack.of(WitcheryItems.IRON_WITCHES_OVEN.get())
         val ICON_RITUAL: EmiStack = EmiStack.of(WitcheryItems.RITUAL_CHALK.get())
+        val ICON_DISTILLING: EmiStack = EmiStack.of(WitcheryItems.DISTILLERY.get())
 
         val CAULDRON_BREWING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
             Witchery.id("cauldron_brewing"), ICON_CAULDRON
@@ -58,6 +69,10 @@ class WitcheryEmiPlugin : EmiPlugin {
 
         val RITUAL_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
             Witchery.id("ritual"), ICON_RITUAL
+        )
+
+        val DISTILLING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
+            Witchery.id("distilling"), ICON_DISTILLING
         )
     }
 }

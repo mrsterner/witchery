@@ -8,9 +8,11 @@ import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
+import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.crafting.SmokingRecipe
 
-class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCookingRecipe) : EmiRecipe {
+class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCookingRecipe?, val smokingRecipe: SmokingRecipe?) : EmiRecipe {
 
     override fun getCategory(): EmiRecipeCategory {
         return WitcheryEmiPlugin.OVEN_COOKING_CATEGORY
@@ -22,15 +24,26 @@ class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCooki
 
     override fun getInputs(): MutableList<EmiIngredient> {
         val mutableList = mutableListOf<EmiIngredient>()
-        mutableList.add(EmiIngredient.of(recipe.ingredient))
-        mutableList.add(EmiIngredient.of(recipe.extraIngredient))
+        if (recipe != null) {
+            mutableList.add(EmiIngredient.of(recipe.ingredient))
+            mutableList.add(EmiIngredient.of(recipe.extraIngredient))
+        } else {
+            mutableList.add(EmiIngredient.of(smokingRecipe!!.ingredients[0]))
+        }
+
         return mutableList
     }
 
     override fun getOutputs(): MutableList<EmiStack> {
         val mutableList = mutableListOf<EmiStack>()
-        mutableList.add(EmiStack.of(recipe.result))
-        mutableList.add(EmiStack.of(recipe.extraOutput))
+        if (recipe != null) {
+            mutableList.add(EmiStack.of(recipe.result))
+            mutableList.add(EmiStack.of(recipe.extraOutput))
+        } else {
+            mutableList.add(EmiStack.of(smokingRecipe!!.getResultItem(null)))
+            mutableList.add(EmiStack.of(WitcheryItems.FOUL_FUME.get()))
+        }
+
         return mutableList
     }
 
@@ -44,25 +57,24 @@ class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCooki
 
     override fun addWidgets(widgets: WidgetHolder) {
         widgets.addTexture(Witchery.id("textures/gui/oven_emi.png"), 18, 9, 108, 57, 0, 0)
-        EmiTexture.FULL_FLAME
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(recipe.result), 2 + 2 + 18 + 24 + 24 + 9, 50 - 18 - 4)
+            WitcherySlotWidget(EmiStack.of(recipe?.result ?: smokingRecipe!!.getResultItem(null)), 2 + 2 + 18 + 24 + 24 + 9, 50 - 18 - 4)
                 .drawBack(false)
         )
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(recipe.extraIngredient.items[0]), 2 + 2 + 18 + 36 + 36 + 12 + 1, 48)
+            WitcherySlotWidget(EmiStack.of(if(recipe != null) recipe.extraIngredient.items[0] else WitcheryItems.JAR.get().defaultInstance), 2 + 2 + 18 + 36 + 36 + 12 + 1, 48)
                 .drawBack(false)
         )
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(recipe.extraOutput), 2 + 2 + 18 + 36 + 36 + 12 + 1, 9)
+            WitcherySlotWidget(EmiStack.of(recipe?.extraOutput ?: WitcheryItems.FOUL_FUME.get().defaultInstance), 2 + 2 + 18 + 36 + 36 + 12 + 1, 9)
                 .drawBack(false)
         )
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(recipe.ingredient.items[0]), 2 + 18 - 1, 10)
+            WitcherySlotWidget(EmiStack.of(if (recipe != null) recipe.ingredient.items[0] else smokingRecipe!!.ingredients[0].items[0]), 2 + 18 - 1, 10)
                 .drawBack(false)
         )
     }

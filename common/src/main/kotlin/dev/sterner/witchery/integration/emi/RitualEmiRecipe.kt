@@ -89,6 +89,8 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
 
             rowIndex++
         }
+
+        widgets.addText(Component.literal("Altar Power: ${recipe.altarPower}"), displayWidth / 2, displayHeight, 0xffffff, true)
     }
 
     private fun renderRitualCircle(
