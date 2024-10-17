@@ -23,8 +23,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("container.witchery.oven_menu", "Witches Oven")
         builder.add("container.witchery.altar_menu", "Altar")
 
-        builder.add("witchery:ritual/air_from_wooden_sword_and_wood_ash_and_waystone", "Lightning Strike")
-        builder.add("witchery:ritual/air_from_wooden_sword_and_wood_ash", "Lightning Strike")
+        builder.add("witchery:ritual/air_from_copper_ingot_and_wood_ash_and_waystone", "Lightning Strike")
+        builder.add("witchery:ritual/air_from_copper_ingot_and_wood_ash", "Lightning Strike")
         builder.add("witchery:ritual/air_from_wooden_axe_and_wood_ash", "Turn Night")
         builder.add("witchery:ritual/air_from_feather_and_redstone", "Push Mobs")
         builder.add("witchery:ritual/air_from_waystone", "Teleportation")

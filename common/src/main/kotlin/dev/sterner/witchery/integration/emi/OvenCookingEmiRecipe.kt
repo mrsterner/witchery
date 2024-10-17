@@ -60,7 +60,7 @@ class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCooki
 
         widgets.add(
             WitcherySlotWidget(EmiStack.of(recipe?.result ?: smokingRecipe!!.getResultItem(null)), 2 + 2 + 18 + 24 + 24 + 9, 50 - 18 - 4)
-                .drawBack(false)
+                .drawBack(false).recipeContext(this)
         )
 
         widgets.add(
@@ -70,7 +70,7 @@ class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCooki
 
         widgets.add(
             WitcherySlotWidget(EmiStack.of(recipe?.extraOutput ?: WitcheryItems.FOUL_FUME.get().defaultInstance), 2 + 2 + 18 + 36 + 36 + 12 + 1, 9)
-                .drawBack(false)
+                .drawBack(false).recipeContext(this)
         )
 
         widgets.add(

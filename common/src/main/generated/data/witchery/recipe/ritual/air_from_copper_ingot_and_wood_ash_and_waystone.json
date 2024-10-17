@@ -1,6 +1,6 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 300,
+  "altarPower": 2000,
   "blockMapping": {
     "G": "witchery:golden_chalk",
     "R": "witchery:ritual_chalk"
@@ -10,17 +10,20 @@
     {
       "type": "end",
       "command": "summon lightning_bolt {blockPos}",
-      "context": "nothing"
+      "context": "blockpos"
     }
   ],
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [
     {
-      "id": "minecraft:wooden_sword"
+      "id": "minecraft:copper_ingot"
     },
     {
       "id": "witchery:wood_ash"
+    },
+    {
+      "id": "witchery:waystone"
     }
   ],
   "isInfinite": false,

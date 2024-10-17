@@ -89,8 +89,8 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
 
             rowIndex++
         }
-        val append = if (recipe.ticks > 0) "/s" else ""
-        widgets.addText(Component.literal("Altar Power: ${recipe.altarPower}$append"), displayWidth / 4, displayHeight - 18, 0xffffff, true)
+        val append = if (recipe.isInfinite) "/s" else ""
+        widgets.addText(Component.literal("Altar Power: ${recipe.altarPower}$append"), displayWidth / 4 - 9, displayHeight - 18 - 9, 0xffffff, true)
     }
 
     private fun renderRitualCircle(
