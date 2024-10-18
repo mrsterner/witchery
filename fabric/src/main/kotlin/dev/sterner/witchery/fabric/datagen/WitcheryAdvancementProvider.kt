@@ -28,6 +28,7 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
         ovenAdvancement.parent(root).save(consumer, "witchery:oven")
         mutandisAdvancement.parent(root).save(consumer, "witchery:mutandis")
         whiffOfMagicAdvancement.parent(root).save(consumer, "witchery:whiff_of_magic")
+        gypsumAdvancement.parent(root).save(consumer, "witchery:gypsum")
     }
 
     companion object {
@@ -122,6 +123,23 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
             .addCriterion(
                 "has_whiff_of_magic",
                 InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.WHIFF_OF_MAGIC.get())
+            )
+
+        val gypsumAdvancement = Advancement.Builder.advancement()
+            .display(
+                WitcheryItems.WHIFF_OF_MAGIC.get(),
+                Component.translatable("advancements.witchery.gypsum.title"),
+                Component.translatable("advancements.witchery.gypsum.description"),
+                Witchery.id("textures/block/rowan_planks.png"),
+                AdvancementType.TASK,
+                true,
+                false,
+                false
+            )
+            .requirements(AdvancementRequirements.Strategy.OR)
+            .addCriterion(
+                "has_gypsum",
+                InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.GYPSUM.get())
             )
     }
 

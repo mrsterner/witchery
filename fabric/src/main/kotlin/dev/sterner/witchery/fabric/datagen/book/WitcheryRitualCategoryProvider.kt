@@ -19,12 +19,12 @@ import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Items
 
 
-class WitcheryCategoryProvider(
+class WitcheryRitualCategoryProvider(
     parent: ModonomiconProviderBase?
 ) : CategoryProvider(parent) {
 
     override fun categoryId(): String {
-        return "general"
+        return "ritual"
     }
 
     override fun generateEntryMap(): Array<String> {
@@ -35,10 +35,10 @@ class WitcheryCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "_____________________m_w__________",
-            "________________b__o______________",
             "__________________________________",
-            "___________________g______________",
+            "________________r_________________",
+            "__________________________________",
+            "__________________________________",
             "__________________________________",
             "__________________________________",
             "__________________________________",
@@ -56,70 +56,20 @@ class WitcheryCategoryProvider(
             index++
         }
 
-        val beginning = BeginningEntryProvider(this).generate("b")
-        addEntry(beginning)
+        val ritualChalk = BeginningEntryProvider(this).generate("r")
+        ritualChalk.withCondition(
+            BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("gypsum"))
+        )
+        addEntry(ritualChalk)
 
-        val oven = OvenEntryProvider(this).generate("o")
-        oven
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(beginning.id)
-                ))
-            .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
-        addEntry(oven)
-
-        val mutandis = MutandisEntryProvider(this).generate("m")
-        mutandis
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(oven.id)
-                )
-            )
-            .withCondition(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
-            )
-            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
-        addEntry(mutandis)
-
-        val whiffOfMagic = WhiffOfMagicEntryProvider(this).generate("w")
-        whiffOfMagic
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(mutandis.id)
-                )
-            )
-            .withCondition(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("mutandis"))
-            )
-            .addParent(BookEntryParentModel.create(mutandis.id).withDrawArrow(true))
-        addEntry(whiffOfMagic)
-
-
-
-        val gypsum = MutandisEntryProvider(this).generate("g")
-        gypsum
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(oven.id)
-                )
-            )
-            .withCondition(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
-            )
-            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
-        addEntry(gypsum)
     }
 
     override fun categoryName(): String {
-        return "general"
+        return "ritual"
     }
 
     override fun categoryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.IRON_WITCHES_OVEN.get())
+        return BookIconModel.create(WitcheryItems.RITUAL_CHALK.get())
     }
 
     override fun additionalSetup(category: BookCategoryModel?): BookCategoryModel {
