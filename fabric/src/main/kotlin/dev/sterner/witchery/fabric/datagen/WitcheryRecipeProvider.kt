@@ -723,7 +723,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
                 "O_________O",
                 "_O_______O_",
                 "__O_____O__",
-                "___OOOOO____"
+                "___OOOOO___"
             )
             .define('O', WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
