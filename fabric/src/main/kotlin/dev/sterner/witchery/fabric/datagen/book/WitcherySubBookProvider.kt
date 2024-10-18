@@ -15,6 +15,7 @@ class WitcherySubBookProvider(defaultLang: BiConsumer<String, String>?) :
     override fun generateCategories() {
         this.add(WitcheryCategoryProvider(this).generate())
         this.add(WitcheryRitualCategoryProvider(this).generate())
+        this.add(WitcheryBrewingCategoryProvider(this).generate())
     }
 
     override fun bookName(): String {

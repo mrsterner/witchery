@@ -1,0 +1,46 @@
+{
+  "parent": "witchery:root",
+  "criteria": {
+    "has_copper_cauldron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:copper_cauldron"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_iron_cauldron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:cauldron"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.oven.cauldron"
+    },
+    "icon": {
+      "count": 1,
+      "id": "witchery:cauldron"
+    },
+    "title": {
+      "translate": "advancements.witchery.cauldron.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_cauldron",
+      "has_copper_cauldron"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

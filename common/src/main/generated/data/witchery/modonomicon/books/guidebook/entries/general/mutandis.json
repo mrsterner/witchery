@@ -3,8 +3,17 @@
   "background_v_index": 0,
   "category": "general",
   "condition": {
-    "type": "modonomicon:advancement",
-    "advancement_id": "witchery:oven"
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "general/oven"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:oven"
+      }
+    ]
   },
   "description": "book.witchery.guidebook.general.mutandis.description",
   "hide_while_locked": false,
@@ -34,7 +43,7 @@
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 2,
+  "sort_number": 3,
   "x": 4,
   "y": -1
 }

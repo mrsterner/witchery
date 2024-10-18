@@ -2,6 +2,15 @@
   "background_u_index": 0,
   "background_v_index": 0,
   "category": "ritual",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "ritual/ritual_chalk"
+      }
+    ]
+  },
   "description": "book.witchery.guidebook.ritual.infernal_chalk.description",
   "hide_while_locked": false,
   "icon": {
@@ -21,8 +30,16 @@
       "use_markdown_in_title": false
     }
   ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "ritual/ritual_chalk",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
   "show_when_any_parent_unlocked": false,
   "sort_number": 3,
-  "x": 1,
-  "y": 1
+  "x": 0,
+  "y": 2
 }

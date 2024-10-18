@@ -8,15 +8,17 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookRecipePageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronBrewingPageModel
 import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronCraftingPageModel
+import dev.sterner.witchery.integration.modonomicon.BookCauldronBrewingRecipePage
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Items
 
-class RitualChalkEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
+class RedstoneSoupEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
 
     companion object {
-        val ID = "ritual_chalk"
+        val ID = "redstone_soup"
     }
 
     override fun generatePages() {
@@ -25,18 +27,12 @@ class RitualChalkEntryProvider(parent: CategoryProviderBase?) : EntryProvider(pa
                 .withTitle("$ID.title")
                 .withText("$ID.page1")
         }
-        this.page("${ID}golden_chalk") {
-            BookCauldronCraftingPageModel.create().withText("${ID}golden_chalk.title")
-                .withRecipeId1(Witchery.id("cauldron_crafting/golden_chalk"));
+
+        this.page("ID") {
+            BookCauldronBrewingPageModel.create().withText("$ID.title")
+                .withRecipeId1(Witchery.id("cauldron_brewing/redstone_soup"));
         }
-        this.page("${ID}infernal_chalk") {
-            BookCauldronCraftingPageModel.create().withText("${ID}infernal_chalk.title")
-                .withRecipeId1(Witchery.id("cauldron_crafting/infernal_chalk"));
-        }
-        this.page("${ID}otherwhere_chalk") {
-            BookCauldronCraftingPageModel.create().withText("${ID}otherwhere_chalk.title")
-                .withRecipeId1(Witchery.id("cauldron_crafting/otherwhere_chalk"));
-        }
+
 
     }
 
@@ -53,7 +49,7 @@ class RitualChalkEntryProvider(parent: CategoryProviderBase?) : EntryProvider(pa
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.RITUAL_CHALK.get())
+        return BookIconModel.create(WitcheryItems.REDSTONE_SOUP.get())
     }
 
     override fun entryId(): String {

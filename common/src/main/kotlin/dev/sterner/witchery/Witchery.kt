@@ -1,8 +1,13 @@
 package dev.sterner.witchery
 
+import com.google.gson.JsonObject
+import com.klikli_dev.modonomicon.api.ModonomiconConstants
+import com.klikli_dev.modonomicon.book.page.BookPage
+import com.klikli_dev.modonomicon.book.page.BookSmeltingRecipePage
+import com.klikli_dev.modonomicon.data.BookPageJsonLoader
+import com.klikli_dev.modonomicon.data.LoaderRegistry
 import com.mojang.logging.LogUtils
 import dev.architectury.event.EventResult
-import dev.architectury.event.events.client.ClientLifecycleEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
@@ -26,6 +31,9 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.ImpEntity
 import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.integration.modonomicon.BookCauldronBrewingRecipePage
+import dev.sterner.witchery.integration.modonomicon.BookCauldronCraftingRecipePage
+import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.registry.*
@@ -37,11 +45,12 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
+import net.minecraft.core.HolderLookup
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
@@ -82,6 +91,36 @@ object Witchery {
         ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisDataAttachment.tick(serverLevel) }
 
         NaturePowerHandler.registerListener()
+
+        LoaderRegistry.registerPageLoader(
+            WitcheryPageRendererRegistry.CAULDRON_RECIPE,
+            BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
+                BookCauldronCraftingRecipePage.fromJson(
+                    entryId,
+                    json,
+                    provider
+                )
+            } as BookPageJsonLoader<*>
+        ) { buffer: RegistryFriendlyByteBuf ->
+            BookCauldronCraftingRecipePage.fromNetwork(
+                buffer
+            )
+        }
+
+        LoaderRegistry.registerPageLoader(
+            WitcheryPageRendererRegistry.CAULDRON_BREWING_RECIPE,
+            BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
+                BookCauldronBrewingRecipePage.fromJson(
+                    entryId,
+                    json,
+                    provider
+                )
+            } as BookPageJsonLoader<*>
+        ) { buffer: RegistryFriendlyByteBuf ->
+            BookCauldronBrewingRecipePage.fromNetwork(
+                buffer
+            )
+        }
     }
 
     private fun addSeeds(key: ResourceKey<LootTable>?, context: LootTableModificationContext, builtin: Boolean) {
@@ -173,6 +212,7 @@ object Witchery {
         MenuRegistry.registerScreenFactory(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
         MenuRegistry.registerScreenFactory(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get(), ::DistilleryScreen)
 
+        WitcheryPageRendererRegistry.register()
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),

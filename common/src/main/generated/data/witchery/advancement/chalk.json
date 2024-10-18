@@ -1,11 +1,11 @@
 {
   "parent": "witchery:root",
   "criteria": {
-    "has_gypsum": {
+    "has_chalk": {
       "conditions": {
         "items": [
           {
-            "items": "witchery:gypsum"
+            "items": "witchery:ritual_chalk"
           }
         ]
       },
@@ -16,19 +16,19 @@
     "announce_to_chat": false,
     "background": "witchery:textures/block/rowan_planks.png",
     "description": {
-      "translate": "advancements.witchery.gypsum.description"
+      "translate": "advancements.witchery.chalk.description"
     },
     "icon": {
       "count": 1,
-      "id": "witchery:gypsum"
+      "id": "witchery:ritual_chalk"
     },
     "title": {
-      "translate": "advancements.witchery.gypsum.title"
+      "translate": "advancements.witchery.chalk.title"
     }
   },
   "requirements": [
     [
-      "has_gypsum"
+      "has_chalk"
     ]
   ],
   "sends_telemetry_event": true

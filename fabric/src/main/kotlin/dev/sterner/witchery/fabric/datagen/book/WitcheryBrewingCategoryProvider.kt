@@ -16,12 +16,12 @@ import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Items
 
 
-class WitcheryRitualCategoryProvider(
+class WitcheryBrewingCategoryProvider(
     parent: ModonomiconProviderBase?
 ) : CategoryProvider(parent) {
 
     override fun categoryId(): String {
-        return "ritual"
+        return "brewing"
     }
 
     override fun generateEntryMap(): Array<String> {
@@ -31,11 +31,11 @@ class WitcheryRitualCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "_________________o________________",
+            "________________h_________________",
             "__________________________________",
-            "________________r_g_______________",
+            "________________c_r_______________",
             "__________________________________",
-            "_________________i________________",
+            "__________________________________",
             "__________________________________",
             "__________________________________",
             "__________________________________",
@@ -53,58 +53,43 @@ class WitcheryRitualCategoryProvider(
             index++
         }
 
-        val ritualChalk = RitualChalkEntryProvider(this).generate("r")
-        ritualChalk.withCondition(
-            BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("chalk"))
+        val cauldron = CauldronEntryProvider(this).generate("c")
+        cauldron.withCondition(
+            BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("cauldron"))
         )
+        addEntry(cauldron)
+
+        val redstoneSoup = RedstoneSoupEntryProvider(this).generate("r")
+        redstoneSoup
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(cauldron.id)
+                )
+
+            )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+        addEntry(redstoneSoup)
+
+        val ritualChalk = RitualChalkEntryProvider(this).generate("h")
+        ritualChalk.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(cauldron.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
 
         addEntry(ritualChalk)
-
-        val goldenChalk = GoldenChalkEntryProvider(this).generate("g")
-        goldenChalk
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(ritualChalk.id)
-                )
-
-        )
-            .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
-        addEntry(goldenChalk)
-
-
-        val otherwhereChalk = OtherwhereChalkEntryProvider(this).generate("o")
-        otherwhereChalk
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(ritualChalk.id)
-                )
-
-            )
-            .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
-        addEntry(otherwhereChalk)
-
-        val infernalChalk = InfernalChalkEntryProvider(this).generate("i")
-        infernalChalk
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(ritualChalk.id)
-                )
-
-            )
-            .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
-        addEntry(infernalChalk)
-
     }
 
     override fun categoryName(): String {
-        return "ritual"
+        return "brewing"
     }
 
     override fun categoryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.RITUAL_CHALK.get())
+        return BookIconModel.create(WitcheryItems.CAULDRON.get())
     }
 
     override fun additionalSetup(category: BookCategoryModel?): BookCategoryModel {

@@ -11,10 +11,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionMod
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadConditionModel
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.WitcheryAdvancementProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.BeginningEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.MutandisEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.OvenEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.WhiffOfMagicEntryProvider
+import dev.sterner.witchery.fabric.datagen.book.entry.*
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Items
 
@@ -34,7 +31,7 @@ class WitcheryCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "__________________________________",
+            "________________c_________________",
             "_____________________m_w__________",
             "________________b__o______________",
             "__________________________________",
@@ -69,16 +66,24 @@ class WitcheryCategoryProvider(
             .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
         addEntry(oven)
 
+        val cauldron = CauldronEntryProvider(this).generate("c")
+        cauldron
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(beginning.id)
+                ))
+            .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
+        addEntry(cauldron)
+
         val mutandis = MutandisEntryProvider(this).generate("m")
         mutandis
             .withCondition(
                 BookAndConditionModel.create().withChildren(
                     BookEntryReadConditionModel.create()
-                        .withEntry(oven.id)
+                        .withEntry(oven.id),
+                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
                 )
-            )
-            .withCondition(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
             )
             .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
         addEntry(mutandis)
@@ -88,27 +93,23 @@ class WitcheryCategoryProvider(
             .withCondition(
                 BookAndConditionModel.create().withChildren(
                     BookEntryReadConditionModel.create()
-                        .withEntry(mutandis.id)
+                        .withEntry(mutandis.id),
+                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("mutandis"))
                 )
-            )
-            .withCondition(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("mutandis"))
             )
             .addParent(BookEntryParentModel.create(mutandis.id).withDrawArrow(true))
         addEntry(whiffOfMagic)
 
 
 
-        val gypsum = MutandisEntryProvider(this).generate("g")
+        val gypsum = GypsumEntryProvider(this).generate("g")
         gypsum
             .withCondition(
                 BookAndConditionModel.create().withChildren(
                     BookEntryReadConditionModel.create()
-                        .withEntry(oven.id)
+                        .withEntry(oven.id),
+                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
                 )
-            )
-            .withCondition(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
             )
             .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
         addEntry(gypsum)

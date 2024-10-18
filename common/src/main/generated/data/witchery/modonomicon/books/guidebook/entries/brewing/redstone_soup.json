@@ -1,22 +1,22 @@
 {
   "background_u_index": 0,
   "background_v_index": 0,
-  "category": "ritual",
+  "category": "brewing",
   "condition": {
     "type": "modonomicon:and",
     "children": [
       {
         "type": "modonomicon:entry_read",
-        "entry_id": "ritual/ritual_chalk"
+        "entry_id": "brewing/cauldron"
       }
     ]
   },
-  "description": "book.witchery.guidebook.ritual.golden_chalk.description",
+  "description": "book.witchery.guidebook.brewing.redstone_soup.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:golden_chalk"
+    "item": "witchery:redstone_soup"
   },
-  "name": "book.witchery.guidebook.ritual.golden_chalk.name",
+  "name": "book.witchery.guidebook.brewing.redstone_soup.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,15 +25,26 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "golden_chalk.page1",
-      "title": "golden_chalk.title",
+      "text": "redstone_soup.page1",
+      "title": "redstone_soup.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:cauldron_brewing_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_brewing/redstone_soup",
+      "text": "redstone_soup.title",
+      "title1": "",
+      "title2": ""
     }
   ],
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "ritual/ritual_chalk",
+      "entry": "brewing/cauldron",
       "line_enabled": true,
       "line_reversed": false
     }
