@@ -1,0 +1,35 @@
+{
+  "values": {
+    "witchery:block/copper_witches_oven": {
+      "next_oxidation_stage": "witchery:block/exposed_copper_witches_oven"
+    },
+    "witchery:block/exposed_copper_witches_oven": {
+      "next_oxidation_stage": "witchery:block/weathered_copper_witches_oven"
+    },
+    "witchery:block/weathered_copper_witches_oven": {
+      "next_oxidation_stage": "witchery:block/oxidized_copper_witches_oven"
+    },
+
+
+    "witchery:block/copper_cauldron": {
+      "next_oxidation_stage": "witchery:block/exposed_copper_cauldron"
+    },
+    "witchery:block/exposed_copper_cauldron": {
+      "next_oxidation_stage": "witchery:block/weathered_copper_cauldron"
+    },
+    "witchery:block/weathered_copper_cauldron": {
+      "next_oxidation_stage": "witchery:block/oxidized_copper_cauldron"
+    },
+
+
+    "witchery:block/copper_witches_oven_fume_extension": {
+      "next_oxidation_stage": "witchery:block/exposed_copper_witches_oven_fume_extension"
+    },
+    "witchery:block/exposed_copper_witches_oven_fume_extension": {
+      "next_oxidation_stage": "witchery:block/weathered_copper_witches_oven_fume_extension"
+    },
+    "witchery:block/weathered_copper_witches_oven_fume_extension": {
+      "next_oxidation_stage": "witchery:block/oxidized_copper_witches_oven_fume_extension"
+    }
+  }
+}

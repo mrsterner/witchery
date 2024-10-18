@@ -1,0 +1,66 @@
+{
+  "variants": {
+    "facing=east,lit=false,alt=false": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension",
+      "y": 90
+    },
+    "facing=east,lit=true,alt=false": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_on",
+      "y": 90
+    },
+    "facing=north,lit=false,alt=false": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension"
+    },
+    "facing=north,lit=true,alt=false": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_on"
+    },
+    "facing=south,lit=false,alt=false": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension",
+      "y": 180
+    },
+    "facing=south,lit=true,alt=false": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_on",
+      "y": 180
+    },
+    "facing=west,lit=false,alt=false": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension",
+      "y": 270
+    },
+    "facing=west,lit=true,alt=false": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_on",
+      "y": 270
+    },
+
+
+    "facing=east,lit=false,alt=true": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_alt",
+      "y": 90
+    },
+    "facing=east,lit=true,alt=true": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_alt_on",
+      "y": 90
+    },
+    "facing=north,lit=false,alt=true": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_alt"
+    },
+    "facing=north,lit=true,alt=true": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_alt_on"
+    },
+    "facing=south,lit=false,alt=true": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_alt",
+      "y": 180
+    },
+    "facing=south,lit=true,alt=true": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_alt_on",
+      "y": 180
+    },
+    "facing=west,lit=false,alt=true": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_alt",
+      "y": 270
+    },
+    "facing=west,lit=true,alt=true": {
+      "model": "witchery:block/exposed_copper_witches_oven_fume_extension_alt_on",
+      "y": 270
+    }
+  }
+}

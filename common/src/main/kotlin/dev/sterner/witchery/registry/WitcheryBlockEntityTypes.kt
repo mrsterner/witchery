@@ -48,6 +48,13 @@ object WitcheryBlockEntityTypes {
             { pos, state -> CauldronBlockEntity(pos, state) },
             WitcheryBlocks.CAULDRON.get(),
             WitcheryBlocks.COPPER_CAULDRON.get(),
+            WitcheryBlocks.EXPOSED_COPPER_CAULDRON.get(),
+            WitcheryBlocks.WEATHERED_COPPER_CAULDRON.get(),
+            WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get(),
+            WitcheryBlocks.WAXED_COPPER_CAULDRON.get(),
+            WitcheryBlocks.WAXED_EXPOSED_COPPER_CAULDRON.get(),
+            WitcheryBlocks.WAXED_WEATHERED_COPPER_CAULDRON.get(),
+            WitcheryBlocks.WAXED_OXIDIZED_COPPER_CAULDRON.get(),
         )
             .build(null)
     }
@@ -57,6 +64,13 @@ object WitcheryBlockEntityTypes {
             { pos, state -> OvenBlockEntity(pos, state) },
             WitcheryBlocks.IRON_WITCHES_OVEN.get(),
             WitcheryBlocks.COPPER_WITCHES_OVEN.get(),
+            WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN.get(),
+            WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN.get(),
+            WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN.get(),
+            WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN.get(),
+            WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN.get(),
+            WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN.get(),
+            WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get(),
         )
             .build(null)
     }
@@ -67,6 +81,13 @@ object WitcheryBlockEntityTypes {
                 { pos, state -> OvenFumeExtensionBlockEntity(pos, state) },
                 WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(),
                 WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
             )
                 .build(null)
         }
