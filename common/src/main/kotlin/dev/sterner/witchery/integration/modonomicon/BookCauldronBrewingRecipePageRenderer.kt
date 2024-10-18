@@ -27,7 +27,7 @@ abstract class BookCauldronBrewingRecipePageRenderer<T : Recipe<*>?>(page: BookC
 
     override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, ticks: Float) {
         val recipeX = X - 9
-        val recipeY = Y
+        val recipeY = Y + 18
 
         this.drawRecipe(
             guiGraphics,
