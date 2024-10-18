@@ -109,6 +109,10 @@ object WitcheryItems {
         PlatformUtils.boneNeedle
     }
 
+    val ATTUNED_STONE: RegistrySupplier<Item> = ITEMS.register("attuned_stone") {
+        Item(Item.Properties())
+    }
+
     val DEMON_HEART: RegistrySupplier<Item> = ITEMS.register("demon_heart") {
         ItemNameBlockItem(WitcheryBlocks.DEMON_HEART.get(), Item.Properties())
     }
@@ -134,6 +138,10 @@ object WitcheryItems {
     }
 
     val OWLETS_WING: RegistrySupplier<Item> = ITEMS.register("owlets_wing") {
+        Item(Item.Properties())
+    }
+
+    val ENT_TWIG: RegistrySupplier<Item> = ITEMS.register("ent_twig") {
         Item(Item.Properties())
     }
 
