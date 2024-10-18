@@ -125,6 +125,14 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val TOE_OF_FROG: RegistrySupplier<Item> = ITEMS.register("toe_of_frog") {
+        Item(Item.Properties())
+    }
+
+    val OWLETS_WING: RegistrySupplier<Item> = ITEMS.register("owlets_wing") {
+        Item(Item.Properties())
+    }
+
     val REDSTONE_SOUP: RegistrySupplier<Item> = ITEMS.register("redstone_soup") {
         Item(Item.Properties())
     }

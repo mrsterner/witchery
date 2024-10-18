@@ -27,8 +27,6 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.DISTILLERY.get())
 
-
-
                 output.accept(WitcheryItems.WAYSTONE.get())
                 output.accept(WitcheryItems.GLINTWEED.get())
                 output.accept(WitcheryItems.EMBER_MOSS.get())
@@ -51,6 +49,11 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.TAGLOCK.get())
                 output.accept(WitcheryItems.DEMON_HEART.get())
                 output.accept(WitcheryItems.GYPSUM.get())
+                output.accept(WitcheryItems.TONGUE_OF_DOG.get())
+                output.accept(WitcheryItems.TOE_OF_FROG.get())
+                output.accept(WitcheryItems.OWLETS_WING.get())
+                output.accept(WitcheryItems.WOOL_OF_BAT.get())
+                output.accept(WitcheryItems.REDSTONE_SOUP.get())
                 output.accept(WitcheryItems.CLAY_JAR.get())
                 output.accept(WitcheryItems.JAR.get())
                 output.accept(WitcheryItems.BREATH_OF_THE_GODDESS.get())
