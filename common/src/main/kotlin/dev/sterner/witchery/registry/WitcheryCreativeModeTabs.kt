@@ -53,6 +53,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.TOE_OF_FROG.get())
                 output.accept(WitcheryItems.OWLETS_WING.get())
                 output.accept(WitcheryItems.WOOL_OF_BAT.get())
+                output.accept(WitcheryItems.REFINED_EVIL.get())
                 output.accept(WitcheryItems.REDSTONE_SOUP.get())
                 output.accept(WitcheryItems.CLAY_JAR.get())
                 output.accept(WitcheryItems.JAR.get())
