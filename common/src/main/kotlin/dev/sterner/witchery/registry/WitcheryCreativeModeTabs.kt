@@ -64,6 +64,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.OIL_OF_VITRIOL.get())
                 output.accept(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get())
                 output.accept(WitcheryItems.HINT_OF_REBIRTH.get())
+                output.accept(WitcheryItems.PHANTOM_VAPOR.get())
                 output.accept(WitcheryItems.REEK_OF_MISFORTUNE.get())
                 output.accept(WitcheryItems.ODOR_OF_PURITY.get())
                 output.accept(WitcheryItems.DROP_OF_LUCK.get())

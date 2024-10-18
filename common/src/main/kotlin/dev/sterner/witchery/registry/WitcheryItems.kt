@@ -171,6 +171,10 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val PHANTOM_VAPOR: RegistrySupplier<Item> = ITEMS.register("phantom_vapor") {
+        Item(Item.Properties())
+    }
+
     val EXHALE_OF_THE_HORNED_ONE: RegistrySupplier<Item> = ITEMS.register("exhale_of_the_horned_one") {
         Item(Item.Properties())
     }

@@ -114,6 +114,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.FOCUSED_WILL.get(), "Focused Will")
         builder.add(WitcheryItems.CONDENSED_FEAR.get(), "Condensed Fear")
         builder.add(WitcheryItems.MELLIFLUOUS_HUNGER.get(), "Mellifluous Hunger")
+        builder.add(WitcheryItems.PHANTOM_VAPOR.get(), "Phantom Vapor")
 
         builder.add(WitcheryBlocks.ROWAN_LOG.get(), "Rowan Log")
         builder.add(WitcheryBlocks.ROWAN_WOOD.get(), "Rowan Wood")
