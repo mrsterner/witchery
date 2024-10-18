@@ -103,7 +103,7 @@ object RitualHelper {
     ) {
         var formattedCommand = command
         if (minecraftServer != null && formattedCommand.isNotEmpty()) {
-            val commandSource: CommandSourceStack = minecraftServer.createCommandSourceStack()
+            val commandSource: CommandSourceStack = minecraftServer.createCommandSourceStack().withSuppressedOutput()
             val commandManager: Commands = minecraftServer.commands
 
             if (player != null) {
