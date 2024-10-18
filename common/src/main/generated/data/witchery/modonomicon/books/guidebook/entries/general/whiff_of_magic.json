@@ -1,0 +1,40 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "general",
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "witchery:mutandis"
+  },
+  "description": "book.witchery.guidebook.general.whiff_of_magic.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:whiff_of_magic"
+  },
+  "name": "book.witchery.guidebook.general.whiff_of_magic.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "whiff_of_magic.page1",
+      "title": "whiff_of_magic.title",
+      "use_markdown_in_title": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "general/mutandis",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 3,
+  "x": 6,
+  "y": -1
+}

@@ -1,0 +1,46 @@
+{
+  "parent": "witchery:root",
+  "criteria": {
+    "has_copper_oven": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:copper_witches_oven"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_iron_oven": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:iron_witches_oven"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.oven.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "witchery:iron_witches_oven"
+    },
+    "title": {
+      "translate": "advancements.witchery.oven.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_oven",
+      "has_copper_oven"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

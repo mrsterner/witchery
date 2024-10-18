@@ -1,5 +1,7 @@
 package dev.sterner.witchery.item
 
+import com.klikli_dev.modonomicon.client.gui.BookGuiManager
+import com.klikli_dev.modonomicon.client.gui.book.BookAddress
 import com.klikli_dev.modonomicon.data.BookDataManager
 import com.klikli_dev.modonomicon.item.ModonomiconItem
 import dev.sterner.witchery.Witchery
@@ -19,7 +21,7 @@ class GuideBookItem(pProperties: Properties) : ModonomiconItem(pProperties) {
 
         if (pLevel.isClientSide) {
             val book = BookDataManager.get().getBook(ID)
-            //TODO BookGuiManager.get().openBook(BookAddress.defaultFor(book))
+            BookGuiManager.get().openBook(BookAddress.defaultFor(book))
         }
 
         return InteractionResultHolder.sidedSuccess(itemInHand, pLevel.isClientSide)

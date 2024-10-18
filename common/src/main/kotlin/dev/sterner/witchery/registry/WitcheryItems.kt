@@ -328,6 +328,42 @@ object WitcheryItems {
             )
         }
 
+    val WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> =
+        ITEMS.register("waxed_copper_witches_oven_fume_extension") {
+            MultiBlockItem(
+                WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                Item.Properties(),
+                OvenFumeExtensionBlock.STRUCTURE
+            )
+        }
+
+    val WAXED_EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> =
+        ITEMS.register("waxed_exposed_copper_witches_oven_fume_extension") {
+            MultiBlockItem(
+                WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                Item.Properties(),
+                OvenFumeExtensionBlock.STRUCTURE
+            )
+        }
+
+    val WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> =
+        ITEMS.register("waxed_weathered_copper_witches_oven_fume_extension") {
+            MultiBlockItem(
+                WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                Item.Properties(),
+                OvenFumeExtensionBlock.STRUCTURE
+            )
+        }
+
+    val WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> =
+        ITEMS.register("waxed_oxidized_copper_witches_oven_fume_extension") {
+            MultiBlockItem(
+                WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+                Item.Properties(),
+                OvenFumeExtensionBlock.STRUCTURE
+            )
+        }
+
     val IRON_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("iron_witches_oven") {
         BlockItem(WitcheryBlocks.IRON_WITCHES_OVEN.get(), Item.Properties())
     }

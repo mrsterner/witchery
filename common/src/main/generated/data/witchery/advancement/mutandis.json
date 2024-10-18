@@ -1,0 +1,35 @@
+{
+  "parent": "witchery:root",
+  "criteria": {
+    "has_mutandis": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:mutandis"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.mutandis.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "witchery:mutandis"
+    },
+    "title": {
+      "translate": "advancements.witchery.mutandis.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_mutandis"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

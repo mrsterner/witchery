@@ -1,0 +1,35 @@
+{
+  "criteria": {
+    "has_crafting_table": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:crafting_table"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "witchery:guidebook"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.witchery.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_crafting_table"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
