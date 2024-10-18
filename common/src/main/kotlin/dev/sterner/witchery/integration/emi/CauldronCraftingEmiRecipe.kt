@@ -73,7 +73,7 @@ class CauldronCraftingEmiRecipe(val recipeId: ResourceLocation, val recipe: Caul
             widgets.add(
                 WitcherySlotWidget(EmiStack.of(itemStack), 48 + 18 + 9 + 18 + 9 + 4 + (18 * index), 20 * 1 + 6)
                     .drawBack(false)
-            )
+            ).recipeContext(this)
         }
 
         widgets.addDrawable(48 + 18 + 9, 20 * 1, 18, 18) { ctx, _, _, _ ->
