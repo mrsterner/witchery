@@ -11,10 +11,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionMod
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadConditionModel
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.WitcheryAdvancementProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.BeginningEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.MutandisEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.OvenEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.WhiffOfMagicEntryProvider
+import dev.sterner.witchery.fabric.datagen.book.entry.*
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Items
 
@@ -35,9 +32,9 @@ class WitcheryRitualCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "__________________________________",
-            "________________r_________________",
-            "__________________________________",
+            "__________________o_______________",
+            "________________r_g_______________",
+            "__________________i_______________",
             "__________________________________",
             "__________________________________",
             "__________________________________",
@@ -56,11 +53,48 @@ class WitcheryRitualCategoryProvider(
             index++
         }
 
-        val ritualChalk = BeginningEntryProvider(this).generate("r")
+        val ritualChalk = RitualChalkEntryProvider(this).generate("r")
         ritualChalk.withCondition(
             BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("gypsum"))
         )
         addEntry(ritualChalk)
+
+        val goldenChalk = GoldenChalkEntryProvider(this).generate("g")
+        ritualChalk
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(ritualChalk.id)
+                )
+
+        )
+            .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
+        addEntry(goldenChalk)
+
+
+        val otherwhereChalk = OtherwhereChalkEntryProvider(this).generate("o")
+        ritualChalk
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(ritualChalk.id)
+                )
+
+            )
+            .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
+        addEntry(otherwhereChalk)
+
+        val infernalChalk = InfernalChalkEntryProvider(this).generate("i")
+        ritualChalk
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(ritualChalk.id)
+                )
+
+            )
+            .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
+        addEntry(infernalChalk)
 
     }
 
