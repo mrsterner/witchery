@@ -7,16 +7,16 @@
     "children": [
       {
         "type": "modonomicon:entry_read",
-        "entry_id": "general/beginning"
+        "entry_id": "general/oven"
       }
     ]
   },
-  "description": "book.witchery.guidebook.general.cauldron.description",
+  "description": "book.witchery.guidebook.general.exhale_of_the_horned_one.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:cauldron"
+    "item": "witchery:exhale_of_the_horned_one"
   },
-  "name": "book.witchery.guidebook.general.cauldron.name",
+  "name": "book.witchery.guidebook.general.exhale_of_the_horned_one.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,21 +25,21 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "cauldron.page1",
-      "title": "cauldron.title",
+      "text": "exhale_of_the_horned_one.page1",
+      "title": "exhale_of_the_horned_one.title",
       "use_markdown_in_title": false
     }
   ],
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "general/beginning",
+      "entry": "general/oven",
       "line_enabled": true,
       "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 2,
-  "x": -1,
-  "y": -3
+  "sort_number": 7,
+  "x": 4,
+  "y": 0
 }

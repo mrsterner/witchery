@@ -7,20 +7,16 @@
     "children": [
       {
         "type": "modonomicon:entry_read",
-        "entry_id": "general/oven"
-      },
-      {
-        "type": "modonomicon:advancement",
-        "advancement_id": "witchery:oven"
+        "entry_id": "general/breath_of_the_goddess"
       }
     ]
   },
-  "description": "book.witchery.guidebook.general.gypsum.description",
+  "description": "book.witchery.guidebook.general.tear_of_the_goddess.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:gypsum"
+    "item": "witchery:tear_of_the_goddess"
   },
-  "name": "book.witchery.guidebook.general.gypsum.name",
+  "name": "book.witchery.guidebook.general.tear_of_the_goddess.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -29,21 +25,27 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "gypsum.page1",
-      "title": "gypsum.title",
+      "text": "tear_of_the_goddess.page1",
+      "title": "tear_of_the_goddess.title",
       "use_markdown_in_title": false
     }
   ],
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "general/oven",
+      "entry": "general/breath_of_the_goddess",
+      "line_enabled": true,
+      "line_reversed": false
+    },
+    {
+      "draw_arrow": true,
+      "entry": "general/distillery",
       "line_enabled": true,
       "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 5,
-  "x": 2,
-  "y": 2
+  "sort_number": 9,
+  "x": 1,
+  "y": 4
 }

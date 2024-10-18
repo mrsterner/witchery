@@ -40,10 +40,16 @@
       "entry": "general/mutandis",
       "line_enabled": true,
       "line_reversed": false
+    },
+    {
+      "draw_arrow": true,
+      "entry": "general/oven",
+      "line_enabled": true,
+      "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 4,
-  "x": 6,
-  "y": -1
+  "sort_number": 5,
+  "x": 2,
+  "y": -2
 }

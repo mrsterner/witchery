@@ -8,15 +8,19 @@
       {
         "type": "modonomicon:entry_read",
         "entry_id": "general/beginning"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:oven"
       }
     ]
   },
-  "description": "book.witchery.guidebook.general.cauldron.description",
+  "description": "book.witchery.guidebook.general.distillery.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:cauldron"
+    "item": "witchery:distillery"
   },
-  "name": "book.witchery.guidebook.general.cauldron.name",
+  "name": "book.witchery.guidebook.general.distillery.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,8 +29,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "cauldron.page1",
-      "title": "cauldron.title",
+      "text": "distillery.page1",
+      "title": "distillery.title",
       "use_markdown_in_title": false
     }
   ],
@@ -39,7 +43,7 @@
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 2,
+  "sort_number": 4,
   "x": -1,
-  "y": -3
+  "y": 2
 }

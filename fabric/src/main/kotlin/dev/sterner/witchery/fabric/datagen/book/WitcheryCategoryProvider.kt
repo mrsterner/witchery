@@ -30,14 +30,14 @@ class WitcheryCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
+            "________________c_m_______________",
+            "___________________w______________",
             "__________________________________",
-            "________________c_________________",
-            "_____________________m_w__________",
-            "________________b__o______________",
+            "________________b__o_e____________",
+            "__________________x_h_____________",
+            "________________d_________________",
             "__________________________________",
-            "___________________g______________",
-            "__________________________________",
-            "__________________________________",
+            "__________________t_______________",
             "__________________________________",
             "__________________________________",
             "__________________________________"
@@ -81,12 +81,24 @@ class WitcheryCategoryProvider(
             .withCondition(
                 BookAndConditionModel.create().withChildren(
                     BookEntryReadConditionModel.create()
-                        .withEntry(oven.id),
+                        .withEntry(cauldron.id),
+                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("cauldron"))
+                )
+            )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+        addEntry(mutandis)
+
+        val distillery = DistilleryEntryProvider(this).generate("d")
+        distillery
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(beginning.id),
                     BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
                 )
             )
-            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
-        addEntry(mutandis)
+            .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
+        addEntry(distillery)
 
         val whiffOfMagic = WhiffOfMagicEntryProvider(this).generate("w")
         whiffOfMagic
@@ -98,21 +110,56 @@ class WitcheryCategoryProvider(
                 )
             )
             .addParent(BookEntryParentModel.create(mutandis.id).withDrawArrow(true))
+        whiffOfMagic.addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
         addEntry(whiffOfMagic)
 
 
 
-        val gypsum = GypsumEntryProvider(this).generate("g")
-        gypsum
+
+        val hintOfRebirth = HintOfRebirthEntryProvider(this).generate("h")
+        hintOfRebirth
             .withCondition(
                 BookAndConditionModel.create().withChildren(
                     BookEntryReadConditionModel.create()
-                        .withEntry(oven.id),
-                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
+                        .withEntry(oven.id)
                 )
             )
             .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
-        addEntry(gypsum)
+        addEntry(hintOfRebirth)
+
+        val exhaleOfTheHornedOne = ExhaleOfTheHornedOneEntryProvider(this).generate("e")
+        exhaleOfTheHornedOne
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(oven.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
+        addEntry(exhaleOfTheHornedOne)
+
+        val breathOfTheGoddess = BreathOfTheGoddessEntryProvider(this).generate("x")
+        breathOfTheGoddess
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(oven.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
+        addEntry(breathOfTheGoddess)
+
+        val tearOfTheGoddess = TearOfTheGoddessEntryProvider(this).generate("t")
+        tearOfTheGoddess
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(breathOfTheGoddess.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(breathOfTheGoddess.id).withDrawArrow(true))
+        tearOfTheGoddess.addParent(BookEntryParentModel.create(distillery.id).withDrawArrow(true))
+        addEntry(tearOfTheGoddess)
     }
 
     override fun categoryName(): String {
