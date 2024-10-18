@@ -90,6 +90,55 @@ object WitcheryBlocks {
         )
     }
 
+    val EXPOSED_COPPER_CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("exposed_copper_cauldron") {
+        CauldronBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WEATHERED_COPPER_CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("weathered_copper_cauldron") {
+        CauldronBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val OXIDIZED_COPPER_CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("oxidized_copper_cauldron") {
+        CauldronBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WAXED_COPPER_CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("waxed_copper_cauldron") {
+        CauldronBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WAXED_EXPOSED_COPPER_CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("waxed_exposed_copper_cauldron") {
+        CauldronBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WAXED_WEATHERED_COPPER_CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("waxed_weathered_copper_cauldron") {
+        CauldronBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WAXED_OXIDIZED_COPPER_CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("waxed_oxidized_copper_cauldron") {
+        CauldronBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
     val DISTILLERY = BLOCKS.register("distillery") {
         DistilleryBlock(BlockBehaviour.Properties.of())
     }
@@ -124,6 +173,62 @@ object WitcheryBlocks {
             )
         }
 
+    val WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> =
+        BLOCKS.register("waxed_copper_witches_oven_fume_extension") {
+            OvenFumeExtensionBlock(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
+
+    val EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> =
+        BLOCKS.register("exposed_copper_witches_oven_fume_extension") {
+            OvenFumeExtensionBlock(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
+
+    val WAXED_EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> =
+        BLOCKS.register("waxed_exposed_copper_witches_oven_fume_extension") {
+            OvenFumeExtensionBlock(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
+
+    val WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> =
+        BLOCKS.register("weathered_copper_witches_oven_fume_extension") {
+            OvenFumeExtensionBlock(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
+
+    val WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> =
+        BLOCKS.register("waxed_weathered_copper_witches_oven_fume_extension") {
+            OvenFumeExtensionBlock(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
+
+    val OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> =
+        BLOCKS.register("oxidized_copper_witches_oven_fume_extension") {
+            OvenFumeExtensionBlock(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
+
+    val WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<OvenFumeExtensionBlock> =
+        BLOCKS.register("waxed_oxidized_copper_witches_oven_fume_extension") {
+            OvenFumeExtensionBlock(
+                BlockBehaviour.Properties.of()
+                    .sound(SoundType.METAL)
+            )
+        }
+
     val IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT: RegistrySupplier<OvenFumeExtensionBlockComponent> =
         BLOCKS.register("iron_witches_oven_fume_extension_component") {
             OvenFumeExtensionBlockComponent(
@@ -133,6 +238,55 @@ object WitcheryBlocks {
         }
 
     val COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("copper_witches_oven") {
+        OvenBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val EXPOSED_COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("exposed_copper_witches_oven") {
+        OvenBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WEATHERED_COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("weathered_copper_witches_oven") {
+        OvenBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val OXIDIZED_COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("oxidized_copper_witches_oven") {
+        OvenBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WAXED_COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("waxed_copper_witches_oven") {
+        OvenBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WAXED_EXPOSED_COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("waxed_exposed_copper_witches_oven") {
+        OvenBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WAXED_WEATHERED_COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("waxed_weathered_copper_witches_oven") {
+        OvenBlock(
+            BlockBehaviour.Properties.of()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val WAXED_OXIDIZED_COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("waxed_oxidized_copper_witches_oven") {
         OvenBlock(
             BlockBehaviour.Properties.of()
                 .sound(SoundType.METAL)

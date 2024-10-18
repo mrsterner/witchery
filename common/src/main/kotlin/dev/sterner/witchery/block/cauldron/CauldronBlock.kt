@@ -26,7 +26,7 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 import java.util.function.ToIntFunction
 
-class CauldronBlock(properties: Properties) :
+open class CauldronBlock(properties: Properties) :
     WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(8))) {
 
     init {
