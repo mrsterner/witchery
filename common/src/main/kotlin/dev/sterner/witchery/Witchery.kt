@@ -31,9 +31,7 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.ImpEntity
 import dev.sterner.witchery.entity.MandrakeEntity
-import dev.sterner.witchery.integration.modonomicon.BookCauldronBrewingRecipePage
-import dev.sterner.witchery.integration.modonomicon.BookCauldronCraftingRecipePage
-import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
+import dev.sterner.witchery.integration.modonomicon.*
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.registry.*
@@ -118,6 +116,36 @@ object Witchery {
             } as BookPageJsonLoader<*>
         ) { buffer: RegistryFriendlyByteBuf ->
             BookCauldronBrewingRecipePage.fromNetwork(
+                buffer
+            )
+        }
+
+        LoaderRegistry.registerPageLoader(
+            WitcheryPageRendererRegistry.OVEN_FUMING_RECIPE,
+            BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
+                BookOvenFumingRecipePage.fromJson(
+                    entryId,
+                    json,
+                    provider
+                )
+            } as BookPageJsonLoader<*>
+        ) { buffer: RegistryFriendlyByteBuf ->
+            BookOvenFumingRecipePage.fromNetwork(
+                buffer
+            )
+        }
+
+        LoaderRegistry.registerPageLoader(
+            WitcheryPageRendererRegistry.DISTILLING_RECIPE,
+            BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
+                BookDistillingRecipePage.fromJson(
+                    entryId,
+                    json,
+                    provider
+                )
+            } as BookPageJsonLoader<*>
+        ) { buffer: RegistryFriendlyByteBuf ->
+            BookDistillingRecipePage.fromNetwork(
                 buffer
             )
         }

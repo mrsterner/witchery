@@ -32,6 +32,17 @@
       "text": "mutandis.page1",
       "title": "mutandis.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:cauldron_crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_crafting/mutandis",
+      "text": "mutandismutandis.title",
+      "title1": "mutandismutandis",
+      "title2": ""
     }
   ],
   "parents": [

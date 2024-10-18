@@ -28,6 +28,116 @@
       "text": "oven.page1",
       "title": "oven.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/breath_of_the_goddess",
+      "text": "ovenbreath_of_the_goddess.title",
+      "title1": "ovenbreath_of_the_goddess",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/breath_of_the_goddess2",
+      "text": "ovenbreath_of_the_goddess.title",
+      "title1": "ovenbreath_of_the_goddess",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/hint_of_rebirth",
+      "text": "ovenhint_of_rebirth.title",
+      "title1": "ovenhint_of_rebirth",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/hint_of_rebirth2",
+      "text": "ovenhint_of_rebirth.title",
+      "title1": "ovenhint_of_rebirth",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/exhale_of_the_horned_one",
+      "text": "ovenexhale_of_the_horned_one.title",
+      "title1": "ovenexhale_of_the_horned_one",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/exhale_of_the_horned_one2",
+      "text": "ovenexhale_of_the_horned_one.title",
+      "title1": "ovenexhale_of_the_horned_one",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/foul_fume_logs",
+      "text": "ovenfoul_fume_logs.title",
+      "title1": "ovenfoul_fume_logs",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/whiff_of_magic",
+      "text": "ovenwhiff_of_magic.title",
+      "title1": "ovenwhiff_of_magic",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/odor_of_purity",
+      "text": "ovenodor_of_purity.title",
+      "title1": "ovenodor_of_purity",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/reek_of_misfortune",
+      "text": "ovenreek_of_misfortune.title",
+      "title1": "ovenreek_of_misfortune",
+      "title2": ""
     }
   ],
   "parents": [
