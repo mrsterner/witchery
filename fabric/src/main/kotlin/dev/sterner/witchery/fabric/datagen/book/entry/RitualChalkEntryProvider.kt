@@ -27,15 +27,18 @@ class RitualChalkEntryProvider(parent: CategoryProviderBase?) : EntryProvider(pa
         }
         this.page("${ID}golden_chalk") {
             BookCauldronCraftingPageModel.create().withText("${ID}golden_chalk.title")
-                .withRecipeId1(Witchery.id("cauldron_crafting/golden_chalk"));
+                .withRecipeId1(Witchery.id("cauldron_crafting/golden_chalk"))
+                .withTitle1("${ID}golden_chalk")
         }
         this.page("${ID}infernal_chalk") {
             BookCauldronCraftingPageModel.create().withText("${ID}infernal_chalk.title")
-                .withRecipeId1(Witchery.id("cauldron_crafting/infernal_chalk"));
+                .withRecipeId1(Witchery.id("cauldron_crafting/infernal_chalk"))
+                .withTitle1("${ID}infernal_chalk")
         }
         this.page("${ID}otherwhere_chalk") {
             BookCauldronCraftingPageModel.create().withText("${ID}otherwhere_chalk.title")
-                .withRecipeId1(Witchery.id("cauldron_crafting/otherwhere_chalk"));
+                .withRecipeId1(Witchery.id("cauldron_crafting/otherwhere_chalk"))
+                .withTitle1("${ID}otherwhere_chalk")
         }
 
     }

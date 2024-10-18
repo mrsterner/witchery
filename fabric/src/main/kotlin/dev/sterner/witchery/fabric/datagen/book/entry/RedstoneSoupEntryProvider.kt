@@ -8,6 +8,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookRecipePageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.fabric.datagen.book.entry.RitualChalkEntryProvider.Companion
 import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronBrewingPageModel
 import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronCraftingPageModel
 import dev.sterner.witchery.integration.modonomicon.BookCauldronBrewingRecipePage
@@ -28,9 +29,10 @@ class RedstoneSoupEntryProvider(parent: CategoryProviderBase?) : EntryProvider(p
                 .withText("$ID.page1")
         }
 
-        this.page("ID") {
+        this.page("${ID}redstone_soup") {
             BookCauldronBrewingPageModel.create().withText("$ID.title")
-                .withRecipeId1(Witchery.id("cauldron_brewing/redstone_soup"));
+                .withRecipeId1(Witchery.id("cauldron_brewing/redstone_soup"))
+                .withTitle1("${ID}redstone_soup")
         }
 
 

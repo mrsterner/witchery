@@ -1,15 +1,16 @@
 package dev.sterner.witchery.integration.modonomicon
 
 import com.klikli_dev.modonomicon.book.page.BookRecipePage
+import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
-import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Style
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeHolder
+import kotlin.math.min
 
 
 abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: BookCauldronCraftingRecipePage?) :
@@ -21,8 +22,8 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
     }
 
     override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, ticks: Float) {
-        val recipeX = X
-        val recipeY = Y
+        val recipeX = X - 9
+        val recipeY = Y + 18
 
         this.drawRecipe(
             guiGraphics,
@@ -52,7 +53,9 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
         val pose = guiGraphics.pose()
 
         pose.pushPose()
-        pose.translate(-8.0,0.0,0.0)
+        if (!this.page!!.title1.isEmpty) {
+            this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0);
+        }
         // Render input items
         for ((index, ingredient) in recipeHolder.value!!.inputItems.withIndex()) {
             // Draw background texture for each ingredient
@@ -73,12 +76,7 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
                 13, 13
             )
 
-            // Render the actual item in the slot
-            guiGraphics.renderItem(
-                ingredient.itemStack,
-                recipeX + 2 + 2 + 18,
-                recipeY + 20 * index
-            )
+            this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 18, recipeY + 20 * index, mouseX, mouseY, ingredient.itemStack)
         }
 
         // Render output items
@@ -88,6 +86,7 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
                 recipeX + 48 + 9 + 4 + 6 + (18 * index),
                 recipeY + 20 + 6 - 4 + 18
             )
+            this.parentScreen.renderItemStack(guiGraphics, recipeX + 48 + 9 + 4 + 6 + (18 * index), recipeY + 20 + 6 - 4 + 18, mouseX, mouseY, itemStack)
         }
 
         // Render the cauldron icon

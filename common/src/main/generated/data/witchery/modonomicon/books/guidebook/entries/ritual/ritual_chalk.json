@@ -32,7 +32,7 @@
       },
       "recipe_id_1": "witchery:cauldron_crafting/golden_chalk",
       "text": "ritual_chalkgolden_chalk.title",
-      "title1": "",
+      "title1": "ritual_chalkgolden_chalk",
       "title2": ""
     },
     {
@@ -43,7 +43,7 @@
       },
       "recipe_id_1": "witchery:cauldron_crafting/infernal_chalk",
       "text": "ritual_chalkinfernal_chalk.title",
-      "title1": "",
+      "title1": "ritual_chalkinfernal_chalk",
       "title2": ""
     },
     {
@@ -54,7 +54,7 @@
       },
       "recipe_id_1": "witchery:cauldron_crafting/otherwhere_chalk",
       "text": "ritual_chalkotherwhere_chalk.title",
-      "title1": "",
+      "title1": "ritual_chalkotherwhere_chalk",
       "title2": ""
     }
   ],

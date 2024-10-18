@@ -1,6 +1,7 @@
 package dev.sterner.witchery.integration.modonomicon
 
 import com.klikli_dev.modonomicon.book.page.BookRecipePage
+import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
@@ -22,8 +23,10 @@ abstract class BookCauldronBrewingRecipePageRenderer<T : Recipe<*>?>(page: BookC
         return 45
     }
 
+
+
     override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, ticks: Float) {
-        val recipeX = X
+        val recipeX = X - 9
         val recipeY = Y
 
         this.drawRecipe(
@@ -37,7 +40,6 @@ abstract class BookCauldronBrewingRecipePageRenderer<T : Recipe<*>?>(page: BookC
 
     override fun getClickedComponentStyleAt(pMouseX: Double, pMouseY: Double): Style? {
         val textStyle = super.getClickedComponentStyleAt(pMouseX, pMouseY)
-
         return textStyle
     }
 
@@ -54,10 +56,15 @@ abstract class BookCauldronBrewingRecipePageRenderer<T : Recipe<*>?>(page: BookC
         val pose = guiGraphics.pose()
 
         pose.pushPose()
-        pose.translate(-8.0,0.0,0.0)
+
+        if (!this.page!!.title1.isEmpty) {
+            this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0);
+        }
         // Render input items
         for ((index, ingredient) in recipeHolder.value!!.inputItems.withIndex()) {
             // Draw background texture for each ingredient
+
+
             guiGraphics.blit(
                 Witchery.id("textures/gui/order_widget.png"),
                 recipeX + 2, recipeY + 20 * index,
@@ -75,25 +82,11 @@ abstract class BookCauldronBrewingRecipePageRenderer<T : Recipe<*>?>(page: BookC
                 13, 13
             )
 
-            // Render the actual item in the slot
-            guiGraphics.renderItem(
-                ingredient.itemStack,
-                recipeX + 2 + 2 + 18,
-                recipeY + 20 * index
-            )
+            this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 18, recipeY + 20 * index, mouseX, mouseY, ingredient.itemStack)
         }
 
-        guiGraphics.renderItem(
-                recipeHolder.value!!.outputItem,
-                recipeX + 48 + 9 + 4 + 6 + (18),
-                recipeY + 20 + 6 - 4 + 18
-        )
-
-        guiGraphics.renderItem(
-            Items.GLASS_BOTTLE.defaultInstance,
-            recipeX + 48 + 9 + 4 + 6 - (18) + 9 + 9,
-            recipeY + 20 + 6 - 4 + 18
-        )
+        this.parentScreen.renderItemStack(guiGraphics, recipeX + 48 + 9 + 4 + 6 + (18), recipeY + 20 + 6 - 4 + 18, mouseX, mouseY, recipeHolder.value!!.outputItem)
+        this.parentScreen.renderItemStack(guiGraphics, recipeX + 48 + 9 + 4 + 6 - (18) + 9 + 9, recipeY + 20 + 6 - 4 + 18, mouseX, mouseY, Items.GLASS_BOTTLE.defaultInstance)
 
 
         // Render the cauldron icon
