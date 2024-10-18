@@ -211,9 +211,9 @@ class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties), 
         val UPPER_SHAPE_BY_AGE: Array<VoxelShape> = arrayOf(box(3.0, 0.0, 3.0, 13.0, 11.0, 13.0), FULL_UPPER_SHAPE)
         val LOWER_SHAPE_BY_AGE: Array<VoxelShape> = arrayOf(
             COLLISION_SHAPE_BULB,
-            box(3.0, -1.0, 3.0, 13.0, 14.0, 13.0),
-            FULL_LOWER_SHAPE,
-            FULL_LOWER_SHAPE,
+            box(3.0, -1.0, 3.0, 13.0, 8.0, 13.0),
+            box(3.0, -1.0, 3.0, 13.0, 13.0, 13.0),
+            box(3.0, -1.0, 3.0, 13.0, 16.0, 13.0),
             FULL_LOWER_SHAPE
         )
     }

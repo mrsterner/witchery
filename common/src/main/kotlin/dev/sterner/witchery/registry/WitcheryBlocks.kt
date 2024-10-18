@@ -445,7 +445,7 @@ object WitcheryBlocks {
     }
 
     val BELLADONNAE_CROP = BLOCKS.register("belladonna") {
-        WitcheryCropBlock(
+        BelladonnaCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
                 .noCollission()
@@ -457,7 +457,7 @@ object WitcheryBlocks {
     }
 
     val SNOWBELL_CROP = BLOCKS.register("snowbell") {
-        WitcheryCropBlock(
+        SnowbellCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
                 .noCollission()
@@ -481,7 +481,7 @@ object WitcheryBlocks {
     }
 
     val WOLFSFBANE_CROP = BLOCKS.register("wolfsbane") {
-        WitcheryCropBlock(
+        WolfsbaneCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
                 .noCollission()
@@ -493,7 +493,7 @@ object WitcheryBlocks {
     }
 
     val GARLIC_CROP = BLOCKS.register("garlic") {
-        WitcheryCropBlock(
+        GarlicCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
                 .noCollission()

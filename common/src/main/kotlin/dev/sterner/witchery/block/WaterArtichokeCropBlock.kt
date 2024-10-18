@@ -1,12 +1,16 @@
 package dev.sterner.witchery.block
 
+import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 
 class WaterArtichokeCropBlock(properties: Properties) : WitcheryCropBlock(properties) {
 
@@ -29,5 +33,21 @@ class WaterArtichokeCropBlock(properties: Properties) : WitcheryCropBlock(proper
     private fun getWaterGrowthSpeed(block: Block, level: BlockGetter, pos: BlockPos): Float {
         val f = 10f
         return f
+    }
+
+    override fun getBaseSeedId() = WitcheryItems.WATER_ARTICHOKE_SEEDS.get()
+
+    override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
+        return CUSTOM_SHAPE_BY_AGE[state.getValue(AGE)]
+    }
+
+    companion object {
+        val CUSTOM_SHAPE_BY_AGE = arrayOf(
+            box(4.0, 0.0, 4.0, 12.0, 2.0, 12.0),
+            box(4.0, 0.0, 4.0, 12.0, 5.0, 12.0),
+            box(4.0, 0.0, 4.0, 12.0, 9.0, 12.0),
+            box(4.0, 0.0, 4.0, 12.0, 13.0, 12.0),
+            box(4.0, 0.0, 4.0, 12.0, 15.0, 12.0)
+        )
     }
 }
