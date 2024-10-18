@@ -1,6 +1,5 @@
 package dev.sterner.witchery.fabric.datagen
 
-import dev.sterner.witchery.block.ritual.CommandContext
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.block.ritual.RitualHelper
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
@@ -738,7 +737,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
             .addInputItem(WitcheryItems.TAGLOCK.get().defaultInstance)
             .addInputItem(Items.IRON_INGOT.defaultInstance)
-            .addCommand(CommandType("tp {entity} {blockPos}", CommandType.END, listOf(CommandContext.PLAYER_OR_ENTITY, CommandContext.BLOCKPOS)))
+            .addCommand(CommandType("tp {taglockPlayerOrEntity} {waystonePos}", CommandType.END))
             .setTicks(20 * 2)
             .setAltarPower(3000)
             .pattern(
@@ -760,7 +759,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
-            .addCommand(CommandType("tp {owner} {blockPos}", CommandType.END, CommandContext.BLOCKPOS))
+            .addCommand(CommandType("tp {owner} {waystonePos}", CommandType.END))
             .setTicks(20)
             .pattern(
                 "__RRR__",
@@ -791,7 +790,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             )
             .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .addCommand(CommandType("summon lightning_bolt {blockPos}", CommandType.END, CommandContext.NOTHING))
+            .addCommand(CommandType("summon lightning_bolt {chalkPos}", CommandType.END))
             .save(exporter)
 
         RitualRecipeBuilder.create()
@@ -811,7 +810,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             )
             .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .addCommand(CommandType("summon lightning_bolt {blockPos}", CommandType.END, CommandContext.BLOCKPOS))
+            .addCommand(CommandType("summon lightning_bolt {waystonePos}", CommandType.END))
             .save(exporter)
 
         RitualRecipeBuilder.create()
@@ -819,7 +818,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
             .setAltarPower(3000)
             .setTicks(20)
-            .addCommand(CommandType("time set midnight", CommandType.END, CommandContext.NOTHING))
+            .addCommand(CommandType("time set midnight", CommandType.END))
             .pattern(
                 "__RRR__",
                 "_R___R_",

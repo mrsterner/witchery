@@ -9,10 +9,7 @@
   "commands": [
     {
       "type": "end",
-      "command": "summon lightning_bolt {blockPos}",
-      "context": [
-        "nothing"
-      ]
+      "command": "summon lightning_bolt {chalkPos}"
     }
   ],
   "floatingItemOutput": false,

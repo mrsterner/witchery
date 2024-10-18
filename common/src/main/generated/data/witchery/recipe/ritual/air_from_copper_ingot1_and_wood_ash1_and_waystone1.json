@@ -9,10 +9,7 @@
   "commands": [
     {
       "type": "end",
-      "command": "summon lightning_bolt {blockPos}",
-      "context": [
-        "blockpos"
-      ]
+      "command": "summon lightning_bolt {waystonePos}"
     }
   ],
   "floatingItemOutput": false,

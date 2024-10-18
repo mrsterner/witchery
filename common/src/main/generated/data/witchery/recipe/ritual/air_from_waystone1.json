@@ -9,10 +9,7 @@
   "commands": [
     {
       "type": "end",
-      "command": "tp {owner} {blockPos}",
-      "context": [
-        "blockpos"
-      ]
+      "command": "tp {owner} {waystonePos}"
     }
   ],
   "floatingItemOutput": false,

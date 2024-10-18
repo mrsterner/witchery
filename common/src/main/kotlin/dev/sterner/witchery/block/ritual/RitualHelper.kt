@@ -72,91 +72,20 @@ object RitualHelper {
         }
     }
 
+
+    //Rewrite
     fun runCommand(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity, phase: String) {
         val server = level.server
         if (blockEntity.ritualRecipe != null) {
             for (commandType in blockEntity.ritualRecipe!!.commands) {
                 if (commandType.type == phase) {
-                    val commandListLength = commandType.ctx.size
-                    if (commandListLength == 1) {
-                        when (commandType.ctx[0]) {
-                            CommandContext.NOTHING -> {
-                                runCommand(blockEntity, level, server, blockPos, commandType.command, null, null)
-                            }
+                    val playerUuid = blockEntity.targetPlayer
+                    val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
+                    val targetEntity = blockEntity.targetEntity
+                    val targetPos = blockEntity.targetPos
+                    val dimensionLevel = targetPos?.dimension()?.let { server?.getLevel(it) }
 
-                            CommandContext.PLAYER -> {
-                                val playerUuid = blockEntity.targetPlayer
-                                val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
-                                runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
-                            }
-
-                            CommandContext.PLAYER_OR_ENTITY -> {
-                                val playerUuid = blockEntity.targetPlayer
-                                val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
-                                if (player != null) {
-                                    runCommand(blockEntity, level, server, blockPos, commandType.command, player, null)
-                                } else {
-                                    val targetEntity = blockEntity.targetEntity
-                                    runCommand(
-                                        blockEntity,
-                                        level,
-                                        server,
-                                        blockPos,
-                                        commandType.command,
-                                        null,
-                                        targetEntity
-                                    )
-                                }
-                            }
-
-                            CommandContext.ENTITY -> {
-                                val targetEntity = blockEntity.targetEntity
-                                runCommand(blockEntity, level, server, blockPos, commandType.command, null, targetEntity)
-                            }
-
-                            CommandContext.BLOCKPOS -> {
-                                val targetPos = blockEntity.targetPos
-                                if (targetPos != null) {
-                                    val dimensionLevel =
-                                        server?.getLevel(targetPos.dimension()) // Get the correct dimension's level
-                                    if (dimensionLevel != null) {
-                                        runCommand(
-                                            blockEntity,
-                                            dimensionLevel,
-                                            server,
-                                            targetPos.pos(),
-                                            commandType.command,
-                                            null,
-                                            null
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    } else if(commandListLength == 2){
-                        if (commandType.ctx.contains(CommandContext.PLAYER_OR_ENTITY) && commandType.ctx.contains(CommandContext.BLOCKPOS)) {
-                            val targetPos = blockEntity.targetPos
-                            if (targetPos != null) {
-                                val targetEntity = blockEntity.targetEntity
-                                val playerUuid = blockEntity.targetPlayer
-                                val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
-                                val dimensionLevel =
-                                    server?.getLevel(targetPos.dimension()) // Get the correct dimension's level
-                                if (dimensionLevel != null) {
-                                    runCommand(
-                                        blockEntity,
-                                        dimensionLevel,
-                                        server,
-                                        targetPos.pos(),
-                                        commandType.command,
-                                        player,
-                                        targetEntity
-                                    )
-                                }
-                            }
-                        }
-                    }
-
+                    runCommand(blockEntity, dimensionLevel ?: level, server, blockPos, targetPos?.pos, commandType.command, player, targetEntity)
                 }
             }
         }
@@ -167,36 +96,54 @@ object RitualHelper {
         level: Level,
         minecraftServer: MinecraftServer?,
         blockPos: BlockPos,
+        waystonePos: BlockPos?,
         command: String,
         player: Player?,
         entityId: Int?
     ) {
         var formattedCommand = command
         if (minecraftServer != null && formattedCommand.isNotEmpty()) {
-            val commandSource: CommandSourceStack = minecraftServer.createCommandSourceStack().withSuppressedOutput()
+            val commandSource: CommandSourceStack = minecraftServer.createCommandSourceStack()
             val commandManager: Commands = minecraftServer.commands
 
             if (player != null) {
-                formattedCommand = formattedCommand.replace("{player}", player.name.string)
+                formattedCommand = formattedCommand.replace("{taglockPlayer}", player.name.string)
             }
 
             if (entityId != null) {
                 val entity = level.getEntity(entityId)
                 if (entity is LivingEntity) {
-                    val tag = "Waystone_${entity.uuid}" // Create the dynamic tag based on the entity UUID
+                    val tag = "Waystone_${entity.uuid}"
 
-                    // Add the tag to the entity if it doesn't already have it
                     if (!entity.tags.contains(tag)) {
                         entity.addTag(tag)
                     }
-                    // Replace {entity} with the @e[tag="Waystone_${entity.uuid}"] selector
-                    formattedCommand = formattedCommand.replace("{entity}", "@e[tag=$tag]")
+                    formattedCommand = formattedCommand.replace("{taglockEntity}", "@e[tag=$tag]")
                 }
             }
 
+            if (formattedCommand.contains("{taglockPlayerOrEntity}")) {
+                if (player != null) {
+                    formattedCommand = formattedCommand.replace("{taglockPlayerOrEntity}", player.name.string)
+                } else if (entityId != null) {
+                    val entity = level.getEntity(entityId)
+                    if (entity is LivingEntity) {
+                        val tag = "Waystone_${entity.uuid}"
+
+                        if (!entity.tags.contains(tag)) {
+                            entity.addTag(tag)
+                        }
+                        formattedCommand = formattedCommand.replace("{taglockPlayerOrEntity}", "@e[tag=$tag]")
+                    }
+                }
+            }
+
+            if (waystonePos != null) {
+                formattedCommand = formattedCommand.replace("{waystonePos}", "${waystonePos.x} ${waystonePos.y} ${waystonePos.z}")
+            }
             formattedCommand = formattedCommand.replace("{time}", "${level.dayTime}")
             formattedCommand = formattedCommand.replace("{owner}", "${blockEntity.ownerName}")
-            formattedCommand = formattedCommand.replace("{blockPos}", "${blockPos.x} ${blockPos.y} ${blockPos.z}")
+            formattedCommand = formattedCommand.replace("{chalkPos}", "${blockPos.x} ${blockPos.y} ${blockPos.z}")
             formattedCommand = "execute as ${blockEntity.ownerName} run execute in ${
                 level.dimension().location().path
             } run " + formattedCommand

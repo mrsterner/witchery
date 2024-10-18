@@ -1,6 +1,6 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 300,
+  "altarPower": 3000,
   "blockMapping": {
     "G": "witchery:golden_chalk",
     "O": "witchery:otherwhere_chalk"
@@ -9,11 +9,7 @@
   "commands": [
     {
       "type": "end",
-      "command": "tp {entity} {blockPos}",
-      "context": [
-        "player_or_entity",
-        "blockpos"
-      ]
+      "command": "tp {taglockPlayerOrEntity} {waystonePos}"
     }
   ],
   "floatingItemOutput": false,
