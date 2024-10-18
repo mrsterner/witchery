@@ -30,7 +30,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/teleport_owner_to_waystone", "Teleportation")
         builder.add("witchery:ritual/teleport_taglock_to_waystone", "Teleportation")
         builder.add("witchery:ritual/summon_imp", "Summon Imp")
+        builder.add( "witchery.item.tooltip.infinity_egg", "Creative Only")
 
+        builder.add(WitcheryItems.INFINITY_EGG.get(), "Infinity Egg")
         builder.add(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), "Deepslate Altar Block")
         builder.add(WitcheryItems.DISTILLERY.get(), "Distillery")
         builder.add(WitcheryItems.GUIDEBOOK.get(), "Lesser Key of Solomon")

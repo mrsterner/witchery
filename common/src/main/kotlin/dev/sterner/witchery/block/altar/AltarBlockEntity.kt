@@ -11,6 +11,7 @@ import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.menu.AltarMenu
 import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryBlocks
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -135,6 +136,12 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     fun augmentAltar(level: ServerLevel) {
         val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+        level.getBlockStatesIfLoaded(augments).forEach { state ->
+            if (state.`is`(WitcheryBlocks.INFINITY_EGG.get())) {
+                maxPower = 10000
+                currentPower = 10000
+            }
+        }
         // Do Stuff
     }
 

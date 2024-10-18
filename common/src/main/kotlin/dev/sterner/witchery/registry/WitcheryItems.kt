@@ -36,6 +36,10 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.SPANISH_MOSS.get(), Item.Properties())
     }
 
+    val INFINITY_EGG: RegistrySupplier<BlockItem> = ITEMS.register("infinity_egg") {
+        BlockItem(WitcheryBlocks.INFINITY_EGG.get(), Item.Properties())
+    }
+
     //start RESOURCES
     val MUTANDIS: RegistrySupplier<MutandisItem> = ITEMS.register("mutandis") {
         MutandisItem(Item.Properties())

@@ -143,6 +143,10 @@ object WitcheryBlocks {
         DemonHeartBlock(BlockBehaviour.Properties.of())
     }
 
+    val INFINITY_EGG = BLOCKS.register("infinity_egg") {
+        InfinityEggBlock(BlockBehaviour.Properties.of())
+    }
+
     val STRIPPED_ROWAN_LOG = BLOCKS.register("stripped_rowan_log") {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
     }
