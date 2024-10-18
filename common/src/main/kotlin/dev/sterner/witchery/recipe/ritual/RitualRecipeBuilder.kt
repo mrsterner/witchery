@@ -2,7 +2,6 @@ package dev.sterner.witchery.recipe.ritual
 
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.CommandType
-import dev.sterner.witchery.recipe.WitcheryRecipeBuilder
 import dev.sterner.witchery.recipe.ritual.RitualRecipe.Celestial
 import dev.sterner.witchery.registry.WitcheryRitualRegistry
 import dev.sterner.witchery.ritual.EmptyRitual
@@ -11,6 +10,7 @@ import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
 import net.minecraft.core.Holder
+import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Block
 
-class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
+class RitualRecipeBuilder private constructor() : RecipeBuilder {
 
     private var ritual: Ritual = EmptyRitual()
     private var inputItems: MutableList<ItemStack> = mutableListOf()
@@ -190,9 +190,9 @@ class RitualRecipeBuilder private constructor() : WitcheryRecipeBuilder() {
         )
 
         recipeOutput.accept(
-            suffixHash(id.withPrefix("ritual/"), inputItems),
+            id.withPrefix("ritual/"),
             recipe,
-            builder.build(suffixHash(id.withPrefix("recipes/ritual/"), inputItems))
+            builder.build(id.withPrefix("recipes/ritual/"))
         )
     }
 }

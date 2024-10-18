@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "minecraft:air"
+        "recipe": "witchery:odor_of_purity"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:air"
+      "witchery:odor_of_purity"
     ]
   }
 }

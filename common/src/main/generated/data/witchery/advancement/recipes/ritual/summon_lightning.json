@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:wood_ash"
+        "recipe": "witchery:summon_lightning"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "witchery:wood_ash"
+      "witchery:summon_lightning"
     ]
   }
 }

@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:tear_of_the_goddess"
+        "recipe": "witchery:exhale_of_the_horned_one2"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "witchery:tear_of_the_goddess"
+      "witchery:exhale_of_the_horned_one2"
     ]
   }
 }

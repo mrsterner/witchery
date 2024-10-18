@@ -1,10 +1,10 @@
 package dev.sterner.witchery.recipe.oven
 
-import dev.sterner.witchery.recipe.WitcheryRecipeBuilder
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
+import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
@@ -19,7 +19,7 @@ class OvenCookingRecipeBuilder(
     private val extraOutputChance: Float = 0.0f,
     private val experience: Float = 0.0f,
     private val cookingTime: Int = 200
-) : WitcheryRecipeBuilder() {
+) : RecipeBuilder {
 
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     private var group: String? = null
@@ -131,9 +131,9 @@ class OvenCookingRecipeBuilder(
         )
 
         recipeOutput.accept(
-            suffixHash(id.withPrefix("oven/"), ingredient.items.toList()),
+            id.withPrefix("oven/"),
             ovenCookingRecipe,
-            builder.build(suffixHash(id.withPrefix("recipes/oven/"), ingredient.items.toList()))
+            builder.build(id.withPrefix("recipes/oven/"))
         )
     }
 }

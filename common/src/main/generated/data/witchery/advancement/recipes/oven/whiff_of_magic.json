@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:wood_ash"
+        "recipe": "witchery:whiff_of_magic"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "witchery:wood_ash"
+      "witchery:whiff_of_magic"
     ]
   }
 }

@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:wood_ash"
+        "recipe": "witchery:breath_of_the_goddess2"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "witchery:wood_ash"
+      "witchery:breath_of_the_goddess2"
     ]
   }
 }

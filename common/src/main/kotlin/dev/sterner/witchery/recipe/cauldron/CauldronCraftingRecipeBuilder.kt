@@ -1,10 +1,10 @@
 package dev.sterner.witchery.recipe.cauldron
 
-import dev.sterner.witchery.recipe.WitcheryRecipeBuilder
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
+import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
@@ -14,7 +14,7 @@ class CauldronCraftingRecipeBuilder(
     private var inputItems: MutableList<ItemStackWithColor> = mutableListOf(),
     private var outputStack: MutableList<ItemStack> = mutableListOf(),
     private val altarPower: Int = 0
-) : WitcheryRecipeBuilder() {
+) : RecipeBuilder {
 
     var order = 0
 
@@ -84,9 +84,9 @@ class CauldronCraftingRecipeBuilder(
 
         val cauldronCraftingRecipe = CauldronCraftingRecipe(inputItems, outputStack, altarPower)
         recipeOutput.accept(
-            suffixHash(id.withPrefix("cauldron_crafting/"), inputItems.map { it.itemStack }),
+            id.withPrefix("cauldron_crafting/"),
             cauldronCraftingRecipe,
-            builder.build(suffixHash(id.withPrefix("recipes/cauldron_crafting/"), inputItems.map { it.itemStack }))
+            builder.build(id.withPrefix("recipes/cauldron_crafting/"))
         )
     }
 }

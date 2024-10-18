@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "minecraft:air"
+        "recipe": "witchery:exhale_of_the_horned_one"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:air"
+      "witchery:exhale_of_the_horned_one"
     ]
   }
 }

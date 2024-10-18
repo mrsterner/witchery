@@ -1,5 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.block.ritual.RitualHelper
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
@@ -51,7 +52,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(255,50,50).rgb)
             .setOutput(WitcheryItems.REDSTONE_SOUP.get().defaultInstance)
             .setAltarPower(100)
-            .save(exporter)
+            .save(exporter,  Witchery.id("redstone_soup"))
 
 
 
@@ -542,7 +543,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.GOLDEN_CHALK.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
-            .save(exporter)
+            .save(exporter,  Witchery.id("golden_chalk"))
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
@@ -552,7 +553,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.OTHERWHERE_CHALK.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
-            .save(exporter)
+            .save(exporter,  Witchery.id("otherwhere_chalk"))
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
@@ -561,7 +562,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.INFERNAL_CHALK.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
-            .save(exporter)
+            .save(exporter,  Witchery.id("infernal_chalk"))
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
@@ -570,7 +571,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.MUTANDIS.get().defaultInstance, 4)
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
-            .save(exporter)
+            .save(exporter,  Witchery.id("mutandis"))
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
@@ -578,7 +579,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.MUTANDIS_EXTREMIS.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
-            .save(exporter)
+            .save(exporter,  Witchery.id("mutandis_extremis"))
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
@@ -589,7 +590,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.DROP_OF_LUCK.get())
             .setAltarPower(100)
             .unlockedBy("has_refined_evil", has(WitcheryItems.REFINED_EVIL.get()))
-            .save(exporter)
+            .save(exporter,  Witchery.id("drop_of_luck"))
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
@@ -600,7 +601,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(Items.NETHER_WART.defaultInstance, 1)
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
-            .save(exporter)
+            .save(exporter,  Witchery.id("nether_wart"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.OAK_SAPLING),
@@ -610,7 +611,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("exhale_of_the_horned_one"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.DARK_OAK_SAPLING),
@@ -620,7 +621,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("exhale_of_the_horned_one2"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.BIRCH_SAPLING),
@@ -630,7 +631,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("breath_of_the_goddess"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.CHERRY_SAPLING),
@@ -640,7 +641,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("breath_of_the_goddess2"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.SPRUCE_SAPLING),
@@ -650,7 +651,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("hint_of_rebirth"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.JUNGLE_SAPLING),
@@ -660,7 +661,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("hint_of_rebirth2"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(WitcheryItems.ROWAN_SAPLING.get()),
@@ -670,7 +671,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("whiff_of_magic"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(WitcheryItems.ALDER_SAPLING.get()),
@@ -680,7 +681,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("reek_of_misfortune"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(WitcheryItems.HAWTHORN_SAPLING.get()),
@@ -690,7 +691,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("odor_of_purity"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(ItemTags.LOGS),
@@ -700,7 +701,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter)
+        ).save(exporter,  Witchery.id("foul_fume_logs"))
 
 
         RitualRecipeBuilder.create()
@@ -712,25 +713,21 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setTicks(20 * 5)
             .setAltarPower(5000)
             .pattern(
-                "_______________",
-                "_______________",
-                "_____OOOOO_____",
-                "____O_____O____",
-                "___O_______O___",
-                "__O_________O__",
-                "__O_________O__",
-                "__O____G____O__",
-                "__O_________O__",
-                "__O_________O__",
-                "___O_______O___",
-                "____O_____O____",
-                "_____OOOOO_____",
-                "_______________",
-                "_______________"
+                "___OOOOO___",
+                "__O_____O__",
+                "_O_______O_",
+                "O_________O",
+                "O_________O",
+                "O____G____O",
+                "O_________O",
+                "O_________O",
+                "_O_______O_",
+                "__O_____O__",
+                "___OOOOO____"
             )
             .define('O', WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter)
+            .save(exporter, Witchery.id("summon_imp"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.ENDER_DEW.get().defaultInstance)
@@ -755,7 +752,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             )
             .define('O', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter)
+            .save(exporter, Witchery.id("teleport_taglock_to_waystone"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
@@ -772,7 +769,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             )
             .define('R', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter)
+            .save(exporter, Witchery.id("teleport_owner_to_waystone"))
 
         RitualRecipeBuilder.create()
             .addInputItem(Items.COPPER_INGOT.defaultInstance)
@@ -791,7 +788,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
             .addCommand(CommandType("summon lightning_bolt {chalkPos}", CommandType.END))
-            .save(exporter)
+            .save(exporter, Witchery.id("summon_lightning"))
 
         RitualRecipeBuilder.create()
             .addInputItem(Items.COPPER_INGOT.defaultInstance)
@@ -811,7 +808,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
             .addCommand(CommandType("summon lightning_bolt {waystonePos}", CommandType.END))
-            .save(exporter)
+            .save(exporter, Witchery.id("summon_lightning_on_waystone"))
 
         RitualRecipeBuilder.create()
             .addInputItem(Items.WOODEN_AXE.defaultInstance)
@@ -830,7 +827,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             )
             .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter)
+            .save(exporter, Witchery.id("set_midnight"))
 
         RitualRecipeBuilder.create()
             .addInputItem(Items.FEATHER.defaultInstance)
@@ -849,7 +846,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
             .setCustomRitual(PushMobsRitual())
-            .save(exporter)
+            .save(exporter, Witchery.id("push_mobs"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.FOUL_FUME.get().defaultInstance)
@@ -860,7 +857,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.GYPSUM.get().defaultInstance)
             .addOutput(Items.SLIME_BALL.defaultInstance)
             .setJarConsumption(1)
-            .save(exporter)
+            .save(exporter,  Witchery.id("oil_of_vitriol_gypsum"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.BREATH_OF_THE_GODDESS.get().defaultInstance)
@@ -872,7 +869,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(Items.SLIME_BALL.defaultInstance)
             .addOutput(WitcheryItems.FOUL_FUME.get().defaultInstance)
             .setJarConsumption(3)
-            .save(exporter)
+            .save(exporter,  Witchery.id("tear_and_whiff"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(Items.ENDER_PEARL.defaultInstance)
@@ -883,7 +880,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.ENDER_DEW.get().defaultInstance, 1)
             .addOutput(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance)
             .setJarConsumption(6)
-            .save(exporter)
+            .save(exporter,  Witchery.id("ender_dew"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(Items.BLAZE_POWDER.defaultInstance)
@@ -894,7 +891,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(Items.GLOWSTONE_DUST.defaultInstance)
             .addOutput(Items.GLOWSTONE_DUST.defaultInstance)
             .setJarConsumption(1)
-            .save(exporter)
+            .save(exporter,  Witchery.id("reek_of_misfortune_glowstone"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.DEMON_HEART.get().defaultInstance)
@@ -904,7 +901,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.DEMONS_BLOOD.get().defaultInstance, 2)
             .addOutput(WitcheryItems.REFINED_EVIL.get().defaultInstance)
             .setJarConsumption(4)
-            .save(exporter)
+            .save(exporter,  Witchery.id("refined_evil"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.DEMON_HEART.get().defaultInstance)
@@ -915,7 +912,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.DEMONS_BLOOD.get().defaultInstance)
             .addOutput(Items.SOUL_SAND.defaultInstance)
             .setJarConsumption(2)
-            .save(exporter)
+            .save(exporter,  Witchery.id("demons_blood"))
 
     }
 }

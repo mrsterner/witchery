@@ -23,11 +23,13 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("container.witchery.oven_menu", "Witches Oven")
         builder.add("container.witchery.altar_menu", "Altar")
 
-        builder.add("witchery:ritual/air_from_copper_ingot_and_wood_ash_and_waystone", "Lightning Strike")
-        builder.add("witchery:ritual/air_from_copper_ingot_and_wood_ash", "Lightning Strike")
-        builder.add("witchery:ritual/air_from_wooden_axe_and_wood_ash", "Turn Night")
-        builder.add("witchery:ritual/air_from_feather_and_redstone", "Rite of Sanctity")
-        builder.add("witchery:ritual/air_from_waystone", "Teleportation")
+        builder.add("witchery:ritual/summon_lightning_on_waystone", "Lightning Strike")
+        builder.add("witchery:ritual/summon_lightning", "Lightning Strike")
+        builder.add("witchery:ritual/set_midnight", "Turn Night")
+        builder.add("witchery:ritual/push_mobs", "Rite of Sanctity")
+        builder.add("witchery:ritual/teleport_owner_to_waystone", "Teleportation")
+        builder.add("witchery:ritual/teleport_taglock_to_waystone", "Teleportation")
+        builder.add("witchery:ritual/summon_imp", "Summon Imp")
 
         builder.add(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), "Deepslate Altar Block")
         builder.add(WitcheryItems.DISTILLERY.get(), "Distillery")

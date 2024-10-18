@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "minecraft:air"
+        "recipe": "witchery:reek_of_misfortune_glowstone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:air"
+      "witchery:reek_of_misfortune_glowstone"
     ]
   }
 }

@@ -4,10 +4,12 @@ import dev.emi.emi.api.EmiEntrypoint
 import dev.emi.emi.api.EmiPlugin
 import dev.emi.emi.api.EmiRegistry
 import dev.emi.emi.api.recipe.EmiRecipeCategory
+import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.RecipeManager
 import net.minecraft.world.item.crafting.RecipeType
 
@@ -16,6 +18,7 @@ import net.minecraft.world.item.crafting.RecipeType
 class WitcheryEmiPlugin : EmiPlugin {
 
     override fun register(registry: EmiRegistry) {
+        registry.addWorkstation(RITUAL_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.GOLDEN_CHALK.get())))
         registry.addCategory(CAULDRON_BREWING_CATEGORY)
         registry.addCategory(CAULDRON_CRAFTING_CATEGORY)
         registry.addCategory(OVEN_COOKING_CATEGORY)

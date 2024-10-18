@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "minecraft:air"
+        "recipe": "witchery:summon_lightning_on_waystone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:air"
+      "witchery:summon_lightning_on_waystone"
     ]
   }
 }

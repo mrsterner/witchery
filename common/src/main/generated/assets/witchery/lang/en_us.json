@@ -158,9 +158,11 @@
   "tag.item.witchery.leaves": "Witchery Leaves",
   "tag.item.witchery.rowan_logs": "Rowan Logs",
   "witchery.main": "Witchery",
-  "witchery:ritual/air_from_copper_ingot_and_wood_ash": "Lightning Strike",
-  "witchery:ritual/air_from_copper_ingot_and_wood_ash_and_waystone": "Lightning Strike",
-  "witchery:ritual/air_from_feather_and_redstone": "Rite of Sanctity",
-  "witchery:ritual/air_from_waystone": "Teleportation",
-  "witchery:ritual/air_from_wooden_axe_and_wood_ash": "Turn Night"
+  "witchery:ritual/push_mobs": "Rite of Sanctity",
+  "witchery:ritual/set_midnight": "Turn Night",
+  "witchery:ritual/summon_imp": "Summon Imp",
+  "witchery:ritual/summon_lightning": "Lightning Strike",
+  "witchery:ritual/summon_lightning_on_waystone": "Lightning Strike",
+  "witchery:ritual/teleport_owner_to_waystone": "Teleportation",
+  "witchery:ritual/teleport_taglock_to_waystone": "Teleportation"
 }

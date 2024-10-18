@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "minecraft:air"
+        "recipe": "witchery:foul_fume_logs"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:air"
+      "witchery:foul_fume_logs"
     ]
   }
 }

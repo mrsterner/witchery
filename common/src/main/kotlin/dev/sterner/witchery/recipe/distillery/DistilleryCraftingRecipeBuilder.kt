@@ -1,10 +1,10 @@
 package dev.sterner.witchery.recipe.distillery
 
-import dev.sterner.witchery.recipe.WitcheryRecipeBuilder
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
+import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
@@ -16,7 +16,7 @@ class DistilleryCraftingRecipeBuilder(
     private var altarPower: Int = 0,
     private var cookingTime: Int = 0,
     private var jarConsumption: Int = 1,
-) : WitcheryRecipeBuilder() {
+) : RecipeBuilder {
 
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     private var group: String? = null
@@ -89,9 +89,9 @@ class DistilleryCraftingRecipeBuilder(
 
         val cauldronCraftingRecipe = DistilleryCraftingRecipe(inputItems, outputStack, altarPower, cookingTime, jarConsumption)
         recipeOutput.accept(
-            suffixHash(id.withPrefix("distillery_crafting/"), inputItems),
+            id.withPrefix("distillery_crafting/"),
             cauldronCraftingRecipe,
-            builder.build(suffixHash(id.withPrefix("recipes/distillery_crafting/"), inputItems))
+            builder.build(id.withPrefix("recipes/distillery_crafting/"))
         )
     }
 }

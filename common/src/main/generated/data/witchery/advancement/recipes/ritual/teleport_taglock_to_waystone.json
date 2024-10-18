@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:oil_of_vitriol"
+        "recipe": "witchery:teleport_taglock_to_waystone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "witchery:oil_of_vitriol"
+      "witchery:teleport_taglock_to_waystone"
     ]
   }
 }

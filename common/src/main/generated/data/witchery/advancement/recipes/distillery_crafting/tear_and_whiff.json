@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:demons_blood"
+        "recipe": "witchery:tear_and_whiff"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "witchery:demons_blood"
+      "witchery:tear_and_whiff"
     ]
   }
 }
