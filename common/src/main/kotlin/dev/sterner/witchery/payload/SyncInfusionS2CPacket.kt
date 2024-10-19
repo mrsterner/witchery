@@ -15,6 +15,11 @@ class SyncInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
+    constructor(data: InfusionData): this(CompoundTag().apply {
+        putInt("Charge", data.charge)
+        putString("Type", data.type.serializedName) // serializedName should be in lowercase
+    })
+
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
         return ID
     }
@@ -27,7 +32,7 @@ class SyncInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val client = Minecraft.getInstance()
 
         val charge = payload.nbt.getInt("Charge")
-        val type = InfusionType.valueOf(payload.nbt.getString("Type"))
+        val type = InfusionType.valueOf(payload.nbt.getString("Type").uppercase())
 
         client.execute {
             PlayerInfusionDataAttachment.setPlayerInfusion(context.player, InfusionData(type, charge))

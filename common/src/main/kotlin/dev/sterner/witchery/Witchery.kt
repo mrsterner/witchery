@@ -2,12 +2,14 @@ package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
 import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.PlayerEvent.AttackEntity
+import dev.architectury.event.events.common.TickEvent
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
@@ -32,6 +34,7 @@ import dev.sterner.witchery.handler.InfusionHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.platform.MutandisDataAttachment
+import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -79,6 +82,7 @@ object Witchery {
         WitcheryRecipeSerializers.RECIPE_SERIALIZERS.register()
         WitcheryMenuTypes.MENU_TYPES.register()
         WitcheryDataComponents.DATA.register()
+        WitcheryCommands.COMMAND_ARGUMENTS.register()
 
         WitcheryPayloads.register()
 
@@ -99,6 +103,7 @@ object Witchery {
 
         MODIFY_LOOT_TABLE.register(::addWitchesHand)
 
+        CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
     }
 
     private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {

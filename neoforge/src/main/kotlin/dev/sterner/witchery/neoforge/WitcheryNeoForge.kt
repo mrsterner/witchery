@@ -10,6 +10,9 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
+import dev.sterner.witchery.platform.AltarDataAttachment
+import dev.sterner.witchery.platform.MutandisDataAttachment
+import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.entity.BoatRenderer
@@ -29,6 +32,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
+import java.util.function.Supplier
 
 
 @Mod(Witchery.MODID)
@@ -38,10 +42,40 @@ object WitcheryNeoForge {
     val ATTACHMENT_TYPES: DeferredRegister<AttachmentType<*>> =
         DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Witchery.MODID)
 
+    @JvmStatic
+    val MUTANDIS_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<MutandisDataAttachment.MutandisDataCodec>> = ATTACHMENT_TYPES.register(
+        "mutandis_level_data",
+        Supplier {
+            AttachmentType.builder(Supplier { MutandisDataAttachment.MutandisDataCodec() })
+                .serialize(MutandisDataAttachment.MutandisDataCodec.CODEC)
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val ALTAR_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<AltarDataAttachment.AltarDataCodec>> = ATTACHMENT_TYPES.register(
+        "altar_level_data",
+        Supplier {
+            AttachmentType.builder(Supplier { AltarDataAttachment.AltarDataCodec() })
+                .serialize(AltarDataAttachment.AltarDataCodec.CODEC)
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfusionData>> = ATTACHMENT_TYPES.register(
+        "infusion_player_data",
+        Supplier {
+            AttachmentType.builder(Supplier { InfusionData() })
+                .serialize(InfusionData.CODEC)
+                .build()
+        }
+    )
+
     init {
+        ATTACHMENT_TYPES.register(MOD_BUS)
         Witchery.init()
 
-        ATTACHMENT_TYPES.register(MOD_BUS)
 
         runForDist(
             clientTarget = {
