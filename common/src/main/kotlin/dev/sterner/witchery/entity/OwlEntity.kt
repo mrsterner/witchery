@@ -25,7 +25,8 @@ import net.minecraft.world.level.block.LeavesBlock
 import net.minecraft.world.level.pathfinder.PathType
 import net.minecraft.world.phys.Vec3
 
-class OwlEntity(entityType: EntityType<out TamableAnimal>, level: Level) : TamableAnimal(entityType, level), FlyingAnimal {
+class OwlEntity(entityType: EntityType<out TamableAnimal>, level: Level) : TamableAnimal(entityType, level),
+    FlyingAnimal {
 
     var flap: Float = 0f
     var flapSpeed: Float = 0f
@@ -106,7 +107,7 @@ class OwlEntity(entityType: EntityType<out TamableAnimal>, level: Level) : Tamab
     }
 
     override fun isFood(stack: ItemStack): Boolean {
-       return false
+        return false
     }
 
     override fun isFlying(): Boolean {

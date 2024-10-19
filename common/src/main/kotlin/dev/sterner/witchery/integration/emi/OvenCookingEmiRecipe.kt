@@ -2,7 +2,6 @@ package dev.sterner.witchery.integration.emi
 
 import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
-import dev.emi.emi.api.render.EmiTexture
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
@@ -12,7 +11,11 @@ import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.crafting.SmokingRecipe
 
-class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCookingRecipe?, val smokingRecipe: SmokingRecipe?) : EmiRecipe {
+class OvenCookingEmiRecipe(
+    val recipeId: ResourceLocation,
+    val recipe: OvenCookingRecipe?,
+    val smokingRecipe: SmokingRecipe?
+) : EmiRecipe {
 
     override fun getCategory(): EmiRecipeCategory {
         return WitcheryEmiPlugin.OVEN_COOKING_CATEGORY
@@ -59,22 +62,38 @@ class OvenCookingEmiRecipe(val recipeId: ResourceLocation, val recipe: OvenCooki
         widgets.addTexture(Witchery.id("textures/gui/oven_emi.png"), 18, 9, 108, 57, 0, 0)
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(recipe?.result ?: smokingRecipe!!.getResultItem(null)), 2 + 2 + 18 + 24 + 24 + 9, 50 - 18 - 4)
+            WitcherySlotWidget(
+                EmiStack.of(recipe?.result ?: smokingRecipe!!.getResultItem(null)),
+                2 + 2 + 18 + 24 + 24 + 9,
+                50 - 18 - 4
+            )
                 .drawBack(false).recipeContext(this)
         )
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(if(recipe != null) recipe.extraIngredient.items[0] else WitcheryItems.JAR.get().defaultInstance), 2 + 2 + 18 + 36 + 36 + 12 + 1, 48)
+            WitcherySlotWidget(
+                EmiStack.of(if (recipe != null) recipe.extraIngredient.items[0] else WitcheryItems.JAR.get().defaultInstance),
+                2 + 2 + 18 + 36 + 36 + 12 + 1,
+                48
+            )
                 .drawBack(false)
         )
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(recipe?.extraOutput ?: WitcheryItems.FOUL_FUME.get().defaultInstance), 2 + 2 + 18 + 36 + 36 + 12 + 1, 9)
+            WitcherySlotWidget(
+                EmiStack.of(recipe?.extraOutput ?: WitcheryItems.FOUL_FUME.get().defaultInstance),
+                2 + 2 + 18 + 36 + 36 + 12 + 1,
+                9
+            )
                 .drawBack(false).recipeContext(this)
         )
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(if (recipe != null) recipe.ingredient.items[0] else smokingRecipe!!.ingredients[0].items[0]), 2 + 18 - 1, 10)
+            WitcherySlotWidget(
+                EmiStack.of(if (recipe != null) recipe.ingredient.items[0] else smokingRecipe!!.ingredients[0].items[0]),
+                2 + 18 - 1,
+                10
+            )
                 .drawBack(false)
         )
     }

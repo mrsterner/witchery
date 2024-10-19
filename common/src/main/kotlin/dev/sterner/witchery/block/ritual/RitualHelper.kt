@@ -85,7 +85,16 @@ object RitualHelper {
                     val targetPos = blockEntity.targetPos
                     val dimensionLevel = targetPos?.dimension()?.let { server?.getLevel(it) }
 
-                    runCommand(blockEntity, dimensionLevel ?: level, server, blockPos, targetPos?.pos, commandType.command, player, targetEntity)
+                    runCommand(
+                        blockEntity,
+                        dimensionLevel ?: level,
+                        server,
+                        blockPos,
+                        targetPos?.pos,
+                        commandType.command,
+                        player,
+                        targetEntity
+                    )
                 }
             }
         }
@@ -139,7 +148,8 @@ object RitualHelper {
             }
 
             if (waystonePos != null) {
-                formattedCommand = formattedCommand.replace("{waystonePos}", "${waystonePos.x} ${waystonePos.y} ${waystonePos.z}")
+                formattedCommand =
+                    formattedCommand.replace("{waystonePos}", "${waystonePos.x} ${waystonePos.y} ${waystonePos.z}")
             }
             formattedCommand = formattedCommand.replace("{time}", "${level.dayTime}")
             formattedCommand = formattedCommand.replace("{owner}", "${blockEntity.ownerName}")

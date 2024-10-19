@@ -1,7 +1,6 @@
 package dev.sterner.witchery.block.distillery
 
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
@@ -25,7 +24,7 @@ class DistilleryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
         return shape
     }
 
-    
+
     companion object {
         val bottomShape = box(2.0, 0.0, 2.0, 14.0, 5.0, 14.0)
         val coreShape = box(4.0, 5.0, 4.0, 12.0, 16.0, 12.0)

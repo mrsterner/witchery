@@ -10,9 +10,6 @@ import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.registry.WitcheryRitualRegistry
-import dev.sterner.witchery.ritual.EmptyRitual
-import dev.sterner.witchery.ritual.PushMobsRitual
-import net.minecraft.core.Holder
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag
@@ -21,7 +18,6 @@ import net.minecraft.nbt.StringTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.EntityType
@@ -116,7 +112,8 @@ class RitualRecipe(
                         Codec.STRING.listOf().fieldOf("pattern").forGetter { recipe -> recipe.pattern },
                         Codec.unboundedMap(SYMBOL_CODEC, BuiltInRegistries.BLOCK.byNameCodec()).fieldOf("blockMapping")
                             .forGetter { recipe -> recipe.blockMapping },
-                        Celestial.CELESTIAL_SET_CODEC.fieldOf("celestialConditions").orElse(setOf()).forGetter { recipe -> recipe.celestialConditions }
+                        Celestial.CELESTIAL_SET_CODEC.fieldOf("celestialConditions").orElse(setOf())
+                            .forGetter { recipe -> recipe.celestialConditions }
 
 
                     ).apply(obj, ::RitualRecipe)
@@ -144,7 +141,7 @@ class RitualRecipe(
             },
             { obj: Char? -> java.lang.String.valueOf(obj) })
 
-        fun fromNbt(tag: CompoundTag, registries: HolderLookup.Provider): RitualRecipe? {
+        fun fromNbt(tag: CompoundTag, registries: HolderLookup.Provider): RitualRecipe {
             val ritualType = WitcheryRitualRegistry.getSadImplementation(tag)//TODO this is horrible
 
             val inputItems = if (tag.contains("inputItems")) {
@@ -186,7 +183,8 @@ class RitualRecipe(
             }.toSet()
 
             val isInfinite = if (tag.contains("isInfinite")) tag.getBoolean("isInfinite") else false
-            val floatingItemOutput = if (tag.contains("floatingItemOutput")) tag.getBoolean("floatingItemOutput") else false
+            val floatingItemOutput =
+                if (tag.contains("floatingItemOutput")) tag.getBoolean("floatingItemOutput") else false
 
             val ticks = if (tag.contains("ticks")) tag.getInt("ticks") else 0
 
@@ -264,7 +262,7 @@ class RitualRecipe(
             tag.put("outputEntities", outputEntitiesTag)
         }
 
-        tag.putInt("altarPower", altarPower ?: 0)
+        tag.putInt("altarPower", altarPower)
 
         commands.let {
             val commandsTag = ListTag()
@@ -278,10 +276,10 @@ class RitualRecipe(
         }
 
 
-        tag.putBoolean("isInfinite", isInfinite ?: false)
-        tag.putBoolean("floatingItemOutput", floatingItemOutput ?: false)
+        tag.putBoolean("isInfinite", isInfinite)
+        tag.putBoolean("floatingItemOutput", floatingItemOutput)
 
-        tag.putInt("ticks", ticks ?: 0)
+        tag.putInt("ticks", ticks)
 
         pattern.let {
             val patternTag = ListTag()
@@ -315,6 +313,7 @@ class RitualRecipe(
         override fun getSerializedName(): String {
             return name.lowercase()
         }
+
         companion object {
             val CELESTIAL_CODEC: Codec<Celestial> = StringRepresentable.fromEnum(Celestial::values)
 

@@ -256,7 +256,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
         // Here, we assume that the core position should be the position of the altar
         val corePosition = pos.relative(dire.opposite) // Adjust core position as needed
         AltarBlock.STRUCTURE.get().placeNoContext(level, pos, dire)
-        level.setBlockAndUpdate(pos,
+        level.setBlockAndUpdate(
+            pos,
             WitcheryBlocks.ALTAR.get().defaultBlockState()
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, dire.opposite)
         )

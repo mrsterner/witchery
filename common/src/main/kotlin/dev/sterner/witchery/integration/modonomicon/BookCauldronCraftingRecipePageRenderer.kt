@@ -10,7 +10,6 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Style
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeHolder
-import kotlin.math.min
 
 
 abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: BookCauldronCraftingRecipePage?) :
@@ -54,7 +53,7 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
 
         pose.pushPose()
         if (!this.page!!.title1.isEmpty) {
-            this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0);
+            this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0)
         }
         // Render input items
         for ((index, ingredient) in recipeHolder.value!!.inputItems.withIndex()) {
@@ -76,7 +75,14 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
                 13, 13
             )
 
-            this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 18, recipeY + 20 * index, mouseX, mouseY, ingredient.itemStack)
+            this.parentScreen.renderItemStack(
+                guiGraphics,
+                recipeX + 2 + 2 + 18,
+                recipeY + 20 * index,
+                mouseX,
+                mouseY,
+                ingredient.itemStack
+            )
         }
 
         // Render output items
@@ -86,7 +92,14 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
                 recipeX + 48 + 9 + 4 + 6 + (18 * index),
                 recipeY + 20 + 6 - 4 + 18
             )
-            this.parentScreen.renderItemStack(guiGraphics, recipeX + 48 + 9 + 4 + 6 + (18 * index), recipeY + 20 + 6 - 4 + 18, mouseX, mouseY, itemStack)
+            this.parentScreen.renderItemStack(
+                guiGraphics,
+                recipeX + 48 + 9 + 4 + 6 + (18 * index),
+                recipeY + 20 + 6 - 4 + 18,
+                mouseX,
+                mouseY,
+                itemStack
+            )
         }
 
         // Render the cauldron icon

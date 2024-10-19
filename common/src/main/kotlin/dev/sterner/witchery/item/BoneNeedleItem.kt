@@ -58,7 +58,6 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
     }
 
 
-
     override fun interactLivingEntity(
         stack: ItemStack,
         player: Player,

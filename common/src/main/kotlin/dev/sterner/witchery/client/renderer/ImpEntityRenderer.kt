@@ -10,7 +10,11 @@ import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.resources.ResourceLocation
 
 class ImpEntityRenderer(context: EntityRendererProvider.Context) :
-    MobRenderer<ImpEntity, ImpEntityModel>(context, ImpEntityModel(context.bakeLayer(ImpEntityModel.LAYER_LOCATION)), 0.1f) {
+    MobRenderer<ImpEntity, ImpEntityModel>(
+        context,
+        ImpEntityModel(context.bakeLayer(ImpEntityModel.LAYER_LOCATION)),
+        0.1f
+    ) {
 
     override fun render(
         entity: ImpEntity,
@@ -22,7 +26,7 @@ class ImpEntityRenderer(context: EntityRendererProvider.Context) :
     ) {
         poseStack.pushPose()
         poseStack.scale(1.0f, -1.0f, 1.0f)
-        poseStack.translate(0.0,-0.25,0.0)
+        poseStack.translate(0.0, -0.25, 0.0)
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight)
         poseStack.popPose()
     }

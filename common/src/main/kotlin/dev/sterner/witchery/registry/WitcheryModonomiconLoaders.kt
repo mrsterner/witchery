@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation
 
 object WitcheryModonomiconLoaders {
 
-    fun register(){
+    fun register() {
         LoaderRegistry.registerPageLoader(
             WitcheryPageRendererRegistry.CAULDRON_RECIPE,
             BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->

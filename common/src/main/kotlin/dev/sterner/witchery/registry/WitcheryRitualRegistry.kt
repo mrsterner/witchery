@@ -1,22 +1,16 @@
 package dev.sterner.witchery.registry
 
-import com.google.common.base.Suppliers
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.registry.registries.Registrar
-import dev.architectury.registry.registries.RegistrarManager
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.ritual.EmptyRitual
 import dev.sterner.witchery.ritual.PushMobsRitual
 import net.minecraft.core.Registry
-import net.minecraft.core.registries.Registries
 import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import java.util.function.Supplier
 
 
 object WitcheryRitualRegistry {

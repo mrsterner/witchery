@@ -4,15 +4,12 @@ import com.klikli_dev.modonomicon.book.page.BookRecipePage
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
-import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Style
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeHolder
-import kotlin.math.min
 
 
 abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFumingRecipePage?) :
@@ -73,22 +70,50 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
 
 
         if (!this.page!!.title1.isEmpty) {
-            this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0);
+            this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0)
         }
 
         blitWithAlpha(
             pose,
             Witchery.id("textures/gui/oven_modonomicon.png"),
             recipeX + 48 + 9 - 18 - 18 - 9, recipeY,
-            0f,0f,
+            0f, 0f,
             85, 57,
             85, 57,
         )
 
-        this.parentScreen.renderItemStack(guiGraphics, recipeX + 56 + 2, recipeY + 18 + 2, mouseX, mouseY, recipeHolder.value!!.result)
-        this.parentScreen.renderItemStack(guiGraphics, recipeX + 54 + 18 + 7, recipeY + 36 + 3, mouseX, mouseY, recipeHolder.value!!.extraIngredient.items[0])
-        this.parentScreen.renderItemStack(guiGraphics, recipeX + 54 + 18 + 7, recipeY + 1, mouseX, mouseY, recipeHolder.value!!.extraOutput)
-        this.parentScreen.renderItemStack(guiGraphics, recipeX + 18 - 5, recipeY + 18 + 2, mouseX, mouseY, recipeHolder.value!!.ingredient.items[0])
+        this.parentScreen.renderItemStack(
+            guiGraphics,
+            recipeX + 56 + 2,
+            recipeY + 18 + 2,
+            mouseX,
+            mouseY,
+            recipeHolder.value!!.result
+        )
+        this.parentScreen.renderItemStack(
+            guiGraphics,
+            recipeX + 54 + 18 + 7,
+            recipeY + 36 + 3,
+            mouseX,
+            mouseY,
+            recipeHolder.value!!.extraIngredient.items[0]
+        )
+        this.parentScreen.renderItemStack(
+            guiGraphics,
+            recipeX + 54 + 18 + 7,
+            recipeY + 1,
+            mouseX,
+            mouseY,
+            recipeHolder.value!!.extraOutput
+        )
+        this.parentScreen.renderItemStack(
+            guiGraphics,
+            recipeX + 18 - 5,
+            recipeY + 18 + 2,
+            mouseX,
+            mouseY,
+            recipeHolder.value!!.ingredient.items[0]
+        )
 
         // Pop the pose to restore state
         pose.popPose()

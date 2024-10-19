@@ -20,8 +20,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "cauldron.page1",
-      "title": "cauldron.title",
+      "text": "brewing.cauldron.page.1",
+      "title": "brewing.cauldron.title",
       "use_markdown_in_title": false
     }
   ],

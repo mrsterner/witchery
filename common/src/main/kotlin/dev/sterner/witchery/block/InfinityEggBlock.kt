@@ -30,7 +30,10 @@ class InfinityEggBlock(properties: Properties) : Block(properties.noOcclusion())
         tooltipComponents: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
-        tooltipComponents.add(Component.translatable("witchery.item.tooltip.infinity_egg").setStyle(Style.EMPTY.withColor(Color(255,50,255).rgb)))
+        tooltipComponents.add(
+            Component.translatable("witchery.item.tooltip.infinity_egg")
+                .setStyle(Style.EMPTY.withColor(Color(255, 50, 255).rgb))
+        )
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
 

@@ -20,13 +20,13 @@ class MutandisEntryProvider (parent: CategoryProviderBase?) : EntryProvider(pare
     override fun generatePages() {
         this.page(ID) {
             BookTextPageModel.create()
-                .withTitle("$ID.title")
-                .withText("$ID.page1")
+                .withTitle("${parent.categoryId()}.$ID.title")
+                .withText("${parent.categoryId()}.$ID.page.1")
         }
-        this.page("${ID}mutandis") {
-            BookCauldronCraftingPageModel.create().withText("${ID}mutandis.title")
+        this.page("${parent.categoryId()}.${ID}.mutandis") {
+            BookCauldronCraftingPageModel.create().withText("${parent.categoryId()}.${ID}.mutandis.title")
                 .withRecipeId1(Witchery.id("cauldron_crafting/mutandis"))
-                .withTitle1("${ID}mutandis")
+                .withTitle1("${parent.categoryId()}.${ID}.mutandis")
         }
     }
 

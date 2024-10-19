@@ -18,8 +18,8 @@ class OtherwhereChalkEntryProvider(parent: CategoryProviderBase?) : EntryProvide
     override fun generatePages() {
         this.page(ID) {
             BookTextPageModel.create()
-                .withTitle("$ID.title")
-                .withText("$ID.page1")
+                .withTitle("${parent.categoryId()}.$ID.title")
+                .withText("${parent.categoryId()}.$ID.page.1")
         }
     }
 

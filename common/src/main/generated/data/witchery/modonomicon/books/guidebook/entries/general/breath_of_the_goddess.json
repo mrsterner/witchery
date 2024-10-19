@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "breath_of_the_goddess.page1",
-      "title": "breath_of_the_goddess.title",
+      "text": "general.breath_of_the_goddess.page.1",
+      "title": "general.breath_of_the_goddess.title",
       "use_markdown_in_title": false
     }
   ],

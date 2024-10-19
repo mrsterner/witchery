@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "exhale_of_the_horned_one.page1",
-      "title": "exhale_of_the_horned_one.title",
+      "text": "general.exhale_of_the_horned_one.page.1",
+      "title": "general.exhale_of_the_horned_one.title",
       "use_markdown_in_title": false
     }
   ],

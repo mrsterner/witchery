@@ -29,8 +29,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "whiff_of_magic.page1",
-      "title": "whiff_of_magic.title",
+      "text": "general.whiff_of_magic.page.1",
+      "title": "general.whiff_of_magic.title",
       "use_markdown_in_title": false
     }
   ],

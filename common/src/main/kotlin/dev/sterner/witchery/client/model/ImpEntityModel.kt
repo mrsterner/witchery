@@ -47,7 +47,6 @@ class ImpEntityModel(modelPart: ModelPart) :
     private val bone2: ModelPart = right_horn2.getChild("bone2")
 
 
-
     override fun root(): ModelPart {
         return this.root
     }

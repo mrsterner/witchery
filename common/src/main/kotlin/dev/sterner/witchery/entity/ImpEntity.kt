@@ -18,7 +18,6 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation
 import net.minecraft.world.entity.ai.navigation.PathNavigation
-import net.minecraft.world.entity.monster.Vex
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.raid.Raider
 import net.minecraft.world.level.Level

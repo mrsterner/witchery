@@ -3,7 +3,6 @@ package dev.sterner.witchery.integration.modonomicon
 import com.klikli_dev.modonomicon.book.page.BookPage
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.integration.emi.DistillingEmiRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
@@ -24,7 +23,7 @@ object WitcheryPageRendererRegistry {
     val DISTILLING_RECIPE: ResourceLocation =
         ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "distilling_recipe")
 
-    fun register(){
+    fun register() {
         PageRendererRegistry.registerPageRenderer(
             CAULDRON_RECIPE
         ) { p: BookPage ->

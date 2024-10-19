@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "golden_chalk.page1",
-      "title": "golden_chalk.title",
+      "text": "ritual.golden_chalk.page.1",
+      "title": "ritual.golden_chalk.title",
       "use_markdown_in_title": false
     }
   ],

@@ -31,7 +31,6 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
-import java.util.Optional
 import kotlin.math.floor
 
 
@@ -205,7 +204,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         else
             ticks++
     }
-
 
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {

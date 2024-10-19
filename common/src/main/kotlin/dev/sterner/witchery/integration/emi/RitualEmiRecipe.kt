@@ -1,6 +1,6 @@
 package dev.sterner.witchery.integration.emi
 
-import com.mojang.blaze3d.vertex.*
+import com.mojang.blaze3d.vertex.PoseStack
 import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
@@ -51,11 +51,12 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         return 18 * 8
     }
 
-
     override fun addWidgets(widgets: WidgetHolder) {
         val blockMapping: Map<Char, Block> = recipe.blockMapping
         val pattern: List<String> = recipe.pattern
-        widgets.addText(Component.translatable(id.toString()), displayWidth / 2, 8, 0xffffff, true).horizontalAlign(TextWidget.Alignment.CENTER)
+        widgets.addText(Component.translatable(id.toString()), displayWidth / 2, 4, 0xffffff, true)
+            .horizontalAlign(TextWidget.Alignment.CENTER)
+        widgets.addTooltipText(listOf(Component.translatable("$id.tooltip")), 9, 4, 18 * 7, 18)
 
         val itemsPerRow = 6
         val itemSize = 18
@@ -90,7 +91,13 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             rowIndex++
         }
         val append = if (recipe.isInfinite) "/s" else ""
-        widgets.addText(Component.literal("Altar Power: ${recipe.altarPower}$append"), displayWidth / 4 - 9, displayHeight - 18 - 9, 0xffffff, true)
+        widgets.addText(
+            Component.literal("Altar Power: ${recipe.altarPower}$append"),
+            displayWidth / 4 - 9,
+            displayHeight - 18 - 9,
+            0xffffff,
+            true
+        )
     }
 
     private fun renderRitualCircle(
@@ -173,12 +180,14 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                     "textures/block/golden_chalk.png"
                 )
             }
+
             itemStack.`is`(WitcheryItems.RITUAL_CHALK.get()) -> {
                 addChalkCircleWidget(
                     widgets, posX, posY, size,
                     "textures/block/chalk_${index % 15}.png"
                 )
             }
+
             itemStack.`is`(WitcheryItems.OTHERWHERE_CHALK.get()) -> {
                 addChalkCircleWidget(
                     widgets, posX, posY, size,
@@ -186,6 +195,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                     Color(190, 55, 250).rgb
                 )
             }
+
             itemStack.`is`(WitcheryItems.INFERNAL_CHALK.get()) -> {
                 addChalkCircleWidget(
                     widgets, posX, posY, size,
@@ -193,6 +203,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                     Color(230, 0, 75).rgb
                 )
             }
+
             else -> {
                 addItemCircleWidget(widgets, itemStack, posX, posY)
             }
@@ -207,6 +218,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         RenderUtils.blitWithAlpha(poseStack, texture, 1, 1 + 32, 0f, 0f, 16, 16, 16, 16, 0.45f, 0x000000)
         RenderUtils.blitWithAlpha(poseStack, texture, 0, 0 + 32, 0f, 0f, 16, 16, 16, 16, 1f, color)
     }
+
     private fun renderChalk(
         poseStack: PoseStack,
         texture: ResourceLocation

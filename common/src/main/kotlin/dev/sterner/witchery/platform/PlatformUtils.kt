@@ -13,7 +13,7 @@ object PlatformUtils {
 
     @JvmStatic
     @get:ExpectPlatform
-    val boneNeedle : BoneNeedleItem
+    val boneNeedle: BoneNeedleItem
         get() {
             throw AssertionError()
         }

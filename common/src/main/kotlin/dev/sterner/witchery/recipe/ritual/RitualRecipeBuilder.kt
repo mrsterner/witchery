@@ -3,13 +3,11 @@ package dev.sterner.witchery.recipe.ritual
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.recipe.ritual.RitualRecipe.Celestial
-import dev.sterner.witchery.registry.WitcheryRitualRegistry
 import dev.sterner.witchery.ritual.EmptyRitual
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
-import net.minecraft.core.Holder
 import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.resources.ResourceLocation

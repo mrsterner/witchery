@@ -25,14 +25,14 @@ class RedstoneSoupEntryProvider(parent: CategoryProviderBase?) : EntryProvider(p
     override fun generatePages() {
         this.page(ID) {
             BookTextPageModel.create()
-                .withTitle("$ID.title")
-                .withText("$ID.page1")
+                .withTitle("${parent.categoryId()}.$ID.title")
+                .withText("${parent.categoryId()}.$ID.page.1")
         }
 
-        this.page("${ID}redstone_soup") {
-            BookCauldronBrewingPageModel.create().withText("$ID.title")
+        this.page("${parent.categoryId()}.${ID}.redstone_soup") {
+            BookCauldronBrewingPageModel.create().withText("${parent.categoryId()}.$ID.title")
                 .withRecipeId1(Witchery.id("cauldron_brewing/redstone_soup"))
-                .withTitle1("${ID}redstone_soup")
+                .withTitle1("${parent.categoryId()}.${ID}.redstone_soup")
         }
 
 

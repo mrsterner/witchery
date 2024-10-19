@@ -7,7 +7,10 @@ import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.ritual.PushMobsRitual
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
@@ -35,7 +38,8 @@ import java.util.*
 
 
 class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.GOLDEN_CHALK.get(), blockPos, blockState), Container, AltarPowerConsumer {
+    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.GOLDEN_CHALK.get(), blockPos, blockState), Container,
+    AltarPowerConsumer {
 
     private var cachedAltarPos: BlockPos? = null
     var targetPlayer: UUID? = null
@@ -370,12 +374,16 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun hasEnoughAltarPower(level: Level, recipe: RitualRecipe): Boolean {
 
-        val maybeAttunedItem = level.getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { it.item.`is`(WitcheryItems.ATTUNED_STONE.get()) }
-        val attunedStoneBonus = if (maybeAttunedItem.isNotEmpty() && maybeAttunedItem[0].item.get(WitcheryDataComponents.ATTUNED.get()) == true) {
-            2000
-        } else {
-            0
-        }
+        val maybeAttunedItem = level.getEntities(
+            EntityType.ITEM,
+            AABB(blockPos).inflate(3.0, 0.0, 3.0)
+        ) { it.item.`is`(WitcheryItems.ATTUNED_STONE.get()) }
+        val attunedStoneBonus =
+            if (maybeAttunedItem.isNotEmpty() && maybeAttunedItem[0].item.get(WitcheryDataComponents.ATTUNED.get()) == true) {
+                2000
+            } else {
+                0
+            }
 
         if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
             cachedAltarPos = null
@@ -394,7 +402,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun consumeAltarPower(level: Level, recipe: RitualRecipe): Boolean {
-        val maybeAttunedItem = level.getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { it.item.`is`(WitcheryItems.ATTUNED_STONE.get()) && it.item.get(WitcheryDataComponents.ATTUNED.get()) == true}
+        val maybeAttunedItem = level.getEntities(
+            EntityType.ITEM,
+            AABB(blockPos).inflate(3.0, 0.0, 3.0)
+        ) { it.item.`is`(WitcheryItems.ATTUNED_STONE.get()) && it.item.get(WitcheryDataComponents.ATTUNED.get()) == true }
 
         val attunedStoneBonus = if (maybeAttunedItem.isNotEmpty()) {
             2000
@@ -416,7 +427,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             success = true
         }
         if (success && maybeAttunedItem.isNotEmpty()) {
-            maybeAttunedItem.let {it[0].item.remove(WitcheryDataComponents.ATTUNED.get())}
+            maybeAttunedItem.let { it[0].item.remove(WitcheryDataComponents.ATTUNED.get()) }
         }
         return success
     }
@@ -432,7 +443,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tickCounter = pTag.getInt("tickCounter")
         ritualTickCounter = pTag.getInt("ritualTickCounter")
 
-        if(pTag.contains("altarPos")){
+        if (pTag.contains("altarPos")) {
             cachedAltarPos = NbtUtils.readBlockPos(pTag, "altarPos").get()
         }
 

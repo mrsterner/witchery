@@ -91,15 +91,15 @@ object MutandisDataAttachment {
 
     data class MutandisDataCodec(var mutandisCacheMap: MutableMap<BlockPos, MutandisData> = mutableMapOf()) {
         companion object {
-           val CODEC: Codec<MutandisDataCodec> = RecordCodecBuilder.create { inst ->
-               inst.group(
-                   Codec.unboundedMap(
-                       BlockPos.CODEC,
-                       MutandisData.MUTANDIS_DATA_CODEC
-                   ).fieldOf("mutandisCacheMap")
-                       .forGetter(MutandisDataCodec::mutandisCacheMap)
-               ).apply(inst, ::MutandisDataCodec)
-           }
+            val CODEC: Codec<MutandisDataCodec> = RecordCodecBuilder.create { inst ->
+                inst.group(
+                    Codec.unboundedMap(
+                        BlockPos.CODEC,
+                        MutandisData.MUTANDIS_DATA_CODEC
+                    ).fieldOf("mutandisCacheMap")
+                        .forGetter(MutandisDataCodec::mutandisCacheMap)
+                ).apply(inst, ::MutandisDataCodec)
+            }
         }
     }
 }
