@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "witchery:attuned_stone"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "J": {
+      "item": "witchery:jar"
+    }
+  },
+  "pattern": [
+    "JIJ",
+    "III",
+    "GAG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:distillery"
+  }
+}
