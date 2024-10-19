@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "redstone_soup.page1",
-      "title": "redstone_soup.title",
+      "text": "brewing.redstone_soup.page.1",
+      "title": "brewing.redstone_soup.title",
       "use_markdown_in_title": false
     },
     {
@@ -36,8 +36,8 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_brewing/redstone_soup",
-      "text": "redstone_soup.title",
-      "title1": "redstone_soupredstone_soup",
+      "text": "brewing.redstone_soup.title",
+      "title1": "brewing.redstone_soup.redstone_soup",
       "title2": ""
     }
   ],

@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "infernal_chalk.page1",
-      "title": "infernal_chalk.title",
+      "text": "ritual.infernal_chalk.page.1",
+      "title": "ritual.infernal_chalk.title",
       "use_markdown_in_title": false
     }
   ],

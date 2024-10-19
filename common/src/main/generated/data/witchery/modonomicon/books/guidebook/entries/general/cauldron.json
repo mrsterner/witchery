@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "cauldron.page1",
-      "title": "cauldron.title",
+      "text": "general.cauldron.page.1",
+      "title": "general.cauldron.title",
       "use_markdown_in_title": false
     }
   ],

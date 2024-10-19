@@ -23,13 +23,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("container.witchery.oven_menu", "Witches Oven")
         builder.add("container.witchery.altar_menu", "Altar")
 
-        builder.add("witchery:ritual/summon_lightning_on_waystone", "Lightning Strike")
-        builder.add("witchery:ritual/summon_lightning", "Lightning Strike")
-        builder.add("witchery:ritual/set_midnight", "Turn Night")
-        builder.add("witchery:ritual/push_mobs", "Rite of Sanctity")
-        builder.add("witchery:ritual/teleport_owner_to_waystone", "Teleportation")
-        builder.add("witchery:ritual/teleport_taglock_to_waystone", "Teleportation")
-        builder.add("witchery:ritual/summon_imp", "Summon Imp")
+
         builder.add( "witchery.item.tooltip.infinity_egg", "Creative Only")
 
         builder.add(WitcheryItems.INFINITY_EGG.get(), "Infinity Egg")
@@ -220,5 +214,148 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("entity.witchery.alder_chest_boat", "Alder Chest Boat")
         builder.add("entity.witchery.hawthorn_boat", "Hawthorn Boat")
         builder.add("entity.witchery.hawthorn_chest_boat", "Hawthorn Chest Boat")
+
+
+
+
+        builder.add("witchery:ritual/charge_attuned", "Rite of Charging")
+        builder.add("witchery:ritual/charge_attuned.tooltip", "Charges an Attuned Stone with 2000 Altar Power")
+        builder.add("witchery:ritual/summon_lightning_on_waystone", "Lightning Strike")
+        builder.add("witchery:ritual/summon_lightning_on_waystone.tooltip", "Summons a Lightning Strike at bound Waystone location")
+        builder.add("witchery:ritual/summon_lightning", "Lightning Strike")
+        builder.add("witchery:ritual/summon_lightning.tooltip", "Summons a Lightning Strike at ritual center")
+        builder.add("witchery:ritual/set_midnight", "Turn Night")
+        builder.add("witchery:ritual/set_midnight.tooltip", "Sets the time to midnight")
+        builder.add("witchery:ritual/push_mobs", "Rite of Sanctity")
+        builder.add("witchery:ritual/push_mobs.tooltip", "Pushes hostile mobs away from ritual center")
+        builder.add("witchery:ritual/teleport_owner_to_waystone", "Teleportation")
+        builder.add("witchery:ritual/teleport_owner_to_waystone.tooltip", "Teleports the user to bound Waystone location")
+        builder.add("witchery:ritual/teleport_taglock_to_waystone", "Teleportation")
+        builder.add("witchery:ritual/teleport_taglock_to_waystone.tooltip", "Teleports the bound Taglock entity to bound Waystone location")
+        builder.add("witchery:ritual/summon_imp", "Summon Imp")
+        builder.add("witchery:ritual/summon_imp.tooltip", "Summon an Imp at ritual center")
+
+
+
+        //GUIDEBOOK GENERAL
+        builder.add("book.witchery.guidebook.general.name", "General")
+        builder.add("book.witchery.guidebook.brewing.name", "Brewing")
+        builder.add("book.witchery.guidebook.ritual.name", "Rituals")
+
+
+        builder.add("book.witchery.guidebook.general.beginning.name", "Beginning")
+        builder.add("book.witchery.guidebook.general.beginning.description", "Essential Witchery resources")
+        builder.add("general.beginning.title", "Essential Witchery Resources")
+        builder.add("general.beginning.page.1", "Nature and seeds good, break grass to get cool seeds")
+
+
+        builder.add("book.witchery.guidebook.general.cauldron.name", "Cauldron")
+        builder.add("book.witchery.guidebook.general.cauldron.description", "A watched pot never boils")
+        builder.add("general.cauldron.title", "Witches Cauldron")
+        builder.add("general.cauldron.page.1", "Lets cook")
+
+        builder.add("book.witchery.guidebook.general.oven.name", "Oven")
+        builder.add("book.witchery.guidebook.general.oven.description", "Smells like home")
+        builder.add("general.oven.title", "Witches Oven")
+        builder.add("general.oven.page.1", "Lets cook")
+
+        builder.add("book.witchery.guidebook.general.distillery.name", "Distillery")
+        builder.add("book.witchery.guidebook.general.distillery.description", "Smells like home")
+        builder.add("general.distillery.title", "Distillery")
+        builder.add("general.distillery.page.1", "Lets cook")
+
+        builder.add("general.mutandis.mutandis", "Mutandis")
+        builder.add("general.oven.breath_of_the_goddess", "Breath of the Goddess")
+        builder.add("general.oven.hint_of_rebirth", "Hint of Rebirth")
+        builder.add("general.oven.exhale_of_the_horned_one", "Exhale of the Horned One")
+        builder.add("general.oven.foul_fume_logs", "Foul Fume")
+        builder.add("general.oven.whiff_of_magic", "Whiff of Magic")
+        builder.add("general.oven.odor_of_purity", "Odor of Purity")
+        builder.add("general.oven.reek_of_misfortune", "Reek of Misfortune")
+
+        builder.add("general.distillery.oil_of_vitriol_gypsum", "Oil of Vitriol")
+        builder.add("general.distillery.demons_blood", "Demons Blood")
+        builder.add("general.distillery.ender_dew", "Ender Dew")
+        builder.add("general.distillery.phantom_vapor", "Phantom Vapor")
+        builder.add("general.distillery.reek_of_misfortune", "Reek of Misfortune")
+        builder.add("general.distillery.refined_evil", "Refined Evil")
+        builder.add("general.distillery.tear_and_whiff", "Tear of the Goddess")
+
+        builder.add("book.witchery.guidebook.general.mutandis.name", "Mutandis")
+        builder.add("book.witchery.guidebook.general.mutandis.description", "CRISPR that plant")
+        builder.add("general.mutandis.title", "Mutandis")
+        builder.add("general.mutandis.page.1", "Evil Scrambled Eggs")
+
+        builder.add("book.witchery.guidebook.general.whiff_of_magic.name", "Whiff of Magic")
+        builder.add("book.witchery.guidebook.general.whiff_of_magic.description", "Smells like potpourri")
+        builder.add("general.whiff_of_magic.title", "Whiff of Magic")
+        builder.add("general.whiff_of_magic.page.1", "Smells like potpourri")
+
+        builder.add("book.witchery.guidebook.general.exhale_of_the_horned_one.name", "Exhale of the Horned One")
+        builder.add("book.witchery.guidebook.general.exhale_of_the_horned_one.description", "Smells like mold")
+        builder.add("general.exhale_of_the_horned_one.title", "Exhale of the Horned One")
+        builder.add("general.exhale_of_the_horned_one.page.1", "Everything reminds me of him")
+
+        builder.add("book.witchery.guidebook.general.hint_of_rebirth.name", "Hint of Rebirth")
+        builder.add("book.witchery.guidebook.general.hint_of_rebirth.description", "Smells like lime")
+        builder.add("general.hint_of_rebirth.title", "Hint of Rebirth")
+        builder.add("general.hint_of_rebirth.page.1", "Wise words")
+
+        builder.add("book.witchery.guidebook.general.breath_of_the_goddess.name", "Breath of the Goddess")
+        builder.add("book.witchery.guidebook.general.breath_of_the_goddess.description", "Smells nice")
+        builder.add("general.breath_of_the_goddess.title", "Breath of the Goddess")
+        builder.add("general.breath_of_the_goddess.page.1", "Wise words")
+
+        builder.add("book.witchery.guidebook.general.tear_of_the_goddess.name", "Tear of the Goddess")
+        builder.add("book.witchery.guidebook.general.tear_of_the_goddess.description", "Better than gamer girl bathwater")
+        builder.add("general.tear_of_the_goddess.title", "Tear of the Goddess")
+        builder.add("general.tear_of_the_goddess.page.1", "Wise words")
+
+        //GUIDEBOOK BREWING
+        builder.add("book.witchery.guidebook.brewing.cauldron.name", "Cauldron")
+        builder.add("book.witchery.guidebook.brewing.cauldron.description", "Swarley")
+        builder.add("brewing.cauldron.title", "Cauldron")
+        builder.add("brewing.cauldron.page.1", "Its not supposed to be brown, most of the time")
+
+        builder.add("book.witchery.guidebook.brewing.ritual_chalk.name", "Ritual Chalk")
+        builder.add("book.witchery.guidebook.brewing.ritual_chalk.description", "Better than crayons")
+        builder.add("brewing.ritual_chalk.title", "Ritual Chalk")
+        builder.add("brewing.ritual_chalk.page.1", "B")
+
+        builder.add("book.witchery.guidebook.brewing.redstone_soup.name", "Redstone Soup")
+        builder.add("book.witchery.guidebook.brewing.redstone_soup.description", "Got Soup?")
+        builder.add("brewing.redstone_soup.title", "Redstone Soup")
+        builder.add("brewing.redstone_soup.page.1", "Soup")
+
+        builder.add("brewing.redstone_soup.redstone_soup", "Redstone Soup")
+        builder.add("brewing.ritual_chalk.golden_chalk", "Golden Chalk")
+        builder.add("brewing.ritual_chalk.infernal_chalk", "Infernal Chalk")
+        builder.add("brewing.ritual_chalk.otherwhere_chalk", "Otherwhere Chalk")
+
+        //GUIDEBOOK RITUALS
+        builder.add("book.witchery.guidebook.ritual.ritual_chalk.name", "Ritual Chalk")
+        builder.add("book.witchery.guidebook.ritual.ritual_chalk.description", "Better than crayons")
+        builder.add("ritual.ritual_chalk.title", "Ritual Chalk")
+        builder.add("ritual.ritual_chalk.page.1", "B")
+
+        builder.add("book.witchery.guidebook.ritual.golden_chalk.name", "Golden Chalk")
+        builder.add("book.witchery.guidebook.ritual.golden_chalk.description", "Better yellow than crayons")
+        builder.add("ritual.golden_chalk.title", "Golden Chalk")
+        builder.add("ritual.golden_chalk.page.1", "G")
+
+        builder.add("book.witchery.guidebook.ritual.infernal_chalk.name", "Infernal Chalk")
+        builder.add("book.witchery.guidebook.ritual.infernal_chalk.description", "Better red than crayons")
+        builder.add("ritual.infernal_chalk.title", "Infernal Chalk")
+        builder.add("ritual.infernal_chalk.page.1", "I")
+
+        builder.add("book.witchery.guidebook.ritual.otherwhere_chalk.name", "Otherwhere Chalk")
+        builder.add("book.witchery.guidebook.ritual.otherwhere_chalk.description", "Better purple than crayons")
+        builder.add("ritual.otherwhere_chalk.title", "Otherwhere Chalk")
+        builder.add("ritual.otherwhere_chalk.page.1", "I")
+
+
+        builder.add("ritual.ritual_chalk.otherwhere_chalk", "Otherwhere Chalk")
+        builder.add("ritual.ritual_chalk.infernal_chalk", "Infernal Chalk")
+        builder.add("ritual.ritual_chalk.golden_chalk", "Golden Chalk")
     }
 }

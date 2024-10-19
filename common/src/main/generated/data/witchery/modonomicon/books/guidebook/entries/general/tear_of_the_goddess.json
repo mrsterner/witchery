@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "tear_of_the_goddess.page1",
-      "title": "tear_of_the_goddess.title",
+      "text": "general.tear_of_the_goddess.page.1",
+      "title": "general.tear_of_the_goddess.title",
       "use_markdown_in_title": false
     }
   ],

@@ -20,8 +20,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "ritual_chalk.page1",
-      "title": "ritual_chalk.title",
+      "text": "ritual.ritual_chalk.page.1",
+      "title": "ritual.ritual_chalk.title",
       "use_markdown_in_title": false
     },
     {
@@ -31,8 +31,8 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_crafting/golden_chalk",
-      "text": "ritual_chalkgolden_chalk.title",
-      "title1": "ritual_chalkgolden_chalk",
+      "text": "ritual.ritual_chalk.golden_chalk.title",
+      "title1": "ritual.ritual_chalk.golden_chalk",
       "title2": ""
     },
     {
@@ -42,8 +42,8 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_crafting/infernal_chalk",
-      "text": "ritual_chalkinfernal_chalk.title",
-      "title1": "ritual_chalkinfernal_chalk",
+      "text": "ritual.ritual_chalk.infernal_chalk.title",
+      "title1": "ritual.ritual_chalk.infernal_chalk",
       "title2": ""
     },
     {
@@ -53,8 +53,8 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_crafting/otherwhere_chalk",
-      "text": "ritual_chalkotherwhere_chalk.title",
-      "title1": "ritual_chalkotherwhere_chalk",
+      "text": "ritual.ritual_chalk.otherwhere_chalk.title",
+      "title1": "ritual.ritual_chalk.otherwhere_chalk",
       "title2": ""
     }
   ],

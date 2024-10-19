@@ -1,5 +1,6 @@
 package dev.sterner.witchery.integration.emi
 
+import com.google.common.collect.Lists
 import com.mojang.blaze3d.vertex.*
 import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
@@ -11,8 +12,11 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.FormattedCharSequence
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
@@ -55,7 +59,8 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
     override fun addWidgets(widgets: WidgetHolder) {
         val blockMapping: Map<Char, Block> = recipe.blockMapping
         val pattern: List<String> = recipe.pattern
-        widgets.addText(Component.translatable(id.toString()), displayWidth / 2, 8, 0xffffff, true).horizontalAlign(TextWidget.Alignment.CENTER)
+        widgets.addText(Component.translatable(id.toString()), displayWidth / 2, 4, 0xffffff, true).horizontalAlign(TextWidget.Alignment.CENTER)
+        widgets.addTooltipText(listOf(Component.translatable("$id.tooltip")), 9, 4, 18 * 7, 18)
 
         val itemsPerRow = 6
         val itemSize = 18

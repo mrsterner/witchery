@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "otherwhere_chalk.page1",
-      "title": "otherwhere_chalk.title",
+      "text": "ritual.otherwhere_chalk.page.1",
+      "title": "ritual.otherwhere_chalk.title",
       "use_markdown_in_title": false
     }
   ],

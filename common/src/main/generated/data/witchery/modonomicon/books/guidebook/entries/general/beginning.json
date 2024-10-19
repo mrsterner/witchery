@@ -16,8 +16,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "beginning.page1",
-      "title": "beginning.title",
+      "text": "general.beginning.page.1",
+      "title": "general.beginning.title",
       "use_markdown_in_title": false
     }
   ],

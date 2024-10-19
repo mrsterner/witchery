@@ -10,13 +10,11 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementCond
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadConditionModel
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.WitcheryAdvancementProvider
 import dev.sterner.witchery.fabric.datagen.book.entry.*
 import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.world.item.Items
 
 
-class WitcheryCategoryProvider(
+class WitcheryGeneralCategoryProvider(
     parent: ModonomiconProviderBase?
 ) : CategoryProvider(parent) {
 
