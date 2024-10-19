@@ -2,6 +2,7 @@ package dev.sterner.witchery.block.cauldron
 
 import dev.architectury.fluid.FluidStack
 import dev.architectury.hooks.fluid.FluidStackHooks
+import dev.architectury.platform.Platform
 import dev.sterner.witchery.api.block.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.payload.CauldronPoofS2CPacket
@@ -18,6 +19,7 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -29,6 +31,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.PointedDripstoneBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.gameevent.GameEvent
@@ -110,8 +113,21 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         setChanged()
     }
 
+    fun handleDripstone(level: Level, pos: BlockPos) {
+        if (level !is ServerLevel) return
+        val dripstone = PointedDripstoneBlock.findStalactiteTipAboveCauldron(level, pos) ?: return
+        val fluid = PointedDripstoneBlock.getCauldronFillFluidType(level, dripstone)
+        if (fluid == Fluids.EMPTY) return
+
+        val amount = 10L * if (Platform.isFabric()) 81 else 1
+        this.fluidTank.fluidStorage.add(FluidStack.create(fluid, amount), amount, false)
+    }
+
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
         super.tick(level, pos, state)
+
+        if (level.random.nextFloat() < 0.005)
+            handleDripstone(level, pos)
 
         if (level.isClientSide || !state.getValue(BlockStateProperties.LIT)) {
             return
