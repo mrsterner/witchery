@@ -5,6 +5,7 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
+import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
 import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.PlayerEvent.AttackEntity
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
@@ -44,13 +45,16 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 import org.slf4j.Logger
 
 
@@ -93,7 +97,20 @@ object Witchery {
 
         WitcheryModonomiconLoaders.register()
 
+        MODIFY_LOOT_TABLE.register(::addWitchesHand)
 
+    }
+
+    private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {
+        if (isBuiltin && EntityType.WITCH.defaultLootTable.equals(resourceKey)) {
+            val pool = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.WITCHES_HAND.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.5f))
+                )
+            context.addPool(pool)
+        }
     }
 
 
