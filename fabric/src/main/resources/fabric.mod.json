@@ -16,6 +16,7 @@
   "license": "ARR",
   "icon": "icon.png",
   "environment": "*",
+  "accessWidener": "witchery.accesswidener",
   "entrypoints": {
     "main": [
       "dev.sterner.witchery.fabric.WitcheryFabric"

@@ -32,25 +32,44 @@ enum class InfusionType : StringRepresentable {
     };
 
 
+    /**
+     * return the cost of the ability
+     */
     open fun onReleaseRightClick(player: Player, secondsHeld: Int): Int {
         return 0
     }
 
+    /**
+     * return the cost of the ability
+     */
     open fun leftClickEntity(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Int {
         return 0
     }
 
+    /**
+     * return the cost of the ability
+     */
     open fun leftClickBlock(player: Player, blockPos: BlockPos?, direction: Direction?): Int {
         return 0
     }
+
+    /**
+     * return the cost of the ability
+     */
     open fun onReleaseRightClickShift(player: Player, secondsHeld: Int): Int {
         return 0
     }
 
+    /**
+     * return the cost of the ability
+     */
     open fun leftClickEntityShift(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Int {
         return 0
     }
 
+    /**
+     * return the cost of the ability
+     */
     open fun leftClickBlockShift(player: Player, blockPos: BlockPos?, direction: Direction?): Int {
         return 0
     }
@@ -58,8 +77,6 @@ enum class InfusionType : StringRepresentable {
     override fun getSerializedName(): String {
         return name.lowercase()
     }
-
-
 
     companion object {
         val CODEC: Codec<InfusionType> = StringRepresentable.fromEnum(::values)
