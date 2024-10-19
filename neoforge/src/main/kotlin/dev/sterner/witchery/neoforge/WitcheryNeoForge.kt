@@ -14,15 +14,6 @@ import dev.sterner.witchery.platform.neoforge.MutandisDataAttachmentImpl
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.entity.BoatRenderer
-import net.minecraft.core.HolderLookup
-import net.minecraft.core.RegistryAccess
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.level.storage.loot.LootPool
-import net.minecraft.world.level.storage.loot.entries.LootItem
-import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
@@ -32,9 +23,7 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
-import net.neoforged.neoforge.event.LootTableLoadEvent
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
-import net.neoforged.neoforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
