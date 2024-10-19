@@ -80,6 +80,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.ENT_TWIG.get(), "Ent Twig")
         builder.add(WitcheryItems.ATTUNED_STONE.get(), "Attuned Stone")
         builder.add(WitcheryItems.ROWAN_BERRIES.get(), "Rowan Berries")
+        builder.add(WitcheryItems.WITCHES_HAND.get(), "Witches Hand")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")

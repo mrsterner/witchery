@@ -36,6 +36,10 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.INFINITY_EGG.get(), Item.Properties())
     }
 
+    val WITCHES_HAND =  ITEMS.register("witches_hand") {
+        WitchesHandItem(Item.Properties().stacksTo(1))
+    }
+
     //start RESOURCES
     val MUTANDIS: RegistrySupplier<MutandisItem> = ITEMS.register("mutandis") {
         MutandisItem(Item.Properties())

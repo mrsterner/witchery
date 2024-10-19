@@ -72,6 +72,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.SOUL_OF_THE_WORLD.get())
                 output.accept(WitcheryItems.INFERNAL_ANIMUS.get())
                 output.accept(WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
+                output.accept(WitcheryItems.WITCHES_HAND.get())
                 output.accept(WitcheryItems.CLAY_JAR.get())
                 output.accept(WitcheryItems.JAR.get())
                 output.accept(WitcheryItems.BREATH_OF_THE_GODDESS.get())

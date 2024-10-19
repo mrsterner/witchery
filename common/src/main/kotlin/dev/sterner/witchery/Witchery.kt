@@ -5,6 +5,8 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
+import dev.architectury.event.events.common.PlayerEvent
+import dev.architectury.event.events.common.PlayerEvent.AttackEntity
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
@@ -25,6 +27,7 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.ImpEntity
 import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.handler.InfusionHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.platform.MutandisDataAttachment
@@ -80,6 +83,10 @@ object Witchery {
 
         LootEvent.MODIFY_LOOT_TABLE.register(::addSeeds)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
+        InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
+        PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
+
+
         ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisDataAttachment.tick(serverLevel) }
 
         NaturePowerHandler.registerListener()
