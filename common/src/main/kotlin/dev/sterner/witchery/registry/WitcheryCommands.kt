@@ -10,6 +10,7 @@ import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
+import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
 import net.minecraft.commands.synchronization.ArgumentTypeInfos
 import net.minecraft.commands.synchronization.SingletonArgumentInfo
@@ -34,27 +35,48 @@ object WitcheryCommands {
     }
 
     fun register(dispatcher: CommandDispatcher<CommandSourceStack>, context: CommandBuildContext, selection: Commands.CommandSelection) {
-
-
-
         dispatcher.register(
             Commands.literal("witchery").then(
                 Commands.literal("infusion")
                     .requires { it.hasPermission(2) }
                     .then(
-                        Commands.argument("infusionType", InfusionArgumentType.infusionType())
-                            .executes { ctx ->
-                                val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
+                        Commands.literal("set") // Add 'set' command
+                            .then(
+                                Commands.argument("player", EntityArgument.player()) // Accept player argument
+                                    .then(
+                                        Commands.argument("infusionType", InfusionArgumentType.infusionType())
+                                            .executes { ctx ->
+                                                val player = EntityArgument.getPlayer(ctx, "player")
+                                                val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
 
-                                PlayerInfusionDataAttachment.setPlayerInfusion(ctx.source.player!!, InfusionData(infusionType))
+                                                PlayerInfusionDataAttachment.setPlayerInfusion(player, InfusionData(infusionType))
 
-                                ctx.source.sendSuccess(
-                                    {
-                                        Component.literal("Selected infusion type: ${infusionType.serializedName}")
-                                    }, false
-                                )
-                                1
-                            }
+                                                ctx.source.sendSuccess(
+                                                    {
+                                                        Component.literal("Selected infusion type: ${infusionType.serializedName} for player ${player.name.string}")
+                                                    }, false
+                                                )
+                                                1
+                                            }
+                                    )
+                            )
+                    )
+                    .then(
+                        Commands.literal("get") // Add 'get' command
+                            .then(
+                                Commands.argument("player", EntityArgument.player()) // Accept player argument
+                                    .executes { ctx ->
+                                        val player = EntityArgument.getPlayer(ctx, "player")
+                                        val currentInfusion = PlayerInfusionDataAttachment.getPlayerInfusion(player)
+
+                                        ctx.source.sendSuccess(
+                                            {
+                                                Component.literal("Current infusion type: ${currentInfusion.type.serializedName} for player ${player.name.string}")
+                                            }, false
+                                        )
+                                        1
+                                    }
+                            )
                     )
             )
         )
