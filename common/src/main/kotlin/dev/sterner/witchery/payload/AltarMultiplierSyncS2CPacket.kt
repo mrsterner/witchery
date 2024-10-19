@@ -39,7 +39,7 @@ class AltarMultiplierSyncS2CPacket(val pos: BlockPos, val multiplier: Double) : 
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, AltarMultiplierSyncS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> AltarMultiplierSyncS2CPacket(buf) }
+                { buf -> AltarMultiplierSyncS2CPacket(buf!!) }
             )
     }
 }

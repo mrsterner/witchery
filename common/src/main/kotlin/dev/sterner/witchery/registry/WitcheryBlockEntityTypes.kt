@@ -102,7 +102,7 @@ object WitcheryBlockEntityTypes {
 
     val CUSTOM_SIGN = BLOCK_ENTITY_TYPES.register("custom_sign") {
         BlockEntityType.Builder.of(
-            { pos, state -> CustomSignBE(pos, state) },
+            { pos, state -> CustomSignBE(pos, state) as SignBlockEntity },
             WitcheryBlocks.ROWAN_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_SIGN.get()
         ).build(null)
@@ -110,7 +110,7 @@ object WitcheryBlockEntityTypes {
 
     val CUSTOM_HANGING_SIGN = BLOCK_ENTITY_TYPES.register("custom_hanging_sign") {
         BlockEntityType.Builder.of(
-            { pos, state -> CustomHangingSignBE(pos, state) },
+            { pos, state -> CustomSignBE(pos, state) as SignBlockEntity },
             WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get()
         ).build(null)
