@@ -254,19 +254,28 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (ritualRecipe != null && pPlayer.isShiftKeyDown) {
             items.clear()
             resetRitual()
+            Witchery.logDebugRitual("Ritual reset by player ${pPlayer.name.string}.")
             return InteractionResult.SUCCESS
         }
 
         if (cachedAltarPos == null && level is ServerLevel) {
             cachedAltarPos = getAltarPos(level as ServerLevel, blockPos)
             setChanged()
+            Witchery.logDebugRitual("Cached altar position updated: $cachedAltarPos.")
         }
 
+
+
         if (ritualRecipe == null && level != null) {
+            Witchery.logDebugRitual("No current ritual recipe found. Searching for valid recipes.")
+
             val items: List<ItemEntity> =
                 pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }
             val entities: List<LivingEntity> = pPlayer.level()
                 .getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
+
+            Witchery.logDebugRitual("Found ${items.size} items and ${entities.size} entities near block position $blockPos.")
+
 
             val recipes = level?.recipeManager?.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())
 
@@ -278,6 +287,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
+            Witchery.logDebugRitual("Filtered valid item recipes: ${validItemRecipes?.size ?: 0} found.")
+
             // Further filter by entities
             val validSacrificesAndItemsRecipe = validItemRecipes?.filter { recipe ->
                 val requiredSacrifices = recipe.value.inputEntities
@@ -285,6 +296,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     entities.any { entity -> entity.type == requiredEntity }
                 }
             }
+
+            Witchery.logDebugRitual("Filtered valid item and entity recipes: ${validSacrificesAndItemsRecipe?.size ?: 0} found.")
 
             // Sort by number of inputs (items + entities), picking the longest recipe
             val sortedRecipes = validSacrificesAndItemsRecipe?.sortedByDescending { recipe ->
@@ -294,9 +307,14 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             // Ensure that there are valid recipes and check conditions
             if (!sortedRecipes.isNullOrEmpty()) {
                 val selectedRecipe = sortedRecipes[0] // Pick the longest recipe
+
+                Witchery.logDebugRitual("Selected recipe: ${selectedRecipe.value} with inputs: ${selectedRecipe.value.inputItems.size} items and ${selectedRecipe.value.inputEntities.size} entities.")
+
                 val hasValidCircle = validateRitualCircle(level!!, selectedRecipe.value)
                 val hasEnoughPower = hasEnoughAltarPower(level!!, selectedRecipe.value)
                 val meetsCelestialCondition = hasCelestialCondition(level!!, selectedRecipe.value)
+
+                Witchery.logDebugRitual("Ritual conditions - Valid Circle: $hasValidCircle, Enough Power: $hasEnoughPower, Celestial Condition: $meetsCelestialCondition.")
 
                 if (hasValidCircle && hasEnoughPower && meetsCelestialCondition) {
                     ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
@@ -304,18 +322,31 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     shouldRun = true
                     shouldStartConsumingItems = true
                     setChanged()
-                    level?.playSound(pPlayer, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
-                    level?.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
+
+                    Witchery.logDebugRitual("Ritual started by ${pPlayer.name.string} with recipe ${ritualRecipe}.")
+
+                    playRitualStartSound(pPlayer)
                 } else {
-                    level?.playSound(pPlayer, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
-                    level?.playSound(null, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
+                    Witchery.logDebugRitual("Ritual failed due to unmet conditions.")
+                    playRitualFailureSound(pPlayer)
                 }
             } else {
-                level?.playSound(pPlayer, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
+                Witchery.logDebugRitual("No valid rituals found. Extinguishing ritual.")
+                playRitualFailureSound(pPlayer)
             }
         }
 
         return super.onUseWithoutItem(pPlayer)
+    }
+
+    private fun playRitualStartSound(pPlayer: Player) {
+        level?.playSound(pPlayer, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
+        level?.playSound(null, blockPos, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.BLOCKS)
+    }
+
+    private fun playRitualFailureSound(pPlayer: Player) {
+        level?.playSound(pPlayer, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
+        level?.playSound(null, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
     }
 
     private fun hasCelestialCondition(level: Level, recipeHolder: RitualRecipe): Boolean {
@@ -340,7 +371,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun hasEnoughAltarPower(level: Level, recipe: RitualRecipe): Boolean {
 
         val maybeAttunedItem = level.getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { it.item.`is`(WitcheryItems.ATTUNED_STONE.get()) }
-        println(maybeAttunedItem)
         val attunedStoneBonus = if (maybeAttunedItem.isNotEmpty() && maybeAttunedItem[0].item.get(WitcheryDataComponents.ATTUNED.get()) == true) {
             2000
         } else {
@@ -356,7 +386,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (requiredAltarPower > 0 && cachedAltarPos != null) {
             return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
         }
-        println(requiredAltarPower)
         return requiredAltarPower <= 0
     }
 

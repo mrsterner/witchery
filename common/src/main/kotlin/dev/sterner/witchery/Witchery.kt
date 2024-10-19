@@ -64,6 +64,8 @@ object Witchery {
 
     val LOGGER: Logger = LogUtils.getLogger()
 
+    val debugRitualLog: Boolean = true
+
     @JvmStatic
     fun init() {
         //WitcheryRitualRegistry.RITUALS.register()
@@ -320,5 +322,11 @@ object Witchery {
 
     fun id(name: String): ResourceLocation {
         return ResourceLocation.fromNamespaceAndPath(MODID, name)
+    }
+
+    fun logDebugRitual(message: String) {
+        if (debugRitualLog) {
+            LOGGER.debug(message)
+        }
     }
 }
