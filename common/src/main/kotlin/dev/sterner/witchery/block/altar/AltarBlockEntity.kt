@@ -12,6 +12,7 @@ import dev.sterner.witchery.menu.AltarMenu
 import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryTags
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -22,15 +23,18 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.tags.BlockTags
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.ContainerData
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
+import java.util.stream.Stream
 import kotlin.math.floor
 
 
@@ -43,8 +47,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     var currentPower = 0
     var maxPower = 0
-    var powerMultiplier =
-        1.0 // Turned double to allow for more options (candles), will have to manually sync with client
+    var powerMultiplier = 1.0
     var range = 16
 
     val data = object : ContainerData {
@@ -135,13 +138,35 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     fun augmentAltar(level: ServerLevel) {
         val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+
+        powerMultiplier = 1.0
+
+        var bestLightAugment = 0.0
+
         level.getBlockStatesIfLoaded(augments).forEach { state ->
             if (state.`is`(WitcheryBlocks.INFINITY_EGG.get())) {
                 maxPower = 10000
                 currentPower = 10000
             }
+
+            // Handle Light-based Augments
+            if (state.`is`(WitcheryTags.CANDELABRAS) { b -> b.getValue(BlockStateProperties.LIT) } && 2.0 > bestLightAugment)
+                bestLightAugment = 2.0
+            if (state.`is`(Blocks.SOUL_TORCH) && 1.5 > bestLightAugment)
+                bestLightAugment = 1.5
+            if ((state.`is`(Blocks.TORCH) || state.`is`(BlockTags.CANDLES) { s ->
+                    s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 4 }) && 1.0 > bestLightAugment)
+                bestLightAugment = 1.0
+            if (state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 3 } && 0.75 > bestLightAugment)
+                bestLightAugment = 0.75
+            if (state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 2 } && 0.5 > bestLightAugment)
+                bestLightAugment = 0.5
+            if ((state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 1 } ||
+                        state.`is`(BlockTags.CANDLE_CAKES) { s -> s.getValue(BlockStateProperties.LIT) }) && 0.25 > bestLightAugment)
+                bestLightAugment = 0.25
         }
-        // Do Stuff
+
+        powerMultiplier += powerMultiplier * bestLightAugment
     }
 
     fun propagateAltarLocation(level: ServerLevel, pos: BlockPos) {
@@ -194,12 +219,13 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             augmentUpdateQueued = false
         }
 
-        if (ticks % 20 == 0) {
+        if (ticks % 20 == 1)
             updateCurrentPower()
-        }
 
+        if (ticks % 20 == 5)
+            augmentAltar(level)
 
-        if (ticks / 20.0 >= 1)
+        if (ticks % 20 > 5)
             ticks = 0
         else
             ticks++
