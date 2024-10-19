@@ -148,6 +148,26 @@ object WitcheryItems {
     val REDSTONE_SOUP: RegistrySupplier<Item> = ITEMS.register("redstone_soup") {
         Item(Item.Properties())
     }
+
+    val FLYING_OINTMENT: RegistrySupplier<Item> = ITEMS.register("flying_ointment") {
+        Item(Item.Properties())
+    }
+
+    val INFERNAL_ANIMUS: RegistrySupplier<Item> = ITEMS.register("infernal_animus") {
+        Item(Item.Properties())
+    }
+
+    val GHOST_OF_THE_LIGHT: RegistrySupplier<Item> = ITEMS.register("ghost_of_the_light") {
+        Item(Item.Properties())
+    }
+
+    val SOUL_OF_THE_WORLD: RegistrySupplier<Item> = ITEMS.register("soul_of_the_world") {
+        Item(Item.Properties())
+    }
+
+    val SPIRIT_OF_OTHERWHERE: RegistrySupplier<Item> = ITEMS.register("spirit_of_otherwhere") {
+        Item(Item.Properties())
+    }
     //end RESOURCES
 
     //start JARS

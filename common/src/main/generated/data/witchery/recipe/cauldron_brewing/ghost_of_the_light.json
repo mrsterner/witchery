@@ -1,0 +1,68 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "altarPower": 100,
+  "inputItems": [
+    {
+      "color": -52686,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:redstone_soup"
+      },
+      "order": 0
+    },
+    {
+      "color": -12802566,
+      "itemStack": {
+        "components": {
+          "minecraft:potion_contents": {
+            "potion": "minecraft:long_invisibility"
+          }
+        },
+        "count": 1,
+        "id": "minecraft:potion"
+      },
+      "order": 1
+    },
+    {
+      "color": -24516,
+      "itemStack": {
+        "components": {
+          "minecraft:potion_contents": {
+            "potion": "minecraft:long_fire_resistance"
+          }
+        },
+        "count": 1,
+        "id": "minecraft:potion"
+      },
+      "order": 2
+    },
+    {
+      "color": -19366,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:ember_moss"
+      },
+      "order": 3
+    },
+    {
+      "color": -329166,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:torch"
+      },
+      "order": 4
+    },
+    {
+      "color": -3618561,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:tongue_of_dog"
+      },
+      "order": 5
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:ghost_of_the_light"
+  }
+}

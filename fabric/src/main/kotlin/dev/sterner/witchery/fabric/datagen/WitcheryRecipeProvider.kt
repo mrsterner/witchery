@@ -26,6 +26,8 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.alchemy.PotionContents
+import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.ShapedRecipe
 import net.minecraft.world.item.crafting.ShapelessRecipe
@@ -51,6 +53,60 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(100)
             .save(exporter,  Witchery.id("redstone_soup"))
 
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(Items.FEATHER.defaultInstance, Color(250,250,250).rgb)
+            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.SWIFTNESS), Color(125,165,250).rgb)
+            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(150,50,50).rgb)
+            .addInputWithColor(WitcheryItems.BELLADONNA_FLOWER.get().defaultInstance, Color(255,180,10).rgb)
+            .setOutput(WitcheryItems.FLYING_OINTMENT.get().defaultInstance)
+            .setAltarPower(100)
+            .save(exporter,  Witchery.id("flying_ointment"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(WitcheryItems.ATTUNED_STONE.get().defaultInstance, Color(255,50,250).rgb)
+            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.REGENERATION), Color(125,165,250).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(150,50,50).rgb)
+            .addInputWithColor(Items.GOLDEN_APPLE.defaultInstance, Color(180,180,0).rgb)
+            .addInputWithColor(WitcheryItems.ROWAN_SAPLING.get().defaultInstance, Color(55,250,10).rgb)
+            .setOutput(WitcheryItems.SOUL_OF_THE_WORLD.get().defaultInstance)
+            .setAltarPower(100)
+            .save(exporter,  Witchery.id("soul_of_the_world"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.STRONG_HARMING), Color(225,165,50).rgb)
+            .addInputWithColor(WitcheryItems.DEMON_HEART.get().defaultInstance, Color(255,50,20).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(150,50,50).rgb)
+            .addInputWithColor(Items.FERMENTED_SPIDER_EYE.defaultInstance, Color(155,150,10).rgb)
+            .addInputWithColor(WitcheryItems.REFINED_EVIL.get().defaultInstance, Color(255,100,10).rgb)
+            .addInputWithColor(Items.BLAZE_ROD.defaultInstance, Color(255,50,10).rgb)
+            .setOutput(WitcheryItems.INFERNAL_ANIMUS.get().defaultInstance)
+            .setAltarPower(100)
+            .save(exporter,  Witchery.id("infernal_animus"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.LONG_SWIFTNESS), Color(60,165,250).rgb)
+            .addInputWithColor(Items.ENDER_EYE.defaultInstance, Color(4,250,130).rgb)
+            .addInputWithColor(Items.ENDER_EYE.defaultInstance, Color(10,250,90).rgb)
+            .addInputWithColor(WitcheryItems.DROP_OF_LUCK.get().defaultInstance, Color(50,50,50).rgb)
+            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(255,100,255).rgb)
+            .setOutput(WitcheryItems.SPIRIT_OF_OTHERWHERE.get().defaultInstance)
+            .setAltarPower(100)
+            .save(exporter,  Witchery.id("spirit_of_otherwhere"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.LONG_INVISIBILITY), Color(60,165,250).rgb)
+            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.LONG_FIRE_RESISTANCE), Color(255,160,60).rgb)
+            .addInputWithColor(WitcheryItems.EMBER_MOSS.get().defaultInstance, Color(255,180,90).rgb)
+            .addInputWithColor(Items.TORCH.defaultInstance, Color(250,250,50).rgb)
+            .addInputWithColor(WitcheryItems.TONGUE_OF_DOG.get().defaultInstance, Color(200,200,255).rgb)
+            .setOutput(WitcheryItems.GHOST_OF_THE_LIGHT.get().defaultInstance)
+            .setAltarPower(100)
+            .save(exporter,  Witchery.id("ghost_of_the_light"))
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.RITUAL_CHALK.get(), 2)
