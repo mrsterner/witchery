@@ -4,10 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
-import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryFlammability
-import dev.sterner.witchery.registry.WitcheryParticleTypes
-import dev.sterner.witchery.registry.WitcheryRitualRegistry
+import dev.sterner.witchery.registry.*
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
@@ -15,8 +12,19 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents
+import net.fabricmc.fabric.api.loot.v3.LootTableSource
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
+import net.minecraft.core.HolderLookup
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
 
 class WitcheryFabric : ModInitializer, ClientModInitializer {
@@ -39,6 +47,8 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
     override fun onInitialize() {
         Witchery.init()
+
+        LootTableEvents.MODIFY.register(::addEntityDrops)
 
         DynamicRegistries.registerSynced(WitcheryRitualRegistry.RITUAL_KEY, WitcheryRitualRegistry.CODEC)
 
@@ -83,6 +93,44 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
         OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
 
+    }
+
+    private fun addEntityDrops(resourceKey: ResourceKey<LootTable>?, builder: LootTable.Builder, lootTableSource: LootTableSource, provider: HolderLookup.Provider) {
+        if (lootTableSource.isBuiltin && EntityType.WOLF.defaultLootTable.equals(resourceKey)) {
+            val pool = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.TONGUE_OF_DOG.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
+                )
+                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))
+                .build()
+            builder.pool(pool)
+        }
+
+        if (lootTableSource.isBuiltin && EntityType.FROG.defaultLootTable.equals(resourceKey)) {
+            val pool = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.TOE_OF_FROG.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
+                )
+                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))
+                .build()
+            builder.pool(pool)
+        }
+
+        if (lootTableSource.isBuiltin && EntityType.BAT.defaultLootTable.equals(resourceKey)) {
+            val pool = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.WOOL_OF_BAT.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
+                )
+                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))
+                .build()
+            builder.pool(pool)
+        }
     }
 
     override fun onInitializeClient() {

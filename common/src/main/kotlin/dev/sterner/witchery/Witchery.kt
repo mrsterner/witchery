@@ -49,13 +49,17 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 import org.slf4j.Logger
 
 
@@ -92,66 +96,12 @@ object Witchery {
 
         NaturePowerHandler.registerListener()
 
-        LoaderRegistry.registerPageLoader(
-            WitcheryPageRendererRegistry.CAULDRON_RECIPE,
-            BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
-                BookCauldronCraftingRecipePage.fromJson(
-                    entryId,
-                    json,
-                    provider
-                )
-            } as BookPageJsonLoader<*>
-        ) { buffer: RegistryFriendlyByteBuf ->
-            BookCauldronCraftingRecipePage.fromNetwork(
-                buffer
-            )
-        }
+        WitcheryModonomiconLoaders.register()
 
-        LoaderRegistry.registerPageLoader(
-            WitcheryPageRendererRegistry.CAULDRON_BREWING_RECIPE,
-            BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
-                BookCauldronBrewingRecipePage.fromJson(
-                    entryId,
-                    json,
-                    provider
-                )
-            } as BookPageJsonLoader<*>
-        ) { buffer: RegistryFriendlyByteBuf ->
-            BookCauldronBrewingRecipePage.fromNetwork(
-                buffer
-            )
-        }
 
-        LoaderRegistry.registerPageLoader(
-            WitcheryPageRendererRegistry.OVEN_FUMING_RECIPE,
-            BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
-                BookOvenFumingRecipePage.fromJson(
-                    entryId,
-                    json,
-                    provider
-                )
-            } as BookPageJsonLoader<*>
-        ) { buffer: RegistryFriendlyByteBuf ->
-            BookOvenFumingRecipePage.fromNetwork(
-                buffer
-            )
-        }
-
-        LoaderRegistry.registerPageLoader(
-            WitcheryPageRendererRegistry.DISTILLING_RECIPE,
-            BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
-                BookDistillingRecipePage.fromJson(
-                    entryId,
-                    json,
-                    provider
-                )
-            } as BookPageJsonLoader<*>
-        ) { buffer: RegistryFriendlyByteBuf ->
-            BookDistillingRecipePage.fromNetwork(
-                buffer
-            )
-        }
     }
+
+
 
     private fun addSeeds(key: ResourceKey<LootTable>?, context: LootTableModificationContext, builtin: Boolean) {
         if (builtin && Blocks.SHORT_GRASS.lootTable.equals(key) || Blocks.TALL_GRASS.lootTable.equals(key)) {
