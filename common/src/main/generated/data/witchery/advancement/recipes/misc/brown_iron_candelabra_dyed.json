@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pink_dye": {
+    "has_brown_dye": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:pink_dye"
+            "items": "minecraft:brown_dye"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "witchery:pink_iron_candelabra"
+        "recipe": "witchery:brown_iron_candelabra_dyed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_pink_dye"
+      "has_brown_dye"
     ]
   ],
   "rewards": {
     "recipes": [
-      "witchery:pink_iron_candelabra"
+      "witchery:brown_iron_candelabra_dyed"
     ]
   }
 }

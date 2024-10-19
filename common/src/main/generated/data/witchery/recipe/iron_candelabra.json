@@ -6,7 +6,7 @@
       "item": "witchery:attuned_stone"
     },
     "C": {
-      "item": "minecraft:brown_candle"
+      "item": "minecraft:candle"
     },
     "I": {
       "item": "minecraft:iron_ingot"
@@ -19,6 +19,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "witchery:brown_iron_candelabra"
+    "id": "witchery:iron_candelabra"
   }
 }

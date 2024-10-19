@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_light_blue_dye": {
+    "has_book": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:light_blue_dye"
+            "items": "minecraft:book"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "witchery:light_blue_iron_candelabra"
+        "recipe": "witchery:guidebook"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_light_blue_dye"
+      "has_book"
     ]
   ],
   "rewards": {
     "recipes": [
-      "witchery:light_blue_iron_candelabra"
+      "witchery:guidebook"
     ]
   }
 }

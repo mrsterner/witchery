@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_light_gray_dye": {
+    "has_logs": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:light_gray_dye"
+            "items": "#witchery:rowan_logs"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "witchery:light_gray_iron_candelabra"
+        "recipe": "witchery:deepslate_altar_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_light_gray_dye"
+      "has_logs"
     ]
   ],
   "rewards": {
     "recipes": [
-      "witchery:light_gray_iron_candelabra"
+      "witchery:deepslate_altar_block"
     ]
   }
 }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_lime_dye": {
+    "has_red_dye": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:lime_dye"
+            "items": "minecraft:red_dye"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "witchery:lime_iron_candelabra"
+        "recipe": "witchery:red_iron_candelabra_dyed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_lime_dye"
+      "has_red_dye"
     ]
   ],
   "rewards": {
     "recipes": [
-      "witchery:lime_iron_candelabra"
+      "witchery:red_iron_candelabra_dyed"
     ]
   }
 }

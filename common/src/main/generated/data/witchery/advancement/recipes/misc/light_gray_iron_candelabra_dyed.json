@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_orange_dye": {
+    "has_light_gray_dye": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:orange_dye"
+            "items": "minecraft:light_gray_dye"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "witchery:orange_iron_candelabra"
+        "recipe": "witchery:light_gray_iron_candelabra_dyed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_orange_dye"
+      "has_light_gray_dye"
     ]
   ],
   "rewards": {
     "recipes": [
-      "witchery:orange_iron_candelabra"
+      "witchery:light_gray_iron_candelabra_dyed"
     ]
   }
 }

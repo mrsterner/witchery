@@ -14,7 +14,7 @@ import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 
-class GuideBookItem(pProperties: Properties) : ModonomiconItem(pProperties) {
+class GuideBookItem(pProperties: Properties) : ModonomiconItem(pProperties.stacksTo(1)) {
 
     override fun use(pLevel: Level, pPlayer: Player, pUsedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemInHand = pPlayer.getItemInHand(pUsedHand)

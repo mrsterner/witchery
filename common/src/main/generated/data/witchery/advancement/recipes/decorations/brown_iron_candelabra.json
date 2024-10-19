@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_red_dye": {
+    "has_iron": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:red_dye"
+            "items": "minecraft:iron_ingot"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "witchery:red_iron_candelabra"
+        "recipe": "witchery:brown_iron_candelabra"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_red_dye"
+      "has_iron"
     ]
   ],
   "rewards": {
     "recipes": [
-      "witchery:red_iron_candelabra"
+      "witchery:brown_iron_candelabra"
     ]
   }
 }

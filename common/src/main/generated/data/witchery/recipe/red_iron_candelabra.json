@@ -1,14 +1,21 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "dyed_candle",
-  "ingredients": [
-    {
-      "item": "witchery:iron_candelabra"
+  "key": {
+    "A": {
+      "item": "witchery:attuned_stone"
     },
-    {
-      "item": "minecraft:red_dye"
+    "C": {
+      "item": "minecraft:red_candle"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
     }
+  },
+  "pattern": [
+    "CCC",
+    "IAI",
+    " I "
   ],
   "result": {
     "count": 1,

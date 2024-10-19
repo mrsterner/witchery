@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_black_dye": {
+    "has_purple_dye": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:black_dye"
+            "items": "minecraft:purple_dye"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "witchery:black_iron_candelabra"
+        "recipe": "witchery:purple_iron_candelabra_dyed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_black_dye"
+      "has_purple_dye"
     ]
   ],
   "rewards": {
     "recipes": [
-      "witchery:black_iron_candelabra"
+      "witchery:purple_iron_candelabra_dyed"
     ]
   }
 }
