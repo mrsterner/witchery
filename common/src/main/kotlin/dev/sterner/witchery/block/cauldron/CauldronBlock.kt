@@ -1,5 +1,7 @@
 package dev.sterner.witchery.block.cauldron
 
+import dev.architectury.fluid.FluidStack
+import dev.architectury.platform.Platform
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
@@ -7,18 +9,24 @@ import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.RandomSource
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.biome.Biome.Precipitation
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.PointedDripstoneBlock
 import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.material.Fluid
+import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
@@ -64,6 +72,32 @@ open class CauldronBlock(properties: Properties) :
             }
         }
         return SHAPE
+    }
+
+    private fun shouldHandlePrecipitation(level: Level, precipitation: Precipitation): Boolean {
+        return when (precipitation) {
+            Precipitation.RAIN -> level.getRandom().nextFloat() < 0.05f
+            Precipitation.SNOW -> level.getRandom().nextFloat() < 0.1f
+            else -> false
+        }
+    }
+
+    private fun giveFluid(fluid: Fluid, amountWithoutConversion: Long, cauldron: CauldronBlockEntity) {
+        val amount = amountWithoutConversion * if (Platform.isFabric()) 81 else 1
+        cauldron.fluidTank.fluidStorage.add(FluidStack.create(fluid, amount), amount, false)
+    }
+
+    override fun handlePrecipitation(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        precipitation: Precipitation
+    ) {
+        if (shouldHandlePrecipitation(level, precipitation) && !level.isClientSide) {
+            level.getBlockEntity(pos, WitcheryBlockEntityTypes.CAULDRON.get()).ifPresent { cauldron ->
+                giveFluid(Fluids.WATER, 10, cauldron)
+            }
+        }
     }
 
     override fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: RandomSource) {
