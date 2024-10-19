@@ -7,10 +7,13 @@ import com.klikli_dev.modonomicon.book.page.BookSmeltingRecipePage
 import com.klikli_dev.modonomicon.data.BookPageJsonLoader
 import com.klikli_dev.modonomicon.data.LoaderRegistry
 import com.mojang.logging.LogUtils
+import com.mojang.serialization.JsonOps
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.ChatEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
+import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
@@ -45,6 +48,7 @@ import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.core.HolderLookup
 import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
@@ -52,6 +56,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
@@ -148,6 +153,14 @@ object Witchery {
             BookDistillingRecipePage.fromNetwork(
                 buffer
             )
+        }
+
+        ChatEvent.RECEIVED.register { player, comp ->
+            BlockState.CODEC.encodeStart(JsonOps.INSTANCE, Blocks.TORCH.defaultBlockState()).result().ifPresent {
+                player?.sendSystemMessage(Component.literal(it.toString()))
+            }
+
+            EventResult.pass()
         }
     }
 

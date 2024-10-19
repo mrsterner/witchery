@@ -1,0 +1,139 @@
+{
+  "type": "witchery:light",
+  "augments": [
+    {
+      "blocks": [
+        {"Properties":{"lit":"true"},"Name":"witchery:iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:white_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:orange_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:magenta_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:light_blue_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:yellow_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:lime_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:pink_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:gray_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:light_gray_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:cyan_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:purple_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:blue_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:brown_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:green_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:red_iron_candelabra"},
+        {"Properties":{"lit":"true"},"Name":"witchery:black_iron_candelabra"}
+      ],
+      "multiplier": 2.0
+    },
+    {
+      "blocks": [
+        {"Name":"minecraft:soul_torch"}
+      ],
+      "multiplier": 1.5
+    },
+    {
+      "blocks": [
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:white_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:orange_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:magenta_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:light_blue_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:yellow_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:lime_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:pink_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:gray_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:light_gray_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:cyan_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:purple_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:blue_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:brown_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:green_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:red_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"4"},"Name":"minecraft:black_candle"},
+        {"Name":"minecraft:torch"}
+      ],
+      "multiplier": 1.0
+    },
+    {
+      "blocks": [
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:white_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:orange_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:magenta_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:light_blue_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:yellow_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:lime_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:pink_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:gray_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:light_gray_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:cyan_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:purple_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:blue_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:brown_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:green_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:red_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"3"},"Name":"minecraft:black_candle"}
+      ],
+      "multiplier": 0.75
+    },
+    {
+      "blocks": [
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:white_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:orange_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:magenta_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:light_blue_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:yellow_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:lime_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:pink_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:gray_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:light_gray_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:cyan_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:purple_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:blue_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:brown_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:green_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:red_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"2"},"Name":"minecraft:black_candle"}
+      ],
+      "multiplier": 0.5
+    },
+    {
+      "blocks": [
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:white_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:orange_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:magenta_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:light_blue_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:yellow_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:lime_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:pink_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:gray_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:light_gray_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:cyan_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:purple_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:blue_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:brown_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:green_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:red_candle"},
+        {"Properties":{"waterlogged":"false","lit":"true","candles":"1"},"Name":"minecraft:black_candle"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:white_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:orange_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:magenta_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:light_blue_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:yellow_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:lime_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:pink_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:gray_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:light_gray_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:cyan_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:purple_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:blue_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:brown_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:green_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:red_candle_cake"},
+        {"Properties":{"lit":"true"},"Name":"minecraft:black_candle_cake"}
+      ],
+      "multiplier": 0.25
+    }
+  ]
+}
