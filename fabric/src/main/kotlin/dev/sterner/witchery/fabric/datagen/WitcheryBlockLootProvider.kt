@@ -7,9 +7,19 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.advancements.critereon.StatePropertiesPredicate
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.Registries
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer
+import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 import java.util.concurrent.CompletableFuture
 
 class WitcheryBlockLootProvider(
@@ -73,8 +83,8 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get())
         this.add(WitcheryBlocks.ROWAN_LEAVES.get(), createLeavesDrops(WitcheryBlocks.ROWAN_LEAVES.get(),
             WitcheryBlocks.ROWAN_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
-        this.add(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), createLeavesDrops(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(),
-            WitcheryBlocks.ROWAN_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
+        this.add(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), createFruitDroppingLeaves(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(),
+            WitcheryBlocks.ROWAN_SAPLING.get(), WitcheryItems.ROWAN_BERRIES.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
         dropSelf(WitcheryBlocks.ROWAN_PLANKS.get())
         dropSelf(WitcheryBlocks.ROWAN_STAIRS.get())
         dropSelf(WitcheryBlocks.ROWAN_SLAB.get())
@@ -192,5 +202,24 @@ class WitcheryBlockLootProvider(
         add(WitcheryBlocks.WORMWOOD_CROP.get(), createCropDrops(WitcheryBlocks.WORMWOOD_CROP.get(), WitcheryItems.WORMWOOD.get(), WitcheryItems.WORMWOOD_SEEDS.get(), builder6))
         add(WitcheryBlocks.GARLIC_CROP.get(),createCropDrops(WitcheryBlocks.GARLIC_CROP.get(), WitcheryItems.GARLIC.get(), WitcheryItems.GARLIC.get(), builder7))
 
+    }
+
+    fun createFruitDroppingLeaves(leavesBlock: Block, saplingBlock: Block, fruitItem: Item, vararg chances: Float): LootTable.Builder {
+        val registryLookup = registries.lookupOrThrow(Registries.ENCHANTMENT)
+        return createLeavesDrops(leavesBlock, saplingBlock, *chances).withPool(
+            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).`when`(
+                this.doesNotHaveShearsOrSilkTouch()
+            ).add(
+                (applyExplosionCondition(
+                    leavesBlock,
+                    LootItem.lootTableItem(fruitItem)
+                ) as LootPoolSingletonContainer.Builder<*>).`when`(
+                    BonusLevelTableCondition.bonusLevelFlatChance(
+                        registryLookup.getOrThrow(Enchantments.FORTUNE),
+                        *floatArrayOf(0.005f, 0.0055555557f, 0.00625f, 0.008333334f, 0.025f)
+                    )
+                )
+            )
+        )
     }
 }

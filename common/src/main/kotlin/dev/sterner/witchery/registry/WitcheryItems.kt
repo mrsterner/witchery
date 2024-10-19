@@ -12,6 +12,8 @@ import dev.sterner.witchery.item.*
 import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.BoatTypeHelper
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.food.FoodProperties
+import net.minecraft.world.food.Foods
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.HangingSignItem
 import net.minecraft.world.item.Item
@@ -106,7 +108,7 @@ object WitcheryItems {
     }
 
     val ROWAN_BERRIES: RegistrySupplier<Item> = ITEMS.register("rowan_berries") {
-        Item(Item.Properties())
+        Item(Item.Properties().food(Foods.SWEET_BERRIES))
     }
 
     val BONE_NEEDLE: RegistrySupplier<Item> = ITEMS.register("bone_needle") {
