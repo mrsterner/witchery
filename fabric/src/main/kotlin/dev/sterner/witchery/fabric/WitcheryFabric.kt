@@ -4,6 +4,9 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
+import dev.sterner.witchery.platform.infusion.InfusionData
+import dev.sterner.witchery.platform.infusion.InfusionType
+import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
@@ -14,6 +17,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents
 import net.fabricmc.fabric.api.loot.v3.LootTableSource
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.minecraft.core.HolderLookup
@@ -43,6 +47,13 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
                 .persistent(AltarDataAttachment.AltarDataCodec.CODEC)
                 .initializer { AltarDataAttachment.AltarDataCodec() }
                 .buildAndRegister(AltarDataAttachment.AltarDataCodec.ID)
+
+        @Suppress("UnstableApiUsage")
+        val INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfusionData> =
+            AttachmentRegistry.builder<InfusionData>()
+                .persistent(InfusionData.CODEC)
+                .initializer { InfusionData(InfusionType.NONE) }
+                .buildAndRegister(InfusionData.ID)
     }
 
     override fun onInitialize() {
@@ -62,7 +73,6 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         StrippableBlockRegistry.register(WitcheryBlocks.HAWTHORN_WOOD.get(), WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get())
 
         WitcheryFlammability.register()
-
         OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.COPPER_WITCHES_OVEN.get(), WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN.get())
         OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN.get(), WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN.get())
         OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN.get(), WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN.get())

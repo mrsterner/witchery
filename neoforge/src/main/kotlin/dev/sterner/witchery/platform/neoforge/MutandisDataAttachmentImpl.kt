@@ -1,6 +1,6 @@
 package dev.sterner.witchery.platform.neoforge
 
-import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.neoforge.WitcheryNeoForge.ATTACHMENT_TYPES
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment.CACHE_LIFETIME
 import net.minecraft.core.BlockPos
@@ -8,8 +8,6 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Block
 import net.neoforged.neoforge.attachment.AttachmentType
-import net.neoforged.neoforge.registries.DeferredRegister
-import net.neoforged.neoforge.registries.NeoForgeRegistries
 import java.util.function.Supplier
 
 object MutandisDataAttachmentImpl {
@@ -60,9 +58,6 @@ object MutandisDataAttachmentImpl {
         }
     }
 
-    @JvmStatic
-        val ATTACHMENT_TYPES: DeferredRegister<AttachmentType<*>> =
-            DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Witchery.MODID)
 
     @JvmStatic
     val LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<MutandisDataAttachment.MutandisDataCodec>> = ATTACHMENT_TYPES.register(

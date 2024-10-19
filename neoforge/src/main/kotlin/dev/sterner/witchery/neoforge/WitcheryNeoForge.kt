@@ -10,7 +10,6 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
-import dev.sterner.witchery.platform.neoforge.MutandisDataAttachmentImpl
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.entity.BoatRenderer
@@ -20,10 +19,13 @@ import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
+import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
+import net.neoforged.neoforge.registries.DeferredRegister
+import net.neoforged.neoforge.registries.NeoForgeRegistries
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
@@ -33,10 +35,13 @@ import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 object WitcheryNeoForge {
 
+    val ATTACHMENT_TYPES: DeferredRegister<AttachmentType<*>> =
+        DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Witchery.MODID)
+
     init {
         Witchery.init()
 
-        MutandisDataAttachmentImpl.ATTACHMENT_TYPES.register(MOD_BUS)
+        ATTACHMENT_TYPES.register(MOD_BUS)
 
         runForDist(
             clientTarget = {

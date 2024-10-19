@@ -1,5 +1,6 @@
 package dev.sterner.witchery.platform.neoforge
 
+import dev.sterner.witchery.neoforge.WitcheryNeoForge.ATTACHMENT_TYPES
 import dev.sterner.witchery.platform.AltarDataAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
@@ -30,7 +31,7 @@ object AltarDataAttachmentImpl {
     }
 
     @JvmStatic
-    val LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<AltarDataAttachment.AltarDataCodec>> = MutandisDataAttachmentImpl.ATTACHMENT_TYPES.register(
+    val LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<AltarDataAttachment.AltarDataCodec>> = ATTACHMENT_TYPES.register(
         "altar_level_data",
         Supplier {
             AttachmentType.builder(Supplier { AltarDataAttachment.AltarDataCodec() })
