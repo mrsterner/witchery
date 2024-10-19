@@ -57,60 +57,117 @@ abstract class BookDistillingRecipePageRenderer<T : Recipe<*>?>(page: BookDistil
         pose.pushPose()
 
         if (!this.page!!.title1.isEmpty) {
-            this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0);
+            this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0)
         }
 
         blitWithAlpha(
             pose,
             Witchery.id("textures/gui/distillery_modonomicon.png"),
             recipeX + 48 + 9 - 18 - 18 - 9, recipeY,
-            0f,0f,
+            0f, 0f,
             91, 45,
             91, 45,
         )
 
 
-        if (recipeHolder.value!!.inputItems.isNotEmpty()) {
-            this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 9 - 4 + 5 - 1, recipeY + 50 - 18 - 4 - 18 - 2 + 1 - 7 - 1, mouseX, mouseY, recipeHolder.value!!.inputItems[0])
+        if (recipeHolder.value.inputItems.isNotEmpty()) {
+            this.parentScreen.renderItemStack(
+                guiGraphics,
+                recipeX + 2 + 2 + 9 - 4 + 5 - 1,
+                recipeY + 50 - 18 - 4 - 18 - 2 + 1 - 7 - 1,
+                mouseX,
+                mouseY,
+                recipeHolder.value.inputItems[0]
+            )
         }
 
-        if (recipeHolder.value!!.inputItems.size > 1) {
-            this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 9 + 18 - 4 + 5, recipeY + 50 - 18 - 4 - 18 - 2 + 1 - 7 - 1, mouseX, mouseY, recipeHolder.value!!.inputItems[1])
+        if (recipeHolder.value.inputItems.size > 1) {
+            this.parentScreen.renderItemStack(
+                guiGraphics,
+                recipeX + 2 + 2 + 9 + 18 - 4 + 5,
+                recipeY + 50 - 18 - 4 - 18 - 2 + 1 - 7 - 1,
+                mouseX,
+                mouseY,
+                recipeHolder.value.inputItems[1]
+            )
         }
 
 
-        this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 9 + 9 - 4 + 4, recipeY + 50 - 18 - 4 + 36 - 20 + 1 - 22 + 3, mouseX, mouseY, ItemStack(
-            WitcheryItems.JAR.get(), recipeHolder.value!!.jarConsumption))
+        this.parentScreen.renderItemStack(
+            guiGraphics,
+            recipeX + 2 + 2 + 9 + 9 - 4 + 4,
+            recipeY + 50 - 18 - 4 + 36 - 20 + 1 - 22 + 3,
+            mouseX,
+            mouseY,
+            ItemStack(
+                WitcheryItems.JAR.get(), recipeHolder.value.jarConsumption
+            )
+        )
 
 
-        if (recipeHolder.value!!.outputItems.isNotEmpty()) {
-            this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 - 1 - 22 - 9 + 1, recipeY + 50 - 18 - 4 - 9 - 1 - 9 - 1, mouseX, mouseY, recipeHolder.value!!.outputItems[0])
+        if (recipeHolder.value.outputItems.isNotEmpty()) {
+            this.parentScreen.renderItemStack(
+                guiGraphics,
+                recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 - 1 - 22 - 9 + 1,
+                recipeY + 50 - 18 - 4 - 9 - 1 - 9 - 1,
+                mouseX,
+                mouseY,
+                recipeHolder.value.outputItems[0]
+            )
         }
 
-        if (recipeHolder.value!!.outputItems.size > 1) {
-            this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1 - 22 - 9 + 2, recipeY + 50 - 18 - 4 - 9 - 1 - 9 - 1, mouseX, mouseY, recipeHolder.value!!.outputItems[1])
+        if (recipeHolder.value.outputItems.size > 1) {
+            this.parentScreen.renderItemStack(
+                guiGraphics,
+                recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1 - 22 - 9 + 2,
+                recipeY + 50 - 18 - 4 - 9 - 1 - 9 - 1,
+                mouseX,
+                mouseY,
+                recipeHolder.value.outputItems[1]
+            )
         }
 
-        if (recipeHolder.value!!.outputItems.size > 2) {
-            this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 - 1 - 22 - 9 + 1, recipeY + 50 - 18 - 4 + 18 - 9 - 1 - 9, mouseX, mouseY, recipeHolder.value!!.outputItems[2])
+        if (recipeHolder.value.outputItems.size > 2) {
+            this.parentScreen.renderItemStack(
+                guiGraphics,
+                recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 - 1 - 22 - 9 + 1,
+                recipeY + 50 - 18 - 4 + 18 - 9 - 1 - 9,
+                mouseX,
+                mouseY,
+                recipeHolder.value.outputItems[2]
+            )
         }
 
-        if (recipeHolder.value!!.outputItems.size > 3) {
-            this.parentScreen.renderItemStack(guiGraphics, recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1 - 22 - 9 + 2, recipeY + 50 - 18 - 4 + 18 - 9 - 1 - 9, mouseX, mouseY, recipeHolder.value!!.outputItems[3])
+        if (recipeHolder.value.outputItems.size > 3) {
+            this.parentScreen.renderItemStack(
+                guiGraphics,
+                recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1 - 22 - 9 + 2,
+                recipeY + 50 - 18 - 4 + 18 - 9 - 1 - 9,
+                mouseX,
+                mouseY,
+                recipeHolder.value.outputItems[3]
+            )
         }
 
         blitWithAlpha(
             pose,
             Witchery.id("textures/gui/altar_power_modonomicon.png"),
             recipeX + 9, recipeY + 18 * 6 - 9,
-            0f,0f,
+            0f, 0f,
             96, 23,
             96, 23,
         )
 
-        val c = Component.literal("Altar Power: ${recipeHolder.value!!.altarPower}/s")
+        val c = Component.literal("Altar Power: ${recipeHolder.value.altarPower}/s")
         val i: Int = Minecraft.getInstance().font.width(c)
-        guiGraphics.drawStringWithBackdrop(Minecraft.getInstance().font, c, recipeX + (c.toString().length) - 9, recipeY + 18 * 6 - 2, i,0xffffff)
+        guiGraphics.drawStringWithBackdrop(
+            Minecraft.getInstance().font,
+            c,
+            recipeX + (c.toString().length) - 9,
+            recipeY + 18 * 6 - 2,
+            i,
+            0xffffff
+        )
 
 
         // Pop the pose to restore state

@@ -18,7 +18,8 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.HitResult
 
-class CustomBoatItem(val chest: Boolean, val type: Boat.Type, properties: Properties) : BoatItem(chest, type, properties) {
+class CustomBoatItem(val chest: Boolean, val type: Boat.Type, properties: Properties) :
+    BoatItem(chest, type, properties) {
     override fun use(
         level: Level,
         player: Player,
@@ -72,7 +73,12 @@ class CustomBoatItem(val chest: Boolean, val type: Boat.Type, properties: Proper
 
     private fun getBoat(level: Level, hitResult: HitResult, itemStack: ItemStack, player: Player): Boat {
         val vec3 = hitResult.location
-        val boat = if (this.chest) CustomChestBoat(level, vec3.x, vec3.y, vec3.z) else CustomBoat(level, vec3.x, vec3.y, vec3.z)
+        val boat = if (this.chest) CustomChestBoat(level, vec3.x, vec3.y, vec3.z) else CustomBoat(
+            level,
+            vec3.x,
+            vec3.y,
+            vec3.z
+        )
         if (level is ServerLevel) EntityType.createDefaultStackConfig<Entity>(level, itemStack, player).accept(boat)
         return boat
     }

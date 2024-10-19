@@ -20,13 +20,15 @@ interface AltarPowerConsumer {
     fun getAltarPos(level: ServerLevel, origin: BlockPos): BlockPos? {
         return AltarDataAttachment.getAltarPos(level).minByOrNull { pos ->
             fun distance(pos1: BlockPos, pos2: BlockPos): Double {
-                return sqrt((pos1.x - pos2.x).toDouble().pow(2) +
-                        (pos1.y - pos2.y).toDouble().pow(2) +
-                        (pos1.z - pos2.z).toDouble().pow(2))
+                return sqrt(
+                    (pos1.x - pos2.x).toDouble().pow(2) +
+                            (pos1.y - pos2.y).toDouble().pow(2) +
+                            (pos1.z - pos2.z).toDouble().pow(2)
+                )
             }
             distance(origin, pos)
         }
     }
 
-    abstract fun receiveAltarPosition(blockPos: BlockPos)
+    fun receiveAltarPosition(blockPos: BlockPos)
 }

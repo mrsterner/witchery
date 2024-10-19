@@ -87,7 +87,8 @@ class DistilleryCraftingRecipeBuilder(
             builder.addCriterion(name, criterion)
         }
 
-        val cauldronCraftingRecipe = DistilleryCraftingRecipe(inputItems, outputStack, altarPower, cookingTime, jarConsumption)
+        val cauldronCraftingRecipe =
+            DistilleryCraftingRecipe(inputItems, outputStack, altarPower, cookingTime, jarConsumption)
         recipeOutput.accept(
             id.withPrefix("distillery_crafting/"),
             cauldronCraftingRecipe,

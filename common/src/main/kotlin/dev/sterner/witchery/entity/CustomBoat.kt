@@ -21,7 +21,7 @@ class CustomBoat(type: EntityType<out Boat>, level: Level) : Boat(type, level) {
         Component.translatable("entity.witchery.${this.variant.getName()}_boat")
 
     override fun getDropItem(): Item {
-        return when(this.variant) {
+        return when (this.variant) {
             BoatTypeHelper.getRowanBoatType() -> WitcheryItems.ROWAN_BOAT.get()
             BoatTypeHelper.getAlderBoatType() -> WitcheryItems.ALDER_BOAT.get()
             BoatTypeHelper.getHawthornBoatType() -> WitcheryItems.HAWTHORN_BOAT.get()

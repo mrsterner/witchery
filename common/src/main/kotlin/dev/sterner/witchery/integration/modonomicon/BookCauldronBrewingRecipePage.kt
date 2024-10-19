@@ -6,7 +6,6 @@ import com.klikli_dev.modonomicon.book.conditions.BookCondition
 import com.klikli_dev.modonomicon.book.conditions.BookNoneCondition
 import com.klikli_dev.modonomicon.book.page.BookProcessingRecipePage
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.core.HolderLookup
 import net.minecraft.network.RegistryFriendlyByteBuf

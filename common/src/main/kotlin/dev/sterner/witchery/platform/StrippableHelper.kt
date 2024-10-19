@@ -9,7 +9,10 @@ import java.util.function.Supplier
 object StrippableHelper {
     @JvmStatic
     @ExpectPlatform
-    fun createStrippableLog(stripped: Supplier<out RotatedPillarBlock>, properties: Properties): Supplier<out StrippableLogBlock> {
+    fun createStrippableLog(
+        stripped: Supplier<out RotatedPillarBlock>,
+        properties: Properties
+    ): Supplier<out StrippableLogBlock> {
         throw AssertionError()
     }
 }

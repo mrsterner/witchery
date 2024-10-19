@@ -9,7 +9,6 @@ import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.menu.DistilleryMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import io.netty.buffer.Unpooled
@@ -41,7 +40,12 @@ import net.minecraft.world.level.block.state.BlockState
 import kotlin.math.min
 
 class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    MultiBlockCoreEntity(WitcheryBlockEntityTypes.DISTILLERY.get(), DistilleryBlock.STRUCTURE.get(), blockPos, blockState),
+    MultiBlockCoreEntity(
+        WitcheryBlockEntityTypes.DISTILLERY.get(),
+        DistilleryBlock.STRUCTURE.get(),
+        blockPos,
+        blockState
+    ),
     Container, AltarPowerConsumer, RecipeCraftingHolder {
 
     var items: NonNullList<ItemStack> = NonNullList.withSize(7, ItemStack.EMPTY)
@@ -86,7 +90,8 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val hasJar = !jarStack.isEmpty
 
         if (hasInput && hasJar) {
-            val distillingRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(listOf(inputStack, inputStack2)), level).orElse(null)
+            val distillingRecipe =
+                quickCheck.getRecipeFor(MultipleItemRecipeInput(listOf(inputStack, inputStack2)), level).orElse(null)
 
             if (canDistill(distillingRecipe, items, maxStackSize)) {
                 cookingProgress++
@@ -137,16 +142,28 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return success
     }
 
-    private fun consumeInputItems(items: NonNullList<ItemStack>, inputItems: List<ItemStack>, recipe: DistilleryCraftingRecipe) {
+    private fun consumeInputItems(
+        items: NonNullList<ItemStack>,
+        inputItems: List<ItemStack>,
+        recipe: DistilleryCraftingRecipe
+    ) {
         val inputStack = items[SLOT_INPUT]
         val extraInputStack = items[SLOT_EXTRA_INPUT]
         val jarStack = items[SLOT_JAR]
 
 
-        if (ItemStack.isSameItemSameComponents(inputStack, inputItems[0]) && ItemStack.isSameItemSameComponents(extraInputStack, inputItems[1])) {
+        if (ItemStack.isSameItemSameComponents(inputStack, inputItems[0]) && ItemStack.isSameItemSameComponents(
+                extraInputStack,
+                inputItems[1]
+            )
+        ) {
             inputStack.shrink(inputItems[0].count)
             extraInputStack.shrink(inputItems[1].count)
-        } else if (ItemStack.isSameItemSameComponents(inputStack, inputItems[1]) && ItemStack.isSameItemSameComponents(extraInputStack, inputItems[0])) {
+        } else if (ItemStack.isSameItemSameComponents(inputStack, inputItems[1]) && ItemStack.isSameItemSameComponents(
+                extraInputStack,
+                inputItems[0]
+            )
+        ) {
             inputStack.shrink(inputItems[1].count)
             extraInputStack.shrink(inputItems[0].count)
         }
@@ -184,7 +201,11 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return true
     }
 
-    private fun checkInputs(inputItems: List<ItemStack>, items: NonNullList<ItemStack>, recipe: DistilleryCraftingRecipe): Boolean {
+    private fun checkInputs(
+        inputItems: List<ItemStack>,
+        items: NonNullList<ItemStack>,
+        recipe: DistilleryCraftingRecipe
+    ): Boolean {
 
         val jarStack = items[SLOT_JAR]
         val firstInput = inputItems[0]
@@ -197,8 +218,14 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val inputStack = items[SLOT_INPUT]
         val extraInputStack = items[SLOT_EXTRA_INPUT]
         val inputsMatch = (
-                (ItemStack.isSameItemSameComponents(inputStack, firstInput) && ItemStack.isSameItemSameComponents(extraInputStack, secondInput)) ||
-                        (ItemStack.isSameItemSameComponents(inputStack, secondInput) && ItemStack.isSameItemSameComponents(extraInputStack, firstInput))
+                (ItemStack.isSameItemSameComponents(inputStack, firstInput) && ItemStack.isSameItemSameComponents(
+                    extraInputStack,
+                    secondInput
+                )) ||
+                        (ItemStack.isSameItemSameComponents(
+                            inputStack,
+                            secondInput
+                        ) && ItemStack.isSameItemSameComponents(extraInputStack, firstInput))
                 )
 
         return inputsMatch
@@ -209,7 +236,8 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         items: NonNullList<ItemStack>,
         maxStackSize: Int
     ): Boolean {
-        val outputSlots = listOf(SLOT_RESULT_1, SLOT_RESULT_2, SLOT_RESULT_3, SLOT_RESULT_4).map { items[it] }.toMutableList()
+        val outputSlots =
+            listOf(SLOT_RESULT_1, SLOT_RESULT_2, SLOT_RESULT_3, SLOT_RESULT_4).map { items[it] }.toMutableList()
 
         for (outputItem in outputItems) {
             var fits = false
@@ -340,7 +368,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         ContainerHelper.loadAllItems(pTag, this.items, pRegistries)
         this.cookingProgress = pTag.getShort("CookTime").toInt()
         this.cookingTotalTime = pTag.getShort("CookTimeTotal").toInt()
-        if(pTag.contains("altarPos")){
+        if (pTag.contains("altarPos")) {
             cachedAltarPos = NbtUtils.readBlockPos(pTag, "altarPos").get()
         }
     }
@@ -399,7 +427,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val bl = !stack.isEmpty && ItemStack.isSameItemSameComponents(itemStack, stack)
         items[slot] = stack
         stack.limitSize(this.getMaxStackSize(stack))
-        if ((slot == SLOT_INPUT || slot == SLOT_EXTRA_INPUT || slot ==  SLOT_JAR) && !bl) {
+        if ((slot == SLOT_INPUT || slot == SLOT_EXTRA_INPUT || slot == SLOT_JAR) && !bl) {
             this.cookingTotalTime = getTotalCookTime(this.level!!)
             this.cookingProgress = 0
             this.setChanged()

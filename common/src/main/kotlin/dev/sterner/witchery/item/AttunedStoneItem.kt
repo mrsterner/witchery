@@ -17,7 +17,10 @@ class AttunedStoneItem(properties: Properties) : Item(properties.fireResistant()
         tooltipFlag: TooltipFlag
     ) {
         if (stack.get(WitcheryDataComponents.ATTUNED.get()) == true) {
-            tooltipComponents.add(Component.translatable("witchery.attuned.charged").setStyle(Style.EMPTY.withColor(Color(180,50,180).rgb)))
+            tooltipComponents.add(
+                Component.translatable("witchery.attuned.charged")
+                    .setStyle(Style.EMPTY.withColor(Color(180, 50, 180).rgb))
+            )
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }

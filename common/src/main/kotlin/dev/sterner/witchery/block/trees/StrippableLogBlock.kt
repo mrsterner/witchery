@@ -9,4 +9,5 @@ import java.util.function.Supplier
  *
  * Forge extends this to then do its built-in methods
  */
-open class StrippableLogBlock(val strippedLog: Supplier<out Block>, properties: Properties): RotatedPillarBlock(properties) {}
+open class StrippableLogBlock(val strippedLog: Supplier<out Block>, properties: Properties) :
+    RotatedPillarBlock(properties)

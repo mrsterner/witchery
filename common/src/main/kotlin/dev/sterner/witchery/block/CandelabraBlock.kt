@@ -24,7 +24,8 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
 
-class CandelabraBlock(properties: Properties) : AbstractCandleBlock(properties.noOcclusion().lightLevel(litBlockEmission(13))) {
+class CandelabraBlock(properties: Properties) :
+    AbstractCandleBlock(properties.noOcclusion().lightLevel(litBlockEmission(13))) {
 
     init {
         this.registerDefaultState(
@@ -70,8 +71,10 @@ class CandelabraBlock(properties: Properties) : AbstractCandleBlock(properties.n
             return ItemInteractionResult.sidedSuccess(level.isClientSide)
         } else if (stack.`is`(Items.FIRE_CHARGE) && canBeLit(state)) {
             // Taken from FireChargeItem class
-            level.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0f,
-                (level.random.nextFloat() - level.random.nextFloat()) * 0.2f + 1.0f)
+            level.playSound(
+                null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0f,
+                (level.random.nextFloat() - level.random.nextFloat()) * 0.2f + 1.0f
+            )
             level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LIT, true))
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos)
 
@@ -79,8 +82,10 @@ class CandelabraBlock(properties: Properties) : AbstractCandleBlock(properties.n
             return ItemInteractionResult.sidedSuccess(level.isClientSide)
         } else if (stack.`is`(Items.FLINT_AND_STEEL) && canBeLit(state)) {
             // Taken from FLintAndSteelItem class
-            level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f,
-                level.getRandom().nextFloat() * 0.4f + 0.8f)
+            level.playSound(
+                player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f,
+                level.getRandom().nextFloat() * 0.4f + 0.8f
+            )
             level.setBlock(pos, state.setValue(BlockStateProperties.LIT, true), 11)
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos)
 

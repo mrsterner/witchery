@@ -2,19 +2,16 @@ package dev.sterner.witchery.integration.emi
 
 import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
-import dev.emi.emi.api.render.EmiTexture
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
-import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
-import net.minecraft.world.item.crafting.SmokingRecipe
 
 class DistillingEmiRecipe(val recipeId: ResourceLocation, val recipe: DistilleryCraftingRecipe) : EmiRecipe {
 
@@ -68,36 +65,62 @@ class DistillingEmiRecipe(val recipeId: ResourceLocation, val recipe: Distillery
         }
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(ItemStack(WitcheryItems.JAR.get(), recipe.jarConsumption)), 2 + 2 + 9 + 9 - 4, 50 - 18 - 4 + 36 - 20 + 1)
+            WitcherySlotWidget(
+                EmiStack.of(ItemStack(WitcheryItems.JAR.get(), recipe.jarConsumption)),
+                2 + 2 + 9 + 9 - 4,
+                50 - 18 - 4 + 36 - 20 + 1
+            )
                 .drawBack(false)
         )
 
         if (recipe.outputItems.size > 0) {
             widgets.add(
-                WitcherySlotWidget(EmiStack.of(recipe.outputItems[0]), 2 + 2 + 18 + 24 + 24 + 9 + 18 - 1, 50 - 18 - 4 - 9 - 1)
+                WitcherySlotWidget(
+                    EmiStack.of(recipe.outputItems[0]),
+                    2 + 2 + 18 + 24 + 24 + 9 + 18 - 1,
+                    50 - 18 - 4 - 9 - 1
+                )
                     .drawBack(false).recipeContext(this)
             )
         }
 
         if (recipe.outputItems.size > 1) {
             widgets.add(
-                WitcherySlotWidget(EmiStack.of(recipe.outputItems[1]), 2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1, 50 - 18 - 4 - 9 - 1)
+                WitcherySlotWidget(
+                    EmiStack.of(recipe.outputItems[1]),
+                    2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1,
+                    50 - 18 - 4 - 9 - 1
+                )
                     .drawBack(false).recipeContext(this)
             )
         }
 
         if (recipe.outputItems.size > 2) {
             widgets.add(
-                WitcherySlotWidget(EmiStack.of(recipe.outputItems[2]), 2 + 2 + 18 + 24 + 24 + 9 + 18 - 1, 50 - 18 - 4 + 18 - 9 - 1)
+                WitcherySlotWidget(
+                    EmiStack.of(recipe.outputItems[2]),
+                    2 + 2 + 18 + 24 + 24 + 9 + 18 - 1,
+                    50 - 18 - 4 + 18 - 9 - 1
+                )
                     .drawBack(false).recipeContext(this)
             )
         }
         if (recipe.outputItems.size > 3) {
             widgets.add(
-                WitcherySlotWidget(EmiStack.of(recipe.outputItems[3]), 2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1, 50 - 18 - 4 + 18 - 9 - 1)
+                WitcherySlotWidget(
+                    EmiStack.of(recipe.outputItems[3]),
+                    2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1,
+                    50 - 18 - 4 + 18 - 9 - 1
+                )
                     .drawBack(false).recipeContext(this)
             )
         }
-        widgets.addText(Component.literal("Altar Power: ${recipe.altarPower}/s"), displayWidth / 4, displayHeight - 18, 0xffffff, true)
+        widgets.addText(
+            Component.literal("Altar Power: ${recipe.altarPower}/s"),
+            displayWidth / 4,
+            displayHeight - 18,
+            0xffffff,
+            true
+        )
     }
 }

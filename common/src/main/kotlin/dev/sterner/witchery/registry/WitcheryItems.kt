@@ -9,17 +9,11 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
-import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.BoatTypeHelper
+import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
-import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.food.Foods
-import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.HangingSignItem
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemNameBlockItem
-import net.minecraft.world.item.Rarity
-import net.minecraft.world.item.SignItem
+import net.minecraft.world.item.*
 
 
 object WitcheryItems {
@@ -277,25 +271,40 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.EXPOSED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
     }
 
-    val WAXED_EXPOSED_COPPER_CAULDRON: RegistrySupplier<MultiBlockItem> = ITEMS.register("waxed_exposed_copper_cauldron") {
-        MultiBlockItem(WitcheryBlocks.WAXED_EXPOSED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
-    }
+    val WAXED_EXPOSED_COPPER_CAULDRON: RegistrySupplier<MultiBlockItem> =
+        ITEMS.register("waxed_exposed_copper_cauldron") {
+            MultiBlockItem(
+                WitcheryBlocks.WAXED_EXPOSED_COPPER_CAULDRON.get(),
+                Item.Properties(),
+                CauldronBlock.STRUCTURE
+            )
+        }
 
     val WEATHERED_COPPER_CAULDRON: RegistrySupplier<MultiBlockItem> = ITEMS.register("weathered_copper_cauldron") {
         MultiBlockItem(WitcheryBlocks.WEATHERED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
     }
 
-    val WAXED_WEATHERED_COPPER_CAULDRON: RegistrySupplier<MultiBlockItem> = ITEMS.register("waxed_weathered_copper_cauldron") {
-        MultiBlockItem(WitcheryBlocks.WAXED_WEATHERED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
-    }
+    val WAXED_WEATHERED_COPPER_CAULDRON: RegistrySupplier<MultiBlockItem> =
+        ITEMS.register("waxed_weathered_copper_cauldron") {
+            MultiBlockItem(
+                WitcheryBlocks.WAXED_WEATHERED_COPPER_CAULDRON.get(),
+                Item.Properties(),
+                CauldronBlock.STRUCTURE
+            )
+        }
 
     val OXIDIZED_COPPER_CAULDRON: RegistrySupplier<MultiBlockItem> = ITEMS.register("oxidized_copper_cauldron") {
         MultiBlockItem(WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
     }
 
-    val WAXED_OXIDIZED_COPPER_CAULDRON: RegistrySupplier<MultiBlockItem> = ITEMS.register("waxed_oxidized_copper_cauldron") {
-        MultiBlockItem(WitcheryBlocks.WAXED_OXIDIZED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
-    }
+    val WAXED_OXIDIZED_COPPER_CAULDRON: RegistrySupplier<MultiBlockItem> =
+        ITEMS.register("waxed_oxidized_copper_cauldron") {
+            MultiBlockItem(
+                WitcheryBlocks.WAXED_OXIDIZED_COPPER_CAULDRON.get(),
+                Item.Properties(),
+                CauldronBlock.STRUCTURE
+            )
+        }
 
     val IRON_WITCHES_OVEN_FUME_EXTENSION: RegistrySupplier<MultiBlockItem> =
         ITEMS.register("iron_witches_oven_fume_extension") {
@@ -394,25 +403,28 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN.get(), Item.Properties())
     }
 
-    val WAXED_EXPOSED_COPPER_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("waxed_exposed_copper_witches_oven") {
-        BlockItem(WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN.get(), Item.Properties())
-    }
+    val WAXED_EXPOSED_COPPER_WITCHES_OVEN: RegistrySupplier<BlockItem> =
+        ITEMS.register("waxed_exposed_copper_witches_oven") {
+            BlockItem(WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN.get(), Item.Properties())
+        }
 
     val WEATHERED_COPPER_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("weathered_copper_witches_oven") {
         BlockItem(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN.get(), Item.Properties())
     }
 
-    val WAXED_WEATHERED_COPPER_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("waxed_weathered_copper_witches_oven") {
-        BlockItem(WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN.get(), Item.Properties())
-    }
+    val WAXED_WEATHERED_COPPER_WITCHES_OVEN: RegistrySupplier<BlockItem> =
+        ITEMS.register("waxed_weathered_copper_witches_oven") {
+            BlockItem(WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN.get(), Item.Properties())
+        }
 
     val OXIDIZED_COPPER_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("oxidized_copper_witches_oven") {
         BlockItem(WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN.get(), Item.Properties())
     }
 
-    val WAXED_OXIDIZED_COPPER_WITCHES_OVEN: RegistrySupplier<BlockItem> = ITEMS.register("waxed_oxidized_copper_witches_oven") {
-        BlockItem(WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get(), Item.Properties())
-    }
+    val WAXED_OXIDIZED_COPPER_WITCHES_OVEN: RegistrySupplier<BlockItem> =
+        ITEMS.register("waxed_oxidized_copper_witches_oven") {
+            BlockItem(WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get(), Item.Properties())
+        }
 
     val WAYSTONE = ITEMS.register("waystone") {
         WaystoneItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON))
@@ -497,7 +509,11 @@ object WitcheryItems {
     }
 
     val ROWAN_HANGING_SIGN = ITEMS.register("rowan_hanging_sign") {
-        HangingSignItem(WitcheryBlocks.ROWAN_HANGING_SIGN.get(), WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(), Item.Properties())
+        HangingSignItem(
+            WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
+            WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(),
+            Item.Properties()
+        )
     }
 
     val ROWAN_BOAT = ITEMS.register("rowan_boat") {
@@ -574,7 +590,11 @@ object WitcheryItems {
     }
 
     val ALDER_HANGING_SIGN = ITEMS.register("alder_hanging_sign") {
-        HangingSignItem(WitcheryBlocks.ALDER_HANGING_SIGN.get(), WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get(), Item.Properties())
+        HangingSignItem(
+            WitcheryBlocks.ALDER_HANGING_SIGN.get(),
+            WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get(),
+            Item.Properties()
+        )
     }
 
     val ALDER_BOAT = ITEMS.register("alder_boat") {
@@ -651,7 +671,11 @@ object WitcheryItems {
     }
 
     val HAWTHORN_HANGING_SIGN = ITEMS.register("hawthorn_hanging_sign") {
-        HangingSignItem(WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(), WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get(), Item.Properties())
+        HangingSignItem(
+            WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get(),
+            Item.Properties()
+        )
     }
 
     val HAWTHORN_BOAT = ITEMS.register("hawthorn_boat") {

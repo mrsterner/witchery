@@ -14,7 +14,6 @@ import dev.sterner.witchery.block.signs.CustomHangingSignBE
 import dev.sterner.witchery.block.signs.CustomSignBE
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
-import net.minecraft.world.level.block.entity.HangingSignBlockEntity
 import net.minecraft.world.level.block.entity.SignBlockEntity
 
 object WitcheryBlockEntityTypes {
@@ -103,7 +102,7 @@ object WitcheryBlockEntityTypes {
 
     val CUSTOM_SIGN = BLOCK_ENTITY_TYPES.register("custom_sign") {
         BlockEntityType.Builder.of(
-            { pos, state -> CustomSignBE(pos, state) as SignBlockEntity },
+            { pos, state -> CustomSignBE(pos, state) },
             WitcheryBlocks.ROWAN_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_SIGN.get()
         ).build(null)
@@ -111,17 +110,18 @@ object WitcheryBlockEntityTypes {
 
     val CUSTOM_HANGING_SIGN = BLOCK_ENTITY_TYPES.register("custom_hanging_sign") {
         BlockEntityType.Builder.of(
-            { pos, state -> CustomHangingSignBE(pos, state) as SignBlockEntity },
+            { pos, state -> CustomHangingSignBE(pos, state) },
             WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get()
         ).build(null)
     }
 
-    val DISTILLERY: RegistrySupplier<BlockEntityType<DistilleryBlockEntity>> = BLOCK_ENTITY_TYPES.register("distillery") {
-        BlockEntityType.Builder.of(
-            { pos, state -> DistilleryBlockEntity(pos, state) },
-            WitcheryBlocks.DISTILLERY.get()
-        )
-            .build(null)
-    }
+    val DISTILLERY: RegistrySupplier<BlockEntityType<DistilleryBlockEntity>> =
+        BLOCK_ENTITY_TYPES.register("distillery") {
+            BlockEntityType.Builder.of(
+                { pos, state -> DistilleryBlockEntity(pos, state) },
+                WitcheryBlocks.DISTILLERY.get()
+            )
+                .build(null)
+        }
 }
