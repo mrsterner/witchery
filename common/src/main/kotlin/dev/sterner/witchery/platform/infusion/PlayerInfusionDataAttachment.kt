@@ -19,7 +19,7 @@ object PlayerInfusionDataAttachment {
 
     @JvmStatic
     @ExpectPlatform
-    fun getPlayerInfusion(player: Player): InfusionType {
+    fun getPlayerInfusion(player: Player): InfusionData {
         throw AssertionError()
     }
 

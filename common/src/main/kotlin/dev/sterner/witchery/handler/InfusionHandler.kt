@@ -19,12 +19,12 @@ object InfusionHandler {
     }
 
     fun canUse(player: Player): Boolean {
-        return hasWitchesHand(player) && PlayerInfusionDataAttachment.getPlayerInfusion(player) != InfusionType.NONE
+        return hasWitchesHand(player) && PlayerInfusionDataAttachment.getPlayerInfusion(player).type != InfusionType.NONE
     }
 
     fun onHoldReleaseRightClick(player: Player, secondsHeld: Int) {
         if (canUse(player)) {
-            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player)
+            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
             val cost = if (player.isShiftKeyDown) {
                 infusionType.onReleaseRightClickShift(player, secondsHeld)
             } else {
@@ -36,7 +36,7 @@ object InfusionHandler {
 
     fun leftClickEntity(player: Player, level: Level?, entity: Entity?, interactionHand: InteractionHand?, entityHitResult: EntityHitResult?): EventResult? {
         if (canUse(player)) {
-            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player)
+            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
             val cost = if (player.isShiftKeyDown) {
                 infusionType.leftClickEntityShift(player, entity, entityHitResult)
             } else {
@@ -50,7 +50,7 @@ object InfusionHandler {
 
     fun leftClickBlock(player: Player, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
         if (canUse(player)) {
-            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player)
+            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
             val cost = if (player.isShiftKeyDown) {
                 infusionType.leftClickBlockShift(player, blockPos, direction)
             } else {

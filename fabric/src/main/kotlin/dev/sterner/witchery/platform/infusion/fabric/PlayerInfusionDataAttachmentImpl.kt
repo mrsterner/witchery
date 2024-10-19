@@ -1,9 +1,8 @@
-package dev.sterner.witchery.platform.fabric.infusion
+package dev.sterner.witchery.platform.infusion.fabric
 
 import dev.sterner.witchery.fabric.WitcheryFabric.Companion.INFUSION_PLAYER_DATA_TYPE
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 
 @Suppress("UnstableApiUsage")

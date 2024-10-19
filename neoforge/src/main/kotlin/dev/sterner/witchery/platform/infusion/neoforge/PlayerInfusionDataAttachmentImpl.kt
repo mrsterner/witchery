@@ -1,10 +1,10 @@
-package dev.sterner.witchery.platform.neoforge.infusion
+package dev.sterner.witchery.platform.infusion.neoforge
 
 import dev.sterner.witchery.neoforge.WitcheryNeoForge.ATTACHMENT_TYPES
+import dev.sterner.witchery.neoforge.WitcheryNeoForge.INFUSION_PLAYER_DATA_ATTACHMENT
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionData.Companion.MAX_CHARGE
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.attachment.AttachmentType
@@ -34,14 +34,4 @@ object PlayerInfusionDataAttachmentImpl {
     fun getInfusionCharge(player: Player): Int {
         return player.getData(INFUSION_PLAYER_DATA_ATTACHMENT).charge
     }
-
-    @JvmStatic
-    val INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfusionData>> = ATTACHMENT_TYPES.register(
-        "infusion_player_data",
-        Supplier {
-            AttachmentType.builder(Supplier { InfusionData() })
-                .serialize(InfusionData.CODEC)
-                .build()
-        }
-    )
 }
