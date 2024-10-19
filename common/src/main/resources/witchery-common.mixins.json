@@ -9,7 +9,8 @@
   "mixins": [
     "BookCategoryNodeScreenMixin",
     "LightningBoltMixin",
-    "LevelChunkMixin"
+    "LevelChunkMixin",
+    "LecternBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
