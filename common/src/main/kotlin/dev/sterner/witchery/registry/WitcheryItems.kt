@@ -116,7 +116,7 @@ object WitcheryItems {
     }
 
     val ATTUNED_STONE: RegistrySupplier<Item> = ITEMS.register("attuned_stone") {
-        Item(Item.Properties())
+        AttunedStoneItem(Item.Properties())
     }
 
     val DEMON_HEART: RegistrySupplier<Item> = ITEMS.register("demon_heart") {

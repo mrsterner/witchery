@@ -29,4 +29,8 @@ object WitcheryDataComponents {
     val TIMESTAMP = DATA.register("timestamp") {
         DataComponentType.builder<Long>().persistent(Codec.LONG).build()
     }
+
+    val ATTUNED = DATA.register("attuned") {
+        DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
+    }
 }

@@ -1,0 +1,49 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 2500,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "R": "witchery:ritual_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [],
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:attuned_stone"
+    },
+    {
+      "id": "minecraft:redstone"
+    },
+    {
+      "id": "minecraft:glowstone_dust"
+    },
+    {
+      "id": "witchery:wood_ash"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [
+    {
+      "components": {
+        "witchery:attuned": true
+      },
+      "id": "witchery:attuned_stone"
+    }
+  ],
+  "pattern": [
+    "__RRR__",
+    "_R___R_",
+    "R_____R",
+    "R__G__R",
+    "R_____R",
+    "_R___R_",
+    "__RRR__"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 0
+}

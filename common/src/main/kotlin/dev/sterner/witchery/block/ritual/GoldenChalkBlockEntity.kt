@@ -299,7 +299,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 val meetsCelestialCondition = hasCelestialCondition(level!!, selectedRecipe.value)
 
                 if (hasValidCircle && hasEnoughPower && meetsCelestialCondition) {
-
                     ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
                     ritualRecipe = selectedRecipe.value
                     shouldRun = true
@@ -339,16 +338,26 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun hasEnoughAltarPower(level: Level, recipe: RitualRecipe): Boolean {
+
+        val maybeAttunedItem = level.getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { it.item.`is`(WitcheryItems.ATTUNED_STONE.get()) }
+        println(maybeAttunedItem)
+        val attunedStoneBonus = if (maybeAttunedItem.isNotEmpty() && maybeAttunedItem[0].item.get(WitcheryDataComponents.ATTUNED.get()) == true) {
+            2000
+        } else {
+            0
+        }
+
         if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
             cachedAltarPos = null
             setChanged()
             return false
         }
-        val requiredAltarPower = recipe.altarPower
+        val requiredAltarPower = recipe.altarPower - attunedStoneBonus
         if (requiredAltarPower > 0 && cachedAltarPos != null) {
             return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
         }
-        return requiredAltarPower == 0
+        println(requiredAltarPower)
+        return requiredAltarPower <= 0
     }
 
     private fun validateRitualCircle(level: Level, recipe: RitualRecipe): Boolean {
@@ -356,17 +365,31 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun consumeAltarPower(level: Level, recipe: RitualRecipe): Boolean {
+        val maybeAttunedItem = level.getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { it.item.`is`(WitcheryItems.ATTUNED_STONE.get()) && it.item.get(WitcheryDataComponents.ATTUNED.get()) == true}
+
+        val attunedStoneBonus = if (maybeAttunedItem.isNotEmpty()) {
+            2000
+        } else {
+            0
+        }
+
         if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
             cachedAltarPos = null
             setChanged()
             return false
         }
-
-        val requiredAltarPower = recipe.altarPower
+        var success = false
+        val requiredAltarPower = recipe.altarPower - attunedStoneBonus
         if (requiredAltarPower > 0 && cachedAltarPos != null) {
-            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
+            success = tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
         }
-        return requiredAltarPower == 0
+        if (requiredAltarPower <= 0) {
+            success = true
+        }
+        if (success && maybeAttunedItem.isNotEmpty()) {
+            maybeAttunedItem.let {it[0].item.remove(WitcheryDataComponents.ATTUNED.get())}
+        }
+        return success
     }
 
 
