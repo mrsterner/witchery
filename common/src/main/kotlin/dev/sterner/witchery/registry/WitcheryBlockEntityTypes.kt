@@ -106,7 +106,9 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             { pos, state -> CustomSignBE(pos, state) as SignBlockEntity },
             WitcheryBlocks.ROWAN_SIGN.get(),
-            WitcheryBlocks.ROWAN_WALL_SIGN.get()
+            WitcheryBlocks.ROWAN_WALL_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_WALL_SIGN.get()
         ).build(null)
     }
 
@@ -114,7 +116,9 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             { pos, state -> CustomSignBE(pos, state) as SignBlockEntity },
             WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
-            WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get()
+            WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get()
         ).build(null)
     }
 
