@@ -109,6 +109,7 @@ object Witchery {
 
         CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
+        EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
     }
 
     private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {
