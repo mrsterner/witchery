@@ -90,6 +90,12 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.WITCHES_SLIPPERS.get(), "Witches Slippers")
         builder.add(WitcheryItems.GOLDEN_THREAD.get(), "Golden Thread")
         builder.add(WitcheryItems.POPPET.get(), "Poppet")
+        builder.add(WitcheryItems.ARMOR_PROTECTION_POPPET.get(), "Armor Protection Poppet")
+        builder.add(WitcheryItems.HUNGER_PROTECTION_POPPET.get(), "Hunger Protection Poppet")
+        builder.add(WitcheryItems.DEATH_PROTECTION_POPPET.get(), "Death Protection Poppet")
+        builder.add(WitcheryItems.VAMPIRIC_POPPET.get(), "Vampiric Poppet")
+        builder.add(WitcheryItems.VOODOO_POPPET.get(), "Voodoo Poppet")
+        builder.add(WitcheryItems.VOODOO_PROTECTION_POPPET.get(), "Voodoo Protection Poppet")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")

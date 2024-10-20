@@ -80,6 +80,12 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
                 output.accept(WitcheryItems.WITCHES_HAND.get())
                 output.accept(WitcheryItems.POPPET.get())
+                output.accept(WitcheryItems.ARMOR_PROTECTION_POPPET.get())
+                output.accept(WitcheryItems.HUNGER_PROTECTION_POPPET.get())
+                output.accept(WitcheryItems.DEATH_PROTECTION_POPPET.get())
+                output.accept(WitcheryItems.VAMPIRIC_POPPET.get())
+                output.accept(WitcheryItems.VOODOO_POPPET.get())
+                output.accept(WitcheryItems.VOODOO_PROTECTION_POPPET.get())
 
                 output.accept(WitcheryItems.CLAY_JAR.get())
                 output.accept(WitcheryItems.JAR.get())

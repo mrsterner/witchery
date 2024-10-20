@@ -191,11 +191,39 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    //end RESOURCES
+
+    //start POPPETS
+
     val POPPET: RegistrySupplier<Item> = ITEMS.register("poppet") {
         PoppetItem(Item.Properties())
     }
 
-    //end RESOURCES
+    val ARMOR_PROTECTION_POPPET: RegistrySupplier<Item> = ITEMS.register("armor_protection_poppet") {
+        PoppetItem(Item.Properties())
+    }
+
+    val DEATH_PROTECTION_POPPET: RegistrySupplier<Item> = ITEMS.register("death_protection_poppet") {
+        PoppetItem(Item.Properties())
+    }
+
+    val HUNGER_PROTECTION_POPPET: RegistrySupplier<Item> = ITEMS.register("hunger_protection_poppet") {
+        PoppetItem(Item.Properties())
+    }
+
+    val VAMPIRIC_POPPET: RegistrySupplier<Item> = ITEMS.register("vampiric_poppet") {
+        PoppetItem(Item.Properties())
+    }
+
+    val VOODOO_POPPET: RegistrySupplier<Item> = ITEMS.register("voodoo_poppet") {
+        PoppetItem(Item.Properties())
+    }
+
+    val VOODOO_PROTECTION_POPPET: RegistrySupplier<Item> = ITEMS.register("voodoo_protection_poppet") {
+        PoppetItem(Item.Properties())
+    }
+
+    //end POPPETS
 
     //start JARS
     val CLAY_JAR: RegistrySupplier<Item> = ITEMS.register("clay_jar") {
