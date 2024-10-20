@@ -1,8 +1,10 @@
 package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
+import dev.architectury.core.item.ArchitecturyBucketItem
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.CommandRegistrationEvent
+import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
@@ -30,6 +32,7 @@ import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.ImpEntity
 import dev.sterner.witchery.entity.MandrakeEntity
 import dev.sterner.witchery.handler.InfusionHandler
+import dev.sterner.witchery.handler.PoppetHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.platform.MutandisDataAttachment
@@ -105,6 +108,7 @@ object Witchery {
         MODIFY_LOOT_TABLE.register(::addWitchesHand)
 
         CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
+        EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
     }
 
     private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {
