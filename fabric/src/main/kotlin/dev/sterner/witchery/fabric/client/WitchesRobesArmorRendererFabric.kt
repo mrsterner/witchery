@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.ItemRenderer
 import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.DyeColor
@@ -36,12 +37,21 @@ class WitchesRobesArmorRendererFabric : ArmorRenderer {
             contextModel.copyPropertiesTo(armor!!)
             armor!!.setAllVisible(false)
 
-            armor!!.head.visible = slot == EquipmentSlot.HEAD
-            armor!!.body.visible = slot == EquipmentSlot.HEAD
-            armor!!.leftArm.visible = slot == EquipmentSlot.CHEST
-            armor!!.leftLeg.visible = slot == EquipmentSlot.FEET
-            armor!!.rightArm.visible = slot == EquipmentSlot.CHEST
-            armor!!.rightLeg.visible = slot == EquipmentSlot.FEET
+            if (entity.hasEffect(MobEffects.INVISIBILITY)) {
+                armor!!.head.visible = false
+                armor!!.body.visible = false
+                armor!!.leftArm.visible = false
+                armor!!.rightArm.visible = false
+                armor!!.leftLeg.visible = false
+                armor!!.rightLeg.visible = false
+            } else {
+                armor!!.head.visible = slot == EquipmentSlot.HEAD
+                armor!!.body.visible = slot == EquipmentSlot.CHEST
+                armor!!.leftArm.visible = slot == EquipmentSlot.CHEST
+                armor!!.rightArm.visible = slot == EquipmentSlot.CHEST
+                armor!!.leftLeg.visible = slot == EquipmentSlot.FEET
+                armor!!.rightLeg.visible = slot == EquipmentSlot.FEET
+            }
         }
 
         if (armor != null) {
