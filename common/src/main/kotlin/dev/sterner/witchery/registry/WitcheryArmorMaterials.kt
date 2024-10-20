@@ -15,16 +15,16 @@ object WitcheryArmorMaterials {
 
     val WITCHES_ROBES = MATERIALS.register("witches_robes") {
         ArmorMaterial(java.util.Map.of(
-            ArmorItem.Type.HELMET, 3,
-            ArmorItem.Type.CHESTPLATE, 8,
-            ArmorItem.Type.LEGGINGS, 6,
-            ArmorItem.Type.BOOTS, 3
+            ArmorItem.Type.HELMET, 1,
+            ArmorItem.Type.CHESTPLATE, 3,
+            ArmorItem.Type.LEGGINGS, 2,
+            ArmorItem.Type.BOOTS, 1
         ),
-            5, SoundEvents.ARMOR_EQUIP_LEATHER,{Ingredient.of(Items.WHITE_WOOL)},
+            15, SoundEvents.ARMOR_EQUIP_LEATHER,{Ingredient.of(Items.WHITE_WOOL)}, //TODO replace with something better
             listOf(
                 ArmorMaterial.Layer(Witchery.id("witches_robes"))
             ),
-            3f,
+            1f,
             0f
         )
     }
