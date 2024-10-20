@@ -78,7 +78,7 @@ class SpinningEmiRecipe(val recipeId: ResourceLocation, val recipe: SpinningWhee
         widgets.add(
             WitcherySlotWidget(
                 EmiStack.of(recipe.outputItem),
-                2 + 2 + 18 + 24 + 24 + 9 + 18 - 1 - 18 + 2,
+                2 + 2 + 18 + 24 + 24 + 9 + 18 - 18 + 2,
                 50 - 18 - 4 - 9 - 1 + 10 - 1
             )
                 .drawBack(false).recipeContext(this)
