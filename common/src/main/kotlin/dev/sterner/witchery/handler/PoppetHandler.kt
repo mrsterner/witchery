@@ -3,6 +3,7 @@ package dev.sterner.witchery.handler
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.advancements.CriteriaTriggers
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stats
 import net.minecraft.tags.DamageTypeTags
@@ -53,5 +54,9 @@ object PoppetHandler {
 
             return itemStack != null
         }
+    }
+
+    fun hasArmorProtectionPoppet(level: ServerLevel, player: ServerPlayer): Boolean {
+        return false //TODO implement and consume poppet here
     }
 }
