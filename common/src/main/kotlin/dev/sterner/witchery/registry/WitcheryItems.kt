@@ -186,6 +186,11 @@ object WitcheryItems {
     val SPIRIT_OF_OTHERWHERE: RegistrySupplier<Item> = ITEMS.register("spirit_of_otherwhere") {
         Item(Item.Properties())
     }
+
+    val GOLDEN_THREAD: RegistrySupplier<Item> = ITEMS.register("golden_thread") {
+        Item(Item.Properties())
+    }
+
     //end RESOURCES
 
     //start JARS

@@ -5,7 +5,7 @@
   "inputItems": [
     {
       "count": 1,
-      "id": "minecraft:string"
+      "id": "minecraft:hay_block"
     },
     {
       "count": 1,
@@ -14,6 +14,6 @@
   ],
   "outputItem": {
     "count": 1,
-    "id": "witchery:wool_of_bat"
+    "id": "witchery:golden_thread"
   }
 }

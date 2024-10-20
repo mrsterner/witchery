@@ -40,6 +40,7 @@ import net.minecraft.client.color.item.ItemColor
 import net.minecraft.client.color.item.ItemColors
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer

@@ -44,12 +44,12 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         //TODO remove
         SpinningWheelRecipeBuilder.create()
-            .addInput(Items.STRING.defaultInstance)
+            .addInput(Items.HAY_BLOCK.defaultInstance)
             .addInput(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance)
             .setAltarPower(5)
             .setCookingTime(100)
-            .addOutput(WitcheryItems.WOOL_OF_BAT.get().defaultInstance)
-            .save(exporter, Witchery.id("test"))
+            .addOutput(WitcheryItems.GOLDEN_THREAD.get().defaultInstance)
+            .save(exporter, Witchery.id("golden_thread"))
 
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(Items.REDSTONE.defaultInstance, Color(255,50,50).rgb)

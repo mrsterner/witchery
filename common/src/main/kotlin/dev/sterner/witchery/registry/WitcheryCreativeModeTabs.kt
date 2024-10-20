@@ -101,6 +101,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.GOLDEN_CHALK.get())
                 output.accept(WitcheryItems.INFERNAL_CHALK.get())
                 output.accept(WitcheryItems.OTHERWHERE_CHALK.get())
+                output.accept(WitcheryItems.GOLDEN_THREAD.get())
 
                 output.accept(WitcheryItems.WITCHES_HAT.get())
                 output.accept(WitcheryItems.WITCHES_ROBES.get())
