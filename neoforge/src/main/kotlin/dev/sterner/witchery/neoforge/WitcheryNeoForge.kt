@@ -8,6 +8,8 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.neoforge.client.SWISTER
+import dev.sterner.witchery.neoforge.client.SWISTERInstance
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import dev.sterner.witchery.platform.AltarDataAttachment
@@ -147,6 +149,9 @@ object WitcheryNeoForge {
 
     private fun registerClientExtensions(event: RegisterClientExtensionsEvent) {
         event.registerItem(WitchesRobesItemNeoForge.ArmorRender.INSTANCE, WITCHES_ROBES.get(), WITCHES_HAT.get(), WITCHES_SLIPPERS.get())
+
+        event.registerItem(SWISTERInstance(SWISTER()), WitcheryItems.SPINNING_WHEEL.get())
+
     }
 
     @SubscribeEvent
