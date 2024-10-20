@@ -242,6 +242,16 @@ object Witchery {
             ret
         }
 
+        ItemPropertiesRegistry.register(
+            WitcheryItems.CHALICE.get(),
+            ResourceLocation.fromNamespaceAndPath(MODID, "has_soup")
+        ) { stack, _, _, _ ->
+            val data = stack.get(WitcheryDataComponents.HAS_SOUP.get()) ?: return@register 0f
+            if (data)
+                return@register 1f
+            0f
+        }
+
         ColorHandlerRegistry.registerBlockColors(
             RitualChalkColors,
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),

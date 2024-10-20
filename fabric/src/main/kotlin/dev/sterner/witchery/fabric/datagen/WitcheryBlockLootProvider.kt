@@ -76,6 +76,8 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.GREEN_IRON_CANDELABRA.get())
         dropSelf(WitcheryBlocks.RED_IRON_CANDELABRA.get())
         dropSelf(WitcheryBlocks.BLACK_IRON_CANDELABRA.get())
+        dropSelf(WitcheryBlocks.CHALICE.get())
+        dropSelf(WitcheryBlocks.PENTACLE.get())
 
         dropSelf(WitcheryBlocks.ROWAN_LOG.get())
         dropSelf(WitcheryBlocks.ROWAN_WOOD.get())

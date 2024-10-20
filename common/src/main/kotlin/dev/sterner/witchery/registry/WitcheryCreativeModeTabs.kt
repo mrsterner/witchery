@@ -97,6 +97,9 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.OTHERWHERE_CHALK.get())
 
                 output.accept(WitcheryItems.INFINITY_EGG.get())
+                output.accept(WitcheryItems.ARTHANA.get())
+                output.accept(WitcheryItems.CHALICE.get())
+                output.accept(WitcheryItems.PENTACLE.get())
 
                 output.accept(WitcheryItems.IRON_CANDELABRA.get())
                 output.accept(WitcheryItems.WHITE_IRON_CANDELABRA.get())

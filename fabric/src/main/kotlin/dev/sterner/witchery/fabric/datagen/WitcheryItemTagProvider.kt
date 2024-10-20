@@ -44,6 +44,26 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.STRIPPED_HAWTHORN_LOG.get(),
             WitcheryItems.STRIPPED_HAWTHORN_WOOD.get()
         )
+
+        getOrCreateTagBuilder(WitcheryTags.CANDELABRA_ITEMS).add(
+            WitcheryItems.IRON_CANDELABRA.get(),
+            WitcheryItems.WHITE_IRON_CANDELABRA.get(),
+            WitcheryItems.ORANGE_IRON_CANDELABRA.get(),
+            WitcheryItems.MAGENTA_IRON_CANDELABRA.get(),
+            WitcheryItems.LIGHT_BLUE_IRON_CANDELABRA.get(),
+            WitcheryItems.YELLOW_IRON_CANDELABRA.get(),
+            WitcheryItems.LIME_IRON_CANDELABRA.get(),
+            WitcheryItems.PINK_IRON_CANDELABRA.get(),
+            WitcheryItems.GRAY_IRON_CANDELABRA.get(),
+            WitcheryItems.LIGHT_GRAY_IRON_CANDELABRA.get(),
+            WitcheryItems.CYAN_IRON_CANDELABRA.get(),
+            WitcheryItems.PURPLE_IRON_CANDELABRA.get(),
+            WitcheryItems.BLUE_IRON_CANDELABRA.get(),
+            WitcheryItems.BROWN_IRON_CANDELABRA.get(),
+            WitcheryItems.GREEN_IRON_CANDELABRA.get(),
+            WitcheryItems.RED_IRON_CANDELABRA.get(),
+            WitcheryItems.BLACK_IRON_CANDELABRA.get()
+        )
         
         getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
             .addTag(WitcheryTags.ROWAN_LOG_ITEMS)
@@ -137,6 +157,10 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.HAWTHORN_CHEST_BOAT.get()
         )
 
+        getOrCreateTagBuilder(ItemTags.DYEABLE).add(
+            WitcheryItems.IRON_CANDELABRA.get()
+        )
+
         getOrCreateTagBuilder(ItemTags.VILLAGER_PLANTABLE_SEEDS).add(
             WitcheryItems.MANDRAKE_SEEDS.get(),
             WitcheryItems.BELLADONNA_SEEDS.get(),
@@ -169,14 +193,40 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.BELLADONNA_SEEDS.get(),
             WitcheryItems.SNOWBELL_SEEDS.get(),
             WitcheryItems.WATER_ARTICHOKE_SEEDS.get(),
-            WitcheryItems.GARLIC.get(),
             WitcheryItems.WOLFSBANE_SEEDS.get(),
             WitcheryItems.WORMWOOD_SEEDS.get()
         )
 
+        getOrCreateTagBuilder(ItemTags.FOX_FOOD)
+            .add(WitcheryItems.ROWAN_BERRIES.get())
+
         getOrCreateTagBuilder(ItemTags.PIGLIN_LOVED).add(
-            WitcheryItems.GOLDEN_CHALK.get()
+            WitcheryItems.GOLDEN_CHALK.get(),
+            WitcheryItems.ARTHANA.get(),
+            WitcheryItems.CHALICE.get()
         )
+
+        getOrCreateTagBuilder(ItemTags.SWORD_ENCHANTABLE)
+            .add(WitcheryItems.ARTHANA.get())
+
+        getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE).add(
+            WitcheryItems.ARTHANA.get(),
+            WitcheryItems.ICY_NEEDLE.get(),
+            WitcheryItems.BONE_NEEDLE.get(),
+            WitcheryItems.RITUAL_CHALK.get(),
+            WitcheryItems.GOLDEN_CHALK.get(),
+            WitcheryItems.INFERNAL_CHALK.get(),
+            WitcheryItems.OTHERWHERE_CHALK.get()
+        )
+
+        getOrCreateTagBuilder(ItemTags.FIRE_ASPECT_ENCHANTABLE)
+            .add(WitcheryItems.ARTHANA.get())
+
+        getOrCreateTagBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE)
+            .add(WitcheryItems.ARTHANA.get())
+
+        getOrCreateTagBuilder(ItemTags.WEAPON_ENCHANTABLE)
+            .add(WitcheryItems.ARTHANA.get())
 
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "seeds"))).add(
             WitcheryItems.MANDRAKE_SEEDS.get(),
@@ -202,32 +252,14 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
 
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "tools"))).add(
             WitcheryItems.BONE_NEEDLE.get(),
+            WitcheryItems.ICY_NEEDLE.get(),
             WitcheryItems.WAYSTONE.get(),
             WitcheryItems.TAGLOCK.get(),
             WitcheryItems.GOLDEN_CHALK.get(),
             WitcheryItems.RITUAL_CHALK.get(),
             WitcheryItems.INFERNAL_CHALK.get(),
-            WitcheryItems.OTHERWHERE_CHALK.get()
-        )
-
-        getOrCreateTagBuilder(WitcheryTags.CANDELABRA_ITEMS).add(
-            WitcheryItems.IRON_CANDELABRA.get(),
-            WitcheryItems.WHITE_IRON_CANDELABRA.get(),
-            WitcheryItems.ORANGE_IRON_CANDELABRA.get(),
-            WitcheryItems.MAGENTA_IRON_CANDELABRA.get(),
-            WitcheryItems.LIGHT_BLUE_IRON_CANDELABRA.get(),
-            WitcheryItems.YELLOW_IRON_CANDELABRA.get(),
-            WitcheryItems.LIME_IRON_CANDELABRA.get(),
-            WitcheryItems.PINK_IRON_CANDELABRA.get(),
-            WitcheryItems.GRAY_IRON_CANDELABRA.get(),
-            WitcheryItems.LIGHT_GRAY_IRON_CANDELABRA.get(),
-            WitcheryItems.CYAN_IRON_CANDELABRA.get(),
-            WitcheryItems.PURPLE_IRON_CANDELABRA.get(),
-            WitcheryItems.BLUE_IRON_CANDELABRA.get(),
-            WitcheryItems.BROWN_IRON_CANDELABRA.get(),
-            WitcheryItems.GREEN_IRON_CANDELABRA.get(),
-            WitcheryItems.RED_IRON_CANDELABRA.get(),
-            WitcheryItems.BLACK_IRON_CANDELABRA.get()
+            WitcheryItems.OTHERWHERE_CHALK.get(),
+            WitcheryItems.ARTHANA.get()
         )
 
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/white")))

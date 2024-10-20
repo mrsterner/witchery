@@ -2,12 +2,12 @@ package dev.sterner.witchery.registry
 
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.Witchery.MODID
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.block.*
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
+import dev.sterner.witchery.block.arthana.ArthanaBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.distillery.DistilleryBlock
@@ -781,5 +781,15 @@ object WitcheryBlocks {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
+    val ARTHANA = BLOCKS.register("arthana") {
+        ArthanaBlock(BlockBehaviour.Properties.of())
+    }
 
+    val CHALICE = BLOCKS.register("chalice") {
+        ChaliceBlock(BlockBehaviour.Properties.of())
+    }
+
+    val PENTACLE = BLOCKS.register("pentacle") {
+        Block(BlockBehaviour.Properties.of().noCollission().noOcclusion())
+    }
 }

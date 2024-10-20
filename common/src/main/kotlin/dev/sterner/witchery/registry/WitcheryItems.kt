@@ -781,4 +781,16 @@ object WitcheryItems {
     val BLACK_IRON_CANDELABRA = ITEMS.register("black_iron_candelabra") {
         BlockItem(WitcheryBlocks.BLACK_IRON_CANDELABRA.get(), Item.Properties())
     }
+
+    val ARTHANA = ITEMS.register("arthana") {
+        ArthanaItem(Item.Properties())
+    }
+
+    val CHALICE = ITEMS.register("chalice") {
+        ChaliceBlockItem(WitcheryBlocks.CHALICE.get(), Item.Properties())
+    }
+
+    val PENTACLE = ITEMS.register("pentacle") {
+        BlockItem(WitcheryBlocks.PENTACLE.get(), Item.Properties())
+    }
 }

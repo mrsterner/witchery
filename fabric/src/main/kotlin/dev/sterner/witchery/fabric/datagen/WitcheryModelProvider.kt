@@ -229,5 +229,8 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
         genetaror.generateFlatItem(WitcheryItems.HAWTHORN_BOAT.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.HAWTHORN_CHEST_BOAT.get(), ModelTemplates.FLAT_ITEM)
+
+        genetaror.generateFlatItem(WitcheryItems.ARTHANA.get(), ModelTemplates.FLAT_HANDHELD_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.PENTACLE.get(), ModelTemplates.FLAT_ITEM)
     }
 }

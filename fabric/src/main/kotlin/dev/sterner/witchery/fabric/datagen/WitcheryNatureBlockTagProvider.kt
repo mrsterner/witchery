@@ -5,6 +5,7 @@ import dev.sterner.witchery.registry.WitcheryTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.Registries
 import net.minecraft.data.PackOutput
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.BlockTags
@@ -39,9 +40,9 @@ class WitcheryNatureBlockTagProvider(
         makeTag(provider, WitcheryTags.PITCHER, 3, 60)      // Pitcher crop and plant
         makeTag(provider, WitcheryTags.BAMBOO, 2, 40)       // Bamboo and bamboo sapling
         makeTag(provider, WitcheryTags.MOSSY_BLOCKS, 1, 50) // Mossy cobble and stone bricks
-        //makeTag(provider, BlockTags.BUDDING_BLOCKS, 5, 10)
-        //makeTag(provider, BlockTags.CLUSTERS, 4, 20)
-        //makeTag(provider, BlockTags.BUDS, 2, 20)
+        makeTag(provider, TagKey.create(Registries.BLOCK, ResourceLocation.parse("c:budding_blocks")), 5, 10)
+        makeTag(provider, TagKey.create(Registries.BLOCK, ResourceLocation.parse("c:clusters")), 4, 20)
+        makeTag(provider, TagKey.create(Registries.BLOCK, ResourceLocation.parse("c:buds")), 2, 20)
         makeTag(provider, WitcheryTags.MOSS, 3, 20)         // Moss blocks and carpet
         makeTag(provider, WitcheryTags.CRIMSON_FUNGUS, 3, 40) // Crimson fungus + nether wart block
         makeTag(provider, WitcheryTags.WARPED_FUNGUS, 3, 40)  // Warped fungus + warped wart block

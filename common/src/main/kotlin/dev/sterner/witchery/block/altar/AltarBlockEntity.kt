@@ -7,6 +7,7 @@ import dev.architectury.registry.menu.ExtendedMenuProvider
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.block.ChaliceBlock
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.menu.AltarMenu
 import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
@@ -31,6 +32,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.ContainerData
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.PlayerHeadBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
@@ -47,6 +49,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     var currentPower = 0
     var maxPower = 0
+    var powerBoost = 1.0
     var powerMultiplier = 1.0
     var range = 16
 
@@ -116,6 +119,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             maxPower += power
             limitTracker.compute(limit.first) { _, count -> count?.let { it + 1 } ?: 1 }
         }
+
+        maxPower += (maxPower * powerBoost).toInt()
     }
 
     private fun updateCurrentPower() {
@@ -139,34 +144,87 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     fun augmentAltar(level: ServerLevel) {
         val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
 
+        //  There are 3 values to augment
+        //      Recharge Rate (power multiplier)
+        //      Power Boost (extra max power)
+        //      Range Boost (extra range)
+
         powerMultiplier = 1.0
 
+        val prevPowerBoost = powerBoost
+        powerBoost = 1.0
+
+        var rangeMultiplier = 1.0
+        val prevRange = range
+        range = 16
+
         var bestLightAugment = 0.0
+        var bestHeadAugment = 0.0
+        var bestChaliceAugment = 0.0
+        var hasPentacle = false
+        var hasInfinityEgg = false
 
         level.getBlockStatesIfLoaded(augments).forEach { state ->
-            if (state.`is`(WitcheryBlocks.INFINITY_EGG.get())) {
-                maxPower = 10000
-                currentPower = 10000
-            }
-
-            // Handle Light-based Augments
+            // Handle Light-based Augments which effect Recharge Rate
             if (state.`is`(WitcheryTags.CANDELABRAS) { b -> b.getValue(BlockStateProperties.LIT) } && 2.0 > bestLightAugment)
                 bestLightAugment = 2.0
-            if (state.`is`(Blocks.SOUL_TORCH) && 1.5 > bestLightAugment)
+            else if (state.`is`(Blocks.SOUL_TORCH) && 1.5 > bestLightAugment)
                 bestLightAugment = 1.5
-            if ((state.`is`(Blocks.TORCH) || state.`is`(BlockTags.CANDLES) { s ->
+            else if ((state.`is`(Blocks.TORCH) || state.`is`(BlockTags.CANDLES) { s ->
                     s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 4 }) && 1.0 > bestLightAugment)
                 bestLightAugment = 1.0
-            if (state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 3 } && 0.75 > bestLightAugment)
+            else if (state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 3 } && 0.75 > bestLightAugment)
                 bestLightAugment = 0.75
-            if (state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 2 } && 0.5 > bestLightAugment)
+            else if (state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 2 } && 0.5 > bestLightAugment)
                 bestLightAugment = 0.5
-            if ((state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 1 } ||
+            else if ((state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 1 } ||
                         state.`is`(BlockTags.CANDLE_CAKES) { s -> s.getValue(BlockStateProperties.LIT) }) && 0.25 > bestLightAugment)
                 bestLightAugment = 0.25
+
+            // Handle Head-base Augments which effect Recharge Rate AND Power Boost
+            if ((state.`is`(Blocks.PLAYER_HEAD) || state.`is`(Blocks.PLAYER_WALL_HEAD)) && 3.0 > bestHeadAugment)
+                bestHeadAugment = 3.0
+            else if ((state.`is`(Blocks.WITHER_SKELETON_SKULL) || state.`is`(Blocks.WITHER_SKELETON_WALL_SKULL)) && 2.0 > bestHeadAugment)
+                bestHeadAugment = 2.0
+            else if ((state.`is`(Blocks.SKELETON_SKULL) || state.`is`(Blocks.SKELETON_WALL_SKULL)) && 1.0 > bestHeadAugment)
+                bestHeadAugment = 1.0
+
+            // Handle Pentacle
+            if (state.`is`(WitcheryBlocks.PENTACLE.get()) && !hasPentacle)
+                hasPentacle = true
+
+            // Handle Chalice
+            if (state.`is`(WitcheryBlocks.CHALICE.get()))
+                if (state.getValue(ChaliceBlock.HAS_SOUP) && 2.0 > bestChaliceAugment)
+                    bestChaliceAugment = 2.0
+                else if (1.0 > bestChaliceAugment)
+                    bestChaliceAugment = 1.0
+
+            // Handle Arthana
+            if (state.`is`(WitcheryBlocks.ARTHANA.get()) && 2.0 > rangeMultiplier)
+                rangeMultiplier = 2.0
+
+            // Handle Infinity Egg
+            if (state.`is`(WitcheryBlocks.INFINITY_EGG.get()) && !hasInfinityEgg)
+                hasInfinityEgg = true
         }
 
         powerMultiplier += powerMultiplier * bestLightAugment
+        powerMultiplier += powerMultiplier * bestHeadAugment
+        if (hasPentacle) powerMultiplier *= 2
+
+        powerBoost += powerBoost * bestHeadAugment
+        powerBoost += powerBoost * bestChaliceAugment
+
+        range += (range * rangeMultiplier).toInt()
+
+        if (hasInfinityEgg) {
+            powerMultiplier *= 10
+            powerBoost *= 2
+        }
+
+        if (powerBoost != prevPowerBoost || range != prevRange)
+            powerUpdateQueued = true
     }
 
     fun propagateAltarLocation(level: ServerLevel, pos: BlockPos) {
@@ -179,11 +237,9 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-        if (pPlayer is ServerPlayer) {
+        if (pPlayer is ServerPlayer)
             openMenu(pPlayer)
-            return InteractionResult.SUCCESS
-        }
-        return super.onUseWithoutItem(pPlayer)
+        return InteractionResult.SUCCESS
     }
 
     private fun openMenu(player: ServerPlayer) {

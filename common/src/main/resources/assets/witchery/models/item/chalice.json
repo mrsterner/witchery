@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchery:item/chalice"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "witchery:has_soup": 1
+      },
+      "model": "witchery:item/chalice_filled"
+    }
+  ]
+}

@@ -600,6 +600,27 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_amethyst", has(Items.AMETHYST_SHARD))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, WitcheryItems.ARTHANA.get())
+            .pattern(" I ")
+            .pattern("NEN")
+            .pattern(" S ")
+            .define('I', Items.GOLD_INGOT)
+            .define('N', Items.GOLD_NUGGET)
+            .define('E', Items.EMERALD)
+            .define('S', Items.STICK)
+            .unlockedBy("has_gold", has(Items.GOLD_INGOT))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, WitcheryItems.CHALICE.get())
+            .pattern("NAN")
+            .pattern("NIN")
+            .pattern(" I ")
+            .define('I', Items.GOLD_INGOT)
+            .define('N', Items.GOLD_NUGGET)
+            .define('A', WitcheryItems.ATTUNED_STONE.get())
+            .unlockedBy("has_gold", has(Items.GOLD_INGOT))
+            .save(exporter)
+
 
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())
@@ -833,6 +854,8 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('C', Items.CAMPFIRE)
             .unlockedBy("has_copper", has(Items.COPPER_INGOT))
             .save(exporter)
+
+
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)

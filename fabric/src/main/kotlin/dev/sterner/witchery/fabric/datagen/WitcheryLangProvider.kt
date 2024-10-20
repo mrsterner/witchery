@@ -121,6 +121,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.GREEN_IRON_CANDELABRA.get(), "Green Iron Candelabra")
         builder.add(WitcheryBlocks.RED_IRON_CANDELABRA.get(), "Red Iron Candelabra")
         builder.add(WitcheryBlocks.BLACK_IRON_CANDELABRA.get(), "Black Iron Candelabra")
+        builder.add(WitcheryBlocks.ARTHANA.get(), "Arthana")
+        builder.add(WitcheryItems.ARTHANA.get(), "Arthana")
+        builder.add(WitcheryBlocks.CHALICE.get(), "Chalice")
+        builder.add(WitcheryBlocks.PENTACLE.get(), "Pentacle")
 
         builder.add(WitcheryItems.WAYSTONE.get(), "Waystone")
         builder.add(WitcheryItems.CLAY_JAR.get(), "Clay Jar")
