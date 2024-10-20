@@ -38,7 +38,7 @@ public abstract class LevelChunkMixin extends ChunkAccess {
     @WrapWithCondition(method = "method_31716",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/BlockEntity;loadWithComponents(Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/core/HolderLookup$Provider;)V")
     )
-    private boolean handleBlockEntityUpdateTag(BlockEntity instance, CompoundTag tag, HolderLookup.Provider provider) {
+    private boolean witchery$handleBlockEntityUpdateTag(BlockEntity instance, CompoundTag tag, HolderLookup.Provider provider) {
         if (instance instanceof CustomUpdateTagHandlingBlockEntity handler) {
             handler.handleUpdateTag(tag, provider);
             return false;

@@ -22,7 +22,7 @@ public abstract class BookCategoryNodeScreenMixin {
             at = @At(value = "STORE", ordinal = 0), // ordinal = 0 points to the first store operation of "height"
             name = "height"
     )
-    private int modifyUnreadIconHeight(int height) {
+    private int witchery$modifyUnreadIconHeight(int height) {
         if (this.bookParentScreen.getBook().getId().equals(Witchery.INSTANCE.id("guidebook"))) {
             return 10;
         }

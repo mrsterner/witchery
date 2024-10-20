@@ -40,7 +40,7 @@ public abstract class ClientPacketListenerMixin extends ClientCommonPacketListen
     }
 
     @Inject(method = "method_38542", at = @At("HEAD"), cancellable = true)
-    public void handleCustomBlockEntity(ClientboundBlockEntityDataPacket packet, BlockEntity blockEntity, CallbackInfo ci, @Share("data_packet") LocalBooleanRef handleRef) {
+    public void witchery$handleCustomBlockEntity(ClientboundBlockEntityDataPacket packet, BlockEntity blockEntity, CallbackInfo ci, @Share("data_packet") LocalBooleanRef handleRef) {
         if (blockEntity instanceof CustomDataPacketHandlingBlockEntity handler) {
             handler.onDataPacket(connection, packet, this.registryAccess);
             handleRef.set(true);
@@ -49,7 +49,7 @@ public abstract class ClientPacketListenerMixin extends ClientCommonPacketListen
     }
 
     @WrapOperation(method = "method_38542", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/CompoundTag;isEmpty()Z"))
-    private boolean checkIfUpdateAlreadyHandled(CompoundTag instance, Operation<Boolean> original, @Share("data_packet") LocalBooleanRef handleRef) {
+    private boolean witchery$checkIfUpdateAlreadyHandled(CompoundTag instance, Operation<Boolean> original, @Share("data_packet") LocalBooleanRef handleRef) {
         if (!handleRef.get())
             return original.call(instance);
         return true;
