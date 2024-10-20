@@ -8,6 +8,7 @@ import dev.sterner.witchery.block.*
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
 import dev.sterner.witchery.block.arthana.ArthanaBlock
+import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.distillery.DistilleryBlock
@@ -25,6 +26,7 @@ import dev.sterner.witchery.platform.StrippableHelper
 import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.properties.BlockSetType
@@ -694,6 +696,10 @@ object WitcheryBlocks {
                 .sound(SoundType.CROP)
                 .pushReaction(PushReaction.DESTROY)
         )
+    }
+
+    val BLOOD_POPPY = BLOCKS.register("blood_poppy") {
+        BloodPoppyBlock(MobEffects.NIGHT_VISION, 5.0f, BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY))
     }
 
     val RITUAL_CHALK_BLOCK = BLOCKS.register("ritual_chalk") {

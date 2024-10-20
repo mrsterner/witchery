@@ -181,6 +181,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                         state.`is`(BlockTags.CANDLE_CAKES) { s -> s.getValue(BlockStateProperties.LIT) }) && 0.25 > bestLightAugment)
                 bestLightAugment = 0.25
 
+
             // Handle Head-base Augments which effect Recharge Rate AND Power Boost
             if ((state.`is`(Blocks.PLAYER_HEAD) || state.`is`(Blocks.PLAYER_WALL_HEAD)) && 3.0 > bestHeadAugment)
                 bestHeadAugment = 3.0
@@ -189,9 +190,11 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             else if ((state.`is`(Blocks.SKELETON_SKULL) || state.`is`(Blocks.SKELETON_WALL_SKULL)) && 1.0 > bestHeadAugment)
                 bestHeadAugment = 1.0
 
+
             // Handle Pentacle
             if (state.`is`(WitcheryBlocks.PENTACLE.get()) && !hasPentacle)
                 hasPentacle = true
+
 
             // Handle Chalice
             if (state.`is`(WitcheryBlocks.CHALICE.get()))
@@ -200,9 +203,11 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                 else if (1.0 > bestChaliceAugment)
                     bestChaliceAugment = 1.0
 
+
             // Handle Arthana
             if (state.`is`(WitcheryBlocks.ARTHANA.get()) && 2.0 > rangeMultiplier)
                 rangeMultiplier = 2.0
+
 
             // Handle Infinity Egg
             if (state.`is`(WitcheryBlocks.INFINITY_EGG.get()) && !hasInfinityEgg)

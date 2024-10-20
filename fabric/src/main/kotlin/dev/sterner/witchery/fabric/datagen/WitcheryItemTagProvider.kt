@@ -228,6 +228,12 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
         getOrCreateTagBuilder(ItemTags.WEAPON_ENCHANTABLE)
             .add(WitcheryItems.ARTHANA.get())
 
+        getOrCreateTagBuilder(ItemTags.BEE_FOOD)
+            .add(WitcheryItems.BLOOD_POPPY.get())
+
+        getOrCreateTagBuilder(ItemTags.SMALL_FLOWERS)
+            .add(WitcheryItems.BLOOD_POPPY.get())
+
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "seeds"))).add(
             WitcheryItems.MANDRAKE_SEEDS.get(),
             WitcheryItems.BELLADONNA_SEEDS.get(),

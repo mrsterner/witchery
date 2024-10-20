@@ -210,6 +210,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.HAWTHORN_BOAT.get(), "Hawthorn Boat")
         builder.add(WitcheryItems.HAWTHORN_CHEST_BOAT.get(), "Hawthorn Chest Boat")
 
+        builder.add(WitcheryBlocks.BLOOD_POPPY.get(), "Blood Poppy")
+
         builder.add(WitcheryEntityTypes.MANDRAKE.get(), "Mandrake")
 
         builder.add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")

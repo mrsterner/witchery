@@ -793,4 +793,10 @@ object WitcheryItems {
     val PENTACLE = ITEMS.register("pentacle") {
         BlockItem(WitcheryBlocks.PENTACLE.get(), Item.Properties())
     }
+
+    // start Mutated Plants
+
+    val BLOOD_POPPY = ITEMS.register("blood_poppy") {
+        BlockItem(WitcheryBlocks.BLOOD_POPPY.get(), Item.Properties())
+    }
 }
