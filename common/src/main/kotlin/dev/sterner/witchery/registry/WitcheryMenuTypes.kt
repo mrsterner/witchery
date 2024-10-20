@@ -7,6 +7,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.menu.AltarMenu
 import dev.sterner.witchery.menu.DistilleryMenu
 import dev.sterner.witchery.menu.OvenMenu
+import dev.sterner.witchery.menu.SpinningWheelMenu
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.inventory.MenuType
 
@@ -27,5 +28,9 @@ object WitcheryMenuTypes {
 
     val DISTILLERY_MENU_TYPE = MENU_TYPES.register("distillery_menu") {
         MenuRegistry.ofExtended(::DistilleryMenu)
+    }
+
+    val SPINNING_WHEEL_MENU_TYPE = MENU_TYPES.register("spinning_wheel_menu") {
+        MenuRegistry.ofExtended(::SpinningWheelMenu)
     }
 }

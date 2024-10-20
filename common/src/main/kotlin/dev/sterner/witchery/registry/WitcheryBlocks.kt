@@ -22,6 +22,7 @@ import dev.sterner.witchery.block.signs.CustomCeilingHangingSignBlock
 import dev.sterner.witchery.block.signs.CustomStandingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallHangingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallSignBlock
+import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlock
 import dev.sterner.witchery.platform.StrippableHelper
 import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.particles.ParticleTypes
@@ -797,5 +798,9 @@ object WitcheryBlocks {
 
     val PENTACLE = BLOCKS.register("pentacle") {
         Block(BlockBehaviour.Properties.of().noCollission().noOcclusion())
+    }
+
+    val SPINNING_WHEEL = BLOCKS.register("spinning_wheel") {
+        SpinningWheelBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 }

@@ -476,6 +476,10 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.DISTILLERY.get(), Item.Properties(), DistilleryBlock.STRUCTURE)
     }
 
+    val SPINNING_WHEEL = ITEMS.register("spinning_wheel") {
+        BlockItem(WitcheryBlocks.SPINNING_WHEEL.get(), Item.Properties())
+    }
+
     // start WOOD
 
     val ROWAN_LOG = ITEMS.register("rowan_log") {

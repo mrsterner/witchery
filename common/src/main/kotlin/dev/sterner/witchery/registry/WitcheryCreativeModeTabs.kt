@@ -39,6 +39,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.DISTILLERY.get())
+                output.accept(WitcheryItems.SPINNING_WHEEL.get())
 
                 output.accept(WitcheryItems.WAYSTONE.get())
                 output.accept(WitcheryItems.GLINTWEED.get())

@@ -10,6 +10,7 @@ import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
+import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import dev.sterner.witchery.platform.AltarDataAttachment
@@ -155,6 +156,9 @@ object WitcheryNeoForge {
         }
         event.register(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get()) { arg, arg2, arg3 ->
             DistilleryScreen(arg, arg2, arg3)
+        }
+        event.register(WitcheryMenuTypes.SPINNING_WHEEL_MENU_TYPE.get()) { arg, arg2, arg3 ->
+            SpinningWheelScreen(arg, arg2, arg3)
         }
     }
 

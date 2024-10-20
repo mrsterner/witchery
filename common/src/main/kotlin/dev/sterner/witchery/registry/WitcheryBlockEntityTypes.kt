@@ -14,6 +14,7 @@ import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.block.signs.CustomHangingSignBE
 import dev.sterner.witchery.block.signs.CustomSignBE
+import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.entity.SignBlockEntity
@@ -142,6 +143,13 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::BloodPoppyBlockEntity,
             WitcheryBlocks.BLOOD_POPPY.get()
+        ).build(null)
+    }
+
+    val SPINNING_WHEEL = BLOCK_ENTITY_TYPES.register("spinning_wheel") {
+        BlockEntityType.Builder.of(
+            ::SpinningWheelBlockEntity,
+            WitcheryBlocks.SPINNING_WHEEL.get()
         ).build(null)
     }
 }

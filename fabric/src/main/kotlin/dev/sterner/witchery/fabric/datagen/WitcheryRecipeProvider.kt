@@ -9,6 +9,7 @@ import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipeBuilder
 import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
+import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipeBuilder
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.ritual.PushMobsRitual
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -42,6 +43,14 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
     override fun buildRecipes(exporter: RecipeOutput) {
 
         //TODO remove
+        SpinningWheelRecipeBuilder.create()
+            .addInput(Items.STRING.defaultInstance)
+            .addInput(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.WOOL_OF_BAT.get().defaultInstance)
+            .save(exporter, Witchery.id("test"))
+
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(Items.REDSTONE.defaultInstance, Color(255,50,50).rgb)
             .addInputWithColor(WitcheryItems.DROP_OF_LUCK.get().defaultInstance, Color(50,50,50).rgb)

@@ -1,0 +1,19 @@
+{
+  "type": "witchery:spinning_wheel",
+  "altarPower": 5,
+  "cookingTime": 100,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "minecraft:string"
+    },
+    {
+      "count": 1,
+      "id": "witchery:whiff_of_magic"
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:wool_of_bat"
+  }
+}

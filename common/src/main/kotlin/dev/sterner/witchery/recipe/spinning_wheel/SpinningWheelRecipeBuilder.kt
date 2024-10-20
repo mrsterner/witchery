@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.distillery
+package dev.sterner.witchery.recipe.spinning_wheel
 
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
@@ -10,71 +10,60 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 
-class DistilleryCraftingRecipeBuilder(
+class SpinningWheelRecipeBuilder(
     private var inputItems: MutableList<ItemStack> = mutableListOf(),
-    private var outputStack: MutableList<ItemStack> = mutableListOf(),
+    private var outputStack: ItemStack = ItemStack.EMPTY,
     private var altarPower: Int = 0,
     private var cookingTime: Int = 100,
-    private var jarConsumption: Int = 1,
 ) : RecipeBuilder {
 
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     private var group: String? = null
 
     companion object {
-        fun create(): DistilleryCraftingRecipeBuilder {
-            return DistilleryCraftingRecipeBuilder()
+        fun create(): SpinningWheelRecipeBuilder {
+            return SpinningWheelRecipeBuilder()
         }
     }
 
-    fun addInput(itemStack: ItemStack): DistilleryCraftingRecipeBuilder {
+    fun addInput(itemStack: ItemStack): SpinningWheelRecipeBuilder {
         inputItems.add(itemStack)
         return this
     }
 
-    fun addOutput(itemStack: ItemStack, count: Int): DistilleryCraftingRecipeBuilder {
+    fun addOutput(itemStack: ItemStack, count: Int): SpinningWheelRecipeBuilder {
         itemStack.count = count
-        outputStack += itemStack
+        outputStack = itemStack
         return this
     }
 
-    fun addOutput(itemStack: ItemStack): DistilleryCraftingRecipeBuilder {
-        outputStack += itemStack
+    fun addOutput(itemStack: ItemStack): SpinningWheelRecipeBuilder {
+        outputStack = itemStack
         return this
     }
 
-    fun addOutput(item: Item): DistilleryCraftingRecipeBuilder {
-        outputStack += item.defaultInstance
-        return this
-    }
-
-    fun setJarConsumption(count: Int): DistilleryCraftingRecipeBuilder {
-        jarConsumption = count
-        return this
-    }
-
-    fun setAltarPower(power: Int): DistilleryCraftingRecipeBuilder {
+    fun setAltarPower(power: Int): SpinningWheelRecipeBuilder {
         this.altarPower = power
         return this
     }
 
-    fun setCookingTime(cookingTime: Int): DistilleryCraftingRecipeBuilder {
+    fun setCookingTime(cookingTime: Int): SpinningWheelRecipeBuilder {
         this.cookingTime = cookingTime
         return this
     }
 
-    override fun unlockedBy(name: String, criterion: Criterion<*>): DistilleryCraftingRecipeBuilder {
+    override fun unlockedBy(name: String, criterion: Criterion<*>): SpinningWheelRecipeBuilder {
         criteria[name] = criterion
         return this
     }
 
-    override fun group(groupName: String?): DistilleryCraftingRecipeBuilder {
+    override fun group(groupName: String?): SpinningWheelRecipeBuilder {
         group = groupName
         return this
     }
 
     override fun getResult(): Item {
-        return outputStack[0].item
+        return outputStack.item
     }
 
     override fun save(recipeOutput: RecipeOutput, id: ResourceLocation) {
@@ -88,11 +77,11 @@ class DistilleryCraftingRecipeBuilder(
         }
 
         val cauldronCraftingRecipe =
-            DistilleryCraftingRecipe(inputItems, outputStack, altarPower, cookingTime, jarConsumption)
+            SpinningWheelRecipe(inputItems, outputStack, altarPower, cookingTime)
         recipeOutput.accept(
-            id.withPrefix("distillery_crafting/"),
+            id.withPrefix("spinning_wheel/"),
             cauldronCraftingRecipe,
-            builder.build(id.withPrefix("recipes/distillery_crafting/"))
+            builder.build(id.withPrefix("recipes/spinning_wheel/"))
         )
     }
 }

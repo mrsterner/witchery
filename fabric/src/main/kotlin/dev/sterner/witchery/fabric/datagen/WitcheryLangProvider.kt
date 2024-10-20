@@ -20,8 +20,11 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("emi.category.witchery.ritual", "Ritual")
         builder.add("emi.category.witchery.oven_cooking", "Oven Fumigation")
         builder.add("emi.category.witchery.distilling", "Distilling")
+        builder.add("emi.category.witchery.spinning", "Spinning")
         builder.add("container.witchery.oven_menu", "Witches Oven")
         builder.add("container.witchery.altar_menu", "Altar")
+        builder.add("container.witchery.spinning_wheel", "Spinning Wheel")
+        builder.add("container.witchery.distillery", "Distillery")
 
 
         builder.add( "witchery.item.tooltip.infinity_egg", "Creative Only")
@@ -29,6 +32,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.INFINITY_EGG.get(), "Infinity Egg")
         builder.add(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), "Deepslate Altar Block")
         builder.add(WitcheryItems.DISTILLERY.get(), "Distillery")
+        builder.add(WitcheryItems.SPINNING_WHEEL.get(), "Spinning Wheel")
         builder.add(WitcheryItems.GUIDEBOOK.get(), "Lesser Key of Solomon")
         builder.add(WitcheryItems.CAULDRON.get(), "Cauldron")
         builder.add(WitcheryItems.COPPER_CAULDRON.get(), "Copper Cauldron")
