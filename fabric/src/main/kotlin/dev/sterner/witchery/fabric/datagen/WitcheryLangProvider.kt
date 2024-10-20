@@ -96,6 +96,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.VAMPIRIC_POPPET.get(), "Vampiric Poppet")
         builder.add(WitcheryItems.VOODOO_POPPET.get(), "Voodoo Poppet")
         builder.add(WitcheryItems.VOODOO_PROTECTION_POPPET.get(), "Voodoo Protection Poppet")
+        builder.add(WitcheryItems.BABA_YAGAS_HAT.get(), "Baba Yaga's Hat")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")

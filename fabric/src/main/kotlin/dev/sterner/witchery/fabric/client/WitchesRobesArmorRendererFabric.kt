@@ -3,6 +3,7 @@ package dev.sterner.witchery.fabric.client
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.WitchesRobesModel
+import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.HumanoidModel
@@ -54,9 +55,22 @@ class WitchesRobesArmorRendererFabric : ArmorRenderer {
             }
         }
 
-        if (armor != null) {
-            val vertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumers, RenderType.armorCutoutNoCull(Witchery.id("textures/models/armor/witches_robes.png")), stack.hasFoil())
-            armor!!.renderToBuffer(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY, DyeColor.BLACK.textureDiffuseColor)
+
+        if (slot == EquipmentSlot.HEAD && stack.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
+            val babaTexture = Witchery.id("textures/models/armor/baba_yagas_hat.png")
+            val babaVertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumers, RenderType.armorCutoutNoCull(babaTexture), stack.hasFoil())
+            armor!!.renderToBuffer(matrices, babaVertexConsumer, light, OverlayTexture.NO_OVERLAY)
+        } else if (slot == EquipmentSlot.HEAD) {
+            val armorTexture = Witchery.id("textures/models/armor/witches_robes.png")
+            val armorVertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumers, RenderType.armorCutoutNoCull(armorTexture), stack.hasFoil())
+            armor!!.renderToBuffer(matrices, armorVertexConsumer, light, OverlayTexture.NO_OVERLAY, DyeColor.BLACK.textureDiffuseColor)
         }
+
+        if (slot != EquipmentSlot.HEAD) {
+            val armorTexture = Witchery.id("textures/models/armor/witches_robes.png")
+            val armorVertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumers, RenderType.armorCutoutNoCull(armorTexture), stack.hasFoil())
+            armor!!.renderToBuffer(matrices, armorVertexConsumer, light, OverlayTexture.NO_OVERLAY, DyeColor.BLACK.textureDiffuseColor)
+        }
+
     }
 }

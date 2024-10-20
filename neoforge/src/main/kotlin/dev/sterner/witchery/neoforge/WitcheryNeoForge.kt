@@ -16,6 +16,7 @@ import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
@@ -148,7 +149,7 @@ object WitcheryNeoForge {
     }
 
     private fun registerClientExtensions(event: RegisterClientExtensionsEvent) {
-        event.registerItem(WitchesRobesItemNeoForge.ArmorRender.INSTANCE, WITCHES_ROBES.get(), WITCHES_HAT.get(), WITCHES_SLIPPERS.get())
+        event.registerItem(WitchesRobesItemNeoForge.ArmorRender.INSTANCE, WITCHES_ROBES.get(), WITCHES_HAT.get(), WITCHES_SLIPPERS.get(), BABA_YAGAS_HAT.get())
 
         event.registerItem(SWISTERInstance(SWISTER()), WitcheryItems.SPINNING_WHEEL.get())
 

@@ -153,7 +153,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
     override fun onInitializeClient() {
         Witchery.initClient()
 
-        ArmorRenderer.register(WitchesRobesArmorRendererFabric(), WitcheryItems.WITCHES_ROBES.get(), WitcheryItems.WITCHES_HAT.get(), WitcheryItems.WITCHES_SLIPPERS.get())
+        ArmorRenderer.register(WitchesRobesArmorRendererFabric(), WitcheryItems.WITCHES_ROBES.get(), WitcheryItems.WITCHES_HAT.get(), WitcheryItems.WITCHES_SLIPPERS.get(), WitcheryItems.BABA_YAGAS_HAT.get())
 
         ParticleFactoryRegistry.getInstance().register(
             WitcheryParticleTypes.COLOR_BUBBLE.get()

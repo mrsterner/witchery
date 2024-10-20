@@ -11,11 +11,7 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.item.ArmorItem
-import net.minecraft.world.item.ArmorMaterial
-import net.minecraft.world.item.DyeColor
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.*
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import org.jetbrains.annotations.NotNull
 import javax.annotation.Nullable
@@ -35,11 +31,20 @@ class WitchesRobesItemNeoForge(material: Holder<ArmorMaterial>, type: Type, prop
         layer: ArmorMaterial.Layer,
         innerModel: Boolean
     ): ResourceLocation? {
+        if (slot == EquipmentSlot.HEAD && stack.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
+            return ResourceLocation.fromNamespaceAndPath(
+                Witchery.MODID,
+                "textures/models/armor/baba_yagas_hat.png"
+            )
+        }
+
         return ResourceLocation.fromNamespaceAndPath(
             Witchery.MODID,
             "textures/models/armor/witches_robes.png"
         )
     }
+
+
 
 
     class ArmorRender : IClientItemExtensions {
@@ -81,7 +86,7 @@ class WitchesRobesItemNeoForge(material: Holder<ArmorMaterial>, type: Type, prop
             layerIdx: Int,
             fallbackColor: Int
         ): Int {
-            return DyeColor.BLACK.textureDiffuseColor
+            return if(stack.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) -0x1 else DyeColor.BLACK.textureDiffuseColor
         }
 
         companion object {

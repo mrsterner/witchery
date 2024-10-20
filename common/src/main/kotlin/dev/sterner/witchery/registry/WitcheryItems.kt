@@ -54,6 +54,10 @@ object WitcheryItems {
         PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
     }
 
+    val BABA_YAGAS_HAT = ITEMS.register("baba_yagas_hat") {
+        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
+    }
+
     //start RESOURCES
     val MUTANDIS: RegistrySupplier<MutandisItem> = ITEMS.register("mutandis") {
         MutandisItem(Item.Properties())

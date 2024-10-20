@@ -11,6 +11,8 @@ import net.minecraft.world.entity.LivingEntity
 
 class WitchesRobesModel(val root: ModelPart) : HumanoidArmorModel<LivingEntity>(root) {
 
+    var baba1 = head.getChild("baba_hat_tip_2_r1")
+    var baba2 = head.getChild("baba_hat_tip_r1")
 
     companion object {
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("witch_robes"), "main")

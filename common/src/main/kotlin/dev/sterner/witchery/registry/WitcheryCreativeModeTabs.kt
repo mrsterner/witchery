@@ -114,6 +114,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.WITCHES_HAT.get())
                 output.accept(WitcheryItems.WITCHES_ROBES.get())
                 output.accept(WitcheryItems.WITCHES_SLIPPERS.get())
+                output.accept(WitcheryItems.BABA_YAGAS_HAT.get())
 
                 output.accept(WitcheryItems.INFINITY_EGG.get())
                 output.accept(WitcheryItems.ARTHANA.get())
