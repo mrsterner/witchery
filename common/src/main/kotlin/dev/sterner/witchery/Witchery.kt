@@ -35,6 +35,8 @@ import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.color.item.ItemColor
+import net.minecraft.client.color.item.ItemColors
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
@@ -48,6 +50,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.DyeColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
@@ -250,6 +253,13 @@ object Witchery {
             WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
             WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get()
         )
+
+        ColorHandlerRegistry.registerItemColors(ItemColor
+        { itemStack, i -> DyeColor.BLACK.textureDiffuseColor },
+            WitcheryItems.WITCHES_HAT.get(),
+            WitcheryItems.WITCHES_ROBES.get(),
+            WitcheryItems.WITCHES_SLIPPERS.get()
+            )
 
         RenderTypeRegistry.register(
             RenderType.cutout(),

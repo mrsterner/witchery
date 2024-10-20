@@ -43,15 +43,15 @@ object WitcheryItems {
     //start ARMOR
 
     val WITCHES_HAT = ITEMS.register("witches_hat") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.HELMET, Item.Properties())
+        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
     }
 
     val WITCHES_ROBES = ITEMS.register("witches_robes") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.CHESTPLATE, Item.Properties())
+        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.CHESTPLATE, Item.Properties().stacksTo(1))
     }
 
     val WITCHES_SLIPPERS = ITEMS.register("witches_slippers") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.BOOTS, Item.Properties())
+        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
     }
 
     //start RESOURCES
