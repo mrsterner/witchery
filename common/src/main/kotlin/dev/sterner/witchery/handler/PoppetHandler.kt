@@ -43,13 +43,7 @@ object PoppetHandler {
             }
 
             if (itemStack != null) {
-                if (player is ServerPlayer) {
-                    player.awardStat(Stats.ITEM_USED[Items.TOTEM_OF_UNDYING])
-                    CriteriaTriggers.USED_TOTEM.trigger(player, itemStack)
-                    player.gameEvent(GameEvent.ITEM_INTERACT_FINISH)
-                }
-
-                player.health = 10.0f
+                player.health = 4.0f
                 player.removeAllEffects()
                 player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 900, 1))
                 player.addEffect(MobEffectInstance(MobEffects.ABSORPTION, 100, 1))
