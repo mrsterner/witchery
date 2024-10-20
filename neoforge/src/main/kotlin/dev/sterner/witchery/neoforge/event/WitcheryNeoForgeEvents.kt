@@ -1,10 +1,12 @@
 package dev.sterner.witchery.neoforge.event
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryCreativeModeTabs
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.RegistryAccess
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.item.CreativeModeTabs
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
@@ -14,6 +16,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.LootTableLoadEvent
 import net.neoforged.neoforge.server.ServerLifecycleHooks
 
@@ -55,5 +58,10 @@ object WitcheryNeoForgeEvents {
 
             event.table.addPool(pool)
         }
+    }
+
+    @SubscribeEvent
+    fun modifyExistingTabs(event: BuildCreativeModeTabContentsEvent) {
+        WitcheryCreativeModeTabs.modifyExistingTabs(event.tab, event)
     }
 }
