@@ -108,6 +108,8 @@ object WitcheryBlockEntityTypes {
             { pos, state -> CustomSignBE(pos, state) as SignBlockEntity },
             WitcheryBlocks.ROWAN_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_SIGN.get(),
+            WitcheryBlocks.ALDER_SIGN.get(),
+            WitcheryBlocks.ALDER_WALL_SIGN.get(),
             WitcheryBlocks.HAWTHORN_SIGN.get(),
             WitcheryBlocks.HAWTHORN_WALL_SIGN.get()
         ).build(null)
@@ -118,6 +120,8 @@ object WitcheryBlockEntityTypes {
             { pos, state -> CustomHangingSignBE(pos, state) as SignBlockEntity },
             WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(),
+            WitcheryBlocks.ALDER_HANGING_SIGN.get(),
+            WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get(),
             WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(),
             WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get()
         ).build(null)
