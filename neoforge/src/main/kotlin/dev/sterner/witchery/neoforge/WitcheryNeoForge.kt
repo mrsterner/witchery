@@ -2,10 +2,7 @@ package dev.sterner.witchery.neoforge
 
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.AltarBlockEntityModel
-import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
-import dev.sterner.witchery.client.model.JarModel
-import dev.sterner.witchery.client.model.WitchesRobesModel
+import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
@@ -140,6 +137,12 @@ object WitcheryNeoForge {
         event.registerLayerDefinition(
             WitchesRobesModel.LAYER_LOCATION,
             WitchesRobesModel::createBodyLayer)
+        event.registerLayerDefinition(
+            SpinningWheelWheelBlockEntityModel.LAYER_LOCATION,
+            SpinningWheelWheelBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            SpinningWheelBlockEntityModel.LAYER_LOCATION,
+            SpinningWheelBlockEntityModel::createBodyLayer)
     }
 
     private fun registerClientExtensions(event: RegisterClientExtensionsEvent) {

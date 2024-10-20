@@ -26,7 +26,7 @@ class SpinningWheelScreen(menu: SpinningWheelMenu, inventory: Inventory, title: 
         val j = this.topPos
         guiGraphics.blit(this.texture, i, j, 0, 0, this.imageWidth, this.imageHeight)
 
-        val k = 40
+        val k = 48
         val l = Mth.ceil(menu.getBurnProgress() * k)
         guiGraphics.blit(this.textureArrow, i + 79 - 18 - 2 + 8 - 4, j + 34 - 8 - 6, 0f, 0f, l, 44, 48, 44)
     }
