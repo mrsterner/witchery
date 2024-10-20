@@ -260,13 +260,6 @@ object Witchery {
             WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get()
         )
 
-        ColorHandlerRegistry.registerItemColors(ItemColor
-        { itemStack, i -> DyeColor.BLACK.textureDiffuseColor },
-            WitcheryItems.WITCHES_HAT.get(),
-            WitcheryItems.WITCHES_ROBES.get(),
-            WitcheryItems.WITCHES_SLIPPERS.get()
-            )
-
         RenderTypeRegistry.register(
             RenderType.cutout(),
             WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),

@@ -191,6 +191,10 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val POPPET: RegistrySupplier<Item> = ITEMS.register("poppet") {
+        PoppetItem(Item.Properties())
+    }
+
     //end RESOURCES
 
     //start JARS

@@ -89,6 +89,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.WITCHES_ROBES.get(), "Witches Robes")
         builder.add(WitcheryItems.WITCHES_SLIPPERS.get(), "Witches Slippers")
         builder.add(WitcheryItems.GOLDEN_THREAD.get(), "Golden Thread")
+        builder.add(WitcheryItems.POPPET.get(), "Poppet")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
