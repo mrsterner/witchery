@@ -40,6 +40,20 @@ object WitcheryItems {
         WitchesHandItem(Item.Properties().stacksTo(1))
     }
 
+    //start ARMOR
+
+    val WITCHES_HAT = ITEMS.register("witches_hat") {
+        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.HELMET, Item.Properties())
+    }
+
+    val WITCHES_ROBES = ITEMS.register("witches_robes") {
+        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.CHESTPLATE, Item.Properties())
+    }
+
+    val WITCHES_SLIPPERS = ITEMS.register("witches_slippers") {
+        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.BOOTS, Item.Properties())
+    }
+
     //start RESOURCES
     val MUTANDIS: RegistrySupplier<MutandisItem> = ITEMS.register("mutandis") {
         MutandisItem(Item.Properties())

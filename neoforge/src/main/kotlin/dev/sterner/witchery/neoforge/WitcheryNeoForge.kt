@@ -5,15 +5,20 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import dev.sterner.witchery.client.model.JarModel
+import dev.sterner.witchery.client.model.WitchesRobesModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
+import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
+import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
+import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.neoforged.bus.api.SubscribeEvent
@@ -26,6 +31,7 @@ import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
@@ -72,15 +78,16 @@ object WitcheryNeoForge {
         }
     )
 
+
     init {
         ATTACHMENT_TYPES.register(MOD_BUS)
         Witchery.init()
-
 
         runForDist(
             clientTarget = {
                 MOD_BUS.addListener(::onClientSetup)
                 MOD_BUS.addListener(::onEntityRendererRegistry)
+                MOD_BUS.addListener(::registerClientExtensions)
                 Minecraft.getInstance()
             },
             serverTarget = {
@@ -129,6 +136,13 @@ object WitcheryNeoForge {
         event.registerLayerDefinition(
             JarModel.LAYER_LOCATION,
             JarModel::createBodyLayer)
+        event.registerLayerDefinition(
+            WitchesRobesModel.LAYER_LOCATION,
+            WitchesRobesModel::createBodyLayer)
+    }
+
+    private fun registerClientExtensions(event: RegisterClientExtensionsEvent) {
+        event.registerItem(WitchesRobesItemNeoForge.ArmorRender.INSTANCE, WITCHES_ROBES.get(), WITCHES_HAT.get(), WITCHES_SLIPPERS.get())
     }
 
     @SubscribeEvent

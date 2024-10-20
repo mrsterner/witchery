@@ -1,11 +1,11 @@
 package dev.sterner.witchery.platform.fabric
 
+import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.item.BoneNeedleItem
-import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.world.item.ArmorItem
+import net.minecraft.world.item.ArmorMaterial
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.Item.Properties
 
 
 object PlatformUtilsImpl {
@@ -18,5 +18,10 @@ object PlatformUtilsImpl {
     @JvmStatic
     fun getBoneNeedle() : BoneNeedleItem {
         return BoneNeedleItemFabric(Item.Properties())
+    }
+
+    @JvmStatic
+    fun witchesRobes(witchesRobes: RegistrySupplier<ArmorMaterial>, chestplate: ArmorItem.Type, properties: Item.Properties): ArmorItem {
+        return ArmorItem(witchesRobes, chestplate, properties)
     }
 }

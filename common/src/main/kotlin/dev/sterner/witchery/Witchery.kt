@@ -8,8 +8,6 @@ import dev.architectury.event.events.common.LootEvent
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
 import dev.architectury.event.events.common.PlayerEvent
-import dev.architectury.event.events.common.PlayerEvent.AttackEntity
-import dev.architectury.event.events.common.TickEvent
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
@@ -34,7 +32,6 @@ import dev.sterner.witchery.handler.InfusionHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.platform.MutandisDataAttachment
-import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -55,9 +52,7 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
-import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 import org.slf4j.Logger
 
 
@@ -71,6 +66,7 @@ object Witchery {
     @JvmStatic
     fun init() {
         //WitcheryRitualRegistry.RITUALS.register()
+        WitcheryArmorMaterials.MATERIALS.register()
         WitcheryBlocks.BLOCKS.register()
         WitcheryBlockEntityTypes.BLOCK_ENTITY_TYPES.register()
         WitcheryItems.ITEMS.register()
@@ -179,6 +175,7 @@ object Witchery {
         EntityModelLayerRegistry.register(AltarClothBlockEntityModel.LAYER_LOCATION) { AltarClothBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(AltarBlockEntityModel.LAYER_LOCATION) { AltarBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(WitchesRobesModel.LAYER_LOCATION) { WitchesRobesModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.MANDRAKE) { MandrakeEntityRenderer(it) }
         EntityModelLayerRegistry.register(MandrakeEntityModel.LAYER_LOCATION) { MandrakeEntityModel.createBodyLayer() }
