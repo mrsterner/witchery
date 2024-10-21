@@ -13,7 +13,7 @@ enum class InfusionType : StringRepresentable {
     LIGHT {
         override fun onHoldRightClick(player: Player): Boolean {
             if (PlayerInfusionDataAttachment.getInfusionCharge(player) > 2) {
-                LightInfusionDataAttachment.setInvisible(player, true, 10)
+                LightInfusionDataAttachment.setInvisible(player, true, 6)
                 PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 2)
                 return true
             }
