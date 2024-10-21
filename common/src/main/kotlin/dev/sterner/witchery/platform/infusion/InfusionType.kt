@@ -43,44 +43,27 @@ enum class InfusionType : StringRepresentable {
     open fun onHoldRightClick(player: Player): Boolean {
         return false
     }
-    /**
-     * return the cost of the ability
-     */
+
     open fun onReleaseRightClick(player: Player, secondsHeld: Int): Boolean {
         return false
     }
 
-    /**
-     * return the cost of the ability
-     */
     open fun leftClickEntity(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Boolean {
         return false
     }
 
-    /**
-     * return the cost of the ability
-     */
     open fun leftClickBlock(player: Player, blockPos: BlockPos?, direction: Direction?): Boolean {
         return false
     }
 
-    /**
-     * return the cost of the ability
-     */
     open fun onReleaseRightClickShift(player: Player, secondsHeld: Int): Boolean {
         return false
     }
 
-    /**
-     * return the cost of the ability
-     */
     open fun leftClickEntityShift(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Boolean {
         return false
     }
 
-    /**
-     * return the cost of the ability
-     */
     open fun leftClickBlockShift(player: Player, blockPos: BlockPos?, direction: Direction?): Boolean {
         return false
     }
