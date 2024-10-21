@@ -77,7 +77,12 @@ class BloodPoppyBlock(effect: Holder<MobEffect>, duration: Float, properties: Pr
         level.setBlockAndUpdate(pos, state.setValue(HAS_TAGLOCK, false))
 
         val taglock = ItemStack(WitcheryItems.TAGLOCK.get())
-        TaglockItem.bindLivingEntity(entity, taglock)
+        if (entity is Player) {
+            TaglockItem.bindPlayer(entity, taglock)
+        } else {
+            TaglockItem.bindLivingEntity(entity, taglock)
+        }
+
         if (player.addItem(taglock)) {
             stack.shrink(1)
         }
