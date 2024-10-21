@@ -148,6 +148,17 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.CHALICE.get(), "Chalice")
         builder.add(WitcheryBlocks.PENTACLE.get(), "Pentacle")
 
+
+        builder.add(WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(), "Golden Chalk")
+        builder.add(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), "Ritual Chalk")
+        builder.add(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(), "Infernal Chalk")
+        builder.add(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(), "Otherwhere Chalk")
+        builder.add(WitcheryBlocks.DEMON_HEART.get(), "Demon Heart")
+        builder.add(WitcheryBlocks.ALTAR_COMPONENT.get(), "Altar")
+        builder.add(WitcheryBlocks.CAULDRON_COMPONENT.get(), "Cauldron")
+        builder.add(WitcheryBlocks.DISTILLERY_COMPONENT.get(), "Distillery")
+        builder.add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(), "Fume Filter")
+
         builder.add(WitcheryItems.WAYSTONE.get(), "Waystone")
         builder.add(WitcheryItems.CLAY_JAR.get(), "Clay Jar")
         builder.add(WitcheryItems.JAR.get(), "Jar")
