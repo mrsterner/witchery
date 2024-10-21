@@ -80,6 +80,11 @@ dependencies {
 
     modImplementation("com.terraformersmc:modmenu:11.0.2")
 
+    modCompileOnly "mcp.mobius.waila:wthit-api:fabric-${wthitVersion}"
+
+    modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}"
+    modRuntimeOnly "lol.bai:badpackets:fabric-${badpacketsVersion}"
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }

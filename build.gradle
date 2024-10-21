@@ -42,6 +42,9 @@ subprojects {
         maven {
             url = "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
         }
+        maven {
+            url = "https://maven2.bai.lol"
+        }
     }
 
     loom {

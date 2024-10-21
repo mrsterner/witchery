@@ -20,6 +20,8 @@ dependencies {
     compileOnly ("com.klikli_dev:modonomicon-${minecraft_version}-common:${modonomicon_version}"){
         transitive = false
     }
+
+    modCompileOnly "mcp.mobius.waila:wthit-api:fabric-${wthitVersion}"
 }
 
 sourceSets {

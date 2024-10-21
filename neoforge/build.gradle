@@ -51,6 +51,8 @@ dependencies {
         transitive = false
     }
 
+    compileOnly "mcp.mobius.waila:wthit:neo-${wthitVersion}"
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
