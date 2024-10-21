@@ -5,6 +5,7 @@ import dev.architectury.hooks.fluid.FluidStackHooks
 import dev.architectury.platform.Platform
 import dev.sterner.witchery.api.block.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.payload.CauldronEffectParticleS2CPayload
 import dev.sterner.witchery.payload.CauldronPoofS2CPacket
 import dev.sterner.witchery.payload.SyncCauldronS2CPacket
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
@@ -14,15 +15,20 @@ import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import net.minecraft.client.Minecraft
+import net.minecraft.client.particle.ParticleEngine
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
+import net.minecraft.core.Vec3i
 import net.minecraft.core.component.DataComponents
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.util.Mth
 import net.minecraft.world.*
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
@@ -37,6 +43,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.AABB
+import org.joml.Vector3d
 
 
 class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
@@ -137,8 +144,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             consumeItem(level, pos)
         }
 
-        if (complete && !brewItemOutput.isEmpty) {
-            //TODO add spiraling enchantment particle effect
+        if (!brewItemOutput.isEmpty) {
+            val randX = pos.x + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
+            val randY = (pos.y + 1.0)
+            val randZ = pos.z + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
+            WitcheryPayloads.sendToPlayers(level, blockPos, CauldronEffectParticleS2CPayload(Vector3d(randX, randY, randZ), color))
         }
 
         // Handle crafting progress and execution

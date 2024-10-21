@@ -5,8 +5,13 @@ import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmission
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
+import net.minecraft.client.Minecraft
+import net.minecraft.client.particle.Particle
+import net.minecraft.client.particle.ParticleEngine
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
+import net.minecraft.core.SectionPos.z
+import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.RandomSource
@@ -21,7 +26,9 @@ import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
+import java.awt.Color
 import java.util.function.Supplier
+
 
 class DistilleryBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(
     litBlockEmission(8)
@@ -49,7 +56,7 @@ class DistilleryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
 
     override fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: RandomSource) {
         if (state.getValue(BlockStateProperties.LIT) as Boolean) {
-            if (random.nextInt(10) == 0) {
+            if (random.nextInt(5) == 0) {
                 level.playLocalSound(
                     pos.x.toDouble() + 0.5,
                     pos.y.toDouble() + 0.5,
@@ -60,6 +67,36 @@ class DistilleryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
                     random.nextFloat() * 0.7f + 0.6f,
                     false
                 )
+                val baseX = pos.x + 0.5
+                val baseY = pos.y + 1.1
+                val baseZ = pos.z + 0.5
+
+                val offsets = listOf(
+                    Pair(6.2f / 16f, 0f),    // +X face
+                    Pair(-6.2f / 16f, 0f),   // -X face
+                    Pair(0f, 6.2f / 16f),    // +Z face
+                    Pair(0f, -6.2f / 16f)    // -Z face
+                )
+
+                for (offset in offsets) {
+                    val offsetX = offset.first
+                    val offsetZ = offset.second
+
+                    val particleX = baseX + offsetX
+                    val particleZ = baseZ + offsetZ
+
+
+                    val minecraft = Minecraft.getInstance()
+
+                    val manager: ParticleEngine = minecraft.particleEngine
+
+                    val effectParticle = manager.createParticle(
+                        ParticleTypes.EFFECT, particleX, baseY,
+                        particleZ,  0.0, 0.0, 0.0
+                    )
+
+                    effectParticle?.setColor(1f,0.1f,1f)
+                }
             }
         }
     }
