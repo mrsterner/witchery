@@ -42,7 +42,6 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
     override fun buildRecipes(exporter: RecipeOutput) {
 
-        //TODO remove
         SpinningWheelRecipeBuilder.create()
             .addInput(Items.HAY_BLOCK.defaultInstance)
             .addInput(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance)
@@ -50,6 +49,15 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setCookingTime(100)
             .addOutput(WitcheryItems.GOLDEN_THREAD.get().defaultInstance)
             .save(exporter, Witchery.id("golden_thread"))
+
+        SpinningWheelRecipeBuilder.create()
+            .addInput(Items.WHITE_WOOL.defaultInstance)
+            .addInput(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance)
+            .addInput(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.IMPREGNATED_FABRIC.get().defaultInstance, 2)
+            .save(exporter, Witchery.id("impregnated_fabric"))
 
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(Items.REDSTONE.defaultInstance, Color(255,50,50).rgb)
@@ -897,6 +905,42 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.WITCHES_ROBES.get())
+            .pattern("I I")
+            .pattern("ISI")
+            .pattern("III")
+            .define('I', WitcheryItems.IMPREGNATED_FABRIC.get())
+            .define('S', WitcheryItems.GOLDEN_THREAD.get())
+            .unlockedBy("has_impregnated", has(WitcheryItems.IMPREGNATED_FABRIC.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.WITCHES_HAT.get())
+            .pattern(" I ")
+            .pattern("SIS")
+            .pattern("IGI")
+            .define('I', WitcheryItems.IMPREGNATED_FABRIC.get())
+            .define('S', WitcheryItems.GOLDEN_THREAD.get())
+            .define('G', Items.GLOWSTONE_DUST)
+            .unlockedBy("has_impregnated", has(WitcheryItems.IMPREGNATED_FABRIC.get()))
+            .save(exporter)
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.WITCHES_SLIPPERS.get())
+            .pattern("S S")
+            .pattern("I I")
+            .define('I', WitcheryItems.IMPREGNATED_FABRIC.get())
+            .define('S', WitcheryItems.GOLDEN_THREAD.get())
+            .unlockedBy("has_impregnated", has(WitcheryItems.IMPREGNATED_FABRIC.get()))
+            .save(exporter)
+
+        CauldronCraftingRecipeBuilder.create()
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,55,50).rgb)
+            .addInputWithColor(WitcheryItems.ENT_TWIG.get().defaultInstance, Color(255,100,1).rgb)
+            .addInputWithColor(WitcheryItems.MUTANDIS_EXTREMIS.get().defaultInstance, Color(255,1,1).rgb)
+            .addOutput(WitcheryItems.MUTATING_SPRING.get())
+            .setAltarPower(100)
+            .unlockedBy("has_ent_twig", has(WitcheryItems.ENT_TWIG.get()))
+            .save(exporter,  Witchery.id("mutating_spring"))
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)

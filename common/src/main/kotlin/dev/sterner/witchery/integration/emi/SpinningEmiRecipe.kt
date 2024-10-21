@@ -63,14 +63,14 @@ class SpinningEmiRecipe(val recipeId: ResourceLocation, val recipe: SpinningWhee
 
         if (recipe.inputItems.size > 2) {
             widgets.add(
-                WitcherySlotWidget(EmiStack.of(recipe.inputItems[2]), 2 + 2 + 9 + 18 - 4+ 18, 50 - 18 - 4 - 18 - 2 + 1 + 22)
+                WitcherySlotWidget(EmiStack.of(recipe.inputItems[2]), 2 + 2 + 9 + 18 - 4+ 18, 50 - 18 - 4 - 18 - 2 + 1 + 18)
                     .drawBack(false)
             )
         }
 
         if (recipe.inputItems.size > 3) {
             widgets.add(
-                WitcherySlotWidget(EmiStack.of(recipe.inputItems[2]), 2 + 2 + 9 + 18 - 4 + 18, 50 - 18 - 4 - 18 - 2 + 1 + 22 + 22)
+                WitcherySlotWidget(EmiStack.of(recipe.inputItems[2]), 2 + 2 + 9 + 18 - 4 + 18, 50 - 18 - 4 - 18 - 2 + 1 + 18 + 18)
                     .drawBack(false)
             )
         }

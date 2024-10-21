@@ -100,6 +100,10 @@ open class CauldronBlock(properties: Properties) :
         }
     }
 
+    override fun randomTick(state: BlockState, level: ServerLevel, pos: BlockPos, random: RandomSource) {
+        super.randomTick(state, level, pos, random)
+    }
+
     override fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: RandomSource) {
         if (state.getValue(BlockStateProperties.LIT) as Boolean) {
             if (random.nextInt(10) == 0) {

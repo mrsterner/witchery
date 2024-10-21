@@ -195,6 +195,14 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val IMPREGNATED_FABRIC: RegistrySupplier<Item> = ITEMS.register("impregnated_fabric") {
+        Item(Item.Properties())
+    }
+
+    val MUTATING_SPRING: RegistrySupplier<Item> = ITEMS.register("mutating_spring") {
+        Item(Item.Properties())
+    }
+
     //end RESOURCES
 
     //start POPPETS
