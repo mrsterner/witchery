@@ -118,8 +118,52 @@ class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties), 
         return state.getValue(HALF) == DoubleBlockHalf.LOWER && !this.isMaxAge(state)
     }
 
+    // Yes I stole this, AccessWidener didnt wanna work on NeoForge
+    fun getGrowthSpeed(block: Block, level: BlockGetter, pos: BlockPos): Float {
+        var f = 1.0f
+        val blockPos = pos.below()
+
+        for (i in -1..1) {
+            for (j in -1..1) {
+                var g = 0.0f
+                val blockState = level.getBlockState(blockPos.offset(i, 0, j))
+                if (blockState.`is`(Blocks.FARMLAND)) {
+                    g = 1.0f
+                    if (blockState.getValue(FarmBlock.MOISTURE) as Int > 0) {
+                        g = 3.0f
+                    }
+                }
+
+                if (i != 0 || j != 0) {
+                    g /= 4.0f
+                }
+
+                f += g
+            }
+        }
+
+        val blockPos2 = pos.north()
+        val blockPos3 = pos.south()
+        val blockPos4 = pos.west()
+        val blockPos5 = pos.east()
+        val bl = level.getBlockState(blockPos4).`is`(block) || level.getBlockState(blockPos5).`is`(block)
+        val bl2 = level.getBlockState(blockPos2).`is`(block) || level.getBlockState(blockPos3).`is`(block)
+        if (bl && bl2) {
+            f /= 2.0f
+        } else {
+            val bl3 = level.getBlockState(blockPos4.north()).`is`(block) || level.getBlockState(blockPos5.north())
+                .`is`(block) || level.getBlockState(blockPos5.south())
+                .`is`(block) || level.getBlockState(blockPos4.south()).`is`(block)
+            if (bl3) {
+                f /= 2.0f
+            }
+        }
+
+        return f
+    }
+
     public override fun randomTick(state: BlockState, level: ServerLevel, pos: BlockPos, random: RandomSource) {
-        val f = CropBlock.getGrowthSpeed(this, level, pos)
+        val f = getGrowthSpeed(this, level, pos)
         val bl = random.nextInt((25.0f / f).toInt() + 1) == 0
         if (bl) {
             this.grow(level, state, pos, 1)
@@ -143,7 +187,7 @@ class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties), 
     }
 
     private fun sufficientLight(level: LevelReader, pos: BlockPos): Boolean {
-        return CropBlock.hasSufficientLight(level, pos)
+        return level.getRawBrightness(pos, 0) >= 8
     }
 
     private fun isLower(state: BlockState): Boolean {
