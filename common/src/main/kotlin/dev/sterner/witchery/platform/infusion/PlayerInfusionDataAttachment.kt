@@ -55,6 +55,7 @@ object PlayerInfusionDataAttachment {
         if (player.level() is ServerLevel) {
             WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncInfusionS2CPacket(
                 CompoundTag().apply {
+                    putUUID("Id", player.uuid)
                     putInt("Charge", data.charge)
                     putString("Type", data.type.serializedName)
                 }

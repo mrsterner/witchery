@@ -2,25 +2,22 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.particle.ColorBubbleData
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import net.minecraft.client.Minecraft
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Player
 
-class SyncInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SpawnPoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
-
-    constructor(player: Player, data: InfusionData): this(CompoundTag().apply {
-        putUUID("Id", player.uuid)
-        putInt("Charge", data.charge)
-        putString("Type", data.type.serializedName) // serializedName should be in lowercase
-    })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
         return ID
@@ -30,30 +27,38 @@ class SyncInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf?.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncInfusionS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SpawnPoofParticles, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
-        val charge = payload.nbt.getInt("Charge")
-        val type = InfusionType.valueOf(payload.nbt.getString("Type").uppercase())
 
         val player = client.level?.getPlayerByUUID(id)
 
         client.execute {
             if (player != null) {
-                PlayerInfusionDataAttachment.setPlayerInfusion(player, InfusionData(type, charge))
+                val pos = player.position()
+                for (i in 0..32) {
+                    client.level!!.addAlwaysVisibleParticle(
+                        ParticleTypes.SMOKE,
+                        true,
+                        pos.x + 0.0 + Mth.nextDouble(client.level!!.random, -0.5, 0.5),
+                        (pos.y + 1.0) + Mth.nextDouble(client.level!!.random, -1.25, 1.25),
+                        pos.z + 0.0 + Mth.nextDouble(client.level!!.random, -0.5, 0.5),
+                        0.0, 0.2, 0.0
+                    )
+                }
             }
         }
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncInfusionS2CPacket> =
-            CustomPacketPayload.Type(Witchery.id("sync_infusion"))
+        val ID: CustomPacketPayload.Type<SpawnPoofParticles> =
+            CustomPacketPayload.Type(Witchery.id("spawn_poof"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncInfusionS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnPoofParticles> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncInfusionS2CPacket(buf!!) }
+                { buf -> SpawnPoofParticles(buf!!) }
             )
     }
 }

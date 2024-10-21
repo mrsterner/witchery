@@ -9,6 +9,11 @@ object LightInfusionDataAttachmentImpl {
 
     @JvmStatic
     fun setInvisible(player: Player, invisible: Boolean, invisibleTicks: Int){
+        val prevData = player.getAttachedOrCreate(LIGHT_INFUSION_PLAYER_DATA_TYPE)
+        if (!prevData.isInvisible && invisible) {
+            LightInfusionDataAttachment.poof(player)
+        }
+
         val data = LightInfusionData(invisible, invisibleTicks)
         player.setAttached(LIGHT_INFUSION_PLAYER_DATA_TYPE, data)
         LightInfusionDataAttachment.sync(player, data)

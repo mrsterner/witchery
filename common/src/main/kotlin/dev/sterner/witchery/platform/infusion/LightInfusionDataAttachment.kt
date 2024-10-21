@@ -1,6 +1,7 @@
 package dev.sterner.witchery.platform.infusion
 
 import dev.architectury.injectables.annotations.ExpectPlatform
+import dev.sterner.witchery.payload.SpawnPoofParticles
 import dev.sterner.witchery.payload.SyncLightInfusionS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
@@ -25,8 +26,19 @@ object LightInfusionDataAttachment {
         if (player.level() is ServerLevel) {
             WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncLightInfusionS2CPacket(
                 CompoundTag().apply {
+                    putUUID("Id", player.uuid)
                     putBoolean("Invisible", data.isInvisible)
                     putInt("InvisibleTimer", data.invisibleTimer)
+                }
+            ))
+        }
+    }
+
+    fun poof(player: Player) {
+        if (player.level() is ServerLevel) {
+            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SpawnPoofParticles(
+                CompoundTag().apply {
+                    putUUID("Id", player.uuid)
                 }
             ))
         }
