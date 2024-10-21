@@ -124,8 +124,6 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
             .recipeGroupPrefix("wooden")
             .recipeUnlockedBy("has_planks").family
         generator.family(hawthornFamily.baseBlock).generateFor(hawthornFamily)
-
-        generator.createCrossBlock(WitcheryBlocks.BLOOD_POPPY.get(), BlockModelGenerators.TintState.NOT_TINTED)
     }
 
 
@@ -249,7 +247,5 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
         genetaror.generateFlatItem(WitcheryItems.ARTHANA.get(), ModelTemplates.FLAT_HANDHELD_ITEM)
         genetaror.generateFlatItem(WitcheryItems.PENTACLE.get(), ModelTemplates.FLAT_ITEM)
-
-        genetaror.generateFlatItem(WitcheryItems.BLOOD_POPPY.get(), ModelTemplates.FLAT_ITEM)
     }
 }
