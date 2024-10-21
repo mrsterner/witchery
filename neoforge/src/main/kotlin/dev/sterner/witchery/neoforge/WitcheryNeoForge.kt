@@ -1,5 +1,6 @@
 package dev.sterner.witchery.neoforge
 
+import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.*
@@ -21,6 +22,7 @@ import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.client.Minecraft
+import net.minecraft.client.model.BoatModel
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
@@ -115,8 +117,8 @@ object WitcheryNeoForge {
     }
 
     private fun onEntityRendererRegistry(event: EntityRenderersEvent.RegisterRenderers) {
-        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_BOAT) { context -> BoatRenderer(context, false) }
-        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_CHEST_BOAT) { context -> BoatRenderer(context, true) }
+        event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_BOAT.get()) { context -> BoatRenderer(context, false) }
+        event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()) { context -> BoatRenderer(context, true) }
     }
 
     @SubscribeEvent
@@ -128,6 +130,13 @@ object WitcheryNeoForge {
 
     @SubscribeEvent
     private fun registerLayerDefinitions(event: EntityRenderersEvent.RegisterLayerDefinitions) {
+        event.registerLayerDefinition(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)
+        event.registerLayerDefinition(BoatModels.ALDER_BOAT_LAYER, BoatModel::createBodyModel)
+        event.registerLayerDefinition(BoatModels.HAWTHORN_BOAT_LAYER, BoatModel::createBodyModel)
+        event.registerLayerDefinition(BoatModels.ROWAN_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
+        event.registerLayerDefinition(BoatModels.ALDER_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
+        event.registerLayerDefinition(BoatModels.HAWTHORN_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
+
         event.registerLayerDefinition(
             AltarBlockEntityModel.LAYER_LOCATION,
             AltarBlockEntityModel::createBodyLayer)
