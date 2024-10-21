@@ -26,8 +26,8 @@ class DistilleryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
 
 
     companion object {
-        val bottomShape = box(2.0, 0.0, 2.0, 14.0, 5.0, 14.0)
-        val coreShape = box(4.0, 5.0, 4.0, 12.0, 16.0, 12.0)
+        val bottomShape = box(2.0, 0.0, 2.0, 14.0, 9.0, 14.0)
+        val coreShape = box(4.0, 9.0, 4.0, 12.0, 16.0, 12.0)
         val shape = Shapes.join(bottomShape, coreShape, BooleanOp.OR)
 
         val STRUCTURE: Supplier<MultiBlockStructure> =

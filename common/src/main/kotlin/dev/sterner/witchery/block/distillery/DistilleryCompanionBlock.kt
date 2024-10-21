@@ -7,7 +7,9 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Fluid
+import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
 class DistilleryCompanionBlock(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
@@ -30,7 +32,9 @@ class DistilleryCompanionBlock(properties: Properties) : MultiBlockComponentBloc
 
     companion object {
 
-        private val SHAPE: VoxelShape = box(3.0, 0.0, 3.0, 13.0, 5.0, 13.0)
+        private val shapeTop: VoxelShape = box(3.0, 4.0, 3.0, 13.0, 9.0, 13.0)
+        private val shapeShaft: VoxelShape = box(4.0, 0.0, 4.0, 12.0, 4.0, 12.0)
+        val SHAPE = Shapes.join(shapeTop, shapeShaft, BooleanOp.OR)
 
     }
 }
