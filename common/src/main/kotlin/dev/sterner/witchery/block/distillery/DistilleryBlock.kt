@@ -15,6 +15,8 @@ import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.RandomSource
+import net.minecraft.world.Container
+import net.minecraft.world.Containers
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
@@ -99,6 +101,17 @@ class DistilleryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
                 }
             }
         }
+    }
+
+    override fun onRemove(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        newState: BlockState,
+        movedByPiston: Boolean
+    ) {
+        Containers.dropContentsOnDestroy(state, newState, level, pos)
+        super.onRemove(state, level, pos, newState, movedByPiston)
     }
 
     companion object {

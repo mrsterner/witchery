@@ -24,8 +24,6 @@ object PlatformUtilsImpl {
 
     @JvmStatic
     fun witchesRobes(witchesRobes: RegistrySupplier<ArmorMaterial>, chestplate: ArmorItem.Type, properties: Item.Properties): ArmorItem {
-        return object: WitchesRobesItemNeoForge(witchesRobes, chestplate, properties) {
-
-        }
+        return WitchesRobesItemNeoForge(witchesRobes, chestplate, properties)
     }
 }
