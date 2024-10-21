@@ -14,6 +14,8 @@ import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import io.netty.buffer.Unpooled
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.core.Holder.Direct
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
@@ -27,6 +29,7 @@ import net.minecraft.util.Mth
 import net.minecraft.world.Container
 import net.minecraft.world.ContainerHelper
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.WorldlyContainer
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
@@ -41,7 +44,7 @@ import kotlin.math.min
 
 class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.SPINNING_WHEEL.get(), blockPos, blockState), Container,
-    AltarPowerConsumer, RecipeCraftingHolder {
+    AltarPowerConsumer, RecipeCraftingHolder, WorldlyContainer {
 
     var items: NonNullList<ItemStack> = NonNullList.withSize(7, ItemStack.EMPTY)
     var cookingProgress: Int = 0
@@ -370,6 +373,17 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun stillValid(player: Player): Boolean {
         return Container.stillValidBlockEntity(this, player)
+    }
+
+    override fun getSlotsForFace(side: Direction) =
+        (0..<items.size).toList().toIntArray()
+
+    override fun canPlaceItemThroughFace(index: Int, itemStack: ItemStack, direction: Direction?): Boolean {
+        return (index == SLOT_INPUT && direction == Direction.UP) || (index != SLOT_RESULT && index != SLOT_INPUT && direction != Direction.UP)
+    }
+
+    override fun canTakeItemThroughFace(index: Int, stack: ItemStack, direction: Direction): Boolean {
+        return index == SLOT_RESULT
     }
 
     override fun clearContent() {

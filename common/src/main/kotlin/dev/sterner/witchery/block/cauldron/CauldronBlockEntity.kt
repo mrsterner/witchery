@@ -18,10 +18,7 @@ import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.particle.ParticleEngine
-import net.minecraft.core.BlockPos
-import net.minecraft.core.HolderLookup
-import net.minecraft.core.NonNullList
-import net.minecraft.core.Vec3i
+import net.minecraft.core.*
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
@@ -51,7 +48,7 @@ import org.joml.Vector3d
 class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.CAULDRON.get(), CauldronBlock.STRUCTURE.get(),
     pos, state
-), Container {
+), Container, WorldlyContainer {
 
     private var cauldronCraftingRecipe: CauldronCraftingRecipe? = null
     private var cauldronBrewingRecipe: CauldronBrewingRecipe? = null
@@ -451,6 +448,13 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     override fun stillValid(player: Player): Boolean {
         return true
     }
+
+    override fun getSlotsForFace(side: Direction) =
+        (0..<inputItems.size).toList().toIntArray()
+
+    override fun canPlaceItemThroughFace(index: Int, itemStack: ItemStack, direction: Direction?) = true
+
+    override fun canTakeItemThroughFace(index: Int, stack: ItemStack, direction: Direction) = false
 
     companion object {
         const val WATER_COLOR = 0x3f76e4
