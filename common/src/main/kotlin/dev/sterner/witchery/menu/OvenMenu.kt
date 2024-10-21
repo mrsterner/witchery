@@ -53,57 +53,26 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
     }
 
     override fun quickMoveStack(player: Player, index: Int): ItemStack {
-        var itemStack = ItemStack.EMPTY
-        val slot = slots[index]
-        if (slot.hasItem()) {
-            val itemStack2 = slot.item
-            itemStack = itemStack2.copy()
-            if (index == 2) {
-                if (!this.moveItemStackTo(itemStack2, 3, USE_ROW_SLOT_END, true)) {
-                    return ItemStack.EMPTY
-                }
+        var resultStack = ItemStack.EMPTY
+        val slot = this.getSlot(index) ?: return resultStack
+        if (!slot.hasItem()) return resultStack
 
-                slot.onQuickCraft(itemStack2, itemStack)
-            } else if (index != 1 && index != 0) {
-                if (this.canSmelt(itemStack2)) {
-                    if (!this.moveItemStackTo(itemStack2, 0, 1, false)) {
-                        return ItemStack.EMPTY
-                    }
-                } else if (this.isFuel(itemStack2)) {
-                    if (!this.moveItemStackTo(itemStack2, 1, 2, false)) {
-                        return ItemStack.EMPTY
-                    }
-                } else if (index in 3..<USE_ROW_SLOT_START) {
-                    if (!this.moveItemStackTo(itemStack2, USE_ROW_SLOT_START, USE_ROW_SLOT_END, false)) {
-                        return ItemStack.EMPTY
-                    }
-                } else if (index in USE_ROW_SLOT_START..<USE_ROW_SLOT_END && !this.moveItemStackTo(
-                        itemStack2,
-                        3,
-                        USE_ROW_SLOT_START,
-                        false
-                    )
-                ) {
-                    return ItemStack.EMPTY
-                }
-            } else if (!this.moveItemStackTo(itemStack2, 3, USE_ROW_SLOT_END, false)) {
+        val slotStack = slot.item
+        resultStack = slotStack.copy()
+
+        if (index in 0..4) {
+            // Move Stack to Player Inventory
+            if (!moveItemStackTo(slotStack, 5, 41, true))
                 return ItemStack.EMPTY
-            }
+        } else if (!moveItemStackTo(slotStack, 0, 4, false))
+            return ItemStack.EMPTY
 
-            if (itemStack2.isEmpty) {
-                slot.setByPlayer(ItemStack.EMPTY)
-            } else {
-                slot.setChanged()
-            }
+        if (slotStack.isEmpty)
+            slot.set(ItemStack.EMPTY)
+        else
+            slot.setChanged()
 
-            if (itemStack2.count == itemStack.count) {
-                return ItemStack.EMPTY
-            }
-
-            slot.onTake(player, itemStack2)
-        }
-
-        return itemStack
+        return resultStack
     }
 
     fun canSmelt(stack: ItemStack?): Boolean {

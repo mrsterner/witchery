@@ -53,7 +53,26 @@ class DistilleryMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
     }
 
     override fun quickMoveStack(player: Player, index: Int): ItemStack {
-        return ItemStack.EMPTY // TODO
+        var resultStack = ItemStack.EMPTY
+        val slot = this.getSlot(index) ?: return resultStack
+        if (!slot.hasItem()) return resultStack
+
+        val slotStack = slot.item
+        resultStack = slotStack.copy()
+
+        if (index in 0..6) {
+            // Move Stack to Player Inventory
+            if (!moveItemStackTo(slotStack, 7, 43, true))
+                return ItemStack.EMPTY
+        } else if (!moveItemStackTo(slotStack, 0, 6, false))
+            return ItemStack.EMPTY
+
+        if (slotStack.isEmpty)
+            slot.set(ItemStack.EMPTY)
+        else
+            slot.setChanged()
+
+        return resultStack
     }
 
     override fun stillValid(player: Player): Boolean {

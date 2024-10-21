@@ -1,18 +1,18 @@
 package dev.sterner.witchery.menu
 
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
-import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryMenuTypes
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.*
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 
-class SpinningWheelMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
+
+class SpinningWheelMenu(id: Int, val inventory: Inventory, buf: FriendlyByteBuf) :
     AbstractContainerMenu(WitcheryMenuTypes.SPINNING_WHEEL_MENU_TYPE.get(), id) {
 
     private var data: ContainerData = SimpleContainerData(2)
@@ -47,7 +47,26 @@ class SpinningWheelMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
     }
 
     override fun quickMoveStack(player: Player, index: Int): ItemStack {
-        return ItemStack.EMPTY // TODO
+        var resultStack = ItemStack.EMPTY
+        val slot = this.getSlot(index) ?: return resultStack
+        if (!slot.hasItem()) return resultStack
+
+        val slotStack = slot.item
+        resultStack = slotStack.copy()
+
+        if (index in 0..4) {
+            // Move Stack to Player Inventory
+            if (!moveItemStackTo(slotStack, 5, 41, true))
+                return ItemStack.EMPTY
+        } else if (!moveItemStackTo(slotStack, 0, 4, false))
+            return ItemStack.EMPTY
+
+        if (slotStack.isEmpty)
+            slot.set(ItemStack.EMPTY)
+        else
+            slot.setChanged()
+
+        return resultStack
     }
 
     override fun stillValid(player: Player): Boolean {
