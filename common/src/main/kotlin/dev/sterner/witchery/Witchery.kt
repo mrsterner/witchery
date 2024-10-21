@@ -3,6 +3,7 @@ package dev.sterner.witchery
 import com.mojang.logging.LogUtils
 import dev.architectury.core.item.ArchitecturyBucketItem
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.InteractionEvent
@@ -226,6 +227,8 @@ object Witchery {
         MenuRegistry.registerScreenFactory(WitcheryMenuTypes.SPINNING_WHEEL_MENU_TYPE.get(), ::SpinningWheelScreen)
 
         WitcheryPageRendererRegistry.register()
+
+        ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),
