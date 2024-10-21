@@ -3,6 +3,7 @@ package dev.sterner.witchery.fabric.client
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.WitchesRobesModel
+import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.minecraft.client.Minecraft
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.ItemStack
 import java.awt.Color
@@ -38,7 +40,7 @@ class WitchesRobesArmorRendererFabric : ArmorRenderer {
             contextModel.copyPropertiesTo(armor!!)
             armor!!.setAllVisible(false)
 
-            if (entity.hasEffect(MobEffects.INVISIBILITY)) {
+            if (entity.hasEffect(MobEffects.INVISIBILITY) || (entity is Player && LightInfusionDataAttachment.isInvisible(entity).isInvisible)) {
                 armor!!.head.visible = false
                 armor!!.body.visible = false
                 armor!!.leftArm.visible = false
