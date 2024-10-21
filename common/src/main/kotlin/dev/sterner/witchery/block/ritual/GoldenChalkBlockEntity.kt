@@ -228,7 +228,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         shouldStartConsumingItems = false
         shouldStartConsumingSacrifices = false
         isRitualActive = false
-        hasRitualStarted = false // Reset the flag when ritual ends
+        hasRitualStarted = false
         tickCounter = 0
         ritualTickCounter = 0
         targetPlayer = null
