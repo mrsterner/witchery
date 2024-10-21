@@ -37,7 +37,7 @@ class BloodPoppyBlock(effect: Holder<MobEffect>, duration: Float, properties: Pr
 
     override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
         val be = level.getBlockEntity(pos)
-        if (!level.isClientSide && entity is LivingEntity && be is BloodPoppyBlockEntity && be.uuid == null) {
+        if (!level.isClientSide && entity is LivingEntity && be is BloodPoppyBlockEntity) {
             be.uuid = entity.uuid
             be.setChanged()
             entity.hurt(entity.damageSources().cactus(), 1.0f)
@@ -57,11 +57,16 @@ class BloodPoppyBlock(effect: Holder<MobEffect>, duration: Float, properties: Pr
         hitResult: BlockHitResult
     ): ItemInteractionResult {
         val be = level.getBlockEntity(pos)
+
+        if (hand == InteractionHand.OFF_HAND) {
+            return super.useItemOn(stack, state, level, pos, player, hand, hitResult)
+        }
+
         if (!stack.`is`(Items.GLASS_BOTTLE) || be !is BloodPoppyBlockEntity || be.uuid == null)
             return super.useItemOn(stack, state, level, pos, player, hand, hitResult)
 
         if (level !is ServerLevel) return ItemInteractionResult.SUCCESS
-        stack.shrink(1)
+
 
         val entity = be.uuid?.let { level.getEntity(it) } ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
         be.uuid = null
@@ -73,7 +78,9 @@ class BloodPoppyBlock(effect: Holder<MobEffect>, duration: Float, properties: Pr
 
         val taglock = ItemStack(WitcheryItems.TAGLOCK.get())
         TaglockItem.bindLivingEntity(entity, taglock)
-        player.addItem(taglock)
+        if (player.addItem(taglock)) {
+            stack.shrink(1)
+        }
 
         return ItemInteractionResult.SUCCESS
     }
