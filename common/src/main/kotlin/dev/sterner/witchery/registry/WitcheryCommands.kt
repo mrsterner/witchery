@@ -44,7 +44,7 @@ object WitcheryCommands {
                     .then(
                         Commands.literal("set") // Add 'set' command
                             .then(
-                                Commands.argument("player", EntityArgument.player()) // Accept player argument
+                                Commands.argument("player", EntityArgument.player())
                                     .then(
                                         Commands.argument("infusionType", InfusionArgumentType.infusionType())
                                             .executes { ctx ->
@@ -64,9 +64,9 @@ object WitcheryCommands {
                             )
                     )
                     .then(
-                        Commands.literal("get") // Add 'get' command
+                        Commands.literal("get")
                             .then(
-                                Commands.argument("player", EntityArgument.player()) // Accept player argument
+                                Commands.argument("player", EntityArgument.player())
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val currentInfusion = PlayerInfusionDataAttachment.getPlayerInfusion(player)
@@ -81,11 +81,11 @@ object WitcheryCommands {
                             )
                     )
                     .then(
-                        Commands.literal("increase") // Add 'increase' command
+                        Commands.literal("increase")
                             .then(
-                                Commands.argument("player", EntityArgument.player()) // Accept player argument
+                                Commands.argument("player", EntityArgument.player())
                                     .then(
-                                        Commands.argument("amount", IntegerArgumentType.integer(1)) // Accept amount argument
+                                        Commands.argument("amount", IntegerArgumentType.integer(1))
                                             .executes { ctx ->
                                                 val player = EntityArgument.getPlayer(ctx, "player")
                                                 val amount = IntegerArgumentType.getInteger(ctx, "amount")
@@ -97,6 +97,31 @@ object WitcheryCommands {
                                                 ctx.source.sendSuccess(
                                                     {
                                                         Component.literal("Increased infusion charge by $amount for player ${player.name.string}")
+                                                    }, false
+                                                )
+                                                1
+                                            }
+                                    )
+                            )
+                    )
+                    .then(
+                        Commands.literal("setAndKill")
+                            .then(
+                                Commands.argument("player", EntityArgument.player())
+                                    .then(
+                                        Commands.argument("infusionType", InfusionArgumentType.infusionType())
+                                            .executes { ctx ->
+                                                val player = EntityArgument.getPlayer(ctx, "player")
+                                                val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
+
+                                                player.hurt(player.level().damageSources().magic(), 100f)
+                                                if (player.health > 0) {
+                                                    PlayerInfusionDataAttachment.setPlayerInfusion(player, InfusionData(infusionType))
+                                                }
+
+                                                ctx.source.sendSuccess(
+                                                    {
+                                                        Component.literal("Set infusion type: ${infusionType.serializedName} and dealt damage to player ${player.name.string}")
                                                     }, false
                                                 )
                                                 1

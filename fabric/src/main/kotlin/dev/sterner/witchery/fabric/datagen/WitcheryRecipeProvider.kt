@@ -1280,10 +1280,10 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.GHOST_OF_THE_LIGHT.get().defaultInstance)
-            .addCommand(CommandType("witchery infusion set {owner} light", CommandType.END))
             .setAltarPower(2000)
+            .addCommand(CommandType("witchery infusion setAndKill {owner} light", CommandType.END))
             .pattern(
-                "___OOOOR___",
+                "___RRRRR___",
                 "__R_____R__",
                 "_R__RRR__R_",
                 "R__R___R__R",

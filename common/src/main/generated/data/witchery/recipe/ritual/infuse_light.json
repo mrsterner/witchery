@@ -9,7 +9,7 @@
   "commands": [
     {
       "type": "end",
-      "command": "witchery infusion set {owner} light"
+      "command": "witchery infusion setAndKill {owner} light"
     }
   ],
   "floatingItemOutput": false,
@@ -23,7 +23,7 @@
   "outputEntities": [],
   "outputItems": [],
   "pattern": [
-    "___OOOOR___",
+    "___RRRRR___",
     "__R_____R__",
     "_R__RRR__R_",
     "R__R___R__R",
