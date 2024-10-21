@@ -38,6 +38,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
 import java.util.stream.Stream
 import kotlin.math.floor
+import kotlin.math.max
 
 
 class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
@@ -120,7 +121,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             limitTracker.compute(limit.first) { _, count -> count?.let { it + 1 } ?: 1 }
         }
 
-        maxPower += (maxPower * powerBoost).toInt()
+        maxPower += (max(maxPower * powerBoost, Int.MAX_VALUE.toDouble())).toInt()
     }
 
     private fun updateCurrentPower() {

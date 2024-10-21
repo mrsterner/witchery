@@ -25,6 +25,11 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             WitcheryBlocks.HAWTHORN_LEAVES.get()
         )
 
+        getOrCreateTagBuilder(WitcheryTags.LOGS)
+            .addTag(WitcheryTags.ROWAN_LOGS)
+            .addTag(WitcheryTags.ALDER_LOGS)
+            .addTag(WitcheryTags.HAWTHORN_LOGS)
+
         getOrCreateTagBuilder(WitcheryTags.ROWAN_LOGS).add(
             WitcheryBlocks.ROWAN_LOG.get(),
             WitcheryBlocks.ROWAN_WOOD.get(),

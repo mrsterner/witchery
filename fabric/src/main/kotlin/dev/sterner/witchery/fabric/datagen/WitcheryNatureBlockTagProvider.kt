@@ -31,8 +31,9 @@ class WitcheryNatureBlockTagProvider(
         makeTag(provider, BlockTags.SAPLINGS, 4, 20)
         makeTag(provider, WitcheryTags.BROWN_MUCHROOM, 3, 20)
         makeTag(provider, WitcheryTags.RED_MUSHROOM, 3, 20)
-        makeTag(provider, WitcheryTags.ROWAN_LOGS, 3, 50)
+        makeTag(provider, WitcheryTags.LOGS, 3, 50)
         makeTag(provider, WitcheryTags.LEAVES, 4, 50)
+        makeTag(provider, BlockTags.LOGS, 2, 50)
         
         //1.21
         makeTag(provider, BlockTags.CAVE_VINES, 3, 20)

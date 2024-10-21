@@ -19,6 +19,7 @@ object WitcheryTags {
     val HAWTHORN_LOGS = TagKey.create(Registries.BLOCK, Witchery.id("hawthorn_logs"))
     val HAWTHORN_LOG_ITEMS = TagKey.create(Registries.ITEM, Witchery.id("hawthorn_logs"))
 
+    val LOGS = TagKey.create(Registries.BLOCK, Witchery.id("logs"))
     val LEAVES = TagKey.create(Registries.BLOCK, Witchery.id("leaves"))
     val LEAF_ITEMS = TagKey.create(Registries.ITEM, Witchery.id("leaves"))
 
