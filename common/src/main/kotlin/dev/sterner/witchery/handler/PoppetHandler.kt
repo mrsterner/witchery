@@ -39,7 +39,6 @@ object PoppetHandler {
                 player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 900, 1))
                 player.addEffect(MobEffectInstance(MobEffects.ABSORPTION, 100, 1))
                 player.addEffect(MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0))
-                player.level().broadcastEntityEvent(player, 35.toByte())
             }
 
             return itemStack != null
