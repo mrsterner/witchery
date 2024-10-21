@@ -1115,7 +1115,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(Items.ENDER_PEARL.defaultInstance)
             .addInputItem(WitcheryItems.REFINED_EVIL.get().defaultInstance)
             .addInputItem(WitcheryItems.DEMONS_BLOOD.get().defaultInstance)
-            .addInputItem(Items.AMETHYST_SHARD.defaultInstance)
+            .addInputItem(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance)
             .addOutputEntity(WitcheryEntityTypes.IMP.get())
             .setTicks(20 * 5)
             .setAltarPower(5000)
