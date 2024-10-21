@@ -1305,7 +1305,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addCommand(CommandType("witchery infusion increase {owner} 1", CommandType.TICK))
             .setInfinite(true)
             .pattern(
-                "___OOOOR___",
+                "___RRRRR___",
                 "__R_____R__",
                 "_R__RRR__R_",
                 "R__R___R__R",

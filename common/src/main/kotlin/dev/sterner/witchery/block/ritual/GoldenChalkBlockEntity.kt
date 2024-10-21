@@ -49,7 +49,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     var items: NonNullList<ItemStack> = NonNullList.withSize(16, ItemStack.EMPTY)
     private var consumedSacrifices = mutableListOf<EntityType<*>>()
-
+    private var hasRitualStarted = false
     var ritualRecipe: RitualRecipe? = null
     private var shouldRun: Boolean = false
     private var shouldStartConsumingItems: Boolean = false
@@ -79,7 +79,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             tickCounter++
 
             if (isRitualActive) {
-
                 if (ritualRecipe != null && !consumeAltarPower(level, ritualRecipe!!)) {
                     resetRitual()
                 }
@@ -99,12 +98,15 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun onStartRitual(level: Level) {
-        level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
-        ritualRecipe?.ritualType?.onStartRitual(level, blockPos, this)
-        RitualHelper.runCommand(level, blockPos, this, CommandType.START)
-        isRitualActive = true
-        shouldStartConsumingSacrifices = false
-        setChanged()
+        if (!hasRitualStarted) {
+            level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
+            ritualRecipe?.ritualType?.onStartRitual(level, blockPos, this)
+            RitualHelper.runCommand(level, blockPos, this, CommandType.START)
+            isRitualActive = true
+            shouldStartConsumingSacrifices = false
+            hasRitualStarted = true
+            setChanged()
+        }
     }
 
     private fun onTickRitual(level: Level) {
@@ -215,7 +217,9 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun resetRitual() {
-        Containers.dropContents(level, blockPos, this)
+        if (!hasRitualStarted) {
+            Containers.dropContents(level, blockPos, this)
+        }
         items = NonNullList.withSize(16, ItemStack.EMPTY)
         consumedSacrifices = mutableListOf()
 
@@ -224,6 +228,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         shouldStartConsumingItems = false
         shouldStartConsumingSacrifices = false
         isRitualActive = false
+        hasRitualStarted = false // Reset the flag when ritual ends
         tickCounter = 0
         ritualTickCounter = 0
         targetPlayer = null
@@ -442,6 +447,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         isRitualActive = pTag.getBoolean("isRitualActive")
         tickCounter = pTag.getInt("tickCounter")
         ritualTickCounter = pTag.getInt("ritualTickCounter")
+        hasRitualStarted = pTag.getBoolean("hasRitualStarted")
 
         if (pTag.contains("altarPos")) {
             cachedAltarPos = NbtUtils.readBlockPos(pTag, "altarPos").get()
@@ -500,6 +506,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putBoolean("shouldRun", shouldRun)
         tag.putBoolean("shouldStartConsuming", shouldStartConsumingSacrifices)
         tag.putBoolean("shouldStartConsumingItems", shouldStartConsumingItems)
+        tag.putBoolean("hasRitualStarted", hasRitualStarted)
 
         tag.putBoolean("isRitualActive", isRitualActive)
         tag.putInt("tickCounter", tickCounter)
