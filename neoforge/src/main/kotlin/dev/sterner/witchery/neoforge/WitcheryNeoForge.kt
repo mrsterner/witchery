@@ -155,6 +155,9 @@ object WitcheryNeoForge {
         event.registerLayerDefinition(
             SpinningWheelBlockEntityModel.LAYER_LOCATION,
             SpinningWheelBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            DistilleryGemModel.LAYER_LOCATION,
+            DistilleryGemModel::createBodyLayer)
     }
 
     private fun registerClientExtensions(event: RegisterClientExtensionsEvent) {

@@ -37,6 +37,7 @@ import net.minecraft.world.item.crafting.RecipeHolder
 import net.minecraft.world.item.crafting.RecipeManager
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import kotlin.math.min
 
 class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
@@ -83,6 +84,8 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             return
         }
         var shouldUpdateBlock = false
+        var isProcessing = false
+
         val jarStack: ItemStack = items[SLOT_JAR]
         val inputStack: ItemStack = items[SLOT_INPUT]
         val inputStack2: ItemStack = items[SLOT_EXTRA_INPUT]
@@ -95,6 +98,8 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             if (canDistill(distillingRecipe, items, maxStackSize)) {
                 cookingProgress++
+                isProcessing = true // Mark that the oven is processing a recipe
+
                 if (cookingProgress % 20 == 0) {
                     consumeAltarPower(level, distillingRecipe.value)
                 }
@@ -114,6 +119,12 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
         } else if (cookingProgress > 0) {
             cookingProgress = Mth.clamp(cookingProgress - OvenBlockEntity.BURN_COOL_SPEED, 0, cookingTotalTime)
+        }
+
+        if (isProcessing && !state.getValue(BlockStateProperties.LIT)) {
+            level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LIT, true))
+        } else if (!isProcessing && state.getValue(BlockStateProperties.LIT)) {
+            level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LIT, false))
         }
 
         if (shouldUpdateBlock) {
