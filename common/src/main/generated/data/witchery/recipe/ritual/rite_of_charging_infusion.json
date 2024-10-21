@@ -1,0 +1,47 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 40,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "R": "witchery:ritual_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [
+    {
+      "type": "tick",
+      "command": "witchery infusion increase {owner} 1"
+    }
+  ],
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:strong_regeneration"
+        }
+      },
+      "id": "minecraft:potion"
+    }
+  ],
+  "isInfinite": true,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "___OOOOR___",
+    "__R_____R__",
+    "_R__RRR__R_",
+    "R__R___R__R",
+    "R_R_____R_R",
+    "R_R__G__R_R",
+    "R_R_____R_R",
+    "R__R___R__R",
+    "_R__RRR__R_",
+    "__R_____R__",
+    "___RRRRR___"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 0
+}

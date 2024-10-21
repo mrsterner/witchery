@@ -38,7 +38,7 @@ object PlayerInfusionDataAttachment {
     @JvmStatic
     fun increaseInfusionCharge(player: Player, toAdd: Int) {
         val currentCharge = getInfusionCharge(player)
-        if (currentCharge <= MAX_CHARGE) {
+        if (currentCharge + toAdd <= MAX_CHARGE) {
             setInfusionCharge(player, currentCharge + toAdd)
         }
     }

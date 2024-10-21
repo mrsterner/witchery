@@ -27,7 +27,7 @@ object PlayerInfusionDataAttachmentImpl {
     @JvmStatic
     fun setInfusionCharge(player: Player, toBe: Int) {
         val infusion = player.getData(INFUSION_PLAYER_DATA_ATTACHMENT)
-        player.setData(INFUSION_PLAYER_DATA_ATTACHMENT, InfusionData(infusion.type, Mth.clamp(toBe,0, MAX_CHARGE)))
+        setPlayerInfusion(player, InfusionData(infusion.type, toBe))
     }
 
     @JvmStatic

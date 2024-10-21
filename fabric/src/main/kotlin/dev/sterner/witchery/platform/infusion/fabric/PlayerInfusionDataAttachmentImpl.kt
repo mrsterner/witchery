@@ -22,7 +22,7 @@ object PlayerInfusionDataAttachmentImpl {
     @JvmStatic
     fun setInfusionCharge(player: Player, toBe: Int) {
         val infusion = player.getAttachedOrCreate(INFUSION_PLAYER_DATA_TYPE)
-        player.setAttached(INFUSION_PLAYER_DATA_TYPE, InfusionData(infusion.type, toBe))
+        setPlayerInfusion(player, InfusionData(infusion.type, toBe))
     }
 
     @JvmStatic

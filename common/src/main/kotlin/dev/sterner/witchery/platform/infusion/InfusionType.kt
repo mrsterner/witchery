@@ -11,67 +11,74 @@ import net.minecraft.world.phys.EntityHitResult
 enum class InfusionType : StringRepresentable {
     NONE,
     LIGHT {
-        override fun onReleaseRightClick(player: Player, secondsHeld: Int): Int {
-            return 0
+        override fun onHoldRightClick(player: Player): Boolean {
+            if (PlayerInfusionDataAttachment.getInfusionCharge(player) > 2) {
+                LightInfusionDataAttachment.setInvisible(player, true, 20)
+                PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 2)
+                return true
+            }
+            return false
         }
     },
     OVERWORLD {
-        override fun onReleaseRightClick(player: Player, secondsHeld: Int): Int {
-            return 0
+        override fun onReleaseRightClick(player: Player, secondsHeld: Int): Boolean {
+            return false
         }
     },
     INFERNAL {
-        override fun onReleaseRightClick(player: Player, secondsHeld: Int): Int {
-            return 0
+        override fun onReleaseRightClick(player: Player, secondsHeld: Int): Boolean {
+            return false
         }
     },
     OTHERWHERE {
-        override fun onReleaseRightClick(player: Player, secondsHeld: Int): Int {
-            return 0
+        override fun onReleaseRightClick(player: Player, secondsHeld: Int): Boolean {
+            return false
         }
     };
 
-
+    open fun onHoldRightClick(player: Player): Boolean {
+        return false
+    }
     /**
      * return the cost of the ability
      */
-    open fun onReleaseRightClick(player: Player, secondsHeld: Int): Int {
-        return 0
+    open fun onReleaseRightClick(player: Player, secondsHeld: Int): Boolean {
+        return false
     }
 
     /**
      * return the cost of the ability
      */
-    open fun leftClickEntity(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Int {
-        return 0
+    open fun leftClickEntity(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Boolean {
+        return false
     }
 
     /**
      * return the cost of the ability
      */
-    open fun leftClickBlock(player: Player, blockPos: BlockPos?, direction: Direction?): Int {
-        return 0
+    open fun leftClickBlock(player: Player, blockPos: BlockPos?, direction: Direction?): Boolean {
+        return false
     }
 
     /**
      * return the cost of the ability
      */
-    open fun onReleaseRightClickShift(player: Player, secondsHeld: Int): Int {
-        return 0
+    open fun onReleaseRightClickShift(player: Player, secondsHeld: Int): Boolean {
+        return false
     }
 
     /**
      * return the cost of the ability
      */
-    open fun leftClickEntityShift(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Int {
-        return 0
+    open fun leftClickEntityShift(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Boolean {
+        return false
     }
 
     /**
      * return the cost of the ability
      */
-    open fun leftClickBlockShift(player: Player, blockPos: BlockPos?, direction: Direction?): Int {
-        return 0
+    open fun leftClickBlockShift(player: Player, blockPos: BlockPos?, direction: Direction?): Boolean {
+        return false
     }
 
     override fun getSerializedName(): String {

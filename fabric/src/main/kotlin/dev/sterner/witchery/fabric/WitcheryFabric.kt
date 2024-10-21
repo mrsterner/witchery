@@ -8,6 +8,7 @@ import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
+import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
@@ -57,6 +58,13 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
                 .persistent(InfusionData.CODEC)
                 .initializer { InfusionData(InfusionType.NONE) }
                 .buildAndRegister(InfusionData.ID)
+
+        @Suppress("UnstableApiUsage")
+        val LIGHT_INFUSION_PLAYER_DATA_TYPE: AttachmentType<LightInfusionData> =
+            AttachmentRegistry.builder<LightInfusionData>()
+                .persistent(LightInfusionData.CODEC)
+                .initializer { LightInfusionData(false, 0) }
+                .buildAndRegister(LightInfusionData.ID)
     }
 
     override fun onInitialize() {

@@ -16,6 +16,7 @@ import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
+import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
@@ -77,6 +78,16 @@ object WitcheryNeoForge {
         Supplier {
             AttachmentType.builder(Supplier { InfusionData() })
                 .serialize(InfusionData.CODEC)
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<LightInfusionData>> = ATTACHMENT_TYPES.register(
+        "light_infusion_player_data",
+        Supplier {
+            AttachmentType.builder(Supplier { LightInfusionData() })
+                .serialize(LightInfusionData.CODEC)
                 .build()
         }
     )

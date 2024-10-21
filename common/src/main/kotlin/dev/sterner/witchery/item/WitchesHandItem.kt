@@ -21,6 +21,13 @@ class WitchesHandItem(properties: Properties) : Item(properties) {
         return 72000
     }
 
+    override fun onUseTick(level: Level, livingEntity: LivingEntity, stack: ItemStack, remainingUseDuration: Int) {
+        if (livingEntity is Player) {
+            InfusionHandler.onHoldRightClick(livingEntity)
+        }
+        super.onUseTick(level, livingEntity, stack, remainingUseDuration)
+    }
+
     override fun releaseUsing(stack: ItemStack, level: Level, livingEntity: LivingEntity, timeCharged: Int) {
         super.releaseUsing(stack, level, livingEntity, timeCharged)
 

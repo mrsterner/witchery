@@ -1278,6 +1278,49 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("charge_attuned"))
 
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.GHOST_OF_THE_LIGHT.get().defaultInstance)
+            .addCommand(CommandType("witchery infusion set {owner} light", CommandType.END))
+            .setAltarPower(2000)
+            .pattern(
+                "___OOOOR___",
+                "__R_____R__",
+                "_R__RRR__R_",
+                "R__R___R__R",
+                "R_R_____R_R",
+                "R_R__G__R_R",
+                "R_R_____R_R",
+                "R__R___R__R",
+                "_R__RRR__R_",
+                "__R_____R__",
+                "___RRRRR___"
+            )
+            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .save(exporter, Witchery.id("infuse_light"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(PotionContents.createItemStack(Items.POTION, Potions.STRONG_REGENERATION))
+            .setAltarPower(40)
+            .addCommand(CommandType("witchery infusion increase {owner} 1", CommandType.TICK))
+            .setInfinite(true)
+            .pattern(
+                "___OOOOR___",
+                "__R_____R__",
+                "_R__RRR__R_",
+                "R__R___R__R",
+                "R_R_____R_R",
+                "R_R__G__R_R",
+                "R_R_____R_R",
+                "R__R___R__R",
+                "_R__RRR__R_",
+                "__R_____R__",
+                "___RRRRR___"
+            )
+            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .save(exporter, Witchery.id("rite_of_charging_infusion"))
+
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.FOUL_FUME.get().defaultInstance)
             .addInput(WitcheryItems.WOOD_ASH.get().defaultInstance)

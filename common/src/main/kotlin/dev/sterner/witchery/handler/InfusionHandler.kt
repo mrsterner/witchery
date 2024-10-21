@@ -22,27 +22,32 @@ object InfusionHandler {
         return hasWitchesHand(player) && PlayerInfusionDataAttachment.getPlayerInfusion(player).type != InfusionType.NONE
     }
 
+    fun onHoldRightClick(player: Player) {
+        if (canUse(player)) {
+            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
+            infusionType.onHoldRightClick(player)
+        }
+    }
+
     fun onHoldReleaseRightClick(player: Player, secondsHeld: Int) {
         if (canUse(player)) {
             val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
-            val cost = if (player.isShiftKeyDown) {
+            if (player.isShiftKeyDown) {
                 infusionType.onReleaseRightClickShift(player, secondsHeld)
             } else {
                 infusionType.onReleaseRightClick(player, secondsHeld)
             }
-            PlayerInfusionDataAttachment.decreaseInfusionCharge(player, cost)
         }
     }
 
     fun leftClickEntity(player: Player, level: Level?, entity: Entity?, interactionHand: InteractionHand?, entityHitResult: EntityHitResult?): EventResult? {
         if (canUse(player)) {
             val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
-            val cost = if (player.isShiftKeyDown) {
+            if (player.isShiftKeyDown) {
                 infusionType.leftClickEntityShift(player, entity, entityHitResult)
             } else {
                 infusionType.leftClickEntity(player, entity, entityHitResult)
             }
-            PlayerInfusionDataAttachment.decreaseInfusionCharge(player, cost)
 
         }
         return EventResult.pass()
@@ -56,7 +61,7 @@ object InfusionHandler {
             } else {
                 infusionType.leftClickBlock(player, blockPos, direction)
             }
-            PlayerInfusionDataAttachment.decreaseInfusionCharge(player, cost)
+            //PlayerInfusionDataAttachment.decreaseInfusionCharge(player, cost)
         }
         return EventResult.pass()
     }

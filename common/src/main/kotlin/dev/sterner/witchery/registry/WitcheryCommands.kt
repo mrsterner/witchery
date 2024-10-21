@@ -2,10 +2,12 @@ package dev.sterner.witchery.registry
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.ArgumentType
+import com.mojang.brigadier.arguments.IntegerArgumentType
 import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.platform.infusion.InfusionData
+import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
@@ -76,6 +78,30 @@ object WitcheryCommands {
                                         )
                                         1
                                     }
+                            )
+                    )
+                    .then(
+                        Commands.literal("increase") // Add 'increase' command
+                            .then(
+                                Commands.argument("player", EntityArgument.player()) // Accept player argument
+                                    .then(
+                                        Commands.argument("amount", IntegerArgumentType.integer(1)) // Accept amount argument
+                                            .executes { ctx ->
+                                                val player = EntityArgument.getPlayer(ctx, "player")
+                                                val amount = IntegerArgumentType.getInteger(ctx, "amount")
+
+                                                if (PlayerInfusionDataAttachment.getPlayerInfusion(player).type != InfusionType.NONE) {
+                                                    PlayerInfusionDataAttachment.increaseInfusionCharge(player, amount)
+                                                }
+
+                                                ctx.source.sendSuccess(
+                                                    {
+                                                        Component.literal("Increased infusion charge by $amount for player ${player.name.string}")
+                                                    }, false
+                                                )
+                                                1
+                                            }
+                                    )
                             )
                     )
             )
