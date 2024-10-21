@@ -3,10 +3,12 @@ package dev.sterner.witchery.platform.neoforge
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
-import net.minecraft.world.item.ArmorItem
-import net.minecraft.world.item.ArmorMaterial
-import net.minecraft.world.item.Item
+import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
+import net.minecraft.world.item.*
 import net.neoforged.fml.ModList
+import java.awt.Color
 
 object PlatformUtilsImpl {
 
@@ -22,6 +24,8 @@ object PlatformUtilsImpl {
 
     @JvmStatic
     fun witchesRobes(witchesRobes: RegistrySupplier<ArmorMaterial>, chestplate: ArmorItem.Type, properties: Item.Properties): ArmorItem {
-        return WitchesRobesItemNeoForge(witchesRobes, chestplate, properties)
+        return object: WitchesRobesItemNeoForge(witchesRobes, chestplate, properties) {
+
+        }
     }
 }

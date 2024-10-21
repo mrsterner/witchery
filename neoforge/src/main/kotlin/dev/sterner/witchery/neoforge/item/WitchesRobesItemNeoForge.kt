@@ -6,6 +6,8 @@ import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.HumanoidModel
 import net.minecraft.core.Holder
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
@@ -14,13 +16,31 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.*
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import org.jetbrains.annotations.NotNull
+import java.awt.Color
 import javax.annotation.Nullable
 
 
-class WitchesRobesItemNeoForge(material: Holder<ArmorMaterial>, type: Type, properties: Item.Properties) :
+open class WitchesRobesItemNeoForge(material: Holder<ArmorMaterial>, type: Type, properties: Item.Properties) :
     ArmorItem(material, type, properties) {
     override fun isRepairable(arg: ItemStack): Boolean {
         return false
+    }
+
+    override fun appendHoverText(
+        stack: ItemStack,
+        context: TooltipContext,
+        tooltipComponents: MutableList<Component>,
+        tooltipFlag: TooltipFlag
+    ) {
+        if (stack.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
+            tooltipComponents.add(Component.translatable("witchery.secondbrewbonus.25").setStyle(Style.EMPTY.withColor(Color(255,75,255).rgb)))
+            tooltipComponents.add(Component.translatable("witchery.thirdbrewbonus.25").setStyle(Style.EMPTY.withColor(Color(255,75,255).rgb)))
+        } else if(stack.`is`(WitcheryItems.WITCHES_HAT.get())) {
+            tooltipComponents.add(Component.translatable("witchery.secondbrewbonus.35").setStyle(Style.EMPTY.withColor(Color(255,75,255).rgb)))
+        } else if(stack.`is`(WitcheryItems.WITCHES_ROBES.get())) {
+            tooltipComponents.add(Component.translatable("witchery.secondbrewbonus.35").setStyle(Style.EMPTY.withColor(Color(255,75,255).rgb)))
+        }
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
 
     @Nullable
