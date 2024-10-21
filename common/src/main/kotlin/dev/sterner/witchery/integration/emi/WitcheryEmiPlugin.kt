@@ -141,6 +141,7 @@ class WitcheryEmiPlugin : EmiPlugin {
         registry.addCategory(OVEN_COOKING_CATEGORY)
         registry.addCategory(RITUAL_CATEGORY)
         registry.addCategory(DISTILLING_CATEGORY)
+        registry.addCategory(SPINNING_CATEGORY)
         val manager: RecipeManager = registry.recipeManager
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())) {

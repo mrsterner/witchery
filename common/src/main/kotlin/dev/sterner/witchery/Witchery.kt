@@ -31,6 +31,7 @@ import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.ImpEntity
 import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.handler.EquipmentHandler
 import dev.sterner.witchery.handler.InfusionHandler
 import dev.sterner.witchery.handler.PoppetHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
@@ -110,6 +111,7 @@ object Witchery {
         CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
+        EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
     }
 
     private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {
