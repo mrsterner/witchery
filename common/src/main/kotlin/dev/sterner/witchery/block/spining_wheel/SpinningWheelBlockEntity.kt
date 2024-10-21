@@ -92,7 +92,6 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 if (cookingProgress % 20 == 0) {
                     consumeAltarPower(level, spinningRecipe.value)
                 }
-                println("$cookingProgress : $cookingTotalTime")
                 if (cookingProgress == cookingTotalTime) {
                     cookingProgress = 0
                     cookingTotalTime = getTotalCookTime(level)
