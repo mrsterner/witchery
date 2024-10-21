@@ -12,10 +12,14 @@ enum class InfusionType : StringRepresentable {
     NONE,
     LIGHT {
         override fun onHoldRightClick(player: Player): Boolean {
-            if (PlayerInfusionDataAttachment.getInfusionCharge(player) > 2) {
+            val data = LightInfusionDataAttachment.isInvisible(player)
+
+            if (PlayerInfusionDataAttachment.getInfusionCharge(player) > 200 && !data.isInvisible) {
+                LightInfusionDataAttachment.setInvisible(player, true, 10)
+                PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 200)
+            } else if (PlayerInfusionDataAttachment.getInfusionCharge(player) > 2 && data.invisibleTimer > 4) {
                 LightInfusionDataAttachment.setInvisible(player, true, 6)
                 PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 2)
-                return true
             }
             return false
         }
