@@ -19,7 +19,8 @@
                   "block": "witchery:mandrake",
                   "condition": "minecraft:block_state_property",
                   "properties": {
-                    "age": "4"
+                    "age": "4",
+                    "awake": "false"
                   }
                 }
               ],
@@ -41,7 +42,8 @@
           "block": "witchery:mandrake",
           "condition": "minecraft:block_state_property",
           "properties": {
-            "age": "4"
+            "age": "4",
+            "awake": "false"
           }
         }
       ],
@@ -60,6 +62,37 @@
             }
           ],
           "name": "witchery:mandrake_seeds"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "witchery:mandrake",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "4",
+            "awake": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "witchery:mandrake_seeds"
+        }
+      ],
+      "functions": [
+        {
+          "enchantment": "minecraft:fortune",
+          "formula": "minecraft:binomial_with_bonus_count",
+          "function": "minecraft:apply_bonus",
+          "parameters": {
+            "extra": 3,
+            "probability": 0.5714286
+          }
         }
       ],
       "rolls": 1.0

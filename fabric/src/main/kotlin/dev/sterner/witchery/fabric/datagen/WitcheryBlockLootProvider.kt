@@ -1,5 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.sterner.witchery.block.MandrakeCropBlock
 import dev.sterner.witchery.block.WitcheryCropBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
@@ -9,13 +10,13 @@ import net.minecraft.advancements.critereon.StatePropertiesPredicate
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.Items
 import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount
 import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
@@ -174,8 +175,11 @@ class WitcheryBlockLootProvider(
         }
 
         val builder: LootItemCondition.Builder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(
-            WitcheryBlocks.MANDRAKE_CROP.get()
-        ).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WitcheryCropBlock.AGE, 4))
+            WitcheryBlocks.MANDRAKE_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties()
+                .hasProperty(WitcheryCropBlock.AGE, 4).hasProperty(MandrakeCropBlock.AWAKE, false))
+        val otherBuilder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(
+            WitcheryBlocks.MANDRAKE_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties()
+                .hasProperty(WitcheryCropBlock.AGE, 4).hasProperty(MandrakeCropBlock.AWAKE, true))
         val builder2: LootItemCondition.Builder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(
             WitcheryBlocks.BELLADONNAE_CROP.get()
         ).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WitcheryCropBlock.AGE, 4))
@@ -197,7 +201,7 @@ class WitcheryBlockLootProvider(
 
 
 
-        add(WitcheryBlocks.MANDRAKE_CROP.get(), createCropDrops(WitcheryBlocks.MANDRAKE_CROP.get(),WitcheryItems.MANDRAKE_ROOT.get(), WitcheryItems.MANDRAKE_SEEDS.get(), builder))
+        add(WitcheryBlocks.MANDRAKE_CROP.get(), createMandrakeCropDrops(WitcheryBlocks.MANDRAKE_CROP.get(),WitcheryItems.MANDRAKE_ROOT.get(), WitcheryItems.MANDRAKE_SEEDS.get(), builder, otherBuilder))
         add(WitcheryBlocks.BELLADONNAE_CROP.get(), createCropDrops(WitcheryBlocks.BELLADONNAE_CROP.get(),WitcheryItems.BELLADONNA_FLOWER.get(), WitcheryItems.BELLADONNA_SEEDS.get(), builder2))
         add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),createCropDrops(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), WitcheryItems.WATER_ARTICHOKE_SEEDS.get(), builder4))
         add(WitcheryBlocks.SNOWBELL_CROP.get(),createCropDrops(WitcheryBlocks.SNOWBELL_CROP.get(),WitcheryItems.ICY_NEEDLE.get(), WitcheryItems.SNOWBELL_SEEDS.get(), builder3))
@@ -224,6 +228,14 @@ class WitcheryBlockLootProvider(
                     )
                 )
             )
+        )
+    }
+
+    fun createMandrakeCropDrops(cropBlock: Block, cropItem: Item, seedsItem: Item, sleepBuilder: LootItemCondition.Builder, awakeBuilder: LootItemCondition.Builder): LootTable.Builder {
+        val registryLookup = registries.lookupOrThrow(Registries.ENCHANTMENT)
+        return createCropDrops(WitcheryBlocks.MANDRAKE_CROP.get(),WitcheryItems.MANDRAKE_ROOT.get(), WitcheryItems.MANDRAKE_SEEDS.get(), sleepBuilder).withPool(
+            LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).`when`(awakeBuilder).
+            add(LootItem.lootTableItem(seedsItem)).apply(ApplyBonusCount.addBonusBinomialDistributionCount(registryLookup.getOrThrow(Enchantments.FORTUNE), 0.5714286F, 3))
         )
     }
 }
