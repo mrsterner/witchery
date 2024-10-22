@@ -134,12 +134,15 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
         }
 
         private fun trySneakyTaglocking(player: Player, target: Player): Boolean {
-            val delta = abs(target.yHeadRot + 90.0f) % 360.0f - (player.yHeadRot + 90.0f) % 360.0f
+            val delta = (target.yHeadRot - player.yHeadRot + 360.0f) % 360.0f
             var chance = if (player.isInvisible) 0.5f else 0.1f
+
             val lightLevelPenalty: Double = 0.25 * (player.level().getMaxLocalRawBrightness(player.onPos) / 15.0)
-            if (360.0 - delta % 360.0 < 90 || delta % 360.0 < 90) {
+
+            if (delta < 90.0f || delta > 270.0f) {
                 chance += if (player.isShiftKeyDown) 0.45f else 0.25f
             }
+
             return player.random.nextDouble() < chance - lightLevelPenalty
         }
 
