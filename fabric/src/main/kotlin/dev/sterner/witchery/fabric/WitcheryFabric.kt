@@ -2,7 +2,7 @@ package dev.sterner.witchery.fabric
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
-import dev.sterner.witchery.fabric.client.SWISTER
+import dev.sterner.witchery.fabric.client.SpinningWheelDynamicRenderer
 import dev.sterner.witchery.fabric.client.WitchesRobesArmorRendererFabric
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
 import dev.sterner.witchery.platform.AltarDataAttachment
@@ -23,7 +23,6 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents
 import net.fabricmc.fabric.api.loot.v3.LootTableSource
-import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.minecraft.core.HolderLookup
 import net.minecraft.resources.ResourceKey
@@ -77,7 +76,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register(WitcheryCreativeModeTabs::modifyExistingTabs)
 
-        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.SPINNING_WHEEL.get(), SWISTER())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.SPINNING_WHEEL.get(), SpinningWheelDynamicRenderer())
 
         StrippableBlockRegistry.register(WitcheryBlocks.ROWAN_LOG.get(), WitcheryBlocks.STRIPPED_ROWAN_LOG.get())
         StrippableBlockRegistry.register(WitcheryBlocks.ROWAN_WOOD.get(), WitcheryBlocks.STRIPPED_ROWAN_WOOD.get())

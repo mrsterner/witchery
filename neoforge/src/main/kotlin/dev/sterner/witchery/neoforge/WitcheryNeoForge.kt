@@ -1,7 +1,5 @@
 package dev.sterner.witchery.neoforge
 
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
@@ -10,9 +8,8 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
-import dev.sterner.witchery.entity.OwlEntity
-import dev.sterner.witchery.neoforge.client.SWISTER
-import dev.sterner.witchery.neoforge.client.SWISTERInstance
+import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import dev.sterner.witchery.platform.AltarDataAttachment
@@ -196,7 +193,7 @@ object WitcheryNeoForge {
     private fun registerClientExtensions(event: RegisterClientExtensionsEvent) {
         event.registerItem(WitchesRobesItemNeoForge.ArmorRender.INSTANCE, WITCHES_ROBES.get(), WITCHES_HAT.get(), WITCHES_SLIPPERS.get(), BABA_YAGAS_HAT.get())
 
-        event.registerItem(SWISTERInstance(SWISTER()), WitcheryItems.SPINNING_WHEEL.get())
+        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(SpinningWheelBlockEntityWithoutLevelRenderer()), WitcheryItems.SPINNING_WHEEL.get())
 
     }
 
