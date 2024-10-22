@@ -189,18 +189,10 @@ object WitcheryNeoForge {
 
     @SubscribeEvent
     private fun registerScreens(event: RegisterMenuScreensEvent) {
-        event.register(WitcheryMenuTypes.OVEN_MENU_TYPE.get()) { arg, arg2, arg3 ->
-            OvenScreen(arg, arg2, arg3)
-        }
-        event.register(WitcheryMenuTypes.ALTAR_MENU_TYPE.get()) { arg, arg2, arg3 ->
-            AltarScreen(arg, arg2, arg3)
-        }
-        event.register(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get()) { arg, arg2, arg3 ->
-            DistilleryScreen(arg, arg2, arg3)
-        }
-        event.register(WitcheryMenuTypes.SPINNING_WHEEL_MENU_TYPE.get()) { arg, arg2, arg3 ->
-            SpinningWheelScreen(arg, arg2, arg3)
-        }
+        event.register(WitcheryMenuTypes.OVEN_MENU_TYPE.get(), ::OvenScreen)
+        event.register(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
+        event.register(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get(), ::DistilleryScreen)
+        event.register(WitcheryMenuTypes.SPINNING_WHEEL_MENU_TYPE.get(), ::SpinningWheelScreen)
     }
 
     @SubscribeEvent

@@ -4,6 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.fabric.client.SWISTER
 import dev.sterner.witchery.fabric.client.WitchesRobesArmorRendererFabric
+import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
 import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
@@ -88,36 +89,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         StrippableBlockRegistry.register(WitcheryBlocks.HAWTHORN_WOOD.get(), WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get())
 
         WitcheryFlammability.register()
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.COPPER_WITCHES_OVEN.get(), WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN.get())
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN.get(), WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN.get())
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN.get(), WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN.get())
-
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.COPPER_WITCHES_OVEN.get(), WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN.get())
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN.get(), WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN.get())
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN.get(), WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN.get())
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN.get(), WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get())
-
-
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.COPPER_CAULDRON.get(), WitcheryBlocks.EXPOSED_COPPER_CAULDRON.get())
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.EXPOSED_COPPER_CAULDRON.get(), WitcheryBlocks.WEATHERED_COPPER_CAULDRON.get())
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.WEATHERED_COPPER_CAULDRON.get(), WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get())
-
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.COPPER_CAULDRON.get(), WitcheryBlocks.WAXED_COPPER_CAULDRON.get())
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.EXPOSED_COPPER_CAULDRON.get(), WitcheryBlocks.WAXED_EXPOSED_COPPER_CAULDRON.get())
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.WEATHERED_COPPER_CAULDRON.get(), WitcheryBlocks.WAXED_WEATHERED_COPPER_CAULDRON.get())
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get(), WitcheryBlocks.WAXED_OXIDIZED_COPPER_CAULDRON.get())
-
-
-
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-        OxidizableBlocksRegistry.registerWaxableBlockPair(WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-
+        WitcheryOxidizables.register()
     }
 
     private fun addEntityDrops(resourceKey: ResourceKey<LootTable>?, builder: LootTable.Builder, lootTableSource: LootTableSource, provider: HolderLookup.Provider) {
