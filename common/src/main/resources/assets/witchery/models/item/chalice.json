@@ -6,7 +6,7 @@
   "overrides": [
     {
       "predicate": {
-        "witchery:has_soup": 1
+        "witchery:expired": 1
       },
       "model": "witchery:item/chalice_filled"
     }

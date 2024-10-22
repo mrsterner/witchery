@@ -9,6 +9,7 @@ import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
@@ -17,8 +18,11 @@ import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.storage.loot.LootParams
 import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.phys.shapes.VoxelShape
 
-class ChaliceBlock(properties: Properties): Block(properties) {
+class ChaliceBlock(properties: Properties): Block(properties.noOcclusion()) {
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         super.createBlockStateDefinition(builder.add(HAS_SOUP))
     }
@@ -73,6 +77,10 @@ class ChaliceBlock(properties: Properties): Block(properties) {
         // TODO: Funni Idea: Drink the Soup?
 
         return super.useWithoutItem(state, level, pos, player, hitResult)
+    }
+
+    override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
+        return Shapes.box(5.0 / 16, 0.0, 5.0 / 16, 11.0 / 16, 10.0 / 16, 11.0 / 16)
     }
 
     companion object {

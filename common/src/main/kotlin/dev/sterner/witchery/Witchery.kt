@@ -314,7 +314,8 @@ object Witchery {
             WitcheryBlocks.DISTILLERY.get(),
             WitcheryBlocks.DEMON_HEART.get(),
             WitcheryBlocks.BLOOD_POPPY.get(),
-            WitcheryBlocks.ARTHANA.get()
+            WitcheryBlocks.ARTHANA.get(),
+            WitcheryBlocks.CHALICE.get()
         )
     }
 
