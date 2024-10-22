@@ -178,6 +178,9 @@ object WitcheryNeoForge {
         event.registerLayerDefinition(
             OwlEntityModel.LAYER_LOCATION,
             OwlEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            BroomEntityModel.LAYER_LOCATION,
+            BroomEntityModel::createBodyLayer)
     }
 
     private fun registerClientExtensions(event: RegisterClientExtensionsEvent) {

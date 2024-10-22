@@ -36,6 +36,14 @@ object WitcheryEntityTypes {
         ).sized(0.35F, 0.6F).eyeHeight(0.36F).build(Witchery.id("owl").toString())
     }
 
+    val BROOM = ENTITY_TYPES.register("broom") {
+        EntityType.Builder.of(
+            { _: EntityType<BroomEntity>, level: Level ->
+                BroomEntity(level)
+            }, MobCategory.MISC
+        ).sized(0.35F, 0.6F).eyeHeight(0.36F).build(Witchery.id("broom").toString())
+    }
+
     val FLOATING_ITEM =
         ENTITY_TYPES.register(
             "floating_item"
