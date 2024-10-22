@@ -33,6 +33,7 @@ import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.ImpEntity
 import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.entity.OwlEntity
 import dev.sterner.witchery.handler.EquipmentHandler
 import dev.sterner.witchery.handler.InfusionHandler
 import dev.sterner.witchery.handler.PoppetHandler
@@ -96,6 +97,7 @@ object Witchery {
 
         EntityAttributeRegistry.register(WitcheryEntityTypes.MANDRAKE, MandrakeEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.IMP, ImpEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.OWL, OwlEntity::createAttributes)
 
         LootEvent.MODIFY_LOOT_TABLE.register(::addSeeds)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
@@ -200,6 +202,8 @@ object Witchery {
         EntityModelLayerRegistry.register(MandrakeEntityModel.LAYER_LOCATION) { MandrakeEntityModel.createBodyLayer() }
         EntityRendererRegistry.register(WitcheryEntityTypes.IMP) { ImpEntityRenderer(it) }
         EntityModelLayerRegistry.register(ImpEntityModel.LAYER_LOCATION) { ImpEntityModel.createBodyLayer() }
+        EntityRendererRegistry.register(WitcheryEntityTypes.OWL) { OwlEntityRenderer(it) }
+        EntityModelLayerRegistry.register(OwlEntityModel.LAYER_LOCATION) { OwlEntityModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_BOAT) { context -> BoatRenderer(context, false) }
         EntityModelLayerRegistry.register(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)

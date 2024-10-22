@@ -1,11 +1,13 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.tags.BlockTags
 import net.minecraft.util.Mth
+import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.AgeableMob
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.PathfinderMob
@@ -25,7 +27,7 @@ import net.minecraft.world.level.block.LeavesBlock
 import net.minecraft.world.level.pathfinder.PathType
 import net.minecraft.world.phys.Vec3
 
-class OwlEntity(entityType: EntityType<out TamableAnimal>, level: Level) : TamableAnimal(entityType, level),
+class OwlEntity(level: Level) : TamableAnimal(WitcheryEntityTypes.OWL.get(), level),
     FlyingAnimal {
 
     var flap: Float = 0f
@@ -57,12 +59,14 @@ class OwlEntity(entityType: EntityType<out TamableAnimal>, level: Level) : Tamab
         goalSelector.addGoal(3, FollowMobGoal(this, 1.0, 3.0f, 7.0f))
     }
 
-    fun createAttributes(): AttributeSupplier.Builder {
-        return createMobAttributes()
-            .add(Attributes.MAX_HEALTH, 6.0)
-            .add(Attributes.FLYING_SPEED, 0.4)
-            .add(Attributes.MOVEMENT_SPEED, 0.2)
-            .add(Attributes.ATTACK_DAMAGE, 3.0)
+    companion object {
+        fun createAttributes(): AttributeSupplier.Builder {
+            return createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 6.0)
+                .add(Attributes.FLYING_SPEED, 0.4)
+                .add(Attributes.MOVEMENT_SPEED, 0.2)
+                .add(Attributes.ATTACK_DAMAGE, 3.0)
+        }
     }
 
     override fun createNavigation(level: Level): PathNavigation {
@@ -114,6 +118,9 @@ class OwlEntity(entityType: EntityType<out TamableAnimal>, level: Level) : Tamab
         return !this.onGround()
     }
 
+    override fun causeFallDamage(fallDistance: Float, multiplier: Float, source: DamageSource): Boolean {
+        return false
+    }
 
     class OwlWanderGoal(pathfinderMob: PathfinderMob, d: Double) :
         WaterAvoidingRandomFlyingGoal(pathfinderMob, d) {
