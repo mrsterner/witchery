@@ -313,7 +313,8 @@ object Witchery {
             WitcheryBlocks.POTTED_HAWTHORN_SAPLING.get(),
             WitcheryBlocks.DISTILLERY.get(),
             WitcheryBlocks.DEMON_HEART.get(),
-            WitcheryBlocks.BLOOD_POPPY.get()
+            WitcheryBlocks.BLOOD_POPPY.get(),
+            WitcheryBlocks.ARTHANA.get()
         )
     }
 
