@@ -5,6 +5,7 @@ import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.client.renderer.*
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
@@ -131,6 +132,12 @@ object WitcheryNeoForge {
     private fun onEntityRendererRegistry(event: EntityRenderersEvent.RegisterRenderers) {
         event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_BOAT.get()) { context -> BoatRenderer(context, false) }
         event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()) { context -> BoatRenderer(context, true) }
+
+        event.registerEntityRenderer(WitcheryEntityTypes.BROOM.get(), ::BroomEntityRenderer)
+        event.registerEntityRenderer(WitcheryEntityTypes.IMP.get(), ::ImpEntityRenderer)
+        event.registerEntityRenderer(WitcheryEntityTypes.MANDRAKE.get(), ::MandrakeEntityRenderer)
+        event.registerEntityRenderer(WitcheryEntityTypes.OWL.get(), ::OwlEntityRenderer)
+        event.registerEntityRenderer(WitcheryEntityTypes.FLOATING_ITEM.get(), ::FloatingItemEntityRenderer)
     }
 
     @SubscribeEvent
@@ -170,6 +177,9 @@ object WitcheryNeoForge {
         event.registerLayerDefinition(
             DistilleryGemModel.LAYER_LOCATION,
             DistilleryGemModel::createBodyLayer)
+
+        event.registerLayerDefinition(
+            MandrakeEntityModel.LAYER_LOCATION) { MandrakeEntityModel.createBodyLayer() }
 
 
         event.registerLayerDefinition(

@@ -172,6 +172,10 @@ class FloatingItemEntity(level: Level) : Entity(WitcheryEntityTypes.FLOATING_ITE
         return (this.age.toFloat() + partialTick) / 20.0f + this.bobOffs
     }
 
+    override fun isPickable(): Boolean {
+        return true
+    }
+
     companion object {
         val DATA_ITEM_STACK: EntityDataAccessor<ItemStack> = SynchedEntityData.defineId(
             FloatingItemEntity::class.java, EntityDataSerializers.ITEM_STACK

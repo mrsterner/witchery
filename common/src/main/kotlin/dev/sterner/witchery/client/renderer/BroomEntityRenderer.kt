@@ -26,7 +26,8 @@ class BroomEntityRenderer(val ctx: EntityRendererProvider.Context) : EntityRende
     ) {
 
         poseStack.pushPose()
-        poseStack.mulPose(Axis.YP.rotationDegrees(entityYaw))
+        poseStack.translate(0.0, -1.0, 0.0)
+        poseStack.mulPose(Axis.YP.rotationDegrees(180 - entityYaw))
         broomModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityTranslucent(getTextureLocation(entity))), packedLight, OverlayTexture.NO_OVERLAY)
         poseStack.popPose()
 

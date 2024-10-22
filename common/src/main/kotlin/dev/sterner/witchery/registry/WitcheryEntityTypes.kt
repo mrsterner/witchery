@@ -41,7 +41,7 @@ object WitcheryEntityTypes {
             { _: EntityType<BroomEntity>, level: Level ->
                 BroomEntity(level)
             }, MobCategory.MISC
-        ).sized(0.35F, 0.6F).eyeHeight(0.36F).build(Witchery.id("broom").toString())
+        ).sized(1.0F, 0.6F).clientTrackingRange(10) .build(Witchery.id("broom").toString())
     }
 
     val FLOATING_ITEM =

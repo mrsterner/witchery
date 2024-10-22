@@ -40,6 +40,10 @@ object WitcheryItems {
         WitchesHandItem(Item.Properties().stacksTo(1))
     }
 
+    val BROOM =  ITEMS.register("broom") {
+        BroomItem(Item.Properties().stacksTo(1))
+    }
+
     //start ARMOR
 
     val WITCHES_HAT = ITEMS.register("witches_hat") {
