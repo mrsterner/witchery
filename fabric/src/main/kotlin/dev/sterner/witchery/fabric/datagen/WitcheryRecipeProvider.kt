@@ -635,7 +635,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('I', Items.GOLD_INGOT)
             .define('N', Items.GOLD_NUGGET)
             .define('E', Items.EMERALD)
-            .define('S', Items.STICK)
+            .define('S', Items.BONE)
             .unlockedBy("has_gold", has(Items.GOLD_INGOT))
             .save(exporter)
 

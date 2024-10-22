@@ -262,6 +262,12 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
 
 
+        builder.add("witchery:ritual/rite_of_charging_infusion", "Rite of Charging")
+        builder.add("witchery:ritual/rite_of_charging_infusion.tooltip", "Charges the power of an Infused player")
+        builder.add("witchery:ritual/infuse_light", "Infusion of Light")
+        builder.add("witchery:ritual/infuse_light.tooltip", "Infuses the player with the Ghost of the Light")
+        builder.add("witchery:ritual/infuse_otherwhere", "Infusion of Otherwhere")
+        builder.add("witchery:ritual/infuse_otherwhere.tooltip", "Infuses the player with the Spirit of Otherwhere")
 
         builder.add("witchery:ritual/charge_attuned", "Rite of Charging")
         builder.add("witchery:ritual/charge_attuned.tooltip", "Charges an Attuned Stone with 2000 Altar Power")
