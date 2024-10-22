@@ -14,7 +14,8 @@
     "ItemStackMixin",
     "LecternBlockMixin",
     "LevelChunkMixin",
-    "LightningBoltMixin"
+    "LightningBoltMixin",
+    "ShapelessRecipeAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

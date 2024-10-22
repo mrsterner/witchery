@@ -3,6 +3,7 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "witchery:block/chalice",
+		"1": "witchery:block/chalice_liquid",
 		"particle": "witchery:block/chalice"
 	},
 	"elements": [
@@ -96,6 +97,19 @@
 				"up": {"uv": [12, 3, 9, 0], "texture": "#0"},
 				"down": {"uv": [6, 9, 3, 12], "texture": "#0"}
 			}
+		},
+		{
+			"from": [5.01, 7.01, 5.01],
+			"to": [10.99, 8.99, 10.99],
+			"rotation": {"angle": 0, "axis": "y", "origin": [5, 7, 5]},
+			"faces": {
+				"north": {"uv": [0, 0, 3, 1], "texture": "#missing"},
+				"east": {"uv": [0, 0, 3, 1], "texture": "#missing"},
+				"south": {"uv": [0, 0, 3, 1], "texture": "#missing"},
+				"west": {"uv": [0, 0, 3, 1], "texture": "#missing"},
+				"up": {"uv": [6, 0, 12, 6], "texture": "#1"},
+				"down": {"uv": [0, 0, 3, 3], "texture": "#missing"}
+			}
 		}
 	],
 	"display": {
@@ -122,6 +136,7 @@
 			"origin": [3, 0, 0],
 			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6]
-		}
+		},
+		7
 	]
 }

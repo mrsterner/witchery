@@ -3,6 +3,7 @@ package dev.sterner.witchery.fabric.datagen
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.block.ritual.RitualHelper
+import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
@@ -15,6 +16,8 @@ import dev.sterner.witchery.ritual.PushMobsRitual
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.NonNullList
+import net.minecraft.core.component.DataComponentMap
 import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.RecipeOutput
@@ -41,6 +44,14 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
     FabricRecipeProvider(output, registriesFuture) {
 
     override fun buildRecipes(exporter: RecipeOutput) {
+
+        val map = DataComponentMap.builder().set(WitcheryDataComponents.HAS_SOUP.get(), true).build()
+        val list = NonNullList.create<Ingredient>()
+        list.add(Ingredient.of(WitcheryItems.CHALICE.get()))
+        list.add(Ingredient.of(WitcheryItems.REDSTONE_SOUP.get()))
+
+        ShapelessRecipeWithComponentsBuilder.create(RecipeCategory.MISC, WitcheryItems.CHALICE.get(), map)
+            .offerTo(exporter, Witchery.id("fill_chalice"), list)
 
         SpinningWheelRecipeBuilder.create()
             .addInput(Items.HAY_BLOCK.defaultInstance)
