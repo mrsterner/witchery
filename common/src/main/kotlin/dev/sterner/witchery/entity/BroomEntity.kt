@@ -20,6 +20,8 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         return false
     }
 
+
+
     override fun interact(player: Player, hand: InteractionHand): InteractionResult {
         if (!level().isClientSide) {
             player.startRiding(this)
