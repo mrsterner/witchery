@@ -9,6 +9,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.entity.OwlEntity
 import dev.sterner.witchery.neoforge.client.SWISTER
 import dev.sterner.witchery.neoforge.client.SWISTERInstance
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
@@ -169,6 +170,14 @@ object WitcheryNeoForge {
         event.registerLayerDefinition(
             DistilleryGemModel.LAYER_LOCATION,
             DistilleryGemModel::createBodyLayer)
+
+
+        event.registerLayerDefinition(
+            ImpEntityModel.LAYER_LOCATION,
+            ImpEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            OwlEntityModel.LAYER_LOCATION,
+            OwlEntityModel::createBodyLayer)
     }
 
     private fun registerClientExtensions(event: RegisterClientExtensionsEvent) {
