@@ -32,11 +32,7 @@ class WitchesHandItem(properties: Properties) : Item(properties) {
         super.releaseUsing(stack, level, livingEntity, timeCharged)
 
         if (livingEntity is Player) {
-            val totalHeldTicks = getUseDuration(stack, livingEntity) - timeCharged
-
-            if (totalHeldTicks >= 20) {
-                InfusionHandler.onHoldReleaseRightClick(livingEntity, totalHeldTicks % 20)
-            }
+            InfusionHandler.onHoldReleaseRightClick(livingEntity)
         }
     }
 

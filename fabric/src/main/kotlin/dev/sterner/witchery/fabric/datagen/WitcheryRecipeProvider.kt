@@ -1311,6 +1311,27 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter, Witchery.id("infuse_light"))
 
         RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.SPIRIT_OF_OTHERWHERE.get().defaultInstance)
+            .setAltarPower(2000)
+            .addCommand(CommandType("witchery infusion setAndKill {owner} otherwhere", CommandType.END))
+            .pattern(
+                "___RRRRR___",
+                "__R_____R__",
+                "_R__RRR__R_",
+                "R__R___R__R",
+                "R_R_____R_R",
+                "R_R__G__R_R",
+                "R_R_____R_R",
+                "R__R___R__R",
+                "_R__RRR__R_",
+                "__R_____R__",
+                "___RRRRR___"
+            )
+            .define('R', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .save(exporter, Witchery.id("infuse_otherwhere"))
+
+        RitualRecipeBuilder.create()
             .addInputItem(PotionContents.createItemStack(Items.POTION, Potions.STRONG_REGENERATION))
             .setAltarPower(40)
             .addCommand(CommandType("witchery infusion increase {owner} 1", CommandType.TICK))

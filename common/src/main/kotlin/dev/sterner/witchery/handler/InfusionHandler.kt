@@ -38,13 +38,13 @@ object InfusionHandler {
         }
     }
 
-    fun onHoldReleaseRightClick(player: Player, secondsHeld: Int) {
+    fun onHoldReleaseRightClick(player: Player) {
         if (canUse(player)) {
             val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
             if (player.isShiftKeyDown) {
-                infusionType.onReleaseRightClickShift(player, secondsHeld)
+                infusionType.onReleaseRightClickShift(player)
             } else {
-                infusionType.onReleaseRightClick(player, secondsHeld)
+                infusionType.onReleaseRightClick(player)
             }
         }
     }

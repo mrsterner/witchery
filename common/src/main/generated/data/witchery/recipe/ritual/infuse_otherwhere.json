@@ -1,0 +1,42 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 2000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "R": "witchery:otherwhere_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [
+    {
+      "type": "end",
+      "command": "witchery infusion setAndKill {owner} otherwhere"
+    }
+  ],
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:spirit_of_otherwhere"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "___RRRRR___",
+    "__R_____R__",
+    "_R__RRR__R_",
+    "R__R___R__R",
+    "R_R_____R_R",
+    "R_R__G__R_R",
+    "R_R_____R_R",
+    "R__R___R__R",
+    "_R__RRR__R_",
+    "__R_____R__",
+    "___RRRRR___"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 0
+}
