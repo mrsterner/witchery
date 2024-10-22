@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
@@ -146,6 +147,13 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::SpinningWheelBlockEntity,
             WitcheryBlocks.SPINNING_WHEEL.get()
+        ).build(null)
+    }
+
+    val ARTHANA = BLOCK_ENTITY_TYPES.register("arthana") {
+        BlockEntityType.Builder.of(
+            ::ArthanaBlockEntity,
+            WitcheryBlocks.ARTHANA.get()
         ).build(null)
     }
 }
