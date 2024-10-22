@@ -34,7 +34,8 @@ class WitcheryNatureBlockTagProvider(
         makeTag(provider, WitcheryTags.LOGS, 3, 50)
         makeTag(provider, WitcheryTags.LEAVES, 4, 50)
         makeTag(provider, BlockTags.LOGS, 2, 50)
-        
+        makeTag(provider, BlockTags.LEAVES, 3, 100)
+
         //1.21
         makeTag(provider, BlockTags.CAVE_VINES, 3, 20)
         makeTag(provider, WitcheryTags.TORCHFLOWER, 4, 30)  // Torchflower crop and block
@@ -48,6 +49,7 @@ class WitcheryNatureBlockTagProvider(
         makeTag(provider, WitcheryTags.CRIMSON_FUNGUS, 3, 40) // Crimson fungus + nether wart block
         makeTag(provider, WitcheryTags.WARPED_FUNGUS, 3, 40)  // Warped fungus + warped wart block
         makeTag(provider, WitcheryTags.NETHER_FOLIAGE, 4, 40) // Crimson roots, warped roots, nether sprouts
+        makeTag(provider, WitcheryTags.OVERWORLD_FOLIAGE, 3, 50)
         makeTag(provider, WitcheryTags.BIG_DRIPLEAF, 3, 60)
         makeTag(provider, WitcheryTags.KELP, 1, 80)
         makeTag(provider, BlockTags.CORAL_BLOCKS, 4, 40)

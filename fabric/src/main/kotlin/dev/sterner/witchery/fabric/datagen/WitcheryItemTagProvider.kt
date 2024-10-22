@@ -203,7 +203,8 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
         getOrCreateTagBuilder(ItemTags.PIGLIN_LOVED).add(
             WitcheryItems.GOLDEN_CHALK.get(),
             WitcheryItems.ARTHANA.get(),
-            WitcheryItems.CHALICE.get()
+            WitcheryItems.CHALICE.get(),
+            WitcheryItems.GOLDEN_THREAD.get()
         )
 
         getOrCreateTagBuilder(ItemTags.SWORD_ENCHANTABLE)
