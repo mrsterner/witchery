@@ -1,0 +1,30 @@
+{
+  "values": [
+    "witchery:iron_witches_oven_fume_extension_component",
+    "witchery:iron_witches_oven",
+    "witchery:iron_witches_oven_fume_extension",
+    "witchery:cauldron",
+    "witchery:cauldron_component",
+    "witchery:copper_cauldron",
+    "witchery:waxed_copper_cauldron",
+    "witchery:exposed_copper_cauldron",
+    "witchery:waxed_exposed_copper_cauldron",
+    "witchery:weathered_copper_cauldron",
+    "witchery:waxed_weathered_copper_cauldron",
+    "witchery:oxidized_copper_cauldron",
+    "witchery:waxed_oxidized_copper_cauldron",
+    "witchery:copper_witches_oven_fume_extension",
+    "witchery:waxed_copper_witches_oven_fume_extension",
+    "witchery:exposed_copper_witches_oven_fume_extension",
+    "witchery:waxed_exposed_copper_witches_oven_fume_extension",
+    "witchery:weathered_copper_witches_oven_fume_extension",
+    "witchery:waxed_weathered_copper_witches_oven_fume_extension",
+    "witchery:oxidized_copper_witches_oven_fume_extension",
+    "witchery:waxed_oxidized_copper_witches_oven_fume_extension",
+    "witchery:altar",
+    "witchery:altar_component",
+    "witchery:deepslate_altar_block",
+    "witchery:distillery",
+    "witchery:distillery_component"
+  ]
+}

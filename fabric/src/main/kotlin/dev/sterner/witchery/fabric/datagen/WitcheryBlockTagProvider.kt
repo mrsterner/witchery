@@ -18,6 +18,35 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {
 
+        getOrCreateTagBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
+            .add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get())
+            .add(WitcheryBlocks.IRON_WITCHES_OVEN.get())
+            .add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
+            .add(WitcheryBlocks.CAULDRON.get())
+            .add(WitcheryBlocks.CAULDRON_COMPONENT.get())
+            .add(WitcheryBlocks.COPPER_CAULDRON.get())
+            .add(WitcheryBlocks.WAXED_COPPER_CAULDRON.get())
+            .add(WitcheryBlocks.EXPOSED_COPPER_CAULDRON.get())
+            .add(WitcheryBlocks.WAXED_EXPOSED_COPPER_CAULDRON.get())
+            .add(WitcheryBlocks.WEATHERED_COPPER_CAULDRON.get())
+            .add(WitcheryBlocks.WAXED_WEATHERED_COPPER_CAULDRON.get())
+            .add(WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get())
+            .add(WitcheryBlocks.WAXED_OXIDIZED_COPPER_CAULDRON.get())
+            .add(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+            .add(WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+            .add(WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+            .add(WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+            .add(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+            .add(WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+            .add(WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+            .add(WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+            .add(WitcheryBlocks.ALTAR.get())
+            .add(WitcheryBlocks.ALTAR_COMPONENT.get())
+            .add(WitcheryBlocks.DEEPLSTAE_ALTAR_BLOCK.get())
+            .add(WitcheryBlocks.DISTILLERY.get())
+            .add(WitcheryBlocks.DISTILLERY_COMPONENT.get())
+
+
         getOrCreateTagBuilder(WitcheryTags.LEAVES).add(
             WitcheryBlocks.ROWAN_LEAVES.get(),
             WitcheryBlocks.ROWAN_BERRY_LEAVES.get(),
