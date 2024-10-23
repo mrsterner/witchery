@@ -10,10 +10,6 @@ import net.minecraft.world.level.block.Blocks
 
 class WaterCropBlockItem(val cropBlock: Block, properties: Properties) : ItemNameBlockItem(cropBlock, properties) {
 
-    init {
-        Items.BUCKET
-    }
-
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
         val blockHitResult = getPlayerPOVHitResult(
