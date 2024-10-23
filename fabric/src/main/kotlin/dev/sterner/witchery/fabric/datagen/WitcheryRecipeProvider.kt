@@ -1139,21 +1139,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutputEntity(WitcheryEntityTypes.IMP.get())
             .setTicks(20 * 5)
             .setAltarPower(5000)
-            .pattern(
-                "___OOOOO___",
-                "__O_____O__",
-                "_O_______O_",
-                "O_________O",
-                "O_________O",
-                "O____G____O",
-                "O_________O",
-                "O_________O",
-                "_O_______O_",
-                "__O_____O__",
-                "___OOOOO___"
-            )
-            .define('O', WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("summon_imp"))
 
         RitualRecipeBuilder.create()
@@ -1164,38 +1150,14 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addCommand(CommandType("tp {taglockPlayerOrEntity} {waystonePos}", CommandType.END))
             .setTicks(20 * 2)
             .setAltarPower(3000)
-            .pattern(
-                "___OOOOO___",
-                "__O_____O__",
-                "_O_______O_",
-                "O_________O",
-                "O_________O",
-                "O____G____O",
-                "O_________O",
-                "O_________O",
-                "_O_______O_",
-                "__O_____O__",
-                "___OOOOO___"
-            )
-            .define('O', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addMediumPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("teleport_taglock_to_waystone"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
             .addCommand(CommandType("tp {owner} {waystonePos}", CommandType.END))
             .setTicks(20)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("teleport_owner_to_waystone"))
 
         RitualRecipeBuilder.create()
@@ -1203,17 +1165,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
             .setAltarPower(1000)
             .setTicks(20)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .addCommand(CommandType("summon lightning_bolt {chalkPos}", CommandType.END))
             .save(exporter, Witchery.id("summon_lightning"))
 
@@ -1223,17 +1175,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
             .setAltarPower(2000)
             .setTicks(20)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .addCommand(CommandType("summon lightning_bolt {waystonePos}", CommandType.END))
             .save(exporter, Witchery.id("summon_lightning_on_waystone"))
 
@@ -1243,17 +1185,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(3000)
             .setTicks(20)
             .addCommand(CommandType("time set midnight", CommandType.END))
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("set_midnight"))
 
         RitualRecipeBuilder.create()
@@ -1261,17 +1193,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(Items.REDSTONE.defaultInstance)
             .setAltarPower(20)
             .setInfinite(true)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .setCustomRitual(PushMobsRitual())
             .save(exporter, Witchery.id("push_mobs"))
 
@@ -1285,17 +1207,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
             .addOutputItem(attuned)
             .setAltarPower(2500)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("charge_attuned"))
 
         val broom = WitcheryItems.BROOM.get().defaultInstance
@@ -1306,63 +1218,21 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(WitcheryItems.BROOM.get().defaultInstance)
             .addOutputItem(broom)
             .setAltarPower(3000)
-            .pattern(
-                "___RRRRR___",
-                "__R_____R__",
-                "_R__RRR__R_",
-                "R__R___R__R",
-                "R_R_____R_R",
-                "R_R__G__R_R",
-                "R_R_____R_R",
-                "R__R___R__R",
-                "_R__RRR__R_",
-                "__R_____R__",
-                "___RRRRR___"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("apply_ointment"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.GHOST_OF_THE_LIGHT.get().defaultInstance)
             .setAltarPower(2000)
             .addCommand(CommandType("witchery infusion setAndKill {owner} light", CommandType.END))
-            .pattern(
-                "___RRRRR___",
-                "__R_____R__",
-                "_R__RRR__R_",
-                "R__R___R__R",
-                "R_R_____R_R",
-                "R_R__G__R_R",
-                "R_R_____R_R",
-                "R__R___R__R",
-                "_R__RRR__R_",
-                "__R_____R__",
-                "___RRRRR___"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("infuse_light"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.SPIRIT_OF_OTHERWHERE.get().defaultInstance)
             .setAltarPower(2000)
             .addCommand(CommandType("witchery infusion setAndKill {owner} otherwhere", CommandType.END))
-            .pattern(
-                "___RRRRR___",
-                "__R_____R__",
-                "_R__RRR__R_",
-                "R__R___R__R",
-                "R_R_____R_R",
-                "R_R__G__R_R",
-                "R_R_____R_R",
-                "R__R___R__R",
-                "_R__RRR__R_",
-                "__R_____R__",
-                "___RRRRR___"
-            )
-            .define('R', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallAndMediumPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(), WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("infuse_otherwhere"))
 
         RitualRecipeBuilder.create()
@@ -1370,21 +1240,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(40)
             .addCommand(CommandType("witchery infusion increase {owner} 1", CommandType.TICK))
             .setInfinite(true)
-            .pattern(
-                "___RRRRR___",
-                "__R_____R__",
-                "_R__RRR__R_",
-                "R__R___R__R",
-                "R_R_____R_R",
-                "R_R__G__R_R",
-                "R_R_____R_R",
-                "R__R___R__R",
-                "_R__RRR__R_",
-                "__R_____R__",
-                "___RRRRR___"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("rite_of_charging_infusion"))
 
         DistilleryCraftingRecipeBuilder.create()

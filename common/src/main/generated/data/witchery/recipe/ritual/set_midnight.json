@@ -2,8 +2,7 @@
   "type": "witchery:ritual",
   "altarPower": 3000,
   "blockMapping": {
-    "G": "witchery:golden_chalk",
-    "R": "witchery:ritual_chalk"
+    "S": "witchery:ritual_chalk"
   },
   "celestialConditions": [],
   "commands": [
@@ -26,13 +25,13 @@
   "outputEntities": [],
   "outputItems": [],
   "pattern": [
-    "__RRR__",
-    "_R___R_",
-    "R_____R",
-    "R__G__R",
-    "R_____R",
-    "_R___R_",
-    "__RRR__"
+    "__SSS__",
+    "_S___S_",
+    "S_____S",
+    "S__G__S",
+    "S_____S",
+    "_S___S_",
+    "__SSS__"
   ],
   "ritual": {
     "id": "witchery:empty"
