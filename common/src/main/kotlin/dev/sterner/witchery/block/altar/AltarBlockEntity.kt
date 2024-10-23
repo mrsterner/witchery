@@ -121,7 +121,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             limitTracker.compute(limit.first) { _, count -> count?.let { it + 1 } ?: 1 }
         }
 
-        maxPower += (max(maxPower * powerBoost, Int.MAX_VALUE.toDouble())).toInt()
+        maxPower += (max(maxPower * powerBoost, 100000.0)).toInt()
     }
 
     private fun updateCurrentPower() {
@@ -310,8 +310,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean {
         val hasPower = amount <= currentPower
-        println("$hasPower / $currentPower / $amount")
-
 
         if (simulate || level?.isClientSide != false)
             return hasPower

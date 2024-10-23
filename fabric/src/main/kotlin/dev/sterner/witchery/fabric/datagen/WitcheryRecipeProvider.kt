@@ -1299,7 +1299,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter, Witchery.id("charge_attuned"))
 
         val broom = WitcheryItems.BROOM.get().defaultInstance
-        attuned.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
+        broom.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.FLYING_OINTMENT.get().defaultInstance)
