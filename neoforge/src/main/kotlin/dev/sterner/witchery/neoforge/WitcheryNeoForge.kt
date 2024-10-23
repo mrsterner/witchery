@@ -8,6 +8,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
@@ -194,6 +195,7 @@ object WitcheryNeoForge {
         event.registerItem(WitchesRobesItemNeoForge.ArmorRender.INSTANCE, WITCHES_ROBES.get(), WITCHES_HAT.get(), WITCHES_SLIPPERS.get(), BABA_YAGAS_HAT.get())
 
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(SpinningWheelBlockEntityWithoutLevelRenderer()), WitcheryItems.SPINNING_WHEEL.get())
+        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()), WitcheryItems.BROOM.get())
 
     }
 

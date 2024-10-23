@@ -2,6 +2,7 @@ package dev.sterner.witchery.fabric
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.fabric.client.BroomDynamicRenderer
 import dev.sterner.witchery.fabric.client.SpinningWheelDynamicRenderer
 import dev.sterner.witchery.fabric.client.WitchesRobesArmorRendererFabric
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
@@ -77,6 +78,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register(WitcheryCreativeModeTabs::modifyExistingTabs)
 
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.SPINNING_WHEEL.get(), SpinningWheelDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.BROOM.get(), BroomDynamicRenderer())
 
         StrippableBlockRegistry.register(WitcheryBlocks.ROWAN_LOG.get(), WitcheryBlocks.STRIPPED_ROWAN_LOG.get())
         StrippableBlockRegistry.register(WitcheryBlocks.ROWAN_WOOD.get(), WitcheryBlocks.STRIPPED_ROWAN_WOOD.get())
