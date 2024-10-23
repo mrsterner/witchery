@@ -3,6 +3,7 @@ package dev.sterner.witchery.recipe.ritual
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.recipe.ritual.RitualRecipe.Celestial
+import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.ritual.EmptyRitual
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
@@ -31,7 +32,9 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
     private var ticks: Int = 0
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     private var pattern: List<String> = listOf()
-    private val blockMapping: MutableMap<Char, Block> = mutableMapOf()
+    private val blockMapping: MutableMap<Char, Block> = mutableMapOf<Char, Block>().apply {
+        'G' to WitcheryBlocks.GOLDEN_CHALK_BLOCK.get()
+    }
     private var celestialConditions: Set<Celestial> = setOf()
 
     companion object {
@@ -137,6 +140,81 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
 
     fun pattern(vararg lines: String): RitualRecipeBuilder {
         pattern = lines.toList()
+        return this
+    }
+
+    fun addSmallPattern(small: Block): RitualRecipeBuilder {
+        pattern = listOf(
+            "__SSS__",
+            "_S___S_",
+            "S_____S",
+            "S__G__S",
+            "S_____S",
+            "_S___S_",
+            "__SSS__"
+        )
+        define('S', small)
+        return this
+    }
+
+    fun addSmallAndMediumPattern(small: Block, medium: Block): RitualRecipeBuilder {
+        pattern = listOf(
+            "___MMMMM___",
+            "__M_____M__",
+            "_M__SSS__M_",
+            "M__S___S__M",
+            "M_S_____S_M",
+            "M_S__G__S_M",
+            "M_S_____S_M",
+            "M__S___S__M",
+            "_M__SSS__M_",
+            "__M_____M__",
+            "___MMMMM___"
+        )
+        define('M', medium)
+        define('S', small)
+        return this
+    }
+
+    fun addMediumPattern(medium: Block): RitualRecipeBuilder {
+        pattern = listOf(
+            "___MMMMM___",
+            "__M_____M__",
+            "_M_______M_",
+            "M_________M",
+            "M_________M",
+            "M____G____M",
+            "M_________M",
+            "M_________M",
+            "_M_______M_",
+            "__M_____M__",
+            "___MMMMM___"
+        )
+        define('M', medium)
+        return this
+    }
+
+    fun addSmallAndMediumAndLargePattern(small: Block, medium: Block, large: Block): RitualRecipeBuilder {
+        pattern = listOf(
+            "_____LLLLL_____",
+            "___LL_____LL___",
+            "__L__MMMMM__L__",
+            "_L__M_____M__L_",
+            "_L_M__SSS__M_L_",
+            "L_M__S___S__M_L",
+            "L_M_S_____S_M_L",
+            "L_M_S__G__S_M_L",
+            "L_M_S_____S_M_L",
+            "L_M__S___S__M_L",
+            "_L_M__SSS__M_L_",
+            "_L__M_____M__L_",
+            "__L__MMMMM__L__",
+            "___LL_____LL___",
+            "_____LLLLL_____",
+        )
+        define('L', large)
+        define('M', medium)
+        define('S', small)
         return this
     }
 
