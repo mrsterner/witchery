@@ -25,6 +25,7 @@ class BroomItem(properties: Properties) : Item(properties) {
             val vec = pos.relative(dir)
             broomEntity.moveTo(vec.center)
             level.addFreshEntity(broomEntity)
+            item.shrink(1)
             return InteractionResult.SUCCESS
         }
 

@@ -322,6 +322,8 @@
   "witchery.secondbrewbonus.25": "+25% chance of second brew",
   "witchery.secondbrewbonus.35": "+35% chance of second brew",
   "witchery.thirdbrewbonus.25": "+25% chance of third brew",
+  "witchery:ritual/apply_ointment": "Imbue Flying Ointment",
+  "witchery:ritual/apply_ointment.tooltip": "Allows flying with the Broom",
   "witchery:ritual/charge_attuned": "Rite of Charging",
   "witchery:ritual/charge_attuned.tooltip": "Charges an Attuned Stone with 2000 Altar Power",
   "witchery:ritual/infuse_light": "Infusion of Light",

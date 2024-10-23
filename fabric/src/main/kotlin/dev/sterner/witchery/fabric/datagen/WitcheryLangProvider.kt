@@ -288,6 +288,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/teleport_taglock_to_waystone.tooltip", "Teleports the bound Taglock entity to bound Waystone location")
         builder.add("witchery:ritual/summon_imp", "Summon Imp")
         builder.add("witchery:ritual/summon_imp.tooltip", "Summon an Imp at ritual center")
+        builder.add("witchery:ritual/apply_ointment", "Imbue Flying Ointment")
+        builder.add("witchery:ritual/apply_ointment.tooltip", "Allows flying with the Broom")
 
 
 
