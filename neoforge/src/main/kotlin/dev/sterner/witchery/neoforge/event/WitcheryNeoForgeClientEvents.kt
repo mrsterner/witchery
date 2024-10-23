@@ -7,11 +7,16 @@ import dev.sterner.witchery.client.renderer.*
 import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
+import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import dev.sterner.witchery.registry.WitcheryCreativeModeTabs
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_BOOTS
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_CHESTPLATE
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_HELMET
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_LEGGINGS
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
@@ -113,6 +118,9 @@ object WitcheryNeoForgeClientEvents {
         event.registerLayerDefinition(
             BroomEntityModel.LAYER_LOCATION,
             BroomEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            HunterArmorModel.LAYER_LOCATION,
+            HunterArmorModel::createBodyLayer)
     }
 
     @SubscribeEvent
@@ -125,6 +133,7 @@ object WitcheryNeoForgeClientEvents {
 
     fun registerClientExtensions(event: RegisterClientExtensionsEvent) {
         event.registerItem(WitchesRobesItemNeoForge.ArmorRender.INSTANCE, WITCHES_ROBES.get(), WITCHES_HAT.get(), WITCHES_SLIPPERS.get(), BABA_YAGAS_HAT.get())
+        event.registerItem(HunterArmorItemNeoForge.ArmorRender.INSTANCE, HUNTER_HELMET.get(), HUNTER_CHESTPLATE.get(), HUNTER_LEGGINGS.get(), HUNTER_BOOTS.get())
 
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(SpinningWheelBlockEntityWithoutLevelRenderer()), WitcheryItems.SPINNING_WHEEL.get())
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()), WitcheryItems.BROOM.get())

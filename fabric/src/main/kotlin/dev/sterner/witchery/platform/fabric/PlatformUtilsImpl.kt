@@ -43,4 +43,9 @@ object PlatformUtilsImpl {
             }
         }
     }
+
+    @JvmStatic
+    fun hunterArmor(witchesRobes: RegistrySupplier<ArmorMaterial>, chestplate: ArmorItem.Type, properties: Item.Properties): ArmorItem {
+        return ArmorItem(witchesRobes, chestplate, properties)
+    }
 }

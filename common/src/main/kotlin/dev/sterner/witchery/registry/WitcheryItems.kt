@@ -62,6 +62,23 @@ object WitcheryItems {
         PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
     }
 
+    val HUNTER_HELMET = ITEMS.register("hunter_helmet") {
+        PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
+    }
+
+    val HUNTER_CHESTPLATE = ITEMS.register("hunter_chestplate") {
+        PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.CHESTPLATE, Item.Properties().stacksTo(1))
+    }
+
+    val HUNTER_LEGGINGS = ITEMS.register("hunter_leggings") {
+        PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.LEGGINGS, Item.Properties().stacksTo(1))
+    }
+
+    val HUNTER_BOOTS = ITEMS.register("hunter_boots") {
+        PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
+    }
+
+
     //start RESOURCES
     val MUTANDIS: RegistrySupplier<MutandisItem> = ITEMS.register("mutandis") {
         MutandisItem(Item.Properties())

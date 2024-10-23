@@ -28,4 +28,21 @@ object WitcheryArmorMaterials {
             0f
         )
     }
+
+    val HUNTER = MATERIALS.register("hunter") {
+        ArmorMaterial(java.util.Map.of(
+            ArmorItem.Type.HELMET, 2,
+            ArmorItem.Type.CHESTPLATE, 4,
+            ArmorItem.Type.LEGGINGS, 3,
+            ArmorItem.Type.BOOTS, 2
+        ),
+            10, SoundEvents.ARMOR_EQUIP_LEATHER,{Ingredient.of(Items.WHITE_WOOL)}, //TODO replace with something better
+            listOf(
+                ArmorMaterial.Layer(Witchery.id("hunter"), "", true),
+                ArmorMaterial.Layer(Witchery.id("hunter"), "_overlay", false)
+            ),
+            3f,
+            0f
+        )
+    }
 }

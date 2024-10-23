@@ -118,6 +118,11 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.WITCHES_SLIPPERS.get())
                 output.accept(WitcheryItems.BABA_YAGAS_HAT.get())
 
+                output.accept(WitcheryItems.HUNTER_HELMET.get())
+                output.accept(WitcheryItems.HUNTER_CHESTPLATE.get())
+                output.accept(WitcheryItems.HUNTER_LEGGINGS.get())
+                output.accept(WitcheryItems.HUNTER_BOOTS.get())
+
                 output.accept(WitcheryItems.INFINITY_EGG.get())
                 output.accept(WitcheryItems.ARTHANA.get())
                 output.accept(WitcheryItems.CHALICE.get())

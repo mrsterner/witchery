@@ -3,6 +3,7 @@ package dev.sterner.witchery.fabric
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.fabric.client.BroomDynamicRenderer
+import dev.sterner.witchery.fabric.client.HunterArmorRendererFabric
 import dev.sterner.witchery.fabric.client.SpinningWheelDynamicRenderer
 import dev.sterner.witchery.fabric.client.WitchesRobesArmorRendererFabric
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
@@ -135,6 +136,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.BROOM.get(), BroomDynamicRenderer())
 
         ArmorRenderer.register(WitchesRobesArmorRendererFabric(), WitcheryItems.WITCHES_ROBES.get(), WitcheryItems.WITCHES_HAT.get(), WitcheryItems.WITCHES_SLIPPERS.get(), WitcheryItems.BABA_YAGAS_HAT.get())
+        ArmorRenderer.register(HunterArmorRendererFabric(), WitcheryItems.HUNTER_HELMET.get(), WitcheryItems.HUNTER_CHESTPLATE.get(), WitcheryItems.HUNTER_LEGGINGS.get(), WitcheryItems.HUNTER_BOOTS.get())
 
         ParticleFactoryRegistry.getInstance().register(
             WitcheryParticleTypes.COLOR_BUBBLE.get()

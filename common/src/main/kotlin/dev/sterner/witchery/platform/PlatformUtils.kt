@@ -27,4 +27,10 @@ object PlatformUtils {
     fun witchesRobes(witchesRobes: RegistrySupplier<ArmorMaterial>, chestplate: ArmorItem.Type, properties: Item.Properties): ArmorItem {
         throw AssertionError()
     }
+
+    @JvmStatic
+    @ExpectPlatform
+    fun hunterArmor(witchesRobes: RegistrySupplier<ArmorMaterial>, chestplate: ArmorItem.Type, properties: Item.Properties): ArmorItem {
+        throw AssertionError()
+    }
 }
