@@ -11,6 +11,7 @@ import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionData
+import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
 import net.neoforged.bus.api.SubscribeEvent
@@ -73,6 +74,16 @@ object WitcheryNeoForge {
         Supplier {
             AttachmentType.builder(Supplier { LightInfusionData() })
                 .serialize(LightInfusionData.CODEC)
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<OtherwhereInfusionData>> = ATTACHMENT_TYPES.register(
+        "otherwhere_infusion_player_data",
+        Supplier {
+            AttachmentType.builder(Supplier { OtherwhereInfusionData() })
+                .serialize(OtherwhereInfusionData.CODEC)
                 .build()
         }
     )

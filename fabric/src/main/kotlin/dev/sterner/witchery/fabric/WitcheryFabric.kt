@@ -12,6 +12,7 @@ import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.LightInfusionData
+import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
@@ -67,6 +68,13 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
                 .persistent(LightInfusionData.CODEC)
                 .initializer { LightInfusionData(false, 0) }
                 .buildAndRegister(LightInfusionData.ID)
+
+        @Suppress("UnstableApiUsage")
+        val OTHERWHERE_INFUSION_PLAYER_DATA_TYPE: AttachmentType<OtherwhereInfusionData> =
+            AttachmentRegistry.builder<OtherwhereInfusionData>()
+                .persistent(OtherwhereInfusionData.CODEC)
+                .initializer { OtherwhereInfusionData(0, 0) }
+                .buildAndRegister(OtherwhereInfusionData.ID)
     }
 
     override fun onInitialize() {

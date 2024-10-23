@@ -42,7 +42,9 @@ object WitcheryPayloads {
         registerS2C(SyncLightInfusionS2CPacket.ID, SyncLightInfusionS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-
+        registerS2C(SyncOtherwhereInfusionS2CPacket.ID, SyncOtherwhereInfusionS2CPacket.STREAM_CODEC) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
         registerS2C(SpawnPoofParticles.ID, SpawnPoofParticles.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
