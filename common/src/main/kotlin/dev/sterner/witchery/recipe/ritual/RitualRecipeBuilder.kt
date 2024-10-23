@@ -218,6 +218,51 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
         return this
     }
 
+    fun addSmallAndLargePattern(small: Block, large: Block): RitualRecipeBuilder {
+        pattern = listOf(
+            "_____LLLLL_____",
+            "___LL_____LL___",
+            "__L_________L__",
+            "_L___________L_",
+            "_L____SSS____L_",
+            "L____S___S____L",
+            "L___S_____S___L",
+            "L___S__G__S___L",
+            "L___S_____S___L",
+            "L____S___S____L",
+            "_L____SSS____L_",
+            "_L___________L_",
+            "__L_________L__",
+            "___LL_____LL___",
+            "_____LLLLL_____",
+        )
+        define('L', large)
+        define('S', small)
+        return this
+    }
+
+    fun addLargePattern(large: Block): RitualRecipeBuilder {
+        pattern = listOf(
+            "_____LLLLL_____",
+            "___LL_____LL___",
+            "__L_________L__",
+            "_L___________L_",
+            "_L__________L_",
+            "L_____________L",
+            "L_____________L",
+            "L______G______L",
+            "L_____________L",
+            "L_____________L",
+            "_L___________L_",
+            "_L___________L_",
+            "__L_________L__",
+            "___LL_____LL___",
+            "_____LLLLL_____",
+        )
+        define('L', large)
+        return this
+    }
+
     fun define(letter: Char, block: Block): RitualRecipeBuilder {
         blockMapping[letter] = block
         return this
