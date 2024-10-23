@@ -20,13 +20,15 @@ class LightInfusionData(val isInvisible: Boolean = false, val invisibleTimer: In
 
         fun tick(player: Player?) {
 
-            if (player != null && LightInfusionDataAttachment.isInvisible(player).isInvisible) {
-                val ticks = LightInfusionDataAttachment.isInvisible(player).invisibleTimer
+            if (player != null && PlayerInfusionDataAttachment.getPlayerInfusion(player).type == InfusionType.LIGHT) {
+                if (LightInfusionDataAttachment.isInvisible(player).isInvisible) {
+                    val ticks = LightInfusionDataAttachment.isInvisible(player).invisibleTimer
 
-                if (ticks <= 0) {
-                    LightInfusionDataAttachment.setInvisible(player, false, 0)
-                } else {
-                    LightInfusionDataAttachment.setInvisible(player, true, ticks - 1)
+                    if (ticks <= 0) {
+                        LightInfusionDataAttachment.setInvisible(player, false, 0)
+                    } else {
+                        LightInfusionDataAttachment.setInvisible(player, true, ticks - 1)
+                    }
                 }
             }
         }
