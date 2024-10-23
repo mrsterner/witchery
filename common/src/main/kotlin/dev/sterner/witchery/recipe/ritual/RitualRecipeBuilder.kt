@@ -247,7 +247,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             "___LL_____LL___",
             "__L_________L__",
             "_L___________L_",
-            "_L__________L_",
+            "_L___________L_",
             "L_____________L",
             "L_____________L",
             "L______G______L",
