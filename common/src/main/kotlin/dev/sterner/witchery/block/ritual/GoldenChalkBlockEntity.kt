@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.util.Mth
 import net.minecraft.world.Container
 import net.minecraft.world.ContainerHelper
 import net.minecraft.world.Containers
@@ -395,9 +396,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             setChanged()
             return false
         }
-        val requiredAltarPower = recipe.altarPower - attunedStoneBonus
+        val requiredAltarPower = Mth.clamp(recipe.altarPower - attunedStoneBonus, 0, Int.MAX_VALUE)
         if (requiredAltarPower > 0 && cachedAltarPos != null) {
-            println("Required: $requiredAltarPower")
             val tr = tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
             return tr
         }

@@ -103,6 +103,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.BABA_YAGAS_HAT.get(), "Baba Yaga's Hat")
         builder.add(WitcheryItems.IMPREGNATED_FABRIC.get(), "Impregnated Fabric")
         builder.add(WitcheryItems.MUTATING_SPRING.get(), "Mutating Spring")
+        builder.add(WitcheryItems.BROOM.get(), "Broom")
+        builder.add(WitcheryEntityTypes.BROOM.get(), "Broom")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
