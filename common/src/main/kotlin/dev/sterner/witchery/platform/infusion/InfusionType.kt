@@ -13,6 +13,7 @@ import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec3
+import org.joml.Vector3d
 import kotlin.math.min
 
 enum class InfusionType : StringRepresentable {
@@ -50,6 +51,7 @@ enum class InfusionType : StringRepresentable {
                 val data = OtherwhereInfusionDataAttachment.getInfusion(player)
 
                 val target = raytraceForTeleport(player, data.teleportHoldTicks)
+                println(target)
                 if (target != null) {
                     PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 500)
                     player.teleportTo(target.x, target.y, target.z)
@@ -132,13 +134,28 @@ enum class InfusionType : StringRepresentable {
                 ClipContext(eyePos, rayEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player)
             )
 
-            val targetPos = when (result.direction) {
+            var targetPos = when (result.direction) {
                 Direction.DOWN -> result.blockPos.below(2)
-                Direction.UP -> result.blockPos.below()
+                Direction.UP -> result.blockPos.above()
                 else -> result.blockPos.relative(result.direction)
             }
 
-            val posIsFree = isPosClear(level, targetPos)
+            var posIsFree = isPosClear(level, targetPos)
+
+            while (!posIsFree) {
+                targetPos = targetPos.below()
+                posIsFree = isPosClear(level, targetPos) && level.clip(
+                    ClipContext(
+                        eyePos,
+                        Vec3.atCenterOf(targetPos.above()),
+                        ClipContext.Block.COLLIDER,
+                        ClipContext.Fluid.NONE, player)
+                ).type == HitResult.Type.MISS
+
+                if (targetPos.y <= level.minBuildHeight)
+                    break
+            }
+
             return if (posIsFree) Vec3.atCenterOf(targetPos) else null
         }
     }
