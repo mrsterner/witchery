@@ -7,7 +7,6 @@ import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.crafting.Recipe
@@ -33,11 +32,6 @@ object WitcheryRecipeTypes {
     val OVEN_RECIPE_TYPE: RegistrySupplier<RecipeType<OvenCookingRecipe>> =
         RECIPE_TYPES.register(OvenCookingRecipe.NAME) {
             registerRecipeType(OvenCookingRecipe.NAME)
-        }
-
-    val RITUAL_RECIPE_TYPE: RegistrySupplier<RecipeType<RitualRecipe>> =
-        RECIPE_TYPES.register(RitualRecipe.NAME) {
-            registerRecipeType(RitualRecipe.NAME)
         }
 
     val DISTILLERY_RECIPE_TYPE: RegistrySupplier<RecipeType<DistilleryCraftingRecipe>> =

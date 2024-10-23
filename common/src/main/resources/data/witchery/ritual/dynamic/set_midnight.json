@@ -1,0 +1,31 @@
+{
+  "altarPower": 3000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "R": "witchery:ritual_chalk"
+  },
+  "commands": [
+    {
+      "type": "end",
+      "command": "time set midnight"
+    }
+  ],
+  "inputItems": [
+    {
+      "id": "minecraft:wooden_axe"
+    },
+    {
+      "id": "witchery:wood_ash"
+    }
+  ],
+  "pattern": [
+    "__RRR__",
+    "_R___R_",
+    "R_____R",
+    "R__G__R",
+    "R_____R",
+    "_R___R_",
+    "__RRR__"
+  ],
+  "ticks": 20
+}

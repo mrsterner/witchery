@@ -7,7 +7,6 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.world.item.crafting.Ingredient
@@ -130,7 +129,7 @@ class WitcheryEmiPlugin : EmiPlugin {
             EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get()))
         )
 
-        registry.addWorkstation(RITUAL_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.GOLDEN_CHALK.get())))
+        //registry.addWorkstation(RITUAL_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.GOLDEN_CHALK.get())))
         registry.addWorkstation(DISTILLING_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.DISTILLERY.get())))
         registry.addWorkstation(SPINNING_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.SPINNING_WHEEL.get())))
 
@@ -139,7 +138,7 @@ class WitcheryEmiPlugin : EmiPlugin {
         registry.addCategory(CAULDRON_BREWING_CATEGORY)
         registry.addCategory(CAULDRON_CRAFTING_CATEGORY)
         registry.addCategory(OVEN_COOKING_CATEGORY)
-        registry.addCategory(RITUAL_CATEGORY)
+        //registry.addCategory(RITUAL_CATEGORY)
         registry.addCategory(DISTILLING_CATEGORY)
         registry.addCategory(SPINNING_CATEGORY)
         val manager: RecipeManager = registry.recipeManager
@@ -160,9 +159,9 @@ class WitcheryEmiPlugin : EmiPlugin {
             registry.addRecipe(OvenCookingEmiRecipe(Witchery.id(recipe.id.path.toString()), null, recipe.value))
         }
 
-        for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())) {
+        /*for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())) {
             registry.addRecipe(RitualEmiRecipe(recipe.id, recipe.value))
-        }
+        }*/
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.DISTILLERY_RECIPE_TYPE.get())) {
             registry.addRecipe(DistillingEmiRecipe(recipe.id, recipe.value))
@@ -177,7 +176,7 @@ class WitcheryEmiPlugin : EmiPlugin {
 
         val ICON_CAULDRON: EmiStack = EmiStack.of(WitcheryItems.CAULDRON.get())
         val ICON_OVEN: EmiStack = EmiStack.of(WitcheryItems.IRON_WITCHES_OVEN.get())
-        val ICON_RITUAL: EmiStack = EmiStack.of(WitcheryItems.RITUAL_CHALK.get())
+        //val ICON_RITUAL: EmiStack = EmiStack.of(WitcheryItems.RITUAL_CHALK.get())
         val ICON_DISTILLING: EmiStack = EmiStack.of(WitcheryItems.DISTILLERY.get())
         val ICON_SPINNING: EmiStack = EmiStack.of(WitcheryItems.SPINNING_WHEEL.get())
 
@@ -193,9 +192,9 @@ class WitcheryEmiPlugin : EmiPlugin {
             Witchery.id("oven_cooking"), ICON_OVEN
         )
 
-        val RITUAL_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
+        /*val RITUAL_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
             Witchery.id("ritual"), ICON_RITUAL
-        )
+        )*/
 
         val DISTILLING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
             Witchery.id("distilling"), ICON_DISTILLING

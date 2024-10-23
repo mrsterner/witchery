@@ -1,6 +1,9 @@
 package dev.sterner.witchery.fabric
 
+import dev.architectury.registry.registries.fabric.RegistrarManagerImpl
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.DynamicRitual
+import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.fabric.client.SpinningWheelDynamicRenderer
 import dev.sterner.witchery.fabric.client.WitchesRobesArmorRendererFabric
@@ -20,11 +23,16 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents
 import net.fabricmc.fabric.api.loot.v3.LootTableSource
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.RegistrationInfo
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.storage.loot.LootPool
@@ -68,11 +76,13 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
     }
 
     override fun onInitialize() {
+        FabricRegistryBuilder.createSimple(WitcheryRegistries.RITUAL).buildAndRegister()
+
         Witchery.init()
 
         LootTableEvents.MODIFY.register(::addEntityDrops)
 
-        DynamicRegistries.registerSynced(WitcheryRitualRegistry.RITUAL_KEY, WitcheryRitualRegistry.CODEC)
+        DynamicRegistries.registerSynced(WitcheryRegistries.DYNAMIC_RITUAL, DynamicRitual.CODEC)
 
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register(WitcheryCreativeModeTabs::modifyExistingTabs)
 

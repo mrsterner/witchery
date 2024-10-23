@@ -1,0 +1,38 @@
+{
+  "altarPower": 5000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "O": "witchery:infernal_chalk"
+  },
+  "inputItems": [
+    {
+      "id": "minecraft:ender_pearl"
+    },
+    {
+      "id": "witchery:refined_evil"
+    },
+    {
+      "id": "witchery:demons_blood"
+    },
+    {
+      "id": "witchery:phantom_vapor"
+    }
+  ],
+  "outputEntities": [
+    "witchery:imp"
+  ],
+  "pattern": [
+    "___OOOOO___",
+    "__O_____O__",
+    "_O_______O_",
+    "O_________O",
+    "O_________O",
+    "O____G____O",
+    "O_________O",
+    "O_________O",
+    "_O_______O_",
+    "__O_____O__",
+    "___OOOOO___"
+  ],
+  "ticks": 100
+}

@@ -1,6 +1,7 @@
 package dev.sterner.witchery.neoforge
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.DynamicRitual
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.renderer.*
@@ -38,6 +39,8 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
+import net.neoforged.neoforge.registries.NewRegistryEvent
+import net.neoforged.neoforge.registries.RegistryBuilder
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
@@ -206,7 +209,12 @@ object WitcheryNeoForge {
     }
 
     @SubscribeEvent
+    fun registerRegistries(event: NewRegistryEvent) {
+        event.create(RegistryBuilder(WitcheryRegistries.RITUAL).sync(true))
+    }
+
+    @SubscribeEvent
     fun createDataPackRegistries(event: DataPackRegistryEvent.NewRegistry) {
-        event.dataPackRegistry(WitcheryRitualRegistry.RITUAL_KEY, WitcheryRitualRegistry.CODEC, WitcheryRitualRegistry.CODEC)
+        event.dataPackRegistry(WitcheryRegistries.DYNAMIC_RITUAL, DynamicRitual.CODEC, DynamicRitual.CODEC)
     }
 }

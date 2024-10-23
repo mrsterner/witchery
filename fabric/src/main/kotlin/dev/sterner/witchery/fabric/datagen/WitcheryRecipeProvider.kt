@@ -1,44 +1,30 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.ritual.CommandType
-import dev.sterner.witchery.block.ritual.RitualHelper
 import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
-import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipeBuilder
-import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipeBuilder
 import dev.sterner.witchery.registry.*
-import dev.sterner.witchery.ritual.PushMobsRitual
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponentMap
-import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.RecipeOutput
-import net.minecraft.data.recipes.RecipeProvider
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.data.recipes.ShapelessRecipeBuilder
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder
 import net.minecraft.tags.ItemTags
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.item.crafting.Ingredient
-import net.minecraft.world.item.crafting.ShapedRecipe
-import net.minecraft.world.item.crafting.ShapelessRecipe
-import net.minecraft.world.level.block.Blocks
 import java.awt.Color
 import java.util.concurrent.CompletableFuture
-import kotlin.math.exp
 
 class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricRecipeProvider(output, registriesFuture) {
@@ -1122,236 +1108,6 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
         ).save(exporter,  Witchery.id("foul_fume_logs"))
 
 
-        RitualRecipeBuilder.create()
-            .addInputItem(Items.ENDER_PEARL.defaultInstance)
-            .addInputItem(WitcheryItems.REFINED_EVIL.get().defaultInstance)
-            .addInputItem(WitcheryItems.DEMONS_BLOOD.get().defaultInstance)
-            .addInputItem(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance)
-            .addOutputEntity(WitcheryEntityTypes.IMP.get())
-            .setTicks(20 * 5)
-            .setAltarPower(5000)
-            .pattern(
-                "___OOOOO___",
-                "__O_____O__",
-                "_O_______O_",
-                "O_________O",
-                "O_________O",
-                "O____G____O",
-                "O_________O",
-                "O_________O",
-                "_O_______O_",
-                "__O_____O__",
-                "___OOOOO___"
-            )
-            .define('O', WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter, Witchery.id("summon_imp"))
-
-        RitualRecipeBuilder.create()
-            .addInputItem(WitcheryItems.ENDER_DEW.get().defaultInstance)
-            .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
-            .addInputItem(WitcheryItems.TAGLOCK.get().defaultInstance)
-            .addInputItem(Items.IRON_INGOT.defaultInstance)
-            .addCommand(CommandType("tp {taglockPlayerOrEntity} {waystonePos}", CommandType.END))
-            .setTicks(20 * 2)
-            .setAltarPower(3000)
-            .pattern(
-                "___OOOOO___",
-                "__O_____O__",
-                "_O_______O_",
-                "O_________O",
-                "O_________O",
-                "O____G____O",
-                "O_________O",
-                "O_________O",
-                "_O_______O_",
-                "__O_____O__",
-                "___OOOOO___"
-            )
-            .define('O', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter, Witchery.id("teleport_taglock_to_waystone"))
-
-        RitualRecipeBuilder.create()
-            .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
-            .addCommand(CommandType("tp {owner} {waystonePos}", CommandType.END))
-            .setTicks(20)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter, Witchery.id("teleport_owner_to_waystone"))
-
-        RitualRecipeBuilder.create()
-            .addInputItem(Items.COPPER_INGOT.defaultInstance)
-            .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
-            .setAltarPower(1000)
-            .setTicks(20)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .addCommand(CommandType("summon lightning_bolt {chalkPos}", CommandType.END))
-            .save(exporter, Witchery.id("summon_lightning"))
-
-        RitualRecipeBuilder.create()
-            .addInputItem(Items.COPPER_INGOT.defaultInstance)
-            .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
-            .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
-            .setAltarPower(2000)
-            .setTicks(20)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .addCommand(CommandType("summon lightning_bolt {waystonePos}", CommandType.END))
-            .save(exporter, Witchery.id("summon_lightning_on_waystone"))
-
-        RitualRecipeBuilder.create()
-            .addInputItem(Items.WOODEN_AXE.defaultInstance)
-            .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
-            .setAltarPower(3000)
-            .setTicks(20)
-            .addCommand(CommandType("time set midnight", CommandType.END))
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter, Witchery.id("set_midnight"))
-
-        RitualRecipeBuilder.create()
-            .addInputItem(Items.FEATHER.defaultInstance)
-            .addInputItem(Items.REDSTONE.defaultInstance)
-            .setAltarPower(20)
-            .setInfinite(true)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .setCustomRitual(PushMobsRitual())
-            .save(exporter, Witchery.id("push_mobs"))
-
-        val attuned = WitcheryItems.ATTUNED_STONE.get().defaultInstance
-        attuned.set(WitcheryDataComponents.ATTUNED.get(), true)
-
-        RitualRecipeBuilder.create()
-            .addInputItem(WitcheryItems.ATTUNED_STONE.get().defaultInstance)
-            .addInputItem(Items.REDSTONE.defaultInstance)
-            .addInputItem(Items.GLOWSTONE_DUST.defaultInstance)
-            .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
-            .addOutputItem(attuned)
-            .setAltarPower(2500)
-            .pattern(
-                "__RRR__",
-                "_R___R_",
-                "R_____R",
-                "R__G__R",
-                "R_____R",
-                "_R___R_",
-                "__RRR__"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter, Witchery.id("charge_attuned"))
-
-        RitualRecipeBuilder.create()
-            .addInputItem(WitcheryItems.GHOST_OF_THE_LIGHT.get().defaultInstance)
-            .setAltarPower(2000)
-            .addCommand(CommandType("witchery infusion setAndKill {owner} light", CommandType.END))
-            .pattern(
-                "___RRRRR___",
-                "__R_____R__",
-                "_R__RRR__R_",
-                "R__R___R__R",
-                "R_R_____R_R",
-                "R_R__G__R_R",
-                "R_R_____R_R",
-                "R__R___R__R",
-                "_R__RRR__R_",
-                "__R_____R__",
-                "___RRRRR___"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter, Witchery.id("infuse_light"))
-
-        RitualRecipeBuilder.create()
-            .addInputItem(WitcheryItems.SPIRIT_OF_OTHERWHERE.get().defaultInstance)
-            .setAltarPower(2000)
-            .addCommand(CommandType("witchery infusion setAndKill {owner} otherwhere", CommandType.END))
-            .pattern(
-                "___RRRRR___",
-                "__R_____R__",
-                "_R__RRR__R_",
-                "R__R___R__R",
-                "R_R_____R_R",
-                "R_R__G__R_R",
-                "R_R_____R_R",
-                "R__R___R__R",
-                "_R__RRR__R_",
-                "__R_____R__",
-                "___RRRRR___"
-            )
-            .define('R', WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter, Witchery.id("infuse_otherwhere"))
-
-        RitualRecipeBuilder.create()
-            .addInputItem(PotionContents.createItemStack(Items.POTION, Potions.STRONG_REGENERATION))
-            .setAltarPower(40)
-            .addCommand(CommandType("witchery infusion increase {owner} 1", CommandType.TICK))
-            .setInfinite(true)
-            .pattern(
-                "___RRRRR___",
-                "__R_____R__",
-                "_R__RRR__R_",
-                "R__R___R__R",
-                "R_R_____R_R",
-                "R_R__G__R_R",
-                "R_R_____R_R",
-                "R__R___R__R",
-                "_R__RRR__R_",
-                "__R_____R__",
-                "___RRRRR___"
-            )
-            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
-            .save(exporter, Witchery.id("rite_of_charging_infusion"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.FOUL_FUME.get().defaultInstance)

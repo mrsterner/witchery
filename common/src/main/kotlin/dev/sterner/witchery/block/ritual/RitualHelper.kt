@@ -42,9 +42,9 @@ object RitualHelper {
         val x = blockPos.x + 0.5
         val y = blockPos.y + 0.5
         val z = blockPos.z + 0.5
-        if (blockEntity.ritualRecipe != null) {
-            for (output in blockEntity.ritualRecipe!!.outputItems) {
-                if (blockEntity.ritualRecipe!!.floatingItemOutput) {
+        if (blockEntity.ritual != null) {
+            for (output in blockEntity.ritual!!.outputItems) {
+                if (blockEntity.ritual!!.floatingItemOutput) {
                     val itemEntity = FloatingItemEntity(level)
                     itemEntity.setItem(output.copy())
                     itemEntity.moveTo(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5, 0f, 0f)
@@ -57,8 +57,8 @@ object RitualHelper {
     }
 
     fun summonSummons(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
-        if (blockEntity.ritualRecipe != null) {
-            for (entityType in blockEntity.ritualRecipe!!.outputEntities) {
+        if (blockEntity.ritual != null) {
+            for (entityType in blockEntity.ritual!!.outputEntities) {
                 val entity = entityType.create(level)
                 if (entity is LivingEntity) {
                     val angle: Float = level.random.nextFloat() * 360
@@ -76,8 +76,8 @@ object RitualHelper {
     //Rewrite
     fun runCommand(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity, phase: String) {
         val server = level.server
-        if (blockEntity.ritualRecipe != null) {
-            for (commandType in blockEntity.ritualRecipe!!.commands) {
+        if (blockEntity.ritual != null) {
+            for (commandType in blockEntity.ritual!!.commands) {
                 if (commandType.type == phase) {
                     val playerUuid = blockEntity.targetPlayer
                     val player = playerUuid?.let { server?.playerList?.getPlayer(it) }

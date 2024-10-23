@@ -1,23 +1,24 @@
 package dev.sterner.witchery.block.ritual
 
+import dev.architectury.registry.registries.RegistrarManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.Witchery.MODID
+import dev.sterner.witchery.api.Celestial
+import dev.sterner.witchery.api.DynamicRitual
+import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
-import dev.sterner.witchery.ritual.PushMobsRitual
+import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.*
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -31,6 +32,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
@@ -50,7 +52,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var items: NonNullList<ItemStack> = NonNullList.withSize(16, ItemStack.EMPTY)
     private var consumedSacrifices = mutableListOf<EntityType<*>>()
     private var hasRitualStarted = false
-    var ritualRecipe: RitualRecipe? = null
+    var ritual: DynamicRitual? = null
     private var shouldRun: Boolean = false
     private var shouldStartConsumingItems: Boolean = false
     private var shouldStartConsumingSacrifices: Boolean = false
@@ -69,7 +71,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             return
         }
 
-        if (ritualRecipe != null) {
+        if (ritual != null) {
             if (shouldStartConsumingSacrifices) {
                 startConsumingSacrifices(level)
             } else if (shouldStartConsumingItems) {
@@ -79,14 +81,14 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             tickCounter++
 
             if (isRitualActive) {
-                if (ritualRecipe != null && !consumeAltarPower(level, ritualRecipe!!)) {
+                if (ritual != null && !consumeAltarPower(level, ritual!!)) {
                     resetRitual()
                 }
 
                 ritualTickCounter++
                 onTickRitual(level)
 
-                if (ritualRecipe != null && tickCounter >= ritualRecipe!!.ticks && !ritualRecipe!!.isInfinite) {
+                if (ritual != null && tickCounter >= ritual!!.ticks && !ritual!!.isInfinite) {
                     onEndRitual(level)
                     resetRitual()
                 }
@@ -100,7 +102,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun onStartRitual(level: Level) {
         if (!hasRitualStarted) {
             level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
-            ritualRecipe?.ritualType?.onStartRitual(level, blockPos, this)
+            ritual?.ritual?.ifPresent { it.onStartRitual(level, blockPos, this) }
             RitualHelper.runCommand(level, blockPos, this, CommandType.START)
             isRitualActive = true
             shouldStartConsumingSacrifices = false
@@ -110,15 +112,15 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun onTickRitual(level: Level) {
-        if (ritualRecipe?.ritualType?.id == Witchery.id("push_mobs")) { // :(
-            PushMobsRitual.onTickRitual(level, blockPos, this)
+        ritual?.ritual?.ifPresentOrElse({ ritual: Ritual ->
+            ritual.onTickRitual(level, blockPos, this)
+        }) {
+            RitualHelper.runCommand(level, blockPos, this, CommandType.TICK)
         }
-
-        RitualHelper.runCommand(level, blockPos, this, CommandType.TICK)
     }
 
     private fun onEndRitual(level: Level) {
-        ritualRecipe?.ritualType?.onEndRitual(level, blockPos, this)
+        ritual?.ritual?.ifPresent { it.onEndRitual(level, blockPos, this) }
         level.playSound(null, blockPos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0f, 1.0f)
         RitualHelper.runCommand(level, blockPos, this, CommandType.END)
         RitualHelper.summonItems(level, blockPos, this)
@@ -130,7 +132,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun startConsumingSacrifices(level: Level) {
         val entities: MutableList<LivingEntity> =
             level.getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
-        val recipeEntities: List<EntityType<*>> = ritualRecipe!!.inputEntities
+        val recipeEntities: List<EntityType<*>> = ritual!!.inputEntities
         if (recipeEntities.isEmpty()) {
             onStartRitual(level)
             return
@@ -168,14 +170,14 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             AABB(blockPos).inflate(3.0, 0.0, 3.0)
         ) { true }
 
-        val recipeItems = ritualRecipe?.inputItems ?: return
+        val recipeItems = ritual?.inputItems ?: return
 
         if (tickCounter % 20 == 0) {
             for (itemEntity in itemEntities) {
                 val stack = itemEntity.item
 
                 val matchingRecipeItem = recipeItems.find { recipeItem ->
-                    ItemStack.isSameItem(stack, recipeItem)
+                    recipeItem.test(stack)
                 }
 
                 if (matchingRecipeItem != null) {
@@ -218,12 +220,12 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun resetRitual() {
         if (!hasRitualStarted) {
-            Containers.dropContents(level, blockPos, this)
+            level?.let { Containers.dropContents(it, blockPos, this) }
         }
         items = NonNullList.withSize(16, ItemStack.EMPTY)
         consumedSacrifices = mutableListOf()
 
-        ritualRecipe = null
+        ritual = null
         shouldRun = false
         shouldStartConsumingItems = false
         shouldStartConsumingSacrifices = false
@@ -238,10 +240,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         setChanged()
     }
 
-    private fun itemsMatchRecipe(items: NonNullList<ItemStack>, recipeItems: List<ItemStack>): Boolean {
+    private fun itemsMatchRecipe(items: NonNullList<ItemStack>, recipeItems: List<Ingredient>): Boolean {
         return recipeItems.all { recipeItem ->
             items.any { inventoryItem ->
-                ItemStack.isSameItem(inventoryItem, recipeItem) && inventoryItem.count >= recipeItem.count
+                recipeItem.test(inventoryItem) && inventoryItem.count >= recipeItem.items[0].count
             }
         }
     }
@@ -260,7 +262,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-        if (ritualRecipe != null && pPlayer.isShiftKeyDown) {
+        if (ritual != null && pPlayer.isShiftKeyDown) {
             items.clear()
             resetRitual()
             Witchery.logDebugRitual("Ritual reset by player ${pPlayer.name.string}.")
@@ -275,7 +277,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
 
 
-        if (ritualRecipe == null && level != null) {
+        if (ritual == null && level != null) {
             Witchery.logDebugRitual("No current ritual recipe found. Searching for valid recipes.")
 
             val items: List<ItemEntity> =
@@ -286,13 +288,13 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             Witchery.logDebugRitual("Found ${items.size} items and ${entities.size} entities near block position $blockPos.")
 
 
-            val recipes = level?.recipeManager?.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())
+            val recipes = RegistrarManager.get(MODID).get(WitcheryRegistries.DYNAMIC_RITUAL)
 
             // Filter valid recipes based on items
             val validItemRecipes = recipes?.filter { recipe ->
-                val recipeItems = recipe.value.inputItems
+                val recipeItems = recipe.inputItems
                 recipeItems.all { recipeItem ->
-                    items.any { itemEntity -> ItemStack.isSameItem(itemEntity.item, recipeItem) }
+                    items.any { itemEntity -> recipeItem.test(itemEntity.item) }
                 }
             }
 
@@ -300,7 +302,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             // Further filter by entities
             val validSacrificesAndItemsRecipe = validItemRecipes?.filter { recipe ->
-                val requiredSacrifices = recipe.value.inputEntities
+                val requiredSacrifices = recipe.inputEntities
                 requiredSacrifices.isEmpty() || requiredSacrifices.all { requiredEntity ->
                     entities.any { entity -> entity.type == requiredEntity }
                 }
@@ -310,29 +312,29 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             // Sort by number of inputs (items + entities), picking the longest recipe
             val sortedRecipes = validSacrificesAndItemsRecipe?.sortedByDescending { recipe ->
-                recipe.value.inputItems.size + recipe.value.inputEntities.size
+                recipe.inputItems.size + recipe.inputEntities.size
             }
 
             // Ensure that there are valid recipes and check conditions
             if (!sortedRecipes.isNullOrEmpty()) {
                 val selectedRecipe = sortedRecipes[0] // Pick the longest recipe
 
-                Witchery.logDebugRitual("Selected recipe: ${selectedRecipe.value} with inputs: ${selectedRecipe.value.inputItems.size} items and ${selectedRecipe.value.inputEntities.size} entities.")
+                Witchery.logDebugRitual("Selected recipe: ${recipes.getId(selectedRecipe)} with inputs: ${selectedRecipe.inputItems.size} items and ${selectedRecipe.inputEntities.size} entities.")
 
-                val hasValidCircle = validateRitualCircle(level!!, selectedRecipe.value)
-                val hasEnoughPower = hasEnoughAltarPower(level!!, selectedRecipe.value)
-                val meetsCelestialCondition = hasCelestialCondition(level!!, selectedRecipe.value)
+                val hasValidCircle = validateRitualCircle(level!!, selectedRecipe)
+                val hasEnoughPower = hasEnoughAltarPower(level!!, selectedRecipe)
+                val meetsCelestialCondition = hasCelestialCondition(level!!, selectedRecipe)
 
                 Witchery.logDebugRitual("Ritual conditions - Valid Circle: $hasValidCircle, Enough Power: $hasEnoughPower, Celestial Condition: $meetsCelestialCondition.")
 
                 if (hasValidCircle && hasEnoughPower && meetsCelestialCondition) {
                     ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
-                    ritualRecipe = selectedRecipe.value
+                    ritual = selectedRecipe
                     shouldRun = true
                     shouldStartConsumingItems = true
                     setChanged()
 
-                    Witchery.logDebugRitual("Ritual started by ${pPlayer.name.string} with recipe ${ritualRecipe}.")
+                    Witchery.logDebugRitual("Ritual started by ${pPlayer.name.string} with recipe ${ritual}.")
 
                     playRitualStartSound(pPlayer)
                 } else {
@@ -358,26 +360,26 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         level?.playSound(null, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
     }
 
-    private fun hasCelestialCondition(level: Level, recipeHolder: RitualRecipe): Boolean {
+    private fun hasCelestialCondition(level: Level, recipeHolder: DynamicRitual): Boolean {
         if (recipeHolder.celestialConditions.isEmpty()) {
             return true
         }
-        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.DAY)) {
+        if (recipeHolder.celestialConditions.contains(Celestial.DAY)) {
             return RitualHelper.isDaytime(level)
         }
-        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.FULL_MOON)) {
+        if (recipeHolder.celestialConditions.contains(Celestial.FULL_MOON)) {
             return RitualHelper.isFullMoon(level)
         }
-        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.NEW_MOON)) {
+        if (recipeHolder.celestialConditions.contains(Celestial.NEW_MOON)) {
             return RitualHelper.isNewMoon(level)
         }
-        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.NIGHT)) {
+        if (recipeHolder.celestialConditions.contains(Celestial.NIGHT)) {
             return RitualHelper.isNighttime(level)
         }
         return false
     }
 
-    private fun hasEnoughAltarPower(level: Level, recipe: RitualRecipe): Boolean {
+    private fun hasEnoughAltarPower(level: Level, recipe: DynamicRitual): Boolean {
 
         val maybeAttunedItem = level.getEntities(
             EntityType.ITEM,
@@ -402,11 +404,11 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return requiredAltarPower <= 0
     }
 
-    private fun validateRitualCircle(level: Level, recipe: RitualRecipe): Boolean {
+    private fun validateRitualCircle(level: Level, recipe: DynamicRitual): Boolean {
         return RitualPatternUtil.matchesPattern(level, blockPos, recipe)
     }
 
-    private fun consumeAltarPower(level: Level, recipe: RitualRecipe): Boolean {
+    private fun consumeAltarPower(level: Level, recipe: DynamicRitual): Boolean {
         val maybeAttunedItem = level.getEntities(
             EntityType.ITEM,
             AABB(blockPos).inflate(3.0, 0.0, 3.0)
@@ -454,7 +456,9 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (pTag.contains("ritualId")) {
-            ritualRecipe = RitualRecipe.fromNbt(pTag.getCompound("ritualId"), pRegistries)
+            val key = ResourceLocation.parse(pTag.getString("ritualId"))
+            ritual = pRegistries.lookupOrThrow(WitcheryRegistries.DYNAMIC_RITUAL).listElements().filter { h ->
+                h.key().location() == key }.findFirst().get().value()
         }
 
         if (pTag.contains("ownerName")) {
@@ -516,8 +520,9 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             tag.put("altarPos", NbtUtils.writeBlockPos(cachedAltarPos!!))
         }
 
-        if (ritualRecipe != null) {
-            tag.put("ritualId", ritualRecipe!!.toNbt(registries))
+        if (ritual != null) {
+            tag.putString("ritualId", registries.lookupOrThrow(WitcheryRegistries.DYNAMIC_RITUAL).listElements().filter { h ->
+                h.value() == ritual }.findFirst().get().key().location().toString())
         }
 
         if (ownerName != null) {

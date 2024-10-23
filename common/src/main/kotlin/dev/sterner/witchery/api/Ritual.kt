@@ -1,5 +1,7 @@
 package dev.sterner.witchery.api
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
@@ -17,5 +19,15 @@ open class Ritual(val id: ResourceLocation) {
 
     open fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
 
+    }
+
+    companion object {
+        val CODEC: Codec<Ritual> = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Ritual> ->
+            instance.group(
+                ResourceLocation.CODEC.fieldOf("id").forGetter { ritual -> ritual.id }
+            ).apply(instance) { resourceLocation ->
+                Ritual(resourceLocation)
+            }
+        }
     }
 }

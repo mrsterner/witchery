@@ -1,0 +1,28 @@
+{
+  "altarPower": 20,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "R": "witchery:ritual_chalk"
+  },
+  "inputItems": [
+    {
+      "id": "minecraft:feather"
+    },
+    {
+      "id": "minecraft:redstone"
+    }
+  ],
+  "isInfinite": true,
+  "pattern": [
+    "__RRR__",
+    "_R___R_",
+    "R_____R",
+    "R__G__R",
+    "R_____R",
+    "_R___R_",
+    "__RRR__"
+  ],
+  "ritual": {
+    "id": "witchery:push_mobs"
+  }
+}

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.block.ritual
 
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
+import dev.sterner.witchery.api.DynamicRitual
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
@@ -8,10 +8,8 @@ import net.minecraft.world.level.block.Block
 
 object RitualPatternUtil {
 
-    fun matchesPattern(level: Level, center: BlockPos, recipe: RitualRecipe): Boolean {
-        val pattern = recipe.pattern
-        val blockMapping = recipe.blockMapping
-        return matchesPattern(level, center, pattern, blockMapping)
+    fun matchesPattern(level: Level, center: BlockPos, ritual: DynamicRitual): Boolean {
+        return matchesPattern(level, center, ritual.pattern, ritual.blocks)
     }
 
     private fun matchesPattern(

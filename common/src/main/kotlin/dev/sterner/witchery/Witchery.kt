@@ -93,6 +93,8 @@ object Witchery {
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
 
+        WitcheryRitualRegistry.RITUALS.register()
+
         WitcheryPayloads.register()
 
         EntityAttributeRegistry.register(WitcheryEntityTypes.MANDRAKE, MandrakeEntity::createAttributes)

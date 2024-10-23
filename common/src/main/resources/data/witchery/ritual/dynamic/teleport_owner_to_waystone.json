@@ -1,0 +1,28 @@
+{
+  "altarPower": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "R": "witchery:otherwhere_chalk"
+  },
+  "commands": [
+    {
+      "type": "end",
+      "command": "tp {owner} {waystonePos}"
+    }
+  ],
+  "inputItems": [
+    {
+      "id": "witchery:waystone"
+    }
+  ],
+  "pattern": [
+    "__RRR__",
+    "_R___R_",
+    "R_____R",
+    "R__G__R",
+    "R_____R",
+    "_R___R_",
+    "__RRR__"
+  ],
+  "ticks": 20
+}
