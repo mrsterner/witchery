@@ -41,7 +41,9 @@ import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.LightInfusionData
+import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
+import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -118,8 +120,8 @@ object Witchery {
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
-        TickEvent.PLAYER_PRE.register(LightInfusionData::tick)
-        TickEvent.PLAYER_PRE.register(OtherwhereInfusionData::tick)
+        TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
+        TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
     }
 
     private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {

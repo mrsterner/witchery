@@ -17,22 +17,5 @@ class LightInfusionData(val isInvisible: Boolean = false, val invisibleTimer: In
         }
 
         val ID: ResourceLocation = Witchery.id("light_infusion_player_data")
-
-        fun tick(player: Player?) {
-
-            if (player != null && PlayerInfusionDataAttachment.getPlayerInfusion(player).type == InfusionType.LIGHT) {
-                if (LightInfusionDataAttachment.isInvisible(player).isInvisible) {
-                    val ticks = LightInfusionDataAttachment.isInvisible(player).invisibleTimer
-
-                    if (ticks <= 0) {
-                        LightInfusionDataAttachment.setInvisible(player, false, 0)
-                    } else {
-                        LightInfusionDataAttachment.setInvisible(player, true, ticks - 1)
-                    }
-                }
-            }
-        }
     }
-
-
 }

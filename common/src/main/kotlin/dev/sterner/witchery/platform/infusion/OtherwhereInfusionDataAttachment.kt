@@ -35,4 +35,17 @@ object OtherwhereInfusionDataAttachment {
         }
     }
 
+    fun tick(player: Player?) {
+        if (player != null && PlayerInfusionDataAttachment.getPlayerInfusion(player).type == InfusionType.OTHERWHERE) {
+
+            val data = getInfusion(player)
+            val ticks = data.teleportCooldown
+
+            if (ticks <= 0) {
+                setInfusion(player, data.teleportHoldTicks, 0)
+            } else {
+                setInfusion(player, data.teleportHoldTicks, ticks - 1)
+            }
+        }
+    }
 }

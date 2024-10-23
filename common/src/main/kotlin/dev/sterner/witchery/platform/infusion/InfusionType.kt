@@ -3,6 +3,7 @@ package dev.sterner.witchery.platform.infusion
 import com.mojang.serialization.Codec
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
@@ -12,7 +13,7 @@ import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec3
-import org.joml.Vector3d
+import kotlin.math.min
 
 enum class InfusionType : StringRepresentable {
     NONE,
@@ -45,14 +46,35 @@ enum class InfusionType : StringRepresentable {
     OTHERWHERE {
         override fun onReleaseRightClick(player: Player): Boolean {
             if (PlayerInfusionDataAttachment.getInfusionCharge(player) >= 500){
-                val target = raytraceForTeleport(player)
+
+                val data = OtherwhereInfusionDataAttachment.getInfusion(player)
+
+                val target = raytraceForTeleport(player, data.teleportHoldTicks)
                 if (target != null) {
                     PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 500)
                     player.teleportTo(target.x, target.y, target.z)
+                    val old = OtherwhereInfusionDataAttachment.getInfusion(player)
+                    OtherwhereInfusionDataAttachment.setInfusion(player, 0, old.teleportCooldown)
                     return true
                 }
             }
+
+            val old = OtherwhereInfusionDataAttachment.getInfusion(player)
+            OtherwhereInfusionDataAttachment.setInfusion(player, 0, old.teleportCooldown)
+
             return false
+        }
+
+        override fun onHoldRightClick(player: Player): Boolean {
+            val old = OtherwhereInfusionDataAttachment.getInfusion(player)
+            val n = old.teleportHoldTicks + 1
+            OtherwhereInfusionDataAttachment.setInfusion(player,  min(n, 20 * 4), old.teleportCooldown)
+
+            if (n % 40 == 0) {
+                player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 0.5f, 1f)
+            }
+
+            return super.onHoldRightClick(player)
         }
     };
 
@@ -96,27 +118,27 @@ enum class InfusionType : StringRepresentable {
                     && (level.isEmptyBlock(pos.above()) || level.getBlockState(pos.above()).getCollisionShape(level, pos.above()).isEmpty)
         }
 
-        fun raytraceForTeleport(player: Player): Vec3? {
+        fun raytraceForTeleport(player: Player, teleportHoldTicks: Int): Vec3? {
             val level = player.level()
 
+            val bonusDistance = (teleportHoldTicks / 20) * 16
             val eyePos = player.getEyePosition(0f)
             val dir = player.getViewVector(0f)
-            val rayEnd = eyePos.add(dir.x * 32, dir.y * 32, dir.z * 32)
-            val result: BlockHitResult = level.clip(ClipContext(eyePos, rayEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player))
 
-            var targetPos = when (result.direction) {
+            val maxDistance = 16.0 + bonusDistance
+            val rayEnd = eyePos.add(dir.scale(maxDistance))
+
+            val result: BlockHitResult = level.clip(
+                ClipContext(eyePos, rayEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player)
+            )
+
+            val targetPos = when (result.direction) {
                 Direction.DOWN -> result.blockPos.below(2)
+                Direction.UP -> result.blockPos.below()
                 else -> result.blockPos.relative(result.direction)
             }
 
-            var posIsFree = isPosClear(level, targetPos)
-            while (!posIsFree) {
-                targetPos = targetPos.below()
-                posIsFree = isPosClear(level, targetPos) && level.clip(ClipContext(eyePos, Vec3.atCenterOf(targetPos.above()), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player)).type == HitResult.Type.MISS
-                if (targetPos.y <= 0) {
-                    break
-                }
-            }
+            val posIsFree = isPosClear(level, targetPos)
             return if (posIsFree) Vec3.atCenterOf(targetPos) else null
         }
     }

@@ -43,4 +43,19 @@ object LightInfusionDataAttachment {
             ))
         }
     }
+
+    fun tick(player: Player?) {
+
+        if (player != null && PlayerInfusionDataAttachment.getPlayerInfusion(player).type == InfusionType.LIGHT) {
+            if (isInvisible(player).isInvisible) {
+                val ticks = isInvisible(player).invisibleTimer
+
+                if (ticks <= 0) {
+                    setInvisible(player, false, 0)
+                } else {
+                    setInvisible(player, true, ticks - 1)
+                }
+            }
+        }
+    }
 }

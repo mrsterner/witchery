@@ -17,19 +17,5 @@ class OtherwhereInfusionData(val teleportHoldTicks: Int = 0, val teleportCooldow
         }
 
         val ID: ResourceLocation = Witchery.id("otherwhere_infusion_player_data")
-
-        fun tick(player: Player?) {
-            if (player != null && PlayerInfusionDataAttachment.getPlayerInfusion(player).type == InfusionType.OTHERWHERE) {
-
-                val data = OtherwhereInfusionDataAttachment.getInfusion(player)
-                val ticks = data.teleportCooldown
-
-                if (ticks <= 0) {
-                    OtherwhereInfusionDataAttachment.setInfusion(player, data.teleportHoldTicks, 0)
-                } else {
-                    OtherwhereInfusionDataAttachment.setInfusion(player, data.teleportHoldTicks, ticks - 1)
-                }
-            }
-        }
     }
 }
