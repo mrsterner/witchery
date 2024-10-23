@@ -21,6 +21,9 @@
   "outputEntities": [],
   "outputItems": [
     {
+      "components": {
+        "witchery:has_ointment": true
+      },
       "id": "witchery:broom"
     }
   ],
