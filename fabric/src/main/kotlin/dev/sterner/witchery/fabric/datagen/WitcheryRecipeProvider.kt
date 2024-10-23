@@ -683,6 +683,15 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_poppet", has(WitcheryItems.POPPET.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.BROOM.get())
+            .pattern("L")
+            .pattern("L")
+            .pattern("H")
+            .define('H', Items.HAY_BLOCK)
+            .define('L', WitcheryItems.ALDER_LOG.get())
+            .unlockedBy("has_alder", has(WitcheryItems.ALDER_LOG.get()))
+            .save(exporter)
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())
             .requires(Items.BONE)
             .requires(Items.FLINT)
@@ -1288,6 +1297,31 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("charge_attuned"))
+
+        val broom = WitcheryItems.BROOM.get().defaultInstance
+        attuned.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.FLYING_OINTMENT.get().defaultInstance)
+            .addInputItem(WitcheryItems.BROOM.get().defaultInstance)
+            .addOutputItem(broom)
+            .setAltarPower(3000)
+            .pattern(
+                "___RRRRR___",
+                "__R_____R__",
+                "_R__RRR__R_",
+                "R__R___R__R",
+                "R_R_____R_R",
+                "R_R__G__R_R",
+                "R_R_____R_R",
+                "R__R___R__R",
+                "_R__RRR__R_",
+                "__R_____R__",
+                "___RRRRR___"
+            )
+            .define('R', WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .define('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+            .save(exporter, Witchery.id("apply_ointment"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.GHOST_OF_THE_LIGHT.get().defaultInstance)

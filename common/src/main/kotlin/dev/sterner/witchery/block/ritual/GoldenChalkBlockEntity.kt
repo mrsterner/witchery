@@ -323,7 +323,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 val hasEnoughPower = hasEnoughAltarPower(level!!, selectedRecipe.value)
                 val meetsCelestialCondition = hasCelestialCondition(level!!, selectedRecipe.value)
 
-                Witchery.logDebugRitual("Ritual conditions - Valid Circle: $hasValidCircle, Enough Power: $hasEnoughPower, Celestial Condition: $meetsCelestialCondition.")
+                Witchery.logDebugRitual("Ritual conditions - Valid Circle: $hasValidCircle, Enough Power: $hasEnoughPower : ${selectedRecipe.value.altarPower}, Celestial Condition: $meetsCelestialCondition.")
 
                 if (hasValidCircle && hasEnoughPower && meetsCelestialCondition) {
                     ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
@@ -397,7 +397,9 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
         val requiredAltarPower = recipe.altarPower - attunedStoneBonus
         if (requiredAltarPower > 0 && cachedAltarPos != null) {
-            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
+            println("Required: $requiredAltarPower")
+            val tr = tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
+            return tr
         }
         return requiredAltarPower <= 0
     }

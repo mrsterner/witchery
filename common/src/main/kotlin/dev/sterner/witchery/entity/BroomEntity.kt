@@ -1,5 +1,6 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.client.Minecraft
@@ -334,6 +335,7 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         if (level().gameRules.getBoolean(GameRules.RULE_DOENTITYDROPS)) {
             val itemStack = ItemStack(dropItem)
             itemStack.set(DataComponents.CUSTOM_NAME, this.customName)
+            itemStack.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
             this.spawnAtLocation(itemStack)
         }
     }

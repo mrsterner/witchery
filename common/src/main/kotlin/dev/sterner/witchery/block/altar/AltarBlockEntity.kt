@@ -310,6 +310,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean {
         val hasPower = amount <= currentPower
+        println("$hasPower / $currentPower / $amount")
+
 
         if (simulate || level?.isClientSide != false)
             return hasPower

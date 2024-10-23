@@ -37,4 +37,8 @@ object WitcheryDataComponents {
     val HAS_SOUP = DATA.register("has_soup") {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
     }
+
+    val HAS_OINTMENT = DATA.register("has_ointment") {
+        DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
+    }
 }

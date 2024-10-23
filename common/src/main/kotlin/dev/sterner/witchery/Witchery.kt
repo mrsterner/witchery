@@ -74,7 +74,7 @@ object Witchery {
 
     val LOGGER: Logger = LogUtils.getLogger()
 
-    val debugRitualLog: Boolean = false
+    val debugRitualLog: Boolean = true
 
     @JvmStatic
     fun init() {
@@ -331,7 +331,7 @@ object Witchery {
 
     fun logDebugRitual(message: String) {
         if (debugRitualLog) {
-            LOGGER.debug(message)
+            println(message)
         }
     }
 }
