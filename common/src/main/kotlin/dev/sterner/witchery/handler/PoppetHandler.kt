@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.component.DataComponents
@@ -50,11 +51,7 @@ object PoppetHandler {
 
     fun hasArmorProtectionPoppet(level: ServerLevel, player: ServerPlayer): Boolean {
         val itemStack: ItemStack? = consumePoppet(player, WitcheryItems.ARMOR_PROTECTION_POPPET.get())
-        if (itemStack != null) {
-            return true
-        }
-
-        return false
+        return itemStack != null
     }
 
     fun hungerProtectionPoppet(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
@@ -119,5 +116,38 @@ object PoppetHandler {
         }
 
         return itemStack
+    }
+
+    fun handleHurt(livingEntity: LivingEntity?, original: Float): Float {
+        if (livingEntity != null) {
+            var itemStack: ItemStack? = AccessoryHandler.checkNoConsume(livingEntity, WitcheryItems.VAMPIRIC_POPPET.get())
+
+            if (itemStack == null) {
+                for (interactionHand in InteractionHand.entries) {
+                    val handItem: ItemStack = livingEntity.getItemInHand(interactionHand)
+                    if (handItem.`is`(WitcheryItems.VAMPIRIC_POPPET.get())) {
+                        itemStack = handItem
+                        break
+                    }
+                }
+            }
+
+            if (itemStack != null) {
+                val maybePlayer = TaglockItem.getPlayer(livingEntity.level(), itemStack)
+                val maybeEntity = TaglockItem.getLivingEntity(livingEntity.level(), itemStack)
+
+                if (maybePlayer != null || maybeEntity != null) {
+                    val halfDamage = original / 2
+
+                    if (maybePlayer != null) {
+                        maybePlayer.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
+                    } else maybeEntity?.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
+
+                    return halfDamage
+                }
+            }
+        }
+
+        return original
     }
 }

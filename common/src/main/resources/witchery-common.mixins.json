@@ -15,6 +15,7 @@
     "LecternBlockMixin",
     "LevelChunkMixin",
     "LightningBoltMixin",
+    "LivingEntityMixin",
     "ShapelessRecipeAccessor"
   ],
   "injectors": {

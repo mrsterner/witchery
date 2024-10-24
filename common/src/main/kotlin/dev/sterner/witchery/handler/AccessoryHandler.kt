@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 
 object AccessoryHandler {
+
     fun check(livingEntity: LivingEntity, item: Item): Pair<Boolean, ItemStack?> {
         var consume = false
         var itemStack: ItemStack? = null
@@ -35,5 +36,26 @@ object AccessoryHandler {
         }
 
         return Pair(consume, itemStack)
+    }
+
+    fun checkNoConsume(livingEntity: LivingEntity, item: Item): ItemStack? {
+        var itemStack: ItemStack? = null
+
+        if (livingEntity is Player && PlatformUtils.isModLoaded("accessories")) {
+            val list: List<ItemStack> = AccessoriesCapability.get(livingEntity)?.allEquipped
+                ?.filter { it.stack.item is PoppetItem }
+                ?.filter { it.stack.`is`(item) }
+                ?.map { it.stack }.orEmpty()
+
+            for (accessory in list) {
+                val profile = accessory.get(DataComponents.PROFILE)
+                if (profile?.gameProfile == livingEntity.gameProfile) {
+                    itemStack = accessory.copy()
+                    break
+                }
+            }
+        }
+
+        return itemStack
     }
 }

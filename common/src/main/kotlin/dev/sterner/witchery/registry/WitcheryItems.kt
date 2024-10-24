@@ -245,7 +245,7 @@ object WitcheryItems {
     }
 
     val VAMPIRIC_POPPET: RegistrySupplier<Item> = ITEMS.register("vampiric_poppet") {
-        PoppetItem(Item.Properties())
+        PoppetItem(Item.Properties().durability(128))
     }
 
     val VOODOO_POPPET: RegistrySupplier<Item> = ITEMS.register("voodoo_poppet") {
