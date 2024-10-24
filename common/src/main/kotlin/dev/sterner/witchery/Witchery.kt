@@ -1,7 +1,6 @@
 package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
-import dev.architectury.core.item.ArchitecturyBucketItem
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
