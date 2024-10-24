@@ -118,7 +118,7 @@ object PoppetHandler {
         return itemStack
     }
 
-    fun handleHurt(livingEntity: LivingEntity?, original: Float): Float {
+    fun handleVampiricPoppet(livingEntity: LivingEntity?, original: Float): Float {
         if (livingEntity != null) {
             var itemStack: ItemStack? = AccessoryHandler.checkNoConsume(livingEntity, WitcheryItems.VAMPIRIC_POPPET.get())
 
@@ -127,6 +127,7 @@ object PoppetHandler {
                     val handItem: ItemStack = livingEntity.getItemInHand(interactionHand)
                     if (handItem.`is`(WitcheryItems.VAMPIRIC_POPPET.get())) {
                         itemStack = handItem
+                        println("Accessory")
                         break
                     }
                 }
@@ -135,6 +136,8 @@ object PoppetHandler {
             if (itemStack != null) {
                 val maybePlayer = TaglockItem.getPlayer(livingEntity.level(), itemStack)
                 val maybeEntity = TaglockItem.getLivingEntity(livingEntity.level(), itemStack)
+
+                println(maybeEntity)
 
                 if (maybePlayer != null || maybeEntity != null) {
                     val halfDamage = original / 2

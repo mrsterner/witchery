@@ -36,6 +36,7 @@ class TaglockDataComponentTransferRecipe() : CustomRecipe(CraftingBookCategory.M
         if (poppetItem != null && taglockItem != null) {
             poppetItem.set(DataComponents.PROFILE, taglockItem.get(DataComponents.PROFILE))
             poppetItem.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), taglockItem.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get()))
+            poppetItem.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), taglockItem.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get()))
         }
 
         return poppetItem ?: ItemStack.EMPTY

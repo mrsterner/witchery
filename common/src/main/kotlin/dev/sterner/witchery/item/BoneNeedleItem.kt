@@ -1,6 +1,5 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.item.TaglockItem.Companion.bindPlayer
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.server.level.ServerLevel
@@ -44,7 +43,7 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
             for (serverPlayer in level.server!!.playerList.players) {
                 if (serverPlayer.respawnPosition == pos) {
                     val taglock = WitcheryItems.TAGLOCK.get().defaultInstance
-                    bindPlayer(serverPlayer, taglock)
+                    TaglockItem.bindPlayerOrLiving(serverPlayer, taglock)
                     addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, taglock)
                     level.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.5f, 1.0f)
                     break
@@ -92,7 +91,7 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
             if (itemStack.`is`(WitcheryItems.BONE_NEEDLE.get()) && player.offhandItem.`is`(Items.GLASS_BOTTLE)) {
                 if (target is Player) {
                     if (trySneakyTaglocking(player, target)) {
-                        bindPlayer(target, taglock)
+                        TaglockItem.bindPlayerOrLiving(target, taglock)
                         level.playSound(
                             null,
                             target.onPos,
@@ -117,7 +116,7 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
                     if (target is Mob) {
                         target.setPersistenceRequired()
                     }
-                    TaglockItem.bindLivingEntity(target, taglock)
+                    TaglockItem.bindPlayerOrLiving(target, taglock)
                     level.playSound(
                         null,
                         target.onPos,

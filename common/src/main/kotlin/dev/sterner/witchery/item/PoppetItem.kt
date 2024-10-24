@@ -1,5 +1,7 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntityName
+import dev.sterner.witchery.item.TaglockItem.Companion.getPlayerProfile
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.client.Minecraft
 import net.minecraft.core.component.DataComponents
@@ -18,18 +20,16 @@ class PoppetItem(properties: Properties) : Item(properties.stacksTo(1)) {
         tooltipComponents: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
-        val profile = stack.get(DataComponents.PROFILE)
-        val name = stack.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get())
-        //println(profile)
-        if (profile != null) {
+        val player = getPlayerProfile(stack)
+        val living = getLivingEntityName(stack)
+        if (player != null) {
             tooltipComponents.add(
-                Component.literal(profile.gameProfile.name.replaceFirstChar(Char::uppercase))
+                Component.literal(player.gameProfile.name.replaceFirstChar(Char::uppercase))
                     .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
             )
-        } else if (name != null) {
+        } else if (living != null) {
             tooltipComponents.add(
-                Component.literal(name.replaceFirstChar(Char::uppercase))
-                    .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
+                Component.translatable(living).setStyle(Style.EMPTY.withColor(Color(255, 100, 100).rgb))
             )
         }
 

@@ -178,11 +178,8 @@ object Witchery {
         interactionHand: InteractionHand?
     ): EventResult? {
         if (player.mainHandItem.`is`(WitcheryItems.TAGLOCK.get()) && interactionHand == InteractionHand.MAIN_HAND) {
-            if (entity is Player) {
-                TaglockItem.bindPlayer(entity, player.mainHandItem)
-                return EventResult.interruptTrue()
-            } else if (entity is LivingEntity) {
-                TaglockItem.bindLivingEntity(entity, player.mainHandItem)
+            if (entity is LivingEntity) {
+                TaglockItem.bindPlayerOrLiving(entity, player.mainHandItem)
                 return EventResult.interruptTrue()
             }
         }

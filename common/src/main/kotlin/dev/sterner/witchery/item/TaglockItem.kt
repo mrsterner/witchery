@@ -59,26 +59,19 @@ class TaglockItem(properties: Properties) : Item(properties) {
 
     companion object {
 
-        fun bindLivingEntity(livingEntity: LivingEntity, stack: ItemStack) {
+        fun bindPlayerOrLiving(livingEntity: LivingEntity, stack: ItemStack){
             if (stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())!!) {
                 return
             }
-            stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), livingEntity.stringUUID)
-            stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), livingEntity.type.descriptionId.toString())
-        }
 
-        fun getLivingEntity(level: Level, stack: ItemStack): LivingEntity? {
-            if (stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())!!) {
-                return null
+            if (livingEntity is Player) {
+                stack.set(DataComponents.PROFILE, ResolvableProfile(livingEntity.gameProfile))
+                stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), livingEntity.gameProfile.name.replaceFirstChar(Char::uppercase))
+            } else {
+                stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), livingEntity.type.descriptionId.toString())
             }
-            val id = stack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-            for (serverLevel in level.server!!.allLevels) {
-                val liv = serverLevel.getEntity(UUID.fromString(id))
-                if (liv is LivingEntity) {
-                    return liv
-                }
-            }
-            return null
+
+            stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), livingEntity.stringUUID)
         }
 
         fun getLivingEntityName(stack: ItemStack): String? {
@@ -89,20 +82,12 @@ class TaglockItem(properties: Properties) : Item(properties) {
             return id
         }
 
-        fun bindPlayer(player: Player, stack: ItemStack) {
-            if (stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())!!) {
-                return
-            }
-            stack.set(DataComponents.PROFILE, ResolvableProfile(player.gameProfile))
-            stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), player.gameProfile.name.replaceFirstChar(Char::uppercase))
-        }
-
         fun getPlayerProfile(stack: ItemStack): ResolvableProfile? {
             if (stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())!!) {
                 return null
             }
 
-            return stack.get(DataComponents.PROFILE)
+            return if(stack.has(DataComponents.PROFILE)) stack.get(DataComponents.PROFILE) else null
         }
 
         fun getPlayer(level: Level, stack: ItemStack): Player? {
@@ -114,6 +99,25 @@ class TaglockItem(properties: Properties) : Item(properties) {
             if (profile != null && profile.id.isPresent) {
                 return level.getPlayerByUUID(profile.id.get())
             }
+            return null
+        }
+
+        fun getLivingEntity(level: Level, stack: ItemStack): LivingEntity? {
+            if (stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())!!) {
+                return null
+            }
+
+            if (stack.has(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())) {
+                val id = stack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+                if (id != null) {
+                    for (serverLevel in level.server!!.allLevels) {
+                        if (UUID.fromString(id) != null && serverLevel.getEntity(UUID.fromString(id)) != null) {
+                            return serverLevel.getEntity(UUID.fromString(id)) as LivingEntity
+                        }
+                    }
+                }
+            }
+
             return null
         }
     }
