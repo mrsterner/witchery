@@ -2,11 +2,17 @@ package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.item.PoppetItem
+import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
+import io.wispforest.accessories.api.AccessoriesAPI
+import io.wispforest.accessories.api.AccessoriesCapability
+import io.wispforest.accessories.api.components.AccessoriesDataComponents
+import io.wispforest.accessories.api.slot.SlotType
 import net.minecraft.core.component.DataComponents
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.tags.DamageTypeTags
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.damagesource.DamageSource
@@ -41,6 +47,7 @@ object PoppetHandler {
                 player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 900, 1))
                 player.addEffect(MobEffectInstance(MobEffects.ABSORPTION, 100, 1))
                 player.addEffect(MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0))
+                player.playSound(SoundEvents.TOTEM_USE)
             }
 
             return itemStack != null
@@ -84,18 +91,42 @@ object PoppetHandler {
     private fun consumePoppet(livingEntity: LivingEntity, item: Item): ItemStack? {
         var itemStack: ItemStack? = null
         var consume = false
-        for (interactionHand in InteractionHand.entries) {
-            val itemStack2: ItemStack = livingEntity.getItemInHand(interactionHand)
 
-            if (livingEntity is Player) {
-                val profile = itemStack2.get(DataComponents.PROFILE)
+        if (livingEntity is Player && PlatformUtils.isModLoaded("accessories")) {
+            val list: List<ItemStack> = AccessoriesCapability.get(livingEntity)?.allEquipped
+                ?.filter { it.stack.item is PoppetItem }
+                ?.filter { it.stack.`is`(item) }
+                ?.map { it.stack }.orEmpty()
+
+            for (accessory in list) {
+                val profile = accessory.get(DataComponents.PROFILE)
                 if (profile?.gameProfile == livingEntity.gameProfile) {
                     consume = true
                 }
-            } else {
-                val id = itemStack2.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-                if (id == livingEntity.stringUUID) {
-                    consume = true
+
+                if (consume) {
+                    itemStack = accessory.copy()
+                    accessory.shrink(1)
+                    break
+                }
+            }
+        }
+
+        // Check main hand and offhand
+        for (interactionHand in InteractionHand.entries) {
+            val itemStack2: ItemStack = livingEntity.getItemInHand(interactionHand)
+
+            if (itemStack2.`is`(item)) {
+                if (livingEntity is Player) {
+                    val profile = itemStack2.get(DataComponents.PROFILE)
+                    if (profile?.gameProfile == livingEntity.gameProfile) {
+                        consume = true
+                    }
+                } else {
+                    val id = itemStack2.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+                    if (id == livingEntity.stringUUID) {
+                        consume = true
+                    }
                 }
             }
 
