@@ -26,6 +26,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("container.witchery.spinning_wheel", "Spinning Wheel")
         builder.add("container.witchery.distillery", "Distillery")
 
+        builder.add("accessories.slot.poppet", "Poppet")
+
         builder.add("witchery.secondbrewbonus.25", "+25% chance of second brew")
         builder.add("witchery.secondbrewbonus.35", "+35% chance of second brew")
         builder.add("witchery.thirdbrewbonus.25", "+25% chance of third brew")
