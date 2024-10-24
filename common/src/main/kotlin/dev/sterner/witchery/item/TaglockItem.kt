@@ -41,14 +41,14 @@ class TaglockItem(properties: Properties) : Item(properties) {
         tooltipComponents: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
-        val player = Minecraft.getInstance().level?.let { getPlayer(it, stack) }
+        val player = getPlayerProfile(stack)
         if (player != null) {
             tooltipComponents.add(
                 Component.literal(player.gameProfile.name.replaceFirstChar(Char::uppercase))
                     .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
             )
         }
-        val living = Minecraft.getInstance().level?.let { getLivingEntityName(stack) }
+        val living = getLivingEntityName(stack)
         if (living != null) {
             tooltipComponents.add(
                 Component.translatable(living).setStyle(Style.EMPTY.withColor(Color(255, 100, 100).rgb))

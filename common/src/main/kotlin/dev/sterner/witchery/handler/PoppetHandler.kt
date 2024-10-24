@@ -46,7 +46,12 @@ object PoppetHandler {
     }
 
     fun hasArmorProtectionPoppet(level: ServerLevel, player: ServerPlayer): Boolean {
-        return false //TODO implement and consume poppet here
+        val itemStack: ItemStack? = consumePoppet(player, WitcheryItems.ARMOR_PROTECTION_POPPET.get())
+        if (itemStack != null) {
+            return true
+        }
+
+        return false
     }
 
     fun hungerProtectionPoppet(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
