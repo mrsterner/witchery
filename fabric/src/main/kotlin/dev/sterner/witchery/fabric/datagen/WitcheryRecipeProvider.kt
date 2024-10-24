@@ -2,11 +2,10 @@ package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.ritual.CommandType
-import dev.sterner.witchery.block.ritual.RitualHelper
+import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
 import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
-import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipeBuilder
 import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
@@ -15,30 +14,25 @@ import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.ritual.PushMobsRitual
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
+import net.minecraft.advancements.AdvancementRequirements
+import net.minecraft.advancements.AdvancementRewards
+import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponentMap
-import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.RecipeOutput
-import net.minecraft.data.recipes.RecipeProvider
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.data.recipes.ShapelessRecipeBuilder
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder
 import net.minecraft.tags.ItemTags
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.item.crafting.Ingredient
-import net.minecraft.world.item.crafting.ShapedRecipe
-import net.minecraft.world.item.crafting.ShapelessRecipe
-import net.minecraft.world.level.block.Blocks
 import java.awt.Color
 import java.util.concurrent.CompletableFuture
-import kotlin.math.exp
 
 class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricRecipeProvider(output, registriesFuture) {
@@ -52,6 +46,24 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         ShapelessRecipeWithComponentsBuilder.create(RecipeCategory.MISC, WitcheryItems.CHALICE.get(), map)
             .offerTo(exporter, Witchery.id("fill_chalice"), list)
+
+        //start POPPETS
+        val id = Witchery.id("test")
+        val builder = exporter.advancement()
+            .addCriterion("has_recipe", RecipeUnlockedTrigger.unlocked(id))
+            .rewards(AdvancementRewards.Builder.recipe(id))
+            .requirements(AdvancementRequirements.Strategy.OR)
+        val v = TaglockDataComponentTransferRecipe(
+            listOf(
+                WitcheryItems.VOODOO_POPPET.get().defaultInstance,
+                WitcheryItems.TAGLOCK.get().defaultInstance,
+            ),
+            ItemStack(WitcheryItems.VOODOO_POPPET.get())
+        )
+        exporter.accept(id, v, builder.build(id))
+
+        //end POPPETS
+
 
         SpinningWheelRecipeBuilder.create()
             .addInput(Items.HAY_BLOCK.defaultInstance)

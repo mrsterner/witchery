@@ -3,6 +3,7 @@ package dev.sterner.witchery.registry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
@@ -48,6 +49,11 @@ object WitcheryRecipeTypes {
     val SPINNING_WHEEL_RECIPE_TYPE: RegistrySupplier<RecipeType<SpinningWheelRecipe>> =
         RECIPE_TYPES.register(SpinningWheelRecipe.NAME) {
             registerRecipeType(SpinningWheelRecipe.NAME)
+        }
+
+    val TAGLOCK_RECIPE_TYPE: RegistrySupplier<RecipeType<TaglockDataComponentTransferRecipe>> =
+        RECIPE_TYPES.register(TaglockDataComponentTransferRecipe.NAME) {
+            registerRecipeType(TaglockDataComponentTransferRecipe.NAME)
         }
 
     private fun <T : Recipe<*>> registerRecipeType(identifier: String): RecipeType<T> {

@@ -1,0 +1,17 @@
+{
+  "type": "witchery:data_transfer",
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "witchery:voodoo_poppet"
+    },
+    {
+      "count": 1,
+      "id": "witchery:taglock"
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:voodoo_poppet"
+  }
+}

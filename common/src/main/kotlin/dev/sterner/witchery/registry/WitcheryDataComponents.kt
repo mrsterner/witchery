@@ -4,8 +4,10 @@ import com.mojang.serialization.Codec
 import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import net.minecraft.core.GlobalPos
+import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
+import java.util.UUID
 
 object WitcheryDataComponents {
     val DATA = DeferredRegister.create(Witchery.MODID, Registries.DATA_COMPONENT_TYPE)
@@ -40,5 +42,9 @@ object WitcheryDataComponents {
 
     val HAS_OINTMENT = DATA.register("has_ointment") {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
+    }
+
+    val PLAYER_UUID = DATA.register("player_uuid") {
+        DataComponentType.builder<UUID>().persistent(UUIDUtil.CODEC).build()
     }
 }

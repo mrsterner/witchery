@@ -3,6 +3,7 @@ package dev.sterner.witchery.registry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
@@ -10,7 +11,7 @@ import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import net.minecraft.core.registries.Registries
-import net.minecraft.world.item.crafting.RecipeSerializer
+import net.minecraft.world.item.crafting.*
 
 
 object WitcheryRecipeSerializers {
@@ -37,6 +38,8 @@ object WitcheryRecipeSerializers {
     val SPINNING_WHEEL_RECIPE_SERIALIZER: RegistrySupplier<SpinningWheelRecipe.Serializer> =
         RECIPE_SERIALIZERS.register(SpinningWheelRecipe.NAME) { SpinningWheelRecipe.Serializer() }
 
-
-
+    val TAGLOCK_RECIPE_SERIALIZER: RegistrySupplier<RecipeSerializer<TaglockDataComponentTransferRecipe>> =
+        RECIPE_SERIALIZERS.register("crafting_special_taglock") {
+            SimpleCraftingRecipeSerializer { TaglockDataComponentTransferRecipe() }
+        }
 }
