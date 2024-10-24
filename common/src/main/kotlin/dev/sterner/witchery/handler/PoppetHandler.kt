@@ -127,7 +127,6 @@ object PoppetHandler {
                     val handItem: ItemStack = livingEntity.getItemInHand(interactionHand)
                     if (handItem.`is`(WitcheryItems.VAMPIRIC_POPPET.get())) {
                         itemStack = handItem
-                        println("Accessory")
                         break
                     }
                 }
@@ -137,8 +136,6 @@ object PoppetHandler {
                 val maybePlayer = TaglockItem.getPlayer(livingEntity.level(), itemStack)
                 val maybeEntity = TaglockItem.getLivingEntity(livingEntity.level(), itemStack)
 
-                println(maybeEntity)
-
                 if (maybePlayer != null || maybeEntity != null) {
                     val halfDamage = original / 2
 
@@ -146,6 +143,10 @@ object PoppetHandler {
                         maybePlayer.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
                     } else maybeEntity?.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
 
+                    itemStack.damageValue += 1
+                    if (itemStack.damageValue >= itemStack.maxDamage) {
+                        itemStack.shrink(1)
+                    }
                     return halfDamage
                 }
             }
