@@ -539,7 +539,7 @@ object WitcheryItems {
     }
 
     val TAGLOCK = ITEMS.register("taglock") {
-        TaglockItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON))
+        TaglockItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON).craftRemainder(Items.GLASS_BOTTLE))
     }
 
     val DISTILLERY = ITEMS.register("distillery") {

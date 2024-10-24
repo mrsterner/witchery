@@ -42,14 +42,13 @@ class TaglockItem(properties: Properties) : Item(properties) {
         tooltipFlag: TooltipFlag
     ) {
         val player = getPlayerProfile(stack)
+        val living = getLivingEntityName(stack)
         if (player != null) {
             tooltipComponents.add(
                 Component.literal(player.gameProfile.name.replaceFirstChar(Char::uppercase))
                     .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
             )
-        }
-        val living = getLivingEntityName(stack)
-        if (living != null) {
+        } else if (living != null) {
             tooltipComponents.add(
                 Component.translatable(living).setStyle(Style.EMPTY.withColor(Color(255, 100, 100).rgb))
             )
@@ -87,6 +86,7 @@ class TaglockItem(properties: Properties) : Item(properties) {
                 return
             }
             stack.set(DataComponents.PROFILE, ResolvableProfile(player.gameProfile))
+            stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), player.gameProfile.name.replaceFirstChar(Char::uppercase))
         }
 
         fun getPlayerProfile(stack: ItemStack): ResolvableProfile? {

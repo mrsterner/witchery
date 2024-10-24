@@ -2,6 +2,7 @@ package dev.sterner.witchery.item
 
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.client.Minecraft
+import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.item.Item
@@ -17,24 +18,21 @@ class PoppetItem(properties: Properties) : Item(properties.stacksTo(1)) {
         tooltipComponents: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
-        val profile = stack.get(WitcheryDataComponents.PLAYER_UUID.get())
+        val profile = stack.get(DataComponents.PROFILE)
         val name = stack.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get())
-        println(profile)
+        //println(profile)
         if (profile != null) {
-            val player = Minecraft.getInstance().level?.getPlayerByUUID(profile)
-
-            if (player != null) {
-                tooltipComponents.add(
-                    Component.literal(player.gameProfile.name.replaceFirstChar(Char::uppercase))
-                        .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
-                )
-            } else if (name != null) {
-                tooltipComponents.add(
-                    Component.literal(name.replaceFirstChar(Char::uppercase))
-                        .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
-                )
-            }
+            tooltipComponents.add(
+                Component.literal(profile.gameProfile.name.replaceFirstChar(Char::uppercase))
+                    .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
+            )
+        } else if (name != null) {
+            tooltipComponents.add(
+                Component.literal(name.replaceFirstChar(Char::uppercase))
+                    .setStyle(Style.EMPTY.withColor(Color(255, 2, 100).rgb))
+            )
         }
+
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
 }

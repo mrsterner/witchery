@@ -4,6 +4,7 @@ import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.component.DataComponents
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.*
 import net.minecraft.world.level.Level
@@ -35,10 +36,10 @@ class TaglockDataComponentTransferRecipe() : CustomRecipe(CraftingBookCategory.M
 
         if (poppetItem != null && taglockItem != null) {
             println("Transfer")
-            poppetItem.set(WitcheryDataComponents.PLAYER_UUID.get(), taglockItem.get(WitcheryDataComponents.PLAYER_UUID.get()))
+            poppetItem.set(DataComponents.PROFILE, taglockItem.get(DataComponents.PROFILE))
             poppetItem.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), taglockItem.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get()))
         }
-println("ReturnStack")
+        println("ReturnStack")
         return poppetItem ?: ItemStack.EMPTY
     }
 
@@ -46,20 +47,9 @@ println("ReturnStack")
         return width >= 2 && height >= 2
     }
 
-    override fun getResultItem(registries: HolderLookup.Provider): ItemStack {
-        return ItemStack.EMPTY
-    }
-
     override fun getSerializer(): RecipeSerializer<*> {
         return WitcheryRecipeSerializers.TAGLOCK_RECIPE_SERIALIZER.get()
     }
-/*
-    override fun getType(): RecipeType<*> {
-        return WitcheryRecipeTypes.TAGLOCK_RECIPE_TYPE.get()
-    }
-
- */
-
 
     companion object {
         const val NAME: String = "data_transfer"
