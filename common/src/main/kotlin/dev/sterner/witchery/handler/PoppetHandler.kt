@@ -2,7 +2,9 @@ package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.item.PoppetItem
+import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.core.component.DataComponents
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.DamageTypeTags
@@ -81,9 +83,23 @@ object PoppetHandler {
 
     private fun consumePoppet(livingEntity: LivingEntity, item: Item): ItemStack? {
         var itemStack: ItemStack? = null
+        var consume = false
         for (interactionHand in InteractionHand.entries) {
             val itemStack2: ItemStack = livingEntity.getItemInHand(interactionHand)
-            if (itemStack2.`is`(item)) {
+
+            if (livingEntity is Player) {
+                val profile = itemStack2.get(DataComponents.PROFILE)
+                if (profile?.gameProfile == livingEntity.gameProfile) {
+                    consume = true
+                }
+            } else {
+                val id = itemStack2.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+                if (id == livingEntity.stringUUID) {
+                    consume = true
+                }
+            }
+
+            if (consume) {
                 itemStack = itemStack2.copy()
                 itemStack2.shrink(1)
                 break
