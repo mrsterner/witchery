@@ -1,5 +1,6 @@
 package dev.sterner.witchery.recipe
 
+import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
@@ -25,21 +26,18 @@ class TaglockDataComponentTransferRecipe() : CustomRecipe(CraftingBookCategory.M
         var taglockItem: ItemStack? = null
 
         for (item in input.items()) {
-            if (item.`is`(WitcheryItems.VOODOO_POPPET.get())) {
-                println("PoppetFound")
+            if (item.item is PoppetItem) {
                 poppetItem = item.copy()
             } else if (item.`is`(WitcheryItems.TAGLOCK.get())) {
-                println("TaglockFound")
                 taglockItem = item
             }
         }
 
         if (poppetItem != null && taglockItem != null) {
-            println("Transfer")
             poppetItem.set(DataComponents.PROFILE, taglockItem.get(DataComponents.PROFILE))
             poppetItem.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), taglockItem.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get()))
         }
-        println("ReturnStack")
+
         return poppetItem ?: ItemStack.EMPTY
     }
 
