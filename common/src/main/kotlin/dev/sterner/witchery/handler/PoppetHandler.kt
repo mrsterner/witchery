@@ -49,8 +49,8 @@ object PoppetHandler {
         }
     }
 
-    fun hasArmorProtectionPoppet(level: ServerLevel, player: ServerPlayer): Boolean {
-        val itemStack: ItemStack? = consumePoppet(player, WitcheryItems.ARMOR_PROTECTION_POPPET.get())
+    fun hasArmorProtectionPoppet(level: ServerLevel, player: ServerPlayer?): Boolean {
+        val itemStack: ItemStack? = player?.let { consumePoppet(it, WitcheryItems.ARMOR_PROTECTION_POPPET.get()) }
         return itemStack != null
     }
 
