@@ -178,7 +178,7 @@ object PoppetHandler {
         if (boundPlayer != null || boundEntity != null) {
 
             if (movementVector.length() > 0.2) {
-                val scaledMovement = movementVector.scale(0.5)
+                val scaledMovement = movementVector.scale(0.45)
                 boundPlayer?.apply {
                     addDeltaMovement(scaledMovement)
                     hurtMarked = true
@@ -209,9 +209,21 @@ object PoppetHandler {
             val maybePlayer = getPlayer(level, item)
             val maybeEntity = getLivingEntity(level, item)
             if (maybePlayer != null || maybeEntity != null) {
+                maybePlayer?.remainingFireTicks = 20 * 4
+                maybeEntity?.remainingFireTicks = 20 * 4
+                item.damageValue += 16
+                if (item.damageValue >= item.maxDamage) {
+                    item.shrink(1)
+                }
+                return InteractionResult.SUCCESS
+            }
+        } else if (level.getBlockState(pos).`is`(Blocks.FIRE)) {
+            val maybePlayer = getPlayer(level, item)
+            val maybeEntity = getLivingEntity(level, item)
+            if (maybePlayer != null || maybeEntity != null) {
                 maybePlayer?.remainingFireTicks = 20 * 2
                 maybeEntity?.remainingFireTicks = 20 * 2
-                item.damageValue += 1
+                item.damageValue += 8
                 if (item.damageValue >= item.maxDamage) {
                     item.shrink(1)
                 }
