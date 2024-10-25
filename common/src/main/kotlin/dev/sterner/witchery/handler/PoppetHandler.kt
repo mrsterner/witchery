@@ -2,6 +2,9 @@ package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
+import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
+import dev.sterner.witchery.mixin.ItemEntityMixin
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.component.DataComponents
@@ -14,10 +17,13 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.damagesource.DamageTypes
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.phys.Vec3
 
 object PoppetHandler {
 
@@ -153,5 +159,28 @@ object PoppetHandler {
         }
 
         return original
+    }
+
+    fun handleVoodoo(entity: ItemEntity) {
+        val movementVector: Vec3 = entity.deltaMovement
+        if (movementVector.length() > 0.2) {
+            val maybePlayer = getPlayer(entity.level(), entity.item)
+            val maybeEntity = getLivingEntity(entity.level(), entity.item)
+            if (maybePlayer != null || maybeEntity != null) {
+                if (maybeEntity != null) {
+                    maybeEntity.addDeltaMovement(movementVector.scale(0.5))
+                    maybeEntity.hurtMarked = true
+                }
+                if (maybePlayer != null) {
+                    maybePlayer.addDeltaMovement(movementVector.scale(0.5))
+                    maybePlayer.hurtMarked = true
+                }
+
+                entity.item.damageValue += 1
+                if (entity.item.damageValue >= entity.item.maxDamage) {
+                    entity.remove(Entity.RemovalReason.DISCARDED)
+                }
+            }
+        }
     }
 }

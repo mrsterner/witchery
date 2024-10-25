@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import java.awt.Color
 
-class PoppetItem(properties: Properties) : Item(properties.stacksTo(1)) {
+open class PoppetItem(properties: Properties) : Item(properties.stacksTo(1)) {
 
     override fun appendHoverText(
         stack: ItemStack,

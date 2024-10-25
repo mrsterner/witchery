@@ -11,6 +11,7 @@
   ],
   "mixins": [
     "BookCategoryNodeScreenMixin",
+    "ItemEntityMixin",
     "ItemStackMixin",
     "LecternBlockMixin",
     "LevelChunkMixin",
