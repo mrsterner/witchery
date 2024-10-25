@@ -43,6 +43,7 @@ import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
+import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

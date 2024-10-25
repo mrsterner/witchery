@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.handler.PoppetHandler
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
 import net.minecraft.world.InteractionResult
@@ -22,20 +23,6 @@ class VoodooPoppetItem(properties: Properties) : PoppetItem(properties) {
             ClipContext.Fluid.SOURCE_ONLY
         )
 
-        if (level.getBlockState(blockHitResult.blockPos).`is`(Blocks.LAVA)) {
-            val maybePlayer = getPlayer(level, item)
-            val maybeEntity = getLivingEntity(level, item)
-            if (maybePlayer != null || maybeEntity != null) {
-                maybePlayer?.remainingFireTicks = 20 * 2
-                maybeEntity?.remainingFireTicks = 20 * 2
-                item.damageValue += 1
-                if (item.damageValue >= item.maxDamage) {
-                    item.shrink(1)
-                }
-                return InteractionResult.SUCCESS
-            }
-        }
-
-        return super.useOn(context)
+        return PoppetHandler.handleUseVoodoo(level, pos, item, player, blockHitResult)
     }
 }

@@ -5,14 +5,18 @@ import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
 import dev.sterner.witchery.mixin.ItemEntityMixin
+import dev.sterner.witchery.platform.poppet.VoodooPoppetData
+import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.core.BlockPos
 import net.minecraft.core.component.DataComponents
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.tags.DamageTypeTags
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.damagesource.DamageTypes
 import net.minecraft.world.effect.MobEffectInstance
@@ -23,6 +27,9 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec3
 
 object PoppetHandler {
@@ -163,24 +170,54 @@ object PoppetHandler {
 
     fun handleVoodoo(entity: ItemEntity) {
         val movementVector: Vec3 = entity.deltaMovement
-        if (movementVector.length() > 0.2) {
-            val maybePlayer = getPlayer(entity.level(), entity.item)
-            val maybeEntity = getLivingEntity(entity.level(), entity.item)
-            if (maybePlayer != null || maybeEntity != null) {
-                if (maybeEntity != null) {
-                    maybeEntity.addDeltaMovement(movementVector.scale(0.5))
-                    maybeEntity.hurtMarked = true
-                }
-                if (maybePlayer != null) {
-                    maybePlayer.addDeltaMovement(movementVector.scale(0.5))
-                    maybePlayer.hurtMarked = true
-                }
+        val itemStack = entity.item
 
-                entity.item.damageValue += 1
-                if (entity.item.damageValue >= entity.item.maxDamage) {
-                    entity.remove(Entity.RemovalReason.DISCARDED)
+        val boundPlayer = getPlayer(entity.level(), itemStack)
+        val boundEntity = getLivingEntity(entity.level(), itemStack)
+
+        if (boundPlayer != null || boundEntity != null) {
+
+            if (movementVector.length() > 0.2) {
+                val scaledMovement = movementVector.scale(0.5)
+                boundPlayer?.apply {
+                    addDeltaMovement(scaledMovement)
+                    hurtMarked = true
+                }
+                boundEntity?.apply {
+                    addDeltaMovement(scaledMovement)
+                    hurtMarked = true
                 }
             }
+
+            if (entity.isUnderWater) {
+                boundPlayer?.let { VoodooPoppetDataAttachment.setPoppetData(it, VoodooPoppetData(true)) }
+                boundEntity?.let { VoodooPoppetDataAttachment.setPoppetData(it, VoodooPoppetData(true)) }
+            } else {
+                boundPlayer?.let { VoodooPoppetDataAttachment.setPoppetData(it, VoodooPoppetData(false)) }
+                boundEntity?.let { VoodooPoppetDataAttachment.setPoppetData(it, VoodooPoppetData(false)) }
+            }
+
+            entity.item.damageValue += 1
+            if (entity.item.damageValue >= entity.item.maxDamage) {
+                entity.remove(Entity.RemovalReason.DISCARDED)
+            }
         }
+    }
+
+    fun handleUseVoodoo(level: Level, pos: BlockPos, item: ItemStack, player: Player?, blockHitResult: BlockHitResult): InteractionResult {
+        if (level.getBlockState(blockHitResult.blockPos).`is`(Blocks.LAVA)) {
+            val maybePlayer = getPlayer(level, item)
+            val maybeEntity = getLivingEntity(level, item)
+            if (maybePlayer != null || maybeEntity != null) {
+                maybePlayer?.remainingFireTicks = 20 * 2
+                maybeEntity?.remainingFireTicks = 20 * 2
+                item.damageValue += 1
+                if (item.damageValue >= item.maxDamage) {
+                    item.shrink(1)
+                }
+                return InteractionResult.SUCCESS
+            }
+        }
+        return InteractionResult.PASS
     }
 }
