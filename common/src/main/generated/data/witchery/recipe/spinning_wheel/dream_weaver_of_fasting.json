@@ -1,0 +1,32 @@
+{
+  "type": "witchery:spinning_wheel",
+  "altarPower": 5,
+  "cookingTime": 100,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "witchery:dream_weaver"
+    },
+    {
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:healing"
+        }
+      },
+      "count": 1,
+      "id": "minecraft:splash_potion"
+    },
+    {
+      "count": 1,
+      "id": "witchery:mellifluous_hunger"
+    },
+    {
+      "count": 2,
+      "id": "witchery:fanciful_thread"
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:dream_weaver_of_fasting"
+  }
+}

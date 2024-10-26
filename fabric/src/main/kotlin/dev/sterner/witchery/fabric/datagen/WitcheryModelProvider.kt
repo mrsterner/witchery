@@ -35,6 +35,13 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         createCrossCropBlock(generator, WitcheryBlocks.WOLFSFBANE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
         generator.createCropBlock(WitcheryBlocks.GARLIC_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
 
+        generator.createCrossBlock(WitcheryBlocks.WISPY_COTTON.get(), BlockModelGenerators.TintState.NOT_TINTED)
+        generator.skipAutoItemBlock(WitcheryBlocks.WISPY_COTTON.get())
+        generator.createSimpleFlatItemModel(WitcheryBlocks.WISPY_COTTON.get())
+
+        generator.createCrossBlock(WitcheryBlocks.DISTURBED_COTTON.get(), BlockModelGenerators.TintState.NOT_TINTED)
+        generator.skipAutoItemBlock(WitcheryBlocks.DISTURBED_COTTON.get())
+        generator.createSimpleFlatItemModel(WitcheryBlocks.DISTURBED_COTTON.get())
 
         generator.woodProvider(WitcheryBlocks.ROWAN_LOG.get())
             .logWithHorizontal(WitcheryBlocks.ROWAN_LOG.get()).wood(WitcheryBlocks.ROWAN_WOOD.get())
@@ -211,6 +218,8 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.IMPREGNATED_FABRIC.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.MUTATING_SPRING.get(), ModelTemplates.FLAT_HANDHELD_ITEM)
 
+        genetaror.generateFlatItem(WitcheryItems.TORMENTED_TWINE.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.FANCIFUL_THREAD.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.CLAY_JAR.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.JAR.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.BREATH_OF_THE_GODDESS.get(), ModelTemplates.FLAT_ITEM)
@@ -229,6 +238,9 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.FOCUSED_WILL.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.MELLIFLUOUS_HUNGER.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.PHANTOM_VAPOR.get(), ModelTemplates.FLAT_ITEM)
+
+        genetaror.generateFlatItem(WitcheryItems.BREW_OF_LOVE.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.BREW_OF_SLEEPING.get(), ModelTemplates.FLAT_ITEM)
 
         genetaror.generateFlatItem(WitcheryItems.RITUAL_CHALK.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.INFERNAL_CHALK.get(), ModelTemplates.FLAT_ITEM)

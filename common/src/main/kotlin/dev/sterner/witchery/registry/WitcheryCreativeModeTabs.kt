@@ -112,6 +112,12 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.OTHERWHERE_CHALK.get())
                 output.accept(WitcheryItems.GOLDEN_THREAD.get())
                 output.accept(WitcheryItems.IMPREGNATED_FABRIC.get())
+                output.accept(WitcheryItems.DREAM_WEAVER.get())
+                output.accept(WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get())
+                output.accept(WitcheryItems.DREAM_WEAVER_OF_INTENSITY.get())
+                output.accept(WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get())
+                output.accept(WitcheryItems.DREAM_WEAVER_OF_FASTING.get())
+                output.accept(WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get())
 
                 output.accept(WitcheryItems.WITCHES_HAT.get())
                 output.accept(WitcheryItems.WITCHES_ROBES.get())
@@ -127,6 +133,14 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.ARTHANA.get())
                 output.accept(WitcheryItems.CHALICE.get())
                 output.accept(WitcheryItems.PENTACLE.get())
+
+                output.accept(WitcheryItems.DISTURBED_COTTON.get())
+                output.accept(WitcheryItems.WISPY_COTTON.get())
+                output.accept(WitcheryItems.TORMENTED_TWINE.get())
+                output.accept(WitcheryItems.FANCIFUL_THREAD.get())
+
+                output.accept(WitcheryItems.BREW_OF_LOVE.get())
+                output.accept(WitcheryItems.BREW_OF_SLEEPING.get())
 
                 output.accept(WitcheryItems.IRON_CANDELABRA.get())
                 output.accept(WitcheryItems.WHITE_IRON_CANDELABRA.get())

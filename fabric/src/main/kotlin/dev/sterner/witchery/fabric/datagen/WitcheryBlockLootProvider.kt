@@ -81,6 +81,12 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.CHALICE.get())
         dropSelf(WitcheryBlocks.PENTACLE.get())
         dropSelf(WitcheryBlocks.BLOOD_POPPY.get())
+        dropSelf(WitcheryBlocks.DREAM_WEAVER.get())
+        dropSelf(WitcheryBlocks.DREAM_WEAVER_OF_FLEET_FOOT.get())
+        dropSelf(WitcheryBlocks.DREAM_WEAVER_OF_IRON_ARM.get())
+        dropSelf(WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())
+        dropSelf(WitcheryBlocks.DREAM_WEAVER_OF_FASTING.get())
+        dropSelf(WitcheryBlocks.DREAM_WEAVER_OF_INTENSITY.get())
 
         dropSelf(WitcheryBlocks.ROWAN_LOG.get())
         dropSelf(WitcheryBlocks.ROWAN_WOOD.get())

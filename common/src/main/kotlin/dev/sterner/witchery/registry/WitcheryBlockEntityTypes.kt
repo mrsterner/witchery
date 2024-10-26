@@ -9,6 +9,7 @@ import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
+import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
@@ -154,6 +155,18 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::ArthanaBlockEntity,
             WitcheryBlocks.ARTHANA.get()
+        ).build(null)
+    }
+
+    val DREAM_WEAVER = BLOCK_ENTITY_TYPES.register("dream_weaver") {
+        BlockEntityType.Builder.of(
+            ::DreamWeaverBlockEntity,
+            WitcheryBlocks.DREAM_WEAVER.get(),
+            WitcheryBlocks.DREAM_WEAVER_OF_FLEET_FOOT.get(),
+            WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get(),
+            WitcheryBlocks.DREAM_WEAVER_OF_IRON_ARM.get(),
+            WitcheryBlocks.DREAM_WEAVER_OF_INTENSITY.get(),
+            WitcheryBlocks.DREAM_WEAVER_OF_FASTING.get()
         ).build(null)
     }
 }

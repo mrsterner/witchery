@@ -13,6 +13,7 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.distillery.DistilleryCompanionBlock
+import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlock
 import dev.sterner.witchery.block.oven.OvenBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockComponent
@@ -803,4 +804,50 @@ object WitcheryBlocks {
     val SPINNING_WHEEL = BLOCKS.register("spinning_wheel") {
         SpinningWheelBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
+
+    val DREAM_WEAVER = BLOCKS.register("dream_weaver") {
+        DreamWeaverBlock(BlockBehaviour.Properties.of())
+    }
+
+    val DREAM_WEAVER_OF_FLEET_FOOT = BLOCKS.register("dream_weaver_of_fleet_foot") {
+        DreamWeaverBlock(BlockBehaviour.Properties.of())
+    }
+
+    val DREAM_WEAVER_OF_NIGHTMARES = BLOCKS.register("dream_weaver_of_nightmares") {
+        DreamWeaverBlock(BlockBehaviour.Properties.of())
+    }
+
+    val DREAM_WEAVER_OF_INTENSITY = BLOCKS.register("dream_weaver_of_intensity") {
+        DreamWeaverBlock(BlockBehaviour.Properties.of())
+    }
+
+    val DREAM_WEAVER_OF_FASTING = BLOCKS.register("dream_weaver_of_fasting") {
+        DreamWeaverBlock(BlockBehaviour.Properties.of())
+    }
+
+    val DREAM_WEAVER_OF_IRON_ARM = BLOCKS.register("dream_weaver_of_iron_arm") {
+        DreamWeaverBlock(BlockBehaviour.Properties.of())
+    }
+
+    val WISPY_COTTON = BLOCKS.register("wispy_cotton") {
+        CottonBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.PLANT)
+            .noCollission()
+            .instabreak()
+            .sound(SoundType.GRASS)
+            .offsetType(BlockBehaviour.OffsetType.XZ)
+            .pushReaction(PushReaction.DESTROY))
+    }
+
+    val DISTURBED_COTTON = BLOCKS.register("disturbed_cotton") {
+        CottonBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.PLANT)
+            .noCollission()
+            .instabreak()
+            .sound(SoundType.GRASS)
+            .offsetType(BlockBehaviour.OffsetType.XZ)
+            .pushReaction(PushReaction.DESTROY))
+    }
+
+
 }

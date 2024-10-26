@@ -2,10 +2,7 @@ package dev.sterner.witchery.fabric
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
-import dev.sterner.witchery.fabric.client.BroomDynamicRenderer
-import dev.sterner.witchery.fabric.client.HunterArmorRendererFabric
-import dev.sterner.witchery.fabric.client.SpinningWheelDynamicRenderer
-import dev.sterner.witchery.fabric.client.WitchesRobesArmorRendererFabric
+import dev.sterner.witchery.fabric.client.*
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
 import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
@@ -150,6 +147,12 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.SPINNING_WHEEL.get(), SpinningWheelDynamicRenderer())
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.BROOM.get(), BroomDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get(), DreamWeaverDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.DREAM_WEAVER_OF_FASTING.get(), DreamWeaverDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get(), DreamWeaverDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get(), DreamWeaverDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.DREAM_WEAVER_OF_INTENSITY.get(), DreamWeaverDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.DREAM_WEAVER.get(), DreamWeaverDynamicRenderer())
 
         ArmorRenderer.register(WitchesRobesArmorRendererFabric(), WitcheryItems.WITCHES_ROBES.get(), WitcheryItems.WITCHES_HAT.get(), WitcheryItems.WITCHES_SLIPPERS.get(), WitcheryItems.BABA_YAGAS_HAT.get())
         ArmorRenderer.register(HunterArmorRendererFabric(), WitcheryItems.HUNTER_HELMET.get(), WitcheryItems.HUNTER_CHESTPLATE.get(), WitcheryItems.HUNTER_LEGGINGS.get(), WitcheryItems.HUNTER_BOOTS.get())

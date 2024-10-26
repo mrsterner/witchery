@@ -5,6 +5,7 @@ import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.renderer.*
 import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.neoforge.client.DreamWeaverBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
@@ -121,6 +122,9 @@ object WitcheryNeoForgeClientEvents {
         event.registerLayerDefinition(
             HunterArmorModel.LAYER_LOCATION,
             HunterArmorModel::createBodyLayer)
+        event.registerLayerDefinition(
+            DreamWeaverBlockEntityModel.LAYER_LOCATION,
+            DreamWeaverBlockEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent
@@ -137,6 +141,12 @@ object WitcheryNeoForgeClientEvents {
 
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(SpinningWheelBlockEntityWithoutLevelRenderer()), WitcheryItems.SPINNING_WHEEL.get())
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()), WitcheryItems.BROOM.get())
+        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get())
+        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_FASTING.get())
+        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_INTENSITY.get())
+        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get())
+        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get())
+        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER.get())
 
     }
 }

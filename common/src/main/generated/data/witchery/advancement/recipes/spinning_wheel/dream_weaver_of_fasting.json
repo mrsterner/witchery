@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_recipe": {
+      "conditions": {
+        "recipe": "witchery:dream_weaver_of_fasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "witchery:dream_weaver_of_fasting"
+    ]
+  }
+}

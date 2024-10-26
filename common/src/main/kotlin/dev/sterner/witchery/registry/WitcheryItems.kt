@@ -224,6 +224,14 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val TORMENTED_TWINE: RegistrySupplier<Item> = ITEMS.register("tormented_twine") {
+        Item(Item.Properties())
+    }
+
+    val FANCIFUL_THREAD: RegistrySupplier<Item> = ITEMS.register("fanciful_thread") {
+        Item(Item.Properties())
+    }
+
     //end RESOURCES
 
     //start POPPETS
@@ -881,10 +889,49 @@ object WitcheryItems {
     val PENTACLE = ITEMS.register("pentacle") {
         BlockItem(WitcheryBlocks.PENTACLE.get(), Item.Properties())
     }
+    val DREAM_WEAVER = ITEMS.register("dream_weaver") {
+        BlockItem(WitcheryBlocks.DREAM_WEAVER.get(), Item.Properties())
+    }
+    val DREAM_WEAVER_OF_FLEET_FOOT = ITEMS.register("dream_weaver_of_fleet_foot") {
+        BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_FLEET_FOOT.get(), Item.Properties())
+    }
+    val DREAM_WEAVER_OF_NIGHTMARES = ITEMS.register("dream_weaver_of_nightmares") {
+        BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get(), Item.Properties())
+    }
+    val DREAM_WEAVER_OF_INTENSITY = ITEMS.register("dream_weaver_of_intensity") {
+        BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_INTENSITY.get(), Item.Properties())
+    }
+    val DREAM_WEAVER_OF_FASTING = ITEMS.register("dream_weaver_of_fasting") {
+        BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_FASTING.get(), Item.Properties())
+    }
+
+    val DREAM_WEAVER_OF_IRON_ARM = ITEMS.register("dream_weaver_of_iron_arm") {
+        BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_IRON_ARM.get(), Item.Properties())
+    }
+
+    val DISTURBED_COTTON = ITEMS.register("disturbed_cotton") {
+        BlockItem(WitcheryBlocks.DISTURBED_COTTON.get(), Item.Properties())
+    }
+
+    val WISPY_COTTON = ITEMS.register("wispy_cotton") {
+        BlockItem(WitcheryBlocks.WISPY_COTTON.get(), Item.Properties())
+    }
 
     // start Mutated Plants
 
     val BLOOD_POPPY = ITEMS.register("blood_poppy") {
-        BlockItem(WitcheryBlocks.BLOOD_POPPY.get(), Item.Properties())
+        ItemNameBlockItem(WitcheryBlocks.BLOOD_POPPY.get(), Item.Properties())
+    }
+
+    // end Mutated Plats
+
+    // start Brews
+
+    val BREW_OF_LOVE = ITEMS.register("brew_of_love") {
+        ThrowableBrewItem(Item.Properties().stacksTo(16))
+    }
+
+    val BREW_OF_SLEEPING = ITEMS.register("brew_of_sleeping") {
+        BrewItem(Item.Properties().stacksTo(16))
     }
 }

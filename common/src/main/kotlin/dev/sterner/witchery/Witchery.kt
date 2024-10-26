@@ -21,6 +21,7 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
+import dev.sterner.witchery.api.SleepingEvent
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
@@ -33,6 +34,7 @@ import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.ImpEntity
 import dev.sterner.witchery.entity.MandrakeEntity
 import dev.sterner.witchery.entity.OwlEntity
+import dev.sterner.witchery.handler.DreamWeaverHandler
 import dev.sterner.witchery.handler.EquipmentHandler
 import dev.sterner.witchery.handler.InfusionHandler
 import dev.sterner.witchery.handler.PoppetHandler
@@ -102,7 +104,7 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.IMP, ImpEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.OWL, OwlEntity::createAttributes)
 
-        LootEvent.MODIFY_LOOT_TABLE.register(::addSeeds)
+        MODIFY_LOOT_TABLE.register(::addSeeds)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
         InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
         PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
@@ -122,6 +124,8 @@ object Witchery {
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
+        SleepingEvent.POST.register(DreamWeaverHandler::onWake)
+
     }
 
     private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {
@@ -200,6 +204,7 @@ object Witchery {
         EntityModelLayerRegistry.register(SpinningWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(DistilleryGemModel.LAYER_LOCATION) { DistilleryGemModel.createBodyLayer() }
         EntityModelLayerRegistry.register(BroomEntityModel.LAYER_LOCATION) { BroomEntityModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(DreamWeaverBlockEntityModel.LAYER_LOCATION) { DreamWeaverBlockEntityModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.BROOM) { BroomEntityRenderer(it) }
         EntityRendererRegistry.register(WitcheryEntityTypes.MANDRAKE) { MandrakeEntityRenderer(it) }
@@ -226,6 +231,7 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPINNING_WHEEL.get(), ::SpinningWheelBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_SIGN.get(), ::SignRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get(), ::HangingSignRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DREAM_WEAVER.get(), ::DreamWeaverBlockEntityRenderer)
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
 
@@ -323,7 +329,9 @@ object Witchery {
             WitcheryBlocks.DEMON_HEART.get(),
             WitcheryBlocks.BLOOD_POPPY.get(),
             WitcheryBlocks.ARTHANA.get(),
-            WitcheryBlocks.CHALICE.get()
+            WitcheryBlocks.CHALICE.get(),
+            WitcheryBlocks.DISTURBED_COTTON.get(),
+            WitcheryBlocks.WISPY_COTTON.get()
         )
     }
 

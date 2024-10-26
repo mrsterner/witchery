@@ -210,6 +210,16 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.ROWAN_BOAT.get(), "Rowan Boat")
         builder.add(WitcheryItems.ROWAN_CHEST_BOAT.get(), "Rowan Chest Boat")
 
+        builder.add(WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get(), "Dream Weaver of Fleet Foot")
+        builder.add(WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get(), "Dream Weaver of Nightmares")
+        builder.add(WitcheryItems.DREAM_WEAVER_OF_FASTING.get(), "Dream Weaver of Fasting")
+        builder.add(WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get(), "Dream Weaver of Iron Arm")
+        builder.add(WitcheryItems.DREAM_WEAVER_OF_INTENSITY.get(), "Dream Weaver of Intensity")
+        builder.add(WitcheryItems.DREAM_WEAVER.get(), "Dream Weaver")
+
+        builder.add(WitcheryItems.BREW_OF_SLEEPING.get(), "Brew of Sleeping")
+        builder.add(WitcheryItems.BREW_OF_LOVE.get(), "Brew of Love")
+
         builder.add(WitcheryBlocks.ALDER_LOG.get(), "Alder Log")
         builder.add(WitcheryBlocks.ALDER_WOOD.get(), "Alder Wood")
         builder.add(WitcheryBlocks.STRIPPED_ALDER_LOG.get(), "Stripped Alder Log")

@@ -18,6 +18,7 @@
     "LevelChunkMixin",
     "LightningBoltMixin",
     "LivingEntityMixin",
+    "PlayerMixin",
     "ShapelessRecipeAccessor"
   ],
   "injectors": {

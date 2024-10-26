@@ -1,0 +1,50 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "altarPower": 100,
+  "inputItems": [
+    {
+      "color": -16706,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:whiff_of_magic"
+      },
+      "order": 0
+    },
+    {
+      "color": -341966,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:cookie"
+      },
+      "order": 1
+    },
+    {
+      "color": -10184966,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:icy_needle"
+      },
+      "order": 2
+    },
+    {
+      "color": -3974496,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:brew_of_love"
+      },
+      "order": 3
+    },
+    {
+      "color": -52486,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:water_artichoke_globe"
+      },
+      "order": 4
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:brew_of_sleeping"
+  }
+}

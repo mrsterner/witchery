@@ -1,0 +1,58 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "altarPower": 100,
+  "inputItems": [
+    {
+      "color": -52686,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:poppy"
+      },
+      "order": 0
+    },
+    {
+      "color": -329166,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:golden_carrot"
+      },
+      "order": 1
+    },
+    {
+      "color": -13436366,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:lily_pad"
+      },
+      "order": 2
+    },
+    {
+      "color": -10532086,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:cocoa_beans"
+      },
+      "order": 3
+    },
+    {
+      "color": -26966,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:whiff_of_magic"
+      },
+      "order": 4
+    },
+    {
+      "color": -37126,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:water_artichoke_globe"
+      },
+      "order": 5
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:brew_of_love"
+  }
+}

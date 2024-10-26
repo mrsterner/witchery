@@ -14,9 +14,6 @@ import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.ritual.PushMobsRitual
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
-import net.minecraft.advancements.AdvancementRequirements
-import net.minecraft.advancements.AdvancementRewards
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponentMap
@@ -46,13 +43,52 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
         ShapelessRecipeWithComponentsBuilder.create(RecipeCategory.MISC, WitcheryItems.CHALICE.get(), map)
             .offerTo(exporter, Witchery.id("fill_chalice"), list)
 
-        //start POPPETS
+        //start SPECIAL
         SpecialRecipeBuilder.special { _: CraftingBookCategory? ->
             TaglockDataComponentTransferRecipe()
         }.save(exporter, "taglock_transfer")
+        //end SPECIAL
 
-        //end POPPETS
 
+        SpinningWheelRecipeBuilder.create()
+            .addInput(WitcheryItems.DREAM_WEAVER.get().defaultInstance)
+            .addInput(PotionContents.createItemStack(Items.SPLASH_POTION, Potions.POISON))
+            .addInput(PotionContents.createItemStack(Items.SPLASH_POTION, Potions.NIGHT_VISION))
+            .addInput(ItemStack(WitcheryItems.TORMENTED_TWINE.get(), 2))
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get().defaultInstance)
+            .save(exporter, Witchery.id("dream_weaver_of_nightmares"))
+
+        SpinningWheelRecipeBuilder.create()
+            .addInput(WitcheryItems.DREAM_WEAVER.get().defaultInstance)
+            .addInput(PotionContents.createItemStack(Items.SPLASH_POTION, Potions.SLOWNESS))
+            .addInput(PotionContents.createItemStack(Items.SPLASH_POTION, Potions.SWIFTNESS))
+            .addInput(ItemStack(WitcheryItems.FANCIFUL_THREAD.get(), 2))
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get().defaultInstance)
+            .save(exporter, Witchery.id("dream_weaver_of_fleet_foot"))
+
+        SpinningWheelRecipeBuilder.create()
+            .addInput(WitcheryItems.DREAM_WEAVER.get().defaultInstance)
+            .addInput(PotionContents.createItemStack(Items.SPLASH_POTION, Potions.HEALING))
+            .addInput(ItemStack(WitcheryItems.MELLIFLUOUS_HUNGER.get(), 1))
+            .addInput(ItemStack(WitcheryItems.FANCIFUL_THREAD.get(), 2))
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.DREAM_WEAVER_OF_FASTING.get().defaultInstance)
+            .save(exporter, Witchery.id("dream_weaver_of_fasting"))
+
+        SpinningWheelRecipeBuilder.create()
+            .addInput(WitcheryItems.DREAM_WEAVER.get().defaultInstance)
+            .addInput(PotionContents.createItemStack(Items.SPLASH_POTION, Potions.WEAKNESS))
+            .addInput(PotionContents.createItemStack(Items.SPLASH_POTION, Potions.STRENGTH))
+            .addInput(ItemStack(WitcheryItems.FANCIFUL_THREAD.get(), 2))
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.DREAM_WEAVER_OF_FASTING.get().defaultInstance)
+            .save(exporter, Witchery.id("dream_weaver_of_iron_arm"))
 
         SpinningWheelRecipeBuilder.create()
             .addInput(Items.HAY_BLOCK.defaultInstance)
@@ -70,6 +106,45 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setCookingTime(100)
             .addOutput(WitcheryItems.IMPREGNATED_FABRIC.get().defaultInstance, 2)
             .save(exporter, Witchery.id("impregnated_fabric"))
+
+        SpinningWheelRecipeBuilder.create()
+            .addInput(WitcheryItems.DISTURBED_COTTON.get().defaultInstance)
+            .addInput(Items.STRING.defaultInstance)
+            .addInput(WitcheryItems.REEK_OF_MISFORTUNE.get().defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.TORMENTED_TWINE.get().defaultInstance, 4)
+            .save(exporter, Witchery.id("tormented_twine"))
+
+        SpinningWheelRecipeBuilder.create()
+            .addInput(WitcheryItems.WISPY_COTTON.get().defaultInstance)
+            .addInput(Items.STRING.defaultInstance)
+            .addInput(WitcheryItems.ODOR_OF_PURITY.get().defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.FANCIFUL_THREAD.get().defaultInstance, 4)
+            .save(exporter, Witchery.id("fanciful_thread"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(Items.POPPY.defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(Items.GOLDEN_CARROT.defaultInstance, Color(250,250,50).rgb)
+            .addInputWithColor(Items.LILY_PAD.defaultInstance, Color(50,250,50).rgb)
+            .addInputWithColor(Items.COCOA_BEANS.defaultInstance, Color(95,75,10).rgb)
+            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance, Color(255,150,170).rgb)
+            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get().defaultInstance, Color(255,110,250).rgb)
+            .setOutput(WitcheryItems.BREW_OF_LOVE.get().defaultInstance)
+            .setAltarPower(100)
+            .save(exporter,  Witchery.id("brew_of_love"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance, Color(255,190,190).rgb)
+            .addInputWithColor(Items.COOKIE.defaultInstance, Color(250,200,50).rgb)
+            .addInputWithColor(WitcheryItems.ICY_NEEDLE.get().defaultInstance, Color(100,150,250).rgb)
+            .addInputWithColor(WitcheryItems.BREW_OF_LOVE.get().defaultInstance, Color(195,90,160).rgb)
+            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get().defaultInstance, Color(255,50,250).rgb)
+            .setOutput(WitcheryItems.BREW_OF_SLEEPING.get().defaultInstance)
+            .setAltarPower(100)
+            .save(exporter,  Witchery.id("brew_of_sleeping"))
 
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(Items.REDSTONE.defaultInstance, Color(255,50,50).rgb)
@@ -146,6 +221,16 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('T', WitcheryItems.TEAR_OF_THE_GODDESS.get())
             .define('G', WitcheryItems.GYPSUM.get())
             .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.DREAM_WEAVER.get())
+            .pattern(" P ")
+            .pattern("TIT")
+            .pattern("T T")
+            .define('P', WitcheryItems.PHANTOM_VAPOR.get())
+            .define('T', WitcheryItems.TORMENTED_TWINE.get())
+            .define('I', Items.ITEM_FRAME)
+            .unlockedBy("has_twine", has(WitcheryItems.TORMENTED_TWINE.get()))
             .save(exporter)
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.CLAY_JAR.get(), 4)
