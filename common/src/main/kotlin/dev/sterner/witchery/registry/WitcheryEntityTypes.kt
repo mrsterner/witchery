@@ -67,4 +67,18 @@ object WitcheryEntityTypes {
         EntityType.Builder.of(::CustomChestBoat, MobCategory.MISC)
             .sized(1.375f, 0.5625f).build("custom_chest_boat")
     }
+
+    val THROWN_BREW =
+        ENTITY_TYPES.register(
+            "thrown_brew"
+        ) {
+            EntityType.Builder.of(
+                { _: EntityType<ThrownBrewEntity>, w: Level ->
+                    ThrownBrewEntity(
+                        w
+                    )
+                }, MobCategory.MISC
+            ).sized(0.25f, 0.25f).clientTrackingRange(4).updateInterval(10)
+                .build(Witchery.id("thrown_brew").toString())
+        }
 }

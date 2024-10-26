@@ -14,6 +14,7 @@ import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.food.Foods
 import net.minecraft.world.item.*
+import java.awt.Color
 
 
 object WitcheryItems {
@@ -928,10 +929,10 @@ object WitcheryItems {
     // start Brews
 
     val BREW_OF_LOVE = ITEMS.register("brew_of_love") {
-        ThrowableBrewItem(Item.Properties().stacksTo(16))
+        ThrowableBrewItem(Color(255, 70, 180).rgb ,Item.Properties().stacksTo(16))
     }
 
     val BREW_OF_SLEEPING = ITEMS.register("brew_of_sleeping") {
-        BrewItem(Item.Properties().stacksTo(16))
+        BrewItem(Color(255, 90, 130).rgb, Item.Properties().stacksTo(16))
     }
 }

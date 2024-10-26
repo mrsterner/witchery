@@ -14,7 +14,7 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
 
-open class BrewItem(properties: Properties?) : Item(properties) {
+open class BrewItem(open val color: Int, properties: Properties?) : Item(properties) {
 
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
         val player = if (livingEntity is Player) livingEntity else null
