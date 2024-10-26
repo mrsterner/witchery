@@ -797,7 +797,7 @@ object WitcheryBlocks {
     }
 
     val PENTACLE = BLOCKS.register("pentacle") {
-        Block(BlockBehaviour.Properties.of().noCollission().noOcclusion())
+        PentacleBlock(BlockBehaviour.Properties.of().noCollission().noOcclusion())
     }
 
     val SPINNING_WHEEL = BLOCKS.register("spinning_wheel") {
