@@ -22,6 +22,10 @@ open class BrewItem(properties: Properties?) : Item(properties) {
             CriteriaTriggers.CONSUME_ITEM.trigger(player, stack)
         }
 
+        if (!level.isClientSide) {
+            //TODO add effect handling here
+        }
+
         if (player != null) {
             player.awardStat(Stats.ITEM_USED[this])
             stack.consume(1, player)
