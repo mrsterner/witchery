@@ -53,7 +53,7 @@ dependencies {
 
     compileOnly "mcp.mobius.waila:wthit:neo-${wthitVersion}"
 
-    modImplementation("io.wispforest:accessories-neoforge:${project.accessories_version}")
+    compileOnly("io.wispforest:accessories-neoforge:${project.accessories_version}")
 
     // Required due to issues with JIJ dependency resolving in arch or something
     forgeRuntimeLibrary("io.wispforest:endec:0.1.8")

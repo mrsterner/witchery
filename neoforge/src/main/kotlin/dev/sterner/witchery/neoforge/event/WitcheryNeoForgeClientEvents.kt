@@ -21,6 +21,7 @@ import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.renderer.entity.BoatRenderer
+import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.RegistryAccess
 import net.minecraft.resources.ResourceLocation
@@ -71,6 +72,10 @@ object WitcheryNeoForgeClientEvents {
         event.registerEntityRenderer(
             WitcheryEntityTypes.FLOATING_ITEM.get(),
             ::FloatingItemEntityRenderer
+        )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.THROWN_BREW.get(),
+            ::ThrownItemRenderer
         )
     }
 
