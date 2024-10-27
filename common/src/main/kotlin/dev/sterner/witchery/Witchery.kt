@@ -86,6 +86,7 @@ object Witchery {
     fun init() {
         //WitcheryRitualRegistry.RITUALS.register()
         WitcheryFluids.FLUIDS.register()
+        WitcheryFluids.init()
         WitcheryArmorMaterials.MATERIALS.register()
         WitcheryBlocks.BLOCKS.register()
         WitcheryBlockEntityTypes.BLOCK_ENTITY_TYPES.register()

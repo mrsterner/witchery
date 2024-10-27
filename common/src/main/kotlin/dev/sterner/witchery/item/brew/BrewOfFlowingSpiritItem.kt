@@ -11,10 +11,14 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
 
     override fun applyEffect(level: Level, livingEntity: LivingEntity?, result: HitResult) {
         var pos = BlockPos.containing(result.location)
-        if (result.type == HitResult.Type.BLOCK) {
-            val blockHitResult = result as BlockHitResult
-            //pos = pos.relative(blockHitResult.direction)
+        if (level.getBlockState(pos).canBeReplaced()) {
+            level.setBlockAndUpdate(pos, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get().defaultBlockState())
+        } else {
+            if (result.type == HitResult.Type.BLOCK) {
+                val blockHitResult = result as BlockHitResult
+                pos = pos.relative(blockHitResult.direction)
+            }
+            level.setBlockAndUpdate(pos, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get().defaultBlockState())
         }
-        level.setBlockAndUpdate(pos, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get().defaultBlockState())
     }
 }
