@@ -3,7 +3,6 @@ package dev.sterner.witchery.entity
 import dev.sterner.witchery.item.BrewItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
@@ -11,8 +10,6 @@ import net.minecraft.world.entity.projectile.ItemSupplier
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.alchemy.PotionContents
-import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.HitResult
@@ -41,10 +38,22 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
         if (!level().isClientSide) {
             val itemStack = this.item
             if (itemStack.item is BrewItem) {
+                applySplash(itemStack.item as BrewItem, result)
+
                 val color = (itemStack.item as BrewItem).color
                 level().levelEvent(2002, this.blockPosition(), color)
             }
             this.discard()
+        }
+    }
+
+    private fun applySplash(item: BrewItem, result: HitResult) {
+        val aABB = this.boundingBox.inflate(4.0, 2.0, 4.0)
+        val list = level().getEntitiesOfClass(LivingEntity::class.java, aABB)
+        if (list.isNotEmpty()) {
+            for (livingEntity in list) {
+                item.applyEffect(livingEntity, result)
+            }
         }
     }
 

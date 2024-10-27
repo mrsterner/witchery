@@ -13,6 +13,7 @@ import net.minecraft.world.item.*
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
+import net.minecraft.world.phys.HitResult
 
 open class BrewItem(open val color: Int, properties: Properties?) : Item(properties) {
 
@@ -22,8 +23,8 @@ open class BrewItem(open val color: Int, properties: Properties?) : Item(propert
             CriteriaTriggers.CONSUME_ITEM.trigger(player, stack)
         }
 
-        if (!level.isClientSide) {
-            //TODO add effect handling here
+        if (!level.isClientSide && player != null) {
+            applyEffectOnSelf(player)
         }
 
         if (player != null) {
@@ -42,6 +43,8 @@ open class BrewItem(open val color: Int, properties: Properties?) : Item(propert
         livingEntity.gameEvent(GameEvent.DRINK)
         return stack
     }
+
+
 
     override fun useOn(context: UseOnContext): InteractionResult {
         return InteractionResult.PASS
@@ -66,6 +69,14 @@ open class BrewItem(open val color: Int, properties: Properties?) : Item(propert
         tooltipFlag: TooltipFlag
     ) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
+    }
+
+    fun applyEffectOnSelf(player: Player) {
+
+    }
+
+    fun applyEffect(livingEntity: LivingEntity?, result: HitResult) {
+
     }
 
     companion object {
