@@ -1,6 +1,6 @@
 package dev.sterner.witchery.entity
 
-import dev.sterner.witchery.item.BrewItem
+import dev.sterner.witchery.item.brew.BrewItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
 import net.minecraft.world.damagesource.DamageSource

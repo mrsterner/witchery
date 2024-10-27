@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.item.brew
 
 import dev.sterner.witchery.entity.ThrownBrewEntity
 import net.minecraft.core.Direction
@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.ProjectileItem
 import net.minecraft.world.level.Level
 
-class ThrowableBrewItem(override val color: Int, properties: Properties) : BrewItem(color, properties), ProjectileItem {
+open class ThrowableBrewItem(override val color: Int, properties: Properties) : BrewItem(color, properties), ProjectileItem {
 
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(usedHand)

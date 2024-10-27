@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.item.brew
 
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.network.chat.Component
@@ -71,11 +71,11 @@ open class BrewItem(open val color: Int, properties: Properties?) : Item(propert
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
 
-    fun applyEffectOnSelf(player: Player) {
+    open fun applyEffectOnSelf(player: Player) {
 
     }
 
-    fun applyEffect(livingEntity: LivingEntity?, result: HitResult) {
+    open fun applyEffect(livingEntity: LivingEntity?, result: HitResult) {
 
     }
 

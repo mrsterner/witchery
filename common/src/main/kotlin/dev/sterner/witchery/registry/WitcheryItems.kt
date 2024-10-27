@@ -9,6 +9,9 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
+import dev.sterner.witchery.item.brew.BrewItem
+import dev.sterner.witchery.item.brew.BrewOfLoveItem
+import dev.sterner.witchery.item.brew.ThrowableBrewItem
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
@@ -929,7 +932,7 @@ object WitcheryItems {
     // start Brews
 
     val BREW_OF_LOVE = ITEMS.register("brew_of_love") {
-        ThrowableBrewItem(Color(255, 70, 180).rgb ,Item.Properties().stacksTo(16))
+        BrewOfLoveItem(Color(255, 70, 180).rgb, Item.Properties().stacksTo(16))
     }
 
     val BREW_OF_SLEEPING = ITEMS.register("brew_of_sleeping") {
