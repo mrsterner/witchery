@@ -1,5 +1,6 @@
 package dev.sterner.witchery.registry
 
+import dev.architectury.core.item.ArchitecturyBucketItem
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
@@ -10,6 +11,7 @@ import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
 import dev.sterner.witchery.item.brew.BrewItem
+import dev.sterner.witchery.item.brew.BrewOfFlowingSpiritItem
 import dev.sterner.witchery.item.brew.BrewOfLoveItem
 import dev.sterner.witchery.item.brew.ThrowableBrewItem
 import dev.sterner.witchery.platform.BoatTypeHelper
@@ -937,5 +939,18 @@ object WitcheryItems {
 
     val BREW_OF_SLEEPING = ITEMS.register("brew_of_sleeping") {
         BrewItem(Color(255, 90, 130).rgb, Item.Properties().stacksTo(16))
+    }
+
+    val BREW_FLOWING_SPIRIT = ITEMS.register("brew_of_flowing_spirit") {
+        BrewOfFlowingSpiritItem(Color(125, 170, 230).rgb, Item.Properties().stacksTo(16))
+    }
+
+    val FLOWING_SPIRIT_BUCKET: RegistrySupplier<Item> = ITEMS.register(
+        "flowing_spirit_bucket"
+    ) {
+        ArchitecturyBucketItem(
+            WitcheryFluids.FLOWING_SPIRIT_STILL,
+            Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)
+        )
     }
 }

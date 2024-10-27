@@ -85,6 +85,7 @@ object Witchery {
     @JvmStatic
     fun init() {
         //WitcheryRitualRegistry.RITUALS.register()
+        WitcheryFluids.FLUIDS.register()
         WitcheryArmorMaterials.MATERIALS.register()
         WitcheryBlocks.BLOCKS.register()
         WitcheryBlockEntityTypes.BLOCK_ENTITY_TYPES.register()
@@ -98,6 +99,7 @@ object Witchery {
         WitcheryMenuTypes.MENU_TYPES.register()
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
+
 
         WitcheryPayloads.register()
 
@@ -291,6 +293,12 @@ object Witchery {
         )
 
         RenderTypeRegistry.register(
+            RenderType.translucent(),
+            WitcheryFluids.FLOWING_FLOWING_SPIRIT.get(),
+            WitcheryFluids.FLOWING_SPIRIT_STILL.get()
+        )
+
+        RenderTypeRegistry.register(
             RenderType.cutout(),
             WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
@@ -333,7 +341,9 @@ object Witchery {
             WitcheryBlocks.ARTHANA.get(),
             WitcheryBlocks.CHALICE.get(),
             WitcheryBlocks.DISTURBED_COTTON.get(),
-            WitcheryBlocks.WISPY_COTTON.get()
+            WitcheryBlocks.WISPY_COTTON.get(),
+
+            WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get()
         )
     }
 

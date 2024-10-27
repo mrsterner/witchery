@@ -241,6 +241,8 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
         genetaror.generateFlatItem(WitcheryItems.BREW_OF_LOVE.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.BREW_OF_SLEEPING.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.FLOWING_SPIRIT_BUCKET.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.BREW_FLOWING_SPIRIT.get(), ModelTemplates.FLAT_ITEM)
 
         genetaror.generateFlatItem(WitcheryItems.RITUAL_CHALK.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.INFERNAL_CHALK.get(), ModelTemplates.FLAT_ITEM)

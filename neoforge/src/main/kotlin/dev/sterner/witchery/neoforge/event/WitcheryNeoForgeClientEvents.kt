@@ -10,9 +10,7 @@ import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevel
 import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
-import dev.sterner.witchery.registry.WitcheryCreativeModeTabs
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_BOOTS
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_CHESTPLATE
@@ -21,7 +19,6 @@ import dev.sterner.witchery.registry.WitcheryItems.HUNTER_LEGGINGS
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
-import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.core.HolderLookup
@@ -40,6 +37,7 @@ import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.LootTableLoadEvent
@@ -148,5 +146,19 @@ object WitcheryNeoForgeClientEvents {
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get())
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER.get())
 
+        @Suppress("UNRESOLVED_REFERENCE") //getFluidType dont exist if sources are not neo
+        WitcheryFluids.FLUIDS_INFOS.forEach { attributes ->
+            event.registerFluidType(object : IClientFluidTypeExtensions {
+                @NotNull
+                override fun getStillTexture(): ResourceLocation {
+                    return attributes.sourceTexture
+                }
+
+                @NotNull
+                override fun getFlowingTexture(): ResourceLocation {
+                    return attributes.flowingTexture
+                }
+            }, attributes.flowingFluid.getFluidType())
+        }
     }
 }

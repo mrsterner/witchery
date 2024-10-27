@@ -75,7 +75,7 @@ open class BrewItem(open val color: Int, properties: Properties?) : Item(propert
 
     }
 
-    open fun applyEffect(livingEntity: LivingEntity?, result: HitResult) {
+    open fun applyEffect(level: Level, livingEntity: LivingEntity?, result: HitResult) {
 
     }
 

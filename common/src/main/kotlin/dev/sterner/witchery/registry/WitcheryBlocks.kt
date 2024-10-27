@@ -1,5 +1,6 @@
 package dev.sterner.witchery.registry
 
+import dev.architectury.core.block.ArchitecturyLiquidBlock
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery.MODID
@@ -26,11 +27,17 @@ import dev.sterner.witchery.block.signs.CustomWallSignBlock
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlock
 import dev.sterner.witchery.platform.StrippableHelper
 import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
+import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
@@ -850,4 +857,19 @@ object WitcheryBlocks {
     }
 
 
+    val FLOWING_SPIRIT_BLOCK: RegistrySupplier<LiquidBlock> = BLOCKS.register(
+        "flowing_spirit_block"
+    ) {
+        object: ArchitecturyLiquidBlock(
+            WitcheryFluids.FLOWING_SPIRIT_STILL,
+            Properties.ofFullCopy(Blocks.WATER)
+        ) {
+            override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
+                if (entity is LivingEntity) {
+                    entity.addEffect(MobEffectInstance(MobEffects.REGENERATION, 20 * 2, 0))
+                }
+                super.entityInside(state, level, pos, entity)
+            }
+        }
+    }
 }

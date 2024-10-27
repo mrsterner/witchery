@@ -52,8 +52,10 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
         val list = level().getEntitiesOfClass(LivingEntity::class.java, aABB)
         if (list.isNotEmpty()) {
             for (livingEntity in list) {
-                item.applyEffect(livingEntity, result)
+                item.applyEffect(level(), livingEntity, result)
             }
+        } else {
+            item.applyEffect(level(), null, result)
         }
     }
 
