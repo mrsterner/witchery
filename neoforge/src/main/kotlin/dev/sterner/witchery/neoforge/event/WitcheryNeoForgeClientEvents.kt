@@ -153,6 +153,7 @@ object WitcheryNeoForgeClientEvents {
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get())
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER.get())
 
+        @Suppress("UNRESOLVED_REFERENCE")
         WitcheryFluids.FLUIDS_INFOS.forEach { attributes ->
             event.registerFluidType(object : IClientFluidTypeExtensions {
                 @NotNull
