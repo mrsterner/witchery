@@ -23,6 +23,7 @@ import net.minecraft.client.model.BoatModel
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.RegistryAccess
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.CreativeModeTabs
 import net.minecraft.world.level.storage.loot.LootPool
@@ -42,6 +43,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.LootTableLoadEvent
 import net.neoforged.neoforge.server.ServerLifecycleHooks
+import org.jetbrains.annotations.NotNull
 
 @EventBusSubscriber(value = arrayOf(Dist.CLIENT), bus = EventBusSubscriber.Bus.MOD)
 object WitcheryNeoForgeClientEvents {
@@ -146,7 +148,6 @@ object WitcheryNeoForgeClientEvents {
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get())
         event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER.get())
 
-        @Suppress("UNRESOLVED_REFERENCE") //getFluidType dont exist if sources are not neo
         WitcheryFluids.FLUIDS_INFOS.forEach { attributes ->
             event.registerFluidType(object : IClientFluidTypeExtensions {
                 @NotNull

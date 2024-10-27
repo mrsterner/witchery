@@ -1,8 +1,23 @@
 package dev.sterner.witchery.neoforge.event
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.neoforge.client.DreamWeaverBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
+import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
+import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import dev.sterner.witchery.registry.WitcheryCreativeModeTabs
+import dev.sterner.witchery.registry.WitcheryFluids
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_BOOTS
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_CHESTPLATE
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_HELMET
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_LEGGINGS
+import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
+import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
+import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.RegistryAccess
 import net.minecraft.world.entity.EntityType
@@ -16,6 +31,8 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.LootTableLoadEvent
 import net.neoforged.neoforge.server.ServerLifecycleHooks
