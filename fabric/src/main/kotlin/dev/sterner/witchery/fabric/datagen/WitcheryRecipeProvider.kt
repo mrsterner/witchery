@@ -1497,5 +1497,17 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setJarConsumption(2)
             .save(exporter,  Witchery.id("demons_blood"))
 
+        DistilleryCraftingRecipeBuilder.create()
+            .addInput(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance)
+            .addInput(Items.GHAST_TEAR.defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.ODOR_OF_PURITY.get().defaultInstance)
+            .addOutput(WitcheryItems.REEK_OF_MISFORTUNE.get().defaultInstance)
+            .addOutput(WitcheryItems.FOUL_FUME.get().defaultInstance)
+            .addOutput(WitcheryItems.REFINED_EVIL.get().defaultInstance)
+            .setJarConsumption(3)
+            .save(exporter,  Witchery.id("refined_evil_from_ghast"))
+
     }
 }
