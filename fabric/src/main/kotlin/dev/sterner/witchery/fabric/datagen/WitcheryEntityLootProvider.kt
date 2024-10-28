@@ -32,11 +32,22 @@ class WitcheryEntityLootProvider(
                     LootItem.lootTableItem(WitcheryItems.OWLETS_WING.get())
                     .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
                 )))
+
+        output.accept(DEMON, LootTable.lootTable()
+            .withPool(
+                LootPool.lootPool()
+                    .setRolls(ConstantValue.exactly(1.0F))
+                    .add(
+                        LootItem.lootTableItem(WitcheryItems.DEMON_HEART.get())
+                            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                    )))
     }
 
     companion object {
         val OWL: ResourceKey<LootTable> =
             ResourceKey.create(Registries.LOOT_TABLE, Witchery.id("entities/owl"))
+        val DEMON: ResourceKey<LootTable> =
+            ResourceKey.create(Registries.LOOT_TABLE, Witchery.id("entities/demon"))
 
     }
 }

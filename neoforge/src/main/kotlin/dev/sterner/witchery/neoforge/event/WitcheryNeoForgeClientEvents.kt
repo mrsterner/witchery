@@ -130,6 +130,9 @@ object WitcheryNeoForgeClientEvents {
         event.registerLayerDefinition(
             DreamWeaverBlockEntityModel.LAYER_LOCATION,
             DreamWeaverBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            DemonEntityModel.LAYER_LOCATION,
+            DemonEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent

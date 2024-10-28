@@ -112,6 +112,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.MUTATING_SPRING.get(), "Mutating Spring")
         builder.add(WitcheryItems.BROOM.get(), "Broom")
         builder.add(WitcheryEntityTypes.BROOM.get(), "Broom")
+        builder.add(WitcheryEntityTypes.DEMON.get(), "Demon")
+        builder.add(WitcheryEntityTypes.IMP.get(), "Imp")
+        builder.add(WitcheryEntityTypes.OWL.get(), "Owl")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
