@@ -3,9 +3,9 @@ package dev.sterner.witchery.client.model
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.DemonEntity
-import dev.sterner.witchery.entity.ImpEntity
 import net.minecraft.client.model.ArmedModel
 import net.minecraft.client.model.HierarchicalModel
+import net.minecraft.client.model.HumanoidModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -15,6 +15,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Mth
 import net.minecraft.world.entity.HumanoidArm
 import java.util.function.Function
 
@@ -34,6 +35,8 @@ class DemonEntityModel(root: ModelPart) :
     private val rightLeg: ModelPart = demon.getChild("rightLeg")
     private val leftLeg: ModelPart = demon.getChild("leftLeg")
     private val body: ModelPart = demon.getChild("body")
+    private val coreBody: ModelPart = body.getChild("coreBody")
+    private val upperBody: ModelPart = coreBody.getChild("upperBody")
     private val rWing: ModelPart = body.getChild("rWing")
     private val lWing: ModelPart = body.getChild("lWing")
 
@@ -45,8 +48,57 @@ class DemonEntityModel(root: ModelPart) :
         netHeadYaw: Float,
         headPitch: Float
     ) {
-        head.xRot = headPitch * 0.017453292f
+        head.xRot = headPitch * 0.017453292f + Mth.sin(ageInTicks * 0.1f) * 0.02f
         head.yRot = netHeadYaw * 0.017453292f
+
+        val f = 1.0f
+        val restingLegAngle = -0.5f
+
+        val idleArmSwing = Mth.sin(ageInTicks * 0.1f) * 0.05f
+        rightArm.xRot = idleArmSwing + Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.0f * limbSwingAmount * 0.5f / f
+        leftArm.xRot = idleArmSwing + Mth.cos(limbSwing * 0.6662f) * 1.0f * limbSwingAmount * 0.5f / f
+
+        rightLeg.xRot = restingLegAngle + Mth.cos(limbSwing * 0.6662f) * 0.7f * limbSwingAmount / f
+        leftLeg.xRot = restingLegAngle + Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 0.7f * limbSwingAmount / f
+
+        val breathingScale = 1.0f + Mth.sin(ageInTicks * 0.1f) * 0.01f
+        upperBody.xScale = breathingScale
+        upperBody.yScale = breathingScale
+        upperBody.zScale = breathingScale
+
+        this.setupAttackAnimation(entity, ageInTicks)
+
+        lWing.yRot = Mth.cos(ageInTicks / 16) / 3 + 0.3333f
+        rWing.yRot = -lWing.yRot
+    }
+
+    fun setupAttackAnimation(livingEntity: DemonEntity?, ageInTicks: Float) {
+        if (!(this.attackTime <= 0.0f)) {
+            val humanoidArm: HumanoidArm = HumanoidArm.RIGHT
+            val modelPart: ModelPart = rightArm
+            var f = this.attackTime
+            body.yRot = Mth.sin(Mth.sqrt(f) * (Math.PI * 2).toFloat()) * 0.2f
+            if (humanoidArm == HumanoidArm.LEFT) {
+                body.yRot *= -1.0f
+            }
+
+            rightArm.z = Mth.sin(body.yRot) * 5.0f
+            rightArm.x = -Mth.cos(body.yRot) * 5.0f
+            leftArm.z = -Mth.sin(body.yRot) * 5.0f
+            leftArm.x = Mth.cos(body.yRot) * 5.0f
+            rightArm.yRot = rightArm.yRot + body.yRot
+            leftArm.yRot = leftArm.yRot + body.yRot
+            leftArm.xRot = leftArm.xRot + body.yRot
+            f = 1.0f - this.attackTime
+            f *= f
+            f *= f
+            f = 1.0f - f
+            val g = Mth.sin(f * Math.PI.toFloat())
+            val h = Mth.sin(this.attackTime * Math.PI.toFloat()) * -(head.xRot - 0.7f) * 0.75f
+            modelPart.xRot -= g * 1.2f + h
+            modelPart.yRot = modelPart.yRot + body.yRot * 2.0f
+            modelPart.zRot = modelPart.zRot + Mth.sin(this.attackTime * Math.PI.toFloat()) * -0.4f
+        }
     }
 
     override fun root(): ModelPart {
