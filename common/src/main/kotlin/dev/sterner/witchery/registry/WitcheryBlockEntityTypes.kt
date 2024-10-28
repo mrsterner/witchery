@@ -12,6 +12,7 @@ import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
+import dev.sterner.witchery.block.poppet.PoppetBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.block.signs.CustomHangingSignBE
 import dev.sterner.witchery.block.signs.CustomSignBE
@@ -155,6 +156,13 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::ArthanaBlockEntity,
             WitcheryBlocks.ARTHANA.get()
+        ).build(null)
+    }
+
+    val POPPET = BLOCK_ENTITY_TYPES.register("poppet") {
+        BlockEntityType.Builder.of(
+            ::PoppetBlockEntity,
+            WitcheryBlocks.POPPET.get()
         ).build(null)
     }
 

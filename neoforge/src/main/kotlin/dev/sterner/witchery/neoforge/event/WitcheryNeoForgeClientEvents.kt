@@ -99,6 +99,9 @@ object WitcheryNeoForgeClientEvents {
             JarModel.LAYER_LOCATION,
             JarModel::createBodyLayer)
         event.registerLayerDefinition(
+            PoppetModel.LAYER_LOCATION,
+            PoppetModel::createBodyLayer)
+        event.registerLayerDefinition(
             WitchesRobesModel.LAYER_LOCATION,
             WitchesRobesModel::createBodyLayer)
         event.registerLayerDefinition(

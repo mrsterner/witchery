@@ -18,6 +18,7 @@ import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlock
 import dev.sterner.witchery.block.oven.OvenBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockComponent
+import dev.sterner.witchery.block.poppet.PoppetBlock
 import dev.sterner.witchery.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.signs.CustomCeilingHangingSignBlock
@@ -856,6 +857,9 @@ object WitcheryBlocks {
             .pushReaction(PushReaction.DESTROY))
     }
 
+    val POPPET = BLOCKS.register("poppet") {
+        PoppetBlock(BlockBehaviour.Properties.of().noOcclusion())
+    }
 
     val FLOWING_SPIRIT_BLOCK: RegistrySupplier<LiquidBlock> = BLOCKS.register(
         "flowing_spirit_block"
