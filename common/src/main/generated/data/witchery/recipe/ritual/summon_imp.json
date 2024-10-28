@@ -2,6 +2,7 @@
   "type": "witchery:ritual",
   "altarPower": 5000,
   "blockMapping": {
+    "G": "witchery:golden_chalk",
     "M": "witchery:infernal_chalk"
   },
   "celestialConditions": [],

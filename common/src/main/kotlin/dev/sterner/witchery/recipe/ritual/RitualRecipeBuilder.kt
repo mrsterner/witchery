@@ -4,6 +4,7 @@ import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.recipe.ritual.RitualRecipe.Celestial
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.ritual.EmptyRitual
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
@@ -153,6 +154,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             "_S___S_",
             "__SSS__"
         )
+        define('G', WitcheryItems.GOLDEN_CHALK.get().block)
         define('S', small)
         return this
     }
@@ -171,6 +173,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             "__M_____M__",
             "___MMMMM___"
         )
+        define('G', WitcheryItems.GOLDEN_CHALK.get().block)
         define('M', medium)
         define('S', small)
         return this
@@ -190,6 +193,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             "__M_____M__",
             "___MMMMM___"
         )
+        define('G', WitcheryItems.GOLDEN_CHALK.get().block)
         define('M', medium)
         return this
     }
@@ -212,6 +216,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             "___LL_____LL___",
             "_____LLLLL_____",
         )
+        define('G', WitcheryItems.GOLDEN_CHALK.get().block)
         define('L', large)
         define('M', medium)
         define('S', small)
@@ -236,6 +241,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             "___LL_____LL___",
             "_____LLLLL_____",
         )
+        define('G', WitcheryItems.GOLDEN_CHALK.get().block)
         define('L', large)
         define('S', small)
         return this
@@ -259,6 +265,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             "___LL_____LL___",
             "_____LLLLL_____",
         )
+        define('G', WitcheryItems.GOLDEN_CHALK.get().block)
         define('L', large)
         define('M', medium)
         return this
@@ -282,6 +289,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             "___LL_____LL___",
             "_____LLLLL_____",
         )
+        define('G', WitcheryItems.GOLDEN_CHALK.get().block)
         define('L', large)
         return this
     }
