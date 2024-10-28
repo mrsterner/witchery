@@ -16,6 +16,10 @@ import net.minecraft.world.level.Level
 
 class DemonEntity(level: Level) : Monster(WitcheryEntityTypes.DEMON.get(), level) {
 
+    init{
+        this.setPersistenceRequired()
+    }
+
     override fun registerGoals() {
         goalSelector.addGoal(5, RandomStrollGoal(this, 0.8))
         goalSelector.addGoal(8, RandomLookAroundGoal(this))
