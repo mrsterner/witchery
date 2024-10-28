@@ -241,6 +241,29 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
         return this
     }
 
+    fun addMediumAndLargePattern(medium: Block, large: Block): RitualRecipeBuilder {
+        pattern = listOf(
+            "_____LLLLL_____",
+            "___LL_____LL___",
+            "__L__MMMMM__L__",
+            "_L__M_____M__L_",
+            "_L_M_______M_L_",
+            "L_M_________M_L",
+            "L_M_________M_L",
+            "L_M____G____M_L",
+            "L_M_________M_L",
+            "L_M_________M_L",
+            "_L_M_______M_L_",
+            "_L__M_____M__L_",
+            "__L__MMMMM__L__",
+            "___LL_____LL___",
+            "_____LLLLL_____",
+        )
+        define('L', large)
+        define('M', medium)
+        return this
+    }
+
     fun addLargePattern(large: Block): RitualRecipeBuilder {
         pattern = listOf(
             "_____LLLLL_____",

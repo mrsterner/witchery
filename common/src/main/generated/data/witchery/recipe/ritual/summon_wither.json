@@ -1,0 +1,51 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 4000,
+  "blockMapping": {
+    "L": "witchery:infernal_chalk",
+    "M": "witchery:infernal_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [],
+  "floatingItemOutput": false,
+  "inputEntities": [
+    "minecraft:villager"
+  ],
+  "inputItems": [
+    {
+      "id": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "id": "witchery:phantom_vapor"
+    },
+    {
+      "id": "minecraft:ender_pearl"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [
+    "minecraft:wither"
+  ],
+  "outputItems": [],
+  "pattern": [
+    "_____LLLLL_____",
+    "___LL_____LL___",
+    "__L__MMMMM__L__",
+    "_L__M_____M__L_",
+    "_L_M_______M_L_",
+    "L_M_________M_L",
+    "L_M_________M_L",
+    "L_M____G____M_L",
+    "L_M_________M_L",
+    "L_M_________M_L",
+    "_L_M_______M_L_",
+    "_L__M_____M__L_",
+    "__L__MMMMM__L__",
+    "___LL_____LL___",
+    "_____LLLLL_____"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 0
+}

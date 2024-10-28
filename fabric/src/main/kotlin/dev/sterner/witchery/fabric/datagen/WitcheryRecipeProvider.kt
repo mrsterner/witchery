@@ -19,6 +19,7 @@ import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponentMap
 import net.minecraft.data.recipes.*
 import net.minecraft.tags.ItemTags
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.PotionContents
@@ -1386,6 +1387,37 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setInfinite(true)
             .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("rite_of_charging_infusion"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.REFINED_EVIL.get().defaultInstance)
+            .addInputItem(Items.BLAZE_POWDER.defaultInstance)
+            .addInputItem(Items.ENDER_PEARL.defaultInstance)
+            .addInputEntity(EntityType.VILLAGER)
+            .setAltarPower(3000)
+            .addLargePattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .addOutputEntity(WitcheryEntityTypes.DEMON.get())
+            .save(exporter, Witchery.id("summon_demon"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.WITHER_SKELETON_SKULL.defaultInstance)
+            .addInputItem(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance)
+            .addInputItem(Items.ENDER_PEARL.defaultInstance)
+            .addInputEntity(EntityType.VILLAGER)
+            .setAltarPower(4000)
+            .addMediumAndLargePattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(), WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .addOutputEntity(EntityType.WITHER)
+            .save(exporter, Witchery.id("summon_wither"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance)
+            .addInputItem(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get().defaultInstance)
+            .addInputItem(Items.MAGMA_CREAM.defaultInstance)
+            .addInputItem(WitcheryItems.ARTHANA.get().defaultInstance)
+            .addInputItem(Items.FERMENTED_SPIDER_EYE.defaultInstance)
+            .setAltarPower(2000)
+            .addSmallPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .addOutputEntity(EntityType.WITCH)
+            .save(exporter, Witchery.id("summon_witch"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.FOUL_FUME.get().defaultInstance)
