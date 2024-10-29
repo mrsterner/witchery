@@ -6,6 +6,7 @@ import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryUtil
+import net.minecraft.client.multiplayer.chat.report.ReportEnvironment.Server
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
@@ -34,7 +35,6 @@ class PoppetBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
         )
     }
-
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
         return WitcheryBlockEntityTypes.POPPET.get().create(pos, state)
@@ -88,9 +88,12 @@ class PoppetBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         blockEntity: BlockEntity?,
         tool: ItemStack
     ) {
-        if (!level.isClientSide && blockEntity is PoppetBlockEntity) {
-            val item = ItemEntity(level, pos.center.x, pos.center.y, pos.center.z, blockEntity.poppetItemStack.copy())
-            level.addFreshEntity(item)
+        if (level is ServerLevel && blockEntity is PoppetBlockEntity) {
+            val itemStack = PoppetDataAttachment.getPoppet(level, pos)
+            if (itemStack != null) {
+                val item = ItemEntity(level, pos.center.x, pos.center.y, pos.center.z, itemStack.copy())
+                level.addFreshEntity(item)
+            }
         }
 
         super.playerDestroy(level, player, pos, state, blockEntity, tool)

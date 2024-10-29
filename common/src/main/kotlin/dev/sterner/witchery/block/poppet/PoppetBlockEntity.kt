@@ -2,6 +2,8 @@ package dev.sterner.witchery.block.poppet
 
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.item.PoppetItem
+import dev.sterner.witchery.platform.poppet.PoppetData
+import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -76,6 +78,11 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     be.poppetItemStack = player.mainHandItem.copy()
                     player.mainHandItem.shrink(1)
                     level.setBlockEntity(be)
+
+                    if (level is ServerLevel) {
+                        PoppetDataAttachment.addPoppetData(level, PoppetData.Data(pos, be.poppetItemStack.copy()))
+                    }
+
                     return true
                 }
             }

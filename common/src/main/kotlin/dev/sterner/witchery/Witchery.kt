@@ -132,8 +132,6 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
-
-        EntityEvent.ADD.register(PoppetDataAttachment::reloadEntity)
     }
 
     private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {

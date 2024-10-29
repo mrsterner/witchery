@@ -10,19 +10,14 @@ import java.util.*
 
 
 data class PoppetData(
-    val poppetDataMap: MutableList<Data>,
-    val cleanupMap: MutableMap<UUID, MutableList<BlockPos>> = mutableMapOf()
+    val poppetDataMap: MutableList<Data>
 ) {
     companion object {
         val CODEC: Codec<PoppetData> = RecordCodecBuilder.create { instance ->
             instance.group(
-                Codec.list(Data.CODEC).fieldOf("poppetData").forGetter { it.poppetDataMap },
-                Codec.unboundedMap(
-                    UUID_CODEC,
-                    Codec.list(BlockPos.CODEC)
-                ).fieldOf("cleanupMap").forGetter { it.cleanupMap }
-            ).apply(instance) { poppetData, cleanupMap ->
-                PoppetData(poppetData.toMutableList(), cleanupMap.toMutableMap())
+                Codec.list(Data.CODEC).fieldOf("poppetData").forGetter { it.poppetDataMap }
+            ).apply(instance) { poppetData ->
+                PoppetData(poppetData.toMutableList())
             }
         }
 
@@ -34,11 +29,10 @@ data class PoppetData(
         val ID: ResourceLocation = Witchery.id("poppet_data")
     }
 
-    data class Data(val uuid: UUID, val blockPos: BlockPos, val poppetItemStack: ItemStack) {
+    data class Data(val blockPos: BlockPos, var poppetItemStack: ItemStack) {
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    UUID_CODEC.fieldOf("uuid").forGetter { it.uuid },
                     BlockPos.CODEC.fieldOf("blockPos").forGetter { it.blockPos },
                     ItemStack.CODEC.fieldOf("poppetItemStack").forGetter { it.poppetItemStack },
                 ).apply(instance, ::Data)

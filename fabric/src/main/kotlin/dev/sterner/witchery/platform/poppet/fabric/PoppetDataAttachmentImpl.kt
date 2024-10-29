@@ -21,6 +21,5 @@ object PoppetDataAttachmentImpl {
     @JvmStatic
     fun setPoppetData(level: ServerLevel, data: PoppetData) {
         level.setAttached(POPPET_DATA_TYPE, data)
-        PoppetDataAttachment.sync(level, data)
     }
 }

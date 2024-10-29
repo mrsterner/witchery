@@ -5,6 +5,7 @@ import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
 import dev.sterner.witchery.mixin.ItemEntityMixin
+import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -63,8 +64,23 @@ object PoppetHandler {
     }
 
     fun hasArmorProtectionPoppet(level: ServerLevel, player: ServerPlayer?): Boolean {
-        val itemStack: ItemStack? = player?.let { consumePoppet(it, WitcheryItems.ARMOR_PROTECTION_POPPET.get()) }
-        return itemStack != null
+        val playerPoppet = player?.let { consumePoppet(it, WitcheryItems.ARMOR_PROTECTION_POPPET.get()) }
+        if (playerPoppet != null) return true
+
+        val poppetData = PoppetDataAttachment.getPoppetData(level)
+        return poppetData.poppetDataMap.any { data ->
+            data.poppetItemStack.`is`(WitcheryItems.ARMOR_PROTECTION_POPPET.get()) &&
+                    isPoppetBoundToLiving(data.poppetItemStack, player)
+        }
+    }
+
+    private fun isPoppetBoundToLiving(itemStack: ItemStack, livingEntity: LivingEntity?): Boolean {
+        return if (livingEntity is Player) {
+            val profile = itemStack.get(DataComponents.PROFILE)
+            profile?.gameProfile == livingEntity.gameProfile
+        } else {
+            itemStack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get()) == livingEntity?.stringUUID
+        }
     }
 
     fun hungerProtectionPoppet(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
@@ -97,34 +113,33 @@ object PoppetHandler {
         var consume: Boolean
 
         val (accessoryConsume, accessoryItem) = AccessoryHandler.check(livingEntity, item)
-
         itemStack = accessoryItem
         consume = accessoryConsume
 
         if (!consume) {
-
             for (interactionHand in InteractionHand.entries) {
                 val itemStack2: ItemStack = livingEntity.getItemInHand(interactionHand)
-
-                if (itemStack2.`is`(item)) {
-                    if (livingEntity is Player) {
-                        val profile = itemStack2.get(DataComponents.PROFILE)
-                        if (profile?.gameProfile == livingEntity.gameProfile) {
-                            consume = true
-                        }
-                    } else {
-                        val id = itemStack2.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-                        if (id == livingEntity.stringUUID) {
-                            consume = true
-                        }
-                    }
-                }
-
-                if (consume) {
+                if (itemStack2.`is`(item) && isPoppetBoundToLiving(itemStack2, livingEntity)) {
                     itemStack = itemStack2.copy()
                     itemStack2.shrink(1)
+                    consume = true
                     break
                 }
+            }
+        }
+
+        if (!consume && livingEntity.level() is ServerLevel) {
+            val level = livingEntity.level() as ServerLevel
+            val poppetData = PoppetDataAttachment.getPoppetData(level)
+
+            val blockPoppet = poppetData.poppetDataMap.find {
+                it.poppetItemStack.`is`(item) && isPoppetBoundToLiving(it.poppetItemStack, livingEntity)
+            }
+
+            if (blockPoppet != null) {
+                itemStack = blockPoppet.poppetItemStack.copy()
+                blockPoppet.poppetItemStack.shrink(1)
+                PoppetDataAttachment.updatePoppetItem(level, blockPoppet.blockPos, blockPoppet.poppetItemStack)
             }
         }
 
@@ -143,18 +158,34 @@ object PoppetHandler {
                         break
                     }
                 }
+
+                if (itemStack == null && livingEntity.level() is ServerLevel) {
+                    val level = livingEntity.level() as ServerLevel
+                    val poppetData = PoppetDataAttachment.getPoppetData(level)
+
+                    val blockPoppet = poppetData.poppetDataMap.find {
+                        it.poppetItemStack.`is`(WitcheryItems.VAMPIRIC_POPPET.get()) &&
+                                isPoppetBoundToLiving(it.poppetItemStack, livingEntity)
+                    }
+
+                    if (blockPoppet != null) {
+                        itemStack = blockPoppet.poppetItemStack.copy()
+                        blockPoppet.poppetItemStack.damageValue += 1
+                        if (blockPoppet.poppetItemStack.damageValue >= blockPoppet.poppetItemStack.maxDamage) {
+                            blockPoppet.poppetItemStack.shrink(1)
+                        }
+                        PoppetDataAttachment.updatePoppetItem(level, blockPoppet.blockPos, blockPoppet.poppetItemStack)
+                    }
+                }
             }
 
             if (itemStack != null) {
                 val maybePlayer = TaglockItem.getPlayer(livingEntity.level(), itemStack)
                 val maybeEntity = TaglockItem.getLivingEntity(livingEntity.level(), itemStack)
-
                 if (maybePlayer != null || maybeEntity != null) {
                     val halfDamage = original / 2
-
-                    if (maybePlayer != null) {
-                        maybePlayer.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
-                    } else maybeEntity?.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
+                    maybePlayer?.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
+                    maybeEntity?.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
 
                     itemStack.damageValue += 1
                     if (itemStack.damageValue >= itemStack.maxDamage) {
