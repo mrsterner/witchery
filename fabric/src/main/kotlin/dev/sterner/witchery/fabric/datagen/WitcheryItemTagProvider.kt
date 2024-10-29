@@ -17,6 +17,14 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
     FabricTagProvider.ItemTagProvider(output, registriesFuture) {
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {
+
+        getOrCreateTagBuilder(WitcheryTags.PLACEABLE_POPPETS)
+            .add(WitcheryItems.VAMPIRIC_POPPET.get())
+            .add(WitcheryItems.ARMOR_PROTECTION_POPPET.get())
+            .add(WitcheryItems.HUNGER_PROTECTION_POPPET.get())
+            .add(WitcheryItems.VOODOO_PROTECTION_POPPET.get())
+            .add(WitcheryItems.VOODOO_POPPET.get())
+
         getOrCreateTagBuilder(WitcheryTags.LEAF_ITEMS).add(
             WitcheryItems.ROWAN_LEAVES.get(),
             WitcheryItems.ROWAN_BERRY_LEAVES.get(),

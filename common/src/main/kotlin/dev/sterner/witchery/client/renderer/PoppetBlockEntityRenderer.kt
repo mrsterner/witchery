@@ -35,7 +35,7 @@ class PoppetBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         packedOverlay: Int
     ) {
         poseStack.pushPose()
-        poseStack.translate(0.5, 1.5, 0.5)
+        poseStack.translate(0.5, 1.6, 0.5)
         val dir = blockEntity.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
         val dirYRot = dir.toYRot()
         poseStack.mulPose(Axis.YP.rotationDegrees(-dirYRot))

@@ -51,7 +51,6 @@ enum class InfusionType : StringRepresentable {
                 val data = OtherwhereInfusionDataAttachment.getInfusion(player)
 
                 val target = raytraceForTeleport(player, data.teleportHoldTicks)
-                println(target)
                 if (target != null) {
                     PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 500)
                     player.teleportTo(target.x, target.y, target.z)

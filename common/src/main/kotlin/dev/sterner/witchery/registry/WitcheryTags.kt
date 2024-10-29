@@ -8,6 +8,9 @@ import net.minecraft.tags.TagKey
 
 
 object WitcheryTags {
+
+    val PLACEABLE_POPPETS = TagKey.create(Registries.ITEM, Witchery.id("placeable_poppets"))
+
     val PLANTS = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "plants"))
 
     val ROWAN_LOGS = TagKey.create(Registries.BLOCK, Witchery.id("rowan_logs"))
