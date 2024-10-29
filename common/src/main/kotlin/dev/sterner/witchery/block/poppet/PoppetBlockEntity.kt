@@ -22,6 +22,17 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     var poppetItemStack = ItemStack.EMPTY
 
+    override fun init(level: Level, pos: BlockPos, state: BlockState) {
+        super.init(level, pos, state)
+        if (level is ServerLevel) {
+            val data = PoppetDataAttachment.getPoppet(level, pos)
+            if (data != null) {
+                poppetItemStack = data.copy()
+                setChanged()
+            }
+        }
+    }
+
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         super.saveAdditional(tag, registries)
         if (!poppetItemStack.isEmpty) {
