@@ -36,13 +36,21 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     companion object {
         fun placePoppet(level: Level, pos: BlockPos, player: Player, direction: Direction): Boolean {
             val targetPos = if (direction.axis.isVertical) pos.relative(player.direction) else pos.relative(direction)
+            val handItem = player.mainHandItem
 
-            if (player.mainHandItem.item is PoppetItem && level.getBlockState(targetPos).canBeReplaced()) {
-                if (player.mainHandItem.`is`(WitcheryTags.PLACEABLE_POPPETS)) {
+            if (handItem.item is PoppetItem && level.getBlockState(targetPos).canBeReplaced()) {
+                if (handItem.`is`(WitcheryTags.PLACEABLE_POPPETS)) {
 
-                    if (player.mainHandItem.has(WitcheryDataComponents.PLAYER_UUID.get())) {
-                        val uuid = player.mainHandItem.get(WitcheryDataComponents.PLAYER_UUID.get())
+                    if (handItem.has(WitcheryDataComponents.PLAYER_UUID.get())) {
+                        val uuid = handItem.get(WitcheryDataComponents.PLAYER_UUID.get())
                         uuid?.let { level.getPlayerByUUID(it) }?.hurt(level.damageSources().playerAttack(player), 2f)
+                        if (handItem.`is`(WitcheryItems.VAMPIRIC_POPPET.get()) || handItem.`is`(WitcheryItems.VOODOO_POPPET.get())) {
+                            handItem.damageValue += handItem.maxDamage / 10
+                        }
+                        if (handItem.damageValue >= player.mainHandItem.maxDamage) {
+                            handItem.shrink(1)
+                            return false
+                        }
                     }
 
                     val horizontalDirection = if (direction.axis.isVertical) {
