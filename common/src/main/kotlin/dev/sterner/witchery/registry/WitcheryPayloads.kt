@@ -76,6 +76,18 @@ object WitcheryPayloads {
         }
     }
 
+    fun <T : CustomPacketPayload?> sendToPlayers(level: Level, payload: T) {
+        if (level is ServerLevel) {
+            for (serverLevel in level.server!!.allLevels) {
+                for (player in serverLevel.players())
+                NetworkManager.sendToPlayer(
+                    player as ServerPlayer,
+                    payload
+                )
+            }
+        }
+    }
+
     fun <T : CustomPacketPayload?> sendToPlayers(level: Level, pos: BlockPos, payload: T) {
         if (level is ServerLevel) {
             sendToPlayers(level, pos, payload)

@@ -46,6 +46,7 @@ import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
+import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
@@ -132,6 +133,7 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
 
+        EntityEvent.ADD.register(PoppetDataAttachment::reloadEntity)
     }
 
     private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {

@@ -2,11 +2,13 @@ package dev.sterner.witchery.block.poppet
 
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
+import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -92,6 +94,20 @@ class PoppetBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         }
 
         super.playerDestroy(level, player, pos, state, blockEntity, tool)
+    }
+
+    override fun onRemove(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        newState: BlockState,
+        movedByPiston: Boolean
+    ) {
+        if (level is ServerLevel) {
+            PoppetDataAttachment.handleBlockDestruction(level, pos)
+        }
+
+        super.onRemove(state, level, pos, newState, movedByPiston)
     }
 
     override fun canBeReplaced(state: BlockState, fluid: Fluid): Boolean {
