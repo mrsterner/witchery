@@ -12,6 +12,7 @@ import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
+import dev.sterner.witchery.platform.poppet.PoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
@@ -96,6 +97,16 @@ object WitcheryNeoForge {
         Supplier {
             AttachmentType.builder(Supplier { VoodooPoppetData(false) })
                 .serialize(VoodooPoppetData.CODEC)
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<PoppetData>> = ATTACHMENT_TYPES.register(
+        "poppet_data",
+        Supplier {
+            AttachmentType.builder(Supplier { PoppetData(mutableListOf()) })
+                .serialize(PoppetData.CODEC)
                 .build()
         }
     )

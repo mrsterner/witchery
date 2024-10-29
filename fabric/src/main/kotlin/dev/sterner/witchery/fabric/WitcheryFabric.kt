@@ -10,6 +10,7 @@ import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
+import dev.sterner.witchery.platform.poppet.PoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.ClientModInitializer
@@ -80,6 +81,13 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
                 .persistent(VoodooPoppetData.CODEC)
                 .initializer { VoodooPoppetData(false) }
                 .buildAndRegister(VoodooPoppetData.ID)
+
+        @Suppress("UnstableApiUsage")
+        val POPPET_DATA_TYPE: AttachmentType<PoppetData> =
+            AttachmentRegistry.builder<PoppetData>()
+                .persistent(PoppetData.CODEC)
+                .initializer { PoppetData(mutableListOf()) }
+                .buildAndRegister(PoppetData.ID)
     }
 
     override fun onInitialize() {
