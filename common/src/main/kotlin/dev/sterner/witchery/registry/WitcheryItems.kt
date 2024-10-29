@@ -247,15 +247,15 @@ object WitcheryItems {
     }
 
     val ARMOR_PROTECTION_POPPET: RegistrySupplier<Item> = ITEMS.register("armor_protection_poppet") {
-        PoppetItem(Item.Properties())
+        PoppetItem(Item.Properties().durability(4))
     }
 
     val DEATH_PROTECTION_POPPET: RegistrySupplier<Item> = ITEMS.register("death_protection_poppet") {
-        PoppetItem(Item.Properties())
+        PoppetItem(Item.Properties().durability(4))
     }
 
     val HUNGER_PROTECTION_POPPET: RegistrySupplier<Item> = ITEMS.register("hunger_protection_poppet") {
-        PoppetItem(Item.Properties())
+        PoppetItem(Item.Properties().durability(4))
     }
 
     val VAMPIRIC_POPPET: RegistrySupplier<Item> = ITEMS.register("vampiric_poppet") {
@@ -267,7 +267,7 @@ object WitcheryItems {
     }
 
     val VOODOO_PROTECTION_POPPET: RegistrySupplier<Item> = ITEMS.register("voodoo_protection_poppet") {
-        PoppetItem(Item.Properties())
+        PoppetItem(Item.Properties().durability(4))
     }
 
     //end POPPETS

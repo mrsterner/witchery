@@ -54,6 +54,8 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
                         if (handItem.`is`(WitcheryItems.VAMPIRIC_POPPET.get()) || handItem.`is`(WitcheryItems.VOODOO_POPPET.get())) {
                             handItem.damageValue += handItem.maxDamage / 10
+                        } else {
+                            handItem.damageValue += 1
                         }
                         if (handItem.damageValue >= player.mainHandItem.maxDamage) {
                             handItem.shrink(1)
