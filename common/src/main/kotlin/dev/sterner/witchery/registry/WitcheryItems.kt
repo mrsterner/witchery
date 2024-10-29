@@ -227,7 +227,7 @@ object WitcheryItems {
     }
 
     val MUTATING_SPRING: RegistrySupplier<Item> = ITEMS.register("mutating_spring") {
-        Item(Item.Properties())
+        MutatingSpringItem(Item.Properties())
     }
 
     val TORMENTED_TWINE: RegistrySupplier<Item> = ITEMS.register("tormented_twine") {
