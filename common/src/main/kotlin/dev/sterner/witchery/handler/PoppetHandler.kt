@@ -146,7 +146,7 @@ object PoppetHandler {
         return itemStack
     }
 
-    fun handleVampiricPoppet(livingEntity: LivingEntity?, original: Float): Float {
+    fun handleVampiricPoppet(livingEntity: LivingEntity?, damageSource: DamageSource ,original: Float): Float {
         if (livingEntity != null) {
             var itemStack: ItemStack? = AccessoryHandler.checkNoConsume(livingEntity, WitcheryItems.VAMPIRIC_POPPET.get())
 
@@ -184,8 +184,8 @@ object PoppetHandler {
                 val maybeEntity = TaglockItem.getLivingEntity(livingEntity.level(), itemStack)
                 if (maybePlayer != null || maybeEntity != null) {
                     val halfDamage = original / 2
-                    maybePlayer?.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
-                    maybeEntity?.hurt(livingEntity.lastDamageSource ?: livingEntity.damageSources().magic(), halfDamage)
+                    maybePlayer?.hurt(damageSource, halfDamage)
+                    maybeEntity?.hurt(damageSource, halfDamage)
 
                     itemStack.damageValue += 1
                     if (itemStack.damageValue >= itemStack.maxDamage) {
