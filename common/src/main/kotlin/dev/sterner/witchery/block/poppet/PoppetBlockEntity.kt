@@ -7,11 +7,13 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import java.util.*
 
 class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.POPPET.get(), blockPos, blockState) {
@@ -38,12 +40,18 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             val targetPos = if (direction.axis.isVertical) pos.relative(player.direction) else pos.relative(direction)
             val handItem = player.mainHandItem
 
-            if (handItem.item is PoppetItem && level.getBlockState(targetPos).canBeReplaced()) {
+            if (!level.isClientSide && handItem.item is PoppetItem && level.getBlockState(targetPos).canBeReplaced()) {
                 if (handItem.`is`(WitcheryTags.PLACEABLE_POPPETS)) {
 
-                    if (handItem.has(WitcheryDataComponents.PLAYER_UUID.get())) {
-                        val uuid = handItem.get(WitcheryDataComponents.PLAYER_UUID.get())
-                        uuid?.let { level.getPlayerByUUID(it) }?.hurt(level.damageSources().playerAttack(player), 2f)
+                    if (handItem.has(WitcheryDataComponents.PLAYER_UUID.get()) || handItem.has(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())) {
+                        if (handItem.has(WitcheryDataComponents.PLAYER_UUID.get())) {
+                            val uuid = handItem.get(WitcheryDataComponents.PLAYER_UUID.get())
+                            uuid?.let { level.getPlayerByUUID(it) }?.hurt(level.damageSources().playerAttack(player), 2f)
+                        } else {
+                            val id = handItem.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+                            id?.let { (level as ServerLevel).getEntity(UUID.fromString(id)) }?.hurt(level.damageSources().playerAttack(player), 2f)
+                        }
+
                         if (handItem.`is`(WitcheryItems.VAMPIRIC_POPPET.get()) || handItem.`is`(WitcheryItems.VOODOO_POPPET.get())) {
                             handItem.damageValue += handItem.maxDamage / 10
                         }
