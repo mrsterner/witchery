@@ -2,14 +2,15 @@ package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.NbtUtils
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.ByIdMap
 import net.minecraft.util.StringRepresentable
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
@@ -18,14 +19,16 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
-import net.minecraft.world.entity.animal.Fox
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.enchantment.EnchantmentHelper
 import net.minecraft.world.level.Level
-import java.util.*
 import java.util.function.IntFunction
+import kotlin.math.max
 
 class EntEntity(level: Level) : Monster(WitcheryEntityTypes.ENT.get(), level) {
+
+    private var attackAnimationTick = 0
 
     init{
         this.setPersistenceRequired()
@@ -39,6 +42,49 @@ class EntEntity(level: Level) : Monster(WitcheryEntityTypes.ENT.get(), level) {
         goalSelector.addGoal(4, MeleeAttackGoal(this, 1.0, false))
         targetSelector.addGoal(5, NearestAttackableTargetGoal(this, Player::class.java, true))
         super.registerGoals()
+    }
+
+    override fun aiStep() {
+        super.aiStep()
+        if (this.attackAnimationTick > 0) {
+            --this.attackAnimationTick
+        }
+    }
+
+    override fun handleEntityEvent(id: Byte) {
+        if (id.toInt() == 4) {
+            this.attackAnimationTick = 10
+        } else {
+            super.handleEntityEvent(id)
+        }
+    }
+
+    private fun getAttackDamage(): Float {
+        return getAttributeValue(Attributes.ATTACK_DAMAGE).toFloat()
+    }
+
+    override fun doHurtTarget(target: Entity): Boolean {
+        this.attackAnimationTick = 10
+        level().broadcastEntityEvent(this, 4.toByte())
+        val damage: Float = this.getAttackDamage()
+        val randomDamage = if (damage.toInt() > 0) damage / 2.0f + random.nextInt(damage.toInt()).toFloat() else damage
+        val damageSource = damageSources().mobAttack(this)
+        val bl = target.hurt(damageSource, randomDamage)
+        if (bl) {
+            val knockback: Double = if (target is LivingEntity) {
+                target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE)
+            } else {
+                0.0
+            }
+
+            val e = max(0.0, 1.0 - knockback)
+            target.deltaMovement = target.deltaMovement.add(0.0, 0.4 * e, 0.0)
+            val level = this.level()
+            if (level is ServerLevel) {
+                EnchantmentHelper.doPostAttackEffects(level, target, damageSource)
+            }
+        }
+        return bl
     }
 
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
@@ -64,6 +110,10 @@ class EntEntity(level: Level) : Monster(WitcheryEntityTypes.ENT.get(), level) {
         this.setVariant(Type.byName(compound.getString("Type")))
     }
 
+    fun getAttackAnimationTick(): Int {
+        return this.attackAnimationTick
+    }
+
     companion object {
         fun createAttributes(): AttributeSupplier.Builder {
             return createMobAttributes()
@@ -80,7 +130,7 @@ class EntEntity(level: Level) : Monster(WitcheryEntityTypes.ENT.get(), level) {
     enum class Type(val id: Int, val inName: String) : StringRepresentable {
         ROWAN(0, "rowan"),
         ALDER(1, "alder"),
-        HAWTHORN(1, "hawthorn");
+        HAWTHORN(2, "hawthorn");
 
         override fun getSerializedName(): String {
             return this.inName

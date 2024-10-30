@@ -1,17 +1,16 @@
 package dev.sterner.witchery.client.renderer
 
 import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.DemonEntityModel
 import dev.sterner.witchery.client.model.EntEntityModel
-import dev.sterner.witchery.client.model.ImpEntityModel
-import dev.sterner.witchery.entity.DemonEntity
 import dev.sterner.witchery.entity.EntEntity
-import dev.sterner.witchery.entity.ImpEntity
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.animal.IronGolem
+import kotlin.math.abs
 
 class EntEntityRenderer(context: EntityRendererProvider.Context) :
     MobRenderer<EntEntity, EntEntityModel>(
@@ -35,6 +34,22 @@ class EntEntityRenderer(context: EntityRendererProvider.Context) :
         poseStack.pushPose()
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight)
         poseStack.popPose()
+    }
+
+    override fun setupRotations(
+        entity: EntEntity,
+        poseStack: PoseStack,
+        bob: Float,
+        yBodyRot: Float,
+        partialTick: Float,
+        scale: Float
+    ) {
+        super.setupRotations(entity, poseStack, bob, yBodyRot, partialTick, scale)
+        if (!(entity.walkAnimation.speed().toDouble() < 0.01)) {
+            val g = entity.walkAnimation.position(partialTick) + 6.0f
+            val h = ((abs((g % 13.0f - 6.5f).toDouble()) - 3.25f) / 3.25f).toFloat()
+            poseStack.mulPose(Axis.ZP.rotationDegrees(6.5f * h))
+        }
     }
 
     override fun getTextureLocation(entity: EntEntity): ResourceLocation {
