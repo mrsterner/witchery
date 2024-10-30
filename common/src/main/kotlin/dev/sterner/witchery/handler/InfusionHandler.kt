@@ -79,6 +79,9 @@ object InfusionHandler {
     val infusionMeter = Witchery.id("textures/gui/infusion_meter.png")
     val infusionMeterOverlay = Witchery.id("textures/gui/infusion_meter_overlay.png")
     val infusionMeterOtherwhere = Witchery.id("textures/gui/infusion_meter_otherwhere.png")
+    val infusionMeterInfernal = Witchery.id("textures/gui/infusion_meter_infernal.png")
+    val infusionMeterOverworld = Witchery.id("textures/gui/infusion_meter_overworld.png")
+    val infusionMeterLight = Witchery.id("textures/gui/infusion_meter_light.png")
 
     @Environment(EnvType.CLIENT)
     fun renderInfusionHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker?) {
@@ -90,6 +93,19 @@ object InfusionHandler {
 
         val scaledY = minecraft.window.guiScaledHeight
         val chargePercentage = data.charge.toFloat() / InfusionData.MAX_CHARGE
+
+        val texture = when (data.type) {
+            InfusionType.LIGHT -> {
+                infusionMeterLight
+            }
+            InfusionType.OTHERWHERE -> {
+                infusionMeterOtherwhere
+            }
+            InfusionType.INFERNAL -> {
+                infusionMeterInfernal
+            }
+            else -> infusionMeterOverworld
+        }
 
         RenderUtils.blitWithAlpha(
             guiGraphics.pose(),
@@ -108,7 +124,7 @@ object InfusionHandler {
         val otherwhereHeight = (chargePercentage * 28).toInt()
         RenderUtils.blitWithAlpha(
             guiGraphics.pose(),
-            infusionMeterOtherwhere,
+            texture,
             12 + 4,
             scaledY - 100 + (28 - otherwhereHeight) + 4 + 30,
             0f,
