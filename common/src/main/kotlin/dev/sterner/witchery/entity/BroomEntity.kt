@@ -257,6 +257,8 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         this.inputShift = sneakingInputDown
     }
 
+
+
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         if (level().isClientSide || this.isRemoved) {
             return true

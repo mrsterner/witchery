@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level
 object WitcheryPayloads {
 
     fun register() {
+        //S2C
         registerS2C(SyncCauldronS2CPacket.ID, SyncCauldronS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
@@ -50,6 +51,12 @@ object WitcheryPayloads {
         }
         registerS2C(SyncVoodooDataS2CPacket.ID, SyncVoodooDataS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
+        }
+
+
+        //C2S
+        registerC2S(DismountBroomC2SPayload.ID, DismountBroomC2SPayload.STREAM_CODEC) { payload, context ->
+            payload.handleC2S(payload, context)
         }
     }
 

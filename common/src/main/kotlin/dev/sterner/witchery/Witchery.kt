@@ -3,15 +3,13 @@ package dev.sterner.witchery
 import com.mojang.logging.LogUtils
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
-import dev.architectury.event.events.common.CommandRegistrationEvent
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.InteractionEvent
-import dev.architectury.event.events.common.LootEvent
+import dev.architectury.event.events.client.ClientTickEvent
+import dev.architectury.event.events.common.*
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
-import dev.architectury.event.events.common.PlayerEvent
-import dev.architectury.event.events.common.TickEvent
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
+import dev.architectury.networking.NetworkManager
+import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.architectury.registry.client.particle.ParticleProviderRegistry
@@ -41,21 +39,16 @@ import dev.sterner.witchery.handler.InfusionHandler
 import dev.sterner.witchery.handler.PoppetHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.MutandisDataAttachment
-import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
-import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
-import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.color.item.ItemColor
-import net.minecraft.client.color.item.ItemColors
+import net.minecraft.client.Minecraft
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
@@ -68,7 +61,6 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.DyeColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
@@ -352,6 +344,18 @@ object Witchery {
 
             WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get()
         )
+
+
+        KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)
+
+        ClientTickEvent.CLIENT_POST.register(ClientTickEvent.Client { minecraft: Minecraft? ->
+            while (WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING.consumeClick()) {
+                minecraft?.player?.stopRiding()
+                if (minecraft?.player != null) {
+                    NetworkManager.sendToServer(DismountBroomC2SPayload())
+                }
+            }
+        })
     }
 
     fun id(name: String): ResourceLocation {
