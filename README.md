@@ -11,4 +11,6 @@
 ## Features
 
 ## Credits
-- Model and texture of Witches oven is made by WK/AtheneNoctua,
+- Model and texture of Witches oven is made by WK/AtheneNoctua.
+- Texture of Taglock is made by WK/AtheneNoctua.
+- Model and texture of Hunter Armor is made by TheRebelT
