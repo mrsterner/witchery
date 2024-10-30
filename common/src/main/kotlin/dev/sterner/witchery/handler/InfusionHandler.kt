@@ -2,6 +2,8 @@ package dev.sterner.witchery.handler
 
 import com.mojang.authlib.minecraft.client.MinecraftClient
 import dev.architectury.event.EventResult
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
@@ -74,20 +76,63 @@ object InfusionHandler {
         return EventResult.pass()
     }
 
-    //TODO make graphic
+    val infusionMeter = Witchery.id("textures/gui/infusion_meter.png")
+    val infusionMeterOverlay = Witchery.id("textures/gui/infusion_meter_overlay.png")
+    val infusionMeterOtherwhere = Witchery.id("textures/gui/infusion_meter_otherwhere.png")
+
     @Environment(EnvType.CLIENT)
-    fun renderInfusionHud(guiGraphics: GuiGraphics?, deltaTracker: DeltaTracker?) {
+    fun renderInfusionHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker?) {
         val minecraft = Minecraft.getInstance()
         val clientPlayer = minecraft.player ?: return
-        val font = minecraft.font
 
         val data = PlayerInfusionDataAttachment.getPlayerInfusion(clientPlayer)
-        if (data.type == InfusionType.NONE) {
-            return
-        }
-        val scaledX = minecraft.window.guiScaledWidth / 2
-        val scaledY = minecraft.window.guiScaledHeight
-        guiGraphics?.drawCenteredString(font, Component.literal("${data.charge} / ${InfusionData.MAX_CHARGE}"), scaledX,scaledY - 72, Color(255, 255, 255).rgb)
-    }
+        if (data.type == InfusionType.NONE) return
 
+        val scaledY = minecraft.window.guiScaledHeight
+        val chargePercentage = data.charge.toFloat() / InfusionData.MAX_CHARGE
+
+        RenderUtils.blitWithAlpha(
+            guiGraphics.pose(),
+            infusionMeter,
+            10,
+            scaledY - 100 + 30,
+            0f,
+            0f,
+            15,
+            47,
+            15,
+            47,
+            1f
+        )
+
+        val otherwhereHeight = (chargePercentage * 28).toInt()
+        RenderUtils.blitWithAlpha(
+            guiGraphics.pose(),
+            infusionMeterOtherwhere,
+            12 + 4,
+            scaledY - 100 + (28 - otherwhereHeight) + 4 + 30,
+            0f,
+            (28 - otherwhereHeight).toFloat(),
+            3,
+            otherwhereHeight,
+            3,
+            28,
+            1f
+        )
+
+        val overlayHeight = ((1f - chargePercentage) * 28).toInt()
+        RenderUtils.blitWithAlpha(
+            guiGraphics.pose(),
+            infusionMeterOverlay,
+            12 + 4,
+            scaledY - 100 + 4 + 30,
+            0f,
+            0f,
+            3,
+            overlayHeight,
+            3,
+            28,
+            1f
+        )
+    }
 }
