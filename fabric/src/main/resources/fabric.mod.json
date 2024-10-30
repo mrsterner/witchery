@@ -14,7 +14,7 @@
     "sources": ""
   },
   "license": "ARR",
-  "icon": "icon.png",
+  "icon": "assets/logo.png",
   "environment": "*",
   "accessWidener": "witchery.accesswidener",
   "entrypoints": {

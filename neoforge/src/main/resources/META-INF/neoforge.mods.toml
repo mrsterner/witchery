@@ -39,7 +39,7 @@ enumExtensions="META-INF/enumextensions.json"
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="icon.png" #optional
+logoFile="logo.png" #optional
 
 # A text field displayed in the mod UI
 #credits="" #optional
