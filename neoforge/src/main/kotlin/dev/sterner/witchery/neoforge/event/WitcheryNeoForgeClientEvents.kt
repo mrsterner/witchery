@@ -77,6 +77,14 @@ object WitcheryNeoForgeClientEvents {
             WitcheryEntityTypes.THROWN_BREW.get(),
             ::ThrownItemRenderer
         )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.DEMON.get(),
+            ::DemonEntityRenderer
+        )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.ENT.get(),
+            ::EntEntityRenderer
+        )
     }
 
 
@@ -136,6 +144,9 @@ object WitcheryNeoForgeClientEvents {
         event.registerLayerDefinition(
             DemonEntityModel.LAYER_LOCATION,
             DemonEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            EntEntityModel.LAYER_LOCATION,
+            EntEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent

@@ -36,6 +36,15 @@ object WitcheryEntityTypes {
         ).sized(1.25F, 3.2F).eyeHeight(2.6F).build(Witchery.id("demon").toString())
     }
 
+    val ENT = ENTITY_TYPES.register("ent") {
+        EntityType.Builder.of(
+            { _: EntityType<EntEntity>, level: Level ->
+                EntEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(1.25F, 3.2F).eyeHeight(2.6F).build(Witchery.id("ent").toString())
+    }
+
+
     val OWL = ENTITY_TYPES.register("owl") {
         EntityType.Builder.of(
             { _: EntityType<OwlEntity>, level: Level ->
