@@ -5,6 +5,7 @@ import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.fabric.client.*
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
 import dev.sterner.witchery.platform.AltarDataAttachment
+import dev.sterner.witchery.platform.EntSpawnLevelAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
@@ -88,6 +89,13 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
                 .persistent(PoppetData.CODEC)
                 .initializer { PoppetData(mutableListOf()) }
                 .buildAndRegister(PoppetData.ID)
+
+        @Suppress("UnstableApiUsage")
+        val ENT_DATA_TYPE: AttachmentType<EntSpawnLevelAttachment.Data> =
+            AttachmentRegistry.builder<EntSpawnLevelAttachment.Data>()
+                .persistent(EntSpawnLevelAttachment.Data.DATA_CODEC)
+                .initializer { EntSpawnLevelAttachment.Data() }
+                .buildAndRegister(EntSpawnLevelAttachment.Data.ID)
     }
 
     override fun onInitialize() {

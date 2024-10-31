@@ -8,6 +8,7 @@ import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvents
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
 import dev.sterner.witchery.platform.AltarDataAttachment
+import dev.sterner.witchery.platform.EntSpawnLevelAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionData
@@ -111,6 +112,15 @@ object WitcheryNeoForge {
         }
     )
 
+    @JvmStatic
+    val ENT_DATA_ATTACHMENT: Supplier<AttachmentType<EntSpawnLevelAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "ent_data",
+        Supplier {
+            AttachmentType.builder(Supplier { EntSpawnLevelAttachment.Data() })
+                .serialize(EntSpawnLevelAttachment.Data.DATA_CODEC)
+                .build()
+        }
+    )
 
 
     init {
