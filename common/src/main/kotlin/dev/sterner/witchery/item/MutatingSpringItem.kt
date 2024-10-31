@@ -20,6 +20,7 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
 
         if (level.getBlockState(pos).`is`(Blocks.WHEAT)) {
             makeWormwood(level, pos)
+            return InteractionResult.SUCCESS
         }
 
         val blockState = level.getBlockState(pos)
