@@ -72,7 +72,7 @@ object Witchery {
 
     val LOGGER: Logger = LogUtils.getLogger()
 
-    val debugRitualLog: Boolean = true
+    val debugRitualLog: Boolean = false
 
     @JvmStatic
     fun init() {
