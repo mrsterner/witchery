@@ -110,7 +110,7 @@ object EntSpawnLevelAttachment {
         }
         ent?.setVariant(variant)
         ent?.moveTo(blockPos.x + 0.5, blockPos.y+ 0.5, blockPos.z+ 0.5)
-        level.addFreshEntity(ent)
+        ent?.let { level.addFreshEntity(it) }
     }
 
     data class Data(val entries: List<BlockEntry> = listOf()) {
