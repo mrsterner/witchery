@@ -1,6 +1,7 @@
 package dev.sterner.witchery.neoforge.event
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.entity.BroomEntity
 import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.DreamWeaverBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
@@ -35,6 +36,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtension
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.LootTableLoadEvent
+import net.neoforged.neoforge.event.entity.EntityMountEvent
 import net.neoforged.neoforge.server.ServerLifecycleHooks
 
 object WitcheryNeoForgeEvents {
@@ -80,5 +82,12 @@ object WitcheryNeoForgeEvents {
     @SubscribeEvent
     fun modifyExistingTabs(event: BuildCreativeModeTabContentsEvent) {
         WitcheryCreativeModeTabs.modifyExistingTabs(event.tab, event)
+    }
+
+    @SubscribeEvent
+    fun dismountBroom(event: EntityMountEvent) {
+        if (event.entityBeingMounted is BroomEntity) {
+            event.isCanceled = true
+        }
     }
 }

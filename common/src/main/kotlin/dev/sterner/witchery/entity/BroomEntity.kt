@@ -174,7 +174,7 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
 
             this.yRot += this.deltaRotation
             if (this.inputUp) {
-                f += 0.5f
+                f += 0.35f
             }
 
             if (this.inputDown) {

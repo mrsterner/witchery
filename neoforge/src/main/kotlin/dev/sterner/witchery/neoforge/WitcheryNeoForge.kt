@@ -54,6 +54,7 @@ object WitcheryNeoForge {
                 MOD_BUS.addListener(::onServerSetup)
                 MOD_BUS.addListener(::onLoadComplete)
                 FORGE_BUS.addListener(WitcheryNeoForgeEvents::modifyLootTable)
+                FORGE_BUS.addListener(WitcheryNeoForgeEvents::dismountBroom)
                 "test"
             }
         )
