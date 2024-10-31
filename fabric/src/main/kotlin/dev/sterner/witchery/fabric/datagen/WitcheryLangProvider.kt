@@ -115,6 +115,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryEntityTypes.DEMON.get(), "Demon")
         builder.add(WitcheryEntityTypes.IMP.get(), "Imp")
         builder.add(WitcheryEntityTypes.OWL.get(), "Owl")
+        builder.add(WitcheryEntityTypes.ENT.get(), "Ent")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")

@@ -3,6 +3,8 @@ package dev.sterner.witchery.fabric
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.fabric.client.*
+import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
+import dev.sterner.witchery.fabric.registry.WitcheryFabricEvents
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
 import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.EntSpawnLevelAttachment
@@ -40,68 +42,11 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
 class WitcheryFabric : ModInitializer, ClientModInitializer {
 
-    companion object {
-        @Suppress("UnstableApiUsage")
-        val MUTANDIS_LEVEL_DATA_TYPE: AttachmentType<MutandisDataAttachment.MutandisDataCodec> =
-            AttachmentRegistry.builder<MutandisDataAttachment.MutandisDataCodec>()
-                .persistent(MutandisDataAttachment.MutandisDataCodec.CODEC)
-                .initializer { MutandisDataAttachment.MutandisDataCodec() }
-                .buildAndRegister(MutandisDataAttachment.ID)
-
-        @Suppress("UnstableApiUsage")
-        val ALTAR_LEVEL_DATA_TYPE: AttachmentType<AltarDataAttachment.AltarDataCodec> =
-            AttachmentRegistry.builder<AltarDataAttachment.AltarDataCodec>()
-                .persistent(AltarDataAttachment.AltarDataCodec.CODEC)
-                .initializer { AltarDataAttachment.AltarDataCodec() }
-                .buildAndRegister(AltarDataAttachment.AltarDataCodec.ID)
-
-        @Suppress("UnstableApiUsage")
-        val INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfusionData> =
-            AttachmentRegistry.builder<InfusionData>()
-                .persistent(InfusionData.CODEC)
-                .initializer { InfusionData(InfusionType.NONE) }
-                .buildAndRegister(InfusionData.ID)
-
-        @Suppress("UnstableApiUsage")
-        val LIGHT_INFUSION_PLAYER_DATA_TYPE: AttachmentType<LightInfusionData> =
-            AttachmentRegistry.builder<LightInfusionData>()
-                .persistent(LightInfusionData.CODEC)
-                .initializer { LightInfusionData(false, 0) }
-                .buildAndRegister(LightInfusionData.ID)
-
-        @Suppress("UnstableApiUsage")
-        val OTHERWHERE_INFUSION_PLAYER_DATA_TYPE: AttachmentType<OtherwhereInfusionData> =
-            AttachmentRegistry.builder<OtherwhereInfusionData>()
-                .persistent(OtherwhereInfusionData.CODEC)
-                .initializer { OtherwhereInfusionData(0, 0) }
-                .buildAndRegister(OtherwhereInfusionData.ID)
-
-        @Suppress("UnstableApiUsage")
-        val VOODOO_POPPET_DATA_TYPE: AttachmentType<VoodooPoppetData> =
-            AttachmentRegistry.builder<VoodooPoppetData>()
-                .persistent(VoodooPoppetData.CODEC)
-                .initializer { VoodooPoppetData(false) }
-                .buildAndRegister(VoodooPoppetData.ID)
-
-        @Suppress("UnstableApiUsage")
-        val POPPET_DATA_TYPE: AttachmentType<PoppetData> =
-            AttachmentRegistry.builder<PoppetData>()
-                .persistent(PoppetData.CODEC)
-                .initializer { PoppetData(mutableListOf()) }
-                .buildAndRegister(PoppetData.ID)
-
-        @Suppress("UnstableApiUsage")
-        val ENT_DATA_TYPE: AttachmentType<EntSpawnLevelAttachment.Data> =
-            AttachmentRegistry.builder<EntSpawnLevelAttachment.Data>()
-                .persistent(EntSpawnLevelAttachment.Data.DATA_CODEC)
-                .initializer { EntSpawnLevelAttachment.Data() }
-                .buildAndRegister(EntSpawnLevelAttachment.Data.ID)
-    }
-
     override fun onInitialize() {
+        WitcheryFabricAttachmentRegistry.init()
         Witchery.init()
 
-        LootTableEvents.MODIFY.register(::addEntityDrops)
+        LootTableEvents.MODIFY.register(WitcheryFabricEvents::addEntityDrops)
 
         DynamicRegistries.registerSynced(WitcheryRitualRegistry.RITUAL_KEY, WitcheryRitualRegistry.CODEC)
 
@@ -118,44 +63,6 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
         WitcheryFlammability.register()
         WitcheryOxidizables.register()
-    }
-
-    private fun addEntityDrops(resourceKey: ResourceKey<LootTable>?, builder: LootTable.Builder, lootTableSource: LootTableSource, provider: HolderLookup.Provider) {
-        if (lootTableSource.isBuiltin && EntityType.WOLF.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.TONGUE_OF_DOG.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
-                )
-                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))
-                .build()
-            builder.pool(pool)
-        }
-
-        if (lootTableSource.isBuiltin && EntityType.FROG.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.TOE_OF_FROG.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
-                )
-                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))
-                .build()
-            builder.pool(pool)
-        }
-
-        if (lootTableSource.isBuiltin && EntityType.BAT.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.WOOL_OF_BAT.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
-                )
-                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))
-                .build()
-            builder.pool(pool)
-        }
     }
 
     override fun onInitializeClient() {
