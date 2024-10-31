@@ -3,6 +3,8 @@ package dev.sterner.witchery.item
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.context.UseOnContext
@@ -10,6 +12,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class MutatingSpringItem(properties: Properties) : Item(properties) {
 
@@ -43,10 +46,11 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
     }
 
     private fun makeWormwood(level: Level, pos: BlockPos) {
-        if (checkCardinal(level, pos, WitcheryBlocks.WISPY_COTTON.get()) && checkDiagonals(level, pos, Blocks.WATER)) {
+        if (checkCardinal(level, pos, WitcheryBlocks.WISPY_COTTON.get()) && checkWaterDiagonals(level, pos)) {
             level.setBlockAndUpdate(pos, WitcheryBlocks.WORMWOOD_CROP.get().defaultBlockState())
             removeCardinal(level, pos)
             removeDiagonals(level, pos)
+            level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
         }
     }
 
@@ -57,11 +61,31 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
                 level.getBlockState(pos.west()).`is`(block)
     }
 
-    private fun checkDiagonals(level: Level, pos: BlockPos, block: Block): Boolean {
-        return level.getBlockState(pos.north().east().below()).`is`(block) &&
-                level.getBlockState(pos.north().west().below()).`is`(block) &&
-                level.getBlockState(pos.south().east().below()).`is`(block) &&
-                level.getBlockState(pos.south().west().below()).`is`(block)
+    private fun checkWaterDiagonals(level: Level, pos: BlockPos): Boolean {
+        return isWaterloggedOrWater(level.getBlockState(pos.north().east().below())) &&
+                isWaterloggedOrWater(level.getBlockState(pos.north().west().below())) &&
+                isWaterloggedOrWater(level.getBlockState(pos.south().east().below())) &&
+                isWaterloggedOrWater(level.getBlockState(pos.south().west().below()))
+    }
+
+    private fun isWaterloggedOrWater(state: BlockState): Boolean {
+        return state.`is`(Blocks.WATER) || (state.hasProperty(BlockStateProperties.WATERLOGGED) && state.getValue(BlockStateProperties.WATERLOGGED))
+    }
+
+    private fun removeDiagonals(level: Level, pos: BlockPos) {
+        listOf(
+            pos.north().east().below(),
+            pos.north().west().below(),
+            pos.south().east().below(),
+            pos.south().west().below()
+        ).forEach { diagonalPos ->
+            val state = level.getBlockState(diagonalPos)
+            if (state.hasProperty(BlockStateProperties.WATERLOGGED) && state.getValue(BlockStateProperties.WATERLOGGED)) {
+                level.setBlockAndUpdate(diagonalPos, state.setValue(BlockStateProperties.WATERLOGGED, false))
+            } else if (state.`is`(Blocks.WATER)) {
+                level.setBlockAndUpdate(diagonalPos, Blocks.AIR.defaultBlockState())
+            }
+        }
     }
 
     private fun removeCardinal(level: Level, pos: BlockPos) {
@@ -69,12 +93,5 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
         level.setBlockAndUpdate(pos.south(), Blocks.AIR.defaultBlockState())
         level.setBlockAndUpdate(pos.east(), Blocks.AIR.defaultBlockState())
         level.setBlockAndUpdate(pos.west(), Blocks.AIR.defaultBlockState())
-    }
-
-    private fun removeDiagonals(level: Level, pos: BlockPos) {
-        level.setBlockAndUpdate(pos.north().east().below(), Blocks.AIR.defaultBlockState())
-        level.setBlockAndUpdate(pos.north().west().below(), Blocks.AIR.defaultBlockState())
-        level.setBlockAndUpdate(pos.south().east().below(), Blocks.AIR.defaultBlockState())
-        level.setBlockAndUpdate(pos.south().west().below(), Blocks.AIR.defaultBlockState())
     }
 }
