@@ -3,8 +3,10 @@ package dev.sterner.witchery.item
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.util.Mth
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.context.UseOnContext
@@ -85,13 +87,37 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             } else if (state.`is`(Blocks.WATER)) {
                 level.setBlockAndUpdate(diagonalPos, Blocks.AIR.defaultBlockState())
             }
+            for (i in 0..16) {
+                level.addAlwaysVisibleParticle(
+                    ParticleTypes.SMOKE,
+                    true,
+                    diagonalPos.x + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
+                    (diagonalPos.y + 1.0) + Mth.nextDouble(level.random, -1.25, 1.25),
+                    diagonalPos.z + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
+                    0.0, 0.2, 0.0
+                )
+            }
         }
     }
 
     private fun removeCardinal(level: Level, pos: BlockPos) {
-        level.setBlockAndUpdate(pos.north(), Blocks.AIR.defaultBlockState())
-        level.setBlockAndUpdate(pos.south(), Blocks.AIR.defaultBlockState())
-        level.setBlockAndUpdate(pos.east(), Blocks.AIR.defaultBlockState())
-        level.setBlockAndUpdate(pos.west(), Blocks.AIR.defaultBlockState())
+        listOf(
+            pos.east(),
+            pos.north(),
+            pos.south(),
+            pos.west()
+        ).forEach { cardinal ->
+            level.setBlockAndUpdate(cardinal, Blocks.AIR.defaultBlockState())
+            for (i in 0..16) {
+                level.addAlwaysVisibleParticle(
+                    ParticleTypes.SMOKE,
+                    true,
+                    cardinal.x + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
+                    (cardinal.y + 1.0) + Mth.nextDouble(level.random, -1.25, 1.25),
+                    cardinal.z + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
+                    0.0, 0.2, 0.0
+                )
+            }
+        }
     }
 }
