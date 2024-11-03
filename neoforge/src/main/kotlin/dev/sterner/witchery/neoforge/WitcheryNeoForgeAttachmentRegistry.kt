@@ -4,6 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.AltarDataAttachment
 import dev.sterner.witchery.platform.EntSpawnLevelAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
+import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
@@ -95,6 +96,16 @@ object WitcheryNeoForgeAttachmentRegistry {
         Supplier {
             AttachmentType.builder(Supplier { EntSpawnLevelAttachment.Data() })
                 .serialize(EntSpawnLevelAttachment.Data.DATA_CODEC)
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val SLEEPING_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<SleepingPlayerLevelAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "sleeping_player",
+        Supplier {
+            AttachmentType.builder(Supplier { SleepingPlayerLevelAttachment.Data() })
+                .serialize(SleepingPlayerLevelAttachment.Data.CODEC)
                 .build()
         }
     )

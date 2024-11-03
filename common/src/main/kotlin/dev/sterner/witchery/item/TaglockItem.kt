@@ -1,7 +1,8 @@
 package dev.sterner.witchery.item
 
+import com.mojang.authlib.GameProfile
+import dev.sterner.witchery.entity.SleepingPlayerEntity
 import dev.sterner.witchery.registry.WitcheryDataComponents
-import net.minecraft.client.Minecraft
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
@@ -119,6 +120,18 @@ class TaglockItem(properties: Properties) : Item(properties) {
             }
 
             return null
+        }
+
+        fun bindSleepingPlayer(sleepingPlayerEntity: SleepingPlayerEntity, stack: ItemStack){
+            if (stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())!!) {
+                return
+            }
+
+            stack.set(DataComponents.PROFILE, ResolvableProfile(GameProfile(sleepingPlayerEntity.data.playerUuid, sleepingPlayerEntity.getSleepingName())))
+            stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), sleepingPlayerEntity.data.playerName?.replaceFirstChar(Char::uppercase))
+
+
+            stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), sleepingPlayerEntity.getSleepingUUID().toString())
         }
     }
 }

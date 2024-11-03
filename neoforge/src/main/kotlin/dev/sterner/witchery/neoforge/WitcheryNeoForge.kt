@@ -7,41 +7,50 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvents
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvents
-import dev.sterner.witchery.platform.AltarDataAttachment
-import dev.sterner.witchery.platform.EntSpawnLevelAttachment
-import dev.sterner.witchery.platform.MutandisDataAttachment
-import dev.sterner.witchery.platform.infusion.InfusionData
-import dev.sterner.witchery.platform.infusion.LightInfusionData
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
-import dev.sterner.witchery.platform.poppet.PoppetData
-import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
+import net.minecraft.core.NonNullList
+import net.minecraft.network.syncher.EntityDataSerializer
+import net.minecraft.world.item.ItemStack
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
-import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
+import net.neoforged.neoforge.common.Tags
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
+import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
-import java.util.function.Supplier
 
 
 @Mod(Witchery.MODID)
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 object WitcheryNeoForge {
 
+
+    val DATA_SERIALIZER_REGISTER: DeferredRegister<EntityDataSerializer<*>> =
+        DeferredRegister.create(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, Witchery.MODID)
+
+
+    private inline fun <reified T : EntityDataSerializer<*>> DeferredRegister<EntityDataSerializer<*>>.registerSerializer(name: String, noinline supplier: () -> T): DeferredHolder<EntityDataSerializer<*>, T> {
+        return register(name, supplier)
+    }
+
+    val INVENTORY_SERIALIZER: DeferredHolder<EntityDataSerializer<*>, EntityDataSerializer<NonNullList<ItemStack>>> =
+        DATA_SERIALIZER_REGISTER.registerSerializer("inventory") { WitcheryEntityDataSerializers.INVENTORY }
+
+
     init {
         WitcheryNeoForgeAttachmentRegistry.ATTACHMENT_TYPES.register(MOD_BUS)
         Witchery.init()
+
+        DATA_SERIALIZER_REGISTER.register(MOD_BUS)
 
         runForDist(
             clientTarget = {

@@ -7,7 +7,8 @@
     "ClientPacketListenerMixin",
     "LivingEntityRendererMixin",
     "PlayerItemInHandLayerMixin",
-    "PlayerRendererMixin"
+    "PlayerRendererMixin",
+    "WorldOpenFlowsMixin"
   ],
   "mixins": [
     "BookCategoryNodeScreenMixin",
@@ -19,6 +20,7 @@
     "LightningBoltMixin",
     "LivingEntityMixin",
     "PlayerMixin",
+    "ServerPlayerMixin",
     "ShapelessRecipeAccessor"
   ],
   "injectors": {

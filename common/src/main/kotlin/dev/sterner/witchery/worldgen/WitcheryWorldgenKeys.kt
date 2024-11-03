@@ -13,4 +13,7 @@ object WitcheryWorldgenKeys {
 
     val HAWTHORN_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Witchery.id("hawthorn_placed"))
     val HAWTHORN_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Witchery.id("hawthorn"))
+
+    val WISPY_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Witchery.id("wispy_placed"))
+    val WISPY_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Witchery.id("wispy"))
 }

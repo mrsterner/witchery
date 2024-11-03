@@ -10,7 +10,8 @@
 - Added Missing refined evil recipe
 - Added Brew of Love
 - Added Poppets; Armor proc, Vampiric, Voodoo and Hunger proc
-- - Added Wormwood creation with mutating spring
+- Added Wormwood creation with mutating spring
+- Added Spirit World
 
 ### Version 0.1.1
 Initial version for Modfest/SpookyJam 2024

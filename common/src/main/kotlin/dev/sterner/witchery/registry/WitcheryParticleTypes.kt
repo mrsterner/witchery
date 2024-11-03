@@ -4,6 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticleType
+import dev.sterner.witchery.client.particle.ZzzParticleType
 import net.minecraft.core.particles.ParticleType
 import net.minecraft.core.registries.Registries
 
@@ -16,5 +17,9 @@ object WitcheryParticleTypes {
         "color_bubble"
     ) {
         ColorBubbleParticleType()
+    }
+
+    var ZZZ = PARTICLES.register("zzz") {
+        ZzzParticleType()
     }
 }

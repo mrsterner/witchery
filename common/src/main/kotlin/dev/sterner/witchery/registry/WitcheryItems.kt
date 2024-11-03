@@ -10,10 +10,7 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
-import dev.sterner.witchery.item.brew.BrewItem
-import dev.sterner.witchery.item.brew.BrewOfFlowingSpiritItem
-import dev.sterner.witchery.item.brew.BrewOfLoveItem
-import dev.sterner.witchery.item.brew.ThrowableBrewItem
+import dev.sterner.witchery.item.brew.*
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
@@ -103,7 +100,7 @@ object WitcheryItems {
     }
 
     val ICY_NEEDLE: RegistrySupplier<Item> = ITEMS.register("icy_needle") {
-        Item(Item.Properties())
+        IcyNeedleItem(Item.Properties())
     }
 
     val MANDRAKE_ROOT: RegistrySupplier<Item> = ITEMS.register("mandrake_root") {
@@ -938,7 +935,7 @@ object WitcheryItems {
     }
 
     val BREW_OF_SLEEPING = ITEMS.register("brew_of_sleeping") {
-        BrewItem(Color(255, 90, 130).rgb, Item.Properties().stacksTo(16))
+        BrewOfSleepingItem(Color(255, 90, 130).rgb, Item.Properties().stacksTo(16))
     }
 
     val BREW_FLOWING_SPIRIT = ITEMS.register("brew_of_flowing_spirit") {

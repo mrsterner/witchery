@@ -1,8 +1,8 @@
 package dev.sterner.witchery.neoforge.event
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
 import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.DreamWeaverBlockEntityWithoutLevelRenderer
@@ -22,28 +22,14 @@ import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
-import net.minecraft.core.HolderLookup
-import net.minecraft.core.RegistryAccess
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.item.CreativeModeTabs
-import net.minecraft.world.level.storage.loot.LootPool
-import net.minecraft.world.level.storage.loot.entries.LootItem
-import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
-import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
-import net.neoforged.neoforge.event.LootTableLoadEvent
-import net.neoforged.neoforge.server.ServerLifecycleHooks
 import org.jetbrains.annotations.NotNull
 
 @EventBusSubscriber(value = arrayOf(Dist.CLIENT), bus = EventBusSubscriber.Bus.MOD)
@@ -153,6 +139,9 @@ object WitcheryNeoForgeClientEvents {
     fun registerParticle(event: RegisterParticleProvidersEvent){
         event.registerSpriteSet(WitcheryParticleTypes.COLOR_BUBBLE.get()){ o ->
             ColorBubbleParticle.Provider(o)
+        }
+        event.registerSpriteSet(WitcheryParticleTypes.ZZZ.get()){ o ->
+            ZzzParticle.Provider(o)
         }
     }
 

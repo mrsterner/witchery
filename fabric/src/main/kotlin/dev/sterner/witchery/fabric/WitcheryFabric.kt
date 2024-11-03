@@ -2,24 +2,16 @@ package dev.sterner.witchery.fabric
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.fabric.client.*
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.fabric.registry.WitcheryFabricEvents
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
-import dev.sterner.witchery.platform.AltarDataAttachment
-import dev.sterner.witchery.platform.EntSpawnLevelAttachment
-import dev.sterner.witchery.platform.MutandisDataAttachment
-import dev.sterner.witchery.platform.infusion.InfusionData
-import dev.sterner.witchery.platform.infusion.InfusionType
-import dev.sterner.witchery.platform.infusion.LightInfusionData
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
-import dev.sterner.witchery.platform.poppet.PoppetData
-import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType
+import net.fabricmc.fabric.api.biome.v1.*
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
@@ -27,17 +19,9 @@ import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents
-import net.fabricmc.fabric.api.loot.v3.LootTableSource
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
-import net.minecraft.core.HolderLookup
-import net.minecraft.resources.ResourceKey
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.level.storage.loot.LootPool
-import net.minecraft.world.level.storage.loot.LootTable
-import net.minecraft.world.level.storage.loot.entries.LootItem
-import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
+import net.minecraft.world.level.levelgen.GenerationStep
 
 
 class WitcheryFabric : ModInitializer, ClientModInitializer {
@@ -45,7 +29,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
     override fun onInitialize() {
         WitcheryFabricAttachmentRegistry.init()
         Witchery.init()
-
+        WitcheryEntityDataSerializers.register()
         LootTableEvents.MODIFY.register(WitcheryFabricEvents::addEntityDrops)
 
         DynamicRegistries.registerSynced(WitcheryRitualRegistry.RITUAL_KEY, WitcheryRitualRegistry.CODEC)
@@ -63,6 +47,8 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
         WitcheryFlammability.register()
         WitcheryOxidizables.register()
+
+        BiomeModifications.addFeature(BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS), GenerationStep.Decoration.VEGETAL_DECORATION, WitcheryWorldgenKeys.WISPY_PLACED_KEY)
     }
 
     override fun onInitializeClient() {
@@ -84,6 +70,14 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryParticleTypes.COLOR_BUBBLE.get()
         ) { sprite: FabricSpriteProvider? ->
             ColorBubbleParticle.Provider(
+                sprite!!
+            )
+        }
+
+        ParticleFactoryRegistry.getInstance().register(
+            WitcheryParticleTypes.ZZZ.get()
+        ) { sprite: FabricSpriteProvider? ->
+            ZzzParticle.Provider(
                 sprite!!
             )
         }

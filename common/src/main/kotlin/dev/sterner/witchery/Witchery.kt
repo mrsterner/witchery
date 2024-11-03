@@ -23,6 +23,7 @@ import dev.sterner.witchery.api.SleepingEvent
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
@@ -36,6 +37,7 @@ import dev.sterner.witchery.handler.InfusionHandler
 import dev.sterner.witchery.handler.PoppetHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.EntSpawnLevelAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
@@ -93,8 +95,8 @@ object Witchery {
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
 
-
         WitcheryPayloads.register()
+
 
         EntityAttributeRegistry.register(WitcheryEntityTypes.MANDRAKE, MandrakeEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.IMP, ImpEntity::createAttributes)
@@ -123,6 +125,7 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
+        PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
 
         BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
@@ -230,6 +233,7 @@ object Witchery {
 
         EntityRendererRegistry.register(WitcheryEntityTypes.FLOATING_ITEM, ::FloatingItemEntityRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.THROWN_BREW, ::ThrownItemRenderer)
+        EntityRendererRegistry.register(WitcheryEntityTypes.SLEEPING_PLAYER, ::SleepingPlayerEntityRenderer)
 
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
@@ -241,6 +245,7 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.POPPET.get(), ::PoppetBlockEntityRenderer)
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
+        ParticleProviderRegistry.register(WitcheryParticleTypes.ZZZ.get(), ZzzParticle::Provider)
 
         MenuRegistry.registerScreenFactory(WitcheryMenuTypes.OVEN_MENU_TYPE.get(), ::OvenScreen)
         MenuRegistry.registerScreenFactory(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)

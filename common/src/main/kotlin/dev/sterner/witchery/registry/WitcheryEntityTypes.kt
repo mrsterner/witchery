@@ -58,7 +58,18 @@ object WitcheryEntityTypes {
             { _: EntityType<BroomEntity>, level: Level ->
                 BroomEntity(level)
             }, MobCategory.MISC
-        ).sized(1.0F, 0.6F).clientTrackingRange(10) .build(Witchery.id("broom").toString())
+        ).sized(1.0F, 0.6F).clientTrackingRange(10).build(Witchery.id("broom").toString())
+    }
+
+    val SLEEPING_PLAYER = ENTITY_TYPES.register("sleeping_player") {
+        EntityType.Builder.of(
+            { _: EntityType<SleepingPlayerEntity>, level: Level ->
+                SleepingPlayerEntity(level)
+            }, MobCategory.MISC
+        ).sized(1.25F, 0.6F)
+            .clientTrackingRange(64)
+            .updateInterval(1)
+            .build(Witchery.id("sleeping_player").toString())
     }
 
     val FLOATING_ITEM =
