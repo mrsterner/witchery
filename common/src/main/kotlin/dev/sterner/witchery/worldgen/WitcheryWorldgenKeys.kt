@@ -3,6 +3,8 @@ package dev.sterner.witchery.worldgen
 import dev.sterner.witchery.Witchery
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.Level
 
 object WitcheryWorldgenKeys {
     val ROWAN_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Witchery.id("rowan_placed"))
@@ -16,4 +18,13 @@ object WitcheryWorldgenKeys {
 
     val WISPY_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Witchery.id("wispy_placed"))
     val WISPY_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Witchery.id("wispy"))
+
+
+
+
+    val DREAM: ResourceKey<Level> =
+        ResourceKey.create(Registries.DIMENSION, Witchery.id("dream_world"))
+
+    val NIGHTMARE: ResourceKey<Level> =
+        ResourceKey.create(Registries.DIMENSION,  Witchery.id("nightmare_world"))
 }
