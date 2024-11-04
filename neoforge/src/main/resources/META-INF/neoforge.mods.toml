@@ -89,6 +89,20 @@ versionRange="[1.21.1,)"
 ordering="NONE"
 side="BOTH"
 
+[[dependencies.witchery]]
+modId = "architectury"
+type = "required"
+versionRange = "[13.0.6,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.witchery]]
+modId = "modonomicon"
+type = "required"
+versionRange = "[1.107.1,)"
+ordering = "AFTER"
+side = "BOTH"
+
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
 # stop your mod loading on the server for example.
