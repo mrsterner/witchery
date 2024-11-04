@@ -2,18 +2,22 @@ package dev.sterner.witchery.fabric.datagen.bootstrap
 
 import dev.sterner.witchery.block.CottonBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryFeatures
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ALDER_KEY
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.HAWTHORN_KEY
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ROWAN_KEY
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WISPY_KEY
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WITCH_CIRCLE_KEY
 import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.data.worldgen.features.FeatureUtils
 import net.minecraft.data.worldgen.placement.PlacementUtils
 import net.minecraft.util.random.SimpleWeightedRandomList
 import net.minecraft.util.valueproviders.ConstantInt
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.feature.Feature
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize
@@ -26,6 +30,7 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlac
 import java.util.*
 
 object WitcheryConfiguredFeatureBootstrap {
+
     fun bootstrap(bootstrapContext: BootstrapContext<ConfiguredFeature<*, *>>) {
         bootstrapContext.register(ROWAN_KEY, ConfiguredFeature(
             Feature.TREE, TreeConfiguration.TreeConfigurationBuilder(
@@ -63,6 +68,20 @@ object WitcheryConfiguredFeatureBootstrap {
                     SimpleBlockConfiguration(
                         BlockStateProvider.simple(
                             WitcheryBlocks.WISPY_COTTON.get().defaultBlockState().setValue(CottonBlock.SPIRITED, true)
+                        )
+                    )
+                )
+            )
+        ))
+
+        bootstrapContext.register(WITCH_CIRCLE_KEY, ConfiguredFeature(
+            WitcheryFeatures.MUSHROOM_CIRCLE.get(),
+            FeatureUtils.simpleRandomPatchConfiguration( 8,
+                PlacementUtils.onlyWhenEmpty(
+                    Feature.SIMPLE_BLOCK,
+                    SimpleBlockConfiguration(
+                        BlockStateProvider.simple(
+                            Blocks.RED_MUSHROOM.defaultBlockState()
                         )
                     )
                 )

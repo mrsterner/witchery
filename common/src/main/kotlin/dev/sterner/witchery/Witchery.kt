@@ -95,6 +95,7 @@ object Witchery {
         WitcheryMenuTypes.MENU_TYPES.register()
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
+        WitcheryFeatures.FEATURES.register()
 
         WitcheryPayloads.register()
 

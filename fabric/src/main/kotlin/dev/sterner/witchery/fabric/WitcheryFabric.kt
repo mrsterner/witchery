@@ -21,6 +21,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
+import net.minecraft.world.level.biome.Biomes
 import net.minecraft.world.level.levelgen.GenerationStep
 
 
@@ -49,6 +50,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         WitcheryOxidizables.register()
 
         BiomeModifications.addFeature(BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS), GenerationStep.Decoration.VEGETAL_DECORATION, WitcheryWorldgenKeys.WISPY_PLACED_KEY)
+        BiomeModifications.addFeature(BiomeSelectors.tag(WitcheryTags.WITCH_CIRCLE_BIOMES), GenerationStep.Decoration.VEGETAL_DECORATION, WitcheryWorldgenKeys.WITCH_CIRCLE_PLACED_KEY)
     }
 
     override fun onInitializeClient() {

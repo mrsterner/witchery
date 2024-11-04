@@ -10,6 +10,8 @@ import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ROWAN_KEY
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ROWAN_PLACED_KEY
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WISPY_KEY
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WISPY_PLACED_KEY
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WITCH_CIRCLE_KEY
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WITCH_CIRCLE_PLACED_KEY
 import net.minecraft.core.registries.Registries
 import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.data.worldgen.placement.PlacementUtils
@@ -38,6 +40,17 @@ object WitcheryPlacedFeatureBootstrap {
         context.register(WISPY_PLACED_KEY, PlacedFeature(configuredFeatures.getOrThrow(WISPY_KEY),
             bushPlacement().build().toList()
         ))
+
+        context.register(WITCH_CIRCLE_PLACED_KEY, PlacedFeature(configuredFeatures.getOrThrow(WITCH_CIRCLE_KEY),
+            ImmutableList.builder<PlacementModifier>()
+                .add(RarityFilter.onAverageOnceEvery(16))
+                .add(InSquarePlacement.spread())
+                .add(NoiseThresholdCountPlacement.of(-0.8, 15, 4))
+                .add(PlacementUtils.HEIGHTMAP)
+                .add(BiomeFilter.biome())
+                .build()
+            )
+        )
     }
 
 

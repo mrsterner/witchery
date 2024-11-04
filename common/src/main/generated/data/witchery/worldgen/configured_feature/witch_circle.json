@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:random_patch",
+  "type": "witchery:mushroom_circle",
   "config": {
     "feature": {
       "feature": {
@@ -8,10 +8,7 @@
           "to_place": {
             "type": "minecraft:simple_state_provider",
             "state": {
-              "Name": "witchery:wispy_cotton",
-              "Properties": {
-                "spirited": "true"
-              }
+              "Name": "minecraft:red_mushroom"
             }
           }
         }
@@ -26,8 +23,8 @@
         }
       ]
     },
-    "tries": 24,
-    "xz_spread": 7,
+    "tries": 26,
+    "xz_spread": 5,
     "y_spread": 3
   }
 }
