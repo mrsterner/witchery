@@ -375,6 +375,12 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.NIGHT)) {
             return RitualHelper.isNighttime(level)
         }
+        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.WAXING)) {
+            return RitualHelper.isWaxing(level)
+        }
+        if (recipeHolder.celestialConditions.contains(RitualRecipe.Celestial.WANING)) {
+            return RitualHelper.isWaning(level)
+        }
         return false
     }
 

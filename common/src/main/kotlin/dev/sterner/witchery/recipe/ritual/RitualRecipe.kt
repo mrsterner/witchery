@@ -308,7 +308,9 @@ class RitualRecipe(
         DAY,
         NIGHT,
         FULL_MOON,
-        NEW_MOON;
+        NEW_MOON,
+        WAXING,
+        WANING;
 
         override fun getSerializedName(): String {
             return name.lowercase()
