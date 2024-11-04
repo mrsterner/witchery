@@ -3,6 +3,7 @@
 - Fixed Icy needle working in all dimensions
 - Fixed Nightmare dream calculation
 - Fixed Cauldron Particles being too excessive
+- Fixed poppet crash
 
 ### Version 0.1.2
 

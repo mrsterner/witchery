@@ -1,4 +1,4 @@
-package dev.sterner.witchery.platform.voodoo
+package dev.sterner.witchery.platform.poppet.neoforge
 
 import dev.sterner.witchery.neoforge.WitcheryNeoForgeAttachmentRegistry
 import dev.sterner.witchery.platform.poppet.VoodooPoppetData
