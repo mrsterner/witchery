@@ -24,7 +24,7 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 
-class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(
+open class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(
     properties.noOcclusion().lightLevel(
         litBlockEmission(8)
     )

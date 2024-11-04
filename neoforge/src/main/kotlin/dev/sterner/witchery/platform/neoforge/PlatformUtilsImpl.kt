@@ -4,12 +4,8 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
-import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.Style
 import net.minecraft.world.item.*
 import net.neoforged.fml.ModList
-import java.awt.Color
 
 object PlatformUtilsImpl {
 

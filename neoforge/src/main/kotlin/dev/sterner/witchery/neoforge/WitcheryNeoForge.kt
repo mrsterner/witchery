@@ -19,7 +19,6 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
-import net.neoforged.neoforge.common.Tags
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister

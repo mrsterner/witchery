@@ -71,6 +71,10 @@ object WitcheryNeoForgeClientEvents {
             WitcheryEntityTypes.ENT.get(),
             ::EntEntityRenderer
         )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.SLEEPING_PLAYER.get(),
+            ::SleepingPlayerEntityRenderer
+        )
     }
 
 

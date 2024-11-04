@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
-class OvenBlock(properties: Properties) :
+open class OvenBlock(properties: Properties) :
     WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(8))) {
 
     init {

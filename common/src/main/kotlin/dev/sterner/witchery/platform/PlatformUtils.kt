@@ -2,6 +2,7 @@ package dev.sterner.witchery.platform
 
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.architectury.registry.registries.RegistrySupplier
+import dev.sterner.witchery.block.oven.OvenBlock
 import dev.sterner.witchery.item.BoneNeedleItem
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
