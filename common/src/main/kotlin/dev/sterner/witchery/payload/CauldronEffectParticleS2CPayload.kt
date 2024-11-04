@@ -45,7 +45,7 @@ class CauldronEffectParticleS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
         val b = (color and 0xFF) / 255.0f
 
         client.execute {
-            for (i in 0..4) {
+            for (i in 0..2) {
                 val manager: ParticleEngine = client.particleEngine
 
                 val effectParticle = manager.createParticle(
@@ -55,6 +55,12 @@ class CauldronEffectParticleS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
 
                 effectParticle?.setColor(r, g, b)
             }
+            val bl = client.level?.random?.nextFloat()!! > 0.75
+            if (bl) {
+                val randY = pos.y + Mth.nextDouble(client.level!!.random, -0.25, 0.25)
+                client.level?.addParticle(ParticleTypes.END_ROD, pos.x, randY, pos.z,0.0, 0.0, 0.0)
+            }
+
         }
     }
 
