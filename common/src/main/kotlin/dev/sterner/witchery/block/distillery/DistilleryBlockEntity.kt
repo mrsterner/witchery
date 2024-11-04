@@ -363,7 +363,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
 
             override fun getDisplayName(): Component {
-                return Component.translatable("container.witchery.oven_menu")
+                return Component.translatable("container.witchery.distillery")
             }
 
             override fun saveExtraData(buf: FriendlyByteBuf) {
