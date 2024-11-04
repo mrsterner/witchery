@@ -1,3 +1,9 @@
+### Bugfix 0.1.2b
+- Fixed Distillery Menu name
+- Fixed Icy needle working in all dimensions
+- Fixed Nightmare dream calculation
+- Fixed Cauldron Particles being too excessive
+
 ### Version 0.1.2
 
 - Added Ents
