@@ -109,4 +109,12 @@ object WitcheryEntityTypes {
             ).sized(0.25f, 0.25f).clientTrackingRange(4).updateInterval(10)
                 .build(Witchery.id("thrown_brew").toString())
         }
+
+    val BANSHEE = ENTITY_TYPES.register("banshee") {
+        EntityType.Builder.of(
+            { _: EntityType<BansheeEntity>, level: Level ->
+                BansheeEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(1.15F, 1.8F).build(Witchery.id("banshee").toString())
+    }
 }

@@ -107,6 +107,7 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.DEMON, DemonEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.OWL, OwlEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.ENT, EntEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.BANSHEE, BansheeEntity::createAttributes)
 
         MODIFY_LOOT_TABLE.register(::addSeeds)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
@@ -260,6 +261,8 @@ object Witchery {
         EntityModelLayerRegistry.register(DemonEntityModel.LAYER_LOCATION) { DemonEntityModel.createBodyLayer() }
         EntityRendererRegistry.register(WitcheryEntityTypes.ENT) { EntEntityRenderer(it) }
         EntityModelLayerRegistry.register(EntEntityModel.LAYER_LOCATION) { EntEntityModel.createBodyLayer() }
+        EntityRendererRegistry.register(WitcheryEntityTypes.BANSHEE) { BansheeEntityRenderer(it) }
+        EntityModelLayerRegistry.register(BansheeEntityModel.LAYER_LOCATION) { BansheeEntityModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_BOAT) { context -> BoatRenderer(context, false) }
         EntityModelLayerRegistry.register(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)
