@@ -42,6 +42,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.WOLFSFBANE_CROP.get(), "Wolfsbane")
         builder.add(WitcheryBlocks.MANDRAKE_CROP.get(), "Mandrake")
         builder.add(WitcheryBlocks.GARLIC_CROP.get(), "Garlic")
+        builder.add(WitcheryBlocks.WORMWOOD_CROP.get(), "Wormwood")
         builder.add(WitcheryItems.BLOOD_POPPY.get(), "Blood Poppy")
         builder.add("witchery.attuned.charged", "Attuned")
 
