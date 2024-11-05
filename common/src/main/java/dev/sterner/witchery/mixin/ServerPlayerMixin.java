@@ -4,6 +4,7 @@ import dev.sterner.witchery.entity.SleepingPlayerEntity;
 import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +22,9 @@ public class ServerPlayerMixin {
         for (ServerLevel serverLevel: player.level().getServer().getAllLevels()) {
             var hasSleeping = SleepingPlayerLevelAttachment.INSTANCE.getPlayerFromSleeping(player.getUUID(), serverLevel);
             if (hasSleeping != null) {
-                var sleepEntity = serverLevel.getEntity(hasSleeping);
+                var chunk = new ChunkPos(hasSleeping.getPos());
+                serverLevel.setChunkForced(chunk.x, chunk.z, true);
+                var sleepEntity = serverLevel.getEntity(hasSleeping.getUuid());
                 if (sleepEntity instanceof SleepingPlayerEntity sleepingPlayerEntity) {
                     var pos = sleepingPlayerEntity.blockPosition();
                     var tran = new DimensionTransition(serverLevel, pos.getCenter(), Vec3.ZERO, sleepingPlayerEntity.getYRot(), 0.0F, postDimensionTransition);

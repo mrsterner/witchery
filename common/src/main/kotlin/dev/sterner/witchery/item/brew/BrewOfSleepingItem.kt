@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.levelgen.Heightmap
@@ -43,7 +44,11 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         }
 
         player.level().addFreshEntity(sleepingPlayer)
-
+        if (player.level() is ServerLevel) {
+            val serverLevel = player.level() as ServerLevel
+            val chunk = ChunkPos(player.onPos)
+            serverLevel.setChunkForced(chunk.x, chunk.z, true)
+        }
         val maxDreamweavers = 4
         val maxFlowingSpirits = 4
         val dreamweaverCount = countNearbyBlocks(player, WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())
@@ -87,7 +92,9 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
                 val serverLevel = newServerPlayer.level() as ServerLevel
                 val hasSleeping = SleepingPlayerLevelAttachment.getPlayerFromSleeping(newServerPlayer.uuid, serverLevel)
                 if (hasSleeping != null) {
-                    val sleepEntity: SleepingPlayerEntity? = serverLevel.getEntity(hasSleeping) as SleepingPlayerEntity?
+                    val chunk = ChunkPos(hasSleeping.pos)
+                    serverLevel.setChunkForced(chunk.x, chunk.z, true)
+                    val sleepEntity: SleepingPlayerEntity? = serverLevel.getEntity(hasSleeping.uuid) as SleepingPlayerEntity?
                     if (sleepEntity != null) {
                         SleepingPlayerEntity.replaceWithPlayer(newServerPlayer, sleepEntity)
                     }

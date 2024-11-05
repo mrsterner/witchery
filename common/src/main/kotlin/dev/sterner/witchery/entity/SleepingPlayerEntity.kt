@@ -161,7 +161,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             entity.setSleepingModel(player.entityData.get(Player.DATA_PLAYER_MODE_CUSTOMISATION))
             if (player.level() is ServerLevel) {
                 val serverLevel = player.level() as ServerLevel
-                SleepingPlayerLevelAttachment.add(player.uuid, entity.uuid, serverLevel)
+                SleepingPlayerLevelAttachment.add(player.uuid, entity.uuid, player.blockPosition(), serverLevel)
             }
 
             return entity
