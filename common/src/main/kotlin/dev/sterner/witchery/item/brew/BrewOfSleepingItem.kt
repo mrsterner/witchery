@@ -13,10 +13,12 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.levelgen.Heightmap
 
+@Suppress("DEPRECATION")
 class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, properties) {
 
     override fun applyEffectOnSelf(player: Player) {
@@ -42,15 +44,19 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         }
 
         player.level().addFreshEntity(sleepingPlayer)
-
-        val searchRadius = 5
+        if (player.level() is ServerLevel) {
+            val serverLevel = player.level() as ServerLevel
+            val chunk = ChunkPos(player.onPos)
+            serverLevel.setChunkForced(chunk.x, chunk.z, true)
+        }
         val maxDreamweavers = 4
         val maxFlowingSpirits = 4
-        val dreamweaverCount = countNearbyBlocks(player, WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get(), searchRadius)
-        val flowingSpiritCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get(), searchRadius)
+        val dreamweaverCount = countNearbyBlocks(player, WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())
+        val flowingSpiritCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
 
         val maxEffectCount = (maxDreamweavers + maxFlowingSpirits).toDouble()
-        val effectiveCount = (dreamweaverCount.coerceAtMost(maxDreamweavers) + flowingSpiritCount.coerceAtMost(maxFlowingSpirits)).toDouble()
+        val effectiveCount =
+            (dreamweaverCount.coerceAtMost(maxDreamweavers) + flowingSpiritCount.coerceAtMost(maxFlowingSpirits)).toDouble()
         val goodDreamChance = 0.05 + 0.85 * (effectiveCount / maxEffectCount) // Scale up to 90% with max blocks
 
         val key = ResourceKey.create(Registries.DIMENSION, Witchery.id("dream_world"))
@@ -65,7 +71,11 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             val targetZ = player.z
 
             val blockPos = BlockPos.containing(targetX, targetY, targetZ)
-            val solidY: Int = if (!destination.getBlockState(blockPos).isSolid) blockPos.y else destination.getHeight(Heightmap.Types.MOTION_BLOCKING, blockPos.x, blockPos.z)
+            val solidY: Int = if (!destination.getBlockState(blockPos).isSolid) blockPos.y else destination.getHeight(
+                Heightmap.Types.MOTION_BLOCKING,
+                blockPos.x,
+                blockPos.z
+            )
 
             if (player is ServerPlayer) {
                 player.teleportTo(destination, targetX, solidY + 1.0, targetZ, player.yRot, player.xRot)
@@ -82,7 +92,9 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
                 val serverLevel = newServerPlayer.level() as ServerLevel
                 val hasSleeping = SleepingPlayerLevelAttachment.getPlayerFromSleeping(newServerPlayer.uuid, serverLevel)
                 if (hasSleeping != null) {
-                    val sleepEntity: SleepingPlayerEntity? = serverLevel.getEntity(hasSleeping) as SleepingPlayerEntity?
+                    val chunk = ChunkPos(hasSleeping.pos)
+                    serverLevel.setChunkForced(chunk.x, chunk.z, true)
+                    val sleepEntity: SleepingPlayerEntity? = serverLevel.getEntity(hasSleeping.uuid) as SleepingPlayerEntity?
                     if (sleepEntity != null) {
                         SleepingPlayerEntity.replaceWithPlayer(newServerPlayer, sleepEntity)
                     }
@@ -90,7 +102,7 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             }
         }
 
-        private fun countNearbyBlocks(player: Player, blockToCheck: Block, radius: Int): Int {
+        private fun countNearbyBlocks(player: Player, blockToCheck: Block, radius: Int = 5): Int {
             val level = player.level()
             val pos = BlockPos.containing(player.x, player.y, player.z)
             var count = 0

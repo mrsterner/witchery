@@ -15,7 +15,6 @@ object WitcheryFluids {
     val FLUIDS: DeferredRegister<Fluid> = DeferredRegister.create(Witchery.MODID, Registries.FLUID)
     val FLUIDS_INFOS: MutableList<ArchitecturyFluidAttributes> = mutableListOf()
 
-
     val FLOWING_FLOWING_SPIRIT: RegistrySupplier<FlowingFluid> = FLUIDS.register(
         "flowing_flowing_spirit"
     ) {
@@ -44,7 +43,6 @@ object WitcheryFluids {
         .convertToSource(false)
         .sourceTexture(ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "block/flowing_spirit_still"))
         .flowingTexture(ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "block/flowing_spirit_flowing"))
-
 
     fun init() {
         FLUIDS_INFOS.add(BLOOD_ATTRIBUTES)

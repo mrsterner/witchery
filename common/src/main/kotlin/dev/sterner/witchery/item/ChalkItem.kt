@@ -8,6 +8,7 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Block
 
 class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block, properties) {
+
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
         val pos = context.clickedPos

@@ -1,9 +1,7 @@
 package dev.sterner.witchery.client.screen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.menu.DistilleryMenu
 import dev.sterner.witchery.menu.SpinningWheelMenu
-import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.network.chat.Component
@@ -15,7 +13,7 @@ class SpinningWheelScreen(menu: SpinningWheelMenu, inventory: Inventory, title: 
     AbstractContainerScreen<SpinningWheelMenu>(menu, inventory, title) {
 
     val texture: ResourceLocation = Witchery.id("textures/gui/spinning_wheel.png")
-    val textureArrow: ResourceLocation = Witchery.id("textures/gui/spinning_wheel_arrow.png")
+    private val textureArrow: ResourceLocation = Witchery.id("textures/gui/spinning_wheel_arrow.png")
 
     override fun isPauseScreen(): Boolean {
         return false

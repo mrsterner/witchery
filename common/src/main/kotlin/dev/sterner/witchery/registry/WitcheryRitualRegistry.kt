@@ -17,8 +17,8 @@ object WitcheryRitualRegistry {
 
     val RITUAL_KEY: ResourceKey<Registry<Ritual>> = ResourceKey.createRegistryKey(Witchery.id("ritual"))
 
-    val EMPTY_KEY: ResourceKey<Ritual> = ResourceKey.create(RITUAL_KEY, Witchery.id("empty"))
-    val PUSH_MOBS_KEY: ResourceKey<Ritual> = ResourceKey.create(RITUAL_KEY, Witchery.id("push_mobs"))
+    private val EMPTY_KEY: ResourceKey<Ritual> = ResourceKey.create(RITUAL_KEY, Witchery.id("empty"))
+    private val PUSH_MOBS_KEY: ResourceKey<Ritual> = ResourceKey.create(RITUAL_KEY, Witchery.id("push_mobs"))
 
     val CODEC: Codec<Ritual?> = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Ritual> ->
         instance.group(

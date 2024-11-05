@@ -7,8 +7,9 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.tags.EntityTypeTags
 import java.util.concurrent.CompletableFuture
 
-class WitcheryEntityTypeTagProvider(output: FabricDataOutput?,
-                                    completableFuture: CompletableFuture<HolderLookup.Provider>?
+class WitcheryEntityTypeTagProvider(
+    output: FabricDataOutput?,
+    completableFuture: CompletableFuture<HolderLookup.Provider>?
 ) : EntityTypeTagProvider(output, completableFuture) {
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {

@@ -92,10 +92,23 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.ROWAN_WOOD.get())
         dropSelf(WitcheryBlocks.STRIPPED_ROWAN_LOG.get())
         dropSelf(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get())
-        this.add(WitcheryBlocks.ROWAN_LEAVES.get(), createLeavesDrops(WitcheryBlocks.ROWAN_LEAVES.get(),
-            WitcheryBlocks.ROWAN_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
-        this.add(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), createFruitDroppingLeaves(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(),
-            WitcheryBlocks.ROWAN_SAPLING.get(), WitcheryItems.ROWAN_BERRIES.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
+        this.add(
+            WitcheryBlocks.ROWAN_LEAVES.get(), createLeavesDrops(
+                WitcheryBlocks.ROWAN_LEAVES.get(),
+                WitcheryBlocks.ROWAN_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f
+            )
+        )
+        this.add(
+            WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), createFruitDroppingLeaves(
+                WitcheryBlocks.ROWAN_BERRY_LEAVES.get(),
+                WitcheryBlocks.ROWAN_SAPLING.get(),
+                WitcheryItems.ROWAN_BERRIES.get(),
+                0.05f,
+                0.0625f,
+                0.083333336f,
+                0.1f
+            )
+        )
         dropSelf(WitcheryBlocks.ROWAN_PLANKS.get())
         dropSelf(WitcheryBlocks.ROWAN_STAIRS.get())
         dropSelf(WitcheryBlocks.ROWAN_SLAB.get())
@@ -116,8 +129,12 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.ALDER_WOOD.get())
         dropSelf(WitcheryBlocks.STRIPPED_ALDER_LOG.get())
         dropSelf(WitcheryBlocks.STRIPPED_ALDER_WOOD.get())
-        this.add(WitcheryBlocks.ALDER_LEAVES.get(), createLeavesDrops(WitcheryBlocks.ALDER_LEAVES.get(),
-            WitcheryBlocks.ALDER_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
+        this.add(
+            WitcheryBlocks.ALDER_LEAVES.get(), createLeavesDrops(
+                WitcheryBlocks.ALDER_LEAVES.get(),
+                WitcheryBlocks.ALDER_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f
+            )
+        )
         dropSelf(WitcheryBlocks.ALDER_PLANKS.get())
         dropSelf(WitcheryBlocks.ALDER_STAIRS.get())
         dropSelf(WitcheryBlocks.ALDER_SLAB.get())
@@ -138,8 +155,12 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.HAWTHORN_WOOD.get())
         dropSelf(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get())
         dropSelf(WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get())
-        this.add(WitcheryBlocks.HAWTHORN_LEAVES.get(), createLeavesDrops(WitcheryBlocks.HAWTHORN_LEAVES.get(),
-            WitcheryBlocks.HAWTHORN_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
+        this.add(
+            WitcheryBlocks.HAWTHORN_LEAVES.get(), createLeavesDrops(
+                WitcheryBlocks.HAWTHORN_LEAVES.get(),
+                WitcheryBlocks.HAWTHORN_SAPLING.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f
+            )
+        )
         dropSelf(WitcheryBlocks.HAWTHORN_PLANKS.get())
         dropSelf(WitcheryBlocks.HAWTHORN_STAIRS.get())
         dropSelf(WitcheryBlocks.HAWTHORN_SLAB.get())
@@ -150,7 +171,10 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.HAWTHORN_PRESSURE_PLATE.get())
         dropSelf(WitcheryBlocks.HAWTHORN_BUTTON.get())
         dropSelf(WitcheryBlocks.HAWTHORN_SAPLING.get())
-        this.add(WitcheryBlocks.POTTED_HAWTHORN_SAPLING.get(), createPotFlowerItemTable(WitcheryItems.HAWTHORN_SAPLING.get()))
+        this.add(
+            WitcheryBlocks.POTTED_HAWTHORN_SAPLING.get(),
+            createPotFlowerItemTable(WitcheryItems.HAWTHORN_SAPLING.get())
+        )
         dropOther(WitcheryBlocks.HAWTHORN_SIGN.get(), WitcheryItems.HAWTHORN_SIGN.get())
         dropOther(WitcheryBlocks.HAWTHORN_WALL_SIGN.get(), WitcheryItems.HAWTHORN_SIGN.get())
         dropOther(WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(), WitcheryItems.HAWTHORN_HANGING_SIGN.get())
@@ -181,13 +205,19 @@ class WitcheryBlockLootProvider(
         }
 
         val builder: LootItemCondition.Builder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(
-            WitcheryBlocks.MANDRAKE_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties()
-                .hasProperty(WitcheryCropBlock.AGE, 4).hasProperty(MandrakeCropBlock.AWAKE, false))
+            WitcheryBlocks.MANDRAKE_CROP.get()
+        ).setProperties(
+            StatePropertiesPredicate.Builder.properties()
+                .hasProperty(WitcheryCropBlock.AGE, 4).hasProperty(MandrakeCropBlock.AWAKE, false)
+        )
         val otherBuilder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(
-            WitcheryBlocks.MANDRAKE_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties()
-                .hasProperty(WitcheryCropBlock.AGE, 4).hasProperty(MandrakeCropBlock.AWAKE, true))
+            WitcheryBlocks.MANDRAKE_CROP.get()
+        ).setProperties(
+            StatePropertiesPredicate.Builder.properties()
+                .hasProperty(WitcheryCropBlock.AGE, 4).hasProperty(MandrakeCropBlock.AWAKE, true)
+        )
         val builder2: LootItemCondition.Builder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(
-            WitcheryBlocks.BELLADONNAE_CROP.get()
+            WitcheryBlocks.BELLADONNA_CROP.get()
         ).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WitcheryCropBlock.AGE, 4))
         val builder3: LootItemCondition.Builder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(
             WitcheryBlocks.SNOWBELL_CROP.get()
@@ -207,18 +237,80 @@ class WitcheryBlockLootProvider(
 
 
 
-        add(WitcheryBlocks.MANDRAKE_CROP.get(), createMandrakeCropDrops(WitcheryBlocks.MANDRAKE_CROP.get(),WitcheryItems.MANDRAKE_ROOT.get(), WitcheryItems.MANDRAKE_SEEDS.get(), builder, otherBuilder))
-        add(WitcheryBlocks.BELLADONNAE_CROP.get(), createCropDrops(WitcheryBlocks.BELLADONNAE_CROP.get(),WitcheryItems.BELLADONNA_FLOWER.get(), WitcheryItems.BELLADONNA_SEEDS.get(), builder2))
-        add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),createCropDrops(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), WitcheryItems.WATER_ARTICHOKE_SEEDS.get(), builder4))
-        add(WitcheryBlocks.SNOWBELL_CROP.get(),createCropDrops(WitcheryBlocks.SNOWBELL_CROP.get(),WitcheryItems.ICY_NEEDLE.get(), WitcheryItems.SNOWBELL_SEEDS.get(), builder3))
+        add(
+            WitcheryBlocks.MANDRAKE_CROP.get(),
+            createMandrakeCropDrops(
+                WitcheryBlocks.MANDRAKE_CROP.get(),
+                WitcheryItems.MANDRAKE_ROOT.get(),
+                WitcheryItems.MANDRAKE_SEEDS.get(),
+                builder,
+                otherBuilder
+            )
+        )
+        add(
+            WitcheryBlocks.BELLADONNA_CROP.get(),
+            createCropDrops(
+                WitcheryBlocks.BELLADONNA_CROP.get(),
+                WitcheryItems.BELLADONNA_FLOWER.get(),
+                WitcheryItems.BELLADONNA_SEEDS.get(),
+                builder2
+            )
+        )
+        add(
+            WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),
+            createCropDrops(
+                WitcheryBlocks.WATER_ARTICHOKE_CROP.get(),
+                WitcheryItems.WATER_ARTICHOKE_GLOBE.get(),
+                WitcheryItems.WATER_ARTICHOKE_SEEDS.get(),
+                builder4
+            )
+        )
+        add(
+            WitcheryBlocks.SNOWBELL_CROP.get(),
+            createCropDrops(
+                WitcheryBlocks.SNOWBELL_CROP.get(),
+                WitcheryItems.ICY_NEEDLE.get(),
+                WitcheryItems.SNOWBELL_SEEDS.get(),
+                builder3
+            )
+        )
 
-        add(WitcheryBlocks.WOLFSFBANE_CROP.get(),createCropDrops(WitcheryBlocks.WOLFSFBANE_CROP.get(), WitcheryItems.WOLFSBANE.get(), WitcheryItems.WOLFSBANE_SEEDS.get(), builder5))
-        add(WitcheryBlocks.WORMWOOD_CROP.get(), createCropDrops(WitcheryBlocks.WORMWOOD_CROP.get(), WitcheryItems.WORMWOOD.get(), WitcheryItems.WORMWOOD_SEEDS.get(), builder6))
-        add(WitcheryBlocks.GARLIC_CROP.get(),createCropDrops(WitcheryBlocks.GARLIC_CROP.get(), WitcheryItems.GARLIC.get(), WitcheryItems.GARLIC.get(), builder7))
+        add(
+            WitcheryBlocks.WOLFSFBANE_CROP.get(),
+            createCropDrops(
+                WitcheryBlocks.WOLFSFBANE_CROP.get(),
+                WitcheryItems.WOLFSBANE.get(),
+                WitcheryItems.WOLFSBANE_SEEDS.get(),
+                builder5
+            )
+        )
+        add(
+            WitcheryBlocks.WORMWOOD_CROP.get(),
+            createCropDrops(
+                WitcheryBlocks.WORMWOOD_CROP.get(),
+                WitcheryItems.WORMWOOD.get(),
+                WitcheryItems.WORMWOOD_SEEDS.get(),
+                builder6
+            )
+        )
+        add(
+            WitcheryBlocks.GARLIC_CROP.get(),
+            createCropDrops(
+                WitcheryBlocks.GARLIC_CROP.get(),
+                WitcheryItems.GARLIC.get(),
+                WitcheryItems.GARLIC.get(),
+                builder7
+            )
+        )
 
     }
 
-    fun createFruitDroppingLeaves(leavesBlock: Block, saplingBlock: Block, fruitItem: Item, vararg chances: Float): LootTable.Builder {
+    fun createFruitDroppingLeaves(
+        leavesBlock: Block,
+        saplingBlock: Block,
+        fruitItem: Item,
+        vararg chances: Float
+    ): LootTable.Builder {
         val registryLookup = registries.lookupOrThrow(Registries.ENCHANTMENT)
         return createLeavesDrops(leavesBlock, saplingBlock, *chances).withPool(
             LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).`when`(
@@ -237,11 +329,28 @@ class WitcheryBlockLootProvider(
         )
     }
 
-    fun createMandrakeCropDrops(cropBlock: Block, cropItem: Item, seedsItem: Item, sleepBuilder: LootItemCondition.Builder, awakeBuilder: LootItemCondition.Builder): LootTable.Builder {
+    fun createMandrakeCropDrops(
+        cropBlock: Block,
+        cropItem: Item,
+        seedsItem: Item,
+        sleepBuilder: LootItemCondition.Builder,
+        awakeBuilder: LootItemCondition.Builder
+    ): LootTable.Builder {
         val registryLookup = registries.lookupOrThrow(Registries.ENCHANTMENT)
-        return createCropDrops(WitcheryBlocks.MANDRAKE_CROP.get(),WitcheryItems.MANDRAKE_ROOT.get(), WitcheryItems.MANDRAKE_SEEDS.get(), sleepBuilder).withPool(
-            LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).`when`(awakeBuilder).
-            add(LootItem.lootTableItem(seedsItem)).apply(ApplyBonusCount.addBonusBinomialDistributionCount(registryLookup.getOrThrow(Enchantments.FORTUNE), 0.5714286F, 3))
+        return createCropDrops(
+            WitcheryBlocks.MANDRAKE_CROP.get(),
+            WitcheryItems.MANDRAKE_ROOT.get(),
+            WitcheryItems.MANDRAKE_SEEDS.get(),
+            sleepBuilder
+        ).withPool(
+            LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).`when`(awakeBuilder)
+                .add(LootItem.lootTableItem(seedsItem)).apply(
+                ApplyBonusCount.addBonusBinomialDistributionCount(
+                    registryLookup.getOrThrow(Enchantments.FORTUNE),
+                    0.5714286F,
+                    3
+                )
+            )
         )
     }
 }

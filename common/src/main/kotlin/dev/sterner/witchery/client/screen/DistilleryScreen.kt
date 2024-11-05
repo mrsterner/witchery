@@ -13,7 +13,7 @@ class DistilleryScreen(menu: DistilleryMenu, inventory: Inventory, title: Compon
     AbstractContainerScreen<DistilleryMenu>(menu, inventory, title) {
 
     val texture: ResourceLocation = Witchery.id("textures/gui/distillery.png")
-    val textureArrow: ResourceLocation = Witchery.id("textures/gui/distillery_arrow.png")
+    private val textureArrow: ResourceLocation = Witchery.id("textures/gui/distillery_arrow.png")
 
     override fun isPauseScreen(): Boolean {
         return false

@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation
 
 class MandrakeEntityRenderer(
     context: EntityRendererProvider.Context
-) : LivingEntityRenderer<MandrakeEntity, MandrakeEntityModel<MandrakeEntity>>
+) : LivingEntityRenderer<MandrakeEntity, MandrakeEntityModel>
     (context, MandrakeEntityModel(context.bakeLayer(MandrakeEntityModel.LAYER_LOCATION)), 0.1f) {
 
     override fun renderNameTag(

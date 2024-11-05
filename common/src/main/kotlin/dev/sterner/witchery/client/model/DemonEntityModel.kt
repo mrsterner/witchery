@@ -5,7 +5,6 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.DemonEntity
 import net.minecraft.client.model.ArmedModel
 import net.minecraft.client.model.HierarchicalModel
-import net.minecraft.client.model.HumanoidModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -55,7 +54,8 @@ class DemonEntityModel(root: ModelPart) :
         val restingLegAngle = -0.5f
 
         val idleArmSwing = Mth.sin(ageInTicks * 0.1f) * 0.05f
-        rightArm.xRot = idleArmSwing + Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.0f * limbSwingAmount * 0.5f / f
+        rightArm.xRot =
+            idleArmSwing + Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.0f * limbSwingAmount * 0.5f / f
         leftArm.xRot = idleArmSwing + Mth.cos(limbSwing * 0.6662f) * 1.0f * limbSwingAmount * 0.5f / f
 
         rightLeg.xRot = restingLegAngle + Mth.cos(limbSwing * 0.6662f) * 0.7f * limbSwingAmount / f

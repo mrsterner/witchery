@@ -2,7 +2,6 @@ package dev.sterner.witchery.item
 
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -17,7 +16,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class MutatingSpringItem(properties: Properties) : Item(properties) {
-
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
@@ -42,7 +40,6 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             level.setBlockAndUpdate(pos, Blocks.GRASS_BLOCK.defaultBlockState())
             return InteractionResult.SUCCESS
         }
-
 
         return super.useOn(context)
     }
@@ -71,7 +68,9 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
     }
 
     private fun isWaterloggedOrWater(state: BlockState): Boolean {
-        return state.`is`(Blocks.WATER) || (state.hasProperty(BlockStateProperties.WATERLOGGED) && state.getValue(BlockStateProperties.WATERLOGGED))
+        return state.`is`(Blocks.WATER) || (state.hasProperty(BlockStateProperties.WATERLOGGED) && state.getValue(
+            BlockStateProperties.WATERLOGGED
+        ))
     }
 
     private fun removeDiagonals(level: Level, pos: BlockPos) {

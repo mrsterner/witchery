@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.InputConstants
 import net.minecraft.client.KeyMapping
 
 
-
 object WitcheryKeyMappings {
 
     val BROOM_DISMOUNT_KEYMAPPING: KeyMapping = KeyMapping(

@@ -34,5 +34,4 @@ class PushMobsRitual : Ritual(Witchery.id("push_mobs")) {
             }
         }
     }
-
 }

@@ -7,6 +7,7 @@ import net.minecraft.world.level.BlockAndTintGetter
 import net.minecraft.world.level.block.state.BlockState
 
 object RitualChalkColors : BlockColor {
+
     override fun getColor(
         blockState: BlockState,
         blockAndTintGetter: BlockAndTintGetter?,
@@ -14,8 +15,10 @@ object RitualChalkColors : BlockColor {
         i: Int
     ): Int {
         val block = blockState.block
-        if (block is RitualChalkBlock)
+        if (block is RitualChalkBlock) {
             return block.color
+        }
+
         return 0xFFFFFF
     }
 }

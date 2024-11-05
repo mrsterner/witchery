@@ -13,7 +13,6 @@ import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec3
-import org.joml.Vector3d
 import kotlin.math.min
 
 enum class InfusionType : StringRepresentable {
@@ -46,7 +45,7 @@ enum class InfusionType : StringRepresentable {
     },
     OTHERWHERE {
         override fun onReleaseRightClick(player: Player): Boolean {
-            if (PlayerInfusionDataAttachment.getInfusionCharge(player) >= 500){
+            if (PlayerInfusionDataAttachment.getInfusionCharge(player) >= 500) {
 
                 val data = OtherwhereInfusionDataAttachment.getInfusion(player)
 
@@ -69,7 +68,7 @@ enum class InfusionType : StringRepresentable {
         override fun onHoldRightClick(player: Player): Boolean {
             val old = OtherwhereInfusionDataAttachment.getInfusion(player)
             val n = old.teleportHoldTicks + 1
-            OtherwhereInfusionDataAttachment.setInfusion(player,  min(n, 20 * 4), old.teleportCooldown)
+            OtherwhereInfusionDataAttachment.setInfusion(player, min(n, 20 * 4), old.teleportCooldown)
 
             if (n % 40 == 0) {
                 player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 0.5f, 1f)
@@ -116,7 +115,8 @@ enum class InfusionType : StringRepresentable {
 
         private fun isPosClear(level: Level, pos: BlockPos): Boolean {
             return (level.isEmptyBlock(pos) || level.getBlockState(pos).getCollisionShape(level, pos).isEmpty)
-                    && (level.isEmptyBlock(pos.above()) || level.getBlockState(pos.above()).getCollisionShape(level, pos.above()).isEmpty)
+                    && (level.isEmptyBlock(pos.above()) || level.getBlockState(pos.above())
+                .getCollisionShape(level, pos.above()).isEmpty)
         }
 
         fun raytraceForTeleport(player: Player, teleportHoldTicks: Int): Vec3? {
@@ -148,7 +148,8 @@ enum class InfusionType : StringRepresentable {
                         eyePos,
                         Vec3.atCenterOf(targetPos.above()),
                         ClipContext.Block.COLLIDER,
-                        ClipContext.Fluid.NONE, player)
+                        ClipContext.Fluid.NONE, player
+                    )
                 ).type == HitResult.Type.MISS
 
                 if (targetPos.y <= level.minBuildHeight)

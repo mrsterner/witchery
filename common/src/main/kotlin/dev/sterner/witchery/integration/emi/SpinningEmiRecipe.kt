@@ -6,12 +6,9 @@ import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
-import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 
 class SpinningEmiRecipe(val recipeId: ResourceLocation, val recipe: SpinningWheelRecipe) : EmiRecipe {
@@ -63,14 +60,22 @@ class SpinningEmiRecipe(val recipeId: ResourceLocation, val recipe: SpinningWhee
 
         if (recipe.inputItems.size > 2) {
             widgets.add(
-                WitcherySlotWidget(EmiStack.of(recipe.inputItems[2]), 2 + 2 + 9 + 18 - 4+ 18, 50 - 18 - 4 - 18 - 2 + 1 + 18)
+                WitcherySlotWidget(
+                    EmiStack.of(recipe.inputItems[2]),
+                    2 + 2 + 9 + 18 - 4 + 18,
+                    50 - 18 - 4 - 18 - 2 + 1 + 18
+                )
                     .drawBack(false)
             )
         }
 
         if (recipe.inputItems.size > 3) {
             widgets.add(
-                WitcherySlotWidget(EmiStack.of(recipe.inputItems[3]), 2 + 2 + 9 + 18 - 4 + 18, 50 - 18 - 4 - 18 - 2 + 1 + 18 + 18)
+                WitcherySlotWidget(
+                    EmiStack.of(recipe.inputItems[3]),
+                    2 + 2 + 9 + 18 - 4 + 18,
+                    50 - 18 - 4 - 18 - 2 + 1 + 18 + 18
+                )
                     .drawBack(false)
             )
         }

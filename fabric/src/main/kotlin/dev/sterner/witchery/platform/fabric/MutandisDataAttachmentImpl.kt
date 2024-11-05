@@ -1,6 +1,5 @@
 package dev.sterner.witchery.platform.fabric
 
-import dev.sterner.witchery.fabric.WitcheryFabric
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment.CACHE_LIFETIME
@@ -34,17 +33,20 @@ object MutandisDataAttachmentImpl {
     }
 
     @JvmStatic
-    fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos)  {
+    fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos) {
         val data = level.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE)
         data.mutandisCacheMap.remove(pos)
         level.setAttached(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE, data)
     }
 
     @JvmStatic
-    fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos)  {
+    fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
         val data = level.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE)
         if (data.mutandisCacheMap[pos] != null) {
-            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, data.mutandisCacheMap[pos]!!.time - 1)
+            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(
+                data.mutandisCacheMap[pos]!!.tag,
+                data.mutandisCacheMap[pos]!!.time - 1
+            )
             level.setAttached(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE, data)
         }
     }
@@ -53,7 +55,8 @@ object MutandisDataAttachmentImpl {
     fun resetTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
         val data = level.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE)
         if (data.mutandisCacheMap[pos] != null) {
-            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
+            data.mutandisCacheMap[pos] =
+                MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
             level.setAttached(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE, data)
         }
     }

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.block
 
+import com.mojang.serialization.MapCodec
 import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmission
 import net.minecraft.core.BlockPos
 import net.minecraft.sounds.SoundEvents
@@ -34,7 +35,7 @@ class CandelabraBlock(properties: Properties) :
         )
     }
 
-    override fun codec() = simpleCodec(::CandelabraBlock)
+    override fun codec(): MapCodec<CandelabraBlock> = simpleCodec(::CandelabraBlock)
 
     override fun getShape(
         state: BlockState,

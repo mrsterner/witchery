@@ -1,6 +1,10 @@
+### Bugfix 0.1.2e
+- Removed Infinity Egg from OP tab
+
 ### Bugfix 0.1.2d
 - Fixed Wormwood lang and collision
 - Fixed sleeping players skins not saving on world reload
+- Fixed Returning from spirit world not working
 
 ### Bugfix 0.1.2c
 - Fixed Broom and spinning wheel item rendering on neoforge

@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player
 object OtherwhereInfusionDataAttachmentImpl {
 
     @JvmStatic
-    fun setInfusion(player: Player, teleportHoldTicks: Int, teleportCooldown: Int){
+    fun setInfusion(player: Player, teleportHoldTicks: Int, teleportCooldown: Int) {
         val data = OtherwhereInfusionData(teleportHoldTicks, teleportCooldown)
         player.setData(WitcheryNeoForgeAttachmentRegistry.OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT, data)
         OtherwhereInfusionDataAttachment.sync(player, data)
@@ -16,6 +16,6 @@ object OtherwhereInfusionDataAttachmentImpl {
 
     @JvmStatic
     fun getInfusion(player: Player): OtherwhereInfusionData {
-       return player.getData(WitcheryNeoForgeAttachmentRegistry.OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT)
+        return player.getData(WitcheryNeoForgeAttachmentRegistry.OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT)
     }
 }

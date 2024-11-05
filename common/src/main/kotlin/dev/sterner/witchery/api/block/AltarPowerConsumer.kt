@@ -12,8 +12,9 @@ interface AltarPowerConsumer {
 
     fun tryConsumeAltarPower(level: Level, pos: BlockPos, amount: Int, simulate: Boolean): Boolean {
         val be = level.getBlockEntity(pos)
-        if (be is AltarBlockEntity)
+        if (be is AltarBlockEntity) {
             return be.consumeAltarPower(amount, simulate)
+        }
         return false
     }
 

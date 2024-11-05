@@ -26,10 +26,8 @@ import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.item.crafting.CraftingBookCategory
 import net.minecraft.world.item.crafting.Ingredient
-import net.minecraft.world.item.crafting.Recipe
 import java.awt.Color
 import java.util.concurrent.CompletableFuture
-import java.util.function.Function
 
 class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: CompletableFuture<HolderLookup.Provider>) :
     FabricRecipeProvider(output, registriesFuture) {
@@ -127,91 +125,109 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter, Witchery.id("fanciful_thread"))
 
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(Items.POPPY.defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(Items.GOLDEN_CARROT.defaultInstance, Color(250,250,50).rgb)
-            .addInputWithColor(Items.LILY_PAD.defaultInstance, Color(50,250,50).rgb)
-            .addInputWithColor(Items.COCOA_BEANS.defaultInstance, Color(95,75,10).rgb)
-            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance, Color(255,150,170).rgb)
-            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get().defaultInstance, Color(255,110,250).rgb)
+            .addInputWithColor(Items.POPPY.defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(Items.GOLDEN_CARROT.defaultInstance, Color(250, 250, 50).rgb)
+            .addInputWithColor(Items.LILY_PAD.defaultInstance, Color(50, 250, 50).rgb)
+            .addInputWithColor(Items.COCOA_BEANS.defaultInstance, Color(95, 75, 10).rgb)
+            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance, Color(255, 150, 170).rgb)
+            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get().defaultInstance, Color(255, 110, 250).rgb)
             .setOutput(WitcheryItems.BREW_OF_LOVE.get().defaultInstance)
             .setAltarPower(100)
-            .save(exporter,  Witchery.id("brew_of_love"))
+            .save(exporter, Witchery.id("brew_of_love"))
 
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance, Color(255,190,190).rgb)
-            .addInputWithColor(Items.COOKIE.defaultInstance, Color(250,200,50).rgb)
-            .addInputWithColor(WitcheryItems.ICY_NEEDLE.get().defaultInstance, Color(100,150,250).rgb)
-            .addInputWithColor(WitcheryItems.BREW_OF_LOVE.get().defaultInstance, Color(195,90,160).rgb)
-            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get().defaultInstance, Color(255,50,250).rgb)
+            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance, Color(255, 190, 190).rgb)
+            .addInputWithColor(Items.COOKIE.defaultInstance, Color(250, 200, 50).rgb)
+            .addInputWithColor(WitcheryItems.ICY_NEEDLE.get().defaultInstance, Color(100, 150, 250).rgb)
+            .addInputWithColor(WitcheryItems.BREW_OF_LOVE.get().defaultInstance, Color(195, 90, 160).rgb)
+            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get().defaultInstance, Color(255, 50, 250).rgb)
             .setOutput(WitcheryItems.BREW_OF_SLEEPING.get().defaultInstance)
             .setAltarPower(100)
-            .save(exporter,  Witchery.id("brew_of_sleeping"))
+            .save(exporter, Witchery.id("brew_of_sleeping"))
 
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(Items.REDSTONE.defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(WitcheryItems.DROP_OF_LUCK.get().defaultInstance, Color(50,50,50).rgb)
-            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(150,50,50).rgb)
-            .addInputWithColor(WitcheryItems.TONGUE_OF_DOG.get().defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(WitcheryItems.BELLADONNA_FLOWER.get().defaultInstance, Color(255,50,170).rgb)
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(255,50,50).rgb)
+            .addInputWithColor(Items.REDSTONE.defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.DROP_OF_LUCK.get().defaultInstance, Color(50, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(150, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.TONGUE_OF_DOG.get().defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.BELLADONNA_FLOWER.get().defaultInstance, Color(255, 50, 170).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(255, 50, 50).rgb)
             .setOutput(WitcheryItems.REDSTONE_SOUP.get().defaultInstance)
             .setAltarPower(100)
-            .save(exporter,  Witchery.id("redstone_soup"))
+            .save(exporter, Witchery.id("redstone_soup"))
 
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(Items.FEATHER.defaultInstance, Color(250,250,250).rgb)
-            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.SWIFTNESS), Color(125,165,250).rgb)
-            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(150,50,50).rgb)
-            .addInputWithColor(WitcheryItems.BELLADONNA_FLOWER.get().defaultInstance, Color(255,180,10).rgb)
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(Items.FEATHER.defaultInstance, Color(250, 250, 250).rgb)
+            .addInputWithColor(
+                PotionContents.createItemStack(Items.POTION, Potions.SWIFTNESS),
+                Color(125, 165, 250).rgb
+            )
+            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(150, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.BELLADONNA_FLOWER.get().defaultInstance, Color(255, 180, 10).rgb)
             .setOutput(WitcheryItems.FLYING_OINTMENT.get().defaultInstance)
             .setAltarPower(100)
-            .save(exporter,  Witchery.id("flying_ointment"))
+            .save(exporter, Witchery.id("flying_ointment"))
 
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(WitcheryItems.ATTUNED_STONE.get().defaultInstance, Color(255,50,250).rgb)
-            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.REGENERATION), Color(125,165,250).rgb)
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(150,50,50).rgb)
-            .addInputWithColor(Items.GOLDEN_APPLE.defaultInstance, Color(180,180,0).rgb)
-            .addInputWithColor(WitcheryItems.ROWAN_SAPLING.get().defaultInstance, Color(55,250,10).rgb)
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.ATTUNED_STONE.get().defaultInstance, Color(255, 50, 250).rgb)
+            .addInputWithColor(
+                PotionContents.createItemStack(Items.POTION, Potions.REGENERATION),
+                Color(125, 165, 250).rgb
+            )
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(150, 50, 50).rgb)
+            .addInputWithColor(Items.GOLDEN_APPLE.defaultInstance, Color(180, 180, 0).rgb)
+            .addInputWithColor(WitcheryItems.ROWAN_SAPLING.get().defaultInstance, Color(55, 250, 10).rgb)
             .setOutput(WitcheryItems.SOUL_OF_THE_WORLD.get().defaultInstance)
             .setAltarPower(100)
-            .save(exporter,  Witchery.id("soul_of_the_world"))
+            .save(exporter, Witchery.id("soul_of_the_world"))
 
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.STRONG_HARMING), Color(225,165,50).rgb)
-            .addInputWithColor(WitcheryItems.DEMON_HEART.get().defaultInstance, Color(255,50,20).rgb)
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(150,50,50).rgb)
-            .addInputWithColor(Items.FERMENTED_SPIDER_EYE.defaultInstance, Color(155,150,10).rgb)
-            .addInputWithColor(WitcheryItems.REFINED_EVIL.get().defaultInstance, Color(255,100,10).rgb)
-            .addInputWithColor(Items.BLAZE_ROD.defaultInstance, Color(255,50,10).rgb)
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(
+                PotionContents.createItemStack(Items.POTION, Potions.STRONG_HARMING),
+                Color(225, 165, 50).rgb
+            )
+            .addInputWithColor(WitcheryItems.DEMON_HEART.get().defaultInstance, Color(255, 50, 20).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(150, 50, 50).rgb)
+            .addInputWithColor(Items.FERMENTED_SPIDER_EYE.defaultInstance, Color(155, 150, 10).rgb)
+            .addInputWithColor(WitcheryItems.REFINED_EVIL.get().defaultInstance, Color(255, 100, 10).rgb)
+            .addInputWithColor(Items.BLAZE_ROD.defaultInstance, Color(255, 50, 10).rgb)
             .setOutput(WitcheryItems.INFERNAL_ANIMUS.get().defaultInstance)
             .setAltarPower(100)
-            .save(exporter,  Witchery.id("infernal_animus"))
+            .save(exporter, Witchery.id("infernal_animus"))
 
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.LONG_SWIFTNESS), Color(60,165,250).rgb)
-            .addInputWithColor(Items.ENDER_EYE.defaultInstance, Color(4,250,130).rgb)
-            .addInputWithColor(Items.ENDER_EYE.defaultInstance, Color(10,250,90).rgb)
-            .addInputWithColor(WitcheryItems.DROP_OF_LUCK.get().defaultInstance, Color(50,50,50).rgb)
-            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(255,100,255).rgb)
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(
+                PotionContents.createItemStack(Items.POTION, Potions.LONG_SWIFTNESS),
+                Color(60, 165, 250).rgb
+            )
+            .addInputWithColor(Items.ENDER_EYE.defaultInstance, Color(4, 250, 130).rgb)
+            .addInputWithColor(Items.ENDER_EYE.defaultInstance, Color(10, 250, 90).rgb)
+            .addInputWithColor(WitcheryItems.DROP_OF_LUCK.get().defaultInstance, Color(50, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(255, 100, 255).rgb)
             .setOutput(WitcheryItems.SPIRIT_OF_OTHERWHERE.get().defaultInstance)
             .setAltarPower(100)
-            .save(exporter,  Witchery.id("spirit_of_otherwhere"))
+            .save(exporter, Witchery.id("spirit_of_otherwhere"))
 
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.LONG_INVISIBILITY), Color(60,165,250).rgb)
-            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.LONG_FIRE_RESISTANCE), Color(255,160,60).rgb)
-            .addInputWithColor(WitcheryItems.EMBER_MOSS.get().defaultInstance, Color(255,180,90).rgb)
-            .addInputWithColor(Items.TORCH.defaultInstance, Color(250,250,50).rgb)
-            .addInputWithColor(WitcheryItems.TONGUE_OF_DOG.get().defaultInstance, Color(200,200,255).rgb)
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get().defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(
+                PotionContents.createItemStack(Items.POTION, Potions.LONG_INVISIBILITY),
+                Color(60, 165, 250).rgb
+            )
+            .addInputWithColor(
+                PotionContents.createItemStack(Items.POTION, Potions.LONG_FIRE_RESISTANCE),
+                Color(255, 160, 60).rgb
+            )
+            .addInputWithColor(WitcheryItems.EMBER_MOSS.get().defaultInstance, Color(255, 180, 90).rgb)
+            .addInputWithColor(Items.TORCH.defaultInstance, Color(250, 250, 50).rgb)
+            .addInputWithColor(WitcheryItems.TONGUE_OF_DOG.get().defaultInstance, Color(200, 200, 255).rgb)
             .setOutput(WitcheryItems.GHOST_OF_THE_LIGHT.get().defaultInstance)
             .setAltarPower(100)
-            .save(exporter,  Witchery.id("ghost_of_the_light"))
+            .save(exporter, Witchery.id("ghost_of_the_light"))
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.RITUAL_CHALK.get(), 2)
@@ -1019,22 +1035,24 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .requires(WitcheryItems.WOOD_ASH.get(), 8)
             .requires(Items.BONE, 1)
             .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
-            .save(exporter,"witchery:bone_meal_7")
+            .save(exporter, "witchery:bone_meal_7")
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 5)
             .requires(WitcheryItems.WOOD_ASH.get(), 4)
             .requires(Items.BONE, 1)
             .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
-            .save(exporter,"witchery:bone_meal_5")
+            .save(exporter, "witchery:bone_meal_5")
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE_MEAL, 4)
             .requires(WitcheryItems.WOOD_ASH.get(), 2)
             .requires(Items.BONE, 1)
             .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
-            .save(exporter,"witchery:bone_meal_4")
+            .save(exporter, "witchery:bone_meal_4")
 
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(WitcheryItems.CLAY_JAR.get()),
-            RecipeCategory.MISC, WitcheryItems.JAR.get(), 0.3f, 200)
+        SimpleCookingRecipeBuilder.smelting(
+            Ingredient.of(WitcheryItems.CLAY_JAR.get()),
+            RecipeCategory.MISC, WitcheryItems.JAR.get(), 0.3f, 200
+        )
             .unlockedBy("has_clay_jar", has(WitcheryItems.CLAY_JAR.get()))
             .save(exporter)
 
@@ -1099,81 +1117,81 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter)
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,55,50).rgb)
-            .addInputWithColor(WitcheryItems.ENT_TWIG.get().defaultInstance, Color(255,100,1).rgb)
-            .addInputWithColor(WitcheryItems.MUTANDIS_EXTREMIS.get().defaultInstance, Color(255,1,1).rgb)
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255, 55, 50).rgb)
+            .addInputWithColor(WitcheryItems.ENT_TWIG.get().defaultInstance, Color(255, 100, 1).rgb)
+            .addInputWithColor(WitcheryItems.MUTANDIS_EXTREMIS.get().defaultInstance, Color(255, 1, 1).rgb)
             .addOutput(WitcheryItems.MUTATING_SPRING.get())
             .setAltarPower(100)
             .unlockedBy("has_ent_twig", has(WitcheryItems.ENT_TWIG.get()))
-            .save(exporter,  Witchery.id("mutating_spring"))
+            .save(exporter, Witchery.id("mutating_spring"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
-            .addInputWithColor(Items.GOLD_NUGGET.defaultInstance, Color(255,255,50).rgb)
-            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, Color(255,255,255).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100, 50, 50).rgb)
+            .addInputWithColor(Items.GOLD_NUGGET.defaultInstance, Color(255, 255, 50).rgb)
+            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, Color(255, 255, 255).rgb)
             .addOutput(WitcheryItems.GOLDEN_CHALK.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
-            .save(exporter,  Witchery.id("golden_chalk"))
+            .save(exporter, Witchery.id("golden_chalk"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, Color(105,50,250).rgb)
-            .addInputWithColor(Items.ENDER_PEARL.defaultInstance, Color(50,150,150).rgb)
-            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, Color(255,255,255).rgb)
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, Color(105, 50, 250).rgb)
+            .addInputWithColor(Items.ENDER_PEARL.defaultInstance, Color(50, 150, 150).rgb)
+            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, Color(255, 255, 255).rgb)
             .addOutput(WitcheryItems.OTHERWHERE_CHALK.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
-            .save(exporter,  Witchery.id("otherwhere_chalk"))
+            .save(exporter, Witchery.id("otherwhere_chalk"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(Items.BLAZE_POWDER.defaultInstance, Color(205,200,10).rgb)
-            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance,  Color(200,200,200).rgb)
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(Items.BLAZE_POWDER.defaultInstance, Color(205, 200, 10).rgb)
+            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get().defaultInstance, Color(200, 200, 200).rgb)
             .addOutput(WitcheryItems.INFERNAL_CHALK.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
-            .save(exporter,  Witchery.id("infernal_chalk"))
+            .save(exporter, Witchery.id("infernal_chalk"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
-            .addInputWithColor(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get().defaultInstance, Color(100,150,50).rgb)
-            .addInputWithColor(Items.EGG.defaultInstance, Color(150,150,50).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get().defaultInstance, Color(100, 150, 50).rgb)
+            .addInputWithColor(Items.EGG.defaultInstance, Color(150, 150, 50).rgb)
             .addOutput(WitcheryItems.MUTANDIS.get().defaultInstance, 4)
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
-            .save(exporter,  Witchery.id("mutandis"))
+            .save(exporter, Witchery.id("mutandis"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(WitcheryItems.MUTANDIS.get().defaultInstance, Color(155,150,50).rgb)
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.MUTANDIS.get().defaultInstance, Color(155, 150, 50).rgb)
             .addOutput(WitcheryItems.MUTANDIS_EXTREMIS.get())
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
-            .save(exporter,  Witchery.id("mutandis_extremis"))
+            .save(exporter, Witchery.id("mutandis_extremis"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
-            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255,50,50).rgb)
-            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, Color(55,50,250).rgb)
-            .addInputWithColor(WitcheryItems.REFINED_EVIL.get().defaultInstance, Color(20,20,20).rgb)
-            .addInputWithColor(WitcheryItems.MUTANDIS_EXTREMIS.get().defaultInstance, Color(50,20,20).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100, 50, 50).rgb)
+            .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, Color(55, 50, 250).rgb)
+            .addInputWithColor(WitcheryItems.REFINED_EVIL.get().defaultInstance, Color(20, 20, 20).rgb)
+            .addInputWithColor(WitcheryItems.MUTANDIS_EXTREMIS.get().defaultInstance, Color(50, 20, 20).rgb)
             .addOutput(WitcheryItems.DROP_OF_LUCK.get())
             .setAltarPower(100)
             .unlockedBy("has_refined_evil", has(WitcheryItems.REFINED_EVIL.get()))
-            .save(exporter,  Witchery.id("drop_of_luck"))
+            .save(exporter, Witchery.id("drop_of_luck"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100,50,50).rgb)
-            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, Color(100,150,150).rgb)
-            .addInputWithColor(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance, Color(150,150,150).rgb)
-            .addInputWithColor(Items.ENDER_PEARL.defaultInstance, Color(50,150,150).rgb)
-            .addInputWithColor(Items.WHEAT.defaultInstance, Color(150,150,50).rgb)
-            .addInputWithColor(WitcheryItems.MUTANDIS.get().defaultInstance, Color(150,190,50).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(100, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get().defaultInstance, Color(100, 150, 150).rgb)
+            .addInputWithColor(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance, Color(150, 150, 150).rgb)
+            .addInputWithColor(Items.ENDER_PEARL.defaultInstance, Color(50, 150, 150).rgb)
+            .addInputWithColor(Items.WHEAT.defaultInstance, Color(150, 150, 50).rgb)
+            .addInputWithColor(WitcheryItems.MUTANDIS.get().defaultInstance, Color(150, 190, 50).rgb)
             .addOutput(Items.NETHER_WART.defaultInstance, 1)
             .setAltarPower(100)
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
-            .save(exporter,  Witchery.id("nether_wart"))
+            .save(exporter, Witchery.id("nether_wart"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.OAK_SAPLING),
@@ -1183,7 +1201,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("exhale_of_the_horned_one"))
+        ).save(exporter, Witchery.id("exhale_of_the_horned_one"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.DARK_OAK_SAPLING),
@@ -1193,7 +1211,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("exhale_of_the_horned_one2"))
+        ).save(exporter, Witchery.id("exhale_of_the_horned_one2"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.BIRCH_SAPLING),
@@ -1203,7 +1221,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("breath_of_the_goddess"))
+        ).save(exporter, Witchery.id("breath_of_the_goddess"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.CHERRY_SAPLING),
@@ -1213,7 +1231,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("breath_of_the_goddess2"))
+        ).save(exporter, Witchery.id("breath_of_the_goddess2"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.SPRUCE_SAPLING),
@@ -1223,7 +1241,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("hint_of_rebirth"))
+        ).save(exporter, Witchery.id("hint_of_rebirth"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(Items.JUNGLE_SAPLING),
@@ -1233,7 +1251,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("hint_of_rebirth2"))
+        ).save(exporter, Witchery.id("hint_of_rebirth2"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(WitcheryItems.ROWAN_SAPLING.get()),
@@ -1243,7 +1261,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("whiff_of_magic"))
+        ).save(exporter, Witchery.id("whiff_of_magic"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(WitcheryItems.ALDER_SAPLING.get()),
@@ -1253,7 +1271,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("reek_of_misfortune"))
+        ).save(exporter, Witchery.id("reek_of_misfortune"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(WitcheryItems.HAWTHORN_SAPLING.get()),
@@ -1263,7 +1281,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("odor_of_purity"))
+        ).save(exporter, Witchery.id("odor_of_purity"))
 
         OvenCookingRecipeBuilder(
             Ingredient.of(ItemTags.LOGS),
@@ -1273,7 +1291,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             0.5f,
             0.5f,
             85
-        ).save(exporter,  Witchery.id("foul_fume_logs"))
+        ).save(exporter, Witchery.id("foul_fume_logs"))
 
 
         RitualRecipeBuilder.create()
@@ -1377,7 +1395,10 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(WitcheryItems.SPIRIT_OF_OTHERWHERE.get().defaultInstance)
             .setAltarPower(2000)
             .addCommand(CommandType("witchery infusion setAndKill {owner} otherwhere", CommandType.END))
-            .addSmallAndMediumPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(), WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .addSmallAndMediumPattern(
+                WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(),
+                WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get()
+            )
             .save(exporter, Witchery.id("infuse_otherwhere"))
 
         RitualRecipeBuilder.create()
@@ -1385,7 +1406,10 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(40)
             .addCommand(CommandType("witchery infusion increase {owner} 1", CommandType.TICK))
             .setInfinite(true)
-            .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .addSmallAndMediumPattern(
+                WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
+                WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get()
+            )
             .save(exporter, Witchery.id("rite_of_charging_infusion"))
 
         RitualRecipeBuilder.create()
@@ -1404,7 +1428,10 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(Items.ENDER_PEARL.defaultInstance)
             .addInputEntity(EntityType.VILLAGER)
             .setAltarPower(4000)
-            .addMediumAndLargePattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(), WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .addMediumAndLargePattern(
+                WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
+                WitcheryBlocks.INFERNAL_CHALK_BLOCK.get()
+            )
             .addOutputEntity(EntityType.WITHER)
             .save(exporter, Witchery.id("summon_wither"))
 
@@ -1428,7 +1455,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.GYPSUM.get().defaultInstance)
             .addOutput(Items.SLIME_BALL.defaultInstance)
             .setJarConsumption(1)
-            .save(exporter,  Witchery.id("oil_of_vitriol_gypsum"))
+            .save(exporter, Witchery.id("oil_of_vitriol_gypsum"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.BREATH_OF_THE_GODDESS.get().defaultInstance)
@@ -1440,7 +1467,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(Items.SLIME_BALL.defaultInstance)
             .addOutput(WitcheryItems.FOUL_FUME.get().defaultInstance)
             .setJarConsumption(3)
-            .save(exporter,  Witchery.id("tear_and_whiff"))
+            .save(exporter, Witchery.id("tear_and_whiff"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(Items.ENDER_PEARL.defaultInstance)
@@ -1451,7 +1478,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.ENDER_DEW.get().defaultInstance, 1)
             .addOutput(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance)
             .setJarConsumption(6)
-            .save(exporter,  Witchery.id("ender_dew"))
+            .save(exporter, Witchery.id("ender_dew"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(Items.BLAZE_POWDER.defaultInstance)
@@ -1462,7 +1489,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(Items.GLOWSTONE_DUST.defaultInstance)
             .addOutput(Items.GLOWSTONE_DUST.defaultInstance)
             .setJarConsumption(1)
-            .save(exporter,  Witchery.id("reek_of_misfortune_glowstone"))
+            .save(exporter, Witchery.id("reek_of_misfortune_glowstone"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(Items.PHANTOM_MEMBRANE.defaultInstance)
@@ -1495,7 +1522,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.DEMONS_BLOOD.get().defaultInstance)
             .addOutput(Items.SOUL_SAND.defaultInstance)
             .setJarConsumption(2)
-            .save(exporter,  Witchery.id("demons_blood"))
+            .save(exporter, Witchery.id("demons_blood"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance)
@@ -1507,7 +1534,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutput(WitcheryItems.FOUL_FUME.get().defaultInstance)
             .addOutput(WitcheryItems.REFINED_EVIL.get().defaultInstance)
             .setJarConsumption(3)
-            .save(exporter,  Witchery.id("refined_evil_from_ghast"))
+            .save(exporter, Witchery.id("refined_evil_from_ghast"))
 
     }
 }

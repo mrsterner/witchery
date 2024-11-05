@@ -29,7 +29,9 @@ object RenderUtils {
         RenderSystem.enableBlend()
         RenderSystem.defaultBlendFunc()
 
-        RenderSystem.setShaderTexture(0, atlasLocation)
+        if (atlasLocation != null) {
+            RenderSystem.setShaderTexture(0, atlasLocation)
+        }
         RenderSystem.setShader { GameRenderer.getPositionTexColorShader() }
 
         val matrix4f: Matrix4f = poseStack.last().pose()

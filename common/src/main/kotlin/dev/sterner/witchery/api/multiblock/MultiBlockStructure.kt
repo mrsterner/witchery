@@ -7,7 +7,6 @@ import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
-import java.util.List
 import java.util.function.Consumer
 
 
@@ -42,7 +41,7 @@ open class MultiBlockStructure(val structurePieces: ArrayList<StructurePiece>) {
         }
 
         @JvmOverloads
-        fun place(core: BlockPos, level: Level, state: BlockState? = this.state) {
+        fun place(core: BlockPos, level: Level, state: BlockState = this.state) {
             val pos = core.offset(offset)
             level.setBlock(pos, state, 3)
             if (level.getBlockEntity(pos) is MultiBlockComponentBlockEntity) {
@@ -53,8 +52,8 @@ open class MultiBlockStructure(val structurePieces: ArrayList<StructurePiece>) {
     }
 
     companion object {
-        fun of(vararg pieces: StructurePiece?): MultiBlockStructure {
-            return MultiBlockStructure(ArrayList(List.of(*pieces)))
+        fun of(vararg pieces: StructurePiece): MultiBlockStructure {
+            return MultiBlockStructure(ArrayList(listOf(*pieces)))
         }
     }
 }

@@ -2,11 +2,9 @@ package dev.sterner.witchery.client.renderer
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.client.model.DistilleryGemModel
 import dev.sterner.witchery.client.model.JarModel
-import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
@@ -17,8 +15,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 class DistilleryBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<DistilleryBlockEntity> {
 
-    var jarModel = JarModel(ctx.bakeLayer(JarModel.LAYER_LOCATION))
-    var gemModel = DistilleryGemModel(ctx.bakeLayer(DistilleryGemModel.LAYER_LOCATION))
+    private var jarModel = JarModel(ctx.bakeLayer(JarModel.LAYER_LOCATION))
+    private var gemModel = DistilleryGemModel(ctx.bakeLayer(DistilleryGemModel.LAYER_LOCATION))
 
     override fun render(
         blockEntity: DistilleryBlockEntity,
@@ -32,8 +30,13 @@ class DistilleryBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         if (blockEntity.blockState.getValue(BlockStateProperties.LIT)) {
             poseStack.pushPose()
             poseStack.scale(-1.0f, -1.0f, 1.0f)
-            poseStack.translate(0-.5, -1.5, 0.5)
-            gemModel.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.eyes(Witchery.id("textures/block/distillery_gem.png"))), packedLight, packedOverlay)
+            poseStack.translate(0 - .5, -1.5, 0.5)
+            gemModel.renderToBuffer(
+                poseStack,
+                bufferSource.getBuffer(RenderType.eyes(Witchery.id("textures/block/distillery_gem.png"))),
+                packedLight,
+                packedOverlay
+            )
             poseStack.popPose()
         }
 

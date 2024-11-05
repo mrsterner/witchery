@@ -11,14 +11,14 @@ import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import net.minecraft.core.registries.Registries
-import net.minecraft.world.item.crafting.*
+import net.minecraft.world.item.crafting.RecipeSerializer
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer
 
 
 object WitcheryRecipeSerializers {
 
     val RECIPE_SERIALIZERS: DeferredRegister<RecipeSerializer<*>> =
         DeferredRegister.create(Witchery.MODID, Registries.RECIPE_SERIALIZER)
-
 
     val CAULDRON_RECIPE_SERIALIZER: RegistrySupplier<CauldronCraftingRecipe.Serializer> =
         RECIPE_SERIALIZERS.register(CauldronCraftingRecipe.NAME) { CauldronCraftingRecipe.Serializer() }

@@ -38,7 +38,12 @@ object WitcheryNeoForgeClientEvent {
     @SubscribeEvent
     fun onEntityRendererRegistry(event: EntityRenderersEvent.RegisterRenderers) {
         event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_BOAT.get()) { context -> BoatRenderer(context, false) }
-        event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()) { context -> BoatRenderer(context, true) }
+        event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()) { context ->
+            BoatRenderer(
+                context,
+                true
+            )
+        }
 
         event.registerEntityRenderer(
             WitcheryEntityTypes.BROOM.get(),
@@ -82,7 +87,6 @@ object WitcheryNeoForgeClientEvent {
         )
     }
 
-
     @SubscribeEvent
     private fun registerLayerDefinitions(event: EntityRenderersEvent.RegisterLayerDefinitions) {
         event.registerLayerDefinition(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)
@@ -91,85 +95,83 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(BoatModels.ROWAN_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
         event.registerLayerDefinition(BoatModels.ALDER_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
         event.registerLayerDefinition(BoatModels.HAWTHORN_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
-
-        event.registerLayerDefinition(
-            AltarBlockEntityModel.LAYER_LOCATION,
-            AltarBlockEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            AltarClothBlockEntityModel.LAYER_LOCATION,
-            AltarClothBlockEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            JarModel.LAYER_LOCATION,
-            JarModel::createBodyLayer)
-        event.registerLayerDefinition(
-            PoppetModel.LAYER_LOCATION,
-            PoppetModel::createBodyLayer)
-        event.registerLayerDefinition(
-            WitchesRobesModel.LAYER_LOCATION,
-            WitchesRobesModel::createBodyLayer)
-        event.registerLayerDefinition(
-            SpinningWheelWheelBlockEntityModel.LAYER_LOCATION,
-            SpinningWheelWheelBlockEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            SpinningWheelBlockEntityModel.LAYER_LOCATION,
-            SpinningWheelBlockEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            DistilleryGemModel.LAYER_LOCATION,
-            DistilleryGemModel::createBodyLayer)
-
-        event.registerLayerDefinition(
-            MandrakeEntityModel.LAYER_LOCATION) { MandrakeEntityModel.createBodyLayer() }
-
-
-        event.registerLayerDefinition(
-            ImpEntityModel.LAYER_LOCATION,
-            ImpEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            OwlEntityModel.LAYER_LOCATION,
-            OwlEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            BroomEntityModel.LAYER_LOCATION,
-            BroomEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            HunterArmorModel.LAYER_LOCATION,
-            HunterArmorModel::createBodyLayer)
-        event.registerLayerDefinition(
-            DreamWeaverBlockEntityModel.LAYER_LOCATION,
-            DreamWeaverBlockEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            DemonEntityModel.LAYER_LOCATION,
-            DemonEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            EntEntityModel.LAYER_LOCATION,
-            EntEntityModel::createBodyLayer)
-        event.registerLayerDefinition(
-            BansheeEntityModel.LAYER_LOCATION,
-            BansheeEntityModel::createBodyLayer)
+        event.registerLayerDefinition(AltarBlockEntityModel.LAYER_LOCATION, AltarBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(AltarClothBlockEntityModel.LAYER_LOCATION, AltarClothBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(JarModel.LAYER_LOCATION, JarModel::createBodyLayer)
+        event.registerLayerDefinition(PoppetModel.LAYER_LOCATION, PoppetModel::createBodyLayer)
+        event.registerLayerDefinition(WitchesRobesModel.LAYER_LOCATION, WitchesRobesModel::createBodyLayer)
+        event.registerLayerDefinition(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION, SpinningWheelWheelBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(SpinningWheelBlockEntityModel.LAYER_LOCATION, SpinningWheelBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(DistilleryGemModel.LAYER_LOCATION, DistilleryGemModel::createBodyLayer)
+        event.registerLayerDefinition(MandrakeEntityModel.LAYER_LOCATION, MandrakeEntityModel::createBodyLayer)
+        event.registerLayerDefinition(ImpEntityModel.LAYER_LOCATION, ImpEntityModel::createBodyLayer)
+        event.registerLayerDefinition(OwlEntityModel.LAYER_LOCATION, OwlEntityModel::createBodyLayer)
+        event.registerLayerDefinition(BroomEntityModel.LAYER_LOCATION, BroomEntityModel::createBodyLayer)
+        event.registerLayerDefinition(HunterArmorModel.LAYER_LOCATION, HunterArmorModel::createBodyLayer)
+        event.registerLayerDefinition(DreamWeaverBlockEntityModel.LAYER_LOCATION, DreamWeaverBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(DemonEntityModel.LAYER_LOCATION, DemonEntityModel::createBodyLayer)
+        event.registerLayerDefinition(EntEntityModel.LAYER_LOCATION, EntEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent
-    fun registerParticle(event: RegisterParticleProvidersEvent){
-        event.registerSpriteSet(WitcheryParticleTypes.COLOR_BUBBLE.get()){ o ->
+    fun registerParticle(event: RegisterParticleProvidersEvent) {
+        event.registerSpriteSet(WitcheryParticleTypes.COLOR_BUBBLE.get()) { o ->
             ColorBubbleParticle.Provider(o)
         }
-        event.registerSpriteSet(WitcheryParticleTypes.ZZZ.get()){ o ->
+        event.registerSpriteSet(WitcheryParticleTypes.ZZZ.get()) { o ->
             ZzzParticle.Provider(o)
         }
     }
 
     @SubscribeEvent
     fun registerClientExtensions(event: RegisterClientExtensionsEvent) {
-        event.registerItem(WitchesRobesItemNeoForge.ArmorRender.INSTANCE, WITCHES_ROBES.get(), WITCHES_HAT.get(), WITCHES_SLIPPERS.get(), BABA_YAGAS_HAT.get())
-        event.registerItem(HunterArmorItemNeoForge.ArmorRender.INSTANCE, HUNTER_HELMET.get(), HUNTER_CHESTPLATE.get(), HUNTER_LEGGINGS.get(), HUNTER_BOOTS.get())
+        event.registerItem(
+            WitchesRobesItemNeoForge.ArmorRender.INSTANCE,
+            WITCHES_ROBES.get(),
+            WITCHES_HAT.get(),
+            WITCHES_SLIPPERS.get(),
+            BABA_YAGAS_HAT.get()
+        )
+        event.registerItem(
+            HunterArmorItemNeoForge.ArmorRender.INSTANCE,
+            HUNTER_HELMET.get(),
+            HUNTER_CHESTPLATE.get(),
+            HUNTER_LEGGINGS.get(),
+            HUNTER_BOOTS.get()
+        )
 
-        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(SpinningWheelBlockEntityWithoutLevelRenderer()), WitcheryItems.SPINNING_WHEEL.get())
-        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()), WitcheryItems.BROOM.get())
-        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get())
-        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_FASTING.get())
-        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_INTENSITY.get())
-        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get())
-        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get())
-        event.registerItem(WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()), WitcheryItems.DREAM_WEAVER.get())
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(SpinningWheelBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.SPINNING_WHEEL.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.BROOM.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.DREAM_WEAVER_OF_FASTING.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.DREAM_WEAVER_OF_INTENSITY.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.DREAM_WEAVER.get()
+        )
 
         @Suppress("UNRESOLVED_REFERENCE")
         WitcheryFluids.FLUIDS_INFOS.forEach { attributes ->
@@ -186,5 +188,4 @@ object WitcheryNeoForgeClientEvent {
             }, attributes.flowingFluid.getFluidType())
         }
     }
-
 }

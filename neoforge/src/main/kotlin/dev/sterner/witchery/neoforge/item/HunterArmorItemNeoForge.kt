@@ -2,26 +2,20 @@ package dev.sterner.witchery.neoforge.item
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.HunterArmorModel
-import dev.sterner.witchery.client.model.WitchesRobesModel
-import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.HumanoidModel
 import net.minecraft.core.Holder
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.*
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import org.jetbrains.annotations.NotNull
-import java.awt.Color
 import javax.annotation.Nullable
 
 
-open class HunterArmorItemNeoForge(material: Holder<ArmorMaterial>, type: Type, properties: Item.Properties) :
+open class HunterArmorItemNeoForge(material: Holder<ArmorMaterial>, type: Type, properties: Properties) :
     ArmorItem(material, type, properties) {
     override fun isRepairable(arg: ItemStack): Boolean {
         return false
@@ -85,7 +79,6 @@ open class HunterArmorItemNeoForge(material: Holder<ArmorMaterial>, type: Type, 
             }
             return -0x1
         }
-
 
 
         companion object {

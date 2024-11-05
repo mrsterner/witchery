@@ -3,17 +3,12 @@ package dev.sterner.witchery.client.renderer
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
-import dev.sterner.witchery.client.model.AltarBlockEntityModel
-import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import dev.sterner.witchery.client.model.DreamWeaverBlockEntityModel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
-import net.minecraft.core.Direction
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class DreamWeaverBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :

@@ -12,8 +12,10 @@ import net.minecraft.world.item.ItemStack
 
 class SpinningWheelDynamicRenderer : DynamicItemRenderer {
 
-    var model: SpinningWheelBlockEntityModel? = SpinningWheelBlockEntityModel(SpinningWheelBlockEntityModel.createBodyLayer().bakeRoot())
-    var wheelModel: SpinningWheelWheelBlockEntityModel? = SpinningWheelWheelBlockEntityModel(SpinningWheelWheelBlockEntityModel.createBodyLayer().bakeRoot())
+    private var model: SpinningWheelBlockEntityModel? =
+        SpinningWheelBlockEntityModel(SpinningWheelBlockEntityModel.createBodyLayer().bakeRoot())
+    private var wheelModel: SpinningWheelWheelBlockEntityModel? =
+        SpinningWheelWheelBlockEntityModel(SpinningWheelWheelBlockEntityModel.createBodyLayer().bakeRoot())
 
     override fun render(
         stack: ItemStack?,
@@ -31,7 +33,7 @@ class SpinningWheelDynamicRenderer : DynamicItemRenderer {
             packedLight,
             packedOverlay
         )
-        poseStack.translate(0.0,-0.8,0.3)
+        poseStack.translate(0.0, -0.8, 0.3)
         wheelModel?.renderToBuffer(
             poseStack,
             bufferSource.getBuffer(RenderType.entityTranslucent(Witchery.id("textures/block/spinning_wheel_wheel.png"))),
@@ -41,5 +43,4 @@ class SpinningWheelDynamicRenderer : DynamicItemRenderer {
 
         poseStack.popPose()
     }
-
 }

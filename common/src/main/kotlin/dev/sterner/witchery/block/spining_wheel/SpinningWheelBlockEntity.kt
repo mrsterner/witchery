@@ -5,7 +5,6 @@ import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.menu.DistilleryMenu
 import dev.sterner.witchery.menu.SpinningWheelMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
@@ -15,7 +14,6 @@ import io.netty.buffer.Unpooled
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.core.Holder.Direct
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
@@ -88,7 +86,15 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val hasInput = !inputStack.isEmpty
 
         if (hasInput) {
-            val spinningRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(listOf(inputStack, inputStack2, inputStack3, inputStack4).filter { !it.isEmpty }), level).orElse(null)
+            val spinningRecipe = quickCheck.getRecipeFor(
+                MultipleItemRecipeInput(
+                    listOf(
+                        inputStack,
+                        inputStack2,
+                        inputStack3,
+                        inputStack4
+                    ).filter { !it.isEmpty }), level
+            ).orElse(null)
 
             if (canSpin(spinningRecipe, items, maxStackSize)) {
                 cookingProgress++
@@ -118,7 +124,11 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
-    private fun spin(spinningRecipe: RecipeHolder<SpinningWheelRecipe>?, items: NonNullList<ItemStack>, maxStackSize: Int): Boolean {
+    private fun spin(
+        spinningRecipe: RecipeHolder<SpinningWheelRecipe>?,
+        items: NonNullList<ItemStack>,
+        maxStackSize: Int
+    ): Boolean {
         if (spinningRecipe == null) {
             return false
         }
@@ -157,10 +167,7 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
         }
 
-        if (!placed) {
-            return false
-        }
-        return true
+        return placed
     }
 
     private fun consumeInputItems(
@@ -183,7 +190,11 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
 
-    private fun canSpin(spinningRecipe: RecipeHolder<SpinningWheelRecipe>?, items: NonNullList<ItemStack>, maxStackSize: Int): Boolean {
+    private fun canSpin(
+        spinningRecipe: RecipeHolder<SpinningWheelRecipe>?,
+        items: NonNullList<ItemStack>,
+        maxStackSize: Int
+    ): Boolean {
         if (spinningRecipe == null) return false
 
         if (cachedAltarPos == null && level is ServerLevel) {
@@ -242,11 +253,7 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
         }
 
-        if (!fits) {
-            return false
-        }
-
-        return true
+        return fits
     }
 
     private fun canFitInSlot(resultStack: ItemStack, outputSlot: ItemStack, maxStackSize: Int): Boolean {
@@ -297,12 +304,12 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return null
     }
 
-    override fun onUseWithoutItem(player: Player): InteractionResult {
-        if (player is ServerPlayer) {
-            openMenu(player)
+    override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
+        if (pPlayer is ServerPlayer) {
+            openMenu(pPlayer)
             return InteractionResult.SUCCESS
         }
-        return super.onUseWithoutItem(player)
+        return super.onUseWithoutItem(pPlayer)
     }
 
     private fun openMenu(player: ServerPlayer) {
@@ -407,7 +414,13 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun getTotalCookTime(level: Level): Int {
-        val singleRecipeInput = MultipleItemRecipeInput(listOf(getItem(SLOT_INPUT), getItem(SLOT_EXTRA_INPUT_1), getItem(SLOT_EXTRA_INPUT_2), getItem(SLOT_EXTRA_INPUT_3)).filter { !it.isEmpty })
+        val singleRecipeInput = MultipleItemRecipeInput(
+            listOf(
+                getItem(SLOT_INPUT),
+                getItem(SLOT_EXTRA_INPUT_1),
+                getItem(SLOT_EXTRA_INPUT_2),
+                getItem(SLOT_EXTRA_INPUT_3)
+            ).filter { !it.isEmpty })
 
         val cookQuickTime = quickCheck
             .getRecipeFor(singleRecipeInput, level)

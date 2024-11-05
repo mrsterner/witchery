@@ -21,21 +21,22 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class ArthanaBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noCollission().noOcclusion().noLootTable().instabreak()) {
+class ArthanaBlock(properties: Properties) :
+    WitcheryBaseEntityBlock(properties.noCollission().noOcclusion().noLootTable().instabreak()) {
     override fun newBlockEntity(pos: BlockPos, state: BlockState) = ArthanaBlockEntity(pos, state)
 
     override fun useWithoutItem(
-        state: BlockState,
-        level: Level,
-        pos: BlockPos,
-        player: Player,
-        hitResult: BlockHitResult
+        pState: BlockState,
+        pLevel: Level,
+        pPos: BlockPos,
+        pPlayer: Player,
+        pHitResult: BlockHitResult
     ): InteractionResult {
-        val be = level.getBlockEntity(pos)
-        if (!level.isClientSide && be is ArthanaBlockEntity) {
+        val be = pLevel.getBlockEntity(pPos)
+        if (!pLevel.isClientSide && be is ArthanaBlockEntity) {
             val arthana = be.arthana.copy()
-            player.setItemInHand(InteractionHand.MAIN_HAND, arthana)
-            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState())
+            pPlayer.setItemInHand(InteractionHand.MAIN_HAND, arthana)
+            pLevel.setBlockAndUpdate(pPos, Blocks.AIR.defaultBlockState())
         }
 
         return InteractionResult.SUCCESS

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
@@ -6,26 +8,26 @@ import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.animal.Fox
 import net.minecraft.world.entity.player.Player
 
 
 object EquipmentHandler {
 
     fun babaYagaHit(livingEntity: LivingEntity?, damageSource: DamageSource?, fl: Float): EventResult? {
-        if (livingEntity is Player && livingEntity.getItemBySlot(EquipmentSlot.HEAD).`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
+        if (livingEntity is Player && livingEntity.getItemBySlot(EquipmentSlot.HEAD)
+                .`is`(WitcheryItems.BABA_YAGAS_HAT.get())
+        ) {
             if (PlayerInfusionDataAttachment.getPlayerInfusion(livingEntity).type != InfusionType.NONE) {
                 val level = livingEntity.level()
 
                 if (level.random.nextFloat() < 0.2f && fl > 0) {
-                    if (attemptTeleport(livingEntity, 20.0)) {
+                    if (attemptTeleport(livingEntity)) {
 
                         level.playSound(
                             null,
@@ -47,7 +49,7 @@ object EquipmentHandler {
         return EventResult.pass()
     }
 
-    private fun attemptTeleport(player: Player, distance: Double): Boolean {
+    private fun attemptTeleport(player: Player, distance: Double = 20.0): Boolean {
         val playerPos = player.onPos
         val random = player.level().random
 
@@ -56,7 +58,8 @@ object EquipmentHandler {
             val targetY = playerPos.y + Mth.nextDouble(random, -distance / 2f, distance / 2f)
             val targetZ = playerPos.z + Mth.nextDouble(random, -distance, distance)
 
-            val mutable: BlockPos.MutableBlockPos = BlockPos.MutableBlockPos(targetX.toInt(), targetY.toInt(), targetZ.toInt())
+            val mutable: BlockPos.MutableBlockPos =
+                BlockPos.MutableBlockPos(targetX.toInt(), targetY.toInt(), targetZ.toInt())
 
             while (mutable.y > 0 && !player.level().getBlockState(mutable).blocksMotion()) {
                 mutable.move(Direction.DOWN)

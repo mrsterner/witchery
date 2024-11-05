@@ -18,7 +18,7 @@ class EmbermossBlock(properties: Properties) : BushBlock(properties.lightLevel {
 
     override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
         if (!entity.fireImmune()) {
-            entity.remainingFireTicks = entity.remainingFireTicks + 1
+            entity.remainingFireTicks += 1
             if (entity.remainingFireTicks == 0) {
                 entity.igniteForSeconds(8.0f)
             }

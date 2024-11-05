@@ -10,7 +10,9 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
-import dev.sterner.witchery.item.brew.*
+import dev.sterner.witchery.item.brew.BrewOfFlowingSpiritItem
+import dev.sterner.witchery.item.brew.BrewOfLoveItem
+import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
@@ -39,48 +41,67 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.INFINITY_EGG.get(), Item.Properties())
     }
 
-    val WITCHES_HAND =  ITEMS.register("witches_hand") {
+    val WITCHES_HAND: RegistrySupplier<WitchesHandItem> = ITEMS.register("witches_hand") {
         WitchesHandItem(Item.Properties().stacksTo(1))
     }
 
-    val BROOM =  ITEMS.register("broom") {
+    val BROOM: RegistrySupplier<BroomItem> = ITEMS.register("broom") {
         BroomItem(Item.Properties().stacksTo(1))
     }
 
     //start ARMOR
 
-    val WITCHES_HAT = ITEMS.register("witches_hat") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
+    val WITCHES_HAT: RegistrySupplier<ArmorItem> = ITEMS.register("witches_hat") {
+        PlatformUtils.witchesRobes(
+            WitcheryArmorMaterials.WITCHES_ROBES,
+            ArmorItem.Type.HELMET,
+            Item.Properties().stacksTo(1)
+        )
     }
 
-    val WITCHES_ROBES = ITEMS.register("witches_robes") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.CHESTPLATE, Item.Properties().stacksTo(1))
+    val WITCHES_ROBES: RegistrySupplier<ArmorItem> = ITEMS.register("witches_robes") {
+        PlatformUtils.witchesRobes(
+            WitcheryArmorMaterials.WITCHES_ROBES,
+            ArmorItem.Type.CHESTPLATE,
+            Item.Properties().stacksTo(1)
+        )
     }
 
-    val WITCHES_SLIPPERS = ITEMS.register("witches_slippers") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
+    val WITCHES_SLIPPERS: RegistrySupplier<ArmorItem> = ITEMS.register("witches_slippers") {
+        PlatformUtils.witchesRobes(
+            WitcheryArmorMaterials.WITCHES_ROBES,
+            ArmorItem.Type.BOOTS,
+            Item.Properties().stacksTo(1)
+        )
     }
 
-    val BABA_YAGAS_HAT = ITEMS.register("baba_yagas_hat") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
+    val BABA_YAGAS_HAT: RegistrySupplier<ArmorItem> = ITEMS.register("baba_yagas_hat") {
+        PlatformUtils.witchesRobes(
+            WitcheryArmorMaterials.WITCHES_ROBES,
+            ArmorItem.Type.HELMET,
+            Item.Properties().stacksTo(1)
+        )
     }
 
-    val HUNTER_HELMET = ITEMS.register("hunter_helmet") {
+    val HUNTER_HELMET: RegistrySupplier<ArmorItem> = ITEMS.register("hunter_helmet") {
         PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
     }
 
-    val HUNTER_CHESTPLATE = ITEMS.register("hunter_chestplate") {
-        PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.CHESTPLATE, Item.Properties().stacksTo(1))
+    val HUNTER_CHESTPLATE: RegistrySupplier<ArmorItem> = ITEMS.register("hunter_chestplate") {
+        PlatformUtils.hunterArmor(
+            WitcheryArmorMaterials.HUNTER,
+            ArmorItem.Type.CHESTPLATE,
+            Item.Properties().stacksTo(1)
+        )
     }
 
-    val HUNTER_LEGGINGS = ITEMS.register("hunter_leggings") {
+    val HUNTER_LEGGINGS: RegistrySupplier<ArmorItem> = ITEMS.register("hunter_leggings") {
         PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.LEGGINGS, Item.Properties().stacksTo(1))
     }
 
-    val HUNTER_BOOTS = ITEMS.register("hunter_boots") {
+    val HUNTER_BOOTS: RegistrySupplier<ArmorItem> = ITEMS.register("hunter_boots") {
         PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
     }
-
 
     //start RESOURCES
     val MUTANDIS: RegistrySupplier<MutandisItem> = ITEMS.register("mutandis") {
@@ -108,7 +129,7 @@ object WitcheryItems {
     }
 
     val BELLADONNA_SEEDS: RegistrySupplier<ItemNameBlockItem> = ITEMS.register("belladonna_seeds") {
-        ItemNameBlockItem(WitcheryBlocks.BELLADONNAE_CROP.get(), Item.Properties())
+        ItemNameBlockItem(WitcheryBlocks.BELLADONNA_CROP.get(), Item.Properties())
     }
 
     val BELLADONNA_FLOWER: RegistrySupplier<Item> = ITEMS.register("belladonna_flower") {
@@ -270,6 +291,7 @@ object WitcheryItems {
     //end POPPETS
 
     //start JARS
+
     val CLAY_JAR: RegistrySupplier<Item> = ITEMS.register("clay_jar") {
         Item(Item.Properties())
     }
@@ -345,6 +367,7 @@ object WitcheryItems {
     //end JARS
 
     //start CHALK
+
     val RITUAL_CHALK: RegistrySupplier<ChalkItem> = ITEMS.register("ritual_chalk") {
         ChalkItem(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), Item.Properties())
     }
@@ -366,7 +389,7 @@ object WitcheryItems {
         GuideBookItem(Item.Properties())
     }
 
-    val DEEPSLATE_ALTAR_BLOCK = ITEMS.register("deepslate_altar_block") {
+    val DEEPSLATE_ALTAR_BLOCK: RegistrySupplier<BlockItem> = ITEMS.register("deepslate_altar_block") {
         BlockItem(WitcheryBlocks.DEEPLSTAE_ALTAR_BLOCK.get(), Item.Properties())
     }
 
@@ -545,93 +568,93 @@ object WitcheryItems {
             BlockItem(WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get(), Item.Properties())
         }
 
-    val WAYSTONE = ITEMS.register("waystone") {
+    val WAYSTONE: RegistrySupplier<WaystoneItem> = ITEMS.register("waystone") {
         WaystoneItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON))
     }
 
-    val TAGLOCK = ITEMS.register("taglock") {
+    val TAGLOCK: RegistrySupplier<TaglockItem> = ITEMS.register("taglock") {
         TaglockItem(Item.Properties().stacksTo(1).rarity(Rarity.COMMON).craftRemainder(Items.GLASS_BOTTLE))
     }
 
-    val DISTILLERY = ITEMS.register("distillery") {
+    val DISTILLERY: RegistrySupplier<MultiBlockItem> = ITEMS.register("distillery") {
         MultiBlockItem(WitcheryBlocks.DISTILLERY.get(), Item.Properties(), DistilleryBlock.STRUCTURE)
     }
 
-    val SPINNING_WHEEL = ITEMS.register("spinning_wheel") {
+    val SPINNING_WHEEL: RegistrySupplier<BlockItem> = ITEMS.register("spinning_wheel") {
         BlockItem(WitcheryBlocks.SPINNING_WHEEL.get(), Item.Properties())
     }
 
     // start WOOD
 
-    val ROWAN_LOG = ITEMS.register("rowan_log") {
+    val ROWAN_LOG: RegistrySupplier<BlockItem> = ITEMS.register("rowan_log") {
         BlockItem(WitcheryBlocks.ROWAN_LOG.get(), Item.Properties())
     }
 
-    val ROWAN_WOOD = ITEMS.register("rowan_wood") {
+    val ROWAN_WOOD: RegistrySupplier<BlockItem> = ITEMS.register("rowan_wood") {
         BlockItem(WitcheryBlocks.ROWAN_WOOD.get(), Item.Properties())
     }
 
-    val STRIPPED_ROWAN_LOG = ITEMS.register("stripped_rowan_log") {
+    val STRIPPED_ROWAN_LOG: RegistrySupplier<BlockItem> = ITEMS.register("stripped_rowan_log") {
         BlockItem(WitcheryBlocks.STRIPPED_ROWAN_LOG.get(), Item.Properties())
     }
 
-    val STRIPPED_ROWAN_WOOD = ITEMS.register("stripped_rowan_wood") {
+    val STRIPPED_ROWAN_WOOD: RegistrySupplier<BlockItem> = ITEMS.register("stripped_rowan_wood") {
         BlockItem(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get(), Item.Properties())
     }
 
-    val ROWAN_LEAVES = ITEMS.register("rowan_leaves") {
+    val ROWAN_LEAVES: RegistrySupplier<BlockItem> = ITEMS.register("rowan_leaves") {
         BlockItem(WitcheryBlocks.ROWAN_LEAVES.get(), Item.Properties())
     }
 
-    val ROWAN_BERRY_LEAVES = ITEMS.register("rowan_berry_leaves") {
+    val ROWAN_BERRY_LEAVES: RegistrySupplier<BlockItem> = ITEMS.register("rowan_berry_leaves") {
         BlockItem(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), Item.Properties())
     }
 
-    val ROWAN_PLANKS = ITEMS.register("rowan_planks") {
+    val ROWAN_PLANKS: RegistrySupplier<BlockItem> = ITEMS.register("rowan_planks") {
         BlockItem(WitcheryBlocks.ROWAN_PLANKS.get(), Item.Properties())
     }
 
-    val ROWAN_STAIRS = ITEMS.register("rowan_stairs") {
+    val ROWAN_STAIRS: RegistrySupplier<BlockItem> = ITEMS.register("rowan_stairs") {
         BlockItem(WitcheryBlocks.ROWAN_STAIRS.get(), Item.Properties())
     }
 
-    val ROWAN_SLAB = ITEMS.register("rowan_slab") {
+    val ROWAN_SLAB: RegistrySupplier<BlockItem> = ITEMS.register("rowan_slab") {
         BlockItem(WitcheryBlocks.ROWAN_SLAB.get(), Item.Properties())
     }
 
-    val ROWAN_FENCE = ITEMS.register("rowan_fence") {
+    val ROWAN_FENCE: RegistrySupplier<BlockItem> = ITEMS.register("rowan_fence") {
         BlockItem(WitcheryBlocks.ROWAN_FENCE.get(), Item.Properties())
     }
 
-    val ROWAN_FENCE_GATE = ITEMS.register("rowan_fence_gate") {
+    val ROWAN_FENCE_GATE: RegistrySupplier<BlockItem> = ITEMS.register("rowan_fence_gate") {
         BlockItem(WitcheryBlocks.ROWAN_FENCE_GATE.get(), Item.Properties())
     }
 
-    val ROWAN_DOOR = ITEMS.register("rowan_door") {
+    val ROWAN_DOOR: RegistrySupplier<BlockItem> = ITEMS.register("rowan_door") {
         BlockItem(WitcheryBlocks.ROWAN_DOOR.get(), Item.Properties())
     }
 
-    val ROWAN_TRAPDOOR = ITEMS.register("rowan_trapdoor") {
+    val ROWAN_TRAPDOOR: RegistrySupplier<BlockItem> = ITEMS.register("rowan_trapdoor") {
         BlockItem(WitcheryBlocks.ROWAN_TRAPDOOR.get(), Item.Properties())
     }
 
-    val ROWAN_PRESSURE_PLATE = ITEMS.register("rowan_pressure_plate") {
+    val ROWAN_PRESSURE_PLATE: RegistrySupplier<BlockItem> = ITEMS.register("rowan_pressure_plate") {
         BlockItem(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get(), Item.Properties())
     }
 
-    val ROWAN_BUTTON = ITEMS.register("rowan_button") {
+    val ROWAN_BUTTON: RegistrySupplier<BlockItem> = ITEMS.register("rowan_button") {
         BlockItem(WitcheryBlocks.ROWAN_BUTTON.get(), Item.Properties())
     }
 
-    val ROWAN_SAPLING = ITEMS.register("rowan_sapling") {
+    val ROWAN_SAPLING: RegistrySupplier<BlockItem> = ITEMS.register("rowan_sapling") {
         BlockItem(WitcheryBlocks.ROWAN_SAPLING.get(), Item.Properties())
     }
 
-    val ROWAN_SIGN = ITEMS.register("rowan_sign") {
+    val ROWAN_SIGN: RegistrySupplier<SignItem> = ITEMS.register("rowan_sign") {
         SignItem(Item.Properties(), WitcheryBlocks.ROWAN_SIGN.get(), WitcheryBlocks.ROWAN_WALL_SIGN.get())
     }
 
-    val ROWAN_HANGING_SIGN = ITEMS.register("rowan_hanging_sign") {
+    val ROWAN_HANGING_SIGN: RegistrySupplier<HangingSignItem> = ITEMS.register("rowan_hanging_sign") {
         HangingSignItem(
             WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(),
@@ -639,80 +662,79 @@ object WitcheryItems {
         )
     }
 
-    val ROWAN_BOAT = ITEMS.register("rowan_boat") {
+    val ROWAN_BOAT: RegistrySupplier<CustomBoatItem> = ITEMS.register("rowan_boat") {
         CustomBoatItem(false, BoatTypeHelper.getRowanBoatType(), Item.Properties())
     }
 
-    val ROWAN_CHEST_BOAT = ITEMS.register("rowan_chest_boat") {
+    val ROWAN_CHEST_BOAT: RegistrySupplier<CustomBoatItem> = ITEMS.register("rowan_chest_boat") {
         CustomBoatItem(true, BoatTypeHelper.getRowanBoatType(), Item.Properties())
     }
 
-
-    val ALDER_LOG = ITEMS.register("alder_log") {
+    val ALDER_LOG: RegistrySupplier<BlockItem> = ITEMS.register("alder_log") {
         BlockItem(WitcheryBlocks.ALDER_LOG.get(), Item.Properties())
     }
 
-    val ALDER_WOOD = ITEMS.register("alder_wood") {
+    val ALDER_WOOD: RegistrySupplier<BlockItem> = ITEMS.register("alder_wood") {
         BlockItem(WitcheryBlocks.ALDER_WOOD.get(), Item.Properties())
     }
 
-    val STRIPPED_ALDER_LOG = ITEMS.register("stripped_alder_log") {
+    val STRIPPED_ALDER_LOG: RegistrySupplier<BlockItem> = ITEMS.register("stripped_alder_log") {
         BlockItem(WitcheryBlocks.STRIPPED_ALDER_LOG.get(), Item.Properties())
     }
 
-    val STRIPPED_ALDER_WOOD = ITEMS.register("stripped_alder_wood") {
+    val STRIPPED_ALDER_WOOD: RegistrySupplier<BlockItem> = ITEMS.register("stripped_alder_wood") {
         BlockItem(WitcheryBlocks.STRIPPED_ALDER_WOOD.get(), Item.Properties())
     }
 
-    val ALDER_LEAVES = ITEMS.register("alder_leaves") {
+    val ALDER_LEAVES: RegistrySupplier<BlockItem> = ITEMS.register("alder_leaves") {
         BlockItem(WitcheryBlocks.ALDER_LEAVES.get(), Item.Properties())
     }
 
-    val ALDER_PLANKS = ITEMS.register("alder_planks") {
+    val ALDER_PLANKS: RegistrySupplier<BlockItem> = ITEMS.register("alder_planks") {
         BlockItem(WitcheryBlocks.ALDER_PLANKS.get(), Item.Properties())
     }
 
-    val ALDER_STAIRS = ITEMS.register("alder_stairs") {
+    val ALDER_STAIRS: RegistrySupplier<BlockItem> = ITEMS.register("alder_stairs") {
         BlockItem(WitcheryBlocks.ALDER_STAIRS.get(), Item.Properties())
     }
 
-    val ALDER_SLAB = ITEMS.register("alder_slab") {
+    val ALDER_SLAB: RegistrySupplier<BlockItem> = ITEMS.register("alder_slab") {
         BlockItem(WitcheryBlocks.ALDER_SLAB.get(), Item.Properties())
     }
 
-    val ALDER_FENCE = ITEMS.register("alder_fence") {
+    val ALDER_FENCE: RegistrySupplier<BlockItem> = ITEMS.register("alder_fence") {
         BlockItem(WitcheryBlocks.ALDER_FENCE.get(), Item.Properties())
     }
 
-    val ALDER_FENCE_GATE = ITEMS.register("alder_fence_gate") {
+    val ALDER_FENCE_GATE: RegistrySupplier<BlockItem> = ITEMS.register("alder_fence_gate") {
         BlockItem(WitcheryBlocks.ALDER_FENCE_GATE.get(), Item.Properties())
     }
 
-    val ALDER_DOOR = ITEMS.register("alder_door") {
+    val ALDER_DOOR: RegistrySupplier<BlockItem> = ITEMS.register("alder_door") {
         BlockItem(WitcheryBlocks.ALDER_DOOR.get(), Item.Properties())
     }
 
-    val ALDER_TRAPDOOR = ITEMS.register("alder_trapdoor") {
+    val ALDER_TRAPDOOR: RegistrySupplier<BlockItem> = ITEMS.register("alder_trapdoor") {
         BlockItem(WitcheryBlocks.ALDER_TRAPDOOR.get(), Item.Properties())
     }
 
-    val ALDER_PRESSURE_PLATE = ITEMS.register("alder_pressure_plate") {
+    val ALDER_PRESSURE_PLATE: RegistrySupplier<BlockItem> = ITEMS.register("alder_pressure_plate") {
         BlockItem(WitcheryBlocks.ALDER_PRESSURE_PLATE.get(), Item.Properties())
     }
 
-    val ALDER_BUTTON = ITEMS.register("alder_button") {
+    val ALDER_BUTTON: RegistrySupplier<BlockItem> = ITEMS.register("alder_button") {
         BlockItem(WitcheryBlocks.ALDER_BUTTON.get(), Item.Properties())
     }
 
-    val ALDER_SAPLING = ITEMS.register("alder_sapling") {
+    val ALDER_SAPLING: RegistrySupplier<BlockItem> = ITEMS.register("alder_sapling") {
         BlockItem(WitcheryBlocks.ALDER_SAPLING.get(), Item.Properties())
     }
 
-    val ALDER_SIGN = ITEMS.register("alder_sign") {
+    val ALDER_SIGN: RegistrySupplier<SignItem> = ITEMS.register("alder_sign") {
         SignItem(Item.Properties(), WitcheryBlocks.ALDER_SIGN.get(), WitcheryBlocks.ALDER_WALL_SIGN.get())
     }
 
-    val ALDER_HANGING_SIGN = ITEMS.register("alder_hanging_sign") {
+    val ALDER_HANGING_SIGN: RegistrySupplier<HangingSignItem> = ITEMS.register("alder_hanging_sign") {
         HangingSignItem(
             WitcheryBlocks.ALDER_HANGING_SIGN.get(),
             WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get(),
@@ -720,80 +742,79 @@ object WitcheryItems {
         )
     }
 
-    val ALDER_BOAT = ITEMS.register("alder_boat") {
+    val ALDER_BOAT: RegistrySupplier<CustomBoatItem> = ITEMS.register("alder_boat") {
         CustomBoatItem(false, BoatTypeHelper.getAlderBoatType(), Item.Properties())
     }
 
-    val ALDER_CHEST_BOAT = ITEMS.register("alder_chest_boat") {
+    val ALDER_CHEST_BOAT: RegistrySupplier<CustomBoatItem> = ITEMS.register("alder_chest_boat") {
         CustomBoatItem(true, BoatTypeHelper.getAlderBoatType(), Item.Properties())
     }
 
-
-    val HAWTHORN_LOG = ITEMS.register("hawthorn_log") {
+    val HAWTHORN_LOG: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_log") {
         BlockItem(WitcheryBlocks.HAWTHORN_LOG.get(), Item.Properties())
     }
 
-    val HAWTHORN_WOOD = ITEMS.register("hawthorn_wood") {
+    val HAWTHORN_WOOD: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_wood") {
         BlockItem(WitcheryBlocks.HAWTHORN_WOOD.get(), Item.Properties())
     }
 
-    val STRIPPED_HAWTHORN_LOG = ITEMS.register("stripped_hawthorn_log") {
+    val STRIPPED_HAWTHORN_LOG: RegistrySupplier<BlockItem> = ITEMS.register("stripped_hawthorn_log") {
         BlockItem(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get(), Item.Properties())
     }
 
-    val STRIPPED_HAWTHORN_WOOD = ITEMS.register("stripped_hawthorn_wood") {
+    val STRIPPED_HAWTHORN_WOOD: RegistrySupplier<BlockItem> = ITEMS.register("stripped_hawthorn_wood") {
         BlockItem(WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get(), Item.Properties())
     }
 
-    val HAWTHORN_LEAVES = ITEMS.register("hawthorn_leaves") {
+    val HAWTHORN_LEAVES: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_leaves") {
         BlockItem(WitcheryBlocks.HAWTHORN_LEAVES.get(), Item.Properties())
     }
 
-    val HAWTHORN_PLANKS = ITEMS.register("hawthorn_planks") {
+    val HAWTHORN_PLANKS: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_planks") {
         BlockItem(WitcheryBlocks.HAWTHORN_PLANKS.get(), Item.Properties())
     }
 
-    val HAWTHORN_STAIRS = ITEMS.register("hawthorn_stairs") {
+    val HAWTHORN_STAIRS: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_stairs") {
         BlockItem(WitcheryBlocks.HAWTHORN_STAIRS.get(), Item.Properties())
     }
 
-    val HAWTHORN_SLAB = ITEMS.register("hawthorn_slab") {
+    val HAWTHORN_SLAB: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_slab") {
         BlockItem(WitcheryBlocks.HAWTHORN_SLAB.get(), Item.Properties())
     }
 
-    val HAWTHORN_FENCE = ITEMS.register("hawthorn_fence") {
+    val HAWTHORN_FENCE: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_fence") {
         BlockItem(WitcheryBlocks.HAWTHORN_FENCE.get(), Item.Properties())
     }
 
-    val HAWTHORN_FENCE_GATE = ITEMS.register("hawthorn_fence_gate") {
+    val HAWTHORN_FENCE_GATE: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_fence_gate") {
         BlockItem(WitcheryBlocks.HAWTHORN_FENCE_GATE.get(), Item.Properties())
     }
 
-    val HAWTHORN_DOOR = ITEMS.register("hawthorn_door") {
+    val HAWTHORN_DOOR: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_door") {
         BlockItem(WitcheryBlocks.HAWTHORN_DOOR.get(), Item.Properties())
     }
 
-    val HAWTHORN_TRAPDOOR = ITEMS.register("hawthorn_trapdoor") {
+    val HAWTHORN_TRAPDOOR: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_trapdoor") {
         BlockItem(WitcheryBlocks.HAWTHORN_TRAPDOOR.get(), Item.Properties())
     }
 
-    val HAWTHORN_PRESSURE_PLATE = ITEMS.register("hawthorn_pressure_plate") {
+    val HAWTHORN_PRESSURE_PLATE: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_pressure_plate") {
         BlockItem(WitcheryBlocks.HAWTHORN_PRESSURE_PLATE.get(), Item.Properties())
     }
 
-    val HAWTHORN_BUTTON = ITEMS.register("hawthorn_button") {
+    val HAWTHORN_BUTTON: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_button") {
         BlockItem(WitcheryBlocks.HAWTHORN_BUTTON.get(), Item.Properties())
     }
 
-    val HAWTHORN_SAPLING = ITEMS.register("hawthorn_sapling") {
+    val HAWTHORN_SAPLING: RegistrySupplier<BlockItem> = ITEMS.register("hawthorn_sapling") {
         BlockItem(WitcheryBlocks.HAWTHORN_SAPLING.get(), Item.Properties())
     }
 
-    val HAWTHORN_SIGN = ITEMS.register("hawthorn_sign") {
+    val HAWTHORN_SIGN: RegistrySupplier<SignItem> = ITEMS.register("hawthorn_sign") {
         SignItem(Item.Properties(), WitcheryBlocks.HAWTHORN_SIGN.get(), WitcheryBlocks.HAWTHORN_WALL_SIGN.get())
     }
 
-    val HAWTHORN_HANGING_SIGN = ITEMS.register("hawthorn_hanging_sign") {
+    val HAWTHORN_HANGING_SIGN: RegistrySupplier<HangingSignItem> = ITEMS.register("hawthorn_hanging_sign") {
         HangingSignItem(
             WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(),
             WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get(),
@@ -801,11 +822,11 @@ object WitcheryItems {
         )
     }
 
-    val HAWTHORN_BOAT = ITEMS.register("hawthorn_boat") {
+    val HAWTHORN_BOAT: RegistrySupplier<CustomBoatItem> = ITEMS.register("hawthorn_boat") {
         CustomBoatItem(false, BoatTypeHelper.getHawthornBoatType(), Item.Properties())
     }
 
-    val HAWTHORN_CHEST_BOAT = ITEMS.register("hawthorn_chest_boat") {
+    val HAWTHORN_CHEST_BOAT: RegistrySupplier<CustomBoatItem> = ITEMS.register("hawthorn_chest_boat") {
         CustomBoatItem(true, BoatTypeHelper.getHawthornBoatType(), Item.Properties())
     }
 
@@ -813,110 +834,115 @@ object WitcheryItems {
 
     // start AUGMENTS
 
-    val IRON_CANDELABRA = ITEMS.register("iron_candelabra") {
+    val IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("iron_candelabra") {
         BlockItem(WitcheryBlocks.IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val WHITE_IRON_CANDELABRA = ITEMS.register("white_iron_candelabra") {
+    val WHITE_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("white_iron_candelabra") {
         BlockItem(WitcheryBlocks.WHITE_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val ORANGE_IRON_CANDELABRA = ITEMS.register("orange_iron_candelabra") {
+    val ORANGE_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("orange_iron_candelabra") {
         BlockItem(WitcheryBlocks.ORANGE_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val MAGENTA_IRON_CANDELABRA = ITEMS.register("magenta_iron_candelabra") {
+    val MAGENTA_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("magenta_iron_candelabra") {
         BlockItem(WitcheryBlocks.MAGENTA_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val LIGHT_BLUE_IRON_CANDELABRA = ITEMS.register("light_blue_iron_candelabra") {
+    val LIGHT_BLUE_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("light_blue_iron_candelabra") {
         BlockItem(WitcheryBlocks.LIGHT_BLUE_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val YELLOW_IRON_CANDELABRA = ITEMS.register("yellow_iron_candelabra") {
+    val YELLOW_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("yellow_iron_candelabra") {
         BlockItem(WitcheryBlocks.YELLOW_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val LIME_IRON_CANDELABRA = ITEMS.register("lime_iron_candelabra") {
+    val LIME_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("lime_iron_candelabra") {
         BlockItem(WitcheryBlocks.LIME_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val PINK_IRON_CANDELABRA = ITEMS.register("pink_iron_candelabra") {
+    val PINK_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("pink_iron_candelabra") {
         BlockItem(WitcheryBlocks.PINK_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val GRAY_IRON_CANDELABRA = ITEMS.register("gray_iron_candelabra") {
+    val GRAY_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("gray_iron_candelabra") {
         BlockItem(WitcheryBlocks.GRAY_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val LIGHT_GRAY_IRON_CANDELABRA = ITEMS.register("light_gray_iron_candelabra") {
+    val LIGHT_GRAY_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("light_gray_iron_candelabra") {
         BlockItem(WitcheryBlocks.LIGHT_GRAY_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val CYAN_IRON_CANDELABRA = ITEMS.register("cyan_iron_candelabra") {
+    val CYAN_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("cyan_iron_candelabra") {
         BlockItem(WitcheryBlocks.CYAN_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val PURPLE_IRON_CANDELABRA = ITEMS.register("purple_iron_candelabra") {
+    val PURPLE_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("purple_iron_candelabra") {
         BlockItem(WitcheryBlocks.PURPLE_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val BLUE_IRON_CANDELABRA = ITEMS.register("blue_iron_candelabra") {
+    val BLUE_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("blue_iron_candelabra") {
         BlockItem(WitcheryBlocks.BLUE_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val BROWN_IRON_CANDELABRA = ITEMS.register("brown_iron_candelabra") {
+    val BROWN_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("brown_iron_candelabra") {
         BlockItem(WitcheryBlocks.BROWN_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val GREEN_IRON_CANDELABRA = ITEMS.register("green_iron_candelabra") {
+    val GREEN_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("green_iron_candelabra") {
         BlockItem(WitcheryBlocks.GREEN_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val RED_IRON_CANDELABRA = ITEMS.register("red_iron_candelabra") {
+    val RED_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("red_iron_candelabra") {
         BlockItem(WitcheryBlocks.RED_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val BLACK_IRON_CANDELABRA = ITEMS.register("black_iron_candelabra") {
+    val BLACK_IRON_CANDELABRA: RegistrySupplier<BlockItem> = ITEMS.register("black_iron_candelabra") {
         BlockItem(WitcheryBlocks.BLACK_IRON_CANDELABRA.get(), Item.Properties())
     }
 
-    val ARTHANA = ITEMS.register("arthana") {
+    val ARTHANA: RegistrySupplier<ArthanaItem> = ITEMS.register("arthana") {
         ArthanaItem(Item.Properties())
     }
 
-    val CHALICE = ITEMS.register("chalice") {
+    val CHALICE: RegistrySupplier<ChaliceBlockItem> = ITEMS.register("chalice") {
         ChaliceBlockItem(WitcheryBlocks.CHALICE.get(), Item.Properties())
     }
 
-    val PENTACLE = ITEMS.register("pentacle") {
+    val PENTACLE: RegistrySupplier<BlockItem> = ITEMS.register("pentacle") {
         BlockItem(WitcheryBlocks.PENTACLE.get(), Item.Properties())
     }
-    val DREAM_WEAVER = ITEMS.register("dream_weaver") {
+
+    val DREAM_WEAVER: RegistrySupplier<BlockItem> = ITEMS.register("dream_weaver") {
         BlockItem(WitcheryBlocks.DREAM_WEAVER.get(), Item.Properties())
     }
-    val DREAM_WEAVER_OF_FLEET_FOOT = ITEMS.register("dream_weaver_of_fleet_foot") {
+
+    val DREAM_WEAVER_OF_FLEET_FOOT: RegistrySupplier<BlockItem> = ITEMS.register("dream_weaver_of_fleet_foot") {
         BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_FLEET_FOOT.get(), Item.Properties())
     }
-    val DREAM_WEAVER_OF_NIGHTMARES = ITEMS.register("dream_weaver_of_nightmares") {
+
+    val DREAM_WEAVER_OF_NIGHTMARES: RegistrySupplier<BlockItem> = ITEMS.register("dream_weaver_of_nightmares") {
         BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get(), Item.Properties())
     }
-    val DREAM_WEAVER_OF_INTENSITY = ITEMS.register("dream_weaver_of_intensity") {
+
+    val DREAM_WEAVER_OF_INTENSITY: RegistrySupplier<BlockItem> = ITEMS.register("dream_weaver_of_intensity") {
         BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_INTENSITY.get(), Item.Properties())
     }
-    val DREAM_WEAVER_OF_FASTING = ITEMS.register("dream_weaver_of_fasting") {
+
+    val DREAM_WEAVER_OF_FASTING: RegistrySupplier<BlockItem> = ITEMS.register("dream_weaver_of_fasting") {
         BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_FASTING.get(), Item.Properties())
     }
 
-    val DREAM_WEAVER_OF_IRON_ARM = ITEMS.register("dream_weaver_of_iron_arm") {
+    val DREAM_WEAVER_OF_IRON_ARM: RegistrySupplier<BlockItem> = ITEMS.register("dream_weaver_of_iron_arm") {
         BlockItem(WitcheryBlocks.DREAM_WEAVER_OF_IRON_ARM.get(), Item.Properties())
     }
 
-    val DISTURBED_COTTON = ITEMS.register("disturbed_cotton") {
+    val DISTURBED_COTTON: RegistrySupplier<BlockItem> = ITEMS.register("disturbed_cotton") {
         BlockItem(WitcheryBlocks.DISTURBED_COTTON.get(), Item.Properties())
     }
 
-    val WISPY_COTTON = ITEMS.register("wispy_cotton") {
+    val WISPY_COTTON: RegistrySupplier<BlockItem> = ITEMS.register("wispy_cotton") {
         BlockItem(WitcheryBlocks.WISPY_COTTON.get(), Item.Properties())
     }
 
@@ -930,15 +956,15 @@ object WitcheryItems {
 
     // start Brews
 
-    val BREW_OF_LOVE = ITEMS.register("brew_of_love") {
+    val BREW_OF_LOVE: RegistrySupplier<BrewOfLoveItem> = ITEMS.register("brew_of_love") {
         BrewOfLoveItem(Color(255, 70, 180).rgb, Item.Properties().stacksTo(16))
     }
 
-    val BREW_OF_SLEEPING = ITEMS.register("brew_of_sleeping") {
+    val BREW_OF_SLEEPING: RegistrySupplier<BrewOfSleepingItem> = ITEMS.register("brew_of_sleeping") {
         BrewOfSleepingItem(Color(255, 90, 130).rgb, Item.Properties().stacksTo(16))
     }
 
-    val BREW_FLOWING_SPIRIT = ITEMS.register("brew_of_flowing_spirit") {
+    val BREW_FLOWING_SPIRIT: RegistrySupplier<BrewOfFlowingSpiritItem> = ITEMS.register("brew_of_flowing_spirit") {
         BrewOfFlowingSpiritItem(Color(125, 170, 230).rgb, Item.Properties().stacksTo(16))
     }
 

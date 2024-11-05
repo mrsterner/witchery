@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull
 @JvmRecord
 data class WitcheryBlockEntityWithoutLevelRendererInstance(val renderer: BlockEntityWithoutLevelRenderer) :
     IClientItemExtensions {
+
     @NotNull
     override fun getCustomRenderer(): BlockEntityWithoutLevelRenderer {
         return renderer

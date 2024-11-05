@@ -34,11 +34,11 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery.infusion.ointment", "Flying Ointment")
 
 
-        builder.add( "witchery.item.tooltip.infinity_egg", "Creative Only")
+        builder.add("witchery.item.tooltip.infinity_egg", "Creative Only")
 
         builder.add(WitcheryBlocks.SNOWBELL_CROP.get(), "Snowbell")
         builder.add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), "Water Artichoke")
-        builder.add(WitcheryBlocks.BELLADONNAE_CROP.get(), "Belladonna")
+        builder.add(WitcheryBlocks.BELLADONNA_CROP.get(), "Belladonna")
         builder.add(WitcheryBlocks.WOLFSFBANE_CROP.get(), "Wolfsbane")
         builder.add(WitcheryBlocks.MANDRAKE_CROP.get(), "Mandrake")
         builder.add(WitcheryBlocks.GARLIC_CROP.get(), "Garlic")
@@ -143,13 +143,34 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN.get(), "Waxed Weathered Copper Witches Oven")
         builder.add(WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get(), "Waxed Oxidized Copper Witches Oven")
         builder.add(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Copper Witches Oven Fume Filter")
-        builder.add(WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Waxed Copper Witches Oven Fume Filter")
-        builder.add(WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Exposed Copper Witches Oven Fume Filter")
-        builder.add(WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Waxed Exposed Copper Witches Oven Fume Filter")
-        builder.add(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Weathered Copper Witches Oven Fume Filter")
-        builder.add(WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Waxed Weathered Copper Witches Oven Fume Filter")
-        builder.add(WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Oxidized Copper Witches Oven Fume Filter")
-        builder.add(WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Waxed Oxidized Copper Witches Oven Fume Filter")
+        builder.add(
+            WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+            "Waxed Copper Witches Oven Fume Filter"
+        )
+        builder.add(
+            WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+            "Exposed Copper Witches Oven Fume Filter"
+        )
+        builder.add(
+            WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+            "Waxed Exposed Copper Witches Oven Fume Filter"
+        )
+        builder.add(
+            WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+            "Weathered Copper Witches Oven Fume Filter"
+        )
+        builder.add(
+            WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+            "Waxed Weathered Copper Witches Oven Fume Filter"
+        )
+        builder.add(
+            WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+            "Oxidized Copper Witches Oven Fume Filter"
+        )
+        builder.add(
+            WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
+            "Waxed Oxidized Copper Witches Oven Fume Filter"
+        )
 
         builder.add(WitcheryBlocks.IRON_CANDELABRA.get(), "Iron Candelabra")
         builder.add(WitcheryBlocks.WHITE_IRON_CANDELABRA.get(), "White Iron Candelabra")
@@ -313,7 +334,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/charge_attuned", "Rite of Charging")
         builder.add("witchery:ritual/charge_attuned.tooltip", "Charges an Attuned Stone with 2000 Altar Power")
         builder.add("witchery:ritual/summon_lightning_on_waystone", "Lightning Strike")
-        builder.add("witchery:ritual/summon_lightning_on_waystone.tooltip", "Summons a Lightning Strike at bound Waystone location")
+        builder.add(
+            "witchery:ritual/summon_lightning_on_waystone.tooltip",
+            "Summons a Lightning Strike at bound Waystone location"
+        )
         builder.add("witchery:ritual/summon_lightning", "Lightning Strike")
         builder.add("witchery:ritual/summon_lightning.tooltip", "Summons a Lightning Strike at ritual center")
         builder.add("witchery:ritual/set_midnight", "Turn Night")
@@ -321,9 +345,15 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/push_mobs", "Rite of Sanctity")
         builder.add("witchery:ritual/push_mobs.tooltip", "Pushes hostile mobs away from ritual center")
         builder.add("witchery:ritual/teleport_owner_to_waystone", "Teleportation")
-        builder.add("witchery:ritual/teleport_owner_to_waystone.tooltip", "Teleports the user to bound Waystone location")
+        builder.add(
+            "witchery:ritual/teleport_owner_to_waystone.tooltip",
+            "Teleports the user to bound Waystone location"
+        )
         builder.add("witchery:ritual/teleport_taglock_to_waystone", "Teleportation")
-        builder.add("witchery:ritual/teleport_taglock_to_waystone.tooltip", "Teleports the bound Taglock entity to bound Waystone location")
+        builder.add(
+            "witchery:ritual/teleport_taglock_to_waystone.tooltip",
+            "Teleports the bound Taglock entity to bound Waystone location"
+        )
         builder.add("witchery:ritual/summon_imp", "Summon Imp")
         builder.add("witchery:ritual/summon_imp.tooltip", "Summon an Imp at ritual center")
         builder.add("witchery:ritual/apply_ointment", "Imbue Flying Ointment")
@@ -407,7 +437,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("general.breath_of_the_goddess.page.1", "Wise words")
 
         builder.add("book.witchery.guidebook.general.tear_of_the_goddess.name", "Tear of the Goddess")
-        builder.add("book.witchery.guidebook.general.tear_of_the_goddess.description", "Better than gamer girl bathwater")
+        builder.add(
+            "book.witchery.guidebook.general.tear_of_the_goddess.description",
+            "Better than gamer girl bathwater"
+        )
         builder.add("general.tear_of_the_goddess.title", "Tear of the Goddess")
         builder.add("general.tear_of_the_goddess.page.1", "Wise words")
 

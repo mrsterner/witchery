@@ -8,7 +8,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.registry.WitcheryItems
 
-class HintOfRebirthEntryProvider (parent: CategoryProviderBase?) : EntryProvider(parent) {
+class HintOfRebirthEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
 
     companion object {
         val ID = "hint_of_rebirth"

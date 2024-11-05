@@ -9,5 +9,4 @@ object WitcherySounds {
 
     val SOUNDS: DeferredRegister<SoundEvent> = DeferredRegister.create(Witchery.MODID, Registries.SOUND_EVENT)
 
-
 }

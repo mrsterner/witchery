@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.entity.player.Player
 
 class LightInfusionData(val isInvisible: Boolean = false, val invisibleTimer: Int = 0) {
 

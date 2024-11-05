@@ -11,7 +11,9 @@ object DreamWeaverHandler {
     fun onWake(player: Player, sleepCount: Int, wakeImmediately: Boolean) {
         if (sleepCount >= 100) {
             var corrupt = 0
-            val dreamWeaverPoses: Stream<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(player.boundingBox.inflate(10.0)).filter { player.level().getBlockEntity(it) is DreamWeaverBlockEntity }
+            val dreamWeaverPoses: Stream<BlockPos> =
+                BlockPos.MutableBlockPos.betweenClosedStream(player.boundingBox.inflate(10.0))
+                    .filter { player.level().getBlockEntity(it) is DreamWeaverBlockEntity }
             for (pos in dreamWeaverPoses) {
                 val dreamWeaver = player.level().getBlockState(pos)
                 if (dreamWeaver.`is`(WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())) {

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.block
 
+import dev.sterner.witchery.item.WaterCropBlockItem
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
@@ -34,7 +35,7 @@ class WaterArtichokeCropBlock(properties: Properties) : WitcheryCropBlock(proper
         return f
     }
 
-    override fun getBaseSeedId() = WitcheryItems.WATER_ARTICHOKE_SEEDS.get()
+    override fun getBaseSeedId(): WaterCropBlockItem = WitcheryItems.WATER_ARTICHOKE_SEEDS.get()
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return CUSTOM_SHAPE_BY_AGE[state.getValue(AGE)]

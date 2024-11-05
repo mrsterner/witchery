@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.entity.animal.IronGolem
 import kotlin.math.abs
 
 class EntEntityRenderer(context: EntityRendererProvider.Context) :
@@ -19,9 +18,9 @@ class EntEntityRenderer(context: EntityRendererProvider.Context) :
         0.8f
     ) {
 
-    val ROWAN = Witchery.id("textures/entity/rowan_ent.png")
-    val ALDER = Witchery.id("textures/entity/alder_ent.png")
-    val HAWTHORN = Witchery.id("textures/entity/hawthorn_ent.png")
+    private val ROWAN = Witchery.id("textures/entity/rowan_ent.png")
+    private val ALDER = Witchery.id("textures/entity/alder_ent.png")
+    private val HAWTHORN = Witchery.id("textures/entity/hawthorn_ent.png")
 
     override fun render(
         entity: EntEntity,

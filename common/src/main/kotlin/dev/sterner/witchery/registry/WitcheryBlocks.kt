@@ -25,6 +25,7 @@ import dev.sterner.witchery.block.signs.CustomStandingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallHangingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallSignBlock
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlock
+import dev.sterner.witchery.block.trees.StrippableLogBlock
 import dev.sterner.witchery.platform.StrippableHelper
 import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.BlockPos
@@ -53,16 +54,20 @@ object WitcheryBlocks {
         MultiBlockComponentBlock(BlockBehaviour.Properties.of())
     }
 
-    val DEEPLSTAE_ALTAR_BLOCK = BLOCKS.register("deepslate_altar_block") {
+    val DEEPLSTAE_ALTAR_BLOCK: RegistrySupplier<AltarCreationBlock> = BLOCKS.register("deepslate_altar_block") {
         AltarCreationBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE))
     }
 
     val ALTAR: RegistrySupplier<AltarBlock> = BLOCKS.register("altar") {
-        AltarBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE))
+        AltarBlock(
+            BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE)
+        )
     }
 
     val ALTAR_COMPONENT: RegistrySupplier<AltarBlockComponent> = BLOCKS.register("altar_component") {
-        AltarBlockComponent(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE))
+        AltarBlockComponent(
+            BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE)
+        )
     }
 
     val CAULDRON: RegistrySupplier<CauldronBlock> = BLOCKS.register("cauldron") {
@@ -252,29 +257,32 @@ object WitcheryBlocks {
         )
     }
 
-    val EXPOSED_COPPER_WITCHES_OVEN: RegistrySupplier<CopperOvenBlock> = BLOCKS.register("exposed_copper_witches_oven") {
-        CopperOvenBlock(
-            WeatheringCopper.WeatherState.EXPOSED,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                .sound(SoundType.METAL).randomTicks()
-        )
-    }
+    val EXPOSED_COPPER_WITCHES_OVEN: RegistrySupplier<CopperOvenBlock> =
+        BLOCKS.register("exposed_copper_witches_oven") {
+            CopperOvenBlock(
+                WeatheringCopper.WeatherState.EXPOSED,
+                BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                    .sound(SoundType.METAL).randomTicks()
+            )
+        }
 
-    val WEATHERED_COPPER_WITCHES_OVEN: RegistrySupplier<CopperOvenBlock> = BLOCKS.register("weathered_copper_witches_oven") {
-        CopperOvenBlock(
-            WeatheringCopper.WeatherState.WEATHERED,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                .sound(SoundType.METAL).randomTicks()
-        )
-    }
+    val WEATHERED_COPPER_WITCHES_OVEN: RegistrySupplier<CopperOvenBlock> =
+        BLOCKS.register("weathered_copper_witches_oven") {
+            CopperOvenBlock(
+                WeatheringCopper.WeatherState.WEATHERED,
+                BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                    .sound(SoundType.METAL).randomTicks()
+            )
+        }
 
-    val OXIDIZED_COPPER_WITCHES_OVEN: RegistrySupplier<CopperOvenBlock> = BLOCKS.register("oxidized_copper_witches_oven") {
-        CopperOvenBlock(
-            WeatheringCopper.WeatherState.OXIDIZED,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                .sound(SoundType.METAL).randomTicks()
-        )
-    }
+    val OXIDIZED_COPPER_WITCHES_OVEN: RegistrySupplier<CopperOvenBlock> =
+        BLOCKS.register("oxidized_copper_witches_oven") {
+            CopperOvenBlock(
+                WeatheringCopper.WeatherState.OXIDIZED,
+                BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                    .sound(SoundType.METAL).randomTicks()
+            )
+        }
 
     val WAXED_COPPER_WITCHES_OVEN: RegistrySupplier<OvenBlock> = BLOCKS.register("waxed_copper_witches_oven") {
         OvenBlock(
@@ -307,296 +315,293 @@ object WitcheryBlocks {
             )
         }
 
-    val DEMON_HEART = BLOCKS.register("demon_heart") {
+    val DEMON_HEART: RegistrySupplier<DemonHeartBlock> = BLOCKS.register("demon_heart") {
         DemonHeartBlock(BlockBehaviour.Properties.of())
     }
 
-    val INFINITY_EGG = BLOCKS.register("infinity_egg") {
+    val INFINITY_EGG: RegistrySupplier<InfinityEggBlock> = BLOCKS.register("infinity_egg") {
         InfinityEggBlock(BlockBehaviour.Properties.of())
     }
 
-    val STRIPPED_ROWAN_LOG = BLOCKS.register("stripped_rowan_log") {
+    val STRIPPED_ROWAN_LOG: RegistrySupplier<RotatedPillarBlock> = BLOCKS.register("stripped_rowan_log") {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
     }
 
-    val ROWAN_LOG = BLOCKS.register(
+    val ROWAN_LOG: RegistrySupplier<StrippableLogBlock> = BLOCKS.register(
         "rowan_log", StrippableHelper.createStrippableLog(
             STRIPPED_ROWAN_LOG,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
         )
     )
 
-    val STRIPPED_ROWAN_WOOD = BLOCKS.register("stripped_rowan_wood") {
+    val STRIPPED_ROWAN_WOOD: RegistrySupplier<RotatedPillarBlock> = BLOCKS.register("stripped_rowan_wood") {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD))
     }
 
-    val ROWAN_WOOD = BLOCKS.register(
+    val ROWAN_WOOD: RegistrySupplier<StrippableLogBlock> = BLOCKS.register(
         "rowan_wood", StrippableHelper.createStrippableLog(
             STRIPPED_ROWAN_WOOD,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)
         )
     )
 
-    val ROWAN_LEAVES = BLOCKS.register("rowan_leaves") {
+    val ROWAN_LEAVES: RegistrySupplier<LeavesBlock> = BLOCKS.register("rowan_leaves") {
         LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES))
     }
 
-    val ROWAN_BERRY_LEAVES = BLOCKS.register("rowan_berry_leaves") {
+    val ROWAN_BERRY_LEAVES: RegistrySupplier<LeavesBlock> = BLOCKS.register("rowan_berry_leaves") {
         LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWERING_AZALEA_LEAVES))
     }
 
-    val ROWAN_PLANKS = BLOCKS.register("rowan_planks") {
+    val ROWAN_PLANKS: RegistrySupplier<Block> = BLOCKS.register("rowan_planks") {
         Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS))
     }
 
-    val ROWAN_STAIRS = BLOCKS.register("rowan_stairs") {
+    val ROWAN_STAIRS: RegistrySupplier<StairBlock> = BLOCKS.register("rowan_stairs") {
         StairBlock(
             ROWAN_PLANKS.orElseGet { Blocks.OAK_PLANKS }.defaultBlockState(),
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)
         )
     }
 
-    val ROWAN_SLAB = BLOCKS.register("rowan_slab") {
+    val ROWAN_SLAB: RegistrySupplier<SlabBlock> = BLOCKS.register("rowan_slab") {
         SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB))
     }
 
-    val ROWAN_FENCE = BLOCKS.register("rowan_fence") {
+    val ROWAN_FENCE: RegistrySupplier<FenceBlock> = BLOCKS.register("rowan_fence") {
         FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    val ROWAN_WOOD_TYPE = WoodType.register(WoodType("$MODID:rowan", BlockSetType.OAK))
+    private val ROWAN_WOOD_TYPE: WoodType = WoodType.register(WoodType("$MODID:rowan", BlockSetType.OAK))
 
-    val ROWAN_FENCE_GATE = BLOCKS.register("rowan_fence_gate") {
+    val ROWAN_FENCE_GATE: RegistrySupplier<FenceGateBlock> = BLOCKS.register("rowan_fence_gate") {
         FenceGateBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
     }
 
-    val ROWAN_DOOR = BLOCKS.register("rowan_door") {
+    val ROWAN_DOOR: RegistrySupplier<DoorBlock> = BLOCKS.register("rowan_door") {
         DoorBlock(ROWAN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR))
     }
 
-    val ROWAN_TRAPDOOR = BLOCKS.register("rowan_trapdoor") {
+    val ROWAN_TRAPDOOR: RegistrySupplier<TrapDoorBlock> = BLOCKS.register("rowan_trapdoor") {
         TrapDoorBlock(ROWAN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR))
     }
 
-    val ROWAN_PRESSURE_PLATE = BLOCKS.register("rowan_pressure_plate") {
+    val ROWAN_PRESSURE_PLATE: RegistrySupplier<PressurePlateBlock> = BLOCKS.register("rowan_pressure_plate") {
         PressurePlateBlock(ROWAN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE))
     }
 
-    val ROWAN_BUTTON = BLOCKS.register("rowan_button") {
+    val ROWAN_BUTTON: RegistrySupplier<ButtonBlock> = BLOCKS.register("rowan_button") {
         ButtonBlock(ROWAN_WOOD_TYPE.setType, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON))
     }
 
-    val ROWAN_SAPLING = BLOCKS.register("rowan_sapling") {
+    val ROWAN_SAPLING: RegistrySupplier<SaplingBlock> = BLOCKS.register("rowan_sapling") {
         SaplingBlock(WitcheryTreeGrowers.ROWAN, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING))
     }
 
-    val POTTED_ROWAN_SAPLING = BLOCKS.register("potted_rowan_sapling") {
+    val POTTED_ROWAN_SAPLING: RegistrySupplier<FlowerPotBlock> = BLOCKS.register("potted_rowan_sapling") {
         FlowerPotBlock(ROWAN_SAPLING.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING))
     }
 
-    val ROWAN_SIGN = BLOCKS.register("rowan_sign") {
+    val ROWAN_SIGN: RegistrySupplier<CustomStandingSignBlock> = BLOCKS.register("rowan_sign") {
         CustomStandingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN))
     }
 
-    val ROWAN_WALL_SIGN = BLOCKS.register("rowan_wall_sign") {
+    val ROWAN_WALL_SIGN: RegistrySupplier<CustomWallSignBlock> = BLOCKS.register("rowan_wall_sign") {
         CustomWallSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN))
     }
 
-    val ROWAN_HANGING_SIGN = BLOCKS.register("rowan_hanging_sign") {
+    val ROWAN_HANGING_SIGN: RegistrySupplier<CustomCeilingHangingSignBlock> = BLOCKS.register("rowan_hanging_sign") {
         CustomCeilingHangingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN))
     }
 
-    val ROWAN_WALL_HANGING_SIGN = BLOCKS.register("rowan_wall_hanging_sign") {
+    val ROWAN_WALL_HANGING_SIGN: RegistrySupplier<CustomWallHangingSignBlock> = BLOCKS.register("rowan_wall_hanging_sign") {
         CustomWallHangingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN))
     }
 
-
-    val STRIPPED_ALDER_LOG = BLOCKS.register("stripped_alder_log") {
+    val STRIPPED_ALDER_LOG: RegistrySupplier<RotatedPillarBlock> = BLOCKS.register("stripped_alder_log") {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
     }
 
-    val ALDER_LOG = BLOCKS.register(
+    val ALDER_LOG: RegistrySupplier<StrippableLogBlock> = BLOCKS.register(
         "alder_log", StrippableHelper.createStrippableLog(
             STRIPPED_ALDER_LOG,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
         )
     )
 
-    val STRIPPED_ALDER_WOOD = BLOCKS.register("stripped_alder_wood") {
+    val STRIPPED_ALDER_WOOD: RegistrySupplier<RotatedPillarBlock> = BLOCKS.register("stripped_alder_wood") {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD))
     }
 
-    val ALDER_WOOD = BLOCKS.register(
+    val ALDER_WOOD: RegistrySupplier<StrippableLogBlock> = BLOCKS.register(
         "alder_wood", StrippableHelper.createStrippableLog(
             STRIPPED_ALDER_WOOD,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)
         )
     )
 
-    val ALDER_LEAVES = BLOCKS.register("alder_leaves") {
+    val ALDER_LEAVES: RegistrySupplier<LeavesBlock> = BLOCKS.register("alder_leaves") {
         LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES))
     }
 
-    val ALDER_PLANKS = BLOCKS.register("alder_planks") {
+    val ALDER_PLANKS: RegistrySupplier<Block> = BLOCKS.register("alder_planks") {
         Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS))
     }
 
-    val ALDER_STAIRS = BLOCKS.register("alder_stairs") {
+    val ALDER_STAIRS: RegistrySupplier<StairBlock> = BLOCKS.register("alder_stairs") {
         StairBlock(
             ALDER_PLANKS.orElseGet { Blocks.OAK_PLANKS }.defaultBlockState(),
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)
         )
     }
 
-    val ALDER_SLAB = BLOCKS.register("alder_slab") {
+    val ALDER_SLAB: RegistrySupplier<SlabBlock> = BLOCKS.register("alder_slab") {
         SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB))
     }
 
-    val ALDER_FENCE = BLOCKS.register("alder_fence") {
+    val ALDER_FENCE: RegistrySupplier<FenceBlock> = BLOCKS.register("alder_fence") {
         FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    val ALDER_WOOD_TYPE = WoodType.register(WoodType("$MODID:alder", BlockSetType.OAK))
+    private val ALDER_WOOD_TYPE: WoodType = WoodType.register(WoodType("$MODID:alder", BlockSetType.OAK))
 
-    val ALDER_FENCE_GATE = BLOCKS.register("alder_fence_gate") {
+    val ALDER_FENCE_GATE: RegistrySupplier<FenceGateBlock> = BLOCKS.register("alder_fence_gate") {
         FenceGateBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
     }
 
-    val ALDER_DOOR = BLOCKS.register("alder_door") {
+    val ALDER_DOOR: RegistrySupplier<DoorBlock> = BLOCKS.register("alder_door") {
         DoorBlock(ALDER_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR))
     }
 
-    val ALDER_TRAPDOOR = BLOCKS.register("alder_trapdoor") {
+    val ALDER_TRAPDOOR: RegistrySupplier<TrapDoorBlock> = BLOCKS.register("alder_trapdoor") {
         TrapDoorBlock(ALDER_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR))
     }
 
-    val ALDER_PRESSURE_PLATE = BLOCKS.register("alder_pressure_plate") {
+    val ALDER_PRESSURE_PLATE: RegistrySupplier<PressurePlateBlock> = BLOCKS.register("alder_pressure_plate") {
         PressurePlateBlock(ALDER_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE))
     }
 
-    val ALDER_BUTTON = BLOCKS.register("alder_button") {
+    val ALDER_BUTTON: RegistrySupplier<ButtonBlock> = BLOCKS.register("alder_button") {
         ButtonBlock(ALDER_WOOD_TYPE.setType, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON))
     }
 
-    val ALDER_SAPLING = BLOCKS.register("alder_sapling") {
+    val ALDER_SAPLING: RegistrySupplier<SaplingBlock> = BLOCKS.register("alder_sapling") {
         SaplingBlock(WitcheryTreeGrowers.ALDER, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING))
     }
 
-    val POTTED_ALDER_SAPLING = BLOCKS.register("potted_alder_sapling") {
+    val POTTED_ALDER_SAPLING: RegistrySupplier<FlowerPotBlock> = BLOCKS.register("potted_alder_sapling") {
         FlowerPotBlock(ALDER_SAPLING.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING))
     }
 
-    val ALDER_SIGN = BLOCKS.register("alder_sign") {
+    val ALDER_SIGN: RegistrySupplier<CustomStandingSignBlock> = BLOCKS.register("alder_sign") {
         CustomStandingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN))
     }
 
-    val ALDER_WALL_SIGN = BLOCKS.register("alder_wall_sign") {
+    val ALDER_WALL_SIGN: RegistrySupplier<CustomWallSignBlock> = BLOCKS.register("alder_wall_sign") {
         CustomWallSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN))
     }
 
-    val ALDER_HANGING_SIGN = BLOCKS.register("alder_hanging_sign") {
+    val ALDER_HANGING_SIGN: RegistrySupplier<CustomCeilingHangingSignBlock> = BLOCKS.register("alder_hanging_sign") {
         CustomCeilingHangingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN))
     }
 
-    val ALDER_WALL_HANGING_SIGN = BLOCKS.register("alder_wall_hanging_sign") {
+    val ALDER_WALL_HANGING_SIGN: RegistrySupplier<CustomWallHangingSignBlock> = BLOCKS.register("alder_wall_hanging_sign") {
         CustomWallHangingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN))
     }
 
-
-    val STRIPPED_HAWTHORN_LOG = BLOCKS.register("stripped_hawthorn_log") {
+    val STRIPPED_HAWTHORN_LOG: RegistrySupplier<RotatedPillarBlock> = BLOCKS.register("stripped_hawthorn_log") {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
     }
 
-    val HAWTHORN_LOG = BLOCKS.register(
+    val HAWTHORN_LOG: RegistrySupplier<StrippableLogBlock> = BLOCKS.register(
         "hawthorn_log", StrippableHelper.createStrippableLog(
             STRIPPED_HAWTHORN_LOG,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
         )
     )
 
-    val STRIPPED_HAWTHORN_WOOD = BLOCKS.register("stripped_hawthorn_wood") {
+    val STRIPPED_HAWTHORN_WOOD: RegistrySupplier<RotatedPillarBlock> = BLOCKS.register("stripped_hawthorn_wood") {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD))
     }
 
-    val HAWTHORN_WOOD = BLOCKS.register(
+    val HAWTHORN_WOOD: RegistrySupplier<StrippableLogBlock> = BLOCKS.register(
         "hawthorn_wood", StrippableHelper.createStrippableLog(
             STRIPPED_HAWTHORN_WOOD,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)
         )
     )
 
-    val HAWTHORN_LEAVES = BLOCKS.register("hawthorn_leaves") {
+    val HAWTHORN_LEAVES: RegistrySupplier<LeavesBlock> = BLOCKS.register("hawthorn_leaves") {
         LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES))
     }
 
-    val HAWTHORN_PLANKS = BLOCKS.register("hawthorn_planks") {
+    val HAWTHORN_PLANKS: RegistrySupplier<Block> = BLOCKS.register("hawthorn_planks") {
         Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS))
     }
 
-    val HAWTHORN_STAIRS = BLOCKS.register("hawthorn_stairs") {
+    val HAWTHORN_STAIRS: RegistrySupplier<StairBlock> = BLOCKS.register("hawthorn_stairs") {
         StairBlock(
             HAWTHORN_PLANKS.orElseGet { Blocks.OAK_PLANKS }.defaultBlockState(),
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)
         )
     }
 
-    val HAWTHORN_SLAB = BLOCKS.register("hawthorn_slab") {
+    val HAWTHORN_SLAB: RegistrySupplier<SlabBlock> = BLOCKS.register("hawthorn_slab") {
         SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB))
     }
 
-    val HAWTHORN_FENCE = BLOCKS.register("hawthorn_fence") {
+    val HAWTHORN_FENCE: RegistrySupplier<FenceBlock> = BLOCKS.register("hawthorn_fence") {
         FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    val HAWTHORN_WOOD_TYPE = WoodType.register(WoodType("$MODID:hawthorn", BlockSetType.OAK))
+    private val HAWTHORN_WOOD_TYPE: WoodType = WoodType.register(WoodType("$MODID:hawthorn", BlockSetType.OAK))
 
-    val HAWTHORN_FENCE_GATE = BLOCKS.register("hawthorn_fence_gate") {
+    val HAWTHORN_FENCE_GATE: RegistrySupplier<FenceGateBlock> = BLOCKS.register("hawthorn_fence_gate") {
         FenceGateBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
     }
 
-    val HAWTHORN_DOOR = BLOCKS.register("hawthorn_door") {
+    val HAWTHORN_DOOR: RegistrySupplier<DoorBlock> = BLOCKS.register("hawthorn_door") {
         DoorBlock(HAWTHORN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR))
     }
 
-    val HAWTHORN_TRAPDOOR = BLOCKS.register("hawthorn_trapdoor") {
+    val HAWTHORN_TRAPDOOR: RegistrySupplier<TrapDoorBlock> = BLOCKS.register("hawthorn_trapdoor") {
         TrapDoorBlock(HAWTHORN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR))
     }
 
-    val HAWTHORN_PRESSURE_PLATE = BLOCKS.register("hawthorn_pressure_plate") {
+    val HAWTHORN_PRESSURE_PLATE: RegistrySupplier<PressurePlateBlock> = BLOCKS.register("hawthorn_pressure_plate") {
         PressurePlateBlock(HAWTHORN_WOOD_TYPE.setType, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE))
     }
 
-    val HAWTHORN_BUTTON = BLOCKS.register("hawthorn_button") {
+    val HAWTHORN_BUTTON: RegistrySupplier<ButtonBlock> = BLOCKS.register("hawthorn_button") {
         ButtonBlock(HAWTHORN_WOOD_TYPE.setType, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON))
     }
 
-    val HAWTHORN_SAPLING = BLOCKS.register("hawthorn_sapling") {
+    val HAWTHORN_SAPLING: RegistrySupplier<SaplingBlock> = BLOCKS.register("hawthorn_sapling") {
         SaplingBlock(WitcheryTreeGrowers.HAWTHORN, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING))
     }
 
-    val POTTED_HAWTHORN_SAPLING = BLOCKS.register("potted_hawthorn_sapling") {
+    val POTTED_HAWTHORN_SAPLING: RegistrySupplier<FlowerPotBlock> = BLOCKS.register("potted_hawthorn_sapling") {
         FlowerPotBlock(HAWTHORN_SAPLING.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING))
     }
 
-    val HAWTHORN_SIGN = BLOCKS.register("hawthorn_sign") {
+    val HAWTHORN_SIGN: RegistrySupplier<CustomStandingSignBlock> = BLOCKS.register("hawthorn_sign") {
         CustomStandingSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN))
     }
 
-    val HAWTHORN_WALL_SIGN = BLOCKS.register("hawthorn_wall_sign") {
+    val HAWTHORN_WALL_SIGN: RegistrySupplier<CustomWallSignBlock> = BLOCKS.register("hawthorn_wall_sign") {
         CustomWallSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN))
     }
 
-    val HAWTHORN_HANGING_SIGN = BLOCKS.register("hawthorn_hanging_sign") {
+    val HAWTHORN_HANGING_SIGN: RegistrySupplier<CustomCeilingHangingSignBlock> = BLOCKS.register("hawthorn_hanging_sign") {
         CustomCeilingHangingSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN))
     }
 
-    val HAWTHORN_WALL_HANGING_SIGN = BLOCKS.register("hawthorn_wall_hanging_sign") {
+    val HAWTHORN_WALL_HANGING_SIGN: RegistrySupplier<CustomWallHangingSignBlock> = BLOCKS.register("hawthorn_wall_hanging_sign") {
         CustomWallHangingSignBlock(
             HAWTHORN_WOOD_TYPE,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN)
         )
     }
-
 
     val GLINTWEED: RegistrySupplier<GlintweedBlock> = BLOCKS.register("glintweed") {
         GlintweedBlock(
@@ -635,7 +640,7 @@ object WitcheryBlocks {
         )
     }
 
-    val MANDRAKE_CROP = BLOCKS.register("mandrake") {
+    val MANDRAKE_CROP: RegistrySupplier<MandrakeCropBlock> = BLOCKS.register("mandrake") {
         MandrakeCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
@@ -647,7 +652,7 @@ object WitcheryBlocks {
         )
     }
 
-    val BELLADONNAE_CROP = BLOCKS.register("belladonna") {
+    val BELLADONNA_CROP: RegistrySupplier<BelladonnaCropBlock> = BLOCKS.register("belladonna") {
         BelladonnaCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
@@ -659,7 +664,7 @@ object WitcheryBlocks {
         )
     }
 
-    val SNOWBELL_CROP = BLOCKS.register("snowbell") {
+    val SNOWBELL_CROP: RegistrySupplier<SnowbellCropBlock> = BLOCKS.register("snowbell") {
         SnowbellCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
@@ -671,7 +676,7 @@ object WitcheryBlocks {
         )
     }
 
-    val WATER_ARTICHOKE_CROP = BLOCKS.register("water_artichoke") {
+    val WATER_ARTICHOKE_CROP: RegistrySupplier<WaterArtichokeCropBlock> = BLOCKS.register("water_artichoke") {
         WaterArtichokeCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
@@ -683,7 +688,7 @@ object WitcheryBlocks {
         )
     }
 
-    val WOLFSFBANE_CROP = BLOCKS.register("wolfsbane") {
+    val WOLFSFBANE_CROP: RegistrySupplier<WolfsbaneCropBlock> = BLOCKS.register("wolfsbane") {
         WolfsbaneCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
@@ -695,7 +700,7 @@ object WitcheryBlocks {
         )
     }
 
-    val GARLIC_CROP = BLOCKS.register("garlic") {
+    val GARLIC_CROP: RegistrySupplier<GarlicCropBlock> = BLOCKS.register("garlic") {
         GarlicCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
@@ -707,7 +712,7 @@ object WitcheryBlocks {
         )
     }
 
-    val WORMWOOD_CROP = BLOCKS.register("wormwood") {
+    val WORMWOOD_CROP: RegistrySupplier<WormwoodCropBlock> = BLOCKS.register("wormwood") {
         WormwoodCropBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
@@ -719,163 +724,166 @@ object WitcheryBlocks {
         )
     }
 
-    val BLOOD_POPPY = BLOCKS.register("blood_poppy") {
+    val BLOOD_POPPY: RegistrySupplier<BloodPoppyBlock> = BLOCKS.register("blood_poppy") {
         BloodPoppyBlock(MobEffects.NIGHT_VISION, 5.0f, BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY))
     }
 
-    val RITUAL_CHALK_BLOCK = BLOCKS.register("ritual_chalk") {
+    val RITUAL_CHALK_BLOCK: RegistrySupplier<RitualChalkBlock> = BLOCKS.register("ritual_chalk") {
         RitualChalkBlock(null, 0xFFFFFF, BlockBehaviour.Properties.of())
     }
 
-    val INFERNAL_CHALK_BLOCK = BLOCKS.register("infernal_chalk") {
+    val INFERNAL_CHALK_BLOCK: RegistrySupplier<RitualChalkBlock> = BLOCKS.register("infernal_chalk") {
         RitualChalkBlock(ParticleTypes.FLAME, Color(230, 0, 75).rgb, BlockBehaviour.Properties.of())
     }
 
-    val OTHERWHERE_CHALK_BLOCK = BLOCKS.register("otherwhere_chalk") {
+    val OTHERWHERE_CHALK_BLOCK: RegistrySupplier<RitualChalkBlock> = BLOCKS.register("otherwhere_chalk") {
         RitualChalkBlock(ParticleTypes.PORTAL, Color(190, 55, 250).rgb, BlockBehaviour.Properties.of())
     }
 
-    val GOLDEN_CHALK_BLOCK = BLOCKS.register("golden_chalk") {
+    val GOLDEN_CHALK_BLOCK: RegistrySupplier<GoldenChalkBlock> = BLOCKS.register("golden_chalk") {
         GoldenChalkBlock(BlockBehaviour.Properties.of())
     }
 
-
-    val IRON_CANDELABRA = BLOCKS.register("iron_candelabra") {
+    val IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val WHITE_IRON_CANDELABRA = BLOCKS.register("white_iron_candelabra") {
+    val WHITE_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("white_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val ORANGE_IRON_CANDELABRA = BLOCKS.register("orange_iron_candelabra") {
+    val ORANGE_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("orange_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val MAGENTA_IRON_CANDELABRA = BLOCKS.register("magenta_iron_candelabra") {
+    val MAGENTA_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("magenta_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val LIGHT_BLUE_IRON_CANDELABRA = BLOCKS.register("light_blue_iron_candelabra") {
+    val LIGHT_BLUE_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("light_blue_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val YELLOW_IRON_CANDELABRA = BLOCKS.register("yellow_iron_candelabra") {
+    val YELLOW_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("yellow_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val LIME_IRON_CANDELABRA = BLOCKS.register("lime_iron_candelabra") {
+    val LIME_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("lime_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val PINK_IRON_CANDELABRA = BLOCKS.register("pink_iron_candelabra") {
+    val PINK_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("pink_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val GRAY_IRON_CANDELABRA = BLOCKS.register("gray_iron_candelabra") {
+    val GRAY_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("gray_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val LIGHT_GRAY_IRON_CANDELABRA = BLOCKS.register("light_gray_iron_candelabra") {
+    val LIGHT_GRAY_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("light_gray_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val CYAN_IRON_CANDELABRA = BLOCKS.register("cyan_iron_candelabra") {
+    val CYAN_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("cyan_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val PURPLE_IRON_CANDELABRA = BLOCKS.register("purple_iron_candelabra") {
+    val PURPLE_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("purple_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val BLUE_IRON_CANDELABRA = BLOCKS.register("blue_iron_candelabra") {
+    val BLUE_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("blue_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val BROWN_IRON_CANDELABRA = BLOCKS.register("brown_iron_candelabra") {
+    val BROWN_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("brown_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val GREEN_IRON_CANDELABRA = BLOCKS.register("green_iron_candelabra") {
+    val GREEN_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("green_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val RED_IRON_CANDELABRA = BLOCKS.register("red_iron_candelabra") {
+    val RED_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("red_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val BLACK_IRON_CANDELABRA = BLOCKS.register("black_iron_candelabra") {
+    val BLACK_IRON_CANDELABRA: RegistrySupplier<CandelabraBlock> = BLOCKS.register("black_iron_candelabra") {
         CandelabraBlock(BlockBehaviour.Properties.of())
     }
 
-    val ARTHANA = BLOCKS.register("arthana") {
+    val ARTHANA: RegistrySupplier<ArthanaBlock> = BLOCKS.register("arthana") {
         ArthanaBlock(BlockBehaviour.Properties.of())
     }
 
-    val CHALICE = BLOCKS.register("chalice") {
+    val CHALICE: RegistrySupplier<ChaliceBlock> = BLOCKS.register("chalice") {
         ChaliceBlock(BlockBehaviour.Properties.of())
     }
 
-    val PENTACLE = BLOCKS.register("pentacle") {
+    val PENTACLE: RegistrySupplier<PentacleBlock> = BLOCKS.register("pentacle") {
         PentacleBlock(BlockBehaviour.Properties.of().noCollission().noOcclusion())
     }
 
-    val SPINNING_WHEEL = BLOCKS.register("spinning_wheel") {
+    val SPINNING_WHEEL: RegistrySupplier<SpinningWheelBlock> = BLOCKS.register("spinning_wheel") {
         SpinningWheelBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 
-    val DREAM_WEAVER = BLOCKS.register("dream_weaver") {
+    val DREAM_WEAVER: RegistrySupplier<DreamWeaverBlock> = BLOCKS.register("dream_weaver") {
         DreamWeaverBlock(BlockBehaviour.Properties.of())
     }
 
-    val DREAM_WEAVER_OF_FLEET_FOOT = BLOCKS.register("dream_weaver_of_fleet_foot") {
+    val DREAM_WEAVER_OF_FLEET_FOOT: RegistrySupplier<DreamWeaverBlock> = BLOCKS.register("dream_weaver_of_fleet_foot") {
         DreamWeaverBlock(BlockBehaviour.Properties.of())
     }
 
-    val DREAM_WEAVER_OF_NIGHTMARES = BLOCKS.register("dream_weaver_of_nightmares") {
+    val DREAM_WEAVER_OF_NIGHTMARES: RegistrySupplier<DreamWeaverBlock> = BLOCKS.register("dream_weaver_of_nightmares") {
         DreamWeaverBlock(BlockBehaviour.Properties.of())
     }
 
-    val DREAM_WEAVER_OF_INTENSITY = BLOCKS.register("dream_weaver_of_intensity") {
+    val DREAM_WEAVER_OF_INTENSITY: RegistrySupplier<DreamWeaverBlock> = BLOCKS.register("dream_weaver_of_intensity") {
         DreamWeaverBlock(BlockBehaviour.Properties.of())
     }
 
-    val DREAM_WEAVER_OF_FASTING = BLOCKS.register("dream_weaver_of_fasting") {
+    val DREAM_WEAVER_OF_FASTING: RegistrySupplier<DreamWeaverBlock> = BLOCKS.register("dream_weaver_of_fasting") {
         DreamWeaverBlock(BlockBehaviour.Properties.of())
     }
 
-    val DREAM_WEAVER_OF_IRON_ARM = BLOCKS.register("dream_weaver_of_iron_arm") {
+    val DREAM_WEAVER_OF_IRON_ARM: RegistrySupplier<DreamWeaverBlock> = BLOCKS.register("dream_weaver_of_iron_arm") {
         DreamWeaverBlock(BlockBehaviour.Properties.of())
     }
 
-    val WISPY_COTTON = BLOCKS.register("wispy_cotton") {
-        CottonBlock(BlockBehaviour.Properties.of()
-            .mapColor(MapColor.PLANT)
-            .noCollission()
-            .instabreak()
-            .sound(SoundType.GRASS)
-            .offsetType(BlockBehaviour.OffsetType.XZ)
-            .pushReaction(PushReaction.DESTROY))
+    val WISPY_COTTON: RegistrySupplier<CottonBlock> = BLOCKS.register("wispy_cotton") {
+        CottonBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .instabreak()
+                .sound(SoundType.GRASS)
+                .offsetType(BlockBehaviour.OffsetType.XZ)
+                .pushReaction(PushReaction.DESTROY)
+        )
     }
 
-    val DISTURBED_COTTON = BLOCKS.register("disturbed_cotton") {
-        CottonBlock(BlockBehaviour.Properties.of()
-            .mapColor(MapColor.PLANT)
-            .noCollission()
-            .instabreak()
-            .sound(SoundType.GRASS)
-            .offsetType(BlockBehaviour.OffsetType.XZ)
-            .pushReaction(PushReaction.DESTROY))
+    val DISTURBED_COTTON: RegistrySupplier<CottonBlock> = BLOCKS.register("disturbed_cotton") {
+        CottonBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .instabreak()
+                .sound(SoundType.GRASS)
+                .offsetType(BlockBehaviour.OffsetType.XZ)
+                .pushReaction(PushReaction.DESTROY)
+        )
     }
 
-    val POPPET = BLOCKS.register("poppet") {
+    val POPPET: RegistrySupplier<PoppetBlock> = BLOCKS.register("poppet") {
         PoppetBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 
     val FLOWING_SPIRIT_BLOCK: RegistrySupplier<LiquidBlock> = BLOCKS.register(
         "flowing_spirit_block"
     ) {
-        object: ArchitecturyLiquidBlock(
+        object : ArchitecturyLiquidBlock(
             WitcheryFluids.FLOWING_SPIRIT_STILL,
             Properties.ofFullCopy(Blocks.WATER)
         ) {

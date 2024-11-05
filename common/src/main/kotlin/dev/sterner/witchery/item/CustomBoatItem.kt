@@ -17,9 +17,11 @@ import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.HitResult
+import java.util.function.Predicate
 
 class CustomBoatItem(val chest: Boolean, val type: Boat.Type, properties: Properties) :
     BoatItem(chest, type, properties) {
+
     override fun use(
         level: Level,
         player: Player,
@@ -84,6 +86,6 @@ class CustomBoatItem(val chest: Boolean, val type: Boat.Type, properties: Proper
     }
 
     companion object {
-        val ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable)
+        val ENTITY_PREDICATE: Predicate<Entity> = EntitySelector.NO_SPECTATORS.and(Entity::isPickable)
     }
 }

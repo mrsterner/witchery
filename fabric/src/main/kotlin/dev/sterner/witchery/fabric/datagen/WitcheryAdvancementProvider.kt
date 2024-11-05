@@ -10,11 +10,7 @@ import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementType
 import net.minecraft.advancements.critereon.InventoryChangeTrigger
 import net.minecraft.core.HolderLookup
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Blocks
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer

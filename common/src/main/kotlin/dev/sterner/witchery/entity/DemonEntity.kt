@@ -15,7 +15,7 @@ import net.minecraft.world.level.pathfinder.PathType
 
 class DemonEntity(level: Level) : Monster(WitcheryEntityTypes.DEMON.get(), level) {
 
-    init{
+    init {
         this.setPersistenceRequired()
         this.setPathfindingMalus(PathType.WATER, -1.0f)
         this.setPathfindingMalus(PathType.LAVA, 8.0f)
@@ -50,7 +50,6 @@ class DemonEntity(level: Level) : Monster(WitcheryEntityTypes.DEMON.get(), level
 
         super.registerGoals()
     }
-
 
 
     companion object {

@@ -16,7 +16,7 @@ class SyncInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: InfusionData): this(CompoundTag().apply {
+    constructor(player: Player, data: InfusionData) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putInt("Charge", data.charge)
         putString("Type", data.type.serializedName) // serializedName should be in lowercase

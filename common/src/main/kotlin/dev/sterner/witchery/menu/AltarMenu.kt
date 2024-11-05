@@ -14,6 +14,7 @@ import kotlin.jvm.optionals.getOrNull
 
 class AltarMenu(containerId: Int, inventory: Inventory, buf: FriendlyByteBuf) :
     AbstractContainerMenu(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), containerId) {
+
     var data: ContainerData = SimpleContainerData(2)
     var altar: AltarBlockEntity? = null
 
@@ -31,7 +32,7 @@ class AltarMenu(containerId: Int, inventory: Inventory, buf: FriendlyByteBuf) :
 
     fun getMaxPower() = data[1]
 
-    override fun quickMoveStack(player: Player, index: Int) = ItemStack.EMPTY
+    override fun quickMoveStack(player: Player, index: Int): ItemStack = ItemStack.EMPTY
 
     override fun stillValid(player: Player) = true
 }

@@ -14,31 +14,31 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(generator: FabricDataGenerator) {
         val pack = generator.createPack()
 
-        pack.addProvider{output, reg ->
+        pack.addProvider { output, reg ->
             WitcheryBlockTagProvider(output, reg)
         }
-        pack.addProvider{output, reg ->
+        pack.addProvider { output, reg ->
             WitcheryItemTagProvider(output, reg)
         }
-        pack.addProvider{output, _ ->
+        pack.addProvider { output, _ ->
             WitcheryModelProvider(output)
         }
-        pack.addProvider{output, reg ->
+        pack.addProvider { output, reg ->
             WitcheryLangProvider(output, reg)
         }
-        pack.addProvider{output, reg ->
+        pack.addProvider { output, reg ->
             WitcheryRecipeProvider(output, reg)
         }
-        pack.addProvider{output, reg ->
+        pack.addProvider { output, reg ->
             WitcheryAdvancementProvider(output, reg)
         }
-        pack.addProvider{output, reg ->
+        pack.addProvider { output, reg ->
             WitcheryBlockLootProvider(output, reg)
         }
-        pack.addProvider{output, reg ->
+        pack.addProvider { output, reg ->
             WitcheryEntityLootProvider(output, reg)
         }
-        pack.addProvider{output, reg ->
+        pack.addProvider { output, reg ->
             WitcheryEntityTypeTagProvider(output, reg)
         }
 

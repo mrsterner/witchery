@@ -18,12 +18,15 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
 
     constructor(level: Level) : super(WitcheryEntityTypes.THROWN_BREW.get(), level)
 
-    constructor(entityType: EntityType<out ThrownBrewEntity>, level: Level) : super(entityType, level)
-
     constructor(level: Level, shooter: LivingEntity) : super(WitcheryEntityTypes.THROWN_BREW.get(), shooter, level)
 
-    constructor(level: Level, x: Double, y: Double, z: Double) : super(WitcheryEntityTypes.THROWN_BREW.get(), x, y, z, level)
-
+    constructor(level: Level, x: Double, y: Double, z: Double) : super(
+        WitcheryEntityTypes.THROWN_BREW.get(),
+        x,
+        y,
+        z,
+        level
+    )
 
     override fun onHitBlock(result: BlockHitResult) {
         super.onHitBlock(result)

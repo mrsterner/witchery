@@ -10,10 +10,11 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementCond
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadConditionModel
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.WitcheryAdvancementProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.*
+import dev.sterner.witchery.fabric.datagen.book.entry.GoldenChalkEntryProvider
+import dev.sterner.witchery.fabric.datagen.book.entry.InfernalChalkEntryProvider
+import dev.sterner.witchery.fabric.datagen.book.entry.OtherwhereChalkEntryProvider
+import dev.sterner.witchery.fabric.datagen.book.entry.RitualChalkEntryProvider
 import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.world.item.Items
 
 
 class WitcheryRitualCategoryProvider(
@@ -68,7 +69,7 @@ class WitcheryRitualCategoryProvider(
                         .withEntry(ritualChalk.id)
                 )
 
-        )
+            )
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(goldenChalk)
 

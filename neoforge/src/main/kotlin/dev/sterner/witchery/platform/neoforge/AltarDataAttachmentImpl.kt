@@ -26,6 +26,4 @@ object AltarDataAttachmentImpl {
     fun getAltarPos(level: ServerLevel): MutableSet<BlockPos> {
         return level.getData(WitcheryNeoForgeAttachmentRegistry.ALTAR_LEVEL_DATA_ATTACHMENT).altarSet
     }
-
-
 }

@@ -6,7 +6,8 @@ import net.minecraft.util.RandomSource
 import net.minecraft.world.level.block.WeatheringCopper
 import net.minecraft.world.level.block.state.BlockState
 
-class CopperOvenFumeExtensionBlock(val state: WeatheringCopper.WeatherState, properties: Properties) : OvenFumeExtensionBlock(properties), WeatheringCopper {
+class CopperOvenFumeExtensionBlock(val state: WeatheringCopper.WeatherState, properties: Properties) :
+    OvenFumeExtensionBlock(properties), WeatheringCopper {
 
     override fun getAge(): WeatheringCopper.WeatherState {
         return state

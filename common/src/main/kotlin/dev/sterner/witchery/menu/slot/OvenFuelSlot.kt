@@ -8,12 +8,11 @@ import net.minecraft.world.item.Items
 
 class OvenFuelSlot(
     private val menu: OvenMenu,
-    furnaceContainer: Container?,
+    furnaceContainer: Container,
     slot: Int,
     xPosition: Int,
     yPosition: Int
-) :
-    Slot(furnaceContainer, slot, xPosition, yPosition) {
+) : Slot(furnaceContainer, slot, xPosition, yPosition) {
 
     override fun mayPlace(stack: ItemStack): Boolean {
         return menu.isFuel(stack) || isBucket(stack)

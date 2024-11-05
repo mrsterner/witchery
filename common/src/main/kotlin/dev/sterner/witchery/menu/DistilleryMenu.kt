@@ -95,5 +95,4 @@ class DistilleryMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
         const val SLOT_RESULT_3: Int = 5
         const val SLOT_RESULT_4: Int = 6
     }
-
 }

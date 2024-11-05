@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.MobSpawnType
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemNameBlockItem
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
@@ -53,14 +54,14 @@ class MandrakeCropBlock(properties: Properties) : WitcheryCropBlock(properties) 
             WitcheryEntityTypes.MANDRAKE.get().spawn(level, pos, MobSpawnType.NATURAL)
     }
 
-    override fun getBaseSeedId() = WitcheryItems.MANDRAKE_SEEDS.get()
+    override fun getBaseSeedId(): ItemNameBlockItem = WitcheryItems.MANDRAKE_SEEDS.get()
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return CUSTOM_SHAPE_BY_AGE[state.getValue(AGE)]
     }
 
     companion object {
-        val AWAKE = BooleanProperty.create("awake")
+        val AWAKE: BooleanProperty = BooleanProperty.create("awake")
 
         val CUSTOM_SHAPE_BY_AGE = arrayOf(
             box(0.0, 0.0, 0.0, 16.0, 1.0, 16.0),

@@ -6,7 +6,6 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
 
-
 object WitcheryUtil {
 
     fun rotateShape(from: Direction, to: Direction, shape: VoxelShape): VoxelShape {

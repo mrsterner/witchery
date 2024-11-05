@@ -6,6 +6,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
 
 
 interface CustomDataPacketHandlingBlockEntity {
+
     fun onDataPacket(
         connection: Connection?,
         packet: ClientboundBlockEntityDataPacket?,

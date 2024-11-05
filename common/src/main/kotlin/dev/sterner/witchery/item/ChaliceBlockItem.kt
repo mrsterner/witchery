@@ -24,6 +24,9 @@ class ChaliceBlockItem(block: Block, properties: Properties) : BlockItem(block, 
     }
 
     override fun placeBlock(context: BlockPlaceContext, state: BlockState): Boolean {
-        return super.placeBlock(context, state.setValue(ChaliceBlock.HAS_SOUP, context.itemInHand.get(WitcheryDataComponents.HAS_SOUP.get()) == true))
+        return super.placeBlock(
+            context,
+            state.setValue(ChaliceBlock.HAS_SOUP, context.itemInHand.get(WitcheryDataComponents.HAS_SOUP.get()) == true)
+        )
     }
 }

@@ -45,8 +45,10 @@ object NaturePowerHandler {
         var power = NATURE_POWER_VALUES[Either.left(block.block)]?.first
         if (power != null) return power
 
-        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.`is`(it.right().get()) }.toSortedMap { first, second ->
-            (NATURE_POWER_VALUES[second]?.first ?: 0) - (NATURE_POWER_VALUES[first]?.first ?: 0) }.keys
+        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.`is`(it.right().get()) }
+            .toSortedMap { first, second ->
+                (NATURE_POWER_VALUES[second]?.first ?: 0) - (NATURE_POWER_VALUES[first]?.first ?: 0)
+            }.keys
         if (tags.isNotEmpty()) power = NATURE_POWER_VALUES[tags.first()]?.first
         return power
     }
@@ -59,8 +61,10 @@ object NaturePowerHandler {
         var limit = NATURE_POWER_VALUES[Either.left(block.block)]?.second
         if (limit != null) return Pair(BuiltInRegistries.BLOCK.getKey(block.block), limit)
 
-        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.`is`(it.right().get()) }.toSortedMap { first, second ->
-            (NATURE_POWER_VALUES[second]?.first ?: 0) - (NATURE_POWER_VALUES[first]?.first ?: 0) }.keys
+        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.`is`(it.right().get()) }
+            .toSortedMap { first, second ->
+                (NATURE_POWER_VALUES[second]?.first ?: 0) - (NATURE_POWER_VALUES[first]?.first ?: 0)
+            }.keys
         if (tags.isNotEmpty()) limit = NATURE_POWER_VALUES[tags.first()]?.second
         return limit?.let { Pair(tags.first().right().get().location, it) }
     }

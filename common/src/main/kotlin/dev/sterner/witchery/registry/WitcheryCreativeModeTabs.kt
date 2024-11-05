@@ -12,7 +12,7 @@ import kotlin.jvm.optionals.getOrNull
 
 object WitcheryCreativeModeTabs {
 
-    val TABS = DeferredRegister.create(Witchery.MODID, Registries.CREATIVE_MODE_TAB)
+    val TABS: DeferredRegister<CreativeModeTab> = DeferredRegister.create(Witchery.MODID, Registries.CREATIVE_MODE_TAB)
 
     val MAIN = TABS.register("main") {
         CreativeTabRegistry.create {
@@ -280,8 +280,7 @@ object WitcheryCreativeModeTabs {
             output.accept(WitcheryItems.HAWTHORN_TRAPDOOR.get())
             output.accept(WitcheryItems.HAWTHORN_PRESSURE_PLATE.get())
             output.accept(WitcheryItems.HAWTHORN_BUTTON.get())
-        }
-        else if (key == CreativeModeTabs.COLORED_BLOCKS) {
+        } else if (key == CreativeModeTabs.COLORED_BLOCKS) {
             output.accept(WitcheryItems.IRON_CANDELABRA.get())
             output.accept(WitcheryItems.WHITE_IRON_CANDELABRA.get())
             output.accept(WitcheryItems.LIGHT_GRAY_IRON_CANDELABRA.get())
@@ -299,8 +298,7 @@ object WitcheryCreativeModeTabs {
             output.accept(WitcheryItems.PURPLE_IRON_CANDELABRA.get())
             output.accept(WitcheryItems.MAGENTA_IRON_CANDELABRA.get())
             output.accept(WitcheryItems.PINK_IRON_CANDELABRA.get())
-        }
-        else if (key == CreativeModeTabs.NATURAL_BLOCKS) {
+        } else if (key == CreativeModeTabs.NATURAL_BLOCKS) {
             output.accept(WitcheryItems.ROWAN_LOG.get())
             output.accept(WitcheryItems.ALDER_LOG.get())
             output.accept(WitcheryItems.HAWTHORN_LOG.get())
@@ -328,8 +326,7 @@ object WitcheryCreativeModeTabs {
             output.accept(WitcheryItems.GARLIC.get())
 
             output.accept(WitcheryItems.ROWAN_BERRIES.get())
-        }
-        else if (key == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+        } else if (key == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
             output.accept(WitcheryItems.IRON_CANDELABRA.get())
             output.accept(WitcheryItems.WHITE_IRON_CANDELABRA.get())
             output.accept(WitcheryItems.LIGHT_GRAY_IRON_CANDELABRA.get())
@@ -376,8 +373,7 @@ object WitcheryCreativeModeTabs {
             output.accept(WitcheryItems.ALDER_HANGING_SIGN.get())
             output.accept(WitcheryItems.HAWTHORN_SIGN.get())
             output.accept(WitcheryItems.HAWTHORN_HANGING_SIGN.get())
-        }
-        else if (key == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+        } else if (key == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             output.accept(WitcheryItems.GUIDEBOOK.get())
             output.accept(WitcheryItems.MUTANDIS.get())
             output.accept(WitcheryItems.MUTANDIS_EXTREMIS.get())
@@ -397,14 +393,11 @@ object WitcheryCreativeModeTabs {
             output.accept(WitcheryItems.ALDER_CHEST_BOAT.get())
             output.accept(WitcheryItems.HAWTHORN_BOAT.get())
             output.accept(WitcheryItems.HAWTHORN_CHEST_BOAT.get())
-        }
-        else if (key == CreativeModeTabs.COMBAT) {
+        } else if (key == CreativeModeTabs.COMBAT) {
             output.accept(WitcheryItems.ARTHANA.get())
-        }
-        else if (key == CreativeModeTabs.FOOD_AND_DRINKS) {
+        } else if (key == CreativeModeTabs.FOOD_AND_DRINKS) {
             output.accept(WitcheryItems.ROWAN_BERRIES.get())
-        }
-        else if (key == CreativeModeTabs.INGREDIENTS) {
+        } else if (key == CreativeModeTabs.INGREDIENTS) {
             output.accept(WitcheryItems.ICY_NEEDLE.get())
             output.accept(WitcheryItems.WOOD_ASH.get())
             output.accept(WitcheryItems.ATTUNED_STONE.get())
@@ -441,9 +434,6 @@ object WitcheryCreativeModeTabs {
             output.accept(WitcheryItems.MELLIFLUOUS_HUNGER.get())
             output.accept(WitcheryItems.FOCUSED_WILL.get())
             output.accept(WitcheryItems.CONDENSED_FEAR.get())
-        }
-        else if (key == CreativeModeTabs.OP_BLOCKS) {
-            output.accept(WitcheryItems.INFINITY_EGG.get())
         }
     }
 }

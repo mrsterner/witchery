@@ -12,7 +12,7 @@ object LightInfusionDataAttachment {
 
     @JvmStatic
     @ExpectPlatform
-    fun setInvisible(player: Player, invisible: Boolean, invisibleTicks: Int){
+    fun setInvisible(player: Player, invisible: Boolean, invisibleTicks: Int) {
         throw AssertionError()
     }
 

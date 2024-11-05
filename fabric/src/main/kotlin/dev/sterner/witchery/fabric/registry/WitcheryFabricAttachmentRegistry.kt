@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 
 object WitcheryFabricAttachmentRegistry {
+
     @Suppress("UnstableApiUsage")
     val MUTANDIS_LEVEL_DATA_TYPE: AttachmentType<MutandisDataAttachment.MutandisDataCodec> =
         AttachmentRegistry.builder<MutandisDataAttachment.MutandisDataCodec>()
@@ -77,7 +78,7 @@ object WitcheryFabricAttachmentRegistry {
             .initializer { SleepingPlayerLevelAttachment.Data() }
             .buildAndRegister(SleepingPlayerLevelAttachment.Data.ID)
 
-    fun init(){
+    fun init() {
 
     }
 }

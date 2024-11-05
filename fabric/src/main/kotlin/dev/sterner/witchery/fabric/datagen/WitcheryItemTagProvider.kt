@@ -77,7 +77,7 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             WitcheryItems.RED_IRON_CANDELABRA.get(),
             WitcheryItems.BLACK_IRON_CANDELABRA.get()
         )
-        
+
         getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
             .addTag(WitcheryTags.ROWAN_LOG_ITEMS)
             .addTag(WitcheryTags.ALDER_LOG_ITEMS)
@@ -288,10 +288,20 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/orange")))
             .add(WitcheryItems.ORANGE_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/magenta")))
+        getOrCreateTagBuilder(
+            TagKey.create(
+                Registries.ITEM,
+                ResourceLocation.fromNamespaceAndPath("c", "dyed/magenta")
+            )
+        )
             .add(WitcheryItems.MAGENTA_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/light_blue")))
+        getOrCreateTagBuilder(
+            TagKey.create(
+                Registries.ITEM,
+                ResourceLocation.fromNamespaceAndPath("c", "dyed/light_blue")
+            )
+        )
             .add(WitcheryItems.LIGHT_BLUE_IRON_CANDELABRA.get())
 
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/yellow")))
@@ -306,7 +316,12 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/gray")))
             .add(WitcheryItems.GRAY_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/light_gray")))
+        getOrCreateTagBuilder(
+            TagKey.create(
+                Registries.ITEM,
+                ResourceLocation.fromNamespaceAndPath("c", "dyed/light_gray")
+            )
+        )
             .add(WitcheryItems.LIGHT_GRAY_IRON_CANDELABRA.get())
 
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/cyan")))

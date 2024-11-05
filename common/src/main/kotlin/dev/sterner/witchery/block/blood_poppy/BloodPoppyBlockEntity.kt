@@ -6,9 +6,10 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.level.block.state.BlockState
-import java.util.UUID
+import java.util.*
 
-class BloodPoppyBlockEntity(blockPos: BlockPos, blockState: BlockState) : WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.BLOODY_POPPY.get(), blockPos, blockState) {
+class BloodPoppyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
+    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.BLOODY_POPPY.get(), blockPos, blockState) {
     var uuid: UUID? = null
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
@@ -20,7 +21,8 @@ class BloodPoppyBlockEntity(blockPos: BlockPos, blockState: BlockState) : Witche
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
         super.loadAdditional(pTag, pRegistries)
 
-        if (pTag.contains("taglocked"))
+        if (pTag.contains("taglocked")) {
             uuid = pTag.getUUID("taglocked")
+        }
     }
 }
