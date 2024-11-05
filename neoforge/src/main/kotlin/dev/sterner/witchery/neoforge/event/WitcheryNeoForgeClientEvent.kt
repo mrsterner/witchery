@@ -111,6 +111,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(DreamWeaverBlockEntityModel.LAYER_LOCATION, DreamWeaverBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(DemonEntityModel.LAYER_LOCATION, DemonEntityModel::createBodyLayer)
         event.registerLayerDefinition(EntEntityModel.LAYER_LOCATION, EntEntityModel::createBodyLayer)
+        event.registerLayerDefinition(BansheeEntityModel.LAYER_LOCATION, BansheeEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent
