@@ -4,16 +4,19 @@ import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.tags.DamageTypeTags
 import net.minecraft.util.Mth
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.FlyingMob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.control.MoveControl
 import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.levelgen.Heightmap
 import net.minecraft.world.phys.Vec3
 import java.util.*
+import kotlin.math.abs
 
-class BansheeEntity(level: Level) : Monster(WitcheryEntityTypes.BANSHEE.get(), level) {
+class BansheeEntity(level: Level) : FlyingMob(WitcheryEntityTypes.BANSHEE.get(), level) {
 
     init {
         this.moveControl = GhostMoveControl(this)
@@ -59,6 +62,11 @@ class BansheeEntity(level: Level) : Monster(WitcheryEntityTypes.BANSHEE.get(), l
                     } else {
                         this.operation = Operation.WAIT
                     }
+
+                    if (d > 0.1) {
+                        val targetYaw = (Mth.atan2(vec3.z, vec3.x) * (180 / Math.PI)).toFloat() - 90.0f
+                        ghost.yRot = this.rotateTowards(ghost.yRot, targetYaw, 25.0f)
+                    }
                 }
             }
         }
@@ -75,9 +83,15 @@ class BansheeEntity(level: Level) : Monster(WitcheryEntityTypes.BANSHEE.get(), l
 
             return true
         }
+
+        private fun rotateTowards(currentYaw: Float, targetYaw: Float, maxTurn: Float): Float {
+            val deltaYaw = Mth.wrapDegrees(targetYaw - currentYaw)
+            return currentYaw + Mth.clamp(deltaYaw, -maxTurn, maxTurn)
+        }
     }
 
     class RandomFloatAroundGoal(private val bansheeEntity: BansheeEntity) : Goal() {
+
         init {
             this.flags = EnumSet.of(Flag.MOVE)
         }
@@ -102,7 +116,13 @@ class BansheeEntity(level: Level) : Monster(WitcheryEntityTypes.BANSHEE.get(), l
         override fun start() {
             val randomSource = bansheeEntity.random
             val d = bansheeEntity.x + ((randomSource.nextFloat() * 2.0f - 1.0f) * 16.0f).toDouble()
-            val e = bansheeEntity.y + ((randomSource.nextFloat() * 2.0f - 1.0f) * 16.0f).toDouble()
+
+            val e = if (randomSource.nextFloat() < 0.6) {
+                bansheeEntity.y - (randomSource.nextFloat() * 8.0f).toDouble()
+            } else {
+                bansheeEntity.y + (randomSource.nextFloat() * 8.0f).toDouble()
+            }
+
             val f = bansheeEntity.z + ((randomSource.nextFloat() * 2.0f - 1.0f) * 16.0f).toDouble()
             bansheeEntity.moveControl.setWantedPosition(d, e, f, 1.0)
         }
