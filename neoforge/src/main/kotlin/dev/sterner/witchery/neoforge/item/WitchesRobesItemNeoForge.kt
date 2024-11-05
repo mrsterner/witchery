@@ -20,7 +20,7 @@ import java.awt.Color
 import javax.annotation.Nullable
 
 
-open class WitchesRobesItemNeoForge(material: Holder<ArmorMaterial>, type: Type, properties: Item.Properties) :
+open class WitchesRobesItemNeoForge(material: Holder<ArmorMaterial>, type: Type, properties: Properties) :
     ArmorItem(material, type, properties) {
     override fun isRepairable(arg: ItemStack): Boolean {
         return false
@@ -33,12 +33,24 @@ open class WitchesRobesItemNeoForge(material: Holder<ArmorMaterial>, type: Type,
         tooltipFlag: TooltipFlag
     ) {
         if (stack.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
-            tooltipComponents.add(Component.translatable("witchery.secondbrewbonus.25").setStyle(Style.EMPTY.withColor(Color(255,75,255).rgb)))
-            tooltipComponents.add(Component.translatable("witchery.thirdbrewbonus.25").setStyle(Style.EMPTY.withColor(Color(255,75,255).rgb)))
-        } else if(stack.`is`(WitcheryItems.WITCHES_HAT.get())) {
-            tooltipComponents.add(Component.translatable("witchery.secondbrewbonus.35").setStyle(Style.EMPTY.withColor(Color(255,75,255).rgb)))
-        } else if(stack.`is`(WitcheryItems.WITCHES_ROBES.get())) {
-            tooltipComponents.add(Component.translatable("witchery.secondbrewbonus.35").setStyle(Style.EMPTY.withColor(Color(255,75,255).rgb)))
+            tooltipComponents.add(
+                Component.translatable("witchery.secondbrewbonus.25")
+                    .setStyle(Style.EMPTY.withColor(Color(255, 75, 255).rgb))
+            )
+            tooltipComponents.add(
+                Component.translatable("witchery.thirdbrewbonus.25")
+                    .setStyle(Style.EMPTY.withColor(Color(255, 75, 255).rgb))
+            )
+        } else if (stack.`is`(WitcheryItems.WITCHES_HAT.get())) {
+            tooltipComponents.add(
+                Component.translatable("witchery.secondbrewbonus.35")
+                    .setStyle(Style.EMPTY.withColor(Color(255, 75, 255).rgb))
+            )
+        } else if (stack.`is`(WitcheryItems.WITCHES_ROBES.get())) {
+            tooltipComponents.add(
+                Component.translatable("witchery.secondbrewbonus.35")
+                    .setStyle(Style.EMPTY.withColor(Color(255, 75, 255).rgb))
+            )
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
@@ -63,8 +75,6 @@ open class WitchesRobesItemNeoForge(material: Holder<ArmorMaterial>, type: Type,
             "textures/models/armor/witches_robes.png"
         )
     }
-
-
 
 
     class ArmorRender : IClientItemExtensions {
@@ -106,7 +116,7 @@ open class WitchesRobesItemNeoForge(material: Holder<ArmorMaterial>, type: Type,
             layerIdx: Int,
             fallbackColor: Int
         ): Int {
-            return if(stack.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) -0x1 else DyeColor.BLACK.textureDiffuseColor
+            return if (stack.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) -0x1 else DyeColor.BLACK.textureDiffuseColor
         }
 
         companion object {

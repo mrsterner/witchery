@@ -17,7 +17,13 @@ import java.util.function.BiConsumer
 class WitcheryNatureBlockProvider(
     dataOutput: FabricDataOutput?,
     registriesFuture: CompletableFuture<HolderLookup.Provider>?
-) : FabricCodecDataProvider<NaturePowerBlockData>(dataOutput, registriesFuture, PackOutput.Target.DATA_PACK, DIRECTORY, NaturePowerBlockData.CODEC) {
+) : FabricCodecDataProvider<NaturePowerBlockData>(
+    dataOutput,
+    registriesFuture,
+    PackOutput.Target.DATA_PACK,
+    DIRECTORY,
+    NaturePowerBlockData.CODEC
+) {
 
     companion object {
         val DIRECTORY: String = "nature"
@@ -27,7 +33,10 @@ class WitcheryNatureBlockProvider(
         return DIRECTORY
     }
 
-    override fun configure(provider: BiConsumer<ResourceLocation, NaturePowerBlockData>, lookup: HolderLookup.Provider?) {
+    override fun configure(
+        provider: BiConsumer<ResourceLocation, NaturePowerBlockData>,
+        lookup: HolderLookup.Provider?
+    ) {
         makeBlock(provider, Blocks.GRASS_BLOCK, 2, 80)
         makeBlock(provider, Blocks.PODZOL, 1, 80)
         makeBlock(provider, Blocks.DIRT, 1, 80)
@@ -56,7 +65,7 @@ class WitcheryNatureBlockProvider(
         makeBlock(provider, Blocks.MELON_STEM, 3, 20)
         makeBlock(provider, Blocks.COCOA, 3, 20)
         makeBlock(provider, Blocks.DRAGON_EGG, 250, 1)
-        makeBlock(provider, WitcheryBlocks.BELLADONNAE_CROP.get(), 4, 20)
+        makeBlock(provider, WitcheryBlocks.BELLADONNA_CROP.get(), 4, 20)
         makeBlock(provider, WitcheryBlocks.MANDRAKE_CROP.get(), 4, 20)
         makeBlock(provider, WitcheryBlocks.SNOWBELL_CROP.get(), 4, 20)
         makeBlock(provider, WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), 4, 20)
@@ -71,43 +80,48 @@ class WitcheryNatureBlockProvider(
         makeBlock(provider, WitcheryBlocks.INFINITY_EGG.get(), 6000, 1)
 
         //1.21
-        makeBlock(provider, WitcheryBlocks.GARLIC_CROP.get(), 4, 20);
-        makeBlock(provider, WitcheryBlocks.WOLFSFBANE_CROP.get(), 4, 20);
-        makeBlock(provider, WitcheryBlocks.WORMWOOD_CROP.get(), 4, 20);
-        makeBlock(provider, Blocks.BEETROOTS, 3, 20);
-        makeBlock(provider, Blocks.NETHER_WART, 4, 20);
-        makeBlock(provider, Blocks.SWEET_BERRY_BUSH, 3, 20);
-        makeBlock(provider, Blocks.AMETHYST_BLOCK, 4, 20);
-        makeBlock(provider, Blocks.ROOTED_DIRT, 2, 80);
-        makeBlock(provider, Blocks.CRIMSON_NYLIUM, 3, 80);
-        makeBlock(provider, Blocks.WARPED_NYLIUM, 3, 80);
-        makeBlock(provider, Blocks.MANGROVE_ROOTS, 1, 60);
-        makeBlock(provider, Blocks.MUDDY_MANGROVE_ROOTS, 2, 40);
-        makeBlock(provider, Blocks.MUSHROOM_STEM, 3, 20);
-        makeBlock(provider, Blocks.SHROOMLIGHT, 3, 20);
-        makeBlock(provider, Blocks.CORNFLOWER, 4, 30);
-        makeBlock(provider, Blocks.LILY_OF_THE_VALLEY, 4, 30);
-        makeBlock(provider, Blocks.WITHER_ROSE, 3, 30);
-        makeBlock(provider, Blocks.PINK_PETALS, 2, 50);
-        makeBlock(provider, Blocks.SPORE_BLOSSOM, 5, 20);
-        makeBlock(provider, Blocks.WEEPING_VINES, 3, 50);
-        makeBlock(provider, Blocks.TWISTING_VINES, 3, 50);
-        makeBlock(provider, Blocks.SUNFLOWER, 2, 60);
-        makeBlock(provider, Blocks.LILAC, 2, 60);
-        makeBlock(provider, Blocks.ROSE_BUSH, 2, 60);
-        makeBlock(provider, Blocks.PEONY, 2, 60);
-        makeBlock(provider, Blocks.SMALL_DRIPLEAF, 2, 60);
-        makeBlock(provider, Blocks.CHORUS_PLANT, 2, 30);
-        makeBlock(provider, Blocks.CHORUS_FLOWER, 2, 20);
-        makeBlock(provider, Blocks.GLOW_LICHEN, 1, 30);
-        makeBlock(provider, Blocks.LILY_PAD, 1, 40);
-        makeBlock(provider, Blocks.SEA_PICKLE, 2, 30);
-        makeBlock(provider, Blocks.SCULK_CATALYST, 4, 10);
-        makeBlock(provider, Blocks.SCULK_SHRIEKER, 4, 10);
-        makeBlock(provider, Blocks.SCULK_SENSOR, 3, 30);
+        makeBlock(provider, WitcheryBlocks.GARLIC_CROP.get(), 4, 20)
+        makeBlock(provider, WitcheryBlocks.WOLFSFBANE_CROP.get(), 4, 20)
+        makeBlock(provider, WitcheryBlocks.WORMWOOD_CROP.get(), 4, 20)
+        makeBlock(provider, Blocks.BEETROOTS, 3, 20)
+        makeBlock(provider, Blocks.NETHER_WART, 4, 20)
+        makeBlock(provider, Blocks.SWEET_BERRY_BUSH, 3, 20)
+        makeBlock(provider, Blocks.AMETHYST_BLOCK, 4, 20)
+        makeBlock(provider, Blocks.ROOTED_DIRT, 2, 80)
+        makeBlock(provider, Blocks.CRIMSON_NYLIUM, 3, 80)
+        makeBlock(provider, Blocks.WARPED_NYLIUM, 3, 80)
+        makeBlock(provider, Blocks.MANGROVE_ROOTS, 1, 60)
+        makeBlock(provider, Blocks.MUDDY_MANGROVE_ROOTS, 2, 40)
+        makeBlock(provider, Blocks.MUSHROOM_STEM, 3, 20)
+        makeBlock(provider, Blocks.SHROOMLIGHT, 3, 20)
+        makeBlock(provider, Blocks.CORNFLOWER, 4, 30)
+        makeBlock(provider, Blocks.LILY_OF_THE_VALLEY, 4, 30)
+        makeBlock(provider, Blocks.WITHER_ROSE, 3, 30)
+        makeBlock(provider, Blocks.PINK_PETALS, 2, 50)
+        makeBlock(provider, Blocks.SPORE_BLOSSOM, 5, 20)
+        makeBlock(provider, Blocks.WEEPING_VINES, 3, 50)
+        makeBlock(provider, Blocks.TWISTING_VINES, 3, 50)
+        makeBlock(provider, Blocks.SUNFLOWER, 2, 60)
+        makeBlock(provider, Blocks.LILAC, 2, 60)
+        makeBlock(provider, Blocks.ROSE_BUSH, 2, 60)
+        makeBlock(provider, Blocks.PEONY, 2, 60)
+        makeBlock(provider, Blocks.SMALL_DRIPLEAF, 2, 60)
+        makeBlock(provider, Blocks.CHORUS_PLANT, 2, 30)
+        makeBlock(provider, Blocks.CHORUS_FLOWER, 2, 20)
+        makeBlock(provider, Blocks.GLOW_LICHEN, 1, 30)
+        makeBlock(provider, Blocks.LILY_PAD, 1, 40)
+        makeBlock(provider, Blocks.SEA_PICKLE, 2, 30)
+        makeBlock(provider, Blocks.SCULK_CATALYST, 4, 10)
+        makeBlock(provider, Blocks.SCULK_SHRIEKER, 4, 10)
+        makeBlock(provider, Blocks.SCULK_SENSOR, 3, 30)
     }
 
-    private fun makeBlock(provider: BiConsumer<ResourceLocation, NaturePowerBlockData>, block: Block, power: Int, limit: Int) {
+    private fun makeBlock(
+        provider: BiConsumer<ResourceLocation, NaturePowerBlockData>,
+        block: Block,
+        power: Int,
+        limit: Int
+    ) {
         val id = BuiltInRegistries.BLOCK.getKey(block)
         provider.accept(Witchery.id(id.path), NaturePowerBlockData(id, power, limit))
     }

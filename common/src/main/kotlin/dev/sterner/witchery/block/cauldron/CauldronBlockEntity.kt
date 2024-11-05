@@ -16,11 +16,11 @@ import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
-import net.minecraft.client.Minecraft
-import net.minecraft.client.particle.ParticleEngine
-import net.minecraft.core.*
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponents
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
@@ -147,7 +147,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             val randX = pos.x + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
             val randY = (pos.y + 1.0)
             val randZ = pos.z + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
-            WitcheryPayloads.sendToPlayers(level, blockPos, CauldronEffectParticleS2CPayload(Vector3d(randX, randY, randZ), color))
+            WitcheryPayloads.sendToPlayers(
+                level,
+                blockPos,
+                CauldronEffectParticleS2CPayload(Vector3d(randX, randY, randZ), color)
+            )
         }
 
         // Handle crafting progress and execution
@@ -343,10 +347,22 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 }
                 pStack.shrink(1)
                 if (level!!.random.nextFloat() < bonus) {
-                    Containers.dropItemStack(level, pPlayer.x, pPlayer.y, pPlayer.z, ItemStack(brewItemOutput.copy().item))
+                    Containers.dropItemStack(
+                        level,
+                        pPlayer.x,
+                        pPlayer.y,
+                        pPlayer.z,
+                        ItemStack(brewItemOutput.copy().item)
+                    )
                 }
                 if (level!!.random.nextFloat() < thirdBonus) {
-                    Containers.dropItemStack(level, pPlayer.x, pPlayer.y, pPlayer.z, ItemStack(brewItemOutput.copy().item))
+                    Containers.dropItemStack(
+                        level,
+                        pPlayer.x,
+                        pPlayer.y,
+                        pPlayer.z,
+                        ItemStack(brewItemOutput.copy().item)
+                    )
                 }
                 Containers.dropItemStack(level, pPlayer.x, pPlayer.y, pPlayer.z, ItemStack(brewItemOutput.copy().item))
                 fluidTank.fluidStorage.remove(FluidStackHooks.bucketAmount() / 3, false)

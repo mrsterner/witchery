@@ -19,7 +19,6 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.BedBlock
 import net.minecraft.world.level.block.state.properties.BedPart
-import kotlin.math.abs
 
 
 open class BoneNeedleItem(properties: Properties) : Item(properties.durability(16)) {

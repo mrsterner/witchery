@@ -1,12 +1,10 @@
 package dev.sterner.witchery.block.poppet
 
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
 import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryUtil
-import net.minecraft.client.multiplayer.chat.report.ReportEnvironment.Server
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel

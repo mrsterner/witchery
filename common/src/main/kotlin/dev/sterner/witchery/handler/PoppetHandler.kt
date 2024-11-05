@@ -4,7 +4,6 @@ import dev.architectury.event.EventResult
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
-import dev.sterner.witchery.mixin.ItemEntityMixin
 import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
@@ -146,9 +145,10 @@ object PoppetHandler {
         return itemStack
     }
 
-    fun handleVampiricPoppet(livingEntity: LivingEntity?, damageSource: DamageSource ,original: Float): Float {
+    fun handleVampiricPoppet(livingEntity: LivingEntity?, damageSource: DamageSource, original: Float): Float {
         if (livingEntity != null) {
-            var itemStack: ItemStack? = AccessoryHandler.checkNoConsume(livingEntity, WitcheryItems.VAMPIRIC_POPPET.get())
+            var itemStack: ItemStack? =
+                AccessoryHandler.checkNoConsume(livingEntity, WitcheryItems.VAMPIRIC_POPPET.get())
 
             if (itemStack == null) {
                 for (interactionHand in InteractionHand.entries) {
@@ -180,8 +180,8 @@ object PoppetHandler {
             }
 
             if (itemStack != null) {
-                val maybePlayer = TaglockItem.getPlayer(livingEntity.level(), itemStack)
-                val maybeEntity = TaglockItem.getLivingEntity(livingEntity.level(), itemStack)
+                val maybePlayer = getPlayer(livingEntity.level(), itemStack)
+                val maybeEntity = getLivingEntity(livingEntity.level(), itemStack)
                 if (maybePlayer != null || maybeEntity != null) {
                     val halfDamage = original / 2
                     maybePlayer?.hurt(damageSource, halfDamage)
@@ -235,7 +235,13 @@ object PoppetHandler {
         }
     }
 
-    fun handleUseVoodoo(level: Level, pos: BlockPos, item: ItemStack, player: Player?, blockHitResult: BlockHitResult): InteractionResult {
+    fun handleUseVoodoo(
+        level: Level,
+        pos: BlockPos,
+        item: ItemStack,
+        player: Player?,
+        blockHitResult: BlockHitResult
+    ): InteractionResult {
         if (level.getBlockState(blockHitResult.blockPos).`is`(Blocks.LAVA)) {
             val maybePlayer = getPlayer(level, item)
             val maybeEntity = getLivingEntity(level, item)

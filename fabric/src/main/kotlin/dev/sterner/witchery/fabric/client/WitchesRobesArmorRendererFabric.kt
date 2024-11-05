@@ -18,7 +18,6 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.ItemStack
-import java.awt.Color
 
 class WitchesRobesArmorRendererFabric : ArmorRenderer {
 
@@ -40,7 +39,10 @@ class WitchesRobesArmorRendererFabric : ArmorRenderer {
             contextModel.copyPropertiesTo(armor!!)
             armor!!.setAllVisible(false)
 
-            if (entity.hasEffect(MobEffects.INVISIBILITY) || (entity is Player && LightInfusionDataAttachment.isInvisible(entity).isInvisible)) {
+            if (entity.hasEffect(MobEffects.INVISIBILITY) || (entity is Player && LightInfusionDataAttachment.isInvisible(
+                    entity
+                ).isInvisible)
+            ) {
                 armor!!.head.visible = false
                 armor!!.body.visible = false
                 armor!!.leftArm.visible = false
@@ -60,18 +62,42 @@ class WitchesRobesArmorRendererFabric : ArmorRenderer {
 
         if (slot == EquipmentSlot.HEAD && stack.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
             val babaTexture = Witchery.id("textures/models/armor/baba_yagas_hat.png")
-            val babaVertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumers, RenderType.armorCutoutNoCull(babaTexture), stack.hasFoil())
+            val babaVertexConsumer = ItemRenderer.getArmorFoilBuffer(
+                vertexConsumers,
+                RenderType.armorCutoutNoCull(babaTexture),
+                stack.hasFoil()
+            )
             armor!!.renderToBuffer(matrices, babaVertexConsumer, light, OverlayTexture.NO_OVERLAY)
         } else if (slot == EquipmentSlot.HEAD) {
             val armorTexture = Witchery.id("textures/models/armor/witches_robes.png")
-            val armorVertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumers, RenderType.armorCutoutNoCull(armorTexture), stack.hasFoil())
-            armor!!.renderToBuffer(matrices, armorVertexConsumer, light, OverlayTexture.NO_OVERLAY, DyeColor.BLACK.textureDiffuseColor)
+            val armorVertexConsumer = ItemRenderer.getArmorFoilBuffer(
+                vertexConsumers,
+                RenderType.armorCutoutNoCull(armorTexture),
+                stack.hasFoil()
+            )
+            armor!!.renderToBuffer(
+                matrices,
+                armorVertexConsumer,
+                light,
+                OverlayTexture.NO_OVERLAY,
+                DyeColor.BLACK.textureDiffuseColor
+            )
         }
 
         if (slot != EquipmentSlot.HEAD) {
             val armorTexture = Witchery.id("textures/models/armor/witches_robes.png")
-            val armorVertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumers, RenderType.armorCutoutNoCull(armorTexture), stack.hasFoil())
-            armor!!.renderToBuffer(matrices, armorVertexConsumer, light, OverlayTexture.NO_OVERLAY, DyeColor.BLACK.textureDiffuseColor)
+            val armorVertexConsumer = ItemRenderer.getArmorFoilBuffer(
+                vertexConsumers,
+                RenderType.armorCutoutNoCull(armorTexture),
+                stack.hasFoil()
+            )
+            armor!!.renderToBuffer(
+                matrices,
+                armorVertexConsumer,
+                light,
+                OverlayTexture.NO_OVERLAY,
+                DyeColor.BLACK.textureDiffuseColor
+            )
         }
 
     }

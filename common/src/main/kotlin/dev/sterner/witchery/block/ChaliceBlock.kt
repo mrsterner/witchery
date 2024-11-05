@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class ChaliceBlock(properties: Properties): Block(properties.noOcclusion()) {
+class ChaliceBlock(properties: Properties) : Block(properties.noOcclusion()) {
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         super.createBlockStateDefinition(builder.add(HAS_SOUP))
     }

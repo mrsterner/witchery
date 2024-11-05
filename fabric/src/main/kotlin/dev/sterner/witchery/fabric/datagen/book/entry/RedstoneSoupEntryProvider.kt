@@ -4,17 +4,11 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookRecipePageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.entry.RitualChalkEntryProvider.Companion
 import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronBrewingPageModel
-import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronCraftingPageModel
-import dev.sterner.witchery.integration.modonomicon.BookCauldronBrewingRecipePage
-import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.world.item.Items
 
 class RedstoneSoupEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
 

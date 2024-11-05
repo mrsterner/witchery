@@ -12,8 +12,8 @@ import net.minecraft.world.entity.player.Inventory
 class OvenScreen(menu: OvenMenu, inventory: Inventory, title: Component) :
     AbstractContainerScreen<OvenMenu>(menu, inventory, title) {
 
-    val litProgressSprite: ResourceLocation = ResourceLocation.withDefaultNamespace("container/furnace/lit_progress")
-    val burnProgressSprite: ResourceLocation = ResourceLocation.withDefaultNamespace("container/furnace/burn_progress")
+    private val litProgressSprite: ResourceLocation = ResourceLocation.withDefaultNamespace("container/furnace/lit_progress")
+    private val burnProgressSprite: ResourceLocation = ResourceLocation.withDefaultNamespace("container/furnace/burn_progress")
     val texture: ResourceLocation = Witchery.id("textures/gui/oven.png")
 
     override fun isPauseScreen(): Boolean {

@@ -12,11 +12,16 @@ import net.minecraft.world.item.ItemDisplayContext
 import net.minecraft.world.item.ItemStack
 
 
-class SpinningWheelBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRenderer(Minecraft.getInstance().blockEntityRenderDispatcher, Minecraft.getInstance().entityModels) {
+class SpinningWheelBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRenderer(
+    Minecraft.getInstance().blockEntityRenderDispatcher,
+    Minecraft.getInstance().entityModels
+) {
 
-    var model: SpinningWheelBlockEntityModel? = SpinningWheelBlockEntityModel(SpinningWheelBlockEntityModel.createBodyLayer().bakeRoot())
+    var model: SpinningWheelBlockEntityModel? =
+        SpinningWheelBlockEntityModel(SpinningWheelBlockEntityModel.createBodyLayer().bakeRoot())
     var wheelModel: SpinningWheelWheelBlockEntityModel? = SpinningWheelWheelBlockEntityModel(
-        SpinningWheelWheelBlockEntityModel.createBodyLayer().bakeRoot())
+        SpinningWheelWheelBlockEntityModel.createBodyLayer().bakeRoot()
+    )
 
 
     override fun renderByItem(
@@ -35,7 +40,7 @@ class SpinningWheelBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRend
             packedLight,
             packedOverlay
         )
-        poseStack.translate(0.0,-0.8,0.3)
+        poseStack.translate(0.0, -0.8, 0.3)
         wheelModel?.renderToBuffer(
             poseStack,
             buffer.getBuffer(RenderType.entityTranslucent(Witchery.id("textures/block/spinning_wheel_wheel.png"))),

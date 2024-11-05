@@ -2,7 +2,6 @@ package dev.sterner.witchery.item
 
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.ItemNameBlockItem
-import net.minecraft.world.item.Items
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.block.Block

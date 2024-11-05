@@ -7,10 +7,11 @@ import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
-import java.util.UUID
+import java.util.*
 
 object WitcheryDataComponents {
-    val DATA = DeferredRegister.create(Witchery.MODID, Registries.DATA_COMPONENT_TYPE)
+
+    val DATA: DeferredRegister<DataComponentType<*>> = DeferredRegister.create(Witchery.MODID, Registries.DATA_COMPONENT_TYPE)
 
     val GLOBAL_POS_COMPONENT = DATA.register("global_pos") {
         DataComponentType.builder<GlobalPos>().persistent(GlobalPos.CODEC).build()

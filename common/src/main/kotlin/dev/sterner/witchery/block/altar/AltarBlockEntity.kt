@@ -32,13 +32,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.ContainerData
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.PlayerHeadBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
-import java.util.stream.Stream
 import kotlin.math.floor
-import kotlin.math.max
 import kotlin.math.min
 
 
@@ -173,13 +170,26 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             else if (state.`is`(Blocks.SOUL_TORCH) && 1.5 > bestLightAugment)
                 bestLightAugment = 1.5
             else if ((state.`is`(Blocks.TORCH) || state.`is`(BlockTags.CANDLES) { s ->
-                    s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 4 }) && 1.0 > bestLightAugment)
+                    s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 4
+                }) && 1.0 > bestLightAugment)
                 bestLightAugment = 1.0
-            else if (state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 3 } && 0.75 > bestLightAugment)
+            else if (state.`is`(BlockTags.CANDLES) { s ->
+                    s.getValue(BlockStateProperties.LIT) && s.getValue(
+                        BlockStateProperties.CANDLES
+                    ) == 3
+                } && 0.75 > bestLightAugment)
                 bestLightAugment = 0.75
-            else if (state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 2 } && 0.5 > bestLightAugment)
+            else if (state.`is`(BlockTags.CANDLES) { s ->
+                    s.getValue(BlockStateProperties.LIT) && s.getValue(
+                        BlockStateProperties.CANDLES
+                    ) == 2
+                } && 0.5 > bestLightAugment)
                 bestLightAugment = 0.5
-            else if ((state.`is`(BlockTags.CANDLES) { s -> s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 1 } ||
+            else if ((state.`is`(BlockTags.CANDLES) { s ->
+                    s.getValue(BlockStateProperties.LIT) && s.getValue(
+                        BlockStateProperties.CANDLES
+                    ) == 1
+                } ||
                         state.`is`(BlockTags.CANDLE_CAKES) { s -> s.getValue(BlockStateProperties.LIT) }) && 0.25 > bestLightAugment)
                 bestLightAugment = 0.25
 

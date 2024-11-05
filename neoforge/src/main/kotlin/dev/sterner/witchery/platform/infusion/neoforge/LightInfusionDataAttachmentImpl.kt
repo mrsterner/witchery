@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player
 object LightInfusionDataAttachmentImpl {
 
     @JvmStatic
-    fun setInvisible(player: Player, invisible: Boolean, invisibleTicks: Int){
+    fun setInvisible(player: Player, invisible: Boolean, invisibleTicks: Int) {
         val data = LightInfusionData(invisible, invisibleTicks)
         player.setData(WitcheryNeoForgeAttachmentRegistry.LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT, data)
         LightInfusionDataAttachment.sync(player, data)

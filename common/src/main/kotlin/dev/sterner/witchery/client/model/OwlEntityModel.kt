@@ -23,7 +23,7 @@ class OwlEntityModel(val root: ModelPart) :
         RenderType.entityTranslucent(
             location
         )
-    }){
+    }) {
 
     private val head: ModelPart = root.getChild("head")
     private val body: ModelPart = root.getChild("body")

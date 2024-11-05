@@ -34,7 +34,13 @@ object EntSpawnLevelAttachment {
         throw AssertionError()
     }
 
-    fun breakBlock(level: Level?, blockPos: BlockPos?, blockState: BlockState, serverPlayer: ServerPlayer?, intValue: IntValue?): EventResult? {
+    fun breakBlock(
+        level: Level?,
+        blockPos: BlockPos?,
+        blockState: BlockState,
+        serverPlayer: ServerPlayer?,
+        intValue: IntValue?
+    ): EventResult? {
         if (level is ServerLevel && blockPos != null) {
             val isRowan = blockState.`is`(WitcheryBlocks.ROWAN_LOG.get())
             val isHawthorn = blockState.`is`(WitcheryBlocks.HAWTHORN_LOG.get())
@@ -103,20 +109,21 @@ object EntSpawnLevelAttachment {
         val ent = WitcheryEntityTypes.ENT.get().create(level)
         val variant = if (state.`is`(WitcheryBlocks.HAWTHORN_LOG.get())) {
             EntEntity.Type.HAWTHORN
-        } else if(state.`is`(WitcheryBlocks.ALDER_LOG.get())){
+        } else if (state.`is`(WitcheryBlocks.ALDER_LOG.get())) {
             EntEntity.Type.ALDER
         } else {
             EntEntity.Type.ROWAN
         }
         ent?.setVariant(variant)
-        ent?.moveTo(blockPos.x + 0.5, blockPos.y+ 0.5, blockPos.z+ 0.5)
+        ent?.moveTo(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5)
         ent?.let { level.addFreshEntity(it) }
     }
 
     data class Data(val entries: List<BlockEntry> = listOf()) {
         companion object {
             val ID: ResourceLocation = Witchery.id("ent_spawn")
-            val DATA_CODEC: Codec<Data> = BlockEntry.CODEC.listOf().fieldOf("entries").xmap(::Data, Data::entries).codec()
+            val DATA_CODEC: Codec<Data> =
+                BlockEntry.CODEC.listOf().fieldOf("entries").xmap(::Data, Data::entries).codec()
         }
     }
 

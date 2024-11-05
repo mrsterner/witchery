@@ -31,7 +31,7 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
         this.addSlot(Slot(blockEntity!!, INGREDIENT_SLOT, 36, 17))
         this.addSlot(Slot(blockEntity!!, EXTRA_INGREDIENT_SLOT, 124, 55))
 
-        this.addSlot(OvenFuelSlot(this, blockEntity, FUEL_SLOT, 36, 53))
+        this.addSlot(OvenFuelSlot(this, blockEntity!!, FUEL_SLOT, 36, 53))
         this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, RESULT_SLOT, 96, 35))
         this.addSlot(FurnaceResultSlot(inventory.player, blockEntity!!, EXTRA_RESULT_SLOT, 124, 16))
 
@@ -75,14 +75,14 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
         return resultStack
     }
 
-    fun canSmelt(stack: ItemStack?): Boolean {
+    fun canSmelt(stack: ItemStack): Boolean {
         return level.recipeManager.getRecipeFor(
             WitcheryRecipeTypes.OVEN_RECIPE_TYPE.get(), SingleRecipeInput(stack),
             this.level
         ).isPresent
     }
 
-    fun isFuel(stack: ItemStack?): Boolean {
+    fun isFuel(stack: ItemStack): Boolean {
         return AbstractFurnaceBlockEntity.isFuel(stack)
     }
 
@@ -105,16 +105,11 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
         return data[0] > 0
     }
 
-
     companion object {
         const val INGREDIENT_SLOT: Int = 0
         const val FUEL_SLOT: Int = 1
         const val RESULT_SLOT: Int = 2
         const val EXTRA_INGREDIENT_SLOT: Int = 3
         const val EXTRA_RESULT_SLOT: Int = 4
-
-        const val INV_SLOT_START: Int = 3
-        const val USE_ROW_SLOT_START: Int = 30
-        const val USE_ROW_SLOT_END: Int = 39
     }
 }

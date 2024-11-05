@@ -7,25 +7,23 @@ import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.NbtOps
-import net.minecraft.nbt.Tag
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
-import net.minecraft.world.level.block.entity.SkullBlockEntity
 import java.util.*
 
 
 class SleepingPlayerData(
-    var id: UUID? = UUID(0,0),
+    var id: UUID? = UUID(0, 0),
     var resolvableProfile: ResolvableProfile? = null,
     var mainInventory: NonNullList<ItemStack> = NonNullList.withSize(36, ItemStack.EMPTY),
     var armorInventory: NonNullList<ItemStack> = NonNullList.withSize(4, ItemStack.EMPTY),
-    var offHandInventory: NonNullList<ItemStack> = NonNullList.withSize(1,ItemStack.EMPTY),
+    var offHandInventory: NonNullList<ItemStack> = NonNullList.withSize(1, ItemStack.EMPTY),
     var equipment: NonNullList<ItemStack> = NonNullList.withSize(EquipmentSlot.entries.size, ItemStack.EMPTY),
-    var extraInventory: NonNullList<ItemStack> = NonNullList.withSize(36 + 9,ItemStack.EMPTY),
+    var extraInventory: NonNullList<ItemStack> = NonNullList.withSize(36 + 9, ItemStack.EMPTY),
     var model: Byte = 0,
-){
+) {
 
     fun writeNbt(lookup: HolderLookup.Provider): CompoundTag {
         val nbt = CompoundTag()
@@ -51,7 +49,7 @@ class SleepingPlayerData(
 
     companion object {
 
-        fun fromPlayer(player: Player) : SleepingPlayerData {
+        fun fromPlayer(player: Player): SleepingPlayerData {
             val builder = SleepingPlayerData()
             builder.id = UUID.randomUUID()
             builder.resolvableProfile = ResolvableProfile(player.gameProfile)
@@ -108,7 +106,12 @@ class SleepingPlayerData(
             return builder
         }
 
-        private fun readInventory(compound: CompoundTag, name: String, inv: NonNullList<ItemStack>, lookup: HolderLookup.Provider) {
+        private fun readInventory(
+            compound: CompoundTag,
+            name: String,
+            inv: NonNullList<ItemStack>,
+            lookup: HolderLookup.Provider
+        ) {
 
             if (compound.contains(name, 9)) {
                 val listTag = compound.getList(name, 10)
@@ -120,7 +123,12 @@ class SleepingPlayerData(
             }
         }
 
-        private fun writeInventory(nbt: CompoundTag, key: String, inventory: NonNullList<ItemStack>, lookup: HolderLookup.Provider) {
+        private fun writeInventory(
+            nbt: CompoundTag,
+            key: String,
+            inventory: NonNullList<ItemStack>,
+            lookup: HolderLookup.Provider
+        ) {
             val listTag = ListTag()
 
             for (itemStack in inventory) {

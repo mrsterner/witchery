@@ -1,6 +1,5 @@
 package dev.sterner.witchery.platform.fabric
 
-import dev.sterner.witchery.fabric.WitcheryFabric
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.platform.EntSpawnLevelAttachment.Data
 import net.minecraft.server.level.ServerLevel

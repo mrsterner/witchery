@@ -13,7 +13,8 @@ import java.util.function.Supplier
 /**
  * Stripping is weird...
  */
-class ForgeStrippableLogBlock(strippedLog: Supplier<out Block>, properties: Properties): StrippableLogBlock(strippedLog, properties), IBlockExtension {
+class ForgeStrippableLogBlock(strippedLog: Supplier<out Block>, properties: Properties) :
+    StrippableLogBlock(strippedLog, properties), IBlockExtension {
     override fun getToolModifiedState(
         state: BlockState,
         context: UseOnContext,
@@ -21,7 +22,8 @@ class ForgeStrippableLogBlock(strippedLog: Supplier<out Block>, properties: Prop
         simulate: Boolean
     ): BlockState? {
         if (ItemAbilities.AXE_STRIP == itemAbility)
-            return strippedLog.get().defaultBlockState().setValue(BlockStateProperties.FACING, state.getValue(BlockStateProperties.FACING))
-        return super<IBlockExtension>.getToolModifiedState(state, context, itemAbility, simulate)
+            return strippedLog.get().defaultBlockState()
+                .setValue(BlockStateProperties.FACING, state.getValue(BlockStateProperties.FACING))
+        return super.getToolModifiedState(state, context, itemAbility, simulate)
     }
 }

@@ -101,7 +101,7 @@ class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties.no
     }
 
     // Yes I stole this, AccessWidener didnt wanna work on NeoForge
-    fun getGrowthSpeed(block: Block, level: BlockGetter, pos: BlockPos): Float {
+    private fun getGrowthSpeed(block: Block, level: BlockGetter, pos: BlockPos): Float {
         var f = 1.0f
         val blockPos = pos.below()
 
@@ -148,12 +148,12 @@ class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties.no
         val f = getGrowthSpeed(this, level, pos)
         val bl = random.nextInt((25.0f / f).toInt() + 1) == 0
         if (bl) {
-            this.grow(level, state, pos, 1)
+            this.grow(level, state, pos)
         }
     }
 
-    private fun grow(level: ServerLevel, state: BlockState, pos: BlockPos, ageIncrement: Int) {
-        val i = min((state.getValue(BlockStateProperties.AGE_4) as Int + ageIncrement).toDouble(), 4.0).toInt()
+    private fun grow(level: ServerLevel, state: BlockState, pos: BlockPos) {
+        val i = min((state.getValue(BlockStateProperties.AGE_4) as Int + 1).toDouble(), 4.0).toInt()
         if (this.canGrow(level, pos, state, i)) {
             val blockState = state.setValue(BlockStateProperties.AGE_4, i)
             level.setBlock(pos, blockState, 2)
@@ -217,7 +217,7 @@ class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties.no
     override fun performBonemeal(level: ServerLevel, random: RandomSource, pos: BlockPos, state: BlockState) {
         val posAndState = this.getLowerHalf(level, pos, state)
         if (posAndState != null) {
-            this.grow(level, posAndState.state, posAndState.pos, 1)
+            this.grow(level, posAndState.state, posAndState.pos)
         }
     }
 
@@ -230,10 +230,9 @@ class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties.no
                 properties
             )
         }
-        val FULL_UPPER_SHAPE: VoxelShape = box(3.0, 0.0, 3.0, 13.0, 15.0, 13.0)
-        val FULL_LOWER_SHAPE: VoxelShape = box(3.0, -1.0, 3.0, 13.0, 16.0, 13.0)
-        val COLLISION_SHAPE_BULB: VoxelShape = box(5.0, -1.0, 5.0, 11.0, 3.0, 11.0)
-        val COLLISION_SHAPE_CROP: VoxelShape = box(3.0, -1.0, 3.0, 13.0, 5.0, 13.0)
+        private val FULL_UPPER_SHAPE: VoxelShape = box(3.0, 0.0, 3.0, 13.0, 15.0, 13.0)
+        private val FULL_LOWER_SHAPE: VoxelShape = box(3.0, -1.0, 3.0, 13.0, 16.0, 13.0)
+        private val COLLISION_SHAPE_BULB: VoxelShape = box(5.0, -1.0, 5.0, 11.0, 3.0, 11.0)
         val UPPER_SHAPE_BY_AGE: Array<VoxelShape> = arrayOf(box(3.0, 0.0, 3.0, 13.0, 11.0, 13.0), FULL_UPPER_SHAPE)
         val LOWER_SHAPE_BY_AGE: Array<VoxelShape> = arrayOf(
             COLLISION_SHAPE_BULB,

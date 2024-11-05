@@ -1,9 +1,6 @@
 package dev.sterner.witchery.neoforge.event
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.BroomEntity
-import dev.sterner.witchery.registry.WitcheryKeyMappings
-import net.minecraft.world.entity.player.Player
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.event.entity.EntityMountEvent

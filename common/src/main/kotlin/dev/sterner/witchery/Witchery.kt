@@ -54,7 +54,6 @@ import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
-import net.minecraft.core.HolderLookup
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
@@ -66,9 +65,7 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
-import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 import org.slf4j.Logger
 
 
@@ -135,7 +132,11 @@ object Witchery {
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
     }
 
-    private fun addWitchesHand(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean) {
+    private fun addWitchesHand(
+        resourceKey: ResourceKey<LootTable>?,
+        context: LootTableModificationContext,
+        isBuiltin: Boolean
+    ) {
         if (isBuiltin && EntityType.WITCH.defaultLootTable.equals(resourceKey)) {
             val pool = LootPool
                 .lootPool()
@@ -147,7 +148,11 @@ object Witchery {
         }
     }
 
-    private fun addLootInjects(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean){
+    private fun addLootInjects(
+        resourceKey: ResourceKey<LootTable>?,
+        context: LootTableModificationContext,
+        isBuiltin: Boolean
+    ) {
 
 
         if (isBuiltin && EntityType.WOLF.defaultLootTable.equals(resourceKey)) {
@@ -264,7 +269,12 @@ object Witchery {
         EntityModelLayerRegistry.register(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)
         EntityModelLayerRegistry.register(BoatModels.ALDER_BOAT_LAYER, BoatModel::createBodyModel)
         EntityModelLayerRegistry.register(BoatModels.HAWTHORN_BOAT_LAYER, BoatModel::createBodyModel)
-        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_CHEST_BOAT) { context -> BoatRenderer(context, true) }
+        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_CHEST_BOAT) { context ->
+            BoatRenderer(
+                context,
+                true
+            )
+        }
         EntityModelLayerRegistry.register(BoatModels.ROWAN_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
         EntityModelLayerRegistry.register(BoatModels.ALDER_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
         EntityModelLayerRegistry.register(BoatModels.HAWTHORN_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
@@ -276,10 +286,16 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DISTILLERY.get(), ::DistilleryBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPINNING_WHEEL.get(), ::SpinningWheelBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(
+            WitcheryBlockEntityTypes.SPINNING_WHEEL.get(),
+            ::SpinningWheelBlockEntityRenderer
+        )
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_SIGN.get(), ::SignRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get(), ::HangingSignRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DREAM_WEAVER.get(), ::DreamWeaverBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(
+            WitcheryBlockEntityTypes.DREAM_WEAVER.get(),
+            ::DreamWeaverBlockEntityRenderer
+        )
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.POPPET.get(), ::PoppetBlockEntityRenderer)
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
@@ -355,7 +371,7 @@ object Witchery {
             WitcheryBlocks.EMBER_MOSS.get(),
             WitcheryBlocks.SPANISH_MOSS.get(),
             WitcheryBlocks.MANDRAKE_CROP.get(),
-            WitcheryBlocks.BELLADONNAE_CROP.get(),
+            WitcheryBlocks.BELLADONNA_CROP.get(),
             WitcheryBlocks.COPPER_WITCHES_OVEN.get(),
             WitcheryBlocks.IRON_WITCHES_OVEN.get(),
             WitcheryBlocks.SNOWBELL_CROP.get(),

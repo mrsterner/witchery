@@ -2,12 +2,8 @@ package dev.sterner.witchery.platform.infusion.neoforge
 
 import dev.sterner.witchery.neoforge.WitcheryNeoForgeAttachmentRegistry
 import dev.sterner.witchery.platform.infusion.InfusionData
-import dev.sterner.witchery.platform.infusion.InfusionData.Companion.MAX_CHARGE
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
-import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Player
-import net.neoforged.neoforge.attachment.AttachmentType
-import java.util.function.Supplier
 
 object PlayerInfusionDataAttachmentImpl {
 

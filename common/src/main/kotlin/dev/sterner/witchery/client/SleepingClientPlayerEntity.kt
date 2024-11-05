@@ -11,7 +11,10 @@ import kotlin.experimental.and
 
 
 class SleepingClientPlayerEntity(
-    clientLevel: ClientLevel, gameProfile: GameProfile, private val equipmentList: NonNullList<ItemStack>, val model: Byte
+    clientLevel: ClientLevel,
+    gameProfile: GameProfile,
+    equipmentList: NonNullList<ItemStack>,
+    val model: Byte
 ) : RemotePlayer(clientLevel, gameProfile) {
 
     init {

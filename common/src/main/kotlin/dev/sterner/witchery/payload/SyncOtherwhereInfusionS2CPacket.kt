@@ -15,7 +15,7 @@ class SyncOtherwhereInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayloa
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: OtherwhereInfusionData): this(CompoundTag().apply {
+    constructor(player: Player, data: OtherwhereInfusionData) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putInt("teleportHoldTicks", data.teleportHoldTicks)
         putInt("teleportCooldown", data.teleportCooldown)

@@ -1,8 +1,6 @@
 package dev.sterner.witchery.platform.infusion
 
 import dev.architectury.injectables.annotations.ExpectPlatform
-import dev.sterner.witchery.payload.SpawnPoofParticles
-import dev.sterner.witchery.payload.SyncLightInfusionS2CPacket
 import dev.sterner.witchery.payload.SyncOtherwhereInfusionS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
@@ -13,7 +11,7 @@ object OtherwhereInfusionDataAttachment {
 
     @JvmStatic
     @ExpectPlatform
-    fun setInfusion(player: Player, teleportHoldTicks: Int, teleportCooldown: Int){
+    fun setInfusion(player: Player, teleportHoldTicks: Int, teleportCooldown: Int) {
         throw AssertionError()
     }
 

@@ -2,10 +2,8 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.particle.ColorBubbleData
 import net.minecraft.client.Minecraft
 import net.minecraft.client.particle.ParticleEngine
-import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -58,7 +56,7 @@ class CauldronEffectParticleS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
             val bl = client.level?.random?.nextFloat()!! > 0.75
             if (bl) {
                 val randY = pos.y + Mth.nextDouble(client.level!!.random, -0.25, 0.25)
-                client.level?.addParticle(ParticleTypes.END_ROD, pos.x, randY, pos.z,0.0, 0.0, 0.0)
+                client.level?.addParticle(ParticleTypes.END_ROD, pos.x, randY, pos.z, 0.0, 0.0, 0.0)
             }
 
         }

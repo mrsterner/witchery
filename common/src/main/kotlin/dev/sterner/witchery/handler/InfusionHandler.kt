@@ -1,6 +1,5 @@
 package dev.sterner.witchery.handler
 
-import com.mojang.authlib.minecraft.client.MinecraftClient
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
@@ -15,21 +14,19 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.EntityHitResult
-import java.awt.Color
 
 object InfusionHandler {
 
-    fun hasWitchesHand(player: Player): Boolean {
+    private fun hasWitchesHand(player: Player): Boolean {
         return player.mainHandItem.`is`(WitcheryItems.WITCHES_HAND.get())
     }
 
-    fun canUse(player: Player): Boolean {
+    private fun canUse(player: Player): Boolean {
         return hasWitchesHand(player) && PlayerInfusionDataAttachment.getPlayerInfusion(player).type != InfusionType.NONE
     }
 
@@ -51,7 +48,13 @@ object InfusionHandler {
         }
     }
 
-    fun leftClickEntity(player: Player, level: Level?, entity: Entity?, interactionHand: InteractionHand?, entityHitResult: EntityHitResult?): EventResult? {
+    fun leftClickEntity(
+        player: Player,
+        level: Level?,
+        entity: Entity?,
+        interactionHand: InteractionHand?,
+        entityHitResult: EntityHitResult?
+    ): EventResult? {
         if (canUse(player)) {
             val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
             if (player.isShiftKeyDown) {
@@ -64,7 +67,12 @@ object InfusionHandler {
         return EventResult.pass()
     }
 
-    fun leftClickBlock(player: Player, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
+    fun leftClickBlock(
+        player: Player,
+        interactionHand: InteractionHand?,
+        blockPos: BlockPos?,
+        direction: Direction?
+    ): EventResult? {
         if (canUse(player)) {
             val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
             if (player.isShiftKeyDown) {
@@ -76,12 +84,12 @@ object InfusionHandler {
         return EventResult.pass()
     }
 
-    val infusionMeter = Witchery.id("textures/gui/infusion_meter.png")
-    val infusionMeterOverlay = Witchery.id("textures/gui/infusion_meter_overlay.png")
-    val infusionMeterOtherwhere = Witchery.id("textures/gui/infusion_meter_otherwhere.png")
-    val infusionMeterInfernal = Witchery.id("textures/gui/infusion_meter_infernal.png")
-    val infusionMeterOverworld = Witchery.id("textures/gui/infusion_meter_overworld.png")
-    val infusionMeterLight = Witchery.id("textures/gui/infusion_meter_light.png")
+    private val infusionMeter = Witchery.id("textures/gui/infusion_meter.png")
+    private val infusionMeterOverlay = Witchery.id("textures/gui/infusion_meter_overlay.png")
+    private val infusionMeterOtherwhere = Witchery.id("textures/gui/infusion_meter_otherwhere.png")
+    private val infusionMeterInfernal = Witchery.id("textures/gui/infusion_meter_infernal.png")
+    private val infusionMeterOverworld = Witchery.id("textures/gui/infusion_meter_overworld.png")
+    private val infusionMeterLight = Witchery.id("textures/gui/infusion_meter_light.png")
 
     @Environment(EnvType.CLIENT)
     fun renderInfusionHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker?) {
@@ -98,12 +106,15 @@ object InfusionHandler {
             InfusionType.LIGHT -> {
                 infusionMeterLight
             }
+
             InfusionType.OTHERWHERE -> {
                 infusionMeterOtherwhere
             }
+
             InfusionType.INFERNAL -> {
                 infusionMeterInfernal
             }
+
             else -> infusionMeterOverworld
         }
 

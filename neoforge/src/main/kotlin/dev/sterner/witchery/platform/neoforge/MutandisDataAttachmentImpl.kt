@@ -7,8 +7,6 @@ import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Block
-import net.neoforged.neoforge.attachment.AttachmentType
-import java.util.function.Supplier
 
 object MutandisDataAttachmentImpl {
 
@@ -19,7 +17,8 @@ object MutandisDataAttachmentImpl {
 
     @JvmStatic
     fun getTagForBlockPos(level: ServerLevel, pos: BlockPos): TagKey<Block>? {
-        val levelData = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT.get()) ?: MutandisDataAttachment.MutandisDataCodec()
+        val levelData = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT.get())
+            ?: MutandisDataAttachment.MutandisDataCodec()
         return levelData.mutandisCacheMap[pos]?.tag
     }
 
@@ -34,17 +33,20 @@ object MutandisDataAttachmentImpl {
     }
 
     @JvmStatic
-    fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos)  {
+    fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos) {
         val levelData = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT)
         levelData.mutandisCacheMap.remove(pos)
         level.setData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT, levelData)
     }
 
     @JvmStatic
-    fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos)  {
+    fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
         val data = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT)
         if (data.mutandisCacheMap[pos] != null) {
-            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, data.mutandisCacheMap[pos]!!.time - 1)
+            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(
+                data.mutandisCacheMap[pos]!!.tag,
+                data.mutandisCacheMap[pos]!!.time - 1
+            )
             level.setData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
         }
     }
@@ -53,7 +55,8 @@ object MutandisDataAttachmentImpl {
     fun resetTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
         val data = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT)
         if (data.mutandisCacheMap[pos] != null) {
-            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
+            data.mutandisCacheMap[pos] =
+                MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
             level.setData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
         }
     }

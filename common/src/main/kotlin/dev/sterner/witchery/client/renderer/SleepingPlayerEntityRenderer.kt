@@ -1,6 +1,5 @@
 package dev.sterner.witchery.client.renderer
 
-import com.mojang.authlib.GameProfile
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.client.SleepingClientPlayerEntity
@@ -13,7 +12,6 @@ import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
-import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -21,7 +19,7 @@ import kotlin.math.sin
 class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
     EntityRenderer<SleepingPlayerEntity>(context) {
 
-    var sleepPlayer: SleepingClientPlayerEntity? = null
+    private var sleepPlayer: SleepingClientPlayerEntity? = null
 
     override fun getTextureLocation(entity: SleepingPlayerEntity): ResourceLocation? {
         return null
@@ -49,15 +47,18 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
 
         val equipmentList = entity.getEquipment()
         sleepPlayer = SleepingClientPlayerEntity(
-                entity.level() as ClientLevel,
-                entity.entityData.get(SleepingPlayerEntity.RESOLVEABLE).gameProfile,
-                equipmentList,
-                entity.getSleepingModel()
+            entity.level() as ClientLevel,
+            entity.entityData.get(SleepingPlayerEntity.RESOLVEABLE).gameProfile,
+            equipmentList,
+            entity.getSleepingModel()
         )
 
         sleepPlayer?.yHeadRotO = 0f
         sleepPlayer?.yHeadRot = 0f
-        sleepPlayer?.let { Minecraft.getInstance().entityRenderDispatcher.getRenderer(it).render(sleepPlayer, 0f, partialTick, poseStack, bufferSource, packedLight) }
+        sleepPlayer?.let {
+            Minecraft.getInstance().entityRenderDispatcher.getRenderer(it)
+                .render(sleepPlayer, 0f, partialTick, poseStack, bufferSource, packedLight)
+        }
 
         if (entity.level().random.nextDouble() < 0.05) {
             addZ(entity)

@@ -6,7 +6,6 @@ import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.ByIdMap
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.Entity
@@ -14,7 +13,10 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraft.world.entity.ai.goal.*
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.monster.Monster
@@ -29,10 +31,9 @@ class EntEntity(level: Level) : Monster(WitcheryEntityTypes.ENT.get(), level) {
 
     private var attackAnimationTick = 0
 
-    init{
+    init {
         this.setPersistenceRequired()
     }
-
 
     override fun registerGoals() {
         goalSelector.addGoal(2, MeleeAttackGoal(this, 1.0, false))
@@ -132,11 +133,12 @@ class EntEntity(level: Level) : Monster(WitcheryEntityTypes.ENT.get(), level) {
                 .add(Attributes.FOLLOW_RANGE, 48.0)
         }
 
-        val DATA_TYPE_ID: EntityDataAccessor<Int> = SynchedEntityData.defineId(EntEntity::class.java, EntityDataSerializers.INT);
+        val DATA_TYPE_ID: EntityDataAccessor<Int> =
+            SynchedEntityData.defineId(EntEntity::class.java, EntityDataSerializers.INT)
     }
 
 
-    enum class Type(val id: Int, val inName: String) : StringRepresentable {
+    enum class Type(val id: Int, private val inName: String) : StringRepresentable {
         ROWAN(0, "rowan"),
         ALDER(1, "alder"),
         HAWTHORN(2, "hawthorn");

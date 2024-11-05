@@ -20,24 +20,42 @@ object WitcheryPlacedFeatureBootstrap {
     fun bootstrap(context: BootstrapContext<PlacedFeature>) {
         val configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE)
 
-        context.register(ROWAN_PLACED_KEY, PlacedFeature(configuredFeatures.getOrThrow(ROWAN_KEY),
-            VegetationPlacements.treePlacement(PlacementUtils.countExtra(2, 0.1f, 2),
-                WitcheryBlocks.ROWAN_SAPLING.get()).toList()
-        ))
+        context.register(
+            ROWAN_PLACED_KEY, PlacedFeature(
+                configuredFeatures.getOrThrow(ROWAN_KEY),
+                VegetationPlacements.treePlacement(
+                    PlacementUtils.countExtra(2, 0.1f, 2),
+                    WitcheryBlocks.ROWAN_SAPLING.get()
+                ).toList()
+            )
+        )
 
-        context.register(ALDER_PLACED_KEY, PlacedFeature(configuredFeatures.getOrThrow(ALDER_KEY),
-            VegetationPlacements.treePlacement(PlacementUtils.countExtra(2, 0.1f, 2),
-                WitcheryBlocks.ALDER_SAPLING.get()).toList()
-        ))
+        context.register(
+            ALDER_PLACED_KEY, PlacedFeature(
+                configuredFeatures.getOrThrow(ALDER_KEY),
+                VegetationPlacements.treePlacement(
+                    PlacementUtils.countExtra(2, 0.1f, 2),
+                    WitcheryBlocks.ALDER_SAPLING.get()
+                ).toList()
+            )
+        )
 
-        context.register(HAWTHORN_PLACED_KEY, PlacedFeature(configuredFeatures.getOrThrow(HAWTHORN_KEY),
-            VegetationPlacements.treePlacement(PlacementUtils.countExtra(2, 0.1f, 2),
-                WitcheryBlocks.HAWTHORN_SAPLING.get()).toList()
-        ))
+        context.register(
+            HAWTHORN_PLACED_KEY, PlacedFeature(
+                configuredFeatures.getOrThrow(HAWTHORN_KEY),
+                VegetationPlacements.treePlacement(
+                    PlacementUtils.countExtra(2, 0.1f, 2),
+                    WitcheryBlocks.HAWTHORN_SAPLING.get()
+                ).toList()
+            )
+        )
 
-        context.register(WISPY_PLACED_KEY, PlacedFeature(configuredFeatures.getOrThrow(WISPY_KEY),
-            bushPlacement().build().toList()
-        ))
+        context.register(
+            WISPY_PLACED_KEY, PlacedFeature(
+                configuredFeatures.getOrThrow(WISPY_KEY),
+                bushPlacement().build().toList()
+            )
+        )
     }
 
 

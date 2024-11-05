@@ -2,10 +2,7 @@ package dev.sterner.witchery.neoforge.client
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.BroomEntityModel
 import dev.sterner.witchery.client.model.DreamWeaverBlockEntityModel
-import dev.sterner.witchery.client.model.SpinningWheelBlockEntityModel
-import dev.sterner.witchery.client.model.SpinningWheelWheelBlockEntityModel
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.client.renderer.MultiBufferSource
@@ -15,9 +12,13 @@ import net.minecraft.world.item.ItemDisplayContext
 import net.minecraft.world.item.ItemStack
 
 
-class DreamWeaverBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRenderer(Minecraft.getInstance().blockEntityRenderDispatcher, Minecraft.getInstance().entityModels) {
+class DreamWeaverBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRenderer(
+    Minecraft.getInstance().blockEntityRenderDispatcher,
+    Minecraft.getInstance().entityModels
+) {
 
-    var model: DreamWeaverBlockEntityModel? = DreamWeaverBlockEntityModel(DreamWeaverBlockEntityModel.createBodyLayer().bakeRoot())
+    var model: DreamWeaverBlockEntityModel? =
+        DreamWeaverBlockEntityModel(DreamWeaverBlockEntityModel.createBodyLayer().bakeRoot())
     private var texture: ResourceLocation? = null
 
     override fun renderByItem(

@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemDisplayContext
 
 class FloatingItemEntityRenderer(ctx: EntityRendererProvider.Context) : EntityRenderer<FloatingItemEntity>(ctx) {
 
-    val itemRenderer: ItemRenderer = ctx.itemRenderer
+    private val itemRenderer: ItemRenderer = ctx.itemRenderer
 
     init {
         this.shadowRadius = 0f

@@ -60,7 +60,8 @@ class WitcheryGeneralCategoryProvider(
                 BookAndConditionModel.create().withChildren(
                     BookEntryReadConditionModel.create()
                         .withEntry(beginning.id)
-                ))
+                )
+            )
             .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
         addEntry(oven)
 
@@ -70,7 +71,8 @@ class WitcheryGeneralCategoryProvider(
                 BookAndConditionModel.create().withChildren(
                     BookEntryReadConditionModel.create()
                         .withEntry(beginning.id)
-                ))
+                )
+            )
             .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
         addEntry(cauldron)
 
@@ -110,8 +112,6 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(mutandis.id).withDrawArrow(true))
         whiffOfMagic.addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
         addEntry(whiffOfMagic)
-
-
 
 
         val hintOfRebirth = HintOfRebirthEntryProvider(this).generate("h")

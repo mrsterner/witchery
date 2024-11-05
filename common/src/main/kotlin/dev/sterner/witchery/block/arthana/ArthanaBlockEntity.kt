@@ -9,7 +9,8 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.state.BlockState
 
-class ArthanaBlockEntity(blockPos: BlockPos, blockState: BlockState) : WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.ARTHANA.get(), blockPos, blockState) {
+class ArthanaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
+    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.ARTHANA.get(), blockPos, blockState) {
     var arthana = ItemStack(WitcheryItems.ARTHANA.get())
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
         super.loadAdditional(pTag, pRegistries)
@@ -17,6 +18,7 @@ class ArthanaBlockEntity(blockPos: BlockPos, blockState: BlockState) : WitcheryB
             arthana = it
         }
     }
+
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         val itemTag = arthana.save(registries, CompoundTag())
         tag.put("arthana", itemTag)

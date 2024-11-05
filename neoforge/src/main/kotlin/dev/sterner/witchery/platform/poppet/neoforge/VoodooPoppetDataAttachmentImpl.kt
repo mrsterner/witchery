@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player
 object VoodooPoppetDataAttachmentImpl {
 
     @JvmStatic
-    fun setPoppetData(livingEntity: LivingEntity, data: VoodooPoppetData){
+    fun setPoppetData(livingEntity: LivingEntity, data: VoodooPoppetData) {
         livingEntity.setData(WitcheryNeoForgeAttachmentRegistry.VOODOO_POPPET_DATA_ATTACHMENT, data)
         if (livingEntity is Player) {
             VoodooPoppetDataAttachment.sync(livingEntity, data)

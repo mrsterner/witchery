@@ -4,7 +4,9 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
-import net.minecraft.world.item.*
+import net.minecraft.world.item.ArmorItem
+import net.minecraft.world.item.ArmorMaterial
+import net.minecraft.world.item.Item
 import net.neoforged.fml.ModList
 
 object PlatformUtilsImpl {
@@ -15,17 +17,25 @@ object PlatformUtilsImpl {
     }
 
     @JvmStatic
-    fun getBoneNeedle() : BoneNeedleItem {
+    fun getBoneNeedle(): BoneNeedleItem {
         return BoneNeedleItemForge(Item.Properties())
     }
 
     @JvmStatic
-    fun witchesRobes(witchesRobes: RegistrySupplier<ArmorMaterial>, chestplate: ArmorItem.Type, properties: Item.Properties): ArmorItem {
+    fun witchesRobes(
+        witchesRobes: RegistrySupplier<ArmorMaterial>,
+        chestplate: ArmorItem.Type,
+        properties: Item.Properties
+    ): ArmorItem {
         return WitchesRobesItemNeoForge(witchesRobes, chestplate, properties)
     }
 
     @JvmStatic
-    fun hunterArmor(witchesRobes: RegistrySupplier<ArmorMaterial>, chestplate: ArmorItem.Type, properties: Item.Properties): ArmorItem {
+    fun hunterArmor(
+        witchesRobes: RegistrySupplier<ArmorMaterial>,
+        chestplate: ArmorItem.Type,
+        properties: Item.Properties
+    ): ArmorItem {
         return HunterArmorItemNeoForge(witchesRobes, chestplate, properties)
     }
 }

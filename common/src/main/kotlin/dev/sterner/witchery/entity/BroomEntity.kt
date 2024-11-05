@@ -1,7 +1,5 @@
 package dev.sterner.witchery.entity
 
-import dev.architectury.platform.Platform
-import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -42,7 +40,7 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
     private var inputRight = false
     private var inputUp = false
     private var inputDown = false
-    var inputShift = false
+    private var inputShift = false
     private var inputJump = false
 
     init {
@@ -74,7 +72,7 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         return Vec3(
             0.0,
             (dimensions.height() / 3.0f).toDouble(),
-           0.0
+            0.0
         )
             .yRot(-this.yRot * (Math.PI / 180.0).toFloat())
     }
@@ -207,7 +205,7 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
             setHurtTime(getHurtTime() - 1)
         }
 
-        if (getDamage()> 0.0f) {
+        if (getDamage() > 0.0f) {
             setDamage(getDamage() - 1)
         }
 
@@ -290,13 +288,18 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         val vector3d = this.deltaMovement
 
         this.setDeltaMovement(
-                vector3d.x * momentum,
-                vector3d.y + d1,
-                vector3d.z * momentum
+            vector3d.x * momentum,
+            vector3d.y + d1,
+            vector3d.z * momentum
         )
         this.deltaRotation *= momentum
 
-        if (this.isNoGravity && Mth.abs((deltaMovement.y() / (1.15f + (Mth.abs(deltaMovement.y().toFloat()) / 6f))).toFloat()) > 0f) {
+        if (this.isNoGravity && Mth.abs(
+                (deltaMovement.y() / (1.15f + (Mth.abs(
+                    deltaMovement.y().toFloat()
+                ) / 6f))).toFloat()
+            ) > 0f
+        ) {
             this.setDeltaMovement(
                 deltaMovement.x(), if (Mth.abs(
                         (deltaMovement.y() / (1.15f + (Mth.abs(
@@ -335,10 +338,12 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
     private fun destroy(dropItem: Item?) {
         this.kill()
         if (level().gameRules.getBoolean(GameRules.RULE_DOENTITYDROPS)) {
-            val itemStack = ItemStack(dropItem)
-            itemStack.set(DataComponents.CUSTOM_NAME, this.customName)
-            itemStack.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
-            this.spawnAtLocation(itemStack)
+            val itemStack = dropItem?.let { ItemStack(it) }
+            itemStack?.set(DataComponents.CUSTOM_NAME, this.customName)
+            itemStack?.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
+            if (itemStack != null) {
+                this.spawnAtLocation(itemStack)
+            }
         }
     }
 
@@ -348,35 +353,34 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         builder.define(DATA_ID_DAMAGE, 0.0f)
     }
 
-    fun setHurtTime(hurtTime: Int) {
+    private fun setHurtTime(hurtTime: Int) {
         entityData.set(DATA_ID_HURT, hurtTime)
     }
 
-    fun setHurtDir(hurtDir: Int) {
+    private fun setHurtDir(hurtDir: Int) {
         entityData.set(DATA_ID_HURTDIR, hurtDir)
     }
 
-    fun setDamage(damage: Float) {
+    private fun setDamage(damage: Float) {
         entityData.set(DATA_ID_DAMAGE, damage)
     }
 
-    fun getDamage(): Float {
+    private fun getDamage(): Float {
         return entityData.get(DATA_ID_DAMAGE)
     }
 
-    fun getHurtTime(): Int {
+    private fun getHurtTime(): Int {
         return entityData.get(DATA_ID_HURT)
     }
 
-    fun getHurtDir(): Int {
+    private fun getHurtDir(): Int {
         return entityData.get(DATA_ID_HURTDIR)
     }
 
     private fun destroy(source: DamageSource?) {
         this.destroy(WitcheryItems.BROOM.get())
     }
-
-
+    
     companion object {
         val DATA_ID_HURT: EntityDataAccessor<Int> = SynchedEntityData.defineId(
             BroomEntity::class.java, EntityDataSerializers.INT

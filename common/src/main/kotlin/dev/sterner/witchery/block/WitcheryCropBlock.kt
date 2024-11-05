@@ -25,7 +25,6 @@ open class WitcheryCropBlock(properties: Properties) : CropBlock(properties) {
         builder.add(AGE)
     }
 
-
     companion object {
         val AGE: IntegerProperty = BlockStateProperties.AGE_4
     }

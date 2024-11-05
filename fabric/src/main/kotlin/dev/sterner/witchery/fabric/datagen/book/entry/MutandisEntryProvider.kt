@@ -7,11 +7,10 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.entry.RitualChalkEntryProvider.Companion
 import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronCraftingPageModel
 import dev.sterner.witchery.registry.WitcheryItems
 
-class MutandisEntryProvider (parent: CategoryProviderBase?) : EntryProvider(parent) {
+class MutandisEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
 
     companion object {
         val ID = "mutandis"

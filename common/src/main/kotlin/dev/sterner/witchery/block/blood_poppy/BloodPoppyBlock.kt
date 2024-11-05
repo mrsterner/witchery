@@ -1,8 +1,6 @@
 package dev.sterner.witchery.block.blood_poppy
 
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Holder
@@ -24,7 +22,9 @@ import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.phys.BlockHitResult
 
-class BloodPoppyBlock(effect: Holder<MobEffect>, duration: Float, properties: Properties): FlowerBlock(effect, duration, properties), EntityBlock {
+class BloodPoppyBlock(effect: Holder<MobEffect>, duration: Float, properties: Properties) :
+    FlowerBlock(effect, duration, properties), EntityBlock {
+
     init {
         this.registerDefaultState(this.defaultBlockState().setValue(HAS_TAGLOCK, false))
     }
@@ -62,17 +62,25 @@ class BloodPoppyBlock(effect: Holder<MobEffect>, duration: Float, properties: Pr
             return super.useItemOn(stack, state, level, pos, player, hand, hitResult)
         }
 
-        if (!stack.`is`(Items.GLASS_BOTTLE) || be !is BloodPoppyBlockEntity || be.uuid == null)
+        if (!stack.`is`(Items.GLASS_BOTTLE) || be !is BloodPoppyBlockEntity || be.uuid == null) {
             return super.useItemOn(stack, state, level, pos, player, hand, hitResult)
+        }
 
-        if (level !is ServerLevel) return ItemInteractionResult.SUCCESS
+        if (level !is ServerLevel) {
+            return ItemInteractionResult.SUCCESS
+        }
 
 
-        val entity = be.uuid?.let { level.getEntity(it) } ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+        val entity = be.uuid?.let { level.getEntity(it) }
+        if (entity == null) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+        }
         be.uuid = null
         be.setChanged()
 
-        if (entity !is LivingEntity) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+        if (entity !is LivingEntity) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+        }
 
         level.setBlockAndUpdate(pos, state.setValue(HAS_TAGLOCK, false))
 
@@ -87,6 +95,6 @@ class BloodPoppyBlock(effect: Holder<MobEffect>, duration: Float, properties: Pr
     }
 
     companion object {
-        val HAS_TAGLOCK = BooleanProperty.create("has_taglock")
+        val HAS_TAGLOCK: BooleanProperty = BooleanProperty.create("has_taglock")
     }
 }

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.platform.neoforge
 
-import dev.sterner.witchery.neoforge.WitcheryNeoForge
 import dev.sterner.witchery.neoforge.WitcheryNeoForgeAttachmentRegistry
 import dev.sterner.witchery.platform.EntSpawnLevelAttachment.Data
 import net.minecraft.server.level.ServerLevel

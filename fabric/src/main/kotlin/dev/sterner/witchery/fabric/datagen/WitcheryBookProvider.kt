@@ -13,7 +13,8 @@ class WitcheryBookProvider(
     packOutput: PackOutput?,
     registries: CompletableFuture<HolderLookup.Provider>?,
     lang: BiConsumer<String, String>
-) : BookProvider(packOutput, registries, Witchery.MODID,
+) : BookProvider(
+    packOutput, registries, Witchery.MODID,
     listOf(
         WitcherySubBookProvider(lang)
     )

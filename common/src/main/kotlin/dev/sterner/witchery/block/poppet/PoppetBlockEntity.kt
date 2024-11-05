@@ -59,10 +59,12 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     if (handItem.has(WitcheryDataComponents.PLAYER_UUID.get()) || handItem.has(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())) {
                         if (handItem.has(WitcheryDataComponents.PLAYER_UUID.get())) {
                             val uuid = handItem.get(WitcheryDataComponents.PLAYER_UUID.get())
-                            uuid?.let { level.getPlayerByUUID(it) }?.hurt(level.damageSources().playerAttack(player), 2f)
+                            uuid?.let { level.getPlayerByUUID(it) }
+                                ?.hurt(level.damageSources().playerAttack(player), 2f)
                         } else {
                             val id = handItem.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-                            id?.let { (level as ServerLevel).getEntity(UUID.fromString(id)) }?.hurt(level.damageSources().playerAttack(player), 2f)
+                            id?.let { (level as ServerLevel).getEntity(UUID.fromString(id)) }
+                                ?.hurt(level.damageSources().playerAttack(player), 2f)
                         }
 
                         if (handItem.`is`(WitcheryItems.VAMPIRIC_POPPET.get()) || handItem.`is`(WitcheryItems.VOODOO_POPPET.get())) {
@@ -82,7 +84,8 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                         direction
                     }
 
-                    val state = WitcheryBlocks.POPPET.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, horizontalDirection.opposite)
+                    val state = WitcheryBlocks.POPPET.get().defaultBlockState()
+                        .setValue(BlockStateProperties.HORIZONTAL_FACING, horizontalDirection.opposite)
                     level.setBlockAndUpdate(targetPos, state)
 
                     val be = PoppetBlockEntity(targetPos, state)

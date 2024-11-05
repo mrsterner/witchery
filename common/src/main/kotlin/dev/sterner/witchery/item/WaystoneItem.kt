@@ -72,7 +72,6 @@ class WaystoneItem(properties: Properties) : Item(properties) {
             return stack.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())
         }
 
-
         fun capitalizeString(string: String): String {
             val chars = string.lowercase(Locale.getDefault()).toCharArray()
             var found = false
@@ -88,5 +87,4 @@ class WaystoneItem(properties: Properties) : Item(properties) {
             return String(chars)
         }
     }
-
 }

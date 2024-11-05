@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.Block
 
 object MutandisDataAttachment {
 
-    val CACHE_LIFETIME = 20 * 3
+    const val CACHE_LIFETIME = 20 * 3
 
     @JvmStatic
     @ExpectPlatform

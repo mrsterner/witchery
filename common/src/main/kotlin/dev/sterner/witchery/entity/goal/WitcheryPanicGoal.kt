@@ -10,6 +10,7 @@ open class WitcheryPanicGoal(
     private val speedModifier: Double
 ) :
     Goal() {
+
     private var posX: Double = 0.0
     private var posY: Double = 0.0
     private var posZ: Double = 0.0

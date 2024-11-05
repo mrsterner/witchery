@@ -37,7 +37,7 @@ class CottonBlock(properties: Properties) : BushBlock(properties) {
     ) {
         val drop = if (level.dimension().location().path.equals("dream_world")) {
             WitcheryItems.WISPY_COTTON.get().defaultInstance
-        } else if (level.dimension().location().path.equals("nightmare_world")){
+        } else if (level.dimension().location().path.equals("nightmare_world")) {
             WitcheryItems.DISTURBED_COTTON.get().defaultInstance
         } else {
             null
@@ -77,7 +77,7 @@ class CottonBlock(properties: Properties) : BushBlock(properties) {
     }
 
     companion object {
-        val SPIRITED = BooleanProperty.create("spirited")
+        val SPIRITED: BooleanProperty = BooleanProperty.create("spirited")
         val CODEC: MapCodec<CottonBlock> = simpleCodec { arg: Properties ->
             CottonBlock(
                 arg

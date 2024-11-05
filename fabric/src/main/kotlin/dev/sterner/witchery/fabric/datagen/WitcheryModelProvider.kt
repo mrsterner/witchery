@@ -25,15 +25,18 @@ import net.minecraft.world.level.block.state.properties.Property
 class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(output) {
 
     override fun generateBlockStateModels(generator: BlockModelGenerators) {
-        generator.createCrossBlockWithDefaultItem(WitcheryBlocks.GLINTWEED.get(), BlockModelGenerators.TintState.NOT_TINTED)
+        generator.createCrossBlockWithDefaultItem(
+            WitcheryBlocks.GLINTWEED.get(),
+            BlockModelGenerators.TintState.NOT_TINTED
+        )
         createCropPlantBlock(generator, WitcheryBlocks.EMBER_MOSS.get())
         generator.createMultiface(WitcheryBlocks.SPANISH_MOSS.get())
-        generator.createCropBlock(WitcheryBlocks.MANDRAKE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
-        generator.createCropBlock(WitcheryBlocks.BELLADONNAE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
-        createCrossCropBlock(generator, WitcheryBlocks.SNOWBELL_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
-        createCrossCropBlock(generator, WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
-        createCrossCropBlock(generator, WitcheryBlocks.WOLFSFBANE_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
-        generator.createCropBlock(WitcheryBlocks.GARLIC_CROP.get(), WitcheryCropBlock.AGE, 0,1,2,3,4)
+        generator.createCropBlock(WitcheryBlocks.MANDRAKE_CROP.get(), WitcheryCropBlock.AGE, 0, 1, 2, 3, 4)
+        generator.createCropBlock(WitcheryBlocks.BELLADONNA_CROP.get(), WitcheryCropBlock.AGE, 0, 1, 2, 3, 4)
+        createCrossCropBlock(generator, WitcheryBlocks.SNOWBELL_CROP.get(), WitcheryCropBlock.AGE, 0, 1, 2, 3, 4)
+        createCrossCropBlock(generator, WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), WitcheryCropBlock.AGE, 0, 1, 2, 3, 4)
+        createCrossCropBlock(generator, WitcheryBlocks.WOLFSFBANE_CROP.get(), WitcheryCropBlock.AGE, 0, 1, 2, 3, 4)
+        generator.createCropBlock(WitcheryBlocks.GARLIC_CROP.get(), WitcheryCropBlock.AGE, 0, 1, 2, 3, 4)
 
         generator.createCrossBlock(WitcheryBlocks.WISPY_COTTON.get(), BlockModelGenerators.TintState.NOT_TINTED)
         generator.skipAutoItemBlock(WitcheryBlocks.WISPY_COTTON.get())
@@ -56,7 +59,11 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.skipAutoItemBlock(WitcheryBlocks.ROWAN_SAPLING.get())
         generator.createSimpleFlatItemModel(WitcheryBlocks.ROWAN_SAPLING.get())
         generator.createNonTemplateModelBlock(WitcheryBlocks.POTTED_ROWAN_SAPLING.get())
-        generator.createHangingSign(WitcheryBlocks.STRIPPED_ROWAN_LOG.get(), WitcheryBlocks.ROWAN_HANGING_SIGN.get(), WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get())
+        generator.createHangingSign(
+            WitcheryBlocks.STRIPPED_ROWAN_LOG.get(),
+            WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
+            WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get()
+        )
 
         val rowanFamily = BlockFamily.Builder(WitcheryBlocks.ROWAN_PLANKS.get())
             .stairs(WitcheryBlocks.ROWAN_STAIRS.get())
@@ -86,7 +93,11 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.skipAutoItemBlock(WitcheryBlocks.ALDER_SAPLING.get())
         generator.createSimpleFlatItemModel(WitcheryBlocks.ALDER_SAPLING.get())
         generator.createNonTemplateModelBlock(WitcheryBlocks.POTTED_ALDER_SAPLING.get())
-        generator.createHangingSign(WitcheryBlocks.STRIPPED_ALDER_LOG.get(), WitcheryBlocks.ALDER_HANGING_SIGN.get(), WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get())
+        generator.createHangingSign(
+            WitcheryBlocks.STRIPPED_ALDER_LOG.get(),
+            WitcheryBlocks.ALDER_HANGING_SIGN.get(),
+            WitcheryBlocks.ALDER_WALL_HANGING_SIGN.get()
+        )
 
         val alderFamily = BlockFamily.Builder(WitcheryBlocks.ALDER_PLANKS.get())
             .stairs(WitcheryBlocks.ALDER_STAIRS.get())
@@ -108,7 +119,8 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
             .logWithHorizontal(WitcheryBlocks.HAWTHORN_LOG.get()).wood(WitcheryBlocks.HAWTHORN_WOOD.get())
 
         generator.woodProvider(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get())
-            .logWithHorizontal(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get()).wood(WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get())
+            .logWithHorizontal(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get())
+            .wood(WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get())
 
         generator.createTrivialBlock(WitcheryBlocks.HAWTHORN_LEAVES.get(), TexturedModel.LEAVES)
 
@@ -116,7 +128,11 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.skipAutoItemBlock(WitcheryBlocks.HAWTHORN_SAPLING.get())
         generator.createSimpleFlatItemModel(WitcheryBlocks.HAWTHORN_SAPLING.get())
         generator.createNonTemplateModelBlock(WitcheryBlocks.POTTED_HAWTHORN_SAPLING.get())
-        generator.createHangingSign(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get(), WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(), WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get())
+        generator.createHangingSign(
+            WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get(),
+            WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(),
+            WitcheryBlocks.HAWTHORN_WALL_HANGING_SIGN.get()
+        )
 
         val hawthornFamily = BlockFamily.Builder(WitcheryBlocks.HAWTHORN_PLANKS.get())
             .stairs(WitcheryBlocks.HAWTHORN_STAIRS.get())
@@ -144,8 +160,13 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         generator.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(crossBlock, resourceLocation))
     }
 
-    fun createCrossCropBlock(generator: BlockModelGenerators, cropBlock: Block, ageProperty: Property<Int>, vararg ageToVisualStageMapping: Int) {
-        require(ageProperty.getPossibleValues().size == ageToVisualStageMapping.size)
+    fun createCrossCropBlock(
+        generator: BlockModelGenerators,
+        cropBlock: Block,
+        ageProperty: Property<Int>,
+        vararg ageToVisualStageMapping: Int
+    ) {
+        require(ageProperty.possibleValues.size == ageToVisualStageMapping.size)
         val int2ObjectMap: Int2ObjectMap<ResourceLocation> = Int2ObjectOpenHashMap()
         val propertyDispatch = PropertyDispatch.property(ageProperty)
             .generate { integer: Int ->
@@ -249,10 +270,10 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.OTHERWHERE_CHALK.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.GOLDEN_CHALK.get(), ModelTemplates.FLAT_ITEM)
 
-        genetaror.generateFlatItem(WitcheryItems.BELLADONNA_FLOWER.get(),  ModelTemplates.FLAT_ITEM)
-        genetaror.generateFlatItem(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(),  ModelTemplates.FLAT_ITEM)
-        genetaror.generateFlatItem(WitcheryItems.BONE_NEEDLE.get(),  ModelTemplates.FLAT_ITEM)
-        genetaror.generateFlatItem(WitcheryItems.DEMON_HEART.get(),  ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.BELLADONNA_FLOWER.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.BONE_NEEDLE.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.DEMON_HEART.get(), ModelTemplates.FLAT_ITEM)
 
         genetaror.generateFlatItem(WitcheryItems.ROWAN_BOAT.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.ROWAN_CHEST_BOAT.get(), ModelTemplates.FLAT_ITEM)

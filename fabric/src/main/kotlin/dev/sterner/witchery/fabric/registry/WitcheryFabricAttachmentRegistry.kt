@@ -77,7 +77,7 @@ object WitcheryFabricAttachmentRegistry {
             .initializer { SleepingPlayerLevelAttachment.Data() }
             .buildAndRegister(SleepingPlayerLevelAttachment.Data.ID)
 
-    fun init(){
+    fun init() {
 
     }
 }

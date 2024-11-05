@@ -7,7 +7,6 @@ import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.*
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 
@@ -87,5 +86,4 @@ class SpinningWheelMenu(id: Int, val inventory: Inventory, buf: FriendlyByteBuf)
 
         const val SLOT_RESULT: Int = 4
     }
-
 }

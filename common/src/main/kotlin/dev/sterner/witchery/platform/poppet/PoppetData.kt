@@ -12,6 +12,7 @@ import java.util.*
 data class PoppetData(
     val poppetDataMap: MutableList<Data>
 ) {
+
     companion object {
         val CODEC: Codec<PoppetData> = RecordCodecBuilder.create { instance ->
             instance.group(
@@ -20,11 +21,6 @@ data class PoppetData(
                 PoppetData(poppetData.toMutableList())
             }
         }
-
-        private val UUID_CODEC: Codec<UUID> = Codec.STRING.xmap(
-            { UUID.fromString(it) },
-            { it.toString() }
-        )
 
         val ID: ResourceLocation = Witchery.id("poppet_data")
     }

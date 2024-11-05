@@ -7,7 +7,10 @@ import java.util.function.Supplier
 
 object StrippableHelperImpl {
     @JvmStatic
-    fun createStrippableLog(stripped: Supplier<out RotatedPillarBlock>, properties: Properties): Supplier<out StrippableLogBlock> {
+    fun createStrippableLog(
+        stripped: Supplier<out RotatedPillarBlock>,
+        properties: Properties
+    ): Supplier<out StrippableLogBlock> {
         val supp = Supplier { StrippableLogBlock(stripped, properties) }
         return supp
     }

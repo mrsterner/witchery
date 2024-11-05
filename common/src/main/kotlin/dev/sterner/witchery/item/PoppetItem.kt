@@ -3,12 +3,9 @@ package dev.sterner.witchery.item
 import dev.sterner.witchery.block.poppet.PoppetBlockEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntityName
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayerProfile
-import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
-import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
-import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -28,7 +25,7 @@ open class PoppetItem(properties: Properties) : Item(properties.stacksTo(1)) {
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val player = context.player
-        if (player != null && this.calculateHitResult(player).getType() == HitResult.Type.BLOCK) {
+        if (player != null && this.calculateHitResult(player).type == HitResult.Type.BLOCK) {
             player.startUsingItem(context.hand)
         }
 
@@ -36,7 +33,8 @@ open class PoppetItem(properties: Properties) : Item(properties.stacksTo(1)) {
     }
 
     private fun calculateHitResult(player: Player): HitResult {
-        return ProjectileUtil.getHitResultOnViewVector(player,
+        return ProjectileUtil.getHitResultOnViewVector(
+            player,
             { entity: Entity -> !entity.isSpectator && entity.isPickable }, player.blockInteractionRange()
         )
     }

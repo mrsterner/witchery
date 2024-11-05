@@ -1,6 +1,5 @@
 package dev.sterner.witchery.item
 
-import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.entity.SleepingPlayerEntity
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.core.component.DataComponents
@@ -60,16 +59,22 @@ class TaglockItem(properties: Properties) : Item(properties) {
 
     companion object {
 
-        fun bindPlayerOrLiving(livingEntity: LivingEntity, stack: ItemStack){
+        fun bindPlayerOrLiving(livingEntity: LivingEntity, stack: ItemStack) {
             if (stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())!!) {
                 return
             }
 
             if (livingEntity is Player) {
                 stack.set(DataComponents.PROFILE, ResolvableProfile(livingEntity.gameProfile))
-                stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), livingEntity.gameProfile.name.replaceFirstChar(Char::uppercase))
+                stack.set(
+                    WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(),
+                    livingEntity.gameProfile.name.replaceFirstChar(Char::uppercase)
+                )
             } else {
-                stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), livingEntity.type.descriptionId.toString())
+                stack.set(
+                    WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(),
+                    livingEntity.type.descriptionId.toString()
+                )
             }
 
             stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), livingEntity.stringUUID)
@@ -88,7 +93,7 @@ class TaglockItem(properties: Properties) : Item(properties) {
                 return null
             }
 
-            return if(stack.has(DataComponents.PROFILE)) stack.get(DataComponents.PROFILE) else null
+            return if (stack.has(DataComponents.PROFILE)) stack.get(DataComponents.PROFILE) else null
         }
 
         fun getPlayer(level: Level, stack: ItemStack): Player? {
@@ -122,16 +127,21 @@ class TaglockItem(properties: Properties) : Item(properties) {
             return null
         }
 
-        fun bindSleepingPlayer(sleepingPlayerEntity: SleepingPlayerEntity, stack: ItemStack){
+        fun bindSleepingPlayer(sleepingPlayerEntity: SleepingPlayerEntity, stack: ItemStack) {
             if (stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())!!) {
                 return
             }
 
             stack.set(DataComponents.PROFILE, sleepingPlayerEntity.data.resolvableProfile)
-            stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), sleepingPlayerEntity.data.resolvableProfile!!.gameProfile.name?.replaceFirstChar(Char::uppercase))
+            stack.set(
+                WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(),
+                sleepingPlayerEntity.data.resolvableProfile!!.gameProfile.name?.replaceFirstChar(Char::uppercase)
+            )
 
-
-            stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), sleepingPlayerEntity.getSleepingUUID().toString())
+            stack.set(
+                WitcheryDataComponents.ENTITY_ID_COMPONENT.get(),
+                sleepingPlayerEntity.getSleepingUUID().toString()
+            )
         }
     }
 }

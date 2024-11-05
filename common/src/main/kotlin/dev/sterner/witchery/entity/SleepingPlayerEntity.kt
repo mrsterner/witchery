@@ -22,7 +22,9 @@ import net.minecraft.tags.FluidTags
 import net.minecraft.world.Containers
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
-import net.minecraft.world.entity.*
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.MoverType
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
@@ -44,10 +46,10 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         builder.define(UUID, Optional.empty())
         builder.define(NAME, "")
-        builder.define(EQUIPMENT, NonNullList.withSize(EquipmentSlot.entries.size,  ItemStack.EMPTY))
+        builder.define(EQUIPMENT, NonNullList.withSize(EquipmentSlot.entries.size, ItemStack.EMPTY))
         builder.define(MODEL, 0.toByte())
         builder.define(FACEPLANT, false)
-        builder.define(RESOLVEABLE, ResolvableProfile(GameProfile(UUID(0,0), "")))
+        builder.define(RESOLVEABLE, ResolvableProfile(GameProfile(UUID(0, 0), "")))
     }
 
     override fun readAdditionalSaveData(compound: CompoundTag) {
@@ -97,7 +99,6 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
     }
 
 
-
     fun getEquipment(): NonNullList<ItemStack> {
         return entityData.get(EQUIPMENT)
     }
@@ -130,7 +131,14 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 TaglockItem.bindSleepingPlayer(this, taglock)
 
                 addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, taglock)
-                level().playSound(null, BlockPos.containing(vec), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.5f, 1.0f)
+                level().playSound(
+                    null,
+                    BlockPos.containing(vec),
+                    SoundEvents.EXPERIENCE_ORB_PICKUP,
+                    SoundSource.BLOCKS,
+                    0.5f,
+                    1.0f
+                )
                 return InteractionResult.SUCCESS
             }
         }
@@ -144,7 +152,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
 
     companion object {
 
-        fun createFromPlayer(player: Player, sleepingPlayerBuilder: SleepingPlayerData) : SleepingPlayerEntity {
+        fun createFromPlayer(player: Player, sleepingPlayerBuilder: SleepingPlayerData): SleepingPlayerEntity {
             val entity = SleepingPlayerEntity(player.level())
             entity.data = sleepingPlayerBuilder
             entity.data.resolvableProfile = (sleepingPlayerBuilder.resolvableProfile)
@@ -208,10 +216,12 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             sleepingPlayerEntity.discard()
         }
 
-        val RESOLVEABLE = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.RESOLVABLE)
+        val RESOLVEABLE =
+            SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.RESOLVABLE)
         val UUID = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.OPTIONAL_UUID)
         val NAME = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.STRING)
-        val EQUIPMENT = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.INVENTORY)
+        val EQUIPMENT =
+            SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.INVENTORY)
         val MODEL = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.BYTE)
         val FACEPLANT = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.BOOLEAN)
 

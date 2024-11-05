@@ -6,7 +6,6 @@ import dev.sterner.witchery.platform.infusion.InfusionData.Companion.MAX_CHARGE
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 
 object PlayerInfusionDataAttachment {

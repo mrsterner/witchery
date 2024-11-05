@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.entity.player.Inventory
 
 class AltarScreen(menu: AltarMenu, inventory: Inventory, title: Component) : AbstractContainerScreen<AltarMenu>(
@@ -50,6 +51,6 @@ class AltarScreen(menu: AltarMenu, inventory: Inventory, title: Component) : Abs
     }
 
     class NamelessInventory(inventory: Inventory) : Inventory(inventory.player) {
-        override fun getDisplayName() = Component.literal("")
+        override fun getDisplayName(): MutableComponent = Component.literal("")
     }
 }

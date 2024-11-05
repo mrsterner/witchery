@@ -1,6 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.architectury.registry.registries.DeferredRegister
+import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import net.minecraft.core.registries.Registries
 import net.minecraft.sounds.SoundEvents
@@ -11,16 +12,19 @@ import net.minecraft.world.item.crafting.Ingredient
 
 object WitcheryArmorMaterials {
 
-    val MATERIALS = DeferredRegister.create(Witchery.MODID, Registries.ARMOR_MATERIAL)
+    val MATERIALS: DeferredRegister<ArmorMaterial> = DeferredRegister.create(Witchery.MODID, Registries.ARMOR_MATERIAL)
 
-    val WITCHES_ROBES = MATERIALS.register("witches_robes") {
-        ArmorMaterial(java.util.Map.of(
-            ArmorItem.Type.HELMET, 1,
-            ArmorItem.Type.CHESTPLATE, 3,
-            ArmorItem.Type.LEGGINGS, 2,
-            ArmorItem.Type.BOOTS, 1
-        ),
-            15, SoundEvents.ARMOR_EQUIP_LEATHER,{Ingredient.of(Items.WHITE_WOOL)}, //TODO replace with something better
+    val WITCHES_ROBES: RegistrySupplier<ArmorMaterial> = MATERIALS.register("witches_robes") {
+        ArmorMaterial(
+            java.util.Map.of(
+                ArmorItem.Type.HELMET, 1,
+                ArmorItem.Type.CHESTPLATE, 3,
+                ArmorItem.Type.LEGGINGS, 2,
+                ArmorItem.Type.BOOTS, 1
+            ),
+            15,
+            SoundEvents.ARMOR_EQUIP_LEATHER,
+            { Ingredient.of(WitcheryItems.GOLDEN_THREAD.get()) },
             listOf(
                 ArmorMaterial.Layer(Witchery.id("witches_robes"))
             ),
@@ -29,14 +33,17 @@ object WitcheryArmorMaterials {
         )
     }
 
-    val HUNTER = MATERIALS.register("hunter") {
-        ArmorMaterial(java.util.Map.of(
-            ArmorItem.Type.HELMET, 2,
-            ArmorItem.Type.CHESTPLATE, 4,
-            ArmorItem.Type.LEGGINGS, 3,
-            ArmorItem.Type.BOOTS, 2
-        ),
-            10, SoundEvents.ARMOR_EQUIP_LEATHER,{Ingredient.of(Items.WHITE_WOOL)}, //TODO replace with something better
+    val HUNTER: RegistrySupplier<ArmorMaterial> = MATERIALS.register("hunter") {
+        ArmorMaterial(
+            java.util.Map.of(
+                ArmorItem.Type.HELMET, 2,
+                ArmorItem.Type.CHESTPLATE, 4,
+                ArmorItem.Type.LEGGINGS, 3,
+                ArmorItem.Type.BOOTS, 2
+            ),
+            10,
+            SoundEvents.ARMOR_EQUIP_LEATHER,
+            { Ingredient.of(Items.LEATHER) },
             listOf(
                 ArmorMaterial.Layer(Witchery.id("hunter"), "", true),
                 ArmorMaterial.Layer(Witchery.id("hunter"), "_overlay", false)

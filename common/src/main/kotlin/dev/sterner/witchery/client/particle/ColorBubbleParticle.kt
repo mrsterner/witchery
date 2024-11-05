@@ -11,7 +11,7 @@ class ColorBubbleParticle(
     red: Float,
     green: Float,
     blue: Float,
-    val spriteSet: SpriteSet
+    private val spriteSet: SpriteSet
 ) : TextureSheetParticle(level, pos.x, pos.y, pos.z) {
 
 

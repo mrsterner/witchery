@@ -17,7 +17,13 @@ import java.util.function.BiConsumer
 class WitcheryNatureBlockTagProvider(
     dataOutput: FabricDataOutput?,
     registriesFuture: CompletableFuture<HolderLookup.Provider>?
-) : FabricCodecDataProvider<NaturePowerBlockData>(dataOutput, registriesFuture, PackOutput.Target.DATA_PACK, DIRECTORY, NaturePowerBlockData.TAG_CODEC) {
+) : FabricCodecDataProvider<NaturePowerBlockData>(
+    dataOutput,
+    registriesFuture,
+    PackOutput.Target.DATA_PACK,
+    DIRECTORY,
+    NaturePowerBlockData.TAG_CODEC
+) {
 
     companion object {
         val DIRECTORY: String = "nature/tag"
@@ -27,7 +33,10 @@ class WitcheryNatureBlockTagProvider(
         return DIRECTORY
     }
 
-    override fun configure(provider: BiConsumer<ResourceLocation, NaturePowerBlockData>, lookup: HolderLookup.Provider?) {
+    override fun configure(
+        provider: BiConsumer<ResourceLocation, NaturePowerBlockData>,
+        lookup: HolderLookup.Provider?
+    ) {
         makeTag(provider, BlockTags.SAPLINGS, 4, 20)
         makeTag(provider, WitcheryTags.BROWN_MUCHROOM, 3, 20)
         makeTag(provider, WitcheryTags.RED_MUSHROOM, 3, 20)
@@ -58,7 +67,12 @@ class WitcheryNatureBlockTagProvider(
         makeTag(provider, WitcheryTags.SCULK, 2, 80)
     }
 
-    private fun makeTag(provider: BiConsumer<ResourceLocation, NaturePowerBlockData>, tag: TagKey<Block>, power: Int, limit: Int){
+    private fun makeTag(
+        provider: BiConsumer<ResourceLocation, NaturePowerBlockData>,
+        tag: TagKey<Block>,
+        power: Int,
+        limit: Int
+    ) {
         provider.accept(tag.location, NaturePowerBlockData(tag.location, power, limit))
     }
 }

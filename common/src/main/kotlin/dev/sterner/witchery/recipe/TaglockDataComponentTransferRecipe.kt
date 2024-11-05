@@ -7,10 +7,13 @@ import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.crafting.*
+import net.minecraft.world.item.crafting.CraftingBookCategory
+import net.minecraft.world.item.crafting.CraftingInput
+import net.minecraft.world.item.crafting.CustomRecipe
+import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.level.Level
 
-class TaglockDataComponentTransferRecipe() : CustomRecipe(CraftingBookCategory.MISC) {
+class TaglockDataComponentTransferRecipe : CustomRecipe(CraftingBookCategory.MISC) {
 
     override fun matches(input: CraftingInput, level: Level): Boolean {
         for (item in input.items()) {
@@ -35,8 +38,14 @@ class TaglockDataComponentTransferRecipe() : CustomRecipe(CraftingBookCategory.M
 
         if (poppetItem != null && taglockItem != null) {
             poppetItem.set(DataComponents.PROFILE, taglockItem.get(DataComponents.PROFILE))
-            poppetItem.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), taglockItem.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get()))
-            poppetItem.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), taglockItem.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get()))
+            poppetItem.set(
+                WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(),
+                taglockItem.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get())
+            )
+            poppetItem.set(
+                WitcheryDataComponents.ENTITY_ID_COMPONENT.get(),
+                taglockItem.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+            )
         }
 
         return poppetItem ?: ItemStack.EMPTY

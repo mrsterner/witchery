@@ -13,7 +13,6 @@ import java.awt.Color
 
 class BroomItem(properties: Properties) : Item(properties) {
 
-
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
         val item = context.itemInHand

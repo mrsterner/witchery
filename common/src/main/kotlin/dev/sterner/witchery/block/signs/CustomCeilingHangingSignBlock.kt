@@ -7,5 +7,6 @@ import net.minecraft.world.level.block.state.properties.WoodType
 
 class CustomCeilingHangingSignBlock(type: WoodType, properties: Properties) :
     CeilingHangingSignBlock(type, properties) {
+
     override fun newBlockEntity(pos: BlockPos, state: BlockState) = CustomHangingSignBE(pos, state)
 }

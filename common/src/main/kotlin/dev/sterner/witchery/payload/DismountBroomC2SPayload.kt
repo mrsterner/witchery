@@ -7,7 +7,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
-import java.util.*
 
 
 class DismountBroomC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
@@ -17,7 +16,7 @@ class DismountBroomC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
     constructor() : this(CompoundTag())
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
-       return ID
+        return ID
     }
 
     private fun write(buf: RegistryFriendlyByteBuf?) {

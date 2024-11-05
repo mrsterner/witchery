@@ -11,7 +11,7 @@ class ZzzParticle(
     level: ClientLevel,
     pos: Vec3,
     alpha: Float,
-    val spriteSet: SpriteSet
+    private val spriteSet: SpriteSet
 ) : TextureSheetParticle(level, pos.x, pos.y, pos.z) {
 
     private val initialSize: Float = this.quadSize

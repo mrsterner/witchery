@@ -6,7 +6,8 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.Registries
 import java.util.concurrent.CompletableFuture
 
-class WitcheryWorldGenProvider(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>): FabricDynamicRegistryProvider(output, registriesFuture) {
+class WitcheryWorldGenProvider(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
+    FabricDynamicRegistryProvider(output, registriesFuture) {
     override fun getName() = "World Gen"
 
     override fun configure(registries: HolderLookup.Provider, entries: Entries) {

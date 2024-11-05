@@ -3,12 +3,9 @@ package dev.sterner.witchery.client.renderer
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
-import dev.sterner.witchery.client.model.JarModel
 import dev.sterner.witchery.client.model.SpinningWheelBlockEntityModel
 import dev.sterner.witchery.client.model.SpinningWheelWheelBlockEntityModel
-import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
@@ -18,8 +15,9 @@ import kotlin.math.sin
 class SpinningWheelBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<SpinningWheelBlockEntity> {
 
-    var wheelModel = SpinningWheelWheelBlockEntityModel(ctx.bakeLayer(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION))
-    var baseModel = SpinningWheelBlockEntityModel(ctx.bakeLayer(SpinningWheelBlockEntityModel.LAYER_LOCATION))
+    private var wheelModel =
+        SpinningWheelWheelBlockEntityModel(ctx.bakeLayer(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION))
+    private var baseModel = SpinningWheelBlockEntityModel(ctx.bakeLayer(SpinningWheelBlockEntityModel.LAYER_LOCATION))
 
     override fun render(
         blockEntity: SpinningWheelBlockEntity,
@@ -31,11 +29,11 @@ class SpinningWheelBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
     ) {
 
         val gameTime = blockEntity.level?.gameTime ?: 0
-        val rotation = if(blockEntity.dataAccess.get(0) > 0)((gameTime + partialTick) % 360) else 0f
+        val rotation = if (blockEntity.dataAccess.get(0) > 0) ((gameTime + partialTick) % 360) else 0f
 
         poseStack.pushPose()
         poseStack.scale(-1f, -1f, 1f)
-        poseStack.translate(-0.5,-1.5,0.5)
+        poseStack.translate(-0.5, -1.5, 0.5)
         baseModel.base.render(
             poseStack,
             bufferSource.getBuffer(RenderType.entityTranslucent(Witchery.id("textures/block/spinner.png"))),
@@ -65,12 +63,12 @@ class SpinningWheelBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
 
 
 
-        poseStack.translate(0.5,-0.7,0.8)
+        poseStack.translate(0.5, -0.7, 0.8)
 
         poseStack.pushPose()
-        poseStack.translate(0.0, 1.5 , 0.0)
+        poseStack.translate(0.0, 1.5, 0.0)
         poseStack.mulPose(Axis.XP.rotationDegrees(rotation))
-        poseStack.translate(0.0, -1.5 , 0.0)
+        poseStack.translate(0.0, -1.5, 0.0)
 
         wheelModel.renderToBuffer(
             poseStack,

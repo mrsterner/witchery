@@ -9,7 +9,6 @@ import net.minecraft.tags.BlockTags
 import net.minecraft.util.Mth
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.AgeableMob
-import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.TamableAnimal
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
@@ -30,10 +29,10 @@ import net.minecraft.world.phys.Vec3
 class OwlEntity(level: Level) : TamableAnimal(WitcheryEntityTypes.OWL.get(), level),
     FlyingAnimal {
 
-    var flap: Float = 0f
-    var flapSpeed: Float = 0f
-    var oFlapSpeed: Float = 0f
-    var oFlap: Float = 0f
+    private var flap: Float = 0f
+    private var flapSpeed: Float = 0f
+    private var oFlapSpeed: Float = 0f
+    private var oFlap: Float = 0f
     private var flapping = 1.0f
     private var nextFlap = 1.0f
 

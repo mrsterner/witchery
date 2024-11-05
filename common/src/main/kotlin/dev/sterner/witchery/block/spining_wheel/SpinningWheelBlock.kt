@@ -24,7 +24,7 @@ class SpinningWheelBlock(properties: Properties) : WitcheryBaseEntityBlock(prope
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
-        return Shapes.box(4.0 / 16, 0.0, 0.0, 12.0/ 16, 12.0/ 16, 16.0/ 16)
+        return Shapes.box(4.0 / 16, 0.0, 0.0, 12.0 / 16, 12.0 / 16, 16.0 / 16)
     }
 
     override fun onRemove(

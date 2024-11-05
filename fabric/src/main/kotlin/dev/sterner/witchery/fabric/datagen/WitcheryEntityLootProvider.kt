@@ -1,7 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider
@@ -24,32 +23,41 @@ class WitcheryEntityLootProvider(
 
     override fun generate(output: BiConsumer<ResourceKey<LootTable>, LootTable.Builder>) {
 
-        output.accept(OWL, LootTable.lootTable()
-            .withPool(
-                LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1.0F))
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.OWLETS_WING.get())
-                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
-                )))
+        output.accept(
+            OWL, LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(
+                            LootItem.lootTableItem(WitcheryItems.OWLETS_WING.get())
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                        )
+                )
+        )
 
-        output.accept(DEMON, LootTable.lootTable()
-            .withPool(
-                LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1.0F))
-                    .add(
-                        LootItem.lootTableItem(WitcheryItems.DEMON_HEART.get())
-                            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
-                    )))
+        output.accept(
+            DEMON, LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(
+                            LootItem.lootTableItem(WitcheryItems.DEMON_HEART.get())
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                        )
+                )
+        )
 
-        output.accept(ENT, LootTable.lootTable()
-            .withPool(
-                LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1.0F))
-                    .add(
-                        LootItem.lootTableItem(WitcheryItems.ENT_TWIG.get())
-                            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
-                    )))
+        output.accept(
+            ENT, LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(
+                            LootItem.lootTableItem(WitcheryItems.ENT_TWIG.get())
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                        )
+                )
+        )
     }
 
     companion object {

@@ -22,13 +22,13 @@ import net.minecraft.network.chat.Component
 
 object WitcheryCommands {
 
-    val COMMAND_ARGUMENTS = DeferredRegister.create(Witchery.MODID, Registries.COMMAND_ARGUMENT_TYPE)
+    val COMMAND_ARGUMENTS: DeferredRegister<ArgumentTypeInfo<*, *>> = DeferredRegister.create(Witchery.MODID, Registries.COMMAND_ARGUMENT_TYPE)
 
     val INFUSION_TYPE = COMMAND_ARGUMENTS.register("infusion_type") {
         registerByClass(InfusionArgumentType::class.java, SingletonArgumentInfo.contextFree(::InfusionArgumentType))
     }
 
-    fun <A : ArgumentType<*>?, T : ArgumentTypeInfo.Template<A>?, I : ArgumentTypeInfo<A, T>?> registerByClass(
+    private fun <A : ArgumentType<*>?, T : ArgumentTypeInfo.Template<A>?, I : ArgumentTypeInfo<A, T>?> registerByClass(
         infoClass: Class<A>?,
         argumentTypeInfo: I
     ): I {
@@ -36,7 +36,11 @@ object WitcheryCommands {
         return argumentTypeInfo
     }
 
-    fun register(dispatcher: CommandDispatcher<CommandSourceStack>, context: CommandBuildContext, selection: Commands.CommandSelection) {
+    fun register(
+        dispatcher: CommandDispatcher<CommandSourceStack>,
+        context: CommandBuildContext,
+        selection: Commands.CommandSelection
+    ) {
         dispatcher.register(
             Commands.literal("witchery").then(
                 Commands.literal("infusion")
@@ -49,9 +53,13 @@ object WitcheryCommands {
                                         Commands.argument("infusionType", InfusionArgumentType.infusionType())
                                             .executes { ctx ->
                                                 val player = EntityArgument.getPlayer(ctx, "player")
-                                                val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
+                                                val infusionType =
+                                                    InfusionArgumentType.getInfusionType(ctx, "infusionType")
 
-                                                PlayerInfusionDataAttachment.setPlayerInfusion(player, InfusionData(infusionType))
+                                                PlayerInfusionDataAttachment.setPlayerInfusion(
+                                                    player,
+                                                    InfusionData(infusionType)
+                                                )
 
                                                 ctx.source.sendSuccess(
                                                     {
@@ -112,11 +120,15 @@ object WitcheryCommands {
                                         Commands.argument("infusionType", InfusionArgumentType.infusionType())
                                             .executes { ctx ->
                                                 val player = EntityArgument.getPlayer(ctx, "player")
-                                                val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
+                                                val infusionType =
+                                                    InfusionArgumentType.getInfusionType(ctx, "infusionType")
 
                                                 player.hurt(player.level().damageSources().magic(), 100f)
                                                 if (player.health > 0) {
-                                                    PlayerInfusionDataAttachment.setPlayerInfusion(player, InfusionData(infusionType))
+                                                    PlayerInfusionDataAttachment.setPlayerInfusion(
+                                                        player,
+                                                        InfusionData(infusionType)
+                                                    )
                                                 }
 
                                                 ctx.source.sendSuccess(

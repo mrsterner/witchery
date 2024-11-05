@@ -88,7 +88,7 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
             recipeY + 18 + 2,
             mouseX,
             mouseY,
-            recipeHolder.value!!.result
+            recipeHolder.value.result
         )
         this.parentScreen.renderItemStack(
             guiGraphics,
@@ -96,7 +96,7 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
             recipeY + 36 + 3,
             mouseX,
             mouseY,
-            recipeHolder.value!!.extraIngredient.items[0]
+            recipeHolder.value.extraIngredient.items[0]
         )
         this.parentScreen.renderItemStack(
             guiGraphics,
@@ -104,7 +104,7 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
             recipeY + 1,
             mouseX,
             mouseY,
-            recipeHolder.value!!.extraOutput
+            recipeHolder.value.extraOutput
         )
         this.parentScreen.renderItemStack(
             guiGraphics,
@@ -112,7 +112,7 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
             recipeY + 18 + 2,
             mouseX,
             mouseY,
-            recipeHolder.value!!.ingredient.items[0]
+            recipeHolder.value.ingredient.items[0]
         )
 
         // Pop the pose to restore state

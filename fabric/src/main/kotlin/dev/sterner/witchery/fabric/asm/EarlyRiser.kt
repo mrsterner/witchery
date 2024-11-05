@@ -5,7 +5,7 @@ import dev.sterner.witchery.Witchery
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.core.registries.BuiltInRegistries
 
-object EarlyRiser: Runnable {
+object EarlyRiser : Runnable {
     override fun run() {
         val remapper = FabricLoader.getInstance().mappingResolver
 

@@ -6,16 +6,12 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmiss
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.client.Minecraft
-import net.minecraft.client.particle.Particle
 import net.minecraft.client.particle.ParticleEngine
 import net.minecraft.core.BlockPos
-import net.minecraft.core.SectionPos.z
 import net.minecraft.core.particles.ParticleTypes
-import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.RandomSource
-import net.minecraft.world.Container
 import net.minecraft.world.Containers
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
@@ -28,13 +24,14 @@ import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import java.awt.Color
 import java.util.function.Supplier
 
 
-class DistilleryBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(
-    litBlockEmission(8)
-)) {
+class DistilleryBlock(properties: Properties) : WitcheryBaseEntityBlock(
+    properties.noOcclusion().lightLevel(
+        litBlockEmission(8)
+    )
+) {
 
     init {
         this.registerDefaultState(
@@ -94,10 +91,10 @@ class DistilleryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
 
                     val effectParticle = manager.createParticle(
                         ParticleTypes.EFFECT, particleX, baseY,
-                        particleZ,  0.0, 0.0, 0.0
+                        particleZ, 0.0, 0.0, 0.0
                     )
 
-                    effectParticle?.setColor(1f,0.1f,1f)
+                    effectParticle?.setColor(1f, 0.1f, 1f)
                 }
             }
         }

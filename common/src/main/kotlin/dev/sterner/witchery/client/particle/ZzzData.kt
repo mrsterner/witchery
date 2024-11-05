@@ -20,11 +20,11 @@ class ZzzData(val alpha: Float) : ParticleOptions {
     companion object {
 
         val CODEC: MapCodec<ZzzData> =
-        RecordCodecBuilder.mapCodec { instance: RecordCodecBuilder.Instance<ZzzData> ->
-            instance.group(
-                Codec.FLOAT.fieldOf("alpha").forGetter { data -> data.alpha }
-            ).apply(instance) { alpha -> ZzzData(alpha) }
-        }
+            RecordCodecBuilder.mapCodec { instance: RecordCodecBuilder.Instance<ZzzData> ->
+                instance.group(
+                    Codec.FLOAT.fieldOf("alpha").forGetter { data -> data.alpha }
+                ).apply(instance) { alpha -> ZzzData(alpha) }
+            }
 
         val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, ZzzData> =
             StreamCodec.composite(

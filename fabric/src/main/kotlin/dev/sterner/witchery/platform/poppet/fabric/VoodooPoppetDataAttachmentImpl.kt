@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player
 object VoodooPoppetDataAttachmentImpl {
 
     @JvmStatic
-    fun getPoppetData(livingEntity: LivingEntity): VoodooPoppetData{
+    fun getPoppetData(livingEntity: LivingEntity): VoodooPoppetData {
         return livingEntity.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.VOODOO_POPPET_DATA_TYPE)
     }
 

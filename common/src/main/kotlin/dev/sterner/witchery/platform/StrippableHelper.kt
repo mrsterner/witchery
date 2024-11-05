@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import java.util.function.Supplier
 
 object StrippableHelper {
+
     @JvmStatic
     @ExpectPlatform
     fun createStrippableLog(

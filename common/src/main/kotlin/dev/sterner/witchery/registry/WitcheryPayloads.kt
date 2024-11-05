@@ -36,14 +36,20 @@ object WitcheryPayloads {
         registerS2C(SyncInfusionS2CPacket.ID, SyncInfusionS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(CauldronEffectParticleS2CPayload.ID, CauldronEffectParticleS2CPayload.STREAM_CODEC) { payload, context ->
+        registerS2C(
+            CauldronEffectParticleS2CPayload.ID,
+            CauldronEffectParticleS2CPayload.STREAM_CODEC
+        ) { payload, context ->
             payload.handleS2C(payload, context)
         }
 
         registerS2C(SyncLightInfusionS2CPacket.ID, SyncLightInfusionS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncOtherwhereInfusionS2CPacket.ID, SyncOtherwhereInfusionS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(
+            SyncOtherwhereInfusionS2CPacket.ID,
+            SyncOtherwhereInfusionS2CPacket.STREAM_CODEC
+        ) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(SpawnPoofParticles.ID, SpawnPoofParticles.STREAM_CODEC) { payload, context ->
@@ -82,12 +88,12 @@ object WitcheryPayloads {
 
     fun <T : CustomPacketPayload?> sendToPlayers(level: Level, payload: T) {
         if (level is ServerLevel) {
-            for (serverLevel in level.server!!.allLevels) {
+            for (serverLevel in level.server.allLevels) {
                 for (player in serverLevel.players())
-                NetworkManager.sendToPlayer(
-                    player as ServerPlayer,
-                    payload
-                )
+                    NetworkManager.sendToPlayer(
+                        player as ServerPlayer,
+                        payload
+                    )
             }
         }
     }

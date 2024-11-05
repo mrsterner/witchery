@@ -1,7 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
@@ -107,7 +106,7 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
         getOrCreateTagBuilder(BlockTags.CROPS)
             .add(WitcheryBlocks.MANDRAKE_CROP.get())
             .add(WitcheryBlocks.SNOWBELL_CROP.get())
-            .add(WitcheryBlocks.BELLADONNAE_CROP.get())
+            .add(WitcheryBlocks.BELLADONNA_CROP.get())
             .add(WitcheryBlocks.WORMWOOD_CROP.get())
             .add(WitcheryBlocks.WOLFSFBANE_CROP.get())
             .add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get())
@@ -214,7 +213,7 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
         getOrCreateTagBuilder(BlockTags.BEE_GROWABLES)
             .add(WitcheryBlocks.MANDRAKE_CROP.get())
             .add(WitcheryBlocks.SNOWBELL_CROP.get())
-            .add(WitcheryBlocks.BELLADONNAE_CROP.get())
+            .add(WitcheryBlocks.BELLADONNA_CROP.get())
             .add(WitcheryBlocks.WORMWOOD_CROP.get())
             .add(WitcheryBlocks.WOLFSFBANE_CROP.get())
             .add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get())
@@ -230,16 +229,36 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
         getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/white")))
             .add(WitcheryBlocks.WHITE_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/orange")))
+        getOrCreateTagBuilder(
+            TagKey.create(
+                Registries.BLOCK,
+                ResourceLocation.fromNamespaceAndPath("c", "dyed/orange")
+            )
+        )
             .add(WitcheryBlocks.ORANGE_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/magenta")))
+        getOrCreateTagBuilder(
+            TagKey.create(
+                Registries.BLOCK,
+                ResourceLocation.fromNamespaceAndPath("c", "dyed/magenta")
+            )
+        )
             .add(WitcheryBlocks.MAGENTA_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/light_blue")))
+        getOrCreateTagBuilder(
+            TagKey.create(
+                Registries.BLOCK,
+                ResourceLocation.fromNamespaceAndPath("c", "dyed/light_blue")
+            )
+        )
             .add(WitcheryBlocks.LIGHT_BLUE_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/yellow")))
+        getOrCreateTagBuilder(
+            TagKey.create(
+                Registries.BLOCK,
+                ResourceLocation.fromNamespaceAndPath("c", "dyed/yellow")
+            )
+        )
             .add(WitcheryBlocks.YELLOW_IRON_CANDELABRA.get())
 
         getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/lime")))
@@ -251,13 +270,23 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
         getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/gray")))
             .add(WitcheryBlocks.GRAY_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/light_gray")))
+        getOrCreateTagBuilder(
+            TagKey.create(
+                Registries.BLOCK,
+                ResourceLocation.fromNamespaceAndPath("c", "dyed/light_gray")
+            )
+        )
             .add(WitcheryBlocks.LIGHT_GRAY_IRON_CANDELABRA.get())
 
         getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/cyan")))
             .add(WitcheryBlocks.CYAN_IRON_CANDELABRA.get())
 
-        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/purple")))
+        getOrCreateTagBuilder(
+            TagKey.create(
+                Registries.BLOCK,
+                ResourceLocation.fromNamespaceAndPath("c", "dyed/purple")
+            )
+        )
             .add(WitcheryBlocks.PURPLE_IRON_CANDELABRA.get())
 
         getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/blue")))

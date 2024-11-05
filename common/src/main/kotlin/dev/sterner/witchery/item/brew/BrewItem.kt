@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.HitResult
 
-open class BrewItem(open val color: Int, properties: Properties?) : Item(properties) {
+open class BrewItem(open val color: Int, properties: Properties) : Item(properties) {
 
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
         val player = if (livingEntity is Player) livingEntity else null
@@ -43,7 +43,6 @@ open class BrewItem(open val color: Int, properties: Properties?) : Item(propert
         livingEntity.gameEvent(GameEvent.DRINK)
         return stack
     }
-
 
 
     override fun useOn(context: UseOnContext): InteractionResult {

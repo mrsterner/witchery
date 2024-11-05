@@ -10,7 +10,9 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
-import dev.sterner.witchery.item.brew.*
+import dev.sterner.witchery.item.brew.BrewOfFlowingSpiritItem
+import dev.sterner.witchery.item.brew.BrewOfLoveItem
+import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
@@ -39,30 +41,46 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.INFINITY_EGG.get(), Item.Properties())
     }
 
-    val WITCHES_HAND =  ITEMS.register("witches_hand") {
+    val WITCHES_HAND = ITEMS.register("witches_hand") {
         WitchesHandItem(Item.Properties().stacksTo(1))
     }
 
-    val BROOM =  ITEMS.register("broom") {
+    val BROOM = ITEMS.register("broom") {
         BroomItem(Item.Properties().stacksTo(1))
     }
 
     //start ARMOR
 
     val WITCHES_HAT = ITEMS.register("witches_hat") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
+        PlatformUtils.witchesRobes(
+            WitcheryArmorMaterials.WITCHES_ROBES,
+            ArmorItem.Type.HELMET,
+            Item.Properties().stacksTo(1)
+        )
     }
 
     val WITCHES_ROBES = ITEMS.register("witches_robes") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.CHESTPLATE, Item.Properties().stacksTo(1))
+        PlatformUtils.witchesRobes(
+            WitcheryArmorMaterials.WITCHES_ROBES,
+            ArmorItem.Type.CHESTPLATE,
+            Item.Properties().stacksTo(1)
+        )
     }
 
     val WITCHES_SLIPPERS = ITEMS.register("witches_slippers") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
+        PlatformUtils.witchesRobes(
+            WitcheryArmorMaterials.WITCHES_ROBES,
+            ArmorItem.Type.BOOTS,
+            Item.Properties().stacksTo(1)
+        )
     }
 
     val BABA_YAGAS_HAT = ITEMS.register("baba_yagas_hat") {
-        PlatformUtils.witchesRobes(WitcheryArmorMaterials.WITCHES_ROBES, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
+        PlatformUtils.witchesRobes(
+            WitcheryArmorMaterials.WITCHES_ROBES,
+            ArmorItem.Type.HELMET,
+            Item.Properties().stacksTo(1)
+        )
     }
 
     val HUNTER_HELMET = ITEMS.register("hunter_helmet") {
@@ -70,7 +88,11 @@ object WitcheryItems {
     }
 
     val HUNTER_CHESTPLATE = ITEMS.register("hunter_chestplate") {
-        PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.CHESTPLATE, Item.Properties().stacksTo(1))
+        PlatformUtils.hunterArmor(
+            WitcheryArmorMaterials.HUNTER,
+            ArmorItem.Type.CHESTPLATE,
+            Item.Properties().stacksTo(1)
+        )
     }
 
     val HUNTER_LEGGINGS = ITEMS.register("hunter_leggings") {
@@ -108,7 +130,7 @@ object WitcheryItems {
     }
 
     val BELLADONNA_SEEDS: RegistrySupplier<ItemNameBlockItem> = ITEMS.register("belladonna_seeds") {
-        ItemNameBlockItem(WitcheryBlocks.BELLADONNAE_CROP.get(), Item.Properties())
+        ItemNameBlockItem(WitcheryBlocks.BELLADONNA_CROP.get(), Item.Properties())
     }
 
     val BELLADONNA_FLOWER: RegistrySupplier<Item> = ITEMS.register("belladonna_flower") {

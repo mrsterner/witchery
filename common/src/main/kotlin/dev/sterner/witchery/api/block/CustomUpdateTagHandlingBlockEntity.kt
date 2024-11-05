@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntity
 
 
 interface CustomUpdateTagHandlingBlockEntity {
+
     fun handleUpdateTag(tag: CompoundTag, lookupProvider: HolderLookup.Provider) {
         (this as BlockEntity).loadWithComponents(tag, lookupProvider)
     }
