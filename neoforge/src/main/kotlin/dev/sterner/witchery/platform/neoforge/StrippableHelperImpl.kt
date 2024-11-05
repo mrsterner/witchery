@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import java.util.function.Supplier
 
 object StrippableHelperImpl {
+
     @JvmStatic
     fun createStrippableLog(stripped: Supplier<out RotatedPillarBlock>, properties: Properties) =
         Supplier { ForgeStrippableLogBlock(stripped, properties) }

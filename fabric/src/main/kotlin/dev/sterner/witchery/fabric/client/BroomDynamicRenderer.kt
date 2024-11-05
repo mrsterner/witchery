@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack
 
 class BroomDynamicRenderer : DynamicItemRenderer {
 
-    var model: BroomEntityModel? = BroomEntityModel(BroomEntityModel.createBodyLayer().bakeRoot())
+    private var model: BroomEntityModel? = BroomEntityModel(BroomEntityModel.createBodyLayer().bakeRoot())
 
     override fun render(
         stack: ItemStack?,
@@ -31,5 +31,4 @@ class BroomDynamicRenderer : DynamicItemRenderer {
         )
         poseStack.popPose()
     }
-
 }

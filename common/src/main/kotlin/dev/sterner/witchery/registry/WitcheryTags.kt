@@ -5,47 +5,49 @@ import dev.sterner.witchery.Witchery.MODID
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.TagKey
+import net.minecraft.world.item.Item
+import net.minecraft.world.level.block.Block
 
 
 object WitcheryTags {
 
-    val PLACEABLE_POPPETS = TagKey.create(Registries.ITEM, Witchery.id("placeable_poppets"))
-    val SPIRIT_WORLD_TRANSFERABLE = TagKey.create(Registries.ITEM, Witchery.id("spirit_world_transferable"))
+    val PLACEABLE_POPPETS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("placeable_poppets"))
+    val SPIRIT_WORLD_TRANSFERABLE: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("spirit_world_transferable"))
 
-    val PLANTS = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "plants"))
+    val PLANTS: TagKey<Block> = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "plants"))
 
-    val ROWAN_LOGS = TagKey.create(Registries.BLOCK, Witchery.id("rowan_logs"))
-    val ROWAN_LOG_ITEMS = TagKey.create(Registries.ITEM, Witchery.id("rowan_logs"))
+    val ROWAN_LOGS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("rowan_logs"))
+    val ROWAN_LOG_ITEMS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("rowan_logs"))
 
-    val ALDER_LOGS = TagKey.create(Registries.BLOCK, Witchery.id("alder_logs"))
-    val ALDER_LOG_ITEMS = TagKey.create(Registries.ITEM, Witchery.id("alder_logs"))
+    val ALDER_LOGS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("alder_logs"))
+    val ALDER_LOG_ITEMS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("alder_logs"))
 
-    val HAWTHORN_LOGS = TagKey.create(Registries.BLOCK, Witchery.id("hawthorn_logs"))
-    val HAWTHORN_LOG_ITEMS = TagKey.create(Registries.ITEM, Witchery.id("hawthorn_logs"))
+    val HAWTHORN_LOGS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("hawthorn_logs"))
+    val HAWTHORN_LOG_ITEMS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("hawthorn_logs"))
 
-    val LOGS = TagKey.create(Registries.BLOCK, Witchery.id("logs"))
-    val LEAVES = TagKey.create(Registries.BLOCK, Witchery.id("leaves"))
-    val LEAF_ITEMS = TagKey.create(Registries.ITEM, Witchery.id("leaves"))
+    val LOGS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("logs"))
+    val LEAVES: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("leaves"))
+    val LEAF_ITEMS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("leaves"))
 
-    val CANDELABRAS = TagKey.create(Registries.BLOCK, Witchery.id("candelabras"))
-    val CANDELABRA_ITEMS = TagKey.create(Registries.ITEM, Witchery.id("candelabras"))
-
-
-    val BROWN_MUCHROOM = TagKey.create(Registries.BLOCK, Witchery.id("brown_mushroom"))
-    val RED_MUSHROOM = TagKey.create(Registries.BLOCK, Witchery.id("red_mushroom"))
+    val CANDELABRAS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("candelabras"))
+    val CANDELABRA_ITEMS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("candelabras"))
 
 
-    val BAMBOO = TagKey.create(Registries.BLOCK, Witchery.id("bamboo"))
-    val BIG_DRIPLEAF = TagKey.create(Registries.BLOCK, Witchery.id("big_dripleaf"))
-    val CRIMSON_FUNGUS = TagKey.create(Registries.BLOCK, Witchery.id("crimson_fungus"))
-    val KELP = TagKey.create(Registries.BLOCK, Witchery.id("kelp"))
-    val MOSS = TagKey.create(Registries.BLOCK, Witchery.id("moss"))
-    val MOSSY_BLOCKS = TagKey.create(Registries.BLOCK, Witchery.id("mossy_blocks"))
-    val NETHER_FOLIAGE = TagKey.create(Registries.BLOCK, Witchery.id("nether_foliage"))
-    val OVERWORLD_FOLIAGE = TagKey.create(Registries.BLOCK, Witchery.id("overworld_foliage"))
-    val PITCHER = TagKey.create(Registries.BLOCK, Witchery.id("pitcher"))
-    val SCULK = TagKey.create(Registries.BLOCK, Witchery.id("sculk"))
-    val TORCHFLOWER = TagKey.create(Registries.BLOCK, Witchery.id("torchflower"))
-    val WARPED_FUNGUS = TagKey.create(Registries.BLOCK, Witchery.id("warped_fungus"))
-    val VINES = TagKey.create(Registries.BLOCK, Witchery.id("vines"))
+    val BROWN_MUSHROOM: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("brown_mushroom"))
+    val RED_MUSHROOM: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("red_mushroom"))
+
+
+    val BAMBOO: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("bamboo"))
+    val BIG_DRIPLEAF: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("big_dripleaf"))
+    val CRIMSON_FUNGUS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("crimson_fungus"))
+    val KELP: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("kelp"))
+    val MOSS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("moss"))
+    val MOSSY_BLOCKS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("mossy_blocks"))
+    val NETHER_FOLIAGE: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("nether_foliage"))
+    val OVERWORLD_FOLIAGE: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("overworld_foliage"))
+    val PITCHER: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("pitcher"))
+    val SCULK: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("sculk"))
+    val TORCHFLOWER: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("torchflower"))
+    val WARPED_FUNGUS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("warped_fungus"))
+    val VINES: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("vines"))
 }

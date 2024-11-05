@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack
 
 class WitchesRobesArmorRendererFabric : ArmorRenderer {
 
-    var armor: WitchesRobesModel? = null
+    private var armor: WitchesRobesModel? = null
 
     override fun render(
         matrices: PoseStack,
@@ -58,7 +58,6 @@ class WitchesRobesArmorRendererFabric : ArmorRenderer {
                 armor!!.rightLeg.visible = slot == EquipmentSlot.FEET
             }
         }
-
 
         if (slot == EquipmentSlot.HEAD && stack.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
             val babaTexture = Witchery.id("textures/models/armor/baba_yagas_hat.png")
@@ -99,6 +98,5 @@ class WitchesRobesArmorRendererFabric : ArmorRenderer {
                 DyeColor.BLACK.textureDiffuseColor
             )
         }
-
     }
 }

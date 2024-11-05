@@ -12,9 +12,9 @@ import net.minecraft.world.item.ItemStack
 
 class SpinningWheelDynamicRenderer : DynamicItemRenderer {
 
-    var model: SpinningWheelBlockEntityModel? =
+    private var model: SpinningWheelBlockEntityModel? =
         SpinningWheelBlockEntityModel(SpinningWheelBlockEntityModel.createBodyLayer().bakeRoot())
-    var wheelModel: SpinningWheelWheelBlockEntityModel? =
+    private var wheelModel: SpinningWheelWheelBlockEntityModel? =
         SpinningWheelWheelBlockEntityModel(SpinningWheelWheelBlockEntityModel.createBodyLayer().bakeRoot())
 
     override fun render(
@@ -43,5 +43,4 @@ class SpinningWheelDynamicRenderer : DynamicItemRenderer {
 
         poseStack.popPose()
     }
-
 }

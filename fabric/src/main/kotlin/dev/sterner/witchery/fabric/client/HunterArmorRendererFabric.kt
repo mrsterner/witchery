@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack
 
 class HunterArmorRendererFabric : ArmorRenderer {
 
-    var armor: HunterArmorModel? = null
+    private var armor: HunterArmorModel? = null
 
     override fun render(
         matrices: PoseStack,

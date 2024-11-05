@@ -18,7 +18,6 @@ object WitcheryOxidizables {
             WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN.get(),
             WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN.get()
         )
-
         OxidizableBlocksRegistry.registerWaxableBlockPair(
             WitcheryBlocks.COPPER_WITCHES_OVEN.get(),
             WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN.get()
@@ -35,8 +34,6 @@ object WitcheryOxidizables {
             WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN.get(),
             WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get()
         )
-
-
         OxidizableBlocksRegistry.registerOxidizableBlockPair(
             WitcheryBlocks.COPPER_CAULDRON.get(),
             WitcheryBlocks.EXPOSED_COPPER_CAULDRON.get()
@@ -49,7 +46,6 @@ object WitcheryOxidizables {
             WitcheryBlocks.WEATHERED_COPPER_CAULDRON.get(),
             WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get()
         )
-
         OxidizableBlocksRegistry.registerWaxableBlockPair(
             WitcheryBlocks.COPPER_CAULDRON.get(),
             WitcheryBlocks.WAXED_COPPER_CAULDRON.get()
@@ -66,9 +62,6 @@ object WitcheryOxidizables {
             WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get(),
             WitcheryBlocks.WAXED_OXIDIZED_COPPER_CAULDRON.get()
         )
-
-
-
         OxidizableBlocksRegistry.registerOxidizableBlockPair(
             WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
             WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get()
@@ -81,7 +74,6 @@ object WitcheryOxidizables {
             WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
             WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get()
         )
-
         OxidizableBlocksRegistry.registerWaxableBlockPair(
             WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
             WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get()

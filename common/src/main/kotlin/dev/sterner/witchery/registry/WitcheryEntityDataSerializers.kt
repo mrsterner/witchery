@@ -59,6 +59,4 @@ object WitcheryEntityDataSerializers {
                 return list
             }
         }
-
-
 }

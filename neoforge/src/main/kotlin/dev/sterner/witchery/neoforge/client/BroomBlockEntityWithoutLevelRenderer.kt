@@ -16,7 +16,7 @@ class BroomBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRenderer(
     Minecraft.getInstance().entityModels
 ) {
 
-    var model: BroomEntityModel? = BroomEntityModel(BroomEntityModel.createBodyLayer().bakeRoot())
+    private var model: BroomEntityModel? = BroomEntityModel(BroomEntityModel.createBodyLayer().bakeRoot())
 
     override fun renderByItem(
         stack: ItemStack,

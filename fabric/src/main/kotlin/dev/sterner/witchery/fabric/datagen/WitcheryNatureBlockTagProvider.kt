@@ -38,7 +38,7 @@ class WitcheryNatureBlockTagProvider(
         lookup: HolderLookup.Provider?
     ) {
         makeTag(provider, BlockTags.SAPLINGS, 4, 20)
-        makeTag(provider, WitcheryTags.BROWN_MUCHROOM, 3, 20)
+        makeTag(provider, WitcheryTags.BROWN_MUSHROOM, 3, 20)
         makeTag(provider, WitcheryTags.RED_MUSHROOM, 3, 20)
         makeTag(provider, WitcheryTags.LOGS, 3, 50)
         makeTag(provider, WitcheryTags.LEAVES, 4, 50)

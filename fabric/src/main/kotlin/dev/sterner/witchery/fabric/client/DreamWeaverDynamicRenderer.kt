@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack
 
 class DreamWeaverDynamicRenderer : DynamicItemRenderer {
 
-    var model: DreamWeaverBlockEntityModel? =
+    private var model: DreamWeaverBlockEntityModel? =
         DreamWeaverBlockEntityModel(DreamWeaverBlockEntityModel.createBodyLayer().bakeRoot())
     private var texture: ResourceLocation? = null
 
@@ -29,17 +29,17 @@ class DreamWeaverDynamicRenderer : DynamicItemRenderer {
             val block = stack.descriptionId
             val filename = block.replaceFirst("block.witchery.", "")
             texture = Witchery.id("textures/block/${filename}.png")
+        } else {
+            poseStack.pushPose()
+            poseStack.scale(-1.0f, -1.0f, 1.0f)
+            model?.renderToBuffer(
+                poseStack,
+                bufferSource.getBuffer(RenderType.entityTranslucent(texture!!)),
+                packedLight,
+                packedOverlay
+            )
+            poseStack.popPose()
         }
-
-        poseStack.pushPose()
-        poseStack.scale(-1.0f, -1.0f, 1.0f)
-        model?.renderToBuffer(
-            poseStack,
-            bufferSource.getBuffer(RenderType.entityTranslucent(texture)),
-            packedLight,
-            packedOverlay
-        )
-        poseStack.popPose()
     }
 
 }

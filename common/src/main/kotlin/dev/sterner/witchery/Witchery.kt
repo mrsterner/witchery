@@ -70,6 +70,7 @@ import org.slf4j.Logger
 
 
 object Witchery {
+
     const val MODID: String = "witchery"
 
     val LOGGER: Logger = LogUtils.getLogger()
@@ -108,7 +109,6 @@ object Witchery {
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
         InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
         PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
-
 
         ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisDataAttachment.tick(serverLevel) }
 
@@ -154,7 +154,6 @@ object Witchery {
         isBuiltin: Boolean
     ) {
 
-
         if (isBuiltin && EntityType.WOLF.defaultLootTable.equals(resourceKey)) {
             val pool = LootPool
                 .lootPool()
@@ -185,7 +184,6 @@ object Witchery {
             context.addPool(pool)
         }
     }
-
 
     private fun addSeeds(key: ResourceKey<LootTable>?, context: LootTableModificationContext, builtin: Boolean) {
         if (builtin && Blocks.SHORT_GRASS.lootTable.equals(key) || Blocks.TALL_GRASS.lootTable.equals(key)) {

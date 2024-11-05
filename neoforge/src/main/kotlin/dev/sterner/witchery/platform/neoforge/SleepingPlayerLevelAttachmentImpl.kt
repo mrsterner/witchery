@@ -15,5 +15,4 @@ object SleepingPlayerLevelAttachmentImpl {
     fun setData(level: ServerLevel, data: SleepingPlayerLevelAttachment.Data) {
         level.setData(SLEEPING_PLAYER_DATA_ATTACHMENT, data)
     }
-
 }

@@ -19,7 +19,7 @@ object WitcheryParticleTypes {
         ColorBubbleParticleType()
     }
 
-    var ZZZ = PARTICLES.register("zzz") {
+    var ZZZ: RegistrySupplier<ZzzParticleType> = PARTICLES.register("zzz") {
         ZzzParticleType()
     }
 }

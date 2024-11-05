@@ -14,7 +14,7 @@ import net.minecraft.world.inventory.MenuType
 
 object WitcheryMenuTypes {
 
-    val MENU_TYPES = DeferredRegister.create(Witchery.MODID, Registries.MENU)
+    val MENU_TYPES: DeferredRegister<MenuType<*>> = DeferredRegister.create(Witchery.MODID, Registries.MENU)
 
     val OVEN_MENU_TYPE: RegistrySupplier<MenuType<OvenMenu>> = MENU_TYPES.register("oven_menu") {
         MenuRegistry.ofExtended { windowId, inventory, data ->
@@ -22,15 +22,15 @@ object WitcheryMenuTypes {
         }
     }
 
-    val ALTAR_MENU_TYPE = MENU_TYPES.register("altar_menu") {
+    val ALTAR_MENU_TYPE: RegistrySupplier<MenuType<AltarMenu>> = MENU_TYPES.register("altar_menu") {
         MenuRegistry.ofExtended(::AltarMenu)
     }
 
-    val DISTILLERY_MENU_TYPE = MENU_TYPES.register("distillery_menu") {
+    val DISTILLERY_MENU_TYPE: RegistrySupplier<MenuType<DistilleryMenu>> = MENU_TYPES.register("distillery_menu") {
         MenuRegistry.ofExtended(::DistilleryMenu)
     }
 
-    val SPINNING_WHEEL_MENU_TYPE = MENU_TYPES.register("spinning_wheel_menu") {
+    val SPINNING_WHEEL_MENU_TYPE: RegistrySupplier<MenuType<SpinningWheelMenu>> = MENU_TYPES.register("spinning_wheel_menu") {
         MenuRegistry.ofExtended(::SpinningWheelMenu)
     }
 }

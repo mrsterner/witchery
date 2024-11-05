@@ -3,6 +3,7 @@ package dev.sterner.witchery.client.model
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.entity.MandrakeEntity
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -15,7 +16,7 @@ import net.minecraft.util.Mth
 import net.minecraft.world.entity.LivingEntity
 
 
-class MandrakeEntityModel<T : LivingEntity?>(root: ModelPart) : EntityModel<T>() {
+class MandrakeEntityModel(root: ModelPart) : EntityModel<MandrakeEntity>() {
     private val head: ModelPart = root.getChild("head")
     private val arms: ModelPart = root.getChild("arms")
     private val legs: ModelPart = root.getChild("legs")
@@ -24,7 +25,7 @@ class MandrakeEntityModel<T : LivingEntity?>(root: ModelPart) : EntityModel<T>()
     private val bb_main: ModelPart = root.getChild("bb_main")
 
     override fun setupAnim(
-        entity: T,
+        entity: MandrakeEntity,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,

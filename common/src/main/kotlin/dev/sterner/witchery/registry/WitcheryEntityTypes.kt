@@ -1,6 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.architectury.registry.registries.DeferredRegister
+import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.*
 import net.minecraft.core.registries.Registries
@@ -12,7 +13,7 @@ object WitcheryEntityTypes {
 
     val ENTITY_TYPES: DeferredRegister<EntityType<*>> = DeferredRegister.create(Witchery.MODID, Registries.ENTITY_TYPE)
 
-    val MANDRAKE = ENTITY_TYPES.register("mandrake") {
+    val MANDRAKE: RegistrySupplier<EntityType<MandrakeEntity>> = ENTITY_TYPES.register("mandrake") {
         EntityType.Builder.of(
             { _: EntityType<MandrakeEntity>, level: Level ->
                 MandrakeEntity(level)
@@ -20,7 +21,7 @@ object WitcheryEntityTypes {
         ).sized(0.5f, 0.5f).build(Witchery.id("mandrake").toString())
     }
 
-    val IMP = ENTITY_TYPES.register("imp") {
+    val IMP: RegistrySupplier<EntityType<ImpEntity>> = ENTITY_TYPES.register("imp") {
         EntityType.Builder.of(
             { _: EntityType<ImpEntity>, level: Level ->
                 ImpEntity(level)
@@ -28,7 +29,7 @@ object WitcheryEntityTypes {
         ).sized(0.35F, 0.6F).eyeHeight(0.36F).build(Witchery.id("imp").toString())
     }
 
-    val DEMON = ENTITY_TYPES.register("demon") {
+    val DEMON: RegistrySupplier<EntityType<DemonEntity>> = ENTITY_TYPES.register("demon") {
         EntityType.Builder.of(
             { _: EntityType<DemonEntity>, level: Level ->
                 DemonEntity(level)
@@ -36,7 +37,7 @@ object WitcheryEntityTypes {
         ).sized(1.25F, 3.2F).eyeHeight(2.6F).build(Witchery.id("demon").toString())
     }
 
-    val ENT = ENTITY_TYPES.register("ent") {
+    val ENT: RegistrySupplier<EntityType<EntEntity>> = ENTITY_TYPES.register("ent") {
         EntityType.Builder.of(
             { _: EntityType<EntEntity>, level: Level ->
                 EntEntity(level)
@@ -44,8 +45,7 @@ object WitcheryEntityTypes {
         ).sized(1.25F, 3.2F).eyeHeight(2.6F).build(Witchery.id("ent").toString())
     }
 
-
-    val OWL = ENTITY_TYPES.register("owl") {
+    val OWL: RegistrySupplier<EntityType<OwlEntity>> = ENTITY_TYPES.register("owl") {
         EntityType.Builder.of(
             { _: EntityType<OwlEntity>, level: Level ->
                 OwlEntity(level)
@@ -53,7 +53,7 @@ object WitcheryEntityTypes {
         ).sized(0.35F, 0.6F).eyeHeight(0.36F).build(Witchery.id("owl").toString())
     }
 
-    val BROOM = ENTITY_TYPES.register("broom") {
+    val BROOM: RegistrySupplier<EntityType<BroomEntity>> = ENTITY_TYPES.register("broom") {
         EntityType.Builder.of(
             { _: EntityType<BroomEntity>, level: Level ->
                 BroomEntity(level)
@@ -61,7 +61,7 @@ object WitcheryEntityTypes {
         ).sized(1.0F, 0.6F).clientTrackingRange(10).build(Witchery.id("broom").toString())
     }
 
-    val SLEEPING_PLAYER = ENTITY_TYPES.register("sleeping_player") {
+    val SLEEPING_PLAYER: RegistrySupplier<EntityType<SleepingPlayerEntity>> = ENTITY_TYPES.register("sleeping_player") {
         EntityType.Builder.of(
             { _: EntityType<SleepingPlayerEntity>, level: Level ->
                 SleepingPlayerEntity(level)
@@ -72,7 +72,7 @@ object WitcheryEntityTypes {
             .build(Witchery.id("sleeping_player").toString())
     }
 
-    val FLOATING_ITEM =
+    val FLOATING_ITEM: RegistrySupplier<EntityType<FloatingItemEntity>> =
         ENTITY_TYPES.register(
             "floating_item"
         ) {
@@ -86,17 +86,17 @@ object WitcheryEntityTypes {
                 .build(Witchery.id("floating_item").toString())
         }
 
-    val CUSTOM_BOAT = ENTITY_TYPES.register("custom_boat") {
+    val CUSTOM_BOAT: RegistrySupplier<EntityType<CustomBoat>> = ENTITY_TYPES.register("custom_boat") {
         EntityType.Builder.of(::CustomBoat, MobCategory.MISC)
             .sized(1.375f, 0.5625f).build("custom_boat")
     }
 
-    val CUSTOM_CHEST_BOAT = ENTITY_TYPES.register("custom_chest_boat") {
+    val CUSTOM_CHEST_BOAT: RegistrySupplier<EntityType<CustomChestBoat>> = ENTITY_TYPES.register("custom_chest_boat") {
         EntityType.Builder.of(::CustomChestBoat, MobCategory.MISC)
             .sized(1.375f, 0.5625f).build("custom_chest_boat")
     }
 
-    val THROWN_BREW =
+    val THROWN_BREW: RegistrySupplier<EntityType<ThrownBrewEntity>> =
         ENTITY_TYPES.register(
             "thrown_brew"
         ) {

@@ -18,5 +18,4 @@ object LightInfusionDataAttachmentImpl {
     fun isInvisible(player: Player): LightInfusionData {
         return player.getData(WitcheryNeoForgeAttachmentRegistry.LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT)
     }
-
 }

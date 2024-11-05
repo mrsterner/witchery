@@ -5,7 +5,6 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
-import dev.sterner.witchery.neoforge.event.NeoForgEvent
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
@@ -34,10 +33,8 @@ import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 object WitcheryNeoForge {
 
-
-    val DATA_SERIALIZER_REGISTER: DeferredRegister<EntityDataSerializer<*>> =
+    private val DATA_SERIALIZER_REGISTER: DeferredRegister<EntityDataSerializer<*>> =
         DeferredRegister.create(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, Witchery.MODID)
-
 
     private inline fun <reified T : EntityDataSerializer<*>> DeferredRegister<EntityDataSerializer<*>>.registerSerializer(
         name: String,
@@ -67,7 +64,6 @@ object WitcheryNeoForge {
             serverTarget = {
                 MOD_BUS.addListener(::onServerSetup)
                 MOD_BUS.addListener(::onLoadComplete)
-                FORGE_BUS.register(NeoForgEvent)
                 "test"
             }
         )
@@ -106,6 +102,4 @@ object WitcheryNeoForge {
     fun modifyExistingTabs(event: BuildCreativeModeTabContentsEvent) {
         WitcheryCreativeModeTabs.modifyExistingTabs(event.tab, event)
     }
-
-
 }

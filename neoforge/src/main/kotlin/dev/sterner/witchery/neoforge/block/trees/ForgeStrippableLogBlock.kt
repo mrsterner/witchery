@@ -15,6 +15,7 @@ import java.util.function.Supplier
  */
 class ForgeStrippableLogBlock(strippedLog: Supplier<out Block>, properties: Properties) :
     StrippableLogBlock(strippedLog, properties), IBlockExtension {
+
     override fun getToolModifiedState(
         state: BlockState,
         context: UseOnContext,

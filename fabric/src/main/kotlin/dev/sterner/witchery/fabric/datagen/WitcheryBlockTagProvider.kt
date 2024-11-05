@@ -316,7 +316,7 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             .add(Blocks.BIG_DRIPLEAF)
             .add(Blocks.BIG_DRIPLEAF_STEM)
 
-        getOrCreateTagBuilder(WitcheryTags.BROWN_MUCHROOM)
+        getOrCreateTagBuilder(WitcheryTags.BROWN_MUSHROOM)
             .add(Blocks.BROWN_MUSHROOM_BLOCK)
             .add(Blocks.BROWN_MUSHROOM)
             .add(Blocks.POTTED_BROWN_MUSHROOM)

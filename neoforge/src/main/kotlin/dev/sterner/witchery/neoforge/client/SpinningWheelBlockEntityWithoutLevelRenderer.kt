@@ -17,12 +17,11 @@ class SpinningWheelBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRend
     Minecraft.getInstance().entityModels
 ) {
 
-    var model: SpinningWheelBlockEntityModel? =
+    private var model: SpinningWheelBlockEntityModel? =
         SpinningWheelBlockEntityModel(SpinningWheelBlockEntityModel.createBodyLayer().bakeRoot())
-    var wheelModel: SpinningWheelWheelBlockEntityModel? = SpinningWheelWheelBlockEntityModel(
+    private var wheelModel: SpinningWheelWheelBlockEntityModel? = SpinningWheelWheelBlockEntityModel(
         SpinningWheelWheelBlockEntityModel.createBodyLayer().bakeRoot()
     )
-
 
     override fun renderByItem(
         stack: ItemStack,
@@ -47,7 +46,6 @@ class SpinningWheelBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRend
             packedLight,
             packedOverlay
         )
-
         poseStack.popPose()
     }
 }
