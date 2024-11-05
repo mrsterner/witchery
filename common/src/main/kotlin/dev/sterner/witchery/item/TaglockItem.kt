@@ -127,8 +127,8 @@ class TaglockItem(properties: Properties) : Item(properties) {
                 return
             }
 
-            stack.set(DataComponents.PROFILE, ResolvableProfile(GameProfile(sleepingPlayerEntity.data.playerUuid, sleepingPlayerEntity.getSleepingName())))
-            stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), sleepingPlayerEntity.data.playerName?.replaceFirstChar(Char::uppercase))
+            stack.set(DataComponents.PROFILE, sleepingPlayerEntity.data.resolvableProfile)
+            stack.set(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(), sleepingPlayerEntity.data.resolvableProfile!!.gameProfile.name?.replaceFirstChar(Char::uppercase))
 
 
             stack.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), sleepingPlayerEntity.getSleepingUUID().toString())

@@ -47,24 +47,6 @@ class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties.no
         else LOWER_SHAPE_BY_AGE[state.getValue(BlockStateProperties.AGE_4)]
     }
 
-    public override fun getCollisionShape(
-        state: BlockState,
-        level: BlockGetter,
-        pos: BlockPos,
-        context: CollisionContext
-    ): VoxelShape {
-        return if (state.getValue(BlockStateProperties.AGE_4) as Int == 0) {
-            COLLISION_SHAPE_BULB
-        } else {
-            if (state.getValue(HALF) == DoubleBlockHalf.LOWER) COLLISION_SHAPE_CROP else super.getCollisionShape(
-                state,
-                level,
-                pos,
-                context
-            )
-        }
-    }
-
     public override fun updateShape(
         state: BlockState,
         direction: Direction,

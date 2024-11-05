@@ -50,11 +50,10 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
         val equipmentList = entity.getEquipment()
         sleepPlayer = SleepingClientPlayerEntity(
                 entity.level() as ClientLevel,
-                GameProfile(entity.getSleepingUUID().orElse(UUID(0L,0L)), entity.getSleepingName()),
+                entity.entityData.get(SleepingPlayerEntity.RESOLVEABLE).gameProfile,
                 equipmentList,
                 entity.getSleepingModel()
         )
-
 
         sleepPlayer?.yHeadRotO = 0f
         sleepPlayer?.yHeadRot = 0f
@@ -65,7 +64,6 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
         }
 
         poseStack.popPose()
-
     }
 
     private fun addZ(player: SleepingPlayerEntity) {

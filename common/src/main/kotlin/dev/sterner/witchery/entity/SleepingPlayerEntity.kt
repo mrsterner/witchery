@@ -1,8 +1,10 @@
 package dev.sterner.witchery.entity
 
+import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.api.SleepingPlayerData
 import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.mixin.PlayerDataAccessor
 import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
 import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
 import dev.sterner.witchery.registry.WitcheryEntityTypes
@@ -24,6 +26,7 @@ import net.minecraft.world.entity.*
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.component.ResolvableProfile
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import java.util.*
@@ -44,6 +47,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         builder.define(EQUIPMENT, NonNullList.withSize(EquipmentSlot.entries.size,  ItemStack.EMPTY))
         builder.define(MODEL, 0.toByte())
         builder.define(FACEPLANT, false)
+        builder.define(RESOLVEABLE, ResolvableProfile(GameProfile(UUID(0,0), "")))
     }
 
     override fun readAdditionalSaveData(compound: CompoundTag) {
@@ -51,16 +55,19 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             data = SleepingPlayerData.readNbt(compound.getCompound("Data"), this.registryAccess())
         }
 
+        entityData.set(RESOLVEABLE, data.resolvableProfile!!)
         setEquipment(data.equipment)
-        setSleepingUUID(data.playerUuid)
-        setSleepingName(data.playerName)
         setSleepingModel(data.model)
         setFaceplant(compound.getBoolean("Faceplanted"))
     }
 
+    override fun addAdditionalSaveData(compound: CompoundTag) {
+        compound.put("Data", data.writeNbt(this.registryAccess()))
+        compound.putBoolean("Faceplanted", isFaceplanted())
+    }
+
     override fun tick() {
         super.tick()
-
         if (!isNoGravity) {
             var motionY = deltaMovement.y - 0.0625
 
@@ -77,11 +84,6 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         }
     }
 
-    override fun addAdditionalSaveData(compound: CompoundTag) {
-        compound.put("Data", data.writeNbt(this.registryAccess()))
-        compound.putBoolean("Faceplanted", isFaceplanted())
-    }
-
     fun getSleepingUUID(): Optional<UUID> {
         return entityData.get(UUID)
     }
@@ -94,13 +96,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         }
     }
 
-    fun getSleepingName(): String {
-        return entityData.get(NAME)
-    }
 
-    fun setSleepingName(name: String?) {
-        entityData.set(NAME, name)
-    }
 
     fun getEquipment(): NonNullList<ItemStack> {
         return entityData.get(EQUIPMENT)
@@ -151,12 +147,12 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         fun createFromPlayer(player: Player, sleepingPlayerBuilder: SleepingPlayerData) : SleepingPlayerEntity {
             val entity = SleepingPlayerEntity(player.level())
             entity.data = sleepingPlayerBuilder
-            entity.setSleepingUUID(sleepingPlayerBuilder.playerUuid)
-            entity.setSleepingName(sleepingPlayerBuilder.playerName)
+            entity.data.resolvableProfile = (sleepingPlayerBuilder.resolvableProfile)
             entity.setEquipment(sleepingPlayerBuilder.equipment)
             entity.setPos(player.x, max(player.y + 0.2f, player.level().minBuildHeight.toDouble()), player.z)
             entity.yRot = player.yRot
-            entity.setSleepingModel(player.entityData.get(Player.DATA_PLAYER_MODE_CUSTOMISATION))
+            val access = player as PlayerDataAccessor
+            entity.setSleepingModel(player.entityData.get(access.mode))
             if (player.level() is ServerLevel) {
                 val serverLevel = player.level() as ServerLevel
                 SleepingPlayerLevelAttachment.add(player.uuid, entity.uuid, serverLevel)
@@ -212,6 +208,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             sleepingPlayerEntity.discard()
         }
 
+        val RESOLVEABLE = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.RESOLVABLE)
         val UUID = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.OPTIONAL_UUID)
         val NAME = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.STRING)
         val EQUIPMENT = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.INVENTORY)
