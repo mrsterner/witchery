@@ -31,7 +31,6 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         WitcheryFabricAttachmentRegistry.init()
         Witchery.init()
         WitcheryEntityDataSerializers.register()
-        LootTableEvents.MODIFY.register(WitcheryFabricEvents::addEntityDrops)
 
         DynamicRegistries.registerSynced(WitcheryRitualRegistry.RITUAL_KEY, WitcheryRitualRegistry.CODEC)
 

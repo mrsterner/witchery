@@ -29,7 +29,7 @@ class BroomBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRenderer(Min
         poseStack.scale(-1.0f, -1.0f, 1.0f)
         model?.renderToBuffer(
             poseStack,
-            buffer.getBuffer(RenderType.entityTranslucent(Witchery.id("textures/block/spinner.png"))),
+            buffer.getBuffer(RenderType.entityTranslucent(Witchery.id("textures/entity/broom.png"))),
             packedLight,
             packedOverlay
         )

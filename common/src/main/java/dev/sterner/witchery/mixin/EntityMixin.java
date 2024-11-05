@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EntityMixin {
 
     @Inject(method = "isInWaterRainOrBubble", at = @At("RETURN"), cancellable = true)
-    private void isInWaterRainOrBubble(CallbackInfoReturnable<Boolean> info) {
+    private void witchery$isInWaterRainOrBubble(CallbackInfoReturnable<Boolean> info) {
         if (!info.getReturnValue()) {
             Entity entity = (Entity) (Object) this;
             if (entity instanceof LivingEntity living) {
@@ -27,7 +27,7 @@ public class EntityMixin {
     }
 
     @ModifyReturnValue(method = "isEyeInFluid", at = @At("RETURN"))
-    private boolean isEyeInFluid(boolean original) {
+    private boolean witchery$isEyeInFluid(boolean original) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity living) {
             if (VoodooPoppetDataAttachment.getPoppetData(living).isUnderWater()) {

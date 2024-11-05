@@ -4,21 +4,31 @@ import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.material.Fluid
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
 class GoldenChalkBlock(properties: Properties) :
-    WitcheryBaseEntityBlock(properties.noOcclusion().noCollission().replaceable()) {
+    WitcheryBaseEntityBlock(properties.noOcclusion().noCollission()) {
 
     init {
         this.registerDefaultState(stateDefinition.any())
+    }
+
+    override fun canBeReplaced(state: BlockState, useContext: BlockPlaceContext): Boolean {
+        return false
+    }
+
+    override fun canBeReplaced(state: BlockState, fluid: Fluid): Boolean {
+        return false
     }
 
     override fun updateShape(

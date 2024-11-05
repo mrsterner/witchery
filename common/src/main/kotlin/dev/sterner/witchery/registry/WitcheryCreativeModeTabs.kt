@@ -62,6 +62,12 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.BONE_NEEDLE.get())
                 output.accept(WitcheryItems.TAGLOCK.get())
                 output.accept(WitcheryItems.ATTUNED_STONE.get())
+                output.accept(WitcheryItems.BROOM.get())
+
+                val broom = WitcheryItems.BROOM.get().defaultInstance
+                broom.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
+
+                output.accept(broom)
                 output.accept(WitcheryItems.DEMON_HEART.get())
                 output.accept(WitcheryItems.GYPSUM.get())
                 output.accept(WitcheryItems.TONGUE_OF_DOG.get())

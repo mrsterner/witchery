@@ -14,41 +14,5 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
 object WitcheryFabricEvents {
 
-    fun addEntityDrops(resourceKey: ResourceKey<LootTable>?, builder: LootTable.Builder, lootTableSource: LootTableSource, provider: HolderLookup.Provider) {
-        if (lootTableSource.isBuiltin && EntityType.WOLF.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.TONGUE_OF_DOG.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
-                )
-                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))
-                .build()
-            builder.pool(pool)
-        }
 
-        if (lootTableSource.isBuiltin && EntityType.FROG.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.TOE_OF_FROG.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
-                )
-                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))
-                .build()
-            builder.pool(pool)
-        }
-
-        if (lootTableSource.isBuiltin && EntityType.BAT.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.WOOL_OF_BAT.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
-                )
-                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(provider, UniformGenerator.between(0.0F, 1.0F)))
-                .build()
-            builder.pool(pool)
-        }
-    }
 }

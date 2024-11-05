@@ -1,5 +1,7 @@
 package dev.sterner.witchery.entity
 
+import dev.architectury.platform.Platform
+import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -40,7 +42,7 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
     private var inputRight = false
     private var inputUp = false
     private var inputDown = false
-    private var inputShift = false
+    var inputShift = false
     private var inputJump = false
 
     init {
@@ -186,11 +188,11 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
                 this.deltaMovement =
                     deltaMovement.add(0.0, 0.2, 0.0)
             }
-            if (inputShift) {
+            if (this.inputShift) {
+                println("SHIFT")
                 this.deltaMovement =
                     deltaMovement.add(0.0, -0.2, 0.0)
             }
-
             this.deltaMovement = deltaMovement.add(
                 (Mth.sin(-this.yRot * (Math.PI.toFloat() / 180f)) * f).toDouble() * 2.0,
                 0.0,
@@ -256,8 +258,6 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         this.inputJump = jumpInputDown
         this.inputShift = sneakingInputDown
     }
-
-
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         if (level().isClientSide || this.isRemoved) {

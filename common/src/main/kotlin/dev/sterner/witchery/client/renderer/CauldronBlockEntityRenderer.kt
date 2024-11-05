@@ -74,7 +74,7 @@ class CauldronBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         val red = (color shr 16) and 0xFF
         val green = (color shr 8) and 0xFF
         val blue = color and 0xFF
-        val vertexConsumer = bufferSource.getBuffer(RenderType.translucent())
+        val vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucentCull(material.atlasLocation()))
         val mat = poseStack.last().pose()
 
         addVertex(

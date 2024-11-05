@@ -36,6 +36,15 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add( "witchery.item.tooltip.infinity_egg", "Creative Only")
 
+        builder.add(WitcheryBlocks.SNOWBELL_CROP.get(), "Snowbell")
+        builder.add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), "Water Artichoke")
+        builder.add(WitcheryBlocks.BELLADONNAE_CROP.get(), "Belladonna")
+        builder.add(WitcheryBlocks.WOLFSFBANE_CROP.get(), "Wolfsbane")
+        builder.add(WitcheryBlocks.MANDRAKE_CROP.get(), "Mandrake")
+        builder.add(WitcheryBlocks.GARLIC_CROP.get(), "Garlic")
+        builder.add(WitcheryItems.BLOOD_POPPY.get(), "Blood Poppy")
+        builder.add("witchery.attuned.charged", "Attuned")
+
         builder.add(WitcheryItems.INFINITY_EGG.get(), "Infinity Egg")
         builder.add(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), "Deepslate Altar Block")
         builder.add(WitcheryItems.DISTILLERY.get(), "Distillery")
@@ -116,6 +125,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryEntityTypes.IMP.get(), "Imp")
         builder.add(WitcheryEntityTypes.OWL.get(), "Owl")
         builder.add(WitcheryEntityTypes.ENT.get(), "Ent")
+        builder.add(WitcheryEntityTypes.FLOATING_ITEM.get(), "Floating Item")
+        builder.add(WitcheryEntityTypes.SLEEPING_PLAYER.get(), "Sleeping Player")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
@@ -318,6 +329,12 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/apply_ointment.tooltip", "Allows flying with the Broom")
 
 
+        builder.add("witchery:ritual/summon_witch", "Summon Witch")
+        builder.add("witchery:ritual/summon_witch.tooltip", "Summon a Witch at ritual center")
+        builder.add("witchery:ritual/summon_demon", "Summon Demon")
+        builder.add("witchery:ritual/summon_demon.tooltip", "Summon a Demon at ritual center")
+        builder.add("witchery:ritual/summon_wither", "Summon Wither")
+        builder.add("witchery:ritual/summon_wither.tooltip", "Summon a Wither at ritual center")
 
         //GUIDEBOOK GENERAL
         builder.add("book.witchery.guidebook.general.name", "General")

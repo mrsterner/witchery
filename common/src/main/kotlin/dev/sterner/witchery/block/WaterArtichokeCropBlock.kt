@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class WaterArtichokeCropBlock(properties: Properties) : WitcheryCropBlock(properties) {
+class WaterArtichokeCropBlock(properties: Properties) : WitcheryCropBlock(properties.noCollission()) {
 
     override fun mayPlaceOn(state: BlockState, level: BlockGetter, pos: BlockPos): Boolean {
         return state.`is`(Blocks.WATER)

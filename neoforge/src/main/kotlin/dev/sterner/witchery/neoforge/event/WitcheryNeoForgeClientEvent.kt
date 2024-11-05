@@ -10,7 +10,9 @@ import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevel
 import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.registry.WitcheryFluids
+import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_BOOTS
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_CHESTPLATE
@@ -19,22 +21,21 @@ import dev.sterner.witchery.registry.WitcheryItems.HUNTER_LEGGINGS
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
+import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.resources.ResourceLocation
-import net.neoforged.api.distmarker.Dist
 import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import org.jetbrains.annotations.NotNull
 
-@EventBusSubscriber(value = arrayOf(Dist.CLIENT), bus = EventBusSubscriber.Bus.MOD)
-object WitcheryNeoForgeClientEvents {
+object WitcheryNeoForgeClientEvent {
 
+    @SubscribeEvent
     fun onEntityRendererRegistry(event: EntityRenderersEvent.RegisterRenderers) {
         event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_BOAT.get()) { context -> BoatRenderer(context, false) }
         event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()) { context -> BoatRenderer(context, true) }
@@ -149,7 +150,7 @@ object WitcheryNeoForgeClientEvents {
         }
     }
 
-
+    @SubscribeEvent
     fun registerClientExtensions(event: RegisterClientExtensionsEvent) {
         event.registerItem(WitchesRobesItemNeoForge.ArmorRender.INSTANCE, WITCHES_ROBES.get(), WITCHES_HAT.get(), WITCHES_SLIPPERS.get(), BABA_YAGAS_HAT.get())
         event.registerItem(HunterArmorItemNeoForge.ArmorRender.INSTANCE, HUNTER_HELMET.get(), HUNTER_CHESTPLATE.get(), HUNTER_LEGGINGS.get(), HUNTER_BOOTS.get())
@@ -178,4 +179,5 @@ object WitcheryNeoForgeClientEvents {
             }, attributes.flowingFluid.getFluidType())
         }
     }
+
 }

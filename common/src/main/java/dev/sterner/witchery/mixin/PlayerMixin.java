@@ -16,13 +16,13 @@ public abstract class PlayerMixin {
     @Shadow private int sleepCounter;
 
     @Inject(method = "stopSleepInBed", at = @At("TAIL"))
-    private void stopSleepInBed(boolean wakeImmediately, boolean updateLevelForSleepingPlayers, CallbackInfo ci) {
+    private void witchery$stopSleepInBed(boolean wakeImmediately, boolean updateLevelForSleepingPlayers, CallbackInfo ci) {
         Player player = Player.class.cast(this);
         SleepingEvent.Companion.getPOST().invoker().invoke(player, this.sleepCounter, wakeImmediately);
     }
 
     @ModifyReturnValue(method = "wantsToStopRiding", at = @At("RETURN"))
-    private boolean stopDismount(boolean original){
+    private boolean witchery$stopDismount(boolean original){
         Player player = Player.class.cast(this);
         var vehicle = player.getVehicle();
         if (vehicle instanceof BroomEntity) {
