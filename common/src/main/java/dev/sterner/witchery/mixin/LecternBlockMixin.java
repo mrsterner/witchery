@@ -60,7 +60,7 @@ public class LecternBlockMixin {
                 BookGuiManager.get().openBook(BookAddress.defaultFor(book));
             }
 
-            cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
+            cir.setReturnValue(InteractionResult.SUCCESS);
         }
     }
 }
