@@ -6,6 +6,7 @@
 - Added Broom to creative tab
 - fixed Neoforge loottable injects
 - Added missing langs
+- Fixed broom mounting and dismounting neoforge
 
 ### Bugfix 0.1.2b
 - Fixed Distillery Menu name
