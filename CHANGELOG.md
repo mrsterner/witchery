@@ -7,6 +7,7 @@
 - fixed Neoforge loottable injects
 - Added missing langs
 - Fixed broom mounting and dismounting neoforge
+- Fixed cauldron water rendering on fabulous settings
 
 ### Bugfix 0.1.2b
 - Fixed Distillery Menu name
