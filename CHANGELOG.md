@@ -1,3 +1,6 @@
+### Bugfix 0.1.2e
+- Removed Infinity Egg from OP tab
+
 ### Bugfix 0.1.2d
 - Fixed Wormwood lang and collision
 - Fixed sleeping players skins not saving on world reload

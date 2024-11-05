@@ -434,8 +434,6 @@ object WitcheryCreativeModeTabs {
             output.accept(WitcheryItems.MELLIFLUOUS_HUNGER.get())
             output.accept(WitcheryItems.FOCUSED_WILL.get())
             output.accept(WitcheryItems.CONDENSED_FEAR.get())
-        } else if (key == CreativeModeTabs.OP_BLOCKS) {
-            output.accept(WitcheryItems.INFINITY_EGG.get())
         }
     }
 }
