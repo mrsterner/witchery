@@ -6,11 +6,24 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.syncher.EntityDataSerializer
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.component.ResolvableProfile
 
 object WitcheryEntityDataSerializers {
 
     fun register() {
         EntityDataSerializers.registerSerializer(INVENTORY)
+        EntityDataSerializers.registerSerializer(RESOLVABLE)
+    }
+
+    val RESOLVABLE = object : EntityDataSerializer<ResolvableProfile> {
+        override fun codec(): StreamCodec<in RegistryFriendlyByteBuf, ResolvableProfile> {
+            return ResolvableProfile.STREAM_CODEC
+        }
+
+        override fun copy(value: ResolvableProfile): ResolvableProfile {
+            return ResolvableProfile(value.gameProfile)
+        }
+
     }
 
     val INVENTORY = object : EntityDataSerializer<NonNullList<ItemStack>> {

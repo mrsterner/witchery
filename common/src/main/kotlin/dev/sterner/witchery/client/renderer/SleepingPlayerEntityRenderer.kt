@@ -50,7 +50,7 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
         val equipmentList = entity.getEquipment()
         sleepPlayer = SleepingClientPlayerEntity(
                 entity.level() as ClientLevel,
-                entity.data.resolvableProfile!!.gameProfile,
+                entity.entityData.get(SleepingPlayerEntity.RESOLVEABLE).gameProfile,
                 equipmentList,
                 entity.getSleepingModel()
         )
