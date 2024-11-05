@@ -27,6 +27,7 @@ import net.minecraft.world.level.Level
 import java.util.function.IntFunction
 import kotlin.math.max
 
+@Suppress("DEPRECATION")
 class EntEntity(level: Level) : Monster(WitcheryEntityTypes.ENT.get(), level) {
 
     private var attackAnimationTick = 0

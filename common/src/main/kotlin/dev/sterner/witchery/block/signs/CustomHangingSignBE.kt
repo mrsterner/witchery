@@ -8,5 +8,5 @@ import net.minecraft.world.level.block.state.BlockState
 
 class CustomHangingSignBE(pos: BlockPos, state: BlockState) :
     SignBlockEntity(WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get(), pos, state) {
-    override fun getType(): BlockEntityType<CustomHangingSignBE> = WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get()
+    override fun getType(): BlockEntityType<SignBlockEntity> = WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get()
 }

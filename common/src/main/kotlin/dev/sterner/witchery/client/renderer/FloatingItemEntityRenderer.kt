@@ -16,6 +16,7 @@ import net.minecraft.util.Mth
 import net.minecraft.world.item.ItemDisplayContext
 
 
+@Suppress("DEPRECATION")
 class FloatingItemEntityRenderer(ctx: EntityRendererProvider.Context) : EntityRenderer<FloatingItemEntity>(ctx) {
 
     private val itemRenderer: ItemRenderer = ctx.itemRenderer

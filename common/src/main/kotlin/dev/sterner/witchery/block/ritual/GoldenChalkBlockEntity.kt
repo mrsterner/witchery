@@ -219,7 +219,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun resetRitual() {
         if (!hasRitualStarted) {
-            Containers.dropContents(level, blockPos, this)
+            level?.let { Containers.dropContents(it, blockPos, this) }
         }
         items = NonNullList.withSize(16, ItemStack.EMPTY)
         consumedSacrifices = mutableListOf()

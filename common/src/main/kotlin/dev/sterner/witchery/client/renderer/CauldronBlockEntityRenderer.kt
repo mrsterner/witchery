@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import org.joml.Matrix4f
 
 
+@Suppress("DEPRECATION")
 class CauldronBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<CauldronBlockEntity> {
 

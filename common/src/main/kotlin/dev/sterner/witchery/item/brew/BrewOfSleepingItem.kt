@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.levelgen.Heightmap
 
+@Suppress("DEPRECATION")
 class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, properties) {
 
     override fun applyEffectOnSelf(player: Player) {

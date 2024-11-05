@@ -12,7 +12,6 @@ architectury {
 allprojects {
     group = rootProject.maven_group
     version = rootProject.mod_version
-
 }
 
 subprojects {
@@ -22,7 +21,6 @@ subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
 
     base {
-        // Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
         archivesName = "$rootProject.mod_id-$project.name"
     }
 
@@ -65,9 +63,6 @@ subprojects {
     }
 
     java {
-        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-        // if it is present.
-        // If you remove this line, sources will not be generated.
         withSourcesJar()
 
         sourceCompatibility = JavaVersion.VERSION_21
@@ -78,7 +73,6 @@ subprojects {
         it.options.release = 21
     }
 
-    // Configure Maven publishing.
     publishing {
         publications {
             mavenJava(MavenPublication) {
@@ -87,12 +81,7 @@ subprojects {
             }
         }
 
-        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
         repositories {
-            // Add repositories to publish to here.
-            // Notice: This block does NOT have the same function as the block in the top level.
-            // The repositories here will be used for publishing your artifact, not for
-            // retrieving dependencies.
         }
     }
 }

@@ -13,12 +13,15 @@ class VoodooPoppetItem(properties: Properties) : PoppetItem(properties) {
         val item = context.itemInHand
         val player = context.player
 
-        val blockHitResult = getPlayerPOVHitResult(
-            level,
-            player,
-            ClipContext.Fluid.SOURCE_ONLY
-        )
+        if (player != null) {
+            val blockHitResult = getPlayerPOVHitResult(
+                level,
+                player,
+                ClipContext.Fluid.SOURCE_ONLY
+            )
+            return PoppetHandler.handleUseVoodoo(level, pos, item, player, blockHitResult)
+        }
 
-        return PoppetHandler.handleUseVoodoo(level, pos, item, player, blockHitResult)
+        return InteractionResult.PASS
     }
 }

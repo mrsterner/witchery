@@ -346,25 +346,29 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                     thirdBonus += 0.25f
                 }
                 pStack.shrink(1)
-                if (level!!.random.nextFloat() < bonus) {
-                    Containers.dropItemStack(
-                        level,
-                        pPlayer.x,
-                        pPlayer.y,
-                        pPlayer.z,
-                        ItemStack(brewItemOutput.copy().item)
-                    )
+
+                if (level != null) {
+                    if (level!!.random.nextFloat() < bonus) {
+                        Containers.dropItemStack(
+                            level!!,
+                            pPlayer.x,
+                            pPlayer.y,
+                            pPlayer.z,
+                            ItemStack(brewItemOutput.copy().item)
+                        )
+                    }
+
+                    if (level!!.random.nextFloat() < thirdBonus) {
+                        Containers.dropItemStack(
+                            level!!,
+                            pPlayer.x,
+                            pPlayer.y,
+                            pPlayer.z,
+                            ItemStack(brewItemOutput.copy().item)
+                        )
+                    }
+                    Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, ItemStack(brewItemOutput.copy().item))
                 }
-                if (level!!.random.nextFloat() < thirdBonus) {
-                    Containers.dropItemStack(
-                        level,
-                        pPlayer.x,
-                        pPlayer.y,
-                        pPlayer.z,
-                        ItemStack(brewItemOutput.copy().item)
-                    )
-                }
-                Containers.dropItemStack(level, pPlayer.x, pPlayer.y, pPlayer.z, ItemStack(brewItemOutput.copy().item))
                 fluidTank.fluidStorage.remove(FluidStackHooks.bucketAmount() / 3, false)
                 playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
                 playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)

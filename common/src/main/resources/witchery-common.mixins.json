@@ -19,7 +19,6 @@
     "LevelChunkMixin",
     "LightningBoltMixin",
     "LivingEntityMixin",
-    "PlayerDataAccessor",
     "PlayerMixin",
     "ServerPlayerMixin",
     "ShapelessRecipeAccessor"

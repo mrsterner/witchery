@@ -1,7 +1,6 @@
 package dev.sterner.witchery.api
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.mixin.PlayerDataAccessor
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
@@ -70,7 +69,7 @@ class SleepingPlayerData(
                 builder.equipment[i] = player.getItemBySlot(EquipmentSlot.entries[i]).copy()
             }
 
-            builder.model = player.entityData.get((player as PlayerDataAccessor).mode)
+            builder.model = player.entityData.get((Player.DATA_PLAYER_MODE_CUSTOMISATION))
             return builder
         }
 

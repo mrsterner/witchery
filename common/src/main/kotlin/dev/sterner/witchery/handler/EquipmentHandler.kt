@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult

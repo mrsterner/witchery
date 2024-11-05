@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.api.SleepingPlayerData
 import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.mixin.PlayerDataAccessor
 import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
 import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
 import dev.sterner.witchery.registry.WitcheryEntityTypes
@@ -159,8 +158,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             entity.setEquipment(sleepingPlayerBuilder.equipment)
             entity.setPos(player.x, max(player.y + 0.2f, player.level().minBuildHeight.toDouble()), player.z)
             entity.yRot = player.yRot
-            val access = player as PlayerDataAccessor
-            entity.setSleepingModel(player.entityData.get(access.mode))
+            entity.setSleepingModel(player.entityData.get(Player.DATA_PLAYER_MODE_CUSTOMISATION))
             if (player.level() is ServerLevel) {
                 val serverLevel = player.level() as ServerLevel
                 SleepingPlayerLevelAttachment.add(player.uuid, entity.uuid, serverLevel)

@@ -1,7 +1,6 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
-import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
 import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
