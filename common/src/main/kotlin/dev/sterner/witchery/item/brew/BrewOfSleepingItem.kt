@@ -59,7 +59,7 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         val destinationKey = if (player.level().random.nextDouble() < goodDreamChance) key else nightmareKey
 
         val destination = player.level().server?.getLevel(destinationKey)
-        if (destination != null && false) {
+        if (destination != null) {
             val targetX = player.x
             val targetY = player.y
             val targetZ = player.z
