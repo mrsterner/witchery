@@ -1,19 +1,23 @@
 package dev.sterner.witchery.api
 
+import dev.sterner.witchery.Witchery
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.NbtOps
+import net.minecraft.nbt.Tag
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.component.ResolvableProfile
+import net.minecraft.world.level.block.entity.SkullBlockEntity
 import java.util.*
 
 
 class SleepingPlayerData(
     var id: UUID? = UUID(0,0),
-    var playerUuid: UUID? = UUID(0,0),
-    var playerName: String? = "",
+    var resolvableProfile: ResolvableProfile? = null,
     var mainInventory: NonNullList<ItemStack> = NonNullList.withSize(36, ItemStack.EMPTY),
     var armorInventory: NonNullList<ItemStack> = NonNullList.withSize(4, ItemStack.EMPTY),
     var offHandInventory: NonNullList<ItemStack> = NonNullList.withSize(1,ItemStack.EMPTY),
@@ -25,8 +29,14 @@ class SleepingPlayerData(
     fun writeNbt(lookup: HolderLookup.Provider): CompoundTag {
         val nbt = CompoundTag()
         this.id?.let { nbt.putUUID("Id", it) }
-        this.playerUuid?.let { nbt.putUUID("Uuid", it) }
-        this.playerName?.let { nbt.putString("Name", it) }
+
+        nbt.put(
+            "profile", ResolvableProfile.CODEC.encodeStart<Tag>(
+                NbtOps.INSTANCE,
+                resolvableProfile
+            ).getOrThrow()
+        )
+
         nbt.putByte("Model", this.model)
 
         writeInventory(nbt, "Main", this.mainInventory, lookup)
@@ -43,8 +53,7 @@ class SleepingPlayerData(
         fun fromPlayer(player: Player) : SleepingPlayerData {
             val builder = SleepingPlayerData()
             builder.id = UUID.randomUUID()
-            builder.playerUuid = player.uuid
-            builder.playerName = player.name.string
+            builder.resolvableProfile = ResolvableProfile(player.gameProfile)
 
             for (i in 0 until builder.mainInventory.size) {
                 builder.mainInventory[i] = player.inventory.items[i]
@@ -74,13 +83,19 @@ class SleepingPlayerData(
                 builder.id = UUID.randomUUID()
             }
 
-            if (nbt.contains("Uuid")) {
-                builder.playerUuid = nbt.getUUID("Uuid")
-            } else {
-                builder.playerUuid = UUID.randomUUID()
+            if (nbt.contains("profile")) {
+                ResolvableProfile.CODEC
+                    .parse(NbtOps.INSTANCE, nbt.get("profile"))
+                    .resultOrPartial { string: String? ->
+                        Witchery.LOGGER.error(
+                            "Failed to load profile from sleeping player: {}",
+                            string
+                        )
+                    }
+                    .ifPresent { owner: ResolvableProfile? ->
+                        builder.resolvableProfile = owner
+                    }
             }
-
-            builder.playerName = nbt.getString("Name")
 
             readInventory(nbt, "Main", builder.mainInventory, lookup)
             readInventory(nbt, "Armor", builder.armorInventory, lookup)

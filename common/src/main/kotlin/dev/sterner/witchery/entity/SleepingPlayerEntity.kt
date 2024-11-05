@@ -52,10 +52,13 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         }
 
         setEquipment(data.equipment)
-        setSleepingUUID(data.playerUuid)
-        setSleepingName(data.playerName)
         setSleepingModel(data.model)
         setFaceplant(compound.getBoolean("Faceplanted"))
+    }
+
+    override fun addAdditionalSaveData(compound: CompoundTag) {
+        compound.put("Data", data.writeNbt(this.registryAccess()))
+        compound.putBoolean("Faceplanted", isFaceplanted())
     }
 
     override fun tick() {
@@ -77,11 +80,6 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         }
     }
 
-    override fun addAdditionalSaveData(compound: CompoundTag) {
-        compound.put("Data", data.writeNbt(this.registryAccess()))
-        compound.putBoolean("Faceplanted", isFaceplanted())
-    }
-
     fun getSleepingUUID(): Optional<UUID> {
         return entityData.get(UUID)
     }
@@ -94,13 +92,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         }
     }
 
-    fun getSleepingName(): String {
-        return entityData.get(NAME)
-    }
 
-    fun setSleepingName(name: String?) {
-        entityData.set(NAME, name)
-    }
 
     fun getEquipment(): NonNullList<ItemStack> {
         return entityData.get(EQUIPMENT)
@@ -151,8 +143,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         fun createFromPlayer(player: Player, sleepingPlayerBuilder: SleepingPlayerData) : SleepingPlayerEntity {
             val entity = SleepingPlayerEntity(player.level())
             entity.data = sleepingPlayerBuilder
-            entity.setSleepingUUID(sleepingPlayerBuilder.playerUuid)
-            entity.setSleepingName(sleepingPlayerBuilder.playerName)
+            entity.data.resolvableProfile = (sleepingPlayerBuilder.resolvableProfile)
             entity.setEquipment(sleepingPlayerBuilder.equipment)
             entity.setPos(player.x, max(player.y + 0.2f, player.level().minBuildHeight.toDouble()), player.z)
             entity.yRot = player.yRot
