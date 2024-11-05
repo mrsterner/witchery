@@ -1,3 +1,7 @@
+### Bugfix 0.1.2d
+- Fixed Wormwood lang and collision
+- Fixed sleeping players skins not saving on world reload
+
 ### Bugfix 0.1.2c
 - Fixed Broom and spinning wheel item rendering on neoforge
 - fixed demon, imp and ent attacking
