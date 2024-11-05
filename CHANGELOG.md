@@ -1,3 +1,12 @@
+### Bugfix 0.1.2c
+- Fixed Broom and spinning wheel item rendering on neoforge
+- fixed demon, imp and ent attacking
+- fixed golden chalk being replacable
+- Fixed artichoke and wormwood collision
+- Added Broom to creative tab
+- fixed Neoforge loottable injects
+- Added missing langs
+
 ### Bugfix 0.1.2b
 - Fixed Distillery Menu name
 - Fixed Icy needle working in all dimensions

@@ -54,6 +54,7 @@ import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
+import net.minecraft.core.HolderLookup
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
@@ -62,11 +63,12 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.WeatheringCopper
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 import org.slf4j.Logger
 
 
@@ -118,6 +120,7 @@ object Witchery {
         WitcheryModonomiconLoaders.register()
 
         MODIFY_LOOT_TABLE.register(::addWitchesHand)
+        MODIFY_LOOT_TABLE.register(::addLootInjects)
 
         CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
@@ -139,6 +142,40 @@ object Witchery {
                 .add(
                     LootItem.lootTableItem(WitcheryItems.WITCHES_HAND.get())
                         .`when`(LootItemRandomChanceCondition.randomChance(0.5f))
+                )
+            context.addPool(pool)
+        }
+    }
+
+    private fun addLootInjects(resourceKey: ResourceKey<LootTable>?, context: LootTableModificationContext, isBuiltin: Boolean){
+
+
+        if (isBuiltin && EntityType.WOLF.defaultLootTable.equals(resourceKey)) {
+            val pool = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.TONGUE_OF_DOG.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
+                )
+            context.addPool(pool)
+        }
+
+        if (isBuiltin && EntityType.FROG.defaultLootTable.equals(resourceKey)) {
+            val pool = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.TOE_OF_FROG.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
+                )
+            context.addPool(pool)
+        }
+
+        if (isBuiltin && EntityType.BAT.defaultLootTable.equals(resourceKey)) {
+            val pool = LootPool
+                .lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.WOOL_OF_BAT.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
                 )
             context.addPool(pool)
         }

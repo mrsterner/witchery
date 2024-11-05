@@ -12,32 +12,59 @@ import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.control.FlyingMoveControl
-import net.minecraft.world.entity.ai.goal.FloatGoal
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
+import net.minecraft.world.entity.ai.goal.*
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation
 import net.minecraft.world.entity.ai.navigation.PathNavigation
+import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.raid.Raider
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.pathfinder.PathType
 import net.minecraft.world.phys.Vec3
 
 class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), level) {
 
     init {
         this.moveControl = FlyingMoveControl(this, 20, true)
+        this.setPersistenceRequired()
+        this.setPathfindingMalus(PathType.WATER, -1.0f)
+        this.setPathfindingMalus(PathType.LAVA, 8.0f)
+        this.setPathfindingMalus(PathType.DANGER_FIRE, 0.0f)
+        this.setPathfindingMalus(PathType.DAMAGE_FIRE, 0.0f)
     }
 
+    override fun isOnFire(): Boolean {
+        return false
+    }
+
+    override fun fireImmune(): Boolean {
+        return true
+    }
+
+
     override fun registerGoals() {
-        goalSelector.addGoal(0, FloatGoal(this))
-        goalSelector.addGoal(9, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
-        goalSelector.addGoal(10, LookAtPlayerGoal(this, Mob::class.java, 8.0f))
-        targetSelector.addGoal(1, HurtByTargetGoal(this, Raider::class.java).setAlertOthers(*arrayOfNulls(0)))
-        targetSelector.addGoal(3, NearestAttackableTargetGoal(this, Player::class.java, true))
+        goalSelector.addGoal(2, MeleeAttackGoal(this, 1.0, false))
+        goalSelector.addGoal(3, WaterAvoidingRandomStrollGoal(this, 1.0))
+
+        goalSelector.addGoal(5, RandomStrollGoal(this, 0.8))
+        goalSelector.addGoal(8, RandomLookAroundGoal(this))
+        goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
+        goalSelector.addGoal(4, LookAtPlayerGoal(this, Mob::class.java, 8.0f))
+        targetSelector.addGoal(1, HurtByTargetGoal(this))
+        targetSelector.addGoal(
+            2, NearestAttackableTargetGoal(
+                this,
+                Player::class.java, true
+            )
+        )
+        targetSelector.addGoal(3, NearestAttackableTargetGoal(this, Villager::class.java, true))
+
         super.registerGoals()
     }
+
 
     companion object {
         fun createAttributes(): AttributeSupplier.Builder {

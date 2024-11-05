@@ -72,32 +72,37 @@ class DemonEntityModel(root: ModelPart) :
         rWing.yRot = -lWing.yRot
     }
 
-    fun setupAttackAnimation(livingEntity: DemonEntity?, ageInTicks: Float) {
-        if (!(this.attackTime <= 0.0f)) {
-            val humanoidArm: HumanoidArm = HumanoidArm.RIGHT
+    private fun setupAttackAnimation(livingEntity: DemonEntity?, ageInTicks: Float) {
+        if (this.attackTime > 0.0f) {
+            /*TODO fix pivot point in model
             val modelPart: ModelPart = rightArm
             var f = this.attackTime
-            body.yRot = Mth.sin(Mth.sqrt(f) * (Math.PI * 2).toFloat()) * 0.2f
-            if (humanoidArm == HumanoidArm.LEFT) {
-                body.yRot *= -1.0f
-            }
 
-            rightArm.z = Mth.sin(body.yRot) * 5.0f
-            rightArm.x = -Mth.cos(body.yRot) * 5.0f
-            leftArm.z = -Mth.sin(body.yRot) * 5.0f
-            leftArm.x = Mth.cos(body.yRot) * 5.0f
-            rightArm.yRot = rightArm.yRot + body.yRot
-            leftArm.yRot = leftArm.yRot + body.yRot
-            leftArm.xRot = leftArm.xRot + body.yRot
+            body.yRot = Mth.sin(Mth.sqrt(f) * Math.PI.toFloat()) * 0.1f // Reduced from 0.2f
+
+            rightArm.z = Mth.sin(body.yRot) * 2.5f // Reduced from 5.0f
+            rightArm.x = -Mth.cos(body.yRot) * 2.5f
+            leftArm.z = -Mth.sin(body.yRot) * 2.5f
+            leftArm.x = Mth.cos(body.yRot) * 2.5f
+
+            // Apply smoother rotations to arms
+            rightArm.yRot += body.yRot * 0.5f
+            leftArm.yRot += body.yRot * 0.5f
+            leftArm.xRot += body.yRot * 0.5f
+
             f = 1.0f - this.attackTime
             f *= f
             f *= f
             f = 1.0f - f
-            val g = Mth.sin(f * Math.PI.toFloat())
-            val h = Mth.sin(this.attackTime * Math.PI.toFloat()) * -(head.xRot - 0.7f) * 0.75f
-            modelPart.xRot -= g * 1.2f + h
-            modelPart.yRot = modelPart.yRot + body.yRot * 2.0f
-            modelPart.zRot = modelPart.zRot + Mth.sin(this.attackTime * Math.PI.toFloat()) * -0.4f
+
+            val g = Mth.sin(f * Math.PI.toFloat()) * 0.8f // Reduced from 1.2f
+            val h = Mth.sin(this.attackTime * Math.PI.toFloat()) * -(head.xRot - 0.5f) * 0.5f
+
+            modelPart.xRot -= g + h
+            modelPart.yRot += body.yRot
+            modelPart.zRot += Mth.sin(this.attackTime * Math.PI.toFloat()) * -0.2f // Reduced from -0.4f
+
+             */
         }
     }
 

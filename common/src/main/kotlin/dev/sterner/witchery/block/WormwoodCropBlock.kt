@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import kotlin.math.abs
 import kotlin.math.min
 
-class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties), BonemealableBlock {
+class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties.noCollission()), BonemealableBlock {
 
     override fun codec(): MapCodec<WormwoodCropBlock> {
         return CODEC
