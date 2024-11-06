@@ -1,5 +1,7 @@
 ### Bugfix 0.1.2e
 - Removed Infinity Egg from OP tab
+- Fixed Fluid capability on neoforge
+- Fixed wood ash reset
 
 ### Bugfix 0.1.2d
 - Fixed Wormwood lang and collision
