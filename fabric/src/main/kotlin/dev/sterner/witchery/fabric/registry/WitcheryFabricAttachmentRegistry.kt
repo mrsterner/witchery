@@ -1,9 +1,6 @@
 package dev.sterner.witchery.fabric.registry
 
-import dev.sterner.witchery.platform.AltarDataAttachment
-import dev.sterner.witchery.platform.EntSpawnLevelAttachment
-import dev.sterner.witchery.platform.MutandisDataAttachment
-import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
+import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.LightInfusionData
@@ -77,6 +74,13 @@ object WitcheryFabricAttachmentRegistry {
             .persistent(SleepingPlayerLevelAttachment.Data.CODEC)
             .initializer { SleepingPlayerLevelAttachment.Data() }
             .buildAndRegister(SleepingPlayerLevelAttachment.Data.ID)
+
+    @Suppress("UnstableApiUsage")
+    val TELEPORT_QUEUE_DATA_ATTACHMENT: AttachmentType<TeleportQueueLevelAttachment.Data> =
+        AttachmentRegistry.builder<TeleportQueueLevelAttachment.Data>()
+            .persistent(TeleportQueueLevelAttachment.Data.CODEC)
+            .initializer { TeleportQueueLevelAttachment.Data() }
+            .buildAndRegister(TeleportQueueLevelAttachment.Data.ID)
 
     fun init() {
 

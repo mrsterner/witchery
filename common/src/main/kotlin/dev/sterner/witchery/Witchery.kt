@@ -5,7 +5,6 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.*
-import dev.architectury.event.events.common.InteractionEvent.RightClickBlock
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
@@ -39,6 +38,7 @@ import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.EntSpawnLevelAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
+import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
 import dev.sterner.witchery.registry.*
@@ -132,6 +132,7 @@ object Witchery {
 
         BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
+        TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
     }
 
     private fun addWitchesHand(
