@@ -4,6 +4,7 @@
 - Fixed wood ash reset
 - Fixed Lectern handling
 - Fixed recipes
+- Fixed interdimensional travel 
 
 ### Bugfix 0.1.2d
 - Fixed Wormwood lang and collision
