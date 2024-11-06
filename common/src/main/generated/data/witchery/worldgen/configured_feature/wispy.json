@@ -10,7 +10,6 @@
             "state": {
               "Name": "witchery:wispy_cotton",
               "Properties": {
-                "disturbed": "true",
                 "spirited": "true"
               }
             }

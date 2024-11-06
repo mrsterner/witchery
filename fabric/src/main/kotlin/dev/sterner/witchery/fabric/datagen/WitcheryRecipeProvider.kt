@@ -916,7 +916,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
         ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, WitcheryItems.IRON_CANDELABRA.get())
             .requires(WitcheryTags.CANDELABRA_ITEMS)
             .unlockedBy("has_iron", has(Items.IRON_INGOT))
-            .save(exporter)
+            .save(exporter, WitcheryItems.IRON_CANDELABRA.id.withSuffix("_undyed"))
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.WHITE_IRON_CANDELABRA.get())
             .requires(WitcheryTags.CANDELABRA_ITEMS)
