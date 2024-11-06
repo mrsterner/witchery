@@ -1,3 +1,6 @@
+### Bugfix 0.1.2f
+- Added a queue system to teleportation from spirit world to overworld
+
 ### Bugfix 0.1.2e
 - Removed Infinity Egg from OP tab
 - Fixed Fluid capability on neoforge
