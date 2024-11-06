@@ -129,14 +129,17 @@ object RitualHelper {
             }
 
             if (entityId != null) {
-                val entity = level.getEntity(entityId)
-                if (entity is LivingEntity) {
-                    val tag = "Waystone_${entity.uuid}"
+                for (serverLevels in level.server!!.allLevels) {
+                    val entity = serverLevels.getEntity(entityId)
+                    if (entity is LivingEntity) {
+                        val tag = "Waystone_${entity.uuid}"
 
-                    if (!entity.tags.contains(tag)) {
-                        entity.addTag(tag)
+                        if (!entity.tags.contains(tag)) {
+                            entity.addTag(tag)
+                        }
+                        formattedCommand = formattedCommand.replace("{taglockEntity}", "@e[tag=$tag]")
+                        break
                     }
-                    formattedCommand = formattedCommand.replace("{taglockEntity}", "@e[tag=$tag]")
                 }
             }
 
@@ -144,14 +147,17 @@ object RitualHelper {
                 if (player != null) {
                     formattedCommand = formattedCommand.replace("{taglockPlayerOrEntity}", player.name.string)
                 } else if (entityId != null) {
-                    val entity = level.getEntity(entityId)
-                    if (entity is LivingEntity) {
-                        val tag = "Waystone_${entity.uuid}"
+                    for (serverLevels in level.server!!.allLevels) {
+                        val entity = serverLevels.getEntity(entityId)
+                        if (entity is LivingEntity) {
+                            val tag = "Waystone_${entity.uuid}"
 
-                        if (!entity.tags.contains(tag)) {
-                            entity.addTag(tag)
+                            if (!entity.tags.contains(tag)) {
+                                entity.addTag(tag)
+                            }
+                            formattedCommand = formattedCommand.replace("{taglockPlayerOrEntity}", "@e[tag=$tag]")
+                            break
                         }
-                        formattedCommand = formattedCommand.replace("{taglockPlayerOrEntity}", "@e[tag=$tag]")
                     }
                 }
             }
