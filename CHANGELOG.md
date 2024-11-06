@@ -16,11 +16,11 @@
 
 ### Bugfix 0.1.2c
 - Fixed Broom and spinning wheel item rendering on neoforge
-- fixed demon, imp and ent attacking
-- fixed golden chalk being replacable
+- Fixed demon, imp and ent attacking
+- Fixed golden chalk being replacable
 - Fixed artichoke and wormwood collision
 - Added Broom to creative tab
-- fixed Neoforge loottable injects
+- Fixed Neoforge loottable injects
 - Added missing langs
 - Fixed broom mounting and dismounting neoforge
 - Fixed cauldron water rendering on fabulous settings
@@ -64,4 +64,3 @@ Initial version for Modfest/SpookyJam 2024
 - Basic Ghost of the Light Infusion
 - Basic Spirit of Otherwhere Infusion
 - Waystone Teleportation
-- 
