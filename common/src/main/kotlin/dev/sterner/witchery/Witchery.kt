@@ -22,6 +22,10 @@ import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.SleepingEvent
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.*
+import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
+import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
+import dev.sterner.witchery.client.model.poppet.VampiricPoppetModel
+import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
@@ -245,7 +249,10 @@ object Witchery {
         EntityModelLayerRegistry.register(AltarClothBlockEntityModel.LAYER_LOCATION) { AltarClothBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(AltarBlockEntityModel.LAYER_LOCATION) { AltarBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(PoppetModel.LAYER_LOCATION) { PoppetModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(ArmorPoppetModel.LAYER_LOCATION) { ArmorPoppetModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(HungerPoppetModel.LAYER_LOCATION) { HungerPoppetModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(VampiricPoppetModel.LAYER_LOCATION) { VampiricPoppetModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(VoodooPoppetModel.LAYER_LOCATION) { VoodooPoppetModel.createBodyLayer() }
         EntityModelLayerRegistry.register(WitchesRobesModel.LAYER_LOCATION) { WitchesRobesModel.createBodyLayer() }
         EntityModelLayerRegistry.register(HunterArmorModel.LAYER_LOCATION) { HunterArmorModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelWheelBlockEntityModel.createBodyLayer() }

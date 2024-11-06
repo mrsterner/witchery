@@ -1,4 +1,4 @@
-package dev.sterner.witchery.client.model
+package dev.sterner.witchery.client.model.poppet
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -15,7 +15,8 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import java.util.function.Function
 
-class PoppetModel(root: ModelPart) :
+
+class VampiricPoppetModel(root: ModelPart) :
     Model(Function { location: ResourceLocation ->
         RenderType.entitySolid(
             location
@@ -24,6 +25,7 @@ class PoppetModel(root: ModelPart) :
 
     private val base: ModelPart = root.getChild("base")
     private val nail: ModelPart = root.getChild("nail")
+    private val bb_main: ModelPart = root.getChild("bb_main")
 
     override fun renderToBuffer(
         poseStack: PoseStack,
@@ -34,17 +36,18 @@ class PoppetModel(root: ModelPart) :
     ) {
         base.render(poseStack, buffer, packedLight, packedOverlay)
         nail.render(poseStack, buffer, packedLight, packedOverlay)
+        bb_main.render(poseStack, buffer, packedLight, packedOverlay)
     }
 
 
     companion object {
-        val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("poppet"), "main")
+        val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("vampiric_poppet"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
 
             val base =
-                partdefinition.addOrReplaceChild("base", CubeListBuilder.create(), PartPose.offset(2.3f, 21.0f, 7.0f))
+                partdefinition.addOrReplaceChild("base", CubeListBuilder.create(), PartPose.offset(2.3f, 21.0f, 6.8f))
 
             val rArm = base.addOrReplaceChild(
                 "rArm",
@@ -70,7 +73,8 @@ class PoppetModel(root: ModelPart) :
             val head = base.addOrReplaceChild(
                 "head",
                 CubeListBuilder.create().texOffs(0, 0)
-                    .addBox(-1.5f, -3.0f, -1.5f, 3.0f, 3.0f, 3.0f, CubeDeformation(0.01f)),
+                    .addBox(-1.5f, -3.0f, -1.5f, 3.0f, 3.0f, 3.0f, CubeDeformation(0.01f))
+                    .texOffs(9, 26).addBox(-1.5f, -0.5f, -1.6f, 3.0f, 1.0f, 0.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-2.5f, -5.0f, 0.0f, 0.1745f, 0.0f, 0.0f)
             )
 
@@ -90,10 +94,16 @@ class PoppetModel(root: ModelPart) :
 
             val nail = partdefinition.addOrReplaceChild(
                 "nail",
-                CubeListBuilder.create().texOffs(0, 18)
-                    .addBox(0.0f, -5.0f, -3.0f, 1.0f, 1.0f, 2.0f, CubeDeformation(0.0f))
-                    .texOffs(0, 19).addBox(-0.5f, -5.5f, -4.0f, 2.0f, 2.0f, 1.0f, CubeDeformation(0.0f)),
+                CubeListBuilder.create().texOffs(2, 19)
+                    .addBox(0.4f, -5.7f, -4.0f, 1.0f, 1.0f, 3.0f, CubeDeformation(0.0f)),
                 PartPose.offset(-0.5f, 22.5f, 7.0f)
+            )
+
+            val bb_main = partdefinition.addOrReplaceChild(
+                "bb_main",
+                CubeListBuilder.create().texOffs(19, 0)
+                    .addBox(-3.0f, -8.0f, 7.9f, 6.0f, 7.0f, 0.0f, CubeDeformation(0.0f)),
+                PartPose.offset(0.0f, 24.0f, 0.0f)
             )
 
             return LayerDefinition.create(meshdefinition, 32, 32)

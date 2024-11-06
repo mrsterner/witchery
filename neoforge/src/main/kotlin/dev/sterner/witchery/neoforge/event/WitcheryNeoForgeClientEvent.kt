@@ -1,6 +1,10 @@
 package dev.sterner.witchery.neoforge.event
 
 import dev.sterner.witchery.client.model.*
+import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
+import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
+import dev.sterner.witchery.client.model.poppet.VampiricPoppetModel
+import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
@@ -98,7 +102,10 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(AltarBlockEntityModel.LAYER_LOCATION, AltarBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(AltarClothBlockEntityModel.LAYER_LOCATION, AltarClothBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(JarModel.LAYER_LOCATION, JarModel::createBodyLayer)
-        event.registerLayerDefinition(PoppetModel.LAYER_LOCATION, PoppetModel::createBodyLayer)
+        event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION, ArmorPoppetModel::createBodyLayer)
+        event.registerLayerDefinition(HungerPoppetModel.LAYER_LOCATION, HungerPoppetModel::createBodyLayer)
+        event.registerLayerDefinition(VampiricPoppetModel.LAYER_LOCATION, VampiricPoppetModel::createBodyLayer)
+        event.registerLayerDefinition(VoodooPoppetModel.LAYER_LOCATION, VoodooPoppetModel::createBodyLayer)
         event.registerLayerDefinition(WitchesRobesModel.LAYER_LOCATION, WitchesRobesModel::createBodyLayer)
         event.registerLayerDefinition(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION, SpinningWheelWheelBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(SpinningWheelBlockEntityModel.LAYER_LOCATION, SpinningWheelBlockEntityModel::createBodyLayer)
