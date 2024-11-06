@@ -15,7 +15,6 @@
     "EntityMixin",
     "ItemEntityMixin",
     "ItemStackMixin",
-    "LecternBlockMixin",
     "LevelChunkMixin",
     "LightningBoltMixin",
     "LivingEntityMixin",

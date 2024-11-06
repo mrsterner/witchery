@@ -50,17 +50,18 @@ class ChaliceBlock(properties: Properties) : Block(properties.noOcclusion()) {
         hand: InteractionHand,
         hitResult: BlockHitResult
     ): ItemInteractionResult {
+        if (level.isClientSide || level.mayInteract(player, pos))
+            return super.useItemOn(stack, state, level, pos, player, hand, hitResult)
+
         if (state.getValue(HAS_SOUP) && stack.`is`(Items.GLASS_BOTTLE)) {
-            if (!level.isClientSide)
-                level.setBlockAndUpdate(pos, state.setValue(HAS_SOUP, false))
+            level.setBlockAndUpdate(pos, state.setValue(HAS_SOUP, false))
             stack.shrink(1)
             player.addItem(WitcheryItems.REDSTONE_SOUP.get().defaultInstance)
             return ItemInteractionResult.SUCCESS
         } else if (stack.`is`(WitcheryItems.REDSTONE_SOUP.get()) && !state.getValue(HAS_SOUP)) {
             stack.shrink(1)
             player.addItem(Items.GLASS_BOTTLE.defaultInstance)
-            if (!level.isClientSide)
-                level.setBlockAndUpdate(pos, state.setValue(HAS_SOUP, true))
+            level.setBlockAndUpdate(pos, state.setValue(HAS_SOUP, true))
             return ItemInteractionResult.SUCCESS
         }
 
