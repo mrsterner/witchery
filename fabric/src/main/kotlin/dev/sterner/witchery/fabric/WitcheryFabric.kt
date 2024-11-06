@@ -6,6 +6,7 @@ import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.fabric.client.*
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
+import dev.sterner.witchery.platform.fabric.WitcheryFluidHandlerFabric
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.fabricmc.api.ClientModInitializer
@@ -20,6 +21,7 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
 import net.minecraft.world.level.levelgen.GenerationStep
 
 
@@ -53,6 +55,13 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS),
             GenerationStep.Decoration.VEGETAL_DECORATION,
             WitcheryWorldgenKeys.WISPY_PLACED_KEY
+        )
+
+        FluidStorage.SIDED.registerForBlockEntity(
+            { blockEntity, _ ->
+                WitcheryFluidHandlerFabric(blockEntity.fluidTank, 1)
+            },
+            WitcheryBlockEntityTypes.CAULDRON.get()
         )
     }
 

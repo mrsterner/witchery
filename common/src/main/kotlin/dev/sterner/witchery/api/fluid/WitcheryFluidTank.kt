@@ -119,4 +119,8 @@ class WitcheryFluidTank(
         }
         return superTag
     }
+
+    override fun setFluidInTank(tank: Int, fluidStack: FluidStack) {
+        fluid = fluidStack
+    }
 }
