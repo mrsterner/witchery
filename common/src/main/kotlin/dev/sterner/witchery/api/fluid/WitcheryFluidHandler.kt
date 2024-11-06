@@ -22,4 +22,6 @@ interface WitcheryFluidHandler {
     fun getFluidAmount(): Long
 
     fun isFluidValid(fluidStack: FluidStack?): Boolean
+
+    fun setFluidInTank(tank: Int, fluidStack: FluidStack)
 }
