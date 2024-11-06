@@ -6,6 +6,7 @@ import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
+import dev.sterner.witchery.platform.neoforge.WitcheryFluidHandlerNeoForge
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
 import net.minecraft.core.NonNullList
@@ -18,13 +19,14 @@ import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
+import net.neoforged.neoforge.capabilities.Capabilities
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
-import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
 
@@ -101,5 +103,15 @@ object WitcheryNeoForge {
     @SubscribeEvent
     fun modifyExistingTabs(event: BuildCreativeModeTabContentsEvent) {
         WitcheryCreativeModeTabs.modifyExistingTabs(event.tab, event)
+    }
+
+    @SubscribeEvent
+    fun onRegisterCapabilities(event: RegisterCapabilitiesEvent) {
+        event.registerBlockEntity(
+            Capabilities.FluidHandler.BLOCK,
+            WitcheryBlockEntityTypes.CAULDRON.get()
+        ) { be, direction ->
+            WitcheryFluidHandlerNeoForge(be.fluidTank)
+        }
     }
 }
