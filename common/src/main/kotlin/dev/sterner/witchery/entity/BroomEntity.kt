@@ -187,7 +187,6 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
                     deltaMovement.add(0.0, 0.2, 0.0)
             }
             if (this.inputShift) {
-                println("SHIFT")
                 this.deltaMovement =
                     deltaMovement.add(0.0, -0.2, 0.0)
             }

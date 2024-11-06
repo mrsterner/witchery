@@ -207,11 +207,9 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun addWaystoneOrTaglockToContext(stack: ItemStack) {
         if (stack.`is`(WitcheryItems.WAYSTONE.get())) {
             targetPos = WaystoneItem.getGlobalPos(stack)
-        } else if (stack.`is`(WitcheryItems.TAGLOCK.get())
-            && !(stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get())
-                    && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) == true)
-        ) {
+        }
 
+        if (stack.`is`(WitcheryItems.TAGLOCK.get())) {
             targetPlayer = TaglockItem.getPlayer(level!!, stack)?.uuid
             targetEntity = TaglockItem.getLivingEntity(level!!, stack)?.id
         }

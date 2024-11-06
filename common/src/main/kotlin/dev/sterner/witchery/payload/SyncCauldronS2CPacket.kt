@@ -14,11 +14,12 @@ class SyncCauldronS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(pos: BlockPos) : this(
+    constructor(pos: BlockPos, full: Boolean) : this(
         CompoundTag().apply {
             putInt("x", pos.x)
             putInt("y", pos.y)
             putInt("z", pos.z)
+            putBoolean("full", full)
         }
     )
 
@@ -33,9 +34,13 @@ class SyncCauldronS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     fun handleS2C(payload: SyncCauldronS2CPacket, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
         val pos = BlockPos(payload.nbt.getInt("x"), payload.nbt.getInt("y"), payload.nbt.getInt("z"))
+        val full = payload.nbt.getBoolean("full")
         client.execute {
             if (client.level?.getBlockEntity(pos) is CauldronBlockEntity) {
                 (client.level?.getBlockEntity(pos) as CauldronBlockEntity).resetCauldronPartial()
+                if (full) {
+                    (client.level?.getBlockEntity(pos) as CauldronBlockEntity).fullReset()
+                }
             }
         }
     }

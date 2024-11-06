@@ -65,7 +65,7 @@ open class CauldronBlock(properties: Properties) :
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         val be = level.getBlockEntity(pos)
         if (be is CauldronBlockEntity) {
-            if (be.fluidTank.fluidStorage.isEmpty()) {
+            if (be.fluidTank.isEmpty()) {
                 return Shapes.block()
             }
         }
@@ -82,7 +82,7 @@ open class CauldronBlock(properties: Properties) :
 
     private fun giveFluid(fluid: Fluid, amountWithoutConversion: Long, cauldron: CauldronBlockEntity) {
         val amount = amountWithoutConversion * if (Platform.isFabric()) 81 else 1
-        cauldron.fluidTank.fluidStorage.add(FluidStack.create(fluid, amount), amount, false)
+        cauldron.fluidTank.fill(FluidStack.create(fluid, amount), false)
     }
 
     override fun handlePrecipitation(

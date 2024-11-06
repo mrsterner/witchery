@@ -34,10 +34,8 @@ class MandrakeCropBlock(properties: Properties) : WitcheryCropBlock(properties) 
 
         if (level.dayTime in 0..12000 && !state.getValue(AWAKE))
             level.setBlockAndUpdate(pos, level.getBlockState(pos).setValue(AWAKE, true))
-        else if (state.getValue(AWAKE) && random.nextFloat() > 0.8)
-            level.setBlockAndUpdate(pos, level.getBlockState(pos).setValue(AWAKE, false))
-        else if (!state.getValue(AWAKE) && random.nextFloat() > 0.8)
-            level.setBlockAndUpdate(pos, level.getBlockState(pos).setValue(AWAKE, false))
+        else if (level.dayTime in 12000..24000 && random.nextFloat() < 0.2)
+            level.setBlockAndUpdate(pos, level.getBlockState(pos).cycle(AWAKE))
     }
 
     override fun playerDestroy(

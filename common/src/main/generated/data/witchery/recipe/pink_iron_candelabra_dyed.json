@@ -4,7 +4,7 @@
   "group": "dyed_candle",
   "ingredients": [
     {
-      "item": "witchery:iron_candelabra"
+      "tag": "witchery:candelabras"
     },
     {
       "item": "minecraft:pink_dye"

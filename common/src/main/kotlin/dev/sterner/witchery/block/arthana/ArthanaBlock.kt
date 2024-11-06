@@ -3,6 +3,7 @@ package dev.sterner.witchery.block.arthana
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.item.ItemEntity
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.GameType
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Blocks
@@ -33,7 +35,7 @@ class ArthanaBlock(properties: Properties) :
         pHitResult: BlockHitResult
     ): InteractionResult {
         val be = pLevel.getBlockEntity(pPos)
-        if (!pLevel.isClientSide && be is ArthanaBlockEntity) {
+        if (pPlayer is ServerPlayer && pLevel.mayInteract(pPlayer, pPos) && be is ArthanaBlockEntity) {
             val arthana = be.arthana.copy()
             pPlayer.setItemInHand(InteractionHand.MAIN_HAND, arthana)
             pLevel.setBlockAndUpdate(pPos, Blocks.AIR.defaultBlockState())
