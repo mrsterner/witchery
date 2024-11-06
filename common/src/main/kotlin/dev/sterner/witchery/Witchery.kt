@@ -5,6 +5,7 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.*
+import dev.architectury.event.events.common.InteractionEvent.RightClickBlock
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
@@ -31,10 +32,7 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.*
-import dev.sterner.witchery.handler.DreamWeaverHandler
-import dev.sterner.witchery.handler.EquipmentHandler
-import dev.sterner.witchery.handler.InfusionHandler
-import dev.sterner.witchery.handler.PoppetHandler
+import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
@@ -127,6 +125,8 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
+
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)
 
         BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
