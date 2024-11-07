@@ -37,42 +37,22 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
             val half = state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF)
             val direction = state.getValue(BlockStateProperties.HORIZONTAL_FACING)
 
-            // Get the position of the other half of the clicked door
-            val otherHalfPos = if (half == DoubleBlockHalf.LOWER) clickedPos.above() else clickedPos.below()
-
-            // Determine the potential positions for adjacent doors (left and right of the clicked door)
-            val leftDoorPos = clickedPos.relative(direction.counterClockWise)
-            val rightDoorPos = clickedPos.relative(direction.clockWise)
-
-            // Check if there's a door at either the left or right position
-            val leftState = level.getBlockState(leftDoorPos)
-            val rightState = level.getBlockState(rightDoorPos)
-
-            val adjacentDoorPos = when {
-                leftState.block is DoorBlock && leftState.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == half -> leftDoorPos
-                rightState.block is DoorBlock && rightState.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == half -> rightDoorPos
-                else -> null
+            val belowPops = if (half == DoubleBlockHalf.UPPER) clickedPos.below() else clickedPos
+            if (level.getBlockState(belowPops.east()).block is DoorBlock) {
+                makePortal(level, belowPops, direction)
+                return InteractionResult.SUCCESS_NO_ITEM_USED
             }
-
-            if (adjacentDoorPos != null) {
-                // Position of the other half of the adjacent door
-                val adjacentOtherHalfPos = if (half == DoubleBlockHalf.LOWER) adjacentDoorPos.above() else adjacentDoorPos.below()
-
-                // Determine the bottom positions of both doors
-                val bottomPos1 = if (half == DoubleBlockHalf.LOWER) clickedPos else clickedPos.below()
-                val bottomPos2 = if (half == DoubleBlockHalf.LOWER) adjacentDoorPos else adjacentDoorPos.below()
-
-                // Determine the leftmost bottom position based on the door's facing direction
-                val leftMostBottomPos = when (direction) {
-                    Direction.NORTH, Direction.SOUTH -> if (bottomPos1.x < bottomPos2.x) bottomPos1 else bottomPos2
-                    Direction.EAST, Direction.WEST -> if (bottomPos1.z < bottomPos2.z) bottomPos1 else bottomPos2
-                    else -> bottomPos1
-                }
-
-                // Call makePortal with the leftmost bottom position and the door's facing direction
-                makePortal(level, leftMostBottomPos, direction)
-
-                return InteractionResult.SUCCESS
+            if (level.getBlockState(belowPops.west()).block is DoorBlock) {
+                makePortal(level, belowPops.west(), direction)
+                return InteractionResult.SUCCESS_NO_ITEM_USED
+            }
+            if (level.getBlockState(belowPops.north()).block is DoorBlock) {
+                makePortal(level, belowPops, direction)
+                return InteractionResult.SUCCESS_NO_ITEM_USED
+            }
+            if (level.getBlockState(belowPops.south()).block is DoorBlock) {
+                makePortal(level, belowPops, direction)
+                return InteractionResult.SUCCESS_NO_ITEM_USED
             }
         }
 
@@ -80,16 +60,7 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
     }
 
     fun makePortal(level: Level, pos: BlockPos, direction: Direction) {
-        // Determine the core position based on the facing direction
-        val corePosition = when (direction) {
-            Direction.NORTH -> pos.relative(Direction.WEST)
-            Direction.SOUTH -> pos.relative(Direction.EAST)
-            Direction.EAST -> pos.relative(Direction.NORTH)
-            Direction.WEST -> pos.relative(Direction.SOUTH)
-            else -> pos
-        }
 
-        // Place the portal structure
         SpiritPortalBlock.STRUCTURE.get().placeNoContext(level, pos, direction)
 
         // Set the Spirit Portal block at the given position, facing the opposite direction
@@ -100,8 +71,8 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
         )
 
         // Set the core position in the MultiBlockComponentBlockEntity, if present
-        if (level.getBlockEntity(corePosition) is MultiBlockComponentBlockEntity) {
-            (level.getBlockEntity(corePosition) as MultiBlockComponentBlockEntity).corePos = corePosition
+        if (level.getBlockEntity(pos) is MultiBlockComponentBlockEntity) {
+            (level.getBlockEntity(pos) as MultiBlockComponentBlockEntity).corePos = pos
         }
     }
 
