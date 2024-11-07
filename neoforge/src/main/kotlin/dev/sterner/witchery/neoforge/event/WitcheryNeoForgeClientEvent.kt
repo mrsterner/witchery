@@ -1,5 +1,7 @@
 package dev.sterner.witchery.neoforge.event
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
 import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
@@ -14,9 +16,7 @@ import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevel
 import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryFluids
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_BOOTS
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_CHESTPLATE
@@ -25,17 +25,19 @@ import dev.sterner.witchery.registry.WitcheryItems.HUNTER_LEGGINGS
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
-import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.model.BoatModel
+import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.resources.ResourceLocation
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.neoforged.neoforge.client.event.RegisterShadersEvent
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import org.jetbrains.annotations.NotNull
+
 
 object WitcheryNeoForgeClientEvent {
 
@@ -196,6 +198,15 @@ object WitcheryNeoForgeClientEvent {
                     return attributes.flowingTexture
                 }
             }, attributes.flowingFluid.getFluidType())
+        }
+    }
+
+    @SubscribeEvent
+    fun registerShader(event: RegisterShadersEvent){
+        event.registerShader(
+            ShaderInstance(event.resourceProvider, Witchery.id("spirit_portal"), DefaultVertexFormat.NEW_ENTITY)
+        ) { shaderInstance ->
+            WitcheryShaders.spiritPortal = shaderInstance
         }
     }
 }

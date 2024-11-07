@@ -7,6 +7,7 @@ import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
 import dev.sterner.witchery.client.model.SpiritPortalBlockEntityModel
 import dev.sterner.witchery.client.model.SpiritPortalPortalModel
+import dev.sterner.witchery.registry.WitcheryRenderTypes
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
@@ -35,12 +36,14 @@ class SpiritPortalBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) 
         poseStack.scale(-1f, -1f, 1f)
         poseStack.translate(0.0, 0.01,-0.025)
         poseStack.scale(0.96f, 0.96f, 0.96f)
+        poseStack.mulPose(Axis.YP.rotationDegrees(180f))
         modelShaderModel.renderToBuffer(
             poseStack,
-            bufferSource.getBuffer(RenderType.endPortal()),
+            bufferSource.getBuffer(WitcheryRenderTypes.SPIRIT_PORTAL.apply(Witchery.id("textures/block/spirit_door_portal.png"))),
             packedLight,
             packedOverlay
         )
+        poseStack.mulPose(Axis.YP.rotationDegrees(-180f))
 
         poseStack.scale(1.04f, 1.04f, 1.04f)
         poseStack.translate(0.0, -0.01,0.025)

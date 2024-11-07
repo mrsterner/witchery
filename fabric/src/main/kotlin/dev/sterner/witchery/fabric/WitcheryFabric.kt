@@ -1,5 +1,6 @@
 package dev.sterner.witchery.fabric
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
@@ -17,12 +18,16 @@ import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
+import net.minecraft.client.renderer.ShaderInstance
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.levelgen.GenerationStep
+import java.io.IOException
 
 
 class WitcheryFabric : ModInitializer, ClientModInitializer {
@@ -124,6 +129,17 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             ZzzParticle.Provider(
                 sprite!!
             )
+        }
+
+        CoreShaderRegistrationCallback.EVENT.register(this::registerShaders);
+    }
+
+    @Throws(IOException::class)
+    private fun registerShaders(ctx: CoreShaderRegistrationCallback.RegistrationContext) {
+        ctx.register(
+            Witchery.id("spiritPortal"), DefaultVertexFormat.NEW_ENTITY
+        ) { shaderInstance: ShaderInstance ->
+            WitcheryShaders.spiritPortal = shaderInstance
         }
     }
 }
