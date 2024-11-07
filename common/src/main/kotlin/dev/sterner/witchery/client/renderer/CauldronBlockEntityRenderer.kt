@@ -29,9 +29,9 @@ class CauldronBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         packedLight: Int,
         packedOverlay: Int
     ) {
-        if (blockEntity.fluidTank.fluidStorage.getAmount() > 0) {
+        if (blockEntity.fluidTank.getFluidAmount() > 0) {
             val le: Double =
-                blockEntity.fluidTank.fluidStorage.getAmount().toDouble() / FluidStack.bucketAmount().toDouble() * 3
+                blockEntity.fluidTank.getFluidAmount().toDouble() / FluidStack.bucketAmount().toDouble() * 3
             renderWater(poseStack, bufferSource, le.toInt(), blockEntity.color, packedLight, packedOverlay)
 
             if (blockEntity.blockState.getValue(BlockStateProperties.LIT)) {

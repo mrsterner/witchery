@@ -3,7 +3,7 @@ package dev.sterner.witchery.block.cauldron
 import dev.architectury.fluid.FluidStack
 import dev.architectury.hooks.fluid.FluidStackHooks
 import dev.architectury.platform.Platform
-import dev.sterner.witchery.api.block.WitcheryFluidTank
+import dev.sterner.witchery.api.fluid.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.payload.CauldronEffectParticleS2CPayload
 import dev.sterner.witchery.payload.CauldronPoofS2CPacket
@@ -126,7 +126,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         if (fluid == Fluids.EMPTY) return
 
         val amount = 10L * if (Platform.isFabric()) 81 else 1
-        this.fluidTank.fluidStorage.add(FluidStack.create(fluid, amount), amount, false)
+        this.fluidTank.fill(FluidStack.create(fluid, amount), false)
     }
 
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
@@ -139,7 +139,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             return
         }
 
-        if (level.gameTime % 4 == 0L && !complete && !fluidTank.fluidStorage.isEmpty()) {
+        if (level.gameTime % 4 == 0L && !complete && !fluidTank.isEmpty()) {
             consumeItem(level, pos)
         }
 
@@ -177,17 +177,24 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         level.getEntities(EntityType.ITEM, AABB(blockPos)) { true }.forEach { entity ->
             val item = entity.item
             val cacheForColorItem = item.copy()
+            if (item.`is`(WitcheryItems.WOOD_ASH.get())) {
+                fullReset()
+                WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPacket(pos, true))
+                item.shrink(1)
+                setChanged()
+            } else {
+                // Get the first empty slot and add the item to inputItems
+                val firstEmpty = getFirstEmptyIndex()
+                if (firstEmpty != -1) {
+                    setItem(firstEmpty, item.split(1))
+                    level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
 
-            // Get the first empty slot and add the item to inputItems
-            val firstEmpty = getFirstEmptyIndex()
-            if (firstEmpty != -1) {
-                setItem(firstEmpty, item.split(1))
-                level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
+                    // Refresh recipe to match current inputItems
+                    refreshCraftingAndBrewingRecipe(level)
 
-                // Refresh recipe to match current inputItems
-                refreshCraftingAndBrewingRecipe(level)
+                    updateColor(level, cacheForColorItem)
+                }
 
-                updateColor(level, cacheForColorItem)
             }
 
             setChanged()
@@ -249,7 +256,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
         }
 
-        WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPacket(pos))
+        WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPacket(pos, false))
 
         if (cauldronCraftingRecipe != null) {
             level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.5f, 1.0f)
@@ -278,13 +285,14 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         setChanged()
     }
 
-    private fun fullReset() {
+    fun fullReset() {
         color = WATER_COLOR
         clearContent()
         cauldronCraftingRecipe = null
         cauldronBrewingRecipe = null
         complete = false
         fluidTank = WitcheryFluidTank(this)
+        fluidTank.fluid = FluidStack.empty()
         brewItemOutput = ItemStack.EMPTY
         setChanged()
     }
@@ -302,11 +310,10 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
             return ItemInteractionResult.SUCCESS
         }
-        if (!fluidTank.fluidStorage.isFull()) {
+        if (fluidTank.capacity != fluidTank.getFluidAmount()) {
             if (pStack.`is`(Items.WATER_BUCKET)) {
                 playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_FILL)
-                fluidTank.fluidStorage.setFluidStack(FluidStack.create(Fluids.WATER, FluidStack.bucketAmount()))
-
+                fluidTank.fill(FluidStack.create(Fluids.WATER, FluidStack.bucketAmount()), false)
                 setChanged()
                 return ItemInteractionResult.SUCCESS
             }
@@ -318,12 +325,13 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                     if (!pPlayer.isCreative) {
                         pPlayer.setItemInHand(pHand, Items.GLASS_BOTTLE.defaultInstance)
                     }
-                    val currentFluidAmount = fluidTank.fluidStorage.getAmount()
-                    fluidTank.fluidStorage.setFluidStack(
+                    val currentFluidAmount = fluidTank.getFluidAmount()
+                    fluidTank.fill(
                         FluidStack.create(
                             Fluids.WATER,
                             currentFluidAmount + FluidStack.bucketAmount() / 3
-                        )
+                        ),
+                        false
                     )
                     setChanged()
                     return ItemInteractionResult.SUCCESS
@@ -332,7 +340,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         }
         if (pStack.`is`(Items.GLASS_BOTTLE)) {
 
-            if (!brewItemOutput.isEmpty && fluidTank.fluidStorage.getAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
+            if (!brewItemOutput.isEmpty && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
                 var thirdBonus = 0f
                 var bonus = 0f
                 if (pPlayer.getItemBySlot(EquipmentSlot.HEAD).`is`(WitcheryItems.WITCHES_HAT.get())) {
@@ -369,10 +377,10 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                     }
                     Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, ItemStack(brewItemOutput.copy().item))
                 }
-                fluidTank.fluidStorage.remove(FluidStackHooks.bucketAmount() / 3, false)
+                fluidTank.drain(FluidStackHooks.bucketAmount() / 3, false)
                 playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
                 playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)
-                if (fluidTank.fluidStorage.getAmount() < (FluidStackHooks.bucketAmount() / 3)) {
+                if (fluidTank.getFluidAmount() < (FluidStackHooks.bucketAmount() / 3)) {
                     fullReset()
                 }
                 setChanged()

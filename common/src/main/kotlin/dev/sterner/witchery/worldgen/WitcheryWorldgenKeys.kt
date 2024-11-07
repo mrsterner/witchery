@@ -21,6 +21,10 @@ object WitcheryWorldgenKeys {
     val WISPY_PLACED_KEY: ResourceKey<PlacedFeature> = ResourceKey.create(Registries.PLACED_FEATURE, Witchery.id("wispy_placed"))
     val WISPY_KEY: ResourceKey<ConfiguredFeature<*, *>> = ResourceKey.create(Registries.CONFIGURED_FEATURE, Witchery.id("wispy"))
 
+    val WITCH_CIRCLE_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Witchery.id("witch_circle_placed"))
+    val WITCH_CIRCLE_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Witchery.id("witch_circle"))
+
+
     val DREAM: ResourceKey<Level> =
         ResourceKey.create(Registries.DIMENSION, Witchery.id("dream_world"))
 

@@ -5,7 +5,6 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.*
-import dev.architectury.event.events.common.InteractionEvent.RightClickBlock
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
@@ -39,6 +38,7 @@ import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.EntSpawnLevelAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
+import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
 import dev.sterner.witchery.registry.*
@@ -93,6 +93,7 @@ object Witchery {
         WitcheryMenuTypes.MENU_TYPES.register()
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
+        WitcheryFeatures.FEATURES.register()
 
         WitcheryPayloads.register()
 
@@ -102,6 +103,7 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.DEMON, DemonEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.OWL, OwlEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.ENT, EntEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.BANSHEE, BansheeEntity::createAttributes)
 
         MODIFY_LOOT_TABLE.register(::addSeeds)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
@@ -130,6 +132,7 @@ object Witchery {
 
         BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
+        TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
     }
 
     private fun addWitchesHand(
@@ -262,6 +265,8 @@ object Witchery {
         EntityModelLayerRegistry.register(DemonEntityModel.LAYER_LOCATION) { DemonEntityModel.createBodyLayer() }
         EntityRendererRegistry.register(WitcheryEntityTypes.ENT) { EntEntityRenderer(it) }
         EntityModelLayerRegistry.register(EntEntityModel.LAYER_LOCATION) { EntEntityModel.createBodyLayer() }
+        EntityRendererRegistry.register(WitcheryEntityTypes.BANSHEE) { BansheeEntityRenderer(it) }
+        EntityModelLayerRegistry.register(BansheeEntityModel.LAYER_LOCATION) { BansheeEntityModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_BOAT) { context -> BoatRenderer(context, false) }
         EntityModelLayerRegistry.register(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)

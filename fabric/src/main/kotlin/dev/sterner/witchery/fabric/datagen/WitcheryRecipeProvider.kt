@@ -1541,5 +1541,17 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setJarConsumption(3)
             .save(exporter, Witchery.id("refined_evil_from_ghast"))
 
+        DistilleryCraftingRecipeBuilder.create()
+            .addInput(WitcheryItems.BREW_FLOWING_SPIRIT.get().defaultInstance)
+            .addInput(WitcheryItems.OIL_OF_VITRIOL.get().defaultInstance)
+            .setAltarPower(5)
+            .setCookingTime(100)
+            .addOutput(WitcheryItems.FOCUSED_WILL.get().defaultInstance)
+            .addOutput(WitcheryItems.CONDENSED_FEAR.get().defaultInstance)
+            //TODO .addOutput(ItemStack(WitcheryItems.BREW_OF_HOLLOW_TEARS.get(), 4))
+            //TODO .addOutput(ItemStack(WitcheryItems.BREW_OF_HOLLOW_TEARS.get(), 4))
+            .setJarConsumption(2)
+            .save(exporter, Witchery.id("brew_of_hollow_tears"))
+
     }
 }

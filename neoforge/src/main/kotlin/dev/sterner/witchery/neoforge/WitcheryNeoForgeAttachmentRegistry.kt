@@ -1,10 +1,7 @@
 package dev.sterner.witchery.neoforge
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.AltarDataAttachment
-import dev.sterner.witchery.platform.EntSpawnLevelAttachment
-import dev.sterner.witchery.platform.MutandisDataAttachment
-import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
+import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
@@ -110,6 +107,17 @@ object WitcheryNeoForgeAttachmentRegistry {
             Supplier {
                 AttachmentType.builder(Supplier { SleepingPlayerLevelAttachment.Data() })
                     .serialize(SleepingPlayerLevelAttachment.Data.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val TELEPORT_QUEUE_DATA_ATTACHMENT: Supplier<AttachmentType<TeleportQueueLevelAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "teleport_queue",
+            Supplier {
+                AttachmentType.builder(Supplier { TeleportQueueLevelAttachment.Data() })
+                    .serialize(TeleportQueueLevelAttachment.Data.CODEC)
                     .build()
             }
         )

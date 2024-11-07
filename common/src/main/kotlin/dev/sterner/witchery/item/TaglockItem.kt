@@ -115,7 +115,7 @@ class TaglockItem(properties: Properties) : Item(properties) {
 
             if (stack.has(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())) {
                 val id = stack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-                if (id != null && level.server != null) {
+                if (id != null) {
                     for (serverLevel in level.server!!.allLevels) {
                         if (UUID.fromString(id) != null && serverLevel.getEntity(UUID.fromString(id)) != null) {
                             return serverLevel.getEntity(UUID.fromString(id)) as LivingEntity

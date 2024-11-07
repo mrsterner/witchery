@@ -51,12 +51,15 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         }
         val maxDreamweavers = 4
         val maxFlowingSpirits = 4
+        val maxWispyCotton = 4
         val dreamweaverCount = countNearbyBlocks(player, WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())
         val flowingSpiritCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
+        val wispyCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
 
-        val maxEffectCount = (maxDreamweavers + maxFlowingSpirits).toDouble()
+        val maxEffectCount = (maxDreamweavers + maxFlowingSpirits + maxWispyCotton).toDouble()
         val effectiveCount =
-            (dreamweaverCount.coerceAtMost(maxDreamweavers) + flowingSpiritCount.coerceAtMost(maxFlowingSpirits)).toDouble()
+            (dreamweaverCount.coerceAtMost(maxDreamweavers) + flowingSpiritCount.coerceAtMost(maxFlowingSpirits)
+                    + wispyCount.coerceAtMost(maxWispyCotton)).toDouble()
         val goodDreamChance = 0.05 + 0.85 * (effectiveCount / maxEffectCount) // Scale up to 90% with max blocks
 
         val key = ResourceKey.create(Registries.DIMENSION, Witchery.id("dream_world"))
@@ -102,7 +105,7 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             }
         }
 
-        private fun countNearbyBlocks(player: Player, blockToCheck: Block, radius: Int = 5): Int {
+        private fun countNearbyBlocks(player: Player, blockToCheck: Block, radius: Int = 6): Int {
             val level = player.level()
             val pos = BlockPos.containing(player.x, player.y, player.z)
             var count = 0
