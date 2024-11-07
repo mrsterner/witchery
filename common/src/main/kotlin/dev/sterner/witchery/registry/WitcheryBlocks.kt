@@ -25,6 +25,7 @@ import dev.sterner.witchery.block.signs.CustomStandingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallHangingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallSignBlock
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlock
+import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.block.trees.StrippableLogBlock
 import dev.sterner.witchery.platform.StrippableHelper
 import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
@@ -878,6 +879,10 @@ object WitcheryBlocks {
 
     val POPPET: RegistrySupplier<PoppetBlock> = BLOCKS.register("poppet") {
         PoppetBlock(BlockBehaviour.Properties.of().noOcclusion())
+    }
+
+    val SPIRIT_PORTAL: RegistrySupplier<SpiritPortalBlock> = BLOCKS.register("spirit_portal") {
+        SpiritPortalBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 
     val FLOWING_SPIRIT_BLOCK: RegistrySupplier<LiquidBlock> = BLOCKS.register(

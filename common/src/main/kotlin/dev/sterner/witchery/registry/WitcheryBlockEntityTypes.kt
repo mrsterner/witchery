@@ -17,6 +17,7 @@ import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.block.signs.CustomHangingSignBE
 import dev.sterner.witchery.block.signs.CustomSignBE
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
+import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.entity.SignBlockEntity
@@ -163,6 +164,13 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::PoppetBlockEntity,
             WitcheryBlocks.POPPET.get()
+        ).build(null)
+    }
+
+    val SPIRIT_PORTAL = BLOCK_ENTITY_TYPES.register("spirit_portal") {
+        BlockEntityType.Builder.of(
+            ::SpiritPortalBlockEntity,
+            WitcheryBlocks.SPIRIT_PORTAL.get()
         ).build(null)
     }
 

@@ -100,6 +100,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(BoatModels.ALDER_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
         event.registerLayerDefinition(BoatModels.HAWTHORN_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
         event.registerLayerDefinition(AltarBlockEntityModel.LAYER_LOCATION, AltarBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(SpiritPortalBlockEntityModel.LAYER_LOCATION, SpiritPortalBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(AltarClothBlockEntityModel.LAYER_LOCATION, AltarClothBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(JarModel.LAYER_LOCATION, JarModel::createBodyLayer)
         event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION, ArmorPoppetModel::createBodyLayer)
