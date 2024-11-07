@@ -278,7 +278,14 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
         // Magisterium
 
 
-        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("magisterium", "flame_bearers")))
+        // I was lied to about this
+        //getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("magisterium", "flame_bearers")))
+        //    .addTag(WitcheryTags.CANDELABRAS)
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("magisterium", "awaken_the_flame_targets")))
+            .addTag(WitcheryTags.CANDELABRAS)
+
+        getOrCreateTagBuilder(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("magisterium", "quench_the_flame_targets")))
             .addTag(WitcheryTags.CANDELABRAS)
 
 
