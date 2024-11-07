@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.core.Direction
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class SpiritPortalBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
@@ -30,11 +31,24 @@ class SpiritPortalBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) 
         poseStack.pushPose()
 
         poseStack.translate(1.0, 1.5, 0.0)
-        val dir = blockEntity.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()
-        poseStack.mulPose(Axis.YP.rotationDegrees(180 - dir))
+        val dir = blockEntity.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
+        val yDir = dir.toYRot()
+        poseStack.mulPose(Axis.YP.rotationDegrees(180 - yDir))
         poseStack.scale(-1f, -1f, 1f)
         poseStack.mulPose(Axis.YP.rotationDegrees(180f))
         poseStack.translate(0.0,0.0,-0.05)
+        if (dir == Direction.WEST) {
+            poseStack.translate(0.0,0.0,1.0)
+        }
+        if (dir == Direction.EAST) {
+            poseStack.translate(1.0,0.0,0.0)
+        }
+        if (dir == Direction.NORTH) {
+            poseStack.translate(0.0,0.0,0.0)
+        }
+        if (dir == Direction.SOUTH) {
+            poseStack.translate(1.0,0.0,1.0)
+        }
         modelShaderModel.renderToBuffer(
             poseStack,
             bufferSource.getBuffer(WitcheryRenderTypes.SPIRIT_PORTAL.apply(Witchery.id("textures/block/spirit_door_portal.png"))),

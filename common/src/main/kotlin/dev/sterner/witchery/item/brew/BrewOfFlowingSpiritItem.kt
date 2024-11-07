@@ -24,10 +24,6 @@ import net.minecraft.world.phys.HitResult
 
 class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
-    override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
-        return InteractionResultHolder.pass(player.mainHandItem)
-    }
-
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
         val clickedPos = context.clickedPos
@@ -39,42 +35,58 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
 
             val belowPops = if (half == DoubleBlockHalf.UPPER) clickedPos.below() else clickedPos
             if (level.getBlockState(belowPops.east()).block is DoorBlock) {
-                if (direction == Direction.NORTH) {
-                    makePortal(level, belowPops, direction.opposite)
-                } else if (direction == Direction.SOUTH) {
-                    makePortal(level, belowPops.east(), direction.opposite)
-                } else {
-                    makePortal(level, belowPops, direction)
+                when (direction) {
+                    Direction.NORTH -> {
+                        makePortal(level, belowPops, direction.opposite)
+                    }
+                    Direction.SOUTH -> {
+                        makePortal(level, belowPops.east(), direction.opposite)
+                    }
+                    else -> {
+                        makePortal(level, belowPops, direction)
+                    }
                 }
                 return InteractionResult.SUCCESS_NO_ITEM_USED
             }
             if (level.getBlockState(belowPops.west()).block is DoorBlock) {
-                if (direction == Direction.NORTH) {
-                    makePortal(level, belowPops.west(), direction.opposite)
-                } else if (direction == Direction.SOUTH) {
-                    makePortal(level, belowPops, direction.opposite)
-                } else {
-                    makePortal(level, belowPops, direction)
+                when (direction) {
+                    Direction.NORTH -> {
+                        makePortal(level, belowPops.west(), direction.opposite)
+                    }
+                    Direction.SOUTH -> {
+                        makePortal(level, belowPops, direction.opposite)
+                    }
+                    else -> {
+                        makePortal(level, belowPops, direction)
+                    }
                 }
                 return InteractionResult.SUCCESS_NO_ITEM_USED
             }
             if (level.getBlockState(belowPops.north()).block is DoorBlock) {
-                if (direction == Direction.EAST) {
-                    makePortal(level, belowPops.north(), direction.opposite)
-                }else if (direction == Direction.WEST) {
-                    makePortal(level, belowPops, direction.opposite)
-                } else {
-                    makePortal(level, belowPops, direction)
+                when (direction) {
+                    Direction.EAST -> {
+                        makePortal(level, belowPops.north(), direction.opposite)
+                    }
+                    Direction.WEST -> {
+                        makePortal(level, belowPops, direction.opposite)
+                    }
+                    else -> {
+                        makePortal(level, belowPops, direction)
+                    }
                 }
                 return InteractionResult.SUCCESS_NO_ITEM_USED
             }
             if (level.getBlockState(belowPops.south()).block is DoorBlock) {
-                if (direction == Direction.EAST) {
-                    makePortal(level, belowPops, direction.opposite)
-                } else if (direction == Direction.WEST) {
-                    makePortal(level, belowPops.south(), direction.opposite)
-                } else {
-                    makePortal(level, belowPops, direction)
+                when (direction) {
+                    Direction.EAST -> {
+                        makePortal(level, belowPops, direction.opposite)
+                    }
+                    Direction.WEST -> {
+                        makePortal(level, belowPops.south(), direction.opposite)
+                    }
+                    else -> {
+                        makePortal(level, belowPops, direction)
+                    }
                 }
                 return InteractionResult.SUCCESS_NO_ITEM_USED
             }
@@ -83,7 +95,7 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
         return super.useOn(context)
     }
 
-    fun makePortal(level: Level, pos: BlockPos, direction: Direction) {
+    private fun makePortal(level: Level, pos: BlockPos, direction: Direction) {
 
         SpiritPortalBlock.STRUCTURE.get().placeNoContext(level, pos, direction)
 
