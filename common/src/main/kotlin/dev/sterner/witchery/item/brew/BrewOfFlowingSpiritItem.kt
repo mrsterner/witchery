@@ -39,19 +39,43 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
 
             val belowPops = if (half == DoubleBlockHalf.UPPER) clickedPos.below() else clickedPos
             if (level.getBlockState(belowPops.east()).block is DoorBlock) {
-                makePortal(level, belowPops, direction)
+                if (direction == Direction.NORTH) {
+                    makePortal(level, belowPops, direction.opposite)
+                } else if (direction == Direction.SOUTH) {
+                    makePortal(level, belowPops.east(), direction.opposite)
+                } else {
+                    makePortal(level, belowPops, direction)
+                }
                 return InteractionResult.SUCCESS_NO_ITEM_USED
             }
             if (level.getBlockState(belowPops.west()).block is DoorBlock) {
-                makePortal(level, belowPops.west(), direction)
+                if (direction == Direction.NORTH) {
+                    makePortal(level, belowPops.west(), direction.opposite)
+                } else if (direction == Direction.SOUTH) {
+                    makePortal(level, belowPops, direction.opposite)
+                } else {
+                    makePortal(level, belowPops, direction)
+                }
                 return InteractionResult.SUCCESS_NO_ITEM_USED
             }
             if (level.getBlockState(belowPops.north()).block is DoorBlock) {
-                makePortal(level, belowPops, direction)
+                if (direction == Direction.EAST) {
+                    makePortal(level, belowPops.north(), direction.opposite)
+                }else if (direction == Direction.WEST) {
+                    makePortal(level, belowPops, direction.opposite)
+                } else {
+                    makePortal(level, belowPops, direction)
+                }
                 return InteractionResult.SUCCESS_NO_ITEM_USED
             }
             if (level.getBlockState(belowPops.south()).block is DoorBlock) {
-                makePortal(level, belowPops, direction)
+                if (direction == Direction.EAST) {
+                    makePortal(level, belowPops, direction.opposite)
+                } else if (direction == Direction.WEST) {
+                    makePortal(level, belowPops.south(), direction.opposite)
+                } else {
+                    makePortal(level, belowPops, direction)
+                }
                 return InteractionResult.SUCCESS_NO_ITEM_USED
             }
         }
@@ -63,14 +87,12 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
 
         SpiritPortalBlock.STRUCTURE.get().placeNoContext(level, pos, direction)
 
-        // Set the Spirit Portal block at the given position, facing the opposite direction
         level.setBlockAndUpdate(
             pos,
             WitcheryBlocks.SPIRIT_PORTAL.get().defaultBlockState()
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, direction.opposite)
         )
 
-        // Set the core position in the MultiBlockComponentBlockEntity, if present
         if (level.getBlockEntity(pos) is MultiBlockComponentBlockEntity) {
             (level.getBlockEntity(pos) as MultiBlockComponentBlockEntity).corePos = pos
         }
