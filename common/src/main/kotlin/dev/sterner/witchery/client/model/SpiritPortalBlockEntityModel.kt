@@ -25,6 +25,7 @@ class SpiritPortalBlockEntityModel(root: ModelPart) :
 
     val lDoor = root.getChild("lDoor")
     val rDoor = root.getChild("rDoor")
+    val frame = root.getChild("frame")
 
     override fun renderToBuffer(
         poseStack: PoseStack,
@@ -35,6 +36,7 @@ class SpiritPortalBlockEntityModel(root: ModelPart) :
     ) {
         lDoor.render(poseStack, buffer, packedLight, packedOverlay)
         rDoor.render(poseStack, buffer, packedLight, packedOverlay)
+        frame.render(poseStack, buffer, packedLight, packedOverlay)
     }
 
     companion object {
@@ -47,17 +49,34 @@ class SpiritPortalBlockEntityModel(root: ModelPart) :
 
             val lDoor = partdefinition.addOrReplaceChild(
                 "lDoor",
-                CubeListBuilder.create().texOffs(0, 34)
-                    .addBox(0.0f, -32.0f, -1.0f, 16.0f, 32.0f, 2.0f, CubeDeformation(0.0f)),
+                CubeListBuilder.create().texOffs(70, 39)
+                    .addBox(0.0f, -32.0f, -1.0f, 16.0f, 32.0f, 3.0f, CubeDeformation(0.0f))
+                    .texOffs(40, 56).addBox(-0.5f, -32.5f, -1.0f, 9.0f, 9.0f, 3.0f, CubeDeformation(0.2f)),
                 PartPose.offset(-16.0f, 24.0f, 0.0f)
             )
 
             val rDoor = partdefinition.addOrReplaceChild(
                 "rDoor",
-                CubeListBuilder.create().texOffs(0, 0)
-                    .addBox(-16.0f, -32.0f, -1.0f, 16.0f, 32.0f, 2.0f, CubeDeformation(0.0f)),
+                CubeListBuilder.create().texOffs(68, 0)
+                    .addBox(-16.0f, -32.0f, -1.0f, 16.0f, 32.0f, 3.0f, CubeDeformation(0.0f)),
                 PartPose.offset(16.0f, 24.0f, 0.0f)
             )
+
+            val cube_r1 = rDoor.addOrReplaceChild(
+                "cube_r1",
+                CubeListBuilder.create().texOffs(40, 56)
+                    .addBox(-8.0f, -9.0f, -1.0f, 9.0f, 9.0f, 3.0f, CubeDeformation(0.2f)),
+                PartPose.offsetAndRotation(-7.5f, -23.5f, 1.0f, 0.0f, 3.1416f, 0.0f)
+            )
+
+            val frame = partdefinition.addOrReplaceChild(
+                "frame",
+                CubeListBuilder.create().texOffs(0, 75)
+                    .addBox(-14.0f, -38.0f, 0.0f, 28.0f, 5.0f, 1.0f, CubeDeformation(0.2f))
+                    .texOffs(0, 94).addBox(-15.0f, -33.0f, -1.0f, 30.0f, 2.0f, 3.0f, CubeDeformation(-0.1f)),
+                PartPose.offset(0.0f, 24.0f, 0.0f)
+            )
+
 
             return LayerDefinition.create(meshdefinition, 128, 128)
         }

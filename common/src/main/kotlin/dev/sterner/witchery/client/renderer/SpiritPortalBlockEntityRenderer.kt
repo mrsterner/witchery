@@ -62,7 +62,14 @@ class SpiritPortalBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) 
         val doorAngle = progress * 90.0f * (-1)
 
         poseStack.pushPose()
+        model.frame.render(
+            poseStack,
+            bufferSource.getBuffer(RenderType.entityCutout(Witchery.id("textures/block/spirit_door_square.png"))),
+            packedLight,
+            packedOverlay
+        )
         poseStack.translate(-1.0, 0.0, 0.0)
+
         poseStack.mulPose(Axis.YP.rotationDegrees(doorAngle))
         poseStack.translate(1.0, 0.0, 0.0)
         model.lDoor.render(
