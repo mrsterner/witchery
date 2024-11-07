@@ -33,7 +33,7 @@ object WitcheryRenderTypes {
         create(
             Witchery.MODID + "spirit_portal",
             DefaultVertexFormat.NEW_ENTITY,
-            VertexFormat.Mode.QUADS,
+            VertexFormat.Mode.TRIANGLES,
             BUFFER_SIZE,
             true,
             false,
