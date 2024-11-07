@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.spirit_portal
 
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
@@ -13,7 +14,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 
 class SpiritPortalBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(), blockPos, blockState) {
+    MultiBlockCoreEntity(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(), SpiritPortalBlock.STRUCTURE.get(), blockPos, blockState) {
 
     var isOpening: Boolean = false
     private var lastProgress = 0.0f

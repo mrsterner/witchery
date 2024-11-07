@@ -22,18 +22,16 @@ out vec4 fragColor;
 
 void main() {
 
-    float time = GameTime * 1500.0;
+    float time = GameTime * 500.0;
     vec2 texCopy = texCoord0;
 
-    float aspectRatio = 24.0 / 9.0;
+    float aspectRatio = 9.0 / 9.0;
     texCopy.y /= aspectRatio;
 
-    // Decrease pixelation factor for larger effect
-    float pixelationFactor = 400.0; // Lower value makes the effect larger
+    float pixelationFactor = 200.0;
     texCopy = floor(texCopy * pixelationFactor) / pixelationFactor;
 
-    // Apply larger scaling factor to avoid repetitions
-    texCopy *= vec2(25.0, 25.0); // Scaling up the texture coordinates for a larger effect
+    texCopy *= vec2(5.0, 5.0);
     vec2 p = mod(texCopy * PI * 2.0, PI * 2.0) - 256.0;
 
     vec2 i = vec2(p);
@@ -51,11 +49,9 @@ void main() {
     vec3 colour = vec3(pow(abs(c), 8.0));
     colour = clamp(colour + vec3(0.3, 0.7, 0.7), 0.0, 1.0);
 
-    // Check if the color is too faint and discard it
     if (length(colour.rgb) < 0.1 * 3.0) {
         discard;
     }
 
-    // Set final fragColor with some modifications to smooth and enhance the color
     fragColor = vec4(colour, max(colour.r * 0.1, max(colour.g * 0.1, colour.b)) * 0.5);
 }

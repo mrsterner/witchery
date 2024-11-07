@@ -12,6 +12,7 @@
   ],
   "mixins": [
     "BookCategoryNodeScreenMixin",
+    "DoorBlockMixin",
     "EntityMixin",
     "ItemEntityMixin",
     "ItemStackMixin",

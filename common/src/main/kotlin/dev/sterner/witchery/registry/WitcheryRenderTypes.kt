@@ -23,7 +23,7 @@ object WitcheryRenderTypes {
         val compositeState: RenderType.CompositeState? =
             RenderType.CompositeState.builder()
                 .setShaderState(ShaderStateShard(WitcheryShaders::spiritPortal))
-                .setTextureState(TextureStateShard(resourceLocation, false, false))
+                .setTextureState(TextureStateShard(resourceLocation, false, true))
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setCullState(CULL)
                 .setLightmapState(LIGHTMAP)
@@ -33,7 +33,7 @@ object WitcheryRenderTypes {
         create(
             Witchery.MODID + "spirit_portal",
             DefaultVertexFormat.NEW_ENTITY,
-            VertexFormat.Mode.TRIANGLES,
+            VertexFormat.Mode.QUADS,
             BUFFER_SIZE,
             true,
             false,

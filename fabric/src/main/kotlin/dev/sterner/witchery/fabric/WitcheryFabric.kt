@@ -137,7 +137,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
     @Throws(IOException::class)
     private fun registerShaders(ctx: CoreShaderRegistrationCallback.RegistrationContext) {
         ctx.register(
-            Witchery.id("spiritPortal"), DefaultVertexFormat.NEW_ENTITY
+            Witchery.id("spirit_portal"), DefaultVertexFormat.NEW_ENTITY
         ) { shaderInstance: ShaderInstance ->
             WitcheryShaders.spiritPortal = shaderInstance
         }
