@@ -25,8 +25,9 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
         cauldronAdvancement.parent(root).save(consumer, "witchery:cauldron")
         mutandisAdvancement.parent(root).save(consumer, "witchery:mutandis")
         whiffOfMagicAdvancement.parent(root).save(consumer, "witchery:whiff_of_magic")
-        gypsumAdvancement.parent(root).save(consumer, "witchery:gypsum")
-        chalkAdvancement.parent(root).save(consumer, "witchery:chalk")
+        val gypsum = gypsumAdvancement.parent(root).save(consumer, "witchery:gypsum")
+        val ritual = chalkAdvancement.parent(gypsum).save(consumer, "witchery:chalk")
+        necromantic.parent(ritual).save(consumer, "witchery:necromantic")
     }
 
     companion object {
@@ -94,7 +95,7 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
             .display(
                 WitcheryItems.CAULDRON.get(),
                 Component.translatable("advancements.witchery.cauldron.title"),
-                Component.translatable("advancements.witchery.oven.cauldron"),
+                Component.translatable("advancements.witchery.cauldron.cauldron"),
                 Witchery.id("textures/block/rowan_planks.png"),
                 AdvancementType.TASK,
                 true,
@@ -151,7 +152,7 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
                 Component.translatable("advancements.witchery.gypsum.description"),
                 Witchery.id("textures/block/rowan_planks.png"),
                 AdvancementType.TASK,
-                true,
+                false,
                 false,
                 false
             )
@@ -176,6 +177,23 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
             .addCriterion(
                 "has_chalk",
                 InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.RITUAL_CHALK.get())
+            )
+
+        val necromantic = Advancement.Builder.advancement()
+            .display(
+                WitcheryItems.NECROMANTIC_STONE.get(),
+                Component.translatable("advancements.witchery.necromantic.title"),
+                Component.translatable("advancements.witchery.necromantic.description"),
+                Witchery.id("textures/block/rowan_planks.png"),
+                AdvancementType.TASK,
+                true,
+                false,
+                false
+            )
+            .requirements(AdvancementRequirements.Strategy.OR)
+            .addCriterion(
+                "has_necromantic",
+                InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.NECROMANTIC_STONE.get())
             )
     }
 

@@ -1,11 +1,11 @@
 {
-  "parent": "witchery:root",
+  "parent": "witchery:chalk",
   "criteria": {
-    "has_gypsum": {
+    "has_necromantic": {
       "conditions": {
         "items": [
           {
-            "items": "witchery:gypsum"
+            "items": "witchery:necromantic_stone"
           }
         ]
       },
@@ -16,20 +16,19 @@
     "announce_to_chat": false,
     "background": "witchery:textures/block/rowan_planks.png",
     "description": {
-      "translate": "advancements.witchery.gypsum.description"
+      "translate": "advancements.witchery.necromantic.description"
     },
     "icon": {
       "count": 1,
-      "id": "witchery:gypsum"
+      "id": "witchery:necromantic_stone"
     },
-    "show_toast": false,
     "title": {
-      "translate": "advancements.witchery.gypsum.title"
+      "translate": "advancements.witchery.necromantic.title"
     }
   },
   "requirements": [
     [
-      "has_gypsum"
+      "has_necromantic"
     ]
   ],
   "sends_telemetry_event": true

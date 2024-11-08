@@ -138,6 +138,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryEntityTypes.ENT.get(), "Ent")
         builder.add(WitcheryEntityTypes.FLOATING_ITEM.get(), "Floating Item")
         builder.add(WitcheryEntityTypes.SLEEPING_PLAYER.get(), "Sleeping Player")
+        builder.add(WitcheryEntityTypes.BANSHEE.get(), "Banshee")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
@@ -336,6 +337,20 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("entity.witchery.hawthorn_chest_boat", "Hawthorn Chest Boat")
 
 
+        builder.add("advancements.witchery.seeds.title", "The Start")
+        builder.add("advancements.witchery.seeds.description", "Expensive on Etsy")
+        builder.add("advancements.witchery.oven.title", "Smells nice")
+        builder.add("advancements.witchery.oven.description", "In my gingerbread house")
+        builder.add("advancements.witchery.cauldron.title", "A Stew is due")
+        builder.add("advancements.witchery.cauldron.description", "Cookin'")
+        builder.add("advancements.witchery.mutandis.title", "Lost plants")
+        builder.add("advancements.witchery.mutandis.description", "CRISPR those flowers")
+        builder.add("advancements.witchery.whiff_of_magic.title", "Wonder")
+        builder.add("advancements.witchery.whiff_of_magic.description", "Unicorn farts")
+        builder.add("advancements.witchery.chalk.title", "Rituals")
+        builder.add("advancements.witchery.chalk.description", "And I started ritualing")
+        builder.add("advancements.witchery.necromantic.title", "Necromantic")
+        builder.add("advancements.witchery.necromantic.description", "No mind to break")
 
         builder.add("witchery:ritual/rite_of_charging_infusion", "Rite of Charging")
         builder.add("witchery:ritual/rite_of_charging_infusion.tooltip", "Charges the power of an Infused player")

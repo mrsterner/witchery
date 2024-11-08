@@ -1,5 +1,5 @@
 {
-  "parent": "witchery:root",
+  "parent": "witchery:gypsum",
   "criteria": {
     "has_chalk": {
       "conditions": {

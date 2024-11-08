@@ -26,7 +26,7 @@
     "announce_to_chat": false,
     "background": "witchery:textures/block/rowan_planks.png",
     "description": {
-      "translate": "advancements.witchery.oven.cauldron"
+      "translate": "advancements.witchery.cauldron.cauldron"
     },
     "icon": {
       "count": 1,
