@@ -146,6 +146,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.FANCIFUL_THREAD.get())
 
                 output.accept(WitcheryItems.BREW_OF_LOVE.get())
+                output.accept(WitcheryItems.BREW_OF_INK.get())
                 output.accept(WitcheryItems.BREW_OF_SLEEPING.get())
                 output.accept(WitcheryItems.BREW_FLOWING_SPIRIT.get())
 

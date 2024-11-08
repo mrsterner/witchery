@@ -11,6 +11,7 @@ import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
 import dev.sterner.witchery.item.brew.BrewOfFlowingSpiritItem
+import dev.sterner.witchery.item.brew.BrewOfInk
 import dev.sterner.witchery.item.brew.BrewOfLoveItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.platform.BoatTypeHelper
@@ -958,6 +959,10 @@ object WitcheryItems {
 
     val BREW_OF_LOVE: RegistrySupplier<BrewOfLoveItem> = ITEMS.register("brew_of_love") {
         BrewOfLoveItem(Color(255, 70, 180).rgb, Item.Properties().stacksTo(16))
+    }
+
+    val BREW_OF_INK: RegistrySupplier<BrewOfInk> = ITEMS.register("brew_of_ink") {
+        BrewOfInk(Color(40,40,80).rgb, Item.Properties().stacksTo(16))
     }
 
     val BREW_OF_SLEEPING: RegistrySupplier<BrewOfSleepingItem> = ITEMS.register("brew_of_sleeping") {
