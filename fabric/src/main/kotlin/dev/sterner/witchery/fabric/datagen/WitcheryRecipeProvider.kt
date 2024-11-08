@@ -4,6 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
+import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipeBuilder
@@ -1599,5 +1600,12 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setJarConsumption(2)
             .save(exporter, Witchery.id("brew_of_hollow_tears"))
 
+        BrazierSummoningRecipeBuilder.create()
+            .addInput(WitcheryItems.WORMWOOD.get().defaultInstance)
+            .addInput(WitcheryItems.CONDENSED_FEAR.get().defaultInstance)
+            .addInput(WitcheryItems.SPECTRAL_DUST.get().defaultInstance)
+            .setAltarPower(500)
+            .addSummon(WitcheryEntityTypes.BANSHEE.get())
+            .save(exporter, Witchery.id("summon_banshee"))
     }
 }

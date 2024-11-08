@@ -71,6 +71,9 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                         }
                     }
                     level.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, false))
+                    items.clear()
+                    summoningTicker = 0
+                    active = false
                     setChanged()
                 }
             }
@@ -96,11 +99,26 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
 
+        if (level != null && pPlayer.isShiftKeyDown && !active) {
+            Containers.dropContents(level, blockPos, items)
+            return ItemInteractionResult.SUCCESS
+        }
+
         if (level != null && pPlayer.mainHandItem.`is`(Items.FLINT_AND_STEEL) || pPlayer.mainHandItem.`is`(Items.FIRE_CHARGE)) {
             val brazierSummonRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(items), level!!).orElse(null)
             if (brazierSummonRecipe != null) {
                 active = true
                 level!!.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, true))
+                setChanged()
+                return ItemInteractionResult.SUCCESS
+            }
+        }
+
+        for (i in items.indices) {
+            if (items[i].isEmpty) {
+                items[i] = pStack.copy()
+                items[i].count = 1
+                pStack.shrink(1)
                 setChanged()
                 return ItemInteractionResult.SUCCESS
             }

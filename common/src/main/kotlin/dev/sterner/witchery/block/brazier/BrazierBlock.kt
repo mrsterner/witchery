@@ -52,6 +52,8 @@ class BrazierBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.
 
             level.addParticle(ParticleTypes.SMOKE, baseX + offsetX, baseY + offsetY, baseZ + offsetZ, 0.0, 0.0, 0.0)
             level.addParticle(ParticleTypes.FLAME, baseX + offsetX, baseY + offsetY, baseZ + offsetZ, 0.0, 0.0, 0.0)
+
+            level.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, baseX + offsetX, baseY + offsetY, baseZ + offsetZ, 0.0, 0.0, 0.0)
         }
     }
 }
