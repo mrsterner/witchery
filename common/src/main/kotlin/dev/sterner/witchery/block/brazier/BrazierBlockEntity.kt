@@ -62,7 +62,12 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                         summonPos?.let { validPos ->
                             val summon = entity.create(level)
                             summon?.moveTo(Vec3(validPos.x + 0.5, validPos.y.toDouble(), validPos.z + 0.5))
-                            summon?.let { level.addFreshEntity(it) }
+                            summon?.let {
+                                val bl = level.addFreshEntity(it)
+                                if (!bl) {
+                                    Containers.dropContents(level, pos, this)
+                                }
+                            }
                         }
                     }
                     level.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
