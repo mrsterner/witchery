@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.DoorBlock
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.DoorHingeSide
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf
@@ -29,67 +30,8 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
         val clickedPos = context.clickedPos
         val state = level.getBlockState(clickedPos)
 
-        if (state.block is DoorBlock && state.hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
-            val half = state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF)
-            val direction = state.getValue(BlockStateProperties.HORIZONTAL_FACING)
-
-            val belowPops = if (half == DoubleBlockHalf.UPPER) clickedPos.below() else clickedPos
-            if (level.getBlockState(belowPops.east()).block is DoorBlock) {
-                when (direction) {
-                    Direction.NORTH -> {
-                        makePortal(level, belowPops, direction.opposite)
-                    }
-                    Direction.SOUTH -> {
-                        makePortal(level, belowPops.east(), direction.opposite)
-                    }
-                    else -> {
-                        makePortal(level, belowPops, direction)
-                    }
-                }
-                return InteractionResult.SUCCESS_NO_ITEM_USED
-            }
-            if (level.getBlockState(belowPops.west()).block is DoorBlock) {
-                when (direction) {
-                    Direction.NORTH -> {
-                        makePortal(level, belowPops.west(), direction.opposite)
-                    }
-                    Direction.SOUTH -> {
-                        makePortal(level, belowPops, direction.opposite)
-                    }
-                    else -> {
-                        makePortal(level, belowPops, direction)
-                    }
-                }
-                return InteractionResult.SUCCESS_NO_ITEM_USED
-            }
-            if (level.getBlockState(belowPops.north()).block is DoorBlock) {
-                when (direction) {
-                    Direction.EAST -> {
-                        makePortal(level, belowPops.north(), direction.opposite)
-                    }
-                    Direction.WEST -> {
-                        makePortal(level, belowPops, direction.opposite)
-                    }
-                    else -> {
-                        makePortal(level, belowPops, direction)
-                    }
-                }
-                return InteractionResult.SUCCESS_NO_ITEM_USED
-            }
-            if (level.getBlockState(belowPops.south()).block is DoorBlock) {
-                when (direction) {
-                    Direction.EAST -> {
-                        makePortal(level, belowPops, direction.opposite)
-                    }
-                    Direction.WEST -> {
-                        makePortal(level, belowPops.south(), direction.opposite)
-                    }
-                    else -> {
-                        makePortal(level, belowPops, direction)
-                    }
-                }
-                return InteractionResult.SUCCESS_NO_ITEM_USED
-            }
+        if (lookForDoors(level, state, clickedPos)) {
+            return InteractionResult.SUCCESS
         }
 
         return super.useOn(context)
@@ -112,6 +54,18 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
 
     override fun applyEffect(level: Level, livingEntity: LivingEntity?, result: HitResult) {
         var pos = BlockPos.containing(result.location)
+
+        for (x in pos.x - 1 until pos.x + 1) {
+            for (z in pos.z - 1 until pos.z + 1) {
+                val state = level.getBlockState(BlockPos(x, pos.y, z))
+                if (state.block is DoorBlock && state.hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
+                    if (lookForDoors(level, state, BlockPos(x, pos.y, z))) {
+                        return
+                    }
+                }
+            }
+        }
+
         if (level.getBlockState(pos).canBeReplaced()) {
             level.setBlockAndUpdate(pos, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get().defaultBlockState())
         } else {
@@ -121,5 +75,71 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
             }
             level.setBlockAndUpdate(pos, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get().defaultBlockState())
         }
+    }
+
+    private fun lookForDoors(level: Level, state: BlockState, pos: BlockPos): Boolean {
+        if (state.block is DoorBlock && state.hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
+            val half = state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF)
+            val direction = state.getValue(BlockStateProperties.HORIZONTAL_FACING)
+
+            val belowPops = if (half == DoubleBlockHalf.UPPER) pos.below() else pos
+            if (level.getBlockState(belowPops.east()).block is DoorBlock) {
+                when (direction) {
+                    Direction.NORTH -> {
+                        makePortal(level, belowPops, direction.opposite)
+                    }
+                    Direction.SOUTH -> {
+                        makePortal(level, belowPops.east(), direction.opposite)
+                    }
+                    else -> {
+                        makePortal(level, belowPops, direction)
+                    }
+                }
+                return true
+            }
+            if (level.getBlockState(belowPops.west()).block is DoorBlock) {
+                when (direction) {
+                    Direction.NORTH -> {
+                        makePortal(level, belowPops.west(), direction.opposite)
+                    }
+                    Direction.SOUTH -> {
+                        makePortal(level, belowPops, direction.opposite)
+                    }
+                    else -> {
+                        makePortal(level, belowPops, direction)
+                    }
+                }
+                return true
+            }
+            if (level.getBlockState(belowPops.north()).block is DoorBlock) {
+                when (direction) {
+                    Direction.EAST -> {
+                        makePortal(level, belowPops.north(), direction.opposite)
+                    }
+                    Direction.WEST -> {
+                        makePortal(level, belowPops, direction.opposite)
+                    }
+                    else -> {
+                        makePortal(level, belowPops, direction)
+                    }
+                }
+                return true
+            }
+            if (level.getBlockState(belowPops.south()).block is DoorBlock) {
+                when (direction) {
+                    Direction.EAST -> {
+                        makePortal(level, belowPops, direction.opposite)
+                    }
+                    Direction.WEST -> {
+                        makePortal(level, belowPops.south(), direction.opposite)
+                    }
+                    else -> {
+                        makePortal(level, belowPops, direction)
+                    }
+                }
+                return true
+            }
+        }
+        return false
     }
 }
