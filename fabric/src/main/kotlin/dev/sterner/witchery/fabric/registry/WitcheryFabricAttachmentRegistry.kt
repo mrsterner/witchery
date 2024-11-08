@@ -82,6 +82,13 @@ object WitcheryFabricAttachmentRegistry {
             .initializer { TeleportQueueLevelAttachment.Data() }
             .buildAndRegister(TeleportQueueLevelAttachment.Data.ID)
 
+    @Suppress("UnstableApiUsage")
+    val MISC_PLAYER_DATA_ATTACHMENT: AttachmentType<PlayerMiscDataAttachment.Data> =
+        AttachmentRegistry.builder<PlayerMiscDataAttachment.Data>()
+            .persistent(PlayerMiscDataAttachment.Data.CODEC)
+            .initializer { PlayerMiscDataAttachment.Data() }
+            .buildAndRegister(PlayerMiscDataAttachment.Data.ID)
+
     fun init() {
 
     }
