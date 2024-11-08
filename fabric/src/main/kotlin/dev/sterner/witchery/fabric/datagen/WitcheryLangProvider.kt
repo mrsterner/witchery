@@ -102,6 +102,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.TOE_OF_FROG.get(), "Toe of Frog")
         builder.add(WitcheryItems.OWLETS_WING.get(), "Owlet's Wing")
         builder.add(WitcheryItems.ENT_TWIG.get(), "Ent Twig")
+        builder.add(WitcheryItems.SPECTRAL_DUST.get(), "Spectral Dust")
         builder.add(WitcheryItems.ATTUNED_STONE.get(), "Attuned Stone")
         builder.add(WitcheryItems.ROWAN_BERRIES.get(), "Rowan Berries")
         builder.add(WitcheryItems.WITCHES_HAND.get(), "Witches Hand")

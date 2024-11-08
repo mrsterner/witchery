@@ -213,6 +213,10 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val SPECTRAL_DUST: RegistrySupplier<Item> = ITEMS.register("spectral_dust") {
+        Item(Item.Properties())
+    }
+
     val REDSTONE_SOUP: RegistrySupplier<Item> = ITEMS.register("redstone_soup") {
         Item(Item.Properties())
     }

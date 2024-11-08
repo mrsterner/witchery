@@ -144,6 +144,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.WISPY_COTTON.get())
                 output.accept(WitcheryItems.TORMENTED_TWINE.get())
                 output.accept(WitcheryItems.FANCIFUL_THREAD.get())
+                output.accept(WitcheryItems.SPECTRAL_DUST.get())
 
                 output.accept(WitcheryItems.BREW_OF_LOVE.get())
                 output.accept(WitcheryItems.BREW_OF_INK.get())

@@ -1,3 +1,12 @@
+### Version 0.1.3
+- Added Brew of Ink
+- Added Banshee
+- Added Poppet block model variations
+- Added Animated brew textures
+- Added Spirit World Portal
+- Added Dimension key brewing recipe requirement
+- Added Brew of Flowing Spirits
+
 ### Bugfix 0.1.2f
 - Added a queue system to teleportation from spirit world to overworld
 
