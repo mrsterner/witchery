@@ -298,6 +298,7 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DISTILLERY.get(), ::DistilleryBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRAZIER.get(), ::BrazierBlockEntityRenderer)
         BlockEntityRendererRegistry.register(
             WitcheryBlockEntityTypes.SPINNING_WHEEL.get(),
             ::SpinningWheelBlockEntityRenderer
@@ -418,9 +419,9 @@ object Witchery {
             WitcheryBlocks.DISTURBED_COTTON.get(),
             WitcheryBlocks.WISPY_COTTON.get(),
 
-            WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get()
+            WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get(),
+            WitcheryBlocks.BRAZIER.get()
         )
-
 
         KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)
 

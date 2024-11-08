@@ -7,6 +7,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlockEntity
+import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
@@ -172,6 +173,13 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::SpiritPortalBlockEntity,
             WitcheryBlocks.SPIRIT_PORTAL.get()
+        ).build(null)
+    }
+
+    val BRAZIER = BLOCK_ENTITY_TYPES.register("brazier") {
+        BlockEntityType.Builder.of(
+            ::BrazierBlockEntity,
+            WitcheryBlocks.BRAZIER.get()
         ).build(null)
     }
 

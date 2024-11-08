@@ -4,6 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
+import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
@@ -42,4 +43,8 @@ object WitcheryRecipeSerializers {
         RECIPE_SERIALIZERS.register("crafting_special_taglock") {
             SimpleCraftingRecipeSerializer { TaglockDataComponentTransferRecipe() }
         }
+
+    val BRAZIER_SUMMONING_RECIPE_SERIALIZER: RegistrySupplier<BrazierSummoningRecipe.Serializer> =
+        RECIPE_SERIALIZERS.register(BrazierSummoningRecipe.NAME) { BrazierSummoningRecipe.Serializer() }
+
 }

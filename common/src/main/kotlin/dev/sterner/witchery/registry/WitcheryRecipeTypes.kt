@@ -4,6 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
+import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
@@ -54,6 +55,11 @@ object WitcheryRecipeTypes {
     val TAGLOCK_RECIPE_TYPE: RegistrySupplier<RecipeType<TaglockDataComponentTransferRecipe>> =
         RECIPE_TYPES.register(TaglockDataComponentTransferRecipe.NAME) {
             registerRecipeType(TaglockDataComponentTransferRecipe.NAME)
+        }
+
+    val BRAZIER_SUMMONING_RECIPE_TYPE: RegistrySupplier<RecipeType<BrazierSummoningRecipe>> =
+        RECIPE_TYPES.register(BrazierSummoningRecipe.NAME) {
+            registerRecipeType(BrazierSummoningRecipe.NAME)
         }
 
     private fun <T : Recipe<*>> registerRecipeType(identifier: String): RecipeType<T> {

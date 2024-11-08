@@ -10,6 +10,7 @@ import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
 import dev.sterner.witchery.block.arthana.ArthanaBlock
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlock
+import dev.sterner.witchery.block.brazier.BrazierBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.cauldron.CopperCauldronBlock
@@ -890,6 +891,10 @@ object WitcheryBlocks {
         SpiritPortalBlockComponent(
             BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE)
         )
+    }
+
+    val BRAZIER: RegistrySupplier<BrazierBlock> = BLOCKS.register("brazier"){
+        BrazierBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 
     val FLOWING_SPIRIT_BLOCK: RegistrySupplier<LiquidBlock> = BLOCKS.register(

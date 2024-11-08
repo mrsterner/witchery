@@ -589,6 +589,10 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.SPINNING_WHEEL.get(), Item.Properties())
     }
 
+    val BRAZIER: RegistrySupplier<BlockItem> = ITEMS.register("brazier") {
+        BlockItem(WitcheryBlocks.BRAZIER.get(), Item.Properties())
+    }
+
     // start WOOD
 
     val ROWAN_LOG: RegistrySupplier<BlockItem> = ITEMS.register("rowan_log") {

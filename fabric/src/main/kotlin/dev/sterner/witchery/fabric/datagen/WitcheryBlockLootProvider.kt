@@ -39,7 +39,7 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get())
         dropSelf(WitcheryBlocks.WAXED_OXIDIZED_COPPER_CAULDRON.get())
         dropSelf(WitcheryBlocks.SPINNING_WHEEL.get())
-
+        dropSelf(WitcheryBlocks.BRAZIER.get())
         dropSelf(WitcheryBlocks.IRON_WITCHES_OVEN.get())
         dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN.get())
         dropSelf(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
