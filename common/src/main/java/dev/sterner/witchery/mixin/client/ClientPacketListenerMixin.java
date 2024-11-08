@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin;
+package dev.sterner.witchery.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -27,9 +27,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin extends ClientCommonPacketListenerImpl {
-    @Shadow
-    @Final
-    private RecipeManager recipeManager;
 
     @Final
     @Shadow

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin;
+package dev.sterner.witchery.mixin.client;
 
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
 import net.minecraft.client.model.PlayerModel;

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin;
+package dev.sterner.witchery.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;

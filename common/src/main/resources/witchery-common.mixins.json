@@ -4,11 +4,13 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
-    "ClientPacketListenerMixin",
-    "LivingEntityRendererMixin",
-    "PlayerItemInHandLayerMixin",
-    "PlayerRendererMixin",
-    "WorldOpenFlowsMixin"
+    "client.ClientPacketListenerMixin",
+    "client.ItemRendererMixin",
+    "client.LivingEntityRendererMixin",
+    "client.PlayerItemInHandLayerMixin",
+    "client.PlayerRendererMixin",
+    "client.RenderBuffersMixin",
+    "client.WorldOpenFlowsMixin"
   ],
   "mixins": [
     "BookCategoryNodeScreenMixin",
