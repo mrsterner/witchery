@@ -33,6 +33,7 @@ import net.minecraft.resources.ResourceLocation
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.neoforged.neoforge.client.event.RegisterRenderBuffersEvent
 import net.neoforged.neoforge.client.event.RegisterShadersEvent
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
@@ -40,6 +41,12 @@ import org.jetbrains.annotations.NotNull
 
 
 object WitcheryNeoForgeClientEvent {
+
+    @SubscribeEvent
+    fun addEnchantGlint(event: RegisterRenderBuffersEvent){
+        event.registerRenderBuffer(WitcheryRenderTypes.GLINT.apply(Witchery.id("textures/misc/all_black.png")))
+        event.registerRenderBuffer(WitcheryRenderTypes.GLINT_DIRECT.apply(Witchery.id("textures/misc/all_black.png")))
+    }
 
     @SubscribeEvent
     fun onEntityRendererRegistry(event: EntityRenderersEvent.RegisterRenderers) {
