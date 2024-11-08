@@ -18,6 +18,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.resources.ResourceLocation
@@ -111,6 +112,10 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (level != null && pPlayer.mainHandItem.`is`(Items.FLINT_AND_STEEL) || pPlayer.mainHandItem.`is`(Items.FIRE_CHARGE)) {
             val brazierSummonRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(items), level!!).orElse(null)
             if (brazierSummonRecipe != null) {
+                level?.addParticle(ParticleTypes.SMOKE, blockPos.x + 0.5, blockPos.y + 0.65, blockPos.z + 0.5, 0.0, 0.0, 0.0)
+                level?.addParticle(ParticleTypes.FLAME, blockPos.x + 0.5, blockPos.y + 0.65, blockPos.z + 0.5, 0.0, 0.0, 0.0)
+                level?.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, blockPos.x + 0.5, blockPos.y + 0.65, blockPos.z + 0.5, 0.0, 0.0, 0.0)
+
                 pStack.hurtAndBreak(1, pPlayer, EquipmentSlot.MAINHAND)
                 level?.playSound(null, blockPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS)
                 active = true
