@@ -57,9 +57,9 @@ class BrazierBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
             Vector4f(-0.1f, 0.07f, 0.1f, 65 * Mth.DEG_TO_RAD),
             Vector4f(0.05f, 0.05f, 0.05f, -35 * Mth.DEG_TO_RAD),
             Vector4f(-0.05f, 0.08f, 0.05f, -35 * Mth.DEG_TO_RAD),
-            Vector4f(0.05f, 0.09f, -0.05f, 35 * Mth.DEG_TO_RAD),
-            Vector4f(-0.05f, 0.1f, -0.05f, -35 * Mth.DEG_TO_RAD),
-            Vector4f(0.05f, 0.11f, 0.05f, 35 * Mth.DEG_TO_RAD)
+            Vector4f(0.05f, 0.09f, -0.075f, 35 * Mth.DEG_TO_RAD),
+            Vector4f(-0.075f, 0.1f, -0.05f, -35 * Mth.DEG_TO_RAD),
+            Vector4f(0.075f, 0.11f, 0.075f, 35 * Mth.DEG_TO_RAD)
         )
     }
 }
