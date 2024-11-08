@@ -2,13 +2,6 @@ package dev.sterner.witchery.block.brazier
 
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity.Companion.SLOT_EXTRA_INPUT
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity.Companion.SLOT_INPUT
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity.Companion.SLOT_JAR
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity.Companion.SLOT_RESULT_1
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity.Companion.SLOT_RESULT_2
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity.Companion.SLOT_RESULT_3
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity.Companion.SLOT_RESULT_4
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -33,7 +26,6 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.RecipeHolder
 import net.minecraft.world.item.crafting.RecipeManager
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.Vec3
@@ -48,8 +40,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private var cachedAltarPos: BlockPos? = null
 
     var active = false
-    var summoningTicker = 0
-
+    private var summoningTicker = 0
 
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
         super.tick(level, pos, state)
@@ -105,7 +96,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
 
         if (level != null && pPlayer.isShiftKeyDown && !active) {
-            Containers.dropContents(level, blockPos, items)
+            Containers.dropContents(level!!, blockPos, items)
             return ItemInteractionResult.SUCCESS
         }
 
@@ -190,7 +181,6 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return ContainerHelper.takeItem(this.items, slot)
     }
 
-
     override fun setItem(slot: Int, stack: ItemStack) {
         items[slot] = stack
         stack.limitSize(this.getMaxStackSize(stack))
@@ -205,15 +195,11 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         (0..<items.size).toList().toIntArray()
 
     override fun canPlaceItemThroughFace(index: Int, stack: ItemStack, direction: Direction?): Boolean {
-        return (index == SLOT_JAR && stack.`is`(WitcheryItems.JAR.get())) || (index == SLOT_INPUT || index == SLOT_EXTRA_INPUT)
+        return true
     }
 
     override fun canTakeItemThroughFace(index: Int, stack: ItemStack, direction: Direction): Boolean {
-        if (active) {
-            return false
-        }
-
-        return index == SLOT_RESULT_1 || index == SLOT_RESULT_2 || index == SLOT_RESULT_3 || index == SLOT_RESULT_4
+        return !active
     }
 
     override fun clearContent() {
