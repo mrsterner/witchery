@@ -1,6 +1,9 @@
 {
   "type": "witchery:cauldron_brewing",
   "altarPower": 100,
+  "dimensionKey": [
+    ""
+  ],
   "inputItems": [
     {
       "color": -52686,

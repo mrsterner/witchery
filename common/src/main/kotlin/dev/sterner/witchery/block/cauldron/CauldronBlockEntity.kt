@@ -91,8 +91,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     }
 
     private fun refreshBrewingRecipe(level: Level) {
-        val allRecipesOfType =
-            level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
+        val allRecipesOfType = level.recipeManager
+            .getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
+            .filter { recipe ->
+                recipe.value.dimensionKey.isNotEmpty() && recipe.value.dimensionKey.contains(level.dimension().location().toString())
+            }
         val nonEmptyItems = inputItems.filter { !it.isEmpty }
 
         // Find the possible recipe based on current input items

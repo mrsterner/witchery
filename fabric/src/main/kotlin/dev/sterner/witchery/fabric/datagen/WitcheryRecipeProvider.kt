@@ -229,6 +229,19 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(100)
             .save(exporter, Witchery.id("ghost_of_the_light"))
 
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.FANCIFUL_THREAD.get().defaultInstance, Color(200,150,100).rgb)
+            .addInputWithColor(WitcheryItems.SPANISH_MOSS.get().defaultInstance, Color(100,200,100).rgb)
+            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get().defaultInstance, Color(100,100,200).rgb)
+            .addInputWithColor(WitcheryItems.GLINTWEED.get().defaultInstance, Color(250, 250, 50).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, Color(150,100,5).rgb)
+            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get().defaultInstance, Color(80,150,255).rgb)
+            .setOutput(WitcheryItems.BREW_FLOWING_SPIRIT.get().defaultInstance)
+            .setAltarPower(100)
+            .setDimensionKey(setOf("witchery:dream_world", "witchery:nightmare_world"))
+            .save(exporter, Witchery.id("brew_of_flowing_spirit"))
+
+
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.RITUAL_CHALK.get(), 2)
             .pattern("ATA")

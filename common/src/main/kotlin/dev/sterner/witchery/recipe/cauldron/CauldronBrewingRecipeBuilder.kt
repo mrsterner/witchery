@@ -6,6 +6,7 @@ import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
 import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeOutput
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -13,7 +14,8 @@ import net.minecraft.world.item.ItemStack
 class CauldronBrewingRecipeBuilder(
     private val inputItems: MutableList<ItemStackWithColor> = mutableListOf(),
     private var outputStack: ItemStack = ItemStack.EMPTY,
-    private var altarPower: Int = 0
+    private var altarPower: Int = 0,
+    private var dimensionKey: Set<String> = setOf("")
 ) : RecipeBuilder {
 
     var order = 0
@@ -48,6 +50,16 @@ class CauldronBrewingRecipeBuilder(
         return this
     }
 
+    fun setDimensionKey(dimensionKey: String): CauldronBrewingRecipeBuilder {
+        this.dimensionKey = setOf(dimensionKey)
+        return this
+    }
+
+    fun setDimensionKey(dimensionKey: Set<String>): CauldronBrewingRecipeBuilder {
+        this.dimensionKey = dimensionKey
+        return this
+    }
+
     override fun unlockedBy(name: String, criterion: Criterion<*>): RecipeBuilder {
         criteria[name] = criterion
         return this
@@ -72,7 +84,7 @@ class CauldronBrewingRecipeBuilder(
             builder.addCriterion(name, criterion)
         }
 
-        val cauldronBrewingRecipe = CauldronBrewingRecipe(inputItems, outputStack, altarPower)
+        val cauldronBrewingRecipe = CauldronBrewingRecipe(inputItems, outputStack, altarPower, dimensionKey)
 
         recipeOutput.accept(
             id.withPrefix("cauldron_brewing/"),

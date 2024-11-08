@@ -33,6 +33,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery.thirdbrewbonus.25", "+25% chance of third brew")
         builder.add("witchery.infusion.ointment", "Flying Ointment")
 
+        builder.add("witchery:all_worlds", "All Worlds")
+        builder.add("witchery:dream_world", "Dream World")
+        builder.add("witchery:nightmare_world", "Nightmare World")
 
         builder.add("witchery.item.tooltip.infinity_egg", "Creative Only")
 

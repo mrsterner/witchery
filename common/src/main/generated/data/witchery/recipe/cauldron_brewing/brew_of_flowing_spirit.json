@@ -2,65 +2,61 @@
   "type": "witchery:cauldron_brewing",
   "altarPower": 100,
   "dimensionKey": [
-    ""
+    "witchery:dream_world",
+    "witchery:nightmare_world"
   ],
   "inputItems": [
     {
-      "color": -52686,
+      "color": -3631516,
       "itemStack": {
         "count": 1,
-        "id": "witchery:redstone_soup"
+        "id": "witchery:fanciful_thread"
       },
       "order": 0
     },
     {
-      "color": -52486,
+      "color": -10172316,
       "itemStack": {
         "count": 1,
-        "id": "witchery:attuned_stone"
+        "id": "witchery:spanish_moss"
       },
       "order": 1
     },
     {
-      "color": -8542726,
+      "color": -10197816,
       "itemStack": {
-        "components": {
-          "minecraft:potion_contents": {
-            "potion": "minecraft:regeneration"
-          }
-        },
         "count": 1,
-        "id": "minecraft:potion"
+        "id": "witchery:water_artichoke_globe"
       },
       "order": 2
     },
     {
-      "color": -6933966,
+      "color": -329166,
       "itemStack": {
         "count": 1,
-        "id": "witchery:mandrake_root"
+        "id": "witchery:glintweed"
       },
       "order": 3
     },
     {
-      "color": -4934656,
+      "color": -6921211,
       "itemStack": {
         "count": 1,
-        "id": "minecraft:golden_apple"
+        "id": "witchery:mandrake_root"
       },
       "order": 4
     },
     {
-      "color": -13108726,
+      "color": -11495681,
       "itemStack": {
         "count": 1,
-        "id": "witchery:rowan_sapling"
+        "id": "witchery:wool_of_bat"
       },
       "order": 5
     }
   ],
   "outputItem": {
     "count": 1,
-    "id": "witchery:soul_of_the_world"
+    "id": "witchery:brew_of_flowing_spirit"
   }
 }

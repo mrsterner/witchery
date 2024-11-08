@@ -10,6 +10,7 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeSerializer
@@ -17,7 +18,7 @@ import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
 
 
-class CauldronBrewingRecipe(val inputItems: List<ItemStackWithColor>, val outputItem: ItemStack, val altarPower: Int) :
+class CauldronBrewingRecipe(val inputItems: List<ItemStackWithColor>, val outputItem: ItemStack, val altarPower: Int, val dimensionKey: Set<String>) :
     Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
@@ -75,7 +76,10 @@ class CauldronBrewingRecipe(val inputItems: List<ItemStackWithColor>, val output
                         ItemStackWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems")
                             .forGetter { it.inputItems },
                         ItemStack.CODEC.fieldOf("outputItem").forGetter { it.outputItem },
-                        Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower }
+                        Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
+                        Codec.STRING.listOf().fieldOf("dimensionKey")
+                            .xmap({ it.toSet() }, { it.toList() })
+                            .forGetter { it.dimensionKey }
                     ).apply(obj, ::CauldronBrewingRecipe)
                 }
 

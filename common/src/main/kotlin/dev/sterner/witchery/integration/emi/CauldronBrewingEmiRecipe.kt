@@ -8,6 +8,7 @@ import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
@@ -41,7 +42,7 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
     }
 
     override fun getDisplayHeight(): Int {
-        return 18 * 6 + if (recipe.inputItems.size > 5) (recipe.inputItems.size - 5) * 18 else 0
+        return 18 * 7 + if (recipe.inputItems.size > 5) (recipe.inputItems.size - 5) * 18 else 0
     }
 
     override fun addWidgets(widgets: WidgetHolder) {
@@ -68,7 +69,7 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
             )
         }
 
-        widgets.addDrawable(48 + 18 + 9, 20 * 1, 18, 18) { ctx, _, _, _ ->
+        widgets.addDrawable(48 + 18 + 9, 20 * 1 - 18, 18, 18) { ctx, _, _, _ ->
             ctx.blit(Witchery.id("textures/gui/cauldron.png"), 0, 8, 0f, 0f, 35, 56, 35, 56)
         }
 
@@ -76,14 +77,38 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
             WitcherySlotWidget(
                 EmiStack.of(Items.GLASS_BOTTLE.defaultInstance),
                 48 + 18 + 9 - 12,
-                20 * 1 + 6
+                20 * 1 + 6 - 18
             )
                 .drawBack(false)
         )
 
         widgets.add(
-            WitcherySlotWidget(EmiStack.of(recipe.outputItem), 48 + 18 + 9 + 18 + 9 + 4, 20 * 1 + 6)
+            WitcherySlotWidget(EmiStack.of(recipe.outputItem), 48 + 18 + 9 + 18 + 9 + 4, 20 * 1 + 6 - 18)
                 .drawBack(false).recipeContext(this)
         )
+        var bl = false
+        if (recipe.dimensionKey.isNotEmpty()) {
+            for ((index, key) in recipe.dimensionKey.withIndex()) {
+                if (key.isNotEmpty()) {
+                    bl = true
+                }
+                widgets.addText(
+                    Component.translatable(key),
+                    displayWidth / 4 + 18,
+                    displayHeight - 36 - 36 + 14 * index,
+                    0xffffff,
+                    true
+                )
+            }
+        }
+        if(!bl) {
+            widgets.addText(
+                Component.translatable("witchery:all_worlds"),
+                displayWidth / 4 + 18,
+                displayHeight - 36 - 36,
+                0xffffff,
+                true
+            )
+        }
     }
 }
