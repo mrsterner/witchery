@@ -12,6 +12,7 @@ import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.ritual.PushMobsRitual
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
@@ -259,6 +260,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
+        if (level?.dimension() == WitcheryWorldgenKeys.DREAM || level?.dimension() == WitcheryWorldgenKeys.NIGHTMARE) {
+            return InteractionResult.PASS
+        }
+
         if (ritualRecipe != null && pPlayer.isShiftKeyDown) {
             items.clear()
             resetRitual()
