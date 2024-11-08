@@ -39,6 +39,12 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add("witchery.item.tooltip.infinity_egg", "Creative Only")
 
+        builder.add("witchery.celestial.day", "Day")
+        builder.add("witchery.celestial.full", "Full Moon")
+        builder.add("witchery.celestial.new", "New Moon")
+        builder.add("witchery.celestial.waning", "Waning Moon")
+        builder.add("witchery.celestial.waxing", "Waxing Moon")
+
         builder.add(WitcheryBlocks.SNOWBELL_CROP.get(), "Snowbell")
         builder.add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), "Water Artichoke")
         builder.add(WitcheryBlocks.BELLADONNA_CROP.get(), "Belladonna")
@@ -373,6 +379,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/summon_demon.tooltip", "Summon a Demon at ritual center")
         builder.add("witchery:ritual/summon_wither", "Summon Wither")
         builder.add("witchery:ritual/summon_wither.tooltip", "Summon a Wither at ritual center")
+
+
+        builder.add("witchery:ritual/necro_stone", "Necromantic Stone")
+        builder.add("witchery:ritual/necro_stone.tooltip", "Created at night")
 
         //GUIDEBOOK GENERAL
         builder.add("book.witchery.guidebook.general.name", "General")

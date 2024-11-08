@@ -11,8 +11,12 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.FormattedCharSequence
+import net.minecraft.world.inventory.tooltip.TooltipComponent
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
@@ -58,6 +62,29 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             .horizontalAlign(TextWidget.Alignment.CENTER)
         widgets.addTooltipText(listOf(Component.translatable("$id.tooltip")), 9, 4, 18 * 7, 18)
 
+        val fullMoon = recipe.celestialConditions.contains(RitualRecipe.Celestial.FULL_MOON)
+        val newMoon = recipe.celestialConditions.contains(RitualRecipe.Celestial.NEW_MOON)
+        val night = recipe.celestialConditions.contains(RitualRecipe.Celestial.NIGHT)
+        val day = recipe.celestialConditions.contains(RitualRecipe.Celestial.DAY)
+        val waxing = recipe.celestialConditions.contains(RitualRecipe.Celestial.WAXING)
+        val waning = recipe.celestialConditions.contains(RitualRecipe.Celestial.WANING)
+
+        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(day) "sun" else "empty"}.png"),
+            20, 4 + 20 + 20,10,10, 0,0, 10, 10, 10, 10)
+            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Day", Style.EMPTY))))
+        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(fullMoon || night) "full_moon" else "empty"}.png"),
+            20, 4 + 11 + 20 + 20,10,10, 0,0, 10, 10, 10, 10)
+            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Full Moon", Style.EMPTY))))
+        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(newMoon || night) "new_moon" else "empty"}.png"),
+            20, 4 + 11 + 11 + 20 + 20,10,10, 0,0, 10, 10, 10, 10)
+            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("New Moon", Style.EMPTY))))
+        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(waxing || night) "waxing_moon" else "empty"}.png"),
+            20 - 11, 4 + 6 + 20 + 20,10,10, 0,0, 10, 10, 10, 10)
+            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Waxing Moon", Style.EMPTY))))
+        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(waning || night) "waning_moon" else "empty"}.png"),
+            20 + 11, 4 + 6 + 20 + 20,10,10, 0,0, 10, 10, 10, 10)
+            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Waning Moon", Style.EMPTY))))
+
         val itemsPerRow = 6
         val itemSize = 18
         var rowIndex = 0
@@ -94,10 +121,12 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         widgets.addText(
             Component.literal("Altar Power: ${recipe.altarPower}$append"),
             displayWidth / 4 - 9,
-            displayHeight - 18 - 9,
+            displayHeight - 18 - 9 + 9,
             0xffffff,
             true
         )
+
+
     }
 
     private fun renderRitualCircle(
