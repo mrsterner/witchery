@@ -25,11 +25,14 @@ import net.minecraft.world.*
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.RecipeCraftingHolder
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.RecipeHolder
 import net.minecraft.world.item.crafting.RecipeManager
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.Vec3
 
 class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.BRAZIER.get(), blockPos, blockState),
@@ -40,6 +43,8 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private val recipesUsed = Object2IntOpenHashMap<ResourceLocation>()
     private var cachedAltarPos: BlockPos? = null
 
+    var active = false
+    var summoningTicker = 0
 
 
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
@@ -53,13 +58,54 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             val brazierSummonRecipe =
                 quickCheck.getRecipeFor(MultipleItemRecipeInput(items), level).orElse(null)
 
-            if (brazierSummonRecipe != null) {
-
+            if (brazierSummonRecipe != null && active) {
+                summoningTicker++
+                if (summoningTicker >= 20 * 5) {
+                    summoningTicker = 0
+                    for (entity in  brazierSummonRecipe.value.outputEntities) {
+                        val summonPos = findRandomPositionAround(level, pos)
+                        summonPos?.let { validPos ->
+                            val summon = entity.create(level)
+                            summon?.moveTo(Vec3(validPos.x + 0.5, validPos.y.toDouble(), validPos.z + 0.5))
+                            summon?.let { level.addFreshEntity(it) }
+                        }
+                    }
+                    level.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, false))
+                    setChanged()
+                }
             }
         }
     }
 
+    private fun findRandomPositionAround(level: Level, centerPos: BlockPos): BlockPos? {
+        val radiusRange = (2..4)
+        val random = level.random
+
+        for (attempt in 1..10) {
+            val offsetX = (random.nextDouble() * 2 - 1) * radiusRange.random()
+            val offsetZ = (random.nextDouble() * 2 - 1) * radiusRange.random()
+
+            val targetPos = centerPos.offset(offsetX.toInt(), 0, offsetZ.toInt())
+
+            if (level.isEmptyBlock(targetPos) && level.isEmptyBlock(targetPos.above())) {
+                return targetPos
+            }
+        }
+        return centerPos.north()
+    }
+
     override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
+
+        if (level != null && pPlayer.mainHandItem.`is`(Items.FLINT_AND_STEEL) || pPlayer.mainHandItem.`is`(Items.FIRE_CHARGE)) {
+            val brazierSummonRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(items), level!!).orElse(null)
+            if (brazierSummonRecipe != null) {
+                active = true
+                level!!.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, true))
+                setChanged()
+                return ItemInteractionResult.SUCCESS
+            }
+        }
+
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
@@ -74,6 +120,8 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (pTag.contains("altarPos")) {
             cachedAltarPos = NbtUtils.readBlockPos(pTag, "altarPos").get()
         }
+        this.active = pTag.getBoolean("active")
+        this.summoningTicker = pTag.getInt("summoning")
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
@@ -82,6 +130,8 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (cachedAltarPos != null) {
             tag.put("altarPos", NbtUtils.writeBlockPos(cachedAltarPos!!))
         }
+        tag.putBoolean("active", active)
+        tag.putInt("summoning", this.summoningTicker)
     }
 
     override fun isEmpty(): Boolean {
@@ -130,6 +180,10 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun canTakeItemThroughFace(index: Int, stack: ItemStack, direction: Direction): Boolean {
+        if (active) {
+            return false
+        }
+
         return index == SLOT_RESULT_1 || index == SLOT_RESULT_2 || index == SLOT_RESULT_3 || index == SLOT_RESULT_4
     }
 

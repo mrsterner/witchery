@@ -261,6 +261,14 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val NECROMANTIC_STONE: RegistrySupplier<Item> = ITEMS.register("necromantic_stone") {
+        object : Item(Properties()){
+            override fun isFoil(stack: ItemStack): Boolean {
+                return true
+            }
+        }
+    }
+
     //end RESOURCES
 
     //start POPPETS

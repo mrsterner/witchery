@@ -1145,6 +1145,15 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_impregnated", has(WitcheryItems.IMPREGNATED_FABRIC.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.BRAZIER.get())
+            .pattern("INI")
+            .pattern("BBB")
+            .define('I', Items.IRON_BARS)
+            .define('N', WitcheryItems.NECROMANTIC_STONE.get())
+            .define('B', Items.IRON_INGOT)
+            .unlockedBy("has_necro", has(WitcheryItems.NECROMANTIC_STONE.get()))
+            .save(exporter)
+
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHER_WART.defaultInstance, Color(255, 55, 50).rgb)
             .addInputWithColor(WitcheryItems.ENT_TWIG.get().defaultInstance, Color(255, 100, 1).rgb)

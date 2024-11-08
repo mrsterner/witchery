@@ -198,6 +198,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.CHALICE.get(), "Chalice")
         builder.add(WitcheryBlocks.PENTACLE.get(), "Pentacle")
         builder.add(WitcheryBlocks.BRAZIER.get(), "Brazier")
+        builder.add(WitcheryItems.NECROMANTIC_STONE.get(), "Necromantic Stone")
 
 
         builder.add(WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(), "Golden Chalk")
