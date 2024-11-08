@@ -8,6 +8,7 @@ import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipeBuilder
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipeBuilder
+import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipeBuilder
 import dev.sterner.witchery.registry.*
@@ -1353,6 +1354,18 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(3000)
             .addMediumPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("teleport_taglock_to_waystone"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.ATTUNED_STONE.get().defaultInstance)
+            .addInputItem(Items.BONE.defaultInstance)
+            .addInputItem(Items.ROTTEN_FLESH.defaultInstance)
+            .addInputItem(WitcheryItems.WOOD_ASH.get().defaultInstance)
+            .addInputItem(WitcheryItems.SPECTRAL_DUST.get().defaultInstance)
+            .addOutputItem(WitcheryItems.NECROMANTIC_STONE.get().defaultInstance)
+            .setAltarPower(1000)
+            .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .setCelestialConditions(setOf(RitualRecipe.Celestial.NIGHT))
+            .save(exporter, Witchery.id("necro_stone"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.WAYSTONE.get().defaultInstance)
