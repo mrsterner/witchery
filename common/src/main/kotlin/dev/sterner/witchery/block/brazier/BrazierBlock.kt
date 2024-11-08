@@ -6,6 +6,7 @@ import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.util.RandomSource
+import net.minecraft.world.Containers
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
@@ -38,6 +39,22 @@ class BrazierBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return Shapes.box(3.0 / 16.0, 0.0 / 16.0, 3.0 / 16.0, 13.0 / 16.0, 12.0 / 16.0, 13.0 / 16.0)
+    }
+
+    override fun onRemove(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        newState: BlockState,
+        movedByPiston: Boolean
+    ) {
+        if (level.getBlockEntity(pos) is BrazierBlockEntity) {
+            val be = level.getBlockEntity(pos) as BrazierBlockEntity
+            if (!be.active) {
+                Containers.dropContents(level, pos, be)
+            }
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston)
     }
 
     override fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: RandomSource) {

@@ -21,7 +21,10 @@ import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.*
+import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.RecipeCraftingHolder
 import net.minecraft.world.item.ItemStack
@@ -70,6 +73,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                             summon?.let { level.addFreshEntity(it) }
                         }
                     }
+                    level.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
                     level.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, false))
                     items.clear()
                     summoningTicker = 0
@@ -81,7 +85,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun findRandomPositionAround(level: Level, centerPos: BlockPos): BlockPos? {
-        val radiusRange = (2..4)
+        val radiusRange = (3..5)
         val random = level.random
 
         for (attempt in 1..10) {
@@ -107,6 +111,8 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (level != null && pPlayer.mainHandItem.`is`(Items.FLINT_AND_STEEL) || pPlayer.mainHandItem.`is`(Items.FIRE_CHARGE)) {
             val brazierSummonRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(items), level!!).orElse(null)
             if (brazierSummonRecipe != null) {
+                pStack.hurtAndBreak(1, pPlayer, EquipmentSlot.MAINHAND)
+                level?.playSound(null, blockPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS)
                 active = true
                 level!!.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, true))
                 setChanged()
