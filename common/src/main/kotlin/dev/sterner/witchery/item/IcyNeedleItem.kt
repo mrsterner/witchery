@@ -39,6 +39,14 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
                     )
                 )
                 return stack
+            } else {
+                val pos = livingEntity.respawnPosition ?: overworld.sharedSpawnPos
+                if (pos != null) {
+                    livingEntity.teleportTo(overworld, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, setOf(),
+                        livingEntity.yRot,
+                        livingEntity.xRot
+                    )
+                }
             }
         }
 
