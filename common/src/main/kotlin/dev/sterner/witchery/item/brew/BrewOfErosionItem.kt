@@ -27,10 +27,7 @@ class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(
         val radius = 3
         val positions = collectPositionsInSphere(centerPos, radius)
 
-        val convertedPositions = mutableSetOf<BlockPos>()
-
         for (pos in positions) {
-            if (pos in convertedPositions) continue // Skip already converted positions
 
             val blockState = level.getBlockState(pos)
             val fromBlock = blockState.block
@@ -47,7 +44,6 @@ class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(
                 }
 
                 level.setBlock(pos, toBlockState, 3)
-                convertedPositions.add(pos)
             }
         }
     }
