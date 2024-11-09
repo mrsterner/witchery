@@ -13,7 +13,7 @@ class BrewOfInk(color: Int, properties: Properties) : ThrowableBrewItem(color, p
     override fun applyEffect(level: Level, livingEntity: LivingEntity?, result: HitResult) {
         livingEntity?.addEffect(MobEffectInstance(MobEffects.BLINDNESS, 20 * 8, 1))
         if (livingEntity !is Player) {
-            livingEntity?.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * 8, 1))
+            livingEntity?.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * 8, 2))
         }
     }
 }
