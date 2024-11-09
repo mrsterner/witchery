@@ -62,6 +62,19 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             .horizontalAlign(TextWidget.Alignment.CENTER)
         widgets.addTooltipText(listOf(Component.translatable("$id.tooltip")), 9, 2, 18 * 7, 18)
 
+        widgets.addTexture(Witchery.id("textures/gui/black_square.png"),
+            18 * 3 - 9,
+            displayHeight - (18 * 6),
+            92,
+            92,
+            0,
+            0,
+            72,
+            72,
+            72,
+            72
+            )
+
         val fullMoon = recipe.celestialConditions.contains(RitualRecipe.Celestial.FULL_MOON)
         val newMoon = recipe.celestialConditions.contains(RitualRecipe.Celestial.NEW_MOON)
         val night = recipe.celestialConditions.contains(RitualRecipe.Celestial.NIGHT)
@@ -105,9 +118,11 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             }
         }
 
-        val scale = 1 / 3.0
-        val ritualCircleOffsetY = (rowIndex * itemSize) * scale + 36 - 9 - 2 - 24 + 4
-        renderRitualCircle(widgets, pattern, blockMapping, ritualCircleOffsetY)
+        val squareX = 18 * 3 - 9
+        val squareY = displayHeight - (18 * 6)
+        val squareSize = 92
+
+        renderRitualCircle(widgets, pattern, blockMapping, squareX, squareY, squareSize)
 
         val colXOffset = displayWidth - itemSize - 9
         rowIndex = 0
@@ -133,24 +148,26 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         widgets: WidgetHolder,
         pattern: List<String>,
         blockMapping: Map<Char, Block>,
-        offsetY: Double
+        squareX: Int,
+        squareY: Int,
+        squareSize: Int
     ) {
         if (pattern.isNotEmpty()) {
-            // Set a base size for a 15x15 pattern
+
             val basePatternSize = 15
             val baseScale = 1 / 3.0
-
-            // Dynamically calculate scale based on the pattern size relative to the base
             val patternSize = pattern.size
             val scale = baseScale * (basePatternSize / patternSize.toDouble())
-
-            // Calculate item size based on the new scale
             val itemSize = (16 * scale).toInt()
+
             val totalWidth = pattern[0].length * itemSize
             val totalHeight = pattern.size * itemSize
 
-            val startingX = (widgets.width - totalWidth) / 2 + 18// Center X position
-            val startingY = ((widgets.height - totalHeight) / 2) + offsetY.toInt() + (patternSize * 1.1).toInt() - 12
+            val squareCenterX = squareX + squareSize / 2
+            val squareCenterY = squareY + squareSize / 2
+
+            val startingX = squareCenterX - (totalWidth / 2)
+            val startingY = squareCenterY - (totalHeight / 2) - 16
 
             for (y in pattern.indices) {
                 val row = pattern[y]
@@ -159,7 +176,6 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                     val block = blockMapping[char]
                     val itemStack = block?.asItem()?.defaultInstance ?: continue
 
-                    // Calculate position based on centered startingX and startingY
                     val posX = startingX + (x * itemSize)
                     val posY = startingY + (y * itemSize)
 
@@ -168,6 +184,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             }
         }
     }
+
 
     private fun addChalkCircleWidget(
         widgets: WidgetHolder,
