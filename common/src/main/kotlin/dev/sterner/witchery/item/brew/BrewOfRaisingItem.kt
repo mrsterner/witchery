@@ -14,18 +14,20 @@ class BrewOfRaisingItem(color: Int, properties: Properties) : ThrowableBrewItem(
     override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
         val belowPos = blockHit.blockPos
 
-        level.destroyBlock(belowPos, true)
+        val block = level.getBlockState(belowPos).block
+        if (block.explosionResistance <= 10) {
+            level.destroyBlock(belowPos, true)
 
-        val random = level.random.nextFloat()
+            val random = level.random.nextFloat()
 
-        val entity = when {
-            random < 0.5f -> EntityType.ZOMBIE.create(level)
-            random < 0.9f -> EntityType.SKELETON.create(level)
-            else -> EntityType.ZOMBIFIED_PIGLIN.create(level)
+            val entity = when {
+                random < 0.5f -> EntityType.ZOMBIE.create(level)
+                random < 0.9f -> EntityType.SKELETON.create(level)
+                else -> EntityType.ZOMBIFIED_PIGLIN.create(level)
+            }
+
+            entity?.moveTo(belowPos.center)
+            entity?.let { level.addFreshEntity(it) }
         }
-
-        entity?.moveTo(belowPos.center)
-        entity?.let { level.addFreshEntity(it) }
-
     }
 }
