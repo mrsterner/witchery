@@ -8,7 +8,7 @@ import dev.sterner.witchery.entity.SleepingPlayerEntity.Companion.replaceWithPla
 import net.minecraft.core.BlockPos
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.level.ChunkPos
-import java.util.UUID
+import java.util.*
 
 data class TeleportRequest(
     val player: UUID,

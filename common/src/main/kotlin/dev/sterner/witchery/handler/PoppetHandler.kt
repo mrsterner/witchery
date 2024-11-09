@@ -10,7 +10,6 @@ import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.core.BlockPos
 import net.minecraft.core.component.DataComponents
 import net.minecraft.server.level.ServerLevel

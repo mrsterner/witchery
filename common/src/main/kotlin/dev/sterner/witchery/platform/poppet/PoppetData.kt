@@ -6,7 +6,6 @@ import dev.sterner.witchery.Witchery
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
-import java.util.*
 
 
 data class PoppetData(
