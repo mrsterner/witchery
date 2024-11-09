@@ -23,7 +23,6 @@ open class ThrowableBrewItem(override val color: Int, properties: Properties, pr
             thrownPotion.item = itemStack
             thrownPotion.shootFromRotation(player, player.xRot, player.yRot, -20.0f, 0.5f, 1.0f)
             level.addFreshEntity(thrownPotion)
-
         }
 
         player.awardStat(Stats.ITEM_USED[this])

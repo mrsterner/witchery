@@ -974,8 +974,8 @@ object WitcheryItems {
         BrewOfLoveItem(Color(255, 70, 180).rgb, Item.Properties().stacksTo(16))
     }
 
-    val BREW_OF_INK: RegistrySupplier<BrewOfInk> = ITEMS.register("brew_of_ink") {
-        BrewOfInk(Color(40,40,80).rgb, Item.Properties().stacksTo(16))
+    val BREW_OF_INK: RegistrySupplier<BrewOfInkItem> = ITEMS.register("brew_of_ink") {
+        BrewOfInkItem(Color(40,40,80).rgb, Item.Properties().stacksTo(16))
     }
 
     val BREW_OF_REVEALING: RegistrySupplier<BrewOfRevealingItem> = ITEMS.register("brew_of_revealing") {
@@ -984,6 +984,10 @@ object WitcheryItems {
 
     val BREW_OF_EROSION: RegistrySupplier<BrewOfErosionItem> = ITEMS.register("brew_of_erosion") {
         BrewOfErosionItem(Color(80, 100, 40).rgb, Item.Properties().stacksTo(16))
+    }
+
+    val BREW_OF_FROST: RegistrySupplier<BrewOfFrostItem> = ITEMS.register("brew_of_frost") {
+        BrewOfFrostItem(Color(125, 170, 230).rgb, Item.Properties().stacksTo(16))
     }
 
     val BREW_OF_RAISING: RegistrySupplier<BrewOfRaisingItem> = ITEMS.register("brew_of_raising") {

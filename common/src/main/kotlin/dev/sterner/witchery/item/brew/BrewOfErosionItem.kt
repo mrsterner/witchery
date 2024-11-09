@@ -37,18 +37,21 @@ class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(
         }
     }
 
-    private fun collectPositionsInSphere(center: BlockPos, radius: Int): List<BlockPos> {
-        val positions = mutableListOf<BlockPos>()
-        for (x in -radius..radius) {
-            for (y in -radius..radius) {
-                for (z in -radius..radius) {
-                    val offset = BlockPos(x, y, z)
-                    if (offset.distSqr(Vec3i.ZERO) <= radius * radius) {
-                        positions.add(center.offset(offset))
+    companion object {
+        @JvmStatic
+        fun collectPositionsInSphere(center: BlockPos, radius: Int): List<BlockPos> {
+            val positions = mutableListOf<BlockPos>()
+            for (x in -radius..radius) {
+                for (y in -radius..radius) {
+                    for (z in -radius..radius) {
+                        val offset = BlockPos(x, y, z)
+                        if (offset.distSqr(Vec3i.ZERO) <= radius * radius) {
+                            positions.add(center.offset(offset))
+                        }
                     }
                 }
             }
+            return positions
         }
-        return positions
     }
 }
