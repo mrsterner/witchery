@@ -33,6 +33,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.data.ErosionHandler
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
@@ -117,6 +118,7 @@ object Witchery {
         ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisDataAttachment.tick(serverLevel) }
 
         NaturePowerHandler.registerListener()
+        ErosionHandler.registerListener()
 
         WitcheryModonomiconLoaders.register()
 

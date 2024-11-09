@@ -982,6 +982,9 @@ object WitcheryItems {
         BrewOfRevealingItem(Color(175, 40, 200).rgb, Item.Properties().stacksTo(16))
     }
 
+    val BREW_OF_EROSION: RegistrySupplier<BrewOfErosionItem> = ITEMS.register("brew_of_erosion") {
+        BrewOfErosionItem(Color(80, 100, 40).rgb, Item.Properties().stacksTo(16))
+    }
 
     val BREW_OF_SLEEPING: RegistrySupplier<BrewOfSleepingItem> = ITEMS.register("brew_of_sleeping") {
         BrewOfSleepingItem(Color(255, 90, 130).rgb, Item.Properties().stacksTo(16))

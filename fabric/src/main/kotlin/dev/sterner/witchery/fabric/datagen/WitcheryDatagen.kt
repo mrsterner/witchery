@@ -55,6 +55,9 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
         pack.addProvider { out, tag ->
             WitcheryNatureBlockTagProvider(out, tag)
         }
+        pack.addProvider { out, tag ->
+            WitcheryErosionProvider(out, tag)
+        }
 
         pack.addProvider(::WitcheryWorldGenProvider)
     }
