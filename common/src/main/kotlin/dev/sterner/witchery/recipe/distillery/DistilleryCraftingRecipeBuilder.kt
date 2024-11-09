@@ -32,11 +32,23 @@ class DistilleryCraftingRecipeBuilder(
         return this
     }
 
+    fun addInput(itemStack: Item): DistilleryCraftingRecipeBuilder {
+        inputItems.add(ItemStack(itemStack))
+        return this
+    }
+
     fun addOutput(itemStack: ItemStack, count: Int): DistilleryCraftingRecipeBuilder {
         itemStack.count = count
         outputStack += itemStack
         return this
     }
+
+    fun addOutput(item: Item, count: Int): DistilleryCraftingRecipeBuilder {
+        val itemStack = ItemStack(item, count)
+        outputStack += itemStack
+        return this
+    }
+
 
     fun addOutput(itemStack: ItemStack): DistilleryCraftingRecipeBuilder {
         outputStack += itemStack

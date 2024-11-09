@@ -32,6 +32,11 @@ class BrazierSummoningRecipeBuilder(
         return this
     }
 
+    fun addInput(itemStack: Item): BrazierSummoningRecipeBuilder {
+        inputItems.add(ItemStack(itemStack))
+        return this
+    }
+
     fun addSummon(entityType: EntityType<*>): BrazierSummoningRecipeBuilder {
         outputEntities.add(entityType)
         return this

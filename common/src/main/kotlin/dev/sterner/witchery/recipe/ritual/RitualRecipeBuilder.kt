@@ -49,6 +49,11 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
         return this
     }
 
+    fun addInputItem(itemStack: Item): RitualRecipeBuilder {
+        inputItems.add(ItemStack(itemStack))
+        return this
+    }
+
     fun addInputItems(itemStacks: List<ItemStack>): RitualRecipeBuilder {
         inputItems.addAll(itemStacks)
         return this
@@ -66,6 +71,11 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
 
     fun addOutputItem(itemStack: ItemStack): RitualRecipeBuilder {
         outputItems.add(itemStack)
+        return this
+    }
+
+    fun addOutputItem(itemStack: Item): RitualRecipeBuilder {
+        outputItems.add(ItemStack(itemStack))
         return this
     }
 

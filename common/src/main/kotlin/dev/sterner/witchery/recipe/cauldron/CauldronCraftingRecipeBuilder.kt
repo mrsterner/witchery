@@ -33,6 +33,12 @@ class CauldronCraftingRecipeBuilder(
         return this
     }
 
+    fun addInputWithColor(item: Item, color: Int): CauldronCraftingRecipeBuilder {
+        inputItems.add(ItemStackWithColor(ItemStack(item), color, order))
+        order++
+        return this
+    }
+
     fun addInput(itemStackWithColor: ItemStackWithColor): CauldronCraftingRecipeBuilder {
         inputItems += itemStackWithColor
         return this
@@ -40,6 +46,12 @@ class CauldronCraftingRecipeBuilder(
 
     fun addOutput(itemStack: ItemStack, count: Int): CauldronCraftingRecipeBuilder {
         itemStack.count = count
+        outputStack += itemStack
+        return this
+    }
+
+    fun addOutput(item: Item, count: Int): CauldronCraftingRecipeBuilder {
+        val itemStack = ItemStack(item, count)
         outputStack += itemStack
         return this
     }

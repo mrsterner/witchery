@@ -31,14 +31,29 @@ class SpinningWheelRecipeBuilder(
         return this
     }
 
+    fun addInput(item: Item): SpinningWheelRecipeBuilder {
+        inputItems.add(ItemStack(item))
+        return this
+    }
+
     fun addOutput(itemStack: ItemStack, count: Int): SpinningWheelRecipeBuilder {
         itemStack.count = count
         outputStack = itemStack
         return this
     }
 
+    fun addOutput(item: Item, count: Int): SpinningWheelRecipeBuilder {
+        outputStack = ItemStack(item, count)
+        return this
+    }
+
     fun addOutput(itemStack: ItemStack): SpinningWheelRecipeBuilder {
         outputStack = itemStack
+        return this
+    }
+
+    fun addOutput(item: Item): SpinningWheelRecipeBuilder {
+        outputStack = ItemStack(item)
         return this
     }
 

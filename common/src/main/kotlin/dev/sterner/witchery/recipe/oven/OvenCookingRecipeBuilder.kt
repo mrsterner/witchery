@@ -1,5 +1,6 @@
 package dev.sterner.witchery.recipe.oven
 
+import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion
@@ -12,17 +13,65 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 
 class OvenCookingRecipeBuilder(
-    private val ingredient: Ingredient,
-    private val extraIngredient: Ingredient = Ingredient.EMPTY,
-    private val result: ItemStack,
-    private val extraOutput: ItemStack = ItemStack.EMPTY,
-    private val extraOutputChance: Float = 0.0f,
-    private val experience: Float = 0.0f,
-    private val cookingTime: Int = 200
+    private var ingredient: Ingredient = Ingredient.EMPTY,
+    private var extraIngredient: Ingredient = Ingredient.EMPTY,
+    private var result: ItemStack = ItemStack.EMPTY,
+    private var extraOutput: ItemStack = ItemStack.EMPTY,
+    private var extraOutputChance: Float = 0.0f,
+    private var experience: Float = 0.0f,
+    private var cookingTime: Int = 200
 ) : RecipeBuilder {
 
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     private var group: String? = null
+
+    companion object {
+        fun create(): OvenCookingRecipeBuilder {
+            return OvenCookingRecipeBuilder()
+        }
+    }
+
+    fun addIngredient(ingredient: Ingredient): OvenCookingRecipeBuilder {
+        this.ingredient = ingredient
+        return this
+    }
+
+    fun addExtraIngredient(extraIngredient: Ingredient): OvenCookingRecipeBuilder {
+        this.extraIngredient = extraIngredient
+        return this
+    }
+
+    fun addResult(result: ItemStack): OvenCookingRecipeBuilder {
+        this.result = result
+        return this
+    }
+
+    fun addResult(result: Item): OvenCookingRecipeBuilder {
+        this.result = ItemStack(result)
+        return this
+    }
+
+    fun addExtraOutput(extraOutput: ItemStack, chance: Float): OvenCookingRecipeBuilder {
+        this.extraOutput = extraOutput
+        this.extraOutputChance = chance
+        return this
+    }
+
+    fun addExtraOutput(extraOutput: Item, chance: Float): OvenCookingRecipeBuilder {
+        this.extraOutput = ItemStack(extraOutput)
+        this.extraOutputChance = chance
+        return this
+    }
+
+    fun setExperience(exp: Float): OvenCookingRecipeBuilder {
+        this.experience = exp
+        return this
+    }
+
+    fun setCookingTime(time: Int): OvenCookingRecipeBuilder {
+        this.cookingTime = time
+        return this
+    }
 
     fun requires(ingredient: Ingredient): OvenCookingRecipeBuilder {
         return OvenCookingRecipeBuilder(

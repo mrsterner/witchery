@@ -40,8 +40,19 @@ class CauldronBrewingRecipeBuilder(
         return this
     }
 
+    fun addInputWithColor(item: Item, color: Int): CauldronBrewingRecipeBuilder {
+        inputItems.add(ItemStackWithColor(ItemStack(item), color, order))
+        order++
+        return this
+    }
+
     fun setOutput(outputStack: ItemStack): CauldronBrewingRecipeBuilder {
         this.outputStack = outputStack
+        return this
+    }
+
+    fun setOutput(outputStack: Item): CauldronBrewingRecipeBuilder {
+        this.outputStack = ItemStack(outputStack)
         return this
     }
 
