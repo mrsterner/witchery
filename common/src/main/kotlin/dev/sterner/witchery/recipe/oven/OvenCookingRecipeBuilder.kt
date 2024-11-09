@@ -1,6 +1,5 @@
 package dev.sterner.witchery.recipe.oven
 
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion

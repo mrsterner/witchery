@@ -13,7 +13,6 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.util.Mth
-import net.minecraft.world.entity.LivingEntity
 
 
 class MandrakeEntityModel(root: ModelPart) : EntityModel<MandrakeEntity>() {

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.client.renderer
 
-import com.mojang.blaze3d.vertex.*
+import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity

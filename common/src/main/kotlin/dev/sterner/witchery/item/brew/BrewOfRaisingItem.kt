@@ -1,13 +1,10 @@
 package dev.sterner.witchery.item.brew
 
 import com.google.common.base.Predicate
-import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
-import net.minecraft.world.phys.HitResult
 
 class BrewOfRaisingItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties, Predicate { it == Direction.UP }) {
 

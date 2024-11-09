@@ -4,7 +4,6 @@ import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
 import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.TeleportRequest
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder

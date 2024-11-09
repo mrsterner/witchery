@@ -4,7 +4,6 @@ import dev.sterner.witchery.entity.BansheeEntity
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
-import net.minecraft.world.phys.HitResult
 
 class BrewOfRevealingItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 

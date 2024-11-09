@@ -1,19 +1,11 @@
 package dev.sterner.witchery.item.brew
 
 import dev.sterner.witchery.data.ErosionHandler
-import dev.sterner.witchery.entity.BansheeEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Vec3i
-import net.minecraft.world.effect.MobEffects
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.SlabBlock
-import net.minecraft.world.level.block.StairBlock
-import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.Property
 import net.minecraft.world.phys.BlockHitResult
-import net.minecraft.world.phys.HitResult
 
 class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 

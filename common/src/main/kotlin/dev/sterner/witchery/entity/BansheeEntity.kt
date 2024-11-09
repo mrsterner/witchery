@@ -13,7 +13,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.control.MoveControl
 import net.minecraft.world.entity.ai.goal.Goal
-import net.minecraft.world.entity.animal.Fox
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import java.util.*

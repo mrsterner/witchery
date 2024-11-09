@@ -1,6 +1,5 @@
 package dev.sterner.witchery.block.spirit_portal
 
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.client.Minecraft
