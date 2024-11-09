@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
@@ -260,7 +261,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-        if (level?.dimension() == WitcheryWorldgenKeys.DREAM || level?.dimension() == WitcheryWorldgenKeys.NIGHTMARE) {
+        if (WitcheryApi.isInSpiritWorld(pPlayer)) {
             return InteractionResult.PASS
         }
 

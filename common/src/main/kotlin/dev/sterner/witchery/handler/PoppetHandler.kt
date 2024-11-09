@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
 import dev.sterner.witchery.platform.PlayerMiscDataAttachment
@@ -9,6 +10,7 @@ import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.core.BlockPos
 import net.minecraft.core.component.DataComponents
 import net.minecraft.server.level.ServerLevel
@@ -35,7 +37,7 @@ import net.minecraft.world.phys.Vec3
 object PoppetHandler {
 
     fun deathProtectionPoppet(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
-        if (livingEntity is Player) {
+        if (livingEntity is Player && !WitcheryApi.isInSpiritWorld(livingEntity)) {
             if (deathProtectionHelper(livingEntity, damageSource)) {
                 return EventResult.interruptFalse()
             }

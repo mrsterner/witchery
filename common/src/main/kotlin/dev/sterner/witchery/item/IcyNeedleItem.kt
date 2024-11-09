@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
 import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.TeleportRequest
@@ -21,7 +22,7 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
         super.finishUsingItem(stack, level, livingEntity)
 
-        if (livingEntity is ServerPlayer && (level.dimension() == WitcheryWorldgenKeys.DREAM || level.dimension() == WitcheryWorldgenKeys.NIGHTMARE)) {
+        if (livingEntity is ServerPlayer && (WitcheryApi.isInSpiritWorld(livingEntity))) {
             val overworld = level.server!!.overworld()
 
             val sleepingData = SleepingPlayerLevelAttachment.getPlayerFromSleeping(livingEntity.uuid, overworld)

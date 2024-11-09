@@ -1,9 +1,11 @@
 package dev.sterner.witchery.item.brew
 
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -79,7 +81,7 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
     }
 
     private fun lookForDoors(level: Level, state: BlockState, pos: BlockPos): Boolean {
-        if (level.dimension() != WitcheryWorldgenKeys.DREAM && level.dimension() != WitcheryWorldgenKeys.NIGHTMARE) {
+        if (!WitcheryApi.isInSpiritWorld(level)) {
             return false
         }
 
