@@ -3,6 +3,7 @@ package dev.sterner.witchery.handler
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
+import dev.sterner.witchery.platform.PlayerMiscDataAttachment
 import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
@@ -208,8 +209,11 @@ object PoppetHandler {
         if (boundPlayer != null || boundEntity != null) {
 
             if (movementVector.length() > 0.2) {
-                val scaledMovement = movementVector.scale(0.45)
+                var scaledMovement = movementVector.scale(0.45)
                 boundPlayer?.apply {
+                    if (PlayerMiscDataAttachment.getData(boundPlayer).isWitcheryAligned) {
+                        scaledMovement = scaledMovement.scale(0.5)
+                    }
                     addDeltaMovement(scaledMovement)
                     hurtMarked = true
                 }
@@ -245,7 +249,15 @@ object PoppetHandler {
             val maybePlayer = getPlayer(level, item)
             val maybeEntity = getLivingEntity(level, item)
             if (maybePlayer != null || maybeEntity != null) {
-                maybePlayer?.remainingFireTicks = 20 * 4
+
+                maybePlayer?.apply {
+                    if (PlayerMiscDataAttachment.getData(maybePlayer).isWitcheryAligned) {
+                        maybePlayer.remainingFireTicks = 20 * 4
+                    } else {
+                        maybePlayer.remainingFireTicks = 20 * 2
+                    }
+                }
+
                 maybeEntity?.remainingFireTicks = 20 * 4
                 item.damageValue += 16
                 if (item.damageValue >= item.maxDamage) {
@@ -257,7 +269,13 @@ object PoppetHandler {
             val maybePlayer = getPlayer(level, item)
             val maybeEntity = getLivingEntity(level, item)
             if (maybePlayer != null || maybeEntity != null) {
-                maybePlayer?.remainingFireTicks = 20 * 2
+                maybePlayer?.apply {
+                    if (PlayerMiscDataAttachment.getData(maybePlayer).isWitcheryAligned) {
+                        maybePlayer.remainingFireTicks = 20 * 2
+                    } else {
+                        maybePlayer.remainingFireTicks = 20 * 1
+                    }
+                }
                 maybeEntity?.remainingFireTicks = 20 * 2
                 item.damageValue += 8
                 if (item.damageValue >= item.maxDamage) {

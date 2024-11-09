@@ -4,13 +4,11 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncLightInfusionS2CPacket
 import dev.sterner.witchery.payload.SyncMiscS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 
 object PlayerMiscDataAttachment {
@@ -27,23 +25,40 @@ object PlayerMiscDataAttachment {
         throw AssertionError()
     }
 
+    /**
+     * True if the player may use a Spirit Portal back to the material world as a ghost
+     */
+    fun setHasRiteOfManifestation(player: Player, hasRite: Boolean) {
+        val old = getData(player)
+        old.hasRiteOfManifestation = hasRite
+        setData(player, old)
+    }
+
+    /**
+     * This should declare a player a "Witch" so when a player has interacted enough with witchery to start being affected by its curses and rites.
+     * This is an insurance to player who don't care about witchery not being absolutely wrecked by its rites, poppets and curses.
+     *
+     * Note: What exactly constitutes as being a witch is not yet defined, maybe when a player has a certain amount of witchery advancements
+     */
+    fun setWitcheryAligned(player: Player, aligned: Boolean){
+        val old = getData(player)
+        old.isWitcheryAligned = aligned
+        setData(player, old)
+    }
+
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncMiscS2CPacket(
-                CompoundTag().apply {
-                    putUUID("Id", player.uuid)
-                    putBoolean("hasRiteOfManifestation", data.hasRiteOfManifestation)
-                }
-            ))
+            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncMiscS2CPacket(player, data))
         }
     }
 
-    class Data(val hasRiteOfManifestation: Boolean = false) {
+    class Data(var hasRiteOfManifestation: Boolean = false, var isWitcheryAligned: Boolean = false) {
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.BOOL.fieldOf("hasRiteOfManifestation").forGetter { it.hasRiteOfManifestation },
+                    Codec.BOOL.fieldOf("isWitcheryAligned").forGetter { it.isWitcheryAligned },
                 ).apply(instance, ::Data)
             }
 

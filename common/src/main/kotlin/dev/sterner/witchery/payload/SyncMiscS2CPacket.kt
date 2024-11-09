@@ -17,6 +17,7 @@ class SyncMiscS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     constructor(player: Player, data: PlayerMiscDataAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putBoolean("hasRiteOfManifestation", data.hasRiteOfManifestation)
+        putBoolean("isWitcheryAligned", data.isWitcheryAligned)
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -32,12 +33,13 @@ class SyncMiscS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
         val id = payload.nbt.getUUID("Id")
         val hasRiteOfManifestation = payload.nbt.getBoolean("hasRiteOfManifestation")
+        val isWitcheryAligned = payload.nbt.getBoolean("isWitcheryAligned")
 
         val player = client.level?.getPlayerByUUID(id)
 
         client.execute {
             if (player != null) {
-                PlayerMiscDataAttachment.setData(player, PlayerMiscDataAttachment.Data(hasRiteOfManifestation))
+                PlayerMiscDataAttachment.setData(player, PlayerMiscDataAttachment.Data(hasRiteOfManifestation, isWitcheryAligned))
             }
         }
     }
