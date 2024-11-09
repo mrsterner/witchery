@@ -268,7 +268,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.BREW_OF_EROSION.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.BREW_OF_WEBS.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.BREW_OF_WASTING.get(), ModelTemplates.FLAT_ITEM)
-        genetaror.generateFlatItem(WitcheryItems.BREW_OF_DEPTHS.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.BREW_OF_THE_DEPTHS.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.BREW_OF_FROST.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.BREW_OF_RAISING.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.BREW_OF_SLEEPING.get(), ModelTemplates.FLAT_ITEM)

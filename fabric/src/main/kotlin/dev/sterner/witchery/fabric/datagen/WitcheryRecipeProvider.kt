@@ -199,7 +199,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get(), Color(115, 160, 190).rgb)
             .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), Color(55, 220, 250).rgb)
             .addInputWithColor(WitcheryItems.ODOR_OF_PURITY.get(), Color(90, 50, 250).rgb)
-            .setOutput(WitcheryItems.BREW_OF_DEPTHS.get())
+            .setOutput(WitcheryItems.BREW_OF_THE_DEPTHS.get())
             .setAltarPower(100)
             .save(exporter, Witchery.id("brew_of_the_depths"))
 
