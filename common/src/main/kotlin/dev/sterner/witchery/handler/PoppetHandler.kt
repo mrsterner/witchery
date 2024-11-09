@@ -183,15 +183,23 @@ object PoppetHandler {
                 val maybePlayer = getPlayer(livingEntity.level(), itemStack)
                 val maybeEntity = getLivingEntity(livingEntity.level(), itemStack)
                 if (maybePlayer != null || maybeEntity != null) {
-                    val halfDamage = original / 2
-                    maybePlayer?.hurt(damageSource, halfDamage)
-                    maybeEntity?.hurt(damageSource, halfDamage)
+
+                    var outDamage = original
+
+                    if (maybeEntity is Player && !PlayerMiscDataAttachment.getData(maybeEntity).isWitcheryAligned) {
+                        maybePlayer?.hurt(damageSource, outDamage * 0.75f)
+                        maybeEntity.hurt(damageSource, outDamage * 0.25f)
+                    } else {
+                        outDamage /= 2
+                        maybePlayer?.hurt(damageSource, outDamage)
+                        maybeEntity?.hurt(damageSource, outDamage)
+                    }
 
                     itemStack.damageValue += 1
                     if (itemStack.damageValue >= itemStack.maxDamage) {
                         itemStack.shrink(1)
                     }
-                    return halfDamage
+                    return outDamage
                 }
             }
         }
@@ -212,7 +220,7 @@ object PoppetHandler {
                 var scaledMovement = movementVector.scale(0.45)
                 boundPlayer?.apply {
                     if (PlayerMiscDataAttachment.getData(boundPlayer).isWitcheryAligned) {
-                        scaledMovement = scaledMovement.scale(0.5)
+                        scaledMovement = scaledMovement.scale(0.75)
                     }
                     addDeltaMovement(scaledMovement)
                     hurtMarked = true
