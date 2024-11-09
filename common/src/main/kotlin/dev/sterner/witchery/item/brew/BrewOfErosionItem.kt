@@ -11,11 +11,13 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.StairBlock
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.block.state.properties.Property
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.HitResult
 
 class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
+    @Suppress("UNCHECKED_CAST")
     override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
         if (level.isClientSide) {
             return
@@ -37,36 +39,11 @@ class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(
             if (toBlock != null) {
                 var toBlockState = toBlock.defaultBlockState()
 
-                if (blockState.hasProperty(BlockStateProperties.HORIZONTAL_AXIS) && toBlockState.hasProperty(BlockStateProperties.HORIZONTAL_AXIS)) {
-                    toBlockState = toBlockState.setValue(BlockStateProperties.HORIZONTAL_AXIS, blockState.getValue(BlockStateProperties.HORIZONTAL_AXIS))
-                }
-
-                if (blockState.hasProperty(BlockStateProperties.AXIS) && toBlockState.hasProperty(BlockStateProperties.AXIS)) {
-                    toBlockState = toBlockState.setValue(BlockStateProperties.AXIS, blockState.getValue(BlockStateProperties.AXIS))
-                }
-
-                if (blockState.hasProperty(BlockStateProperties.SLAB_TYPE) && toBlockState.hasProperty(BlockStateProperties.SLAB_TYPE)) {
-                    toBlockState = toBlockState.setValue(BlockStateProperties.SLAB_TYPE, blockState.getValue(BlockStateProperties.SLAB_TYPE))
-                }
-
-                if (blockState.hasProperty(BlockStateProperties.WATERLOGGED) && toBlockState.hasProperty(BlockStateProperties.WATERLOGGED)) {
-                    toBlockState = toBlockState.setValue(BlockStateProperties.WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED))
-                }
-
-                if (blockState.hasProperty(BlockStateProperties.STAIRS_SHAPE) && toBlockState.hasProperty(BlockStateProperties.STAIRS_SHAPE)) {
-                    toBlockState = toBlockState.setValue(BlockStateProperties.STAIRS_SHAPE, blockState.getValue(BlockStateProperties.STAIRS_SHAPE))
-                }
-
-                if (blockState.hasProperty(BlockStateProperties.HALF) && toBlockState.hasProperty(BlockStateProperties.HALF)) {
-                    toBlockState = toBlockState.setValue(BlockStateProperties.HALF, blockState.getValue(BlockStateProperties.HALF))
-                }
-
-                if (blockState.hasProperty(BlockStateProperties.HORIZONTAL_FACING) && toBlockState.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-                    toBlockState = toBlockState.setValue(BlockStateProperties.HORIZONTAL_FACING, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-                }
-
-                if (blockState.hasProperty(BlockStateProperties.FACING) && toBlockState.hasProperty(BlockStateProperties.FACING)) {
-                    toBlockState = toBlockState.setValue(BlockStateProperties.FACING, blockState.getValue(BlockStateProperties.FACING))
+                for (property in blockState.properties) {
+                    if (toBlockState.hasProperty(property)) {
+                        val value = blockState.getValue(property) as Comparable<Any>
+                        toBlockState = toBlockState.setValue(property as Property<Comparable<Any>>, value)
+                    }
                 }
 
                 level.setBlock(pos, toBlockState, 3)
