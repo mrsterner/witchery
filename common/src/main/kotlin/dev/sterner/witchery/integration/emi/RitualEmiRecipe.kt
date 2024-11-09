@@ -16,7 +16,6 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.FormattedCharSequence
-import net.minecraft.world.inventory.tooltip.TooltipComponent
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
@@ -185,7 +184,6 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         }
     }
 
-
     private fun addChalkCircleWidget(
         widgets: WidgetHolder,
         posX: Int,
@@ -199,14 +197,11 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             val poseStack = graphics.pose()
             poseStack.pushPose()
 
-            // Dynamically calculate scale based on pattern size
             val basePatternSize = 4
             val scaleFactor = basePatternSize.toFloat() / patternSize
 
-            // Apply the calculated scale
             poseStack.scale(scaleFactor, scaleFactor, scaleFactor)
 
-            // Render the chalk circle, optionally with color
             if (color != null) {
                 renderChalk(poseStack, Witchery.id(texturePath), color)
             } else {
@@ -216,7 +211,6 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             poseStack.popPose()
         }
     }
-
 
     private fun addItemCircleWidget(
         widgets: WidgetHolder,
