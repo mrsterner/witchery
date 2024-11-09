@@ -1,6 +1,8 @@
 package dev.sterner.witchery.item.brew
 
+import com.google.common.base.Predicate
 import net.minecraft.advancements.CriteriaTriggers
+import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stats
@@ -13,9 +15,9 @@ import net.minecraft.world.item.*
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
-import net.minecraft.world.phys.HitResult
+import net.minecraft.world.phys.BlockHitResult
 
-open class BrewItem(open val color: Int, properties: Properties) : Item(properties) {
+open class BrewItem(open val color: Int, properties: Properties, val predicate: Predicate<Direction> = Predicate { true }) : Item(properties) {
 
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
         val player = if (livingEntity is Player) livingEntity else null
@@ -74,7 +76,11 @@ open class BrewItem(open val color: Int, properties: Properties) : Item(properti
 
     }
 
-    open fun applyEffect(level: Level, livingEntity: LivingEntity?, result: HitResult) {
+    open fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity) {
+
+    }
+
+    open fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
 
     }
 

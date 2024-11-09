@@ -3,8 +3,8 @@ package dev.sterner.witchery.entity
 import dev.sterner.witchery.item.brew.BrewItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
+import net.minecraft.world.Containers
 import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.projectile.ItemSupplier
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile
@@ -41,10 +41,20 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
         if (!level().isClientSide) {
             val itemStack = this.item
             if (itemStack.item is BrewItem) {
-                applySplash(itemStack.item as BrewItem, result)
+                val brew = itemStack.item as BrewItem
+                if (result.type == HitResult.Type.BLOCK && brew.predicate.test((result as BlockHitResult).direction)) {
+                    applySplash(itemStack.item as BrewItem, result)
 
-                val color = (itemStack.item as BrewItem).color
-                level().levelEvent(2002, this.blockPosition(), color)
+                    val color = (itemStack.item as BrewItem).color
+                    level().levelEvent(2002, this.blockPosition(), color)
+                } else if (result.type != HitResult.Type.BLOCK) {
+                    applySplash(itemStack.item as BrewItem, result)
+
+                    val color = (itemStack.item as BrewItem).color
+                    level().levelEvent(2002, this.blockPosition(), color)
+                } else {
+                    Containers.dropItemStack(level(), result.location.x, result.location.y, result.location.z, itemStack)
+                }
             }
             this.discard()
         }
@@ -55,10 +65,11 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
         val list = level().getEntitiesOfClass(LivingEntity::class.java, aABB)
         if (list.isNotEmpty()) {
             for (livingEntity in list) {
-                item.applyEffect(level(), livingEntity, result)
+                item.applyEffectOnEntities(level(), livingEntity)
             }
-        } else {
-            item.applyEffect(level(), null, result)
+        }
+        if (result.type == HitResult.Type.BLOCK) {
+            item.applyEffectOnBlock(level(), result as BlockHitResult)
         }
     }
 

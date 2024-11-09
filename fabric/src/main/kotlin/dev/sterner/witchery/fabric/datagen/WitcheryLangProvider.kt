@@ -272,6 +272,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.BREW_OF_INK.get(), "Brew of Ink")
         builder.add(WitcheryItems.BREW_OF_REVEALING.get(), "Brew of Revealing")
         builder.add(WitcheryItems.BREW_OF_EROSION.get(), "Brew of Erosion")
+        builder.add(WitcheryItems.BREW_OF_RAISING.get(), "Brew of Raising")
         builder.add(WitcheryItems.DISTURBED_COTTON.get(), "Disturbed Cotton")
         builder.add(WitcheryItems.WISPY_COTTON.get(), "Wispy Cotton")
         builder.add(WitcheryItems.FANCIFUL_THREAD.get(), "Fanciful Thread")

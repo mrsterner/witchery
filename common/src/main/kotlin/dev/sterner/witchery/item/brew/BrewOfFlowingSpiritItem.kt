@@ -55,8 +55,8 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
         }
     }
 
-    override fun applyEffect(level: Level, livingEntity: LivingEntity?, result: HitResult) {
-        var pos = BlockPos.containing(result.location)
+    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
+        var pos = blockHit.blockPos
 
         for (x in pos.x - 1 until pos.x + 1) {
             for (z in pos.z - 1 until pos.z + 1) {
@@ -72,10 +72,7 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
         if (level.getBlockState(pos).canBeReplaced()) {
             level.setBlockAndUpdate(pos, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get().defaultBlockState())
         } else {
-            if (result.type == HitResult.Type.BLOCK) {
-                val blockHitResult = result as BlockHitResult
-                pos = pos.relative(blockHitResult.direction)
-            }
+            pos = pos.relative(blockHit.direction)
             level.setBlockAndUpdate(pos, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get().defaultBlockState())
         }
     }

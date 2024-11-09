@@ -7,7 +7,7 @@ import net.minecraft.world.phys.HitResult
 
 class BrewOfLoveItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
-    override fun applyEffect(level: Level, livingEntity: LivingEntity?, result: HitResult) {
+    override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity) {
         if (livingEntity is Animal) {
             livingEntity.setInLove(null)
         }

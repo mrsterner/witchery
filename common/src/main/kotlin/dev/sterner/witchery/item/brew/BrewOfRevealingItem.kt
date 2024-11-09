@@ -8,8 +8,8 @@ import net.minecraft.world.phys.HitResult
 
 class BrewOfRevealingItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
-    override fun applyEffect(level: Level, livingEntity: LivingEntity?, result: HitResult) {
-        if (livingEntity?.hasEffect(MobEffects.INVISIBILITY) == true) {
+    override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity) {
+        if (livingEntity.hasEffect(MobEffects.INVISIBILITY)) {
             livingEntity.removeEffect(MobEffects.INVISIBILITY)
         }
         if (livingEntity is BansheeEntity) {

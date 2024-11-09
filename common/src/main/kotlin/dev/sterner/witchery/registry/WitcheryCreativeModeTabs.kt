@@ -152,6 +152,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.BREW_OF_INK.get())
                 output.accept(WitcheryItems.BREW_OF_REVEALING.get())
                 output.accept(WitcheryItems.BREW_OF_EROSION.get())
+                output.accept(WitcheryItems.BREW_OF_RAISING.get())
                 output.accept(WitcheryItems.BREW_OF_SLEEPING.get())
                 output.accept(WitcheryItems.BREW_FLOWING_SPIRIT.get())
 

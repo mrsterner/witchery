@@ -7,16 +7,17 @@ import net.minecraft.core.Vec3i
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
+import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.HitResult
 
 class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
-    override fun applyEffect(level: Level, livingEntity: LivingEntity?, result: HitResult) {
+    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
         if (level.isClientSide) {
             return
         }
 
-        val centerPos = BlockPos.containing(result.location)
+        val centerPos = blockHit.blockPos
         val radius = 3
         val positions = collectPositionsInSphere(centerPos, radius)
 
