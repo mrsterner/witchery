@@ -136,13 +136,21 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         offsetY: Double
     ) {
         if (pattern.isNotEmpty()) {
-            val scale = 1 / 3.0
-            val itemSize = (16 * scale).toInt()
-            val totalWidth = pattern[0].length * itemSize  // Calculate total width based on the first row length
-            val totalHeight = pattern.size * itemSize      // Calculate total height based on the number of rows
+            // Set a base size for a 15x15 pattern
+            val basePatternSize = 15
+            val baseScale = 1 / 3.0
 
-            val startingX = (widgets.width - totalWidth) / 2 + 18 // Center X position
-            val startingY = ((widgets.height - totalHeight) / 2) + offsetY.toInt() // Center Y position
+            // Dynamically calculate scale based on the pattern size relative to the base
+            val patternSize = pattern.size
+            val scale = baseScale * (basePatternSize / patternSize.toDouble())
+
+            // Calculate item size based on the new scale
+            val itemSize = (16 * scale).toInt()
+            val totalWidth = pattern[0].length * itemSize
+            val totalHeight = pattern.size * itemSize
+
+            val startingX = (widgets.width - totalWidth) / 2 + 18// Center X position
+            val startingY = ((widgets.height - totalHeight) / 2) + offsetY.toInt() + (patternSize * 1.1).toInt() - 12
 
             for (y in pattern.indices) {
                 val row = pattern[y]
@@ -155,12 +163,11 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                     val posX = startingX + (x * itemSize)
                     val posY = startingY + (y * itemSize)
 
-                    renderItem(widgets, itemStack, posX, posY, itemSize, y + x)
+                    renderItem(widgets, itemStack, posX, posY, itemSize, y + x, patternSize)
                 }
             }
         }
     }
-
 
     private fun addChalkCircleWidget(
         widgets: WidgetHolder,
@@ -168,14 +175,19 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         posY: Int,
         size: Int,
         texturePath: String,
-        color: Int? = null
+        patternSize: Int,
+        color: Int? = null,
     ) {
         widgets.addDrawable(posX, posY, size, size) { graphics, _, _, _ ->
             val poseStack = graphics.pose()
             poseStack.pushPose()
 
-            // Scaling for chalk circle
-            poseStack.scale((1 / 3.0).toFloat(), (1 / 3.0).toFloat(), (1 / 3.0).toFloat())
+            // Dynamically calculate scale based on pattern size
+            val basePatternSize = 4
+            val scaleFactor = basePatternSize.toFloat() / patternSize
+
+            // Apply the calculated scale
+            poseStack.scale(scaleFactor, scaleFactor, scaleFactor)
 
             // Render the chalk circle, optionally with color
             if (color != null) {
@@ -187,6 +199,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             poseStack.popPose()
         }
     }
+
 
     private fun addItemCircleWidget(
         widgets: WidgetHolder,
@@ -203,27 +216,28 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         posX: Int,
         posY: Int,
         size: Int,
-        index: Int
+        index: Int,
+        patternSize: Int
     ) {
         when {
             itemStack.`is`(WitcheryItems.GOLDEN_CHALK.get()) -> {
                 addChalkCircleWidget(
                     widgets, posX, posY, size,
-                    "textures/block/golden_chalk.png"
+                    "textures/block/golden_chalk.png", patternSize
                 )
             }
 
             itemStack.`is`(WitcheryItems.RITUAL_CHALK.get()) -> {
                 addChalkCircleWidget(
                     widgets, posX, posY, size,
-                    "textures/block/chalk_${index % 15}.png"
+                    "textures/block/chalk_${index % 15}.png", patternSize
                 )
             }
 
             itemStack.`is`(WitcheryItems.OTHERWHERE_CHALK.get()) -> {
                 addChalkCircleWidget(
                     widgets, posX, posY, size,
-                    "textures/block/chalk_${index % 15}.png",
+                    "textures/block/chalk_${index % 15}.png", patternSize,
                     Color(190, 55, 250).rgb
                 )
             }
@@ -231,7 +245,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             itemStack.`is`(WitcheryItems.INFERNAL_CHALK.get()) -> {
                 addChalkCircleWidget(
                     widgets, posX, posY, size,
-                    "textures/block/chalk_${index % 15}.png",
+                    "textures/block/chalk_${index % 15}.png", patternSize,
                     Color(230, 0, 75).rgb
                 )
             }
