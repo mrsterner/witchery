@@ -9,7 +9,7 @@
 - Added Brazier, Necro stone and banshee summoning
 - Added sexy render to necro stone
 - Added Celestial conditions to ritual EMI screen
-- Added Brew of Erosion, Revealing 
+- Added Brew of Erosion, Revealing
 
 ### Bugfix 0.1.2f
 - Added a queue system to teleportation from spirit world to overworld
