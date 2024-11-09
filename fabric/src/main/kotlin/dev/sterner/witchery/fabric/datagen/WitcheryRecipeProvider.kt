@@ -149,6 +149,17 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter, Witchery.id("brew_of_ink"))
 
         CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(Items.CARROT.defaultInstance, Color(250, 150, 50).rgb)
+            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.NIGHT_VISION), Color(50, 20, 150).rgb)
+            .addInputWithColor(Items.SPIDER_EYE.defaultInstance, Color(255, 50, 70).rgb)
+            .addInputWithColor(Items.BROWN_MUSHROOM.defaultInstance, Color(205, 110, 70).rgb)
+            .addInputWithColor(Items.SPIDER_EYE.defaultInstance, Color(255, 50, 70).rgb)
+            .addInputWithColor(WitcheryItems.ODOR_OF_PURITY.get().defaultInstance, Color(150, 50, 150).rgb)
+            .setOutput(WitcheryItems.BREW_OF_REVEALING.get().defaultInstance)
+            .setAltarPower(100)
+            .save(exporter, Witchery.id("brew_of_revealing"))
+
+        CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get().defaultInstance, Color(255, 190, 190).rgb)
             .addInputWithColor(Items.COOKIE.defaultInstance, Color(250, 200, 50).rgb)
             .addInputWithColor(WitcheryItems.ICY_NEEDLE.get().defaultInstance, Color(100, 150, 250).rgb)

@@ -28,10 +28,14 @@ class BansheeEntityRenderer(context: EntityRendererProvider.Context) :
         packedLight: Int
     ) {
         val timeOfDay = entity.level().dayTime % 24000
-        val alpha = if (timeOfDay in 0..12000) {
+        var alpha = if (timeOfDay in 0..12000) {
             10
         } else {
             100
+        }
+
+        if (entity.entityData.get(BansheeEntity.REVEALED)) {
+            alpha = 255
         }
 
         val color = (alpha shl 24) or (255 shl 16) or (255 shl 8) or 255

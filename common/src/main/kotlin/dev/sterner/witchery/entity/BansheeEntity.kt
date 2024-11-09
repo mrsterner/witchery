@@ -1,6 +1,10 @@
 package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.syncher.EntityDataAccessor
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.tags.DamageTypeTags
 import net.minecraft.util.Mth
 import net.minecraft.world.damagesource.DamageSource
@@ -9,12 +13,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.control.MoveControl
 import net.minecraft.world.entity.ai.goal.Goal
-import net.minecraft.world.entity.monster.Monster
+import net.minecraft.world.entity.animal.Fox
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.levelgen.Heightmap
 import net.minecraft.world.phys.Vec3
 import java.util.*
-import kotlin.math.abs
 
 class BansheeEntity(level: Level) : FlyingMob(WitcheryEntityTypes.BANSHEE.get(), level) {
 
@@ -28,6 +30,7 @@ class BansheeEntity(level: Level) : FlyingMob(WitcheryEntityTypes.BANSHEE.get(),
 
     companion object {
         fun createAttributes(): AttributeSupplier.Builder? {
+
             return createMobAttributes()
                 .add(Attributes.FLYING_SPEED, 0.35)
                 .add(Attributes.MAX_HEALTH, 40.0)
@@ -35,6 +38,24 @@ class BansheeEntity(level: Level) : FlyingMob(WitcheryEntityTypes.BANSHEE.get(),
                 .add(Attributes.ATTACK_DAMAGE, 4.0)
                 .add(Attributes.FOLLOW_RANGE, 48.0)
         }
+        val REVEALED: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
+            BansheeEntity::class.java, EntityDataSerializers.BOOLEAN
+        )
+    }
+
+    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
+        builder.define(REVEALED, false)
+        super.defineSynchedData(builder)
+    }
+
+    override fun save(compound: CompoundTag): Boolean {
+        compound.putBoolean("Revealed", entityData.get(REVEALED))
+        return super.save(compound)
+    }
+
+    override fun load(compound: CompoundTag) {
+        entityData.set(REVEALED, compound.getBoolean("Revealed"))
+        super.load(compound)
     }
 
     override fun isInvulnerableTo(source: DamageSource): Boolean {
