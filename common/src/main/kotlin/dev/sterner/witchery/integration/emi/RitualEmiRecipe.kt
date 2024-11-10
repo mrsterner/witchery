@@ -138,7 +138,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
 
         widgets.addText(
             Component.literal("Power"),
-            6,
+            7,
             displayHeight / 2 + 6,
             0xffffff,
             true
@@ -146,7 +146,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
 
         widgets.addText(
             Component.literal("${recipe.altarPower}$append"),
-            6,
+            7,
             displayHeight / 2 + 18,
             0xffffff,
             true
