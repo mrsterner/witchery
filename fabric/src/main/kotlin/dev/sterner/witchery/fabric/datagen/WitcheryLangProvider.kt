@@ -1,5 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -304,6 +305,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.ALDER_HANGING_SIGN.get(), "Alder Hanging Sign")
         builder.add(WitcheryItems.ALDER_BOAT.get(), "Alder Boat")
         builder.add(WitcheryItems.ALDER_CHEST_BOAT.get(), "Alder Chest Boat")
+
+        builder.add(WitcheryBlocks.SPIRIT_PORTAL.get(), "Spirit Portal")
+        builder.add(WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get(), "Spirit Portal")
 
         builder.add(WitcheryBlocks.HAWTHORN_LOG.get(), "Hawthorn Log")
         builder.add(WitcheryBlocks.HAWTHORN_WOOD.get(), "Hawthorn Wood")

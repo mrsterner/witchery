@@ -48,16 +48,20 @@ object WitcheryRenderTypes {
         256
     }
 
+    init {
+        RenderType.RENDERTYPE_EYES_SHADER
+    }
     val SPIRIT_PORTAL = Util.memoize { resourceLocation: ResourceLocation ->
         val compositeState: RenderType.CompositeState? =
             RenderType.CompositeState.builder()
                 .setShaderState(ShaderStateShard(WitcheryShaders::spiritPortal))
                 .setTextureState(TextureStateShard(resourceLocation, false, true))
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                .setTransparencyState(ADDITIVE_TRANSPARENCY)
                 .setCullState(CULL)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)
                 .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                .setWriteMaskState(COLOR_WRITE)
                 .createCompositeState(true)
         create(
             Witchery.MODID + "spirit_portal",
