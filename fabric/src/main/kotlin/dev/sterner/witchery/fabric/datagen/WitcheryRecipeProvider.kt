@@ -1522,6 +1522,16 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter, Witchery.id("rite_of_charging_infusion"))
 
         RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.DROP_OF_LUCK.get())
+            .addInputItem(Items.PORKCHOP)
+            .addInputItem(Items.GOLD_INGOT)
+            .addInputItem(WitcheryItems.ARTHANA.get())
+            .setAltarPower(2000)
+            .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .addOutputEntity(WitcheryEntityTypes.SPECTRAL_PIG.get())
+            .save(exporter, Witchery.id("summon_spectral_pig"))
+
+        RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.REFINED_EVIL.get())
             .addInputItem(Items.BLAZE_POWDER)
             .addInputItem(Items.ENDER_PEARL)

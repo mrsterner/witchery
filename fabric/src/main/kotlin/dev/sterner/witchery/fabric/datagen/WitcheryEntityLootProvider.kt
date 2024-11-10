@@ -69,6 +69,18 @@ class WitcheryEntityLootProvider(
                         )
                 )
         )
+
+        output.accept(
+            SPECTRAL_PIG, LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(
+                            LootItem.lootTableItem(WitcheryItems.SPECTRAL_DUST.get())
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                        )
+                )
+        )
     }
 
     companion object {
@@ -80,5 +92,7 @@ class WitcheryEntityLootProvider(
             ResourceKey.create(Registries.LOOT_TABLE, Witchery.id("entities/ent"))
         val BANSHEE: ResourceKey<LootTable> =
             ResourceKey.create(Registries.LOOT_TABLE, Witchery.id("entities/banshee"))
+        val SPECTRAL_PIG: ResourceKey<LootTable> =
+            ResourceKey.create(Registries.LOOT_TABLE, Witchery.id("entities/spectral_pig"))
     }
 }

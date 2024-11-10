@@ -1,0 +1,44 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 2000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "S": "witchery:ritual_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [],
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:drop_of_luck"
+    },
+    {
+      "id": "minecraft:porkchop"
+    },
+    {
+      "id": "minecraft:gold_ingot"
+    },
+    {
+      "id": "witchery:arthana"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [
+    "witchery:spectral_pig"
+  ],
+  "outputItems": [],
+  "pattern": [
+    "__SSS__",
+    "_S___S_",
+    "S_____S",
+    "S__G__S",
+    "S_____S",
+    "_S___S_",
+    "__SSS__"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 0
+}

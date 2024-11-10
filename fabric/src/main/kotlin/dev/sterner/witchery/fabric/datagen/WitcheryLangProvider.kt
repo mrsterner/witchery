@@ -329,6 +329,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.BLOOD_POPPY.get(), "Blood Poppy")
 
         builder.add(WitcheryEntityTypes.MANDRAKE.get(), "Mandrake")
+        builder.add(WitcheryEntityTypes.SPECTRAL_PIG.get(), "Spectral Pig")
 
         builder.add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")
         builder.add(WitcheryTags.ALDER_LOG_ITEMS, "Alder Logs")

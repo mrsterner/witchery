@@ -117,4 +117,12 @@ object WitcheryEntityTypes {
             }, MobCategory.MONSTER
         ).sized(1.15F, 1.8F).build(Witchery.id("banshee").toString())
     }
+
+    val SPECTRAL_PIG: RegistrySupplier<EntityType<SpectralPigEntity>> = ENTITY_TYPES.register("spectral_pig") {
+        EntityType.Builder.of(
+            { _: EntityType<SpectralPigEntity>, level: Level ->
+                SpectralPigEntity(level)
+            }, MobCategory.CREATURE
+        ).sized(0.9f, 0.9f).build(Witchery.id("spectral_pig").toString())
+    }
 }

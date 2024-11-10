@@ -64,6 +64,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.animal.Pig
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.LootPool
@@ -110,6 +111,7 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.OWL, OwlEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.ENT, EntEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.BANSHEE, BansheeEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.SPECTRAL_PIG, Pig::createAttributes)
 
         MODIFY_LOOT_TABLE.register(::addSeeds)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
@@ -298,6 +300,7 @@ object Witchery {
         EntityRendererRegistry.register(WitcheryEntityTypes.FLOATING_ITEM, ::FloatingItemEntityRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.THROWN_BREW, ::ThrownItemRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.SLEEPING_PLAYER, ::SleepingPlayerEntityRenderer)
+        EntityRendererRegistry.register(WitcheryEntityTypes.SPECTRAL_PIG, ::SpectralPigRenderer)
 
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
