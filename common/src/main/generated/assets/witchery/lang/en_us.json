@@ -420,6 +420,8 @@
   "witchery:ritual/summon_lightning.tooltip": "Summons a Lightning Strike at ritual center",
   "witchery:ritual/summon_lightning_on_waystone": "Lightning Strike",
   "witchery:ritual/summon_lightning_on_waystone.tooltip": "Summons a Lightning Strike at bound Waystone location",
+  "witchery:ritual/summon_spectral_pig": "Summon Spectral Pig",
+  "witchery:ritual/summon_spectral_pig.tooltip": "Summon an Spectral Pig at ritual center",
   "witchery:ritual/summon_witch": "Summon Witch",
   "witchery:ritual/summon_witch.tooltip": "Summon a Witch at ritual center",
   "witchery:ritual/summon_wither": "Summon Wither",
