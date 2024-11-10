@@ -47,7 +47,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
     }
 
     override fun getDisplayWidth(): Int {
-        return 18 * 8
+        return 18 * 9
     }
 
     override fun getDisplayHeight(): Int {
@@ -127,17 +127,27 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         rowIndex = 0
 
         for (item in recipe.outputItems) {
-            val posY = (rowIndex * itemSize) + displayHeight - (itemsPerRow * itemSize) - 18
+            val posY = (rowIndex * itemSize) + displayHeight - (itemsPerRow * itemSize) - 18 - 4
 
             widgets.add(WitcherySlotWidget(EmiStack.of(item), colXOffset, posY).recipeContext(this))
 
             rowIndex++
         }
+
         val append = if (recipe.isInfinite) "/s" else ""
+
         widgets.addText(
-            Component.literal("Altar Power: ${recipe.altarPower}$append"),
-            displayWidth / 4 - 9,
-            displayHeight - 18 - 9 + 9,
+            Component.literal("Power"),
+            6,
+            displayHeight / 2 + 6,
+            0xffffff,
+            true
+        )
+
+        widgets.addText(
+            Component.literal("${recipe.altarPower}$append"),
+            6,
+            displayHeight / 2 + 18,
             0xffffff,
             true
         )
