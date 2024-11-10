@@ -1,11 +1,14 @@
 package dev.sterner.witchery.item.brew
 
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Vec3i
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.Vec3
 
 class BrewOfWebsItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
@@ -13,14 +16,39 @@ class BrewOfWebsItem(color: Int, properties: Properties) : ThrowableBrewItem(col
         livingEntity.addEffect(MobEffectInstance(MobEffects.WEAVING, 20 * 20, 0))
     }
 
-    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
-        val block = level.getBlockState(blockHit.blockPos)
-        val dirBlock = level.getBlockState(blockHit.blockPos.relative(blockHit.direction))
+    override fun applyEffectOnHitLocation(level: Level, location: Vec3) {
+        val blockPos = BlockPos.containing(location)
+        val block = level.getBlockState(blockPos)
         if (block.isAir) {
-            level.setBlockAndUpdate(blockHit.blockPos, Blocks.COBWEB.defaultBlockState())
-        } else if (dirBlock.isAir) {
-            level.setBlockAndUpdate(blockHit.blockPos.relative(blockHit.direction), Blocks.COBWEB.defaultBlockState())
+            level.setBlockAndUpdate(blockPos, Blocks.COBWEB.defaultBlockState())
         }
-        super.applyEffectOnBlock(level, blockHit)
+
+        val list = collectPositionsInDullSphere(blockPos, 2)
+        for (pos in list) {
+            val extraPos = level.getBlockState(pos)
+            if (level.random.nextDouble() > 0.75 && (extraPos.canBeReplaced() || extraPos.isAir)) {
+                level.setBlockAndUpdate(pos, Blocks.COBWEB.defaultBlockState())
+            }
+        }
+
+        super.applyEffectOnHitLocation(level, location)
+    }
+
+    companion object {
+        @JvmStatic
+        fun collectPositionsInDullSphere(center: BlockPos, radius: Int): List<BlockPos> {
+            val positions = mutableListOf<BlockPos>()
+            for (x in -radius..radius) {
+                for (y in -radius + 1..<radius) {
+                    for (z in -radius..radius) {
+                        val offset = BlockPos(x, y, z)
+                        if (offset.distSqr(Vec3i.ZERO) <= radius * radius) {
+                            positions.add(center.offset(offset))
+                        }
+                    }
+                }
+            }
+            return positions
+        }
     }
 }

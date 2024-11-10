@@ -68,6 +68,9 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
                 item.applyEffectOnEntities(level(), livingEntity)
             }
         }
+
+        item.applyEffectOnHitLocation(level(), result.location)
+
         if (result.type == HitResult.Type.BLOCK) {
             item.applyEffectOnBlock(level(), result as BlockHitResult)
         }

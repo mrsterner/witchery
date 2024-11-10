@@ -16,6 +16,7 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.Vec3
 
 open class BrewItem(open val color: Int, properties: Properties, val predicate: Predicate<Direction> = Predicate { true }) : Item(properties) {
 
@@ -81,6 +82,10 @@ open class BrewItem(open val color: Int, properties: Properties, val predicate: 
     }
 
     open fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
+
+    }
+
+    open fun applyEffectOnHitLocation(level: Level, location: Vec3) {
 
     }
 
