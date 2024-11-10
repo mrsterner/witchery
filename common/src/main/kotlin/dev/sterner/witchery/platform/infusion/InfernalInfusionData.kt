@@ -92,12 +92,12 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                 return false
             }
         },
-        GHAST(EntityType.GHAST) {
+        GHAST(EntityType.GHAST) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
         },
-        ZOMBIE_PIGMAN(EntityType.ZOMBIFIED_PIGLIN) {
+        ZOMBIE_PIGMAN(EntityType.ZOMBIFIED_PIGLIN) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
@@ -112,17 +112,17 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                 return false
             }
         },
-        SILVERFISH(EntityType.SILVERFISH) {
+        SILVERFISH(EntityType.SILVERFISH) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
         },
-        BLAZE(EntityType.BLAZE) {
+        BLAZE(EntityType.BLAZE) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
         },
-        MAGMA_CUBE(EntityType.MAGMA_CUBE) {
+        MAGMA_CUBE(EntityType.MAGMA_CUBE) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
@@ -132,17 +132,17 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                 return false
             }
         },
-        PIG(EntityType.PIG) {
+        PIG(EntityType.PIG) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
         },
-        SHEEP(EntityType.SHEEP) {
+        SHEEP(EntityType.SHEEP) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
         },
-        COW(EntityType.COW) {
+        COW(EntityType.COW) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
@@ -152,7 +152,7 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                 return false
             }
         },
-        CHICKEN(EntityType.CHICKEN) {
+        CHICKEN(EntityType.CHICKEN) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
@@ -162,7 +162,7 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                 return false
             }
         },
-        WOLF(EntityType.WOLF) {
+        WOLF(EntityType.WOLF) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
@@ -172,12 +172,12 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                 return false
             }
         },
-        OCELOT(EntityType.OCELOT) {
+        OCELOT(EntityType.OCELOT) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
         },
-        HORSE(EntityType.HORSE) {
+        HORSE(EntityType.HORSE) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
