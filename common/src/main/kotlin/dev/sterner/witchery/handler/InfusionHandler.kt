@@ -146,20 +146,5 @@ object InfusionHandler {
             28,
             1f
         )
-
-        val overlayHeight = ((1f - chargePercentage) * 28).toInt()
-        RenderUtils.blitWithAlpha(
-            guiGraphics.pose(),
-            infusionMeterOverlay,
-            12 + 4,
-            scaledY - 100 + 4 + 30,
-            0f,
-            0f,
-            3,
-            overlayHeight,
-            3,
-            28,
-            1f
-        )
     }
 }
