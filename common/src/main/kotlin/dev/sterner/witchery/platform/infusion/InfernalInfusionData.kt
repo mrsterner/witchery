@@ -3,19 +3,56 @@ package dev.sterner.witchery.platform.infusion
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.platform.infusion.InfusionData.Companion.MAX_CHARGE
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.StringRepresentable
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.monster.Creeper
+import net.minecraft.world.entity.LightningBolt
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec3
-import org.joml.Vector3d
 
 class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE) {
 
     companion object {
+
+        fun strikeLightning(lightningBolt: LightningBolt?, level: Level?, vec3: Vec3?, entities: MutableList<Entity>?) {
+            if (entities != null) {
+                for (entity in entities) {
+                    if (entity is Player && InfernalInfusionDataAttachment.getData(entity).currentCreature == CreatureType.CREEPER) {
+                        PlayerInfusionDataAttachment.increaseInfusionCharge(entity, MAX_CHARGE)
+                    }
+                }
+            }
+        }
+
+        fun tick(player: Player?) {
+            val data = player?.let { InfernalInfusionDataAttachment.getData(it) }
+
+            if (data != null) {
+                if (data.currentCreature == CreatureType.ZOMBIE_PIGMAN || data.currentCreature == CreatureType.GHAST || data.currentCreature == CreatureType.BLAZE) {
+                    player.addEffect(MobEffectInstance(MobEffects.FIRE_RESISTANCE, 20 * 3, 0))
+                }
+
+                if (data.currentCreature == CreatureType.SLIME || data.currentCreature == CreatureType.MAGMA_CUBE) {
+                    player.addEffect(MobEffectInstance(MobEffects.JUMP, 20 * 3, 0))
+                }
+
+                if (data.currentCreature == CreatureType.SILVERFISH || data.currentCreature == CreatureType.WOLF || data.currentCreature == CreatureType.OCELOT  || data.currentCreature == CreatureType.HORSE) {
+                    if (!player.isInWaterOrRain) {
+                        player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 3, 0))
+                    }
+                }
+            }
+        }
+
+
+
         val CODEC: Codec<InfernalInfusionData> = RecordCodecBuilder.create { instance ->
             instance.group(
                 CreatureType.CODEC.fieldOf("currentCreature").forGetter { it.currentCreature }
@@ -30,7 +67,7 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                 return false
             }
         },
-        CREEPER(EntityType.CREEPER) {
+        CREEPER(EntityType.CREEPER) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
@@ -50,7 +87,7 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                 return false
             }
         },
-        SLIME(EntityType.SLIME) {
+        SLIME(EntityType.SLIME) { //PASSIVE DONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }

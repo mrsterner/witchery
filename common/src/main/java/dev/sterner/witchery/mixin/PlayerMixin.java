@@ -3,6 +3,8 @@ package dev.sterner.witchery.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.sterner.witchery.api.SleepingEvent;
 import dev.sterner.witchery.entity.BroomEntity;
+import dev.sterner.witchery.platform.infusion.InfernalInfusionData;
+import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,6 +30,17 @@ public abstract class PlayerMixin {
         if (vehicle instanceof BroomEntity) {
             return false;
         }
+        return original;
+    }
+
+    @ModifyReturnValue(method = "causeFallDamage", at = @At("RETURN"))
+    private boolean witchery$stopCauseFallDamage(boolean original){
+        Player player = Player.class.cast(this);
+        var data = InfernalInfusionDataAttachment.getData(player).getCurrentCreature();
+        if (data == InfernalInfusionData.CreatureType.SLIME || data == InfernalInfusionData.CreatureType.MAGMA_CUBE) {
+            return false;
+        }
+
         return original;
     }
 }

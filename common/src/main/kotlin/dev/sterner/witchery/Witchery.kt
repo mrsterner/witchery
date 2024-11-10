@@ -45,6 +45,8 @@ import dev.sterner.witchery.platform.EntSpawnLevelAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
 import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
+import dev.sterner.witchery.platform.infusion.InfernalInfusionData
+import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
 import dev.sterner.witchery.registry.*
@@ -101,6 +103,7 @@ object Witchery {
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
         WitcheryFeatures.FEATURES.register()
+        WitcheryAttributes.ATTRIBUTES.register()
 
         WitcheryPayloads.register()
 
@@ -143,6 +146,9 @@ object Witchery {
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
         TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
         TickEvent.SERVER_POST.register(PlayerManifestationDataAttachment::tick)
+        TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
+
+        LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
     }
 
     private fun addWitchesHand(
