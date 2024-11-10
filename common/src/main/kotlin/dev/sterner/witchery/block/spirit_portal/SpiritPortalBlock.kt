@@ -28,8 +28,11 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
+import java.util.function.ToIntFunction
 
-class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noCollission()) {
+class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noCollission().lightLevel(
+    litBlockEmission(8)
+)) {
 
     init {
         this.registerDefaultState(
@@ -138,6 +141,15 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
         val EAST: VoxelShape = Shapes.create(13.0 / 16, 0.0, 0.0, 1.0, 1.0, 1.0)
         val WEST: VoxelShape = Shapes.create(0.0, 0.0, 0.0, 3.0 / 16, 1.0, 1.0)
         val NORTH: VoxelShape = Shapes.create(0.0, 0.0, 0.0, 1.0, 1.0, 3.0 / 16)
+
+        fun litBlockEmission(lightValue: Int): ToIntFunction<BlockState> {
+            return ToIntFunction { blockState: BlockState ->
+                if (blockState.getValue(
+                        BlockStateProperties.OPEN
+                    ) as Boolean
+                ) lightValue else 4
+            }
+        }
 
         val STRUCTURE: Supplier<MultiBlockHorizontalDirectionStructure> =
             Supplier<MultiBlockHorizontalDirectionStructure> {

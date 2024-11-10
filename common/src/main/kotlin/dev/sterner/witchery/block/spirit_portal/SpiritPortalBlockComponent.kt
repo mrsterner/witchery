@@ -6,6 +6,7 @@ import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.EAST
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.NORTH
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.SOUTH
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.WEST
+import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.litBlockEmission
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.Entity
@@ -23,7 +24,9 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class SpiritPortalBlockComponent(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion().noCollission()) {
+class SpiritPortalBlockComponent(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion().noCollission().lightLevel(
+    litBlockEmission(8)
+)) {
 
     init {
         this.registerDefaultState(
