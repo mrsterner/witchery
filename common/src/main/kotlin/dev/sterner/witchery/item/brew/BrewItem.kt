@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item.brew
 
 import com.google.common.base.Predicate
+import dev.sterner.witchery.api.WitcheryApi
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
@@ -27,6 +28,7 @@ open class BrewItem(open val color: Int, properties: Properties, val predicate: 
         }
 
         if (!level.isClientSide && player != null) {
+            WitcheryApi.makePlayerWitchy(player)
             applyEffectOnSelf(player)
         }
 

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.entity.BroomEntity
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.network.chat.Component
@@ -20,6 +21,7 @@ class BroomItem(properties: Properties) : Item(properties) {
         val pos = context.clickedPos
 
         if (item.get(WitcheryDataComponents.HAS_OINTMENT.get()) == true) {
+            context.player?.let { WitcheryApi.makePlayerWitchy(it) }
             val broomEntity = BroomEntity(level)
             val vec = pos.relative(dir)
             broomEntity.moveTo(vec.center)

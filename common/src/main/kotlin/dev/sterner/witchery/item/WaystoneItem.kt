@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
@@ -19,6 +20,7 @@ class WaystoneItem(properties: Properties) : Item(properties) {
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val stack = context.itemInHand
+        context.player?.let { WitcheryApi.makePlayerWitchy(it) }
         bindGlobalBlockPos(context.level, context.clickedPos.relative(context.clickedFace), stack)
         return super.useOn(context)
     }

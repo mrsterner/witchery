@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item.brew
 
 import com.google.common.base.Predicate
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.entity.ThrownBrewEntity
 import net.minecraft.core.Direction
 import net.minecraft.core.Position
@@ -19,6 +20,7 @@ open class ThrowableBrewItem(override val color: Int, properties: Properties, pr
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(usedHand)
         if (!level.isClientSide) {
+            WitcheryApi.makePlayerWitchy(player)
             val thrownPotion = ThrownBrewEntity(level, player)
             thrownPotion.item = itemStack
             thrownPotion.shootFromRotation(player, player.xRot, player.yRot, -20.0f, 0.5f, 1.0f)

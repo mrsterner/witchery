@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.handler.InfusionHandler
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
@@ -14,6 +15,7 @@ class WitchesHandItem(properties: Properties) : Item(properties) {
 
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         player.startUsingItem(usedHand)
+        WitcheryApi.makePlayerWitchy(player)
         return InteractionResultHolder.consume(player.getItemInHand(usedHand))
     }
 

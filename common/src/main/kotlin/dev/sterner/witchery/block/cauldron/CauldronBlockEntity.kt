@@ -3,6 +3,7 @@ package dev.sterner.witchery.block.cauldron
 import dev.architectury.fluid.FluidStack
 import dev.architectury.hooks.fluid.FluidStackHooks
 import dev.architectury.platform.Platform
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.fluid.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.payload.CauldronEffectParticleS2CPayload
@@ -344,6 +345,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         if (pStack.`is`(Items.GLASS_BOTTLE)) {
 
             if (!brewItemOutput.isEmpty && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
+
+                WitcheryApi.makePlayerWitchy(pPlayer)
+
                 var thirdBonus = 0f
                 var bonus = 0f
                 if (pPlayer.getItemBySlot(EquipmentSlot.HEAD).`is`(WitcheryItems.WITCHES_HAT.get())) {

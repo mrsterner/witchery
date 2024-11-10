@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.block.poppet.PoppetBlockEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntityName
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayerProfile
@@ -56,6 +57,7 @@ open class PoppetItem(properties: Properties) : Item(properties.stacksTo(1)) {
                 ClipContext(eyePos, rayEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity)
             )
             if (result.direction.axis.isHorizontal) {
+                WitcheryApi.makePlayerWitchy(livingEntity)
                 PoppetBlockEntity.placePoppet(level, result.blockPos, livingEntity, result.direction)
             }
         }

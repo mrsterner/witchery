@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.platform.MutandisDataAttachment
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
@@ -22,6 +23,8 @@ class MutandisItem(properties: Properties) : Item(properties) {
         val level = useOnContext.level as? ServerLevel ?: return super.useOn(useOnContext)
         val pos = useOnContext.clickedPos
         val state = level.getBlockState(pos)
+
+        useOnContext.player?.let { WitcheryApi.makePlayerWitchy(it) }
 
         if (handleTagReplacement(
                 useOnContext.player,

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import net.minecraft.world.InteractionResult
@@ -14,6 +15,8 @@ class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block,
         val pos = context.clickedPos
         val item = (context.itemInHand.item as ChalkItem)
         val state = level.getBlockState(pos)
+
+        context.player?.let { WitcheryApi.makePlayerWitchy(it) }
 
         if (level.isClientSide) return InteractionResult.sidedSuccess(true)
 

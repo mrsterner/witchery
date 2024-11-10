@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.server.level.ServerLevel
@@ -33,6 +34,8 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
         val state = level.getBlockState(pos)
         val player = context.player
 
+        player?.let { WitcheryApi.makePlayerWitchy(it) }
+
         if (player != null && player.offhandItem.`is`(Items.GLASS_BOTTLE) && state.`is`(BlockTags.BEDS) && level.server != null) {
 
             if (state.getValue(BedBlock.PART) != BedPart.HEAD) {
@@ -62,6 +65,9 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
         interactionTarget: LivingEntity,
         usedHand: InteractionHand
     ): InteractionResult {
+
+        WitcheryApi.makePlayerWitchy(player)
+
         val taglock = WitcheryItems.TAGLOCK.get().defaultInstance
         if (tryTaglockEntity(player.level(), player, player.mainHandItem, interactionTarget, taglock)) {
             stack.set(WitcheryDataComponents.TIMESTAMP.get(), player.level().gameTime)
