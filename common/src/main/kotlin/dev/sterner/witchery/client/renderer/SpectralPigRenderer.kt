@@ -59,7 +59,7 @@ class SpectralPigRenderer(context: EntityRendererProvider.Context) : MobRenderer
         model.prepareMobModel(entity, m, l, partialTicks)
         model.setupAnim(entity, m, l, k, h, j)
 
-        var alpha =  10
+        var alpha =  20
 
         if (entity.entityData.get(SpectralPigEntity.REVEALED)) {
             alpha = 160
