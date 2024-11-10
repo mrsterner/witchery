@@ -187,7 +187,7 @@ object PoppetHandler {
 
                     var outDamage = original
 
-                    if (maybeEntity is Player && !PlayerMiscDataAttachment.getData(maybeEntity).isWitcheryAligned) {
+                    if (maybeEntity is Player && !WitcheryApi.isWitchy(maybeEntity)) {
                         maybePlayer?.hurt(damageSource, outDamage * 0.75f)
                         maybeEntity.hurt(damageSource, outDamage * 0.25f)
                     } else {
@@ -220,7 +220,7 @@ object PoppetHandler {
             if (movementVector.length() > 0.2) {
                 var scaledMovement = movementVector.scale(0.45)
                 boundPlayer?.apply {
-                    if (PlayerMiscDataAttachment.getData(boundPlayer).isWitcheryAligned) {
+                    if (WitcheryApi.isWitchy(boundPlayer)) {
                         scaledMovement = scaledMovement.scale(0.75)
                     }
                     addDeltaMovement(scaledMovement)
@@ -260,7 +260,7 @@ object PoppetHandler {
             if (maybePlayer != null || maybeEntity != null) {
 
                 maybePlayer?.apply {
-                    if (PlayerMiscDataAttachment.getData(maybePlayer).isWitcheryAligned) {
+                    if (WitcheryApi.isWitchy(maybePlayer)) {
                         maybePlayer.remainingFireTicks = 20 * 4
                     } else {
                         maybePlayer.remainingFireTicks = 20 * 2
@@ -279,7 +279,7 @@ object PoppetHandler {
             val maybeEntity = getLivingEntity(level, item)
             if (maybePlayer != null || maybeEntity != null) {
                 maybePlayer?.apply {
-                    if (PlayerMiscDataAttachment.getData(maybePlayer).isWitcheryAligned) {
+                    if (WitcheryApi.isWitchy(maybePlayer)) {
                         maybePlayer.remainingFireTicks = 20 * 2
                     } else {
                         maybePlayer.remainingFireTicks = 20 * 1

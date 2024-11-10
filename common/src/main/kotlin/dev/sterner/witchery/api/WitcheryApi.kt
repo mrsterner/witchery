@@ -22,4 +22,8 @@ object WitcheryApi {
             PlayerMiscDataAttachment.setWitcheryAligned(player, true)
         }
     }
+
+    fun isWitchy(maybeEntity: Player): Boolean {
+        return PlayerMiscDataAttachment.getData(maybeEntity).isWitcheryAligned
+    }
 }
