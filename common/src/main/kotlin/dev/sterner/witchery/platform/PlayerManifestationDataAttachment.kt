@@ -105,8 +105,8 @@ object PlayerManifestationDataAttachment {
         RenderUtils.blitWithAlpha(
             guiGraphics.pose(),
             Witchery.id("textures/gui/zzz_meter_overlay.png"),
-            10,
-            scaledY - 100 + 30,
+            10 + 18,
+            scaledY / 2 - (24 / 2),
             0f,
             0f,
             12,
@@ -120,8 +120,8 @@ object PlayerManifestationDataAttachment {
         RenderUtils.blitWithAlpha(
             guiGraphics.pose(),
             Witchery.id("textures/gui/zzz_meter.png"),
-            10,
-            scaledY - 100 + 30,
+            10 + 18,
+            scaledY / 2 - (24 / 2),
             0f,
             0f,
             12,
