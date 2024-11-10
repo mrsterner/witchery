@@ -4,8 +4,14 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.payload.SyncManifestationS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.DeltaTracker
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
@@ -13,6 +19,8 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.ChunkPos
 
 object PlayerManifestationDataAttachment {
+
+    const val MAX_TIME = 2400
 
     @ExpectPlatform
     @JvmStatic
@@ -43,7 +51,7 @@ object PlayerManifestationDataAttachment {
 
     fun setManifestationTimer(player: Player) {
         val data = getData(player)
-        data.manifestationTimer = 2400
+        data.manifestationTimer = MAX_TIME
         setData(player, data)
     }
 
@@ -81,6 +89,47 @@ object PlayerManifestationDataAttachment {
                 setData(player, data)
             }
         }
+    }
+
+    @Environment(EnvType.CLIENT)
+    fun renderHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker?) {
+        val minecraft = Minecraft.getInstance()
+        val clientPlayer = minecraft.player ?: return
+
+        val data = getData(clientPlayer)
+        if (data.manifestationTimer <= 0) return
+
+        val scaledY = minecraft.window.guiScaledHeight
+        val chargePercentage = data.manifestationTimer.toFloat() / MAX_TIME
+
+        RenderUtils.blitWithAlpha(
+            guiGraphics.pose(),
+            Witchery.id("textures/gui/zzz_meter_overlay.png"),
+            10,
+            scaledY - 100 + 30,
+            0f,
+            0f,
+            12,
+            24,
+            12,
+            24,
+            1f
+        )
+
+        val overlayHeight = ((1f - chargePercentage) * 24).toInt()
+        RenderUtils.blitWithAlpha(
+            guiGraphics.pose(),
+            Witchery.id("textures/gui/zzz_meter.png"),
+            10,
+            scaledY - 100 + 30,
+            0f,
+            0f,
+            12,
+            overlayHeight,
+            12,
+            24,
+            1f
+        )
     }
 
     class Data(var hasRiteOfManifestation: Boolean = false, var manifestationTimer: Int = 0) {
