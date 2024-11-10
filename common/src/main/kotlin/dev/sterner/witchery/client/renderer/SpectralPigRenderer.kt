@@ -1,6 +1,7 @@
 package dev.sterner.witchery.client.renderer
 
 import com.mojang.blaze3d.vertex.PoseStack
+import dev.sterner.witchery.entity.BansheeEntity
 import dev.sterner.witchery.entity.SpectralPigEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.PigModel
@@ -58,6 +59,14 @@ class SpectralPigRenderer(context: EntityRendererProvider.Context) : MobRenderer
         model.prepareMobModel(entity, m, l, partialTicks)
         model.setupAnim(entity, m, l, k, h, j)
 
+        var alpha =  100
+
+        if (entity.entityData.get(SpectralPigEntity.REVEALED)) {
+            alpha = 160
+        }
+
+        val color = (alpha shl 24) or (255 shl 16) or (255 shl 8) or 255
+
         val resourceLocation = this.getTextureLocation(entity)
 
         val vertexConsumer = buffer.getBuffer(RenderType.entityTranslucent(resourceLocation))
@@ -66,11 +75,7 @@ class SpectralPigRenderer(context: EntityRendererProvider.Context) : MobRenderer
             this.getWhiteOverlayProgress(entity, partialTicks)
         )
 
-        val originalAlpha = (654311423 shr 24) and 0xFF
-        val reducedAlpha = (originalAlpha * 0.5).toInt() shl 24
-        val colorWithReducedAlpha = (654311423 and 0x00FFFFFF) or reducedAlpha
-
-        model.renderToBuffer(poseStack, vertexConsumer, packedLight, n, colorWithReducedAlpha)
+        model.renderToBuffer(poseStack, vertexConsumer, packedLight, n, color)
 
         for (renderLayer in this.layers) {
             renderLayer.render(poseStack, buffer, packedLight, entity, m, l, partialTicks, k, h, j)
