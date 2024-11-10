@@ -19,6 +19,10 @@ class WitcheryEmiPlugin : EmiPlugin {
 
     override fun register(registry: EmiRegistry) {
         registry.addWorkstation(
+            BRAZIER_CATEGORY,
+            EmiIngredient.of(Ingredient.of(WitcheryItems.BRAZIER.get()))
+        )
+        registry.addWorkstation(
             CAULDRON_CRAFTING_CATEGORY,
             EmiIngredient.of(Ingredient.of(WitcheryItems.CAULDRON.get()))
         )
@@ -54,7 +58,6 @@ class WitcheryEmiPlugin : EmiPlugin {
             CAULDRON_CRAFTING_CATEGORY,
             EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_OXIDIZED_COPPER_CAULDRON.get()))
         )
-
         registry.addWorkstation(
             CAULDRON_BREWING_CATEGORY,
             EmiIngredient.of(Ingredient.of(WitcheryItems.CAULDRON.get()))
@@ -133,14 +136,14 @@ class WitcheryEmiPlugin : EmiPlugin {
         registry.addWorkstation(DISTILLING_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.DISTILLERY.get())))
         registry.addWorkstation(SPINNING_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.SPINNING_WHEEL.get())))
 
-
-
         registry.addCategory(CAULDRON_BREWING_CATEGORY)
         registry.addCategory(CAULDRON_CRAFTING_CATEGORY)
         registry.addCategory(OVEN_COOKING_CATEGORY)
         registry.addCategory(RITUAL_CATEGORY)
         registry.addCategory(DISTILLING_CATEGORY)
         registry.addCategory(SPINNING_CATEGORY)
+        registry.addCategory(BRAZIER_CATEGORY)
+
         val manager: RecipeManager = registry.recipeManager
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())) {
@@ -170,6 +173,10 @@ class WitcheryEmiPlugin : EmiPlugin {
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.SPINNING_WHEEL_RECIPE_TYPE.get())) {
             registry.addRecipe(SpinningEmiRecipe(recipe.id, recipe.value))
         }
+
+        for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.BRAZIER_SUMMONING_RECIPE_TYPE.get())) {
+            registry.addRecipe(BrazierEmiRecipe(recipe.id, recipe.value))
+        }
     }
 
     companion object {
@@ -179,6 +186,11 @@ class WitcheryEmiPlugin : EmiPlugin {
         val ICON_RITUAL: EmiStack = EmiStack.of(WitcheryItems.RITUAL_CHALK.get())
         val ICON_DISTILLING: EmiStack = EmiStack.of(WitcheryItems.DISTILLERY.get())
         val ICON_SPINNING: EmiStack = EmiStack.of(WitcheryItems.SPINNING_WHEEL.get())
+        val ICON_BRAZIER: EmiStack = EmiStack.of(WitcheryItems.BRAZIER.get())
+
+        val BRAZIER_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
+            Witchery.id("brazier"), ICON_BRAZIER
+        )
 
         val CAULDRON_BREWING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
             Witchery.id("cauldron_brewing"), ICON_CAULDRON

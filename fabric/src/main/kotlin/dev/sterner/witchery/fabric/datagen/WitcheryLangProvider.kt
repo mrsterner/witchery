@@ -361,6 +361,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("advancements.witchery.necromantic.title", "Necromantic")
         builder.add("advancements.witchery.necromantic.description", "No mind to break")
 
+        builder.add("emi.category.witchery.brazier", "Brazier")
+        builder.add("witchery:brazier_summoning/summon_banshee", "Summon Banshee")
+        builder.add("witchery:brazier_summoning/summon_banshee.tooltip", "Summons a Banshee")
+
         builder.add("witchery:ritual/rite_of_charging_infusion", "Rite of Charging")
         builder.add("witchery:ritual/rite_of_charging_infusion.tooltip", "Charges the power of an Infused player")
         builder.add("witchery:ritual/infuse_light", "Infusion of Light")
