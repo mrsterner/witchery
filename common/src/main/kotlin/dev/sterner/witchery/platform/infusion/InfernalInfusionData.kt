@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LightningBolt
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.projectile.AbstractArrow
+import net.minecraft.world.entity.projectile.LargeFireball
 import net.minecraft.world.entity.projectile.ProjectileUtil
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
@@ -109,6 +110,18 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
         },
         GHAST(EntityType.GHAST) { //PASSIVE DONE
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
+
+                val largeFireball = LargeFireball(
+                    level,
+                    player, lookVec.normalize(),
+                    1
+                )
+                largeFireball.setPos(
+                    player.x + lookVec.x * 4.0,
+                    player.y + 0.5,
+                    largeFireball.z + lookVec.z * 4.0
+                )
+                level.addFreshEntity(largeFireball)
                 return false
             }
         },
