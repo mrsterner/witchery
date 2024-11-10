@@ -1,9 +1,11 @@
 package dev.sterner.witchery.item
 
 import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
 import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
 import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.TeleportRequest
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
@@ -45,6 +47,29 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
                     livingEntity.teleportTo(overworld, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, setOf(),
                         livingEntity.yRot,
                         livingEntity.xRot
+                    )
+                }
+            }
+        }
+
+        if (livingEntity is Player && livingEntity.level().dimension() == Level.OVERWORLD && PlayerManifestationDataAttachment.getData(livingEntity).manifestationTimer > 0) {
+            if (livingEntity.level() is ServerLevel) {
+                val serverLevel = livingEntity.level() as ServerLevel
+                val sleepingData = SleepingPlayerLevelAttachment.getPlayerFromSleeping(livingEntity.uuid, serverLevel)
+                livingEntity.inventory.dropAll()
+                val oldData = PlayerManifestationDataAttachment.getData(livingEntity)
+                PlayerManifestationDataAttachment.setData(livingEntity, PlayerManifestationDataAttachment.Data(oldData.hasRiteOfManifestation, 0))
+                if (sleepingData != null) {
+                    val chunkPos = ChunkPos(sleepingData.pos)
+                    serverLevel.setChunkForced(chunkPos.x, chunkPos.z, true)
+
+                    TeleportQueueLevelAttachment.addRequest(
+                        serverLevel,
+                        TeleportRequest(
+                            player = livingEntity.uuid,
+                            pos = sleepingData.pos,
+                            chunkPos = chunkPos
+                        )
                     )
                 }
             }
