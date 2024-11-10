@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncManifestationS2CPacket
-import dev.sterner.witchery.payload.SyncMiscS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
@@ -54,6 +53,13 @@ object PlayerManifestationDataAttachment {
 
             if (data.manifestationTimer > 0) {
                 data.manifestationTimer -= 1
+
+                player.armorSlots.forEach { stack ->
+                    if (!stack.isEmpty) {
+                        player.drop(stack.split(stack.count), false)
+                    }
+                }
+
                 if (data.manifestationTimer <= 0) {
                     val overworld = server.overworld()
                     val sleepingData = SleepingPlayerLevelAttachment.getPlayerFromSleeping(player.uuid, overworld)
