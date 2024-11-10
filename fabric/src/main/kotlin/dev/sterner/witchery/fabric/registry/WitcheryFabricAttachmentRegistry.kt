@@ -1,10 +1,7 @@
 package dev.sterner.witchery.fabric.registry
 
 import dev.sterner.witchery.platform.*
-import dev.sterner.witchery.platform.infusion.InfusionData
-import dev.sterner.witchery.platform.infusion.InfusionType
-import dev.sterner.witchery.platform.infusion.LightInfusionData
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
+import dev.sterner.witchery.platform.infusion.*
 import dev.sterner.witchery.platform.poppet.PoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetData
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
@@ -95,6 +92,15 @@ object WitcheryFabricAttachmentRegistry {
             .persistent(PlayerManifestationDataAttachment.Data.CODEC)
             .initializer { PlayerManifestationDataAttachment.Data() }
             .buildAndRegister(PlayerManifestationDataAttachment.Data.ID)
+
+
+    @Suppress("UnstableApiUsage")
+    val INFERNAL_INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfernalInfusionData> =
+        AttachmentRegistry.builder<InfernalInfusionData>()
+            .persistent(InfernalInfusionData.CODEC)
+            .initializer { InfernalInfusionData() }
+            .buildAndRegister(InfernalInfusionData.ID)
+
 
 
     fun init() {

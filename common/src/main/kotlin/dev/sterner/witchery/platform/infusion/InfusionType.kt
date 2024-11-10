@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.projectile.ProjectileUtil
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
@@ -40,6 +41,18 @@ enum class InfusionType : StringRepresentable {
     },
     INFERNAL {
         override fun onReleaseRightClick(player: Player): Boolean {
+            val data = InfernalInfusionDataAttachment.getData(player)
+
+            val hit = ProjectileUtil.getHitResultOnViewVector(
+                player,
+                { entity: Entity -> !entity.isSpectator && entity.isPickable }, player.blockInteractionRange()
+            )
+
+            val bl = data.currentCreature.usePower(player.level(), player.lookAngle, hit)
+            if (bl) {
+                PlayerInfusionDataAttachment.decreaseInfusionCharge(player, data.currentCreature.getCost())
+            }
+
             return false
         }
     },

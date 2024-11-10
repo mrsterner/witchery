@@ -2,6 +2,7 @@ package dev.sterner.witchery.neoforge
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.*
+import dev.sterner.witchery.platform.infusion.InfernalInfusionData
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
@@ -143,4 +144,14 @@ object WitcheryNeoForgeAttachmentRegistry {
                     .build()
             }
         )
+
+    @JvmStatic
+    val INFERNAL_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfernalInfusionData>> = ATTACHMENT_TYPES.register(
+        "infernal_infusion_player_data",
+        Supplier {
+            AttachmentType.builder(Supplier { InfernalInfusionData() })
+                .serialize(InfernalInfusionData.CODEC)
+                .build()
+        }
+    )
 }
