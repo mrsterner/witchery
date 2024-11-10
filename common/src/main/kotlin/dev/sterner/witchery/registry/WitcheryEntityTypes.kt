@@ -125,4 +125,12 @@ object WitcheryEntityTypes {
             }, MobCategory.CREATURE
         ).sized(0.9f, 0.9f).build(Witchery.id("spectral_pig").toString())
     }
+
+    val NIGHTMARE = ENTITY_TYPES.register("nightmare") {
+        EntityType.Builder.of(
+            { _: EntityType<NightmareEntity>, level: Level ->
+                NightmareEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(1.15F, 2.2F).build(Witchery.id("nightmare").toString())
+    }
 }

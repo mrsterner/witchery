@@ -181,11 +181,6 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
             override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
             }
-        },
-        OWL(WitcheryEntityTypes.OWL.get()) {
-            override fun usePower(level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
-                return false
-            }
         };
 
 
