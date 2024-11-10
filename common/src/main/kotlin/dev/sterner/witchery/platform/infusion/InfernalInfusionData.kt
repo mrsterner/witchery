@@ -90,7 +90,7 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                 abstractArrow.shoot(d, e + g * 0.2f, f, 1.6f, (14 - level.difficulty.id * 4).toFloat())
                 player.playSound(SoundEvents.SKELETON_SHOOT, 1.0f, 1.0f / (level.getRandom().nextFloat() * 0.4f + 0.8f))
                 level.addFreshEntity(abstractArrow)
-                return false
+                return true
             }
         },
         SPIDER(EntityType.SPIDER) {
@@ -100,11 +100,14 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
         },
         ZOMBIE(EntityType.ZOMBIE) {
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
-                return false
+                player.addEffect(MobEffectInstance(MobEffects.DAMAGE_BOOST, 20 * 30))
+                player.addEffect(MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 20 * 20))
+                return true
             }
         },
         SLIME(EntityType.SLIME) { //PASSIVE DONE
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
+                player.addEffect(MobEffectInstance(MobEffects.JUMP, 20 * 30, 3))
                 return false
             }
         },
@@ -122,7 +125,7 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                     largeFireball.z + lookVec.z * 4.0
                 )
                 level.addFreshEntity(largeFireball)
-                return false
+                return true
             }
         },
         ZOMBIE_PIGMAN(EntityType.ZOMBIFIED_PIGLIN) { //PASSIVE DONE
@@ -142,7 +145,8 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
         },
         SILVERFISH(EntityType.SILVERFISH) { //PASSIVE DONE
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
-                return false
+                player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 20, 3))
+                return true
             }
         },
         BLAZE(EntityType.BLAZE) { //PASSIVE DONE
@@ -152,11 +156,13 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
         },
         MAGMA_CUBE(EntityType.MAGMA_CUBE) { //PASSIVE DONE
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
-                return false
+                player.addEffect(MobEffectInstance(MobEffects.JUMP, 20 * 20, 3))
+                return true
             }
         },
         BAT(EntityType.BAT) {
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
+                player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 20))
                 return false
             }
         },
@@ -192,7 +198,8 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
         },
         WOLF(EntityType.WOLF) { //PASSIVE DONE
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
-                return false
+                player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 20, 3))
+                return true
             }
         },
         MOOSHROOM(EntityType.MOOSHROOM) {
@@ -202,12 +209,14 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
         },
         OCELOT(EntityType.OCELOT) { //PASSIVE DONE
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
-                return false
+                player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 20, 3))
+                return true
             }
         },
         HORSE(EntityType.HORSE) { //PASSIVE DONE
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
-                return false
+                player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 20, 3))
+                return true
             }
         };
 
