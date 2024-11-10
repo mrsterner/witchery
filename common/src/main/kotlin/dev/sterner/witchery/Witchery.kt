@@ -43,6 +43,7 @@ import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.EntSpawnLevelAttachment
 import dev.sterner.witchery.platform.MutandisDataAttachment
+import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
 import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
@@ -139,6 +140,7 @@ object Witchery {
         BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
         TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
+        TickEvent.SERVER_POST.register(PlayerManifestationDataAttachment::tick)
     }
 
     private fun addWitchesHand(

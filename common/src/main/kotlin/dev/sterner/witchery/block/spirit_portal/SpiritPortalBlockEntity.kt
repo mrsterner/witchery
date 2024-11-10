@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.spirit_portal
 
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
@@ -11,19 +12,20 @@ import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class SpiritPortalBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     MultiBlockCoreEntity(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(), SpiritPortalBlock.STRUCTURE.get(), blockPos, blockState) {
 
-    var isOpening: Boolean = false
+    private var isOpening: Boolean = false
     private var lastProgress = 0.0f
-    var progress = 0.0f
+    private var progress = 0.0f
 
-    fun easeIn(t: Float): Float {
+    private fun easeIn(t: Float): Float {
         return t * t
     }
 
-    fun easeOut(t: Float): Float {
+    private fun easeOut(t: Float): Float {
         return t * (2 - t)
     }
 
@@ -43,6 +45,7 @@ class SpiritPortalBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         isOpening = !isOpening
+        level!!.setBlockAndUpdate(blockPos, blockState.cycle(BlockStateProperties.OPEN))
 
         progress = if (isOpening) 0f else 1f
         setChanged()

@@ -25,15 +25,6 @@ object PlayerMiscDataAttachment {
     }
 
     /**
-     * True if the player may use a Spirit Portal back to the material world as a ghost
-     */
-    fun setHasRiteOfManifestation(player: Player, hasRite: Boolean) {
-        val old = getData(player)
-        old.hasRiteOfManifestation = hasRite
-        setData(player, old)
-    }
-
-    /**
      * This should declare a player a "Witch" so when a player has interacted enough with witchery to start being affected by its curses and rites.
      * This is an insurance to player who don't care about witchery not being absolutely wrecked by its rites, poppets and curses.
      *
@@ -51,12 +42,11 @@ object PlayerMiscDataAttachment {
         }
     }
 
-    class Data(var hasRiteOfManifestation: Boolean = false, var isWitcheryAligned: Boolean = false) {
+    class Data(var isWitcheryAligned: Boolean = false) {
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    Codec.BOOL.fieldOf("hasRiteOfManifestation").forGetter { it.hasRiteOfManifestation },
                     Codec.BOOL.fieldOf("isWitcheryAligned").forGetter { it.isWitcheryAligned },
                 ).apply(instance, ::Data)
             }

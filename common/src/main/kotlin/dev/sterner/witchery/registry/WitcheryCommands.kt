@@ -7,6 +7,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.commands.InfusionArgumentType
+import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
 import dev.sterner.witchery.platform.PlayerMiscDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
@@ -154,7 +155,7 @@ object WitcheryCommands {
                                                     val player = EntityArgument.getPlayer(ctx, "player")
                                                     val status = BoolArgumentType.getBool(ctx, "status")
 
-                                                    PlayerMiscDataAttachment.setData(player, PlayerMiscDataAttachment.Data(status))
+                                                    PlayerManifestationDataAttachment.setHasRiteOfManifestation(player, status)
 
                                                     ctx.source.sendSuccess(
                                                         { Component.literal("Set manifestation status to $status for player ${player.name.string}") },
@@ -171,7 +172,7 @@ object WitcheryCommands {
                                     Commands.argument("player", EntityArgument.player())
                                         .executes { ctx ->
                                             val player = EntityArgument.getPlayer(ctx, "player")
-                                            val status = PlayerMiscDataAttachment.getData(player).hasRiteOfManifestation
+                                            val status = PlayerManifestationDataAttachment.getData(player).hasRiteOfManifestation
 
                                             ctx.source.sendSuccess(
                                                 { Component.literal("Current manifestation status: $status for player ${player.name.string}") },

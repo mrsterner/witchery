@@ -3,28 +3,38 @@ package dev.sterner.witchery.block.spirit_portal
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
+import dev.sterner.witchery.platform.PlayerMiscDataAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.util.datafix.fixes.BlockStateData
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.EndPortalBlock
 import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.SoulSandBlock
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 
-class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) {
+class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noCollission()) {
 
     init {
         this.registerDefaultState(
             stateDefinition.any().setValue(HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(BlockStateProperties.OPEN, false)
         )
     }
 
@@ -40,7 +50,7 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
-        builder.add(HORIZONTAL_FACING)
+        builder.add(HORIZONTAL_FACING, BlockStateProperties.OPEN)
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
@@ -61,8 +71,66 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
         }
     }
 
+    override fun getCollisionShape(
+        state: BlockState,
+        level: BlockGetter,
+        pos: BlockPos,
+        context: CollisionContext
+    ): VoxelShape {
+        if (state.getValue(BlockStateProperties.OPEN)) {
+            return Shapes.empty()
+        }
+        val dir = state.getValue(HORIZONTAL_FACING)
+        return when (dir) {
+            Direction.NORTH -> {
+                NORTH
+            }
+            Direction.EAST -> {
+                EAST
+            }
+            Direction.WEST -> {
+                WEST
+            }
+            else -> {
+                SOUTH
+            }
+        }
+    }
+
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
         return WitcheryBlockEntityTypes.SPIRIT_PORTAL.get().create(pos, state)
+    }
+
+    override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
+        if (entity is Player && state.getValue(BlockStateProperties.OPEN)) {
+
+            val dir = state.getValue(HORIZONTAL_FACING)
+            val portalShape = when (dir) {
+                Direction.NORTH -> SpiritPortalBlock.NORTH
+                Direction.EAST -> SpiritPortalBlock.EAST
+                Direction.WEST -> SpiritPortalBlock.WEST
+                Direction.SOUTH -> SpiritPortalBlock.SOUTH
+                else -> return
+            }
+
+            val portalBoundingBox = portalShape.bounds().move(pos)
+
+            if (portalBoundingBox.move(pos).intersects(entity.boundingBox)) {
+                handleEntityInside(level, pos, entity)
+            }
+        }
+
+        super.entityInside(state, level, pos, entity)
+    }
+
+    fun handleEntityInside(level: Level, pos: BlockPos, entity: Player) {
+        if (PlayerManifestationDataAttachment.getData(entity).hasRiteOfManifestation) {
+            val overworld = level.server?.overworld()
+            if (overworld != null) {
+                PlayerManifestationDataAttachment.setManifestationTimer(entity)
+                entity.teleportTo(overworld, entity.x, entity.y, entity.z, setOf(), entity.yHeadRot, entity.xRot)
+            }
+        }
     }
 
     companion object {

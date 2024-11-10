@@ -89,6 +89,14 @@ object WitcheryFabricAttachmentRegistry {
             .initializer { PlayerMiscDataAttachment.Data() }
             .buildAndRegister(PlayerMiscDataAttachment.Data.ID)
 
+    @Suppress("UnstableApiUsage")
+    val MANIFESTATION_PLAYER_DATA_ATTACHMENT: AttachmentType<PlayerManifestationDataAttachment.Data> =
+        AttachmentRegistry.builder<PlayerManifestationDataAttachment.Data>()
+            .persistent(PlayerManifestationDataAttachment.Data.CODEC)
+            .initializer { PlayerManifestationDataAttachment.Data() }
+            .buildAndRegister(PlayerManifestationDataAttachment.Data.ID)
+
+
     fun init() {
 
     }
