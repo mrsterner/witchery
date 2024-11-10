@@ -19,7 +19,6 @@ class GuideBookItem(pProperties: Properties) : ModonomiconItem(pProperties.stack
 
     override fun use(pLevel: Level, pPlayer: Player, pUsedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemInHand = pPlayer.getItemInHand(pUsedHand)
-        WitcheryApi.makePlayerWitchy(pPlayer)
         if (pLevel.isClientSide) {
             val book = BookDataManager.get().getBook(ID)
             BookGuiManager.get().openBook(BookAddress.defaultFor(book))
