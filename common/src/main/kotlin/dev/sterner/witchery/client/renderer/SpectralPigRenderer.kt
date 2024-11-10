@@ -65,7 +65,7 @@ class SpectralPigRenderer(context: EntityRendererProvider.Context) : MobRenderer
             alpha = 160
         }
 
-        val color = (alpha shl 24) or (255 shl 16) or (255 shl 8) or 255
+        val color = (alpha shl 24) or (170 shl 16) or (255 shl 8) or 255
 
         val resourceLocation = this.getTextureLocation(entity)
 
