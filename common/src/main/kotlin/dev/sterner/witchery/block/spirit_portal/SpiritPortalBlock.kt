@@ -6,10 +6,12 @@ import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
@@ -126,6 +128,21 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
         if (PlayerManifestationDataAttachment.getData(entity).hasRiteOfManifestation) {
             val overworld = level.server?.overworld()
             if (overworld != null) {
+                val itemsToKeep = mutableListOf<ItemStack>()
+
+                for (i in 0 until entity.inventory.containerSize) {
+                    val itemStack = entity.inventory.getItem(i)
+                    if (itemStack.item == WitcheryItems.ICY_NEEDLE.get()) {
+                        itemsToKeep.add(entity.inventory.removeItem(i, itemStack.count))
+                    }
+                }
+
+                entity.inventory.dropAll()
+
+                for (keep in itemsToKeep) {
+                    entity.inventory.add(keep.copy())
+                }
+
                 PlayerManifestationDataAttachment.setManifestationTimer(entity)
                 entity.teleportTo(overworld, entity.x, entity.y, entity.z, setOf(), entity.yHeadRot, entity.xRot)
             }
