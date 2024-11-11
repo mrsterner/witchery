@@ -13,21 +13,18 @@ import net.minecraft.world.phys.AABB
 
 class ResurrectFamiliarRitual : Ritual(Witchery.id("resurrect_familiar")) {
 
-    companion object {
+    override fun onEndRitual(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
 
-        fun onEndRitual(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
+        if (level is ServerLevel) {
+            val area = AABB.ofSize(blockPos.center, 11.0,5.0,11.0)
 
-            if (level is ServerLevel) {
-                val area = AABB.ofSize(blockPos.center, 11.0,5.0,11.0)
+            val playersInArea = level.getEntitiesOfClass(Player::class.java, area)
 
-                val playersInArea = level.getEntitiesOfClass(Player::class.java, area)
-
-                if (playersInArea.isNotEmpty()) {
-                    for (player in playersInArea) {
-                        val bl = FamiliarLevelAttachment.resurrectDeadFamiliar(level, player.uuid, blockPos)
-                        if (!bl) {
-                            Containers.dropContents(level, blockPos, blockEntity)
-                        }
+            if (playersInArea.isNotEmpty()) {
+                for (player in playersInArea) {
+                    val bl = FamiliarLevelAttachment.resurrectDeadFamiliar(level, player.uuid, blockPos)
+                    if (!bl) {
+                        Containers.dropContents(level, blockPos, blockEntity)
                     }
                 }
             }

@@ -85,7 +85,7 @@ object Witchery {
 
     @JvmStatic
     fun init() {
-        //WitcheryRitualRegistry.RITUALS.register()
+        WitcheryRitualRegistry.init()
         WitcheryFluids.FLUIDS.register()
         WitcheryFluids.init()
         WitcheryArmorMaterials.MATERIALS.register()

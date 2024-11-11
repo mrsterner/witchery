@@ -69,9 +69,6 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
         registryBuilder.add(Registries.PLACED_FEATURE) { context ->
             WitcheryPlacedFeatureBootstrap.bootstrap(context)
         }
-        registryBuilder.add(WitcheryRitualRegistry.RITUAL_KEY, Lifecycle.stable()) {
-            WitcheryRitualRegistry.bootstrap(it)
-        }
         super.buildRegistry(registryBuilder)
     }
 }

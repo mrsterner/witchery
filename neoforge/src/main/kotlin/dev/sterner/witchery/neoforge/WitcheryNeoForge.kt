@@ -92,15 +92,6 @@ object WitcheryNeoForge {
     }
 
     @SubscribeEvent
-    fun createDataPackRegistries(event: DataPackRegistryEvent.NewRegistry) {
-        event.dataPackRegistry(
-            WitcheryRitualRegistry.RITUAL_KEY,
-            WitcheryRitualRegistry.CODEC,
-            WitcheryRitualRegistry.CODEC
-        )
-    }
-
-    @SubscribeEvent
     fun modifyExistingTabs(event: BuildCreativeModeTabContentsEvent) {
         WitcheryCreativeModeTabs.modifyExistingTabs(event.tab, event)
     }
