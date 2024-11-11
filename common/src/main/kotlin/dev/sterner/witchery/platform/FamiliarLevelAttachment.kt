@@ -32,6 +32,10 @@ object FamiliarLevelAttachment {
         throw AssertionError()
     }
 
+    fun isBound(level: ServerLevel, entity: LivingEntity): Boolean {
+        return getData(level).familiarList.any { it.familiar == entity.uuid }
+    }
+
     fun bindOwnerAndFamiliar(level: ServerLevel, playerUUID: UUID, familiar: LivingEntity) {
         val oldData = getData(level)
         val updatedFamiliarSet = oldData.familiarList.toMutableSet()
