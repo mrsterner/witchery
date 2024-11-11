@@ -4,10 +4,7 @@ import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.api.SleepingPlayerData
 import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
-import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
-import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
-import dev.sterner.witchery.platform.TeleportRequest
+import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -44,25 +41,41 @@ import kotlin.math.max
 class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_PLAYER.get(), level) {
 
     var data = SleepingPlayerData()
+    var hurtCounter = 0
 
     init {
         blocksBuilding = true
     }
 
-
-
     override fun hurt(source: DamageSource, amount: Float): Boolean {
-        if (level() is ServerLevel && data.resolvableProfile != null) {
-            for (serverLevel in level().server!!.allLevels) {
-                val playerUuid = SleepingPlayerLevelAttachment.getPlayerFromSleepingUUID(uuid, serverLevel)
 
-                val player = playerUuid?.let { level().server!!.playerList.getPlayer(it) }
-                if (player != null) {
-                    TeleportQueueLevelAttachment.addRequest(level() as ServerLevel, TeleportRequest(playerUuid, blockPosition(), ChunkPos(blockPosition())))
-                    val old = PlayerManifestationDataAttachment.getData(player)
-                    PlayerManifestationDataAttachment.setData(player, PlayerManifestationDataAttachment.Data(old.hasRiteOfManifestation, 0))
-                    break
+        if (level() is ServerLevel){
+            hurtCounter++
+            var foundPlayer = false
+            if (data.resolvableProfile != null) {
+                for (serverLevel in level().server!!.allLevels) {
+                    val playerUuid = SleepingPlayerLevelAttachment.getPlayerFromSleepingUUID(uuid, serverLevel)
+
+                    val player = playerUuid?.let { level().server!!.playerList.getPlayer(it) }
+                    if (player != null) {
+                        TeleportQueueLevelAttachment.addRequest(level() as ServerLevel, TeleportRequest(playerUuid, blockPosition(), ChunkPos(blockPosition())))
+                        val old = PlayerManifestationDataAttachment.getData(player)
+                        PlayerManifestationDataAttachment.setData(player, PlayerManifestationDataAttachment.Data(old.hasRiteOfManifestation, 0))
+                        foundPlayer = true
+                        break
+                    }
                 }
+            }
+
+            if (hurtCounter > 8) {
+                if (!foundPlayer && data.resolvableProfile?.id != null && data.resolvableProfile!!.id.isPresent) {
+                    DeathQueueLevelAttachment.addDeathToQueue(level() as ServerLevel, data.resolvableProfile!!.id.get())
+                }
+                Containers.dropContents(level(), blockPosition(), data.mainInventory)
+                Containers.dropContents(level(), blockPosition(), data.armorInventory)
+                Containers.dropContents(level(), blockPosition(), data.offHandInventory)
+                Containers.dropContents(level(), blockPosition(), data.extraInventory)
+                SleepingPlayerLevelAttachment.removeBySleepingUUID(uuid, level() as ServerLevel)
             }
         }
 
@@ -87,11 +100,13 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         setEquipment(data.equipment)
         setSleepingModel(data.model)
         setFaceplant(compound.getBoolean("Faceplanted"))
+        hurtCounter = compound.getInt("HurtCounter")
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
         compound.put("Data", data.writeNbt(this.registryAccess()))
         compound.putBoolean("Faceplanted", isFaceplanted())
+        compound.putInt("HurtCounter", hurtCounter)
     }
 
     override fun tick() {

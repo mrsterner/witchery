@@ -101,6 +101,13 @@ object WitcheryFabricAttachmentRegistry {
             .initializer { InfernalInfusionData() }
             .buildAndRegister(InfernalInfusionData.ID)
 
+    @Suppress("UnstableApiUsage")
+    val DEATH_QUEUE_LEVEL_DATA_TYPE: AttachmentType<DeathQueueLevelAttachment.Data> =
+        AttachmentRegistry.builder<DeathQueueLevelAttachment.Data>()
+            .persistent(DeathQueueLevelAttachment.Data.CODEC)
+            .initializer { DeathQueueLevelAttachment.Data() }
+            .buildAndRegister(DeathQueueLevelAttachment.Data.ID)
+
 
 
     fun init() {

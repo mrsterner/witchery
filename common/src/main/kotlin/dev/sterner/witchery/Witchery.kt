@@ -41,10 +41,7 @@ import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
-import dev.sterner.witchery.platform.EntSpawnLevelAttachment
-import dev.sterner.witchery.platform.MutandisDataAttachment
-import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
-import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
+import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData
 import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
@@ -140,6 +137,13 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
+
+        PlayerEvent.PLAYER_JOIN.register {serverPlayer ->
+            val data = DeathQueueLevelAttachment.getData(serverPlayer.serverLevel())
+            if (data.killerQueue.contains(serverPlayer.uuid)) {
+                serverPlayer.kill()
+            }
+        }
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)
 

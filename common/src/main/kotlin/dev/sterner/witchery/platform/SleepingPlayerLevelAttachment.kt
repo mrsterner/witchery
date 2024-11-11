@@ -48,6 +48,17 @@ object SleepingPlayerLevelAttachment {
         setData(level, Data(updatedEntries))
     }
 
+    fun removeBySleepingUUID(sleepingUUID: UUID, level: ServerLevel) {
+        val oldData = getData(level)
+        val updatedEntries = oldData.entries.toMutableMap()
+
+        val entryToRemove = updatedEntries.entries.find { it.value.uuid == sleepingUUID }?.key
+        if (entryToRemove != null) {
+            updatedEntries.remove(entryToRemove)
+            setData(level, Data(updatedEntries))
+        }
+    }
+
     data class PlayerSleepingData(val uuid: UUID, val pos: BlockPos) {
 
         companion object {

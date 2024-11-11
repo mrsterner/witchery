@@ -154,4 +154,14 @@ object WitcheryNeoForgeAttachmentRegistry {
                 .build()
         }
     )
+
+    @JvmStatic
+    val DEATH_QUEUE_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<DeathQueueLevelAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "death_queue_level_data",
+        Supplier {
+            AttachmentType.builder(Supplier { DeathQueueLevelAttachment.Data() })
+                .serialize(DeathQueueLevelAttachment.Data.CODEC)
+                .build()
+        }
+    )
 }
