@@ -48,7 +48,7 @@ enum class InfusionType : StringRepresentable {
                 { entity: Entity -> !entity.isSpectator && entity.isPickable }, player.blockInteractionRange()
             )
 
-            val bl = data.currentCreature.usePower(player.level(), player.lookAngle, hit)
+            val bl = data.currentCreature.usePower(player, player.level(), player.lookAngle, hit)
             if (bl) {
                 PlayerInfusionDataAttachment.decreaseInfusionCharge(player, data.currentCreature.getCost())
             }

@@ -1565,6 +1565,17 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutputEntity(EntityType.WITCH)
             .save(exporter, Witchery.id("summon_witch"))
 
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.SPECTRAL_DUST.get())
+            .addInputItem(WitcheryItems.MELLIFLUOUS_HUNGER.get())
+            .addInputItem(WitcheryItems.NECROMANTIC_STONE.get())
+            .addInputItem(WitcheryItems.ARTHANA.get())
+            .addInputItem(Items.GUNPOWDER)
+            .setAltarPower(5000)
+            .addCommand(CommandType("witchery manifestation set {owner} true", CommandType.END))
+            .addSmallPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .save(exporter, Witchery.id("manifestation"))
+
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.FOUL_FUME.get())
             .addInput(WitcheryItems.WOOD_ASH.get())
