@@ -1,0 +1,43 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 1000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "M": "witchery:ritual_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [],
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:breath_of_the_goddess"
+    },
+    {
+      "id": "witchery:hint_of_rebirth"
+    },
+    {
+      "id": "witchery:whiff_of_magic"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "___MMMMM___",
+    "__M_____M__",
+    "_M_______M_",
+    "M_________M",
+    "M_________M",
+    "M____G____M",
+    "M_________M",
+    "M_________M",
+    "_M_______M_",
+    "__M_____M__",
+    "___MMMMM___"
+  ],
+  "ritual": {
+    "id": "witchery:resurrect_familiar"
+  },
+  "ticks": 0
+}

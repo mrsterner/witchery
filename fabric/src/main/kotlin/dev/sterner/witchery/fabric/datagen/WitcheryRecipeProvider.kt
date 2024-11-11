@@ -13,7 +13,9 @@ import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipeBuilder
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.ritual.BindFamiliarRitual
 import dev.sterner.witchery.ritual.PushMobsRitual
+import dev.sterner.witchery.ritual.ResurrectFamiliarRitual
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.core.HolderLookup
@@ -1468,6 +1470,26 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .setCustomRitual(PushMobsRitual())
             .save(exporter, Witchery.id("push_mobs"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.TEAR_OF_THE_GODDESS.get())
+            .addInputItem(WitcheryItems.ODOR_OF_PURITY.get())
+            .addInputItem(WitcheryItems.WHIFF_OF_MAGIC.get())
+            .addInputItem(Items.DIAMOND)
+            .addInputItem(WitcheryItems.DEMONS_BLOOD.get())
+            .addMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .setAltarPower(8000)
+            .setCustomRitual(BindFamiliarRitual())
+            .save(exporter, Witchery.id("bind_familiar"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.BREATH_OF_THE_GODDESS.get())
+            .addInputItem(WitcheryItems.HINT_OF_REBIRTH.get())
+            .addInputItem(WitcheryItems.WHIFF_OF_MAGIC.get())
+            .addMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .setAltarPower(1000)
+            .setCustomRitual(ResurrectFamiliarRitual())
+            .save(exporter, Witchery.id("resurrect_familiar"))
 
         val attuned = ItemStack(WitcheryItems.ATTUNED_STONE.get())
         attuned.set(WitcheryDataComponents.ATTUNED.get(), true)

@@ -12,7 +12,9 @@ import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.ritual.BindFamiliarRitual
 import dev.sterner.witchery.ritual.PushMobsRitual
+import dev.sterner.witchery.ritual.ResurrectFamiliarRitual
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
@@ -120,6 +122,13 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun onEndRitual(level: Level) {
+        if (ritualRecipe?.ritualType?.id == Witchery.id("bind_familiar")) { // :(
+            BindFamiliarRitual.onEndRitual(level, blockPos, this)
+        }
+        if (ritualRecipe?.ritualType?.id == Witchery.id("resurrect_familiar")) { // :(
+            ResurrectFamiliarRitual.onEndRitual(level, blockPos, this)
+        }
+
         ritualRecipe?.ritualType?.onEndRitual(level, blockPos, this)
         level.playSound(null, blockPos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0f, 1.0f)
         RitualHelper.runCommand(level, blockPos, this, CommandType.END)
