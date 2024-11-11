@@ -49,7 +49,7 @@ object FamiliarLevelAttachment {
         setData(level, Data(updatedFamiliarSet))
     }
 
-    fun resurrectDeadFamiliar(level: ServerLevel, playerUUID: UUID, blockPos: BlockPos) {
+    fun resurrectDeadFamiliar(level: ServerLevel, playerUUID: UUID, blockPos: BlockPos): Boolean {
         val data = getData(level)
         val familiarData = data.familiarList.find { it.owner == playerUUID && it.dead }
 
@@ -57,7 +57,7 @@ object FamiliarLevelAttachment {
             val entityTag = familiarData.entityTag
 
             if (!entityTag.contains("id")) {
-                return
+                return false
             }
 
             val resurrectedFamiliar = EntityType.loadEntityRecursive(entityTag, level) { entity ->
@@ -73,8 +73,10 @@ object FamiliarLevelAttachment {
                 updatedFamiliarSet.add(familiarData.copy(dead = false))
 
                 setData(level, Data(updatedFamiliarSet))
+                return true
             }
         }
+        return false
     }
 
     fun getFamiliarEntityType(playerUUID: UUID, level: ServerLevel): EntityType<*>? {

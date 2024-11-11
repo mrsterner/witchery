@@ -8,6 +8,7 @@ import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.Containers
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Cat
 import net.minecraft.world.entity.animal.frog.Frog
@@ -49,6 +50,8 @@ class BindFamiliarRitual : Ritual(Witchery.id("bind_familiar")) {
                             0.1
                         )
                     }
+                } else {
+                    Containers.dropContents(level, blockPos, blockEntity)
                 }
             }
         }

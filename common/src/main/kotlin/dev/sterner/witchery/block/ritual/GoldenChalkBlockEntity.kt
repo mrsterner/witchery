@@ -117,17 +117,17 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (ritualRecipe?.ritualType?.id == Witchery.id("push_mobs")) { // :(
             PushMobsRitual.onTickRitual(level, blockPos, this)
         }
+
+        RitualHelper.runCommand(level, blockPos, this, CommandType.TICK)
+    }
+
+    private fun onEndRitual(level: Level) {
         if (ritualRecipe?.ritualType?.id == Witchery.id("bind_familiar")) { // :(
             BindFamiliarRitual.onEndRitual(level, blockPos, this)
         }
         if (ritualRecipe?.ritualType?.id == Witchery.id("resurrect_familiar")) { // :(
             ResurrectFamiliarRitual.onEndRitual(level, blockPos, this)
         }
-
-        RitualHelper.runCommand(level, blockPos, this, CommandType.TICK)
-    }
-
-    private fun onEndRitual(level: Level) {
 
         ritualRecipe?.ritualType?.onEndRitual(level, blockPos, this)
         level.playSound(null, blockPos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0f, 1.0f)

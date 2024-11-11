@@ -6,6 +6,7 @@ import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.Containers
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.AABB
@@ -23,7 +24,10 @@ class ResurrectFamiliarRitual : Ritual(Witchery.id("resurrect_familiar")) {
 
                 if (playersInArea.isNotEmpty()) {
                     for (player in playersInArea) {
-                        FamiliarLevelAttachment.resurrectDeadFamiliar(level, player.uuid, blockPos)
+                        val bl = FamiliarLevelAttachment.resurrectDeadFamiliar(level, player.uuid, blockPos)
+                        if (!bl) {
+                            Containers.dropContents(level, blockPos, blockEntity)
+                        }
                     }
                 }
             }
