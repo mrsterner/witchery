@@ -70,6 +70,10 @@ object FamiliarLevelAttachment {
         val familiarData = getData(level).familiarList.find { it.owner == playerUUID }
 
         familiarData?.let { familiar ->
+            if (familiar.dead) {
+                return null
+            }
+
             val familiarEntity = level.getEntity(familiar.familiar)
 
             return if (familiarEntity is LivingEntity) familiarEntity.type as EntityType<*> else null
