@@ -8,7 +8,6 @@ import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.TamableAnimal
 import net.minecraft.world.entity.animal.Cat
 import net.minecraft.world.entity.animal.frog.Frog
 import net.minecraft.world.entity.player.Player
@@ -20,17 +19,16 @@ class BindFamiliarRitual : Ritual(Witchery.id("bind_familiar")) {
     companion object {
 
         fun onEndRitual(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
-
             if (level is ServerLevel) {
                 val area = AABB.ofSize(blockPos.center, 11.0,5.0,11.0)
 
                 val entitiesInArea = level.getEntitiesOfClass(LivingEntity::class.java, area).filter { it is Cat || it is Frog || it is OwlEntity }
                 val playersInArea = level.getEntitiesOfClass(Player::class.java, area)
 
-                val unboundAnimals = entitiesInArea.filter { FamiliarLevelAttachment.getData(level).familiarList.any { v -> v.familiar != it.uuid } }
-                if (playersInArea.isNotEmpty() && unboundAnimals.isNotEmpty()) {
+                if (playersInArea.isNotEmpty() && entitiesInArea.isNotEmpty()) {
                     val player = playersInArea[0]
                     val animal = entitiesInArea[0]
+
                     FamiliarLevelAttachment.bindOwnerAndFamiliar(level, player.uuid, animal)
                     return
                 }

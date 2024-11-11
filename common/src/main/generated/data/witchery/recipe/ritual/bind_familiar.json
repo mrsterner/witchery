@@ -45,5 +45,5 @@
   "ritual": {
     "id": "witchery:bind_familiar"
   },
-  "ticks": 0
+  "ticks": 20
 }

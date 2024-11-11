@@ -1,8 +1,11 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.payload.SyncOwlAbilityS2CPayload
+import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.client.Minecraft
 import net.minecraft.core.Direction
 import net.minecraft.core.component.DataComponents
@@ -10,6 +13,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.Mth
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
@@ -42,6 +46,8 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
     private var inputDown = false
     private var inputShift = false
     private var inputJump = false
+
+    var hasFamiliar: Boolean = false
 
     init {
         this.setPos(x, y, z)
@@ -157,39 +163,39 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
 
     //Boat code but cool (Boat$controlBoat)
     private fun controlBroom() {
-
         if (this.isVehicle) {
             var f = 0.0f
+
             if (this.inputLeft) {
-                --this.deltaRotation
+                this.deltaRotation -= if (hasFamiliar) 5.0f else 1.0f
             }
-
             if (this.inputRight) {
-                ++this.deltaRotation
+                this.deltaRotation += if (hasFamiliar) 5.0f else 1.0f
             }
 
-            if (this.inputRight != this.inputLeft && !this.inputUp && !this.inputDown) {
-                f += 0.1f
-            }
-
-            this.yRot += this.deltaRotation
-            if (this.inputUp) {
-                f += 0.35f
+            if (!hasFamiliar) {
+                if (this.inputRight != this.inputLeft && !this.inputUp && !this.inputDown) {
+                    f += 0.1f
+                }
             }
 
             if (this.inputDown) {
                 f -= 0.02f
             }
 
+            if (this.inputUp) {
+                f += if (hasFamiliar) 0.35f else 0.25f
+            }
+
+            this.yRot += this.deltaRotation
 
             if (this.inputJump) {
-                this.deltaMovement =
-                    deltaMovement.add(0.0, 0.2, 0.0)
+                this.deltaMovement = deltaMovement.add(0.0, 0.2, 0.0)
             }
             if (this.inputShift) {
-                this.deltaMovement =
-                    deltaMovement.add(0.0, -0.2, 0.0)
+                this.deltaMovement = deltaMovement.add(0.0, -0.2, 0.0)
             }
+
             this.deltaMovement = deltaMovement.add(
                 (Mth.sin(-this.yRot * (Math.PI.toFloat() / 180f)) * f).toDouble() * 2.0,
                 0.0,
@@ -197,6 +203,7 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
             )
         }
     }
+
 
     override fun tick() {
         baseTick()
@@ -209,6 +216,13 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         }
 
         val entityPassenger: Entity? = this.controllingPassenger
+
+        if (!level().isClientSide && entityPassenger is LivingEntity) {
+            hasFamiliar = FamiliarLevelAttachment.getFamiliarEntityType(entityPassenger.uuid, level() as ServerLevel) != null
+            WitcheryPayloads.sendToPlayers(level(), SyncOwlAbilityS2CPayload(entityPassenger as Player, hasFamiliar))
+
+        }
+
         if (level().isClientSide()) {
             if (entityPassenger is LivingEntity && entityPassenger == Minecraft.getInstance().player) {
                 val player = Minecraft.getInstance().player

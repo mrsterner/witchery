@@ -1479,6 +1479,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(WitcheryItems.DEMONS_BLOOD.get())
             .addMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .setAltarPower(8000)
+            .setTicks(20)
             .setCustomRitual(BindFamiliarRitual())
             .save(exporter, Witchery.id("bind_familiar"))
 
@@ -1488,6 +1489,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInputItem(WitcheryItems.WHIFF_OF_MAGIC.get())
             .addMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .setAltarPower(1000)
+            .setTicks(20)
             .setCustomRitual(ResurrectFamiliarRitual())
             .save(exporter, Witchery.id("resurrect_familiar"))
 

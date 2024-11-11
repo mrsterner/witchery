@@ -39,5 +39,5 @@
   "ritual": {
     "id": "witchery:resurrect_familiar"
   },
-  "ticks": 0
+  "ticks": 20
 }
