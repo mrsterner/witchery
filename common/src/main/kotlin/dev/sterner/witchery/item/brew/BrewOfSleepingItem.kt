@@ -21,7 +21,7 @@ import net.minecraft.world.level.levelgen.Heightmap
 @Suppress("DEPRECATION")
 class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, properties) {
 
-    override fun applyEffectOnSelf(player: Player) {
+    override fun applyEffectOnSelf(player: Player, frog: Boolean) {
 
         if (player.level().dimension() != Level.OVERWORLD) {
             return
@@ -86,7 +86,7 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
 
         }
 
-        super.applyEffectOnSelf(player)
+        super.applyEffectOnSelf(player, frog)
     }
 
     companion object {

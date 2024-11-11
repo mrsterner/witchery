@@ -2,14 +2,17 @@ package dev.sterner.witchery.item.brew
 
 import com.google.common.base.Predicate
 import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stats
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.*
@@ -28,8 +31,10 @@ open class BrewItem(open val color: Int, properties: Properties, val predicate: 
         }
 
         if (!level.isClientSide && player != null) {
+            val frog = FamiliarLevelAttachment.getFamiliarEntityType(player.uuid, level as ServerLevel) == EntityType.FROG
+            
             WitcheryApi.makePlayerWitchy(player)
-            applyEffectOnSelf(player)
+            applyEffectOnSelf(player, frog)
         }
 
         if (player != null) {
@@ -75,19 +80,19 @@ open class BrewItem(open val color: Int, properties: Properties, val predicate: 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
 
-    open fun applyEffectOnSelf(player: Player) {
+    open fun applyEffectOnSelf(player: Player, hasFrog: Boolean) {
 
     }
 
-    open fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity) {
+    open fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity, hasFrog: Boolean) {
 
     }
 
-    open fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
+    open fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult, hasFrog: Boolean) {
 
     }
 
-    open fun applyEffectOnHitLocation(level: Level, location: Vec3) {
+    open fun applyEffectOnHitLocation(level: Level, location: Vec3, hasFrog: Boolean) {
 
     }
 

@@ -1,11 +1,15 @@
 package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.item.brew.BrewItem
+import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.Containers
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.projectile.ItemSupplier
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile
 import net.minecraft.world.item.Item
@@ -41,14 +45,17 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
         if (!level().isClientSide) {
             val itemStack = this.item
             if (itemStack.item is BrewItem) {
+
+                val frog = owner is Player && FamiliarLevelAttachment.getFamiliarEntityType(owner!!.uuid, level() as ServerLevel) == EntityType.FROG
+
                 val brew = itemStack.item as BrewItem
                 if (result.type == HitResult.Type.BLOCK && brew.predicate.test((result as BlockHitResult).direction)) {
-                    applySplash(itemStack.item as BrewItem, result)
+                    applySplash(itemStack.item as BrewItem, result, frog)
 
                     val color = (itemStack.item as BrewItem).color
                     level().levelEvent(2002, this.blockPosition(), color)
                 } else if (result.type != HitResult.Type.BLOCK) {
-                    applySplash(itemStack.item as BrewItem, result)
+                    applySplash(itemStack.item as BrewItem, result, frog)
 
                     val color = (itemStack.item as BrewItem).color
                     level().levelEvent(2002, this.blockPosition(), color)
@@ -60,19 +67,19 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
         }
     }
 
-    private fun applySplash(item: BrewItem, result: HitResult) {
+    private fun applySplash(item: BrewItem, result: HitResult, hasFrog: Boolean) {
         val aABB = this.boundingBox.inflate(4.0, 2.0, 4.0)
         val list = level().getEntitiesOfClass(LivingEntity::class.java, aABB)
         if (list.isNotEmpty()) {
             for (livingEntity in list) {
-                item.applyEffectOnEntities(level(), livingEntity)
+                item.applyEffectOnEntities(level(), livingEntity, hasFrog)
             }
         }
 
-        item.applyEffectOnHitLocation(level(), result.location)
+        item.applyEffectOnHitLocation(level(), result.location, hasFrog)
 
         if (result.type == HitResult.Type.BLOCK) {
-            item.applyEffectOnBlock(level(), result as BlockHitResult)
+            item.applyEffectOnBlock(level(), result as BlockHitResult, hasFrog)
         }
     }
 
