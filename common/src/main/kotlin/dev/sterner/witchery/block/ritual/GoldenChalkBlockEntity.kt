@@ -101,7 +101,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun onStartRitual(level: Level) {
         if (!hasRitualStarted) {
             level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
-            ritualRecipe?.ritualType?.onStartRitual(level, blockPos, this)
+            WitcheryRitualRegistry.RITUALS.get(ritualRecipe?.ritualType?.id)!!.onStartRitual(level, blockPos, this)
             RitualHelper.runCommand(level, blockPos, this, CommandType.START)
             isRitualActive = true
             shouldStartConsumingSacrifices = false
@@ -111,7 +111,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun onTickRitual(level: Level) {
-        ritualRecipe?.ritualType?.onTickRitual(level, blockPos, this)
+        WitcheryRitualRegistry.RITUALS.get(ritualRecipe?.ritualType?.id)!!.onTickRitual(level, blockPos, this)
         RitualHelper.runCommand(level, blockPos, this, CommandType.TICK)
     }
 
