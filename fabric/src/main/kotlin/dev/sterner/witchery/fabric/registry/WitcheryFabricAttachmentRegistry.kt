@@ -108,6 +108,13 @@ object WitcheryFabricAttachmentRegistry {
             .initializer { DeathQueueLevelAttachment.Data() }
             .buildAndRegister(DeathQueueLevelAttachment.Data.ID)
 
+    @Suppress("UnstableApiUsage")
+    val FAMILIAR_LEVEL_DATA_TYPE: AttachmentType<FamiliarLevelAttachment.Data> =
+        AttachmentRegistry.builder<FamiliarLevelAttachment.Data>()
+            .persistent(FamiliarLevelAttachment.Data.CODEC)
+            .initializer { FamiliarLevelAttachment.Data() }
+            .buildAndRegister(FamiliarLevelAttachment.Data.ID)
+
 
 
     fun init() {

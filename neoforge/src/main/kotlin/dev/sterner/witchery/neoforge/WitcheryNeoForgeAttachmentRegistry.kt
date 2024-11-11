@@ -164,4 +164,14 @@ object WitcheryNeoForgeAttachmentRegistry {
                 .build()
         }
     )
+
+    @JvmStatic
+    val FAMILIAR_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<FamiliarLevelAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "familiar_level_data",
+        Supplier {
+            AttachmentType.builder(Supplier { FamiliarLevelAttachment.Data() })
+                .serialize(FamiliarLevelAttachment.Data.CODEC)
+                .build()
+        }
+    )
 }

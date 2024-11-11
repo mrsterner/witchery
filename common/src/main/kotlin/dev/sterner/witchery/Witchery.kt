@@ -138,6 +138,8 @@ object Witchery {
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
 
+        EntityEvent.LIVING_DEATH.register(FamiliarLevelAttachment::familiarDeath)
+
         PlayerEvent.PLAYER_JOIN.register {serverPlayer ->
             val data = DeathQueueLevelAttachment.getData(serverPlayer.serverLevel())
             if (data.killerQueue.contains(serverPlayer.uuid)) {
