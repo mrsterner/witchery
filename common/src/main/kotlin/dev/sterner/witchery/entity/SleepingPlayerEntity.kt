@@ -4,7 +4,10 @@ import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.api.SleepingPlayerData
 import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
 import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
+import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
+import dev.sterner.witchery.platform.TeleportRequest
 import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -21,13 +24,17 @@ import net.minecraft.tags.FluidTags
 import net.minecraft.world.Containers
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.MoverType
+import net.minecraft.world.entity.decoration.ArmorStand
+import net.minecraft.world.entity.decoration.ItemFrame
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.component.ResolvableProfile
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import java.util.*
@@ -40,6 +47,26 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
 
     init {
         blocksBuilding = true
+    }
+
+
+
+    override fun hurt(source: DamageSource, amount: Float): Boolean {
+        if (level() is ServerLevel && data.resolvableProfile != null) {
+            for (serverLevel in level().server!!.allLevels) {
+                val playerUuid = SleepingPlayerLevelAttachment.getPlayerFromSleepingUUID(uuid, serverLevel)
+
+                val player = playerUuid?.let { level().server!!.playerList.getPlayer(it) }
+                if (player != null) {
+                    TeleportQueueLevelAttachment.addRequest(level() as ServerLevel, TeleportRequest(playerUuid, blockPosition(), ChunkPos(blockPosition())))
+                    val old = PlayerManifestationDataAttachment.getData(player)
+                    PlayerManifestationDataAttachment.setData(player, PlayerManifestationDataAttachment.Data(old.hasRiteOfManifestation, 0))
+                    break
+                }
+            }
+        }
+
+        return super.hurt(source, amount)
     }
 
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {

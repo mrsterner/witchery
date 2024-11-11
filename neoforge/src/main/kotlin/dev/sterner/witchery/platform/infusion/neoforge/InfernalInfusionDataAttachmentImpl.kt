@@ -8,13 +8,13 @@ import net.minecraft.world.entity.player.Player
 object InfernalInfusionDataAttachmentImpl {
 
     @JvmStatic
-    fun setInfusion(player: Player, data: InfernalInfusionData) {
+    fun setData(player: Player, data: InfernalInfusionData) {
         player.setData(INFERNAL_INFUSION_PLAYER_DATA_ATTACHMENT, data)
         InfernalInfusionDataAttachment.sync(player, data)
     }
 
     @JvmStatic
-    fun getInfusion(player: Player): InfernalInfusionData {
+    fun getData(player: Player): InfernalInfusionData {
         return player.getData(INFERNAL_INFUSION_PLAYER_DATA_ATTACHMENT)
     }
 }

@@ -28,6 +28,12 @@ object SleepingPlayerLevelAttachment {
         return getData(level).entries[playerUUID]
     }
 
+    fun getPlayerFromSleepingUUID(sleepingUUID: UUID, level: ServerLevel): UUID? {
+        println(getData(level).entries.entries)
+        val ret = getData(level).entries.entries.find { it.value.uuid == sleepingUUID }?.key
+        return ret
+    }
+
     fun add(playerUUID: UUID, sleepingUUID: UUID, pos: BlockPos, level: ServerLevel) {
         val oldData = getData(level)
         val updatedEntries = oldData.entries.toMutableMap()
