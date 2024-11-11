@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level
 
 class BrewOfRevealingItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
-    override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity) {
+    override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity, hasFrog: Boolean) {
         if (livingEntity.hasEffect(MobEffects.INVISIBILITY)) {
             livingEntity.removeEffect(MobEffects.INVISIBILITY)
         }

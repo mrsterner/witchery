@@ -44,7 +44,7 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
         }
     }
 
-    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
+    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult, hasFrog: Boolean) {
         var pos = blockHit.blockPos
 
         for (x in pos.x - 1 until pos.x + 1) {

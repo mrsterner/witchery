@@ -8,7 +8,7 @@ import net.minecraft.world.phys.BlockHitResult
 
 class BrewOfRaisingItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties, Predicate { it == Direction.UP }) {
 
-    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
+    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult, hasFrog: Boolean) {
         val belowPos = blockHit.blockPos
 
         val block = level.getBlockState(belowPos).block

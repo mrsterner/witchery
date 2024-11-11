@@ -10,7 +10,7 @@ import net.minecraft.world.phys.BlockHitResult
 class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
     @Suppress("UNCHECKED_CAST")
-    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
+    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult, hasFrog: Boolean) {
         if (level.isClientSide) {
             return
         }

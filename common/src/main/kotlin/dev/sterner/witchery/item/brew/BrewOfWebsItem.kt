@@ -12,11 +12,11 @@ import net.minecraft.world.phys.Vec3
 
 class BrewOfWebsItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
-    override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity) {
+    override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity, hasFrog: Boolean) {
         livingEntity.addEffect(MobEffectInstance(MobEffects.WEAVING, 20 * 20, 0))
     }
 
-    override fun applyEffectOnHitLocation(level: Level, location: Vec3) {
+    override fun applyEffectOnHitLocation(level: Level, location: Vec3, hasFrog: Boolean) {
         val blockPos = BlockPos.containing(location)
         val block = level.getBlockState(blockPos)
         if (block.isAir) {
@@ -30,8 +30,6 @@ class BrewOfWebsItem(color: Int, properties: Properties) : ThrowableBrewItem(col
                 level.setBlockAndUpdate(pos, Blocks.COBWEB.defaultBlockState())
             }
         }
-
-        super.applyEffectOnHitLocation(level, location)
     }
 
     companion object {

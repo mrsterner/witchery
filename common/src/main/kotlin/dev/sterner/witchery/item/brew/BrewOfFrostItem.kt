@@ -13,16 +13,15 @@ import kotlin.math.min
 class BrewOfFrostItem(color: Int, properties: Properties, predicate: Predicate<Direction> = Predicate { true }) :
     ThrowableBrewItem(color, properties, predicate) {
 
-    override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity) {
+    override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity, hasFrog: Boolean) {
         livingEntity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * 4, 0))
         livingEntity.extinguishFire()
         val req = livingEntity.ticksRequiredToFreeze
         val oldFreeze = livingEntity.ticksFrozen
         livingEntity.ticksFrozen = min(oldFreeze + 20 * 4, req)
-        super.applyEffectOnEntities(level, livingEntity)
     }
 
-    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult) {
+    override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult, hasFrog: Boolean) {
         val list = BrewOfErosionItem.collectPositionsInSphere(blockHit.blockPos, 2)
 
         for (pos in list) {
@@ -33,7 +32,5 @@ class BrewOfFrostItem(color: Int, properties: Properties, predicate: Predicate<D
                 level.setBlockAndUpdate(pos, Blocks.OBSIDIAN.defaultBlockState())
             }
         }
-
-        super.applyEffectOnBlock(level, blockHit)
     }
 }
