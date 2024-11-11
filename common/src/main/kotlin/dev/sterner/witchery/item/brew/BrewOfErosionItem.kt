@@ -16,7 +16,7 @@ class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(
         }
 
         val centerPos = blockHit.blockPos
-        val radius = 3
+        val radius = if (hasFrog) 4 else 3
         val positions = collectPositionsInSphere(centerPos, radius)
 
         for (pos in positions) {

@@ -14,11 +14,11 @@ class BrewOfFrostItem(color: Int, properties: Properties, predicate: Predicate<D
     ThrowableBrewItem(color, properties, predicate) {
 
     override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity, hasFrog: Boolean) {
-        livingEntity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * 4, 0))
+        livingEntity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * (if(hasFrog) 5 else 4), 0))
         livingEntity.extinguishFire()
         val req = livingEntity.ticksRequiredToFreeze
         val oldFreeze = livingEntity.ticksFrozen
-        livingEntity.ticksFrozen = min(oldFreeze + 20 * 4, req)
+        livingEntity.ticksFrozen = min(oldFreeze + 20 * (if(hasFrog) 5 else 4), req)
     }
 
     override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult, hasFrog: Boolean) {

@@ -13,7 +13,7 @@ import net.minecraft.world.phys.Vec3
 class BrewOfWebsItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
     override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity, hasFrog: Boolean) {
-        livingEntity.addEffect(MobEffectInstance(MobEffects.WEAVING, 20 * 20, 0))
+        livingEntity.addEffect(MobEffectInstance(MobEffects.WEAVING, 20 * (if(hasFrog) 25 else 20), 0))
     }
 
     override fun applyEffectOnHitLocation(level: Level, location: Vec3, hasFrog: Boolean) {
@@ -23,7 +23,7 @@ class BrewOfWebsItem(color: Int, properties: Properties) : ThrowableBrewItem(col
             level.setBlockAndUpdate(blockPos, Blocks.COBWEB.defaultBlockState())
         }
 
-        val list = collectPositionsInDullSphere(blockPos, 2)
+        val list = collectPositionsInDullSphere(blockPos, (if(hasFrog) 3 else 2))
         for (pos in list) {
             val extraPos = level.getBlockState(pos)
             if (level.random.nextDouble() > 0.75 && (extraPos.canBeReplaced() || extraPos.isAir)) {

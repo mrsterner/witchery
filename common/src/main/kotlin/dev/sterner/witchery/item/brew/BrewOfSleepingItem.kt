@@ -21,7 +21,7 @@ import net.minecraft.world.level.levelgen.Heightmap
 @Suppress("DEPRECATION")
 class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, properties) {
 
-    override fun applyEffectOnSelf(player: Player, frog: Boolean) {
+    override fun applyEffectOnSelf(player: Player, hasFrog: Boolean) {
 
         if (player.level().dimension() != Level.OVERWORLD) {
             return
@@ -49,9 +49,9 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             val chunk = ChunkPos(player.onPos)
             serverLevel.setChunkForced(chunk.x, chunk.z, true)
         }
-        val maxDreamweavers = 4
+        val maxDreamweavers = (if(hasFrog) 3 else 4)
         val maxFlowingSpirits = 4
-        val maxWispyCotton = 4
+        val maxWispyCotton = (if(hasFrog) 3 else 4)
         val dreamweaverCount = countNearbyBlocks(player, WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())
         val flowingSpiritCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
         val wispyCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
@@ -86,7 +86,7 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
 
         }
 
-        super.applyEffectOnSelf(player, frog)
+        super.applyEffectOnSelf(player, hasFrog)
     }
 
     companion object {
