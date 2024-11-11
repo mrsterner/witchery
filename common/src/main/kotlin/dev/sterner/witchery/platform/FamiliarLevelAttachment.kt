@@ -53,38 +53,27 @@ object FamiliarLevelAttachment {
         val data = getData(level)
         val familiarData = data.familiarList.find { it.owner == playerUUID && it.dead }
 
-        println("Familiar Data: $familiarData")
         if (familiarData != null) {
             val entityTag = familiarData.entityTag
 
-            // Check if entityTag has "id" to specify entity type
             if (!entityTag.contains("id")) {
-                println("Error: Entity tag missing 'id' field for entity type.")
                 return
             }
 
-            // Attempt to load the entity
             val resurrectedFamiliar = EntityType.loadEntityRecursive(entityTag, level) { entity ->
                 entity.moveTo(blockPos.x + 0.5, blockPos.y.toDouble(), blockPos.z + 0.5)
                 entity
             }
 
-            println("Resurrected Familiar: $resurrectedFamiliar")
-
             if (resurrectedFamiliar != null) {
                 level.addFreshEntity(resurrectedFamiliar)
 
-                // Update familiar data to mark as alive
                 val updatedFamiliarSet = data.familiarList.toMutableSet()
                 updatedFamiliarSet.remove(familiarData)
                 updatedFamiliarSet.add(familiarData.copy(dead = false))
 
                 setData(level, Data(updatedFamiliarSet))
-            } else {
-                println("Error: Failed to resurrect familiar - Entity loading returned null.")
             }
-        } else {
-            println("No dead familiar found for player $playerUUID")
         }
     }
 
@@ -110,7 +99,6 @@ object FamiliarLevelAttachment {
             val level = livingEntity.level() as? ServerLevel ?: return EventResult.pass()
 
             val familiarUUID = livingEntity.uuid
-            println("FUUID: $familiarUUID")
             val data = getData(level)
 
 
@@ -119,7 +107,6 @@ object FamiliarLevelAttachment {
 
                 updatedFamiliarSet.remove(familiarData)
                 updatedFamiliarSet.add(familiarData.copy(dead = true))
-                println("Set")
                 setData(level, Data(updatedFamiliarSet))
             }
         }

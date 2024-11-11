@@ -29,7 +29,6 @@ object SleepingPlayerLevelAttachment {
     }
 
     fun getPlayerFromSleepingUUID(sleepingUUID: UUID, level: ServerLevel): UUID? {
-        println(getData(level).entries.entries)
         val ret = getData(level).entries.entries.find { it.value.uuid == sleepingUUID }?.key
         return ret
     }
