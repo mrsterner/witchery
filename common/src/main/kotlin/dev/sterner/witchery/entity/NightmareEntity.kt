@@ -5,8 +5,11 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.DamageTypeTags
+import net.minecraft.util.Mth
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
@@ -16,6 +19,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.target.TargetGoal
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.enchantment.EnchantmentHelper
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.pathfinder.PathType
 import java.util.*
@@ -63,7 +67,6 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
         } else {
             setIntangible()
         }
-
         return super.hurt(source, amount)
     }
 
@@ -86,7 +89,7 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
     }
 
     override fun isInvulnerableTo(source: DamageSource): Boolean {
-        return source.`is`(DamageTypeTags.IS_PROJECTILE) || this.entityData.get(INTANGIBLE) || super.isInvulnerableTo(source)
+        return source.`is`(DamageTypeTags.IS_PROJECTILE) || super.isInvulnerableTo(source)
     }
 
     override fun registerGoals() {
@@ -97,6 +100,27 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
         super.registerGoals()
     }
 
+    override fun doHurtTarget(target: Entity): Boolean {
+        val f = getAttributeValue(Attributes.ATTACK_DAMAGE).toFloat()
+        val damageSource = damageSources().magic()
+
+        val bl = target.hurt(damageSource, f)
+        if (bl) {
+            val g = this.getKnockback(target, damageSource)
+            if (g > 0.0f && target is LivingEntity) {
+                target.knockback(
+                    (g * 0.5f).toDouble(), Mth.sin(this.yRot * (Math.PI / 180.0).toFloat()).toDouble(),
+                    (-Mth.cos(this.yRot * (Math.PI / 180.0).toFloat())).toDouble()
+                )
+                this.deltaMovement = deltaMovement.multiply(0.6, 1.0, 0.6)
+            }
+
+            this.setLastHurtMob(target)
+            this.playAttackSound()
+        }
+
+        return bl
+    }
 
     companion object {
         fun createAttributes(): AttributeSupplier.Builder {
