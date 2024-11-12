@@ -174,4 +174,14 @@ object WitcheryNeoForgeAttachmentRegistry {
                 .build()
         }
     )
+
+    @JvmStatic
+    val CURSE_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CursePlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "curse_player_data",
+        Supplier {
+            AttachmentType.builder(Supplier { CursePlayerAttachment.Data() })
+                .serialize(CursePlayerAttachment.Data.CODEC)
+                .build()
+        }
+    )
 }

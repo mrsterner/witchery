@@ -85,6 +85,7 @@ object Witchery {
 
     @JvmStatic
     fun init() {
+        WitcheryCurseRegistry.init()
         WitcheryRitualRegistry.init()
         WitcheryFluids.FLUIDS.register()
         WitcheryFluids.init()
@@ -137,6 +138,11 @@ object Witchery {
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
+        TickEvent.PLAYER_PRE.register(CursePlayerAttachment::tickCurse)
+        EntityEvent.LIVING_HURT.register(CursePlayerAttachment::onHurt)
+        BlockEvent.BREAK.register(CursePlayerAttachment::breakBlock)
+        BlockEvent.PLACE.register(CursePlayerAttachment::placeBlock)
+        PlayerEvent.ATTACK_ENTITY.register(CursePlayerAttachment::attackEntity)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
 

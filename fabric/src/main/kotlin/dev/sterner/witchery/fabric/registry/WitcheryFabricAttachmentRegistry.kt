@@ -115,6 +115,12 @@ object WitcheryFabricAttachmentRegistry {
             .initializer { FamiliarLevelAttachment.Data() }
             .buildAndRegister(FamiliarLevelAttachment.Data.ID)
 
+    @Suppress("UnstableApiUsage")
+    val CURSE_PLAYER_DATA_TYPE: AttachmentType<CursePlayerAttachment.Data> =
+        AttachmentRegistry.builder<CursePlayerAttachment.Data>()
+            .persistent(CursePlayerAttachment.Data.CODEC)
+            .initializer { CursePlayerAttachment.Data() }
+            .buildAndRegister(CursePlayerAttachment.Data.ID)
 
 
     fun init() {

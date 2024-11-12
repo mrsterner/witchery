@@ -73,6 +73,9 @@ object WitcheryPayloads {
         registerS2C(SyncOwlAbilityS2CPayload.ID, SyncOwlAbilityS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
+        registerS2C(SyncCurseS2CPacket.ID, SyncCurseS2CPacket.STREAM_CODEC) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
 
 
         //C2S
