@@ -122,6 +122,13 @@ object WitcheryFabricAttachmentRegistry {
             .initializer { CursePlayerAttachment.Data() }
             .buildAndRegister(CursePlayerAttachment.Data.ID)
 
+    @Suppress("UnstableApiUsage")
+    val NIGHTMARE_PLAYER_DATA_TYPE: AttachmentType<NightmarePlayerAttachment.Data> =
+        AttachmentRegistry.builder<NightmarePlayerAttachment.Data>()
+            .persistent(NightmarePlayerAttachment.Data.CODEC)
+            .initializer { NightmarePlayerAttachment.Data() }
+            .buildAndRegister(NightmarePlayerAttachment.Data.ID)
+
 
     fun init() {
 

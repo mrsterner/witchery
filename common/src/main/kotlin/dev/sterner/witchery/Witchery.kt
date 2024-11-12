@@ -141,6 +141,7 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(CursePlayerAttachment::tickCurse)
+        TickEvent.PLAYER_PRE.register(NightmarePlayerAttachment::tick)
         EntityEvent.LIVING_HURT.register(CursePlayerAttachment::onHurt)
         BlockEvent.BREAK.register(CursePlayerAttachment::breakBlock)
         BlockEvent.PLACE.register(CursePlayerAttachment::placeBlock)

@@ -131,7 +131,7 @@ object WitcheryEntityTypes {
             { _: EntityType<NightmareEntity>, level: Level ->
                 NightmareEntity(level)
             }, MobCategory.MONSTER
-        ).sized(1.15F, 2.2F).build(Witchery.id("nightmare").toString())
+        ).sized(0.85F, 2.2F).build(Witchery.id("nightmare").toString())
     }
 
     val VAMPIRE = ENTITY_TYPES.register("vampire") {

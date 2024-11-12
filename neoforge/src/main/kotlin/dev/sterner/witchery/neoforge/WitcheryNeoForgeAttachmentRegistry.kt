@@ -184,4 +184,14 @@ object WitcheryNeoForgeAttachmentRegistry {
                 .build()
         }
     )
+
+    @JvmStatic
+    val NIGHTMARE_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<NightmarePlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "nightmare_player_data",
+        Supplier {
+            AttachmentType.builder(Supplier { NightmarePlayerAttachment.Data() })
+                .serialize(NightmarePlayerAttachment.Data.CODEC)
+                .build()
+        }
+    )
 }

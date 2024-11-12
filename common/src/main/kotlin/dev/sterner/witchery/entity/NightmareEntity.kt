@@ -1,6 +1,9 @@
 package dev.sterner.witchery.entity
 
+import dev.architectury.event.events.common.EntityEvent
+import dev.sterner.witchery.platform.NightmarePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
@@ -27,6 +30,7 @@ import java.util.*
 class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(), level) {
 
     private var intangibleCooldown: Int = 0
+    private var ticker = 0
 
     init {
         this.setPersistenceRequired()
@@ -46,12 +50,35 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
     override fun tick() {
         super.tick()
 
-        if (!level().isClientSide) {
+        if (level() is ServerLevel) {
             if (intangibleCooldown > 0) {
                 intangibleCooldown--
             }
             if (intangibleCooldown <= 0) {
                 entityData.set(INTANGIBLE, false)
+            }
+
+            ticker++
+            if (ticker > 20) {
+                ticker = 0
+
+                val nightmareWorld = level().server?.getLevel(WitcheryWorldgenKeys.NIGHTMARE)
+                if (nightmareWorld != null) {
+                    var foundMatchingUUID = false
+
+                    for (player in nightmareWorld.getPlayers { true }) {
+                        val data = NightmarePlayerAttachment.getData(player)
+
+                        if (data.nightmareUUID.isPresent && data.nightmareUUID.get() == uuid) {
+                            foundMatchingUUID = true
+                            break
+                        }
+                    }
+
+                    if (!foundMatchingUUID) {
+                        discard()
+                    }
+                }
             }
         }
     }
@@ -92,8 +119,12 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
         return source.`is`(DamageTypeTags.IS_PROJECTILE) || super.isInvulnerableTo(source)
     }
 
+    override fun isWithinMeleeAttackRange(entity: LivingEntity): Boolean {
+        return super.isWithinMeleeAttackRange(entity)
+    }
+
     override fun registerGoals() {
-        goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, false))
+        goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, true))
         goalSelector.addGoal(1, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
         targetSelector.addGoal(1, NightmareTargetGoal(this))
 
@@ -126,7 +157,7 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
         fun createAttributes(): AttributeSupplier.Builder {
             return createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 100.0)
-                .add(Attributes.MOVEMENT_SPEED, 0.45)
+                .add(Attributes.MOVEMENT_SPEED, 0.29)
                 .add(Attributes.ATTACK_DAMAGE, 6.0)
                 .add(Attributes.FOLLOW_RANGE, 128.0)
         }
