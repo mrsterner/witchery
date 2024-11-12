@@ -69,6 +69,7 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
 
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         builder.define(INTANGIBLE, false)
+        builder.define(NIGHTMARE_TARGET, Optional.empty())
         super.defineSynchedData(builder)
     }
 

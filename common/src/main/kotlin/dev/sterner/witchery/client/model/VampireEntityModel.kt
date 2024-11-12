@@ -15,6 +15,8 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import java.util.function.Function
+import kotlin.math.cos
+import kotlin.math.sin
 
 class VampireEntityModel(val root: ModelPart) : HierarchicalModel<VampireEntity>(Function { location: ResourceLocation ->
     RenderType.entityTranslucent(
@@ -63,7 +65,25 @@ class VampireEntityModel(val root: ModelPart) : HierarchicalModel<VampireEntity>
         netHeadYaw: Float,
         headPitch: Float
     ) {
+        body.yRot = cos(ageInTicks * 0.1f) * 0.015f
+        body.xRot = sin(ageInTicks * 0.1f) * 0.015f
 
+        right_arm.xRot = sin(ageInTicks * 0.1f) * 0.1f
+        right_arm.zRot = cos(ageInTicks * 0.1f) * 0.05f
+
+        left_arm.xRot = cos(ageInTicks * 0.1f) * 0.1f
+        left_arm.zRot = sin(ageInTicks * 0.1f) * 0.05f
+
+        left_leg.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
+        right_leg.xRot = cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
+
+        left_arm.xRot =+ cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.2f * limbSwingAmount
+        right_arm.xRot =- cos(limbSwing * 0.6662f) * 1.2f * limbSwingAmount
+
+        head.yRot = netHeadYaw * (Math.PI.toFloat() / 180f)
+        head.xRot = headPitch * (Math.PI.toFloat() / 180f)
+
+        head.yRot += cos(ageInTicks * 0.05f) * 0.02f
     }
 
     companion object {

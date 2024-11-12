@@ -108,6 +108,10 @@ object WitcheryNeoForgeClientEvent {
             WitcheryEntityTypes.WEREWOLF.get(),
             ::WerewolfEntityRenderer
         )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.NIGHTMARE.get(),
+            ::NightmareEntityRenderer
+        )
     }
 
     @SubscribeEvent
@@ -143,6 +147,7 @@ object WitcheryNeoForgeClientEvent {
 
         event.registerLayerDefinition(VampireEntityModel.LAYER_LOCATION, VampireEntityModel::createBodyLayer)
         event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION, WerewolfEntityModel::createBodyLayer)
+        event.registerLayerDefinition(NightmareEntityModel.LAYER_LOCATION, NightmareEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent
