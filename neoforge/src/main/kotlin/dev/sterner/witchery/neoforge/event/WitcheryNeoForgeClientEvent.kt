@@ -10,6 +10,7 @@ import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
+import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.DreamWeaverBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
@@ -98,6 +99,15 @@ object WitcheryNeoForgeClientEvent {
             WitcheryEntityTypes.SLEEPING_PLAYER.get(),
             ::SleepingPlayerEntityRenderer
         )
+
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.VAMPIRE.get(),
+            ::VampireEntityRenderer
+        )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.WEREWOLF.get(),
+            ::WerewolfEntityRenderer
+        )
     }
 
     @SubscribeEvent
@@ -130,6 +140,9 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(DemonEntityModel.LAYER_LOCATION, DemonEntityModel::createBodyLayer)
         event.registerLayerDefinition(EntEntityModel.LAYER_LOCATION, EntEntityModel::createBodyLayer)
         event.registerLayerDefinition(BansheeEntityModel.LAYER_LOCATION, BansheeEntityModel::createBodyLayer)
+
+        event.registerLayerDefinition(VampireEntityModel.LAYER_LOCATION, VampireEntityModel::createBodyLayer)
+        event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION, WerewolfEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent

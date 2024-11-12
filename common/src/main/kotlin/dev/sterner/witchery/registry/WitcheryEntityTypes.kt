@@ -133,4 +133,20 @@ object WitcheryEntityTypes {
             }, MobCategory.MONSTER
         ).sized(1.15F, 2.2F).build(Witchery.id("nightmare").toString())
     }
+
+    val VAMPIRE = ENTITY_TYPES.register("vampire") {
+        EntityType.Builder.of(
+            { _: EntityType<VampireEntity>, level: Level ->
+                VampireEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(1.15F, 1.8F).build(Witchery.id("vampire").toString())
+    }
+
+    val WEREWOLF = ENTITY_TYPES.register("werewolf") {
+        EntityType.Builder.of(
+            { _: EntityType<WerewolfEntity>, level: Level ->
+                WerewolfEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(1.15F, 1.8F).build(Witchery.id("vampire").toString())
+    }
 }
