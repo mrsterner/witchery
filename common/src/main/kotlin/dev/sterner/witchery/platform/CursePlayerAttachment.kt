@@ -59,7 +59,7 @@ object CursePlayerAttachment {
         while (curseIterator.hasNext()) {
             val curseData = curseIterator.next()
 
-            if (curseData.curseId == curse.id) {
+            if (curseData.curseId == WitcheryCurseRegistry.CURSES.getId(curse)) {
                 curseIterator.remove()
                 break
             }
@@ -82,7 +82,6 @@ object CursePlayerAttachment {
 
             while (iterator.hasNext()) {
                 val curseData = iterator.next()
-                println("${curseData.curseId} : ${curseData.duration}")
                 if (curseData.duration > 0) {
                     curseData.duration -= 1
                     dataModified = true

@@ -175,7 +175,7 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val curseType = CurseArgumentType.getCurse(ctx, "curseType")
-                                        CursePlayerAttachment.addCurse(player, curseType.id)
+                                        CursePlayerAttachment.addCurse(player, WitcheryCurseRegistry.CURSES.getId(curseType)!!)
                                         1
                                     }
                             )
