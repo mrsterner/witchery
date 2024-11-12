@@ -9,9 +9,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.EntityHitResult
 
-open class Curse(val id: ResourceLocation) {
-
-    constructor(id: String): this(Witchery.id(id))
+open class Curse {
 
     open fun onTickCurse(level: Level, player: Player) {
 

@@ -10,7 +10,7 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.Ritual
-import dev.sterner.witchery.curse.EmptyCurse
+import dev.sterner.witchery.curse.*
 import dev.sterner.witchery.ritual.BindFamiliarRitual
 import dev.sterner.witchery.ritual.EmptyRitual
 import dev.sterner.witchery.ritual.PushMobsRitual
@@ -29,16 +29,28 @@ object WitcheryCurseRegistry {
     val CURSES: Registrar<Curse> = RegistrarManager.get(Witchery.MODID).builder<Curse>(ID)
         .syncToClients().build()
 
-    val EMPTY: RegistrySupplier<EmptyCurse> = CURSES.register(Witchery.id("empty")) {
-        EmptyCurse()
+    val CORRUPT_POPPET: RegistrySupplier<CurseOfCorruptPoppet> = CURSES.register(Witchery.id("corrupt_poppet")) {
+        CurseOfCorruptPoppet()
     }
 
-    val CODEC: Codec<Curse?> = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Curse> ->
-        instance.group(
-            ResourceLocation.CODEC.fieldOf("id").forGetter { curse -> curse.id }
-        ).apply(instance) { resourceLocation ->
-            Curse(resourceLocation)
-        }
+    val INSANITY: RegistrySupplier<CurseOfInsanity> = CURSES.register(Witchery.id("insanity")) {
+        CurseOfInsanity()
+    }
+
+    val MISFORTUNE: RegistrySupplier<CurseOfMisfortune> = CURSES.register(Witchery.id("misfortune")) {
+        CurseOfMisfortune()
+    }
+
+    val OVERHEATING: RegistrySupplier<CurseOfOverheating> = CURSES.register(Witchery.id("overheating")) {
+        CurseOfOverheating()
+    }
+
+    val SINKING: RegistrySupplier<CurseOfSinking> = CURSES.register(Witchery.id("sinking")) {
+        CurseOfSinking()
+    }
+
+    val WALKING_NIGHTMARE: RegistrySupplier<CurseOfWalkingNightmare> = CURSES.register(Witchery.id("walking_nightmare")) {
+        CurseOfWalkingNightmare()
     }
 
     fun init(){
