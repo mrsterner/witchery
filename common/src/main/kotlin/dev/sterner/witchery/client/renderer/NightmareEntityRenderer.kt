@@ -46,6 +46,7 @@ class NightmareEntityRenderer(context: EntityRendererProvider.Context) :
         val f = Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot)
         val ix = entity.scale
         poseStack.scale(ix, ix, ix)
+        poseStack.scale(1.5f, 1.5f, 1.5f)
         val k = this.getBob(entity, partialTicks)
         this.setupRotations(entity, poseStack, k, f, partialTicks, ix)
 

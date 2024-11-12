@@ -17,5 +17,11 @@ class WitcheryEntityTypeTagProvider(
             WitcheryEntityTypes.CUSTOM_BOAT.get(),
             WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()
         )
+
+        getOrCreateTagBuilder(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+            .add(WitcheryEntityTypes.NIGHTMARE.get())
+            .add(WitcheryEntityTypes.VAMPIRE.get())
+            .add(WitcheryEntityTypes.BANSHEE.get())
+            .add(WitcheryEntityTypes.SPECTRAL_PIG.get())
     }
 }

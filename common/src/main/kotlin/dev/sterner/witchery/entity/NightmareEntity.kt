@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.target.TargetGoal
+import net.minecraft.world.entity.monster.Drowned
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.enchantment.EnchantmentHelper
@@ -45,6 +46,10 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
 
     override fun fireImmune(): Boolean {
         return true
+    }
+
+    override fun updateInWaterStateAndDoFluidPushing(): Boolean {
+        return false
     }
 
     override fun tick() {
@@ -160,6 +165,7 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
                 .add(Attributes.MOVEMENT_SPEED, 0.29)
                 .add(Attributes.ATTACK_DAMAGE, 6.0)
                 .add(Attributes.FOLLOW_RANGE, 128.0)
+                .add(Attributes.STEP_HEIGHT, 2.0)
         }
 
         val INTANGIBLE: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
