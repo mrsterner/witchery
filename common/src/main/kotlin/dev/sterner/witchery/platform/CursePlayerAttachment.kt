@@ -6,6 +6,7 @@ import dev.architectury.event.EventResult
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.architectury.utils.value.IntValue
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.payload.SyncCurseS2CPacket
 import dev.sterner.witchery.registry.WitcheryCurseRegistry
 import dev.sterner.witchery.registry.WitcheryPayloads
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.EntityHitResult
+import java.awt.Component
 
 object CursePlayerAttachment {
 
@@ -36,6 +38,36 @@ object CursePlayerAttachment {
         throw AssertionError()
     }
 
+    fun addCurse(player: Player, curse: ResourceLocation) {
+        val data = getData(player).playerCurseList.toMutableList()
+        val existingCurse = data.find { it.curseId == curse }
+        val newCurseData = PlayerCurseData(curse, duration = 24000)
+
+        if (existingCurse != null) {
+            data.remove(existingCurse)
+        }
+
+        data.add(newCurseData)
+
+        setData(player, Data(data))
+    }
+
+    fun removeCurse(player: Player, curse: Curse) {
+        val data = getData(player)
+        val curseIterator = data.playerCurseList.iterator()
+
+        while (curseIterator.hasNext()) {
+            val curseData = curseIterator.next()
+
+            if (curseData.curseId == curse.id) {
+                curseIterator.remove()
+                break
+            }
+        }
+
+        setData(player, data)
+    }
+
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
             WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncCurseS2CPacket(player, data))
@@ -45,10 +77,26 @@ object CursePlayerAttachment {
     fun tickCurse(player: Player?) {
         if (player != null) {
             val data = getData(player)
-            if (data.playerCurseList.isNotEmpty()) {
-                for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.onTickCurse(player.level(), player)
+            var dataModified = false
+            val iterator = data.playerCurseList.iterator()
+
+            while (iterator.hasNext()) {
+                val curseData = iterator.next()
+                println("${curseData.curseId} : ${curseData.duration}")
+                if (curseData.duration > 0) {
+                    curseData.duration -= 1
+                    dataModified = true
+                    WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(player.level(), player)
                 }
+
+                if (curseData.duration <= 0) {
+                    iterator.remove()
+                    dataModified = true
+                }
+            }
+
+            if (dataModified) {
+                setData(player, data)
             }
         }
     }
@@ -103,7 +151,7 @@ object CursePlayerAttachment {
         return EventResult.pass()
     }
 
-    data class PlayerCurseData(val curseId: ResourceLocation, val duration: Int) {
+    data class PlayerCurseData(val curseId: ResourceLocation, var duration: Int) {
 
         companion object {
             val CODEC: Codec<PlayerCurseData> = RecordCodecBuilder.create { instance ->
@@ -116,10 +164,10 @@ object CursePlayerAttachment {
         }
     }
 
-    data class Data(val playerCurseList: MutableList<PlayerCurseData> = mutableListOf()) {
+    data class Data(var playerCurseList: MutableList<PlayerCurseData> = mutableListOf()) {
 
         companion object {
-            val ID: ResourceLocation = Witchery.id("playerCurseList")
+            val ID: ResourceLocation = Witchery.id("player_curse_list")
 
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
