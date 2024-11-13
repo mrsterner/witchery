@@ -22,7 +22,6 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.EntityHitResult
-import java.awt.Component
 
 object CursePlayerAttachment {
 
@@ -38,10 +37,10 @@ object CursePlayerAttachment {
         throw AssertionError()
     }
 
-    fun addCurse(player: Player, curse: ResourceLocation) {
+    fun addCurse(player: Player, curse: ResourceLocation, catBoosted: Boolean) {
         val data = getData(player).playerCurseList.toMutableList()
         val existingCurse = data.find { it.curseId == curse }
-        val newCurseData = PlayerCurseData(curse, duration = 24000)
+        val newCurseData = PlayerCurseData(curse, duration = 24000, catBoosted)
 
         if (existingCurse != null) {
             data.remove(existingCurse)
@@ -85,7 +84,7 @@ object CursePlayerAttachment {
                 if (curseData.duration > 0) {
                     curseData.duration -= 1
                     dataModified = true
-                    WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(player.level(), player)
+                    WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(player.level(), player, curseData.catBoosted)
                 }
 
                 if (curseData.duration <= 0) {
@@ -100,12 +99,12 @@ object CursePlayerAttachment {
         }
     }
 
-    fun onHurt(livingEntity: LivingEntity?, damageSource: DamageSource?, fl: Float): EventResult? {
+    fun onHurt(livingEntity: LivingEntity?, damageSource: DamageSource?, amount: Float): EventResult? {
         if (livingEntity is Player) {
             val data = getData(livingEntity)
             if (data.playerCurseList.isNotEmpty()) {
                 for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.onHurt(livingEntity.level(), livingEntity, damageSource, fl)
+                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.onHurt(livingEntity.level(), livingEntity, damageSource, amount, curse.catBoosted)
                 }
             }
         }
@@ -118,7 +117,7 @@ object CursePlayerAttachment {
             val data = getData(serverPlayer)
             if (data.playerCurseList.isNotEmpty()) {
                 for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.breakBlock(level!!, serverPlayer, blockState)
+                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.breakBlock(level!!, serverPlayer, blockState, curse.catBoosted)
                 }
             }
         }
@@ -131,7 +130,7 @@ object CursePlayerAttachment {
             val data = getData(entity)
             if (data.playerCurseList.isNotEmpty()) {
                 for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.placeBlock(level!!, entity, blockState)
+                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.placeBlock(level!!, entity, blockState, curse.catBoosted)
                 }
             }
         }
@@ -143,20 +142,21 @@ object CursePlayerAttachment {
             val data = getData(player)
             if (data.playerCurseList.isNotEmpty()) {
                 for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.attackEntity(level!!, player, target, entityHitResult)
+                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.attackEntity(level!!, player, target, entityHitResult, curse.catBoosted)
                 }
             }
         }
         return EventResult.pass()
     }
 
-    data class PlayerCurseData(val curseId: ResourceLocation, var duration: Int) {
+    data class PlayerCurseData(val curseId: ResourceLocation, var duration: Int, var catBoosted: Boolean) {
 
         companion object {
             val CODEC: Codec<PlayerCurseData> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     ResourceLocation.CODEC.fieldOf("curseId").forGetter { it.curseId },
-                    Codec.INT.fieldOf("duration").forGetter { it.duration }
+                    Codec.INT.fieldOf("duration").forGetter { it.duration },
+                    Codec.BOOL.fieldOf("catBoosted").forGetter { it.catBoosted }
 
                 ).apply(instance, ::PlayerCurseData)
             }

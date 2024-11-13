@@ -1,14 +1,13 @@
 package dev.sterner.witchery.curse
 
 import dev.sterner.witchery.api.Curse
-import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.tags.BiomeTags
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 
 class CurseOfOverheating : Curse() {
 
-    override fun onTickCurse(level: Level, player: Player) {
+    override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
 
         val biome = level.getBiome(player.blockPosition())
 
@@ -17,6 +16,6 @@ class CurseOfOverheating : Curse() {
         }
 
 
-        super.onTickCurse(level, player)
+        super.onTickCurse(level, player, curseData.catBoosted)
     }
 }

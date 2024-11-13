@@ -10,6 +10,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.platform.CursePlayerAttachment
+import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
@@ -23,6 +24,7 @@ import net.minecraft.commands.synchronization.ArgumentTypeInfos
 import net.minecraft.commands.synchronization.SingletonArgumentInfo
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
+import net.minecraft.world.entity.EntityType
 
 
 object WitcheryCommands {
@@ -175,7 +177,13 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val curseType = CurseArgumentType.getCurse(ctx, "curseType")
-                                        CursePlayerAttachment.addCurse(player, WitcheryCurseRegistry.CURSES.getId(curseType)!!)
+                                        val commandSender = ctx.source.player
+                                        val cat = if (commandSender != null) {
+                                            FamiliarLevelAttachment.getFamiliarEntityType(commandSender.uuid, commandSender.serverLevel()) == EntityType.CAT
+                                        } else {
+                                            false
+                                        }
+                                        CursePlayerAttachment.addCurse(player, WitcheryCurseRegistry.CURSES.getId(curseType)!!, cat)
                                         1
                                     }
                             )

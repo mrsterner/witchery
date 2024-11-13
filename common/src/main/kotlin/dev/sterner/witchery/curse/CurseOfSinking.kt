@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level
 
 class CurseOfSinking : Curse() {
 
-    override fun onTickCurse(level: Level, player: Player) {
+    override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
         if (player.isInWater) {
             if (player.deltaMovement.y > -0.1) {
                 player.deltaMovement = player.deltaMovement.add(0.0, -0.03, 0.0)
@@ -17,6 +17,6 @@ class CurseOfSinking : Curse() {
             }
         }
 
-        super.onTickCurse(level, player)
+        super.onTickCurse(level, player, curseData.catBoosted)
     }
 }

@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level
 
 class CurseOfMisfortune : Curse() {
 
-    override fun onTickCurse(level: Level, player: Player) {
+    override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
 
         if (level.gameTime % 20 == 0L) {
             if (level.random.nextDouble() < 0.01) {
@@ -31,6 +31,6 @@ class CurseOfMisfortune : Curse() {
             }
         }
 
-        super.onTickCurse(level, player)
+        super.onTickCurse(level, player, curseData.catBoosted)
     }
 }
