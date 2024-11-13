@@ -5,6 +5,7 @@
   "minVersion": "0.8",
   "client": [
     "client.ClientPacketListenerMixin",
+    "client.GuiMixin",
     "client.ItemRendererMixin",
     "client.LivingEntityRendererMixin",
     "client.PlayerItemInHandLayerMixin",

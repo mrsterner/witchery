@@ -45,6 +45,7 @@ import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -164,6 +165,7 @@ object Witchery {
         TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
         TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
         TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
+        TickEvent.PLAYER_PRE.register(VampirePlayerAttachment::tick)
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
     }
