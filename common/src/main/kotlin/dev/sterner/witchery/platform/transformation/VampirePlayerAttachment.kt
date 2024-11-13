@@ -77,49 +77,48 @@ object VampirePlayerAttachment {
     @JvmStatic
     fun increaseVampireLevel(player: Player) {
         val data = getData(player)
-        setData(player, Data(data.vampireLevel + 1, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount, data.visitedVillages, data.trappedVillagers, data.abilityIndex))
+        setData(player, data.copy(vampireLevel = data.vampireLevel + 1))
         setMaxBlood(player)
     }
-
 
     @JvmStatic
     fun increaseKilledBlazes(player: Player) {
         val data = getData(player)
-        setData(player, Data(data.vampireLevel, data.killedBlazes + 1, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount, data.visitedVillages, data.trappedVillagers, data.abilityIndex))
+        setData(player, data.copy(killedBlazes = data.killedBlazes + 1))
     }
 
     @JvmStatic
     fun increaseUsedSunGrenades(player: Player) {
         val data = getData(player)
-        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades + 1, data.villagersHalfBlood, data.nightsCount, data.visitedVillages, data.trappedVillagers, data.abilityIndex))
+        setData(player, data.copy(usedSunGrenades = data.usedSunGrenades + 1))
     }
 
     @JvmStatic
     fun increaseVillagersHalfBlood(player: Player) {
         val data = getData(player)
-        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood + 1, data.nightsCount, data.visitedVillages, data.trappedVillagers, data.abilityIndex))
+        setData(player, data.copy(villagersHalfBlood = data.villagersHalfBlood + 1))
     }
 
     @JvmStatic
     fun increaseNightsCount(player: Player) {
         val data = getData(player)
-        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount + 1, data.visitedVillages, data.trappedVillagers, data.abilityIndex))
+        setData(player, data.copy(nightsCount = data.nightsCount + 1))
     }
 
     @JvmStatic
     fun increaseVisitedVillages(player: Player) {
         val data = getData(player)
-        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount, data.visitedVillages + 1, data.trappedVillagers, data.abilityIndex))
+        setData(player, data.copy(visitedVillages = data.visitedVillages + 1))
     }
 
     @JvmStatic
     fun increaseTrappedVillagers(player: Player) {
         val data = getData(player)
-        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount, data.visitedVillages, data.trappedVillagers + 1, data.abilityIndex))
+        setData(player, data.copy(trappedVillagers = data.trappedVillagers + 1))
     }
 
-    class Data(
-        val vampireLevel: Int = 7,
+    data class Data(
+        val vampireLevel: Int = 7, //TODO set to 0
         val killedBlazes: Int = 0,
         val usedSunGrenades: Int = 0,
         val villagersHalfBlood: Int = 0,
