@@ -94,11 +94,17 @@ object VampireHandler {
         val player = client.player ?: return
 
         val abilityIndex = VampirePlayerAttachment.getData(player).abilityIndex
-        if (abilityIndex != -1) {
-            val y = guiGraphics.guiHeight() - 18 - 5
-            val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - (25 * abilityIndex)
+        val size = VampirePlayerAttachment.getAbilities(player)
 
-            guiGraphics.blit(overlay, x, y, 24, 23, 0f,0f,24, 23,24, 23)
+        val y = guiGraphics.guiHeight() - 18 - 5
+        val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
+
+        for (i in size.indices) {
+            guiGraphics.blit(Witchery.id("textures/gui/vampire_abilities/${size[i].serializedName}.png"), x - (25 * i) + 4, y + 4, 16, 16, 0f,0f,16, 16,16, 16)
+        }
+
+        if (abilityIndex != -1) {
+            guiGraphics.blit(overlay, x - (25 * abilityIndex), y, 24, 23, 0f,0f,24, 23,24, 23)
         }
     }
 }

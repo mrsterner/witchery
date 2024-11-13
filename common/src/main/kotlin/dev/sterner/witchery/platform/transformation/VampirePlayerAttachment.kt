@@ -119,7 +119,7 @@ object VampirePlayerAttachment {
     }
 
     class Data(
-        val vampireLevel: Int = 6,
+        val vampireLevel: Int = 7,
         val killedBlazes: Int = 0,
         val usedSunGrenades: Int = 0,
         val villagersHalfBlood: Int = 0,
@@ -152,10 +152,7 @@ object VampirePlayerAttachment {
         TRANSFIX(2),
         NIGHT_VISION(2),
         SPEED(4),
-        BAT_FORM(7),
-        MESMERIZE(8),
-        CREATE_VAMPIRE(9)
-        ;
+        BAT_FORM(7);
 
         override fun getSerializedName(): String {
             return name.lowercase()
