@@ -2,9 +2,12 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.platform.CursePlayerAttachment
+import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtOps
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
@@ -16,8 +19,10 @@ class SyncVampireS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(player: Player, data: VampirePlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
-        putInt("vampireLevel", data.vampireLevel)
-        putInt("bloodPool", data.bloodPool)
+
+        VampirePlayerAttachment.Data.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
+            put("data", it.get())
+        }
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -32,14 +37,14 @@ class SyncVampireS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
-        val vampireLevel = payload.nbt.getInt("vampireLevel")
-        val bloodPool = payload.nbt.getInt("bloodPool")
+        val dataTag = payload.nbt.getCompound("data")
+        val data = VampirePlayerAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
         val player = client.level?.getPlayerByUUID(id)
 
         client.execute {
-            if (player != null) {
-                VampirePlayerAttachment.setData(player, VampirePlayerAttachment.Data(vampireLevel, bloodPool))
+            if (player != null && data != null) {
+                VampirePlayerAttachment.setData(player, data.get())
             }
         }
     }

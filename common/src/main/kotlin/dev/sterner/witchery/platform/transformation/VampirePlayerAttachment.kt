@@ -25,21 +25,6 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
-    fun increaseBlood(player: Player, amount: Int) {
-        val data = getData(player)
-        val maxBlood = getMaxBlood(player)
-        val newBloodPool = (data.bloodPool + amount).coerceAtMost(maxBlood)
-        setData(player, data.copy(bloodPool = newBloodPool))
-    }
-
-    @JvmStatic
-    fun decreaseBlood(player: Player, amount: Int) {
-        val data = getData(player)
-        val newBloodPool = (data.bloodPool - amount).coerceAtLeast(0)
-        setData(player, data.copy(bloodPool = newBloodPool))
-    }
-
-    @JvmStatic
     fun getMaxBlood(player: Player): Int {
         val data = getData(player)
         return when (data.vampireLevel) {
@@ -69,18 +54,26 @@ object VampirePlayerAttachment {
         }
     }
 
-    //300 blood = 1 full blood drop
-    class Data(val vampireLevel: Int = 0, val bloodPool: Int = 0) {
-
-        fun copy(vampireLevel: Int = this.vampireLevel, bloodPool: Int = this.bloodPool): Data {
-            return Data(vampireLevel, bloodPool)
-        }
+    class Data(
+        val vampireLevel: Int = 0,
+        val killedBlazes: Int = 0,
+        val usedSunGrenades: Int = 0,
+        val villagersHalfBlood: Int = 0,
+        val nightsCount: Int = 0,
+        val visitedVillages: Int = 0,
+        val trappedVillagers: Int = 0
+    ) {
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.INT.fieldOf("vampireLevel").forGetter { it.vampireLevel },
-                    Codec.INT.fieldOf("bloodPool").forGetter { it.bloodPool },
+                    Codec.INT.fieldOf("killedBlazes").forGetter { it.killedBlazes },
+                    Codec.INT.fieldOf("usedSunGrenades").forGetter { it.usedSunGrenades },
+                    Codec.INT.fieldOf("villagersHalfBlood").forGetter { it.villagersHalfBlood },
+                    Codec.INT.fieldOf("nightsCount").forGetter { it.nightsCount },
+                    Codec.INT.fieldOf("visitedVillages").forGetter { it.visitedVillages },
+                    Codec.INT.fieldOf("trappedVillagers").forGetter { it.trappedVillagers },
                 ).apply(instance, ::Data)
             }
 
