@@ -157,4 +157,12 @@ object WitcheryEntityTypes {
             }, MobCategory.MONSTER
         ).sized(1.15F, 2.6F).build(Witchery.id("lilith").toString())
     }
+
+    val ELLE = ENTITY_TYPES.register("elle") {
+        EntityType.Builder.of(
+            { _: EntityType<ElleEntity>, level: Level ->
+                ElleEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(1.0F, 1.85F).build(Witchery.id("elle").toString())
+    }
 }

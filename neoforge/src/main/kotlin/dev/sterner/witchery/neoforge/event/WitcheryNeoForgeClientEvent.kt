@@ -116,6 +116,10 @@ object WitcheryNeoForgeClientEvent {
             WitcheryEntityTypes.LILITH.get(),
             ::LilithEntityRenderer
         )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.ELLE.get(),
+            ::ElleEntityRenderer
+        )
     }
 
     @SubscribeEvent

@@ -141,6 +141,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryEntityTypes.SLEEPING_PLAYER.get(), "Sleeping Player")
         builder.add(WitcheryEntityTypes.BANSHEE.get(), "Banshee")
         builder.add(WitcheryEntityTypes.NIGHTMARE.get(), "Nightmare")
+        builder.add(WitcheryEntityTypes.VAMPIRE.get(), "Vampire")
+        builder.add(WitcheryEntityTypes.WEREWOLF.get(), "Werewolf")
+        builder.add(WitcheryEntityTypes.LILITH.get(), "Lilith")
+        builder.add(WitcheryEntityTypes.ELLE.get(), "Elle")
 
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
