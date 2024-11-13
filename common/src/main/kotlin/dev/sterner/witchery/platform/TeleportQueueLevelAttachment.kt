@@ -42,7 +42,7 @@ object TeleportQueueLevelAttachment {
                 if (overworld.hasChunk(request.chunkPos.x, request.chunkPos.z)) {
                     if (request.execute(minecraftServer)) {
                         overworld.setChunkForced(request.chunkPos.x, request.chunkPos.z, false)
-                        SleepingPlayerLevelAttachment.remove(request.player, overworld)
+                        SleepingLevelAttachment.remove(request.player, overworld)
                         iterator.remove()
                         dataModified = true
                     }

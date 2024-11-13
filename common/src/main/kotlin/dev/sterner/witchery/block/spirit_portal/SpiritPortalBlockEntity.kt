@@ -1,7 +1,6 @@
 package dev.sterner.witchery.block.spirit_portal
 
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos

@@ -1,14 +1,18 @@
 package dev.sterner.witchery.platform.poppet
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.core.BlockPos
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import java.util.*
 
-object PoppetDataAttachment {
+object PoppetLevelAttachment {
 
     @JvmStatic
     @ExpectPlatform
@@ -65,6 +69,34 @@ object PoppetDataAttachment {
         if (targetData != null) {
             targetData.poppetItemStack = newStack.copy()
             setPoppetData(level, oldData)
+        }
+    }
+
+    data class PoppetData(
+        val poppetDataMap: MutableList<Data>
+    ) {
+
+        companion object {
+            val CODEC: Codec<PoppetData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.list(Data.CODEC).fieldOf("poppetData").forGetter { it.poppetDataMap }
+                ).apply(instance) { poppetData ->
+                    PoppetData(poppetData.toMutableList())
+                }
+            }
+
+            val ID: ResourceLocation = Witchery.id("poppet_data")
+        }
+
+        data class Data(val blockPos: BlockPos, var poppetItemStack: ItemStack) {
+            companion object {
+                val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
+                    instance.group(
+                        BlockPos.CODEC.fieldOf("blockPos").forGetter { it.blockPos },
+                        ItemStack.CODEC.fieldOf("poppetItemStack").forGetter { it.poppetItemStack },
+                    ).apply(instance, ::Data)
+                }
+            }
         }
     }
 }

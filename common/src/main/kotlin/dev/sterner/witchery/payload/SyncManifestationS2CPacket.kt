@@ -2,8 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
-import dev.sterner.witchery.platform.PlayerMiscDataAttachment
+import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -15,7 +14,7 @@ class SyncManifestationS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: PlayerManifestationDataAttachment.Data) : this(CompoundTag().apply {
+    constructor(player: Player, data: ManifestationPlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putBoolean("hasRiteOfManifestation", data.hasRiteOfManifestation)
         putInt("manifestationTimer", data.manifestationTimer)
@@ -40,7 +39,7 @@ class SyncManifestationS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
         client.execute {
             if (player != null) {
-                PlayerManifestationDataAttachment.setData(player, PlayerManifestationDataAttachment.Data(hasRiteOfManifestation, manifestationTimer))
+                ManifestationPlayerAttachment.setData(player, ManifestationPlayerAttachment.Data(hasRiteOfManifestation, manifestationTimer))
             }
         }
     }

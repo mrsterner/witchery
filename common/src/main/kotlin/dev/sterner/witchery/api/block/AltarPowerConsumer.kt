@@ -1,7 +1,7 @@
 package dev.sterner.witchery.api.block
 
 import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.platform.AltarDataAttachment
+import dev.sterner.witchery.platform.AltarLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.Level
@@ -19,7 +19,7 @@ interface AltarPowerConsumer {
     }
 
     fun getAltarPos(level: ServerLevel, origin: BlockPos): BlockPos? {
-        return AltarDataAttachment.getAltarPos(level).minByOrNull { pos ->
+        return AltarLevelAttachment.getAltarPos(level).minByOrNull { pos ->
             fun distance(pos1: BlockPos, pos2: BlockPos): Double {
                 return sqrt(
                     (pos1.x - pos2.x).toDouble().pow(2) +

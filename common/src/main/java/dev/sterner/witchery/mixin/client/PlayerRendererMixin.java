@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import dev.sterner.witchery.platform.PlayerManifestationDataAttachment;
+import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -41,7 +41,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
                                              @Local(argsOnly = true) MultiBufferSource multiBufferSource,
                                              @Local(argsOnly = true) AbstractClientPlayer player,
                                              @Local ResourceLocation resourceLocation){
-        if (PlayerManifestationDataAttachment.getData(player).getManifestationTimer() > 0) {
+        if (ManifestationPlayerAttachment.getData(player).getManifestationTimer() > 0) {
             int originalAlpha = (654311423 >> 24) & 0xFF;
             int reducedAlpha = (int) (originalAlpha * 0.75) << 24;
             int colorWithReducedAlpha = (654311423 & 0x00FFFFFF) | reducedAlpha;

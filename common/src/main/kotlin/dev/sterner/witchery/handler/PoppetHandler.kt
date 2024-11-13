@@ -4,10 +4,8 @@ import dev.architectury.event.EventResult
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
-import dev.sterner.witchery.platform.PlayerMiscDataAttachment
-import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
-import dev.sterner.witchery.platform.poppet.VoodooPoppetData
-import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment
+import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
+import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
@@ -67,7 +65,7 @@ object PoppetHandler {
         val playerPoppet = player?.let { consumePoppet(it, WitcheryItems.ARMOR_PROTECTION_POPPET.get()) }
         if (playerPoppet != null) return true
 
-        val poppetData = PoppetDataAttachment.getPoppetData(level)
+        val poppetData = PoppetLevelAttachment.getPoppetData(level)
         return poppetData.poppetDataMap.any { data ->
             data.poppetItemStack.`is`(WitcheryItems.ARMOR_PROTECTION_POPPET.get()) &&
                     isPoppetBoundToLiving(data.poppetItemStack, player)
@@ -130,7 +128,7 @@ object PoppetHandler {
 
         if (!consume && livingEntity.level() is ServerLevel) {
             val level = livingEntity.level() as ServerLevel
-            val poppetData = PoppetDataAttachment.getPoppetData(level)
+            val poppetData = PoppetLevelAttachment.getPoppetData(level)
 
             val blockPoppet = poppetData.poppetDataMap.find {
                 it.poppetItemStack.`is`(item) && isPoppetBoundToLiving(it.poppetItemStack, livingEntity)
@@ -139,7 +137,7 @@ object PoppetHandler {
             if (blockPoppet != null) {
                 itemStack = blockPoppet.poppetItemStack.copy()
                 blockPoppet.poppetItemStack.shrink(1)
-                PoppetDataAttachment.updatePoppetItem(level, blockPoppet.blockPos, blockPoppet.poppetItemStack)
+                PoppetLevelAttachment.updatePoppetItem(level, blockPoppet.blockPos, blockPoppet.poppetItemStack)
             }
         }
 
@@ -162,7 +160,7 @@ object PoppetHandler {
 
                 if (itemStack == null && livingEntity.level() is ServerLevel) {
                     val level = livingEntity.level() as ServerLevel
-                    val poppetData = PoppetDataAttachment.getPoppetData(level)
+                    val poppetData = PoppetLevelAttachment.getPoppetData(level)
 
                     val blockPoppet = poppetData.poppetDataMap.find {
                         it.poppetItemStack.`is`(WitcheryItems.VAMPIRIC_POPPET.get()) &&
@@ -175,7 +173,7 @@ object PoppetHandler {
                         if (blockPoppet.poppetItemStack.damageValue >= blockPoppet.poppetItemStack.maxDamage) {
                             blockPoppet.poppetItemStack.shrink(1)
                         }
-                        PoppetDataAttachment.updatePoppetItem(level, blockPoppet.blockPos, blockPoppet.poppetItemStack)
+                        PoppetLevelAttachment.updatePoppetItem(level, blockPoppet.blockPos, blockPoppet.poppetItemStack)
                     }
                 }
             }
@@ -233,11 +231,19 @@ object PoppetHandler {
             }
 
             if (entity.isUnderWater) {
-                boundPlayer?.let { VoodooPoppetDataAttachment.setPoppetData(it, VoodooPoppetData(true)) }
-                boundEntity?.let { VoodooPoppetDataAttachment.setPoppetData(it, VoodooPoppetData(true)) }
+                boundPlayer?.let { VoodooPoppetLivingEntityAttachment.setPoppetData(it,
+                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(true)
+                ) }
+                boundEntity?.let { VoodooPoppetLivingEntityAttachment.setPoppetData(it,
+                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(true)
+                ) }
             } else {
-                boundPlayer?.let { VoodooPoppetDataAttachment.setPoppetData(it, VoodooPoppetData(false)) }
-                boundEntity?.let { VoodooPoppetDataAttachment.setPoppetData(it, VoodooPoppetData(false)) }
+                boundPlayer?.let { VoodooPoppetLivingEntityAttachment.setPoppetData(it,
+                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false)
+                ) }
+                boundEntity?.let { VoodooPoppetLivingEntityAttachment.setPoppetData(it,
+                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false)
+                ) }
             }
 
             entity.item.damageValue += 1

@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import dev.sterner.witchery.platform.PlayerManifestationDataAttachment;
+import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -43,7 +43,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V"))
     private boolean witchery$manifestationAlpha(EntityModel<T> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color, @Local MultiBufferSource source, @Local T entity){
         if(entity instanceof Player player) {
-            if (PlayerManifestationDataAttachment.getData(player).getManifestationTimer() > 0) {
+            if (ManifestationPlayerAttachment.getData(player).getManifestationTimer() > 0) {
                 int originalAlpha = (654311423 >> 24) & 0xFF;
                 int reducedAlpha = (int) (originalAlpha * 0.75) << 24;
                 int colorWithReducedAlpha = (654311423 & 0x00FFFFFF) | reducedAlpha;

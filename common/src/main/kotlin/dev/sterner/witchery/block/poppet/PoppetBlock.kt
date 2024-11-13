@@ -1,7 +1,7 @@
 package dev.sterner.witchery.block.poppet
 
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
+import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryUtil
@@ -87,7 +87,7 @@ class PoppetBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         tool: ItemStack
     ) {
         if (level is ServerLevel && blockEntity is PoppetBlockEntity) {
-            val itemStack = PoppetDataAttachment.getPoppet(level, pos)
+            val itemStack = PoppetLevelAttachment.getPoppet(level, pos)
             if (itemStack != null) {
                 val item = ItemEntity(level, pos.center.x, pos.center.y, pos.center.z, itemStack.copy())
                 level.addFreshEntity(item)
@@ -105,7 +105,7 @@ class PoppetBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         movedByPiston: Boolean
     ) {
         if (level is ServerLevel) {
-            PoppetDataAttachment.handleBlockDestruction(level, pos)
+            PoppetLevelAttachment.handleBlockDestruction(level, pos)
         }
 
         super.onRemove(state, level, pos, newState, movedByPiston)

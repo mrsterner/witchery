@@ -25,8 +25,6 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.MoverType
-import net.minecraft.world.entity.decoration.ArmorStand
-import net.minecraft.world.entity.decoration.ItemFrame
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
@@ -54,13 +52,13 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             var foundPlayer = false
             if (data.resolvableProfile != null) {
                 for (serverLevel in level().server!!.allLevels) {
-                    val playerUuid = SleepingPlayerLevelAttachment.getPlayerFromSleepingUUID(uuid, serverLevel)
+                    val playerUuid = SleepingLevelAttachment.getPlayerFromSleepingUUID(uuid, serverLevel)
 
                     val player = playerUuid?.let { level().server!!.playerList.getPlayer(it) }
                     if (player != null) {
                         TeleportQueueLevelAttachment.addRequest(level() as ServerLevel, TeleportRequest(playerUuid, blockPosition(), ChunkPos(blockPosition())))
-                        val old = PlayerManifestationDataAttachment.getData(player)
-                        PlayerManifestationDataAttachment.setData(player, PlayerManifestationDataAttachment.Data(old.hasRiteOfManifestation, 0))
+                        val old = ManifestationPlayerAttachment.getData(player)
+                        ManifestationPlayerAttachment.setData(player, ManifestationPlayerAttachment.Data(old.hasRiteOfManifestation, 0))
                         foundPlayer = true
                         break
                     }
@@ -75,7 +73,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 Containers.dropContents(level(), blockPosition(), data.armorInventory)
                 Containers.dropContents(level(), blockPosition(), data.offHandInventory)
                 Containers.dropContents(level(), blockPosition(), data.extraInventory)
-                SleepingPlayerLevelAttachment.removeBySleepingUUID(uuid, level() as ServerLevel)
+                SleepingLevelAttachment.removeBySleepingUUID(uuid, level() as ServerLevel)
             }
         }
 
@@ -203,7 +201,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             entity.setSleepingModel(player.entityData.get(Player.DATA_PLAYER_MODE_CUSTOMISATION))
             if (player.level() is ServerLevel) {
                 val serverLevel = player.level() as ServerLevel
-                SleepingPlayerLevelAttachment.add(player.uuid, entity.uuid, player.blockPosition(), serverLevel)
+                SleepingLevelAttachment.add(player.uuid, entity.uuid, player.blockPosition(), serverLevel)
             }
 
             return entity

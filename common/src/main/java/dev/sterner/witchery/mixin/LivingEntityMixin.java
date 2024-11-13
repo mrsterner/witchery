@@ -3,9 +3,8 @@ package dev.sterner.witchery.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.sterner.witchery.handler.PoppetHandler;
-import dev.sterner.witchery.platform.PlayerManifestationDataAttachment;
-import dev.sterner.witchery.platform.poppet.VoodooPoppetData;
-import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment;
+import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
+import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -26,7 +25,7 @@ public class LivingEntityMixin {
     private float witchery$modifyHurtGhost(float original, @Local(argsOnly = true) DamageSource damageSource) {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
         if (livingEntity instanceof Player player) {
-            if (PlayerManifestationDataAttachment.getData(player).getManifestationTimer() > 0) {
+            if (ManifestationPlayerAttachment.getData(player).getManifestationTimer() > 0) {
                 return 0;
             }
         }
@@ -36,9 +35,9 @@ public class LivingEntityMixin {
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void witchery$modifyBaseTick(CallbackInfo ci) {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
-        var prevData = VoodooPoppetDataAttachment.getPoppetData(livingEntity);
+        var prevData = VoodooPoppetLivingEntityAttachment.getPoppetData(livingEntity);
         if (prevData.isUnderWater())  {
-            VoodooPoppetDataAttachment.setPoppetData(livingEntity, new VoodooPoppetData(false));
+            VoodooPoppetLivingEntityAttachment.setPoppetData(livingEntity, new VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false));
         }
     }
 }

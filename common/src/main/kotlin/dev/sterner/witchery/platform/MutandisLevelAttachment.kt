@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Block
 
-object MutandisDataAttachment {
+object MutandisLevelAttachment {
 
     const val CACHE_LIFETIME = 20 * 3
 

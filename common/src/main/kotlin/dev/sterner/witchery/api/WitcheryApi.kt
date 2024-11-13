@@ -1,6 +1,6 @@
 package dev.sterner.witchery.api
 
-import dev.sterner.witchery.platform.PlayerMiscDataAttachment
+import dev.sterner.witchery.platform.MiscPlayerAttachment
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
@@ -22,8 +22,8 @@ object WitcheryApi {
      * Used to make the player a witch, Witchery will be stronger towards this player
      */
     fun makePlayerWitchy(player: Player) {
-        if (!PlayerMiscDataAttachment.getData(player).isWitcheryAligned) {
-            PlayerMiscDataAttachment.setWitcheryAligned(player, true)
+        if (!MiscPlayerAttachment.getData(player).isWitcheryAligned) {
+            MiscPlayerAttachment.setWitcheryAligned(player, true)
         }
     }
 
@@ -32,6 +32,6 @@ object WitcheryApi {
      * This to not wreck players who are not interested in witchery
      */
     fun isWitchy(maybeEntity: Player): Boolean {
-        return PlayerMiscDataAttachment.getData(maybeEntity).isWitcheryAligned
+        return MiscPlayerAttachment.getData(maybeEntity).isWitcheryAligned
     }
 }

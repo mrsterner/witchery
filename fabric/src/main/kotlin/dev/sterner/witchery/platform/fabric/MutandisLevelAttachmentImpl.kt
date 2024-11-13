@@ -1,19 +1,19 @@
 package dev.sterner.witchery.platform.fabric
 
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
-import dev.sterner.witchery.platform.MutandisDataAttachment
-import dev.sterner.witchery.platform.MutandisDataAttachment.CACHE_LIFETIME
+import dev.sterner.witchery.platform.MutandisLevelAttachment
+import dev.sterner.witchery.platform.MutandisLevelAttachment.CACHE_LIFETIME
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Block
 
 @Suppress("UnstableApiUsage")
-object MutandisDataAttachmentImpl {
+object MutandisLevelAttachmentImpl {
 
     @JvmStatic
 
-    fun getMap(level: ServerLevel): MutableMap<BlockPos, MutandisDataAttachment.MutandisData> {
+    fun getMap(level: ServerLevel): MutableMap<BlockPos, MutandisLevelAttachment.MutandisData> {
         return level.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap
     }
 
@@ -27,7 +27,7 @@ object MutandisDataAttachmentImpl {
     fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>) {
         val data = level.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE)
         val mutableMap = data.mutandisCacheMap.toMutableMap()
-        mutableMap[pos] = MutandisDataAttachment.MutandisData(tag, CACHE_LIFETIME)
+        mutableMap[pos] = MutandisLevelAttachment.MutandisData(tag, CACHE_LIFETIME)
         data.mutandisCacheMap = mutableMap.toMutableMap()
         level.setAttached(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE, data)
     }
@@ -43,7 +43,7 @@ object MutandisDataAttachmentImpl {
     fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
         val data = level.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE)
         if (data.mutandisCacheMap[pos] != null) {
-            data.mutandisCacheMap[pos] = MutandisDataAttachment.MutandisData(
+            data.mutandisCacheMap[pos] = MutandisLevelAttachment.MutandisData(
                 data.mutandisCacheMap[pos]!!.tag,
                 data.mutandisCacheMap[pos]!!.time - 1
             )
@@ -56,7 +56,7 @@ object MutandisDataAttachmentImpl {
         val data = level.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE)
         if (data.mutandisCacheMap[pos] != null) {
             data.mutandisCacheMap[pos] =
-                MutandisDataAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
+                MutandisLevelAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
             level.setAttached(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE, data)
         }
     }

@@ -2,7 +2,8 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
+import dev.sterner.witchery.platform.ManifestationPlayerAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -10,13 +11,14 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
-class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncVampireS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: VoodooPoppetLivingEntityAttachment.VoodooPoppetData) : this(CompoundTag().apply {
+    constructor(player: Player, data: VampirePlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
-        putBoolean("isUnderWater", data.isUnderWater)
+        putInt("vampireLevel", data.vampireLevel)
+        putInt("bloodPool", data.bloodPool)
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -27,31 +29,30 @@ class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf?.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncVoodooDataS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncVampireS2CPacket, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
-        val isUnderWater = payload.nbt.getBoolean("isUnderWater")
+        val vampireLevel = payload.nbt.getInt("vampireLevel")
+        val bloodPool = payload.nbt.getInt("bloodPool")
 
         val player = client.level?.getPlayerByUUID(id)
 
         client.execute {
             if (player != null) {
-                VoodooPoppetLivingEntityAttachment.setPoppetData(player,
-                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(isUnderWater)
-                )
+                VampirePlayerAttachment.setData(player, VampirePlayerAttachment.Data(vampireLevel, bloodPool))
             }
         }
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncVoodooDataS2CPacket> =
-            CustomPacketPayload.Type(Witchery.id("sync_voodoo_poppet"))
+        val ID: CustomPacketPayload.Type<SyncVampireS2CPacket> =
+            CustomPacketPayload.Type(Witchery.id("sync_vampire_player"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncVoodooDataS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncVampireS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncVoodooDataS2CPacket(buf!!) }
+                { buf -> SyncVampireS2CPacket(buf!!) }
             )
     }
 }

@@ -2,26 +2,28 @@ package dev.sterner.witchery.fabric.registry
 
 import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.*
-import dev.sterner.witchery.platform.poppet.PoppetData
-import dev.sterner.witchery.platform.poppet.VoodooPoppetData
+import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
+import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
+import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 
 object WitcheryFabricAttachmentRegistry {
 
     @Suppress("UnstableApiUsage")
-    val MUTANDIS_LEVEL_DATA_TYPE: AttachmentType<MutandisDataAttachment.MutandisDataCodec> =
-        AttachmentRegistry.builder<MutandisDataAttachment.MutandisDataCodec>()
-            .persistent(MutandisDataAttachment.MutandisDataCodec.CODEC)
-            .initializer { MutandisDataAttachment.MutandisDataCodec() }
-            .buildAndRegister(MutandisDataAttachment.ID)
+    val MUTANDIS_LEVEL_DATA_TYPE: AttachmentType<MutandisLevelAttachment.MutandisDataCodec> =
+        AttachmentRegistry.builder<MutandisLevelAttachment.MutandisDataCodec>()
+            .persistent(MutandisLevelAttachment.MutandisDataCodec.CODEC)
+            .initializer { MutandisLevelAttachment.MutandisDataCodec() }
+            .buildAndRegister(MutandisLevelAttachment.ID)
 
     @Suppress("UnstableApiUsage")
-    val ALTAR_LEVEL_DATA_TYPE: AttachmentType<AltarDataAttachment.AltarDataCodec> =
-        AttachmentRegistry.builder<AltarDataAttachment.AltarDataCodec>()
-            .persistent(AltarDataAttachment.AltarDataCodec.CODEC)
-            .initializer { AltarDataAttachment.AltarDataCodec() }
-            .buildAndRegister(AltarDataAttachment.AltarDataCodec.ID)
+    val ALTAR_LEVEL_DATA_TYPE: AttachmentType<AltarLevelAttachment.AltarDataCodec> =
+        AttachmentRegistry.builder<AltarLevelAttachment.AltarDataCodec>()
+            .persistent(AltarLevelAttachment.AltarDataCodec.CODEC)
+            .initializer { AltarLevelAttachment.AltarDataCodec() }
+            .buildAndRegister(AltarLevelAttachment.AltarDataCodec.ID)
 
     @Suppress("UnstableApiUsage")
     val INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfusionData> =
@@ -47,16 +49,16 @@ object WitcheryFabricAttachmentRegistry {
     @Suppress("UnstableApiUsage")
     val VOODOO_POPPET_DATA_TYPE: AttachmentType<VoodooPoppetData> =
         AttachmentRegistry.builder<VoodooPoppetData>()
-            .persistent(VoodooPoppetData.CODEC)
+            .persistent(VoodooPoppetLivingEntityAttachment.VoodooPoppetData.CODEC)
             .initializer { VoodooPoppetData(false) }
-            .buildAndRegister(VoodooPoppetData.ID)
+            .buildAndRegister(VoodooPoppetLivingEntityAttachment.VoodooPoppetData.ID)
 
     @Suppress("UnstableApiUsage")
-    val POPPET_DATA_TYPE: AttachmentType<PoppetData> =
-        AttachmentRegistry.builder<PoppetData>()
-            .persistent(PoppetData.CODEC)
-            .initializer { PoppetData(mutableListOf()) }
-            .buildAndRegister(PoppetData.ID)
+    val POPPET_DATA_TYPE: AttachmentType<PoppetLevelAttachment.PoppetData> =
+        AttachmentRegistry.builder<PoppetLevelAttachment.PoppetData>()
+            .persistent(PoppetLevelAttachment.PoppetData.CODEC)
+            .initializer { PoppetLevelAttachment.PoppetData(mutableListOf()) }
+            .buildAndRegister(PoppetLevelAttachment.PoppetData.ID)
 
     @Suppress("UnstableApiUsage")
     val ENT_DATA_TYPE: AttachmentType<EntSpawnLevelAttachment.Data> =
@@ -66,11 +68,11 @@ object WitcheryFabricAttachmentRegistry {
             .buildAndRegister(EntSpawnLevelAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
-    val SLEEPING_PLAYER_DATA_TYPE: AttachmentType<SleepingPlayerLevelAttachment.Data> =
-        AttachmentRegistry.builder<SleepingPlayerLevelAttachment.Data>()
-            .persistent(SleepingPlayerLevelAttachment.Data.CODEC)
-            .initializer { SleepingPlayerLevelAttachment.Data() }
-            .buildAndRegister(SleepingPlayerLevelAttachment.Data.ID)
+    val SLEEPING_PLAYER_DATA_TYPE: AttachmentType<SleepingLevelAttachment.Data> =
+        AttachmentRegistry.builder<SleepingLevelAttachment.Data>()
+            .persistent(SleepingLevelAttachment.Data.CODEC)
+            .initializer { SleepingLevelAttachment.Data() }
+            .buildAndRegister(SleepingLevelAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
     val TELEPORT_QUEUE_DATA_ATTACHMENT: AttachmentType<TeleportQueueLevelAttachment.Data> =
@@ -80,18 +82,18 @@ object WitcheryFabricAttachmentRegistry {
             .buildAndRegister(TeleportQueueLevelAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
-    val MISC_PLAYER_DATA_ATTACHMENT: AttachmentType<PlayerMiscDataAttachment.Data> =
-        AttachmentRegistry.builder<PlayerMiscDataAttachment.Data>()
-            .persistent(PlayerMiscDataAttachment.Data.CODEC)
-            .initializer { PlayerMiscDataAttachment.Data() }
-            .buildAndRegister(PlayerMiscDataAttachment.Data.ID)
+    val MISC_PLAYER_DATA_ATTACHMENT: AttachmentType<MiscPlayerAttachment.Data> =
+        AttachmentRegistry.builder<MiscPlayerAttachment.Data>()
+            .persistent(MiscPlayerAttachment.Data.CODEC)
+            .initializer { MiscPlayerAttachment.Data() }
+            .buildAndRegister(MiscPlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
-    val MANIFESTATION_PLAYER_DATA_ATTACHMENT: AttachmentType<PlayerManifestationDataAttachment.Data> =
-        AttachmentRegistry.builder<PlayerManifestationDataAttachment.Data>()
-            .persistent(PlayerManifestationDataAttachment.Data.CODEC)
-            .initializer { PlayerManifestationDataAttachment.Data() }
-            .buildAndRegister(PlayerManifestationDataAttachment.Data.ID)
+    val MANIFESTATION_PLAYER_DATA_ATTACHMENT: AttachmentType<ManifestationPlayerAttachment.Data> =
+        AttachmentRegistry.builder<ManifestationPlayerAttachment.Data>()
+            .persistent(ManifestationPlayerAttachment.Data.CODEC)
+            .initializer { ManifestationPlayerAttachment.Data() }
+            .buildAndRegister(ManifestationPlayerAttachment.Data.ID)
 
 
     @Suppress("UnstableApiUsage")
@@ -128,6 +130,14 @@ object WitcheryFabricAttachmentRegistry {
             .persistent(NightmarePlayerAttachment.Data.CODEC)
             .initializer { NightmarePlayerAttachment.Data() }
             .buildAndRegister(NightmarePlayerAttachment.Data.ID)
+
+    @Suppress("UnstableApiUsage")
+    val VAMPIRE_PLAYER_DATA_TYPE: AttachmentType<VampirePlayerAttachment.Data> =
+        AttachmentRegistry.builder<VampirePlayerAttachment.Data>()
+            .persistent(VampirePlayerAttachment.Data.CODEC)
+            .initializer { VampirePlayerAttachment.Data() }
+            .buildAndRegister(VampirePlayerAttachment.Data.ID)
+
 
 
     fun init() {

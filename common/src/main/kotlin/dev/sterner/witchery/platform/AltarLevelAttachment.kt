@@ -8,7 +8,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 
-object AltarDataAttachment {
+object AltarLevelAttachment {
 
     @JvmStatic
     @ExpectPlatform

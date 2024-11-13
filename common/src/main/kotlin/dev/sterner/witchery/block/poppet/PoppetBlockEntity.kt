@@ -2,8 +2,7 @@ package dev.sterner.witchery.block.poppet
 
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.item.PoppetItem
-import dev.sterner.witchery.platform.poppet.PoppetData
-import dev.sterner.witchery.platform.poppet.PoppetDataAttachment
+import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -25,7 +24,7 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun init(level: Level, pos: BlockPos, state: BlockState) {
         super.init(level, pos, state)
         if (level is ServerLevel) {
-            val data = PoppetDataAttachment.getPoppet(level, pos)
+            val data = PoppetLevelAttachment.getPoppet(level, pos)
             if (data != null) {
                 poppetItemStack = data.copy()
                 setChanged()
@@ -94,7 +93,7 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     level.setBlockEntity(be)
 
                     if (level is ServerLevel) {
-                        PoppetDataAttachment.addPoppetData(level, PoppetData.Data(pos, be.poppetItemStack.copy()))
+                        PoppetLevelAttachment.addPoppetData(level, PoppetLevelAttachment.PoppetData.Data(pos, be.poppetItemStack.copy()))
                     }
 
                     return true

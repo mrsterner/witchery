@@ -1,21 +1,19 @@
 package dev.sterner.witchery.platform.fabric
 
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
-import dev.sterner.witchery.platform.PlayerMiscDataAttachment
-import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
-import net.minecraft.server.level.ServerPlayer
+import dev.sterner.witchery.platform.MiscPlayerAttachment
 import net.minecraft.world.entity.player.Player
 
-object PlayerMiscDataAttachmentImpl {
+object MiscPlayerAttachmentImpl {
 
     @JvmStatic
-    fun getData(player: Player): PlayerMiscDataAttachment.Data {
+    fun getData(player: Player): MiscPlayerAttachment.Data {
         return player.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.MISC_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(player: Player, data: PlayerMiscDataAttachment.Data) {
+    fun setData(player: Player, data: MiscPlayerAttachment.Data) {
         player.setAttached(WitcheryFabricAttachmentRegistry.MISC_PLAYER_DATA_ATTACHMENT, data)
-        PlayerMiscDataAttachment.sync(player, data)
+        MiscPlayerAttachment.sync(player, data)
     }
 }

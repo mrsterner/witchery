@@ -3,7 +3,7 @@ package dev.sterner.witchery.block.altar
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
-import dev.sterner.witchery.platform.AltarDataAttachment
+import dev.sterner.witchery.platform.AltarLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
@@ -51,7 +51,7 @@ class AltarBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.no
 
     override fun onPlace(state: BlockState, level: Level, pos: BlockPos, oldState: BlockState, movedByPiston: Boolean) {
         if (level is ServerLevel) {
-            AltarDataAttachment.setAltarPos(level, pos)
+            AltarLevelAttachment.setAltarPos(level, pos)
         }
         super.onPlace(state, level, pos, oldState, movedByPiston)
     }
@@ -64,7 +64,7 @@ class AltarBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.no
         movedByPiston: Boolean
     ) {
         if (level is ServerLevel) {
-            AltarDataAttachment.removeAltarPos(level, pos)
+            AltarLevelAttachment.removeAltarPos(level, pos)
         }
         Containers.dropItemStack(
             level,

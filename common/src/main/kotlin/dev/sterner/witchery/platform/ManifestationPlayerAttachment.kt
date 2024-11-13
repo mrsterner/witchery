@@ -18,7 +18,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.ChunkPos
 
-object PlayerManifestationDataAttachment {
+object ManifestationPlayerAttachment {
 
     const val MAX_TIME = 2400
 
@@ -70,7 +70,7 @@ object PlayerManifestationDataAttachment {
 
                 if (data.manifestationTimer <= 0) {
                     val overworld = server.overworld()
-                    val sleepingData = SleepingPlayerLevelAttachment.getPlayerFromSleeping(player.uuid, overworld)
+                    val sleepingData = SleepingLevelAttachment.getPlayerFromSleeping(player.uuid, overworld)
                     player.inventory.dropAll()
                     if (sleepingData != null) {
                         val chunkPos = ChunkPos(sleepingData.pos)

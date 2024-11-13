@@ -1,8 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.sterner.witchery.platform.poppet.VoodooPoppetData;
-import dev.sterner.witchery.platform.poppet.VoodooPoppetDataAttachment;
+import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +17,7 @@ public class EntityMixin {
         if (!info.getReturnValue()) {
             Entity entity = (Entity) (Object) this;
             if (entity instanceof LivingEntity living) {
-                VoodooPoppetData data = VoodooPoppetDataAttachment.getPoppetData(living);
+                VoodooPoppetLivingEntityAttachment.VoodooPoppetData data = VoodooPoppetLivingEntityAttachment.getPoppetData(living);
                 if (data.isUnderWater()) {
                     info.setReturnValue(true);
                 }
@@ -30,7 +29,7 @@ public class EntityMixin {
     private boolean witchery$isEyeInFluid(boolean original) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity living) {
-            if (VoodooPoppetDataAttachment.getPoppetData(living).isUnderWater()) {
+            if (VoodooPoppetLivingEntityAttachment.getPoppetData(living).isUnderWater()) {
                 return true;
             }
         }

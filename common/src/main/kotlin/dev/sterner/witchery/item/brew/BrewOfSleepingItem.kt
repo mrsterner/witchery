@@ -3,7 +3,7 @@ package dev.sterner.witchery.item.brew
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.SleepingPlayerData
 import dev.sterner.witchery.entity.SleepingPlayerEntity
-import dev.sterner.witchery.platform.SleepingPlayerLevelAttachment
+import dev.sterner.witchery.platform.SleepingLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
@@ -93,7 +93,7 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         fun respawnPlayer(oldPlayer: ServerPlayer?, newServerPlayer: ServerPlayer?, wonGame: Boolean) {
             if (newServerPlayer?.level() is ServerLevel) {
                 val serverLevel = newServerPlayer.level() as ServerLevel
-                val hasSleeping = SleepingPlayerLevelAttachment.getPlayerFromSleeping(newServerPlayer.uuid, serverLevel)
+                val hasSleeping = SleepingLevelAttachment.getPlayerFromSleeping(newServerPlayer.uuid, serverLevel)
                 if (hasSleeping != null) {
                     val chunk = ChunkPos(hasSleeping.pos)
                     serverLevel.setChunkForced(chunk.x, chunk.z, true)

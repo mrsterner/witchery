@@ -6,8 +6,9 @@ import dev.sterner.witchery.platform.infusion.InfernalInfusionData
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
-import dev.sterner.witchery.platform.poppet.PoppetData
-import dev.sterner.witchery.platform.poppet.VoodooPoppetData
+import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
+import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
@@ -19,23 +20,23 @@ object WitcheryNeoForgeAttachmentRegistry {
         DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Witchery.MODID)
 
     @JvmStatic
-    val MUTANDIS_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<MutandisDataAttachment.MutandisDataCodec>> =
+    val MUTANDIS_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<MutandisLevelAttachment.MutandisDataCodec>> =
         ATTACHMENT_TYPES.register(
             "mutandis_level_data",
             Supplier {
-                AttachmentType.builder(Supplier { MutandisDataAttachment.MutandisDataCodec() })
-                    .serialize(MutandisDataAttachment.MutandisDataCodec.CODEC)
+                AttachmentType.builder(Supplier { MutandisLevelAttachment.MutandisDataCodec() })
+                    .serialize(MutandisLevelAttachment.MutandisDataCodec.CODEC)
                     .build()
             }
         )
 
     @JvmStatic
-    val ALTAR_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<AltarDataAttachment.AltarDataCodec>> =
+    val ALTAR_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<AltarLevelAttachment.AltarDataCodec>> =
         ATTACHMENT_TYPES.register(
             "altar_level_data",
             Supplier {
-                AttachmentType.builder(Supplier { AltarDataAttachment.AltarDataCodec() })
-                    .serialize(AltarDataAttachment.AltarDataCodec.CODEC)
+                AttachmentType.builder(Supplier { AltarLevelAttachment.AltarDataCodec() })
+                    .serialize(AltarLevelAttachment.AltarDataCodec.CODEC)
                     .build()
             }
         )
@@ -72,21 +73,21 @@ object WitcheryNeoForgeAttachmentRegistry {
         )
 
     @JvmStatic
-    val VOODOO_POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<VoodooPoppetData>> = ATTACHMENT_TYPES.register(
+    val VOODOO_POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<VoodooPoppetLivingEntityAttachment.VoodooPoppetData>> = ATTACHMENT_TYPES.register(
         "voodoo_poppet_data",
         Supplier {
-            AttachmentType.builder(Supplier { VoodooPoppetData(false) })
-                .serialize(VoodooPoppetData.CODEC)
+            AttachmentType.builder(Supplier { VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false) })
+                .serialize(VoodooPoppetLivingEntityAttachment.VoodooPoppetData.CODEC)
                 .build()
         }
     )
 
     @JvmStatic
-    val POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<PoppetData>> = ATTACHMENT_TYPES.register(
+    val POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<PoppetLevelAttachment.PoppetData>> = ATTACHMENT_TYPES.register(
         "poppet_data",
         Supplier {
-            AttachmentType.builder(Supplier { PoppetData(mutableListOf()) })
-                .serialize(PoppetData.CODEC)
+            AttachmentType.builder(Supplier { PoppetLevelAttachment.PoppetData(mutableListOf()) })
+                .serialize(PoppetLevelAttachment.PoppetData.CODEC)
                 .build()
         }
     )
@@ -102,12 +103,12 @@ object WitcheryNeoForgeAttachmentRegistry {
     )
 
     @JvmStatic
-    val SLEEPING_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<SleepingPlayerLevelAttachment.Data>> =
+    val SLEEPING_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<SleepingLevelAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "sleeping_player",
             Supplier {
-                AttachmentType.builder(Supplier { SleepingPlayerLevelAttachment.Data() })
-                    .serialize(SleepingPlayerLevelAttachment.Data.CODEC)
+                AttachmentType.builder(Supplier { SleepingLevelAttachment.Data() })
+                    .serialize(SleepingLevelAttachment.Data.CODEC)
                     .build()
             }
         )
@@ -124,23 +125,23 @@ object WitcheryNeoForgeAttachmentRegistry {
         )
 
     @JvmStatic
-    val MISC_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<PlayerMiscDataAttachment.Data>> =
+    val MISC_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<MiscPlayerAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "misc_player",
             Supplier {
-                AttachmentType.builder(Supplier { PlayerMiscDataAttachment.Data() })
-                    .serialize(PlayerMiscDataAttachment.Data.CODEC)
+                AttachmentType.builder(Supplier { MiscPlayerAttachment.Data() })
+                    .serialize(MiscPlayerAttachment.Data.CODEC)
                     .build()
             }
         )
 
     @JvmStatic
-    val MANIFESTATION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<PlayerManifestationDataAttachment.Data>> =
+    val MANIFESTATION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<ManifestationPlayerAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "manifestation_player",
             Supplier {
-                AttachmentType.builder(Supplier { PlayerManifestationDataAttachment.Data() })
-                    .serialize(PlayerManifestationDataAttachment.Data.CODEC)
+                AttachmentType.builder(Supplier { ManifestationPlayerAttachment.Data() })
+                    .serialize(ManifestationPlayerAttachment.Data.CODEC)
                     .build()
             }
         )
@@ -191,6 +192,16 @@ object WitcheryNeoForgeAttachmentRegistry {
         Supplier {
             AttachmentType.builder(Supplier { NightmarePlayerAttachment.Data() })
                 .serialize(NightmarePlayerAttachment.Data.CODEC)
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val VAMPIRE_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<VampirePlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "vampire_player_data",
+        Supplier {
+            AttachmentType.builder(Supplier { VampirePlayerAttachment.Data() })
+                .serialize(VampirePlayerAttachment.Data.CODEC)
                 .build()
         }
     )

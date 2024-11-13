@@ -43,7 +43,6 @@ import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData
-import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
 import dev.sterner.witchery.registry.*
@@ -59,8 +58,6 @@ import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
@@ -126,7 +123,7 @@ object Witchery {
         InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
         PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
 
-        ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisDataAttachment.tick(serverLevel) }
+        ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisLevelAttachment.tick(serverLevel) }
 
         NaturePowerHandler.registerListener()
         ErosionHandler.registerListener()
@@ -165,7 +162,7 @@ object Witchery {
         BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
         TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
-        TickEvent.SERVER_POST.register(PlayerManifestationDataAttachment::tick)
+        TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
         TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
@@ -367,7 +364,7 @@ object Witchery {
         WitcheryPageRendererRegistry.register()
 
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
-        ClientGuiEvent.RENDER_HUD.register(PlayerManifestationDataAttachment::renderHud)
+        ClientGuiEvent.RENDER_HUD.register(ManifestationPlayerAttachment::renderHud)
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),

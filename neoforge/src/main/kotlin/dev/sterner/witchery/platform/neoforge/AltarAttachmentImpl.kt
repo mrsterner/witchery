@@ -4,7 +4,7 @@ import dev.sterner.witchery.neoforge.WitcheryNeoForgeAttachmentRegistry
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 
-object AltarDataAttachmentImpl {
+object AltarAttachmentImpl {
 
     @JvmStatic
     fun setAltarPos(level: ServerLevel, pos: BlockPos) {

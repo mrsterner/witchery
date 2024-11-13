@@ -3,7 +3,7 @@ package dev.sterner.witchery.block.spirit_portal
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
-import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
+import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
@@ -125,7 +125,7 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
     }
 
     fun handleEntityInside(level: Level, pos: BlockPos, entity: Player) {
-        if (PlayerManifestationDataAttachment.getData(entity).hasRiteOfManifestation) {
+        if (ManifestationPlayerAttachment.getData(entity).hasRiteOfManifestation) {
             val overworld = level.server?.overworld()
             if (overworld != null) {
                 val itemsToKeep = mutableListOf<ItemStack>()
@@ -143,7 +143,7 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
                     entity.inventory.add(keep.copy())
                 }
 
-                PlayerManifestationDataAttachment.setManifestationTimer(entity)
+                ManifestationPlayerAttachment.setManifestationTimer(entity)
                 entity.teleportTo(overworld, entity.x, entity.y, entity.z, setOf(), entity.yHeadRot, entity.xRot)
             }
         }

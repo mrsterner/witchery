@@ -11,7 +11,7 @@ import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.platform.CursePlayerAttachment
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
-import dev.sterner.witchery.platform.PlayerManifestationDataAttachment
+import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
@@ -142,7 +142,7 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val status = BoolArgumentType.getBool(ctx, "status")
-                                        PlayerManifestationDataAttachment.setHasRiteOfManifestation(player, status)
+                                        ManifestationPlayerAttachment.setHasRiteOfManifestation(player, status)
                                         1
                                     }
                             )
@@ -154,7 +154,7 @@ object WitcheryCommands {
                         Commands.argument("player", EntityArgument.player())
                             .executes { ctx ->
                                 val player = EntityArgument.getPlayer(ctx, "player")
-                                val status = PlayerManifestationDataAttachment.getData(player).hasRiteOfManifestation
+                                val status = ManifestationPlayerAttachment.getData(player).hasRiteOfManifestation
                                 ctx.source.sendSuccess(
                                     { Component.literal("Current manifestation status: $status for player ${player.name.string}") },
                                     false

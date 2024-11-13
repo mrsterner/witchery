@@ -2,7 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.PlayerMiscDataAttachment
+import dev.sterner.witchery.platform.MiscPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -14,7 +14,7 @@ class SyncMiscS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: PlayerMiscDataAttachment.Data) : this(CompoundTag().apply {
+    constructor(player: Player, data: MiscPlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putBoolean("isWitcheryAligned", data.isWitcheryAligned)
     })
@@ -37,7 +37,7 @@ class SyncMiscS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
         client.execute {
             if (player != null) {
-                PlayerMiscDataAttachment.setData(player, PlayerMiscDataAttachment.Data(isWitcheryAligned))
+                MiscPlayerAttachment.setData(player, MiscPlayerAttachment.Data(isWitcheryAligned))
             }
         }
     }
