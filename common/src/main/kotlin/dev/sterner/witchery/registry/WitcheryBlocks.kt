@@ -43,6 +43,7 @@ import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockSetType
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
 import net.minecraft.world.level.material.PushReaction
@@ -406,19 +407,40 @@ object WitcheryBlocks {
     }
 
     val ROWAN_SIGN: RegistrySupplier<CustomStandingSignBlock> = BLOCKS.register("rowan_sign") {
-        CustomStandingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN))
+        CustomStandingSignBlock(ROWAN_WOOD_TYPE,
+            BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(
+                NoteBlockInstrument.BASS
+            ).noCollission().strength(1.0f).ignitedByLava())
     }
 
     val ROWAN_WALL_SIGN: RegistrySupplier<CustomWallSignBlock> = BLOCKS.register("rowan_wall_sign") {
-        CustomWallSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN))
+        CustomWallSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .forceSolidOn()
+            .instrument(NoteBlockInstrument.BASS)
+            .noCollission()
+            .strength(1.0f)
+            .ignitedByLava())
     }
 
     val ROWAN_HANGING_SIGN: RegistrySupplier<CustomCeilingHangingSignBlock> = BLOCKS.register("rowan_hanging_sign") {
-        CustomCeilingHangingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN))
+        CustomCeilingHangingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.of()
+            .mapColor(Blocks.OAK_LOG.defaultMapColor())
+            .forceSolidOn()
+            .instrument(NoteBlockInstrument.BASS)
+            .noCollission()
+            .strength(1.0f)
+            .ignitedByLava())
     }
 
     val ROWAN_WALL_HANGING_SIGN: RegistrySupplier<CustomWallHangingSignBlock> = BLOCKS.register("rowan_wall_hanging_sign") {
-        CustomWallHangingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN))
+        CustomWallHangingSignBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .forceSolidOn()
+            .instrument(NoteBlockInstrument.BASS)
+            .noCollission()
+            .strength(1.0f)
+            .ignitedByLava())
     }
 
     val STRIPPED_ALDER_LOG: RegistrySupplier<RotatedPillarBlock> = BLOCKS.register("stripped_alder_log") {
@@ -497,19 +519,41 @@ object WitcheryBlocks {
     }
 
     val ALDER_SIGN: RegistrySupplier<CustomStandingSignBlock> = BLOCKS.register("alder_sign") {
-        CustomStandingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN))
+        CustomStandingSignBlock(ALDER_WOOD_TYPE,
+            BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(
+                NoteBlockInstrument.BASS
+            ).noCollission().strength(1.0f).ignitedByLava())
     }
 
     val ALDER_WALL_SIGN: RegistrySupplier<CustomWallSignBlock> = BLOCKS.register("alder_wall_sign") {
-        CustomWallSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN))
+        CustomWallSignBlock(ALDER_WOOD_TYPE,
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.WOOD)
+                .forceSolidOn()
+                .instrument(NoteBlockInstrument.BASS)
+                .noCollission()
+                .strength(1.0f)
+                .ignitedByLava())
     }
 
     val ALDER_HANGING_SIGN: RegistrySupplier<CustomCeilingHangingSignBlock> = BLOCKS.register("alder_hanging_sign") {
-        CustomCeilingHangingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN))
+        CustomCeilingHangingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.of()
+            .mapColor(Blocks.OAK_LOG.defaultMapColor())
+            .forceSolidOn()
+            .instrument(NoteBlockInstrument.BASS)
+            .noCollission()
+            .strength(1.0f)
+            .ignitedByLava())
     }
 
     val ALDER_WALL_HANGING_SIGN: RegistrySupplier<CustomWallHangingSignBlock> = BLOCKS.register("alder_wall_hanging_sign") {
-        CustomWallHangingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN))
+        CustomWallHangingSignBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.of()
+            .mapColor(Blocks.OAK_LOG.defaultMapColor())
+            .forceSolidOn()
+            .instrument(NoteBlockInstrument.BASS)
+            .noCollission()
+            .strength(1.0f)
+            .ignitedByLava())
     }
 
     val STRIPPED_HAWTHORN_LOG: RegistrySupplier<RotatedPillarBlock> = BLOCKS.register("stripped_hawthorn_log") {
@@ -588,21 +632,42 @@ object WitcheryBlocks {
     }
 
     val HAWTHORN_SIGN: RegistrySupplier<CustomStandingSignBlock> = BLOCKS.register("hawthorn_sign") {
-        CustomStandingSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN))
+        CustomStandingSignBlock(HAWTHORN_WOOD_TYPE,
+            BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(
+                NoteBlockInstrument.BASS
+            ).noCollission().strength(1.0f).ignitedByLava())
     }
 
     val HAWTHORN_WALL_SIGN: RegistrySupplier<CustomWallSignBlock> = BLOCKS.register("hawthorn_wall_sign") {
-        CustomWallSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN))
+        CustomWallSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .forceSolidOn()
+            .instrument(NoteBlockInstrument.BASS)
+            .noCollission()
+            .strength(1.0f)
+            .ignitedByLava())
     }
 
     val HAWTHORN_HANGING_SIGN: RegistrySupplier<CustomCeilingHangingSignBlock> = BLOCKS.register("hawthorn_hanging_sign") {
-        CustomCeilingHangingSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN))
+        CustomCeilingHangingSignBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.of()
+            .mapColor(Blocks.OAK_LOG.defaultMapColor())
+            .forceSolidOn()
+            .instrument(NoteBlockInstrument.BASS)
+            .noCollission()
+            .strength(1.0f)
+            .ignitedByLava())
     }
 
     val HAWTHORN_WALL_HANGING_SIGN: RegistrySupplier<CustomWallHangingSignBlock> = BLOCKS.register("hawthorn_wall_hanging_sign") {
         CustomWallHangingSignBlock(
             HAWTHORN_WOOD_TYPE,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN)
+            BlockBehaviour.Properties.of()
+                .mapColor(Blocks.OAK_LOG.defaultMapColor())
+                .forceSolidOn()
+                .instrument(NoteBlockInstrument.BASS)
+                .noCollission()
+                .strength(1.0f)
+                .ignitedByLava()
         )
     }
 

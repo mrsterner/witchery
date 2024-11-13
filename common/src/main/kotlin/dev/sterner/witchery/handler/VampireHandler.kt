@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player
 
 object VampireHandler {
 
+    private val overlay = Witchery.id("textures/gui/ability_hotbar_selection.png")
     private var abilityIndex = -1 // -1 means player is in the hotbar, not abilities
 
     fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult? {
@@ -85,9 +86,7 @@ object VampireHandler {
         return EventResult.pass()
     }
 
-
-    val overlay = Witchery.id("textures/gui/ability_hotbar_selection.png")
-
+    @JvmStatic
     fun renderHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker) {
 
         val client = Minecraft.getInstance()
