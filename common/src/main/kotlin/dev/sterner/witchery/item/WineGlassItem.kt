@@ -87,6 +87,8 @@ class WineGlassItem(properties: Properties) : Item(properties) {
             tooltipComponents.add(Component.translatable("witchery.vampire_blood").setStyle(Style.EMPTY.withColor(Color(255, 50, 100).rgb)).withStyle(ChatFormatting.ITALIC))
         } else if (bl && stack.get(WitcheryDataComponents.BLOOD.get()) != null) {
             tooltipComponents.add(Component.translatable("witchery.blood").setStyle(Style.EMPTY.withColor(Color(255, 50, 80).rgb)))
+        } else {
+            tooltipComponents.add(Component.translatable("witchery.use_with_needle"))
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)

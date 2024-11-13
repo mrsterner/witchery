@@ -36,6 +36,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add("witchery.blood", "Blood")
         builder.add("witchery.vampire_blood", "Blood?")
+        builder.add( "witchery.use_with_needle", "Use with Bone Needle to fill")
 
         builder.add("witchery:all_worlds", "All Worlds")
         builder.add("witchery:dream_world", "Dream World")
