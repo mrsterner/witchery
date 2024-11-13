@@ -3,6 +3,8 @@ package dev.sterner.witchery
 import com.mojang.logging.LogUtils
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
+import dev.architectury.event.events.client.ClientRawInputEvent
+import dev.architectury.event.events.client.ClientRawInputEvent.MouseScrolled
 import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.*
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
@@ -148,6 +150,8 @@ object Witchery {
         PlayerEvent.ATTACK_ENTITY.register(CursePlayerAttachment::attackEntity)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
+
+        InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
 
         EntityEvent.LIVING_DEATH.register(FamiliarLevelAttachment::familiarDeath)
 
@@ -476,6 +480,7 @@ object Witchery {
         )
 
         KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)
+        ClientRawInputEvent.MOUSE_SCROLLED.register(VampireHandler::scroll)
 
         ClientTickEvent.CLIENT_POST.register(ClientTickEvent.Client { minecraft: Minecraft? ->
             while (WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING.consumeClick()) {

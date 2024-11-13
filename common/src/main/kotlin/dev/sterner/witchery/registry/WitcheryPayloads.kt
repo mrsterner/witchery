@@ -87,6 +87,9 @@ object WitcheryPayloads {
         registerC2S(DismountBroomC2SPayload.ID, DismountBroomC2SPayload.STREAM_CODEC) { payload, context ->
             payload.handleC2S(payload, context)
         }
+        registerC2S(VampireAbilitySelectionC2SPayload.ID, VampireAbilitySelectionC2SPayload.STREAM_CODEC) { payload, context ->
+            payload.handleC2S(payload, context)
+        }
     }
 
     private fun <T : CustomPacketPayload?> registerC2S(
