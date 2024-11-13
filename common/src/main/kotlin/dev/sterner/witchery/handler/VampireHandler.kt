@@ -99,8 +99,14 @@ object VampireHandler {
         val y = guiGraphics.guiHeight() - 18 - 5
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
 
+        val bl = player.isShiftKeyDown
+
         for (i in size.indices) {
-            guiGraphics.blit(Witchery.id("textures/gui/vampire_abilities/${size[i].serializedName}.png"), x - (25 * i) + 4, y + 4, 16, 16, 0f,0f,16, 16,16, 16)
+            var name = size[i].serializedName
+            if (size[i] == VampirePlayerAttachment.VampireAbility.TRANSFIX && bl) {
+                name = "night_vision"
+            }
+            guiGraphics.blit(Witchery.id("textures/gui/vampire_abilities/${name}.png"), x - (25 * i) + 4, y + 4, 16, 16, 0f,0f,16, 16,16, 16)
         }
 
         if (abilityIndex != -1) {

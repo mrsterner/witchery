@@ -150,7 +150,6 @@ object VampirePlayerAttachment {
     enum class VampireAbility(val unlockLevel: Int) : StringRepresentable {
         DRINK_BLOOD(1),
         TRANSFIX(2),
-        NIGHT_VISION(2),
         SPEED(4),
         BAT_FORM(7);
 
