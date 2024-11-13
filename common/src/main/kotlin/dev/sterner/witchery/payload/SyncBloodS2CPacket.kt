@@ -16,8 +16,8 @@ class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(livingEntity: LivingEntity, data: BloodPoolLivingEntityAttachment.Data) : this(CompoundTag().apply {
-        putInt("Id", livingEntity.id)
+    constructor(player: Player, data: BloodPoolLivingEntityAttachment.Data) : this(CompoundTag().apply {
+        putUUID("Player", player.uuid)
         putInt("maxBlood", data.maxBlood)
         putInt("bloodPool", data.bloodPool)
     })
@@ -33,15 +33,15 @@ class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     fun handleS2C(payload: SyncBloodS2CPacket, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
-        val id = payload.nbt.getInt("Id")
-        val vampireLevel = payload.nbt.getInt("vampireLevel")
+        val uuid = payload.nbt.getUUID("Player")
+        val maxBlood = payload.nbt.getInt("maxBlood")
         val bloodPool = payload.nbt.getInt("bloodPool")
 
-        val living = client.level?.getEntity(id)
+        val player = client.level?.getPlayerByUUID(uuid)
 
         client.execute {
-            if (living is LivingEntity) {
-                BloodPoolLivingEntityAttachment.setData(living, BloodPoolLivingEntityAttachment.Data(vampireLevel, bloodPool))
+            if (player != null) {
+                BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(maxBlood, bloodPool))
             }
         }
     }

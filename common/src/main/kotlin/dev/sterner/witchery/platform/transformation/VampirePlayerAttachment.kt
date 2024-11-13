@@ -25,9 +25,10 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
-    fun getMaxBlood(player: Player): Int {
+    fun setMaxBlood(player: Player){
         val data = getData(player)
-        return when (data.vampireLevel) {
+
+        val toSet = when (data.vampireLevel) {
             1 -> 900
             2 -> 1200
             3 -> 1500
@@ -40,6 +41,10 @@ object VampirePlayerAttachment {
             10 -> 3600
             else -> 0
         }
+
+        val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+
+        BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(toSet, bloodData.bloodPool))
     }
 
     fun sync(player: Player, data: Data) {
@@ -49,13 +54,13 @@ object VampirePlayerAttachment {
     }
 
     fun tick(player: Player?) {
-        if (player != null) {
+        if (player != null && player.level() is ServerLevel) {
 
         }
     }
 
     class Data(
-        val vampireLevel: Int = 0,
+        val vampireLevel: Int = 5,
         val killedBlazes: Int = 0,
         val usedSunGrenades: Int = 0,
         val villagersHalfBlood: Int = 0,

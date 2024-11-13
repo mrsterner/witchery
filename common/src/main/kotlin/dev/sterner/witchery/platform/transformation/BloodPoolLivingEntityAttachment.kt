@@ -42,7 +42,7 @@ object BloodPoolLivingEntityAttachment {
     }
 
     fun sync(livingEntity: LivingEntity, data: Data) {
-        if (livingEntity.level() is ServerLevel) {
+        if (livingEntity.level() is ServerLevel && livingEntity is Player) {
             WitcheryPayloads.sendToPlayers(livingEntity.level(), livingEntity.blockPosition(), SyncBloodS2CPacket(livingEntity, data))
         }
     }

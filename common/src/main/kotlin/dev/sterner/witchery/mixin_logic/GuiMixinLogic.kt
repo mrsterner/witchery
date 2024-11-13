@@ -14,7 +14,7 @@ object GuiMixinLogic {
     fun `witchery$innerRenderBlood`(guiGraphics: GuiGraphics, player: Player, y: Int, x: Int) {
         val data = BloodPoolLivingEntityAttachment.getData(player)
         val bloodPool = data.bloodPool
-        val maxBlood = VampirePlayerAttachment.getMaxBlood(player)
+        val maxBlood = data.maxBlood
         val dropCount = maxBlood / 300
         val fullIcons = bloodPool / 300
         val partialFill = bloodPool % 300
