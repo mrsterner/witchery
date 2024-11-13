@@ -1427,18 +1427,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addOutputEntity(WitcheryEntityTypes.DEMON.get())
             .save(exporter, Witchery.id("summon_demon"))
 
-        RitualRecipeBuilder.create()
-            .addInputItem(Items.WITHER_SKELETON_SKULL.defaultInstance)
-            .addInputItem(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance)
-            .addInputItem(Items.ENDER_PEARL.defaultInstance)
-            .addInputEntity(EntityType.VILLAGER)
-            .setAltarPower(4000)
-            .addMediumAndLargePattern(
-                WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
-                WitcheryBlocks.INFERNAL_CHALK_BLOCK.get()
-            )
-            .addOutputEntity(EntityType.WITHER)
-            .save(exporter, Witchery.id("summon_wither"))
+
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.PHANTOM_VAPOR.get().defaultInstance)
