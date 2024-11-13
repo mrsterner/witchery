@@ -14,6 +14,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 import kotlin.math.cos
+import kotlin.math.sin
 
 
 class WerewolfEntityModel(root: ModelPart) : EntityModel<WerewolfEntity>() {
@@ -35,16 +36,22 @@ class WerewolfEntityModel(root: ModelPart) : EntityModel<WerewolfEntity>() {
         netHeadYaw: Float,
         headPitch: Float
     ) {
+        right_arm.xRot = sin(ageInTicks * 0.1f) * 0.1f
+        right_arm.zRot = cos(ageInTicks * 0.1f) * 0.05f
+
+        left_arm.xRot = cos(ageInTicks * 0.1f) * 0.1f
+        left_arm.zRot = sin(ageInTicks * 0.1f) * 0.05f
+
         left_leg.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
         right_leg.xRot = cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
 
-        left_arm.xRot = cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
-        right_arm.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
+        left_arm.xRot =+ cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.2f * limbSwingAmount
+        right_arm.xRot =+ cos(limbSwing * 0.6662f) * 1.2f * limbSwingAmount
 
         head.yRot = netHeadYaw * (Math.PI.toFloat() / 180f)
         head.xRot = headPitch * (Math.PI.toFloat() / 180f)
 
-        Tail.yRot = cos(ageInTicks * 0.2f) * 0.3f
+        head.yRot += cos(ageInTicks * 0.05f) * 0.02f
     }
 
     override fun renderToBuffer(
