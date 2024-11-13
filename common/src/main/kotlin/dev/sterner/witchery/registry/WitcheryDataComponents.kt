@@ -49,4 +49,8 @@ object WitcheryDataComponents {
     val PLAYER_UUID: RegistrySupplier<DataComponentType<UUID>> = DATA.register("player_uuid") {
         DataComponentType.builder<UUID>().persistent(UUIDUtil.CODEC).build()
     }
+
+    val BLOOD: RegistrySupplier<DataComponentType<UUID>> = DATA.register("blood") {
+        DataComponentType.builder<UUID>().persistent(UUIDUtil.CODEC).build()
+    }
 }

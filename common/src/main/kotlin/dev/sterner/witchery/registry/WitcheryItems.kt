@@ -258,6 +258,10 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val WINE_GLASS: RegistrySupplier<Item> = ITEMS.register("wine_glass") {
+        WineGlassItem(Item.Properties())
+    }
+
     val NECROMANTIC_STONE: RegistrySupplier<Item> = ITEMS.register("necromantic_stone") {
         object : Item(Properties()){
             override fun isFoil(stack: ItemStack): Boolean {

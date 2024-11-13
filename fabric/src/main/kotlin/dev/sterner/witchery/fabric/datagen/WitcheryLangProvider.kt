@@ -286,6 +286,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.DISTURBED_COTTON.get(), "Disturbed Cotton")
         builder.add(WitcheryItems.WISPY_COTTON.get(), "Wispy Cotton")
         builder.add(WitcheryItems.FANCIFUL_THREAD.get(), "Fanciful Thread")
+        builder.add(WitcheryItems.WINE_GLASS.get(), "Wine Glass")
         builder.add(WitcheryItems.TORMENTED_TWINE.get(), "Tormented Twine")
         builder.add(WitcheryItems.FLOWING_SPIRIT_BUCKET.get(), "Flowing Spirit Bucket")
         builder.add(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "Brew of Flowing Spirit")

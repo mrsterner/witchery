@@ -140,6 +140,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.ARTHANA.get())
                 output.accept(WitcheryItems.CHALICE.get())
                 output.accept(WitcheryItems.PENTACLE.get())
+                output.accept(WitcheryItems.WINE_GLASS.get())
 
                 output.accept(WitcheryItems.DISTURBED_COTTON.get())
                 output.accept(WitcheryItems.WISPY_COTTON.get())

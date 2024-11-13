@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchery:item/wine_glass"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "witchery:blood": 1
+      },
+      "model": "witchery:item/wine_glass_blood"
+    }
+  ]
+}

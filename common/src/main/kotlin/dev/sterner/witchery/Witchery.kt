@@ -406,6 +406,14 @@ object Witchery {
             0f
         }
 
+        ItemPropertiesRegistry.register(
+            WitcheryItems.WINE_GLASS.get(),
+            ResourceLocation.fromNamespaceAndPath(MODID, "blood")
+        ) { stack, _, _, _ ->
+            stack.get(WitcheryDataComponents.BLOOD.get()) ?: return@register 0f
+            return@register 1f
+        }
+
         ColorHandlerRegistry.registerBlockColors(
             RitualChalkColors,
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
