@@ -1,8 +1,11 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
+import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
@@ -80,5 +83,22 @@ object VampireHandler {
         }
 
         return EventResult.pass()
+    }
+
+
+    val overlay = Witchery.id("textures/gui/ability_hotbar_selection.png")
+
+    fun renderHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker) {
+
+        val client = Minecraft.getInstance()
+        val player = client.player ?: return
+
+        val abilityIndex = VampirePlayerAttachment.getData(player).abilityIndex
+        if (abilityIndex != -1) {
+            val y = guiGraphics.guiHeight() - 18 - 5
+            val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - (25 * abilityIndex)
+
+            guiGraphics.blit(overlay, x, y, 24, 23, 0f,0f,24, 23,24, 23)
+        }
     }
 }

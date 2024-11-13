@@ -371,6 +371,7 @@ object Witchery {
 
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
         ClientGuiEvent.RENDER_HUD.register(ManifestationPlayerAttachment::renderHud)
+        ClientGuiEvent.RENDER_HUD.register(VampireHandler::renderHud)
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),

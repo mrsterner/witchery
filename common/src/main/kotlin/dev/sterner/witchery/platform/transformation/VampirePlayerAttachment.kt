@@ -126,7 +126,7 @@ object VampirePlayerAttachment {
         val nightsCount: Int = 0,
         val visitedVillages: Int = 0,
         val trappedVillagers: Int = 0,
-        val abilityIndex: Int = 0
+        val abilityIndex: Int = -1
     ) {
 
         companion object {
