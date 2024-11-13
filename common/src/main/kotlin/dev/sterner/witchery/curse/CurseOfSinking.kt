@@ -17,6 +17,6 @@ class CurseOfSinking : Curse() {
             }
         }
 
-        super.onTickCurse(level, player, curseData.catBoosted)
+        super.onTickCurse(level, player, catBoosted)
     }
 }
