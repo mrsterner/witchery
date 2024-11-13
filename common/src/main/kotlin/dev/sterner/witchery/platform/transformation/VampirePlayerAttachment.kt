@@ -60,7 +60,7 @@ object VampirePlayerAttachment {
     }
 
     class Data(
-        val vampireLevel: Int = 5,
+        val vampireLevel: Int = 0,
         val killedBlazes: Int = 0,
         val usedSunGrenades: Int = 0,
         val villagersHalfBlood: Int = 0,
