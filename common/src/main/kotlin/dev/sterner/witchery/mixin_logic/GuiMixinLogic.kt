@@ -2,8 +2,8 @@ package dev.sterner.witchery.mixin_logic
 
 import dev.sterner.witchery.Witchery.id
 import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getMaxBlood
+import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.world.entity.player.Player
 import org.spongepowered.asm.mixin.Unique
@@ -12,9 +12,9 @@ object GuiMixinLogic {
 
     @JvmStatic
     fun `witchery$innerRenderBlood`(guiGraphics: GuiGraphics, player: Player, y: Int, x: Int) {
-        val data = getData(player)
+        val data = BloodPoolLivingEntityAttachment.getData(player)
         val bloodPool = data.bloodPool
-        val maxBlood = getMaxBlood(player)
+        val maxBlood = VampirePlayerAttachment.getMaxBlood(player)
         val dropCount = maxBlood / 300
         val fullIcons = bloodPool / 300
         val partialFill = bloodPool % 300
