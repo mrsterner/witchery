@@ -1,5 +1,8 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.entity.LilithEntity
+import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.advancements.CriteriaTriggers
@@ -8,6 +11,7 @@ import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.stats.Stats
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -21,6 +25,14 @@ class WineGlassItem(properties: Properties) : Item(properties) {
         if (livingEntity is ServerPlayer) {
             CriteriaTriggers.CONSUME_ITEM.trigger(livingEntity, stack)
             livingEntity.awardStat(Stats.ITEM_USED[this])
+
+            if (stack.has(WitcheryDataComponents.VAMPIRE_BLOOD.get()) && stack.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true) {
+                val data = VampirePlayerAttachment.getData(livingEntity)
+                if (data.vampireLevel == 0) {
+                    VampirePlayerAttachment.increaseVampireLevel(player = livingEntity)
+                    BloodPoolLivingEntityAttachment.increaseBlood(player = livingEntity, 300)
+                }
+            }
         }
 
         return ItemStack(WitcheryItems.WINE_GLASS.get())
@@ -48,11 +60,30 @@ class WineGlassItem(properties: Properties) : Item(properties) {
         }
 
         val data = player.mainHandItem.get(WitcheryDataComponents.BLOOD.get())
-        if (data == null && player.isShiftKeyDown) {
+        if (data == null && player.isShiftKeyDown && player.offhandItem.`is`(WitcheryItems.BONE_NEEDLE.get())) {
             player.mainHandItem.set(WitcheryDataComponents.BLOOD.get(), player.uuid)
+            if (VampirePlayerAttachment.getData(player).vampireLevel == 10) {
+                player.mainHandItem.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
+            }
             player.hurt(level.damageSources().playerAttack(player), 4f)
         }
 
         return InteractionResultHolder.fail(player.mainHandItem)
+    }
+
+    override fun interactLivingEntity(
+        stack: ItemStack,
+        player: Player,
+        interactionTarget: LivingEntity,
+        usedHand: InteractionHand
+    ): InteractionResult {
+        if (interactionTarget is LilithEntity && interactionTarget.entityData.get(LilithEntity.IS_DEFEATED)) {
+            stack.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
+            stack.set(WitcheryDataComponents.BLOOD.get(), interactionTarget.uuid)
+            interactionTarget.discard()
+            return InteractionResult.SUCCESS
+        }
+
+        return super.interactLivingEntity(stack, player, interactionTarget, usedHand)
     }
 }

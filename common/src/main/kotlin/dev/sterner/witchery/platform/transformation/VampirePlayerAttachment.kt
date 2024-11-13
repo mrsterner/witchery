@@ -59,6 +59,50 @@ object VampirePlayerAttachment {
         }
     }
 
+    @JvmStatic
+    fun increaseVampireLevel(player: Player) {
+        val data = getData(player)
+        setData(player, Data(data.vampireLevel + 1, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount, data.visitedVillages, data.trappedVillagers))
+        setMaxBlood(player)
+    }
+
+
+    @JvmStatic
+    fun increaseKilledBlazes(player: Player) {
+        val data = getData(player)
+        setData(player, Data(data.vampireLevel, data.killedBlazes + 1, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount, data.visitedVillages, data.trappedVillagers))
+    }
+
+    @JvmStatic
+    fun increaseUsedSunGrenades(player: Player) {
+        val data = getData(player)
+        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades + 1, data.villagersHalfBlood, data.nightsCount, data.visitedVillages, data.trappedVillagers))
+    }
+
+    @JvmStatic
+    fun increaseVillagersHalfBlood(player: Player) {
+        val data = getData(player)
+        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood + 1, data.nightsCount, data.visitedVillages, data.trappedVillagers))
+    }
+
+    @JvmStatic
+    fun increaseNightsCount(player: Player) {
+        val data = getData(player)
+        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount + 1, data.visitedVillages, data.trappedVillagers))
+    }
+
+    @JvmStatic
+    fun increaseVisitedVillages(player: Player) {
+        val data = getData(player)
+        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount, data.visitedVillages + 1, data.trappedVillagers))
+    }
+
+    @JvmStatic
+    fun increaseTrappedVillagers(player: Player) {
+        val data = getData(player)
+        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount, data.visitedVillages, data.trappedVillagers + 1))
+    }
+
     class Data(
         val vampireLevel: Int = 0,
         val killedBlazes: Int = 0,
