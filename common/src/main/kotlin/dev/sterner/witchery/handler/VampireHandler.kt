@@ -2,6 +2,9 @@ package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.mixin_logic.GuiMixinLogic
+import dev.sterner.witchery.mixin_logic.GuiMixinLogic.`witchery$innerRenderBlood`
+import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
@@ -9,6 +12,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 
 object VampireHandler {
@@ -78,9 +82,14 @@ object VampireHandler {
     @JvmStatic
     fun interactEntity(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
 
-        if (player != null) {
+        if (player != null && entity is LivingEntity && !player.level().isClientSide) {
             val data = VampirePlayerAttachment.getData(player)
-            println(data.abilityIndex)
+            if (data.abilityIndex == VampirePlayerAttachment.VampireAbility.DRINK_BLOOD.ordinal) {
+                BloodPoolLivingEntityAttachment.decreaseBlood(livingEntity = entity, 10)
+                BloodPoolLivingEntityAttachment.increaseBlood(player, 10)
+                println(BloodPoolLivingEntityAttachment.getData(entity).bloodPool)
+                return EventResult.interruptFalse()
+            }
         }
 
         return EventResult.pass()
@@ -98,6 +107,8 @@ object VampireHandler {
         val y = guiGraphics.guiHeight() - 18 - 5
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
 
+        drawBloodSense(guiGraphics)
+
         val bl = player.isShiftKeyDown
 
         for (i in size.indices) {
@@ -110,6 +121,15 @@ object VampireHandler {
 
         if (abilityIndex != -1) {
             guiGraphics.blit(overlay, x - (25 * abilityIndex), y, 24, 23, 0f,0f,24, 23,24, 23)
+        }
+    }
+
+    private fun drawBloodSense(guiGraphics: GuiGraphics) {
+        val x = guiGraphics.guiWidth() / 2 + 13
+        val y = guiGraphics.guiHeight() / 2 + 9
+        val target = Minecraft.getInstance().crosshairPickEntity
+        if (target is LivingEntity) {
+            `witchery$innerRenderBlood`(guiGraphics,target, y, x)
         }
     }
 }

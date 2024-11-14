@@ -47,6 +47,7 @@ import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
+import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
@@ -150,6 +151,7 @@ object Witchery {
         PlayerEvent.ATTACK_ENTITY.register(CursePlayerAttachment::attackEntity)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
+        EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::addEntity)
 
         InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
 
@@ -160,6 +162,8 @@ object Witchery {
             if (data.killerQueue.contains(serverPlayer.uuid)) {
                 serverPlayer.kill()
             }
+
+            BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
         }
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)
@@ -170,6 +174,7 @@ object Witchery {
         TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
         TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
         TickEvent.PLAYER_PRE.register(VampirePlayerAttachment::tick)
+        TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
     }

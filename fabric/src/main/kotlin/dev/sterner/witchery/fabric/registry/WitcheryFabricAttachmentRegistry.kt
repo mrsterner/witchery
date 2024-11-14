@@ -30,6 +30,7 @@ object WitcheryFabricAttachmentRegistry {
     val INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfusionData> =
         AttachmentRegistry.builder<InfusionData>()
             .persistent(InfusionData.CODEC)
+            .copyOnDeath()
             .initializer { InfusionData(InfusionType.NONE) }
             .buildAndRegister(InfusionData.ID)
 
@@ -37,6 +38,7 @@ object WitcheryFabricAttachmentRegistry {
     val LIGHT_INFUSION_PLAYER_DATA_TYPE: AttachmentType<LightInfusionData> =
         AttachmentRegistry.builder<LightInfusionData>()
             .persistent(LightInfusionData.CODEC)
+            .copyOnDeath()
             .initializer { LightInfusionData(false, 0) }
             .buildAndRegister(LightInfusionData.ID)
 
@@ -44,6 +46,7 @@ object WitcheryFabricAttachmentRegistry {
     val OTHERWHERE_INFUSION_PLAYER_DATA_TYPE: AttachmentType<OtherwhereInfusionData> =
         AttachmentRegistry.builder<OtherwhereInfusionData>()
             .persistent(OtherwhereInfusionData.CODEC)
+            .copyOnDeath()
             .initializer { OtherwhereInfusionData(0, 0) }
             .buildAndRegister(OtherwhereInfusionData.ID)
 
@@ -72,6 +75,7 @@ object WitcheryFabricAttachmentRegistry {
     val SLEEPING_PLAYER_DATA_TYPE: AttachmentType<SleepingLevelAttachment.Data> =
         AttachmentRegistry.builder<SleepingLevelAttachment.Data>()
             .persistent(SleepingLevelAttachment.Data.CODEC)
+            .copyOnDeath()
             .initializer { SleepingLevelAttachment.Data() }
             .buildAndRegister(SleepingLevelAttachment.Data.ID)
 
@@ -86,6 +90,7 @@ object WitcheryFabricAttachmentRegistry {
     val MISC_PLAYER_DATA_ATTACHMENT: AttachmentType<MiscPlayerAttachment.Data> =
         AttachmentRegistry.builder<MiscPlayerAttachment.Data>()
             .persistent(MiscPlayerAttachment.Data.CODEC)
+            .copyOnDeath()
             .initializer { MiscPlayerAttachment.Data() }
             .buildAndRegister(MiscPlayerAttachment.Data.ID)
 
@@ -101,6 +106,7 @@ object WitcheryFabricAttachmentRegistry {
     val INFERNAL_INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfernalInfusionData> =
         AttachmentRegistry.builder<InfernalInfusionData>()
             .persistent(InfernalInfusionData.CODEC)
+            .copyOnDeath()
             .initializer { InfernalInfusionData() }
             .buildAndRegister(InfernalInfusionData.ID)
 
@@ -122,6 +128,7 @@ object WitcheryFabricAttachmentRegistry {
     val CURSE_PLAYER_DATA_TYPE: AttachmentType<CursePlayerAttachment.Data> =
         AttachmentRegistry.builder<CursePlayerAttachment.Data>()
             .persistent(CursePlayerAttachment.Data.CODEC)
+            .copyOnDeath()
             .initializer { CursePlayerAttachment.Data() }
             .buildAndRegister(CursePlayerAttachment.Data.ID)
 
@@ -136,6 +143,7 @@ object WitcheryFabricAttachmentRegistry {
     val VAMPIRE_PLAYER_DATA_TYPE: AttachmentType<VampirePlayerAttachment.Data> =
         AttachmentRegistry.builder<VampirePlayerAttachment.Data>()
             .persistent(VampirePlayerAttachment.Data.CODEC)
+            .copyOnDeath()
             .initializer { VampirePlayerAttachment.Data() }
             .buildAndRegister(VampirePlayerAttachment.Data.ID)
 
@@ -143,7 +151,7 @@ object WitcheryFabricAttachmentRegistry {
     val BLOOD_LIVING_DATA_TYPE: AttachmentType<BloodPoolLivingEntityAttachment.Data> =
         AttachmentRegistry.builder<BloodPoolLivingEntityAttachment.Data>()
             .persistent(BloodPoolLivingEntityAttachment.Data.CODEC)
-            .initializer { BloodPoolLivingEntityAttachment.Data() }
+            .initializer { BloodPoolLivingEntityAttachment.Data(1200, 1200) }
             .buildAndRegister(BloodPoolLivingEntityAttachment.Data.ID)
 
 

@@ -29,18 +29,9 @@ class VampireAbilitySelectionC2SPayload(val nbt: CompoundTag) : CustomPacketPayl
     fun handleC2S(payload: VampireAbilitySelectionC2SPayload, context: NetworkManager.PacketContext?) {
         val player: Player? = context?.player
         val index = payload.nbt.getInt("Index")
+
         if (player != null) {
-            val data = VampirePlayerAttachment.getData(player)
-            VampirePlayerAttachment.setData(player, VampirePlayerAttachment.Data(
-                data.vampireLevel,
-                data.killedBlazes,
-                data.usedSunGrenades,
-                data.villagersHalfBlood,
-                data.nightsCount,
-                data.visitedVillages,
-                data.trappedVillagers,
-                index)
-            )
+            VampirePlayerAttachment.updateAbilityIndex(player, index)
         }
     }
 

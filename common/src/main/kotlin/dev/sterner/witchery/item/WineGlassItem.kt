@@ -34,7 +34,7 @@ class WineGlassItem(properties: Properties) : Item(properties) {
                 val data = VampirePlayerAttachment.getData(livingEntity)
                 if (data.vampireLevel == 0) {
                     VampirePlayerAttachment.increaseVampireLevel(player = livingEntity)
-                    BloodPoolLivingEntityAttachment.increaseBlood(player = livingEntity, 300)
+                    BloodPoolLivingEntityAttachment.increaseBlood(livingEntity = livingEntity, 300)
                 }
             }
         }

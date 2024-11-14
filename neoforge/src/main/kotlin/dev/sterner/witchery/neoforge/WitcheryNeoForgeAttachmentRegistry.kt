@@ -48,6 +48,7 @@ object WitcheryNeoForgeAttachmentRegistry {
         Supplier {
             AttachmentType.builder(Supplier { InfusionData() })
                 .serialize(InfusionData.CODEC)
+                .copyOnDeath()
                 .build()
         }
     )
@@ -58,6 +59,7 @@ object WitcheryNeoForgeAttachmentRegistry {
         Supplier {
             AttachmentType.builder(Supplier { LightInfusionData() })
                 .serialize(LightInfusionData.CODEC)
+                .copyOnDeath()
                 .build()
         }
     )
@@ -69,6 +71,7 @@ object WitcheryNeoForgeAttachmentRegistry {
             Supplier {
                 AttachmentType.builder(Supplier { OtherwhereInfusionData() })
                     .serialize(OtherwhereInfusionData.CODEC)
+                    .copyOnDeath()
                     .build()
             }
         )
@@ -110,6 +113,7 @@ object WitcheryNeoForgeAttachmentRegistry {
             Supplier {
                 AttachmentType.builder(Supplier { SleepingLevelAttachment.Data() })
                     .serialize(SleepingLevelAttachment.Data.CODEC)
+                    .copyOnDeath()
                     .build()
             }
         )
@@ -132,6 +136,7 @@ object WitcheryNeoForgeAttachmentRegistry {
             Supplier {
                 AttachmentType.builder(Supplier { MiscPlayerAttachment.Data() })
                     .serialize(MiscPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
                     .build()
             }
         )
@@ -153,6 +158,7 @@ object WitcheryNeoForgeAttachmentRegistry {
         Supplier {
             AttachmentType.builder(Supplier { InfernalInfusionData() })
                 .serialize(InfernalInfusionData.CODEC)
+                .copyOnDeath()
                 .build()
         }
     )
@@ -183,6 +189,7 @@ object WitcheryNeoForgeAttachmentRegistry {
         Supplier {
             AttachmentType.builder(Supplier { CursePlayerAttachment.Data() })
                 .serialize(CursePlayerAttachment.Data.CODEC)
+                .copyOnDeath()
                 .build()
         }
     )
@@ -203,6 +210,7 @@ object WitcheryNeoForgeAttachmentRegistry {
         Supplier {
             AttachmentType.builder(Supplier { VampirePlayerAttachment.Data() })
                 .serialize(VampirePlayerAttachment.Data.CODEC)
+                .copyOnDeath()
                 .build()
         }
     )
@@ -211,7 +219,7 @@ object WitcheryNeoForgeAttachmentRegistry {
     val BLOOD_LIVING_ENTITY_DATA_ATTACHMENT: Supplier<AttachmentType<BloodPoolLivingEntityAttachment.Data>> = ATTACHMENT_TYPES.register(
         "blood_living_data",
         Supplier {
-            AttachmentType.builder(Supplier { BloodPoolLivingEntityAttachment.Data() })
+            AttachmentType.builder(Supplier { BloodPoolLivingEntityAttachment.Data(1200,1200) })
                 .serialize(BloodPoolLivingEntityAttachment.Data.CODEC)
                 .build()
         }

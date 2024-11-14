@@ -5,14 +5,15 @@ import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import org.spongepowered.asm.mixin.Unique
 
 object GuiMixinLogic {
 
     @JvmStatic
-    fun `witchery$innerRenderBlood`(guiGraphics: GuiGraphics, player: Player, y: Int, x: Int) {
-        val data = BloodPoolLivingEntityAttachment.getData(player)
+    fun `witchery$innerRenderBlood`(guiGraphics: GuiGraphics, living: LivingEntity, y: Int, x: Int) {
+        val data = BloodPoolLivingEntityAttachment.getData(living)
         val bloodPool = data.bloodPool
         val maxBlood = data.maxBlood
         val dropCount = maxBlood / 300

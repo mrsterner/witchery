@@ -12,12 +12,12 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 
-class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncOtherBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: BloodPoolLivingEntityAttachment.Data) : this(CompoundTag().apply {
-        putUUID("Player", player.uuid)
+    constructor(living: LivingEntity, data: BloodPoolLivingEntityAttachment.Data) : this(CompoundTag().apply {
+        putUUID("living", living.uuid)
         putInt("maxBlood", data.maxBlood)
         putInt("bloodPool", data.bloodPool)
     })
@@ -30,30 +30,31 @@ class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf?.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncBloodS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncOtherBloodS2CPacket, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         client.execute {
-            val uuid = payload.nbt.getUUID("Player")
-            val player = client.level?.getPlayerByUUID(uuid)
+            val uuid = payload.nbt.getUUID("living")
+            val player = client.player
 
             if (player != null) {
-
-                val maxBlood = payload.nbt.getInt("maxBlood")
-                val bloodPool = payload.nbt.getInt("bloodPool")
-                BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(maxBlood, bloodPool))
+                client.level!!.getEntities(player, player.boundingBox.inflate(10.0)).filter { it.uuid == uuid }.forEach { entity ->
+                    val maxBlood = payload.nbt.getInt("maxBlood")
+                    val bloodPool = payload.nbt.getInt("bloodPool")
+                    BloodPoolLivingEntityAttachment.setData(entity as LivingEntity, BloodPoolLivingEntityAttachment.Data(maxBlood, bloodPool))
+                }
             }
         }
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncBloodS2CPacket> =
-            CustomPacketPayload.Type(Witchery.id("sync_blood_living"))
+        val ID: CustomPacketPayload.Type<SyncOtherBloodS2CPacket> =
+            CustomPacketPayload.Type(Witchery.id("sync_other_blood_living"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncBloodS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncOtherBloodS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncBloodS2CPacket(buf!!) }
+                { buf -> SyncOtherBloodS2CPacket(buf!!) }
             )
     }
 }

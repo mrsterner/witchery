@@ -2,15 +2,20 @@ package dev.sterner.witchery.platform.transformation
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.architectury.event.EventResult
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncBloodS2CPacket
+import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
 import dev.sterner.witchery.payload.SyncVampireS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.Level
+import java.util.*
 
 object BloodPoolLivingEntityAttachment {
 
@@ -27,34 +32,55 @@ object BloodPoolLivingEntityAttachment {
     }
 
     @JvmStatic
-    fun increaseBlood(player: Player, amount: Int) {
-        val data = getData(player)
+    fun increaseBlood(livingEntity: LivingEntity, amount: Int) {
+        val data = getData(livingEntity)
         val maxBlood = data.maxBlood
         val newBloodPool = (data.bloodPool + amount).coerceAtMost(maxBlood)
-        setData(player, data.copy(bloodPool = newBloodPool))
+        setData(livingEntity, data.copy(bloodPool = newBloodPool))
     }
 
     @JvmStatic
-    fun decreaseBlood(player: Player, amount: Int) {
-        val data = getData(player)
+    fun decreaseBlood(livingEntity: LivingEntity, amount: Int) {
+        val data = getData(livingEntity)
         val newBloodPool = (data.bloodPool - amount).coerceAtLeast(0)
-        setData(player, data.copy(bloodPool = newBloodPool))
+        setData(livingEntity, data.copy(bloodPool = newBloodPool))
     }
 
     fun sync(livingEntity: LivingEntity, data: Data) {
-        if (livingEntity.level() is ServerLevel && livingEntity is Player) {
-            WitcheryPayloads.sendToPlayers(livingEntity.level(), livingEntity.blockPosition(), SyncBloodS2CPacket(livingEntity, data))
+        if (livingEntity.level() is ServerLevel) {
+            if (livingEntity is Player) {
+                WitcheryPayloads.sendToPlayers(livingEntity.level(), SyncBloodS2CPacket(livingEntity, data))
+            } else {
+                WitcheryPayloads.sendToPlayers(livingEntity.level(), SyncOtherBloodS2CPacket(livingEntity, data))
+            }
         }
     }
 
     fun tick(player: Player?) {
-        if (player != null) {
+        if (player != null && player.level() is ServerLevel) {
+            val serverLevel = player.level() as ServerLevel
 
+            val nearbyEntities = serverLevel.getEntities(player, player.boundingBox.inflate(5.0)) { it is LivingEntity && it != player}
+
+            for (entity in nearbyEntities) {
+                val uuid = entity.uuid
+                if (uuid !in ClientBloodSyncTracker.syncedEntities) {
+                    val bloodData = getData(entity as LivingEntity)
+                    WitcheryPayloads.sendToPlayers(player.level(), SyncOtherBloodS2CPacket(entity, bloodData))
+                    ClientBloodSyncTracker.syncedEntities.add(uuid)
+                }
+            }
         }
     }
 
+
+
+    fun addEntity(entity: Entity?, level: Level?): EventResult? {
+        return EventResult.pass()
+    }
+
     //300 blood = 1 full blood drop
-    class Data(val maxBlood: Int = 0, val bloodPool: Int = 0) {
+    class Data(val maxBlood: Int, val bloodPool: Int) {
 
         fun copy(maxBlood: Int = this.maxBlood, bloodPool: Int = this.bloodPool): Data {
             return Data(maxBlood, bloodPool)
@@ -70,5 +96,9 @@ object BloodPoolLivingEntityAttachment {
 
             val ID: ResourceLocation = Witchery.id("blood_pool_entity_data")
         }
+    }
+
+    object ClientBloodSyncTracker {
+        val syncedEntities = mutableSetOf<UUID>()
     }
 }

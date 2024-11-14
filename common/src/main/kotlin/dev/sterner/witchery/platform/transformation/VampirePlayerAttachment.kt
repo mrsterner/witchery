@@ -52,8 +52,7 @@ object VampirePlayerAttachment {
     }
 
     fun setAbilityIndex(player: Player, abilityIndex: Int) {
-        val data = getData(player)
-        setData(player, Data(data.vampireLevel, data.killedBlazes, data.usedSunGrenades, data.villagersHalfBlood, data.nightsCount, data.visitedVillages, data.trappedVillagers, abilityIndex))
+        updateAbilityIndex(player, abilityIndex)
         NetworkManager.sendToServer(VampireAbilitySelectionC2SPayload(abilityIndex))
     }
 
@@ -69,8 +68,8 @@ object VampirePlayerAttachment {
     }
 
     fun tick(player: Player?) {
-        if (player != null && player.level() is ServerLevel) {
-
+        if (player != null) {
+            //println("${getData(player).abilityIndex} : ${player.level().isClientSide}")
         }
     }
 
@@ -117,8 +116,14 @@ object VampirePlayerAttachment {
         setData(player, data.copy(trappedVillagers = data.trappedVillagers + 1))
     }
 
+    @JvmStatic
+    fun updateAbilityIndex(player: Player, index: Int) {
+        val data = getData(player)
+        setData(player, data.copy(abilityIndex = index))
+    }
+
     data class Data(
-        val vampireLevel: Int = 7, //TODO set to 0
+        val vampireLevel: Int = 0,
         val killedBlazes: Int = 0,
         val usedSunGrenades: Int = 0,
         val villagersHalfBlood: Int = 0,
