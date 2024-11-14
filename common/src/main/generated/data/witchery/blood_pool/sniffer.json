@@ -1,5 +1,5 @@
 {
   "bloodDrops": 5,
-  "entityType": "minecraft:villager",
+  "entityType": "minecraft:sniffer",
   "qualityBloodDrops": 2
 }

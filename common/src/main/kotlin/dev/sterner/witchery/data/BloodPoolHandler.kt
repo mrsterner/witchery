@@ -85,7 +85,7 @@ object BloodPoolHandler{
         }
     }
 
-    data class BloodData(val entity: EntityType<*>, val bloodDrops: Int) {
+    data class BloodData(val entity: EntityType<*>, val bloodDrops: Int, val qualityBloodDrops: Int) {
 
         companion object {
             val CODEC: Codec<BloodData> =
@@ -93,10 +93,11 @@ object BloodPoolHandler{
                     instance.group(
                         BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityType").forGetter(BloodData::entity),
                         Codec.INT.fieldOf("bloodDrops").forGetter(BloodData::bloodDrops),
+                        Codec.INT.fieldOf("qualityBloodDrops").forGetter(BloodData::qualityBloodDrops),
                     ).apply(
                         instance
-                    ) { entity, bloodDrops ->
-                        BloodData(entity, bloodDrops)
+                    ) { entity, bloodDrops, qualityBloodDrops->
+                        BloodData(entity, bloodDrops, qualityBloodDrops)
                     }
                 }
         }

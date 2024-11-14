@@ -1,5 +1,5 @@
 {
   "bloodDrops": 5,
-  "entityType": "minecraft:villager",
+  "entityType": "minecraft:wandering_trader",
   "qualityBloodDrops": 2
 }

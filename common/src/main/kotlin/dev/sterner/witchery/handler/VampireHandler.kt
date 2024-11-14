@@ -3,6 +3,7 @@ package dev.sterner.witchery.handler
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
@@ -13,6 +14,8 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -86,11 +89,19 @@ object VampireHandler {
             val playerBloodData = BloodPoolLivingEntityAttachment.getData(player)
             if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.DRINK_BLOOD.ordinal) {
                 val targetData = BloodPoolLivingEntityAttachment.getData(entity)
+                val quality = BloodPoolHandler.BLOOD_PAIR[entity.type] ?: 0
 
                 if (playerBloodData.bloodPool < playerBloodData.maxBlood && targetData.bloodPool >= 0 && targetData.maxBlood > 0) {
 
-                    player.level().playSound(null, entity.x, entity. y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
+                    if (quality == 0 && player.level().random.nextFloat() < 0.25f) {
+                        player.addEffect(MobEffectInstance(MobEffects.POISON, 200, 0))
+                    }
 
+                    if (quality == 1 && playerBloodData.bloodPool >= playerBloodData.maxBlood / 2) {
+                        return EventResult.pass()
+                    }
+
+                    player.level().playSound(null, entity.x, entity.y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
                     WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, entity.position()))
 
                     BloodPoolLivingEntityAttachment.decreaseBlood(entity, bloodTransferAmount)
@@ -99,7 +110,6 @@ object VampireHandler {
                     if (targetData.bloodPool < targetData.maxBlood / 2) {
                         entity.hurt(player.damageSources().playerAttack(player), 2f)
                     }
-
                     if (targetData.bloodPool <= 0) {
                         entity.kill()
                     }
