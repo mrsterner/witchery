@@ -1,24 +1,18 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
-import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.mixin_logic.GuiMixinLogic.`witchery$innerRenderBlood`
+import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
-import dev.sterner.witchery.payload.SpawnPoofParticles
-import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
-import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -93,7 +87,7 @@ object VampireHandler {
             if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.DRINK_BLOOD.ordinal) {
                 val targetData = BloodPoolLivingEntityAttachment.getData(entity)
 
-                if (playerBloodData.bloodPool < playerBloodData.maxBlood && targetData.bloodPool >= 0) {
+                if (playerBloodData.bloodPool < playerBloodData.maxBlood && targetData.bloodPool >= 0 && targetData.maxBlood > 0) {
 
                     player.level().playSound(null, entity.x, entity. y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
 
@@ -150,8 +144,8 @@ object VampireHandler {
         val x = guiGraphics.guiWidth() / 2 + 13
         val y = guiGraphics.guiHeight() / 2 + 9
         val target = Minecraft.getInstance().crosshairPickEntity
-        if (target is LivingEntity) {
-            `witchery$innerRenderBlood`(guiGraphics,target, y, x)
+        if (target is LivingEntity && BloodPoolLivingEntityAttachment.getData(target).maxBlood > 0) {
+            RenderUtils.innerRenderBlood(guiGraphics,target, y, x)
         }
     }
 }

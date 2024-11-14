@@ -2,8 +2,12 @@ package dev.sterner.witchery.api
 
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
+import dev.sterner.witchery.Witchery.id
+import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.LivingEntity
 import org.joml.Matrix4f
 
 object RenderUtils {
@@ -54,5 +58,67 @@ object RenderUtils {
         BufferUploader.drawWithShader(bufferBuilder.buildOrThrow())
 
         RenderSystem.disableBlend()
+    }
+
+    fun innerRenderBlood(guiGraphics: GuiGraphics, living: LivingEntity, y: Int, x: Int) {
+        val data = BloodPoolLivingEntityAttachment.getData(living)
+        val bloodPool = data.bloodPool
+        val maxBlood = data.maxBlood
+        val dropCount = maxBlood / 300
+        val fullIcons = bloodPool / 300
+        val partialFill = bloodPool % 300
+        val iconSize = 10
+        for (i in 0 until dropCount) {
+            val xPos = x - i * 7 - 8
+
+            blitWithAlpha(
+                guiGraphics.pose(),
+                id("textures/gui/blood_pool_empty.png"),
+                xPos,
+                y - 1,
+                0f,
+                0f,
+                iconSize,
+                iconSize,
+                iconSize,
+                iconSize,
+                1.0f,
+                0xFFFFFF
+            )
+
+            if (i < fullIcons) {
+                blitWithAlpha(
+                    guiGraphics.pose(),
+                    id("textures/gui/blood_pool_full.png"),
+                    xPos,
+                    y - 1,
+                    0f,
+                    0f,
+                    iconSize,
+                    iconSize,
+                    iconSize,
+                    iconSize,
+                    1.0f,
+                    0xFFFFFF
+                )
+            } else if (i == fullIcons && partialFill > 0) {
+                val filledHeight = (partialFill * iconSize) / 300
+                val emptyHeight = iconSize - filledHeight
+                blitWithAlpha(
+                    guiGraphics.pose(),
+                    id("textures/gui/blood_pool_full.png"),
+                    xPos,
+                    y + emptyHeight - 1,
+                    0f,
+                    emptyHeight.toFloat(),
+                    iconSize,
+                    filledHeight,
+                    iconSize,
+                    iconSize,
+                    1.0f,
+                    0xFFFFFF
+                )
+            }
+        }
     }
 }

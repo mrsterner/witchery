@@ -5,12 +5,14 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.event.EventResult
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.payload.SyncBloodS2CPacket
 import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
@@ -65,7 +67,12 @@ object BloodPoolLivingEntityAttachment {
                 ticker++
                 if (ticker > 10) {
                     ticker = 0
-                    val entities = player.level().getEntities(player, player.boundingBox.inflate(5.0)).filter { it.isAlive && it is LivingEntity && it != player }
+                    val entities = player.level().getEntities(player, player.boundingBox.inflate(5.0)).filter {
+                        it.isAlive &&
+                                it is LivingEntity &&
+                                it != player &&
+                                BloodPoolHandler.BLOOD_PAIR.contains(it.type)
+                    }
                     for (entity in entities) {
                         sync(entity as LivingEntity, getData(entity))
                     }
@@ -74,8 +81,27 @@ object BloodPoolLivingEntityAttachment {
         }
     }
 
+    fun setBloodOnAdded(entity: Entity?, level: Level?): EventResult? {
+        if (entity is LivingEntity) {
+            val data = getData(entity)
+            val bloodJson: MutableMap<EntityType<*>, Int> = BloodPoolHandler.BLOOD_PAIR
+            if (data.maxBlood == 0 && data.bloodPool == 0) {
+                val entityType = entity.type
+                val bloodValue = bloodJson[entityType]
+
+                if (bloodValue != null) {
+                    val maxBlood = bloodValue * 300
+                    val initializedData = data.copy(maxBlood = maxBlood, bloodPool = maxBlood)
+                    setData(entity, initializedData)
+                }
+            }
+        }
+
+        return EventResult.pass()
+    }
+
     //300 blood = 1 full blood drop
-    class Data(val maxBlood: Int, val bloodPool: Int) {
+    class Data(val maxBlood: Int = 0, val bloodPool: Int = 0) {
 
         fun copy(maxBlood: Int = this.maxBlood, bloodPool: Int = this.bloodPool): Data {
             return Data(maxBlood, bloodPool)

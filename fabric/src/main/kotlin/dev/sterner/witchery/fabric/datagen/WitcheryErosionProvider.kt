@@ -2,8 +2,6 @@ package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data.ErosionHandler
-import dev.sterner.witchery.data.NaturePowerBlockData
-import dev.sterner.witchery.registry.WitcheryBlocks
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
 import net.minecraft.core.HolderLookup

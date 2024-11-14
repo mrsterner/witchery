@@ -34,6 +34,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.data.ErosionHandler
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.*
@@ -130,6 +131,7 @@ object Witchery {
 
         NaturePowerHandler.registerListener()
         ErosionHandler.registerListener()
+        BloodPoolHandler.registerListener()
 
         WitcheryModonomiconLoaders.register()
 
@@ -150,6 +152,7 @@ object Witchery {
         PlayerEvent.ATTACK_ENTITY.register(CursePlayerAttachment::attackEntity)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
+        EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::setBloodOnAdded)
 
         InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
 

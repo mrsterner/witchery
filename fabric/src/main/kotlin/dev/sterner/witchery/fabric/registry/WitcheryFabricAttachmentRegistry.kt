@@ -151,7 +151,7 @@ object WitcheryFabricAttachmentRegistry {
     val BLOOD_LIVING_DATA_TYPE: AttachmentType<BloodPoolLivingEntityAttachment.Data> =
         AttachmentRegistry.builder<BloodPoolLivingEntityAttachment.Data>()
             .persistent(BloodPoolLivingEntityAttachment.Data.CODEC)
-            .initializer { BloodPoolLivingEntityAttachment.Data(1200, 1200) }
+            .initializer { BloodPoolLivingEntityAttachment.Data() }
             .buildAndRegister(BloodPoolLivingEntityAttachment.Data.ID)
 
 

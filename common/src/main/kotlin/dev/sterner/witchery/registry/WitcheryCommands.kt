@@ -214,7 +214,7 @@ object WitcheryCommands {
         return Commands.literal("vampire")
             .requires { it.hasPermission(2) }
             .then(Commands.literal("setLevel")
-                .then(Commands.argument("player", EntityArgument.player()))
+                .then(Commands.argument("player", EntityArgument.player())
                     .then(Commands.argument("level", IntegerArgumentType.integer(0))
                         .executes { context ->
 
@@ -230,7 +230,7 @@ object WitcheryCommands {
                             1
                         }
                     )
-            )
+            ))
             .then(Commands.literal("setBlood")
                 .then(Commands.argument("player", EntityArgument.player())
                     .then(Commands.argument("level", IntegerArgumentType.integer(0))
@@ -249,5 +249,6 @@ object WitcheryCommands {
                     )
                 )
             )
+
     }
 }

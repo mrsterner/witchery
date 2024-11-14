@@ -219,7 +219,7 @@ object WitcheryNeoForgeAttachmentRegistry {
     val BLOOD_LIVING_ENTITY_DATA_ATTACHMENT: Supplier<AttachmentType<BloodPoolLivingEntityAttachment.Data>> = ATTACHMENT_TYPES.register(
         "blood_living_data",
         Supplier {
-            AttachmentType.builder(Supplier { BloodPoolLivingEntityAttachment.Data(1200,1200) })
+            AttachmentType.builder(Supplier { BloodPoolLivingEntityAttachment.Data() })
                 .serialize(BloodPoolLivingEntityAttachment.Data.CODEC)
                 .build()
         }
