@@ -174,7 +174,7 @@ object Witchery {
         TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
         TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
         TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
-        TickEvent.PLAYER_PRE.register(VampirePlayerAttachment::tick)
+        TickEvent.PLAYER_PRE.register(VampireHandler::tick)
         TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)

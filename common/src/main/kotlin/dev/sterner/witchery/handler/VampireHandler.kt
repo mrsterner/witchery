@@ -14,11 +14,13 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import kotlin.math.max
 
 object VampireHandler {
 
@@ -73,6 +75,58 @@ object VampireHandler {
         }
 
         return EventResult.pass()
+    }
+
+
+    fun handleHurt(player: LivingEntity, damageSource: DamageSource, original: Float): Float {
+
+        if (player !is Player) {
+            return original
+        }
+
+        val vampData = VampirePlayerAttachment.getData(player)
+        if (vampData.vampireLevel < 1) {
+            return original
+        }
+
+        val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+        if (bloodData.bloodPool > 600) {
+            val bloodPerHealthPoint = 75
+            val maxBloodAbsorbableDamage = bloodData.bloodPool / bloodPerHealthPoint
+
+            val bloodAbsorbedDamage = minOf(original, maxBloodAbsorbableDamage.toFloat())
+
+            val requiredBlood = (bloodAbsorbedDamage * bloodPerHealthPoint).toInt()
+
+            BloodPoolLivingEntityAttachment.setData(player, bloodData.copy(bloodPool = bloodData.bloodPool - requiredBlood))
+
+            return max(0f, original - bloodAbsorbedDamage)
+        }
+
+        return original
+    }
+
+    fun tick(player: Player?) {
+        if (player == null) {
+            return
+        }
+        val vampData = VampirePlayerAttachment.getData(player)
+        if (vampData.vampireLevel < 1) {
+            return
+        }
+
+        if (player.isAlive) {
+            val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+            if (bloodData.bloodPool >= 75) {
+
+                if (player.health < player.maxHealth && player.health > 0) {
+
+                    BloodPoolLivingEntityAttachment.decreaseBlood(player, 75)
+                    player.heal(1f)
+
+                }
+            }
+        }
     }
 
     @JvmStatic
@@ -151,4 +205,7 @@ object VampireHandler {
             RenderUtils.innerRenderBlood(guiGraphics,target, y, x)
         }
     }
+
+
+
 }

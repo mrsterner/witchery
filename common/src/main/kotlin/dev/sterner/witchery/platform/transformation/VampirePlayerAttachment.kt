@@ -67,12 +67,6 @@ object VampirePlayerAttachment {
         }
     }
 
-    fun tick(player: Player?) {
-        if (player != null) {
-            //println("${getData(player).vampireLevel} : ${player.level().isClientSide}")
-        }
-    }
-
     @JvmStatic
     fun increaseVampireLevel(player: Player) {
         val data = getData(player)

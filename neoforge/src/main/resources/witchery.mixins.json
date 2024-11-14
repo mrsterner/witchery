@@ -8,6 +8,8 @@
     "ItemRendererMixin"
   ],
   "mixins": [
+    "FoodDataMixin",
+    "LivingEntityMixin",
     "PlayerMixin"
   ],
   "injectors": {
