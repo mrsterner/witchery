@@ -212,23 +212,24 @@ object WitcheryCommands {
 
     private fun registerVampireCommands(): LiteralArgumentBuilder<CommandSourceStack> {
         return Commands.literal("vampire")
+            .requires { it.hasPermission(2) }
             .then(Commands.literal("setLevel")
                 .then(Commands.argument("player", EntityArgument.player()))
-                .then(Commands.argument("level", IntegerArgumentType.integer(0))
-                    .executes { context ->
+                    .then(Commands.argument("level", IntegerArgumentType.integer(0))
+                        .executes { context ->
 
-                        val level = IntegerArgumentType.getInteger(context, "level")
-                        val player = context.source.playerOrException
+                            val level = IntegerArgumentType.getInteger(context, "level")
+                            val player = context.source.playerOrException
 
-                        val data = VampirePlayerAttachment.getData(player)
+                            val data = VampirePlayerAttachment.getData(player)
 
-                        VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
-                        VampirePlayerAttachment.setMaxBlood(player)
+                            VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
+                            VampirePlayerAttachment.setMaxBlood(player)
 
-                        context.source.sendSuccess({Component.literal("Set vampire level to $level for ${player.name.string}")}, true)
-                        1
-                    }
-                )
+                            context.source.sendSuccess({Component.literal("Set vampire level to $level for ${player.name.string}")}, true)
+                            1
+                        }
+                    )
             )
             .then(Commands.literal("setBlood")
                 .then(Commands.argument("player", EntityArgument.player())
