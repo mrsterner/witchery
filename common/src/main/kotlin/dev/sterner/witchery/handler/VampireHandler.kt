@@ -7,6 +7,8 @@ import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.client.DeltaTracker
@@ -109,11 +111,11 @@ object VampireHandler {
     }
 
     fun tick(player: Player?) {
-        if (player == null) {
+        if (player == null || player.level().isClientSide) {
             return
         }
 
-        val vampData = VampirePlayerAttachment.getData(player)
+        val vampData = getData(player)
         if (vampData.vampireLevel < 1) {
             return
         }
@@ -124,22 +126,29 @@ object VampireHandler {
             val bloodData = BloodPoolLivingEntityAttachment.getData(player)
 
             if (isInSunlight) {
-                if (vampData.vampireLevel < 5) {
-                    player.hurt(sunDamageSource, 100f)
-                } else {
-                    if (bloodData.bloodPool >= 10) {
-                        BloodPoolLivingEntityAttachment.decreaseBlood(player, 10)
-                    } else {
+                VampirePlayerAttachment.increaseInSunTick(player)
+
+                if (getData(player).inSunTick >= 100) {
+                    if (vampData.vampireLevel < 5) {
                         player.hurt(sunDamageSource, Float.MAX_VALUE)
+                    } else {
+                        if (bloodData.bloodPool >= 10) {
+                            BloodPoolLivingEntityAttachment.decreaseBlood(player, 10)
+                            if (player.level().random.nextFloat() > 0.75f) {
+                                player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS)
+                                WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
+                            }
+                        } else {
+                            player.hurt(sunDamageSource, Float.MAX_VALUE)
+                        }
                     }
                 }
+            } else {
+                VampirePlayerAttachment.decreaseInSunTick(player)
             }
 
-            if (bloodData.bloodPool >= 75) {
+            if (bloodData.bloodPool >= 75 && player.level().random.nextBoolean()) {
                 if (player.health < player.maxHealth && player.health > 0) {
-                    if (player.level().random.nextBoolean()) {
-                        player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS)
-                    }
                     BloodPoolLivingEntityAttachment.decreaseBlood(player, 75)
                     player.heal(1f)
                 }
@@ -147,10 +156,11 @@ object VampireHandler {
         }
     }
 
+
     @JvmStatic
     fun interactEntity(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
         if (player != null && entity is LivingEntity && !player.level().isClientSide) {
-            val playerData = VampirePlayerAttachment.getData(player)
+            val playerData = getData(player)
             val playerBloodData = BloodPoolLivingEntityAttachment.getData(player)
             if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.DRINK_BLOOD.ordinal) {
                 val targetData = BloodPoolLivingEntityAttachment.getData(entity)
@@ -167,7 +177,7 @@ object VampireHandler {
                     }
 
                     player.level().playSound(null, entity.x, entity.y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
-                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, entity.position()))
+                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, entity.position().add(0.5,0.5,0.5)))
 
                     BloodPoolLivingEntityAttachment.decreaseBlood(entity, bloodTransferAmount)
                     BloodPoolLivingEntityAttachment.increaseBlood(player, bloodTransferAmount)
@@ -192,7 +202,7 @@ object VampireHandler {
         val client = Minecraft.getInstance()
         val player = client.player ?: return
 
-        val abilityIndex = VampirePlayerAttachment.getData(player).abilityIndex
+        val abilityIndex = getData(player).abilityIndex
         val size = VampirePlayerAttachment.getAbilities(player)
 
         val y = guiGraphics.guiHeight() - 18 - 5
@@ -225,11 +235,12 @@ object VampireHandler {
     }
 
     fun respawn(oldPlayer: ServerPlayer, newPlayer: ServerPlayer, b: Boolean) {
-        if (VampirePlayerAttachment.getData(oldPlayer).vampireLevel > 0) {
+        if (getData(oldPlayer).vampireLevel > 0) {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
             newPlayer.foodData.foodLevel = 10
-            BloodPoolLivingEntityAttachment.setData(newPlayer, BloodPoolLivingEntityAttachment.Data(oldBloodData.maxBlood, oldBloodData.maxBlood / 2))
-
+            BloodPoolLivingEntityAttachment.setData(newPlayer, BloodPoolLivingEntityAttachment.Data(oldBloodData.maxBlood, 900))
+            val data = getData(oldPlayer)
+            setData(newPlayer, data.copy(inSunTick = 0))
         }
     }
 }

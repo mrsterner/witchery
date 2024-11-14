@@ -111,6 +111,20 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
+    fun increaseInSunTick(player: Player) {
+        val data = getData(player)
+        val newInSunTick = (data.inSunTick + 1).coerceAtMost(20 * 10)
+        setData(player, data.copy(inSunTick = newInSunTick))
+    }
+
+    @JvmStatic
+    fun decreaseInSunTick(player: Player) {
+        val data = getData(player)
+        val newInSunTick = (data.inSunTick - 1).coerceAtLeast(0)
+        setData(player, data.copy(inSunTick = newInSunTick))
+    }
+
+    @JvmStatic
     fun updateAbilityIndex(player: Player, index: Int) {
         val data = getData(player)
         setData(player, data.copy(abilityIndex = index))
@@ -124,7 +138,8 @@ object VampirePlayerAttachment {
         val nightsCount: Int = 0,
         val visitedVillages: Int = 0,
         val trappedVillagers: Int = 0,
-        val abilityIndex: Int = -1
+        val abilityIndex: Int = -1,
+        val inSunTick: Int = 0,
     ) {
 
         companion object {
@@ -138,6 +153,7 @@ object VampirePlayerAttachment {
                     Codec.INT.fieldOf("visitedVillages").forGetter { it.visitedVillages },
                     Codec.INT.fieldOf("trappedVillagers").forGetter { it.trappedVillagers },
                     Codec.INT.fieldOf("abilityIndex").forGetter { it.abilityIndex },
+                    Codec.INT.fieldOf("inSunTick").forGetter { it.inSunTick },
                 ).apply(instance, ::Data)
             }
 

@@ -225,6 +225,7 @@ object WitcheryCommands {
 
                             VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
                             VampirePlayerAttachment.setMaxBlood(player)
+                            VampirePlayerAttachment.sync(player, VampirePlayerAttachment.getData(player))
 
                             context.source.sendSuccess({Component.literal("Set vampire level to $level for ${player.name.string}")}, true)
                             1
