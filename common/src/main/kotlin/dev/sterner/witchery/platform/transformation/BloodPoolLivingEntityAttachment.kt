@@ -7,7 +7,6 @@ import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncBloodS2CPacket
 import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
-import dev.sterner.witchery.payload.SyncVampireS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -56,27 +55,23 @@ object BloodPoolLivingEntityAttachment {
         }
     }
 
+    var ticker = 0
+
     fun tick(player: Player?) {
         if (player != null && player.level() is ServerLevel) {
-            val serverLevel = player.level() as ServerLevel
 
-            val nearbyEntities = serverLevel.getEntities(player, player.boundingBox.inflate(5.0)) { it is LivingEntity && it != player}
-
-            for (entity in nearbyEntities) {
-                val uuid = entity.uuid
-                if (uuid !in ClientBloodSyncTracker.syncedEntities) {
-                    val bloodData = getData(entity as LivingEntity)
-                    WitcheryPayloads.sendToPlayers(player.level(), SyncOtherBloodS2CPacket(entity, bloodData))
-                    ClientBloodSyncTracker.syncedEntities.add(uuid)
+            val bl = VampirePlayerAttachment.getData(player).vampireLevel > 0
+            if (bl) {
+                ticker++
+                if (ticker > 10) {
+                    ticker = 0
+                    val entities = player.level().getEntities(player, player.boundingBox.inflate(5.0)).filter { it.isAlive && it is LivingEntity && it != player }
+                    for (entity in entities) {
+                        sync(entity as LivingEntity, getData(entity))
+                    }
                 }
             }
         }
-    }
-
-
-
-    fun addEntity(entity: Entity?, level: Level?): EventResult? {
-        return EventResult.pass()
     }
 
     //300 blood = 1 full blood drop
@@ -96,9 +91,5 @@ object BloodPoolLivingEntityAttachment {
 
             val ID: ResourceLocation = Witchery.id("blood_pool_entity_data")
         }
-    }
-
-    object ClientBloodSyncTracker {
-        val syncedEntities = mutableSetOf<UUID>()
     }
 }

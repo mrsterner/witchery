@@ -3,21 +3,20 @@ package dev.sterner.witchery.payload
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.player.Player
 
 class SyncOtherBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
     constructor(living: LivingEntity, data: BloodPoolLivingEntityAttachment.Data) : this(CompoundTag().apply {
-        putUUID("living", living.uuid)
+        putInt("living", living.id)
         putInt("maxBlood", data.maxBlood)
         putInt("bloodPool", data.bloodPool)
     })
@@ -31,18 +30,18 @@ class SyncOtherBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     }
 
     fun handleS2C(payload: SyncOtherBloodS2CPacket, context: NetworkManager.PacketContext) {
+
         val client = Minecraft.getInstance()
 
         client.execute {
-            val uuid = payload.nbt.getUUID("living")
-            val player = client.player
 
-            if (player != null) {
-                client.level!!.getEntities(player, player.boundingBox.inflate(10.0)).filter { it.uuid == uuid }.forEach { entity ->
-                    val maxBlood = payload.nbt.getInt("maxBlood")
-                    val bloodPool = payload.nbt.getInt("bloodPool")
-                    BloodPoolLivingEntityAttachment.setData(entity as LivingEntity, BloodPoolLivingEntityAttachment.Data(maxBlood, bloodPool))
-                }
+            val uuid = payload.nbt.getInt("living")
+            val target = client.level?.getEntity(uuid)
+
+            if (target is LivingEntity) {
+                val maxBlood = payload.nbt.getInt("maxBlood")
+                val bloodPool = payload.nbt.getInt("bloodPool")
+                BloodPoolLivingEntityAttachment.setData(target, BloodPoolLivingEntityAttachment.Data(maxBlood, bloodPool))
             }
         }
     }

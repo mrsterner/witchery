@@ -63,13 +63,13 @@ object VampirePlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncVampireS2CPacket(player, data))
+            WitcheryPayloads.sendToPlayers(player.level(), SyncVampireS2CPacket(player, data))
         }
     }
 
     fun tick(player: Player?) {
         if (player != null) {
-            //println("${getData(player).abilityIndex} : ${player.level().isClientSide}")
+            //println("${getData(player).vampireLevel} : ${player.level().isClientSide}")
         }
     }
 

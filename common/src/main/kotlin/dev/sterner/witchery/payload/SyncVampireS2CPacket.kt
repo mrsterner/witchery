@@ -51,7 +51,6 @@ class SyncVampireS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val abilityIndex = payload.nbt.getInt("abilityIndex")
 
         val player = client.level?.getPlayerByUUID(id)
-
         client.execute {
             if (player != null) {
                 VampirePlayerAttachment.setData(player, VampirePlayerAttachment.Data(

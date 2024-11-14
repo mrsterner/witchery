@@ -4,7 +4,6 @@ import com.mojang.logging.LogUtils
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientRawInputEvent
-import dev.architectury.event.events.client.ClientRawInputEvent.MouseScrolled
 import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.*
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
@@ -151,7 +150,6 @@ object Witchery {
         PlayerEvent.ATTACK_ENTITY.register(CursePlayerAttachment::attackEntity)
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
-        EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::addEntity)
 
         InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
 
@@ -162,8 +160,7 @@ object Witchery {
             if (data.killerQueue.contains(serverPlayer.uuid)) {
                 serverPlayer.kill()
             }
-
-            BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
+            VampirePlayerAttachment.sync(serverPlayer, VampirePlayerAttachment.getData(serverPlayer))
         }
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)

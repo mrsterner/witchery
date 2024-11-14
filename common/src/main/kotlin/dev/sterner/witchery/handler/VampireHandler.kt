@@ -1,9 +1,10 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.mixin_logic.GuiMixinLogic
 import dev.sterner.witchery.mixin_logic.GuiMixinLogic.`witchery$innerRenderBlood`
+import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.client.DeltaTracker
@@ -35,11 +36,11 @@ object VampireHandler {
             if (player.inventory.selected == 0 && y > 0.0) {
                 abilityIndex = 0
                 activateAbility(player, abilityIndex)
-                return EventResult.interruptTrue()
+                return EventResult.interruptFalse()
             } else if (player.inventory.selected == 8 && y < 0.0) {
                 abilityIndex = abilityCount - 1
                 activateAbility(player, abilityIndex)
-                return EventResult.interruptTrue()
+                return EventResult.interruptFalse()
             }
         } else {
             if (y > 0.0) {
@@ -51,7 +52,7 @@ object VampireHandler {
                     abilityIndex = -1
                     activateAbility(player, abilityIndex)
                 }
-                return EventResult.interruptTrue()
+                return EventResult.interruptFalse()
             } else if (y < 0.0) {
                 if (abilityIndex > 0) {
                     abilityIndex--
@@ -61,7 +62,7 @@ object VampireHandler {
                     abilityIndex = -1
                     activateAbility(player, abilityIndex)
                 }
-                return EventResult.interruptTrue()
+                return EventResult.interruptFalse()
             }
         }
 
@@ -87,7 +88,7 @@ object VampireHandler {
             if (data.abilityIndex == VampirePlayerAttachment.VampireAbility.DRINK_BLOOD.ordinal) {
                 BloodPoolLivingEntityAttachment.decreaseBlood(livingEntity = entity, 10)
                 BloodPoolLivingEntityAttachment.increaseBlood(player, 10)
-                println(BloodPoolLivingEntityAttachment.getData(entity).bloodPool)
+                //println(BloodPoolLivingEntityAttachment.getData(entity).bloodPool)
                 return EventResult.interruptFalse()
             }
         }

@@ -15,6 +15,8 @@ import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
+import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -57,6 +59,7 @@ object WitcheryCommands {
                 .then(registerInfusionCommands())
                 .then(registerManifestationCommands())
                 .then(registerCurseCommands())
+                .then(registerVampireCommands())
         )
     }
 
@@ -202,6 +205,51 @@ object WitcheryCommands {
                                         1
                                     }
                             )
+                    )
+            )
+    }
+
+    private fun registerVampireCommands(): LiteralArgumentBuilder<CommandSourceStack> {
+        return Commands.literal("vampire")
+            .then(
+                Commands.argument("player", EntityArgument.player()
+                )
+                    .then(Commands.literal("setLevel")
+                        .then(Commands.argument("level", IntegerArgumentType.integer(0))
+                            .executes { context ->
+
+                                val level = IntegerArgumentType.getInteger(context, "level")
+                                val player = context.source.playerOrException
+
+                                val data = VampirePlayerAttachment.getData(player)
+
+                                VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
+                                VampirePlayerAttachment.setMaxBlood(player)
+
+                                context.source.sendSuccess({Component.literal("Set vampire level to $level for ${player.name.string}")}, true)
+                                1
+                            }
+                        )
+                    )
+                    .then(Commands.literal("setBlood")
+                        .then(
+                            Commands.argument("player", EntityArgument.player()
+                            )
+                                .then(Commands.argument("level", IntegerArgumentType.integer(0))
+                                    .executes { context ->
+
+                                        val level = IntegerArgumentType.getInteger(context, "level")
+                                        val player = context.source.playerOrException
+
+                                        val data = BloodPoolLivingEntityAttachment.getData(player)
+
+                                        BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(data.maxBlood, data.bloodPool))
+
+                                        context.source.sendSuccess({ Component.literal("Set blood level to $level for ${player.name.string}") }, true)
+                                        1
+                                    }
+                                )
+                        )
                     )
             )
     }
