@@ -41,45 +41,38 @@ object VampireHandler {
         if (abilityIndex == -1) {
             if (player.inventory.selected == 0 && y > 0.0) {
                 abilityIndex = 0
-                activateAbility(player, abilityIndex)
+                VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
                 return EventResult.interruptFalse()
             } else if (player.inventory.selected == 8 && y < 0.0) {
                 abilityIndex = abilityCount - 1
-                activateAbility(player, abilityIndex)
+                VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
                 return EventResult.interruptFalse()
             }
         } else {
             if (y > 0.0) {
                 if (abilityIndex < abilityCount - 1) {
                     abilityIndex++
-                    activateAbility(player, abilityIndex)
+                    VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
                 } else {
                     player.inventory.selected = 8
                     abilityIndex = -1
-                    activateAbility(player, abilityIndex)
+                    VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
                 }
                 return EventResult.interruptFalse()
             } else if (y < 0.0) {
                 if (abilityIndex > 0) {
                     abilityIndex--
-                    activateAbility(player, abilityIndex)
+                    VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
                 } else {
                     player.inventory.selected = 0
                     abilityIndex = -1
-                    activateAbility(player, abilityIndex)
+                    VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
                 }
                 return EventResult.interruptFalse()
             }
         }
 
         return EventResult.pass()
-    }
-
-    private fun activateAbility(player: Player, index: Int) {
-        VampirePlayerAttachment.setAbilityIndex(player, index)
-        if (index >= 0) {
-            VampirePlayerAttachment.getAbilities(player)[index]
-        }
     }
 
     @JvmStatic

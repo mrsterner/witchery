@@ -17,6 +17,7 @@
     "BookCategoryNodeScreenMixin",
     "DoorBlockMixin",
     "EntityMixin",
+    "FoodDataMixin",
     "ItemEntityMixin",
     "ItemStackMixin",
     "LevelChunkMixin",
