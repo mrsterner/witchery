@@ -26,6 +26,7 @@ import net.minecraft.commands.synchronization.ArgumentTypeInfos
 import net.minecraft.commands.synchronization.SingletonArgumentInfo
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
+import net.minecraft.util.Mth
 import net.minecraft.world.entity.EntityType
 
 
@@ -231,26 +232,27 @@ object WitcheryCommands {
                             }
                         )
                     )
-                    .then(Commands.literal("setBlood")
-                        .then(
-                            Commands.argument("player", EntityArgument.player()
-                            )
-                                .then(Commands.argument("level", IntegerArgumentType.integer(0))
-                                    .executes { context ->
 
-                                        val level = IntegerArgumentType.getInteger(context, "level")
-                                        val player = context.source.playerOrException
-
-                                        val data = BloodPoolLivingEntityAttachment.getData(player)
-
-                                        BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(data.maxBlood, data.bloodPool))
-
-                                        context.source.sendSuccess({ Component.literal("Set blood level to $level for ${player.name.string}") }, true)
-                                        1
-                                    }
-                                )
-                        )
+            )
+            .then(Commands.literal("setBlood")
+                .then(
+                    Commands.argument("player", EntityArgument.player()
                     )
+                        .then(Commands.argument("level", IntegerArgumentType.integer(0))
+                            .executes { context ->
+
+                                val level = IntegerArgumentType.getInteger(context, "level")
+                                val player = context.source.playerOrException
+
+                                val data = BloodPoolLivingEntityAttachment.getData(player)
+
+                                BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(data.maxBlood, Mth.clamp(level, 0, data.maxBlood)))
+
+                                context.source.sendSuccess({ Component.literal("Set blood level to $level for ${player.name.string}") }, true)
+                                1
+                            }
+                        )
+                )
             )
     }
 }

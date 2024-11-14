@@ -85,6 +85,9 @@ object WitcheryPayloads {
         registerS2C(SyncOtherBloodS2CPacket.ID, SyncOtherBloodS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
+        registerS2C(SpawnBloodParticlesS2CPayload.ID, SpawnBloodParticlesS2CPayload.STREAM_CODEC) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
 
         //C2S
         registerC2S(DismountBroomC2SPayload.ID, DismountBroomC2SPayload.STREAM_CODEC) { payload, context ->

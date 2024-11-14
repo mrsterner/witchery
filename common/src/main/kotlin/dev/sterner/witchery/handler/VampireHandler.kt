@@ -4,14 +4,21 @@ import dev.architectury.event.EventResult
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.mixin_logic.GuiMixinLogic.`witchery$innerRenderBlood`
+import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
+import dev.sterner.witchery.payload.SpawnPoofParticles
 import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
+import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -20,6 +27,8 @@ object VampireHandler {
 
     private val overlay = Witchery.id("textures/gui/ability_hotbar_selection.png")
     private var abilityIndex = -1 // -1 means player is in the hotbar, not abilities
+    private var bloodTransferAmount = 10
+
 
     fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult? {
         val player = minecraft?.player
@@ -71,28 +80,40 @@ object VampireHandler {
 
     private fun activateAbility(player: Player, index: Int) {
         VampirePlayerAttachment.setAbilityIndex(player, index)
-        val ability = if (index < 0) {
-            null
-        } else {
+        if (index >= 0) {
             VampirePlayerAttachment.getAbilities(player)[index]
         }
-
-        player.displayClientMessage(Component.literal("Selected ability: ${ability}"), true)
     }
 
     @JvmStatic
     fun interactEntity(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
-
         if (player != null && entity is LivingEntity && !player.level().isClientSide) {
-            val data = VampirePlayerAttachment.getData(player)
-            if (data.abilityIndex == VampirePlayerAttachment.VampireAbility.DRINK_BLOOD.ordinal) {
-                BloodPoolLivingEntityAttachment.decreaseBlood(livingEntity = entity, 10)
-                BloodPoolLivingEntityAttachment.increaseBlood(player, 10)
-                //println(BloodPoolLivingEntityAttachment.getData(entity).bloodPool)
-                return EventResult.interruptFalse()
+            val playerData = VampirePlayerAttachment.getData(player)
+            val playerBloodData = BloodPoolLivingEntityAttachment.getData(player)
+            if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.DRINK_BLOOD.ordinal) {
+                val targetData = BloodPoolLivingEntityAttachment.getData(entity)
+
+                if (playerBloodData.bloodPool < playerBloodData.maxBlood && targetData.bloodPool >= 0) {
+
+                    player.level().playSound(null, entity.x, entity. y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
+
+                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, entity.position()))
+
+                    BloodPoolLivingEntityAttachment.decreaseBlood(entity, bloodTransferAmount)
+                    BloodPoolLivingEntityAttachment.increaseBlood(player, bloodTransferAmount)
+
+                    if (targetData.bloodPool < targetData.maxBlood / 2) {
+                        entity.hurt(player.damageSources().playerAttack(player), 2f)
+                    }
+
+                    if (targetData.bloodPool <= 0) {
+                        entity.kill()
+                    }
+
+                    return EventResult.interruptFalse()
+                }
             }
         }
-
         return EventResult.pass()
     }
 

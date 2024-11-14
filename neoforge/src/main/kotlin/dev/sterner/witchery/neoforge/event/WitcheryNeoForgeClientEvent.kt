@@ -7,6 +7,7 @@ import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
 import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
 import dev.sterner.witchery.client.model.poppet.VampiricPoppetModel
 import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
+import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
@@ -166,6 +167,9 @@ object WitcheryNeoForgeClientEvent {
         }
         event.registerSpriteSet(WitcheryParticleTypes.ZZZ.get()) { o ->
             ZzzParticle.Provider(o)
+        }
+        event.registerSpriteSet(WitcheryParticleTypes.SPLASHING_BLOOD.get()){ o ->
+            BloodSplashParticle.ParticleFactory(o)
         }
     }
 

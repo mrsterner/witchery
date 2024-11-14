@@ -3,6 +3,7 @@ package dev.sterner.witchery.fabric
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.fabric.client.*
@@ -130,6 +131,14 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryParticleTypes.ZZZ.get()
         ) { sprite: FabricSpriteProvider? ->
             ZzzParticle.Provider(
+                sprite!!
+            )
+        }
+
+        ParticleFactoryRegistry.getInstance().register(
+            WitcheryParticleTypes.SPLASHING_BLOOD.get()
+        ) { sprite: FabricSpriteProvider? ->
+            BloodSplashParticle.ParticleFactory(
                 sprite!!
             )
         }
