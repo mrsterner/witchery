@@ -1,5 +1,6 @@
 package dev.sterner.witchery.mixin;
 
+import dev.sterner.witchery.mixin_logic.FoodDataMixinLogic;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
 import net.minecraft.world.entity.player.Player;
@@ -26,21 +27,11 @@ public class FoodDataMixin {
 
     @Inject(method = "getFoodLevel", at = @At("HEAD"), cancellable = true)
     public void witchery$getFoodLevel(CallbackInfoReturnable<Integer> cir) {
-        if (this.witchery$player != null && VampirePlayerAttachment.getData(this.witchery$player).getVampireLevel() > 0) {
-            var bloodData = BloodPoolLivingEntityAttachment.getData(this.witchery$player);
-            int maxBlood = bloodData.getMaxBlood();
-            if (maxBlood > 0) {
-                int blood = bloodData.getBloodPool();
-                int scaled = (blood / maxBlood) * 20;
-                cir.setReturnValue(scaled);
-            }
-        }
+        FoodDataMixinLogic.INSTANCE.getFood(witchery$player, cir);
     }
 
     @Inject(method = "getSaturationLevel", at = @At("HEAD"), cancellable = true)
     public void witchery$getSaturationLevel(CallbackInfoReturnable<Float> cir) {
-        if (this.witchery$player != null && VampirePlayerAttachment.getData(this.witchery$player).getVampireLevel() > 0) {
-            cir.setReturnValue(0f);
-        }
+        FoodDataMixinLogic.INSTANCE.getSaturation(witchery$player, cir);
     }
 }

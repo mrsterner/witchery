@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.sterner.witchery.Witchery;
+import dev.sterner.witchery.mixin_logic.ItemRendererMixinLogic;
 import dev.sterner.witchery.registry.WitcheryRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -19,24 +20,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {
 
-     @Inject(method = "render", at = @At("HEAD"))
-     private void witchery$saveItem(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel model, CallbackInfo ci){
-         WitcheryRenderTypes.INSTANCE.setStack(itemStack);
-     }
+    @Inject(method = "render", at = @At("HEAD"))
+    private void witchery$saveItem(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel model, CallbackInfo ci){
+        ItemRendererMixinLogic.INSTANCE.saveStack(itemStack);
+    }
 
-     @WrapOperation(method = "getFoilBuffer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;glint()Lnet/minecraft/client/renderer/RenderType;"))
-     private static RenderType witchery$getFoilBufferRenderType(Operation<RenderType> original) {
-         if (WitcheryRenderTypes.INSTANCE.checkAllBlack()) {
-             return WitcheryRenderTypes.INSTANCE.getGLINT().apply(Witchery.INSTANCE.id("textures/misc/all_black.png"));
-         }
-         return original.call();
+    @WrapOperation(method = "getFoilBuffer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;glint()Lnet/minecraft/client/renderer/RenderType;"))
+    private static RenderType witchery$getFoilBufferRenderType(Operation<RenderType> original) {
+        return ItemRendererMixinLogic.INSTANCE.getFoilBuffer(original);
     }
 
     @WrapOperation(method = "getFoilBufferDirect", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;glint()Lnet/minecraft/client/renderer/RenderType;"))
     private static RenderType witchery$getDirectFoilBufferRenderType(Operation<RenderType> original) {
-         if (WitcheryRenderTypes.INSTANCE.checkAllBlack()) {
-             return WitcheryRenderTypes.INSTANCE.getGLINT_DIRECT().apply(Witchery.INSTANCE.id("textures/misc/all_black.png"));
-         }
-         return original.call();
+        return ItemRendererMixinLogic.INSTANCE.getFoilBufferDirect(original);
     }
 }
+

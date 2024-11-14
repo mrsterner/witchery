@@ -3,6 +3,7 @@ package dev.sterner.witchery.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.sterner.witchery.api.SleepingEvent;
 import dev.sterner.witchery.entity.BroomEntity;
+import dev.sterner.witchery.mixin_logic.PlayerMixinLogic;
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData;
 import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment;
 import net.minecraft.world.entity.player.Player;
@@ -24,13 +25,8 @@ public abstract class PlayerMixin {
     }
 
     @ModifyReturnValue(method = "wantsToStopRiding", at = @At("RETURN"))
-    private boolean witchery$stopDismount(boolean original){
-        Player player = Player.class.cast(this);
-        var vehicle = player.getVehicle();
-        if (vehicle instanceof BroomEntity) {
-            return false;
-        }
-        return original;
+    private boolean witchery$neoStopDismount(boolean original){
+        return PlayerMixinLogic.INSTANCE.wantsStopRiding(original);
     }
 
     @ModifyReturnValue(method = "causeFallDamage", at = @At("RETURN"))

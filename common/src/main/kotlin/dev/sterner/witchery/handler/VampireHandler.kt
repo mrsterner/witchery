@@ -177,7 +177,7 @@ object VampireHandler {
                     }
 
                     player.level().playSound(null, entity.x, entity.y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
-                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, entity.position().add(0.5,0.5,0.5)))
+                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, entity.position()))
 
                     BloodPoolLivingEntityAttachment.decreaseBlood(entity, bloodTransferAmount)
                     BloodPoolLivingEntityAttachment.increaseBlood(player, bloodTransferAmount)

@@ -51,9 +51,9 @@ class SpawnBloodParticlesS2CPayload (val nbt: CompoundTag) : CustomPacketPayload
                     client.level!!.addAlwaysVisibleParticle(
                         WitcheryParticleTypes.SPLASHING_BLOOD.get(),
                         true,
-                        x + 0.0 + Mth.nextDouble(client.level!!.random, -0.25, 0.25),
-                        y + 0.0 + Mth.nextDouble(client.level!!.random, -0.25, 0.25),
-                        z + 0.0 + Mth.nextDouble(client.level!!.random, -0.25, 0.25),
+                        x - 0.5 + Mth.nextDouble(client.level!!.random, -0.25, 0.25),
+                        y + 1.0 + Mth.nextDouble(client.level!!.random, -0.25, 0.25),
+                        z - 0.5 + Mth.nextDouble(client.level!!.random, -0.25, 0.25),
                         0.0, 0.0, 0.0
                     )
                 }
