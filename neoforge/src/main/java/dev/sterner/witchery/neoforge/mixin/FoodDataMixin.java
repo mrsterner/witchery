@@ -29,9 +29,11 @@ public class FoodDataMixin {
         if (this.witchery$player != null && VampirePlayerAttachment.getData(this.witchery$player).getVampireLevel() > 0) {
             var bloodData = BloodPoolLivingEntityAttachment.getData(this.witchery$player);
             int maxBlood = bloodData.getMaxBlood();
-            int blood = bloodData.getBloodPool();
-            int scaled = (blood / maxBlood) * 20;
-            cir.setReturnValue(scaled);
+            if (maxBlood > 0) {
+                int blood = bloodData.getBloodPool();
+                int scaled = (blood / maxBlood) * 20;
+                cir.setReturnValue(scaled);
+            }
         }
     }
 

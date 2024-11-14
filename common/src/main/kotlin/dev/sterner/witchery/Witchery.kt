@@ -126,6 +126,7 @@ object Witchery {
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
         InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
         PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
+        PlayerEvent.PLAYER_CLONE.register(VampireHandler::respawn)
 
         ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisLevelAttachment.tick(serverLevel) }
 

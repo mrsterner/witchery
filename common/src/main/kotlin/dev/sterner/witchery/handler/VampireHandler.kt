@@ -7,10 +7,12 @@ import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
+import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
@@ -110,20 +112,36 @@ object VampireHandler {
         if (player == null) {
             return
         }
+
         val vampData = VampirePlayerAttachment.getData(player)
         if (vampData.vampireLevel < 1) {
             return
         }
 
         if (player.isAlive) {
+            val isInSunlight = player.level().canSeeSky(player.blockPosition()) && player.level().isDay
+            val sunDamageSource = player.level().damageSources().source(WitcheryDamageSources.IN_SUN)
             val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+
+            if (isInSunlight) {
+                if (vampData.vampireLevel < 5) {
+                    player.hurt(sunDamageSource, 100f)
+                } else {
+                    if (bloodData.bloodPool >= 10) {
+                        BloodPoolLivingEntityAttachment.decreaseBlood(player, 10)
+                    } else {
+                        player.hurt(sunDamageSource, Float.MAX_VALUE)
+                    }
+                }
+            }
+
             if (bloodData.bloodPool >= 75) {
-
                 if (player.health < player.maxHealth && player.health > 0) {
-
+                    if (player.level().random.nextBoolean()) {
+                        player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS)
+                    }
                     BloodPoolLivingEntityAttachment.decreaseBlood(player, 75)
                     player.heal(1f)
-
                 }
             }
         }
@@ -206,6 +224,12 @@ object VampireHandler {
         }
     }
 
+    fun respawn(oldPlayer: ServerPlayer, newPlayer: ServerPlayer, b: Boolean) {
+        if (VampirePlayerAttachment.getData(oldPlayer).vampireLevel > 0) {
+            val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
+            newPlayer.foodData.foodLevel = 10
+            BloodPoolLivingEntityAttachment.setData(newPlayer, BloodPoolLivingEntityAttachment.Data(oldBloodData.maxBlood, oldBloodData.maxBlood / 2))
 
-
+        }
+    }
 }
