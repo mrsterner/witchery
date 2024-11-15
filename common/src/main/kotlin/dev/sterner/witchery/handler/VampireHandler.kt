@@ -1,5 +1,6 @@
 package dev.sterner.witchery.handler
 
+import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
@@ -134,13 +135,10 @@ object VampireHandler {
                         player.hurt(sunDamageSource, Float.MAX_VALUE)
                     } else {
                         if (bloodData.bloodPool >= bloodThreshold) {
-                            //BloodPoolLivingEntityAttachment.decreaseBlood(player, 10)
-                            if (player.level().random.nextFloat() > 0.75f) {
+                            if (player.tickCount % 20 == 0) {
                                 player.hurt(sunDamageSource, 2f)
-                                if (player.level().random.nextFloat() > 0.95f) {
-                                    player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
-                                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
-                                }
+                                player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
+                                WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
                             }
                         } else {
                             player.hurt(sunDamageSource, Float.MAX_VALUE)
@@ -234,8 +232,11 @@ object VampireHandler {
     private fun drawSun(guiGraphics: GuiGraphics, player: Player) {
         val y = guiGraphics.guiHeight() - 36 - 18 - 2
         val x = guiGraphics.guiWidth() / 2 - 8
-        val sunTick = min(getData(player).inSunTick / 20, 4)
-        RenderUtils.blitWithAlpha(guiGraphics.pose(), sun.withSuffix("${sunTick}.png"), x, y, 0f,0f,16,16,16,16)
+        val raw = getData(player).inSunTick
+        val sunTick = clamp((raw / 20) - 1, 0, 4)
+        if (raw > 1) {
+            RenderUtils.blitWithAlpha(guiGraphics.pose(), sun.withSuffix("${sunTick}.png"), x, y, 0f,0f,16,16,16,16)
+        }
     }
 
     private fun drawBloodSense(guiGraphics: GuiGraphics) {
@@ -252,8 +253,8 @@ object VampireHandler {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
             newPlayer.foodData.foodLevel = 10
             BloodPoolLivingEntityAttachment.setData(newPlayer, BloodPoolLivingEntityAttachment.Data(oldBloodData.maxBlood, 900))
-            val data = getData(oldPlayer)
-            setData(newPlayer, data.copy(inSunTick = 0))
+            val data = getData(oldPlayer).copy(inSunTick = 0)
+            setData(newPlayer, data)
         }
     }
 }
