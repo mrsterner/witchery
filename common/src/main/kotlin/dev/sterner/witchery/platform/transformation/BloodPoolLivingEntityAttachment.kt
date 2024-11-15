@@ -62,7 +62,7 @@ object BloodPoolLivingEntityAttachment {
     fun tick(player: Player?) {
 
         if (player != null) {
-            println(getData(player).bloodPool)
+            //println(getData(player).bloodPool)
         }
 
         if (player != null && player.level() is ServerLevel) {

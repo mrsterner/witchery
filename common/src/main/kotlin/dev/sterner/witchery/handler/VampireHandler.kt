@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.api.VillagerTransfix
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
@@ -24,8 +25,11 @@ import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
+import kotlin.math.atan2
 import kotlin.math.min
+import kotlin.math.sqrt
 
 object VampireHandler {
 
@@ -185,13 +189,26 @@ object VampireHandler {
                     BloodPoolLivingEntityAttachment.decreaseBlood(entity, bloodTransferAmount)
                     BloodPoolLivingEntityAttachment.increaseBlood(player, bloodTransferAmount)
 
-                    if (targetData.bloodPool < targetData.maxBlood / 2) {
+                    val shouldHurt = when {
+                        entity is Villager && entity is VillagerTransfix && !entity.isSleeping && !entity.isTransfixed() -> true
+                        targetData.bloodPool < targetData.maxBlood / 2 -> true
+                        else -> false
+                    }
+
+                    if (shouldHurt) {
                         entity.hurt(player.damageSources().playerAttack(player), 2f)
                     }
+
                     if (targetData.bloodPool <= 0) {
                         entity.kill()
                     }
 
+                    return EventResult.interruptFalse()
+                }
+            } else if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.TRANSFIX.ordinal) {
+                if (entity is Villager) {
+                    val transfixVillager = entity as VillagerTransfix
+                    transfixVillager.setTransfixedLookVector(player.eyePosition)
                     return EventResult.interruptFalse()
                 }
             }

@@ -25,7 +25,8 @@
     "LivingEntityMixin",
     "PlayerMixin",
     "ServerPlayerMixin",
-    "ShapelessRecipeAccessor"
+    "ShapelessRecipeAccessor",
+    "VillagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
