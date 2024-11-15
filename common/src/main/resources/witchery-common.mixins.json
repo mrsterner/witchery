@@ -16,6 +16,7 @@
   "mixins": [
     "BlockEntityTypeMixin",
     "BookCategoryNodeScreenMixin",
+    "BrushItemMixin",
     "DoorBlockMixin",
     "EntityMixin",
     "FoodDataMixin",
