@@ -113,7 +113,7 @@ object VampirePlayerAttachment {
     @JvmStatic
     fun increaseInSunTick(player: Player) {
         val data = getData(player)
-        val newInSunTick = (data.inSunTick + 1).coerceAtMost(20 * 10)
+        val newInSunTick = (data.inSunTick + 1).coerceAtMost(20 * 5)
         setData(player, data.copy(inSunTick = newInSunTick))
     }
 

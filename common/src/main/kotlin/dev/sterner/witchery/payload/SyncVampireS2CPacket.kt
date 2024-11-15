@@ -27,6 +27,7 @@ class SyncVampireS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         putInt("visitedVillages", data.visitedVillages)
         putInt("trappedVillagers", data.trappedVillagers)
         putInt("abilityIndex", data.abilityIndex)
+        putInt("inSunTick", data.inSunTick)
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -49,6 +50,7 @@ class SyncVampireS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val visitedVillages = payload.nbt.getInt("visitedVillages")
         val trappedVillagers = payload.nbt.getInt("trappedVillagers")
         val abilityIndex = payload.nbt.getInt("abilityIndex")
+        val inSunTick = payload.nbt.getInt("inSunTick")
 
         val player = client.level?.getPlayerByUUID(id)
         client.execute {
@@ -61,7 +63,8 @@ class SyncVampireS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
                     nightsCount,
                     visitedVillages,
                     trappedVillagers,
-                    abilityIndex
+                    abilityIndex,
+                    inSunTick
                 ))
             }
         }

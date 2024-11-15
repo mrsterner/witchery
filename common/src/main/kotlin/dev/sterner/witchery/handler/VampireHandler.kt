@@ -25,10 +25,12 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import kotlin.math.max
+import kotlin.math.min
 
 object VampireHandler {
 
     private val overlay = Witchery.id("textures/gui/ability_hotbar_selection.png")
+    private val sun = Witchery.id("textures/gui/vampire_abilities/sun_")
     private var abilityIndex = -1 // -1 means player is in the hotbar, not abilities
     private var bloodTransferAmount = 10
 
@@ -134,7 +136,7 @@ object VampireHandler {
                     } else {
                         if (bloodData.bloodPool >= 10) {
                             BloodPoolLivingEntityAttachment.decreaseBlood(player, 10)
-                            if (player.level().random.nextFloat() > 0.75f) {
+                            if (player.level().random.nextFloat() > 0.9f) {
                                 player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS)
                                 WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
                             }
@@ -177,7 +179,8 @@ object VampireHandler {
                     }
 
                     player.level().playSound(null, entity.x, entity.y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
-                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, entity.position()))
+                    val np = entity.position().add(0.5, 0.5, 0.5)
+                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, np))
 
                     BloodPoolLivingEntityAttachment.decreaseBlood(entity, bloodTransferAmount)
                     BloodPoolLivingEntityAttachment.increaseBlood(player, bloodTransferAmount)
@@ -209,6 +212,7 @@ object VampireHandler {
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
 
         drawBloodSense(guiGraphics)
+        drawSun(guiGraphics, player)
 
         val bl = player.isShiftKeyDown
 
@@ -223,6 +227,13 @@ object VampireHandler {
         if (abilityIndex != -1) {
             guiGraphics.blit(overlay, x - (25 * abilityIndex), y, 24, 23, 0f,0f,24, 23,24, 23)
         }
+    }
+
+    private fun drawSun(guiGraphics: GuiGraphics, player: Player) {
+        val y = guiGraphics.guiHeight() - 36 - 18 - 2
+        val x = guiGraphics.guiWidth() / 2 - 8
+        val sunTick = min(getData(player).inSunTick / 20, 4)
+        RenderUtils.blitWithAlpha(guiGraphics.pose(), sun.withSuffix("${sunTick}.png"), x, y, 0f,0f,16,16,16,16)
     }
 
     private fun drawBloodSense(guiGraphics: GuiGraphics) {
