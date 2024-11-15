@@ -24,7 +24,6 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import kotlin.math.max
 import kotlin.math.min
 
 object VampireHandler {
@@ -33,6 +32,7 @@ object VampireHandler {
     private val sun = Witchery.id("textures/gui/vampire_abilities/sun_")
     private var abilityIndex = -1 // -1 means player is in the hotbar, not abilities
     private var bloodTransferAmount = 10
+    private var bloodThreshold = 75
 
 
     fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult? {
@@ -90,23 +90,22 @@ object VampireHandler {
             return original
         }
 
-        val vampData = VampirePlayerAttachment.getData(player)
+        val vampData = getData(player)
         if (vampData.vampireLevel < 1) {
             return original
         }
 
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
-        if (bloodData.bloodPool > 600) {
-            val bloodPerHealthPoint = 75
+        if (bloodData.bloodPool > 0) {
+            val bloodPerHealthPoint = bloodThreshold
             val maxBloodAbsorbableDamage = bloodData.bloodPool / bloodPerHealthPoint
 
-            val bloodAbsorbedDamage = minOf(original, maxBloodAbsorbableDamage.toFloat())
+            val absorbableDamage = minOf(original * 0.75f, maxBloodAbsorbableDamage.toFloat())
+            val bloodRequired = (absorbableDamage * bloodPerHealthPoint).toInt()
 
-            val requiredBlood = (bloodAbsorbedDamage * bloodPerHealthPoint).toInt()
+            BloodPoolLivingEntityAttachment.setData(player, bloodData.copy(bloodPool = bloodData.bloodPool - bloodRequired))
 
-            BloodPoolLivingEntityAttachment.setData(player, bloodData.copy(bloodPool = bloodData.bloodPool - requiredBlood))
-
-            return max(0f, original - bloodAbsorbedDamage)
+            return original * 0.25f
         }
 
         return original
@@ -134,11 +133,14 @@ object VampireHandler {
                     if (vampData.vampireLevel < 5) {
                         player.hurt(sunDamageSource, Float.MAX_VALUE)
                     } else {
-                        if (bloodData.bloodPool >= 10) {
-                            BloodPoolLivingEntityAttachment.decreaseBlood(player, 10)
-                            if (player.level().random.nextFloat() > 0.9f) {
-                                player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS)
-                                WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
+                        if (bloodData.bloodPool >= bloodThreshold) {
+                            //BloodPoolLivingEntityAttachment.decreaseBlood(player, 10)
+                            if (player.level().random.nextFloat() > 0.75f) {
+                                player.hurt(sunDamageSource, 2f)
+                                if (player.level().random.nextFloat() > 0.95f) {
+                                    player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
+                                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
+                                }
                             }
                         } else {
                             player.hurt(sunDamageSource, Float.MAX_VALUE)

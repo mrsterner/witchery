@@ -60,6 +60,11 @@ object BloodPoolLivingEntityAttachment {
     var ticker = 0
 
     fun tick(player: Player?) {
+
+        if (player != null) {
+            println(getData(player).bloodPool)
+        }
+
         if (player != null && player.level() is ServerLevel) {
 
             val bl = VampirePlayerAttachment.getData(player).vampireLevel > 0
@@ -76,6 +81,7 @@ object BloodPoolLivingEntityAttachment {
                     for (entity in entities) {
                         sync(entity as LivingEntity, getData(entity))
                     }
+                    sync(player, getData(player))
                 }
             }
         }
