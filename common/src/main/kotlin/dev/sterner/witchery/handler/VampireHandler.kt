@@ -2,11 +2,13 @@ package dev.sterner.witchery.handler
 
 import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.architectury.event.EventResult
+import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.api.VillagerTransfix
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
+import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
@@ -16,6 +18,8 @@ import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -159,6 +163,13 @@ object VampireHandler {
                     player.heal(1f)
                 }
             }
+
+            if (getData(player).isNightVisionActive) {
+                player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 2))
+            }
+            if (getData(player).isSpeedBoostActive) {
+                player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 2))
+            }
         }
     }
 
@@ -273,5 +284,32 @@ object VampireHandler {
             val data = getData(oldPlayer).copy(inSunTick = 0)
             setData(newPlayer, data)
         }
+    }
+
+    fun clientRightClick(player: Player?, interactionHand: InteractionHand?) {
+        if (player == null || interactionHand == InteractionHand.OFF_HAND) {
+            return
+        }
+
+        val playerData = getData(player)
+        NetworkManager.sendToServer(VampireAbilityUseC2SPayload(playerData.abilityIndex))
+    }
+
+    fun rightClickBlock(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
+
+        if (player == null || player.level().isClientSide || interactionHand == InteractionHand.OFF_HAND) {
+            return EventResult.pass()
+        }
+
+        val playerData = getData(player)
+        if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.TRANSFIX.ordinal && player.isShiftKeyDown) {
+            VampirePlayerAttachment.toggleNightVision(player)
+            return EventResult.interruptTrue()
+        } else if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.SPEED.ordinal) {
+            VampirePlayerAttachment.toggleSpeedBoost(player)
+            return EventResult.interruptTrue()
+        }
+
+        return EventResult.pass()
     }
 }

@@ -125,6 +125,42 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
+    fun setNightVision(player: Player, active: Boolean) {
+        val data = getData(player)
+        val newNightVisionData = data.copy(isNightVisionActive = active)
+        setData(player, newNightVisionData)
+    }
+
+    @JvmStatic
+    fun toggleNightVision(player: Player) {
+        setNightVision(player, !getData(player).isNightVisionActive)
+    }
+
+    @JvmStatic
+    fun setSpeedBoost(player: Player, active: Boolean) {
+        val data = getData(player)
+        val newSpeedBoostData = data.copy(isSpeedBoostActive = active)
+        setData(player, newSpeedBoostData)
+    }
+
+    @JvmStatic
+    fun toggleSpeedBoost(player: Player) {
+        setSpeedBoost(player, !getData(player).isSpeedBoostActive)
+    }
+
+    @JvmStatic
+    fun setBatForm(player: Player, active: Boolean) {
+        val data = getData(player)
+        val newBatFormData = data.copy(isBatFormActive = active)
+        setData(player, newBatFormData)
+    }
+
+    @JvmStatic
+    fun toggleBatForm(player: Player) {
+        setBatForm(player, !getData(player).isBatFormActive)
+    }
+
+    @JvmStatic
     fun updateAbilityIndex(player: Player, index: Int) {
         val data = getData(player)
         setData(player, data.copy(abilityIndex = index))
@@ -140,6 +176,9 @@ object VampirePlayerAttachment {
         val trappedVillagers: Int = 0,
         val abilityIndex: Int = -1,
         val inSunTick: Int = 0,
+        val isNightVisionActive: Boolean = false,
+        val isSpeedBoostActive: Boolean = false,
+        val isBatFormActive: Boolean = false,
     ) {
 
         companion object {
@@ -154,6 +193,9 @@ object VampirePlayerAttachment {
                     Codec.INT.fieldOf("trappedVillagers").forGetter { it.trappedVillagers },
                     Codec.INT.fieldOf("abilityIndex").forGetter { it.abilityIndex },
                     Codec.INT.fieldOf("inSunTick").forGetter { it.inSunTick },
+                    Codec.BOOL.fieldOf("isNightVisionActive").forGetter { it.isNightVisionActive },
+                    Codec.BOOL.fieldOf("isSpeedBoostActive").forGetter { it.isSpeedBoostActive },
+                    Codec.BOOL.fieldOf("isBatFormActive").forGetter { it.isBatFormActive },
                 ).apply(instance, ::Data)
             }
 

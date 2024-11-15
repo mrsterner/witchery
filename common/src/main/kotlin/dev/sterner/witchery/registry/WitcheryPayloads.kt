@@ -100,6 +100,9 @@ object WitcheryPayloads {
         registerC2S(VampireAbilitySelectionC2SPayload.ID, VampireAbilitySelectionC2SPayload.STREAM_CODEC) { payload, context ->
             payload.handleC2S(payload, context)
         }
+        registerC2S(VampireAbilityUseC2SPayload.ID, VampireAbilityUseC2SPayload.STREAM_CODEC) { payload, context ->
+            payload.handleC2S(payload, context)
+        }
 
     }
 

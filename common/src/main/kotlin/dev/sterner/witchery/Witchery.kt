@@ -156,6 +156,8 @@ object Witchery {
         EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::setBloodOnAdded)
 
         InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
+        InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(VampireHandler::clientRightClick)
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(VampireHandler::rightClickBlock)
 
         EntityEvent.LIVING_DEATH.register(FamiliarLevelAttachment::familiarDeath)
 

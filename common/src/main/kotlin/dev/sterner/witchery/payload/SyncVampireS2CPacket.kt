@@ -19,15 +19,10 @@ class SyncVampireS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(player: Player, data: VampirePlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
-        putInt("killedBlazes", data.killedBlazes)
-        putInt("usedSunGrenades", data.usedSunGrenades)
-        putInt("vampireLevel", data.vampireLevel)
-        putInt("villagersHalfBlood", data.villagersHalfBlood)
-        putInt("nightsCount", data.nightsCount)
-        putInt("visitedVillages", data.visitedVillages)
-        putInt("trappedVillagers", data.trappedVillagers)
-        putInt("abilityIndex", data.abilityIndex)
-        putInt("inSunTick", data.inSunTick)
+
+        VampirePlayerAttachment.Data.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
+            put("VampData", it.get())
+        }
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -42,30 +37,15 @@ class SyncVampireS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
-        val killedBlazes = payload.nbt.getInt("killedBlazes")
-        val usedSunGrenades = payload.nbt.getInt("usedSunGrenades")
-        val vampireLevel = payload.nbt.getInt("vampireLevel")
-        val villagersHalfBlood = payload.nbt.getInt("villagersHalfBlood")
-        val nightsCount = payload.nbt.getInt("nightsCount")
-        val visitedVillages = payload.nbt.getInt("visitedVillages")
-        val trappedVillagers = payload.nbt.getInt("trappedVillagers")
-        val abilityIndex = payload.nbt.getInt("abilityIndex")
-        val inSunTick = payload.nbt.getInt("inSunTick")
+
+
+        val dataTag = payload.nbt.getCompound("VampData")
+        val vampData = VampirePlayerAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
         val player = client.level?.getPlayerByUUID(id)
         client.execute {
-            if (player != null) {
-                VampirePlayerAttachment.setData(player, VampirePlayerAttachment.Data(
-                    vampireLevel,
-                    killedBlazes,
-                    usedSunGrenades,
-                    villagersHalfBlood,
-                    nightsCount,
-                    visitedVillages,
-                    trappedVillagers,
-                    abilityIndex,
-                    inSunTick
-                ))
+            if (player != null && vampData.isPresent) {
+                VampirePlayerAttachment.setData(player, vampData.get())
             }
         }
     }
