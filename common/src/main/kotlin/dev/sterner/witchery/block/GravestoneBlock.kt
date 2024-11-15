@@ -24,6 +24,8 @@ class GravestoneBlock(properties: Properties) : Block(properties), SimpleWaterlo
         )
     }
 
+
+
     override fun rotate(state: BlockState, rotation: Rotation): BlockState {
         return state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING)))
     }
@@ -33,7 +35,7 @@ class GravestoneBlock(properties: Properties) : Block(properties), SimpleWaterlo
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
-        builder.add(BlockStateProperties.HORIZONTAL_FACING)
+        builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.WATERLOGGED)
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
@@ -46,8 +48,11 @@ class GravestoneBlock(properties: Properties) : Block(properties), SimpleWaterlo
 
     override fun getStateForPlacement(context: BlockPlaceContext): BlockState? {
         val fluidState = context.level.getFluidState(context.clickedPos)
-        return super.getStateForPlacement(context)!!
-            .setValue(WaterloggedTransparentBlock.WATERLOGGED, fluidState.`is`(Fluids.WATER))
+        return super.getStateForPlacement(context)!!.setValue(
+            BlockStateProperties.HORIZONTAL_FACING,
+            context.horizontalDirection.opposite
+        )
+            .setValue(BlockStateProperties.WATERLOGGED, fluidState.`is`(Fluids.WATER))
     }
 
     override fun updateShape(

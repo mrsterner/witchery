@@ -1030,4 +1030,12 @@ object WitcheryItems {
     val GRAVESTONE: RegistrySupplier<BlockItem> = ITEMS.register("gravestone") {
         BlockItem(WitcheryBlocks.GRAVESTONE.get(), Item.Properties())
     }
+
+    val SUSPICIOUS_GRAVEYARD_DIRT: RegistrySupplier<BlockItem> = ITEMS.register("suspicious_graveyard_dirt") {
+        BlockItem(WitcheryBlocks.SUSPICIOUS_GRAVEYARD_DIRT.get(), Item.Properties())
+    }
+
+    val TORN_PAGE: RegistrySupplier<Item> = ITEMS.register("torn_page") {
+        Item(Item.Properties())
+    }
 }
