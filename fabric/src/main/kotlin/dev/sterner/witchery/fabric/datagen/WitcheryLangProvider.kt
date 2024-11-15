@@ -316,6 +316,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.ALDER_BOAT.get(), "Alder Boat")
         builder.add(WitcheryItems.ALDER_CHEST_BOAT.get(), "Alder Chest Boat")
 
+        builder.add(WitcheryItems.GRAVESTONE.get(), "Gravestone")
+
         builder.add(WitcheryBlocks.SPIRIT_PORTAL.get(), "Spirit Portal")
         builder.add(WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get(), "Spirit Portal")
 

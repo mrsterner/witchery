@@ -977,4 +977,12 @@ object WitcheryBlocks {
             }
         }
     }
+
+    val GRAVESTONE: RegistrySupplier<GravestoneBlock> = BLOCKS.register("gravestone") {
+        GravestoneBlock(BlockBehaviour.Properties.of())
+    }
+
+    val SUSPICIOUS_GRAVEYARD_DIRT: RegistrySupplier<SuspiciousGraveyardDirtBlock> = BLOCKS.register("suspicious_graveyard_dirt") {
+        SuspiciousGraveyardDirtBlock()
+    }
 }

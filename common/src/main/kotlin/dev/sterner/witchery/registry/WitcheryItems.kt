@@ -1026,4 +1026,8 @@ object WitcheryItems {
             Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)
         )
     }
+
+    val GRAVESTONE: RegistrySupplier<BlockItem> = ITEMS.register("gravestone") {
+        BlockItem(WitcheryBlocks.GRAVESTONE.get(), Item.Properties())
+    }
 }

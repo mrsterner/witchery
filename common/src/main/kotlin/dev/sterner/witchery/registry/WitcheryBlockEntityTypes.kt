@@ -4,6 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
+import dev.sterner.witchery.block.SuspiciousGraveyardDirtBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlockEntity
@@ -19,9 +20,13 @@ import dev.sterner.witchery.block.signs.CustomHangingSignBE
 import dev.sterner.witchery.block.signs.CustomSignBE
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
+import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.world.level.block.entity.BrushableBlockEntity
 import net.minecraft.world.level.block.entity.SignBlockEntity
+import net.minecraft.world.level.block.state.BlockState
 
 object WitcheryBlockEntityTypes {
 
@@ -194,4 +199,15 @@ object WitcheryBlockEntityTypes {
             WitcheryBlocks.DREAM_WEAVER_OF_FASTING.get()
         ).build(null)
     }
+
+    val BRUSHABLE_BLOCK = BLOCK_ENTITY_TYPES.register("suspicious_graveyard_dirt") {
+        BlockEntityType.Builder.of(
+             { pos: BlockPos?, blockState: BlockState? ->
+                SuspiciousGraveyardDirtBlockEntity(
+                    pos,
+                    blockState
+                )
+            }, WitcheryBlocks.SUSPICIOUS_GRAVEYARD_DIRT.get()).build(null)
+    }
+
 }
