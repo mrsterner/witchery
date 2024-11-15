@@ -37,7 +37,6 @@ class SuspiciousGraveyardDirtBlock(val turnsInto: Block, val brushSound: SoundEv
         return WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get().create(pos, state)
     }
 
-
     init {
         this.registerDefaultState(stateDefinition.any().setValue(DUSTED, 0))
     }
