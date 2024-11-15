@@ -129,6 +129,5 @@ class SuspiciousGraveyardDirtBlock(val turnsInto: Block, val brushSound: SoundEv
             }
         private val DUSTED: IntegerProperty = BlockStateProperties.DUSTED
         const val TICK_DELAY: Int = 2
-        }
     }
 }
