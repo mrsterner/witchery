@@ -30,7 +30,7 @@ class SuspiciousGraveyardDirtBlockEntityRenderer(context: BlockEntityRendererPro
             if (i > 0) {
                 val direction = blockEntity.hitDirection
                 if (direction != null) {
-                    val itemStack = blockEntity.item
+                    val itemStack = blockEntity.storedItem
                     if (!itemStack.isEmpty) {
                         poseStack.pushPose()
                         poseStack.translate(0.0f, 0.5f, 0.0f)
