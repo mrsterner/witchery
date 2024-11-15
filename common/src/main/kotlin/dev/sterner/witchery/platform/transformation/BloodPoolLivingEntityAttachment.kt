@@ -84,13 +84,13 @@ object BloodPoolLivingEntityAttachment {
     fun setBloodOnAdded(entity: Entity?, level: Level?): EventResult? {
         if (entity is LivingEntity) {
             val data = getData(entity)
-            val bloodJson: MutableMap<EntityType<*>, Int> = BloodPoolHandler.BLOOD_PAIR
+            val bloodJson = BloodPoolHandler.BLOOD_PAIR
             if (data.maxBlood == 0 && data.bloodPool == 0) {
                 val entityType = entity.type
                 val bloodValue = bloodJson[entityType]
 
                 if (bloodValue != null) {
-                    val maxBlood = bloodValue * 300
+                    val maxBlood = bloodValue.bloodDrops * 300
                     val initializedData = data.copy(maxBlood = maxBlood, bloodPool = maxBlood)
                     setData(entity, initializedData)
                 }
@@ -98,6 +98,21 @@ object BloodPoolLivingEntityAttachment {
         }
 
         return EventResult.pass()
+    }
+
+    fun tickBloodRegen(livingEntity: LivingEntity) {
+        if (livingEntity is Player || livingEntity.level().isClientSide) {
+            return
+        }
+        if (BloodPoolHandler.BLOOD_PAIR.contains(livingEntity.type)) {
+            val bloodData = getData(livingEntity)
+            if (bloodData.bloodPool < bloodData.maxBlood && bloodData.maxBlood > 0) {
+                if (livingEntity.tickCount % 1000 == 0) {
+                    val bloodPool = BloodPoolHandler.BLOOD_PAIR[livingEntity.type]
+                    increaseBlood(livingEntity, (bloodPool!!.qualityBloodDrops + 1) * 2)
+                }
+            }
+        }
     }
 
     //300 blood = 1 full blood drop

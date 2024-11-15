@@ -22,7 +22,7 @@ import java.util.concurrent.Executor
 object BloodPoolHandler{
 
     val LOADER = BloodPoolResourceReloadListener(Gson(), "blood_pool")
-    val BLOOD_PAIR = mutableMapOf<EntityType<*>, Int>()
+    val BLOOD_PAIR = mutableMapOf<EntityType<*>, BloodData>()
 
     fun registerListener() {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
@@ -78,9 +78,8 @@ object BloodPoolHandler{
                 val data = BloodData.CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(::IllegalArgumentException).first
 
                 val entity = data.entity
-                val drops = data.bloodDrops
 
-                BLOOD_PAIR[entity] = drops
+                BLOOD_PAIR[entity] = data
             }
         }
     }
