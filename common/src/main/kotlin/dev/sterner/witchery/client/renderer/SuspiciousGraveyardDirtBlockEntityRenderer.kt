@@ -41,7 +41,7 @@ class SuspiciousGraveyardDirtBlockEntityRenderer(context: BlockEntityRendererPro
                         poseStack.mulPose(Axis.YP.rotationDegrees(((if (bl) 90 else 0) + 11).toFloat()))
                         poseStack.scale(0.5f, 0.5f, 0.5f)
                         val j = LevelRenderer.getLightColor(
-                            blockEntity.level,
+                            blockEntity.level!!,
                             blockEntity.blockState,
                             blockEntity.blockPos.relative(direction)
                         )

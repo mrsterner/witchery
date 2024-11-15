@@ -74,7 +74,7 @@ class SuspiciousGraveyardDirtBlock(val turnsInto: Block, val brushSound: SoundEv
     public override fun tick(state: BlockState, level: ServerLevel, pos: BlockPos, random: RandomSource) {
         if (level.getBlockEntity(pos) is SuspiciousGraveyardDirtBlockEntity) {
             var brushableBlockEntity = level.getBlockEntity(pos) as SuspiciousGraveyardDirtBlockEntity
-            brushableBlockEntity.checkReset()
+            brushableBlockEntity.resetBrushingState()
         }
 
         if (FallingBlock.isFree(level.getBlockState(pos.below())) && pos.y >= level.minBuildHeight) {

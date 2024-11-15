@@ -202,7 +202,7 @@ object WitcheryBlockEntityTypes {
 
     val BRUSHABLE_BLOCK = BLOCK_ENTITY_TYPES.register("suspicious_graveyard_dirt") {
         BlockEntityType.Builder.of(
-             { pos: BlockPos?, blockState: BlockState? ->
+             { pos: BlockPos, blockState: BlockState ->
                 SuspiciousGraveyardDirtBlockEntity(
                     pos,
                     blockState
