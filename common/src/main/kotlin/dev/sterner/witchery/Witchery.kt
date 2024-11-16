@@ -197,34 +197,34 @@ object Witchery {
                 VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
                     ResourceLocation.parse("minecraft:village/plains/houses"),
                     "$MODID:village/houses/plains_graveyard",
-                    15)
+                    2)
 
                 VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
                     ResourceLocation.parse("minecraft:village/plains/houses"),
                     "$MODID:village/houses/plains_graveyard_2",
-                    15)
+                    2)
 
                 VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
                     ResourceLocation.parse("minecraft:village/plains/houses"),
                     "$MODID:village/houses/plains_graveyard_3",
-                    15)
+                    2)
 
 
 
                 VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
                     ResourceLocation.parse("minecraft:village/taiga/houses"),
                     "$MODID:village/houses/plains_graveyard",
-                    15)
+                    2)
 
                 VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
                     ResourceLocation.parse("minecraft:village/taiga/houses"),
                     "$MODID:village/houses/plains_graveyard_2",
-                    15)
+                    2)
 
                 VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
                     ResourceLocation.parse("minecraft:village/taiga/houses"),
                     "$MODID:village/houses/plains_graveyard_3",
-                    15)
+                    2)
 
             }
             addStructure(it)
