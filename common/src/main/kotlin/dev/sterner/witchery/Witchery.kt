@@ -60,8 +60,11 @@ import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.MinecraftServer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
@@ -69,6 +72,10 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Pig
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
@@ -181,7 +188,50 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
+
+        LifecycleEvent.SERVER_STARTED.register {
+            fun addStructure(server: MinecraftServer){
+                val builtinTemplate: Registry<StructureTemplatePool> = server.registryAccess().registry(Registries.TEMPLATE_POOL).get()
+                val builtinProcessor: Registry<StructureProcessorList> = server.registryAccess().registry(Registries.PROCESSOR_LIST).get()
+
+                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+                    ResourceLocation.parse("minecraft:village/plains/houses"),
+                    "$MODID:village/houses/plains_graveyard",
+                    15)
+
+                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+                    ResourceLocation.parse("minecraft:village/plains/houses"),
+                    "$MODID:village/houses/plains_graveyard_2",
+                    15)
+
+                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+                    ResourceLocation.parse("minecraft:village/plains/houses"),
+                    "$MODID:village/houses/plains_graveyard_3",
+                    15)
+
+
+
+                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+                    ResourceLocation.parse("minecraft:village/taiga/houses"),
+                    "$MODID:village/houses/plains_graveyard",
+                    15)
+
+                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+                    ResourceLocation.parse("minecraft:village/taiga/houses"),
+                    "$MODID:village/houses/plains_graveyard_2",
+                    15)
+
+                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+                    ResourceLocation.parse("minecraft:village/taiga/houses"),
+                    "$MODID:village/houses/plains_graveyard_3",
+                    15)
+
+            }
+            addStructure(it)
+        }
     }
+
+
 
     private fun addWitchesHand(
         resourceKey: ResourceKey<LootTable>?,
