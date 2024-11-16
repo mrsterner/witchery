@@ -4,11 +4,22 @@ import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.Direction
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.animal.Chicken
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.item.Tiers
 import net.minecraft.world.item.context.UseOnContext
 
 class ArthanaItem(properties: Properties) : SwordItem(Tiers.GOLD, properties) {
+
+    override fun hurtEnemy(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
+        if (target is Chicken && attacker is Player) {
+            target.hurt(attacker.damageSources().playerAttack(attacker), 4f)
+        }
+        return super.hurtEnemy(stack, target, attacker)
+    }
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level

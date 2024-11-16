@@ -149,6 +149,7 @@ object Witchery {
         CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
+        EntityEvent.LIVING_DEATH.register(VampireHandler::killChicken)
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
@@ -418,6 +419,7 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.POPPET.get(), ::PoppetBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(), ::SpiritPortalBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(), ::SuspiciousGraveyardDirtBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(), ::SacrificialCircleBlockEntityRenderer)
 
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
@@ -536,6 +538,8 @@ object Witchery {
             WitcheryBlocks.CHALICE.get(),
             WitcheryBlocks.DISTURBED_COTTON.get(),
             WitcheryBlocks.WISPY_COTTON.get(),
+            WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(),
+            WitcheryBlocks.SACRIFICIAL_CIRCLE.get(),
 
             WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get(),
             WitcheryBlocks.BRAZIER.get()

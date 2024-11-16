@@ -3,10 +3,12 @@ package dev.sterner.witchery.item
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
+import dev.sterner.witchery.handler.VampireHandler
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.ItemNameBlockItem
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 
 class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block, properties) {
 
@@ -19,6 +21,11 @@ class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block,
         context.player?.let { WitcheryApi.makePlayerWitchy(it) }
 
         if (level.isClientSide) return InteractionResult.sidedSuccess(true)
+
+        if (state.`is`(Blocks.SKELETON_SKULL) && context.player != null) {
+            VampireHandler.makeSacrificialCircle(context.player!!, pos)
+            return InteractionResult.sidedSuccess(true)
+        }
 
         if (state.block is RitualChalkBlock && state.`is`(item.block)) {
             level.setBlockAndUpdate(

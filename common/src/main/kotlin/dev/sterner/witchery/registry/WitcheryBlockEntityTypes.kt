@@ -16,6 +16,7 @@ import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
 import dev.sterner.witchery.block.poppet.PoppetBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
+import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.signs.CustomHangingSignBE
 import dev.sterner.witchery.block.signs.CustomSignBE
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
@@ -39,6 +40,7 @@ object WitcheryBlockEntityTypes {
                 { pos, state -> MultiBlockComponentBlockEntity(pos, state) },
                 WitcheryBlocks.COMPONENT.get(),
                 WitcheryBlocks.ALTAR_COMPONENT.get(),
+                WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(),
                 WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get(),
                 WitcheryBlocks.CAULDRON_COMPONENT.get(),
                 WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(),
@@ -210,4 +212,13 @@ object WitcheryBlockEntityTypes {
             }, WitcheryBlocks.SUSPICIOUS_GRAVEYARD_DIRT.get()).build(null)
     }
 
+    val SACRIFICIAL_CIRCLE = BLOCK_ENTITY_TYPES.register("sacrificial_circle") {
+        BlockEntityType.Builder.of(
+            { pos: BlockPos, blockState: BlockState ->
+                SacrificialBlockEntity(
+                    pos,
+                    blockState
+                )
+            }, WitcheryBlocks.SACRIFICIAL_CIRCLE.get()).build(null)
+    }
 }

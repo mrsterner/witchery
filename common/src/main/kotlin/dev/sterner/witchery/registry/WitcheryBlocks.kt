@@ -21,6 +21,8 @@ import dev.sterner.witchery.block.oven.*
 import dev.sterner.witchery.block.poppet.PoppetBlock
 import dev.sterner.witchery.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
+import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
+import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockComponent
 import dev.sterner.witchery.block.signs.CustomCeilingHangingSignBlock
 import dev.sterner.witchery.block.signs.CustomStandingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallHangingSignBlock
@@ -985,5 +987,15 @@ object WitcheryBlocks {
 
     val SUSPICIOUS_GRAVEYARD_DIRT: RegistrySupplier<SuspiciousGraveyardDirtBlock> = BLOCKS.register("suspicious_graveyard_dirt") {
         SuspiciousGraveyardDirtBlock(Blocks.COARSE_DIRT, SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, BlockBehaviour.Properties.of())
+    }
+
+    val SACRIFICIAL_CIRCLE: RegistrySupplier<SacrificialBlock> = BLOCKS.register("sacrificial_circle") {
+        SacrificialBlock(BlockBehaviour.Properties.of())
+    }
+
+    val SACRIFICIAL_CIRCLE_COMPONENT: RegistrySupplier<SacrificialBlockComponent> = BLOCKS.register("sacrificial_circle_component") {
+        SacrificialBlockComponent(
+            BlockBehaviour.Properties.of()
+        )
     }
 }

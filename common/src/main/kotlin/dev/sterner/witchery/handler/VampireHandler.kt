@@ -6,6 +6,10 @@ import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.api.VillagerTransfix
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
+import dev.sterner.witchery.api.multiblock.MultiBlockStructure.StructurePiece
+import dev.sterner.witchery.block.altar.AltarBlock
+import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
@@ -13,8 +17,7 @@ import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachm
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
-import dev.sterner.witchery.registry.WitcheryDamageSources
-import dev.sterner.witchery.registry.WitcheryPayloads
+import dev.sterner.witchery.registry.*
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
@@ -23,17 +26,21 @@ import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.world.Containers
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.animal.Chicken
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
-import kotlin.math.atan2
-import kotlin.math.min
-import kotlin.math.sqrt
+import net.minecraft.world.item.Items
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import java.util.function.Consumer
 
 object VampireHandler {
 
@@ -308,6 +315,81 @@ object VampireHandler {
         } else if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.SPEED.ordinal) {
             VampirePlayerAttachment.toggleSpeedBoost(player)
             return EventResult.interruptTrue()
+        }
+
+        return EventResult.pass()
+    }
+
+    fun killChicken(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+        if (livingEntity is Chicken && damageSource?.entity is Player) {
+            val player = damageSource.entity as Player
+
+            val wineOrBottle = player.offhandItem.`is`(WitcheryItems.WINE_GLASS.get()) || player.offhandItem.`is`(Items.GLASS_BOTTLE)
+
+            if (player.mainHandItem.`is`(WitcheryItems.ARTHANA.get()) && wineOrBottle) {
+
+                val possibleSkull = BlockPos.betweenClosedStream(livingEntity.boundingBox.inflate(2.0))
+
+                var shouldPerform = false
+                for (skullPos in possibleSkull) {
+                    val skullState = livingEntity.level().getBlockState(skullPos)
+
+                    if (skullState.`is`(Blocks.SKELETON_SKULL)
+                        || skullState.`is`(Blocks.SKELETON_WALL_SKULL)
+                        || skullState.`is`(Blocks.WITHER_SKELETON_SKULL)
+                        || skullState.`is`(Blocks.WITHER_SKELETON_WALL_SKULL)) {
+
+                        if (hasRitualStructure(livingEntity.level(), skullPos)) {
+                            shouldPerform = true
+                            break
+                        }
+                    }
+                }
+
+                if (shouldPerform) {
+                    player.offhandItem.shrink(1)
+                    val stackCopy = player.offhandItem.copy()
+                    if (!stackCopy.isEmpty) {
+                        Containers.dropItemStack(livingEntity.level(), player.x, player.y, player.z, stackCopy)
+                    }
+
+                    val bloodWine = WitcheryItems.WINE_GLASS.get().defaultInstance
+                    bloodWine.set(WitcheryDataComponents.CHICKEN_BLOOD.get(), true)
+                    bloodWine.set(WitcheryDataComponents.BLOOD.get(), livingEntity.uuid)
+                    player.setItemInHand(InteractionHand.OFF_HAND, bloodWine)
+                }
+            }
+        }
+
+        return EventResult.pass()
+    }
+
+    private fun hasRitualStructure(level: Level, skullPos: BlockPos?): Boolean {
+
+        return true
+    }
+
+    fun makeSacrificialCircle(player: Player, blockPos: BlockPos): EventResult? {
+
+        val pieces = SacrificialBlock.STRUCTURE.get().structurePieces
+        val canPlace = pieces.stream().allMatch { p: StructurePiece -> p.canPlace(player.level(), player, blockPos) }
+        if (canPlace) {
+
+            pieces.forEach(Consumer { s: StructurePiece ->
+                s.place(
+                    blockPos,
+                    player.level()
+                )
+            })
+
+            player.level().setBlockAndUpdate(
+                blockPos,
+                WitcheryBlocks.SACRIFICIAL_CIRCLE.get().defaultBlockState()
+            )
+
+            if (player.level().getBlockEntity(blockPos) is MultiBlockComponentBlockEntity) {
+                (player.level().getBlockEntity(blockPos) as MultiBlockComponentBlockEntity).corePos = blockPos
+            }
         }
 
         return EventResult.pass()
