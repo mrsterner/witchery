@@ -12,6 +12,7 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
@@ -62,7 +63,7 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.DEMON_HEART.get())
         dropSelf(WitcheryBlocks.GRAVESTONE.get())
 
-
+        dropOther(WitcheryBlocks.SACRIFICIAL_CIRCLE.get(), Blocks.SKELETON_SKULL)
 
         dropSelf(WitcheryBlocks.IRON_CANDELABRA.get())
         dropSelf(WitcheryBlocks.WHITE_IRON_CANDELABRA.get())

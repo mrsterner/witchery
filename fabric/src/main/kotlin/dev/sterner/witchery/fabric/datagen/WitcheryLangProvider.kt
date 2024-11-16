@@ -228,6 +228,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryBlocks.DISTILLERY_COMPONENT.get(), "Distillery")
         builder.add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(), "Fume Filter")
 
+        builder.add(WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(), "Sacrificial Circle")
+        builder.add(WitcheryBlocks.SACRIFICIAL_CIRCLE.get(), "Sacrificial Circle")
+
         builder.add(WitcheryItems.WAYSTONE.get(), "Waystone")
         builder.add(WitcheryItems.CLAY_JAR.get(), "Clay Jar")
         builder.add(WitcheryItems.JAR.get(), "Jar")

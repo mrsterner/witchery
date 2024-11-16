@@ -51,7 +51,6 @@ class SacrificialCircleBlockEntityRenderer(ctx: BlockEntityRendererProvider.Cont
             val xOffset = radius * cos(angle)
             val zOffset = radius * sin(angle)
 
-            // Render candles
             poseStack.pushPose()
             poseStack.translate(center.x + xOffset - blockEntity.blockPos.x,
                 center.y - blockEntity.blockPos.y,

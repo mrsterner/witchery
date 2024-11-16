@@ -372,24 +372,21 @@ object VampireHandler {
     fun makeSacrificialCircle(player: Player, blockPos: BlockPos): EventResult? {
 
         val pieces = SacrificialBlock.STRUCTURE.get().structurePieces
-        val canPlace = pieces.stream().allMatch { p: StructurePiece -> p.canPlace(player.level(), player, blockPos) }
-        if (canPlace) {
 
-            pieces.forEach(Consumer { s: StructurePiece ->
-                s.place(
-                    blockPos,
-                    player.level()
-                )
-            })
-
-            player.level().setBlockAndUpdate(
+        pieces.forEach(Consumer { s: StructurePiece ->
+            s.place(
                 blockPos,
-                WitcheryBlocks.SACRIFICIAL_CIRCLE.get().defaultBlockState()
+                player.level()
             )
+        })
 
-            if (player.level().getBlockEntity(blockPos) is MultiBlockComponentBlockEntity) {
-                (player.level().getBlockEntity(blockPos) as MultiBlockComponentBlockEntity).corePos = blockPos
-            }
+        player.level().setBlockAndUpdate(
+            blockPos,
+            WitcheryBlocks.SACRIFICIAL_CIRCLE.get().defaultBlockState()
+        )
+
+        if (player.level().getBlockEntity(blockPos) is MultiBlockComponentBlockEntity) {
+            (player.level().getBlockEntity(blockPos) as MultiBlockComponentBlockEntity).corePos = blockPos
         }
 
         return EventResult.pass()

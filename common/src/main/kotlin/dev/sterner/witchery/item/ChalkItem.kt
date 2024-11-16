@@ -22,11 +22,6 @@ class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block,
 
         if (level.isClientSide) return InteractionResult.sidedSuccess(true)
 
-        if (state.`is`(Blocks.SKELETON_SKULL) && context.player != null) {
-            VampireHandler.makeSacrificialCircle(context.player!!, pos)
-            return InteractionResult.sidedSuccess(true)
-        }
-
         if (state.block is RitualChalkBlock && state.`is`(item.block)) {
             level.setBlockAndUpdate(
                 pos, state.setValue(

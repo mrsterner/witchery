@@ -21,6 +21,7 @@ import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.SleepingEvent
+import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
@@ -162,6 +163,7 @@ object Witchery {
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
         EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::setBloodOnAdded)
+        BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
 
         InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
         InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(VampireHandler::clientRightClick)
