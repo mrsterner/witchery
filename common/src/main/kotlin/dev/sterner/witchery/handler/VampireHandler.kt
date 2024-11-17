@@ -240,6 +240,11 @@ object VampireHandler {
         val client = Minecraft.getInstance()
         val player = client.player ?: return
 
+        val isNotVamp = getData(player).vampireLevel <= 0
+        if (isNotVamp) {
+            return
+        }
+
         val abilityIndex = getData(player).abilityIndex
         val size = VampirePlayerAttachment.getAbilities(player)
 
