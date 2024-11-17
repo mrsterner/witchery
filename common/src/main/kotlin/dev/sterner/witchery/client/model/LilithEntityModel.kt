@@ -54,6 +54,9 @@ class LilithEntityModel(val root: ModelPart) :
         leftLeg.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
         rightLeg.xRot = cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
 
+        leftLeg.xRot -= Math.PI.toFloat() / 8
+        rightLeg.xRot -= Math.PI.toFloat() / 8
+
         leftArm.xRot =+ cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.2f * limbSwingAmount
         rightArm.xRot =+ cos(limbSwing * 0.6662f) * 1.2f * limbSwingAmount
 

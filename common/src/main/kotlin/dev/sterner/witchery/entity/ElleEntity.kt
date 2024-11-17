@@ -1,6 +1,7 @@
 package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import net.minecraft.client.gui.font.providers.UnihexProvider.Dimensions
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
@@ -13,12 +14,15 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.navigation.PathNavigation
+import net.minecraft.world.entity.monster.Zombie
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.pathfinder.PathType
 import java.util.*
 
 class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), level) {
+
+    private var conversionTime: Int? = null
 
     companion object {
         fun createAttributes(): AttributeSupplier.Builder {
@@ -40,12 +44,38 @@ class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), l
 
     override fun baseTick() {
         super.baseTick()
+
+        if (isInNether()) {
+            if (conversionTime == null) {
+                conversionTime = 300
+            } else {
+                conversionTime = conversionTime?.minus(1)
+                println(conversionTime)
+                if (conversionTime == 0) {
+                    transformToLilith()
+                }
+            }
+        } else {
+            conversionTime = null
+        }
+
         if (!entityData.get(DATA_OWNERUUID_ID).isPresent) {
             val player = level().getNearestPlayer(this, 10.0)
             if (player != null) {
                 setOwnerUUID(player.uuid)
             }
         }
+    }
+
+    private fun transformToLilith(){
+        val lilith = WitcheryEntityTypes.LILITH.get().create(level())
+        lilith!!.moveTo(position())
+        level().addFreshEntity(lilith)
+        discard()
+    }
+
+    private fun isInNether(): Boolean {
+        return level().dimension() == Level.NETHER
     }
 
     override fun registerGoals() {
@@ -73,6 +103,9 @@ class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), l
         if (this.getOwnerUUID() != null) {
             compound.putUUID("Owner", this.getOwnerUUID()!!)
         }
+        if (conversionTime != null) {
+            compound.putInt("ConversionTime", conversionTime!!)
+        }
     }
 
     override fun readAdditionalSaveData(compound: CompoundTag) {
@@ -86,10 +119,11 @@ class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), l
         }
 
         if (uUID != null) {
-            try {
-                this.setOwnerUUID(uUID)
-            } catch (_: Throwable) {
-            }
+            this.setOwnerUUID(uUID)
+        }
+
+        if (compound.contains("ConversionTime")) {
+            conversionTime = compound.getInt("ConversionTime")
         }
     }
 
