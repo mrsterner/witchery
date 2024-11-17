@@ -10,7 +10,4 @@ object WitcheryAttributes {
 
     val ATTRIBUTES = DeferredRegister.create(Witchery.MODID, Registries.ATTRIBUTE)
 
-    val INFERNAL_SLIME_JUMP_BOOST = ATTRIBUTES.register("slime_jump_boost") {
-        RangedAttribute("attribute.name.witchery.slime_jump_boost", 0.42, 0.0, 32.0).setSyncable(true)
-    }
 }
