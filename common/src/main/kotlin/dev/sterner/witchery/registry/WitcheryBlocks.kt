@@ -998,4 +998,8 @@ object WitcheryBlocks {
             BlockBehaviour.Properties.of()
         )
     }
+
+    val SUN_COLLECTOR = BLOCKS.register("sun_collector") {
+        SunCollectorBlock(BlockBehaviour.Properties.of().randomTicks().noOcclusion())
+    }
 }
