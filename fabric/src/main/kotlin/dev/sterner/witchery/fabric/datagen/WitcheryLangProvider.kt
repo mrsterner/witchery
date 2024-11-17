@@ -562,5 +562,111 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("ritual.ritual_chalk.otherwhere_chalk", "Otherwhere Chalk")
         builder.add("ritual.ritual_chalk.infernal_chalk", "Infernal Chalk")
         builder.add("ritual.ritual_chalk.golden_chalk", "Golden Chalk")
+
+
+        builder.add("book.witchery.guidebook.vampirism.vamp_1.name", "Observations of an Immortal")
+        builder.add("book.witchery.guidebook.vampirism.vamp_1.description", "Observations of an Immortal")
+        builder.add("vampirism.vamp_1.title", "Observations of an Immortal")
+        builder.add("vampirism.vamp_1.page.1", "\n" +
+                "\\\n" +
+                "\\\nIt is with some reluctance I commit these observations to paper, for what I have witnessed is not for the weak of mind. Instead, take my words as a warning.")
+        builder.add("vampirism.vamp_1.page.2", "\n" +
+                "\\\n" +
+                "\\\n...he was reminiscing over dinner this evening about his \"birth\", a demonic pact of sorts...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n ..butchering a chicken over a skull with an Arthana and holding a glass goblet to collect the blood is barbaric,\" I told him...")
+        builder.add("vampirism.vamp_1.page.3", "\n" +
+                "\\\n" +
+                "\\\n...apparently start of a long forgotten rite \n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n ..night, open to the moon, chalk, candles and skull")
+        builder.add("vampirism.vamp_1.page.4", "\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...pouring the blood onto the skull... \n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n ..mumbling about taking her to the underworld")
+        builder.add("vampirism.vamp_1.page.5", "\n" +
+                "\\\n" +
+                "\\\n...proving his worth to her... \n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n ..that glass goblet again, could someone really drink such a thing? ...")
+
+
+        builder.add("vampirism.vamp_2.page.1", "\n" +
+                "\\\n" +
+                "\\\n...Today, or should I say this evening, he told me about his first kill...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n ...the thirst that first night, he said, was overwhelming, he had to fully sait hes hunger...")
+
+        builder.add("vampirism.vamp_3.page.2", "\n" +
+                "\\\n...he found he was able to transfix his victims...\n" +
+                "\\\n" +
+                "\\\n... was now able to drink as he needed without others realizing, so long as he did not drain more than half..." +
+                "\\\n" +
+                "\\\n ...did so, from five oblivious souls...")
+
+        builder.add("vampirism.vamp_4.page.1", "\n" +
+                "\\\n...strength was flowing into him, the more he drank, as the nights progressed, the stringer he became...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n ...it was on the forth night after his mastery of drinking that the world slowed down...")
+
+        builder.add("vampirism.vamp_5.page.1", "\n" +
+                "\\\n...his greatest foe, the sun, was ever present, tormenting and instantly deadly to him...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n ...became his obsession... ...found a way to collect sunlight and burnt himself with it ten times during the night...")
+
+        builder.add("vampirism.vamp_6.page.1", "\n" +
+                "\\\n...first walk in the sun after his rebirth brought him to bloody tears, he felt his blood burning, but no longer instantly...\n" +
+                "\\\n" +
+                "\\\n ...he needed more strength, and extinguishing creatures of pure fire was his solution... ...twenty died.")
+
+        builder.add("vampirism.vamp_7.page.1", "\n" +
+                "\\\n...he could smash solid stone, but bound to the earth, however fast, he was still limited...\n" +
+                "\\\n" +
+                "\\\n ...he called in Her once more, repeating the rite of his rebirth..." +
+                "\\\n" +
+                "\\\n ...gifted Her a flower, the color of the blood She so craves...")
+
+        builder.add("vampirism.vamp_8.page.1", "\n" +
+                "\\\n...he smiled, a rare event, when he told me of his first flight...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n ...he flew from village to village, until he knew the full extent of his domain, there was now nowhere he could not go...")
+
+        builder.add("vampirism.vamp_9.page.1", "\n" +
+                "\\\n...the weak minded would now not only let him drink his fill, but would also follow like faithful hounds...\n" +
+                "\\\n" +
+                "\\\n ...horror of all horrors, he lured five of them to specially prepared iron cages, topped with wood and with a gap at the front. He sealed them inside...")
+
+        builder.add("vampirism.vamp_9.page.2", "\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...he began feeding from each of them; mesmerising them first, then carefully he drank al he could without damaging any...\n" +
+                "\\\n")
+
+        builder.add("vampirism.vamp_9.page.3", "\n" +
+                "At last he knew his blood was strong enough to replicate what She had done for him... ...left me weak, close to oblivion but I watched him fill a glass goblet and hand it to me... ...we both sat next to a coffin, far from the sun's gaze, \"drink\" is all he said...")
     }
 }
