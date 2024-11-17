@@ -57,6 +57,7 @@ object WitcheryDataComponents {
     val VAMPIRE_BLOOD: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("vampire_blood") {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
     }
+
     val CHICKEN_BLOOD: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("chicken_blood") {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
     }

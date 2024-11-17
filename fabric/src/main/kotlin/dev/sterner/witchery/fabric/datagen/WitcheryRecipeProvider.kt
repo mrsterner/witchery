@@ -1225,6 +1225,23 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_necro", has(WitcheryItems.NECROMANTIC_STONE.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.SUN_COLLECTOR.get())
+            .pattern("INI")
+            .pattern(" B ")
+            .define('I', Items.IRON_BARS)
+            .define('N', Items.DAYLIGHT_DETECTOR)
+            .define('B', Items.IRON_INGOT)
+            .unlockedBy("has_daylight", has(Items.DAYLIGHT_DETECTOR))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.QUARTZ_SPHERE.get())
+            .pattern(" Q ")
+            .pattern("Q Q")
+            .pattern(" Q ")
+            .define('Q', Items.QUARTZ)
+            .unlockedBy("has_quartz", has(Items.QUARTZ))
+            .save(exporter)
+
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHER_WART, Color(255, 55, 50).rgb)
             .addInputWithColor(WitcheryItems.ENT_TWIG.get(), Color(255, 100, 1).rgb)
@@ -1709,5 +1726,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(500)
             .addSummon(WitcheryEntityTypes.BANSHEE.get())
             .save(exporter, Witchery.id("summon_banshee"))
+
+
     }
 }

@@ -4,10 +4,8 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider
-import net.minecraft.advancements.Advancement
-import net.minecraft.advancements.AdvancementHolder
-import net.minecraft.advancements.AdvancementRequirements
-import net.minecraft.advancements.AdvancementType
+import net.minecraft.advancements.*
+import net.minecraft.advancements.critereon.ImpossibleTrigger
 import net.minecraft.advancements.critereon.InventoryChangeTrigger
 import net.minecraft.core.HolderLookup
 import net.minecraft.network.chat.Component
@@ -28,6 +26,17 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
         val gypsum = gypsumAdvancement.parent(root).save(consumer, "witchery:gypsum")
         val ritual = chalkAdvancement.parent(gypsum).save(consumer, "witchery:chalk")
         necromantic.parent(ritual).save(consumer, "witchery:necromantic")
+
+        val vamp1 = makeVampTornPageAdvancement("1", null, consumer)
+        val vamp2 = makeVampTornPageAdvancement("2", vamp1, consumer)
+        val vamp3 = makeVampTornPageAdvancement("3", vamp2, consumer)
+        val vamp4 = makeVampTornPageAdvancement("4", vamp3, consumer)
+        val vamp5 = makeVampTornPageAdvancement("5", vamp4, consumer)
+        val vamp6 = makeVampTornPageAdvancement("6", vamp5, consumer)
+        val vamp7 = makeVampTornPageAdvancement("7", vamp6, consumer)
+        val vamp8 = makeVampTornPageAdvancement("8", vamp7, consumer)
+        val vamp9 = makeVampTornPageAdvancement("9", vamp8, consumer)
+        val vamp10 = makeVampTornPageAdvancement("10", vamp9, consumer)
     }
 
     companion object {
@@ -195,6 +204,32 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
                 "has_necromantic",
                 InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.NECROMANTIC_STONE.get())
             )
+
+        fun makeVampTornPageAdvancement(id: String, parent: AdvancementHolder?, consumer: Consumer<AdvancementHolder>): AdvancementHolder {
+            val advancement =  Advancement.Builder.advancement()
+                .display(
+                    WitcheryItems.TORN_PAGE.get(),
+                    Component.translatable("advancements.witchery.vampire_${id}.title"),
+                    Component.translatable("advancements.witchery.vampire_${id}.description"),
+                    Witchery.id("textures/block/rowan_planks.png"),
+                    AdvancementType.TASK,
+                    false,
+                    false,
+                    true
+                )
+
+                .requirements(AdvancementRequirements.Strategy.OR)
+                .addCriterion(
+                    "impossible_${id}",
+                    CriteriaTriggers.IMPOSSIBLE.createCriterion(ImpossibleTrigger.TriggerInstance())
+                )
+
+            if (parent != null) {
+                advancement.parent(parent)
+            }
+
+            return advancement.save(consumer, "witchery:vampire/$id")
+        }
     }
 
 }

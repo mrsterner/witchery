@@ -1,6 +1,5 @@
 package dev.sterner.witchery.block
 
-import com.mojang.serialization.MapCodec
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
@@ -16,15 +15,17 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LightLayer
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
+import java.util.function.ToIntFunction
 
-class SunCollectorBlock(properties: Properties) : Block(properties) {
+class SunCollectorBlock(properties: Properties) : Block(properties.lightLevel(
+    litBlockEmission(14)
+)) {
 
     init {
         this.registerDefaultState(
@@ -119,5 +120,14 @@ class SunCollectorBlock(properties: Properties) : Block(properties) {
 
     companion object {
         val SPHERE_STATE: IntegerProperty = IntegerProperty.create("sphere_state", 0,2)
+
+        fun litBlockEmission(lightValue: Int): ToIntFunction<BlockState> {
+            return ToIntFunction { blockState: BlockState ->
+                if (blockState.getValue(
+                        SPHERE_STATE
+                    ) == 2
+                ) lightValue else 0
+            }
+        }
     }
 }
