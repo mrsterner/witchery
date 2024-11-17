@@ -114,6 +114,7 @@ object Witchery {
         WitcheryCommands.COMMAND_ARGUMENTS.register()
         WitcheryFeatures.FEATURES.register()
         WitcheryAttributes.ATTRIBUTES.register()
+        WitcheryEntityAttributes.ATTRIBUTES.register()
 
         WitcheryPayloads.register()
 
@@ -165,6 +166,8 @@ object Witchery {
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
         EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::setBloodOnAdded)
         BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
+        TickEvent.PLAYER_PRE.register(VampireHandler::tickNightsCount)
+        EntityEvent.LIVING_DEATH.register(VampireHandler::resetNightCount)
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
         InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)

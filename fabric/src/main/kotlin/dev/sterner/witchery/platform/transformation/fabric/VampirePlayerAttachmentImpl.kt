@@ -14,9 +14,11 @@ object VampirePlayerAttachmentImpl {
     }
 
     @JvmStatic
-    fun setData(player: Player, data: VampirePlayerAttachment.Data) {
+    fun setData(player: Player, data: VampirePlayerAttachment.Data, sync: Boolean = true) {
         player.setAttached(WitcheryFabricAttachmentRegistry.VAMPIRE_PLAYER_DATA_TYPE, data)
-        VampirePlayerAttachment.sync(player, data)
+        if (sync) {
+            VampirePlayerAttachment.sync(player, data)
+        }
     }
 
 }

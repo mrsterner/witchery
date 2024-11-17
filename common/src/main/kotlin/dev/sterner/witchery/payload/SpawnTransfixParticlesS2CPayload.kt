@@ -18,10 +18,11 @@ class SpawnTransfixParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(vec3: Vec3) : this(CompoundTag().apply {
+    constructor(vec3: Vec3, spawnRed: Boolean) : this(CompoundTag().apply {
         putDouble("x", vec3.x)
         putDouble("y", vec3.y)
         putDouble("z", vec3.z)
+        putBoolean("r", spawnRed)
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -38,12 +39,13 @@ class SpawnTransfixParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
         val x = payload.nbt.getDouble("x")
         val y = payload.nbt.getDouble("y")
         val z = payload.nbt.getDouble("z")
+        val shouldSpawnRed = payload.nbt.getBoolean("r")
 
         val randX = x + Mth.nextDouble(client.level!!.random, -0.25, 0.25)
         val randY = (y + 1.8)
         val randZ = z + Mth.nextDouble(client.level!!.random, -0.25, 0.25)
 
-        val color = Color(30,255, 255).rgb
+        val color = if (shouldSpawnRed) Color(250,50, 0).rgb else Color(30,255, 255).rgb
         val r = ((color shr 16) and 0xFF) / 255.0f
         val g = ((color shr 8) and 0xFF) / 255.0f
         val b = (color and 0xFF) / 255.0f

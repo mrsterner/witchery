@@ -12,9 +12,10 @@ object VampirePlayerAttachmentImpl {
     }
 
     @JvmStatic
-    fun setData(player: Player, data: VampirePlayerAttachment.Data) {
+    fun setData(player: Player, data: VampirePlayerAttachment.Data, sync: Boolean = true) {
         player.setData(VAMPIRE_PLAYER_DATA_ATTACHMENT, data)
-        VampirePlayerAttachment.sync(player, data)
+        if (sync) {
+            VampirePlayerAttachment.sync(player, data)
+        }
     }
-
 }

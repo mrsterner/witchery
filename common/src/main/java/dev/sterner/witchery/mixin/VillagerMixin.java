@@ -37,7 +37,7 @@ public class VillagerMixin implements VillagerTransfix {
                 villager.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
                 villager.getLookControl().setLookAt(witchery$transfixVector);
 
-                WitcheryPayloads.INSTANCE.sendToPlayers(villager.level(), new SpawnTransfixParticlesS2CPayload(villager.position()));
+                WitcheryPayloads.INSTANCE.sendToPlayers(villager.level(), new SpawnTransfixParticlesS2CPayload(villager.position(), witchery$transfixCounter < 20));
 
                 witchery$transfixCounter--;
             } else {

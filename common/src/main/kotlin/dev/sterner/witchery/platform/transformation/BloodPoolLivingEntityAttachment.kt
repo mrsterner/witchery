@@ -38,6 +38,12 @@ object BloodPoolLivingEntityAttachment {
         val maxBlood = data.maxBlood
         val newBloodPool = (data.bloodPool + amount).coerceAtMost(maxBlood)
         setData(livingEntity, data.copy(bloodPool = newBloodPool))
+
+        if (livingEntity is Player) {
+            if (VampirePlayerAttachment.getData(livingEntity).vampireLevel == 1 && newBloodPool == 900) {
+                VampirePlayerAttachment.increaseVampireLevel(livingEntity)
+            }
+        }
     }
 
     @JvmStatic

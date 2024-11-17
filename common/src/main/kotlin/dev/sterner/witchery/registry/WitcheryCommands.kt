@@ -225,6 +225,7 @@ object WitcheryCommands {
 
                             VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
                             VampirePlayerAttachment.setMaxBlood(player)
+                            VampirePlayerAttachment.updateModifiers(player)
                             val max = BloodPoolLivingEntityAttachment.getData(player).maxBlood
                             BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(max, Mth.clamp(level, 0, max)))
 

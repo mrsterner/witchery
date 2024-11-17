@@ -1,5 +1,6 @@
 package dev.sterner.witchery.platform.transformation
 
+import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
@@ -8,11 +9,18 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.payload.SyncVampireS2CPacket
 import dev.sterner.witchery.payload.VampireAbilitySelectionC2SPayload
+import dev.sterner.witchery.registry.WitcheryEntityAttributes
 import dev.sterner.witchery.registry.WitcheryPayloads
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.StringRepresentable
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
+import java.util.UUID
 
 object VampirePlayerAttachment {
 
@@ -24,7 +32,7 @@ object VampirePlayerAttachment {
 
     @ExpectPlatform
     @JvmStatic
-    fun setData(player: Player, data: Data) {
+    fun setData(player: Player, data: Data, sync: Boolean = true) {
         throw AssertionError()
     }
 
@@ -67,11 +75,25 @@ object VampirePlayerAttachment {
         }
     }
 
+    val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+
     @JvmStatic
     fun increaseVampireLevel(player: Player) {
         val data = getData(player)
         setData(player, data.copy(vampireLevel = data.vampireLevel + 1))
         setMaxBlood(player)
+        player.sendSystemMessage(Component.literal("Vampire Level Up: ${data.vampireLevel + 1}"))
+        updateModifiers(player)
+    }
+
+    fun updateModifiers(player: Player) {
+        val data = getData(player)
+        player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.removeModifier(KNOCKBACK_BONUS)
+
+        if (data.vampireLevel >= 3) {
+            player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)
+                ?.addPermanentModifier(KNOCKBACK_BONUS)
+        }
     }
 
     @JvmStatic
@@ -87,15 +109,32 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
-    fun increaseVillagersHalfBlood(player: Player) {
+    fun increaseVillagersHalfBlood(player: Player, villager: Villager) {
         val data = getData(player)
-        setData(player, data.copy(villagersHalfBlood = data.villagersHalfBlood + 1))
+        if (!data.villagersHalfBlood.contains(villager.uuid)) {
+            val updatedList = data.villagersHalfBlood.toMutableList().apply { add(villager.uuid) }
+            setData(player, data.copy(villagersHalfBlood = updatedList))
+            if (getData(player).villagersHalfBlood.size >= 5) {
+                if (getData(player).vampireLevel == 2) {
+                    increaseVampireLevel(player)
+                }
+            }
+        }
     }
 
     @JvmStatic
-    fun increaseNightsCount(player: Player) {
+    fun removeVillagerHalfBlood(player: Player, villager: Villager) {
         val data = getData(player)
-        setData(player, data.copy(nightsCount = data.nightsCount + 1))
+        if (data.villagersHalfBlood.contains(villager.uuid)) {
+            val updatedList = data.villagersHalfBlood.toMutableList().apply { remove(villager.uuid) }
+            setData(player, data.copy(villagersHalfBlood = updatedList))
+        }
+    }
+
+    @JvmStatic
+    fun increaseNightTicker(player: Player) {
+        val data = getData(player)
+        setData(player, data.copy(nightTicker = data.nightTicker + 1), false)
     }
 
     @JvmStatic
@@ -166,12 +205,17 @@ object VampirePlayerAttachment {
         setData(player, data.copy(abilityIndex = index))
     }
 
+    fun resetNightCounter(player: Player) {
+        val data = getData(player)
+        setData(player, data.copy(nightTicker = 0))
+    }
+
     data class Data(
         val vampireLevel: Int = 0,
         val killedBlazes: Int = 0,
         val usedSunGrenades: Int = 0,
-        val villagersHalfBlood: Int = 0,
-        val nightsCount: Int = 0,
+        val villagersHalfBlood: MutableList<UUID> = mutableListOf(),
+        val nightTicker: Int = 0,
         val visitedVillages: Int = 0,
         val trappedVillagers: Int = 0,
         val abilityIndex: Int = -1,
@@ -187,8 +231,8 @@ object VampirePlayerAttachment {
                     Codec.INT.fieldOf("vampireLevel").forGetter { it.vampireLevel },
                     Codec.INT.fieldOf("killedBlazes").forGetter { it.killedBlazes },
                     Codec.INT.fieldOf("usedSunGrenades").forGetter { it.usedSunGrenades },
-                    Codec.INT.fieldOf("villagersHalfBlood").forGetter { it.villagersHalfBlood },
-                    Codec.INT.fieldOf("nightsCount").forGetter { it.nightsCount },
+                    Codecs.UUID.listOf().fieldOf("villagersHalfBlood").forGetter { it.villagersHalfBlood },
+                    Codec.INT.fieldOf("nightTicker").forGetter { it.nightTicker },
                     Codec.INT.fieldOf("visitedVillages").forGetter { it.visitedVillages },
                     Codec.INT.fieldOf("trappedVillagers").forGetter { it.trappedVillagers },
                     Codec.INT.fieldOf("abilityIndex").forGetter { it.abilityIndex },

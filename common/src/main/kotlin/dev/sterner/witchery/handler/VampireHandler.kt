@@ -34,12 +34,14 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Chicken
+import net.minecraft.world.entity.monster.Phantom
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.levelgen.PhantomSpawner
 import java.util.function.Consumer
 
 object VampireHandler {
@@ -196,7 +198,13 @@ object VampireHandler {
                         player.addEffect(MobEffectInstance(MobEffects.POISON, 200, 0))
                     }
 
-                    if (quality == 1 && playerBloodData.bloodPool >= playerBloodData.maxBlood / 2) {
+                    val targetHalfBlood = targetData.maxBlood / 2
+
+                    if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown && entity is Villager && getData(player).vampireLevel == 2) {
+                        VampirePlayerAttachment.increaseVillagersHalfBlood(player, entity)
+                    }
+
+                    if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown) {
                         return EventResult.pass()
                     }
 
@@ -204,16 +212,23 @@ object VampireHandler {
                     val np = entity.position().add(0.5, 0.5, 0.5)
                     WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, np))
 
+                    if (getData(player).vampireLevel == 2 && entity is Villager) {
+                        VampirePlayerAttachment.increaseVillagersHalfBlood(player, entity)
+                    }
+
                     BloodPoolLivingEntityAttachment.decreaseBlood(entity, bloodTransferAmount)
                     BloodPoolLivingEntityAttachment.increaseBlood(player, bloodTransferAmount)
 
                     val shouldHurt = when {
                         entity is Villager && entity is VillagerTransfix && !entity.isSleeping && !entity.isTransfixed() -> true
-                        targetData.bloodPool < targetData.maxBlood / 2 -> true
+                        targetData.bloodPool < targetHalfBlood -> true
                         else -> false
                     }
 
                     if (shouldHurt) {
+                        if (entity is Villager && getData(player).villagersHalfBlood.contains(entity.uuid)) {
+                            VampirePlayerAttachment.removeVillagerHalfBlood(player, entity)
+                        }
                         entity.hurt(player.damageSources().playerAttack(player), 2f)
                     }
 
@@ -223,6 +238,7 @@ object VampireHandler {
 
                     return EventResult.interruptFalse()
                 }
+                return EventResult.interruptFalse()
             } else if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.TRANSFIX.ordinal) {
                 if (entity is Villager) {
                     val transfixVillager = entity as VillagerTransfix
@@ -392,6 +408,26 @@ object VampireHandler {
 
         if (player.level().getBlockEntity(blockPos) is MultiBlockComponentBlockEntity) {
             (player.level().getBlockEntity(blockPos) as MultiBlockComponentBlockEntity).corePos = blockPos
+        }
+
+        return EventResult.pass()
+    }
+
+    fun tickNightsCount(player: Player?) {
+        if (player != null && !player.level().isClientSide) {
+            if (getData(player).vampireLevel == 3) {
+                VampirePlayerAttachment.increaseNightTicker(player)
+
+                if (getData(player).nightTicker >= 24000 * 4 && player.level().isNight) {
+                    VampirePlayerAttachment.increaseVampireLevel(player)
+                }
+            }
+        }
+    }
+
+    fun resetNightCount(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+        if (livingEntity is Player && getData(livingEntity).vampireLevel == 3) {
+            VampirePlayerAttachment.resetNightCounter(livingEntity)
         }
 
         return EventResult.pass()
