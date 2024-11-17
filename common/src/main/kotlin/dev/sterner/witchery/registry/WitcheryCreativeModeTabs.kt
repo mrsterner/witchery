@@ -143,6 +143,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.WINE_GLASS.get())
                 output.accept(WitcheryItems.GRAVESTONE.get())
                 output.accept(WitcheryItems.TORN_PAGE.get())
+                output.accept(WitcheryItems.QUARTZ_SPHERE.get())
 
                 output.accept(WitcheryItems.DISTURBED_COTTON.get())
                 output.accept(WitcheryItems.WISPY_COTTON.get())

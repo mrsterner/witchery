@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchery:item/quartz_sphere"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "witchery:has_sun": 1
+      },
+      "model": "witchery:item/sun_grenade"
+    }
+  ]
+}

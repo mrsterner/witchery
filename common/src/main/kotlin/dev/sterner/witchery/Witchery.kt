@@ -488,6 +488,14 @@ object Witchery {
             return@register 1f
         }
 
+        ItemPropertiesRegistry.register(
+            WitcheryItems.QUARTZ_SPHERE.get(),
+            ResourceLocation.fromNamespaceAndPath(MODID, "has_sun")
+        ) { stack, _, _, _ ->
+            stack.get(WitcheryDataComponents.HAS_SUN.get()) ?: return@register 0f
+            return@register 1f
+        }
+
         ColorHandlerRegistry.registerBlockColors(
             RitualChalkColors,
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),

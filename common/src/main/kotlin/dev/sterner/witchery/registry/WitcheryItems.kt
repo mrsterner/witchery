@@ -1038,4 +1038,8 @@ object WitcheryItems {
     val TORN_PAGE: RegistrySupplier<Item> = ITEMS.register("torn_page") {
         Item(Item.Properties())
     }
+
+    val QUARTZ_SPHERE = ITEMS.register("quartz_sphere") {
+        QuartzSphereItem(Item.Properties())
+    }
 }
