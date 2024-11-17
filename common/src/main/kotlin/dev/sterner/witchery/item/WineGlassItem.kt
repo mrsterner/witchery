@@ -28,7 +28,7 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import java.awt.Color
 
-class WineGlassItem(properties: Properties) : Item(properties) {
+class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
 
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
         super.finishUsingItem(stack, level, livingEntity)
@@ -142,10 +142,11 @@ class WineGlassItem(properties: Properties) : Item(properties) {
         interactionTarget: LivingEntity,
         usedHand: InteractionHand
     ): InteractionResult {
-        if (interactionTarget is LilithEntity && interactionTarget.entityData.get(LilithEntity.IS_DEFEATED)) {
+        if (!player.level().isClientSide && interactionTarget is LilithEntity && interactionTarget.entityData.get(LilithEntity.IS_DEFEATED) && !interactionTarget.hasUsedLilith) {
             stack.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
             stack.set(WitcheryDataComponents.BLOOD.get(), interactionTarget.uuid)
-            interactionTarget.discard()
+            player.setItemInHand(InteractionHand.MAIN_HAND, stack)
+            interactionTarget.hasUsedLilith = true
             return InteractionResult.SUCCESS
         }
 

@@ -27,6 +27,9 @@ class LilithEntityRenderer(context: EntityRendererProvider.Context) :
         packedLight: Int
     ) {
         poseStack.pushPose()
+        if (entity.entityData.get(LilithEntity.IS_DEFEATED)) {
+            poseStack.scale(0.75f, 0.75f, 0.75f)
+        }
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight)
         poseStack.popPose()
     }

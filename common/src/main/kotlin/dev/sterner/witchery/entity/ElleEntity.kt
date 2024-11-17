@@ -50,7 +50,6 @@ class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), l
                 conversionTime = 300
             } else {
                 conversionTime = conversionTime?.minus(1)
-                println(conversionTime)
                 if (conversionTime == 0) {
                     transformToLilith()
                 }
