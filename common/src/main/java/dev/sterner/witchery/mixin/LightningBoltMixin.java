@@ -1,6 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import dev.sterner.witchery.entity.ElleEntity;
 import dev.sterner.witchery.registry.WitcheryItems;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +15,9 @@ public abstract class LightningBoltMixin {
 
     @WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;thunderHit(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LightningBolt;)V"))
     private boolean witchery$onThunderHit(Entity instance, ServerLevel level, LightningBolt lightning) {
+        if (instance instanceof ElleEntity) {
+            return false;
+        }
         if (instance instanceof ItemEntity itemEntity && itemEntity.getItem().is(WitcheryItems.INSTANCE.getATTUNED_STONE().get())) {
             return false;
         }

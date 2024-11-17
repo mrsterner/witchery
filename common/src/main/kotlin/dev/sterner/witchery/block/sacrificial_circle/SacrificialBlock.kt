@@ -3,19 +3,37 @@ package dev.sterner.witchery.block.sacrificial_circle
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmission
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.EntityBlock
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
+import java.util.function.ToIntFunction
 
-class SacrificialBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion()) {
+class SacrificialBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(
+    litBlockEmission(14)
+)) {
+
+    init {
+        this.registerDefaultState(
+            stateDefinition.any()
+                .setValue(BlockStateProperties.LIT, false)
+        )
+    }
+
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        builder.add(BlockStateProperties.LIT)
+    }
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
         return WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get().create(pos, state)

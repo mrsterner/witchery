@@ -22,6 +22,7 @@ import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.SleepingEvent
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
+import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
@@ -165,6 +166,7 @@ object Witchery {
         EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::setBloodOnAdded)
         BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
 
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
         InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
         InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(VampireHandler::clientRightClick)
         InteractionEvent.RIGHT_CLICK_BLOCK.register(VampireHandler::rightClickBlock)
@@ -487,7 +489,8 @@ object Witchery {
             RitualChalkColors,
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
             WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
-            WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get()
+            WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(),
+            WitcheryBlocks.SACRIFICIAL_CIRCLE.get()
         )
 
         RenderTypeRegistry.register(

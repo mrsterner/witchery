@@ -11,7 +11,9 @@ import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.Goal
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.navigation.PathNavigation
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.pathfinder.PathType
 import java.util.*
@@ -32,6 +34,10 @@ class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), l
         )
     }
 
+    override fun fireImmune(): Boolean {
+        return true
+    }
+
     override fun baseTick() {
         super.baseTick()
         if (!entityData.get(DATA_OWNERUUID_ID).isPresent) {
@@ -44,6 +50,8 @@ class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), l
 
     override fun registerGoals() {
         this.goalSelector.addGoal(1, ElleFollowOwnerGoal(this, 1.0, 5.0f))
+        this.goalSelector.addGoal(2, LookAtPlayerGoal(this,
+            Player::class.java, 15.0f, 1.0f))
         super.registerGoals()
     }
 
