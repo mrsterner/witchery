@@ -62,6 +62,7 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.DISTILLERY.get())
         dropSelf(WitcheryBlocks.DEMON_HEART.get())
         dropSelf(WitcheryBlocks.GRAVESTONE.get())
+        dropSelf(WitcheryBlocks.SUNLIGHT_COLLECTOR.get())
 
         dropOther(WitcheryBlocks.SACRIFICIAL_CIRCLE.get(), Blocks.SKELETON_SKULL)
 

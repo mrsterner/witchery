@@ -1043,7 +1043,7 @@ object WitcheryItems {
         QuartzSphereItem(Item.Properties())
     }
 
-    val SUN_COLLECTOR = ITEMS.register("sun_collector") {
-        BlockItem(WitcheryBlocks.SUN_COLLECTOR.get(), Item.Properties().stacksTo(1))
+    val SUN_COLLECTOR = ITEMS.register("sunlight_collector") {
+        BlockItem(WitcheryBlocks.SUNLIGHT_COLLECTOR.get(), Item.Properties().stacksTo(1))
     }
 }

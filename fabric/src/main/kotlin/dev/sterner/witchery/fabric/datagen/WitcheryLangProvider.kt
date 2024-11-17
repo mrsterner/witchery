@@ -230,6 +230,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add(WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(), "Sacrificial Circle")
         builder.add(WitcheryBlocks.SACRIFICIAL_CIRCLE.get(), "Sacrificial Circle")
+        builder.add(WitcheryItems.QUARTZ_SPHERE.get(), "Quartz Sphere")
+        builder.add(WitcheryBlocks.SUNLIGHT_COLLECTOR.get(), "Sunlight Collector")
+        builder.add("witchery.has_sun", "Sunlight")
 
         builder.add(WitcheryItems.WAYSTONE.get(), "Waystone")
         builder.add(WitcheryItems.CLAY_JAR.get(), "Clay Jar")

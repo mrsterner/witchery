@@ -74,8 +74,6 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Pig
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList
 import net.minecraft.world.level.storage.loot.LootPool
@@ -556,6 +554,7 @@ object Witchery {
             WitcheryBlocks.WISPY_COTTON.get(),
             WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(),
             WitcheryBlocks.SACRIFICIAL_CIRCLE.get(),
+            WitcheryBlocks.SUNLIGHT_COLLECTOR.get(),
 
             WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get(),
             WitcheryBlocks.BRAZIER.get()
