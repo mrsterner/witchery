@@ -24,7 +24,9 @@ object VampireLevelRequirements {
 
         return (requirement.advancement.let { TornPageItem.hasAdvancement(player, it) } &&
                 (requirement.halfVillagers?.let { data.villagersHalfBlood.size >= it } ?: true) &&
-                (requirement.nightCounter?.let { data.nightTicker >= it } ?: true) &&
+                (requirement.nightCounter?.let {
+                    data.nightTicker >= it && player.level().isNight
+                } ?: true) &&
                 (requirement.sunGrenades?.let { data.usedSunGrenades >= it } ?: true) &&
                 (requirement.blazesKilled?.let { data.killedBlazes >= it } ?: true) &&
                 (requirement.villagesVisited?.let { data.visitedVillages.size >= it } ?: true) &&
