@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SyncTransformationS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
@@ -97,7 +98,7 @@ object TransformationPlayerAttachment {
                                 player.blockPosition(),
                                 StructureTags.VILLAGE)
 
-                            VampirePlayerAttachment.addVillage(player as ServerPlayer, structureStart.chunkPos)
+                            VampireLeveling.addVillage(player as ServerPlayer, structureStart.chunkPos)
                         }
                     }
                 }
@@ -109,7 +110,7 @@ object TransformationPlayerAttachment {
                 }
             } else {
                 if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
-                    VampirePlayerAttachment.resetVillages(player)
+                    VampireLeveling.resetVillages(player)
                 }
 
                 if (!player.isCreative && !player.isSpectator) {

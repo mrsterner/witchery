@@ -6,6 +6,7 @@ import dev.architectury.event.EventResult
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data.BloodPoolHandler
+import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SyncBloodS2CPacket
 import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
@@ -42,7 +43,7 @@ object BloodPoolLivingEntityAttachment {
 
         if (livingEntity is ServerPlayer) {
             if (VampirePlayerAttachment.getData(livingEntity).vampireLevel == 1 && newBloodPool == 900) {
-                VampirePlayerAttachment.increaseVampireLevel(livingEntity)
+                VampireLeveling.increaseVampireLevel(livingEntity)
             }
         }
     }

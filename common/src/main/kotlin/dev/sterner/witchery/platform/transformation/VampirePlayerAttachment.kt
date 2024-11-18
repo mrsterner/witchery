@@ -6,23 +6,17 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.item.TornPageItem
-import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.payload.SyncVampireS2CPacket
 import dev.sterner.witchery.payload.VampireAbilitySelectionC2SPayload
-import dev.sterner.witchery.registry.WitcheryEntityAttributes
 import dev.sterner.witchery.registry.WitcheryPayloads
-import net.minecraft.network.chat.Component
+import dev.sterner.witchery.handler.vampire.VampireLeveling
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.StringRepresentable
-import net.minecraft.world.entity.ai.attributes.AttributeModifier
-import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.ChunkPos
-import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
 object VampirePlayerAttachment {
@@ -39,155 +33,13 @@ object VampirePlayerAttachment {
         throw AssertionError()
     }
 
-    @JvmStatic
-    fun setMaxBlood(player: Player){
-        val data = getData(player)
-
-        val toSet = when (data.vampireLevel) {
-            1 -> 900
-            2 -> 1200
-            3 -> 1500
-            4 -> 1500
-            5 -> 1800
-            6 -> 2100
-            7 -> 2400
-            8 -> 2700
-            9 -> 3000
-            10 -> 3600
-            else -> 0
-        }
-
-        val bloodData = BloodPoolLivingEntityAttachment.getData(player)
-
-        BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(toSet, bloodData.bloodPool))
-    }
-
-    fun setAbilityIndex(player: Player, abilityIndex: Int) {
-        updateAbilityIndex(player, abilityIndex)
-        NetworkManager.sendToServer(VampireAbilitySelectionC2SPayload(abilityIndex))
-    }
-
-    fun getAbilities(player: Player): List<VampireAbility> {
-        val level = getData(player).vampireLevel
-        return VampireAbility.entries.filter { it.unlockLevel <= level }
-    }
-
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
             WitcheryPayloads.sendToPlayers(player.level(), SyncVampireS2CPacket(player, data))
         }
     }
 
-    val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-
-    @JvmStatic
-    fun increaseVampireLevel(player: ServerPlayer) {
-        val data = getData(player)
-        setData(player, data.copy(vampireLevel = data.vampireLevel + 1))
-        setMaxBlood(player)
-        player.sendSystemMessage(Component.literal("Vampire Level Up: ${data.vampireLevel + 1}"))
-        updateModifiers(player)
-    }
-
-    fun updateModifiers(player: Player) {
-        val data = getData(player)
-        player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.removeModifier(KNOCKBACK_BONUS)
-
-        if (data.vampireLevel >= 3) {
-            player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)
-                ?.addPermanentModifier(KNOCKBACK_BONUS)
-        }
-    }
-
-    @JvmStatic
-    fun increaseKilledBlazes(player: ServerPlayer) {
-        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[4])) {
-            return
-        }
-
-        val data = getData(player)
-        setData(player, data.copy(killedBlazes = data.killedBlazes + 1))
-
-        if (getData(player).killedBlazes >= 20) {
-            increaseVampireLevel(player)
-        }
-    }
-
-    @JvmStatic
-    fun increaseUsedSunGrenades(player: ServerPlayer) {
-        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[3])) {
-            return
-        }
-
-        val data = getData(player)
-        setData(player, data.copy(usedSunGrenades = data.usedSunGrenades + 1))
-    }
-
-    @JvmStatic
-    fun increaseVillagersHalfBlood(player: ServerPlayer, villager: Villager) {
-        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[1])) {
-            return
-        }
-
-        val data = getData(player)
-        if (!data.villagersHalfBlood.contains(villager.uuid)) {
-            val updatedList = data.villagersHalfBlood.toMutableList().apply { add(villager.uuid) }
-            setData(player, data.copy(villagersHalfBlood = updatedList))
-            if (getData(player).villagersHalfBlood.size >= 5) {
-                if (getData(player).vampireLevel == 2) {
-                    increaseVampireLevel(player)
-                }
-            }
-        }
-    }
-
-    @JvmStatic
-    fun removeVillagerHalfBlood(player: Player, villager: Villager) {
-        val data = getData(player)
-        if (data.villagersHalfBlood.contains(villager.uuid)) {
-            val updatedList = data.villagersHalfBlood.toMutableList().apply { remove(villager.uuid) }
-            setData(player, data.copy(villagersHalfBlood = updatedList))
-        }
-    }
-
-    @JvmStatic
-    fun increaseNightTicker(player: ServerPlayer) {
-        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[2])) {
-            return
-        }
-
-        val data = getData(player)
-        setData(player, data.copy(nightTicker = data.nightTicker + 1), false)
-    }
-
-    @JvmStatic
-    fun addVillage(player: ServerPlayer, pos: ChunkPos) {
-        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[6])) {
-            return
-        }
-
-        val data = getData(player)
-        val longPos = ChunkPos.asLong(pos.x, pos.z)
-        if (!data.visitedVillages.contains(longPos)) {
-            val updatedList = data.visitedVillages.toMutableList().apply { add(longPos) }
-            setData(player, data.copy(visitedVillages = updatedList))
-            if (getData(player).visitedVillages.size >= 2) {
-                if (getData(player).vampireLevel == 7) {
-                    increaseVampireLevel(player)
-                }
-            }
-        }
-    }
-
-    @JvmStatic
-    fun increaseTrappedVillagers(player: ServerPlayer) {
-        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[7])) {
-            return
-        }
-
-        val data = getData(player)
-        setData(player, data.copy(trappedVillagers = data.trappedVillagers + 1))
-    }
+    //Misc Vampire logic
 
     @JvmStatic
     fun increaseInSunTick(player: Player) {
@@ -201,6 +53,20 @@ object VampirePlayerAttachment {
         val data = getData(player)
         val newInSunTick = (data.inSunTick - 1).coerceAtLeast(0)
         setData(player, data.copy(inSunTick = newInSunTick))
+    }
+
+    //Vampire Ability Section
+
+    @JvmStatic
+    fun setAbilityIndex(player: Player, abilityIndex: Int) {
+        updateAbilityIndex(player, abilityIndex)
+        NetworkManager.sendToServer(VampireAbilitySelectionC2SPayload(abilityIndex))
+    }
+
+    @JvmStatic
+    fun getAbilities(player: Player): List<VampireAbility> {
+        val level = getData(player).vampireLevel
+        return VampireAbility.entries.filter { it.unlockLevel <= level }
     }
 
     @JvmStatic
@@ -243,16 +109,6 @@ object VampirePlayerAttachment {
     fun updateAbilityIndex(player: Player, index: Int) {
         val data = getData(player)
         setData(player, data.copy(abilityIndex = index))
-    }
-
-    fun resetNightCounter(player: Player) {
-        val data = getData(player)
-        setData(player, data.copy(nightTicker = 0))
-    }
-
-    fun resetVillages(player: Player) {
-        val data = getData(player)
-        setData(player, data.copy(visitedVillages = mutableListOf()))
     }
 
     data class Data(

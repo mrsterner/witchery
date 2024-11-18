@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.handler.vampire
 
 import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.architectury.event.EventResult
@@ -202,8 +202,8 @@ object VampireHandler {
 
                     val targetHalfBlood = targetData.maxBlood / 2
 
-                    if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown && entity is Villager && getData(player).vampireLevel == 2) {
-                        VampirePlayerAttachment.increaseVillagersHalfBlood(player, entity)
+                    if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown && entity is Villager) {
+                        VampireLeveling.increaseVillagersHalfBlood(player, entity)
                     }
 
                     if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown) {
@@ -214,8 +214,8 @@ object VampireHandler {
                     val np = entity.position().add(0.5, 0.5, 0.5)
                     WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, np))
 
-                    if (getData(player).vampireLevel == 2 && entity is Villager) {
-                        VampirePlayerAttachment.increaseVillagersHalfBlood(player, entity)
+                    if (entity is Villager) {
+                        VampireLeveling.increaseVillagersHalfBlood(player, entity)
                     }
 
                     BloodPoolLivingEntityAttachment.decreaseBlood(entity, bloodTransferAmount)
@@ -229,7 +229,7 @@ object VampireHandler {
 
                     if (shouldHurt) {
                         if (entity is Villager && getData(player).villagersHalfBlood.contains(entity.uuid)) {
-                            VampirePlayerAttachment.removeVillagerHalfBlood(player, entity)
+                            VampireLeveling.removeVillagerHalfBlood(player, entity)
                         }
                         entity.hurt(player.damageSources().playerAttack(player), 2f)
                     }
@@ -426,18 +426,14 @@ object VampireHandler {
     fun tickNightsCount(player: Player?) {
         if (player is ServerPlayer) {
             if (getData(player).vampireLevel == 3) {
-                VampirePlayerAttachment.increaseNightTicker(player)
-
-                if (getData(player).nightTicker >= 24000 * 4 && player.level().isNight) {
-                    VampirePlayerAttachment.increaseVampireLevel(player)
-                }
+                VampireLeveling.increaseNightTicker(player)
             }
         }
     }
 
     fun resetNightCount(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity is Player && getData(livingEntity).vampireLevel == 3) {
-            VampirePlayerAttachment.resetNightCounter(livingEntity)
+            VampireLeveling.resetNightCounter(livingEntity)
         }
 
         return EventResult.pass()
@@ -446,10 +442,7 @@ object VampireHandler {
     fun killBlaze(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity is Blaze && damageSource?.entity is ServerPlayer) {
             val player = damageSource.entity as ServerPlayer
-
-            if (getData(player).vampireLevel == 5) {
-                VampirePlayerAttachment.increaseKilledBlazes(player)
-            }
+            VampireLeveling.increaseKilledBlazes(player)
         }
 
         return EventResult.pass()

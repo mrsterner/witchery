@@ -3,12 +3,10 @@ package dev.sterner.witchery.item
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
-import dev.sterner.witchery.handler.VampireHandler
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.ItemNameBlockItem
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
 
 class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block, properties) {
 

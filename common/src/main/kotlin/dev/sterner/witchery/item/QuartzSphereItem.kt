@@ -1,10 +1,12 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
@@ -18,12 +20,10 @@ import java.awt.Color
 class QuartzSphereItem(properties: Properties) : Item(properties) {
 
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
-        if (livingEntity is Player && stack.has(WitcheryDataComponents.HAS_SUN.get()) && stack.get(WitcheryDataComponents.HAS_SUN.get()) == true) {
+        if (livingEntity is ServerPlayer && stack.has(WitcheryDataComponents.HAS_SUN.get()) && stack.get(WitcheryDataComponents.HAS_SUN.get()) == true) {
             livingEntity.mainHandItem.shrink(1)
             livingEntity.remainingFireTicks = 20 * 4
-            if (VampirePlayerAttachment.getData(livingEntity).vampireLevel == 4) {
-                VampirePlayerAttachment.increaseUsedSunGrenades(livingEntity)
-            }
+            VampireLeveling.increaseUsedSunGrenades(livingEntity)
         }
 
         return super.finishUsingItem(stack, level, livingEntity)

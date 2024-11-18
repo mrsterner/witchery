@@ -9,6 +9,7 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
+import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.platform.CursePlayerAttachment
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
@@ -224,8 +225,8 @@ object WitcheryCommands {
                             val data = VampirePlayerAttachment.getData(player)
 
                             VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
-                            VampirePlayerAttachment.setMaxBlood(player)
-                            VampirePlayerAttachment.updateModifiers(player)
+                            VampireLeveling.setMaxBlood(player, level)
+                            VampireLeveling.updateModifiers(player, level)
                             val max = BloodPoolLivingEntityAttachment.getData(player).maxBlood
                             BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(max, Mth.clamp(level, 0, max)))
 

@@ -1,7 +1,7 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.architectury.event.EventResult
-import dev.sterner.witchery.handler.VampireHandler
+import dev.sterner.witchery.handler.vampire.VampireHandler
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

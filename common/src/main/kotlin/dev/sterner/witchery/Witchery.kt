@@ -41,6 +41,7 @@ import dev.sterner.witchery.data.ErosionHandler
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
+import dev.sterner.witchery.handler.vampire.VampireHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SpawnPoofParticles
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.payload.SpawnTransfixParticlesS2CPayload
@@ -69,7 +70,7 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
         if (player is ServerPlayer && hand == InteractionHand.MAIN_HAND) {
             if (VampirePlayerAttachment.getData(player).vampireLevel == 6) {
                 if (player.mainHandItem.`is`(Items.POPPY)) {
-                    VampirePlayerAttachment.increaseVampireLevel(player)
+                    VampireLeveling.increaseVampireLevel(player)
                     hasUsedLilith = true
                     return InteractionResult.SUCCESS
                 }

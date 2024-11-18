@@ -3,6 +3,7 @@ package dev.sterner.witchery.item
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.entity.LilithEntity
+import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -37,11 +38,8 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
             livingEntity.awardStat(Stats.ITEM_USED[this])
 
             if (stack.has(WitcheryDataComponents.VAMPIRE_BLOOD.get()) && stack.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true) {
-                val data = VampirePlayerAttachment.getData(livingEntity)
-                if (data.vampireLevel == 0) {
-                    VampirePlayerAttachment.increaseVampireLevel(player = livingEntity)
-                    BloodPoolLivingEntityAttachment.increaseBlood(livingEntity = livingEntity, 300)
-                }
+                VampireLeveling.increaseVampireLevel(player = livingEntity)
+                BloodPoolLivingEntityAttachment.increaseBlood(livingEntity = livingEntity, 300)
             }
         }
 
