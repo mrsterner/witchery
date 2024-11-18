@@ -70,7 +70,7 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
         if (player is ServerPlayer && hand == InteractionHand.MAIN_HAND) {
             if (VampirePlayerAttachment.getData(player).vampireLevel == 6) {
                 if (player.mainHandItem.`is`(Items.POPPY)) {
-                    VampireLeveling.increaseVampireLevel(player)
+                    VampireLeveling.givePoppy(player)
                     hasUsedLilith = true
                     return InteractionResult.SUCCESS
                 }

@@ -140,6 +140,14 @@ object VampireLeveling {
     }
 
     //To go from Level 6 -> 7 is handles in LilithEntity
+    @JvmStatic
+    fun givePoppy(player: ServerPlayer) {
+        if(!canPerformQuest(player, 6)) {
+            return
+        }
+
+        increaseVampireLevel(player)
+    }
 
     //To go from Level 7 -> 8
     @JvmStatic
