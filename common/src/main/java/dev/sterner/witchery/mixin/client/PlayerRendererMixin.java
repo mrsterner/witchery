@@ -6,6 +6,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -16,6 +18,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -49,5 +52,36 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
             return false;
         }
         return true;
+    }
+
+    @Inject(
+            method = "render(Lnet/minecraft/client/player/AbstractClientPlayer;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            at = @At(value = "HEAD"),
+            cancellable = true
+    )
+    private void witchery$renderTransformation(AbstractClientPlayer entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci){
+
+        if (TransformationPlayerAttachment.getForm(entity) == TransformationPlayerAttachment.TransformationType.BAT) {
+            var bat = TransformationPlayerAttachment.getBatEntity(entity);
+            if (bat != null) {
+                bat.tickCount = entity.tickCount;
+                bat.hurtTime = entity.hurtTime;
+                bat.hurtDuration = entity.hurtDuration;
+                bat.yHeadRot = entity.yHeadRot;
+                bat.yBodyRot = entity.yBodyRot;
+                bat.yHeadRotO = entity.yHeadRotO;
+                bat.yBodyRotO = entity.yBodyRotO;
+                bat.swinging = entity.swinging;
+                bat.swingTime = entity.swingTime;
+                bat.attackAnim = entity.attackAnim;
+                bat.oAttackAnim = entity.oAttackAnim;
+                bat.setXRot(entity.getXRot());
+                bat.xRotO = entity.xRotO;
+
+                Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(bat)
+                                .render(bat, entityYaw, partialTicks, poseStack, buffer, packedLight);
+                ci.cancel();
+            }
+        }
     }
 }

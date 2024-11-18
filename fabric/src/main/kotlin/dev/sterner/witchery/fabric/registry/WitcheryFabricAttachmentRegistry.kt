@@ -6,6 +6,7 @@ import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType
@@ -153,6 +154,13 @@ object WitcheryFabricAttachmentRegistry {
             .persistent(BloodPoolLivingEntityAttachment.Data.CODEC)
             .initializer { BloodPoolLivingEntityAttachment.Data() }
             .buildAndRegister(BloodPoolLivingEntityAttachment.Data.ID)
+
+    @Suppress("UnstableApiUsage")
+    val TRANSFORMATION_PLAYER_DATA_TYPE: AttachmentType<TransformationPlayerAttachment.Data> =
+        AttachmentRegistry.builder<TransformationPlayerAttachment.Data>()
+            .persistent(TransformationPlayerAttachment.Data.CODEC)
+            .initializer { TransformationPlayerAttachment.Data() }
+            .buildAndRegister(TransformationPlayerAttachment.Data.ID)
 
 
     fun init() {

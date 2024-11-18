@@ -9,6 +9,7 @@ import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
@@ -221,6 +222,16 @@ object WitcheryNeoForgeAttachmentRegistry {
         Supplier {
             AttachmentType.builder(Supplier { BloodPoolLivingEntityAttachment.Data() })
                 .serialize(BloodPoolLivingEntityAttachment.Data.CODEC)
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val TRANSFORMATION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<TransformationPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "transformation_data",
+        Supplier {
+            AttachmentType.builder(Supplier { TransformationPlayerAttachment.Data() })
+                .serialize(TransformationPlayerAttachment.Data.CODEC)
                 .build()
         }
     )
