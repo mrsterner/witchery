@@ -60,6 +60,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.BLOOD_POPPY.get(), "Blood Poppy")
         builder.add("witchery.attuned.charged", "Attuned")
 
+        builder.add(WitcheryItems.WOODEN_OAK_STAKE.get(), "Wooden Oak Stake")
+        builder.add(WitcheryItems.WOODEN_HAWTHORN_STAKE.get(), "Wooden Hawthorn Stake")
+
         builder.add(WitcheryItems.INFINITY_EGG.get(), "Infinity Egg")
         builder.add(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), "Deepslate Altar Block")
         builder.add(WitcheryItems.DISTILLERY.get(), "Distillery")

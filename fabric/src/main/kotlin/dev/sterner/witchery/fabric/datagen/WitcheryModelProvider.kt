@@ -242,6 +242,9 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.IMPREGNATED_FABRIC.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.MUTATING_SPRING.get(), ModelTemplates.FLAT_HANDHELD_ITEM)
 
+        genetaror.generateFlatItem(WitcheryItems.WOODEN_OAK_STAKE.get(), ModelTemplates.FLAT_HANDHELD_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.WOODEN_HAWTHORN_STAKE.get(), ModelTemplates.FLAT_HANDHELD_ITEM)
+
         genetaror.generateFlatItem(WitcheryItems.TORMENTED_TWINE.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.FANCIFUL_THREAD.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.CLAY_JAR.get(), ModelTemplates.FLAT_ITEM)

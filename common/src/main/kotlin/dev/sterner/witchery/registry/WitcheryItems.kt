@@ -1046,4 +1046,12 @@ object WitcheryItems {
     val SUN_COLLECTOR = ITEMS.register("sunlight_collector") {
         BlockItem(WitcheryBlocks.SUNLIGHT_COLLECTOR.get(), Item.Properties().stacksTo(1))
     }
+
+    val WOODEN_OAK_STAKE = ITEMS.register("wooden_oak_stake") {
+        WoodenStakeItem(Item.Properties().stacksTo(1))
+    }
+
+    val WOODEN_HAWTHORN_STAKE = ITEMS.register("wooden_hawthorn_stake") {
+        WoodenStakeItem(Item.Properties().stacksTo(1))
+    }
 }

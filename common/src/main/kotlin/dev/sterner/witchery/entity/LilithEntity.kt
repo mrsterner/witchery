@@ -3,6 +3,7 @@ package dev.sterner.witchery.entity
 import dev.sterner.witchery.payload.SpawnPoofParticles
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.payload.SpawnTransfixParticlesS2CPayload
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
@@ -14,6 +15,8 @@ import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerBossEvent
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.BossEvent
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.world.entity.LivingEntity
@@ -30,6 +33,7 @@ import net.minecraft.world.entity.animal.Pufferfish
 import net.minecraft.world.entity.monster.Ghast
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 
@@ -59,6 +63,20 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         builder.define(IS_DEFEATED, true)
         super.defineSynchedData(builder)
+    }
+
+    override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
+        if (player is ServerPlayer && hand == InteractionHand.MAIN_HAND) {
+            if (VampirePlayerAttachment.getData(player).vampireLevel == 6) {
+                if (player.mainHandItem.`is`(Items.POPPY)) {
+                    VampirePlayerAttachment.increaseVampireLevel(player)
+                    hasUsedLilith = true
+                    return InteractionResult.SUCCESS
+                }
+            }
+        }
+
+        return super.mobInteract(player, hand)
     }
 
     override fun canUsePortal(allowPassengers: Boolean): Boolean {

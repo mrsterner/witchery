@@ -102,9 +102,13 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
-    fun increaseKilledBlazes(player: Player) {
+    fun increaseKilledBlazes(player: ServerPlayer) {
         val data = getData(player)
         setData(player, data.copy(killedBlazes = data.killedBlazes + 1))
+
+        if (getData(player).killedBlazes >= 20) {
+            increaseVampireLevel(player)
+        }
     }
 
     @JvmStatic

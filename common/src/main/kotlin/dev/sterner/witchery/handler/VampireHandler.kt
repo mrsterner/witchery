@@ -34,6 +34,7 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Chicken
+import net.minecraft.world.entity.monster.Blaze
 import net.minecraft.world.entity.monster.Phantom
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
@@ -428,6 +429,18 @@ object VampireHandler {
     fun resetNightCount(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity is Player && getData(livingEntity).vampireLevel == 3) {
             VampirePlayerAttachment.resetNightCounter(livingEntity)
+        }
+
+        return EventResult.pass()
+    }
+
+    fun killBlaze(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+        if (livingEntity is Blaze && damageSource?.entity is ServerPlayer) {
+            val player = damageSource.entity as ServerPlayer
+
+            if (getData(player).vampireLevel == 5) {
+                VampirePlayerAttachment.increaseKilledBlazes(player)
+            }
         }
 
         return EventResult.pass()

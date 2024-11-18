@@ -151,6 +151,7 @@ object Witchery {
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(VampireHandler::killChicken)
+        EntityEvent.LIVING_DEATH.register(VampireHandler::killBlaze)
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)

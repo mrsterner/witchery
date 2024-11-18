@@ -135,6 +135,8 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.HUNTER_CHESTPLATE.get())
                 output.accept(WitcheryItems.HUNTER_LEGGINGS.get())
                 output.accept(WitcheryItems.HUNTER_BOOTS.get())
+                output.accept(WitcheryItems.WOODEN_OAK_STAKE.get())
+                output.accept(WitcheryItems.WOODEN_HAWTHORN_STAKE.get())
 
                 output.accept(WitcheryItems.INFINITY_EGG.get())
                 output.accept(WitcheryItems.ARTHANA.get())
@@ -145,6 +147,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.TORN_PAGE.get())
                 output.accept(WitcheryItems.QUARTZ_SPHERE.get())
                 output.accept(WitcheryItems.SUN_COLLECTOR.get())
+
 
                 output.accept(WitcheryItems.DISTURBED_COTTON.get())
                 output.accept(WitcheryItems.WISPY_COTTON.get())
