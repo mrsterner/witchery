@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -19,6 +20,8 @@ import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> extends EntityRenderer<T> implements RenderLayerParent<T, M> {
@@ -56,5 +59,17 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
         }
         return true;
+    }
+
+    @ModifyArgs(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;scale(FFF)V", ordinal = 0))
+    private void witchery$applyModelScales(Args args, LivingEntity livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource bufferSource, int i) {
+        if (livingEntity instanceof  Player player && TransformationPlayerAttachment.isBat(player)) {
+            float x = args.get(0);
+            float y = args.get(1);
+            float z = args.get(2);
+            args.set(0, x * 0.75);
+            args.set(1, y * 0.75);
+            args.set(2, z * 0.75);
+        }
     }
 }

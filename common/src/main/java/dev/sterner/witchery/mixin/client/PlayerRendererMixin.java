@@ -8,6 +8,7 @@ import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.BatModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -18,10 +19,16 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerRenderer.class)
@@ -78,10 +85,50 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
                 bat.setXRot(entity.getXRot());
                 bat.xRotO = entity.xRotO;
 
+                bat.setShiftKeyDown(entity.isShiftKeyDown());
+                bat.setSprinting(entity.isSprinting());
+                bat.setSwimming(entity.isSwimming());
+                bat.setInvisible(entity.isInvisible());
+                bat.setGlowingTag(entity.hasGlowingTag());
+                bat.setAirSupply(entity.getAirSupply());
+                bat.setCustomName(entity.getCustomName());
+                bat.setCustomNameVisible(entity.isCustomNameVisible());
+                bat.setPose(entity.getPose());
+                bat.setTicksFrozen(entity.getTicksFrozen());
+
+                bat.setOnGround(entity.onGround());
+                bat.horizontalCollision = entity.horizontalCollision;
+                bat.verticalCollision = entity.verticalCollision;
+                bat.verticalCollisionBelow = entity.verticalCollisionBelow;
+                bat.minorHorizontalCollision = entity.minorHorizontalCollision;
+                bat.setSharedFlagOnFire(entity.isOnFire());
+                bat.invulnerableTime = entity.invulnerableTime;
+                bat.noCulling = entity.noCulling;
+                bat.isInPowderSnow = entity.isInPowderSnow;
+                bat.wasInPowderSnow = entity.wasInPowderSnow;
+                bat.wasOnFire = entity.wasOnFire;
+
+                bat.swingingArm = entity.getMainArm() == HumanoidArm.RIGHT ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+                bat.deathTime = entity.deathTime;
+                bat.walkAnimation = entity.walkAnimation;
+
+                bat.swimAmount = entity.swimAmount;
+                bat.swimAmountO = entity.swimAmountO;
+                bat.startUsingItem(entity.getUsedItemHand() == null ? InteractionHand.MAIN_HAND : entity.getUsedItemHand());
+                
                 Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(bat)
                                 .render(bat, entityYaw, partialTicks, poseStack, buffer, packedLight);
                 ci.cancel();
             }
         }
+    }
+
+    @ModifyArg(method = "getRenderOffset(Lnet/minecraft/client/player/AbstractClientPlayer;F)Lnet/minecraft/world/phys/Vec3;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;<init>(DDD)V"), index = 1)
+    private double witchery$applyModelScaleToPlayerOffset(double d, @Local(argsOnly = true) AbstractClientPlayer playerEntity) {
+        if (TransformationPlayerAttachment.isBat(playerEntity)) {
+            return 0.85f / 16;
+        }
+
+        return d;
     }
 }

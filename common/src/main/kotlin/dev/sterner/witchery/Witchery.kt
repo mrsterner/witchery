@@ -50,6 +50,7 @@ import dev.sterner.witchery.platform.infusion.InfernalInfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.*
 import net.fabricmc.api.EnvType
@@ -116,7 +117,6 @@ object Witchery {
 
         WitcheryPayloads.register()
 
-
         EntityAttributeRegistry.register(WitcheryEntityTypes.MANDRAKE, MandrakeEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.IMP, ImpEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.DEMON, DemonEntity::createAttributes)
@@ -131,12 +131,6 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.ELLE, ElleEntity::createAttributes)
 
         MODIFY_LOOT_TABLE.register(::addSeeds)
-        InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
-        InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
-        PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
-        PlayerEvent.PLAYER_CLONE.register(VampireHandler::respawn)
-
-        ServerLevelTick.SERVER_LEVEL_POST.register { serverLevel -> MutandisLevelAttachment.tick(serverLevel) }
 
         NaturePowerHandler.registerListener()
         ErosionHandler.registerListener()
@@ -147,33 +141,43 @@ object Witchery {
         MODIFY_LOOT_TABLE.register(::addWitchesHand)
         MODIFY_LOOT_TABLE.register(::addLootInjects)
 
+        VampireHandler.registerEvents()
+        CursePlayerAttachment.registerEvents()
+
+        ServerLevelTick.SERVER_LEVEL_POST.register(MutandisLevelAttachment::tick)
+
         CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
+
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
-        EntityEvent.LIVING_DEATH.register(VampireHandler::killChicken)
-        EntityEvent.LIVING_DEATH.register(VampireHandler::killBlaze)
+        EntityEvent.LIVING_DEATH.register(FamiliarLevelAttachment::familiarDeath)
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
-        TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
-        TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
-        TickEvent.PLAYER_PRE.register(CursePlayerAttachment::tickCurse)
-        TickEvent.PLAYER_PRE.register(NightmarePlayerAttachment::tick)
-        EntityEvent.LIVING_HURT.register(CursePlayerAttachment::onHurt)
-        BlockEvent.BREAK.register(CursePlayerAttachment::breakBlock)
-        BlockEvent.PLACE.register(CursePlayerAttachment::placeBlock)
-        PlayerEvent.ATTACK_ENTITY.register(CursePlayerAttachment::attackEntity)
-        SleepingEvent.POST.register(DreamWeaverHandler::onWake)
-        PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
         EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::setBloodOnAdded)
-        BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
-        TickEvent.PLAYER_PRE.register(VampireHandler::tickNightsCount)
-        EntityEvent.LIVING_DEATH.register(VampireHandler::resetNightCount)
+
+        SleepingEvent.POST.register(DreamWeaverHandler::onWake)
+
+        PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
+        PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
-        InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
-        InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(VampireHandler::clientRightClick)
-        InteractionEvent.RIGHT_CLICK_BLOCK.register(VampireHandler::rightClickBlock)
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)
+        InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
+        InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
 
-        EntityEvent.LIVING_DEATH.register(FamiliarLevelAttachment::familiarDeath)
+        BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
+        BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
+
+        TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
+        TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
+        TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
+        TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
+        TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
+        TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
+        TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
+        TickEvent.PLAYER_PRE.register(NightmarePlayerAttachment::tick)
+        TickEvent.PLAYER_PRE.register(TransformationPlayerAttachment::tickBat)
+
+        LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 
         PlayerEvent.PLAYER_JOIN.register {serverPlayer ->
             val data = DeathQueueLevelAttachment.getData(serverPlayer.serverLevel())
@@ -183,18 +187,6 @@ object Witchery {
             VampirePlayerAttachment.sync(serverPlayer, VampirePlayerAttachment.getData(serverPlayer))
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
         }
-
-        InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)
-
-        BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
-        TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
-        TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
-        TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
-        TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
-        TickEvent.PLAYER_PRE.register(VampireHandler::tick)
-        TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
-
-        LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 
         LifecycleEvent.SERVER_STARTED.register {
             fun addStructure(server: MinecraftServer){

@@ -3,6 +3,10 @@ package dev.sterner.witchery.platform
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.BlockEvent
+import dev.architectury.event.events.common.EntityEvent
+import dev.architectury.event.events.common.PlayerEvent
+import dev.architectury.event.events.common.TickEvent
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.architectury.utils.value.IntValue
 import dev.sterner.witchery.Witchery
@@ -147,6 +151,14 @@ object CursePlayerAttachment {
             }
         }
         return EventResult.pass()
+    }
+
+    fun registerEvents() {
+        EntityEvent.LIVING_HURT.register(CursePlayerAttachment::onHurt)
+        BlockEvent.BREAK.register(CursePlayerAttachment::breakBlock)
+        BlockEvent.PLACE.register(CursePlayerAttachment::placeBlock)
+        PlayerEvent.ATTACK_ENTITY.register(CursePlayerAttachment::attackEntity)
+        TickEvent.PLAYER_PRE.register(CursePlayerAttachment::tickCurse)
     }
 
     data class PlayerCurseData(val curseId: ResourceLocation, var duration: Int, var catBoosted: Boolean) {

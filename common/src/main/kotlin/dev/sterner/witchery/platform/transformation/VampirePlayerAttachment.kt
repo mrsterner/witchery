@@ -21,6 +21,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
 object VampirePlayerAttachment {
@@ -147,9 +149,18 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
-    fun increaseVisitedVillages(player: Player) {
+    fun addVillage(player: ServerPlayer, pos: ChunkPos) {
         val data = getData(player)
-        setData(player, data.copy(visitedVillages = data.visitedVillages + 1))
+        val longPos = ChunkPos.asLong(pos.x, pos.z)
+        if (!data.visitedVillages.contains(longPos)) {
+            val updatedList = data.visitedVillages.toMutableList().apply { add(longPos) }
+            setData(player, data.copy(visitedVillages = updatedList))
+            if (getData(player).visitedVillages.size >= 2) {
+                if (getData(player).vampireLevel == 7) {
+                    increaseVampireLevel(player)
+                }
+            }
+        }
     }
 
     @JvmStatic
@@ -219,13 +230,18 @@ object VampirePlayerAttachment {
         setData(player, data.copy(nightTicker = 0))
     }
 
+    fun resetVillages(player: Player) {
+        val data = getData(player)
+        setData(player, data.copy(visitedVillages = mutableListOf()))
+    }
+
     data class Data(
         val vampireLevel: Int = 0,
         val killedBlazes: Int = 0,
         val usedSunGrenades: Int = 0,
         val villagersHalfBlood: MutableList<UUID> = mutableListOf(),
         val nightTicker: Int = 0,
-        val visitedVillages: Int = 0,
+        val visitedVillages: MutableList<Long> = mutableListOf(),
         val trappedVillagers: Int = 0,
         val abilityIndex: Int = -1,
         val inSunTick: Int = 0,
@@ -242,7 +258,7 @@ object VampirePlayerAttachment {
                     Codec.INT.fieldOf("usedSunGrenades").forGetter { it.usedSunGrenades },
                     Codecs.UUID.listOf().fieldOf("villagersHalfBlood").forGetter { it.villagersHalfBlood },
                     Codec.INT.fieldOf("nightTicker").forGetter { it.nightTicker },
-                    Codec.INT.fieldOf("visitedVillages").forGetter { it.visitedVillages },
+                    Codec.LONG.listOf().fieldOf("visitedVillages").forGetter { it.visitedVillages },
                     Codec.INT.fieldOf("trappedVillagers").forGetter { it.trappedVillagers },
                     Codec.INT.fieldOf("abilityIndex").forGetter { it.abilityIndex },
                     Codec.INT.fieldOf("inSunTick").forGetter { it.inSunTick },

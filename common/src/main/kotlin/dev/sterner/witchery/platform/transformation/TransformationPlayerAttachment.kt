@@ -8,6 +8,8 @@ import dev.sterner.witchery.payload.SyncTransformationS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.tags.StructureTags
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ambient.Bat
@@ -42,19 +44,20 @@ object TransformationPlayerAttachment {
     fun getForm(player: Player): TransformationType {
         return getData(player).transformationType
     }
+    @JvmStatic
+    fun isBat(player: Player): Boolean {
+        return getData(player).transformationType == TransformationType.BAT
+    }
 
     @JvmStatic
     fun removeForm(player: Player){
         setData(player, Data(TransformationType.NONE))
-        player.abilities.mayfly = false
-        player.abilities.flying = false
+
     }
 
     @JvmStatic
     fun setBatForm(player: Player) {
         setData(player, Data(TransformationType.BAT))
-        player.abilities.mayfly = true
-        player.abilities.flying = true
     }
 
     @JvmStatic
@@ -70,6 +73,54 @@ object TransformationPlayerAttachment {
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
             WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncTransformationS2CPayload(player, data))
+        }
+    }
+
+    var villageCheckTicker = 0
+
+    fun tickBat(player: Player){
+        if (player.level() is ServerLevel) {
+
+            if (isBat(player)) {
+                if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
+                    villageCheckTicker++
+                    if (villageCheckTicker > 20) {
+                        villageCheckTicker = 0
+                        val serverLevel = player.level() as ServerLevel
+
+                        if (serverLevel.structureManager().getStructureWithPieceAt(
+                                player.blockPosition(),
+                                StructureTags.VILLAGE
+                            ).isValid
+                        ) {
+                            val structureStart = serverLevel.structureManager().getStructureWithPieceAt(
+                                player.blockPosition(),
+                                StructureTags.VILLAGE)
+
+                            VampirePlayerAttachment.addVillage(player as ServerPlayer, structureStart.chunkPos)
+                        }
+                    }
+                }
+
+                if ((!player.isCreative || !player.isSpectator)) {
+                    player.abilities.flying = true
+                    player.abilities.mayfly = true
+                    player.onUpdateAbilities()
+                }
+            } else {
+                if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
+                    VampirePlayerAttachment.resetVillages(player)
+                }
+
+                if (!player.isCreative && !player.isSpectator) {
+                    player.abilities.flying = false
+                    player.abilities.flying = false
+                    player.abilities.mayfly = false
+                    player.onUpdateAbilities()
+                }
+            }
+        } else {
+            bat?.tick()
         }
     }
 

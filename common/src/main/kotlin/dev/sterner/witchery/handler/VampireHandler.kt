@@ -2,18 +2,22 @@ package dev.sterner.witchery.handler
 
 import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.EntityEvent
+import dev.architectury.event.events.common.InteractionEvent
+import dev.architectury.event.events.common.PlayerEvent
+import dev.architectury.event.events.common.TickEvent
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.api.VillagerTransfix
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure.StructurePiece
-import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
@@ -35,14 +39,11 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Chicken
 import net.minecraft.world.entity.monster.Blaze
-import net.minecraft.world.entity.monster.Phantom
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import net.minecraft.world.level.levelgen.PhantomSpawner
 import java.util.function.Consumer
 
 object VampireHandler {
@@ -258,6 +259,7 @@ object VampireHandler {
         val player = client.player ?: return
 
         val isNotVamp = getData(player).vampireLevel <= 0
+
         if (isNotVamp) {
             return
         }
@@ -315,7 +317,7 @@ object VampireHandler {
         }
     }
 
-    fun clientRightClick(player: Player?, interactionHand: InteractionHand?) {
+    private fun clientRightClick(player: Player?, interactionHand: InteractionHand?) {
         if (player == null || interactionHand == InteractionHand.OFF_HAND) {
             return
         }
@@ -324,7 +326,7 @@ object VampireHandler {
         NetworkManager.sendToServer(VampireAbilityUseC2SPayload(playerData.abilityIndex))
     }
 
-    fun rightClickBlock(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
+    private fun rightClickBlock(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
 
         if (player == null || player.level().isClientSide || interactionHand == InteractionHand.OFF_HAND) {
             return EventResult.pass()
@@ -337,12 +339,20 @@ object VampireHandler {
         } else if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.SPEED.ordinal) {
             VampirePlayerAttachment.toggleSpeedBoost(player)
             return EventResult.interruptTrue()
+        } else if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.BAT_FORM.ordinal) {
+            val isBta = TransformationPlayerAttachment.isBat(player)
+            if (isBta) {
+                TransformationPlayerAttachment.removeForm(player)
+            } else {
+                TransformationPlayerAttachment.setBatForm(player)
+            }
+            return EventResult.interruptTrue()
         }
 
         return EventResult.pass()
     }
 
-    fun killChicken(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+    private fun killChicken(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity is Chicken && damageSource?.entity is Player) {
             val player = damageSource.entity as Player
 
@@ -387,12 +397,11 @@ object VampireHandler {
     }
 
     private fun hasRitualStructure(level: Level, skullPos: BlockPos?): Boolean {
-
+        //TODO? maybe always true is fine
         return true
     }
 
     fun makeSacrificialCircle(player: Player, blockPos: BlockPos): EventResult? {
-
         val pieces = SacrificialBlock.STRUCTURE.get().structurePieces
 
         pieces.forEach(Consumer { s: StructurePiece ->
@@ -444,5 +453,17 @@ object VampireHandler {
         }
 
         return EventResult.pass()
+    }
+
+    fun registerEvents() {
+        TickEvent.PLAYER_PRE.register(VampireHandler::tickNightsCount)
+        EntityEvent.LIVING_DEATH.register(VampireHandler::resetNightCount)
+        InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
+        InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(VampireHandler::clientRightClick)
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(VampireHandler::rightClickBlock)
+        EntityEvent.LIVING_DEATH.register(VampireHandler::killChicken)
+        EntityEvent.LIVING_DEATH.register(VampireHandler::killBlaze)
+        TickEvent.PLAYER_PRE.register(VampireHandler::tick)
+        PlayerEvent.PLAYER_CLONE.register(VampireHandler::respawn)
     }
 }
