@@ -83,14 +83,10 @@ object VampirePlayerAttachment {
     @JvmStatic
     fun increaseVampireLevel(player: ServerPlayer) {
         val data = getData(player)
-
-        val currentLevel = data.vampireLevel
-        if (TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[currentLevel])) {
-            setData(player, data.copy(vampireLevel = data.vampireLevel + 1))
-            setMaxBlood(player)
-            player.sendSystemMessage(Component.literal("Vampire Level Up: ${data.vampireLevel + 1}"))
-            updateModifiers(player)
-        }
+        setData(player, data.copy(vampireLevel = data.vampireLevel + 1))
+        setMaxBlood(player)
+        player.sendSystemMessage(Component.literal("Vampire Level Up: ${data.vampireLevel + 1}"))
+        updateModifiers(player)
     }
 
     fun updateModifiers(player: Player) {
@@ -105,6 +101,10 @@ object VampirePlayerAttachment {
 
     @JvmStatic
     fun increaseKilledBlazes(player: ServerPlayer) {
+        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[4])) {
+            return
+        }
+
         val data = getData(player)
         setData(player, data.copy(killedBlazes = data.killedBlazes + 1))
 
@@ -114,13 +114,21 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
-    fun increaseUsedSunGrenades(player: Player) {
+    fun increaseUsedSunGrenades(player: ServerPlayer) {
+        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[3])) {
+            return
+        }
+
         val data = getData(player)
         setData(player, data.copy(usedSunGrenades = data.usedSunGrenades + 1))
     }
 
     @JvmStatic
     fun increaseVillagersHalfBlood(player: ServerPlayer, villager: Villager) {
+        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[1])) {
+            return
+        }
+
         val data = getData(player)
         if (!data.villagersHalfBlood.contains(villager.uuid)) {
             val updatedList = data.villagersHalfBlood.toMutableList().apply { add(villager.uuid) }
@@ -143,13 +151,21 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
-    fun increaseNightTicker(player: Player) {
+    fun increaseNightTicker(player: ServerPlayer) {
+        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[2])) {
+            return
+        }
+
         val data = getData(player)
         setData(player, data.copy(nightTicker = data.nightTicker + 1), false)
     }
 
     @JvmStatic
     fun addVillage(player: ServerPlayer, pos: ChunkPos) {
+        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[6])) {
+            return
+        }
+
         val data = getData(player)
         val longPos = ChunkPos.asLong(pos.x, pos.z)
         if (!data.visitedVillages.contains(longPos)) {
@@ -164,7 +180,11 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
-    fun increaseTrappedVillagers(player: Player) {
+    fun increaseTrappedVillagers(player: ServerPlayer) {
+        if (!TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[7])) {
+            return
+        }
+
         val data = getData(player)
         setData(player, data.copy(trappedVillagers = data.trappedVillagers + 1))
     }

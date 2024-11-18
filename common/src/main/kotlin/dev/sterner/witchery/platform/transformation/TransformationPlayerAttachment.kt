@@ -114,13 +114,14 @@ object TransformationPlayerAttachment {
 
                 if (!player.isCreative && !player.isSpectator) {
                     player.abilities.flying = false
-                    player.abilities.flying = false
                     player.abilities.mayfly = false
                     player.onUpdateAbilities()
                 }
             }
         } else {
-            bat?.tick()
+            if (isBat(player)) {
+                bat?.tick()
+            }
         }
     }
 
