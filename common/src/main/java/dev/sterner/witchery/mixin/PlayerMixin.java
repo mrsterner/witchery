@@ -1,12 +1,15 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import dev.sterner.witchery.api.SleepingEvent;
-import dev.sterner.witchery.entity.BroomEntity;
 import dev.sterner.witchery.mixin_logic.PlayerMixinLogic;
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData;
 import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment;
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
+import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,6 +40,17 @@ public abstract class PlayerMixin {
             return false;
         }
 
+        return original;
+    }
+
+    @ModifyReturnValue(method = "hasCorrectToolForDrops", at = @At("RETURN"))
+    private boolean witchery$vampSmashStone(boolean original, @Local(argsOnly = true) BlockState state){
+        Player player = Player.class.cast(this);
+        if (VampirePlayerAttachment.getData(player).getVampireLevel() >= 6) {
+            if (state.is(WitcheryTags.INSTANCE.getSMASH_STONE())) {
+                return true;
+            }
+        }
         return original;
     }
 }

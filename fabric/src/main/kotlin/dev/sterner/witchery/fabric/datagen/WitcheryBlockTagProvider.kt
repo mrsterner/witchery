@@ -365,5 +365,31 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             .add(Blocks.WEEPING_VINES)
             .add(Blocks.TWISTING_VINES)
 
+        getOrCreateTagBuilder(WitcheryTags.SMASH_STONE)
+            .add(Blocks.STONE)
+            .add(Blocks.DEEPSLATE)
+            .add(Blocks.COBBLESTONE)
+            .add(Blocks.COBBLED_DEEPSLATE)
+            .add(Blocks.BASALT)
+            .add(Blocks.NETHERRACK)
+            .add(Blocks.ANDESITE)
+            .add(Blocks.DIORITE)
+            .add(Blocks.GRANITE)
+            .add(Blocks.TUFF)
+            .add(Blocks.COAL_ORE)
+            .add(Blocks.DEEPSLATE_COAL_ORE)
+            .add(Blocks.IRON_ORE)
+            .add(Blocks.DEEPSLATE_IRON_ORE)
+            .add(Blocks.WARPED_NYLIUM)
+            .add(Blocks.CRIMSON_NYLIUM)
+            .add(Blocks.DRIPSTONE_BLOCK)
+            .add(Blocks.POINTED_DRIPSTONE)
+            .add(Blocks.BLACKSTONE)
+            .add(Blocks.CALCITE)
+            .add(Blocks.SANDSTONE)
+            .add(Blocks.RED_SANDSTONE)
+            .add(Blocks.END_STONE)
+
+
     }
 }
