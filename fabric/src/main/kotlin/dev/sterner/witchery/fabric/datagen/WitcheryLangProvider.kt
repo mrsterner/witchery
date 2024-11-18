@@ -565,7 +565,23 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
 
         builder.add("book.witchery.guidebook.vampirism.vamp_1.name", "Observations of an Immortal")
-        builder.add("book.witchery.guidebook.vampirism.vamp_1.description", "Observations of an Immortal")
+        builder.add("book.witchery.guidebook.vampirism.vamp_2.name", "The Hunger")
+        builder.add("book.witchery.guidebook.vampirism.vamp_3.name", "The Twisted")
+        builder.add("book.witchery.guidebook.vampirism.vamp_4.name", "The Rush")
+        builder.add("book.witchery.guidebook.vampirism.vamp_5.name", "The Enemy")
+        builder.add("book.witchery.guidebook.vampirism.vamp_6.name", "The Burning Day")
+        builder.add("book.witchery.guidebook.vampirism.vamp_7.name", "The Crimson Bloom")
+        builder.add("book.witchery.guidebook.vampirism.vamp_8.name", "The Bloodborne Sky")
+        builder.add("book.witchery.guidebook.vampirism.vamp_9.name", "The Eternal Covenant")
+        builder.add("book.witchery.guidebook.vampirism.vamp_1.description", "First Stage")
+        builder.add("book.witchery.guidebook.vampirism.vamp_2.description", "Second Stage")
+        builder.add("book.witchery.guidebook.vampirism.vamp_3.description", "Third Stage")
+        builder.add("book.witchery.guidebook.vampirism.vamp_4.description", "Forth Stage")
+        builder.add("book.witchery.guidebook.vampirism.vamp_5.description", "Fifth Stage")
+        builder.add("book.witchery.guidebook.vampirism.vamp_6.description", "Sixth Stage")
+        builder.add("book.witchery.guidebook.vampirism.vamp_7.description", "Seventh Stage")
+        builder.add("book.witchery.guidebook.vampirism.vamp_8.description", "Eighth Stage")
+        builder.add("book.witchery.guidebook.vampirism.vamp_9.description", "Ninth Stage")
         builder.add("vampirism.vamp_1.title", "Observations of an Immortal")
         builder.add("vampirism.vamp_1.page.1", "\n" +
                 "\\\n" +
@@ -616,15 +632,19 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
                 "\\\n" +
                 "\\\n ...the thirst that first night, he said, was overwhelming, he had to fully sait hes hunger...")
 
-        builder.add("vampirism.vamp_3.page.2", "\n" +
+        builder.add("vampirism.vamp_3.page.1", "\n" +
                 "\\\n...he found he was able to transfix his victims...\n" +
                 "\\\n" +
+                "\\\n" +
                 "\\\n... was now able to drink as he needed without others realizing, so long as he did not drain more than half..." +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
                 "\\\n" +
                 "\\\n ...did so, from five oblivious souls...")
 
         builder.add("vampirism.vamp_4.page.1", "\n" +
-                "\\\n...strength was flowing into him, the more he drank, as the nights progressed, the stringer he became...\n" +
+                "\\\n...strength was flowing into him, the more he drank, as the nights progressed, the stronger he became...\n" +
                 "\\\n" +
                 "\\\n" +
                 "\\\n" +
@@ -635,10 +655,14 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
                 "\\\n" +
                 "\\\n" +
                 "\\\n" +
+                "\\\n" +
                 "\\\n ...became his obsession... ...found a way to collect sunlight and burnt himself with it ten times during the night...")
 
         builder.add("vampirism.vamp_6.page.1", "\n" +
+                "\\\n" +
                 "\\\n...first walk in the sun after his rebirth brought him to bloody tears, he felt his blood burning, but no longer instantly...\n" +
+                "\\\n" +
+                "\\\n" +
                 "\\\n" +
                 "\\\n ...he needed more strength, and extinguishing creatures of pure fire was his solution... ...twenty died.")
 
@@ -650,13 +674,17 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
                 "\\\n ...gifted Her a flower, the color of the blood She so craves...")
 
         builder.add("vampirism.vamp_8.page.1", "\n" +
+                "\\\n" +
                 "\\\n...he smiled, a rare event, when he told me of his first flight...\n" +
+                "\\\n" +
+                "\\\n" +
                 "\\\n" +
                 "\\\n" +
                 "\\\n ...he flew from village to village, until he knew the full extent of his domain, there was now nowhere he could not go...")
 
         builder.add("vampirism.vamp_9.page.1", "\n" +
                 "\\\n...the weak minded would now not only let him drink his fill, but would also follow like faithful hounds...\n" +
+                "\\\n" +
                 "\\\n" +
                 "\\\n ...horror of all horrors, he lured five of them to specially prepared iron cages, topped with wood and with a gap at the front. He sealed them inside...")
 

@@ -185,7 +185,7 @@ object VampireHandler {
 
     @JvmStatic
     fun interactEntity(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
-        if (player != null && entity is LivingEntity && !player.level().isClientSide) {
+        if (player is ServerPlayer && entity is LivingEntity) {
             val playerData = getData(player)
             val playerBloodData = BloodPoolLivingEntityAttachment.getData(player)
             if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.DRINK_BLOOD.ordinal) {
@@ -414,7 +414,7 @@ object VampireHandler {
     }
 
     fun tickNightsCount(player: Player?) {
-        if (player != null && !player.level().isClientSide) {
+        if (player is ServerPlayer) {
             if (getData(player).vampireLevel == 3) {
                 VampirePlayerAttachment.increaseNightTicker(player)
 

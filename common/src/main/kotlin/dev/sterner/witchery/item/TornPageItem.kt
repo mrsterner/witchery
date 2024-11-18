@@ -14,18 +14,7 @@ import net.minecraft.world.level.Level
 
 class TornPageItem(properties: Properties) : Item(properties) {
 
-    val advancementLocations = listOf(
-        Witchery.id("vampire/1"),
-        Witchery.id("vampire/2"),
-        Witchery.id("vampire/3"),
-        Witchery.id("vampire/4"),
-        Witchery.id("vampire/5"),
-        Witchery.id("vampire/6"),
-        Witchery.id("vampire/7"),
-        Witchery.id("vampire/8"),
-        Witchery.id("vampire/9"),
-        Witchery.id("vampire/10")
-    )
+
 
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (player is ServerPlayer) {
@@ -45,6 +34,18 @@ class TornPageItem(properties: Properties) : Item(properties) {
     }
 
     companion object {
+
+        val advancementLocations = listOf(
+            Witchery.id("vampire/1"),
+            Witchery.id("vampire/2"),
+            Witchery.id("vampire/3"),
+            Witchery.id("vampire/4"),
+            Witchery.id("vampire/5"),
+            Witchery.id("vampire/6"),
+            Witchery.id("vampire/7"),
+            Witchery.id("vampire/8"),
+            Witchery.id("vampire/9")
+        )
 
         fun hasAdvancement(serverPlayer: ServerPlayer, advancementResourceLocation: ResourceLocation): Boolean {
             if (serverPlayer.getServer() == null) {

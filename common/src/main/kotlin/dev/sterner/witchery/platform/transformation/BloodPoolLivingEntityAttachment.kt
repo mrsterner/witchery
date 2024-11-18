@@ -11,6 +11,7 @@ import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
@@ -39,7 +40,7 @@ object BloodPoolLivingEntityAttachment {
         val newBloodPool = (data.bloodPool + amount).coerceAtMost(maxBlood)
         setData(livingEntity, data.copy(bloodPool = newBloodPool))
 
-        if (livingEntity is Player) {
+        if (livingEntity is ServerPlayer) {
             if (VampirePlayerAttachment.getData(livingEntity).vampireLevel == 1 && newBloodPool == 900) {
                 VampirePlayerAttachment.increaseVampireLevel(livingEntity)
             }

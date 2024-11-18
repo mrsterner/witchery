@@ -21,17 +21,6 @@
       },
       "show_title_separator": true,
       "text": "vampirism.vamp_9.page.1",
-      "title": "vampirism.vamp_9.title",
-      "use_markdown_in_title": true
-    },
-    {
-      "type": "modonomicon:text",
-      "anchor": "",
-      "condition": {
-        "type": "modonomicon:none"
-      },
-      "show_title_separator": true,
-      "text": "vampirism.vamp_9.page.2",
       "title": "",
       "use_markdown_in_title": false
     },
@@ -42,7 +31,7 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "vampirism.vamp_9.page.3",
+      "text": "vampirism.vamp_9.page.2",
       "title": "",
       "use_markdown_in_title": false
     },
@@ -67,18 +56,7 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "vampirism.vamp_9.page.4",
-      "title": "",
-      "use_markdown_in_title": false
-    },
-    {
-      "type": "modonomicon:text",
-      "anchor": "",
-      "condition": {
-        "type": "modonomicon:none"
-      },
-      "show_title_separator": true,
-      "text": "vampirism.vamp_9.page.5",
+      "text": "vampirism.vamp_9.page.2",
       "title": "",
       "use_markdown_in_title": false
     }

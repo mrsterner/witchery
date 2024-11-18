@@ -36,7 +36,6 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
         val vamp7 = makeVampTornPageAdvancement("7", vamp6, consumer)
         val vamp8 = makeVampTornPageAdvancement("8", vamp7, consumer)
         val vamp9 = makeVampTornPageAdvancement("9", vamp8, consumer)
-        val vamp10 = makeVampTornPageAdvancement("10", vamp9, consumer)
     }
 
     companion object {

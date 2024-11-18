@@ -10,12 +10,25 @@ import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryItems
 
-class VampireLevelTwoEntryProvider(val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {
+class VampireLevelTenEntryProvider(val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {
 
     override fun generatePages() {
         this.page(id) {
             BookTextPageModel.create()
                 .withText("${parent.categoryId()}.$id.page.1")
+        }
+        this.page(id) {
+            BookTextPageModel.create()
+                .withText("${parent.categoryId()}.$id.page.2")
+        }
+        this.page("${id}_image") {
+
+            BookImagePageModel.create()
+                .withImages(Witchery.id("textures/gui/modonomicon/vampire/${id}.png"))
+        }
+        this.page(id) {
+            BookTextPageModel.create()
+                .withText("${parent.categoryId()}.$id.page.2")
         }
     }
 

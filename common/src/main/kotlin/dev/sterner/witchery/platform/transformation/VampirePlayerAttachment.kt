@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.payload.SyncVampireS2CPacket
 import dev.sterner.witchery.payload.VampireAbilitySelectionC2SPayload
@@ -78,12 +79,16 @@ object VampirePlayerAttachment {
     val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
 
     @JvmStatic
-    fun increaseVampireLevel(player: Player) {
+    fun increaseVampireLevel(player: ServerPlayer) {
         val data = getData(player)
-        setData(player, data.copy(vampireLevel = data.vampireLevel + 1))
-        setMaxBlood(player)
-        player.sendSystemMessage(Component.literal("Vampire Level Up: ${data.vampireLevel + 1}"))
-        updateModifiers(player)
+
+        val currentLevel = data.vampireLevel
+        if (TornPageItem.hasAdvancement(player, TornPageItem.advancementLocations[currentLevel])) {
+            setData(player, data.copy(vampireLevel = data.vampireLevel + 1))
+            setMaxBlood(player)
+            player.sendSystemMessage(Component.literal("Vampire Level Up: ${data.vampireLevel + 1}"))
+            updateModifiers(player)
+        }
     }
 
     fun updateModifiers(player: Player) {
@@ -109,7 +114,7 @@ object VampirePlayerAttachment {
     }
 
     @JvmStatic
-    fun increaseVillagersHalfBlood(player: Player, villager: Villager) {
+    fun increaseVillagersHalfBlood(player: ServerPlayer, villager: Villager) {
         val data = getData(player)
         if (!data.villagersHalfBlood.contains(villager.uuid)) {
             val updatedList = data.villagersHalfBlood.toMutableList().apply { add(villager.uuid) }
