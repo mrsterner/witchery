@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin_logic
 
 import dev.sterner.witchery.handler.PoppetHandler.handleVampiricPoppet
-import dev.sterner.witchery.handler.vampire.VampireHandler
+import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment.getData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.getPoppetData
@@ -24,7 +24,7 @@ object LivingEntityMixinLogic {
     fun modifyHurt(entity: LivingEntity, original: Float, damageSource: DamageSource): Float {
         var f = handleVampiricPoppet(entity, damageSource, original)
         if (f != 0f) {
-            f = VampireHandler.handleHurt(entity, damageSource, original)
+            f = VampireEventHandler.handleHurt(entity, damageSource, original)
         }
         return f
     }

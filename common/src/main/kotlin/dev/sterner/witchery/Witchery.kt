@@ -41,7 +41,8 @@ import dev.sterner.witchery.data.ErosionHandler
 import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
-import dev.sterner.witchery.handler.vampire.VampireHandler
+import dev.sterner.witchery.handler.vampire.VampireAbilities
+import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
@@ -142,7 +143,7 @@ object Witchery {
         MODIFY_LOOT_TABLE.register(::addWitchesHand)
         MODIFY_LOOT_TABLE.register(::addLootInjects)
 
-        VampireHandler.registerEvents()
+        VampireEventHandler.registerEvents()
         CursePlayerAttachment.registerEvents()
 
         ServerLevelTick.SERVER_LEVEL_POST.register(MutandisLevelAttachment::tick)
@@ -433,7 +434,7 @@ object Witchery {
 
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
         ClientGuiEvent.RENDER_HUD.register(ManifestationPlayerAttachment::renderHud)
-        ClientGuiEvent.RENDER_HUD.register(VampireHandler::renderHud)
+        ClientGuiEvent.RENDER_HUD.register(VampireEventHandler::renderHud)
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),
@@ -555,7 +556,7 @@ object Witchery {
         )
 
         KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)
-        ClientRawInputEvent.MOUSE_SCROLLED.register(VampireHandler::scroll)
+        ClientRawInputEvent.MOUSE_SCROLLED.register(VampireAbilities::scroll)
 
         ClientTickEvent.CLIENT_POST.register(ClientTickEvent.Client { minecraft: Minecraft? ->
             while (WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING.consumeClick()) {

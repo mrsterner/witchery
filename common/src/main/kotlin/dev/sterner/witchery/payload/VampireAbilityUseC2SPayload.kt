@@ -2,6 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.nbt.CompoundTag
@@ -32,17 +33,8 @@ class VampireAbilityUseC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val ordinal = payload.nbt.getInt("Ordinal")
 
         if (player != null) {
-            if (ordinal == VampirePlayerAttachment.VampireAbility.TRANSFIX.ordinal && player.isShiftKeyDown) {
-                VampirePlayerAttachment.toggleNightVision(player)
-            } else if (ordinal == VampirePlayerAttachment.VampireAbility.SPEED.ordinal) {
-                VampirePlayerAttachment.toggleSpeedBoost(player)
-            } else if (ordinal == VampirePlayerAttachment.VampireAbility.BAT_FORM.ordinal) {
-                if (TransformationPlayerAttachment.isBat(player)) {
-                    TransformationPlayerAttachment.removeForm(player)
-                } else {
-                    TransformationPlayerAttachment.setBatForm(player)
-                }
-            }
+
+            VampireEventHandler.parseAbilityFromIndex(player, ordinal)
         }
     }
 

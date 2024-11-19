@@ -2,6 +2,8 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.handler.vampire.VampireAbilities
+import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -31,7 +33,7 @@ class VampireAbilitySelectionC2SPayload(val nbt: CompoundTag) : CustomPacketPayl
         val index = payload.nbt.getInt("Index")
 
         if (player != null) {
-            VampirePlayerAttachment.updateAbilityIndex(player, index)
+            VampireAbilities.updateAbilityIndex(player, index)
         }
     }
 

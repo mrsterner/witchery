@@ -39,78 +39,6 @@ object VampirePlayerAttachment {
         }
     }
 
-    //Misc Vampire logic
-
-    @JvmStatic
-    fun increaseInSunTick(player: Player) {
-        val data = getData(player)
-        val newInSunTick = (data.inSunTick + 1).coerceAtMost(20 * 5)
-        setData(player, data.copy(inSunTick = newInSunTick))
-    }
-
-    @JvmStatic
-    fun decreaseInSunTick(player: Player) {
-        val data = getData(player)
-        val newInSunTick = (data.inSunTick - 1).coerceAtLeast(0)
-        setData(player, data.copy(inSunTick = newInSunTick))
-    }
-
-    //Vampire Ability Section
-
-    @JvmStatic
-    fun setAbilityIndex(player: Player, abilityIndex: Int) {
-        updateAbilityIndex(player, abilityIndex)
-        NetworkManager.sendToServer(VampireAbilitySelectionC2SPayload(abilityIndex))
-    }
-
-    @JvmStatic
-    fun getAbilities(player: Player): List<VampireAbility> {
-        val level = getData(player).vampireLevel
-        return VampireAbility.entries.filter { it.unlockLevel <= level }
-    }
-
-    @JvmStatic
-    fun setNightVision(player: Player, active: Boolean) {
-        val data = getData(player)
-        val newNightVisionData = data.copy(isNightVisionActive = active)
-        setData(player, newNightVisionData)
-    }
-
-    @JvmStatic
-    fun toggleNightVision(player: Player) {
-        setNightVision(player, !getData(player).isNightVisionActive)
-    }
-
-    @JvmStatic
-    fun setSpeedBoost(player: Player, active: Boolean) {
-        val data = getData(player)
-        val newSpeedBoostData = data.copy(isSpeedBoostActive = active)
-        setData(player, newSpeedBoostData)
-    }
-
-    @JvmStatic
-    fun toggleSpeedBoost(player: Player) {
-        setSpeedBoost(player, !getData(player).isSpeedBoostActive)
-    }
-
-    @JvmStatic
-    fun setBatForm(player: Player, active: Boolean) {
-        val data = getData(player)
-        val newBatFormData = data.copy(isBatFormActive = active)
-        setData(player, newBatFormData)
-    }
-
-    @JvmStatic
-    fun toggleBatForm(player: Player) {
-        setBatForm(player, !getData(player).isBatFormActive)
-    }
-
-    @JvmStatic
-    fun updateAbilityIndex(player: Player, index: Int) {
-        val data = getData(player)
-        setData(player, data.copy(abilityIndex = index))
-    }
-
     data class Data(
         val vampireLevel: Int = 0,
         val killedBlazes: Int = 0,
@@ -145,17 +73,6 @@ object VampirePlayerAttachment {
             }
 
             val ID: ResourceLocation = Witchery.id("vampire_player_data")
-        }
-    }
-
-    enum class VampireAbility(val unlockLevel: Int) : StringRepresentable {
-        DRINK_BLOOD(1),
-        TRANSFIX(2),
-        SPEED(4),
-        BAT_FORM(7);
-
-        override fun getSerializedName(): String {
-            return name.lowercase()
         }
     }
 }

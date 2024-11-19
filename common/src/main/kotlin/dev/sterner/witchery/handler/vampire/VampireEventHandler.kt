@@ -18,7 +18,6 @@ import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
 import dev.sterner.witchery.registry.*
@@ -46,64 +45,19 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import java.util.function.Consumer
 
-object VampireHandler {
+object VampireEventHandler {
 
     private val overlay = Witchery.id("textures/gui/ability_hotbar_selection.png")
     private val sun = Witchery.id("textures/gui/vampire_abilities/sun_")
-    private var abilityIndex = -1 // -1 means player is in the hotbar, not abilities
     private var bloodTransferAmount = 10
     private var bloodThreshold = 75
+    private const val DAMAGE_DISTRIBUTION = 0.75f
 
-
-    fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult? {
-        val player = minecraft?.player
-        if (minecraft == null || player == null) {
-            return EventResult.pass()
-        }
-
-        val abilityCount = VampirePlayerAttachment.getAbilities(player).size
-        if (abilityCount == 0) {
-            return EventResult.pass()
-        }
-
-        if (abilityIndex == -1) {
-            if (player.inventory.selected == 0 && y > 0.0) {
-                abilityIndex = 0
-                VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
-                return EventResult.interruptFalse()
-            } else if (player.inventory.selected == 8 && y < 0.0) {
-                abilityIndex = abilityCount - 1
-                VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
-                return EventResult.interruptFalse()
-            }
-        } else {
-            if (y > 0.0) {
-                if (abilityIndex < abilityCount - 1) {
-                    abilityIndex++
-                    VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
-                } else {
-                    player.inventory.selected = 8
-                    abilityIndex = -1
-                    VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
-                }
-                return EventResult.interruptFalse()
-            } else if (y < 0.0) {
-                if (abilityIndex > 0) {
-                    abilityIndex--
-                    VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
-                } else {
-                    player.inventory.selected = 0
-                    abilityIndex = -1
-                    VampirePlayerAttachment.setAbilityIndex(player, abilityIndex)
-                }
-                return EventResult.interruptFalse()
-            }
-        }
-
-        return EventResult.pass()
-    }
-
-
+    /**
+     * When the vampire-player gets hurt, this will handles damage distribution between hearts and blood.
+     * The current distribution is declared by damageDistribution
+     * If the player is level 0, aka a human, this will just return the default value, obviously
+     */
     fun handleHurt(player: LivingEntity, damageSource: DamageSource, original: Float): Float {
 
         if (player !is Player) {
@@ -120,17 +74,22 @@ object VampireHandler {
             val bloodPerHealthPoint = bloodThreshold
             val maxBloodAbsorbableDamage = bloodData.bloodPool / bloodPerHealthPoint
 
-            val absorbableDamage = minOf(original * 0.75f, maxBloodAbsorbableDamage.toFloat())
+            val absorbableDamage = minOf(original * DAMAGE_DISTRIBUTION, maxBloodAbsorbableDamage.toFloat())
             val bloodRequired = (absorbableDamage * bloodPerHealthPoint).toInt()
 
             BloodPoolLivingEntityAttachment.setData(player, bloodData.copy(bloodPool = bloodData.bloodPool - bloodRequired))
 
-            return original * 0.25f
+            return original * (1 - DAMAGE_DISTRIBUTION)
         }
 
         return original
     }
 
+    /**
+     * The main tick, handles sun exposure, blood healing and ability effects applying.
+     * If the player's vampire level is less than five, the sun will instantly kill it after the 5-second buffer.
+     * If the player is level 5 or higher it will drain blood and damage the player.
+     */
     fun tick(player: Player?) {
         if (player == null || player.level().isClientSide) {
             return
@@ -147,7 +106,7 @@ object VampireHandler {
             val bloodData = BloodPoolLivingEntityAttachment.getData(player)
 
             if (isInSunlight) {
-                VampirePlayerAttachment.increaseInSunTick(player)
+                VampireAbilities.increaseInSunTick(player)
 
                 if (getData(player).inSunTick >= 100) {
                     if (vampData.vampireLevel < 5) {
@@ -165,7 +124,7 @@ object VampireHandler {
                     }
                 }
             } else {
-                VampirePlayerAttachment.decreaseInSunTick(player)
+                VampireAbilities.decreaseInSunTick(player)
             }
 
             if (bloodData.bloodPool >= 75 && player.level().random.nextBoolean()) {
@@ -185,12 +144,15 @@ object VampireHandler {
     }
 
 
+    /**
+     * This is where the vampire-player can use its abilities on other entities, like draining blood and transfix them.
+     */
     @JvmStatic
-    fun interactEntity(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
+    fun interactEntityWithAbility(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
         if (player is ServerPlayer && entity is LivingEntity) {
             val playerData = getData(player)
             val playerBloodData = BloodPoolLivingEntityAttachment.getData(player)
-            if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.DRINK_BLOOD.ordinal) {
+            if (playerData.abilityIndex == VampireAbility.DRINK_BLOOD.ordinal) {
                 val targetData = BloodPoolLivingEntityAttachment.getData(entity)
                 val quality = BloodPoolHandler.BLOOD_PAIR[entity.type] ?: 0
 
@@ -241,7 +203,7 @@ object VampireHandler {
                     return EventResult.interruptFalse()
                 }
                 return EventResult.interruptFalse()
-            } else if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.TRANSFIX.ordinal) {
+            } else if (playerData.abilityIndex == VampireAbility.TRANSFIX.ordinal) {
                 if (entity is Villager) {
                     val transfixVillager = entity as VillagerTransfix
                     transfixVillager.setTransfixedLookVector(player.eyePosition)
@@ -252,6 +214,9 @@ object VampireHandler {
         return EventResult.pass()
     }
 
+    /**
+     * The Sun-exposure meter, the blood pool meter and the blood sense and ability hotbar is rendered here.
+     */
     @JvmStatic
     fun renderHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker) {
 
@@ -265,7 +230,7 @@ object VampireHandler {
         }
 
         val abilityIndex = getData(player).abilityIndex
-        val size = VampirePlayerAttachment.getAbilities(player)
+        val size = VampireAbilities.getAbilities(player)
 
         val y = guiGraphics.guiHeight() - 18 - 5
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
@@ -277,7 +242,7 @@ object VampireHandler {
 
         for (i in size.indices) {
             var name = size[i].serializedName
-            if (size[i] == VampirePlayerAttachment.VampireAbility.TRANSFIX && bl) {
+            if (size[i] == VampireAbility.TRANSFIX && bl) {
                 name = "night_vision"
             }
             guiGraphics.blit(Witchery.id("textures/gui/vampire_abilities/${name}.png"), x - (25 * i) + 4, y + 4, 16, 16, 0f,0f,16, 16,16, 16)
@@ -288,6 +253,9 @@ object VampireHandler {
         }
     }
 
+    /**
+     * Draws the sun-exposure HUD
+     */
     private fun drawSun(guiGraphics: GuiGraphics, player: Player) {
         val y = guiGraphics.guiHeight() - 36 - 18 - 2
         val x = guiGraphics.guiWidth() / 2 - 8
@@ -298,6 +266,9 @@ object VampireHandler {
         }
     }
 
+    /**
+     * Draws the crosshair entity's blood pool
+     */
     private fun drawBloodSense(guiGraphics: GuiGraphics) {
         val x = guiGraphics.guiWidth() / 2 + 13
         val y = guiGraphics.guiHeight() / 2 + 9
@@ -307,7 +278,12 @@ object VampireHandler {
         }
     }
 
-    fun respawn(oldPlayer: ServerPlayer, newPlayer: ServerPlayer, b: Boolean) {
+    /**
+     * Resets the sun-exposure ticks when the player dies, to prevent infinity death.
+     * Sets the blood to 900, which is 3 full blood drops.
+     * Also sets the food to 10 to let us handle exhaustion in our FoodData mixin.
+     */
+    private fun respawn(oldPlayer: ServerPlayer, newPlayer: ServerPlayer, b: Boolean) {
         if (getData(oldPlayer).vampireLevel > 0) {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
             newPlayer.foodData.foodLevel = 10
@@ -317,7 +293,11 @@ object VampireHandler {
         }
     }
 
-    private fun clientRightClick(player: Player?, interactionHand: InteractionHand?) {
+    /**
+     * One of two functions which is used to trigger abilities, this is for when there is no block interaction
+     * VampireEventHandler.rightClickBlockAbility
+     */
+    private fun clientRightClickAbility(player: Player?, interactionHand: InteractionHand?) {
         if (player == null || interactionHand == InteractionHand.OFF_HAND) {
             return
         }
@@ -326,39 +306,54 @@ object VampireHandler {
         NetworkManager.sendToServer(VampireAbilityUseC2SPayload(playerData.abilityIndex))
     }
 
-    private fun rightClickBlock(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
+    /**
+     * One of two functions which is used to trigger abilities, this is for when there is a block interaction.
+     * Together with VampireEventHandler.clientRightClickAbility
+     */
+    private fun rightClickBlockAbility(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
 
         if (player == null || player.level().isClientSide || interactionHand == InteractionHand.OFF_HAND) {
             return EventResult.pass()
         }
 
         val playerData = getData(player)
-        if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.TRANSFIX.ordinal && player.isShiftKeyDown) {
-            VampirePlayerAttachment.toggleNightVision(player)
-            return EventResult.interruptTrue()
-        } else if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.SPEED.ordinal) {
-            VampirePlayerAttachment.toggleSpeedBoost(player)
-            return EventResult.interruptTrue()
-        } else if (playerData.abilityIndex == VampirePlayerAttachment.VampireAbility.BAT_FORM.ordinal) {
-            val isBta = TransformationPlayerAttachment.isBat(player)
-            if (isBta) {
-                TransformationPlayerAttachment.removeForm(player)
-            } else {
-                TransformationPlayerAttachment.setBatForm(player)
-            }
+        if (parseAbilityFromIndex(player, playerData.abilityIndex)) {
             return EventResult.interruptTrue()
         }
 
         return EventResult.pass()
     }
 
+    /**
+     * Helper function to trigger abilities used
+     */
+    fun parseAbilityFromIndex(player: Player, abilityIndex: Int): Boolean {
+        if (abilityIndex == VampireAbility.TRANSFIX.ordinal && player.isShiftKeyDown) {
+            VampireAbilities.toggleNightVision(player)
+            return true
+        } else if (abilityIndex == VampireAbility.SPEED.ordinal) {
+            VampireAbilities.toggleSpeedBoost(player)
+            return true
+        } else if (abilityIndex == VampireAbility.BAT_FORM.ordinal) {
+            val isBta = TransformationPlayerAttachment.isBat(player)
+            if (isBta) {
+                TransformationPlayerAttachment.removeForm(player)
+            } else {
+                TransformationPlayerAttachment.setBatForm(player)
+            }
+            return true
+        }
+        return false
+    }
+
+    /**
+     * Used by the Creatures of the Night Ritual, killing a chicken over a sacrificial circle yields blood to a wine glass
+     */
     private fun killChicken(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity is Chicken && damageSource?.entity is Player) {
             val player = damageSource.entity as Player
 
-            val wineOrBottle = player.offhandItem.`is`(WitcheryItems.WINE_GLASS.get()) || player.offhandItem.`is`(Items.GLASS_BOTTLE)
-
-            if (player.mainHandItem.`is`(WitcheryItems.ARTHANA.get()) && wineOrBottle) {
+            if (player.mainHandItem.`is`(WitcheryItems.ARTHANA.get()) && player.offhandItem.`is`(WitcheryItems.WINE_GLASS.get())) {
 
                 val possibleSkull = BlockPos.betweenClosedStream(livingEntity.boundingBox.inflate(2.0))
 
@@ -366,15 +361,9 @@ object VampireHandler {
                 for (skullPos in possibleSkull) {
                     val skullState = livingEntity.level().getBlockState(skullPos)
 
-                    if (skullState.`is`(Blocks.SKELETON_SKULL)
-                        || skullState.`is`(Blocks.SKELETON_WALL_SKULL)
-                        || skullState.`is`(Blocks.WITHER_SKELETON_SKULL)
-                        || skullState.`is`(Blocks.WITHER_SKELETON_WALL_SKULL)) {
-
-                        if (hasRitualStructure(livingEntity.level(), skullPos)) {
-                            shouldPerform = true
-                            break
-                        }
+                    if (skullState.`is`(WitcheryBlocks.SACRIFICIAL_CIRCLE.get())) {
+                        shouldPerform = true
+                        break
                     }
                 }
 
@@ -396,11 +385,9 @@ object VampireHandler {
         return EventResult.pass()
     }
 
-    private fun hasRitualStructure(level: Level, skullPos: BlockPos?): Boolean {
-        //TODO? maybe always true is fine
-        return true
-    }
-
+    /**
+     * Converts the skull and chalk to a sacrificial structure
+     */
     fun makeSacrificialCircle(player: Player, blockPos: BlockPos): EventResult? {
         val pieces = SacrificialBlock.STRUCTURE.get().structurePieces
 
@@ -423,15 +410,19 @@ object VampireHandler {
         return EventResult.pass()
     }
 
-    fun tickNightsCount(player: Player?) {
+    /**
+     * If the vampire-player is level 3 this will count towards the requirement to level up to level 4
+     */
+    private fun tickNightsCount(player: Player?) {
         if (player is ServerPlayer) {
-            if (getData(player).vampireLevel == 3) {
-                VampireLeveling.increaseNightTicker(player)
-            }
+            VampireLeveling.increaseNightTicker(player)
         }
     }
 
-    fun resetNightCount(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+    /**
+     * If the player dies the night counter will reset
+     */
+    private fun resetNightCount(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity is Player && getData(livingEntity).vampireLevel == 3) {
             VampireLeveling.resetNightCounter(livingEntity)
         }
@@ -439,7 +430,10 @@ object VampireHandler {
         return EventResult.pass()
     }
 
-    fun killBlaze(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+    /**
+     * When a blaze is killed is this tries to level up a vampire-player
+     */
+    private fun killBlaze(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity is Blaze && damageSource?.entity is ServerPlayer) {
             val player = damageSource.entity as ServerPlayer
             VampireLeveling.increaseKilledBlazes(player)
@@ -449,14 +443,14 @@ object VampireHandler {
     }
 
     fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(VampireHandler::tickNightsCount)
-        EntityEvent.LIVING_DEATH.register(VampireHandler::resetNightCount)
-        InteractionEvent.INTERACT_ENTITY.register(VampireHandler::interactEntity)
-        InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(VampireHandler::clientRightClick)
-        InteractionEvent.RIGHT_CLICK_BLOCK.register(VampireHandler::rightClickBlock)
-        EntityEvent.LIVING_DEATH.register(VampireHandler::killChicken)
-        EntityEvent.LIVING_DEATH.register(VampireHandler::killBlaze)
-        TickEvent.PLAYER_PRE.register(VampireHandler::tick)
-        PlayerEvent.PLAYER_CLONE.register(VampireHandler::respawn)
+        TickEvent.PLAYER_PRE.register(VampireEventHandler::tickNightsCount)
+        EntityEvent.LIVING_DEATH.register(VampireEventHandler::resetNightCount)
+        InteractionEvent.INTERACT_ENTITY.register(VampireEventHandler::interactEntityWithAbility)
+        InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(VampireEventHandler::clientRightClickAbility)
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(VampireEventHandler::rightClickBlockAbility)
+        EntityEvent.LIVING_DEATH.register(VampireEventHandler::killChicken)
+        EntityEvent.LIVING_DEATH.register(VampireEventHandler::killBlaze)
+        TickEvent.PLAYER_PRE.register(VampireEventHandler::tick)
+        PlayerEvent.PLAYER_CLONE.register(VampireEventHandler::respawn)
     }
 }

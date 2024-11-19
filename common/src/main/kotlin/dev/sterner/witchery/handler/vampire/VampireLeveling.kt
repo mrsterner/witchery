@@ -18,6 +18,9 @@ object VampireLeveling {
 
     private val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
 
+    /**
+     * Will level upp a vampire-player if they for fills the requirements to do so.
+     */
     @JvmStatic
     fun increaseVampireLevel(player: ServerPlayer) {
         val data = getData(player)
@@ -31,6 +34,9 @@ object VampireLeveling {
         }
     }
 
+    /**
+     * Maps the current players level to what its max blood pool amount should be
+     */
     fun setMaxBlood(player: Player, level: Int) {
         val maxBlood = when (level) {
             1 -> 900
@@ -49,6 +55,9 @@ object VampireLeveling {
         BloodPoolLivingEntityAttachment.setData(player, bloodData.copy(maxBlood = maxBlood))
     }
 
+    /**
+     * When the player vampire-level changes this will reset and add potential attributes
+     */
     fun updateModifiers(player: Player, level: Int) {
         player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.removeModifier(KNOCKBACK_BONUS)
         if (level >= 3) {
@@ -57,7 +66,10 @@ object VampireLeveling {
         }
     }
 
-    fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
+    /**
+     * Checks if the vampire-player is the correct level and have the right amount tof Torn pages to exercise the quest
+     */
+    private fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = getData(player)
 
         if (data.vampireLevel != targetLevel) {
