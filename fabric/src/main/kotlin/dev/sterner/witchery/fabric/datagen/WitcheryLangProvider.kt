@@ -706,5 +706,25 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add("vampirism.vamp_9.page.3", "\n" +
                 "At last he knew his blood was strong enough to replicate what She had done for him... ...left me weak, close to oblivion but I watched him fill a glass goblet and hand it to me... ...we both sat next to a coffin, far from the sun's gaze, \"drink\" is all he said...")
+
+
+        builder.add("book.witchery.guidebook.vampirism.armor.name", "Being Dapper")
+        builder.add("book.witchery.guidebook.vampirism.armor.description", "Suit Up!")
+
+        builder.add("vampirism.armor.title", "Vampiric Attire")
+        builder.add("vampirism.armor.page.1", "\n" +
+            "\\\n" +
+            "Increased comfort will make all the difference. Use Bone Needle to stain wool"
+        )
+
+        builder.add("vampirism.armor.woven_cruor", "Woven Cruor")
+        builder.add("vampirism.armor.top_hat", "Top Hat")
+        builder.add("vampirism.armor.top_hat.text", "*description*")
+        builder.add("vampirism.armor.dress_coat", "Dress Coat")
+        builder.add("vampirism.armor.dress_coat.text", "*description*")
+        builder.add("vampirism.armor.trousers", "Trousers")
+        builder.add("vampirism.armor.trousers.text", "*description*")
+        builder.add("vampirism.armor.oxford_boots", "Oxford Boots")
+        builder.add("vampirism.armor.oxford_boots.text", "*description*")
     }
 }

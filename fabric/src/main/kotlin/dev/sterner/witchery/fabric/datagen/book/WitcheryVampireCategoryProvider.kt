@@ -8,6 +8,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookEntryParentModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementConditionModel
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.fabric.datagen.book.entry.vampire.VampireArmorEntryProvider
 import dev.sterner.witchery.fabric.datagen.book.entry.vampire.VampireLevelOneEntryProvider
 import dev.sterner.witchery.fabric.datagen.book.entry.vampire.VampireLevelTenEntryProvider
 import dev.sterner.witchery.fabric.datagen.book.entry.vampire.VampireLevelTwoEntryProvider
@@ -29,7 +30,7 @@ class WitcheryVampireCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "__________________________________",
+            "_______________x__________________",
             "__________________________________",
             "_____________a_b_c_d_e_f_g_h_i_j__",
             "__________________________________",
@@ -121,6 +122,14 @@ class WitcheryVampireCategoryProvider(
             )
             .addParent(BookEntryParentModel.create(vamp8.id).withDrawArrow(true))
         addEntry(vamp9)
+
+        val armor = VampireArmorEntryProvider("armor",this).generate("x")
+        armor
+            .withCondition(
+                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/2"))
+            )
+            .addParent(BookEntryParentModel.create(vamp1.id).withDrawArrow(true))
+        addEntry(armor)
     }
 
     override fun categoryName(): String {

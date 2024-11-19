@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "witchery:blood_stained_wool"
+  },
+  "result": {
+    "id": "witchery:woven_cruor"
+  }
+}

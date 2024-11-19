@@ -1763,5 +1763,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             WitcheryItems.WOVEN_CRUOR.get(),
             0.35f, 200
         )
+            .unlockedBy("has_blood", has(WitcheryItems.BLOOD_STAINED_WOOL.get()))
+            .save(exporter, Witchery.id("woven_cruor"))
     }
 }
