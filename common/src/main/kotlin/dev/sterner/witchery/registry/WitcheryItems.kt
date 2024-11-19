@@ -1087,4 +1087,13 @@ object WitcheryItems {
     val BLOOD_STAINED_WOOL = ITEMS.register("blood_stained_wool") {
         BlockItem(WitcheryBlocks.BLOOD_STAINED_WOOL.get(), Item.Properties())
     }
+
+    val CANE_SWORD = ITEMS.register("cane_sword") {
+        CaneSwordItem(Tiers.IRON, Item.Properties().stacksTo(1), false)
+    }
+
+    val CANE_SWORD_UNSHEETED = ITEMS.register("cane_sword_unsheeted") {
+        CaneSwordItem(Tiers.IRON, Item.Properties().stacksTo(1), true)
+    }
+
 }

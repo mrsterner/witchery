@@ -1,7 +1,6 @@
 package dev.sterner.witchery.fabric
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
@@ -9,30 +8,24 @@ import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.fabric.client.*
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
-import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
 import dev.sterner.witchery.platform.fabric.WitcheryFluidHandlerFabric
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents
-import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
 import net.minecraft.client.renderer.ShaderInstance
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.levelgen.GenerationStep
 import java.io.IOException
 
@@ -150,7 +143,8 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             )
         }
 
-        CoreShaderRegistrationCallback.EVENT.register(this::registerShaders);
+        CoreShaderRegistrationCallback.EVENT.register(this::registerShaders)
+        ModelLoadingPlugin.register(WitcheryFabricModelLoaderPlugin())
     }
 
     @Throws(IOException::class)

@@ -153,6 +153,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.DRESS_COAT.get())
                 output.accept(WitcheryItems.TROUSERS.get())
                 output.accept(WitcheryItems.OXFORD_BOOTS.get())
+                output.accept(WitcheryItems.CANE_SWORD.get())
 
                 output.accept(WitcheryItems.DISTURBED_COTTON.get())
                 output.accept(WitcheryItems.WISPY_COTTON.get())

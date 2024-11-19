@@ -6,6 +6,7 @@
   "client": [
     "client.ClientPacketListenerMixin",
     "client.GuiMixin",
+    "client.HumanoidModelMixin",
     "client.ItemRendererMixin",
     "client.LivingEntityRendererMixin",
     "client.PlayerItemInHandLayerMixin",

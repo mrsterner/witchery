@@ -2,11 +2,7 @@ package dev.sterner.witchery.neoforge.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.handler.PoppetHandler;
-import dev.sterner.witchery.handler.VampireHandler;
 import dev.sterner.witchery.mixin_logic.LivingEntityMixinLogic;
-import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
-import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;

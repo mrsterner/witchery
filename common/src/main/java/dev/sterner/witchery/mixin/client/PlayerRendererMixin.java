@@ -1,5 +1,6 @@
 package dev.sterner.witchery.mixin.client;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -7,8 +8,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
+import dev.sterner.witchery.registry.WitcheryItems;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.BatModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -20,11 +22,7 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -131,4 +129,18 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 
         return d;
     }
+/*
+    @ModifyReturnValue(method = "getArmPose", at = @At("RETURN"))
+    private static HumanoidModel.ArmPose witchery$canePose(HumanoidModel.ArmPose original, @Local(argsOnly = true) AbstractClientPlayer player, @Local(argsOnly = true) InteractionHand hand){
+        if (hand == InteractionHand.MAIN_HAND && player.getMainHandItem().is(WitcheryItems.INSTANCE.getCANE_SWORD().get())) {
+            return HumanoidModel.ArmPose.BRUSH;
+        }
+        if (hand == InteractionHand.OFF_HAND && player.getOffhandItem().is(WitcheryItems.INSTANCE.getCANE_SWORD().get())) {
+            return HumanoidModel.ArmPose.BRUSH;
+        }
+
+        return original;
+    }
+
+ */
 }
