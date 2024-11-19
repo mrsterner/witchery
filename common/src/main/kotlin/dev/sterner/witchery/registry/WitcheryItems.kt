@@ -946,7 +946,7 @@ object WitcheryItems {
     }
 
     val ARTHANA: RegistrySupplier<ArthanaItem> = ITEMS.register("arthana") {
-        ArthanaItem(Item.Properties())
+        ArthanaItem(Item.Properties().attributes(SwordItem.createAttributes(Tiers.GOLD, 1, -2.4F)))
     }
 
     val CHALICE: RegistrySupplier<ChaliceBlockItem> = ITEMS.register("chalice") {
@@ -1089,6 +1089,8 @@ object WitcheryItems {
     }
 
     val CANE_SWORD = ITEMS.register("cane_sword") {
-        CaneSwordItem(Tiers.IRON, Item.Properties().stacksTo(1))
+        CaneSwordItem(Tiers.IRON, Item.Properties()
+            .stacksTo(1)
+        )
     }
 }

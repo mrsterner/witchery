@@ -55,6 +55,8 @@ import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachm
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryDataComponents.UNSHEETED
+import dev.sterner.witchery.registry.WitcheryItems.CANE_SWORD
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
@@ -491,11 +493,18 @@ object Witchery {
         }
 
         ItemPropertiesRegistry.register(
-            WitcheryItems.CANE_SWORD.get(),
+            CANE_SWORD.get(),
             ResourceLocation.fromNamespaceAndPath(MODID, "unsheeted")
         ) { stack, _, _, _ ->
-            stack.get(WitcheryDataComponents.UNSHEETED.get()) ?: return@register 0f
-            return@register 1f
+            val bl = stack.has(UNSHEETED.get())
+            if (bl) {
+                val bl2 = stack.get(UNSHEETED.get())!!
+                if (bl2) {
+                    return@register 1f
+                }
+            }
+
+            return@register 0f
         }
 
         ColorHandlerRegistry.registerBlockColors(
