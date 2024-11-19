@@ -41,4 +41,14 @@ object PlatformUtils {
     ): ArmorItem {
         throw AssertionError()
     }
+
+    @JvmStatic
+    @ExpectPlatform
+    fun dapper(
+        dapper: RegistrySupplier<ArmorMaterial>,
+        type: ArmorItem.Type,
+        properties: Item.Properties
+    ): ArmorItem {
+        throw AssertionError()
+    }
 }

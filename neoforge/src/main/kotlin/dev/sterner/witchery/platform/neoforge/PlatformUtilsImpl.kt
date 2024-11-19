@@ -3,6 +3,7 @@ package dev.sterner.witchery.platform.neoforge
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
+import dev.sterner.witchery.neoforge.item.VampireArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
@@ -37,5 +38,14 @@ object PlatformUtilsImpl {
         properties: Item.Properties
     ): ArmorItem {
         return HunterArmorItemNeoForge(witchesRobes, chestplate, properties)
+    }
+
+    @JvmStatic
+    fun dapper(
+        dapper: RegistrySupplier<ArmorMaterial>,
+        chestplate: ArmorItem.Type,
+        properties: Item.Properties
+    ): ArmorItem {
+        return VampireArmorItemNeoForge(dapper, chestplate, properties)
     }
 }

@@ -52,4 +52,23 @@ object WitcheryArmorMaterials {
             0f
         )
     }
+
+    val DAPPER: RegistrySupplier<ArmorMaterial> = MATERIALS.register("dapper") {
+        ArmorMaterial(
+            java.util.Map.of(
+                ArmorItem.Type.HELMET, 1,
+                ArmorItem.Type.CHESTPLATE, 3,
+                ArmorItem.Type.LEGGINGS, 2,
+                ArmorItem.Type.BOOTS, 1
+            ),
+            15,
+            SoundEvents.ARMOR_EQUIP_LEATHER,
+            { Ingredient.of(WitcheryItems.WOVEN_CRUOR.get()) },
+            listOf(
+                ArmorMaterial.Layer(Witchery.id("dapper"))
+            ),
+            1f,
+            0f
+        )
+    }
 }

@@ -17,13 +17,18 @@ import dev.sterner.witchery.neoforge.client.DreamWeaverBlockEntityWithoutLevelRe
 import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
+import dev.sterner.witchery.neoforge.item.VampireArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
+import dev.sterner.witchery.registry.WitcheryItems.DRESS_COAT
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_BOOTS
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_CHESTPLATE
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_HELMET
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_LEGGINGS
+import dev.sterner.witchery.registry.WitcheryItems.OXFORD_BOOTS
+import dev.sterner.witchery.registry.WitcheryItems.TOP_HAT
+import dev.sterner.witchery.registry.WitcheryItems.TROUSERS
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
@@ -189,7 +194,13 @@ object WitcheryNeoForgeClientEvent {
             HUNTER_LEGGINGS.get(),
             HUNTER_BOOTS.get()
         )
-
+        event.registerItem(
+            VampireArmorItemNeoForge.ArmorRender.INSTANCE,
+            TOP_HAT.get(),
+            DRESS_COAT.get(),
+            OXFORD_BOOTS.get(),
+            TROUSERS.get()
+        )
         event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(SpinningWheelBlockEntityWithoutLevelRenderer()),
             WitcheryItems.SPINNING_WHEEL.get()

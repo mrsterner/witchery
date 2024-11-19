@@ -101,6 +101,31 @@ object WitcheryItems {
         PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
     }
 
+    val TOP_HAT: RegistrySupplier<ArmorItem> = ITEMS.register("top_hat") {
+        PlatformUtils.dapper(
+            WitcheryArmorMaterials.DAPPER,
+            ArmorItem.Type.HELMET,
+            Item.Properties().stacksTo(1)
+        )
+    }
+
+    val DRESS_COAT: RegistrySupplier<ArmorItem> = ITEMS.register("dress_coat") {
+        PlatformUtils.dapper(
+            WitcheryArmorMaterials.DAPPER,
+            ArmorItem.Type.CHESTPLATE,
+            Item.Properties().stacksTo(1)
+        )
+    }
+
+    val TROUSERS: RegistrySupplier<ArmorItem> = ITEMS.register("trousers") {
+        PlatformUtils.dapper(WitcheryArmorMaterials.DAPPER, ArmorItem.Type.LEGGINGS, Item.Properties().stacksTo(1))
+    }
+
+    val OXFORD_BOOTS: RegistrySupplier<ArmorItem> = ITEMS.register("oxford_boots") {
+        PlatformUtils.dapper(WitcheryArmorMaterials.DAPPER, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
+    }
+
+
     //start RESOURCES
     val MUTANDIS: RegistrySupplier<MutandisItem> = ITEMS.register("mutandis") {
         MutandisItem(Item.Properties())
@@ -1053,5 +1078,9 @@ object WitcheryItems {
 
     val WOODEN_HAWTHORN_STAKE = ITEMS.register("wooden_hawthorn_stake") {
         WoodenStakeItem(Item.Properties().stacksTo(1))
+    }
+
+    val WOVEN_CRUOR = ITEMS.register("woven_cruor") {
+        Item(Item.Properties())
     }
 }

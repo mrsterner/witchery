@@ -112,6 +112,13 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryItems.BABA_YAGAS_HAT.get()
         )
         ArmorRenderer.register(
+            VampireArmorRendererFabric(),
+            WitcheryItems.DRESS_COAT.get(),
+            WitcheryItems.TOP_HAT.get(),
+            WitcheryItems.OXFORD_BOOTS.get(),
+            WitcheryItems.TROUSERS.get()
+        )
+        ArmorRenderer.register(
             HunterArmorRendererFabric(),
             WitcheryItems.HUNTER_HELMET.get(),
             WitcheryItems.HUNTER_CHESTPLATE.get(),

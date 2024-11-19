@@ -68,4 +68,13 @@ object PlatformUtilsImpl {
     ): ArmorItem {
         return ArmorItem(witchesRobes, chestplate, properties)
     }
+
+    @JvmStatic
+    fun dapper(
+        dapper: RegistrySupplier<ArmorMaterial>,
+        chestplate: ArmorItem.Type,
+        properties: Item.Properties
+    ): ArmorItem {
+        return ArmorItem(dapper, chestplate, properties)
+    }
 }
