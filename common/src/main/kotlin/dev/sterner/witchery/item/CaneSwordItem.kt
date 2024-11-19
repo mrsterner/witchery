@@ -11,11 +11,10 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
 
     override fun useOn(context: UseOnContext): InteractionResult {
         if (!context.level.isClientSide && context.player?.isShiftKeyDown == true && context.hand == InteractionHand.MAIN_HAND) {
-            val unsheeted = context.itemInHand.get(WitcheryDataComponents.UNSHEETED.get())
-            println(unsheeted)
             val item = context.itemInHand.copy()
-            if (unsheeted == true) {
-                item.set(WitcheryDataComponents.UNSHEETED.get(), false)
+            if (context.itemInHand.has(WitcheryDataComponents.UNSHEETED.get())) {
+                val unsheeted = context.itemInHand.get(WitcheryDataComponents.UNSHEETED.get())!!
+                item.set(WitcheryDataComponents.UNSHEETED.get(), !unsheeted)
             } else {
                 item.set(WitcheryDataComponents.UNSHEETED.get(), true)
             }
