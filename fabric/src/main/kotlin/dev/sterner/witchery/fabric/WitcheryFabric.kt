@@ -1,6 +1,7 @@
 package dev.sterner.witchery.fabric
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import dev.architectury.registry.client.gui.ClientTooltipComponentRegistry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
@@ -21,6 +22,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
+import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
@@ -145,6 +147,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
         CoreShaderRegistrationCallback.EVENT.register(this::registerShaders)
         //ModelLoadingPlugin.register(WitcheryFabricModelLoaderPlugin())
+
     }
 
     @Throws(IOException::class)

@@ -5,11 +5,14 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientRawInputEvent
 import dev.architectury.event.events.client.ClientTickEvent
+import dev.architectury.event.events.client.ClientTooltipEvent
 import dev.architectury.event.events.common.*
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
+import dev.architectury.impl.TooltipAdditionalContextsImpl
 import dev.architectury.networking.NetworkManager
+import dev.architectury.registry.client.gui.ClientTooltipComponentRegistry
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
@@ -44,6 +47,7 @@ import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.vampire.VampireAbilities
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
+import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
@@ -60,6 +64,7 @@ import dev.sterner.witchery.registry.WitcheryItems.CANE_SWORD
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
@@ -155,6 +160,7 @@ object Witchery {
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(FamiliarLevelAttachment::familiarDeath)
+        EntityEvent.LIVING_DEATH.register(CaneSwordItem::harvestBlood)
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
         EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::setBloodOnAdded)
 
@@ -424,6 +430,7 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(), ::SuspiciousGraveyardDirtBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(), ::SacrificialCircleBlockEntityRenderer)
 
+        ClientTooltipComponentRegistry.register(CaneSwordItem.BloodPoolComponent::class.java, CaneSwordItem.BloodPoolComponent::getClientTooltipComponent)
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
         ParticleProviderRegistry.register(WitcheryParticleTypes.ZZZ.get(), ZzzParticle::Provider)

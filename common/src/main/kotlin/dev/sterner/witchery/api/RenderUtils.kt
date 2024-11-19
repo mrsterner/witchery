@@ -64,6 +64,11 @@ object RenderUtils {
         val data = BloodPoolLivingEntityAttachment.getData(living)
         val bloodPool = data.bloodPool
         val maxBlood = data.maxBlood
+        innerRenderBlood(guiGraphics, maxBlood, bloodPool, y, x)
+    }
+
+    fun innerRenderBlood(guiGraphics: GuiGraphics, maxBlood: Int, bloodPool: Int , y: Int, x: Int) {
+
         val dropCount = maxBlood / 300
         val fullIcons = bloodPool / 300
         val partialFill = bloodPool % 300
