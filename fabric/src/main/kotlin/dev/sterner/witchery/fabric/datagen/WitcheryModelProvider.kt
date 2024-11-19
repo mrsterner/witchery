@@ -88,6 +88,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
             .logWithHorizontal(WitcheryBlocks.STRIPPED_ALDER_LOG.get()).wood(WitcheryBlocks.STRIPPED_ALDER_WOOD.get())
 
         generator.createTrivialBlock(WitcheryBlocks.ALDER_LEAVES.get(), TexturedModel.LEAVES)
+        generator.createTrivialCube(WitcheryBlocks.BLOOD_STAINED_WOOL.get())
 
         generator.createCrossBlock(WitcheryBlocks.ALDER_SAPLING.get(), BlockModelGenerators.TintState.NOT_TINTED)
         generator.skipAutoItemBlock(WitcheryBlocks.ALDER_SAPLING.get())
@@ -230,6 +231,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.HUNTER_HELMET.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.HUNTER_CHESTPLATE.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.HUNTER_LEGGINGS.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.WOVEN_CRUOR.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.TOP_HAT.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.DRESS_COAT.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.TROUSERS.get(), ModelTemplates.FLAT_ITEM)

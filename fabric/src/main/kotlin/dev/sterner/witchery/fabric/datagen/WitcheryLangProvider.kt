@@ -79,6 +79,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.OXIDIZED_COPPER_CAULDRON.get(), "Oxidized Copper Cauldron")
         builder.add(WitcheryItems.WAXED_OXIDIZED_COPPER_CAULDRON.get(), "Waxed Oxidized Copper Cauldron")
 
+        builder.add(WitcheryItems.BLOOD_STAINED_WOOL.get(), "Blood-stained Wool")
+        builder.add(WitcheryItems.WOVEN_CRUOR.get(), "Woven Cruor")
+
         builder.add(WitcheryItems.ALTAR.get(), "Altar")
         builder.add(WitcheryItems.MUTANDIS.get(), "Mutandis")
         builder.add(WitcheryItems.MUTANDIS_EXTREMIS.get(), "Mutandis Extremis")

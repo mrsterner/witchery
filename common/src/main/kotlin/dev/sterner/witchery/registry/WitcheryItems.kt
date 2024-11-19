@@ -1083,4 +1083,8 @@ object WitcheryItems {
     val WOVEN_CRUOR = ITEMS.register("woven_cruor") {
         Item(Item.Properties())
     }
+
+    val BLOOD_STAINED_WOOL = ITEMS.register("blood_stained_wool") {
+        BlockItem(WitcheryBlocks.BLOOD_STAINED_WOOL.get(), Item.Properties())
+    }
 }

@@ -1,18 +1,6 @@
 {
-  "parent": "witchery:block/sunlight_collector_empty",
-  "display": {
-    "thirdperson_righthand": {
-      "translation": [0, 0, -0.25]
-    },
-    "thirdperson_lefthand": {
-      "translation": [0, 0, -0.25]
-    },
-    "ground": {
-      "scale": [0.5, 0.5, 0.5]
-    },
-    "gui": {
-      "rotation": [-35, 35, 0],
-      "translation": [0.5, 0.5, 0]
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchery:item/sunlight_collector"
   }
 }

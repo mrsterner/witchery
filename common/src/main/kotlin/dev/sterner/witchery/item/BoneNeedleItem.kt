@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item
 
 import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.server.level.ServerLevel
@@ -33,6 +34,12 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
         var pos = context.clickedPos
         val state = level.getBlockState(pos)
         val player = context.player
+
+        if (state.`is`(BlockTags.WOOL) && player != null) {
+            player.hurt(player.damageSources().playerAttack(player), 2f)
+            level.setBlockAndUpdate(pos, WitcheryBlocks.BLOOD_STAINED_WOOL.get().defaultBlockState())
+            return InteractionResult.SUCCESS
+        }
 
         player?.let { WitcheryApi.makePlayerWitchy(it) }
 

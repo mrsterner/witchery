@@ -1002,4 +1002,8 @@ object WitcheryBlocks {
     val SUNLIGHT_COLLECTOR = BLOCKS.register("sunlight_collector") {
         SunCollectorBlock(BlockBehaviour.Properties.of().randomTicks().noOcclusion())
     }
+
+    val BLOOD_STAINED_WOOL = BLOCKS.register("blood_stained_wool") {
+        Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL))
+    }
 }

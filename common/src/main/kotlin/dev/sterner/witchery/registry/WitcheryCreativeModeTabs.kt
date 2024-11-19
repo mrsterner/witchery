@@ -147,6 +147,8 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.TORN_PAGE.get())
                 output.accept(WitcheryItems.QUARTZ_SPHERE.get())
                 output.accept(WitcheryItems.SUN_COLLECTOR.get())
+                output.accept(WitcheryItems.BLOOD_STAINED_WOOL.get())
+                output.accept(WitcheryItems.WOVEN_CRUOR.get())
                 output.accept(WitcheryItems.TOP_HAT.get())
                 output.accept(WitcheryItems.DRESS_COAT.get())
                 output.accept(WitcheryItems.TROUSERS.get())

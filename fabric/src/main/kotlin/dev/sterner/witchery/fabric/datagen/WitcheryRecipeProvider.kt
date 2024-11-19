@@ -948,6 +948,36 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_alder", has(WitcheryItems.ALDER_LOG.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.OXFORD_BOOTS.get())
+            .pattern("W W")
+            .pattern("W W")
+            .define('W', WitcheryItems.WOVEN_CRUOR.get())
+            .unlockedBy("has_cruor", has(WitcheryItems.WOVEN_CRUOR.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.TROUSERS.get())
+            .pattern("WWW")
+            .pattern("W W")
+            .pattern("W W")
+            .define('W', WitcheryItems.WOVEN_CRUOR.get())
+            .unlockedBy("has_cruor", has(WitcheryItems.WOVEN_CRUOR.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.DRESS_COAT.get())
+            .pattern("W W")
+            .pattern("WWW")
+            .pattern("WWW")
+            .define('W', WitcheryItems.WOVEN_CRUOR.get())
+            .unlockedBy("has_cruor", has(WitcheryItems.WOVEN_CRUOR.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.TOP_HAT.get())
+            .pattern("WWW")
+            .pattern("W W")
+            .define('W', WitcheryItems.WOVEN_CRUOR.get())
+            .unlockedBy("has_cruor", has(WitcheryItems.WOVEN_CRUOR.get()))
+            .save(exporter)
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())
             .requires(Items.BONE)
             .requires(Items.FLINT)
@@ -1727,6 +1757,11 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addSummon(WitcheryEntityTypes.BANSHEE.get())
             .save(exporter, Witchery.id("summon_banshee"))
 
-
+        SimpleCookingRecipeBuilder.smelting(
+            Ingredient.of(WitcheryItems.BLOOD_STAINED_WOOL.get()),
+            RecipeCategory.MISC,
+            WitcheryItems.WOVEN_CRUOR.get(),
+            0.35f, 200
+        )
     }
 }
