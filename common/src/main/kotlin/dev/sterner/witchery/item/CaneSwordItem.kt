@@ -34,11 +34,23 @@ import kotlin.math.min
 class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, properties) {
 
     override fun useOn(context: UseOnContext): InteractionResult {
-        if (!context.level.isClientSide && context.player?.isShiftKeyDown != true && context.hand == InteractionHand.MAIN_HAND) {
-            val item = context.itemInHand.copy()
+        val level = context.level
+        val player = context.player
+        val hand = context.hand
+        if (player != null) {
+            transformCane(level, player, hand, player.mainHandItem)
+            return InteractionResult.SUCCESS
+        }
+
+        return super.useOn(context)
+    }
+
+    private fun transformCane(level: Level, player: Player, hand: InteractionHand, itemStack: ItemStack){
+        if (!level.isClientSide && !player.isShiftKeyDown && hand == InteractionHand.MAIN_HAND) {
+            val item = itemStack.copy()
             item.remove(DataComponents.ATTRIBUTE_MODIFIERS)
-            if (context.itemInHand.has(WitcheryDataComponents.UNSHEETED.get())) {
-                val unsheeted = context.itemInHand.get(WitcheryDataComponents.UNSHEETED.get())!!
+            if (itemStack.has(WitcheryDataComponents.UNSHEETED.get())) {
+                val unsheeted = itemStack.get(WitcheryDataComponents.UNSHEETED.get())!!
                 item.set(WitcheryDataComponents.UNSHEETED.get(), !unsheeted)
                 if (!unsheeted) {
                     item.set(DataComponents.ATTRIBUTE_MODIFIERS, createAttributes(Tiers.IRON, 4, -2.4F))
@@ -47,10 +59,8 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
                 item.set(DataComponents.ATTRIBUTE_MODIFIERS, createAttributes(Tiers.IRON, 4, -2.4F))
                 item.set(WitcheryDataComponents.UNSHEETED.get(), true)
             }
-            context.player!!.setItemInHand(InteractionHand.MAIN_HAND, item)
+            player.setItemInHand(InteractionHand.MAIN_HAND, item)
         }
-
-        return super.useOn(context)
     }
 
     override fun getUseDuration(stack: ItemStack, entity: LivingEntity): Int {
@@ -100,6 +110,9 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
             player.isShiftKeyDown
         ) {
             return ItemUtils.startUsingInstantly(level, player, usedHand)
+        }
+        if (!player.isShiftKeyDown) {
+            transformCane(level, player, usedHand, player.mainHandItem)
         }
 
         return super.use(level, player, usedHand)

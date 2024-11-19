@@ -1089,8 +1089,9 @@ object WitcheryItems {
     }
 
     val CANE_SWORD = ITEMS.register("cane_sword") {
-        CaneSwordItem(Tiers.IRON, Item.Properties()
+        CaneSwordItem(Tiers.DIAMOND, Item.Properties()
             .stacksTo(1)
+            .durability(1561)
         )
     }
 }
