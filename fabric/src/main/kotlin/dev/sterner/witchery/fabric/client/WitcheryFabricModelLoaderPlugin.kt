@@ -14,8 +14,9 @@ import net.minecraft.world.item.ItemStack
 import java.util.*
 import java.util.function.Supplier
 
-
+/*
 class WitcheryFabricModelLoaderPlugin : ModelLoadingPlugin {
+
 
     companion object {
         val CANE_BASE_MODEL = ModelResourceLocation.inventory(Witchery.id("cane_sword"))
@@ -92,3 +93,5 @@ class WitcheryFabricModelLoaderPlugin : ModelLoadingPlugin {
         }
     }
 }
+
+ */

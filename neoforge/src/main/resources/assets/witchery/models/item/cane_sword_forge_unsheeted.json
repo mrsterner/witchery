@@ -1,6 +1,0 @@
-{
-  "parent": "witchery:item/handheld_large",
-  "textures": {
-    "layer0": "witchery:item/cane_sword_large_unsheeted"
-  }
-}

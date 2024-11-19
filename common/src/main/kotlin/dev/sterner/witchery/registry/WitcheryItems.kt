@@ -1089,11 +1089,6 @@ object WitcheryItems {
     }
 
     val CANE_SWORD = ITEMS.register("cane_sword") {
-        CaneSwordItem(Tiers.IRON, Item.Properties().stacksTo(1), false)
+        CaneSwordItem(Tiers.IRON, Item.Properties().stacksTo(1))
     }
-
-    val CANE_SWORD_UNSHEETED = ITEMS.register("cane_sword_unsheeted") {
-        CaneSwordItem(Tiers.IRON, Item.Properties().stacksTo(1), true)
-    }
-
 }

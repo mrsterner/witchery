@@ -144,7 +144,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         }
 
         CoreShaderRegistrationCallback.EVENT.register(this::registerShaders)
-        ModelLoadingPlugin.register(WitcheryFabricModelLoaderPlugin())
+        //ModelLoadingPlugin.register(WitcheryFabricModelLoaderPlugin())
     }
 
     @Throws(IOException::class)

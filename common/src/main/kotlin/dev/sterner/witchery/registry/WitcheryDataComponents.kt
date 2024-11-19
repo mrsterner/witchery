@@ -70,4 +70,7 @@ object WitcheryDataComponents {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
     }
 
+    val UNSHEETED: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("unsheeted") {
+        DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
+    }
 }

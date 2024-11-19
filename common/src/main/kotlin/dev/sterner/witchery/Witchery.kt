@@ -490,6 +490,14 @@ object Witchery {
             return@register 1f
         }
 
+        ItemPropertiesRegistry.register(
+            WitcheryItems.CANE_SWORD.get(),
+            ResourceLocation.fromNamespaceAndPath(MODID, "unsheeted")
+        ) { stack, _, _, _ ->
+            stack.get(WitcheryDataComponents.UNSHEETED.get()) ?: return@register 0f
+            return@register 1f
+        }
+
         ColorHandlerRegistry.registerBlockColors(
             RitualChalkColors,
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
