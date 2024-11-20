@@ -33,7 +33,8 @@ public abstract class PlayerMixin {
     private static AttributeSupplier.Builder lodestone$CreateLivingAttributes(AttributeSupplier.Builder original) {
         return original
                 .add(WitcheryAttributes.INSTANCE.getVAMPIRE_DRINK_SPEED())
-                .add(WitcheryAttributes.INSTANCE.getVAMPIRE_BAT_FORM_DURATION());
+                .add(WitcheryAttributes.INSTANCE.getVAMPIRE_BAT_FORM_DURATION())
+                .add(WitcheryAttributes.INSTANCE.getVAMPIRE_SUN_RESISTANCE());
     }
 
     @ModifyReturnValue(method = "wantsToStopRiding", at = @At("RETURN"))

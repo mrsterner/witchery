@@ -24,6 +24,10 @@ object WitcheryAttributes {
     }
 
     val VAMPIRE_BAT_FORM_DURATION = attributes.register(Witchery.id("vampire_bat_form_duration")) {
-        RangedAttribute("attribute.name.witchery.vampire_bat_form_duration", 0.0,0.0,255.0).setSyncable(true)
+        RangedAttribute("attribute.name.witchery.vampire_bat_form_duration", 120.0,0.0,255.0).setSyncable(true)
+    }
+
+    val VAMPIRE_SUN_RESISTANCE = attributes.register(Witchery.id("vampire_sun_resistance")) {
+        RangedAttribute("attribute.name.witchery.vampire_sun_resistance", 100.0,100.0,512.0).setSyncable(true)
     }
 }

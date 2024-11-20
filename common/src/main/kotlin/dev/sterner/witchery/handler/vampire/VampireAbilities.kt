@@ -78,9 +78,9 @@ object VampireAbilities {
      * This is decreasing the accumulated ticks when then vampire-player is in hiding from the sun
      */
     @JvmStatic
-    fun decreaseInSunTick(player: Player) {
+    fun decreaseInSunTick(player: Player, amount: Int = 1) {
         val data = getData(player)
-        val newInSunTick = (data.inSunTick - 1).coerceAtLeast(0)
+        val newInSunTick = (data.inSunTick - amount).coerceAtLeast(0)
         setData(player, data.copy(inSunTick = newInSunTick))
     }
 

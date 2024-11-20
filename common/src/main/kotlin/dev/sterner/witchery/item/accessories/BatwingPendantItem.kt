@@ -18,7 +18,7 @@ class BatwingPendantItem(properties: Properties?) : AccessoryItem(properties) {
         builder.addStackable(
             WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION,
             AttributeModifier(
-                Witchery.id("batwing_modifier"), 50.0,
+                Witchery.id("batwing_modifier"), 120.0,
                 AttributeModifier.Operation.ADD_VALUE)
         )
         super.getDynamicModifiers(stack, reference, builder)

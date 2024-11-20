@@ -6,6 +6,7 @@ import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SyncTransformationS2CPayload
+import dev.sterner.witchery.registry.WitcheryAttributes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -15,9 +16,11 @@ import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.player.Player
+import kotlin.math.max
 
 object TransformationPlayerAttachment {
 
+    private const val MAX_COOLDOWN = 20 * 30
     var bat: Bat? = null
 
     @JvmStatic
@@ -52,13 +55,15 @@ object TransformationPlayerAttachment {
 
     @JvmStatic
     fun removeForm(player: Player){
-        setData(player, Data(TransformationType.NONE))
-
+        setData(player, Data(TransformationType.NONE, MAX_COOLDOWN))
     }
 
     @JvmStatic
     fun setBatForm(player: Player) {
-        setData(player, Data(TransformationType.BAT))
+        val data = getData(player)
+        if (data.batFormCooldown <= 0) {
+            setData(player, Data(TransformationType.BAT, 0, 0))
+        }
     }
 
     @JvmStatic
@@ -71,43 +76,49 @@ object TransformationPlayerAttachment {
         setData(player, Data(TransformationType.WEREWOLF))
     }
 
+    @JvmStatic
+    fun increaseBatFormTimer(player: Player){
+        val data = getData(player)
+        setData(player, data.copy(batFormTicker = data.batFormTicker + 1))
+    }
+
+    @JvmStatic
+    fun decreaseBatFormCooldown(player: Player){
+        val data = getData(player)
+        if (data.batFormCooldown > 0) {
+            setData(player, data.copy(batFormCooldown = max(data.batFormCooldown - 1, 0)))
+        }
+    }
+
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
             WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncTransformationS2CPayload(player, data))
         }
     }
 
-    var villageCheckTicker = 0
+    private var villageCheckTicker = 0
 
     fun tickBat(player: Player){
         if (player.level() is ServerLevel) {
 
+            decreaseBatFormCooldown(player)
+
             if (isBat(player)) {
-                if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
-                    villageCheckTicker++
-                    if (villageCheckTicker > 20) {
-                        villageCheckTicker = 0
-                        val serverLevel = player.level() as ServerLevel
-
-                        if (serverLevel.structureManager().getStructureWithPieceAt(
-                                player.blockPosition(),
-                                StructureTags.VILLAGE
-                            ).isValid
-                        ) {
-                            val structureStart = serverLevel.structureManager().getStructureWithPieceAt(
-                                player.blockPosition(),
-                                StructureTags.VILLAGE)
-
-                            VampireLeveling.addVillage(player as ServerPlayer, structureStart.chunkPos)
-                        }
-                    }
-                }
+                checkForVillage(player)
 
                 if ((!player.isCreative || !player.isSpectator)) {
                     player.abilities.flying = true
                     player.abilities.mayfly = true
                     player.onUpdateAbilities()
                 }
+
+                increaseBatFormTimer(player)
+
+                val maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt() * 20
+                if (getData(player).batFormTicker > maxBatTime) {
+                    removeForm(player)
+                }
+
             } else {
                 if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
                     VampireLeveling.resetVillages(player)
@@ -126,14 +137,40 @@ object TransformationPlayerAttachment {
         }
     }
 
+    private fun checkForVillage(player: Player){
+        if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
+            villageCheckTicker++
+            if (villageCheckTicker > 20) {
+                villageCheckTicker = 0
+                val serverLevel = player.level() as ServerLevel
+
+                if (serverLevel.structureManager().getStructureWithPieceAt(
+                        player.blockPosition(),
+                        StructureTags.VILLAGE
+                    ).isValid
+                ) {
+                    val structureStart = serverLevel.structureManager().getStructureWithPieceAt(
+                        player.blockPosition(),
+                        StructureTags.VILLAGE)
+
+                    VampireLeveling.addVillage(player as ServerPlayer, structureStart.chunkPos)
+                }
+            }
+        }
+    }
+
     data class Data(
         val transformationType: TransformationType = TransformationType.NONE,
+        val batFormCooldown: Int = 0,
+        val batFormTicker: Int = 0
     ) {
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     TransformationType.TRANSFORMATION_CODEC.fieldOf("transformationType").forGetter { it.transformationType },
+                    Codec.INT.fieldOf("batFormCooldown").forGetter { it.batFormCooldown },
+                    Codec.INT.fieldOf("batFormTicker").forGetter { it.batFormTicker },
 
                 ).apply(instance, ::Data)
             }

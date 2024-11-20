@@ -24,8 +24,10 @@ import dev.sterner.witchery.registry.*
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.player.LocalPlayer
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -45,6 +47,7 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import java.util.function.Consumer
+import kotlin.math.ceil
 
 object VampireEventHandler {
 
@@ -115,8 +118,9 @@ object VampireEventHandler {
 
             if (isInSunlight) {
                 VampireAbilities.increaseInSunTick(player)
+                val maxInSunTicks = player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0
 
-                if (getData(player).inSunTick >= 100) {
+                if (getData(player).inSunTick >= maxInSunTicks) {
                     if (vampData.vampireLevel < 5) {
                         player.hurt(sunDamageSource, Float.MAX_VALUE)
                     } else {
@@ -132,7 +136,8 @@ object VampireEventHandler {
                     }
                 }
             } else {
-                VampireAbilities.decreaseInSunTick(player)
+                val decreaseAmount = (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.div(100)) ?: 1.0
+                VampireAbilities.decreaseInSunTick(player, (ceil(decreaseAmount)).toInt())
             }
 
             if (bloodData.bloodPool >= 75 && player.level().random.nextBoolean()) {
@@ -255,6 +260,7 @@ object VampireEventHandler {
 
         drawBloodSense(guiGraphics)
         drawSun(guiGraphics, player)
+        drawBatFormHud(guiGraphics, player)
 
         val bl = player.isShiftKeyDown
 
@@ -271,6 +277,22 @@ object VampireEventHandler {
         }
     }
 
+    private fun drawBatFormHud(guiGraphics: GuiGraphics, player: LocalPlayer) {
+        if (TransformationPlayerAttachment.isBat(player)) {
+            val y = guiGraphics.guiHeight() - 36 - 18 - 2 - 9
+            val x = guiGraphics.guiWidth() / 2
+            val timer = TransformationPlayerAttachment.getData(player).batFormTicker
+            val max = player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0
+            guiGraphics.drawCenteredString(
+                Minecraft.getInstance().font,
+                Component.translatable("$timer / ${max.toInt() * 20}"),
+                x,
+                y,
+                -1
+            )
+        }
+    }
+
     /**
      * Draws the sun-exposure HUD
      */
@@ -278,9 +300,15 @@ object VampireEventHandler {
         val y = guiGraphics.guiHeight() - 36 - 18 - 2
         val x = guiGraphics.guiWidth() / 2 - 8
         val raw = getData(player).inSunTick
-        val sunTick = clamp((raw / 20) - 1, 0, 4)
+        val maxSunTicks = player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.toFloat() ?: 100f
+        val sunTick = if (maxSunTicks > 0) {
+            clamp((raw.toFloat() / maxSunTicks * 4).toInt(), 0, 4)
+        } else {
+            0
+        }
+
         if (raw > 1) {
-            RenderUtils.blitWithAlpha(guiGraphics.pose(), sun.withSuffix("${sunTick}.png"), x, y, 0f,0f,16,16,16,16)
+            RenderUtils.blitWithAlpha(guiGraphics.pose(), sun.withSuffix("${sunTick}.png"), x, y, 0f, 0f, 16, 16, 16, 16)
         }
     }
 
