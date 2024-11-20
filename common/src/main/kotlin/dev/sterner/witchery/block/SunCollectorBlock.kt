@@ -115,7 +115,7 @@ class SunCollectorBlock(properties: Properties) : Block(properties.lightLevel(
         pos: BlockPos,
         context: CollisionContext
     ): VoxelShape {
-        return box(5.0, 0.0, 5.0, 13.0, 14.0, 13.0)
+        return box(5.0, 0.0, 5.0, 11.0, 14.0, 11.0)
     }
 
     companion object {

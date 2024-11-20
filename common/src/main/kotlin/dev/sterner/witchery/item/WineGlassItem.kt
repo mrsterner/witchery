@@ -84,8 +84,6 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
         return InteractionResultHolder.fail(player.mainHandItem)
     }
 
-
-
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
         val player = context.player
