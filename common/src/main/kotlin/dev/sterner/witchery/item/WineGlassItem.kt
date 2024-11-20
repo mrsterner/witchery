@@ -168,6 +168,8 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
                         val vampire = WitcheryEntityTypes.VAMPIRE.get().create(player.level())
                         vampire!!.moveTo(entity.position(), entity.xRot, entity.yRot)
                         vampire.setOwnerUUID(player.uuid)
+                        vampire.setPersistenceRequired()
+                        vampire.creationPos = entity.blockPosition()
                         player.level().addFreshEntity(vampire)
                         entity.discard()
                         return EventResult.interruptTrue()

@@ -58,6 +58,7 @@ import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryDataComponents.UNSHEETED
@@ -182,6 +183,7 @@ object Witchery {
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
         TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
         TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
+        TickEvent.SERVER_POST.register(VampireChildrenHuntLevelAttachment::tickHuntAllLevels)
         TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
         TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)

@@ -10,6 +10,7 @@ import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
@@ -235,4 +236,15 @@ object WitcheryNeoForgeAttachmentRegistry {
                 .build()
         }
     )
+
+    @JvmStatic
+    val VAMPIRE_HUNT_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<VampireChildrenHuntLevelAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "vampire_hunt_level",
+            Supplier {
+                AttachmentType.builder(Supplier { VampireChildrenHuntLevelAttachment.Data() })
+                    .serialize(VampireChildrenHuntLevelAttachment.Data.CODEC)
+                    .build()
+            }
+        )
 }
