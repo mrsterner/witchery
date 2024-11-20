@@ -34,4 +34,9 @@ public class FoodDataMixin {
     public void witchery$getSaturationLevel(CallbackInfoReturnable<Float> cir) {
         FoodDataMixinLogic.INSTANCE.getSaturation(witchery$player, cir);
     }
+
+    @Inject(method = "add", at = @At("TAIL"))
+    public void witchery$add(int foodLevel, float saturationLevel, CallbackInfo ci) {
+        FoodDataMixinLogic.INSTANCE.onAdd(witchery$player, foodLevel, saturationLevel);
+    }
 }

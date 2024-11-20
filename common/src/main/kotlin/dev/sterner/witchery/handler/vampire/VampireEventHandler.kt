@@ -98,6 +98,13 @@ object VampireEventHandler {
 
         val vampData = getData(player)
         if (vampData.vampireLevel < 1) {
+            val humanBloodData = BloodPoolLivingEntityAttachment.getData(player)
+            if (humanBloodData.bloodPool < humanBloodData.maxBlood) {
+                if (player.tickCount % 1000 == 0) {
+                    BloodPoolLivingEntityAttachment.increaseBlood(player, 10)
+                }
+            }
+
             return
         }
 
@@ -204,7 +211,11 @@ object VampireEventHandler {
                     }
 
                     if (targetData.bloodPool <= 0) {
-                        entity.kill()
+                        if (entity is Player) {
+                            entity.hurt(player.damageSources().playerAttack(player), 2f)
+                        } else {
+                            entity.kill()
+                        }
                     }
 
                     return EventResult.interruptFalse()

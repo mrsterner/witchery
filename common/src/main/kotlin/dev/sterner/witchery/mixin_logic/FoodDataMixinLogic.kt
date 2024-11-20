@@ -1,6 +1,7 @@
 package dev.sterner.witchery.mixin_logic
 
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import net.minecraft.world.entity.player.Player
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
@@ -25,6 +26,15 @@ object FoodDataMixinLogic {
     fun getSaturation(player: Player?, cir : CallbackInfoReturnable<Float>) {
         if (player != null && getData(player).vampireLevel > 0) {
             cir.setReturnValue(0f)
+        }
+    }
+
+    fun onAdd(instance: Player, foodLevel: Int, saturationLevel: Float) {
+        if (getData(instance).vampireLevel == 0) {
+            val bloodData = BloodPoolLivingEntityAttachment.getData(instance)
+            if (bloodData.bloodPool < bloodData.maxBlood) {
+                BloodPoolLivingEntityAttachment.increaseBlood(instance, foodLevel)
+            }
         }
     }
 }

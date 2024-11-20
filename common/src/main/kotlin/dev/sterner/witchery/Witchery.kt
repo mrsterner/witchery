@@ -191,8 +191,6 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(NightmarePlayerAttachment::tick)
         TickEvent.PLAYER_PRE.register(TransformationPlayerAttachment::tickBat)
 
-
-
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 
         PlayerEvent.PLAYER_JOIN.register {serverPlayer ->

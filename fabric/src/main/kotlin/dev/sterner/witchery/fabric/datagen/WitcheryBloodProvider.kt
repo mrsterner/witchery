@@ -39,6 +39,7 @@ class WitcheryBloodProvider(
         provider: BiConsumer<ResourceLocation, BloodPoolHandler.BloodData>,
         lookup: HolderLookup.Provider?
     ) {
+        makeBlood(provider, EntityType.PLAYER, 3, 2)
         makeBlood(provider, EntityType.PILLAGER, 5, 0)
         makeBlood(provider, EntityType.WITCH, 5, 0)
         makeBlood(provider, EntityType.ZOMBIE_VILLAGER, 5, 0)
