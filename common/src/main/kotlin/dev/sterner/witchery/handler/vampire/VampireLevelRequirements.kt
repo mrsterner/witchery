@@ -15,7 +15,8 @@ object VampireLevelRequirements {
         6 to LevelRequirement(Witchery.id("vampire/5"), blazesKilled = 20),
         7 to LevelRequirement(Witchery.id("vampire/6")),
         8 to LevelRequirement(Witchery.id("vampire/7"), villagesVisited = 2),
-        9 to LevelRequirement(Witchery.id("vampire/8"), trappedVillagers = 5)
+        9 to LevelRequirement(Witchery.id("vampire/8"), trappedVillagers = 5),
+        10 to LevelRequirement(Witchery.id("vampire/9"))
     )
 
     fun canLevelUp(player: ServerPlayer, targetLevel: Int): Boolean {

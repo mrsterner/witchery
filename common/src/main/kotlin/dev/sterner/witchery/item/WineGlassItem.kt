@@ -5,6 +5,7 @@ import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.entity.LilithEntity
 import dev.sterner.witchery.handler.vampire.VampireLeveling
+import dev.sterner.witchery.handler.vampire.VampireLeveling.canPerformQuest
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -172,6 +173,11 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
                         vampire.creationPos = entity.blockPosition()
                         player.level().addFreshEntity(vampire)
                         entity.discard()
+                        if (player is ServerPlayer) {
+                            if(canPerformQuest(player, 9)) {
+                                VampireLeveling.increaseVampireLevel(player)
+                            }
+                        }
                         return EventResult.interruptTrue()
                     }
                 }
