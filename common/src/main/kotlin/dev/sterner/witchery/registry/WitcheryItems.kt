@@ -10,6 +10,7 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
+import dev.sterner.witchery.item.accessories.BatwingPendantItem
 import dev.sterner.witchery.item.brew.*
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
@@ -1093,5 +1094,9 @@ object WitcheryItems {
             .stacksTo(1)
             .durability(1561)
         )
+    }
+
+    val BATWING_PENDANT = ITEMS.register("batwing_pendant") {
+        BatwingPendantItem(Item.Properties().stacksTo(1))
     }
 }

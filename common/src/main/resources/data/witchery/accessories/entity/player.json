@@ -4,6 +4,7 @@
     "#accessories:defaulted_targets"
   ],
   "slots": [
+    "necklace",
     "poppet"
   ]
 }

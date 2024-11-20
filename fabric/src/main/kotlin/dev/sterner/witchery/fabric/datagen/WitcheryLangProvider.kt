@@ -362,9 +362,13 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.HAWTHORN_CHEST_BOAT.get(), "Hawthorn Chest Boat")
 
         builder.add(WitcheryBlocks.BLOOD_POPPY.get(), "Blood Poppy")
+        builder.add(WitcheryItems.BATWING_PENDANT.get(), "Batwing Pendant")
 
         builder.add(WitcheryEntityTypes.MANDRAKE.get(), "Mandrake")
         builder.add(WitcheryEntityTypes.SPECTRAL_PIG.get(), "Spectral Pig")
+
+        builder.add("attribute.name.witchery.vampire_bat_form_duration", "Bat-form Duration")
+        builder.add("attribute.name.witchery.vampire_drink_speed", "Blooding Drink Speed")
 
         builder.add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")
         builder.add(WitcheryTags.ALDER_LOG_ITEMS, "Alder Logs")

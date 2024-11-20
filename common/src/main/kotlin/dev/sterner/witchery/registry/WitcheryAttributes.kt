@@ -20,6 +20,10 @@ object WitcheryAttributes {
     var attributes = MANAGER.get().get(Registries.ATTRIBUTE)
 
     val VAMPIRE_DRINK_SPEED = attributes.register(Witchery.id("vampire_drink_speed")) {
-        RangedAttribute("attribute.name.witchery.vampire_drink_speed", 0.0,0.0,250.0).setSyncable(true)
+        RangedAttribute("attribute.name.witchery.vampire_drink_speed", 0.0,0.0,255.0).setSyncable(true)
+    }
+
+    val VAMPIRE_BAT_FORM_DURATION = attributes.register(Witchery.id("vampire_bat_form_duration")) {
+        RangedAttribute("attribute.name.witchery.vampire_bat_form_duration", 0.0,0.0,255.0).setSyncable(true)
     }
 }
