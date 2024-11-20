@@ -49,6 +49,7 @@ import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.item.WineGlassItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.*
@@ -172,6 +173,7 @@ object Witchery {
         InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
         InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)
         InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
+        InteractionEvent.INTERACT_ENTITY.register(WineGlassItem::applyWineOnVillager)
         InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
 
         BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)

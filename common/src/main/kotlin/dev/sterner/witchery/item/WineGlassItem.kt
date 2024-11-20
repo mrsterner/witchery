@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item
 
+import dev.architectury.event.EventResult
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.entity.LilithEntity
@@ -22,8 +23,10 @@ import net.minecraft.stats.Stats
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.*
 import net.minecraft.world.item.context.UseOnContext
@@ -79,6 +82,8 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
 
         return InteractionResultHolder.fail(player.mainHandItem)
     }
+
+
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
@@ -151,4 +156,26 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
 
         return super.interactLivingEntity(stack, player, interactionTarget, usedHand)
     }
+
+   companion object {
+       fun applyWineOnVillager(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
+            if (entity is Villager && player != null) {
+                val item = player.mainHandItem
+                val bl = item.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true
+                if (bl && VampirePlayerAttachment.getData(player).vampireLevel >= 9) {
+                    val blood = BloodPoolLivingEntityAttachment.getData(entity)
+                    if (blood.bloodPool <= blood.maxBlood / 2) {
+                        val vampire = WitcheryEntityTypes.VAMPIRE.get().create(player.level())
+                        vampire!!.moveTo(entity.position(), entity.xRot, entity.yRot)
+                        vampire.setOwnerUUID(player.uuid)
+                        player.level().addFreshEntity(vampire)
+                        entity.discard()
+                        return EventResult.interruptTrue()
+                    }
+                }
+            }
+
+           return EventResult.pass()
+       }
+   }
 }
