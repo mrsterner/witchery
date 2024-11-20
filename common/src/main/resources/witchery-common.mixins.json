@@ -9,6 +9,7 @@
     "client.HumanoidModelMixin",
     "client.ItemRendererMixin",
     "client.LivingEntityRendererMixin",
+    "client.LocalPlayerMixin",
     "client.PlayerItemInHandLayerMixin",
     "client.PlayerRendererMixin",
     "client.RenderBuffersMixin",
@@ -28,7 +29,6 @@
     "LightningBoltMixin",
     "LivingEntityMixin",
     "MobMixin",
-    "PlayerMixin",
     "ServerPlayerMixin",
     "ShapelessRecipeAccessor",
     "VillagerMixin"

@@ -20,7 +20,7 @@ import kotlin.math.max
 
 object TransformationPlayerAttachment {
 
-    private const val MAX_COOLDOWN = 20 * 30
+    private const val MAX_COOLDOWN = 20 * 10
     var bat: Bat? = null
 
     @JvmStatic
@@ -85,6 +85,7 @@ object TransformationPlayerAttachment {
     @JvmStatic
     fun decreaseBatFormCooldown(player: Player){
         val data = getData(player)
+        //println(data.batFormCooldown)
         if (data.batFormCooldown > 0) {
             setData(player, data.copy(batFormCooldown = max(data.batFormCooldown - 1, 0)))
         }
@@ -114,7 +115,9 @@ object TransformationPlayerAttachment {
 
                 increaseBatFormTimer(player)
 
-                val maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt() * 20
+                val maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
+                val data = getData(player)
+                setData(player, data.copy(maxBatTimeClient = maxBatTime))
                 if (getData(player).batFormTicker > maxBatTime) {
                     removeForm(player)
                 }
@@ -162,7 +165,8 @@ object TransformationPlayerAttachment {
     data class Data(
         val transformationType: TransformationType = TransformationType.NONE,
         val batFormCooldown: Int = 0,
-        val batFormTicker: Int = 0
+        val batFormTicker: Int = 0,
+        val maxBatTimeClient: Int = 0,
     ) {
 
         companion object {
@@ -171,6 +175,7 @@ object TransformationPlayerAttachment {
                     TransformationType.TRANSFORMATION_CODEC.fieldOf("transformationType").forGetter { it.transformationType },
                     Codec.INT.fieldOf("batFormCooldown").forGetter { it.batFormCooldown },
                     Codec.INT.fieldOf("batFormTicker").forGetter { it.batFormTicker },
+                    Codec.INT.fieldOf("maxBatTimeClient").forGetter { it.maxBatTimeClient },
 
                 ).apply(instance, ::Data)
             }

@@ -8,7 +8,9 @@ import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.TickEvent
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.Witchery.id
 import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.api.VillagerTransfix
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure.StructurePiece
@@ -95,63 +97,63 @@ object VampireEventHandler {
      * If the player is level 5 or higher it will drain blood and damage the player.
      */
     fun tick(player: Player?) {
-        if (player == null || player.level().isClientSide) {
-            return
-        }
-
-        val vampData = getData(player)
-        if (vampData.vampireLevel < 1) {
-            val humanBloodData = BloodPoolLivingEntityAttachment.getData(player)
-            if (humanBloodData.bloodPool < humanBloodData.maxBlood) {
-                if (player.tickCount % 1000 == 0) {
-                    BloodPoolLivingEntityAttachment.increaseBlood(player, 10)
-                }
-            }
-
-            return
-        }
-
-        if (player.isAlive) {
-            val isInSunlight = player.level().canSeeSky(player.blockPosition()) && player.level().isDay
-            val sunDamageSource = player.level().damageSources().source(WitcheryDamageSources.IN_SUN)
-            val bloodData = BloodPoolLivingEntityAttachment.getData(player)
-
-            if (isInSunlight) {
-                VampireAbilities.increaseInSunTick(player)
-                val maxInSunTicks = player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0
-
-                if (getData(player).inSunTick >= maxInSunTicks) {
-                    if (vampData.vampireLevel < 5) {
-                        player.hurt(sunDamageSource, Float.MAX_VALUE)
-                    } else {
-                        if (bloodData.bloodPool >= bloodThreshold) {
-                            if (player.tickCount % 20 == 0) {
-                                player.hurt(sunDamageSource, 2f)
-                                player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
-                                WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
-                            }
-                        } else {
-                            player.hurt(sunDamageSource, Float.MAX_VALUE)
-                        }
+        if (player is ServerPlayer) {
+            val vampData = getData(player)
+            if (vampData.vampireLevel < 1) {
+                val humanBloodData = BloodPoolLivingEntityAttachment.getData(player)
+                if (humanBloodData.bloodPool < humanBloodData.maxBlood) {
+                    if (player.tickCount % 1000 == 0) {
+                        BloodPoolLivingEntityAttachment.increaseBlood(player, 10)
                     }
                 }
-            } else {
-                val decreaseAmount = (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.div(100)) ?: 1.0
-                VampireAbilities.decreaseInSunTick(player, (ceil(decreaseAmount)).toInt())
+
+                return
             }
 
-            if (bloodData.bloodPool >= 75 && player.level().random.nextBoolean()) {
-                if (player.health < player.maxHealth && player.health > 0) {
-                    BloodPoolLivingEntityAttachment.decreaseBlood(player, 75)
-                    player.heal(1f)
+            if (player.isAlive) {
+                val isInSunlight = player.level().canSeeSky(player.blockPosition()) && player.level().isDay
+                val sunDamageSource = player.level().damageSources().source(WitcheryDamageSources.IN_SUN)
+                val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+
+                if (isInSunlight) {
+                    VampireAbilities.increaseInSunTick(player)
+                    val maxInSunTicks = player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0
+                    val data = getData(player)
+                    setData(player, data.copy(maxInSunTickClient = maxInSunTicks.toInt()))
+
+                    if (getData(player).inSunTick >= maxInSunTicks) {
+                        if (vampData.vampireLevel < 5) {
+                            player.hurt(sunDamageSource, Float.MAX_VALUE)
+                        } else {
+                            if (bloodData.bloodPool >= bloodThreshold) {
+                                if (player.tickCount % 20 == 0) {
+                                    player.hurt(sunDamageSource, 2f)
+                                    player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
+                                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
+                                }
+                            } else {
+                                player.hurt(sunDamageSource, Float.MAX_VALUE)
+                            }
+                        }
+                    }
+                } else {
+                    val decreaseAmount = (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.div(100)) ?: 1.0
+                    VampireAbilities.decreaseInSunTick(player, (ceil(decreaseAmount)).toInt())
                 }
-            }
 
-            if (getData(player).isNightVisionActive) {
-                player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 2))
-            }
-            if (getData(player).isSpeedBoostActive) {
-                player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 2))
+                if (bloodData.bloodPool >= 75 && player.level().random.nextBoolean()) {
+                    if (player.health < player.maxHealth && player.health > 0) {
+                        BloodPoolLivingEntityAttachment.decreaseBlood(player, 75)
+                        player.heal(1f)
+                    }
+                }
+
+                if (getData(player).isNightVisionActive) {
+                    player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 2))
+                }
+                if (getData(player).isSpeedBoostActive) {
+                    player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 2))
+                }
             }
         }
     }
@@ -277,22 +279,17 @@ object VampireEventHandler {
         }
     }
 
+    // /vampire_abilities/
     private fun drawBatFormHud(guiGraphics: GuiGraphics, player: LocalPlayer) {
         if (TransformationPlayerAttachment.isBat(player)) {
-            val y = guiGraphics.guiHeight() - 36 - 18 - 2 - 9
-            val x = guiGraphics.guiWidth() / 2
-            val timer = TransformationPlayerAttachment.getData(player).batFormTicker
-            val max = player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0
-            guiGraphics.drawCenteredString(
-                Minecraft.getInstance().font,
-                Component.translatable("$timer / ${max.toInt() * 20}"),
-                x,
-                y,
-                -1
-            )
+            val maxTicks = TransformationPlayerAttachment.getData(player).maxBatTimeClient
+            val currentTicks = maxTicks - TransformationPlayerAttachment.getData(player).batFormTicker
+            val bl = player.armorValue > 0
+            val y = guiGraphics.guiHeight() - 36 - 10 - if (bl) 10 else 0
+            val x = guiGraphics.guiWidth() / 2 - 18 * 4 - 11
+            RenderUtils.innerRenderBat(guiGraphics ,maxTicks, currentTicks, y, x)
         }
     }
-
     /**
      * Draws the sun-exposure HUD
      */
@@ -300,7 +297,7 @@ object VampireEventHandler {
         val y = guiGraphics.guiHeight() - 36 - 18 - 2
         val x = guiGraphics.guiWidth() / 2 - 8
         val raw = getData(player).inSunTick
-        val maxSunTicks = player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.toFloat() ?: 100f
+        val maxSunTicks = getData(player).maxInSunTickClient
         val sunTick = if (maxSunTicks > 0) {
             clamp((raw.toFloat() / maxSunTicks * 4).toInt(), 0, 4)
         } else {

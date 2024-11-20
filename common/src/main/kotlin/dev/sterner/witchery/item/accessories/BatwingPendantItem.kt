@@ -10,17 +10,26 @@ import net.minecraft.world.item.ItemStack
 
 class BatwingPendantItem(properties: Properties?) : AccessoryItem(properties) {
 
+    val modifier = AttributeModifier(
+        Witchery.id("batwing_modifier"), 60.0 * 20,
+        AttributeModifier.Operation.ADD_VALUE)
+
     override fun getDynamicModifiers(
         stack: ItemStack?,
         reference: SlotReference?,
         builder: AccessoryAttributeBuilder
     ) {
-        builder.addStackable(
-            WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION,
-            AttributeModifier(
-                Witchery.id("batwing_modifier"), 120.0,
-                AttributeModifier.Operation.ADD_VALUE)
-        )
+        builder.addStackable(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION, modifier)
         super.getDynamicModifiers(stack, reference, builder)
+    }
+
+    override fun onEquip(stack: ItemStack?, reference: SlotReference?) {
+
+        super.onEquip(stack, reference)
+    }
+
+    override fun onUnequip(stack: ItemStack?, reference: SlotReference?) {
+
+        super.onUnequip(stack, reference)
     }
 }

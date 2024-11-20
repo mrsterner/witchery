@@ -52,6 +52,7 @@ object VampirePlayerAttachment {
         val isNightVisionActive: Boolean = false,
         val isSpeedBoostActive: Boolean = false,
         val isBatFormActive: Boolean = false,
+        val maxInSunTickClient: Int = 0
     ) {
 
         companion object {
@@ -69,6 +70,7 @@ object VampirePlayerAttachment {
                     Codec.BOOL.fieldOf("isNightVisionActive").forGetter { it.isNightVisionActive },
                     Codec.BOOL.fieldOf("isSpeedBoostActive").forGetter { it.isSpeedBoostActive },
                     Codec.BOOL.fieldOf("isBatFormActive").forGetter { it.isBatFormActive },
+                    Codec.INT.fieldOf("maxInSunTickClient").forGetter { it.maxInSunTickClient },
                 ).apply(instance, ::Data)
             }
 

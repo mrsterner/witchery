@@ -11,6 +11,7 @@ import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
 import net.minecraft.core.NonNullList
 import net.minecraft.network.syncher.EntityDataSerializer
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
 import net.neoforged.bus.api.SubscribeEvent
@@ -23,6 +24,7 @@ import net.neoforged.neoforge.capabilities.Capabilities
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
@@ -103,5 +105,12 @@ object WitcheryNeoForge {
         ) { be, direction ->
             WitcheryFluidHandlerNeoForge(be.fluidTank)
         }
+    }
+
+    @SubscribeEvent
+    fun modifyAttributes(event: EntityAttributeModificationEvent) {
+        event.add(EntityType.PLAYER, WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)
+        event.add(EntityType.PLAYER, WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)
+        event.add(EntityType.PLAYER, WitcheryAttributes.VAMPIRE_DRINK_SPEED)
     }
 }

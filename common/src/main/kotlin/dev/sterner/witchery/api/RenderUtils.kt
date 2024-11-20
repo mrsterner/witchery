@@ -127,4 +127,71 @@ object RenderUtils {
             }
         }
     }
+
+    fun innerRenderBat(guiGraphics: GuiGraphics, maxTicks: Int, ticks: Int, y: Int, x: Int) {
+        val q = 60 * 20
+        val dropCount = maxTicks / q
+        val fullIcons = ticks / q
+        val partialFill = ticks % q
+        val width = 13
+        val height = 7
+
+        for (i in 0 until dropCount) {
+            val xPos = x + i * 12 - 8
+
+            // Draw empty icon first (for all icons)
+            blitWithAlpha(
+                guiGraphics.pose(),
+                id("textures/gui/vampire_abilities/bat_form_empty.png"),
+                xPos,
+                y - 1,
+                0f,
+                0f,
+                width,
+                height,
+                width,
+                height,
+                1.0f,
+                0xFFFFFF
+            )
+
+            // Draw full icon if this icon is within the full range
+            if (i < fullIcons) {
+                blitWithAlpha(
+                    guiGraphics.pose(),
+                    id("textures/gui/vampire_abilities/bat_form_full.png"),
+                    xPos,
+                    y - 1,
+                    0f,
+                    0f,
+                    width,
+                    height,
+                    width,
+                    height,
+                    1.0f,
+                    0xFFFFFF
+                )
+            } else if (i == fullIcons && partialFill > 0) {
+                // Calculate the filled width (instead of height)
+                val filledWidth = (partialFill * width) / q
+                val emptyWidth = width - filledWidth
+
+                // Draw the full portion of the last icon (from left to right)
+                blitWithAlpha(
+                    guiGraphics.pose(),
+                    id("textures/gui/vampire_abilities/bat_form_full.png"),
+                    xPos,
+                    y - 1,
+                    0f,
+                    0f,
+                    filledWidth,
+                    height,
+                    width,
+                    height,
+                    1.0f,
+                    0xFFFFFF
+                )
+            }
+        }
+    }
 }
