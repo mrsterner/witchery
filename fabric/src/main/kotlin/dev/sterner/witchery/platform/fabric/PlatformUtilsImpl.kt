@@ -1,12 +1,17 @@
 package dev.sterner.witchery.platform.fabric
 
 import dev.architectury.registry.registries.RegistrySupplier
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.item.BoneNeedleItem
+import dev.sterner.witchery.registry.WitcheryAttributes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
+import net.minecraft.world.entity.EquipmentSlotGroup
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.item.*
+import net.minecraft.world.item.component.ItemAttributeModifiers
 import java.awt.Color
 
 
@@ -75,6 +80,39 @@ object PlatformUtilsImpl {
         chestplate: ArmorItem.Type,
         properties: Item.Properties
     ): ArmorItem {
-        return ArmorItem(dapper, chestplate, properties)
+        return object: ArmorItem(dapper, chestplate, properties) {
+
+            fun createExtraAttributes(): List<ItemAttributeModifiers.Entry> {
+                val attributes = ItemAttributeModifiers.builder()
+                attributes.add(
+                    WitcheryAttributes.VAMPIRE_DRINK_SPEED,
+                    AttributeModifier(
+                        Witchery.id("drink_speed_bonus"),
+                        10.0,
+                        AttributeModifier.Operation.ADD_VALUE
+                    ),
+                    EquipmentSlotGroup.ARMOR
+                )
+                return attributes.build().modifiers()
+            }
+
+
+            override fun getDefaultAttributeModifiers(): ItemAttributeModifiers {
+                val modifiers = super.getDefaultAttributeModifiers()
+                val builder = ItemAttributeModifiers.builder()
+
+                val entries = modifiers.modifiers()
+                for (entry in entries) {
+                    builder.add(entry.attribute(), entry.modifier(), entry.slot())
+                }
+
+                val extraEntries = createExtraAttributes()
+                for (entry in extraEntries) {
+                    builder.add(entry.attribute(), entry.modifier(), entry.slot())
+                }
+
+                return builder.build()
+            }
+        }
     }
 }

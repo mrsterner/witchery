@@ -7,7 +7,9 @@ import dev.sterner.witchery.mixin_logic.PlayerMixinLogic;
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData;
 import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment;
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
+import dev.sterner.witchery.registry.WitcheryAttributes;
 import dev.sterner.witchery.registry.WitcheryTags;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,6 +27,11 @@ public abstract class PlayerMixin {
     private void witchery$stopSleepInBed(boolean wakeImmediately, boolean updateLevelForSleepingPlayers, CallbackInfo ci) {
         Player player = Player.class.cast(this);
         SleepingEvent.Companion.getPOST().invoker().invoke(player, this.sleepCounter, wakeImmediately);
+    }
+
+    @ModifyReturnValue(method = "createAttributes", at = @At("RETURN"))
+    private static AttributeSupplier.Builder lodestone$CreateLivingAttributes(AttributeSupplier.Builder original) {
+        return original.add(WitcheryAttributes.INSTANCE.getVAMPIRE_DRINK_SPEED());
     }
 
     @ModifyReturnValue(method = "wantsToStopRiding", at = @At("RETURN"))

@@ -81,6 +81,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.animal.Pig
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
@@ -121,8 +122,7 @@ object Witchery {
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
         WitcheryFeatures.FEATURES.register()
-        WitcheryAttributes.ATTRIBUTES.register()
-        WitcheryEntityAttributes.ATTRIBUTES.register()
+        WitcheryAttributes.MANAGER.get()
 
         WitcheryPayloads.register()
 
@@ -186,6 +186,8 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(NightmarePlayerAttachment::tick)
         TickEvent.PLAYER_PRE.register(TransformationPlayerAttachment::tickBat)
+
+
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 

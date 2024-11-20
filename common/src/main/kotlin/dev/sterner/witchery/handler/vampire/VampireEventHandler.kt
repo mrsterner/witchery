@@ -180,8 +180,11 @@ object VampireEventHandler {
                         VampireLeveling.increaseVillagersHalfBlood(player, entity)
                     }
 
-                    BloodPoolLivingEntityAttachment.decreaseBlood(entity, bloodTransferAmount)
-                    BloodPoolLivingEntityAttachment.increaseBlood(player, bloodTransferAmount)
+                    val attribute = player.getAttribute(WitcheryAttributes.VAMPIRE_DRINK_SPEED)?.value?.toInt() ?: 0
+                    val modifiedAmount = bloodTransferAmount + attribute
+
+                    BloodPoolLivingEntityAttachment.decreaseBlood(entity, modifiedAmount)
+                    BloodPoolLivingEntityAttachment.increaseBlood(player, modifiedAmount)
 
                     val shouldHurt = when {
                         entity is Villager && entity is VillagerTransfix && !entity.isSleeping && !entity.isTransfixed() -> true
