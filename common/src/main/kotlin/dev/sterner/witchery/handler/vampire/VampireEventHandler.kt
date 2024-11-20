@@ -29,6 +29,7 @@ import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.tags.BlockTags
 import net.minecraft.world.Containers
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.damagesource.DamageSource
@@ -166,6 +167,12 @@ object VampireEventHandler {
 
                     if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown && entity is Villager) {
                         VampireLeveling.increaseVillagersHalfBlood(player, entity)
+
+                        val cageStates = entity.level().getBlockStates(entity.boundingBox.inflate(2.0, 2.0, 2.0))
+                        val bars = cageStates.filter { it.`is`(Blocks.IRON_BARS) || it.`is`(BlockTags.SLABS) }.count().toInt()
+                        if (bars >= 15 + 9) {
+                            VampireLeveling.increaseTrappedVillagers(player, entity)
+                        }
                     }
 
                     if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown) {
@@ -175,10 +182,6 @@ object VampireEventHandler {
                     player.level().playSound(null, entity.x, entity.y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
                     val np = entity.position().add(0.5, 0.5, 0.5)
                     WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, np))
-
-                    if (entity is Villager) {
-                        VampireLeveling.increaseVillagersHalfBlood(player, entity)
-                    }
 
                     val attribute = player.getAttribute(WitcheryAttributes.VAMPIRE_DRINK_SPEED)?.value?.toInt() ?: 0
                     val modifiedAmount = bloodTransferAmount + attribute
@@ -195,6 +198,7 @@ object VampireEventHandler {
                     if (shouldHurt) {
                         if (entity is Villager && getData(player).villagersHalfBlood.contains(entity.uuid)) {
                             VampireLeveling.removeVillagerHalfBlood(player, entity)
+                            VampireLeveling.removeTrappedVillager(player, entity)
                         }
                         entity.hurt(player.damageSources().playerAttack(player), 2f)
                     }

@@ -29,32 +29,32 @@ object VampireAbilities {
         if (abilityIndex == -1) {
             if (player.inventory.selected == 0 && y > 0.0) {
                 abilityIndex = 0
-                VampireAbilities.setAbilityIndex(player, abilityIndex)
+                setAbilityIndex(player, abilityIndex)
                 return EventResult.interruptFalse()
             } else if (player.inventory.selected == 8 && y < 0.0) {
                 abilityIndex = abilityCount - 1
-                VampireAbilities.setAbilityIndex(player, abilityIndex)
+                setAbilityIndex(player, abilityIndex)
                 return EventResult.interruptFalse()
             }
         } else {
             if (y > 0.0) {
                 if (abilityIndex < abilityCount - 1) {
                     abilityIndex++
-                    VampireAbilities.setAbilityIndex(player, abilityIndex)
+                    setAbilityIndex(player, abilityIndex)
                 } else {
                     player.inventory.selected = 8
                     abilityIndex = -1
-                    VampireAbilities.setAbilityIndex(player, abilityIndex)
+                    setAbilityIndex(player, abilityIndex)
                 }
                 return EventResult.interruptFalse()
             } else if (y < 0.0) {
                 if (abilityIndex > 0) {
                     abilityIndex--
-                    VampireAbilities.setAbilityIndex(player, abilityIndex)
+                    setAbilityIndex(player, abilityIndex)
                 } else {
                     player.inventory.selected = 0
                     abilityIndex = -1
-                    VampireAbilities.setAbilityIndex(player, abilityIndex)
+                    setAbilityIndex(player, abilityIndex)
                 }
                 return EventResult.interruptFalse()
             }

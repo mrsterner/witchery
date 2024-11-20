@@ -30,7 +30,7 @@ object VampireLevelRequirements {
                 (requirement.sunGrenades?.let { data.usedSunGrenades >= it } ?: true) &&
                 (requirement.blazesKilled?.let { data.killedBlazes >= it } ?: true) &&
                 (requirement.villagesVisited?.let { data.visitedVillages.size >= it } ?: true) &&
-                (requirement.trappedVillagers?.let { data.trappedVillagers >= it } ?: true)
+                (requirement.trappedVillagers?.let { data.trappedVillagers.size >= it } ?: true)
                 )
     }
 

@@ -2,6 +2,7 @@ package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.data.BloodPoolHandler;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
+import dev.sterner.witchery.util.WitcheryConstants;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
@@ -26,7 +27,7 @@ public class MobMixin {
             var bloodValue = bloodJson.get(entityType);
 
             if (bloodValue != null) {
-                var maxBlood = bloodValue.getBloodDrops() * 300;
+                var maxBlood = bloodValue.getBloodDrops() * WitcheryConstants.BLOOD_DROP;
                 BloodPoolLivingEntityAttachment.setData(mob, new BloodPoolLivingEntityAttachment.Data(maxBlood, maxBlood));
             }
         }

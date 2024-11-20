@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
 import dev.sterner.witchery.Witchery.id
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.util.WitcheryConstants
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.resources.ResourceLocation
@@ -69,9 +70,9 @@ object RenderUtils {
 
     fun innerRenderBlood(guiGraphics: GuiGraphics, maxBlood: Int, bloodPool: Int , y: Int, x: Int) {
 
-        val dropCount = maxBlood / 300
-        val fullIcons = bloodPool / 300
-        val partialFill = bloodPool % 300
+        val dropCount = maxBlood / WitcheryConstants.BLOOD_DROP
+        val fullIcons = bloodPool / WitcheryConstants.BLOOD_DROP
+        val partialFill = bloodPool % WitcheryConstants.BLOOD_DROP
         val iconSize = 10
         for (i in 0 until dropCount) {
             val xPos = x - i * 7 - 8

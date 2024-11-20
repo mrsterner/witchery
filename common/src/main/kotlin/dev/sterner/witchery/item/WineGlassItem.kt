@@ -9,6 +9,7 @@ import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.util.WitcheryConstants
 import net.minecraft.ChatFormatting
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.BlockPos
@@ -39,7 +40,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
 
             if (stack.has(WitcheryDataComponents.VAMPIRE_BLOOD.get()) && stack.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true) {
                 VampireLeveling.increaseVampireLevel(player = livingEntity)
-                BloodPoolLivingEntityAttachment.increaseBlood(livingEntity = livingEntity, 300)
+                BloodPoolLivingEntityAttachment.increaseBlood(livingEntity = livingEntity, WitcheryConstants.BLOOD_DROP)
             }
         }
 

@@ -189,13 +189,26 @@ object VampireLeveling {
 
     //To go from Level 8 -> 9
     @JvmStatic
-    fun increaseTrappedVillagers(player: ServerPlayer) {
+    fun increaseTrappedVillagers(player: ServerPlayer, villager: Villager) {
         if(!canPerformQuest(player, 8)) {
             return
         }
 
         val data = getData(player)
-        setData(player, data.copy(trappedVillagers = data.trappedVillagers + 1))
-        increaseVampireLevel(player)
+        if (!data.trappedVillagers.contains(villager.uuid)) {
+            val updatedList = data.trappedVillagers.toMutableList().apply { add(villager.uuid) }
+            setData(player, data.copy(trappedVillagers = updatedList))
+            increaseVampireLevel(player)
+        }
     }
+
+    @JvmStatic
+    fun removeTrappedVillager(player: Player, villager: Villager) {
+        val data = getData(player)
+        if (data.trappedVillagers.contains(villager.uuid)) {
+            val updatedList = data.trappedVillagers.toMutableList().apply { remove(villager.uuid) }
+            setData(player, data.copy(trappedVillagers = updatedList))
+        }
+    }
+
 }

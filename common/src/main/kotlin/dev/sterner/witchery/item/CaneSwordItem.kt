@@ -8,6 +8,7 @@ import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.util.WitcheryConstants
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
@@ -124,7 +125,7 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
 
     companion object {
 
-        const val MAX_STORED_BLOOD = 300 * 2
+        const val MAX_STORED_BLOOD = WitcheryConstants.BLOOD_DROP * 2
 
         fun harvestBlood(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
             if (livingEntity != null && BloodPoolHandler.BLOOD_PAIR.contains(livingEntity.type)) {
@@ -133,7 +134,7 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
                     if (player.mainHandItem.`is`(WitcheryItems.CANE_SWORD.get())) {
                         val cane = player.mainHandItem.copy()
                         val drops = BloodPoolHandler.BLOOD_PAIR[livingEntity.type]!!.bloodDrops
-                        val absorbedAmount = (drops * 300) / 20
+                        val absorbedAmount = (drops * WitcheryConstants.BLOOD_DROP) / 20
                         val oldBloodValue = cane.get(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get()) ?: 0
                         val finalValue = min(oldBloodValue + absorbedAmount, MAX_STORED_BLOOD)
                         cane.set(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get(), finalValue)
