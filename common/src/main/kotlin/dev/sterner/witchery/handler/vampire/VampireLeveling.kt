@@ -38,7 +38,13 @@ object VampireLeveling {
      * Maps the current players level to what its max blood pool amount should be
      */
     fun setMaxBlood(player: Player, level: Int) {
-        val maxBlood = when (level) {
+        val maxBlood = levelToBlood(level)
+        val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+        BloodPoolLivingEntityAttachment.setData(player, bloodData.copy(maxBlood = maxBlood))
+    }
+
+    fun levelToBlood(level: Int): Int {
+        return when (level) {
             1 -> 900
             2 -> 1200
             3 -> 1500
@@ -51,8 +57,6 @@ object VampireLeveling {
             10 -> 3600
             else -> 0
         }
-        val bloodData = BloodPoolLivingEntityAttachment.getData(player)
-        BloodPoolLivingEntityAttachment.setData(player, bloodData.copy(maxBlood = maxBlood))
     }
 
     /**

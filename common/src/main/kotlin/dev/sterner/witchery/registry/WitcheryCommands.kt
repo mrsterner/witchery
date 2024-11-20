@@ -10,6 +10,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.handler.vampire.VampireLeveling
+import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood
 import dev.sterner.witchery.platform.CursePlayerAttachment
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
@@ -225,10 +226,9 @@ object WitcheryCommands {
                             val data = VampirePlayerAttachment.getData(player)
 
                             VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
-                            VampireLeveling.setMaxBlood(player, level)
                             VampireLeveling.updateModifiers(player, level)
-                            val max = BloodPoolLivingEntityAttachment.getData(player).maxBlood
-                            BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(max, Mth.clamp(level, 0, max)))
+                            val maxBlood = levelToBlood(level)
+                            BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(maxBlood, maxBlood))
 
                             context.source.sendSuccess({Component.literal("Set vampire level to $level for ${player.name.string}")}, true)
                             1
