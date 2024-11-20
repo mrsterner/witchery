@@ -88,17 +88,18 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         val sunDamageSource = this.level().damageSources().source(WitcheryDamageSources.IN_SUN)
         if (isInSunlight) {
             inSunTick++
-            inSunTick = min(inSunTick, 100)
+            inSunTick = min(inSunTick, 80)
 
-            if (inSunTick >= 100) {
+            if (inSunTick >= 80) {
                 if (this.tickCount % 20 == 0) {
-                    this.hurt(sunDamageSource, 2f)
+                    this.hurt(sunDamageSource, 1f)
+                    BloodPoolLivingEntityAttachment.decreaseBlood(this, 10)
+                    this.remainingFireTicks = 20
                     this.level().playSound(null, this.x, this.y, this.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
                 }
             }
         } else {
-            inSunTick--
-            inSunTick = max(inSunTick, 0)
+            inSunTick = 0
         }
 
         val bloodData = BloodPoolLivingEntityAttachment.getData(this)

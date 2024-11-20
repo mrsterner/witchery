@@ -123,6 +123,7 @@ object VampireChildrenHuntLevelAttachment {
                     if (vampireEntity != null) {
                         vampireEntity.huntedLastNight = true
                         vampireEntity.lastHuntTimestamp = currentTime
+                        BloodPoolLivingEntityAttachment.increaseBlood(vampireEntity, 300)
 
                         huntsIterator.remove()
                     }
