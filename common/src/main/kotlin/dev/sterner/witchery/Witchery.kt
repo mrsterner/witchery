@@ -454,6 +454,8 @@ object Witchery {
         ClientGuiEvent.RENDER_HUD.register(VampireEventHandler::renderHud)
 
         AccessoriesRendererRegistry.registerRenderer(WitcheryItems.BATWING_PENDANT.get(), ::BatwingPendantRenderer)
+        AccessoriesRendererRegistry.registerRenderer(WitcheryItems.SUNSTONE_PENDANT.get(), ::BatwingPendantRenderer)
+        AccessoriesRendererRegistry.registerRenderer(WitcheryItems.BLOODSTONE_PENDANT.get(), ::BatwingPendantRenderer)
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),

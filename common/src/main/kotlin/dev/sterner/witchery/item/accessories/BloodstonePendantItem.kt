@@ -8,10 +8,10 @@ import io.wispforest.accessories.api.slot.SlotReference
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.item.ItemStack
 
-class BatwingPendantItem(properties: Properties?) : AccessoryItem(properties) {
+class BloodstonePendantItem(properties: Properties?) : AccessoryItem(properties) {
 
     val modifier = AttributeModifier(
-        Witchery.id("batwing_modifier"), 60.0 * 20,
+        Witchery.id("drink_speed_modifier"), 10.0,
         AttributeModifier.Operation.ADD_VALUE)
 
     override fun getDynamicModifiers(
@@ -19,7 +19,7 @@ class BatwingPendantItem(properties: Properties?) : AccessoryItem(properties) {
         reference: SlotReference?,
         builder: AccessoryAttributeBuilder
     ) {
-        builder.addStackable(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION, modifier)
+        builder.addStackable(WitcheryAttributes.VAMPIRE_DRINK_SPEED, modifier)
         super.getDynamicModifiers(stack, reference, builder)
     }
 }

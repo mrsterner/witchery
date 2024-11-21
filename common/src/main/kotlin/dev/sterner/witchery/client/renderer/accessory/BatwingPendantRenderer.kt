@@ -2,6 +2,7 @@ package dev.sterner.witchery.client.renderer.accessory
 
 import com.mojang.blaze3d.vertex.PoseStack
 import io.wispforest.accessories.api.client.AccessoryRenderer
+import io.wispforest.accessories.api.client.DefaultAccessoryRenderer
 import io.wispforest.accessories.api.slot.SlotReference
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.renderer.MultiBufferSource

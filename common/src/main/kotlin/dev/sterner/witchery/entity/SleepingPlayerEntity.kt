@@ -2,6 +2,7 @@ package dev.sterner.witchery.entity
 
 import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.api.SleepingPlayerData
+import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.platform.*
@@ -233,6 +234,12 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         fun replaceWithPlayer(player: Player, sleepingPlayerEntity: SleepingPlayerEntity) {
             val itemsToKeep = mutableListOf<ItemStack>()
 
+            val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
+            if (charmStack != null) {
+                for (armor in player.armorSlots) {
+                    itemsToKeep.add(armor)
+                }
+            }
             for (i in 0 until player.inventory.containerSize) {
                 val itemStack = player.inventory.getItem(i)
 

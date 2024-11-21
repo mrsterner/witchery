@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item
 
 import dev.architectury.event.EventResult
+import dev.sterner.witchery.api.VillagerTransfix
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.entity.LilithEntity
@@ -162,8 +163,9 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
                 val item = player.mainHandItem
                 val bl = item.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true
                 if (bl && VampirePlayerAttachment.getData(player).vampireLevel >= 9) {
+                    val transfix = entity as VillagerTransfix
                     val blood = BloodPoolLivingEntityAttachment.getData(entity)
-                    if (blood.bloodPool <= blood.maxBlood / 2) {
+                    if (blood.bloodPool <= blood.maxBlood / 2 && transfix.isMesmerized()) {
                         val vampire = WitcheryEntityTypes.VAMPIRE.get().create(player.level())
                         vampire!!.moveTo(entity.position(), entity.xRot, entity.yRot)
                         vampire.setOwnerUUID(player.uuid)

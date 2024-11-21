@@ -8,9 +8,7 @@ import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.TickEvent
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.Witchery.id
 import dev.sterner.witchery.api.RenderUtils
-import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.api.VillagerTransfix
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure.StructurePiece
@@ -20,6 +18,7 @@ import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
 import dev.sterner.witchery.registry.*
@@ -29,7 +28,6 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.player.LocalPlayer
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -45,8 +43,6 @@ import net.minecraft.world.entity.animal.Chicken
 import net.minecraft.world.entity.monster.Blaze
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.Items
-import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import java.util.function.Consumer
 import kotlin.math.ceil
@@ -92,9 +88,8 @@ object VampireEventHandler {
     }
 
     /**
-     * The main tick, handles sun exposure, blood healing and ability effects applying.
-     * If the player's vampire level is less than five, the sun will instantly kill it after the 5-second buffer.
-     * If the player is level 5 or higher it will drain blood and damage the player.
+     * Tick human players blood up naturally.
+     * Source of the vampireTicks calls
      */
     fun tick(player: Player?) {
         if (player is ServerPlayer) {
@@ -111,50 +106,59 @@ object VampireEventHandler {
             }
 
             if (player.isAlive) {
-                val isInSunlight = player.level().canSeeSky(player.blockPosition()) && player.level().isDay
-                val sunDamageSource = player.level().damageSources().source(WitcheryDamageSources.IN_SUN)
-                val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+                vampireTick(player, vampData)
+            }
+        }
+    }
 
-                if (isInSunlight) {
-                    VampireAbilities.increaseInSunTick(player)
-                    val maxInSunTicks = player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0
-                    val data = getData(player)
-                    setData(player, data.copy(maxInSunTickClient = maxInSunTicks.toInt()))
+    /**
+     * The main tick, handles sun exposure, blood healing and ability effects applying.
+     * If the player's vampire level is less than five, the sun will instantly kill it after the 5-second buffer.
+     * If the player is level 5 or higher it will drain blood and damage the player.
+     */
+    private fun vampireTick(player: ServerPlayer, vampData: VampirePlayerAttachment.Data) {
+        val isInSunlight = player.level().canSeeSky(player.blockPosition()) && player.level().isDay
+        val sunDamageSource = player.level().damageSources().source(WitcheryDamageSources.IN_SUN)
+        val bloodData = BloodPoolLivingEntityAttachment.getData(player)
 
-                    if (getData(player).inSunTick >= maxInSunTicks) {
-                        if (vampData.vampireLevel < 5) {
-                            player.hurt(sunDamageSource, Float.MAX_VALUE)
-                        } else {
-                            if (bloodData.bloodPool >= bloodThreshold) {
-                                if (player.tickCount % 20 == 0) {
-                                    player.hurt(sunDamageSource, 2f)
-                                    player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
-                                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
-                                }
-                            } else {
-                                player.hurt(sunDamageSource, Float.MAX_VALUE)
-                            }
-                        }
-                    }
+        if (isInSunlight) {
+            VampireAbilities.increaseInSunTick(player)
+            val maxInSunTicks = player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0
+            val data = getData(player)
+            setData(player, data.copy(maxInSunTickClient = maxInSunTicks.toInt()))
+
+            if (getData(player).inSunTick >= maxInSunTicks) {
+                if (vampData.vampireLevel < 5) {
+                    player.hurt(sunDamageSource, Float.MAX_VALUE)
                 } else {
-                    val decreaseAmount = (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.div(100)) ?: 1.0
-                    VampireAbilities.decreaseInSunTick(player, (ceil(decreaseAmount)).toInt())
-                }
-
-                if (bloodData.bloodPool >= 75 && player.level().random.nextBoolean()) {
-                    if (player.health < player.maxHealth && player.health > 0) {
-                        BloodPoolLivingEntityAttachment.decreaseBlood(player, 75)
-                        player.heal(1f)
+                    if (bloodData.bloodPool >= bloodThreshold) {
+                        if (player.tickCount % 20 == 0) {
+                            player.hurt(sunDamageSource, 2f)
+                            player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
+                            WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
+                        }
+                    } else {
+                        player.hurt(sunDamageSource, Float.MAX_VALUE)
                     }
-                }
-
-                if (getData(player).isNightVisionActive) {
-                    player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 2))
-                }
-                if (getData(player).isSpeedBoostActive) {
-                    player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 2))
                 }
             }
+        } else {
+            val decreaseAmount = (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.div(100)) ?: 1.0
+            VampireAbilities.decreaseInSunTick(player, (ceil(decreaseAmount)).toInt())
+        }
+
+        if (bloodData.bloodPool >= 75 && player.level().random.nextBoolean()) {
+            if (player.health < player.maxHealth && player.health > 0) {
+                BloodPoolLivingEntityAttachment.decreaseBlood(player, 75)
+                player.heal(1f)
+            }
+        }
+
+        if (getData(player).isNightVisionActive) {
+            player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 2))
+        }
+        if (getData(player).isSpeedBoostActive) {
+            player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 2))
         }
     }
 
@@ -168,75 +172,90 @@ object VampireEventHandler {
             val playerData = getData(player)
             val playerBloodData = BloodPoolLivingEntityAttachment.getData(player)
             if (playerData.abilityIndex == VampireAbility.DRINK_BLOOD.ordinal) {
-                val targetData = BloodPoolLivingEntityAttachment.getData(entity)
-                val quality = BloodPoolHandler.BLOOD_PAIR[entity.type] ?: 0
-
-                if (playerBloodData.bloodPool < playerBloodData.maxBlood && targetData.bloodPool >= 0 && targetData.maxBlood > 0) {
-
-                    if (quality == 0 && player.level().random.nextFloat() < 0.25f) {
-                        player.addEffect(MobEffectInstance(MobEffects.POISON, 200, 0))
-                    }
-
-                    val targetHalfBlood = targetData.maxBlood / 2
-
-                    if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown && entity is Villager) {
-                        VampireLeveling.increaseVillagersHalfBlood(player, entity)
-
-                        val cageStates = entity.level().getBlockStates(entity.boundingBox.inflate(2.0, 2.0, 2.0))
-                        val bars = cageStates.filter { it.`is`(Blocks.IRON_BARS) || it.`is`(BlockTags.SLABS) }.count().toInt()
-                        if (bars >= 15 + 9) {
-                            VampireLeveling.increaseTrappedVillagers(player, entity)
-                        }
-                    }
-
-                    if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown) {
-                        return EventResult.pass()
-                    }
-
-                    player.level().playSound(null, entity.x, entity.y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
-                    val np = entity.position().add(0.5, 0.5, 0.5)
-                    WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, np))
-
-                    val attribute = player.getAttribute(WitcheryAttributes.VAMPIRE_DRINK_SPEED)?.value?.toInt() ?: 0
-                    val modifiedAmount = bloodTransferAmount + attribute
-
-                    BloodPoolLivingEntityAttachment.decreaseBlood(entity, modifiedAmount)
-                    BloodPoolLivingEntityAttachment.increaseBlood(player, modifiedAmount)
-
-                    val shouldHurt = when {
-                        entity is Villager && entity is VillagerTransfix && !entity.isSleeping && !entity.isTransfixed() -> true
-                        targetData.bloodPool < targetHalfBlood -> true
-                        else -> false
-                    }
-
-                    if (shouldHurt) {
-                        if (entity is Villager && getData(player).villagersHalfBlood.contains(entity.uuid)) {
-                            VampireLeveling.removeVillagerHalfBlood(player, entity)
-                            VampireLeveling.removeTrappedVillager(player, entity)
-                        }
-                        entity.hurt(player.damageSources().playerAttack(player), 2f)
-                    }
-
-                    if (targetData.bloodPool <= 0) {
-                        if (entity is Player) {
-                            entity.hurt(player.damageSources().playerAttack(player), 2f)
-                        } else {
-                            entity.kill()
-                        }
-                    }
-
-                    return EventResult.interruptFalse()
-                }
-                return EventResult.interruptFalse()
-            } else if (playerData.abilityIndex == VampireAbility.TRANSFIX.ordinal) {
-                if (entity is Villager) {
-                    val transfixVillager = entity as VillagerTransfix
-                    transfixVillager.setTransfixedLookVector(player.eyePosition)
-                    return EventResult.interruptFalse()
-                }
+                return vampireDrinkBloodAbility(player, entity, playerBloodData)
+            }
+            if (playerData.abilityIndex == VampireAbility.TRANSFIX.ordinal) {
+                return vampireTransfixAbility(player, entity)
             }
         }
         return EventResult.pass()
+    }
+
+    private fun vampireTransfixAbility(player: ServerPlayer, entity: LivingEntity): EventResult? {
+        if (entity is Villager) {
+            val transfixVillager = entity as VillagerTransfix
+            transfixVillager.setTransfixedLookVector(player.eyePosition)
+            if (getData(player).vampireLevel >= 8) {
+                transfixVillager.setMesmerized(player.uuid)
+            }
+            return EventResult.interruptFalse()
+        }
+        return EventResult.pass()
+    }
+
+    private fun vampireDrinkBloodAbility(
+        player: ServerPlayer,
+        entity: LivingEntity,
+        playerBloodData: BloodPoolLivingEntityAttachment.Data
+    ): EventResult? {
+        val targetData = BloodPoolLivingEntityAttachment.getData(entity)
+        val quality = BloodPoolHandler.BLOOD_PAIR[entity.type] ?: 0
+
+        if (playerBloodData.bloodPool < playerBloodData.maxBlood && targetData.bloodPool >= 0 && targetData.maxBlood > 0) {
+
+            if (quality == 0 && player.level().random.nextFloat() < 0.25f) {
+                player.addEffect(MobEffectInstance(MobEffects.POISON, 200, 0))
+            }
+
+            val targetHalfBlood = targetData.maxBlood / 2
+
+            if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown && entity is Villager) {
+                VampireLeveling.increaseVillagersHalfBlood(player, entity)
+
+                val cageStates = entity.level().getBlockStates(entity.boundingBox.inflate(2.0, 2.0, 2.0))
+                val bars = cageStates.filter { it.`is`(Blocks.IRON_BARS) || it.`is`(BlockTags.SLABS) }.count().toInt()
+                if (bars >= 15 + 9) {
+                    VampireLeveling.increaseTrappedVillagers(player, entity)
+                }
+            }
+
+            if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown) {
+                return EventResult.pass()
+            }
+
+            player.level().playSound(null, entity.x, entity.y, entity.z, SoundEvents.HONEY_DRINK, SoundSource.PLAYERS)
+            val np = entity.position().add(0.5, 0.5, 0.5)
+            WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, np))
+
+            val attribute = player.getAttribute(WitcheryAttributes.VAMPIRE_DRINK_SPEED)?.value?.toInt() ?: 0
+            val modifiedAmount = bloodTransferAmount + attribute
+
+            BloodPoolLivingEntityAttachment.decreaseBlood(entity, modifiedAmount)
+            BloodPoolLivingEntityAttachment.increaseBlood(player, modifiedAmount)
+
+            val shouldHurt = when {
+                entity is Villager && entity is VillagerTransfix && !entity.isSleeping && !entity.isTransfixed() -> true
+                targetData.bloodPool < targetHalfBlood -> true
+                else -> false
+            }
+
+            if (shouldHurt) {
+                if (entity is Villager && getData(player).villagersHalfBlood.contains(entity.uuid)) {
+                    VampireLeveling.removeVillagerHalfBlood(player, entity)
+                    VampireLeveling.removeTrappedVillager(player, entity)
+                }
+                entity.hurt(player.damageSources().playerAttack(player), 2f)
+            }
+
+            if (targetData.bloodPool <= 0) {
+                if (entity is Player) {
+                    entity.hurt(player.damageSources().playerAttack(player), 2f)
+                } else {
+                    entity.kill()
+                }
+            }
+        }
+        return EventResult.interruptFalse()
     }
 
     /**

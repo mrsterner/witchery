@@ -115,7 +115,8 @@ object TransformationPlayerAttachment {
 
                 increaseBatFormTimer(player)
 
-                val maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
+                var maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
+                maxBatTime += if(VampirePlayerAttachment.getData(player).vampireLevel >= 9) 60 * 20 else 0
                 val data = getData(player)
                 setData(player, data.copy(maxBatTimeClient = maxBatTime))
                 if (getData(player).batFormTicker > maxBatTime) {

@@ -125,6 +125,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get())
                 output.accept(WitcheryItems.DREAM_WEAVER_OF_FASTING.get())
                 output.accept(WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get())
+                output.accept(WitcheryItems.DREAMWEAVER_CHARM.get())
 
                 output.accept(WitcheryItems.WITCHES_HAT.get())
                 output.accept(WitcheryItems.WITCHES_ROBES.get())
@@ -155,6 +156,8 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.OXFORD_BOOTS.get())
                 output.accept(WitcheryItems.CANE_SWORD.get())
                 output.accept(WitcheryItems.BATWING_PENDANT.get())
+                output.accept(WitcheryItems.SUNSTONE_PENDANT.get())
+                output.accept(WitcheryItems.BLOODSTONE_PENDANT.get())
 
                 output.accept(WitcheryItems.DISTURBED_COTTON.get())
                 output.accept(WitcheryItems.WISPY_COTTON.get())

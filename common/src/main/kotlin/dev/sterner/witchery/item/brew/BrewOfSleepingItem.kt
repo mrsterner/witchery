@@ -3,9 +3,11 @@ package dev.sterner.witchery.item.brew
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.SleepingPlayerData
 import dev.sterner.witchery.entity.SleepingPlayerEntity
+import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.platform.SleepingLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
+import io.wispforest.accessories.api.AccessoriesAPI
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
@@ -30,6 +32,12 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         val sleepingPlayer = SleepingPlayerEntity.createFromPlayer(player, SleepingPlayerData.fromPlayer(player))
         val itemsToKeep = mutableListOf<ItemStack>()
 
+        val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
+        if (charmStack != null) {
+            for (armor in player.armorSlots) {
+                itemsToKeep.add(armor)
+            }
+        }
         for (i in 0 until player.inventory.containerSize) {
             val itemStack = player.inventory.getItem(i)
             if (itemStack.item == WitcheryItems.ICY_NEEDLE.get()) {

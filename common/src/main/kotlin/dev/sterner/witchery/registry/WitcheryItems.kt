@@ -11,6 +11,9 @@ import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
 import dev.sterner.witchery.item.accessories.BatwingPendantItem
+import dev.sterner.witchery.item.accessories.BloodstonePendantItem
+import dev.sterner.witchery.item.accessories.DreamweaverCharmItem
+import dev.sterner.witchery.item.accessories.SunstonePendantItem
 import dev.sterner.witchery.item.brew.*
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
@@ -1097,6 +1100,19 @@ object WitcheryItems {
     }
 
     val BATWING_PENDANT = ITEMS.register("batwing_pendant") {
-        BatwingPendantItem(Item.Properties().stacksTo(1))
+        BatwingPendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
+
+    val SUNSTONE_PENDANT = ITEMS.register("sunstone_pendant") {
+        SunstonePendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    }
+
+    val BLOODSTONE_PENDANT = ITEMS.register("bloodstone_pendant") {
+        BloodstonePendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    }
+
+    val DREAMWEAVER_CHARM = ITEMS.register("dreamweaver_charm") {
+        DreamweaverCharmItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    }
+
 }

@@ -31,7 +31,8 @@
     "MobMixin",
     "ServerPlayerMixin",
     "ShapelessRecipeAccessor",
-    "VillagerMixin"
+    "VillagerMixin",
+    "client.TargetingConditionsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
