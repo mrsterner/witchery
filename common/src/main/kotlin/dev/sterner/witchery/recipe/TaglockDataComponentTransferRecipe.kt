@@ -32,7 +32,7 @@ class TaglockDataComponentTransferRecipe : CustomRecipe(CraftingBookCategory.MIS
             if (item.item is PoppetItem) {
                 poppetItem = item.copy()
             } else if (item.`is`(WitcheryItems.TAGLOCK.get())) {
-                taglockItem = item
+                taglockItem = item.copy()
             }
         }
 

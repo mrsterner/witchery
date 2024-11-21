@@ -10,10 +10,7 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
-import dev.sterner.witchery.item.accessories.BatwingPendantItem
-import dev.sterner.witchery.item.accessories.BloodstonePendantItem
-import dev.sterner.witchery.item.accessories.DreamweaverCharmItem
-import dev.sterner.witchery.item.accessories.SunstonePendantItem
+import dev.sterner.witchery.item.accessories.*
 import dev.sterner.witchery.item.brew.*
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
@@ -1115,4 +1112,7 @@ object WitcheryItems {
         DreamweaverCharmItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
+    val BITING_BELT = ITEMS.register("biting_belt") {
+        BitingBeltItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    }
 }

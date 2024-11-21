@@ -1,6 +1,8 @@
 package dev.sterner.witchery.registry
 
+import com.mojang.datafixers.kinds.App
 import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
@@ -8,7 +10,12 @@ import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.item.alchemy.PotionContents
 import java.util.*
+import java.util.function.BiFunction
+import java.util.function.Function
+
 
 object WitcheryDataComponents {
 
@@ -72,5 +79,23 @@ object WitcheryDataComponents {
 
     val UNSHEETED: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("unsheeted") {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
+    }
+
+    val DUAL_POTION_CONTENT = DATA.register("dual_potion_content") {
+        DataComponentType.builder<DualPotionContents>().persistent(DualPotionContents.CODEC).build()
+    }
+
+    data class DualPotionContents(
+        val positive: Optional<PotionContents>,
+        val negative: Optional<PotionContents>
+    ) {
+        companion object {
+            val CODEC: Codec<DualPotionContents> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    PotionContents.CODEC.optionalFieldOf("positive").forGetter { it.positive },
+                    PotionContents.CODEC.optionalFieldOf("negative").forGetter { it.negative }
+                ).apply(instance, ::DualPotionContents)
+            }
+        }
     }
 }

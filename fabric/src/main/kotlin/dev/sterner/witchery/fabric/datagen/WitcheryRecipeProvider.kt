@@ -2,6 +2,7 @@ package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.ritual.CommandType
+import dev.sterner.witchery.recipe.PotionDataComponentTransferRecipe
 import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
 import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipeBuilder
@@ -50,6 +51,10 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
         SpecialRecipeBuilder.special { _: CraftingBookCategory? ->
             TaglockDataComponentTransferRecipe()
         }.save(exporter, "taglock_transfer")
+
+        SpecialRecipeBuilder.special { _: CraftingBookCategory? ->
+            PotionDataComponentTransferRecipe()
+        }.save(exporter, "potion_transfer")
         //end SPECIAL
 
 

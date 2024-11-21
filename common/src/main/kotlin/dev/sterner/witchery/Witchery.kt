@@ -52,6 +52,7 @@ import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WineGlassItem
 import dev.sterner.witchery.item.accessories.BatwingPendantItem
+import dev.sterner.witchery.item.accessories.BitingBeltItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.*
@@ -167,6 +168,7 @@ object Witchery {
         EntityEvent.LIVING_DEATH.register(FamiliarLevelAttachment::familiarDeath)
         EntityEvent.LIVING_DEATH.register(CaneSwordItem::harvestBlood)
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
+        EntityEvent.LIVING_HURT.register(BitingBeltItem::usePotion)
         EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::setBloodOnAdded)
 
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)

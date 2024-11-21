@@ -126,6 +126,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.DREAM_WEAVER_OF_FASTING.get())
                 output.accept(WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get())
                 output.accept(WitcheryItems.DREAMWEAVER_CHARM.get())
+                output.accept(WitcheryItems.BITING_BELT.get())
 
                 output.accept(WitcheryItems.WITCHES_HAT.get())
                 output.accept(WitcheryItems.WITCHES_ROBES.get())
