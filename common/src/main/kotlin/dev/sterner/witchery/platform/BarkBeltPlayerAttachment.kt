@@ -91,8 +91,8 @@ object BarkBeltPlayerAttachment {
         }
 
         val bl2 = TransformationPlayerAttachment.isBat(player)
-
-        val y = guiGraphics.guiHeight() - 18 - 18 - 12 - 10 - if(bl2) 8 else 0
+        val bl3 = player.armorValue > 0
+        val y = guiGraphics.guiHeight() - 18 - 18 - 12 - (if (bl3) 10 else 0) - (if(bl2) 8 else 0)
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 3
 
         val bark = getData(player)

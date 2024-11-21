@@ -176,6 +176,9 @@ object Witchery {
 
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
         PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
+        PlayerEvent.PLAYER_RESPAWN.register{ player, _, _ ->
+            VampireAbilities.setAbilityIndex(player, -1)
+        }
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
         InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)

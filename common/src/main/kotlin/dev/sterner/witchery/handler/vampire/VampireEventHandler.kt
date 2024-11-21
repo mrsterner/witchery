@@ -381,7 +381,7 @@ object VampireEventHandler {
      */
     private fun rightClickBlockAbility(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
 
-        if (player == null || player.level().isClientSide || interactionHand == InteractionHand.OFF_HAND) {
+        if (player == null || interactionHand == InteractionHand.OFF_HAND) {
             return EventResult.pass()
         }
 
