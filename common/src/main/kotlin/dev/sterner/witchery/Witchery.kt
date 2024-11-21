@@ -51,6 +51,7 @@ import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WineGlassItem
+import dev.sterner.witchery.item.accessories.BarkBeltItem
 import dev.sterner.witchery.item.accessories.BatwingPendantItem
 import dev.sterner.witchery.item.accessories.BitingBeltItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
@@ -195,6 +196,7 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(NightmarePlayerAttachment::tick)
         TickEvent.PLAYER_PRE.register(TransformationPlayerAttachment::tickBat)
+        TickEvent.PLAYER_PRE.register(BarkBeltPlayerAttachment::tick)
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 
@@ -454,6 +456,7 @@ object Witchery {
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
         ClientGuiEvent.RENDER_HUD.register(ManifestationPlayerAttachment::renderHud)
         ClientGuiEvent.RENDER_HUD.register(VampireEventHandler::renderHud)
+        ClientGuiEvent.RENDER_HUD.register(BarkBeltPlayerAttachment::renderHud)
 
         AccessoriesRendererRegistry.registerRenderer(WitcheryItems.BATWING_PENDANT.get(), ::BatwingPendantRenderer)
         AccessoriesRendererRegistry.registerRenderer(WitcheryItems.SUNSTONE_PENDANT.get(), ::BatwingPendantRenderer)

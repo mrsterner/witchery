@@ -267,6 +267,7 @@ object VampireEventHandler {
         val client = Minecraft.getInstance()
         val player = client.player ?: return
 
+
         val isNotVamp = getData(player).vampireLevel <= 0
 
         if (isNotVamp) {
@@ -280,6 +281,12 @@ object VampireEventHandler {
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
 
         drawBloodSense(guiGraphics)
+
+        val bl2 = client.gameMode!!.canHurtPlayer()
+        if (!bl2) {
+            return
+        }
+
         drawSun(guiGraphics, player)
         drawBatFormHud(guiGraphics, player)
 

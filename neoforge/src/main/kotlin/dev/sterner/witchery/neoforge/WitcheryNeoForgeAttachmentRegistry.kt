@@ -247,4 +247,15 @@ object WitcheryNeoForgeAttachmentRegistry {
                     .build()
             }
         )
+
+    @JvmStatic
+    val BARK_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<BarkBeltPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "bark_player",
+            Supplier {
+                AttachmentType.builder(Supplier { BarkBeltPlayerAttachment.Data() })
+                    .serialize(BarkBeltPlayerAttachment.Data.CODEC)
+                    .build()
+            }
+        )
 }

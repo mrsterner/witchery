@@ -15,7 +15,7 @@ object WitcheryTags {
     val PLACEABLE_POPPETS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("placeable_poppets"))
     val SPIRIT_WORLD_TRANSFERABLE: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("spirit_world_transferable"))
 
-    val PLANTS: TagKey<Block> = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "plants"))
+    val WOODEN_WEAPONS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("wooden_weapons"))
 
     val SMASH_STONE: TagKey<Block> = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "smash_stone"))
 

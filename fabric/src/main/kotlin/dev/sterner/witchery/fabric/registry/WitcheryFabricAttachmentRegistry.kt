@@ -170,6 +170,13 @@ object WitcheryFabricAttachmentRegistry {
             .initializer { VampireChildrenHuntLevelAttachment.Data() }
             .buildAndRegister(VampireChildrenHuntLevelAttachment.Data.ID)
 
+    @Suppress("UnstableApiUsage")
+    val BARK_BELT_PLAYER_DATA_ATTACHMENT: AttachmentType<BarkBeltPlayerAttachment.Data> =
+        AttachmentRegistry.builder<BarkBeltPlayerAttachment.Data>()
+            .persistent(BarkBeltPlayerAttachment.Data.CODEC)
+            .initializer { BarkBeltPlayerAttachment.Data() }
+            .buildAndRegister(BarkBeltPlayerAttachment.Data.ID)
+
     fun init() {
 
     }

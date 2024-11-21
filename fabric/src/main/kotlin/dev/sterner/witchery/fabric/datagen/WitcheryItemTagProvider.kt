@@ -9,6 +9,7 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.ItemTags
 import net.minecraft.tags.TagKey
+import net.minecraft.world.item.Items
 import java.util.concurrent.CompletableFuture
 
 class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) :
@@ -344,5 +345,14 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
 
         getOrCreateTagBuilder(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyed/black")))
             .add(WitcheryItems.BLACK_IRON_CANDELABRA.get())
+
+        getOrCreateTagBuilder(WitcheryTags.WOODEN_WEAPONS)
+            .add(Items.WOODEN_AXE)
+            .add(Items.WOODEN_SWORD)
+            .add(Items.STICK)
+            .add(Items.FISHING_ROD)
+            .add(Items.WOODEN_PICKAXE)
+            .add(Items.WOODEN_HOE)
+            .add(Items.WOODEN_SHOVEL)
     }
 }

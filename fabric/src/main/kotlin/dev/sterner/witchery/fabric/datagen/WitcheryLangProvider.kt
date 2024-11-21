@@ -367,6 +367,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.BLOODSTONE_PENDANT.get(), "Bloodstone Pendant")
         builder.add(WitcheryItems.DREAMWEAVER_CHARM.get(), "Dreamweaver Charm")
         builder.add(WitcheryItems.BITING_BELT.get(), "Biting Belt")
+        builder.add(WitcheryItems.BARK_BELT.get(), "Bark Belt")
 
         builder.add(WitcheryEntityTypes.MANDRAKE.get(), "Mandrake")
         builder.add(WitcheryEntityTypes.SPECTRAL_PIG.get(), "Spectral Pig")
