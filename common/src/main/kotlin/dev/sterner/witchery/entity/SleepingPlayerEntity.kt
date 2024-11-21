@@ -233,11 +233,12 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
 
         fun replaceWithPlayer(player: Player, sleepingPlayerEntity: SleepingPlayerEntity) {
             val itemsToKeep = mutableListOf<ItemStack>()
+            val armorToKeep = mutableListOf<ItemStack>()
 
             val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
             if (charmStack != null) {
                 for (armor in player.armorSlots) {
-                    itemsToKeep.add(armor)
+                    armorToKeep.add(armor)
                 }
             }
             for (i in 0 until player.inventory.containerSize) {
@@ -252,6 +253,10 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
 
             for (item in itemsToKeep) {
                 player.inventory.add(item)
+            }
+            for (armor in armorToKeep) {
+                val slot = player.getEquipmentSlotForItem(armor)
+                player.setItemSlot(slot, armor)
             }
 
             insertOrDrop(player, sleepingPlayerEntity.data.mainInventory, player.inventory.items)

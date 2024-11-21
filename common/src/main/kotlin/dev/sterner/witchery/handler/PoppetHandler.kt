@@ -147,7 +147,7 @@ object PoppetHandler {
     fun handleVampiricPoppet(livingEntity: LivingEntity?, damageSource: DamageSource, original: Float): Float {
         if (livingEntity != null) {
             var itemStack: ItemStack? =
-                AccessoryHandler.checkNoConsume(livingEntity, WitcheryItems.VAMPIRIC_POPPET.get())
+                AccessoryHandler.checkPoppetNoConsume(livingEntity, WitcheryItems.VAMPIRIC_POPPET.get())
 
             if (itemStack == null) {
                 for (interactionHand in InteractionHand.entries) {

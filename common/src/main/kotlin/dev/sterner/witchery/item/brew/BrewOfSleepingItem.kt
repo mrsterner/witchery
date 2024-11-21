@@ -7,7 +7,6 @@ import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.platform.SleepingLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
-import io.wispforest.accessories.api.AccessoriesAPI
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
@@ -29,13 +28,15 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             return
         }
 
-        val sleepingPlayer = SleepingPlayerEntity.createFromPlayer(player, SleepingPlayerData.fromPlayer(player))
         val itemsToKeep = mutableListOf<ItemStack>()
+        val armorToKeep = mutableListOf<ItemStack>()
 
         val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
+
         if (charmStack != null) {
             for (armor in player.armorSlots) {
-                itemsToKeep.add(armor)
+                armorToKeep.add(armor)
+                player.inventory.removeItem(armor)
             }
         }
         for (i in 0 until player.inventory.containerSize) {
@@ -45,10 +46,15 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             }
         }
 
+        val sleepingPlayer = SleepingPlayerEntity.createFromPlayer(player, SleepingPlayerData.fromPlayer(player))
         player.inventory.clearContent()
 
         for (keep in itemsToKeep) {
             player.inventory.add(keep.copy())
+        }
+        for (armor in armorToKeep) {
+            val slot = player.getEquipmentSlotForItem(armor)
+            player.setItemSlot(slot, armor)
         }
 
         player.level().addFreshEntity(sleepingPlayer)
