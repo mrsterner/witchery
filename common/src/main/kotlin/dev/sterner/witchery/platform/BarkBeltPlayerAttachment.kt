@@ -42,7 +42,7 @@ object BarkBeltPlayerAttachment {
     }
 
     fun hurt(livingEntity: LivingEntity?, damageSource: DamageSource, damage: Float): Float {
-        if (livingEntity is ServerPlayer) {
+        if (livingEntity is Player) {
             val data = getData(livingEntity)
 
             if (damageSource.entity is LivingEntity) {

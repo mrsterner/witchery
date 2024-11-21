@@ -28,14 +28,14 @@ object LivingEntityMixinLogic {
 
         val isVamp = entity is Player && VampirePlayerAttachment.getData(entity).vampireLevel > 0
         if (!isVamp) {
-
-            val barkMitigated = BarkBeltPlayerAttachment.hurt(entity, damageSource, original)
-            remainingDamage =- barkMitigated.coerceAtMost(original)
+            val barkMitigated = BarkBeltPlayerAttachment.hurt(entity, damageSource, remainingDamage)
+            remainingDamage = barkMitigated.coerceAtMost(remainingDamage)
 
             if (remainingDamage > 0f) {
                 remainingDamage = handleVampiricPoppet(entity, damageSource, remainingDamage)
             }
         } else {
+
             if (remainingDamage > 0f) {
                 remainingDamage = VampireEventHandler.handleHurt(entity, damageSource, remainingDamage)
             }
