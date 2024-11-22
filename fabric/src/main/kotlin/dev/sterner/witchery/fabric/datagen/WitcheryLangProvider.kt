@@ -162,6 +162,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add(WitcheryItems.CANE_SWORD.get(), "Cane Sword")
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
+        builder.add(WitcheryBlocks.GRASSPER.get(), "Grassper")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
         builder.add(WitcheryBlocks.SPANISH_MOSS.get(), "Spanish Moss")
         builder.add(WitcheryBlocks.IRON_WITCHES_OVEN.get(), "Iron Witches Oven")

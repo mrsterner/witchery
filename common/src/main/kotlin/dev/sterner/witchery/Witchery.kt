@@ -446,6 +446,8 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(), ::SpiritPortalBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(), ::SuspiciousGraveyardDirtBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(), ::SacrificialCircleBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.GRASSPER.get(), ::GrassperBlockEntityRenderer)
+
 
         ClientTooltipComponentRegistry.register(CaneSwordItem.BloodPoolComponent::class.java, CaneSwordItem.BloodPoolComponent::getClientTooltipComponent)
 
@@ -597,7 +599,7 @@ object Witchery {
             WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(),
             WitcheryBlocks.SACRIFICIAL_CIRCLE.get(),
             WitcheryBlocks.SUNLIGHT_COLLECTOR.get(),
-
+            WitcheryBlocks.GRASSPER.get(),
             WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get(),
             WitcheryBlocks.BRAZIER.get()
         )

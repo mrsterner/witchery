@@ -17,6 +17,7 @@ import dev.sterner.witchery.block.cauldron.CopperCauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.distillery.DistilleryCompanionBlock
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlock
+import dev.sterner.witchery.block.grassper.GrassperBlock
 import dev.sterner.witchery.block.oven.*
 import dev.sterner.witchery.block.poppet.PoppetBlock
 import dev.sterner.witchery.block.ritual.GoldenChalkBlock
@@ -1006,4 +1007,16 @@ object WitcheryBlocks {
     val BLOOD_STAINED_WOOL = BLOCKS.register("blood_stained_wool") {
         Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL))
     }
+
+    val GRASSPER = BLOCKS.register("grassper") {
+        GrassperBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.PLANT)
+            .noOcclusion()
+            .noCollission()
+            .instabreak()
+            .sound(SoundType.CROP)
+            .ignitedByLava()
+            .pushReaction(PushReaction.DESTROY))
+    }
+
 }

@@ -12,6 +12,7 @@ import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
+import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
 import dev.sterner.witchery.block.poppet.PoppetBlockEntity
@@ -220,5 +221,12 @@ object WitcheryBlockEntityTypes {
                     blockState
                 )
             }, WitcheryBlocks.SACRIFICIAL_CIRCLE.get()).build(null)
+    }
+
+    val GRASSPER = BLOCK_ENTITY_TYPES.register("grassper") {
+        BlockEntityType.Builder.of(
+            ::GrassperBlockEntity,
+            WitcheryBlocks.GRASSPER.get()
+        ).build(null)
     }
 }

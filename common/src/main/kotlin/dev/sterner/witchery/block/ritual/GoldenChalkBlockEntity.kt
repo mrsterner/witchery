@@ -5,6 +5,7 @@ import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
@@ -161,12 +162,21 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun startConsumingItems(level: Level) {
-        val itemEntities: List<ItemEntity> = level.getEntities(
+        val itemEntities: MutableList<ItemEntity> = level.getEntities(
             EntityType.ITEM,
             AABB(blockPos).inflate(3.0, 0.0, 3.0)
-        ) { true }
+        ) { true }.toMutableList()
+
+        val grasspers = BlockPos.betweenClosedStream(AABB.ofSize(blockPos.center, 4.0, 4.0, 4.0))
+            .filter { level.getBlockEntity(it) is GrassperBlockEntity }
+            .map { it to (level.getBlockEntity(it) as GrassperBlockEntity) }
+            .filter { (_, grassper) -> !grassper.isEmpty }
+            .toList()
 
         val recipeItems = ritualRecipe?.inputItems ?: return
+
+        val consumedItems = mutableListOf<ItemStack>()
+        var consumedFromEntity = false
 
         if (tickCounter % 20 == 0) {
             for (itemEntity in itemEntities) {
@@ -177,25 +187,47 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
 
                 if (matchingRecipeItem != null) {
+                    consumedItems.add(stack.copy())
                     addWaystoneOrTaglockToContext(stack)
 
-                    addItemToInventory(items, stack)
-                    level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
                     stack.shrink(1)
                     if (stack.isEmpty) {
                         itemEntity.remove(Entity.RemovalReason.DISCARDED)
                     }
-                    setChanged()
+                    level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
+                    consumedFromEntity = true
                     break
                 }
             }
+
+            if (!consumedFromEntity) {
+                for ((pos, grassper) in grasspers) {
+                    val grassperItem = grassper.item[0].copy()
+
+                    val matchingRecipeItem = recipeItems.find { recipeItem ->
+                        ItemStack.isSameItem(grassperItem, recipeItem)
+                    }
+
+                    if (matchingRecipeItem != null) {
+                        consumedItems.add(grassperItem) // Add to consumed items
+                        grassper.item[0].shrink(1)
+                        grassper.setChanged()
+                        addWaystoneOrTaglockToContext(grassperItem)
+
+                        level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
+                        break
+                    }
+                }
+            }
         }
+
+        consumedItems.forEach { addItemToInventory(items, it) }
 
         if (itemsMatchRecipe(items, recipeItems)) {
             shouldStartConsumingSacrifices = true
             setChanged()
         } else {
-            if (itemEntities.isEmpty()) {
+            if (itemEntities.isEmpty() && grasspers.isEmpty()) {
                 resetRitual()
             }
         }
@@ -278,13 +310,20 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (ritualRecipe == null && level != null) {
             Witchery.logDebugRitual("No current ritual recipe found. Searching for valid recipes.")
 
-            val items: List<ItemEntity> =
-                pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }
+            val items: MutableList<ItemStack> =
+                pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }.map { it.item }.toMutableList()
             val entities: List<LivingEntity> = pPlayer.level()
                 .getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
 
             Witchery.logDebugRitual("Found ${items.size} items and ${entities.size} entities near block position $blockPos.")
 
+            val grasspers = BlockPos.betweenClosedStream(AABB.ofSize(blockPos.center, 4.0, 4.0, 4.0))
+                .filter { level!!.getBlockEntity(it) is GrassperBlockEntity && !(level!!.getBlockEntity(it) as GrassperBlockEntity).isEmpty }
+
+            for (pos in grasspers) {
+                val grassperBlockEntity = level!!.getBlockEntity(pos) as GrassperBlockEntity
+                items.add(grassperBlockEntity.item[0])
+            }
 
             val recipes = level?.recipeManager?.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())
 
@@ -292,7 +331,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             val validItemRecipes = recipes?.filter { recipe ->
                 val recipeItems = recipe.value.inputItems
                 recipeItems.all { recipeItem ->
-                    items.any { itemEntity -> ItemStack.isSameItem(itemEntity.item, recipeItem) }
+                    items.any { itemStack -> ItemStack.isSameItem(itemStack, recipeItem) }
                 }
             }
 

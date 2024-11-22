@@ -1123,4 +1123,8 @@ object WitcheryItems {
     val PARASYTIC_LOUSE = ITEMS.register("parasytic_louse") {
         LeechItem(Item.Properties())
     }
+
+    val GRASSPER = ITEMS.register("grassper") {
+        BlockItem(WitcheryBlocks.GRASSPER.get(), Item.Properties())
+    }
 }

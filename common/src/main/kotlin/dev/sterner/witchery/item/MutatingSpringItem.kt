@@ -25,6 +25,10 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             makeWormwood(level, pos)
             return InteractionResult.SUCCESS
         }
+        if (level.getBlockState(pos).`is`(Blocks.CHEST)) {
+            makeGrassper(level, pos)
+            return InteractionResult.SUCCESS
+        }
 
         val blockState = level.getBlockState(pos)
         if (blockState.`is`(Blocks.GRASS_BLOCK)) {
@@ -50,6 +54,19 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             removeCardinal(level, pos)
             removeDiagonals(level, pos)
             level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
+        }
+    }
+
+    private fun makeGrassper(level: Level, pos: BlockPos){
+        if (checkCardinal(level, pos, Blocks.SHORT_GRASS) && level.getBlockState(pos.below()).`is`(Blocks.WATER)) {
+            removeCardinal(level, pos)
+            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState())
+            level.setBlockAndUpdate(pos.below(), Blocks.AIR.defaultBlockState())
+            level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
+            level.setBlockAndUpdate(pos.south(), WitcheryBlocks.GRASSPER.get().defaultBlockState())
+            level.setBlockAndUpdate(pos.north(), WitcheryBlocks.GRASSPER.get().defaultBlockState())
+            level.setBlockAndUpdate(pos.west(), WitcheryBlocks.GRASSPER.get().defaultBlockState())
+            level.setBlockAndUpdate(pos.east(), WitcheryBlocks.GRASSPER.get().defaultBlockState())
         }
     }
 
@@ -86,14 +103,15 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             } else if (state.`is`(Blocks.WATER)) {
                 level.setBlockAndUpdate(diagonalPos, Blocks.AIR.defaultBlockState())
             }
+            val center = diagonalPos.center
             for (i in 0..16) {
                 level.addAlwaysVisibleParticle(
                     ParticleTypes.SMOKE,
                     true,
-                    diagonalPos.x + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
-                    (diagonalPos.y + 1.0) + Mth.nextDouble(level.random, -1.25, 1.25),
-                    diagonalPos.z + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
-                    0.0, 0.2, 0.0
+                    center.x + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
+                    (center.y + 0.0) + Mth.nextDouble(level.random, -1.25, 1.25),
+                    center.z + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
+                    0.0, 0.0, 0.0
                 )
             }
         }
@@ -107,14 +125,15 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             pos.west()
         ).forEach { cardinal ->
             level.setBlockAndUpdate(cardinal, Blocks.AIR.defaultBlockState())
+            val center = cardinal.center
             for (i in 0..16) {
                 level.addAlwaysVisibleParticle(
                     ParticleTypes.SMOKE,
                     true,
-                    cardinal.x + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
-                    (cardinal.y + 1.0) + Mth.nextDouble(level.random, -1.25, 1.25),
-                    cardinal.z + 0.0 + Mth.nextDouble(level.random, -0.5, 0.5),
-                    0.0, 0.2, 0.0
+                    center.x + Mth.nextDouble(level.random, -0.5, 0.5),
+                    (center.y) + Mth.nextDouble(level.random, -1.25, 1.25),
+                    center.z + Mth.nextDouble(level.random, -0.5, 0.5),
+                    0.0, 0.0, 0.0
                 )
             }
         }

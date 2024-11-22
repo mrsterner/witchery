@@ -73,9 +73,9 @@ class WitcheryNatureBlockProvider(
         makeBlock(provider, WitcheryBlocks.EMBER_MOSS.get(), 4, 20)
         makeBlock(provider, WitcheryBlocks.SPANISH_MOSS.get(), 3, 20)
         //makeBlock(provider, WitcheryBlocks.CRITTER_SNARE.get(), 2, 10)
-        //makeBlock(provider, WitcheryBlocks.GRASSPER.get(), 2, 10)
+        makeBlock(provider, WitcheryBlocks.GRASSPER.get(), 2, 10)
         makeBlock(provider, WitcheryBlocks.BLOOD_POPPY.get(), 2, 10)
-        //makeBlock(provider, WitcheryBlocks.WISPY_COTTON.get(), 3, 20)
+        makeBlock(provider, WitcheryBlocks.WISPY_COTTON.get(), 3, 20)
         makeBlock(provider, WitcheryBlocks.DEMON_HEART.get(), 100, 2)
         makeBlock(provider, WitcheryBlocks.INFINITY_EGG.get(), 6000, 1)
 

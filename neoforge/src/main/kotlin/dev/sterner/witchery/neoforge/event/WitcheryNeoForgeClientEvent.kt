@@ -2,6 +2,7 @@ package dev.sterner.witchery.neoforge.event
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
 import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
