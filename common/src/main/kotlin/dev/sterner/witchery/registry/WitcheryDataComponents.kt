@@ -11,6 +11,7 @@ import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.item.alchemy.PotionContents
 import java.util.*
 import java.util.function.BiFunction
@@ -83,6 +84,10 @@ object WitcheryDataComponents {
 
     val DUAL_POTION_CONTENT = DATA.register("dual_potion_content") {
         DataComponentType.builder<DualPotionContents>().persistent(DualPotionContents.CODEC).build()
+    }
+
+    val LEECH_EFFECT = DATA.register("leech_effect") {
+        DataComponentType.builder<MobEffectInstance>().persistent(MobEffectInstance.CODEC).build()
     }
 
     data class DualPotionContents(

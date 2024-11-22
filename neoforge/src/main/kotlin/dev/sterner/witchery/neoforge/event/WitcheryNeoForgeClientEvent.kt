@@ -126,6 +126,10 @@ object WitcheryNeoForgeClientEvent {
             WitcheryEntityTypes.ELLE.get(),
             ::ElleEntityRenderer
         )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.LEECH.get(),
+            ::LeechEntityRenderer
+        )
     }
 
     @SubscribeEvent
@@ -163,6 +167,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION, WerewolfEntityModel::createBodyLayer)
         event.registerLayerDefinition(NightmareEntityModel.LAYER_LOCATION, NightmareEntityModel::createBodyLayer)
         event.registerLayerDefinition(LilithEntityModel.LAYER_LOCATION, LilithEntityModel::createBodyLayer)
+        event.registerLayerDefinition(LeechEntityModel.LAYER_LOCATION, LeechEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent

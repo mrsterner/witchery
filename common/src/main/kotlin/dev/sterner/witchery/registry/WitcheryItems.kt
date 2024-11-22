@@ -1119,4 +1119,8 @@ object WitcheryItems {
     val BARK_BELT = ITEMS.register("bark_belt") {
         BarkBeltItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
+
+    val LEECH = ITEMS.register("leech") {
+        LeechItem(Item.Properties())
+    }
 }

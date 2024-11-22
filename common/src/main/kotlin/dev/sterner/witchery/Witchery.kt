@@ -145,6 +145,7 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.WEREWOLF, WerewolfEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.LILITH, LilithEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.ELLE, ElleEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.LEECH, LeechEntity::createAttributes)
 
         MODIFY_LOOT_TABLE.register(::addSeeds)
 
@@ -395,6 +396,8 @@ object Witchery {
         EntityRendererRegistry.register(WitcheryEntityTypes.BANSHEE) { BansheeEntityRenderer(it) }
         EntityModelLayerRegistry.register(BansheeEntityModel.LAYER_LOCATION) { BansheeEntityModel.createBodyLayer() }
 
+        EntityRendererRegistry.register(WitcheryEntityTypes.LEECH) { LeechEntityRenderer(it) }
+        EntityModelLayerRegistry.register(LeechEntityModel.LAYER_LOCATION) { LeechEntityModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.VAMPIRE) { VampireEntityRenderer(it) }
         EntityModelLayerRegistry.register(VampireEntityModel.LAYER_LOCATION) { VampireEntityModel.createBodyLayer() }
