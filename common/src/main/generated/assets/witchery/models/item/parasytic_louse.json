@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "witchery:item/leech"
+    "layer0": "witchery:item/parasytic_louse"
   }
 }

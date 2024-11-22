@@ -1,6 +1,5 @@
 package dev.sterner.witchery.fabric.datagen
 
-import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -122,7 +121,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.SPECTRAL_DUST.get(), "Spectral Dust")
         builder.add(WitcheryItems.ATTUNED_STONE.get(), "Attuned Stone")
         builder.add(WitcheryItems.ROWAN_BERRIES.get(), "Rowan Berries")
-        builder.add(WitcheryItems.LEECH.get(), "Leech")
+        builder.add(WitcheryItems.PARASYTIC_LOUSE.get(), "Parasytic Louse")
         builder.add(WitcheryItems.WITCHES_HAND.get(), "Witches Hand")
         builder.add(WitcheryItems.WITCHES_HAT.get(), "Witches Hat")
         builder.add(WitcheryItems.WITCHES_ROBES.get(), "Witches Robes")

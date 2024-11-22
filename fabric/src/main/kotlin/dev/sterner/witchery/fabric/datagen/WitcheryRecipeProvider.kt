@@ -2,6 +2,7 @@ package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.ritual.CommandType
+import dev.sterner.witchery.recipe.PendantDataComponentRecipe
 import dev.sterner.witchery.recipe.PotionDataComponentTransferRecipe
 import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
@@ -55,6 +56,10 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
         SpecialRecipeBuilder.special { _: CraftingBookCategory? ->
             PotionDataComponentTransferRecipe()
         }.save(exporter, "potion_transfer")
+
+        SpecialRecipeBuilder.special { _: CraftingBookCategory? ->
+            PendantDataComponentRecipe()
+        }.save(exporter, "pendant_crafting")
         //end SPECIAL
 
 
@@ -1275,6 +1280,27 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .pattern(" Q ")
             .define('Q', Items.QUARTZ)
             .unlockedBy("has_quartz", has(Items.QUARTZ))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.BITING_BELT.get())
+            .pattern("LIM")
+            .pattern("IFI")
+            .pattern("I I")
+            .define('I', WitcheryItems.IMPREGNATED_FABRIC.get())
+            .define('F', WitcheryItems.FANCIFUL_THREAD.get())
+            .define('M', WitcheryItems.MELLIFLUOUS_HUNGER.get())
+            .define('L', WitcheryItems.PARASYTIC_LOUSE.get())
+            .unlockedBy("has_fabric", has(WitcheryItems.IMPREGNATED_FABRIC.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.BARK_BELT.get())
+            .pattern("F F")
+            .pattern("MBM")
+            .pattern("F F")
+            .define('M', WitcheryItems.ENT_TWIG.get())
+            .define('F', WitcheryItems.BREW_FLOWING_SPIRIT.get())
+            .define('B', WitcheryItems.BITING_BELT.get())
+            .unlockedBy("has_fabric", has(WitcheryItems.BITING_BELT.get()))
             .save(exporter)
 
         CauldronCraftingRecipeBuilder.create()

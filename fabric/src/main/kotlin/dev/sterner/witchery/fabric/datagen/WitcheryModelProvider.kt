@@ -224,7 +224,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.NECROMANTIC_STONE.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.SPECTRAL_DUST.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.ROWAN_BERRIES.get(), ModelTemplates.FLAT_ITEM)
-        genetaror.generateFlatItem(WitcheryItems.LEECH.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.PARASYTIC_LOUSE.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.GOLDEN_THREAD.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.WITCHES_ROBES.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.WITCHES_SLIPPERS.get(), ModelTemplates.FLAT_ITEM)

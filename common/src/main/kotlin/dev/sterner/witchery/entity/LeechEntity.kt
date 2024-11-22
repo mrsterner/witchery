@@ -1,6 +1,5 @@
 package dev.sterner.witchery.entity
 
-import dev.sterner.witchery.registry.WitcheryCommands
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -20,7 +19,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.PotionItem
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 
@@ -41,7 +39,7 @@ class LeechEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.LEECH.get(),
         }
 
         if (player.mainHandItem.isEmpty) {
-            val leech = WitcheryItems.LEECH.get().defaultInstance
+            val leech = WitcheryItems.PARASYTIC_LOUSE.get().defaultInstance
             leech.set(WitcheryDataComponents.LEECH_EFFECT.get(), effect)
 
             player.setItemInHand(InteractionHand.MAIN_HAND, leech)
@@ -69,6 +67,9 @@ class LeechEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.LEECH.get(),
     override fun doHurtTarget(target: Entity): Boolean {
         if (target is LivingEntity && effect != null) {
             target.addEffect(effect!!)
+            if (level().random.nextFloat() > 0.85) {
+                effect = null
+            }
         }
         return super.doHurtTarget(target)
     }

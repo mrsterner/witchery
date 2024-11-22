@@ -3,15 +3,16 @@ package dev.sterner.witchery.integration.emi
 import dev.emi.emi.api.EmiEntrypoint
 import dev.emi.emi.api.EmiPlugin
 import dev.emi.emi.api.EmiRegistry
+import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.recipe.PendantDataComponentRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
-import net.minecraft.world.item.crafting.Ingredient
-import net.minecraft.world.item.crafting.RecipeManager
-import net.minecraft.world.item.crafting.RecipeType
+import net.minecraft.world.item.crafting.*
+import java.util.function.Supplier
 
 
 @EmiEntrypoint
@@ -176,6 +177,20 @@ class WitcheryEmiPlugin : EmiPlugin {
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.BRAZIER_SUMMONING_RECIPE_TYPE.get())) {
             registry.addRecipe(BrazierEmiRecipe(recipe.id, recipe.value))
+        }
+
+        for (recipe in getRecipes(registry, RecipeType.CRAFTING)) {
+			if (recipe is PendantDataComponentRecipe) {
+                registry.addRecipe(BloodPendantEmiRecipe(Witchery.id("/blood")))
+                registry.addRecipe(SunPendantEmiRecipe(Witchery.id("/sun")))
+            }
+        }
+    }
+
+    private fun <C : RecipeInput?, T : Recipe<C>?> getRecipes(registry: EmiRegistry, type: RecipeType<T>): Iterable<T> {
+        return Iterable {
+            registry.recipeManager.getAllRecipesFor(type).stream().map { e: RecipeHolder<T> -> e.value() }
+                .iterator()
         }
     }
 

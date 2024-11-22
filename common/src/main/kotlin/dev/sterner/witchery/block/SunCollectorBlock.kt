@@ -15,6 +15,7 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LightLayer
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.IntegerProperty
@@ -74,12 +75,13 @@ class SunCollectorBlock(properties: Properties) : Block(properties.lightLevel(
         return super.useWithoutItem(state, level, pos, player, hitResult)
     }
 
-    override fun onRemove(
-        state: BlockState,
+    override fun playerDestroy(
         level: Level,
+        player: Player,
         pos: BlockPos,
-        newState: BlockState,
-        movedByPiston: Boolean
+        state: BlockState,
+        blockEntity: BlockEntity?,
+        tool: ItemStack
     ) {
         if (state.getValue(SPHERE_STATE) != 0) {
             level.setBlockAndUpdate(pos, state.setValue(SPHERE_STATE, 0))
@@ -89,7 +91,7 @@ class SunCollectorBlock(properties: Properties) : Block(properties.lightLevel(
             }
             Containers.dropItemStack(level, pos.x + 0.5, pos.y.toDouble(), pos.z + 0.5, sun)
         }
-        super.onRemove(state, level, pos, newState, movedByPiston)
+        super.playerDestroy(level, player, pos, state, blockEntity, tool)
     }
 
     override fun randomTick(state: BlockState, level: ServerLevel, pos: BlockPos, random: RandomSource) {

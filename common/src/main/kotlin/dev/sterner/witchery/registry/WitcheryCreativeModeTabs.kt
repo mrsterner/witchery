@@ -78,7 +78,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.ENT_TWIG.get())
                 output.accept(WitcheryItems.MUTATING_SPRING.get())
                 output.accept(WitcheryItems.ROWAN_BERRIES.get())
-                output.accept(WitcheryItems.LEECH.get())
+                output.accept(WitcheryItems.PARASYTIC_LOUSE.get())
                 output.accept(WitcheryItems.BLOOD_POPPY.get())
                 output.accept(WitcheryItems.REFINED_EVIL.get())
                 output.accept(WitcheryItems.REDSTONE_SOUP.get())
