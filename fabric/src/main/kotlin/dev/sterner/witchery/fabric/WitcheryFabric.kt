@@ -7,6 +7,7 @@ import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.fabric.client.*
+import dev.sterner.witchery.fabric.registry.WitcheryCompostables
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
 import dev.sterner.witchery.platform.fabric.WitcheryFluidHandlerFabric
@@ -55,6 +56,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
         WitcheryFlammability.register()
         WitcheryOxidizables.register()
+        WitcheryCompostables.register()
 
         BiomeModifications.addFeature(
             BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS),

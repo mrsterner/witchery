@@ -1,0 +1,73 @@
+{
+  "values": {
+    "witchery:belladonna_flower": {
+      "chance": 0.3
+    },
+    "witchery:belladonna_seeds": {
+      "chance": 0.3
+    },
+    "witchery:ent_twig": {
+      "chance": 0.5
+    },
+    "witchery:garlic": {
+      "chance": 0.4
+    },
+    "witchery:mandrake_root": {
+      "chance": 0.5
+    },
+    "witchery:mandrake_seeds": {
+      "chance": 0.3
+    },
+    "witchery:rowan_berries": {
+      "chance": 0.5
+    },
+    "witchery:water_artichoke_seeds": {
+      "chance": 0.3
+    },
+    "witchery:water_artichoke_globe": {
+      "chance": 0.5
+    },
+    "witchery:wolfsbane_seeds": {
+      "chance": 0.3
+    },
+    "witchery:wolfsbane": {
+      "chance": 0.3
+    },
+    "witchery:wormwood_seeds": {
+      "chance": 0.3
+    },
+    "witchery:wormwood": {
+      "chance": 0.3
+    },
+    "witchery:alder_leaves": {
+      "chance": 0.3
+    },
+    "witchery:hawthorn_leaves": {
+      "chance": 0.3
+    },
+    "witchery:rowan_leaves": {
+      "chance": 0.3
+    },
+    "witchery:rowan_berry_leaves": {
+      "chance": 0.3
+    },
+    "witchery:alder_sapling": {
+      "chance": 0.3
+    },
+    "witchery:hawthorn_sapling": {
+      "chance": 0.3
+    },
+    "witchery:rowan_sapling": {
+      "chance": 0.3
+    },
+    "witchery:ember_moss": {
+      "chance": 0.3
+    },
+    "witchery:glintweed": {
+      "chance": 0.3
+    },
+    "witchery:grassper": {
+      "chance": 0.5
+    }
+  }
+}

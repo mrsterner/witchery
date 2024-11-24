@@ -92,6 +92,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.animal.Pig
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.ComposterBlock
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList
 import net.minecraft.world.level.storage.loot.LootPool
