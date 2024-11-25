@@ -9,10 +9,7 @@ import dev.architectury.registry.registries.RegistrarManager
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Ritual
-import dev.sterner.witchery.ritual.BindFamiliarRitual
-import dev.sterner.witchery.ritual.EmptyRitual
-import dev.sterner.witchery.ritual.PushMobsRitual
-import dev.sterner.witchery.ritual.ResurrectFamiliarRitual
+import dev.sterner.witchery.ritual.*
 import io.wispforest.accessories.Accessories.MODID
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
@@ -41,6 +38,10 @@ object WitcheryRitualRegistry {
 
     val RESURRECT_FAMILIAR: RegistrySupplier<ResurrectFamiliarRitual> = RITUALS.register(Witchery.id("resurrect_familiar")) {
         ResurrectFamiliarRitual()
+    }
+
+    val BIND_SPECTRAL_CREATURES = RITUALS.register(Witchery.id("bind_spectral_creatures")) {
+        BindSpectralCreaturesRitual()
     }
 
     val CODEC: Codec<Ritual?> = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Ritual> ->

@@ -17,6 +17,7 @@ import dev.sterner.witchery.block.cauldron.CopperCauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.distillery.DistilleryCompanionBlock
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlock
+import dev.sterner.witchery.block.effigy.EffigyBlock
 import dev.sterner.witchery.block.grassper.GrassperBlock
 import dev.sterner.witchery.block.oven.*
 import dev.sterner.witchery.block.poppet.PoppetBlock
@@ -1019,4 +1020,21 @@ object WitcheryBlocks {
             .pushReaction(PushReaction.DESTROY))
     }
 
+    val WITCHS_LADDER = BLOCKS.register("witchs_ladder") {
+        EffigyBlock(BlockBehaviour.Properties.of()
+            .noOcclusion()
+        )
+    }
+
+    val TRENT_EFFIGY = BLOCKS.register("trent_effigy") {
+        EffigyBlock(BlockBehaviour.Properties.of()
+            .noOcclusion()
+        )
+    }
+
+    val SCARECROW = BLOCKS.register("scarecrow") {
+        EffigyBlock(BlockBehaviour.Properties.of()
+            .noOcclusion()
+        )
+    }
 }

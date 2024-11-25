@@ -90,6 +90,19 @@ object WitcheryDataComponents {
         DataComponentType.builder<MobEffectInstance>().persistent(MobEffectInstance.CODEC).build()
     }
 
+    val BANSHEE_COUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("banshee_count") {
+        DataComponentType.builder<Int>().persistent(Codec.INT).build()
+    }
+
+    val SPECTRE_COUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("spectre_count") {
+        DataComponentType.builder<Int>().persistent(Codec.INT).build()
+    }
+
+    val POLTERGEIST_COUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("poltergeist_count") {
+        DataComponentType.builder<Int>().persistent(Codec.INT).build()
+    }
+
+
     data class DualPotionContents(
         val positive: Optional<PotionContents>,
         val negative: Optional<PotionContents>

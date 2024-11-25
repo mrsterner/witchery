@@ -12,6 +12,7 @@ import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
+import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
@@ -229,4 +230,14 @@ object WitcheryBlockEntityTypes {
             WitcheryBlocks.GRASSPER.get()
         ).build(null)
     }
+
+    val EFFIGY = BLOCK_ENTITY_TYPES.register("effigy") {
+        BlockEntityType.Builder.of(
+            ::EffigyBlockEntity,
+            WitcheryBlocks.TRENT_EFFIGY.get(),
+            WitcheryBlocks.SCARECROW.get(),
+            WitcheryBlocks.WITCHS_LADDER.get()
+        ).build(null)
+    }
+
 }

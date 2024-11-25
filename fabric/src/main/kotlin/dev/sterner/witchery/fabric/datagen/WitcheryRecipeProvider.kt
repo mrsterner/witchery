@@ -16,6 +16,7 @@ import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipeBuilder
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.ritual.BindFamiliarRitual
+import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
 import dev.sterner.witchery.ritual.PushMobsRitual
 import dev.sterner.witchery.ritual.ResurrectFamiliarRitual
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -1687,6 +1688,16 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addCommand(CommandType("witchery manifestation set {owner} true", CommandType.END))
             .addSmallPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("manifestation"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.ATTUNED_STONE.get())
+            .addInputItem(WitcheryItems.NECROMANTIC_STONE.get())
+            .addInputItem(WitcheryItems.ARTHANA.get())
+            .setAltarPower(6000)
+            .addMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .setCustomRitual(BindSpectralCreaturesRitual())
+            .setTicks(20)
+            .save(exporter, Witchery.id("bind_spectral_creatures"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.FOUL_FUME.get())

@@ -1127,4 +1127,16 @@ object WitcheryItems {
     val GRASSPER = ITEMS.register("grassper") {
         BlockItem(WitcheryBlocks.GRASSPER.get(), Item.Properties())
     }
+
+    val WITCHS_LADDER = ITEMS.register("witchs_ladder") {
+        BlockItem(WitcheryBlocks.WITCHS_LADDER.get(), Item.Properties())
+    }
+
+    val SCARECROW = ITEMS.register("scarecrow") {
+        BlockItem(WitcheryBlocks.SCARECROW.get(), Item.Properties())
+    }
+
+    val TRENT_EFFIGY = ITEMS.register("trent_effigy") {
+        BlockItem(WitcheryBlocks.TRENT_EFFIGY.get(), Item.Properties())
+    }
 }
