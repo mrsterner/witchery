@@ -1,0 +1,51 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "vampirism",
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "witchery:vampire/2"
+  },
+  "description": "book.witchery.guidebook.vampirism.cane.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:cane_sword"
+  },
+  "name": "book.witchery.guidebook.vampirism.cane.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "vampirism.cane.page.1",
+      "title": "vampirism.cane.title",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cane_sword",
+      "text": "",
+      "title1": "vampirism.cane.cane",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "vampirism/armor",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 10,
+  "x": 0,
+  "y": -3
+}

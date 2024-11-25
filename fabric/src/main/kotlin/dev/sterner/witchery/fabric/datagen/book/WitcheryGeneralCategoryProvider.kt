@@ -30,8 +30,8 @@ class WitcheryGeneralCategoryProvider(
             "__________________________________",
             "________________c_m_______________",
             "___________________w______________",
-            "__________________________________",
-            "________________b__o_e____________",
+            "_____________________e_u__________",
+            "________________b__o______________",
             "__________________x_h_____________",
             "________________d_________________",
             "__________________________________",
@@ -158,6 +158,17 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(breathOfTheGoddess.id).withDrawArrow(true))
         tearOfTheGoddess.addParent(BookEntryParentModel.create(distillery.id).withDrawArrow(true))
         addEntry(tearOfTheGoddess)
+
+        val expansion = FumeExtensionEntryProvider(this).generate("u")
+        expansion
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(oven.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
+        addEntry(expansion)
     }
 
     override fun categoryName(): String {

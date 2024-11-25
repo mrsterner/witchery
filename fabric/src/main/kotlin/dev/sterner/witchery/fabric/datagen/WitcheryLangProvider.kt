@@ -738,5 +738,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("vampirism.armor.trousers.text", "*description*")
         builder.add("vampirism.armor.oxford_boots", "Oxford Boots")
         builder.add("vampirism.armor.oxford_boots.text", "*description*")
+
+        builder.add("book.witchery.guidebook.vampirism.name", "Vampirism")
+        builder.add("book.witchery.guidebook.vampirism.cane.name", "Cane Sword")
+        builder.add("book.witchery.guidebook.vampirism.cane.description", "Slash n' suck")
     }
 }

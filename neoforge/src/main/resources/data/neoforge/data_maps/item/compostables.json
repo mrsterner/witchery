@@ -21,6 +21,9 @@
     "witchery:rowan_berries": {
       "chance": 0.5
     },
+    "witchery:spanish_moss": {
+      "chance": 0.5
+    },
     "witchery:water_artichoke_seeds": {
       "chance": 0.3
     },

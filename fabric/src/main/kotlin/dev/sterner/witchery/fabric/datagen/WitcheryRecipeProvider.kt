@@ -150,6 +150,16 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter, Witchery.id("brew_of_love"))
 
         CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(Items.COOKIE, Color(255, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get(), Color(255, 200, 210).rgb)
+            .addInputWithColor(WitcheryItems.ICY_NEEDLE.get(), Color(80, 130, 210).rgb)
+            .addInputWithColor(WitcheryItems.BREW_OF_LOVE.get(), Color(255, 150, 170).rgb)
+            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), Color(255, 110, 190).rgb)
+            .setOutput(WitcheryItems.BREW_OF_SLEEPING.get())
+            .setAltarPower(100)
+            .save(exporter, Witchery.id("brew_of_sleeping"))
+
+        CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(Items.INK_SAC, Color(40, 40, 50).rgb)
             .addInputWithColor(Items.SLIME_BALL, Color(50, 200, 50).rgb)
             .addInputWithColor(WitcheryItems.WOOD_ASH.get(), Color(250, 150, 50).rgb)

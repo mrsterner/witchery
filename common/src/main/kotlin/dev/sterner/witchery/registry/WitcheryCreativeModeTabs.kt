@@ -17,7 +17,7 @@ object WitcheryCreativeModeTabs {
     val MAIN = TABS.register("main") {
         CreativeTabRegistry.create {
             it.title(Component.translatable("witchery.main"))
-            it.icon { WitcheryItems.GUIDEBOOK.get().defaultInstance }
+            it.icon { WitcheryItems.BROOM.get().defaultInstance }
             it.displayItems { _, output ->
                 output.accept(WitcheryItems.GUIDEBOOK.get())
                 output.accept(WitcheryItems.MUTANDIS.get())

@@ -95,7 +95,7 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
                 widgets.addText(
                     Component.translatable(key),
                     displayWidth / 4 + 18,
-                    displayHeight - 36 - 36 + 14 * index,
+                    36 + 36 + 14 * index,
                     0xffffff,
                     true
                 )
@@ -105,7 +105,7 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
             widgets.addText(
                 Component.translatable("witchery:all_worlds"),
                 displayWidth / 4 + 18,
-                displayHeight - 36 - 36,
+                  36 + 36,
                 0xffffff,
                 true
             )

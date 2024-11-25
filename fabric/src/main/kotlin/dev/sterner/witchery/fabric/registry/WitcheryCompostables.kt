@@ -23,6 +23,7 @@ object WitcheryCompostables {
         CompostingChanceRegistry.INSTANCE.add(WitcheryItems.HAWTHORN_LEAVES.get(), 0.3f)
         CompostingChanceRegistry.INSTANCE.add(WitcheryItems.ROWAN_LEAVES.get(), 0.3f)
         CompostingChanceRegistry.INSTANCE.add(WitcheryItems.ROWAN_BERRY_LEAVES.get(), 0.3f)
+        CompostingChanceRegistry.INSTANCE.add(WitcheryItems.SPANISH_MOSS.get(), 0.3f)
         CompostingChanceRegistry.INSTANCE.add(WitcheryItems.ALDER_SAPLING.get(), 0.3f)
         CompostingChanceRegistry.INSTANCE.add(WitcheryItems.HAWTHORN_SAPLING.get(), 0.3f)
         CompostingChanceRegistry.INSTANCE.add(WitcheryItems.ROWAN_SAPLING.get(), 0.3f)

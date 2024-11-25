@@ -10,9 +10,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementCond
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadConditionModel
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.entry.CauldronEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.RedstoneSoupEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.RitualChalkEntryProvider
+import dev.sterner.witchery.fabric.datagen.book.entry.*
 import dev.sterner.witchery.registry.WitcheryItems
 
 
@@ -31,13 +29,13 @@ class WitcheryBrewingCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "________________h_________________",
+            "________________h___g_____________",
             "__________________________________",
-            "________________c_r_______________",
-            "__________________________________",
-            "__________________________________",
-            "__________________________________",
-            "__________________________________",
+            "____________a___c_r_o_____________",
+            "________l_s_b_____________________",
+            "_____________d______f_____________",
+            "______________e___________________",
+            "_______________yu_________________",
             "__________________________________",
             "__________________________________",
             "__________________________________"
@@ -82,6 +80,152 @@ class WitcheryBrewingCategoryProvider(
             .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
 
         addEntry(ritualChalk)
+
+        val flyingOintment = FlyingOintmentEntryProvider(this).generate("f")
+        flyingOintment
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(redstoneSoup.id)
+                )
+
+            )
+            .addParent(BookEntryParentModel.create(redstoneSoup.id).withDrawArrow(true))
+        addEntry(flyingOintment)
+
+        val spiritOfOtherwhere = SpiritOfOtherwhereEntryProvider(this).generate("o")
+        spiritOfOtherwhere
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(redstoneSoup.id)
+                )
+
+            )
+            .addParent(BookEntryParentModel.create(redstoneSoup.id).withDrawArrow(true))
+        addEntry(spiritOfOtherwhere)
+
+        val ghostOfLight = GhostOfTheLightEntryProvider(this).generate("g")
+        ghostOfLight
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(redstoneSoup.id)
+                )
+
+            )
+            .addParent(BookEntryParentModel.create(redstoneSoup.id).withDrawArrow(true))
+        addEntry(ghostOfLight)
+
+        //BREWS
+        val raising = BrewEntryProvider(WitcheryItems.BREW_OF_RAISING.get(), "brew_of_raising", this).generate("a")
+        raising.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(cauldron.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+
+        addEntry(raising)
+
+        val love = BrewEntryProvider(WitcheryItems.BREW_OF_LOVE.get(), "brew_of_love", this).generate("b")
+        love.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(cauldron.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+
+        addEntry(love)
+
+        val wasting = BrewEntryProvider(WitcheryItems.BREW_OF_WASTING.get(), "brew_of_wasting", this).generate("d")
+        wasting.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(cauldron.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+
+        addEntry(wasting)
+
+        val depths = BrewEntryProvider(WitcheryItems.BREW_OF_THE_DEPTHS.get(), "brew_of_the_depths", this).generate("e")
+        depths.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(cauldron.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+
+        addEntry(depths)
+
+        val ink = BrewEntryProvider(WitcheryItems.BREW_OF_INK.get(), "brew_of_ink", this).generate("f")
+        ink.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(cauldron.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+
+        addEntry(ink)
+
+        val frost = BrewEntryProvider(WitcheryItems.BREW_OF_FROST.get(), "brew_of_frost", this).generate("y")
+        frost.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(cauldron.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+
+        addEntry(frost)
+
+
+        val revealing = BrewEntryProvider(WitcheryItems.BREW_OF_REVEALING.get(), "brew_of_revealing", this).generate("u")
+        revealing.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(cauldron.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+
+        addEntry(revealing)
+
+        val sleep = BrewEntryProvider(WitcheryItems.BREW_OF_SLEEPING.get(), "brew_of_sleeping", this).generate("s")
+        sleep.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(love.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(love.id).withDrawArrow(true))
+
+        addEntry(sleep)
+
+        val spirit = BrewEntryProvider(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "brew_of_flowing_spirit", this).generate("l")
+        spirit.withCondition(
+            BookAndConditionModel.create().withChildren(
+                BookEntryReadConditionModel.create()
+                    .withEntry(sleep.id)
+            )
+
+        )
+            .addParent(BookEntryParentModel.create(love.id).withDrawArrow(true))
+
+        addEntry(spirit)
     }
 
     override fun categoryName(): String {

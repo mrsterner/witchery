@@ -8,10 +8,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookEntryParentModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementConditionModel
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.entry.vampire.VampireArmorEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.vampire.VampireLevelOneEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.vampire.VampireLevelTenEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.vampire.VampireLevelTwoEntryProvider
+import dev.sterner.witchery.fabric.datagen.book.entry.vampire.*
 import dev.sterner.witchery.registry.WitcheryItems
 
 
@@ -29,8 +26,8 @@ class WitcheryVampireCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "__________________________________",
-            "_______________x__________________",
+            "_________________p________________",
+            "_______________x_____u____________",
             "__________________________________",
             "_____________a_b_c_d_e_f_g_h_i_j__",
             "__________________________________",
@@ -130,6 +127,22 @@ class WitcheryVampireCategoryProvider(
             )
             .addParent(BookEntryParentModel.create(vamp1.id).withDrawArrow(true))
         addEntry(armor)
+
+        val cane = VampireCaneEntryProvider("cane",this).generate("p")
+        cane
+            .withCondition(
+                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/2"))
+            )
+            .addParent(BookEntryParentModel.create(armor.id).withDrawArrow(true))
+        addEntry(cane)
+
+        val sun = VampireSunCollectorEntryProvider(this).generate("u")
+        sun
+            .withCondition(
+                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/5"))
+            )
+            .addParent(BookEntryParentModel.create(vamp5.id).withDrawArrow(true))
+        addEntry(sun)
     }
 
     override fun categoryName(): String {

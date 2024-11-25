@@ -1,0 +1,51 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "vampirism",
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "witchery:vampire/5"
+  },
+  "description": "book.witchery.guidebook.vampirism.sun_collector.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:sunlight_collector"
+  },
+  "name": "book.witchery.guidebook.vampirism.sun_collector.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "vampirism.sun_collector.page.1",
+      "title": "vampirism.sun_collector.title",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:sunlight_collector",
+      "text": "",
+      "title1": "vampirism.sun_collector.sunlight_collector",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "vampirism/vamp_5",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 11,
+  "x": 4,
+  "y": -2
+}
