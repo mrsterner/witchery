@@ -14,6 +14,7 @@ import dev.sterner.witchery.block.brazier.BrazierBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.cauldron.CopperCauldronBlock
+import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.distillery.DistilleryCompanionBlock
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlock
@@ -1021,27 +1022,68 @@ object WitcheryBlocks {
             .pushReaction(PushReaction.DESTROY))
     }
 
+    val CRITTER_SNARE = BLOCKS.register("critter_snare") {
+        CritterSnareBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.PLANT)
+            .noOcclusion()
+            .noCollission()
+            .instabreak()
+            .sound(SoundType.CROP)
+            .ignitedByLava()
+            .pushReaction(PushReaction.DESTROY))
+    }
+
     val WITCHS_LADDER = BLOCKS.register("witchs_ladder") {
         EffigyBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .instrument(NoteBlockInstrument.BASS)
+            .strength(2.0f, 3.0f)
+            .sound(
+                SoundType.WOOD
+            )
+            .ignitedByLava()
             .noOcclusion()
         )
     }
 
     val TRENT_EFFIGY = BLOCKS.register("trent_effigy") {
-        EffigyBlock(BlockBehaviour.Properties.of()
-            .noOcclusion()
+        EffigyBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.WOOD)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0f, 3.0f)
+                .sound(
+                    SoundType.WOOD
+                )
+                .ignitedByLava()
+                .noOcclusion()
         )
     }
 
     val SCARECROW = BLOCKS.register("scarecrow") {
-        EffigyBlock(BlockBehaviour.Properties.of()
-            .noOcclusion()
+        EffigyBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.WOOD)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0f, 3.0f)
+                .sound(
+                    SoundType.WOOD
+                )
+                .ignitedByLava()
+                .noOcclusion()
         )
     }
 
     val EFFIGY_COMPONENT: RegistrySupplier<EffigyCompanionBlock> = BLOCKS.register("effigy_component") {
         EffigyCompanionBlock(
-            BlockBehaviour.Properties.of().sound(SoundType.WOOD)
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.WOOD)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0f, 3.0f)
+                .sound(
+                    SoundType.WOOD
+                ).ignitedByLava()
+                .noOcclusion()
         )
     }
 }

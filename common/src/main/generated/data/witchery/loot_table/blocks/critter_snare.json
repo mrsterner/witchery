@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "witchery:scarecrow"
+          "name": "witchery:critter_snare"
         }
       ],
       "rolls": 1.0

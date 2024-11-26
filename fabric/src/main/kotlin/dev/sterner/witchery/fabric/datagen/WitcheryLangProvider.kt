@@ -49,6 +49,12 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery.celestial.waning", "Waning Moon")
         builder.add("witchery.celestial.waxing", "Waxing Moon")
 
+        builder.add("witchery.captured.silverfish", "Silverfish")
+        builder.add("witchery.captured.slime", "Slime")
+        builder.add("witchery.captured.bat", "Bat")
+
+
+
         builder.add(WitcheryBlocks.SNOWBELL_CROP.get(), "Snowbell")
         builder.add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), "Water Artichoke")
         builder.add(WitcheryBlocks.BELLADONNA_CROP.get(), "Belladonna")
@@ -163,6 +169,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.CANE_SWORD.get(), "Cane Sword")
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
         builder.add(WitcheryBlocks.GRASSPER.get(), "Grassper")
+        builder.add(WitcheryBlocks.CRITTER_SNARE.get(), "Critter Snare")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
         builder.add(WitcheryBlocks.SPANISH_MOSS.get(), "Spanish Moss")
         builder.add(WitcheryBlocks.IRON_WITCHES_OVEN.get(), "Iron Witches Oven")

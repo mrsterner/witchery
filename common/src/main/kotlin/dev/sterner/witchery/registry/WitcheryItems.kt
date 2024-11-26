@@ -1129,6 +1129,10 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.GRASSPER.get(), Item.Properties())
     }
 
+    val CRITTER_SNARE = ITEMS.register("critter_snare") {
+        CritterSnareBlockItem(WitcheryBlocks.CRITTER_SNARE.get(), Item.Properties())
+    }
+
     val WITCHS_LADDER = ITEMS.register("witchs_ladder") {
         MultiBlockItem(WitcheryBlocks.WITCHS_LADDER.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }

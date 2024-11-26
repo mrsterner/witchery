@@ -22,7 +22,7 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 
-class LeechEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.LEECH.get(), level) {
+class LeechEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.PARASYTHIC_LOUSE.get(), level) {
 
     var effect: MobEffectInstance? = null
 

@@ -2,7 +2,6 @@ package dev.sterner.witchery.neoforge.event
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
 import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
@@ -12,7 +11,6 @@ import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
-import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.DreamWeaverBlockEntityWithoutLevelRenderer
 import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
@@ -128,8 +126,8 @@ object WitcheryNeoForgeClientEvent {
             ::ElleEntityRenderer
         )
         event.registerEntityRenderer(
-            WitcheryEntityTypes.LEECH.get(),
-            ::LeechEntityRenderer
+            WitcheryEntityTypes.PARASYTHIC_LOUSE.get(),
+            ::ParasythicLouseEntityRenderer
         )
     }
 

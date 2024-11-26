@@ -5,12 +5,10 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientRawInputEvent
 import dev.architectury.event.events.client.ClientTickEvent
-import dev.architectury.event.events.client.ClientTooltipEvent
 import dev.architectury.event.events.common.*
 import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
-import dev.architectury.impl.TooltipAdditionalContextsImpl
 import dev.architectury.networking.NetworkManager
 import dev.architectury.registry.client.gui.ClientTooltipComponentRegistry
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
@@ -51,8 +49,6 @@ import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WineGlassItem
-import dev.sterner.witchery.item.accessories.BarkBeltItem
-import dev.sterner.witchery.item.accessories.BatwingPendantItem
 import dev.sterner.witchery.item.accessories.BitingBeltItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
@@ -71,7 +67,6 @@ import io.wispforest.accessories.api.client.AccessoriesRendererRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
@@ -88,11 +83,9 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.animal.Pig
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.ComposterBlock
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList
 import net.minecraft.world.level.storage.loot.LootPool
@@ -146,7 +139,7 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.WEREWOLF, WerewolfEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.LILITH, LilithEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.ELLE, ElleEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.LEECH, LeechEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.PARASYTHIC_LOUSE, LeechEntity::createAttributes)
 
         MODIFY_LOOT_TABLE.register(::addSeeds)
 
@@ -397,7 +390,7 @@ object Witchery {
         EntityRendererRegistry.register(WitcheryEntityTypes.BANSHEE) { BansheeEntityRenderer(it) }
         EntityModelLayerRegistry.register(BansheeEntityModel.LAYER_LOCATION) { BansheeEntityModel.createBodyLayer() }
 
-        EntityRendererRegistry.register(WitcheryEntityTypes.LEECH) { LeechEntityRenderer(it) }
+        EntityRendererRegistry.register(WitcheryEntityTypes.PARASYTHIC_LOUSE) { ParasythicLouseEntityRenderer(it) }
         EntityModelLayerRegistry.register(LeechEntityModel.LAYER_LOCATION) { LeechEntityModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.VAMPIRE) { VampireEntityRenderer(it) }
@@ -448,6 +441,7 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(), ::SuspiciousGraveyardDirtBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(), ::SacrificialCircleBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.GRASSPER.get(), ::GrassperBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CRITTER_SNARE.get(), ::CritterSnareBlockEntityRenderer)
 
 
         ClientTooltipComponentRegistry.register(CaneSwordItem.BloodPoolComponent::class.java, CaneSwordItem.BloodPoolComponent::getClientTooltipComponent)
@@ -605,7 +599,8 @@ object Witchery {
             WitcheryBlocks.BRAZIER.get(),
             WitcheryBlocks.WITCHS_LADDER.get(),
             WitcheryBlocks.TRENT_EFFIGY.get(),
-            WitcheryBlocks.SCARECROW.get()
+            WitcheryBlocks.SCARECROW.get(),
+            WitcheryBlocks.CRITTER_SNARE.get()
         )
 
         KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)

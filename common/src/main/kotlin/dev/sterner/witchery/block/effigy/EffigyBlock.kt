@@ -48,7 +48,13 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         return WitcheryBlockEntityTypes.EFFIGY.get().create(pos, state)
     }
 
-    override fun playerWillDestroy(level: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
+    override fun onRemove(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        newState: BlockState,
+        movedByPiston: Boolean
+    ) {
         val blockEntity = level.getBlockEntity(pos)
         if (blockEntity is EffigyBlockEntity) {
             if (!level.isClientSide) {
@@ -71,7 +77,7 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
             }
         }
 
-        return super.playerWillDestroy(level, pos, state, player)
+        super.onRemove(state, level, pos, newState, movedByPiston)
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {

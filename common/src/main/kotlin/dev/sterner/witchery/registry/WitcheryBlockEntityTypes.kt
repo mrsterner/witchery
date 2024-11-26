@@ -10,6 +10,7 @@ import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlockEntity
 import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
+import dev.sterner.witchery.block.critter_snare.CritterSnareBlockEntity
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
@@ -241,4 +242,10 @@ object WitcheryBlockEntityTypes {
         ).build(null)
     }
 
+    val CRITTER_SNARE = BLOCK_ENTITY_TYPES.register("critter_snare") {
+        BlockEntityType.Builder.of(
+            ::CritterSnareBlockEntity,
+            WitcheryBlocks.CRITTER_SNARE.get()
+        ).build(null)
+    }
 }

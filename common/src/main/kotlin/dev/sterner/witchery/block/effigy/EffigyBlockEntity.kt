@@ -1,6 +1,5 @@
 package dev.sterner.witchery.block.effigy
 
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -18,6 +17,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var specterCount = 0
     var poltergeistCount = 0
 
+
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
         super.loadAdditional(pTag, pRegistries)
         bansheeCount = pTag.getInt("Banshee")
@@ -30,10 +30,6 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putInt("Banshee", bansheeCount)
         tag.putInt("Spectre", specterCount)
         tag.putInt("Poltergeist", poltergeistCount)
-    }
-
-    fun getItemStack(): ItemStack {
-        return ItemStack.EMPTY //TODO change
     }
 
     override fun onPlace(pPlacer: LivingEntity?, pStack: ItemStack) {

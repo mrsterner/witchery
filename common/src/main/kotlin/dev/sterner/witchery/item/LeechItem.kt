@@ -13,7 +13,7 @@ class LeechItem(properties: Properties) : Item(properties) {
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
-        val leech = WitcheryEntityTypes.LEECH.get().create(level)
+        val leech = WitcheryEntityTypes.PARASYTHIC_LOUSE.get().create(level)
         val data = context.itemInHand.get(WitcheryDataComponents.LEECH_EFFECT.get())
         if (data != null) {
             leech!!.effect = data

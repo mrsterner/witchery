@@ -166,11 +166,11 @@ object WitcheryEntityTypes {
         ).sized(1.0F, 1.85F).build(Witchery.id("elle").toString())
     }
 
-    val LEECH: RegistrySupplier<EntityType<LeechEntity>> = ENTITY_TYPES.register("leech") {
+    val PARASYTHIC_LOUSE: RegistrySupplier<EntityType<LeechEntity>> = ENTITY_TYPES.register("parasythic_louse") {
         EntityType.Builder.of(
             { _: EntityType<LeechEntity>, level: Level ->
                 LeechEntity(level)
             }, MobCategory.MONSTER
-        ).sized(0.35F, 0.3F).eyeHeight(0.36F).build(Witchery.id("leech").toString())
+        ).sized(0.35F, 0.3F).eyeHeight(0.36F).build(Witchery.id("parasythic_louse").toString())
     }
 }

@@ -6,6 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
+import dev.sterner.witchery.block.critter_snare.CritterSnareBlockEntity
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
@@ -100,6 +102,10 @@ object WitcheryDataComponents {
 
     val POLTERGEIST_COUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("poltergeist_count") {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
+    }
+
+    val CAPTURED_ENTITY = DATA.register("captured_entity") {
+        DataComponentType.builder<CritterSnareBlock.CapturedEntity>().persistent(CritterSnareBlock.CapturedEntity.CODEC).build()
     }
 
 
