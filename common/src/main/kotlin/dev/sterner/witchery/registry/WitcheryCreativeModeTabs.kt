@@ -130,9 +130,9 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.DREAMWEAVER_CHARM.get())
                 output.accept(WitcheryItems.BITING_BELT.get())
                 output.accept(WitcheryItems.BARK_BELT.get())
-                output.accept(WitcheryItems.TRENT_EFFIGY.get())
+                //output.accept(WitcheryItems.TRENT_EFFIGY.get())
                 output.accept(WitcheryItems.SCARECROW.get())
-                output.accept(WitcheryItems.WITCHS_LADDER.get())
+                //output.accept(WitcheryItems.WITCHS_LADDER.get())
 
                 output.accept(WitcheryItems.WITCHES_HAT.get())
                 output.accept(WitcheryItems.WITCHES_ROBES.get())

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "witchery:block/scarecrow",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "witchery:block/scarecrow",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "witchery:block/scarecrow",
+      "y": 270
+    },
+    "facing=west": {
+      "model": "witchery:block/scarecrow"
+    }
+  }
+}

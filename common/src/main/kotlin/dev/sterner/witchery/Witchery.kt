@@ -602,7 +602,10 @@ object Witchery {
             WitcheryBlocks.SUNLIGHT_COLLECTOR.get(),
             WitcheryBlocks.GRASSPER.get(),
             WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get(),
-            WitcheryBlocks.BRAZIER.get()
+            WitcheryBlocks.BRAZIER.get(),
+            WitcheryBlocks.WITCHS_LADDER.get(),
+            WitcheryBlocks.TRENT_EFFIGY.get(),
+            WitcheryBlocks.SCARECROW.get()
         )
 
         KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)

@@ -8,6 +8,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockItem
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
+import dev.sterner.witchery.block.effigy.EffigyBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
 import dev.sterner.witchery.item.accessories.*
@@ -1129,14 +1130,14 @@ object WitcheryItems {
     }
 
     val WITCHS_LADDER = ITEMS.register("witchs_ladder") {
-        BlockItem(WitcheryBlocks.WITCHS_LADDER.get(), Item.Properties())
+        MultiBlockItem(WitcheryBlocks.WITCHS_LADDER.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }
 
     val SCARECROW = ITEMS.register("scarecrow") {
-        BlockItem(WitcheryBlocks.SCARECROW.get(), Item.Properties())
+        MultiBlockItem(WitcheryBlocks.SCARECROW.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }
 
     val TRENT_EFFIGY = ITEMS.register("trent_effigy") {
-        BlockItem(WitcheryBlocks.TRENT_EFFIGY.get(), Item.Properties())
+        MultiBlockItem(WitcheryBlocks.TRENT_EFFIGY.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }
 }

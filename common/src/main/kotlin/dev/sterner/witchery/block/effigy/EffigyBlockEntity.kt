@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.effigy
 
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.core.BlockPos
@@ -11,7 +12,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.state.BlockState
 
 class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.EFFIGY.get(), blockPos, blockState) {
+    MultiBlockCoreEntity(WitcheryBlockEntityTypes.EFFIGY.get(), EffigyBlock.STRUCTURE.get(), blockPos, blockState) {
 
     var bansheeCount = 0
     var specterCount = 0

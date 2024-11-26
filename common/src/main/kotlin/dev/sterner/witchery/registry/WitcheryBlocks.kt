@@ -18,6 +18,7 @@ import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.distillery.DistilleryCompanionBlock
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlock
 import dev.sterner.witchery.block.effigy.EffigyBlock
+import dev.sterner.witchery.block.effigy.EffigyCompanionBlock
 import dev.sterner.witchery.block.grassper.GrassperBlock
 import dev.sterner.witchery.block.oven.*
 import dev.sterner.witchery.block.poppet.PoppetBlock
@@ -1035,6 +1036,12 @@ object WitcheryBlocks {
     val SCARECROW = BLOCKS.register("scarecrow") {
         EffigyBlock(BlockBehaviour.Properties.of()
             .noOcclusion()
+        )
+    }
+
+    val EFFIGY_COMPONENT: RegistrySupplier<EffigyCompanionBlock> = BLOCKS.register("effigy_component") {
+        EffigyCompanionBlock(
+            BlockBehaviour.Properties.of().sound(SoundType.WOOD)
         )
     }
 }

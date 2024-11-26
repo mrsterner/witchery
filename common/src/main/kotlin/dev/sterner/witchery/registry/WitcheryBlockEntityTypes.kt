@@ -46,7 +46,8 @@ object WitcheryBlockEntityTypes {
                 WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get(),
                 WitcheryBlocks.CAULDRON_COMPONENT.get(),
                 WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(),
-                WitcheryBlocks.DISTILLERY_COMPONENT.get()
+                WitcheryBlocks.DISTILLERY_COMPONENT.get(),
+                WitcheryBlocks.EFFIGY_COMPONENT.get()
             )
                 .build(null)
         }

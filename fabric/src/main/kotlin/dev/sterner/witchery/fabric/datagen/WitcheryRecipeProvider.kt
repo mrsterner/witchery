@@ -1314,6 +1314,18 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_fabric", has(WitcheryItems.BITING_BELT.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.SCARECROW.get())
+            .pattern("WPW")
+            .pattern("STS")
+            .pattern("WHW")
+            .define('T', WitcheryItems.TORMENTED_TWINE.get())
+            .define('S', Items.STICK)
+            .define('P', Items.CARVED_PUMPKIN)
+            .define('S', WitcheryItems.HAWTHORN_LOG.get())
+            .define('W', ItemTags.WOOL)
+            .unlockedBy("has_twine", has(WitcheryItems.TORMENTED_TWINE.get()))
+            .save(exporter)
+
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHER_WART, Color(255, 55, 50).rgb)
             .addInputWithColor(WitcheryItems.ENT_TWIG.get(), Color(255, 100, 1).rgb)
