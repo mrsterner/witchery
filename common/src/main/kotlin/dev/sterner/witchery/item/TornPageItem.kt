@@ -25,7 +25,9 @@ class TornPageItem(properties: Properties) : Item(properties) {
                 grantAdvancementCriterion(player, it, criterion)
 
                 val stack = player.getItemInHand(usedHand)
-                stack.shrink(1)
+                if (!player.isCreative) {
+                    stack.shrink(1)
+                }
                 return InteractionResultHolder.success(stack)
             }
         }
