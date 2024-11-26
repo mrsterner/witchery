@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "witchery:hawthorn_log"
+    },
+    "P": {
+      "item": "minecraft:carved_pumpkin"
+    },
+    "S": {
+      "item": "minecraft:hay_block"
+    },
+    "T": {
+      "item": "witchery:tormented_twine"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    "WPW",
+    "STS",
+    "WHW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:scarecrow"
+  }
+}
