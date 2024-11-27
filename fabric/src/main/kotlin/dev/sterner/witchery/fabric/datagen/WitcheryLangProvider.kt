@@ -127,7 +127,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.SPECTRAL_DUST.get(), "Spectral Dust")
         builder.add(WitcheryItems.ATTUNED_STONE.get(), "Attuned Stone")
         builder.add(WitcheryItems.ROWAN_BERRIES.get(), "Rowan Berries")
-        builder.add(WitcheryItems.PARASYTIC_LOUSE.get(), "Parasytic Louse")
+        builder.add(WitcheryItems.PARASITIC_LOUSE.get(), "Parasytic Louse")
         builder.add(WitcheryItems.WITCHES_HAND.get(), "Witches Hand")
         builder.add(WitcheryItems.WITCHES_HAT.get(), "Witches Hat")
         builder.add(WitcheryItems.WITCHES_ROBES.get(), "Witches Robes")
@@ -165,6 +165,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryEntityTypes.WEREWOLF.get(), "Werewolf")
         builder.add(WitcheryEntityTypes.LILITH.get(), "Lilith")
         builder.add(WitcheryEntityTypes.ELLE.get(), "Elle")
+        builder.add(WitcheryEntityTypes.PARASITIC_LOUSE.get(), "Parasitic Louse")
 
         builder.add(WitcheryItems.CANE_SWORD.get(), "Cane Sword")
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
@@ -471,6 +472,15 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/necro_stone", "Necromantic Stone")
         builder.add("witchery:ritual/necro_stone.tooltip", "Created at night")
 
+        builder.add("witchery:ritual/bind_spectral_creatures", "Bind Spectral Creatures")
+        builder.add("witchery:ritual/bind_spectral_creatures.tooltip", "Binds to Effigies")
+        builder.add("witchery:ritual/bind_familiar", "Bind Familiar")
+        builder.add("witchery:ritual/bind_familiar.tooltip", "Binds to the Player")
+        builder.add("witchery:ritual/manifestation", "Rite of Manifestation")
+        builder.add("witchery:ritual/manifestation.tooltip", "Allows you to pass through spirit portals")
+        builder.add("witchery:ritual/resurrect_familiar", "Resurrect Faniliar")
+        builder.add("witchery:ritual/resurrect_familiar.tooltip", "A bound familiar will be revived")
+
         //GUIDEBOOK GENERAL
         builder.add("book.witchery.guidebook.general.name", "General")
         builder.add("book.witchery.guidebook.brewing.name", "Brewing")
@@ -563,6 +573,21 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.brewing.redstone_soup.description", "Got Soup?")
         builder.add("brewing.redstone_soup.title", "Redstone Soup")
         builder.add("brewing.redstone_soup.page.1", "Soup")
+
+        builder.add("book.witchery.guidebook.brewing.ghost_of_the_light.name", "Ghost of the Light")
+        builder.add("book.witchery.guidebook.brewing.ghost_of_the_light.description", "Ectoplasm goo")
+        builder.add("brewing.ghost_of_the_light.title", "Ghost of the Light")
+        builder.add("brewing.ghost_of_the_light.page.1", "Soup")
+
+        builder.add("book.witchery.guidebook.brewing.spirit_of_otherwhere.name", "Spirit of Otherwhere")
+        builder.add("book.witchery.guidebook.brewing.spirit_of_otherwhere.description", "Enderman goo")
+        builder.add("brewing.spirit_of_otherwhere.title", "Spirit of Otherwhere")
+        builder.add("brewing.spirit_of_otherwhere.page.1", "Soup")
+
+        builder.add("book.witchery.guidebook.brewing.flying_ointment.name", "Flying Ointment")
+        builder.add("book.witchery.guidebook.brewing.flying_ointment.description", "Flying goo")
+        builder.add("brewing.flying_ointment.title", "Flying Ointment")
+        builder.add("brewing.flying_ointment.page.1", "Soup")
 
         builder.add("brewing.redstone_soup.redstone_soup", "Redstone Soup")
         builder.add("brewing.ritual_chalk.golden_chalk", "Golden Chalk")
@@ -802,6 +827,12 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("brewing.brew_of_revealing.page.1", "used to remove Invisibility effects on entities. Makes Spectral Creatures easier to see.")
         builder.add("book.witchery.guidebook.brewing.brew_of_revealing.description", "Illegally Blind")
 
+        builder.add("book.witchery.guidebook.brewing.brew_of_ink.name", "Brew of Ink")
+        builder.add("brewing.brew_of_ink.title", "Brew of Ink")
+        builder.add("brewing.brew_of_ink", "Brew of Ink")
+        builder.add("brewing.brew_of_ink.page.1", "Applies Blindness.")
+        builder.add("book.witchery.guidebook.brewing.brew_of_ink.description", "Legally Blind")
+
         builder.add("book.witchery.guidebook.brewing.brew_of_sleeping.name", "Brew of Sleeping")
         builder.add("brewing.brew_of_sleeping.title", "Brew of Sleeping")
         builder.add("brewing.brew_of_sleeping", "Brew of Sleeping")
@@ -978,10 +1009,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
                 "Require three Mutandis Extremis, one Charges Attuned Stone, Water, Wolf, Cobweb and one Critter snare with a bat for each Owl."
         )
 
-        builder.add("book.witchery.guidebook.general.parasytic_louse.name", "Parasytic Louse")
-        builder.add("book.witchery.guidebook.general.parasytic_louse.description", "Ho-ho")
-        builder.add("general.parasytic_louse.title", "Parasytic Louse")
-        builder.add("general.parasytic_louse.page.1", "Can be picked up, has the ability to store and apply a Potion. Use potion on louse to apply it. has a chance to consume the potion on attacking a creature.\n" +
+        builder.add("book.witchery.guidebook.general.parasitic_louse.name", "Parasytic Louse")
+        builder.add("book.witchery.guidebook.general.parasitic_louse.description", "Ho-ho")
+        builder.add("general.parasitic_louse.title", "Parasytic Louse")
+        builder.add("general.parasitic_louse.page.1", "Can be picked up, has the ability to store and apply a Potion. Use potion on louse to apply it. has a chance to consume the potion on attacking a creature.\n" +
                 "\\\n" +
                 "\\\n" +
                 "Require Two Mutandis, One Tongue of Dog, one Charged Attuned Stone and one Critter Snare with a Silverfish. Water and Lily pads."

@@ -11,12 +11,12 @@
       }
     ]
   },
-  "description": "book.witchery.guidebook.general.parasytic_louse.description",
+  "description": "book.witchery.guidebook.general.parasitic_louse.description",
   "hide_while_locked": false,
   "icon": {
     "item": "minecraft:silverfish_spawn_egg"
   },
-  "name": "book.witchery.guidebook.general.parasytic_louse.name",
+  "name": "book.witchery.guidebook.general.parasitic_louse.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "general.parasytic_louse.page.1",
-      "title": "general.parasytic_louse.title",
+      "text": "general.parasitic_louse.page.1",
+      "title": "general.parasitic_louse.title",
       "use_markdown_in_title": false
     },
     {
@@ -37,7 +37,7 @@
         "type": "modonomicon:none"
       },
       "images": [
-        "witchery:textures/gui/modonomicon/images/parasytic_louse_image.png"
+        "witchery:textures/gui/modonomicon/images/parasitic_louse_image.png"
       ],
       "text": "",
       "title": "",

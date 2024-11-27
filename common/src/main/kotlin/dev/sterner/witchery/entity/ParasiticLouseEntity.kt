@@ -22,7 +22,7 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 
-class LeechEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.PARASYTHIC_LOUSE.get(), level) {
+class ParasiticLouseEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.PARASITIC_LOUSE.get(), level) {
 
     var effect: MobEffectInstance? = null
 
@@ -39,7 +39,7 @@ class LeechEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.PARASYTHIC_L
         }
 
         if (player.mainHandItem.isEmpty) {
-            val leech = WitcheryItems.PARASYTIC_LOUSE.get().defaultInstance
+            val leech = WitcheryItems.PARASITIC_LOUSE.get().defaultInstance
             leech.set(WitcheryDataComponents.LEECH_EFFECT.get(), effect)
 
             player.setItemInHand(InteractionHand.MAIN_HAND, leech)

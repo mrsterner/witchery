@@ -25,19 +25,10 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get())
                 output.accept(WitcheryItems.CAULDRON.get())
                 output.accept(WitcheryItems.COPPER_CAULDRON.get())
-                output.accept(WitcheryItems.EXPOSED_COPPER_CAULDRON.get())
-                output.accept(WitcheryItems.WEATHERED_COPPER_CAULDRON.get())
-                output.accept(WitcheryItems.OXIDIZED_COPPER_CAULDRON.get())
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN.get())
                 output.accept(WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.COPPER_WITCHES_OVEN.get())
-                output.accept(WitcheryItems.EXPOSED_COPPER_WITCHES_OVEN.get())
-                output.accept(WitcheryItems.WEATHERED_COPPER_WITCHES_OVEN.get())
-                output.accept(WitcheryItems.OXIDIZED_COPPER_WITCHES_OVEN.get())
                 output.accept(WitcheryItems.COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-                output.accept(WitcheryItems.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-                output.accept(WitcheryItems.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
-                output.accept(WitcheryItems.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.DISTILLERY.get())
                 output.accept(WitcheryItems.SPINNING_WHEEL.get())
                 output.accept(WitcheryItems.BRAZIER.get())
@@ -80,7 +71,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.ENT_TWIG.get())
                 output.accept(WitcheryItems.MUTATING_SPRING.get())
                 output.accept(WitcheryItems.ROWAN_BERRIES.get())
-                output.accept(WitcheryItems.PARASYTIC_LOUSE.get())
+                output.accept(WitcheryItems.PARASITIC_LOUSE.get())
                 output.accept(WitcheryItems.BLOOD_POPPY.get())
                 output.accept(WitcheryItems.REFINED_EVIL.get())
                 output.accept(WitcheryItems.REDSTONE_SOUP.get())
@@ -266,6 +257,18 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.HAWTHORN_HANGING_SIGN.get())
                 output.accept(WitcheryItems.HAWTHORN_BOAT.get())
                 output.accept(WitcheryItems.HAWTHORN_CHEST_BOAT.get())
+
+                output.accept(WitcheryItems.EXPOSED_COPPER_CAULDRON.get())
+                output.accept(WitcheryItems.WEATHERED_COPPER_CAULDRON.get())
+                output.accept(WitcheryItems.OXIDIZED_COPPER_CAULDRON.get())
+
+                output.accept(WitcheryItems.EXPOSED_COPPER_WITCHES_OVEN.get())
+                output.accept(WitcheryItems.WEATHERED_COPPER_WITCHES_OVEN.get())
+                output.accept(WitcheryItems.OXIDIZED_COPPER_WITCHES_OVEN.get())
+
+                output.accept(WitcheryItems.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+                output.accept(WitcheryItems.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+                output.accept(WitcheryItems.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
             }
         }
     }

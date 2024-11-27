@@ -139,7 +139,7 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.WEREWOLF, WerewolfEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.LILITH, LilithEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.ELLE, ElleEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.PARASYTHIC_LOUSE, LeechEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.PARASITIC_LOUSE, ParasiticLouseEntity::createAttributes)
 
         MODIFY_LOOT_TABLE.register(::addSeeds)
 
@@ -390,8 +390,8 @@ object Witchery {
         EntityRendererRegistry.register(WitcheryEntityTypes.BANSHEE) { BansheeEntityRenderer(it) }
         EntityModelLayerRegistry.register(BansheeEntityModel.LAYER_LOCATION) { BansheeEntityModel.createBodyLayer() }
 
-        EntityRendererRegistry.register(WitcheryEntityTypes.PARASYTHIC_LOUSE) { ParasythicLouseEntityRenderer(it) }
-        EntityModelLayerRegistry.register(LeechEntityModel.LAYER_LOCATION) { LeechEntityModel.createBodyLayer() }
+        EntityRendererRegistry.register(WitcheryEntityTypes.PARASITIC_LOUSE) { ParasiticLouseEntityRenderer(it) }
+        EntityModelLayerRegistry.register(ParasiticLouseEntityModel.LAYER_LOCATION) { ParasiticLouseEntityModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.VAMPIRE) { VampireEntityRenderer(it) }
         EntityModelLayerRegistry.register(VampireEntityModel.LAYER_LOCATION) { VampireEntityModel.createBodyLayer() }

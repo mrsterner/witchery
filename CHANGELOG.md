@@ -4,7 +4,7 @@
 - Added Biting Belt
 - Added Bark Belt
 - Added Scarecrow
-- Added Vampireism
+- Added Vampirism
 - Added Vampire Pendants
 - Added Village Graveyard
 - Added Vampire Armor and Cane Sword

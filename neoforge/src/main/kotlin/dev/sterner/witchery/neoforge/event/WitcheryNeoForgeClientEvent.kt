@@ -126,8 +126,8 @@ object WitcheryNeoForgeClientEvent {
             ::ElleEntityRenderer
         )
         event.registerEntityRenderer(
-            WitcheryEntityTypes.PARASYTHIC_LOUSE.get(),
-            ::ParasythicLouseEntityRenderer
+            WitcheryEntityTypes.PARASITIC_LOUSE.get(),
+            ::ParasiticLouseEntityRenderer
         )
     }
 
@@ -166,7 +166,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION, WerewolfEntityModel::createBodyLayer)
         event.registerLayerDefinition(NightmareEntityModel.LAYER_LOCATION, NightmareEntityModel::createBodyLayer)
         event.registerLayerDefinition(LilithEntityModel.LAYER_LOCATION, LilithEntityModel::createBodyLayer)
-        event.registerLayerDefinition(LeechEntityModel.LAYER_LOCATION, LeechEntityModel::createBodyLayer)
+        event.registerLayerDefinition(ParasiticLouseEntityModel.LAYER_LOCATION, ParasiticLouseEntityModel::createBodyLayer)
     }
 
     @SubscribeEvent

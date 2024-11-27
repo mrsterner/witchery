@@ -160,7 +160,7 @@ class WitcheryEmiPlugin : EmiPlugin {
         }
 
         for (recipe in manager.getAllRecipesFor(RecipeType.SMOKING)) {
-            registry.addRecipe(OvenCookingEmiRecipe(Witchery.id(recipe.id.path.toString()), null, recipe.value))
+            registry.addRecipe(OvenCookingEmiRecipe(Witchery.id("/" + recipe.id.path.toString()), null, recipe.value))
         }
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())) {

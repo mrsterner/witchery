@@ -8,10 +8,7 @@ import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.item.ItemEntity
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
@@ -65,7 +62,7 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
                 } else if (bl2) {
                     WitcheryItems.SCARECROW.get().defaultInstance
                 } else  {
-                    WitcheryItems.WITCHS_LADDER.get().defaultInstance
+                    WitcheryItems.WITCHES_LADDER.get().defaultInstance
                 }
                 itemStack.set(WitcheryDataComponents.BANSHEE_COUNT.get(), blockEntity.bansheeCount)
                 itemStack.set(WitcheryDataComponents.SPECTRE_COUNT.get(), blockEntity.specterCount)

@@ -26,7 +26,7 @@ public abstract class HumanoidModelMixin<T extends LivingEntity> extends Ageable
     @Inject(method = "poseLeftArm", at = @At("TAIL"))
     private void witchery$setLeftArmPose(CallbackInfo ci, @Local T livingEntity) {
         if (livingEntity.getOffhandItem().is(WitcheryItems.INSTANCE.getCANE_SWORD().get())) {
-            if (!livingEntity.getOffhandItem().has(WitcheryDataComponents.INSTANCE.getUNSHEETED().get())) {
+            if (Boolean.FALSE.equals(livingEntity.getOffhandItem().get(WitcheryDataComponents.INSTANCE.getUNSHEETED().get()))) {
                 this.leftArm.xRot = this.leftArm.xRot * 1.5F - (float) (Math.PI / 5);
                 this.leftArm.yRot = 0.0F;
             }
@@ -36,7 +36,7 @@ public abstract class HumanoidModelMixin<T extends LivingEntity> extends Ageable
     @Inject(method = "poseRightArm", at = @At("TAIL"))
     private void witchery$setRightArmPose(CallbackInfo ci, @Local T livingEntity) {
         if (livingEntity.getMainHandItem().is(WitcheryItems.INSTANCE.getCANE_SWORD().get())) {
-            if (!livingEntity.getMainHandItem().has(WitcheryDataComponents.INSTANCE.getUNSHEETED().get())) {
+            if (Boolean.FALSE.equals(livingEntity.getMainHandItem().get(WitcheryDataComponents.INSTANCE.getUNSHEETED().get()))) {
                 this.rightArm.xRot = this.rightArm.xRot * 1.5F - (float) (Math.PI / 5);
                 this.rightArm.yRot = 0.0F;
             }

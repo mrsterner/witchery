@@ -1003,15 +1003,15 @@ object WitcheryBlocks {
         )
     }
 
-    val SUNLIGHT_COLLECTOR = BLOCKS.register("sunlight_collector") {
+    val SUNLIGHT_COLLECTOR: RegistrySupplier<SunCollectorBlock> = BLOCKS.register("sunlight_collector") {
         SunCollectorBlock(BlockBehaviour.Properties.of().randomTicks().noOcclusion())
     }
 
-    val BLOOD_STAINED_WOOL = BLOCKS.register("blood_stained_wool") {
+    val BLOOD_STAINED_WOOL: RegistrySupplier<Block> = BLOCKS.register("blood_stained_wool") {
         Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL))
     }
 
-    val GRASSPER = BLOCKS.register("grassper") {
+    val GRASSPER: RegistrySupplier<GrassperBlock> = BLOCKS.register("grassper") {
         GrassperBlock(BlockBehaviour.Properties.of()
             .mapColor(MapColor.PLANT)
             .noOcclusion()
@@ -1022,7 +1022,7 @@ object WitcheryBlocks {
             .pushReaction(PushReaction.DESTROY))
     }
 
-    val CRITTER_SNARE = BLOCKS.register("critter_snare") {
+    val CRITTER_SNARE: RegistrySupplier<CritterSnareBlock> = BLOCKS.register("critter_snare") {
         CritterSnareBlock(BlockBehaviour.Properties.of()
             .mapColor(MapColor.PLANT)
             .noOcclusion()
@@ -1033,7 +1033,7 @@ object WitcheryBlocks {
             .pushReaction(PushReaction.DESTROY))
     }
 
-    val WITCHS_LADDER = BLOCKS.register("witchs_ladder") {
+    val WITCHS_LADDER: RegistrySupplier<EffigyBlock> = BLOCKS.register("witches_ladder") {
         EffigyBlock(BlockBehaviour.Properties.of()
             .mapColor(MapColor.WOOD)
             .instrument(NoteBlockInstrument.BASS)
@@ -1046,7 +1046,7 @@ object WitcheryBlocks {
         )
     }
 
-    val TRENT_EFFIGY = BLOCKS.register("trent_effigy") {
+    val TRENT_EFFIGY: RegistrySupplier<EffigyBlock> = BLOCKS.register("trent_effigy") {
         EffigyBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.WOOD)
@@ -1060,7 +1060,7 @@ object WitcheryBlocks {
         )
     }
 
-    val SCARECROW = BLOCKS.register("scarecrow") {
+    val SCARECROW: RegistrySupplier<EffigyBlock> = BLOCKS.register("scarecrow") {
         EffigyBlock(
             BlockBehaviour.Properties.of()
                 .mapColor(MapColor.WOOD)

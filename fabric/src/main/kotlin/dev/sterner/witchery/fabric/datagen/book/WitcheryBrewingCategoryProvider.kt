@@ -31,11 +31,11 @@ class WitcheryBrewingCategoryProvider(
             "__________________________________",
             "________________h___g_____________",
             "__________________________________",
-            "________l_s_b___c_r_o_____________",
+            "________l_s_b___c_r__o____________",
             "____________a_____________________",
             "_____________d______f_____________",
             "______________e___________________",
-            "_______________yu_________________",
+            "_______________yui________________",
             "__________________________________",
             "__________________________________",
             "__________________________________"
@@ -166,7 +166,7 @@ class WitcheryBrewingCategoryProvider(
 
         addEntry(depths)
 
-        val ink = BrewEntryProvider(WitcheryItems.BREW_OF_INK.get(), "brew_of_ink", this).generate("f")
+        val ink = BrewEntryProvider(WitcheryItems.BREW_OF_INK.get(), "brew_of_ink", this).generate("i")
         ink.withCondition(
             BookAndConditionModel.create().withChildren(
                 BookEntryReadConditionModel.create()

@@ -9,11 +9,11 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.context.UseOnContext
 
-class LeechItem(properties: Properties) : Item(properties) {
+class ParasiticLouseItem(properties: Properties) : Item(properties) {
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
-        val leech = WitcheryEntityTypes.PARASYTHIC_LOUSE.get().create(level)
+        val leech = WitcheryEntityTypes.PARASITIC_LOUSE.get().create(level)
         val data = context.itemInHand.get(WitcheryDataComponents.LEECH_EFFECT.get())
         if (data != null) {
             leech!!.effect = data

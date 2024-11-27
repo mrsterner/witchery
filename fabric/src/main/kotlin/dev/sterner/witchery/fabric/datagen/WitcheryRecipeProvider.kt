@@ -1300,7 +1300,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('I', WitcheryItems.IMPREGNATED_FABRIC.get())
             .define('F', WitcheryItems.FANCIFUL_THREAD.get())
             .define('M', WitcheryItems.MELLIFLUOUS_HUNGER.get())
-            .define('L', WitcheryItems.PARASYTIC_LOUSE.get())
+            .define('L', WitcheryItems.PARASITIC_LOUSE.get())
             .unlockedBy("has_fabric", has(WitcheryItems.IMPREGNATED_FABRIC.get()))
             .save(exporter)
 
@@ -1336,6 +1336,15 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('G', Items.GOLD_INGOT)
             .unlockedBy("has_twine", has(WitcheryItems.WOVEN_CRUOR.get()))
             .save(exporter)
+
+        CauldronCraftingRecipeBuilder.create()
+            .addInputWithColor(Items.NETHERITE_SCRAP, Color(205, 125, 50).rgb)
+            .addInputWithColor(WitcheryItems.OIL_OF_VITRIOL.get(), Color(50, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.DEMONS_BLOOD.get(), Color(255, 1, 1).rgb)
+            .addOutput(WitcheryItems.PENTACLE.get())
+            .setAltarPower(100)
+            .unlockedBy("has_oil", has(WitcheryItems.OIL_OF_VITRIOL.get()))
+            .save(exporter, Witchery.id("pentacle"))
 
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHER_WART, Color(255, 55, 50).rgb)

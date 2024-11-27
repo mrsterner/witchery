@@ -15,7 +15,7 @@ import net.minecraft.world.item.Items
 class ParasyticLouseEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
 
     companion object {
-        val ID = "parasytic_louse"
+        val ID = "parasitic_louse"
     }
 
     override fun generatePages() {
@@ -24,9 +24,9 @@ class ParasyticLouseEntryProvider(parent: CategoryProviderBase?) : EntryProvider
                 .withTitle("${parent.categoryId()}.$ID.title")
                 .withText("${parent.categoryId()}.$ID.page.1")
         }
-        this.page("parasytic_louse_image") {
+        this.page("parasitic_louse_image") {
             BookImagePageModel.create()
-                .withImages(Witchery.id("textures/gui/modonomicon/images/parasytic_louse_image.png"))
+                .withImages(Witchery.id("textures/gui/modonomicon/images/parasitic_louse_image.png"))
         }
     }
 

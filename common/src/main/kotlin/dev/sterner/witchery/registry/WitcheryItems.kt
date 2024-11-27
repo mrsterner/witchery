@@ -1066,82 +1066,82 @@ object WitcheryItems {
         TornPageItem(Item.Properties())
     }
 
-    val QUARTZ_SPHERE = ITEMS.register("quartz_sphere") {
+    val QUARTZ_SPHERE: RegistrySupplier<QuartzSphereItem> = ITEMS.register("quartz_sphere") {
         QuartzSphereItem(Item.Properties())
     }
 
-    val SUN_COLLECTOR = ITEMS.register("sunlight_collector") {
+    val SUN_COLLECTOR: RegistrySupplier<BlockItem> = ITEMS.register("sunlight_collector") {
         BlockItem(WitcheryBlocks.SUNLIGHT_COLLECTOR.get(), Item.Properties().stacksTo(1))
     }
 
-    val WOODEN_OAK_STAKE = ITEMS.register("wooden_oak_stake") {
+    val WOODEN_OAK_STAKE: RegistrySupplier<WoodenStakeItem> = ITEMS.register("wooden_oak_stake") {
         WoodenStakeItem(Item.Properties().stacksTo(1))
     }
 
-    val WOODEN_HAWTHORN_STAKE = ITEMS.register("wooden_hawthorn_stake") {
+    val WOODEN_HAWTHORN_STAKE: RegistrySupplier<WoodenStakeItem> = ITEMS.register("wooden_hawthorn_stake") {
         WoodenStakeItem(Item.Properties().stacksTo(1))
     }
 
-    val WOVEN_CRUOR = ITEMS.register("woven_cruor") {
+    val WOVEN_CRUOR: RegistrySupplier<Item> = ITEMS.register("woven_cruor") {
         Item(Item.Properties())
     }
 
-    val BLOOD_STAINED_WOOL = ITEMS.register("blood_stained_wool") {
+    val BLOOD_STAINED_WOOL: RegistrySupplier<BlockItem> = ITEMS.register("blood_stained_wool") {
         BlockItem(WitcheryBlocks.BLOOD_STAINED_WOOL.get(), Item.Properties())
     }
 
-    val CANE_SWORD = ITEMS.register("cane_sword") {
+    val CANE_SWORD: RegistrySupplier<CaneSwordItem> = ITEMS.register("cane_sword") {
         CaneSwordItem(Tiers.DIAMOND, Item.Properties()
             .stacksTo(1)
             .durability(1561)
         )
     }
 
-    val BATWING_PENDANT = ITEMS.register("batwing_pendant") {
+    val BATWING_PENDANT: RegistrySupplier<BatwingPendantItem> = ITEMS.register("batwing_pendant") {
         BatwingPendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val SUNSTONE_PENDANT = ITEMS.register("sunstone_pendant") {
+    val SUNSTONE_PENDANT: RegistrySupplier<SunstonePendantItem> = ITEMS.register("sunstone_pendant") {
         SunstonePendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val BLOODSTONE_PENDANT = ITEMS.register("bloodstone_pendant") {
+    val BLOODSTONE_PENDANT: RegistrySupplier<BloodstonePendantItem> = ITEMS.register("bloodstone_pendant") {
         BloodstonePendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val DREAMWEAVER_CHARM = ITEMS.register("dreamweaver_charm") {
+    val DREAMWEAVER_CHARM: RegistrySupplier<DreamweaverCharmItem> = ITEMS.register("dreamweaver_charm") {
         DreamweaverCharmItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val BITING_BELT = ITEMS.register("biting_belt") {
+    val BITING_BELT: RegistrySupplier<BitingBeltItem> = ITEMS.register("biting_belt") {
         BitingBeltItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val BARK_BELT = ITEMS.register("bark_belt") {
+    val BARK_BELT: RegistrySupplier<BarkBeltItem> = ITEMS.register("bark_belt") {
         BarkBeltItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val PARASYTIC_LOUSE = ITEMS.register("parasytic_louse") {
-        LeechItem(Item.Properties())
+    val PARASITIC_LOUSE: RegistrySupplier<ParasiticLouseItem> = ITEMS.register("parasitic_louse") {
+        ParasiticLouseItem(Item.Properties())
     }
 
-    val GRASSPER = ITEMS.register("grassper") {
+    val GRASSPER: RegistrySupplier<BlockItem> = ITEMS.register("grassper") {
         BlockItem(WitcheryBlocks.GRASSPER.get(), Item.Properties())
     }
 
-    val CRITTER_SNARE = ITEMS.register("critter_snare") {
+    val CRITTER_SNARE: RegistrySupplier<CritterSnareBlockItem> = ITEMS.register("critter_snare") {
         CritterSnareBlockItem(WitcheryBlocks.CRITTER_SNARE.get(), Item.Properties())
     }
 
-    val WITCHS_LADDER = ITEMS.register("witchs_ladder") {
+    val WITCHES_LADDER: RegistrySupplier<MultiBlockItem> = ITEMS.register("witches_ladder") {
         MultiBlockItem(WitcheryBlocks.WITCHS_LADDER.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }
 
-    val SCARECROW = ITEMS.register("scarecrow") {
+    val SCARECROW: RegistrySupplier<MultiBlockItem> = ITEMS.register("scarecrow") {
         MultiBlockItem(WitcheryBlocks.SCARECROW.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }
 
-    val TRENT_EFFIGY = ITEMS.register("trent_effigy") {
+    val TRENT_EFFIGY: RegistrySupplier<MultiBlockItem> = ITEMS.register("trent_effigy") {
         MultiBlockItem(WitcheryBlocks.TRENT_EFFIGY.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }
 }

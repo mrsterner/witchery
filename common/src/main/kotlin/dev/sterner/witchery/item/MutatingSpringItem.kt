@@ -1,7 +1,6 @@
 package dev.sterner.witchery.item
 
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
-import dev.sterner.witchery.block.critter_snare.CritterSnareBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -117,7 +116,7 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
                             }
                         }
                     }
-                    val louse = WitcheryEntityTypes.PARASYTHIC_LOUSE.get().create(level)
+                    val louse = WitcheryEntityTypes.PARASITIC_LOUSE.get().create(level)
 
                     louse?.let {
                         it.moveTo(pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, 0f, 0f)
