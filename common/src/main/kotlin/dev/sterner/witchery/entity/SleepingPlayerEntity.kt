@@ -5,11 +5,9 @@ import dev.sterner.witchery.api.SleepingPlayerData
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.platform.*
-import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
 import net.minecraft.core.particles.ParticleTypes
@@ -78,17 +76,11 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 Containers.dropContents(level(), blockPosition(), data.offHandInventory)
                 Containers.dropContents(level(), blockPosition(), data.extraInventory)
                 SleepingLevelAttachment.removeBySleepingUUID(uuid, level() as ServerLevel)
-                for (i in 0..19) {
-                    val d = random.nextGaussian() * 0.02
-                    val e = random.nextGaussian() * 0.02
-                    val f = random.nextGaussian() * 0.02
-                    level().addParticle(
-                        ParticleTypes.POOF,
-                        this.getRandomX(1.0),
-                        this.randomY,
-                        this.getRandomZ(1.0), d, e, f
-                    )
-                }
+                WitcheryPayloads.sendToPlayers(level(), SpawnSleepingDeathParticleS2CPayload(
+                    this.getRandomX(1.5),
+                    this.randomY,
+                    this.getRandomZ(1.5)))
+
                 this.remove(RemovalReason.KILLED)
             }
         }

@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.VampireEntity
-import dev.sterner.witchery.payload.SpawnPoofParticles
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
