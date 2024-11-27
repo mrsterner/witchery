@@ -1,0 +1,45 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "ritual",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "ritual/ritual_chalk"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.ritual.infuse_light.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:ghost_of_the_light"
+  },
+  "name": "book.witchery.guidebook.ritual.infuse_light.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "ritual.infuse_light.page.1",
+      "title": "ritual.infuse_light.title",
+      "use_markdown_in_title": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "ritual/ritual_chalk",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 11,
+  "x": -2,
+  "y": -1
+}
