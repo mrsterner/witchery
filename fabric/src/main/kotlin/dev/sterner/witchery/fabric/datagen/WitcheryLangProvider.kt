@@ -418,6 +418,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("advancements.witchery.chalk.description", "And I started ritualing")
         builder.add("advancements.witchery.necromantic.title", "Necromantic")
         builder.add("advancements.witchery.necromantic.description", "No mind to break")
+        builder.add("advancements.witchery.spirit_world.title", "The Spirit World")
+        builder.add("advancements.witchery.spirit_world.description", "I have a dream")
+        builder.add("advancements.witchery.disturbed.title", "The Disturbed")
+        builder.add("advancements.witchery.disturbed.description", "Easy, just don't have a nightmare")
 
         builder.add("emi.category.witchery.brazier", "Brazier")
         builder.add("witchery:brazier_summoning/summon_banshee", "Summon Banshee")

@@ -29,8 +29,10 @@ object DeathQueueLevelAttachment {
     fun addDeathToQueue(level: ServerLevel, uuid: UUID) {
         val old = getData(level)
         if (!old.killerQueue.contains(uuid)) {
-            val new = old.copy()
-            new.killerQueue.add(uuid)
+            val newList = old.killerQueue.toMutableList()
+            newList.add(uuid)
+
+            val new = old.copy(killerQueue = newList)
             setData(level, new)
         }
     }

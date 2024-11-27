@@ -10,6 +10,8 @@ import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.client.renderer.entity.LivingEntityRenderer
+import net.minecraft.client.renderer.entity.player.PlayerRenderer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import kotlin.math.cos
@@ -24,6 +26,8 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
     override fun getTextureLocation(entity: SleepingPlayerEntity): ResourceLocation? {
         return null
     }
+
+
 
     override fun render(
         entity: SleepingPlayerEntity,
@@ -52,12 +56,12 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
             equipmentList,
             entity.getSleepingModel()
         )
-
+        sleepPlayer?.hurtTime = entity.entityData.get(SleepingPlayerEntity.HURT_TIME)
         sleepPlayer?.yHeadRotO = 0f
         sleepPlayer?.yHeadRot = 0f
         sleepPlayer?.let {
-            Minecraft.getInstance().entityRenderDispatcher.getRenderer(it)
-                .render(sleepPlayer, 0f, partialTick, poseStack, bufferSource, packedLight)
+            val renderer = Minecraft.getInstance().entityRenderDispatcher.getRenderer(it)
+            renderer.render(sleepPlayer, 0f, partialTick, poseStack, bufferSource, packedLight)
         }
 
         if (entity.level().random.nextDouble() < 0.05) {
@@ -66,6 +70,8 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
 
         poseStack.popPose()
     }
+
+
 
     private fun addZ(player: SleepingPlayerEntity) {
         val pos = player.position()

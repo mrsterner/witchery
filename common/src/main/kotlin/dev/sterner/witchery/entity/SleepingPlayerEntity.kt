@@ -12,6 +12,7 @@ import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
@@ -50,6 +51,8 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
 
         if (level() is ServerLevel){
             hurtCounter++
+            entityData.set(HURT_TIME, 10)
+            playSound(SoundEvents.PLAYER_HURT)
             var foundPlayer = false
             if (data.resolvableProfile != null) {
                 for (serverLevel in level().server!!.allLevels) {
@@ -75,6 +78,18 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 Containers.dropContents(level(), blockPosition(), data.offHandInventory)
                 Containers.dropContents(level(), blockPosition(), data.extraInventory)
                 SleepingLevelAttachment.removeBySleepingUUID(uuid, level() as ServerLevel)
+                for (i in 0..19) {
+                    val d = random.nextGaussian() * 0.02
+                    val e = random.nextGaussian() * 0.02
+                    val f = random.nextGaussian() * 0.02
+                    level().addParticle(
+                        ParticleTypes.POOF,
+                        this.getRandomX(1.0),
+                        this.randomY,
+                        this.getRandomZ(1.0), d, e, f
+                    )
+                }
+                this.remove(RemovalReason.KILLED)
             }
         }
 
@@ -87,6 +102,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         builder.define(EQUIPMENT, NonNullList.withSize(EquipmentSlot.entries.size, ItemStack.EMPTY))
         builder.define(MODEL, 0.toByte())
         builder.define(FACEPLANT, false)
+        builder.define(HURT_TIME, 0)
         builder.define(RESOLVEABLE, ResolvableProfile(GameProfile(UUID(0, 0), "")))
     }
 
@@ -100,12 +116,14 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         setSleepingModel(data.model)
         setFaceplant(compound.getBoolean("Faceplanted"))
         hurtCounter = compound.getInt("HurtCounter")
+        entityData.set(HURT_TIME, compound.getShort("HurtTime").toInt())
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
         compound.put("Data", data.writeNbt(this.registryAccess()))
         compound.putBoolean("Faceplanted", isFaceplanted())
         compound.putInt("HurtCounter", hurtCounter)
+        compound.putShort("HurtTime", entityData.get(HURT_TIME).toShort())
     }
 
     override fun tick() {
@@ -123,6 +141,16 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
 
             setDeltaMovement(deltaMovement.x * 0.75, motionY.coerceAtLeast(-2.0), deltaMovement.z * 0.75)
             move(MoverType.SELF, deltaMovement)
+        }
+        if (this.entityData.get(HURT_TIME) > 0) {
+            entityData.set(HURT_TIME, entityData.get(HURT_TIME) - 1)
+        }
+        if (!level().isClientSide) {
+            if (hurtCounter > 0) {
+                if (level().gameTime % 100 == 0L) {
+                    hurtCounter--
+                }
+            }
         }
     }
 
@@ -274,6 +302,6 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.INVENTORY)
         val MODEL = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.BYTE)
         val FACEPLANT = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.BOOLEAN)
-
+        val HURT_TIME = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.INT)
     }
 }

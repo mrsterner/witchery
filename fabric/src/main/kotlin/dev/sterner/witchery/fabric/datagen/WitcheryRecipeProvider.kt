@@ -1337,6 +1337,15 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_twine", has(WitcheryItems.WOVEN_CRUOR.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.DREAMWEAVER_CHARM.get())
+            .pattern("SSS")
+            .pattern("SFS")
+            .pattern("SSS")
+            .define('S', Items.STICK)
+            .define('F', WitcheryItems.FANCIFUL_THREAD.get())
+            .unlockedBy("has_stick", has(Items.STICK))
+            .save(exporter)
+
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHERITE_SCRAP, Color(205, 125, 50).rgb)
             .addInputWithColor(WitcheryItems.OIL_OF_VITRIOL.get(), Color(50, 50, 50).rgb)

@@ -6,9 +6,11 @@
 - Added Scarecrow
 - Added Vampirism
 - Added Vampire Pendants
+- Added Dreamweaver Charm
 - Added Village Graveyard
 - Added Vampire Armor and Cane Sword
 - Added Parasytic Louse
+- Added More Entries to the Guidebook
 - 
 
 ### Version 0.1.3
