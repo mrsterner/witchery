@@ -10,8 +10,6 @@ import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.renderer.entity.LivingEntityRenderer
-import net.minecraft.client.renderer.entity.player.PlayerRenderer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import kotlin.math.cos

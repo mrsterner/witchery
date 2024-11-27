@@ -10,7 +10,6 @@ import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData

@@ -1,7 +1,6 @@
 package dev.sterner.witchery.fabric
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import dev.architectury.registry.client.gui.ClientTooltipComponentRegistry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
@@ -17,14 +16,11 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
-import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags

@@ -2,7 +2,6 @@ package dev.sterner.witchery.client.renderer
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
@@ -11,9 +10,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.entity.SkullBlockEntity
-import net.minecraft.world.phys.Vec3
 import kotlin.math.cos
 import kotlin.math.sin
 

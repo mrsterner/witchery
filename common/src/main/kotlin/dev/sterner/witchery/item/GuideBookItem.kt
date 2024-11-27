@@ -5,7 +5,6 @@ import com.klikli_dev.modonomicon.client.gui.book.BookAddress
 import com.klikli_dev.modonomicon.data.BookDataManager
 import com.klikli_dev.modonomicon.item.ModonomiconItem
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.WitcheryApi
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder

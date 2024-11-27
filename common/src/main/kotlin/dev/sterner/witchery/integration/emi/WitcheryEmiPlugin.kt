@@ -3,7 +3,6 @@ package dev.sterner.witchery.integration.emi
 import dev.emi.emi.api.EmiEntrypoint
 import dev.emi.emi.api.EmiPlugin
 import dev.emi.emi.api.EmiRegistry
-import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
@@ -12,7 +11,6 @@ import dev.sterner.witchery.recipe.PendantDataComponentRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.world.item.crafting.*
-import java.util.function.Supplier
 
 
 @EmiEntrypoint

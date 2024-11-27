@@ -8,8 +8,6 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronBrewingPageModel
-import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.references.Items
 import net.minecraft.world.item.Item
 
 class BrewEntryProvider(val icon: Item, val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {

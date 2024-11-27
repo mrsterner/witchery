@@ -2,12 +2,9 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.CursePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.Minecraft
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtOps
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.platform.transformation.fabric
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.world.entity.player.Player

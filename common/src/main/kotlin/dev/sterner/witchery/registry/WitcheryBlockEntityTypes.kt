@@ -26,9 +26,7 @@ import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
-import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntityType
-import net.minecraft.world.level.block.entity.BrushableBlockEntity
 import net.minecraft.world.level.block.entity.SignBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 

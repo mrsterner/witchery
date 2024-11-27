@@ -11,7 +11,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.block.entity.SpawnerBlockEntity
 
 class SyncInfernalInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 

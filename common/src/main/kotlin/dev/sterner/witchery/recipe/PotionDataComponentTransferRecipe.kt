@@ -1,12 +1,10 @@
 package dev.sterner.witchery.recipe
 
-import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.component.DataComponents
-import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.PotionItem

@@ -2,7 +2,6 @@ package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data.BloodPoolHandler
-import dev.sterner.witchery.data.ErosionHandler
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
@@ -11,8 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.PackOutput
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
 import java.util.concurrent.CompletableFuture
 import java.util.function.BiConsumer
 

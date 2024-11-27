@@ -1,9 +1,7 @@
 package dev.sterner.witchery.mixin.client;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.sterner.witchery.api.RenderUtils;
 import dev.sterner.witchery.mixin_logic.GuiMixinLogic;
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;

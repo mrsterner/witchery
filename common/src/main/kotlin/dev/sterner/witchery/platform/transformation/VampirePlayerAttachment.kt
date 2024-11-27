@@ -4,20 +4,13 @@ import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
-import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncVampireS2CPacket
-import dev.sterner.witchery.payload.VampireAbilitySelectionC2SPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
-import dev.sterner.witchery.handler.vampire.VampireLeveling
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.StringRepresentable
-import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.ChunkPos
-import java.util.UUID
+import java.util.*
 
 object VampirePlayerAttachment {
 

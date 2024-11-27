@@ -6,7 +6,6 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.registry.WitcheryCurseRegistry
 import net.minecraft.commands.CommandSourceStack

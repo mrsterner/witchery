@@ -1,6 +1,5 @@
 package dev.sterner.witchery.mixin.client;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -8,9 +7,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
-import dev.sterner.witchery.registry.WitcheryItems;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;

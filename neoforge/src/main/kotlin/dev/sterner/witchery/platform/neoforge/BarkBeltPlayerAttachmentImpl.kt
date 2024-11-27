@@ -2,7 +2,6 @@ package dev.sterner.witchery.platform.neoforge
 
 import dev.sterner.witchery.neoforge.WitcheryNeoForgeAttachmentRegistry.BARK_PLAYER_DATA_ATTACHMENT
 import dev.sterner.witchery.platform.BarkBeltPlayerAttachment
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.player.Player
 
 object BarkBeltPlayerAttachmentImpl {

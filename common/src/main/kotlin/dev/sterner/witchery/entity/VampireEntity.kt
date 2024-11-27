@@ -32,7 +32,6 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
 import java.util.*
-import kotlin.math.max
 import kotlin.math.min
 
 class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.get(), level) {

@@ -2,9 +2,7 @@ package dev.sterner.witchery.platform.infusion
 
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.payload.SyncInfernalInfusionS2CPacket
-import dev.sterner.witchery.payload.SyncLightInfusionS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 

@@ -8,8 +8,6 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.util.Mth
-import net.minecraft.world.phys.Vec3
 
 class SpawnSleepingDeathParticleS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 

@@ -1,9 +1,7 @@
 package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.handler.vampire.VampireLeveling
-import dev.sterner.witchery.payload.SpawnPoofParticles
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
-import dev.sterner.witchery.payload.SpawnTransfixParticlesS2CPayload
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
@@ -28,10 +26,7 @@ import net.minecraft.world.entity.ai.goal.FloatGoal
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
-import net.minecraft.world.entity.animal.Pufferfish
-import net.minecraft.world.entity.monster.Ghast
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items

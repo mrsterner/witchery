@@ -8,7 +8,6 @@ import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.crafting.Ingredient
-import java.util.*
 
 class SunPendantEmiRecipe(id: ResourceLocation?) :
     EmiPatternCraftingRecipe(mutableListOf<EmiIngredient?>().apply {

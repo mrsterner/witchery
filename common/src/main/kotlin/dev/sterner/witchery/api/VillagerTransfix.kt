@@ -1,8 +1,7 @@
 package dev.sterner.witchery.api
 
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
-import java.util.UUID
+import java.util.*
 
 interface VillagerTransfix {
    fun setTransfixedLookVector(vec3: Vec3)

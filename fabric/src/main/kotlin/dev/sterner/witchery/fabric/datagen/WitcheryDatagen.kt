@@ -1,9 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
-import com.mojang.serialization.Lifecycle
 import dev.sterner.witchery.fabric.datagen.bootstrap.WitcheryConfiguredFeatureBootstrap
 import dev.sterner.witchery.fabric.datagen.bootstrap.WitcheryPlacedFeatureBootstrap
-import dev.sterner.witchery.registry.WitcheryRitualRegistry
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.minecraft.core.RegistrySetBuilder

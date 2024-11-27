@@ -1,6 +1,5 @@
 package dev.sterner.witchery.block
 
-import com.mojang.logging.LogUtils
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
@@ -24,7 +23,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.phys.Vec3
-import org.slf4j.Logger
 import java.util.*
 import kotlin.math.max
 

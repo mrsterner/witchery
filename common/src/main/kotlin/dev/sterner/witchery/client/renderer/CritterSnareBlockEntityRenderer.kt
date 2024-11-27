@@ -5,7 +5,6 @@ import com.mojang.math.Axis
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlockEntity
 import net.minecraft.client.Minecraft
-import net.minecraft.client.model.SilverfishModel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider

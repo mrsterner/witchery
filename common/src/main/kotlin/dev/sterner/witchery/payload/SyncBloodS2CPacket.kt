@@ -3,13 +3,11 @@ package dev.sterner.witchery.payload
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 
 class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {

@@ -6,10 +6,6 @@ import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
-import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronBrewingPageModel
-import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.references.Items
 import net.minecraft.world.item.Item
 
 class CottonEntryProvider(val id: String, val item: Item, parent: CategoryProviderBase?) : EntryProvider(parent) {

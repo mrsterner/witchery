@@ -1,23 +1,18 @@
 package dev.sterner.witchery.registry
 
-import com.mojang.datafixers.kinds.App
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
-import dev.sterner.witchery.block.critter_snare.CritterSnareBlockEntity
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.effect.MobEffectInstance
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.item.alchemy.PotionContents
 import java.util.*
-import java.util.function.BiFunction
-import java.util.function.Function
 
 
 object WitcheryDataComponents {

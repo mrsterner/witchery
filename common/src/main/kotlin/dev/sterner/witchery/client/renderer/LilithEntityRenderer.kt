@@ -2,9 +2,7 @@ package dev.sterner.witchery.client.renderer
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.DemonEntityModel
 import dev.sterner.witchery.client.model.LilithEntityModel
-import dev.sterner.witchery.entity.DemonEntity
 import dev.sterner.witchery.entity.LilithEntity
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRendererProvider

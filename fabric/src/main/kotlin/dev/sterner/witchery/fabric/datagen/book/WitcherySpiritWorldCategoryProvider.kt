@@ -14,7 +14,6 @@ import dev.sterner.witchery.fabric.datagen.book.entry.BrewEntryProvider
 import dev.sterner.witchery.fabric.datagen.book.entry.CottonEntryProvider
 import dev.sterner.witchery.fabric.datagen.book.entry.DreamWeaverEntryProvider
 import dev.sterner.witchery.fabric.datagen.book.entry.HungerEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.vampire.*
 import dev.sterner.witchery.registry.WitcheryItems
 
 

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.entity
 
-import dev.architectury.event.events.common.EntityEvent
 import dev.sterner.witchery.platform.NightmarePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
@@ -20,10 +19,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.target.TargetGoal
-import net.minecraft.world.entity.monster.Drowned
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.enchantment.EnchantmentHelper
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.pathfinder.PathType
 import java.util.*

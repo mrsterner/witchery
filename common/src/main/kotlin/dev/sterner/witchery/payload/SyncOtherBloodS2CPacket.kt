@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
 
 class SyncOtherBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {

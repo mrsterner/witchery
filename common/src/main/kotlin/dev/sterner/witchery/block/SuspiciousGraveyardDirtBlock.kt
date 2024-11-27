@@ -10,22 +10,17 @@ import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
-import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.item.FallingBlockEntity
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.entity.BrushableBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.IntegerProperty
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument
 import net.minecraft.world.level.gameevent.GameEvent
-import net.minecraft.world.level.material.MapColor
-import net.minecraft.world.level.material.PushReaction
 
 class SuspiciousGraveyardDirtBlock(val turnsInto: Block, val brushSound: SoundEvent, val brushCompletedSound: SoundEvent, properties: Properties) : BaseEntityBlock(properties), Fallable {
 

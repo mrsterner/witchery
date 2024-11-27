@@ -3,7 +3,6 @@ package dev.sterner.witchery.platform.infusion.fabric
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData
 import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
 import net.minecraft.world.entity.player.Player
 
 object InfernalInfusionDataAttachmentImpl {

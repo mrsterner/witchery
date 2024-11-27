@@ -1,10 +1,7 @@
 package dev.sterner.witchery.platform.fabric
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.platform.NightmarePlayerAttachment
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 
 object NightmarePlayerAttachmentImpl {

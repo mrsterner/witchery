@@ -1,9 +1,7 @@
 package dev.sterner.witchery.platform.transformation.fabric
 
-import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 
 object BloodPoolLivingEntityAttachmentImpl {

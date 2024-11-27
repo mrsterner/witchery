@@ -4,7 +4,6 @@ import dev.architectury.event.EventResult
 import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.api.WitcheryTooltipComponent
 import dev.sterner.witchery.data.BloodPoolHandler
-import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
@@ -14,7 +13,6 @@ import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.core.component.DataComponents
-import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents

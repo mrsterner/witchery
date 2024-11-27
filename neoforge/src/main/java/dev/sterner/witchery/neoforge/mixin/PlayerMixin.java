@@ -1,7 +1,6 @@
 package dev.sterner.witchery.neoforge.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.sterner.witchery.entity.BroomEntity;
 import dev.sterner.witchery.mixin_logic.PlayerMixinLogic;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;

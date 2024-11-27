@@ -5,12 +5,9 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.level.ChunkPos
-import org.apache.logging.log4j.core.jmx.Server
-import java.util.UUID
+import java.util.*
 
 object DeathQueueLevelAttachment {
 

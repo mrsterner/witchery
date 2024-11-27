@@ -1,7 +1,6 @@
 package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.mixin_logic.FoodDataMixinLogic;
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;

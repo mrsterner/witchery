@@ -2,19 +2,12 @@ package dev.sterner.witchery.client.renderer
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.BansheeEntityModel
-import dev.sterner.witchery.client.model.VampireEntityModel
 import dev.sterner.witchery.client.model.WerewolfEntityModel
-import dev.sterner.witchery.entity.BansheeEntity
-import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.entity.WerewolfEntity
-import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.Mth
 
 class WerewolfEntityRenderer(context: EntityRendererProvider.Context) :
     MobRenderer<WerewolfEntity, WerewolfEntityModel>(

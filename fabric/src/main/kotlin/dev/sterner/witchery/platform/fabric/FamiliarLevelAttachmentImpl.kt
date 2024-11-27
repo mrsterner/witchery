@@ -3,7 +3,6 @@ package dev.sterner.witchery.platform.fabric
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import net.minecraft.server.level.ServerLevel
-import java.util.*
 
 object FamiliarLevelAttachmentImpl {
 

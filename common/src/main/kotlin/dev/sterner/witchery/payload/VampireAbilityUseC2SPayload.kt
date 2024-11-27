@@ -3,8 +3,6 @@ package dev.sterner.witchery.payload
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec

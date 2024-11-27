@@ -1,7 +1,6 @@
 package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import net.minecraft.client.gui.font.providers.UnihexProvider.Dimensions
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
@@ -14,7 +13,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.navigation.PathNavigation
-import net.minecraft.world.entity.monster.Zombie
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.pathfinder.PathType

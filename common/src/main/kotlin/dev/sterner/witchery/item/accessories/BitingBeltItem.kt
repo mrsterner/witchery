@@ -1,7 +1,6 @@
 package dev.sterner.witchery.item.accessories
 
 import dev.architectury.event.EventResult
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
@@ -12,7 +11,6 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import java.util.*
-import java.util.function.Consumer
 
 class BitingBeltItem(properties: Properties?) : AccessoryItem(properties) {
 

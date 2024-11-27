@@ -1,9 +1,7 @@
 package dev.sterner.witchery.client.renderer
 
 import com.mojang.blaze3d.vertex.PoseStack
-import dev.sterner.witchery.entity.BansheeEntity
 import dev.sterner.witchery.entity.SpectralPigEntity
-import net.minecraft.client.Minecraft
 import net.minecraft.client.model.PigModel
 import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.renderer.MultiBufferSource
