@@ -8,19 +8,15 @@
       {
         "type": "modonomicon:entry_read",
         "entry_id": "general/mutandis"
-      },
-      {
-        "type": "modonomicon:advancement",
-        "advancement_id": "witchery:mutandis"
       }
     ]
   },
-  "description": "book.witchery.guidebook.general.whiff_of_magic.description",
+  "description": "book.witchery.guidebook.general.mutandis_extremis.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:whiff_of_magic"
+    "item": "witchery:mutandis_extremis"
   },
-  "name": "book.witchery.guidebook.general.whiff_of_magic.name",
+  "name": "book.witchery.guidebook.general.mutandis_extremis.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -29,9 +25,20 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "general.whiff_of_magic.page.1",
-      "title": "general.whiff_of_magic.title",
+      "text": "general.mutandis_extremis.page.1",
+      "title": "general.mutandis_extremis.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:cauldron_crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_crafting/mutandis_extremis",
+      "text": "general.mutandis_extremis.title",
+      "title1": "general.mutandis_extremis",
+      "title2": ""
     }
   ],
   "parents": [
@@ -40,16 +47,10 @@
       "entry": "general/mutandis",
       "line_enabled": true,
       "line_reversed": false
-    },
-    {
-      "draw_arrow": true,
-      "entry": "general/oven",
-      "line_enabled": true,
-      "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 12,
-  "x": 2,
-  "y": -2
+  "sort_number": 4,
+  "x": 3,
+  "y": -3
 }

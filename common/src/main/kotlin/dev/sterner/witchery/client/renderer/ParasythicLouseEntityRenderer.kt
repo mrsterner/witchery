@@ -30,6 +30,6 @@ class ParasythicLouseEntityRenderer(context: EntityRendererProvider.Context) :
     }
 
     override fun getTextureLocation(entity: LeechEntity): ResourceLocation {
-        return Witchery.id("textures/entity/parasytic_louse.png")
+        return Witchery.id("textures/entity/parasytic_louse_image.png")
     }
 }

@@ -156,16 +156,118 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
 
     private fun makeCritterSnare(level: Level, pos: BlockPos){
         val hasZombie = level.getEntities(EntityType.ZOMBIE, AABB.ofSize(pos.center, 1.0,1.0,1.0)) {true}
-        if (checkCardinal(level, pos, WitcheryBlocks.ALDER_SAPLING.get()) && level.getBlockState(pos.below()).`is`(Blocks.WATER) && hasZombie.isNotEmpty()) {
-            removeCardinal(level, pos)
-            hasZombie.forEach { it.discard() }
-            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState())
-            level.setBlockAndUpdate(pos.below(), Blocks.AIR.defaultBlockState())
-            level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
-            level.setBlockAndUpdate(pos.south(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
-            level.setBlockAndUpdate(pos.north(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
-            level.setBlockAndUpdate(pos.west(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
-            level.setBlockAndUpdate(pos.east(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
+        val hasWolf = level.getEntities(EntityType.WOLF, AABB.ofSize(pos.center, 1.0,1.0,1.0)) {true}
+        if (hasZombie.isNotEmpty()) {
+            if (checkCardinal(level, pos, WitcheryBlocks.ALDER_SAPLING.get()) && level.getBlockState(pos.below()).`is`(Blocks.WATER)) {
+                removeCardinal(level, pos)
+                hasZombie.forEach { it.discard() }
+                level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState())
+                level.setBlockAndUpdate(pos.below(), Blocks.AIR.defaultBlockState())
+                level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
+                level.setBlockAndUpdate(pos.south(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
+                level.setBlockAndUpdate(pos.north(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
+                level.setBlockAndUpdate(pos.west(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
+                level.setBlockAndUpdate(pos.east(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
+            }
+        }
+        if (hasWolf.isNotEmpty()) {
+            if (level.getBlockState(pos.below()).`is`(Blocks.WATER)) {
+                val batN = level.getBlockState(pos.north()).`is`(WitcheryBlocks.CRITTER_SNARE.get())
+                        && level.getBlockState(pos.north()).hasProperty(CritterSnareBlock.CAPTURED_STATE)
+                        && level.getBlockState(pos.north()).getValue(CritterSnareBlock.CAPTURED_STATE) == CritterSnareBlock.CapturedEntity.BAT
+                val batS = level.getBlockState(pos.south()).`is`(WitcheryBlocks.CRITTER_SNARE.get())
+                        && level.getBlockState(pos.south()).hasProperty(CritterSnareBlock.CAPTURED_STATE)
+                        && level.getBlockState(pos.south()).getValue(CritterSnareBlock.CAPTURED_STATE) == CritterSnareBlock.CapturedEntity.BAT
+                val batE = level.getBlockState(pos.east()).`is`(WitcheryBlocks.CRITTER_SNARE.get())
+                        && level.getBlockState(pos.east()).hasProperty(CritterSnareBlock.CAPTURED_STATE)
+                        && level.getBlockState(pos.east()).getValue(CritterSnareBlock.CAPTURED_STATE) == CritterSnareBlock.CapturedEntity.BAT
+                val batW = level.getBlockState(pos.west()).`is`(WitcheryBlocks.CRITTER_SNARE.get())
+                        && level.getBlockState(pos.west()).hasProperty(CritterSnareBlock.CAPTURED_STATE)
+                        && level.getBlockState(pos.west()).getValue(CritterSnareBlock.CAPTURED_STATE) == CritterSnareBlock.CapturedEntity.BAT
+
+                if (batN || batS || batW || batE) {
+
+                    val grassperNW = level.getBlockEntity(pos.north().west())
+                    val grassperNE = level.getBlockEntity(pos.north().east())
+                    val grassperSW = level.getBlockEntity(pos.south().west())
+                    val grassperSE = level.getBlockEntity(pos.south().east())
+                    if (grassperNW is GrassperBlockEntity && grassperNE is GrassperBlockEntity && grassperSW is GrassperBlockEntity && grassperSE is GrassperBlockEntity) {
+                        val items = listOf(
+                            grassperNW.getItem(0),
+                            grassperNE.getItem(0),
+                            grassperSW.getItem(0),
+                            grassperSE.getItem(0)
+                        )
+
+                        val mutandis = WitcheryItems.MUTANDIS_EXTREMIS.get()
+                        val attunedStone = WitcheryItems.ATTUNED_STONE.get()
+
+                        val mutandisCount = items.count { it.`is`(mutandis) }
+                        val attunedStoneCount = items.count { it.`is`(attunedStone) && it.get(WitcheryDataComponents.ATTUNED.get()) == true }
+
+                        if (mutandisCount >= 3 && attunedStoneCount >= 1) {
+
+                            var mutandisLeft = 3
+                            var attunedStoneLeft = 1
+
+                            for (itemStack in items) {
+                                when (itemStack.item) {
+                                    mutandis -> {
+                                        val toConsume = minOf(mutandisLeft, itemStack.count)
+                                        itemStack.shrink(toConsume)
+                                        mutandisLeft -= toConsume
+                                    }
+                                    attunedStone -> {
+                                        val toConsume = minOf(attunedStoneLeft, itemStack.count)
+                                        itemStack.shrink(toConsume)
+                                        attunedStoneLeft -= toConsume
+                                    }
+                                }
+                            }
+
+                            if (batN) {
+                                val owl = WitcheryEntityTypes.OWL.get().create(level)
+                                val no = pos.north()
+                                owl?.let {
+                                    it.moveTo(no.x + 0.5, no.y + 0.5, no.z + 0.5, 0f, 0f)
+                                    level.addFreshEntity(it)
+                                }
+                                level.setBlockAndUpdate(pos.north(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
+                            }
+                            if (batS) {
+                                val owl = WitcheryEntityTypes.OWL.get().create(level)
+                                val no = pos.south()
+                                owl?.let {
+                                    it.moveTo(no.x + 0.5, no.y + 0.5, no.z + 0.5, 0f, 0f)
+                                    level.addFreshEntity(it)
+                                }
+                                level.setBlockAndUpdate(pos.south(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
+                            }
+                            if (batE) {
+                                val owl = WitcheryEntityTypes.OWL.get().create(level)
+                                val no = pos.east()
+                                owl?.let {
+                                    it.moveTo(no.x + 0.5, no.y + 0.5, no.z + 0.5, 0f, 0f)
+                                    level.addFreshEntity(it)
+                                }
+                                level.setBlockAndUpdate(pos.east(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
+                            }
+                            if (batW) {
+                                val owl = WitcheryEntityTypes.OWL.get().create(level)
+                                val no = pos.west()
+                                owl?.let {
+                                    it.moveTo(no.x + 0.5, no.y + 0.5, no.z + 0.5, 0f, 0f)
+                                    level.addFreshEntity(it)
+                                }
+                                level.setBlockAndUpdate(pos.west(), WitcheryBlocks.CRITTER_SNARE.get().defaultBlockState())
+                            }
+                            hasWolf.forEach { it.discard() }
+                            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState())
+                            level.setBlockAndUpdate(pos.below(), Blocks.AIR.defaultBlockState())
+                        }
+                    }
+                }
+            }
         }
     }
 

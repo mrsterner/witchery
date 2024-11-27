@@ -925,7 +925,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.ritual.attuned.name", "Rite of Charging")
         builder.add("book.witchery.guidebook.ritual.attuned.description", "It's over 90..., exactly 3000")
         builder.add("ritual.attuned.title", "Rite of Charging")
-        builder.add("ritual.attuned.page.1", "Charges an attuned stone, this charge is required by some recipes and rituals, can also replace Altar Power up to 3000")
+        builder.add("ritual.attuned.page.1", "Charges an attuned stone, this charge is required by some recipes and rituals, can also replace Altar Power up to 3000.")
 
         builder.add("book.witchery.guidebook.ritual.necro.name", "Necromatic Stone")
         builder.add("book.witchery.guidebook.ritual.necro.description", "One step closer to the grave")
@@ -946,7 +946,63 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.ritual.bind_spectral_creature.name", "Rite of Binding")
         builder.add("book.witchery.guidebook.ritual.bind_spectral_creature.description", "Curse you")
         builder.add("ritual.bind_spectral_creature.title", "Rite of Binding")
-        builder.add("ritual.bind_spectral_creature.page.1", "Binds spectral creatures like Spirit, Banshee, Spectre and Poltergeist to an Effigy, like a Scarecrow, Trent Effigy or Witch's Ladder")
+        builder.add("ritual.bind_spectral_creature.page.1", "Binds spectral creatures like Spirit, Banshee, Spectre and Poltergeist to an Effigy, like a Scarecrow, Trent Effigy or Witch's Ladder.")
 
+        builder.add("book.witchery.guidebook.general.mutandis_extremis.name", "Mutandis Extremis")
+        builder.add("book.witchery.guidebook.general.mutandis_extremis.description", "Mutandis Extremis")
+        builder.add("general.mutandis_extremis.title", "Mutandis Extremis")
+        builder.add("general.mutandis_extremis.page.1", "Mutandis Extremis")
+
+        builder.add("book.witchery.guidebook.general.mutating_spring.name", "Mutating Spring")
+        builder.add("book.witchery.guidebook.general.mutating_spring.description", "Flesh and Plant")
+        builder.add("general.mutating_spring.title", "Mutating Spring")
+        builder.add("general.mutating_spring.page.1", "Can create Grasspers, Critter Snares, Wormwood, Parasytioc Lose and Owls. And convert some blocks into other.")
+
+
+        builder.add("book.witchery.guidebook.general.wormwood.name", "Wormwood")
+        builder.add("book.witchery.guidebook.general.wormwood.description", "Ghastly")
+        builder.add("general.wormwood.title", "Wormwood")
+        builder.add("general.wormwood.page.1", "Used mostly in necromancy and brazier.\n" +
+                "\\\n" +
+                "\\\n" +
+                "Require Wheat, four Wispy Cotton and Four Water."
+        )
+
+        builder.add("book.witchery.guidebook.general.owl.name", "Owl")
+        builder.add("book.witchery.guidebook.general.owl.description", "Ho-ho")
+        builder.add("general.owl.title", "Owl")
+        builder.add("general.owl.page.1", "\n" +
+                "Familiar, quite stupid but grants better control over broom when bound.\n" +
+                "\\\n" +
+                "\\\n" +
+                "Require three Mutandis Extremis, one Charges Attuned Stone, Water, Wolf, Cobweb and one Critter snare with a bat for each Owl."
+        )
+
+        builder.add("book.witchery.guidebook.general.parasytic_louse.name", "Parasytic Louse")
+        builder.add("book.witchery.guidebook.general.parasytic_louse.description", "Ho-ho")
+        builder.add("general.parasytic_louse.title", "Parasytic Louse")
+        builder.add("general.parasytic_louse.page.1", "Can be picked up, has the ability to store and apply a Potion. Use potion on louse to apply it. has a chance to consume the potion on attacking a creature.\n" +
+                "\\\n" +
+                "\\\n" +
+                "Require Two Mutandis, One Tongue of Dog, one Charged Attuned Stone and one Critter Snare with a Silverfish. Water and Lily pads."
+        )
+
+        builder.add("book.witchery.guidebook.general.grassper.name", "Grassper")
+        builder.add("book.witchery.guidebook.general.grassper.description", "Organic item pedestal")
+        builder.add("general.grassper.title", "Grassper")
+        builder.add("general.grassper.page.1", "Can be used to hold items for rituals.\n" +
+                "\\\n" +
+                "\\\n" +
+                "Require four grass, one chest and one water."
+        )
+
+        builder.add("book.witchery.guidebook.general.critter_snare.name", "Critter Snare")
+        builder.add("book.witchery.guidebook.general.critter_snare.description", "Organic critter holder")
+        builder.add("general.critter_snare.title", "Critter Snare")
+        builder.add("general.critter_snare.page.1", "Small Slimes, Bats and Silverfish will be trapped in this plant.\n" +
+                "\\\n" +
+                "\\\n" +
+                "Require four Alder Saplings, Water, Cobweb and a Zombie."
+        )
     }
 }

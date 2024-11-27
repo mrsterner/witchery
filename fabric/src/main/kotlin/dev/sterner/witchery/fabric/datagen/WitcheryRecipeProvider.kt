@@ -1326,6 +1326,17 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_twine", has(WitcheryItems.TORMENTED_TWINE.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.CANE_SWORD.get())
+            .pattern(" WG")
+            .pattern("WSW")
+            .pattern("BW ")
+            .define('B', Items.GLASS_BOTTLE)
+            .define('S', Items.DIAMOND_SWORD)
+            .define('W', WitcheryItems.WOVEN_CRUOR.get())
+            .define('G', Items.GOLD_INGOT)
+            .unlockedBy("has_twine", has(WitcheryItems.WOVEN_CRUOR.get()))
+            .save(exporter)
+
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHER_WART, Color(255, 55, 50).rgb)
             .addInputWithColor(WitcheryItems.ENT_TWIG.get(), Color(255, 100, 1).rgb)

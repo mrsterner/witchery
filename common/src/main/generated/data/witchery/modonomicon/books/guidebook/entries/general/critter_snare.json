@@ -1,0 +1,59 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "general",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "general/mutating_spring"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.general.critter_snare.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:critter_snare"
+  },
+  "name": "book.witchery.guidebook.general.critter_snare.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "general.critter_snare.page.1",
+      "title": "general.critter_snare.title",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:image",
+      "anchor": "",
+      "border": true,
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "images": [
+        "witchery:textures/gui/modonomicon/images/critter_snare_image.png"
+      ],
+      "text": "",
+      "title": "",
+      "use_legacy_rendering": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "general/mutating_spring",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 7,
+  "x": 8,
+  "y": -3
+}

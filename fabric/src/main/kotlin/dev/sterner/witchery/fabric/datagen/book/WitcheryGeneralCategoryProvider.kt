@@ -26,10 +26,10 @@ class WitcheryGeneralCategoryProvider(
         return arrayOf(
             "__________________________________",
             "__________________________________",
-            "__________________________________",
-            "__________________________________",
-            "________________c_m_______________",
-            "___________________w______________",
+            "______________________kj__________",
+            "________________________v_________",
+            "________________c_m_y_s__z________",
+            "___________________w____g_________",
             "_____________________e_u__________",
             "________________b__o______________",
             "__________________x_h_____________",
@@ -87,6 +87,83 @@ class WitcheryGeneralCategoryProvider(
             )
             .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
         addEntry(mutandis)
+
+        val mutandisExtremis = MutandisExtremisEntryProvider(this).generate("y")
+        mutandisExtremis
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(mutandis.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(mutandis.id).withDrawArrow(true))
+        addEntry(mutandisExtremis)
+
+        val spring = MutatingSpringEntryProvider(this).generate("s")
+        spring
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(mutandisExtremis.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(mutandisExtremis.id).withDrawArrow(true))
+        addEntry(spring)
+
+        val grassper = GrassperEntryProvider(this).generate("g")
+        grassper
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(spring.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+        addEntry(grassper)
+
+        val critter = CritterSnareEntryProvider(this).generate("z")
+        critter
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(spring.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+        addEntry(critter)
+
+        val louse = ParasyticLouseEntryProvider(this).generate("k")
+        louse
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(spring.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+        addEntry(louse)
+
+        val owl = OwlEntryProvider(this).generate("j")
+        owl
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(spring.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+        addEntry(owl)
+
+        val wormwood = WormwoodEntryProvider(this).generate("v")
+        wormwood
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry(spring.id)
+                )
+            )
+            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+        addEntry(wormwood)
 
         val distillery = DistilleryEntryProvider(this).generate("d")
         distillery
