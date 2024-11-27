@@ -1,10 +1,13 @@
 package dev.sterner.witchery.item
 
 import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.platform.SleepingLevelAttachment
 import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.TeleportRequest
+import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
@@ -44,6 +47,7 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
             } else {
                 val pos = livingEntity.respawnPosition ?: overworld.sharedSpawnPos
                 if (pos != null) {
+                    playerHasNoBodyClearInv(livingEntity)
                     livingEntity.teleportTo(overworld, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, setOf(),
                         livingEntity.yRot,
                         livingEntity.xRot
@@ -88,5 +92,34 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
 
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         return ItemUtils.startUsingInstantly(level, player, usedHand)
+    }
+
+    fun playerHasNoBodyClearInv(player: Player){
+        val itemsToKeep = mutableListOf<ItemStack>()
+        val armorToKeep = mutableListOf<ItemStack>()
+
+        val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
+        if (charmStack != null) {
+            for (armor in player.armorSlots) {
+                armorToKeep.add(armor)
+            }
+        }
+        for (i in 0 until player.inventory.containerSize) {
+            val itemStack = player.inventory.getItem(i)
+
+            if (itemStack.`is`(WitcheryTags.SPIRIT_WORLD_TRANSFERABLE)) {
+                itemsToKeep.add(itemStack.copy())
+            }
+        }
+
+        player.inventory.clearContent()
+
+        for (item in itemsToKeep) {
+            player.inventory.add(item)
+        }
+        for (armor in armorToKeep) {
+            val slot = player.getEquipmentSlotForItem(armor)
+            player.setItemSlot(slot, armor)
+        }
     }
 }

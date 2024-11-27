@@ -2,9 +2,11 @@ package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider
 import net.minecraft.advancements.*
+import net.minecraft.advancements.critereon.ChangeDimensionTrigger
 import net.minecraft.advancements.critereon.ImpossibleTrigger
 import net.minecraft.advancements.critereon.InventoryChangeTrigger
 import net.minecraft.core.HolderLookup
@@ -26,6 +28,8 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
         val gypsum = gypsumAdvancement.parent(root).save(consumer, "witchery:gypsum")
         val ritual = chalkAdvancement.parent(gypsum).save(consumer, "witchery:chalk")
         necromantic.parent(ritual).save(consumer, "witchery:necromantic")
+        val spirit = spiritWorld.parent(root).save(consumer, "witchery:spirit_world")
+        disturbed.parent(spirit).save(consumer, "witchery:disturbed")
 
         val vamp1 = makeVampTornPageAdvancement("1", null, consumer)
         val vamp2 = makeVampTornPageAdvancement("2", vamp1, consumer)
@@ -203,6 +207,45 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
                 "has_necromantic",
                 InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.NECROMANTIC_STONE.get())
             )
+
+        val disturbed = Advancement.Builder.advancement()
+            .display(
+                WitcheryItems.DISTURBED_COTTON.get(),
+                Component.translatable("advancements.witchery.disturbed.title"),
+                Component.translatable("advancements.witchery.disturbed.description"),
+                Witchery.id("textures/block/rowan_planks.png"),
+                AdvancementType.TASK,
+                false,
+                false,
+                false
+            )
+            .requirements(AdvancementRequirements.Strategy.OR)
+            .addCriterion(
+                "has_disturbed",
+                InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.DISTURBED_COTTON.get())
+            )
+
+        val spiritWorld = Advancement.Builder.advancement()
+            .display(
+                WitcheryItems.DISTURBED_COTTON.get(),
+                Component.translatable("advancements.witchery.spirit_world.title"),
+                Component.translatable("advancements.witchery.spirit_world.description"),
+                Witchery.id("textures/block/rowan_planks.png"),
+                AdvancementType.TASK,
+                true,
+                false,
+                false
+            )
+            .requirements(AdvancementRequirements.Strategy.OR)
+            .addCriterion(
+                "has_enter_dream",
+                ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(WitcheryWorldgenKeys.DREAM)
+            )
+            .addCriterion(
+                "has_enter_nightmare",
+                ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(WitcheryWorldgenKeys.NIGHTMARE)
+            )
+
 
         fun makeVampTornPageAdvancement(id: String, parent: AdvancementHolder?, consumer: Consumer<AdvancementHolder>): AdvancementHolder {
             val advancement =  Advancement.Builder.advancement()

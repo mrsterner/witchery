@@ -8,6 +8,10 @@
       {
         "type": "modonomicon:entry_read",
         "entry_id": "brewing/brew_of_sleeping"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:spirit_world"
       }
     ]
   },
@@ -44,7 +48,7 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "brewing/brew_of_love",
+      "entry": "brewing/brew_of_sleeping",
       "line_enabled": true,
       "line_reversed": false
     }
@@ -52,5 +56,5 @@
   "show_when_any_parent_unlocked": false,
   "sort_number": 14,
   "x": -9,
-  "y": 1
+  "y": 0
 }

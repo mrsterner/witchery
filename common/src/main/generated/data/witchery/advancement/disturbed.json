@@ -1,0 +1,36 @@
+{
+  "parent": "witchery:spirit_world",
+  "criteria": {
+    "has_disturbed": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:disturbed_cotton"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.disturbed.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "witchery:disturbed_cotton"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.witchery.disturbed.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_disturbed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

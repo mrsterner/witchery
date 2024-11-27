@@ -142,7 +142,7 @@ object ManifestationPlayerAttachment {
                 ).apply(instance, ::Data)
             }
 
-            val ID: ResourceLocation = Witchery.id("misc_player_data")
+            val ID: ResourceLocation = Witchery.id("manifestation_player_data")
         }
     }
 }

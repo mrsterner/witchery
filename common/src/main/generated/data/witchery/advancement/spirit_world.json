@@ -1,0 +1,38 @@
+{
+  "parent": "witchery:root",
+  "criteria": {
+    "has_enter_dream": {
+      "conditions": {
+        "to": "witchery:dream_world"
+      },
+      "trigger": "minecraft:changed_dimension"
+    },
+    "has_enter_nightmare": {
+      "conditions": {
+        "to": "witchery:nightmare_world"
+      },
+      "trigger": "minecraft:changed_dimension"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.spirit_world.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "witchery:disturbed_cotton"
+    },
+    "title": {
+      "translate": "advancements.witchery.spirit_world.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_enter_dream",
+      "has_enter_nightmare"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

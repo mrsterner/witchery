@@ -24,4 +24,8 @@ class AttunedStoneItem(properties: Properties) : Item(properties.fireResistant()
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
+
+    override fun isFoil(stack: ItemStack): Boolean {
+        return stack.get(WitcheryDataComponents.ATTUNED.get()) == true
+    }
 }

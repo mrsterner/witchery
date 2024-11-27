@@ -1,3 +1,16 @@
+### Version 0.2.0
+- Added Grasspers
+- Added Critter Snare
+- Added Biting Belt
+- Added Bark Belt
+- Added Scarecrow
+- Added Vampireism
+- Added Vampire Pendants
+- Added Village Graveyard
+- Added Vampire Armor and Cane Sword
+- Added Parasytic Louse
+- 
+
 ### Version 0.1.3
 - Added Brew of Ink
 - Added Banshee

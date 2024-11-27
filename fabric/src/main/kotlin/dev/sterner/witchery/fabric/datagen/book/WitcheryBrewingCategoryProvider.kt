@@ -31,8 +31,8 @@ class WitcheryBrewingCategoryProvider(
             "__________________________________",
             "________________h___g_____________",
             "__________________________________",
-            "____________a___c_r_o_____________",
-            "________l_s_b_____________________",
+            "________l_s_b___c_r_o_____________",
+            "____________a_____________________",
             "_____________d______f_____________",
             "______________e___________________",
             "_______________yu_________________",
@@ -219,11 +219,12 @@ class WitcheryBrewingCategoryProvider(
         spirit.withCondition(
             BookAndConditionModel.create().withChildren(
                 BookEntryReadConditionModel.create()
-                    .withEntry(sleep.id)
+                    .withEntry(sleep.id),
+                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("spirit_world"))
             )
 
         )
-            .addParent(BookEntryParentModel.create(love.id).withDrawArrow(true))
+            .addParent(BookEntryParentModel.create(sleep.id).withDrawArrow(true))
 
         addEntry(spirit)
     }
