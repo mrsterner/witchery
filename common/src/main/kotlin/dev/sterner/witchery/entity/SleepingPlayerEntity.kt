@@ -142,6 +142,21 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                     hurtCounter--
                 }
             }
+
+            if (level().gameTime % 10 == 0L) {
+                val level = level() as? ServerLevel ?: return
+                val sleepingUUID = uuid
+
+                val playerUUID = SleepingLevelAttachment.getPlayerFromSleepingUUID(sleepingUUID, level)
+                if (playerUUID != null) {
+                    val currentPos = blockPosition()
+                    val sleepingData = SleepingLevelAttachment.getPlayerFromSleeping(playerUUID, level)
+
+                    if (sleepingData != null && sleepingData.pos != currentPos) {
+                        SleepingLevelAttachment.add(playerUUID, sleepingUUID, currentPos, level)
+                    }
+                }
+            }
         }
     }
 
