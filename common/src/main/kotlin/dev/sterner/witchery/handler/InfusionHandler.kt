@@ -20,16 +20,38 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.EntityHitResult
 
+/**
+ * Utility class for handling actions related to player infusions and interactions.
+ * Provides functionality to manage infusion-specific behaviors based on player actions such as right-clicking or left-clicking entities and blocks.
+ */
 object InfusionHandler {
 
+    /**
+     * Checks if the player is holding the Witches' Hand in their main hand.
+     *
+     * @param player the player to check.
+     * @return true if the player is holding the Witches' Hand, false otherwise.
+     */
     private fun hasWitchesHand(player: Player): Boolean {
         return player.mainHandItem.`is`(WitcheryItems.WITCHES_HAND.get())
     }
 
+    /**
+     * Determines if the player can use infusion-related actions.
+     * A player can use these actions if they are holding the Witches' Hand and have an active infusion type.
+     *
+     * @param player the player to check.
+     * @return true if the player can use infusion actions, false otherwise.
+     */
     private fun canUse(player: Player): Boolean {
         return hasWitchesHand(player) && PlayerInfusionDataAttachment.getPlayerInfusion(player).type != InfusionType.NONE
     }
 
+    /**
+     * Executes the infusion type's behavior for holding the right-click button.
+     *
+     * @param player the player performing the action.
+     */
     fun onHoldRightClick(player: Player) {
         if (canUse(player)) {
             val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
@@ -37,6 +59,12 @@ object InfusionHandler {
         }
     }
 
+    /**
+     * Executes the infusion type's behavior when releasing the right-click button.
+     * If the player is sneaking, a separate behavior for shift-right-click is executed.
+     *
+     * @param player the player performing the action.
+     */
     fun onHoldReleaseRightClick(player: Player) {
         if (canUse(player)) {
             val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
@@ -48,6 +76,17 @@ object InfusionHandler {
         }
     }
 
+    /**
+     * Handles the player's left-click action on an entity while considering infusion-specific behavior.
+     * Different actions are executed if the player is sneaking.
+     *
+     * @param player the player performing the action.
+     * @param level the level in which the action is performed.
+     * @param entity the entity being clicked.
+     * @param interactionHand the hand used for the interaction.
+     * @param entityHitResult the result of the entity hit.
+     * @return an {@link EventResult} indicating the result of the action.
+     */
     fun leftClickEntity(
         player: Player,
         level: Level?,
@@ -62,11 +101,20 @@ object InfusionHandler {
             } else {
                 infusionType.leftClickEntity(player, entity, entityHitResult)
             }
-
         }
         return EventResult.pass()
     }
 
+    /**
+     * Handles the player's left-click action on a block while considering infusion-specific behavior.
+     * Different actions are executed if the player is sneaking.
+     *
+     * @param player the player performing the action.
+     * @param interactionHand the hand used for the interaction.
+     * @param blockPos the position of the block being clicked.
+     * @param direction the face of the block being clicked.
+     * @return an {@link EventResult} indicating the result of the action.
+     */
     fun leftClickBlock(
         player: Player,
         interactionHand: InteractionHand?,

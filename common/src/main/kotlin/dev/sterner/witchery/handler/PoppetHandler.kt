@@ -33,6 +33,15 @@ import net.minecraft.world.phys.Vec3
 
 object PoppetHandler {
 
+
+    /**
+     * Handles the Death Protection Poppet's behavior, which can prevent death for a player
+     * under certain conditions.
+     *
+     * @param livingEntity The living entity being damaged, usually a player.
+     * @param damageSource The source of the damage causing the event.
+     * @return An `EventResult` indicating whether the event was handled.
+     */
     fun deathProtectionPoppet(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity is Player && !WitcheryApi.isInSpiritWorld(livingEntity)) {
             if (deathProtectionHelper(livingEntity, damageSource)) {
@@ -42,6 +51,13 @@ object PoppetHandler {
         return EventResult.pass()
     }
 
+    /**
+     * Helper method to process the Death Protection Poppet.
+     *
+     * @param player The player attempting to use the poppet.
+     * @param damageSource The source of the damage.
+     * @return `true` if the poppet was consumed and the player was protected; `false` otherwise.
+     */
     private fun deathProtectionHelper(player: Player, damageSource: DamageSource?): Boolean {
         if (damageSource != null && damageSource.`is`(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false
@@ -61,6 +77,13 @@ object PoppetHandler {
         }
     }
 
+    /**
+     * Checks if the player has an Armor Protection Poppet available.
+     *
+     * @param level The server level where the check is performed.
+     * @param player The player to check for the poppet.
+     * @return `true` if the player or the world contains a valid Armor Protection Poppet; `false` otherwise.
+     */
     fun hasArmorProtectionPoppet(level: ServerLevel, player: ServerPlayer?): Boolean {
         val playerPoppet = player?.let { consumePoppet(it, WitcheryItems.ARMOR_PROTECTION_POPPET.get()) }
         if (playerPoppet != null) return true
@@ -72,6 +95,13 @@ object PoppetHandler {
         }
     }
 
+    /**
+     * Checks if a poppet is bound to the specified living entity.
+     *
+     * @param itemStack The poppet item stack.
+     * @param livingEntity The living entity to check binding against.
+     * @return `true` if the poppet is bound to the entity; `false` otherwise.
+     */
     private fun isPoppetBoundToLiving(itemStack: ItemStack, livingEntity: LivingEntity?): Boolean {
         return if (livingEntity is Player) {
             val profile = itemStack.get(DataComponents.PROFILE)
@@ -81,6 +111,13 @@ object PoppetHandler {
         }
     }
 
+    /**
+     * Handles the Hunger Protection Poppet, preventing starvation damage for players.
+     *
+     * @param livingEntity The living entity being damaged.
+     * @param damageSource The source of starvation damage.
+     * @return An `EventResult` indicating whether the event was handled.
+     */
     fun hungerProtectionPoppet(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity is Player) {
             if (hungerProtectionPoppetHelper(livingEntity, damageSource)) {
@@ -90,6 +127,13 @@ object PoppetHandler {
         return EventResult.pass()
     }
 
+    /**
+     * Helper method for the Hunger Protection Poppet.
+     *
+     * @param livingEntity The player using the poppet.
+     * @param damageSource The source of starvation damage.
+     * @return `true` if the poppet was consumed and the player was protected; `false` otherwise.
+     */
     private fun hungerProtectionPoppetHelper(livingEntity: LivingEntity, damageSource: DamageSource?): Boolean {
         if (livingEntity is Player && damageSource != null && damageSource.`is`(DamageTypes.STARVE)) {
             val itemStack: ItemStack? = consumePoppet(livingEntity, WitcheryItems.HUNGER_PROTECTION_POPPET.get())
@@ -106,11 +150,18 @@ object PoppetHandler {
         return false
     }
 
+    /**
+     * Attempts to consume a poppet for a specified item and living entity.
+     *
+     * @param livingEntity The living entity using the poppet.
+     * @param item The type of poppet to consume.
+     * @return The consumed poppet's item stack, or `null` if none were consumed.
+     */
     private fun consumePoppet(livingEntity: LivingEntity, item: Item): ItemStack? {
         var itemStack: ItemStack?
         var consume: Boolean
 
-        val (accessoryConsume, accessoryItem) = AccessoryHandler.check(livingEntity, item)
+        val (accessoryConsume, accessoryItem) = AccessoryHandler.checkPoppet(livingEntity, item)
         itemStack = accessoryItem
         consume = accessoryConsume
 
@@ -144,6 +195,14 @@ object PoppetHandler {
         return itemStack
     }
 
+    /**
+     * Handles the behavior of the Vampiric Poppet when a LivingEntity takes damage.
+     *
+     * @param livingEntity the entity taking damage.
+     * @param damageSource the source of the damage.
+     * @param original the original damage amount.
+     * @return the modified damage amount after processing the Vampiric Poppet effects.
+     */
     fun handleVampiricPoppet(livingEntity: LivingEntity?, damageSource: DamageSource, original: Float): Float {
         if (livingEntity != null) {
             var itemStack: ItemStack? =
@@ -206,6 +265,11 @@ object PoppetHandler {
         return original
     }
 
+    /**
+     * Handles the Voodoo Poppet effect on an ItemEntity, applying motion to bound entities and marking them as "hurt."
+     *
+     * @param entity the item entity representing the Voodoo Poppet.
+     */
     fun handleVoodoo(entity: ItemEntity) {
         val movementVector: Vec3 = entity.deltaMovement
         val itemStack = entity.item
@@ -253,6 +317,17 @@ object PoppetHandler {
         }
     }
 
+    /**
+     * Handles the interaction of a Voodoo Poppet with fire or lava.
+     * Applies fire effects to the bound entities or players and damages the item.
+     *
+     * @param level the level where the interaction occurs.
+     * @param pos the position of the interaction.
+     * @param item the Voodoo Poppet item stack.
+     * @param player the player interacting with the Voodoo Poppet.
+     * @param blockHitResult the result of the block hit interaction.
+     * @return the result of the interaction.
+     */
     fun handleUseVoodoo(
         level: Level,
         pos: BlockPos,

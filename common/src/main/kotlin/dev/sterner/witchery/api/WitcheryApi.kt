@@ -7,12 +7,17 @@ import net.minecraft.world.level.Level
 
 object WitcheryApi {
 
+    /**
+     * True if the player is in the spirit world, aka the nightmare world or the dream world
+     */
     fun isInSpiritWorld(player: Player): Boolean {
         val dim = player.level().dimension()
         return dim == WitcheryWorldgenKeys.NIGHTMARE || dim == WitcheryWorldgenKeys.DREAM
     }
 
-
+    /**
+     * True if the level is the spirit world
+     */
     fun isInSpiritWorld(level: Level): Boolean {
         val dim = level.dimension()
         return dim == WitcheryWorldgenKeys.NIGHTMARE || dim == WitcheryWorldgenKeys.DREAM

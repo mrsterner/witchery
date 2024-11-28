@@ -10,14 +10,23 @@ open class Ritual(val id: ResourceLocation) {
 
     constructor(id: String): this(Witchery.id(id))
 
+    /**
+     * Runs once every tick if the ritual has a tick time of more than 0
+     */
     open fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
 
     }
 
+    /**
+     * Runs once when the ritual is started
+     */
     open fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
 
     }
 
+    /**
+     * Runs once when the ritual has ended
+     */
     open fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
 
     }

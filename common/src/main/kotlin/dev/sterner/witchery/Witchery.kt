@@ -177,7 +177,6 @@ object Witchery {
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
         InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)
-        InteractionEvent.INTERACT_ENTITY.register(::interactEntityTaglock)
         InteractionEvent.INTERACT_ENTITY.register(WineGlassItem::applyWineOnVillager)
         InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
 
@@ -207,50 +206,53 @@ object Witchery {
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
         }
 
-        LifecycleEvent.SERVER_STARTED.register {
-            fun addStructure(server: MinecraftServer){
-                val builtinTemplate: Registry<StructureTemplatePool> = server.registryAccess().registry(Registries.TEMPLATE_POOL).get()
-                val builtinProcessor: Registry<StructureProcessorList> = server.registryAccess().registry(Registries.PROCESSOR_LIST).get()
-
-                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
-                    ResourceLocation.parse("minecraft:village/plains/houses"),
-                    "$MODID:village/houses/plains_graveyard",
-                    2)
-
-                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
-                    ResourceLocation.parse("minecraft:village/plains/houses"),
-                    "$MODID:village/houses/plains_graveyard_2",
-                    2)
-
-                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
-                    ResourceLocation.parse("minecraft:village/plains/houses"),
-                    "$MODID:village/houses/plains_graveyard_3",
-                    2)
-
-
-
-                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
-                    ResourceLocation.parse("minecraft:village/taiga/houses"),
-                    "$MODID:village/houses/plains_graveyard",
-                    2)
-
-                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
-                    ResourceLocation.parse("minecraft:village/taiga/houses"),
-                    "$MODID:village/houses/plains_graveyard_2",
-                    2)
-
-                VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
-                    ResourceLocation.parse("minecraft:village/taiga/houses"),
-                    "$MODID:village/houses/plains_graveyard_3",
-                    2)
-
-            }
-            addStructure(it)
-        }
+        LifecycleEvent.SERVER_STARTED.register { addStructure(it) }
     }
 
+    /**
+     * Adds Graveyards to Plains and Taiga Villages.
+     */
+    private fun addStructure(server: MinecraftServer){
+        val builtinTemplate: Registry<StructureTemplatePool> = server.registryAccess().registry(Registries.TEMPLATE_POOL).get()
+        val builtinProcessor: Registry<StructureProcessorList> = server.registryAccess().registry(Registries.PROCESSOR_LIST).get()
+
+        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+            ResourceLocation.parse("minecraft:village/plains/houses"),
+            "$MODID:village/houses/plains_graveyard",
+            2)
+
+        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+            ResourceLocation.parse("minecraft:village/plains/houses"),
+            "$MODID:village/houses/plains_graveyard_2",
+            2)
+
+        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+            ResourceLocation.parse("minecraft:village/plains/houses"),
+            "$MODID:village/houses/plains_graveyard_3",
+            2)
 
 
+
+        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+            ResourceLocation.parse("minecraft:village/taiga/houses"),
+            "$MODID:village/houses/plains_graveyard",
+            2)
+
+        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+            ResourceLocation.parse("minecraft:village/taiga/houses"),
+            "$MODID:village/houses/plains_graveyard_2",
+            2)
+
+        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+            ResourceLocation.parse("minecraft:village/taiga/houses"),
+            "$MODID:village/houses/plains_graveyard_3",
+            2)
+
+    }
+
+    /**
+     * Adds the item Witches Hand to The witches loot table at a 50% chance drop
+     */
     private fun addWitchesHand(
         resourceKey: ResourceKey<LootTable>?,
         context: LootTableModificationContext,
@@ -267,6 +269,9 @@ object Witchery {
         }
     }
 
+    /**
+     * Adds Witchery drops to vanilla creatures. Wolf, Frog and Bat
+     */
     private fun addLootInjects(
         resourceKey: ResourceKey<LootTable>?,
         context: LootTableModificationContext,
@@ -304,6 +309,9 @@ object Witchery {
         }
     }
 
+    /**
+     * Adds Witchery Seeds to Vanilla short grass and long grass loot table. 5% chance
+     */
     private fun addSeeds(key: ResourceKey<LootTable>?, context: LootTableModificationContext, builtin: Boolean) {
         if (builtin && Blocks.SHORT_GRASS.lootTable.equals(key) || Blocks.TALL_GRASS.lootTable.equals(key)) {
             val pool: LootPool.Builder = LootPool
@@ -338,21 +346,6 @@ object Witchery {
                 )
             context.addPool(pool4)
         }
-    }
-
-    private fun interactEntityTaglock(
-        player: Player,
-        entity: Entity?,
-        interactionHand: InteractionHand?
-    ): EventResult? {
-        if (player.mainHandItem.`is`(WitcheryItems.TAGLOCK.get()) && interactionHand == InteractionHand.MAIN_HAND) {
-            if (entity is LivingEntity) {
-                TaglockItem.bindPlayerOrLiving(entity, player.mainHandItem)
-                return EventResult.interruptTrue()
-            }
-        }
-
-        return EventResult.pass()
     }
 
     @JvmStatic

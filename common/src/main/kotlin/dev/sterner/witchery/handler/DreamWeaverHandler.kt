@@ -7,6 +7,13 @@ import net.minecraft.world.entity.player.Player
 
 object DreamWeaverHandler {
 
+    /**
+     * Applies dream weaver effects on a player
+     *
+     * @param player
+     * @param sleepCount
+     * @param wakeImmediately
+     */
     fun onWake(player: Player, sleepCount: Int, wakeImmediately: Boolean) {
         if (sleepCount >= 100) {
             var corrupt = 0

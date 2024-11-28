@@ -181,6 +181,13 @@ object VampireEventHandler {
         return EventResult.pass()
     }
 
+    /**
+     * Handles the vampire transfix ability, allowing a vampire player to mesmerize or transfix a Villager.
+     *
+     * @param player the vampire player using the ability.
+     * @param entity the target entity, which must be a Villager for this ability to apply.
+     * @return an {@link EventResult} indicating whether the action should proceed, interrupt, or pass.
+     */
     private fun vampireTransfixAbility(player: ServerPlayer, entity: LivingEntity): EventResult? {
         if (entity is Villager) {
             val transfixVillager = entity as VillagerTransfix
@@ -193,6 +200,16 @@ object VampireEventHandler {
         return EventResult.pass()
     }
 
+    /**
+     * Handles the vampire drink blood ability, allowing a vampire player to drain blood from a target entity.
+     * The ability considers various conditions, such as the blood pool of the player and target, and applies
+     * specific effects like leveling up or harming the target under certain circumstances.
+     *
+     * @param player the vampire player using the ability.
+     * @param entity the target entity from which blood is being drained.
+     * @param playerBloodData the blood pool data of the vampire player.
+     * @return an {@link EventResult} indicating whether the action should proceed, interrupt, or pass.
+     */
     private fun vampireDrinkBloodAbility(
         player: ServerPlayer,
         entity: LivingEntity,

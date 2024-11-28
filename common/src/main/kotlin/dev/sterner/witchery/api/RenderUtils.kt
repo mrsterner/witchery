@@ -13,6 +13,9 @@ import org.joml.Matrix4f
 
 object RenderUtils {
 
+    /**
+     * Blit from GuiGraphics but also handles alpha and supports color
+     */
     fun blitWithAlpha(
         poseStack: PoseStack,
         atlasLocation: ResourceLocation?,
@@ -61,6 +64,7 @@ object RenderUtils {
         RenderSystem.disableBlend()
     }
 
+
     fun innerRenderBlood(guiGraphics: GuiGraphics, living: LivingEntity, y: Int, x: Int) {
         val data = BloodPoolLivingEntityAttachment.getData(living)
         val bloodPool = data.bloodPool
@@ -68,6 +72,9 @@ object RenderUtils {
         innerRenderBlood(guiGraphics, maxBlood, bloodPool, y, x)
     }
 
+    /**
+     * Renders a living entity's blood drops. Used for vampire hot bar and also for hud element when looking at an entity with blood
+     */
     fun innerRenderBlood(guiGraphics: GuiGraphics, maxBlood: Int, bloodPool: Int , y: Int, x: Int) {
 
         val dropCount = maxBlood / WitcheryConstants.BLOOD_DROP
@@ -128,6 +135,9 @@ object RenderUtils {
         }
     }
 
+    /**
+     * Render the bat HUD icons showing how much time bat form has left
+     */
     fun innerRenderBat(guiGraphics: GuiGraphics, maxTicks: Int, ticks: Int, y: Int, x: Int) {
         val q = 60 * 20
         val dropCount = maxTicks / q
