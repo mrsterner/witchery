@@ -12,8 +12,6 @@
 - Added Parasytic Louse
 - Added More Entries to the Guidebook
 - Sleeping Players can be hurt and killed online and offline
-
-### Version 0.1.3
 - Added Brew of Ink
 - Added Banshee
 - Added Poppet block model variations
