@@ -11,6 +11,7 @@ public abstract class PlayerMixin {
 
     @ModifyReturnValue(method = "wantsToStopRiding", at = @At("RETURN"))
     private boolean witchery$neoStopDismount(boolean original){
-        return PlayerMixinLogic.INSTANCE.wantsStopRiding(original);
+        var player = Player.class.cast(this);
+        return PlayerMixinLogic.INSTANCE.wantsStopRiding(original, player);
     }
 }

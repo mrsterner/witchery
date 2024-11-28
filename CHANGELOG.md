@@ -9,7 +9,7 @@
 - Added Dreamweaver Charm
 - Added Village Graveyard
 - Added Vampire Armor and Cane Sword
-- Added Parasytic Louse
+- Added Parasitic Louse
 - Added More Entries to the Guidebook
 - Sleeping Players can be hurt and killed online and offline
 - Added Brew of Ink

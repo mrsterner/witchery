@@ -5,8 +5,7 @@ import net.minecraft.world.entity.player.Player
 
 object PlayerMixinLogic {
 
-    fun wantsStopRiding(original: Boolean): Boolean{
-        val player = Player::class.java.cast(this)
+    fun wantsStopRiding(original: Boolean, player: Player): Boolean{
         val vehicle = player.vehicle
         if (vehicle is BroomEntity) {
             return false
