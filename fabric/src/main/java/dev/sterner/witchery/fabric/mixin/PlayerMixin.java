@@ -1,6 +1,6 @@
 package dev.sterner.witchery.fabric.mixin;
 
-import dev.sterner.witchery.registry.WitcheryAttributes;
+import dev.sterner.witchery.platform.WitcheryAttributes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;

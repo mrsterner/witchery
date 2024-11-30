@@ -1,7 +1,7 @@
 package dev.sterner.witchery.item.accessories
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.registry.WitcheryAttributes
+import dev.sterner.witchery.platform.WitcheryAttributes
 import io.wispforest.accessories.api.AccessoryItem
 import io.wispforest.accessories.api.attributes.AccessoryAttributeBuilder
 import io.wispforest.accessories.api.slot.SlotReference

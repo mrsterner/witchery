@@ -1,7 +1,6 @@
 package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
-import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientRawInputEvent
 import dev.architectury.event.events.client.ClientTickEvent
@@ -79,12 +78,8 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Pig
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList
@@ -123,7 +118,6 @@ object Witchery {
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
         WitcheryFeatures.FEATURES.register()
-        WitcheryAttributes.MANAGER.get()
 
         WitcheryPayloads.register()
 

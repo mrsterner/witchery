@@ -6,6 +6,7 @@ import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
+import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
 import dev.sterner.witchery.platform.neoforge.WitcheryFluidHandlerNeoForge
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
@@ -57,6 +58,7 @@ object WitcheryNeoForge {
         Witchery.init()
 
         DATA_SERIALIZER_REGISTER.register(MOD_BUS)
+        WitcheryAttributesImpl.attributes.register()
 
         runForDist(
             clientTarget = {
@@ -107,10 +109,5 @@ object WitcheryNeoForge {
         }
     }
 
-    @SubscribeEvent
-    fun modifyAttributes(event: EntityAttributeModificationEvent) {
-        event.add(EntityType.PLAYER, WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)
-        event.add(EntityType.PLAYER, WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)
-        event.add(EntityType.PLAYER, WitcheryAttributes.VAMPIRE_DRINK_SPEED)
-    }
+
 }

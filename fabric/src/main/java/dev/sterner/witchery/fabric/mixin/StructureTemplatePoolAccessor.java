@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin;
+package dev.sterner.witchery.fabric.mixin;
 
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;

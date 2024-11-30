@@ -6,7 +6,8 @@
   "client": [
   ],
   "mixins": [
-    "PlayerMixin"
+    "PlayerMixin",
+    "StructureTemplatePoolAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

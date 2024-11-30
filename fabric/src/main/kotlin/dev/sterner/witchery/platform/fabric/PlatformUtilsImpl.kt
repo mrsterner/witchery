@@ -3,7 +3,7 @@ package dev.sterner.witchery.platform.fabric
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.item.BoneNeedleItem
-import dev.sterner.witchery.registry.WitcheryAttributes
+import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.network.chat.Component

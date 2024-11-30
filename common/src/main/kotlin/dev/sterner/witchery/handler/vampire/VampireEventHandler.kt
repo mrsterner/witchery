@@ -16,6 +16,7 @@ import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
+import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment

@@ -6,7 +6,7 @@ import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SyncTransformationS2CPayload
-import dev.sterner.witchery.registry.WitcheryAttributes
+import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
