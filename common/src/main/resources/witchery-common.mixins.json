@@ -31,6 +31,7 @@
     "MobMixin",
     "ServerPlayerMixin",
     "ShapelessRecipeAccessor",
+    "StructureTemplatePoolAccessor",
     "VillagerMixin",
     "client.TargetingConditionsMixin"
   ],

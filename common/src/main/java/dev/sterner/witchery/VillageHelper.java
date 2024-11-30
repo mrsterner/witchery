@@ -1,6 +1,7 @@
 package dev.sterner.witchery;
 
 import com.mojang.datafixers.util.Pair;
+import dev.sterner.witchery.mixin.StructureTemplatePoolAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -26,11 +27,13 @@ public class VillageHelper {
         SinglePoolElement piece = SinglePoolElement.single(nbtPieceRL, processorHolder).apply(StructureTemplatePool.Projection.RIGID);
 
         for (int i = 0; i < weight; i++) {
-            pool.templates.add(piece);
+            var mut =  ((StructureTemplatePoolAccessor) pool).getTemplates();
+            mut.add(piece);
+            ((StructureTemplatePoolAccessor) pool).setTemplates(mut);
         }
 
-        List<Pair<StructurePoolElement, Integer>> listOfPieceEntries = new ArrayList<>(pool.rawTemplates);
+        List<Pair<StructurePoolElement, Integer>> listOfPieceEntries = new ArrayList<>(((StructureTemplatePoolAccessor) pool).getRawTemplates());
         listOfPieceEntries.add(new Pair<>(piece, weight));
-        pool.rawTemplates = listOfPieceEntries;
+        ((StructureTemplatePoolAccessor) pool).setRawTemplates(listOfPieceEntries);
     }
 }
