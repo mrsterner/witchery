@@ -18,12 +18,4 @@ public abstract class PlayerMixin {
         var player = Player.class.cast(this);
         return PlayerMixinLogic.INSTANCE.wantsStopRiding(original, player);
     }
-
-    @Inject(method = "createAttributes", require = 1, allow = 1, at = @At("RETURN"))
-    private static void additionalEntityAttributes$addPlayerAttributes(final CallbackInfoReturnable<AttributeSupplier.Builder> info) {
-        info.getReturnValue().add(WitcheryAttributes.INSTANCE.getVAMPIRE_BAT_FORM_DURATION());
-        info.getReturnValue().add(WitcheryAttributes.INSTANCE.getVAMPIRE_DRINK_SPEED());
-        info.getReturnValue().add(WitcheryAttributes.INSTANCE.getVAMPIRE_SUN_RESISTANCE());
-    }
-
 }
