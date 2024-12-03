@@ -1,7 +1,7 @@
 {
   "replace": false,
   "entities": [
-    "#accessories:defaulted_targets"
+    "minecraft:player"
   ],
   "slots": [
     "necklace",

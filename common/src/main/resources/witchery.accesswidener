@@ -12,3 +12,5 @@ accessible field net/minecraft/world/entity/Entity dimensions Lnet/minecraft/wor
 mutable field net/minecraft/world/entity/LivingEntity walkAnimation Lnet/minecraft/world/entity/WalkAnimationState;
 accessible field net/minecraft/world/entity/LivingEntity swimAmount F
 accessible field net/minecraft/world/entity/LivingEntity swimAmountO F
+
+accessible method net/minecraft/world/damagesource/DamageSources source (Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/world/damagesource/DamageSource;

@@ -32,7 +32,6 @@ import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
-import dev.sterner.witchery.client.renderer.accessory.BatwingPendantRenderer
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
@@ -62,7 +61,6 @@ import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryDataComponents.UNSHEETED
 import dev.sterner.witchery.registry.WitcheryItems.CANE_SWORD
-import io.wispforest.accessories.api.client.AccessoriesRendererRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
@@ -447,10 +445,6 @@ object Witchery {
         ClientGuiEvent.RENDER_HUD.register(ManifestationPlayerAttachment::renderHud)
         ClientGuiEvent.RENDER_HUD.register(VampireEventHandler::renderHud)
         ClientGuiEvent.RENDER_HUD.register(BarkBeltPlayerAttachment::renderHud)
-
-        AccessoriesRendererRegistry.registerRenderer(WitcheryItems.BATWING_PENDANT.get(), ::BatwingPendantRenderer)
-        AccessoriesRendererRegistry.registerRenderer(WitcheryItems.SUNSTONE_PENDANT.get(), ::BatwingPendantRenderer)
-        AccessoriesRendererRegistry.registerRenderer(WitcheryItems.BLOODSTONE_PENDANT.get(), ::BatwingPendantRenderer)
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),
