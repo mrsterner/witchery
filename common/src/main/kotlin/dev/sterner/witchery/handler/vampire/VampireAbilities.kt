@@ -92,7 +92,9 @@ object VampireAbilities {
     @JvmStatic
     fun setAbilityIndex(player: Player, abilityIndex: Int) {
         updateAbilityIndex(player, abilityIndex)
-        NetworkManager.sendToServer(VampireAbilitySelectionC2SPayload(abilityIndex))
+        if (player.level().isClientSide()) {
+            NetworkManager.sendToServer(VampireAbilitySelectionC2SPayload(abilityIndex))
+        }
     }
 
     @JvmStatic

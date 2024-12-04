@@ -164,6 +164,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryEntityTypes.VAMPIRE.get(), "Vampire")
         builder.add(WitcheryEntityTypes.WEREWOLF.get(), "Werewolf")
         builder.add(WitcheryEntityTypes.LILITH.get(), "Lilith")
+        builder.add(WitcheryEntityTypes.SPECTRE.get(), "Spectre")
         builder.add(WitcheryEntityTypes.ELLE.get(), "Elle")
         builder.add(WitcheryEntityTypes.PARASITIC_LOUSE.get(), "Parasitic Louse")
 
@@ -426,6 +427,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("emi.category.witchery.brazier", "Brazier")
         builder.add("witchery:brazier_summoning/summon_banshee", "Summon Banshee")
         builder.add("witchery:brazier_summoning/summon_banshee.tooltip", "Summons a Banshee")
+        builder.add("witchery:brazier_summoning/summon_spectre", "Summon Spectre")
+        builder.add("witchery:brazier_summoning/summon_spectre.tooltip", "Summons a Spectre")
 
         builder.add("witchery:ritual/rite_of_charging_infusion", "Rite of Charging")
         builder.add("witchery:ritual/rite_of_charging_infusion.tooltip", "Charges the power of an Infused player")

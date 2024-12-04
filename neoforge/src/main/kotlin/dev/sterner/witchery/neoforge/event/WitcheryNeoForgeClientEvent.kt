@@ -101,6 +101,10 @@ object WitcheryNeoForgeClientEvent {
             ::BansheeEntityRenderer
         )
         event.registerEntityRenderer(
+            WitcheryEntityTypes.SPECTRE.get(),
+            ::SpectreEntityRenderer
+        )
+        event.registerEntityRenderer(
             WitcheryEntityTypes.SLEEPING_PLAYER.get(),
             ::SleepingPlayerEntityRenderer
         )
@@ -161,6 +165,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(DemonEntityModel.LAYER_LOCATION, DemonEntityModel::createBodyLayer)
         event.registerLayerDefinition(EntEntityModel.LAYER_LOCATION, EntEntityModel::createBodyLayer)
         event.registerLayerDefinition(BansheeEntityModel.LAYER_LOCATION, BansheeEntityModel::createBodyLayer)
+        event.registerLayerDefinition(SpectreEntityModel.LAYER_LOCATION, SpectreEntityModel::createBodyLayer)
 
         event.registerLayerDefinition(VampireEntityModel.LAYER_LOCATION, VampireEntityModel::createBodyLayer)
         event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION, WerewolfEntityModel::createBodyLayer)

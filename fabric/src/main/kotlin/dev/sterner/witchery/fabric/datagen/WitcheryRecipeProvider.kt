@@ -1850,6 +1850,15 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addSummon(WitcheryEntityTypes.BANSHEE.get())
             .save(exporter, Witchery.id("summon_banshee"))
 
+        BrazierSummoningRecipeBuilder.create()
+            .addInput(WitcheryItems.WORMWOOD.get())
+            .addInput(WitcheryItems.WOOL_OF_BAT.get())
+            .addInput(WitcheryItems.SPECTRAL_DUST.get())
+            .setAltarPower(500)
+            .addSummon(WitcheryEntityTypes.SPECTRE.get())
+            .save(exporter, Witchery.id("summon_spectre"))
+
+
         SimpleCookingRecipeBuilder.smelting(
             Ingredient.of(WitcheryItems.BLOOD_STAINED_WOOL.get()),
             RecipeCategory.MISC,

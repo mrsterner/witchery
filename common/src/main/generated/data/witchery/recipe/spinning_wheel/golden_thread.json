@@ -5,33 +5,15 @@
   "inputItems": [
     {
       "count": 1,
-      "id": "witchery:dream_weaver"
+      "id": "minecraft:hay_block"
     },
     {
-      "components": {
-        "minecraft:potion_contents": {
-          "potion": "minecraft:poison"
-        }
-      },
       "count": 1,
-      "id": "minecraft:splash_potion"
-    },
-    {
-      "components": {
-        "minecraft:potion_contents": {
-          "potion": "minecraft:night_vision"
-        }
-      },
-      "count": 1,
-      "id": "minecraft:splash_potion"
-    },
-    {
-      "count": 2,
-      "id": "witchery:tormented_twine"
+      "id": "witchery:whiff_of_magic"
     }
   ],
   "outputItem": {
     "count": 1,
-    "id": "witchery:dream_weaver_of_nightmares"
+    "id": "witchery:golden_thread"
   }
 }

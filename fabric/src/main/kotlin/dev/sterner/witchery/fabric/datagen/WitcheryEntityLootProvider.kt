@@ -69,6 +69,17 @@ class WitcheryEntityLootProvider(
                         )
                 )
         )
+        output.accept(
+            SPECTRE, LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(
+                            LootItem.lootTableItem(WitcheryItems.SPECTRAL_DUST.get())
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                        )
+                )
+        )
 
         output.accept(
             SPECTRAL_PIG, LootTable.lootTable()
@@ -104,6 +115,8 @@ class WitcheryEntityLootProvider(
             ResourceKey.create(Registries.LOOT_TABLE, Witchery.id("entities/ent"))
         val BANSHEE: ResourceKey<LootTable> =
             ResourceKey.create(Registries.LOOT_TABLE, Witchery.id("entities/banshee"))
+        val SPECTRE: ResourceKey<LootTable> =
+            ResourceKey.create(Registries.LOOT_TABLE, Witchery.id("entities/spectre"))
         val SPECTRAL_PIG: ResourceKey<LootTable> =
             ResourceKey.create(Registries.LOOT_TABLE, Witchery.id("entities/spectral_pig"))
         val NIGHTMARE: ResourceKey<LootTable> =
