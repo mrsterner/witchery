@@ -1,9 +1,7 @@
 package dev.sterner.witchery.platform.fabric
 
 import dev.architectury.registry.registries.RegistrySupplier
-import dev.emi.trinkets.api.TrinketsApi
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.trinkets.*
 import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -11,7 +9,6 @@ import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.entity.EquipmentSlotGroup
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.item.*
 import net.minecraft.world.item.component.ItemAttributeModifiers
@@ -117,53 +114,5 @@ object PlatformUtilsImpl {
                 return builder.build()
             }
         }
-    }
-
-    @JvmStatic
-    fun barkBelt(
-        properties: Item.Properties
-    ): Item {
-        return BarkBeltItemFabric(properties)
-    }
-
-    @JvmStatic
-    fun batwingPendant(
-        properties: Item.Properties
-    ): Item {
-        return BatwingPendantItemFabric(properties)
-    }
-
-    @JvmStatic
-    fun bitingBelt(
-        properties: Item.Properties
-    ): Item {
-        return BitingBeltItemFabric(properties)
-    }
-
-    @JvmStatic
-    fun bloodstonePendant(
-        properties: Item.Properties
-    ): Item {
-        return BloodstonePendantItemFabric(properties)
-    }
-
-    @JvmStatic
-    fun sunstonePendant(
-        properties: Item.Properties
-    ): Item {
-        return SunstonePendantItemFabric(properties)
-    }
-
-    @JvmStatic
-    fun dreamweaverCharm(
-        properties: Item.Properties
-    ): Item {
-        return DreamweaverCharmItemFabric(properties)
-    }
-
-    @JvmStatic
-    fun getAllEquippedAccessories(living: LivingEntity): List<ItemStack> {
-        val comp = TrinketsApi.getTrinketComponent(living).get()
-        return comp.allEquipped.map { it.b }
     }
 }

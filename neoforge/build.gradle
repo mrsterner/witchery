@@ -31,10 +31,6 @@ repositories {
         name = 'NeoForged'
         url = 'https://maven.neoforged.net/releases'
     }
-    maven {
-        name = "OctoStudios"
-        url = uri("https://maven.octo-studios.com/releases")
-    }
 }
 
 dependencies {
@@ -52,9 +48,10 @@ dependencies {
         transitive = false
     }
 
-    modImplementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
-
     compileOnly "mcp.mobius.waila:wthit:neo-${wthitVersion}"
+
+    compileOnly("io.wispforest:accessories-neoforge:${project.accessories_version}")
+
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')

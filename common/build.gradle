@@ -22,6 +22,8 @@ dependencies {
     }
 
     modCompileOnly "mcp.mobius.waila:wthit-api:fabric-${wthitVersion}"
+
+    modImplementation("io.wispforest:accessories-common:${project.accessories_version}")
 }
 
 sourceSets {

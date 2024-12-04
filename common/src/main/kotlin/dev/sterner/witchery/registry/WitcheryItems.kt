@@ -1097,28 +1097,28 @@ object WitcheryItems {
         )
     }
 
-    val BATWING_PENDANT: RegistrySupplier<Item> = ITEMS.register("batwing_pendant") {
-        PlatformUtils.batwingPendant(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    val BATWING_PENDANT: RegistrySupplier<BatwingPendantItem> = ITEMS.register("batwing_pendant") {
+        BatwingPendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val SUNSTONE_PENDANT: RegistrySupplier<Item> = ITEMS.register("sunstone_pendant") {
-        PlatformUtils.sunstonePendant(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    val SUNSTONE_PENDANT: RegistrySupplier<SunstonePendantItem> = ITEMS.register("sunstone_pendant") {
+        SunstonePendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val BLOODSTONE_PENDANT: RegistrySupplier<Item> = ITEMS.register("bloodstone_pendant") {
-        PlatformUtils.bloodstonePendant(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    val BLOODSTONE_PENDANT: RegistrySupplier<BloodstonePendantItem> = ITEMS.register("bloodstone_pendant") {
+        BloodstonePendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val DREAMWEAVER_CHARM: RegistrySupplier<Item> = ITEMS.register("dreamweaver_charm") {
-        PlatformUtils.dreamweaverCharm(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    val DREAMWEAVER_CHARM: RegistrySupplier<DreamweaverCharmItem> = ITEMS.register("dreamweaver_charm") {
+        DreamweaverCharmItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val BITING_BELT: RegistrySupplier<Item> = ITEMS.register("biting_belt") {
-        PlatformUtils.bitingBelt(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    val BITING_BELT: RegistrySupplier<BitingBeltItem> = ITEMS.register("biting_belt") {
+        BitingBeltItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
-    val BARK_BELT: RegistrySupplier<Item> = ITEMS.register("bark_belt") {
-        PlatformUtils.barkBelt(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+    val BARK_BELT: RegistrySupplier<BarkBeltItem> = ITEMS.register("bark_belt") {
+        BarkBeltItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
     }
 
     val PARASITIC_LOUSE: RegistrySupplier<ParasiticLouseItem> = ITEMS.register("parasitic_louse") {

@@ -4,19 +4,19 @@ import dev.architectury.event.EventResult
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
+import io.wispforest.accessories.api.AccessoryItem
 import net.minecraft.network.chat.Component
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import java.util.*
 
-interface BitingBeltItem {
+class BitingBeltItem(properties: Properties?) : AccessoryItem(properties) {
 
-    fun appendBitingHoverText(
+    override fun appendHoverText(
         stack: ItemStack,
-        context: Item.TooltipContext,
+        context: TooltipContext,
         tooltipComponents: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
@@ -41,6 +41,8 @@ interface BitingBeltItem {
                 }, 1.0f, context.tickRate())
             }
         }
+
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
 
     companion object {
