@@ -1,10 +1,12 @@
 package dev.sterner.witchery.neoforge
 
+import dev.architectury.registry.client.gui.ClientTooltipComponentRegistry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
 import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
@@ -24,7 +26,9 @@ import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.neoforged.neoforge.capabilities.Capabilities
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
+import net.neoforged.neoforge.common.crafting.SizedIngredient
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.registries.DeferredHolder
@@ -58,6 +62,8 @@ object WitcheryNeoForge {
         WitcheryNeoForgeAttachmentRegistry.ATTACHMENT_TYPES.register(MOD_BUS)
         Witchery.init()
 
+
+
         DATA_SERIALIZER_REGISTER.register(MOD_BUS)
         WitcheryAttributesImpl.attributes.register()
 
@@ -85,6 +91,11 @@ object WitcheryNeoForge {
 
     private fun onLoadComplete(event: FMLLoadCompleteEvent) {
         WitcheryFlammability.register()
+    }
+
+    @SubscribeEvent
+    private fun registerTooltip(event: RegisterClientTooltipComponentFactoriesEvent) {
+        event.register(CaneSwordItem.BloodPoolComponent::class.java, CaneSwordItem.BloodPoolComponent::getClientTooltipComponent)
     }
 
     @SubscribeEvent
