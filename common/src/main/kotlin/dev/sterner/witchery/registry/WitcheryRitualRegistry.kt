@@ -42,7 +42,7 @@ object WitcheryRitualRegistry {
         instance.group(
             ResourceLocation.CODEC.fieldOf("id").forGetter { ritual -> ritual.id }
         ).apply(instance) { resourceLocation ->
-            Ritual(resourceLocation)
+            RITUALS.get(resourceLocation)
         }
     }
 
