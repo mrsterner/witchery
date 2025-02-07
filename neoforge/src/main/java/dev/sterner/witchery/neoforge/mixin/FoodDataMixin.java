@@ -26,16 +26,25 @@ public class FoodDataMixin {
 
     @Inject(method = "getFoodLevel", at = @At("HEAD"), cancellable = true)
     public void witchery$getFoodLevel(CallbackInfoReturnable<Integer> cir) {
+        if (witchery$player == null) {
+            return;
+        }
         FoodDataMixinLogic.INSTANCE.getFood(witchery$player, cir);
     }
 
     @Inject(method = "getSaturationLevel", at = @At("HEAD"), cancellable = true)
     public void witchery$getSaturationLevel(CallbackInfoReturnable<Float> cir) {
+        if (witchery$player == null) {
+            return;
+        }
         FoodDataMixinLogic.INSTANCE.getSaturation(witchery$player, cir);
     }
 
     @Inject(method = "add", at = @At("TAIL"))
     public void witchery$add(int foodLevel, float saturationLevel, CallbackInfo ci) {
+        if (witchery$player == null) {
+            return;
+        }
         FoodDataMixinLogic.INSTANCE.onAdd(witchery$player, foodLevel, saturationLevel);
     }
 }
