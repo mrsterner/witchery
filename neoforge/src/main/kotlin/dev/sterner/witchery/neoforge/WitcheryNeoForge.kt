@@ -1,7 +1,7 @@
 package dev.sterner.witchery.neoforge
 
-import dev.architectury.registry.client.gui.ClientTooltipComponentRegistry
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.BloodPoolComponent
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
@@ -93,10 +93,7 @@ object WitcheryNeoForge {
         WitcheryFlammability.register()
     }
 
-    @SubscribeEvent
-    private fun registerTooltip(event: RegisterClientTooltipComponentFactoriesEvent) {
-        event.register(CaneSwordItem.BloodPoolComponent::class.java, CaneSwordItem.BloodPoolComponent::getClientTooltipComponent)
-    }
+
 
     @SubscribeEvent
     private fun registerScreens(event: RegisterMenuScreensEvent) {

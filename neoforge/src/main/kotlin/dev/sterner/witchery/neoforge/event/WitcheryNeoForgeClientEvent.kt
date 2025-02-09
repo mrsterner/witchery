@@ -2,6 +2,7 @@ package dev.sterner.witchery.neoforge.event
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.BloodPoolComponent
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
 import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
@@ -37,10 +38,7 @@ import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.resources.ResourceLocation
 import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.neoforge.client.event.EntityRenderersEvent
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
-import net.neoforged.neoforge.client.event.RegisterRenderBuffersEvent
-import net.neoforged.neoforge.client.event.RegisterShadersEvent
+import net.neoforged.neoforge.client.event.*
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import org.jetbrains.annotations.NotNull
@@ -52,6 +50,11 @@ object WitcheryNeoForgeClientEvent {
     fun addEnchantGlint(event: RegisterRenderBuffersEvent){
         event.registerRenderBuffer(WitcheryRenderTypes.GLINT.apply(Witchery.id("textures/misc/all_black.png")))
         event.registerRenderBuffer(WitcheryRenderTypes.GLINT_DIRECT.apply(Witchery.id("textures/misc/all_black.png")))
+    }
+
+    @SubscribeEvent
+    private fun registerTooltip(event: RegisterClientTooltipComponentFactoriesEvent) {
+        event.register(BloodPoolComponent::class.java, BloodPoolComponent::getClientTooltipComponent)
     }
 
     @SubscribeEvent

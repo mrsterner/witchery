@@ -1,17 +1,15 @@
 package dev.sterner.witchery.item
 
 import dev.architectury.event.EventResult
-import dev.sterner.witchery.api.RenderUtils
-import dev.sterner.witchery.api.WitcheryTooltipComponent
+import dev.sterner.witchery.api.BloodPoolComponent
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryConstants
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.advancements.CriteriaTriggers
-import net.minecraft.client.gui.Font
-import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.core.component.DataComponents
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
@@ -117,6 +115,7 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
         return super.use(level, player, usedHand)
     }
 
+    @Environment(EnvType.CLIENT)
     override fun getTooltipImage(stack: ItemStack): Optional<TooltipComponent> {
         return Optional.of(BloodPoolComponent(stack))
     }
@@ -145,30 +144,5 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
         }
     }
 
-    class BloodPoolComponent(val stack: ItemStack): WitcheryTooltipComponent<BloodPoolComponent, ClientBloodPoolComponent>() {
-        override fun getClientTooltipComponent(): ClientBloodPoolComponent {
-            return ClientBloodPoolComponent(stack)
-        }
-    }
 
-    class ClientBloodPoolComponent(val stack: ItemStack): ClientTooltipComponent {
-
-        override fun getHeight(): Int {
-            return 12
-        }
-
-        override fun getWidth(font: Font): Int {
-            return 18
-        }
-
-        override fun renderImage(font: Font, x: Int, y: Int, guiGraphics: GuiGraphics) {
-            val bl = stack.has(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get())
-            if (bl) {
-                val amount = stack.get(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get()) ?: 0
-                RenderUtils.innerRenderBlood(guiGraphics, MAX_STORED_BLOOD, amount, y, x + 14)
-            }
-
-            super.renderImage(font, x, y, guiGraphics)
-        }
-    }
 }
