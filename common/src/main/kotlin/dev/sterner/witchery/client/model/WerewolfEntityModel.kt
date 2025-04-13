@@ -1,10 +1,8 @@
 package dev.sterner.witchery.client.model
 
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.WerewolfEntity
-import net.minecraft.client.model.EntityModel
+import net.minecraft.client.model.HumanoidModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -16,16 +14,11 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-class WerewolfEntityModel(root: ModelPart) : EntityModel<WerewolfEntity>() {
+class WerewolfEntityModel(root: ModelPart) : HumanoidModel<WerewolfEntity>(root) {
 
-    private val body: ModelPart = root.getChild("body")
     private val hip: ModelPart = body.getChild("hip")
     private val Tail: ModelPart = hip.getChild("Tail")
-    private val left_leg: ModelPart = root.getChild("left_leg")
-    private val right_leg: ModelPart = root.getChild("right_leg")
     private val head: ModelPart = root.getChild("head")
-    private val left_arm: ModelPart = root.getChild("left_arm")
-    private val right_arm: ModelPart = root.getChild("right_arm")
 
     override fun setupAnim(
         entity: WerewolfEntity,
@@ -35,37 +28,22 @@ class WerewolfEntityModel(root: ModelPart) : EntityModel<WerewolfEntity>() {
         netHeadYaw: Float,
         headPitch: Float
     ) {
-        right_arm.xRot = sin(ageInTicks * 0.1f) * 0.1f
-        right_arm.zRot = cos(ageInTicks * 0.1f) * 0.05f
+        this.rightArm.xRot = sin(ageInTicks * 0.1f) * 0.1f
+        rightArm.zRot = cos(ageInTicks * 0.1f) * 0.05f
 
-        left_arm.xRot = cos(ageInTicks * 0.1f) * 0.1f
-        left_arm.zRot = sin(ageInTicks * 0.1f) * 0.05f
+        leftArm.xRot = cos(ageInTicks * 0.1f) * 0.1f
+        leftArm.zRot = sin(ageInTicks * 0.1f) * 0.05f
 
-        left_leg.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
-        right_leg.xRot = cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
+        leftLeg.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
+        rightLeg.xRot = cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
 
-        left_arm.xRot =+ cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.2f * limbSwingAmount
-        right_arm.xRot =+ cos(limbSwing * 0.6662f) * 1.2f * limbSwingAmount
+        leftArm.xRot =+ cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.2f * limbSwingAmount
+        rightArm.xRot =+ cos(limbSwing * 0.6662f) * 1.2f * limbSwingAmount
 
         head.yRot = netHeadYaw * (Math.PI.toFloat() / 180f)
         head.xRot = headPitch * (Math.PI.toFloat() / 180f)
 
         head.yRot += cos(ageInTicks * 0.05f) * 0.02f
-    }
-
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        vertexConsumer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        color: Int
-    ) {
-        body.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
-        left_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
-        right_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
-        head.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
-        left_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
-        right_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
     }
 
     companion object {
@@ -74,7 +52,12 @@ class WerewolfEntityModel(root: ModelPart) : EntityModel<WerewolfEntity>() {
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
-
+            partdefinition.addOrReplaceChild(
+                "hat",
+                CubeListBuilder.create().texOffs(0, 16)
+                    .addBox(-4.0f, -8.0f, -4.0f, 8.0f, 8.0f, 8.0f, CubeDeformation(-0.5f)),
+                PartPose.offset(0.0f, -13.0f, 0.0f)
+            )
             val body = partdefinition.addOrReplaceChild(
                 "body",
                 CubeListBuilder.create().texOffs(0, 19)
