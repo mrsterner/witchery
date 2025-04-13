@@ -2,6 +2,7 @@ package dev.sterner.witchery.menu
 
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.menu.slot.OvenFuelSlot
+import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryMenuTypes
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.network.FriendlyByteBuf
@@ -54,24 +55,61 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
 
     override fun quickMoveStack(player: Player, index: Int): ItemStack {
         var resultStack = ItemStack.EMPTY
-        val slot = this.getSlot(index) ?: return resultStack
-        if (!slot.hasItem()) return resultStack
+        val slot = this.getSlot(index)
+        if (slot == null || !slot.hasItem()) return resultStack
 
         val slotStack = slot.item
         resultStack = slotStack.copy()
 
-        if (index in 0..4) {
-            // Move Stack to Player Inventory
-            if (!moveItemStackTo(slotStack, 5, 41, true))
+        if (index in RESULT_SLOT..EXTRA_RESULT_SLOT) {
+            // Move from output slots to player inventory
+            if (!moveItemStackTo(slotStack, 5, 41, true)) {
                 return ItemStack.EMPTY
-        } else if (!moveItemStackTo(slotStack, 0, 4, false))
-            return ItemStack.EMPTY
+            }
+            slot.onQuickCraft(slotStack, resultStack)
+        } else if (index == INGREDIENT_SLOT || index == FUEL_SLOT) {
+            // Move from machine input slots to player inventory
+            if (!moveItemStackTo(slotStack, 5, 41, false)) {
+                return ItemStack.EMPTY
+            }
+        } else {
+            // Move from player inventory to machine input
+            when {
+                isJar(slotStack) -> {
+                    if (!moveItemStackTo(slotStack, 1,  2, false)) {
+                        return ItemStack.EMPTY
+                    }
+                }
+                canSmelt(slotStack) -> {
+                    if (!moveItemStackTo(slotStack, 0, 1, false)) {
+                        return ItemStack.EMPTY
+                    }
+                }
+                isFuel(slotStack) -> {
+                    if (!moveItemStackTo(slotStack, 2,  3, false)) {
+                        return ItemStack.EMPTY
+                    }
+                }
+                index in 5..31 -> {
+                    if (!moveItemStackTo(slotStack, 32, 41, false)) return ItemStack.EMPTY
+                }
+                index in 32..40 -> {
+                    if (!moveItemStackTo(slotStack, 5, 32, false)) return ItemStack.EMPTY
+                }
+            }
+        }
 
-        if (slotStack.isEmpty)
+        if (slotStack.isEmpty) {
             slot.set(ItemStack.EMPTY)
-        else
+        } else {
             slot.setChanged()
+        }
 
+        if (slotStack.count == resultStack.count) {
+            return ItemStack.EMPTY
+        }
+
+        slot.onTake(player, slotStack)
         return resultStack
     }
 
@@ -84,6 +122,10 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
 
     fun isFuel(stack: ItemStack): Boolean {
         return AbstractFurnaceBlockEntity.isFuel(stack)
+    }
+
+    fun isJar(stack: ItemStack): Boolean {
+        return stack.`is`(WitcheryItems.JAR.get())
     }
 
     fun getBurnProgress(): Float {

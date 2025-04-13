@@ -87,7 +87,6 @@ object TransformationPlayerAttachment {
     @JvmStatic
     fun decreaseBatFormCooldown(player: Player){
         val data = getData(player)
-        //println(data.batFormCooldown)
         if (data.batFormCooldown > 0) {
             setData(player, data.copy(batFormCooldown = max(data.batFormCooldown - 1, 0)))
         }

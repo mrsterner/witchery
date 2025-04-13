@@ -50,6 +50,7 @@
     "fabric": "*",
     "minecraft": ">=1.21.1",
     "architectury": "*",
-    "modonomicon": "*"
+    "modonomicon": "*",
+    "accessories": "*"
   }
 }

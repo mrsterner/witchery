@@ -52,15 +52,19 @@ object PlatformUtilsImpl {
 
     @JvmStatic
     fun tryEnableBatFlight(player: Player) {
-        player.abilities.flying = true
-        player.abilities.mayfly = true
-        player.onUpdateAbilities()
+        if (!player.isCreative && !player.isSpectator) {
+            player.abilities.flying = true
+            player.abilities.mayfly = true
+            player.onUpdateAbilities()
+        }
     }
 
     @JvmStatic
     fun tryDisableBatFlight(player: Player) {
-        player.abilities.flying = false
-        player.abilities.mayfly = false
-        player.onUpdateAbilities()
+        if (!player.isCreative && !player.isSpectator) {
+            player.abilities.flying = false
+            player.abilities.mayfly = false
+            player.onUpdateAbilities()
+        }
     }
 }

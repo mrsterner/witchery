@@ -51,6 +51,7 @@ dependencies {
     compileOnly "mcp.mobius.waila:wthit:neo-${wthitVersion}"
 
     compileOnly("io.wispforest:accessories-neoforge:${project.accessories_version}")
+    runtimeOnly("io.wispforest:accessories-neoforge:${project.accessories_version}")
 
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }

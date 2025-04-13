@@ -61,19 +61,35 @@ class DistilleryMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
         resultStack = slotStack.copy()
 
         if (index in 0..6) {
-            // Move Stack to Player Inventory
             if (!moveItemStackTo(slotStack, 7, 43, true))
                 return ItemStack.EMPTY
-        } else if (!moveItemStackTo(slotStack, 0, 6, false))
-            return ItemStack.EMPTY
+        } else {
+            when {
+                isJar(slotStack) -> {
+                    if (!moveItemStackTo(slotStack, 2, 3, false))
+                        return ItemStack.EMPTY
+                }
+                else -> {
+                    if (!moveItemStackTo(slotStack, 0, 6, false))
+                        return ItemStack.EMPTY
+                }
+            }
+        }
 
-        if (slotStack.isEmpty)
+        if (slotStack.isEmpty) {
             slot.set(ItemStack.EMPTY)
-        else
+        } else {
             slot.setChanged()
+        }
 
         return resultStack
     }
+
+
+    fun isJar(stack: ItemStack): Boolean {
+        return stack.`is`(WitcheryItems.JAR.get())
+    }
+
 
     override fun stillValid(player: Player): Boolean {
         return this.blockEntity!!.stillValid(player)

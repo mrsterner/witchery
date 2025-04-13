@@ -13,13 +13,13 @@ configurations {
         canBeConsumed = false
     }
     compileClasspath.extendsFrom common
-            runtimeClasspath.extendsFrom common
-            developmentFabric.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
 
-            shadowBundle {
-                canBeResolved = true
-                canBeConsumed = false
-            }
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
 }
 
 loom {
@@ -65,8 +65,7 @@ dependencies {
 
     //modLocalRuntime "maven.modrinth:sodium:mc1.21-0.6.0-beta.2-fabric"
 
-    modImplementation "io.github.ladysnake:PlayerAbilityLib:${pal_version}"
-    include "io.github.ladysnake:PlayerAbilityLib:${pal_version}"
+    include(modImplementation "io.github.ladysnake:PlayerAbilityLib:${pal_version}")
 
     //Stupid modonomicon
     runtimeOnly "org.commonmark:commonmark:${commonmark_version}"
@@ -102,7 +101,6 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
-    exclude "architectury.common.json"
 }
 
 remapJar {
