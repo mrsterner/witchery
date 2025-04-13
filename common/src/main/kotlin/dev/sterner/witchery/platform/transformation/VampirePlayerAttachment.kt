@@ -1,12 +1,12 @@
 package dev.sterner.witchery.platform.transformation
 
-import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncVampireS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
+import net.minecraft.core.UUIDUtil
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
@@ -54,10 +54,10 @@ object VampirePlayerAttachment {
                     Codec.INT.fieldOf("vampireLevel").forGetter { it.vampireLevel },
                     Codec.INT.fieldOf("killedBlazes").forGetter { it.killedBlazes },
                     Codec.INT.fieldOf("usedSunGrenades").forGetter { it.usedSunGrenades },
-                    Codecs.UUID.listOf().fieldOf("villagersHalfBlood").forGetter { it.villagersHalfBlood },
+                    UUIDUtil.CODEC.listOf().fieldOf("villagersHalfBlood").forGetter { it.villagersHalfBlood },
                     Codec.INT.fieldOf("nightTicker").forGetter { it.nightTicker },
                     Codec.LONG.listOf().fieldOf("visitedVillages").forGetter { it.visitedVillages },
-                    Codecs.UUID.listOf().fieldOf("trappedVillagers").forGetter { it.trappedVillagers },
+                    UUIDUtil.CODEC.listOf().fieldOf("trappedVillagers").forGetter { it.trappedVillagers },
                     Codec.INT.fieldOf("abilityIndex").forGetter { it.abilityIndex },
                     Codec.INT.fieldOf("inSunTick").forGetter { it.inSunTick },
                     Codec.BOOL.fieldOf("isNightVisionActive").forGetter { it.isNightVisionActive },

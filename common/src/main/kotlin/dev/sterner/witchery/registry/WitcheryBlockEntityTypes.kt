@@ -24,6 +24,7 @@ import dev.sterner.witchery.block.signs.CustomHangingSignBE
 import dev.sterner.witchery.block.signs.CustomSignBE
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
+import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
@@ -46,6 +47,7 @@ object WitcheryBlockEntityTypes {
                 WitcheryBlocks.CAULDRON_COMPONENT.get(),
                 WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(),
                 WitcheryBlocks.DISTILLERY_COMPONENT.get(),
+                WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get(),
                 WitcheryBlocks.EFFIGY_COMPONENT.get()
             )
                 .build(null)
@@ -146,6 +148,15 @@ object WitcheryBlockEntityTypes {
             BlockEntityType.Builder.of(
                 { pos, state -> DistilleryBlockEntity(pos, state) },
                 WitcheryBlocks.DISTILLERY.get()
+            )
+                .build(null)
+        }
+
+    val WEREWOLF_ALTAR: RegistrySupplier<BlockEntityType<WerewolfAltarBlockEntity>> =
+        BLOCK_ENTITY_TYPES.register("werewolf_altar") {
+            BlockEntityType.Builder.of(
+                { pos, state -> WerewolfAltarBlockEntity(pos, state) },
+                WitcheryBlocks.WEREWOLF_ALTAR.get()
             )
                 .build(null)
         }

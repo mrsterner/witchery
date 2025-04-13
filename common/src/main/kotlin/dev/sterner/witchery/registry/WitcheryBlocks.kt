@@ -35,6 +35,8 @@ import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockComponent
 import dev.sterner.witchery.block.trees.StrippableLogBlock
+import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
+import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarComponent
 import dev.sterner.witchery.platform.StrippableHelper
 import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.BlockPos
@@ -166,6 +168,18 @@ object WitcheryBlocks {
         DistilleryCompanionBlock(
             BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
                 .sound(SoundType.METAL)
+        )
+    }
+
+
+    val WEREWOLF_ALTAR = BLOCKS.register("werewolf_altar") {
+        WerewolfAltarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE))
+    }
+
+    val WEREWOLF_ALTAR_COMPONENT: RegistrySupplier<WerewolfAltarComponent> = BLOCKS.register("werewolf_altar_component") {
+        WerewolfAltarComponent(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
+                .sound(SoundType.STONE)
         )
     }
 

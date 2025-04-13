@@ -4,6 +4,8 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.TickEvent
+import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
@@ -22,6 +24,7 @@ object WerewolfEventHandler {
     }
 
     fun registerEvents() {
+        EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killWerewolf)
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killSheep)
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killWolf)
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killHuntsman)
@@ -29,6 +32,18 @@ object WerewolfEventHandler {
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killAny)
         TickEvent.PLAYER_PRE.register(WerewolfEventHandler::tick)
         PlayerEvent.PLAYER_CLONE.register(WerewolfEventHandler::respawn)
+    }
+
+    fun infectPlayer(player: Player) {
+
+    }
+
+    private fun killWerewolf(werewolfEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+        if (werewolfEntity is WerewolfEntity && damageSource?.entity is Player) {
+
+        }
+
+        return EventResult.pass()
     }
 
     private fun killAny(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
@@ -71,4 +86,6 @@ object WerewolfEventHandler {
     private fun respawn(serverPlayer: ServerPlayer?, serverPlayer1: ServerPlayer?, b: Boolean) {
 
     }
+
+
 }

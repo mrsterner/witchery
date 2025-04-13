@@ -64,7 +64,6 @@ import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryDataComponents.UNSHEETED
 import dev.sterner.witchery.registry.WitcheryItems.CANE_SWORD
-import io.wispforest.accessories.api.client.AccessoriesRendererRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
@@ -453,10 +452,6 @@ object Witchery {
         ClientGuiEvent.RENDER_HUD.register(ManifestationPlayerAttachment::renderHud)
         ClientGuiEvent.RENDER_HUD.register(VampireEventHandler::renderHud)
         ClientGuiEvent.RENDER_HUD.register(BarkBeltPlayerAttachment::renderHud)
-
-        AccessoriesRendererRegistry.registerRenderer(WitcheryItems.BATWING_PENDANT.get(), ::BatwingPendantRenderer)
-        AccessoriesRendererRegistry.registerRenderer(WitcheryItems.SUNSTONE_PENDANT.get(), ::BatwingPendantRenderer)
-        AccessoriesRendererRegistry.registerRenderer(WitcheryItems.BLOODSTONE_PENDANT.get(), ::BatwingPendantRenderer)
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),

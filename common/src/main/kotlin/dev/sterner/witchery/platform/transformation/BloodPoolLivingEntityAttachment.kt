@@ -63,13 +63,9 @@ object BloodPoolLivingEntityAttachment {
         }
     }
 
-    var ticker = 0
+    private var ticker = 0
 
     fun tick(player: Player?) {
-
-        if (player != null) {
-            //println(getData(player).bloodPool)
-        }
 
         if (player != null && player.level() is ServerLevel) {
 

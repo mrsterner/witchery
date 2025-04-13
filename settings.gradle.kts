@@ -6,15 +6,6 @@ pluginManagement.repositories {
     gradlePluginPortal()
 }
 
-plugins {
-    `gradle-enterprise`
-}
-
-gradleEnterprise.buildScan {
-    termsOfServiceUrl = "https://gradle.com/terms-of-service"
-    termsOfServiceAgree = "yes"
-}
-
 include("common", "fabric", "neoforge")
 
 rootProject.name = "witchery"

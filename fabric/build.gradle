@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -73,7 +73,7 @@ dependencies {
     runtimeOnly "org.commonmark:commonmark-ext-ins:${commonmark_version}"
     runtimeOnly "me.zeroeightsix:fiber:${fiber_version}"
 
-    modImplementation("io.wispforest:accessories-fabric:${project.accessories_version}")
+    modImplementation "dev.emi:trinkets:${trinkets_version}"
 
     modImplementation ("com.klikli_dev:modonomicon-${minecraft_version}-fabric:${modonomicon_version}"){
         transitive = false

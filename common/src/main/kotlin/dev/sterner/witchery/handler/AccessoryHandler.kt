@@ -2,8 +2,6 @@ package dev.sterner.witchery.handler
 
 import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.platform.PlatformUtils
-import io.wispforest.accessories.api.AccessoriesCapability
-import io.wispforest.accessories.api.AccessoryItem
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player

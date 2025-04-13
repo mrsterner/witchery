@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -31,6 +31,10 @@ repositories {
         name = 'NeoForged'
         url = 'https://maven.neoforged.net/releases'
     }
+    maven {
+        name = "Curios"
+        url = uri("https://maven.theillusivec4.top/")
+    }
 }
 
 dependencies {
@@ -50,9 +54,8 @@ dependencies {
 
     compileOnly "mcp.mobius.waila:wthit:neo-${wthitVersion}"
 
-    compileOnly("io.wispforest:accessories-neoforge:${project.accessories_version}")
-    runtimeOnly("io.wispforest:accessories-neoforge:${project.accessories_version}")
-
+    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curio_version}"
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curio_version}:api"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
@@ -73,6 +76,6 @@ shadowJar {
 }
 
 remapJar {
-    atAccessWideners.add loom.accessWidenerPath.get().asFile.name
+//    atAccessWideners.add loom.accessWidenerPath.get().asFile.name
     input.set shadowJar.archiveFile
 }

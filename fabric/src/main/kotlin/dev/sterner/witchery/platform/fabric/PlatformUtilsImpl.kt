@@ -3,7 +3,9 @@ package dev.sterner.witchery.platform.fabric
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethodStage.Vanilla
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.fabric.item.trinkets.*
 import dev.sterner.witchery.item.BoneNeedleItem
+import dev.sterner.witchery.item.accessories.*
 import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.registry.WitcheryItems
 import io.github.ladysnake.pal.AbilitySource
@@ -31,6 +33,36 @@ object PlatformUtilsImpl {
     @JvmStatic
     fun getBoneNeedle(): BoneNeedleItem {
         return BoneNeedleItemFabric(Item.Properties())
+    }
+
+    @JvmStatic
+    fun getBarkBelt(): BarkBeltItem {
+        return BarkBeltItemFabric(Item.Properties())
+    }
+
+    @JvmStatic
+    fun getBatwingPendant(): BatwingPendantItem {
+        return BatwingPendantItemFabric(Item.Properties())
+    }
+
+    @JvmStatic
+    fun getBitingBelt(): BitingBeltItem {
+        return BitingBeltItemFabric(Item.Properties())
+    }
+
+    @JvmStatic
+    fun getBloodstonePendant(): BloodstonePendantItem {
+        return BloodstonePendantItemFabric(Item.Properties())
+    }
+
+    @JvmStatic
+    fun getSunstonePendant(): SunstonePendantItem {
+        return SunstonePendantItemFabric(Item.Properties())
+    }
+
+    @JvmStatic
+    fun getDreamCharm(): DreamweaverCharmItem {
+        return DreamCharmItemFabric(Item.Properties())
     }
 
     @JvmStatic

@@ -16,6 +16,7 @@ import dev.sterner.witchery.item.brew.*
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.food.Foods
 import net.minecraft.world.item.*
 import java.awt.Color
@@ -1098,27 +1099,27 @@ object WitcheryItems {
     }
 
     val BATWING_PENDANT: RegistrySupplier<BatwingPendantItem> = ITEMS.register("batwing_pendant") {
-        BatwingPendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+        PlatformUtils.batwingPendantItem
     }
 
     val SUNSTONE_PENDANT: RegistrySupplier<SunstonePendantItem> = ITEMS.register("sunstone_pendant") {
-        SunstonePendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+        PlatformUtils.sunstonePendantItem
     }
 
     val BLOODSTONE_PENDANT: RegistrySupplier<BloodstonePendantItem> = ITEMS.register("bloodstone_pendant") {
-        BloodstonePendantItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+        PlatformUtils.bloodstonePendantItem
     }
 
     val DREAMWEAVER_CHARM: RegistrySupplier<DreamweaverCharmItem> = ITEMS.register("dreamweaver_charm") {
-        DreamweaverCharmItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+        PlatformUtils.dreamweaverCharmItem
     }
 
     val BITING_BELT: RegistrySupplier<BitingBeltItem> = ITEMS.register("biting_belt") {
-        BitingBeltItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+        PlatformUtils.bitingBeltItem
     }
 
     val BARK_BELT: RegistrySupplier<BarkBeltItem> = ITEMS.register("bark_belt") {
-        BarkBeltItem(Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+        PlatformUtils.barkBeltItem
     }
 
     val PARASITIC_LOUSE: RegistrySupplier<ParasiticLouseItem> = ITEMS.register("parasitic_louse") {

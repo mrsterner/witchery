@@ -3,6 +3,7 @@ package dev.sterner.witchery.platform
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.item.BoneNeedleItem
+import dev.sterner.witchery.item.accessories.*
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
@@ -19,6 +20,48 @@ object PlatformUtils {
     @JvmStatic
     @get:ExpectPlatform
     val boneNeedle: BoneNeedleItem
+        get() {
+            throw AssertionError()
+        }
+
+    @JvmStatic
+    @get:ExpectPlatform
+    val batwingPendantItem: BatwingPendantItem
+        get() {
+            throw AssertionError()
+        }
+
+    @JvmStatic
+    @get:ExpectPlatform
+    val sunstonePendantItem: SunstonePendantItem
+        get() {
+            throw AssertionError()
+        }
+
+    @JvmStatic
+    @get:ExpectPlatform
+    val bloodstonePendantItem: BloodstonePendantItem
+        get() {
+            throw AssertionError()
+        }
+
+    @JvmStatic
+    @get:ExpectPlatform
+    val barkBeltItem: BarkBeltItem
+        get() {
+            throw AssertionError()
+        }
+
+    @JvmStatic
+    @get:ExpectPlatform
+    val bitingBeltItem: BitingBeltItem
+        get() {
+            throw AssertionError()
+        }
+
+    @JvmStatic
+    @get:ExpectPlatform
+    val dreamweaverCharmItem: DreamweaverCharmItem
         get() {
             throw AssertionError()
         }

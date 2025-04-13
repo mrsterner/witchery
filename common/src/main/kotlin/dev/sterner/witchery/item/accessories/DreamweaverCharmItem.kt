@@ -1,18 +1,9 @@
 package dev.sterner.witchery.item.accessories
 
-import io.wispforest.accessories.api.AccessoryItem
-import io.wispforest.accessories.api.attributes.AccessoryAttributeBuilder
-import io.wispforest.accessories.api.slot.SlotReference
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Rarity
 
-class DreamweaverCharmItem(properties: Properties?) : AccessoryItem(properties) {
+open class DreamweaverCharmItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)) {
 
-
-    override fun getDynamicModifiers(
-        stack: ItemStack?,
-        reference: SlotReference?,
-        builder: AccessoryAttributeBuilder
-    ) {
-        super.getDynamicModifiers(stack, reference, builder)
-    }
 }

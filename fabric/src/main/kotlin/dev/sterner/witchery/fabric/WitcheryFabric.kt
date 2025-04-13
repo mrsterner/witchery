@@ -68,6 +68,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         )
     }
 
+
     override fun onInitializeClient() {
         Witchery.initClient()
 
