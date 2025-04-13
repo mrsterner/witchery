@@ -5,6 +5,7 @@ import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.VampireArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
 import net.minecraft.world.item.Item
@@ -47,5 +48,19 @@ object PlatformUtilsImpl {
         properties: Item.Properties
     ): ArmorItem {
         return VampireArmorItemNeoForge(dapper, chestplate, properties)
+    }
+
+    @JvmStatic
+    fun tryEnableBatFlight(player: Player) {
+        player.abilities.flying = true
+        player.abilities.mayfly = true
+        player.onUpdateAbilities()
+    }
+
+    @JvmStatic
+    fun tryDisableBatFlight(player: Player) {
+        player.abilities.flying = false
+        player.abilities.mayfly = false
+        player.onUpdateAbilities()
     }
 }

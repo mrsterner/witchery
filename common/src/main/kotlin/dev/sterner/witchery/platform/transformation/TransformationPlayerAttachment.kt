@@ -6,6 +6,7 @@ import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SyncTransformationS2CPayload
+import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
@@ -106,12 +107,7 @@ object TransformationPlayerAttachment {
 
             if (isBat(player)) {
                 checkForVillage(player)
-
-                if ((!player.isCreative || !player.isSpectator)) {
-                    player.abilities.flying = true
-                    player.abilities.mayfly = true
-                    player.onUpdateAbilities()
-                }
+                PlatformUtils.tryEnableBatFlight(player)
 
                 increaseBatFormTimer(player)
 
@@ -128,11 +124,7 @@ object TransformationPlayerAttachment {
                     VampireLeveling.resetVillages(player)
                 }
 
-                if (!player.isCreative && !player.isSpectator) {
-                    player.abilities.flying = false
-                    player.abilities.mayfly = false
-                    player.onUpdateAbilities()
-                }
+                PlatformUtils.tryDisableBatFlight(player)
             }
         } else {
             if (isBat(player)) {

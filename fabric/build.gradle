@@ -38,12 +38,14 @@ loom {
 }
 
 repositories {
-    maven { // Fabric ASM
-        name = "Jitpack"
-        url 'https://jitpack.io/'
+    maven {
+        url = 'https://jitpack.io/'
     }
     maven{
         url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        url = 'https://maven.ladysnake.org/releases'
     }
 }
 
@@ -62,6 +64,9 @@ dependencies {
     modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
 
     //modLocalRuntime "maven.modrinth:sodium:mc1.21-0.6.0-beta.2-fabric"
+
+    modImplementation "io.github.ladysnake:PlayerAbilityLib:${pal_version}"
+    include "io.github.ladysnake:PlayerAbilityLib:${pal_version}"
 
     //Stupid modonomicon
     runtimeOnly "org.commonmark:commonmark:${commonmark_version}"
