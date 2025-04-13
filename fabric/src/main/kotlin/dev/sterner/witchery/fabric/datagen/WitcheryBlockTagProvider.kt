@@ -390,6 +390,7 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             .add(Blocks.RED_SANDSTONE)
             .add(Blocks.END_STONE)
 
-
+        getOrCreateTagBuilder(BlockTags.SWORD_EFFICIENT)
+            .addTag(WitcheryTags.LEAVES)
     }
 }
