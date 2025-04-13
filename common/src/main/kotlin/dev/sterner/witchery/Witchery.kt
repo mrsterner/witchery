@@ -45,6 +45,7 @@ import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.vampire.VampireAbilities
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
+import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.item.TaglockItem
@@ -149,6 +150,7 @@ object Witchery {
         MODIFY_LOOT_TABLE.register(::addLootInjects)
 
         VampireEventHandler.registerEvents()
+        WerewolfEventHandler.registerEvents()
         CursePlayerAttachment.registerEvents()
 
         ServerLevelTick.SERVER_LEVEL_POST.register(MutandisLevelAttachment::tick)

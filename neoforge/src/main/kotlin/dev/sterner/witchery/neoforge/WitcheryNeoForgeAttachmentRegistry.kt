@@ -8,10 +8,7 @@ import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
-import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
+import dev.sterner.witchery.platform.transformation.*
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
@@ -212,6 +209,17 @@ object WitcheryNeoForgeAttachmentRegistry {
         Supplier {
             AttachmentType.builder(Supplier { VampirePlayerAttachment.Data() })
                 .serialize(VampirePlayerAttachment.Data.CODEC)
+                .copyOnDeath()
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val WEREWOLF_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<WerewolfPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "werewolf_player_data",
+        Supplier {
+            AttachmentType.builder(Supplier { WerewolfPlayerAttachment.Data() })
+                .serialize(WerewolfPlayerAttachment.Data.CODEC)
                 .copyOnDeath()
                 .build()
         }

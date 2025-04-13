@@ -5,10 +5,7 @@ import dev.sterner.witchery.platform.infusion.*
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
-import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
+import dev.sterner.witchery.platform.transformation.*
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 
@@ -148,6 +145,14 @@ object WitcheryFabricAttachmentRegistry {
             .copyOnDeath()
             .initializer { VampirePlayerAttachment.Data() }
             .buildAndRegister(VampirePlayerAttachment.Data.ID)
+
+    @Suppress("UnstableApiUsage")
+    val WEREWOLF_PLAYER_DATA_TYPE: AttachmentType<WerewolfPlayerAttachment.Data> =
+        AttachmentRegistry.builder<WerewolfPlayerAttachment.Data>()
+            .persistent(WerewolfPlayerAttachment.Data.CODEC)
+            .copyOnDeath()
+            .initializer { WerewolfPlayerAttachment.Data() }
+            .buildAndRegister(WerewolfPlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
     val BLOOD_LIVING_DATA_TYPE: AttachmentType<BloodPoolLivingEntityAttachment.Data> =
