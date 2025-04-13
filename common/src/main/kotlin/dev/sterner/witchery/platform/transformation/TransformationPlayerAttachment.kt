@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.handler.vampire.VampireAbility
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SyncTransformationS2CPayload
 import dev.sterner.witchery.platform.PlatformUtils
@@ -101,34 +102,37 @@ object TransformationPlayerAttachment {
     private var villageCheckTicker = 0
 
     fun tickBat(player: Player){
-        if (player.level() is ServerLevel) {
 
-            decreaseBatFormCooldown(player)
+        if (VampirePlayerAttachment.getData(player).vampireLevel >= VampireAbility.BAT_FORM.unlockLevel) {
+            if (player.level() is ServerLevel) {
 
-            if (isBat(player)) {
-                checkForVillage(player)
-                PlatformUtils.tryEnableBatFlight(player)
+                decreaseBatFormCooldown(player)
 
-                increaseBatFormTimer(player)
+                if (isBat(player)) {
+                    checkForVillage(player)
+                    PlatformUtils.tryEnableBatFlight(player)
 
-                var maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
-                maxBatTime += if(VampirePlayerAttachment.getData(player).vampireLevel >= 9) 60 * 20 else 0
-                val data = getData(player)
-                setData(player, data.copy(maxBatTimeClient = maxBatTime))
-                if (getData(player).batFormTicker > maxBatTime) {
-                    removeForm(player)
+                    increaseBatFormTimer(player)
+
+                    var maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
+                    maxBatTime += if(VampirePlayerAttachment.getData(player).vampireLevel >= 9) 60 * 20 else 0
+                    val data = getData(player)
+                    setData(player, data.copy(maxBatTimeClient = maxBatTime))
+                    if (getData(player).batFormTicker > maxBatTime) {
+                        removeForm(player)
+                    }
+
+                } else {
+                    if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
+                        VampireLeveling.resetVillages(player)
+                    }
+
+                    PlatformUtils.tryDisableBatFlight(player)
                 }
-
             } else {
-                if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
-                    VampireLeveling.resetVillages(player)
+                if (isBat(player)) {
+                    bat?.tick()
                 }
-
-                PlatformUtils.tryDisableBatFlight(player)
-            }
-        } else {
-            if (isBat(player)) {
-                bat?.tick()
             }
         }
     }
