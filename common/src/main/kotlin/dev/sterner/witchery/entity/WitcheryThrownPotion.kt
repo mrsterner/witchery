@@ -129,6 +129,9 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                                     if (i == 0) continue
 
                                     val instance = WitcheryPotionEffectRegistry.EFFECTS.get(ingredient.effect.effectId)
+
+                                    ingredient.effect.affectEntity(livingEntity, ingredient)
+
                                     if (instance is MobEffectPotionEffect) {
                                         val effectData = stack.get(DURATION_AMPLIFIER.get())
                                         var duration = 0

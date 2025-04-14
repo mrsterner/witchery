@@ -214,6 +214,10 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
                             if (o <= (f * f).toDouble()) {
                                 victims[livingEntity] = this.tickCount + this.reapplicationDelay
 
+                                for (ingredient in potionContents) {
+                                    ingredient.effect.affectEntity(livingEntity, ingredient)
+                                }
+
                                 for (mobEffectInstance2 in list) {
                                     if (mobEffectInstance2.effect.value().isInstantenous) {
                                         mobEffectInstance2.effect.value().applyInstantenousEffect(

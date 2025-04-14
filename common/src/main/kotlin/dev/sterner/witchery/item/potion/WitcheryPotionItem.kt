@@ -97,28 +97,11 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
         val stack = player.getItemInHand(hand)
         val ingredients = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return InteractionResultHolder.pass(stack)
 
-        val lastType = ingredients.lastOrNull()?.type ?: return InteractionResultHolder.pass(stack)
+        val hasLingering = ingredients.any { it.type == WitcheryPotionIngredient.Type.LINGERING }
+        val hasSplash = ingredients.any { it.type == WitcheryPotionIngredient.Type.SPLASH }
 
-        return when (lastType) {
-            WitcheryPotionIngredient.Type.CONSUMABLE -> {
-                player.startUsingItem(hand)
-                InteractionResultHolder.consume(stack)
-            }
-
-            WitcheryPotionIngredient.Type.SPLASH -> {
-                if (!level.isClientSide) {
-                    val thrown = WitcheryThrownPotion(level, player)
-                    thrown.item = stack
-                    thrown.shootFromRotation(player, player.xRot, player.yRot, -20.0f, 0.5f, 1.0f)
-                    level.addFreshEntity(thrown)
-                    if (!player.abilities.instabuild) {
-                        stack.shrink(1)
-                    }
-                }
-                InteractionResultHolder.sidedSuccess(stack, level.isClientSide)
-            }
-
-            WitcheryPotionIngredient.Type.LINGERING -> {
+        return when {
+            hasLingering -> {
                 if (!level.isClientSide) {
                     val thrown = WitcheryThrownPotion(level, player)
                     thrown.item = stack
@@ -130,6 +113,24 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                     }
                 }
                 InteractionResultHolder.sidedSuccess(stack, level.isClientSide)
+            }
+
+            hasSplash -> {
+                if (!level.isClientSide) {
+                    val thrown = WitcheryThrownPotion(level, player)
+                    thrown.item = stack
+                    thrown.shootFromRotation(player, player.xRot, player.yRot, -20.0f, 0.5f, 1.0f)
+                    level.addFreshEntity(thrown)
+                    if (!player.abilities.instabuild) {
+                        stack.shrink(1)
+                    }
+                }
+                InteractionResultHolder.sidedSuccess(stack, level.isClientSide)
+            }
+
+            else -> {
+                player.startUsingItem(hand)
+                InteractionResultHolder.consume(stack)
             }
         }
     }
@@ -166,6 +167,8 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
                         entity.addEffect(MobEffectInstance(instance.mobEffect, duration, amplifier))
                     }
+
+                    ingredient.effect.affectEntity(entity, ingredient)
                 }
             }
         }
