@@ -9,11 +9,14 @@ import net.minecraft.world.entity.LivingEntity
 open class WitcheryPotionEffect(
     val effectId: ResourceLocation,
     val duration: Int,
-    val amplifier: Int,
+    val amplifier: Int
 ) {
 
-    constructor(effectId: String, duration: Int,
-                amplifier: Int,): this(Witchery.id(effectId), duration, amplifier)
+    constructor(
+        effectId: String,
+        duration: Int,
+        amplifier: Int
+        ): this(Witchery.id(effectId), duration, amplifier)
 
     open fun affectEntity(livingEntity: LivingEntity, activeIngredient: WitcheryPotionIngredient) {}
 

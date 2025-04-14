@@ -78,8 +78,12 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                                 Component.literal(if(amp > 0) " ${toRoman(amp)}" else "")
                             )
                             .append(
-                                Component.literal(" ${formatDuration(duration)}")
-                                    .withStyle { it.withColor(Color(120, 180, 180).rgb) }
+                                if (duration > 0) {
+                                    Component.literal(" ${formatDuration(duration)}")
+                                        .withStyle { it.withColor(Color(120, 180, 180).rgb) }
+                                } else {
+                                    Component.literal("")
+                                }
                             )
                     )
                 }
@@ -162,6 +166,26 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
     companion object {
 
+        fun tryAddItemToPotion(potion: MutableList<WitcheryPotionIngredient>, toAdd: WitcheryPotionIngredient): Boolean {
+
+            if (potion.map { it.item }.contains(toAdd.item)) {
+                return false
+            }
+
+            var totalCapacity = 4
+
+            for (ingredient in potion) {
+                totalCapacity += ingredient.capacityCost
+            }
+
+            if (totalCapacity + toAdd.capacityCost >= 0) {
+                potion.add(toAdd)
+                return true
+            }
+
+            return false
+        }
+
         fun getTotalEffectValues(ingredient: WitcheryPotionIngredient): Pair<Int, Int> {
             val baseEffect = ingredient.effect
             var totalAmplifier = baseEffect.amplifier
@@ -195,6 +219,8 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
             witchesPotion.set(DURATION_AMPLIFIER.get(), effectDurations)
         }
+
+
 
     }
 }

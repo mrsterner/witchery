@@ -25,10 +25,7 @@ object WitcheryPotionEffectRegistry {
         }
     }
 
-
-    val EMPTY: RegistrySupplier<WitcheryPotionEffect> = EFFECTS.register(Witchery.id("empty")) {
-        WitcheryPotionEffect(Witchery.id("empty"), 0, 0)
-    }
+    val EMPTY = registerEffect("empty") { name -> WitcheryPotionEffect(name, 0,0) }
 
     val STRENGTH = registerEffect("strength") { name -> MobEffectPotionEffect(name, MobEffects.DAMAGE_BOOST) }
     val WEAKNESS = registerEffect("weakness") { name -> MobEffectPotionEffect(name, MobEffects.WEAKNESS) }
@@ -38,6 +35,7 @@ object WitcheryPotionEffectRegistry {
     val SPEED_BOOST = registerEffect("speed") { name -> MobEffectPotionEffect(name, MobEffects.MOVEMENT_SPEED, duration = 20 * 90) }
     val INSTANT_HEALTH = registerEffect("health") { name -> MobEffectPotionEffect(name, MobEffects.HEAL) }
     val NIGHT_VISION = registerEffect("night_vision") { name -> MobEffectPotionEffect(name, MobEffects.NIGHT_VISION) }
+
 
     /*
 

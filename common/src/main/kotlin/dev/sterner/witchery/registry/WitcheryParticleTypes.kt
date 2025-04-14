@@ -7,6 +7,8 @@ import dev.sterner.witchery.client.particle.BloodSplashParticleType
 import dev.sterner.witchery.client.particle.ColorBubbleParticleType
 import dev.sterner.witchery.client.particle.ZzzParticleType
 import net.minecraft.core.particles.ParticleType
+import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.core.registries.Registries
 
 

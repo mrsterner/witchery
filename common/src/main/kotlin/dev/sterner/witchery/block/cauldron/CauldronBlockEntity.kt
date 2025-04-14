@@ -1,7 +1,5 @@
 package dev.sterner.witchery.block.cauldron
 
-import com.google.gson.JsonObject
-import com.mojang.serialization.JsonOps
 import dev.architectury.fluid.FluidStack
 import dev.architectury.hooks.fluid.FluidStackHooks
 import dev.architectury.platform.Platform
@@ -11,9 +9,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.data.PotionDataHandler
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
-import dev.sterner.witchery.payload.CauldronEffectParticleS2CPayload
-import dev.sterner.witchery.payload.CauldronPoofS2CPacket
-import dev.sterner.witchery.payload.SyncCauldronS2CPacket
+import dev.sterner.witchery.payload.*
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
@@ -25,9 +21,7 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.NbtOps
-import net.minecraft.nbt.Tag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
@@ -38,10 +32,8 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.PotionItem
 import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.PointedDripstoneBlock
@@ -50,6 +42,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.Vec3
 import org.joml.Vector3d
 
 
@@ -200,12 +193,31 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             // Handle Slime Ball - Start potion brewing process
             else if (item.`is`(Items.SLIME_BALL) && cauldronCraftingRecipe == null && cauldronBrewingRecipe == null) {
                 PotionDataHandler.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
+                updateColor(level, item)
+                level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
                 item.shrink(1)
             } else {
                 // Handle other ingredients for potion brewing
                 if (witcheryPotionItemCache.isNotEmpty()) {
-                    PotionDataHandler.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
-                    item.shrink(1)
+                    PotionDataHandler.getIngredientFromItem(item)?.let { it ->
+                        if(WitcheryPotionItem.tryAddItemToPotion(witcheryPotionItemCache, it)) {
+                            updateColor(level, item)
+                            level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
+                            item.shrink(1)
+                        } else {
+                            level.playSound(null, pos, SoundEvents.FIREWORK_ROCKET_LARGE_BLAST_FAR, SoundSource.BLOCKS, 0.25f, 1f)
+                            level.playSound(null, pos, SoundEvents.HONEY_BLOCK_PLACE, SoundSource.BLOCKS, 0.95f, 1f)
+                            spawnFailParticle(level, pos)
+
+                            fun randomSmallOffset(): Double = (level.getRandom().nextDouble() * 0.1 - 0.05).let { if (it == 0.0) 0.01 else it }
+
+                            val dx = randomSmallOffset()
+                            val dz = randomSmallOffset()
+                            entity.deltaMovement = entity.deltaMovement.add(dx, 0.75, dz)
+
+                        }
+                    }
+
                 } else {
                     // Handle normal cauldron recipe behavior (crafting or brewing)
                     val firstEmpty = getFirstEmptyIndex()
@@ -459,6 +471,10 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
     private fun spawnSmokeParticle(level: Level, pos: BlockPos) {
         WitcheryPayloads.sendToPlayers(level, pos, CauldronPoofS2CPacket(pos, color))
+    }
+
+    private fun spawnFailParticle(level: Level, pos: BlockPos) {
+        WitcheryPayloads.sendToPlayers(level, pos, SpawnSmokePoofParticles(pos.center))
     }
 
     private fun getFirstEmptyIndex(): Int {
