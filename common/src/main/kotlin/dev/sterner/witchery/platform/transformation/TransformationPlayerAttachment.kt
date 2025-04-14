@@ -22,7 +22,7 @@ import kotlin.math.max
 
 object TransformationPlayerAttachment {
 
-    private const val MAX_COOLDOWN = 20 * 10
+    const val MAX_COOLDOWN = 20 * 10
     var bat: Bat? = null
 
     @JvmStatic

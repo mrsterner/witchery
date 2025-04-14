@@ -28,12 +28,14 @@ import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.player.LocalPlayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.tags.BlockTags
+import net.minecraft.util.Mth
 import net.minecraft.world.Containers
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.damagesource.DamageSource
@@ -311,12 +313,38 @@ object VampireEventHandler {
 
         val bl = player.isShiftKeyDown
 
+        val batCooldown = TransformationPlayerAttachment.getData(player).batFormCooldown
         for (i in size.indices) {
             var name = size[i].serializedName
             if (size[i] == VampireAbility.TRANSFIX && bl) {
                 name = "night_vision"
             }
-            guiGraphics.blit(Witchery.id("textures/gui/vampire_abilities/${name}.png"), x - (25 * i) + 4, y + 4, 16, 16, 0f,0f,16, 16,16, 16)
+
+            val iconX = x - (25 * i) + 4
+            val iconY = y + 4
+
+            guiGraphics.blit(
+                Witchery.id("textures/gui/vampire_abilities/${name}.png"),
+                iconX, iconY,
+                16, 16,
+                0f, 0f, 16, 16,
+                16, 16
+            )
+
+            if (size[i] == VampireAbility.BAT_FORM && batCooldown > 0) {
+                val cooldownPercent = batCooldown.toFloat() / TransformationPlayerAttachment.MAX_COOLDOWN
+                val fillStart = iconY + Mth.floor(16f * (1.0f - cooldownPercent))
+                val fillEnd = fillStart + Mth.ceil(16f * cooldownPercent)
+
+                guiGraphics.fill(
+                    RenderType.guiOverlay(),
+                    iconX,
+                    fillStart,
+                    iconX + 16,
+                    fillEnd,
+                    0xAA000000.toInt() // semi-transparent black
+                )
+            }
         }
 
         if (abilityIndex != -1) {
@@ -332,7 +360,7 @@ object VampireEventHandler {
             val bl = player.armorValue > 0
             val y = guiGraphics.guiHeight() - 36 - 10 - if (bl) 10 else 0
             val x = guiGraphics.guiWidth() / 2 - 18 * 4 - 11
-            RenderUtils.innerRenderBat(guiGraphics ,maxTicks, currentTicks, y, x)
+            RenderUtils.innerRenderBat(guiGraphics, maxTicks, currentTicks, y, x)
         }
     }
     /**
