@@ -11,9 +11,9 @@ object PotionColor : ItemColor {
 
     override fun getColor(itemStack: ItemStack, i: Int): Int {
         if (itemStack.has(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get())) {
-            val list = itemStack.get(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get())!!
-            if (list.isNotEmpty()) {
-                val color = list.last().color
+            val potionContentList = itemStack.get(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get())!!
+            if (potionContentList.isNotEmpty()) {
+                val color = potionContentList.last().ingredientInfo.color
                 return if (i > 0) -1 else FastColor.ARGB32.opaque(color)
             }
         }

@@ -105,13 +105,20 @@ object WitcheryDataComponents {
     }
 
     val WITCHERY_POTION_CONTENT = DATA.register("witchery_potion_content") {
-        DataComponentType.builder<List<WitcheryPotionIngredient>>()
-            .persistent(WitcheryPotionIngredient.CODEC.listOf())
+        DataComponentType.builder<List<FinalPotionData>>()
+            .persistent(FinalPotionData.CODEC.listOf())
             .build()
     }
 
-    val DURATION_AMPLIFIER = DATA.register("duration_amplifier") {
-        DataComponentType.builder<List<DurationAmplifier>>().persistent(DurationAmplifier.CODEC.listOf()).build()
+    data class FinalPotionData(val durationAmplifier: DurationAmplifier, val ingredientInfo: WitcheryPotionIngredient) {
+        companion object {
+            val CODEC: Codec<FinalPotionData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    DurationAmplifier.CODEC.fieldOf("durationAmplifier").forGetter { it.durationAmplifier },
+                    WitcheryPotionIngredient.CODEC.fieldOf("ingredientInfo").forGetter { it.ingredientInfo }
+                ).apply(instance, ::FinalPotionData)
+            }
+        }
     }
 
     data class DurationAmplifier(val duration: Int, val amplifier: Int){

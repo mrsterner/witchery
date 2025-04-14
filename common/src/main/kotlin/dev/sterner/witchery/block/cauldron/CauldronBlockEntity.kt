@@ -9,12 +9,15 @@ import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.data.PotionDataHandler
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
+import dev.sterner.witchery.item.potion.WitcheryPotionItem.Companion.getTotalEffectValues
 import dev.sterner.witchery.payload.*
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
+import dev.sterner.witchery.registry.WitcheryItems.WITCHERY_POTION
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
@@ -382,9 +385,20 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 pStack.shrink(1)
                 WitcheryApi.makePlayerWitchy(pPlayer)
 
-                val witchesPotion = WitcheryItems.WITCHERY_POTION.get().defaultInstance
-                witchesPotion.set(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get(), witcheryPotionItemCache)
-                WitcheryPotionItem.cacheEffectDuration(witchesPotion)
+                val witchesPotion = WITCHERY_POTION.get().defaultInstance
+
+                val effectDurations = witcheryPotionItemCache
+                    .map { ingredient ->
+                        val (duration, amplifier) = getTotalEffectValues(ingredient, witcheryPotionItemCache)
+                        WitcheryDataComponents.DurationAmplifier(duration, amplifier)
+                    }
+
+                val finalPotionDataList = effectDurations.zip(witcheryPotionItemCache) { durationAmplifier, ingredient ->
+                    WitcheryDataComponents.FinalPotionData(durationAmplifier, ingredient)
+                }
+
+                witchesPotion.set(WITCHERY_POTION_CONTENT.get(), finalPotionDataList)
+
 
                 Containers.dropItemStack(
                     level!!,

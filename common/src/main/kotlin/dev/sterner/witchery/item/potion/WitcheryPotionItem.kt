@@ -2,8 +2,6 @@ package dev.sterner.witchery.item.potion
 
 import dev.sterner.witchery.entity.WitcheryThrownPotion
 import dev.sterner.witchery.potion.MobEffectPotionEffect
-import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryDataComponents.DURATION_AMPLIFIER
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryPotionEffectRegistry
 import dev.sterner.witchery.util.WitcheryUtil
@@ -30,11 +28,11 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
         tooltipFlag: TooltipFlag
     ) {
         if (stack.has(WITCHERY_POTION_CONTENT.get())) {
-            val ingredients = stack.get(WITCHERY_POTION_CONTENT.get())
+            val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get())
 
-            if (ingredients != null) {
+            if (potionContentList != null) {
                 tooltipComponents.add(
-                    Component.translatable("Type: " + ingredients.last().type.name.lowercase().replaceFirstChar { it.uppercase() })
+                    Component.translatable("Type: " + potionContentList.last().ingredientInfo.type.name.lowercase().replaceFirstChar { it.uppercase() })
                         .setStyle(Style.EMPTY.withColor(Color(120, 180, 180).rgb))
                 )
 
@@ -42,22 +40,21 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                     Component.translatable("Ingredients: ")
                         .setStyle(Style.EMPTY.withColor(Color(120, 180, 180).rgb))
                 )
-                for ((index, ingredient) in ingredients.withIndex()) {
+                for ((index, potionContent) in potionContentList.withIndex()) {
                     if (index == 0) continue
-                    val (duration, amp) = getTotalEffectValues(ingredient, ingredients)
 
                     tooltipComponents.add(
                         Component.literal(" - ")
                             .append(
-                                Component.translatable(ingredient.item.descriptionId)
-                                    .withStyle { it.withColor(ingredient.color) }
+                                Component.translatable(potionContent.ingredientInfo.item.descriptionId)
+                                    .withStyle { it.withColor(potionContent.ingredientInfo.color) }
                             )
                             .append(
-                                Component.literal(if(amp > 0) " ${WitcheryUtil.toRoman(amp + 1)}" else "")
+                                Component.literal(if(potionContent.durationAmplifier.amplifier > 0) " ${WitcheryUtil.toRoman(potionContent.durationAmplifier.amplifier + 1)}" else "")
                             )
                             .append(
-                                if (duration > 0) {
-                                    Component.literal(" ${WitcheryUtil.formatDuration(duration)}")
+                                if (potionContent.durationAmplifier.duration > 0) {
+                                    Component.literal(" ${WitcheryUtil.formatDuration(potionContent.durationAmplifier.duration)}")
                                         .withStyle { it.withColor(Color(120, 180, 180).rgb) }
                                 } else {
                                     Component.literal("")
@@ -73,10 +70,10 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
     override fun use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val stack = player.getItemInHand(hand)
-        val ingredients = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return InteractionResultHolder.pass(stack)
+        val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return InteractionResultHolder.pass(stack)
 
-        val hasLingering = ingredients.any { it.type == WitcheryPotionIngredient.Type.LINGERING }
-        val hasSplash = ingredients.any { it.type == WitcheryPotionIngredient.Type.SPLASH }
+        val hasLingering = potionContentList.any { it.ingredientInfo.type == WitcheryPotionIngredient.Type.LINGERING }
+        val hasSplash = potionContentList.any { it.ingredientInfo.type == WitcheryPotionIngredient.Type.SPLASH }
 
         return when {
             hasLingering -> {
@@ -123,25 +120,21 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
         }
 
         if (stack.has(WITCHERY_POTION_CONTENT.get())) {
-            val ingredients = stack.get(WITCHERY_POTION_CONTENT.get())
-            if (ingredients != null) {
-                for ((i, ingredient) in ingredients.withIndex()) {
+            val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get())
+            if (potionContentList != null) {
+                for ((i, potionContent) in potionContentList.withIndex()) {
                     if (i == 0) continue
 
-                    val instance = WitcheryPotionEffectRegistry.EFFECTS.get(ingredient.effect.effectId)
+                    val instance = WitcheryPotionEffectRegistry.EFFECTS.get(potionContent.ingredientInfo.effect.effectId)
                     if (instance is MobEffectPotionEffect) {
-                        val effectData = stack.get(DURATION_AMPLIFIER.get())
-                        var duration = 0
-                        var amplifier = 0
-                        if (effectData != null) {
-                            duration = effectData[i - 1].duration
-                            amplifier = effectData[i - 1].amplifier
-                        }
+                        val effectData = potionContent.durationAmplifier
+                        val duration: Int = effectData.duration
+                        val amplifier = effectData.amplifier
 
                         entity.addEffect(MobEffectInstance(instance.mobEffect, duration, amplifier))
                     }
 
-                    ingredient.effect.affectEntity(entity, ingredient)
+                    potionContent.ingredientInfo.effect.affectEntity(entity, potionContent.ingredientInfo)
                 }
             }
         }
@@ -191,21 +184,5 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
             return totalDuration to totalAmplifier
         }
-
-        fun cacheEffectDuration(witchesPotion: ItemStack) {
-            val ingredients = witchesPotion.get(WITCHERY_POTION_CONTENT.get()) ?: return
-
-            val effectDurations = ingredients
-                .drop(1)
-                .map { ingredient ->
-                    val (duration, amplifier) = getTotalEffectValues(ingredient, ingredients)
-                    WitcheryDataComponents.DurationAmplifier(duration, amplifier)
-                }
-
-            witchesPotion.set(DURATION_AMPLIFIER.get(), effectDurations)
-        }
-
-
-
     }
 }
