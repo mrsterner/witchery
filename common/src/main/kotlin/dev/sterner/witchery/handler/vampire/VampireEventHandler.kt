@@ -342,7 +342,7 @@ object VampireEventHandler {
                     fillStart,
                     iconX + 16,
                     fillEnd,
-                    0xAA000000.toInt() // semi-transparent black
+                    0xAA000000.toInt()
                 )
             }
         }

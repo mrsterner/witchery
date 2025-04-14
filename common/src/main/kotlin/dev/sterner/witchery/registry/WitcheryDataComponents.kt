@@ -6,6 +6,7 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
+import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
@@ -102,6 +103,13 @@ object WitcheryDataComponents {
     val CAPTURED_ENTITY = DATA.register("captured_entity") {
         DataComponentType.builder<CritterSnareBlock.CapturedEntity>().persistent(CritterSnareBlock.CapturedEntity.CODEC).build()
     }
+
+    val WITCHERY_POTION_CONTENT = DATA.register("witchery_potion_content") {
+        DataComponentType.builder<List<WitcheryPotionIngredient>>()
+            .persistent(WitcheryPotionIngredient.CODEC.listOf())
+            .build()
+    }
+
 
 
     data class DualPotionContents(

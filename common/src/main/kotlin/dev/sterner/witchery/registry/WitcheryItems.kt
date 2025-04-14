@@ -13,6 +13,7 @@ import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.item.*
 import dev.sterner.witchery.item.accessories.*
 import dev.sterner.witchery.item.brew.*
+import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
@@ -429,6 +430,10 @@ object WitcheryItems {
 
     val GUIDEBOOK: RegistrySupplier<GuideBookItem> = ITEMS.register("guidebook") {
         GuideBookItem(Item.Properties())
+    }
+
+    val WITCHERY_POTION: RegistrySupplier<WitcheryPotionItem> = ITEMS.register("witchery_potion") {
+        WitcheryPotionItem(Item.Properties())
     }
 
     val DEEPSLATE_ALTAR_BLOCK: RegistrySupplier<BlockItem> = ITEMS.register("deepslate_altar_block") {

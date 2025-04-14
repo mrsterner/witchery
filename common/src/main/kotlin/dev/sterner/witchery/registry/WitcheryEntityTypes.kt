@@ -110,6 +110,20 @@ object WitcheryEntityTypes {
                 .build(Witchery.id("thrown_brew").toString())
         }
 
+    val THROWN_POTION: RegistrySupplier<EntityType<WitcheryThrownPotion>> =
+        ENTITY_TYPES.register(
+            "thrown_potion"
+        ) {
+            EntityType.Builder.of(
+                { _: EntityType<WitcheryThrownPotion>, w: Level ->
+                    WitcheryThrownPotion(
+                        w
+                    )
+                }, MobCategory.MISC
+            ).sized(0.25f, 0.25f).clientTrackingRange(4).updateInterval(10)
+                .build(Witchery.id("thrown_potion").toString())
+        }
+
     val BANSHEE = ENTITY_TYPES.register("banshee") {
         EntityType.Builder.of(
             { _: EntityType<BansheeEntity>, level: Level ->
