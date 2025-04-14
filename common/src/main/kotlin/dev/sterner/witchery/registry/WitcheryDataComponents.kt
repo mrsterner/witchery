@@ -110,6 +110,20 @@ object WitcheryDataComponents {
             .build()
     }
 
+    val DURATION_AMPLIFIER = DATA.register("duration_amplifier") {
+        DataComponentType.builder<List<DurationAmplifier>>().persistent(DurationAmplifier.CODEC.listOf()).build()
+    }
+
+    data class DurationAmplifier(val duration: Int, val amplifier: Int){
+        companion object {
+            val CODEC: Codec<DurationAmplifier> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.INT.fieldOf("duration").forGetter { it.duration },
+                    Codec.INT.fieldOf("amplifier").forGetter { it.amplifier }
+                ).apply(instance, ::DurationAmplifier)
+            }
+        }
+    }
 
 
     data class DualPotionContents(

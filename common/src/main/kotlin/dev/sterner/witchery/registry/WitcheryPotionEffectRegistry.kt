@@ -30,19 +30,16 @@ object WitcheryPotionEffectRegistry {
         WitcheryPotionEffect(Witchery.id("empty"), 0, 0)
     }
 
-
     val STRENGTH = registerEffect("strength") { name -> MobEffectPotionEffect(name, MobEffects.DAMAGE_BOOST) }
     val WEAKNESS = registerEffect("weakness") { name -> MobEffectPotionEffect(name, MobEffects.WEAKNESS) }
     val SLOW_FALL = registerEffect("slow_fall") { name -> MobEffectPotionEffect(name, MobEffects.SLOW_FALLING) }
     val REGENERATION = registerEffect("regeneration") { name -> MobEffectPotionEffect(name, MobEffects.REGENERATION) }
     val POISON = registerEffect("poison") { name -> MobEffectPotionEffect(name, MobEffects.POISON) }
-    val SPEED_BOOST = registerEffect("speed") { name -> MobEffectPotionEffect(name, MobEffects.MOVEMENT_SPEED) }
+    val SPEED_BOOST = registerEffect("speed") { name -> MobEffectPotionEffect(name, MobEffects.MOVEMENT_SPEED, duration = 20 * 90) }
     val INSTANT_HEALTH = registerEffect("health") { name -> MobEffectPotionEffect(name, MobEffects.HEAL) }
     val NIGHT_VISION = registerEffect("night_vision") { name -> MobEffectPotionEffect(name, MobEffects.NIGHT_VISION) }
 
     /*
-    /*
-
 
     Bat Burst	Bat Ball	2	1,000	Negative
     Insect Bane	Blue Orchid	2	200	Positive
@@ -141,8 +138,6 @@ object WitcheryPotionEffectRegistry {
     Fell Tree	String	1		Tool
     Moonshine	Wheat	1		Tool
     Werewolf Lock	Wolfsbane	1		Tool
-
-     */
      */
 
 

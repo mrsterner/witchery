@@ -14,7 +14,7 @@ data class WitcheryPotionIngredient(
     val generalModifier: Optional<GeneralModifier> = Optional.empty(),
     val effectModifier: Optional<EffectModifier> = Optional.empty(),
     val dispersalModifier: Optional<DispersalModifier> = Optional.empty(),
-    val type: Type = Type.DRINK,
+    val type: Type = Type.CONSUMABLE,
     val color: Int = Color(90, 222, 100).rgb
 ) {
 
@@ -32,7 +32,7 @@ data class WitcheryPotionIngredient(
     }
 
     enum class Type {
-        DRINK,
+        CONSUMABLE,
         SPLASH,
         LINGERING;
 
@@ -45,14 +45,16 @@ data class WitcheryPotionIngredient(
     }
 
     data class EffectModifier(
-        val powerModifier: Int = 1,
-        val durationModifier: Int = 1
+        val powerAddition: Int = 1,
+        val durationAddition: Int = 0,
+        val durationMultiplier: Int = 1,
     ) {
         companion object {
             val CODEC: Codec<EffectModifier> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    Codec.INT.optionalFieldOf("power", 1).forGetter { it.powerModifier },
-                    Codec.INT.optionalFieldOf("duration", 1).forGetter { it.durationModifier }
+                    Codec.INT.optionalFieldOf("power", 1).forGetter { it.powerAddition },
+                    Codec.INT.optionalFieldOf("duration", 1).forGetter { it.durationAddition },
+                    Codec.INT.optionalFieldOf("durationMultiplier", 1).forGetter { it.durationMultiplier }
                 ).apply(instance, ::EffectModifier)
             }
         }

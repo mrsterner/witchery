@@ -372,6 +372,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
                 val witchesPotion = WitcheryItems.WITCHERY_POTION.get().defaultInstance
                 witchesPotion.set(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get(), witcheryPotionItemCache)
+                WitcheryPotionItem.cacheEffectDuration(witchesPotion)
 
                 Containers.dropItemStack(
                     level!!,

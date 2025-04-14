@@ -93,7 +93,7 @@ class WitcheryPotionProvider(
         generalModifier: Optional<GeneralModifier> = Optional.empty(),
         effectModifier: Optional<EffectModifier> = Optional.empty(),
         dispersalModifier: Optional<DispersalModifier> = Optional.empty(),
-        type: Type = Type.DRINK,
+        type: Type = Type.CONSUMABLE,
         color: Int = Color(90, 222, 100).rgb
 
     ) {
