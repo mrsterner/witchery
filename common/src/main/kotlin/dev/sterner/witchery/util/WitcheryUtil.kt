@@ -25,4 +25,26 @@ object WitcheryUtil {
         }
         return buffer[0]
     }
+
+    fun formatDuration(ticks: Int): String {
+        val totalSeconds = ticks / 20
+        val minutes = totalSeconds / 60
+        val seconds = totalSeconds % 60
+        return String.format("%02d:%02d", minutes, seconds)
+    }
+
+    fun toRoman(number: Int): String {
+        val numerals = listOf(
+            10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I"
+        )
+        var n = number
+        val result = StringBuilder()
+        for ((value, numeral) in numerals) {
+            while (n >= value) {
+                result.append(numeral)
+                n -= value
+            }
+        }
+        return result.toString()
+    }
 }

@@ -6,6 +6,7 @@ import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryDataComponents.DURATION_AMPLIFIER
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryPotionEffectRegistry
+import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.InteractionHand
@@ -21,29 +22,6 @@ import net.minecraft.world.level.Level
 import java.awt.Color
 
 class WitcheryPotionItem(properties: Properties) : Item(properties) {
-
-
-    private fun formatDuration(ticks: Int): String {
-        val totalSeconds = ticks / 20
-        val minutes = totalSeconds / 60
-        val seconds = totalSeconds % 60
-        return String.format("%02d:%02d", minutes, seconds)
-    }
-
-    private fun toRoman(number: Int): String {
-        val numerals = listOf(
-            10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I"
-        )
-        var n = number
-        val result = StringBuilder()
-        for ((value, numeral) in numerals) {
-            while (n >= value) {
-                result.append(numeral)
-                n -= value
-            }
-        }
-        return result.toString()
-    }
 
     override fun appendHoverText(
         stack: ItemStack,
@@ -75,11 +53,11 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                                     .withStyle { it.withColor(ingredient.color) }
                             )
                             .append(
-                                Component.literal(if(amp > 0) " ${toRoman(amp + 1)}" else "")
+                                Component.literal(if(amp > 0) " ${WitcheryUtil.toRoman(amp + 1)}" else "")
                             )
                             .append(
                                 if (duration > 0) {
-                                    Component.literal(" ${formatDuration(duration)}")
+                                    Component.literal(" ${WitcheryUtil.formatDuration(duration)}")
                                         .withStyle { it.withColor(Color(120, 180, 180).rgb) }
                                 } else {
                                     Component.literal("")
@@ -137,10 +115,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
     override fun getUseDuration(stack: ItemStack, entity: LivingEntity): Int = 32
 
-
-    override fun getUseAnimation(stack: ItemStack): UseAnim {
-        return UseAnim.DRINK
-    }
+    override fun getUseAnimation(stack: ItemStack): UseAnim = UseAnim.DRINK
 
     override fun finishUsingItem(stack: ItemStack, level: Level, entity: LivingEntity): ItemStack {
         if (entity is Player && !entity.abilities.instabuild) {
