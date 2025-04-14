@@ -145,8 +145,6 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                     val instance = WitcheryPotionEffectRegistry.EFFECTS.get(ingredient.effect.effectId)
                     if (instance is MobEffectPotionEffect) {
                         val effectData = dura[i - 1]
-                        println(dura)
-                        println(i)
                         entity.addEffect(MobEffectInstance(instance.mobEffect, effectData.duration, effectData.amplifier))
                     }
                 }
