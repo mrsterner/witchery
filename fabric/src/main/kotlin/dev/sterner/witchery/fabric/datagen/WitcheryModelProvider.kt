@@ -197,6 +197,7 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
     override fun generateItemModels(genetaror: ItemModelGenerators) {
         genetaror.generateFlatItem(WitcheryItems.GUIDEBOOK.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateItemWithOverlay(WitcheryItems.WITCHERY_POTION.get())
         genetaror.generateFlatItem(WitcheryItems.MUTANDIS.get(), ModelTemplates.FLAT_ITEM)
         genetaror.generateFlatItem(WitcheryItems.MUTANDIS_EXTREMIS.get(), ModelTemplates.FLAT_ITEM)
 

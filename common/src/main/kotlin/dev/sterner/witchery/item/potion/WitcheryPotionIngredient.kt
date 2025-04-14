@@ -3,6 +3,7 @@ package dev.sterner.witchery.item.potion
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.world.item.ItemStack
+import java.awt.Color
 import java.util.Optional
 
 data class WitcheryPotionIngredient(
@@ -10,10 +11,11 @@ data class WitcheryPotionIngredient(
     val effect: WitcheryPotionEffect,
     val altarPower: Int,
     val capacityCost: Int = 1,
-    val generalModifier: Optional<GeneralModifier>,
-    val effectModifier: Optional<EffectModifier>,
-    val dispersalModifier: Optional<DispersalModifier>,
-    val type: Type = Type.DRINK
+    val generalModifier: Optional<GeneralModifier> = Optional.empty(),
+    val effectModifier: Optional<EffectModifier> = Optional.empty(),
+    val dispersalModifier: Optional<DispersalModifier> = Optional.empty(),
+    val type: Type = Type.DRINK,
+    val color: Int = Color(90, 222, 100).rgb
 ) {
 
     enum class GeneralModifier {
@@ -80,7 +82,8 @@ data class WitcheryPotionIngredient(
                 GeneralModifier.CODEC.optionalFieldOf("general_modifier").forGetter { it.generalModifier },
                 EffectModifier.CODEC.optionalFieldOf("effect_modifier").forGetter { it.effectModifier },
                 DispersalModifier.CODEC.optionalFieldOf("dispersal_modifier").forGetter { it.dispersalModifier },
-                Type.CODEC.fieldOf("type").forGetter{ it.type }
+                Type.CODEC.fieldOf("type").forGetter{ it.type },
+                Codec.INT.fieldOf("color").forGetter { it.color },
             ).apply(instance, ::WitcheryPotionIngredient)
         }
     }

@@ -24,6 +24,7 @@ import dev.sterner.witchery.api.BloodPoolComponent
 import dev.sterner.witchery.api.SleepingEvent
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
+import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
@@ -40,6 +41,7 @@ import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.data.ErosionHandler
 import dev.sterner.witchery.data.NaturePowerHandler
+import dev.sterner.witchery.data.PotionDataHandler
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.vampire.VampireAbilities
@@ -51,6 +53,7 @@ import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WineGlassItem
 import dev.sterner.witchery.item.accessories.BitingBeltItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
+import dev.sterner.witchery.item.potion.WitcheryPotionEffect
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData
@@ -101,6 +104,7 @@ object Witchery {
     @JvmStatic
     fun init() {
         WitcheryCurseRegistry.init()
+        WitcheryPotionEffectRegistry.init()
         WitcheryRitualRegistry.init()
         WitcheryFluids.FLUIDS.register()
         WitcheryFluids.init()
@@ -140,6 +144,7 @@ object Witchery {
 
         NaturePowerHandler.registerListener()
         ErosionHandler.registerListener()
+        PotionDataHandler.registerListener()
         BloodPoolHandler.registerListener()
 
         WitcheryModonomiconLoaders.register()
@@ -526,6 +531,11 @@ object Witchery {
             WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
             WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(),
             WitcheryBlocks.SACRIFICIAL_CIRCLE.get()
+        )
+
+        ColorHandlerRegistry.registerItemColors(
+            PotionColor,
+            WitcheryItems.WITCHERY_POTION.get()
         )
 
         RenderTypeRegistry.register(

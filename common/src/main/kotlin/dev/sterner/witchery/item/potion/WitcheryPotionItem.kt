@@ -2,16 +2,37 @@ package dev.sterner.witchery.item.potion
 
 import dev.sterner.witchery.entity.WitcheryThrownPotion
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
+import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.UseAnim
 import net.minecraft.world.level.Level
 
 class WitcheryPotionItem(properties: Properties) : Item(properties) {
+
+    override fun appendHoverText(
+        stack: ItemStack,
+        context: TooltipContext,
+        tooltipComponents: MutableList<Component>,
+        tooltipFlag: TooltipFlag
+    ) {
+        if (stack.has(WITCHERY_POTION_CONTENT.get())) {
+            val ingredients = stack.get(WITCHERY_POTION_CONTENT.get())
+
+            if (ingredients != null) {
+                for (ingredient in ingredients) {
+                    tooltipComponents.add(Component.translatable(ingredient.item.descriptionId))
+                }
+            }
+        }
+
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
+    }
 
     override fun use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val stack = player.getItemInHand(hand)
@@ -62,5 +83,9 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
         // Apply effects based on ingredients...
 
         return stack
+    }
+
+    fun addIngredient(item: ItemStack){
+
     }
 }

@@ -1,11 +1,16 @@
 package dev.sterner.witchery.block.cauldron
 
+import com.google.gson.JsonObject
+import com.mojang.serialization.JsonOps
 import dev.architectury.fluid.FluidStack
 import dev.architectury.hooks.fluid.FluidStackHooks
 import dev.architectury.platform.Platform
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.fluid.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.data.PotionDataHandler
+import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.payload.CauldronEffectParticleS2CPayload
 import dev.sterner.witchery.payload.CauldronPoofS2CPacket
 import dev.sterner.witchery.payload.SyncCauldronS2CPacket
@@ -13,16 +18,16 @@ import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryPayloads
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.NbtOps
+import net.minecraft.nbt.Tag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
@@ -33,8 +38,10 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.PotionItem
 import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.PointedDripstoneBlock
@@ -53,6 +60,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
     private var cauldronCraftingRecipe: CauldronCraftingRecipe? = null
     private var cauldronBrewingRecipe: CauldronBrewingRecipe? = null
+    private var witcheryPotionItemCache: MutableList<WitcheryPotionIngredient> = mutableListOf()
     private var inputItems: NonNullList<ItemStack> = NonNullList.withSize(12, ItemStack.EMPTY)
     private var craftingProgressTicker = 0
     private var brewItemOutput: ItemStack = ItemStack.EMPTY
@@ -123,7 +131,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         setChanged()
     }
 
-    fun handleDripstone(level: Level, pos: BlockPos) {
+    private fun handleDripstone(level: Level, pos: BlockPos) {
         if (level !is ServerLevel) return
         val dripstone = PointedDripstoneBlock.findStalactiteTipAboveCauldron(level, pos) ?: return
         val fluid = PointedDripstoneBlock.getCauldronFillFluidType(level, dripstone)
@@ -181,24 +189,36 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         level.getEntities(EntityType.ITEM, AABB(blockPos)) { true }.forEach { entity ->
             val item = entity.item
             val cacheForColorItem = item.copy()
+
+            // Handle Wood Ash - Reset potion and recipes
             if (item.`is`(WitcheryItems.WOOD_ASH.get())) {
                 fullReset()
                 WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPacket(pos, true))
                 item.shrink(1)
                 setChanged()
+            }
+            // Handle Slime Ball - Start potion brewing process
+            else if (item.`is`(Items.SLIME_BALL) && cauldronCraftingRecipe == null && cauldronBrewingRecipe == null) {
+                PotionDataHandler.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
+                item.shrink(1)
             } else {
-                // Get the first empty slot and add the item to inputItems
-                val firstEmpty = getFirstEmptyIndex()
-                if (firstEmpty != -1) {
-                    setItem(firstEmpty, item.split(1))
-                    level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
+                // Handle other ingredients for potion brewing
+                if (witcheryPotionItemCache.isNotEmpty()) {
+                    PotionDataHandler.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
+                    item.shrink(1)
+                } else {
+                    // Handle normal cauldron recipe behavior (crafting or brewing)
+                    val firstEmpty = getFirstEmptyIndex()
+                    if (firstEmpty != -1) {
+                        setItem(firstEmpty, item.split(1))
+                        level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
 
-                    // Refresh recipe to match current inputItems
-                    refreshCraftingAndBrewingRecipe(level)
+                        // Refresh recipe to match current inputItems
+                        refreshCraftingAndBrewingRecipe(level)
 
-                    updateColor(level, cacheForColorItem)
+                        updateColor(level, cacheForColorItem)
+                    }
                 }
-
             }
 
             setChanged()
@@ -282,6 +302,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             color = WATER_COLOR
         }
 
+        witcheryPotionItemCache = mutableListOf()
         clearContent()
         cauldronCraftingRecipe = null
         cauldronBrewingRecipe = null
@@ -292,6 +313,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     fun fullReset() {
         color = WATER_COLOR
         clearContent()
+        witcheryPotionItemCache = mutableListOf()
         cauldronCraftingRecipe = null
         cauldronBrewingRecipe = null
         complete = false
@@ -343,6 +365,30 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
         }
         if (pStack.`is`(Items.GLASS_BOTTLE)) {
+
+            if (witcheryPotionItemCache.isNotEmpty() && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
+                pStack.shrink(1)
+                WitcheryApi.makePlayerWitchy(pPlayer)
+
+                val witchesPotion = WitcheryItems.WITCHERY_POTION.get().defaultInstance
+                witchesPotion.set(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get(), witcheryPotionItemCache)
+
+                Containers.dropItemStack(
+                    level!!,
+                    pPlayer.x,
+                    pPlayer.y,
+                    pPlayer.z,
+                    witchesPotion
+                )
+
+                fluidTank.drain(FluidStackHooks.bucketAmount() / 3, false)
+                playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
+                playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)
+                if (fluidTank.getFluidAmount() < (FluidStackHooks.bucketAmount() / 3)) {
+                    fullReset()
+                }
+                return ItemInteractionResult.SUCCESS
+            }
 
             if (!brewItemOutput.isEmpty && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
 
@@ -437,6 +483,17 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         }
         this.inputItems = NonNullList.withSize(this.containerSize, ItemStack.EMPTY)
         ContainerHelper.loadAllItems(pTag, inputItems, pRegistries)
+
+        if (pTag.contains("witcheryPotionItemCache", 9)) {
+            val listTag = pTag.getList("witcheryPotionItemCache", 10)
+            val decodeResult = WitcheryPotionIngredient.CODEC.listOf().parse(NbtOps.INSTANCE, listTag)
+
+            decodeResult.resultOrPartial { _ ->
+            }?.let {
+                witcheryPotionItemCache = it.get().toMutableList()
+            }
+        }
+
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
@@ -449,6 +506,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             tag.put("Item", brewItemOutput.save(registries))
         }
         ContainerHelper.saveAllItems(tag, inputItems, registries)
+
+        val listResult = WitcheryPotionIngredient.CODEC.listOf().encodeStart(NbtOps.INSTANCE, witcheryPotionItemCache)
+        listResult.resultOrPartial { _ -> }?.let { tag.put("witcheryPotionItemCache", it.get()) }
     }
 
     //INVENTORY IMPL

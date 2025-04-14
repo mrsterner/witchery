@@ -2,6 +2,7 @@ package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.fabric.datagen.bootstrap.WitcheryConfiguredFeatureBootstrap
 import dev.sterner.witchery.fabric.datagen.bootstrap.WitcheryPlacedFeatureBootstrap
+import dev.sterner.witchery.item.potion.WitcheryPotionEffect
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.minecraft.core.RegistrySetBuilder
@@ -55,6 +56,9 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
         }
         pack.addProvider { out, tag ->
             WitcheryErosionProvider(out, tag)
+        }
+        pack.addProvider { out, tag ->
+            WitcheryPotionProvider(out, tag)
         }
         pack.addProvider { out, tag ->
             WitcheryBloodProvider(out, tag)

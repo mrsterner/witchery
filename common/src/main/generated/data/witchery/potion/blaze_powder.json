@@ -1,0 +1,15 @@
+{
+  "type": "drink",
+  "altar_power": 200,
+  "capacity_cost": 0,
+  "color": -32236,
+  "effect": {
+    "amplifier": 0,
+    "duration": 900,
+    "effect": "witchery:strength"
+  },
+  "item": {
+    "count": 1,
+    "id": "minecraft:blaze_powder"
+  }
+}

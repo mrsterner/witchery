@@ -1,0 +1,15 @@
+{
+  "type": "drink",
+  "altar_power": 200,
+  "capacity_cost": 0,
+  "color": -10822044,
+  "effect": {
+    "amplifier": 0,
+    "duration": 20,
+    "effect": "witchery:empty"
+  },
+  "item": {
+    "count": 1,
+    "id": "minecraft:slime_ball"
+  }
+}

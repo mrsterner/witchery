@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "witchery:item/witchery_potion",
+    "layer1": "witchery:item/witchery_potion_overlay"
+  }
+}
