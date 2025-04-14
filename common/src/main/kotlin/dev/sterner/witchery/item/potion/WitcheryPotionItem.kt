@@ -139,9 +139,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
 
     override fun getUseAnimation(stack: ItemStack): UseAnim {
-        val ingredients = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return UseAnim.NONE
-        val lastType = ingredients.lastOrNull()?.type ?: return UseAnim.NONE
-        return if (lastType == WitcheryPotionIngredient.Type.CONSUMABLE) UseAnim.DRINK else UseAnim.NONE
+        return UseAnim.DRINK
     }
 
     override fun finishUsingItem(stack: ItemStack, level: Level, entity: LivingEntity): ItemStack {
