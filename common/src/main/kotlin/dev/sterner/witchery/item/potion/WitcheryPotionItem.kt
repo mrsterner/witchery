@@ -138,17 +138,22 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
         if (stack.has(WITCHERY_POTION_CONTENT.get())) {
             val ingredients = stack.get(WITCHERY_POTION_CONTENT.get())
             if (ingredients != null) {
-                val dura = stack.get(DURATION_AMPLIFIER.get())!!
                 for ((i, ingredient) in ingredients.withIndex()) {
                     if (i == 0) continue
 
                     val instance = WitcheryPotionEffectRegistry.EFFECTS.get(ingredient.effect.effectId)
                     if (instance is MobEffectPotionEffect) {
-                        val effectData = dura[i - 1]
-                        entity.addEffect(MobEffectInstance(instance.mobEffect, effectData.duration, effectData.amplifier))
+                        val effectData = stack.get(DURATION_AMPLIFIER.get())
+                        var duration = 0
+                        var amplifier = 0
+                        if (effectData != null) {
+                            duration = effectData[i - 1].duration
+                            amplifier = effectData[i - 1].amplifier
+                        }
+
+                        entity.addEffect(MobEffectInstance(instance.mobEffect, duration, amplifier))
                     }
                 }
-
             }
         }
 
