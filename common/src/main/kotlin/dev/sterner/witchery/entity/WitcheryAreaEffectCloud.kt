@@ -3,8 +3,10 @@ package dev.sterner.witchery.entity
 import com.google.common.collect.Lists
 import com.google.common.collect.Maps
 import com.mojang.logging.LogUtils
+import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.potion.MobEffectPotionEffect
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import net.minecraft.core.Holder
+import dev.sterner.witchery.registry.WitcheryPotionEffectRegistry
 import net.minecraft.core.particles.ColorParticleOption
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleTypes
@@ -18,8 +20,6 @@ import net.minecraft.util.FastColor
 import net.minecraft.util.Mth
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.*
-import net.minecraft.world.item.alchemy.Potion
-import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.material.PushReaction
 import org.slf4j.Logger
@@ -29,7 +29,7 @@ import java.util.*
 class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud?>, level: Level) :
     Entity(entityType, level), TraceableEntity {
 
-    private var potionContents: PotionContents = PotionContents.EMPTY
+    private var potionContents: MutableList<WitcheryPotionIngredient> = mutableListOf()
     private val victims: MutableMap<Entity, Int> = Maps.newHashMap()
     var duration: Int = 600
     var waitTime: Int = 20
@@ -72,7 +72,7 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
             }
         }
 
-    fun setPotionContents(potionContents: PotionContents) {
+    fun setPotionContents(potionContents: MutableList<WitcheryPotionIngredient>) {
         this.potionContents = potionContents
         this.updateColor()
     }
@@ -80,13 +80,9 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
     private fun updateColor() {
         val particleOptions = entityData.get(DATA_PARTICLE)
         if (particleOptions is ColorParticleOption) {
-            val i = if (this.potionContents == PotionContents.EMPTY) 0 else potionContents.color
+            val i = if (this.potionContents.isEmpty()) 0 else potionContents.last().color
             entityData.set(DATA_PARTICLE, ColorParticleOption.create(particleOptions.type, FastColor.ARGB32.opaque(i)))
         }
-    }
-
-    fun addEffect(effectInstance: MobEffectInstance?) {
-        this.setPotionContents(potionContents.withEffectAdded(effectInstance))
     }
 
     var particle: ParticleOptions
@@ -184,74 +180,69 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
 
             if (this.tickCount % 5 == 0) {
                 victims.entries.removeIf { entry: Map.Entry<Entity, Int> -> this.tickCount >= entry.value }
-                if (!potionContents.hasEffects()) {
-                    victims.clear()
-                } else {
-                    val list: MutableList<MobEffectInstance> = Lists.newArrayList()
-                    if (potionContents.potion().isPresent) {
-                        for (mobEffectInstance in ((potionContents.potion()
-                            .get() as Holder<*>).value() as Potion).effects) {
-                            list.add(
-                                MobEffectInstance(
-                                    mobEffectInstance.effect,
-                                    mobEffectInstance.mapDuration { i: Int -> i / 4 },
-                                    mobEffectInstance.amplifier,
-                                    mobEffectInstance.isAmbient,
-                                    mobEffectInstance.isVisible
-                                )
-                            )
-                        }
-                    }
+                val list: MutableList<MobEffectInstance> = Lists.newArrayList()
+                val visible = !potionContents.any { it.generalModifier.orElse(null) == WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE }
 
-                    list.addAll(potionContents.customEffects())
-                    val list2 = level().getEntitiesOfClass(
-                        LivingEntity::class.java, this.boundingBox
+                val mobEffects: List<MobEffectPotionEffect> = potionContents.map { WitcheryPotionEffectRegistry.EFFECTS.get(it.effect.effectId) }.filterIsInstance<MobEffectPotionEffect>()
+                for (mobEffectInstance in mobEffects) {
+                    list.add(
+                        MobEffectInstance(
+                            mobEffectInstance.mobEffect,
+                            mobEffectInstance.duration,
+                            mobEffectInstance.amplifier,
+                            false,
+                            visible
+                        )
                     )
-                    if (list2.isNotEmpty()) {
-                        for (livingEntity in list2) {
-                            if (!victims.containsKey(livingEntity) && livingEntity.isAffectedByPotions && !list.stream()
-                                    .noneMatch { effectInstance: MobEffectInstance ->
-                                        livingEntity.canBeAffected(
-                                            effectInstance
+                }
+
+                val list2 = level().getEntitiesOfClass(
+                    LivingEntity::class.java, this.boundingBox
+                )
+                if (list2.isNotEmpty()) {
+                    for (livingEntity in list2) {
+                        if (!victims.containsKey(livingEntity) && livingEntity.isAffectedByPotions && !list.stream()
+                                .noneMatch { effectInstance: MobEffectInstance ->
+                                    livingEntity.canBeAffected(
+                                        effectInstance
+                                    )
+                                }
+                        ) {
+                            val m = livingEntity.x - this.x
+                            val n = livingEntity.z - this.z
+                            val o = m * m + n * n
+                            if (o <= (f * f).toDouble()) {
+                                victims[livingEntity] = this.tickCount + this.reapplicationDelay
+
+                                for (mobEffectInstance2 in list) {
+                                    if (mobEffectInstance2.effect.value().isInstantenous) {
+                                        mobEffectInstance2.effect.value().applyInstantenousEffect(
+                                            this,
+                                            this.getOwner(), livingEntity, mobEffectInstance2.amplifier, 0.5
+                                        )
+                                    } else {
+                                        livingEntity.addEffect(
+                                            MobEffectInstance(mobEffectInstance2),
+                                            this
                                         )
                                     }
-                            ) {
-                                val m = livingEntity.x - this.x
-                                val n = livingEntity.z - this.z
-                                val o = m * m + n * n
-                                if (o <= (f * f).toDouble()) {
-                                    victims[livingEntity] = this.tickCount + this.reapplicationDelay
+                                }
 
-                                    for (mobEffectInstance2 in list) {
-                                        if (mobEffectInstance2.effect.value().isInstantenous) {
-                                            mobEffectInstance2.effect.value().applyInstantenousEffect(
-                                                this,
-                                                this.getOwner(), livingEntity, mobEffectInstance2.amplifier, 0.5
-                                            )
-                                        } else {
-                                            livingEntity.addEffect(
-                                                MobEffectInstance(mobEffectInstance2),
-                                                this
-                                            )
-                                        }
+                                if (this.radiusOnUse != 0.0f) {
+                                    f += this.radiusOnUse
+                                    if (f < 0.5f) {
+                                        this.discard()
+                                        return
                                     }
 
-                                    if (this.radiusOnUse != 0.0f) {
-                                        f += this.radiusOnUse
-                                        if (f < 0.5f) {
-                                            this.discard()
-                                            return
-                                        }
+                                    this.radius = f
+                                }
 
-                                        this.radius = f
-                                    }
-
-                                    if (this.durationOnUse != 0) {
-                                        this.duration += this.durationOnUse
-                                        if (this.duration <= 0) {
-                                            this.discard()
-                                            return
-                                        }
+                                if (this.durationOnUse != 0) {
+                                    this.duration += this.durationOnUse
+                                    if (this.duration <= 0) {
+                                        this.discard()
+                                        return
                                     }
                                 }
                             }
@@ -307,20 +298,14 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
                 }
         }
 
-        if (compound.contains("potion_contents")) {
-            PotionContents.CODEC
-                .parse(registryOps, compound["potion_contents"])
-                .resultOrPartial { string: String? ->
-                    LOGGER.warn(
-                        "Failed to parse area effect cloud potions: '{}'",
-                        string
-                    )
-                }
-                .ifPresent { potionContents: PotionContents ->
-                    this.setPotionContents(
-                        potionContents
-                    )
-                }
+        if (compound.contains("witcheryPotionItemCache", 9)) {
+            val listTag = compound.getList("witcheryPotionItemCache", 10)
+            val decodeResult = WitcheryPotionIngredient.CODEC.listOf().parse(NbtOps.INSTANCE, listTag)
+
+            decodeResult.resultOrPartial { _ ->
+            }?.let {
+                potionContents = it.get().toMutableList()
+            }
         }
     }
 
@@ -344,10 +329,8 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
             compound.putUUID("Owner", this.ownerUUID)
         }
 
-        if (potionContents != PotionContents.EMPTY) {
-            val tag = PotionContents.CODEC.encodeStart(registryOps, this.potionContents).getOrThrow()
-            compound.put("potion_contents", tag)
-        }
+        val listResult = WitcheryPotionIngredient.CODEC.listOf().encodeStart(NbtOps.INSTANCE, potionContents)
+        listResult.resultOrPartial { _ -> }?.let { compound.put("witcheryPotionItemCache", it.get()) }
     }
 
     override fun onSyncedDataUpdated(dataAccessor: EntityDataAccessor<*>) {

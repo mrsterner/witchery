@@ -1,5 +1,6 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.potion.MobEffectPotionEffect
 import dev.sterner.witchery.registry.WitcheryDataComponents.DURATION_AMPLIFIER
@@ -59,6 +60,17 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         }
     }
 
+    private fun makeAreaOfEffectCloud(potionContents: MutableList<WitcheryPotionIngredient>) {
+        val areaEffectCloud = WitcheryAreaEffectCloud(this.level(), this.x, this.y, this.z)
+        areaEffectCloud.radius = 3.0f + getRangeBonus(potionContents)
+        areaEffectCloud.radiusOnUse = -0.5f
+        areaEffectCloud.waitTime = 10
+        areaEffectCloud.duration *= potionContents.mapNotNull { it.dispersalModifier.orElse(null)?.lingeringDurationModifier }.maxOrNull() ?: 1
+        areaEffectCloud.radiusPerTick = -areaEffectCloud.radius / areaEffectCloud.duration.toFloat()
+        areaEffectCloud.setPotionContents(potionContents)
+        level().addFreshEntity(areaEffectCloud)
+    }
+
     override fun calculateHorizontalHurtKnockbackDirection(
         entity: LivingEntity,
         damageSource: DamageSource
@@ -70,6 +82,11 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
 
     override fun getDefaultGravity(): Double {
         return 0.05
+    }
+
+    private fun getRangeBonus(potion: List<WitcheryPotionIngredient>): Int {
+        return potion.mapNotNull { it.dispersalModifier.orElse(null)?.rangeModifier }
+            .maxOrNull() ?: 1
     }
 
     private fun getRangeBonus(stack: ItemStack): Int {
@@ -121,12 +138,14 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                                                 this.owner, livingEntity, amplifier, e
                                             )
                                         } else {
+
+                                            val visible = !ingredients.any { it.generalModifier.orElse(null) == WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE }
                                             val mobEffectInstance2 = MobEffectInstance(
                                                 holder,
                                                 duration,
                                                 amplifier,
                                                 false,
-                                                false
+                                                visible
                                             )
                                             if (!mobEffectInstance2.endsWithin(20)) {
                                                 livingEntity.addEffect(mobEffectInstance2, entity2)
