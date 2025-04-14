@@ -66,7 +66,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                 )
                 for ((index, ingredient) in ingredients.withIndex()) {
                     if (index == 0) continue
-                    val (duration, amp) = getTotalEffectValues(ingredient)
+                    val (duration, amp) = getTotalEffectValues(ingredient, ingredients)
 
                     tooltipComponents.add(
                         Component.literal(" - ")
@@ -75,7 +75,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                                     .withStyle { it.withColor(ingredient.color) }
                             )
                             .append(
-                                Component.literal(if(amp > 0) " ${toRoman(amp)}" else "")
+                                Component.literal(if(amp > 0) " ${toRoman(amp + 1)}" else "")
                             )
                             .append(
                                 if (duration > 0) {
@@ -109,7 +109,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                 if (!level.isClientSide) {
                     val thrown = WitcheryThrownPotion(level, player)
                     thrown.item = stack
-                    thrown.shootFromRotation(player, player.xRot, player.yRot, 0f, 1.5f, 1.0f)
+                    thrown.shootFromRotation(player, player.xRot, player.yRot, -20.0f, 0.5f, 1.0f)
                     level.addFreshEntity(thrown)
                     if (!player.abilities.instabuild) {
                         stack.shrink(1)
@@ -186,22 +186,22 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
             return false
         }
 
-        fun getTotalEffectValues(ingredient: WitcheryPotionIngredient): Pair<Int, Int> {
+        fun getTotalEffectValues(ingredient: WitcheryPotionIngredient, allIngredients: List<WitcheryPotionIngredient>): Pair<Int, Int> {
             val baseEffect = ingredient.effect
             var totalAmplifier = baseEffect.amplifier
             var totalDuration = baseEffect.duration
 
-            var addedPower = 0
+            val highestPowerAddition = allIngredients.mapNotNull { it.effectModifier.orElse(null)?.powerAddition }.maxOrNull() ?: 0
+
             var addedDuration = 0
             var durationMultiplier = 1
 
             ingredient.effectModifier.ifPresent { modifier ->
-                addedPower += modifier.powerAddition
-                addedDuration += modifier.durationAddition
-                durationMultiplier *= modifier.durationMultiplier
+                addedDuration = modifier.durationAddition
+                durationMultiplier = modifier.durationMultiplier
             }
 
-            totalAmplifier += addedPower
+            totalAmplifier += highestPowerAddition
             totalDuration = (totalDuration + addedDuration) * durationMultiplier
 
             return totalDuration to totalAmplifier
@@ -213,7 +213,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
             val effectDurations = ingredients
                 .drop(1)
                 .map { ingredient ->
-                    val (duration, amplifier) = getTotalEffectValues(ingredient)
+                    val (duration, amplifier) = getTotalEffectValues(ingredient, ingredients)
                     WitcheryDataComponents.DurationAmplifier(duration, amplifier)
                 }
 

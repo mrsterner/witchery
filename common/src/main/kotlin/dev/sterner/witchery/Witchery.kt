@@ -53,7 +53,6 @@ import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WineGlassItem
 import dev.sterner.witchery.item.accessories.BitingBeltItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
-import dev.sterner.witchery.item.potion.WitcheryPotionEffect
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData
@@ -74,13 +73,13 @@ import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
-import net.minecraft.client.renderer.entity.BoatRenderer
-import net.minecraft.client.renderer.entity.ThrownItemRenderer
+import net.minecraft.client.renderer.entity.*
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
+import net.minecraft.world.entity.AreaEffectCloud
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.animal.Pig
 import net.minecraft.world.level.block.Blocks
@@ -415,8 +414,16 @@ object Witchery {
 
         EntityRendererRegistry.register(WitcheryEntityTypes.FLOATING_ITEM, ::FloatingItemEntityRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.THROWN_BREW, ::ThrownItemRenderer)
+        EntityRendererRegistry.register(WitcheryEntityTypes.THROWN_POTION, ::ThrownItemRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.SLEEPING_PLAYER, ::SleepingPlayerEntityRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.SPECTRAL_PIG, ::SpectralPigRenderer)
+        EntityRendererRegistry.register(
+            WitcheryEntityTypes.AREA_EFFECT_CLOUD
+        ) { context: EntityRendererProvider.Context ->
+            NoopRenderer(
+                context
+            )
+        }
 
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)

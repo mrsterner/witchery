@@ -1,13 +1,6 @@
 {
-  "type": "consumable",
-  "altar_power": 0,
   "capacity_cost": 4,
   "color": -10822044,
-  "effect": {
-    "amplifier": 0,
-    "duration": 0,
-    "effect": "witchery:empty"
-  },
   "item": {
     "count": 1,
     "id": "minecraft:nether_star"

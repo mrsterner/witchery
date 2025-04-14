@@ -93,7 +93,8 @@ class WitcheryPotionProvider(
         makeIngredient(provider,
             WitcheryItems.MANDRAKE_ROOT.get(),
             altarPower = 50,
-            capacity = 2
+            capacity = 2,
+            effectModifier = Optional.of(EffectModifier(durationMultiplier = 6))
         )
 
         makeIngredient(provider,
@@ -116,6 +117,93 @@ class WitcheryPotionProvider(
             WitcheryItems.PENTACLE.get(),
             altarPower = 0,
             capacity = 8
+        )
+
+        makeIngredient(provider,
+            Items.GOLD_NUGGET,
+            altarPower = 50,
+            generalModifier = Optional.of(GeneralModifier.NO_PARTICLE)
+        )
+
+        makeIngredient(provider,
+            Items.FERMENTED_SPIDER_EYE,
+            altarPower = 25,
+            generalModifier = Optional.of(GeneralModifier.INVERT_NEXT)
+        )
+        makeIngredient(provider,
+            WitcheryItems.ROWAN_BERRIES.get(),
+            altarPower = 50,
+            generalModifier = Optional.of(GeneralModifier.DRINK_SPEED_BOOST)
+        )
+        makeIngredient(provider,
+            WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get(),
+            altarPower = 50,
+            generalModifier = Optional.of(GeneralModifier.DRINK_SPEED_BOOST)
+        )
+        makeIngredient(provider,
+            WitcheryItems.SPANISH_MOSS.get(),
+            altarPower = 50,
+            generalModifier = Optional.of(GeneralModifier.DRINK_SPEED_BOOST)
+        )
+
+        makeIngredient(provider,
+            Items.GLOWSTONE_DUST,
+            altarPower = 50,
+            effectModifier = Optional.of(EffectModifier(powerAddition = 1))
+        )
+
+        makeIngredient(provider,
+            Items.BLAZE_ROD,
+            altarPower = 100,
+            effectModifier = Optional.of(EffectModifier(powerAddition = 2))
+        )
+        makeIngredient(provider,
+            WitcheryItems.ATTUNED_STONE.get(),
+            altarPower = 150,
+            effectModifier = Optional.of(EffectModifier(powerAddition = 4))
+        )
+        makeIngredient(provider,
+            Items.REDSTONE,
+            altarPower = 50,
+            effectModifier = Optional.of(EffectModifier(durationMultiplier = 2))
+        )
+        makeIngredient(provider,
+            Items.OBSIDIAN,
+            altarPower = 100,
+            effectModifier = Optional.of(EffectModifier(durationMultiplier = 4))
+        )
+
+        makeIngredient(provider,
+            Items.GUNPOWDER,
+            altarPower = 100,
+            type = Type.SPLASH
+        )
+
+        makeIngredient(provider,
+            Items.COCOA_BEANS,
+            altarPower = 100,
+            dispersalModifier = Optional.of(DispersalModifier(rangeModifier = 2))
+        )
+
+        makeIngredient(provider,
+            WitcheryItems.WISPY_COTTON.get(),
+            altarPower = 150,
+            dispersalModifier = Optional.of(DispersalModifier(rangeModifier = 4))
+        )
+        makeIngredient(provider,
+            WitcheryItems.BELLADONNA_FLOWER.get(),
+            altarPower = 50,
+            dispersalModifier = Optional.of(DispersalModifier(lingeringDurationModifier = 2))
+        )
+        makeIngredient(provider,
+            Items.LAPIS_LAZULI,
+            altarPower = 100,
+            dispersalModifier = Optional.of(DispersalModifier(lingeringDurationModifier = 3))
+        )
+        makeIngredient(provider,
+            Items.END_STONE,
+            altarPower = 150,
+            dispersalModifier = Optional.of(DispersalModifier(lingeringDurationModifier = 4))
         )
     }
 

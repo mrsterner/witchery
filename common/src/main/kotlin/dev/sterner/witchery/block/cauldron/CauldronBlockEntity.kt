@@ -209,7 +209,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                             level.playSound(null, pos, SoundEvents.HONEY_BLOCK_PLACE, SoundSource.BLOCKS, 0.95f, 1f)
                             spawnFailParticle(level, pos)
 
-                            fun randomSmallOffset(): Double = (level.getRandom().nextDouble() * 0.1 - 0.05).let { if (it == 0.0) 0.01 else it }
+                            fun randomSmallOffset(): Double = (level.getRandom().nextDouble() * 0.1 - 0.05).let { if (it < 0.001 && it > -0.001) 0.01 else it }
 
                             val dx = randomSmallOffset()
                             val dz = randomSmallOffset()

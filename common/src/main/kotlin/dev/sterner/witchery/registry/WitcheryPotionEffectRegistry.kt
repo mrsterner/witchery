@@ -36,7 +36,6 @@ object WitcheryPotionEffectRegistry {
     val INSTANT_HEALTH = registerEffect("health") { name -> MobEffectPotionEffect(name, MobEffects.HEAL) }
     val NIGHT_VISION = registerEffect("night_vision") { name -> MobEffectPotionEffect(name, MobEffects.NIGHT_VISION) }
 
-
     /*
 
     Bat Burst	Bat Ball	2	1,000	Negative
@@ -140,46 +139,6 @@ object WitcheryPotionEffectRegistry {
 
 
     fun init(){
-/*CAPACITY
-Mandrake root		+1 Capacity
-Netherwart	50	+2 Capacity
-Tear of the Goddess	100	+2 Capacity
-Diamond Vapor	150	+2 Capacity
-Diamond	150	+2 Capacity
-Nether star		+4 Capacity
-Pentacle		+8 capacity
-*/
-
-/* GENERAL
-Golden Nugget	50	No Particles
-Fermented Spider Eye	25	Inverts next effect
-Nether Brick	50	Skips block effects
-Brick	50	Skips entity effects
-Any color wool		Sets color of brew
-Rowan Berries	50	Faster quaffing
-Exhale of the Horned One		Faster quaffing
-Spanish Moss	50	Faster quaffing
-*/
-
-/*EFFECT MOD
-Glowstone Dust	50	Power to 2
-Blaze Rod	100	Power to 3
-Charged Attuned Stone	150	Power to 4
-Redstone	50	Duration to x2
-Obsidian	100	Duration to x4
-Minedrake Bulb	150	Duration to x6
- */
-
-/*Disperal Mod
-Wood Ash	50	Radius to 2
-Cocoa Beans	100	Radius to 3
-Wispy Cotton	150	Radius to 4
-Belladonna Flower	50	Duration to 2
-Lapis	100	Duration to 3
-End Stone	150	Duration to 4
-*/
-
-
 
     }
 }

@@ -1,9 +1,10 @@
 {
+  "type": "splash",
   "altar_power": 100,
-  "capacity_cost": 2,
+  "capacity_cost": 0,
   "color": -10822044,
   "item": {
     "count": 1,
-    "id": "witchery:tear_of_the_goddess"
+    "id": "minecraft:gunpowder"
   }
 }

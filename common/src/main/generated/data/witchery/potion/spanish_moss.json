@@ -1,0 +1,10 @@
+{
+  "altar_power": 50,
+  "capacity_cost": 0,
+  "color": -10822044,
+  "general_modifier": "drink_speed_boost",
+  "item": {
+    "count": 1,
+    "id": "witchery:spanish_moss"
+  }
+}

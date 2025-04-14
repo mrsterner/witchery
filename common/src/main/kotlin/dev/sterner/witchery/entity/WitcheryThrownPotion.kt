@@ -51,6 +51,9 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
             if (itemStack.item is WitcheryPotionItem) {
                 applySplash(itemStack,
                     if (result.type == HitResult.Type.ENTITY) (result as EntityHitResult).entity else null)
+
+                val color = itemStack.get(WITCHERY_POTION_CONTENT.get())?.last()?.color
+                color?.let { level().levelEvent(2002, this.blockPosition(), it) }
             }
             this.discard()
         }
@@ -69,8 +72,16 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         return 0.05
     }
 
+    private fun getRangeBonus(stack: ItemStack): Int {
+        val potion = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return 1
+
+        return potion.mapNotNull { it.dispersalModifier.orElse(null)?.rangeModifier }
+            .maxOrNull() ?: 1
+    }
+
     private fun applySplash(stack: ItemStack, entity: Entity?) {
-        val aABB = this.boundingBox.inflate(4.0, 2.0, 4.0)
+        val scaleBonus = getRangeBonus(stack)
+        val aABB = this.boundingBox.inflate(4.0 * scaleBonus, 2.0 * scaleBonus, 4.0 * scaleBonus)
         val list = level().getEntitiesOfClass(
             LivingEntity::class.java, aABB
         )

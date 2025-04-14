@@ -1,12 +1,12 @@
 {
   "altar_power": 50,
-  "capacity_cost": 2,
+  "capacity_cost": 0,
   "color": -10822044,
   "effect_modifier": {
-    "durationMultiplier": 6
+    "power": 1
   },
   "item": {
     "count": 1,
-    "id": "witchery:mandrake_root"
+    "id": "minecraft:glowstone_dust"
   }
 }
