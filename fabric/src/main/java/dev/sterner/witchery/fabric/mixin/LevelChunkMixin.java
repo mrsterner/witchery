@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin;
+package dev.sterner.witchery.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.sterner.witchery.api.block.CustomUpdateTagHandlingBlockEntity;

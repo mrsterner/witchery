@@ -70,7 +70,7 @@ class SuspiciousGraveyardDirtBlockEntity(pos: BlockPos, blockState: BlockState) 
 
     //TODO make this a loottable
     private fun unpackLootTable(player: Player) {
-        if (this.level != null && !level!!.isClientSide() && (level!!.server != null)) {
+        if (this.level != null && !level!!.isClientSide() && (level!!.server != null) && this.storedItem == ItemStack.EMPTY) {
             val list = listOf(
                 Items.BONE.defaultInstance,
                 Items.ROTTEN_FLESH.defaultInstance,

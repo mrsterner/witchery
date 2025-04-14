@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin;
+package dev.sterner.witchery.fabric.mixin;
 
 import dev.sterner.witchery.handler.PoppetHandler;
 import net.minecraft.server.level.ServerLevel;

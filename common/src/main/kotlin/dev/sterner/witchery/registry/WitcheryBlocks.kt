@@ -1006,7 +1006,8 @@ object WitcheryBlocks {
     }
 
     val SUSPICIOUS_GRAVEYARD_DIRT: RegistrySupplier<SuspiciousGraveyardDirtBlock> = BLOCKS.register("suspicious_graveyard_dirt") {
-        SuspiciousGraveyardDirtBlock(Blocks.COARSE_DIRT, SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, BlockBehaviour.Properties.of())
+        SuspiciousGraveyardDirtBlock(Blocks.COARSE_DIRT, SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, BlockBehaviour.Properties.of()
+            .sound(SoundType.SOUL_SAND))
     }
 
     val SACRIFICIAL_CIRCLE: RegistrySupplier<SacrificialBlock> = BLOCKS.register("sacrificial_circle") {

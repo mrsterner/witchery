@@ -7,6 +7,7 @@ import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.item.CaneSwordItem
+import dev.sterner.witchery.mixin.BrushItemMixin
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
 import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
@@ -16,8 +17,10 @@ import net.minecraft.client.Minecraft
 import net.minecraft.core.NonNullList
 import net.minecraft.network.syncher.EntityDataSerializer
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.item.BrushItem
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
+import net.minecraft.world.level.block.BrushableBlock
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod

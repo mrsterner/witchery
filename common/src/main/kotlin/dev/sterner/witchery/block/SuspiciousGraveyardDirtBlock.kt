@@ -106,7 +106,7 @@ class SuspiciousGraveyardDirtBlock(val turnsInto: Block, val brushSound: SoundEv
                     BuiltInRegistries.SOUND_EVENT.byNameCodec().fieldOf("brush_sound")
                         .forGetter { obj: SuspiciousGraveyardDirtBlock -> obj.brushSound },
                     BuiltInRegistries.SOUND_EVENT.byNameCodec()
-                        .fieldOf("brush_comleted_sound")
+                        .fieldOf("brush_completed_sound")
                         .forGetter { obj: SuspiciousGraveyardDirtBlock -> obj.brushCompletedSound },
                     propertiesCodec()
                 )

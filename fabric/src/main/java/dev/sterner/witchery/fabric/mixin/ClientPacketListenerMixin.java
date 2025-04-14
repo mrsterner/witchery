@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin.client;
+package dev.sterner.witchery.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

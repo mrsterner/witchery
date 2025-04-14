@@ -4,8 +4,6 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
-    "client.ClientPacketListenerMixin",
-    "client.GuiMixin",
     "client.HumanoidModelMixin",
     "client.ItemRendererMixin",
     "client.LivingEntityRendererMixin",
@@ -16,8 +14,6 @@
     "client.WorldOpenFlowsMixin"
   ],
   "mixins": [
-    "BlockBehaviourMixin",
-    "BlockEntityTypeMixin",
     "BookCategoryNodeScreenMixin",
     "BrushItemMixin",
     "DamageSourcesInvoker",
@@ -25,8 +21,6 @@
     "EntityMixin",
     "FoodDataMixin",
     "ItemEntityMixin",
-    "ItemStackMixin",
-    "LevelChunkMixin",
     "LightningBoltMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",

@@ -48,8 +48,8 @@ object WitcheryNeoForgeClientEvent {
 
     @SubscribeEvent
     fun addEnchantGlint(event: RegisterRenderBuffersEvent){
-        event.registerRenderBuffer(WitcheryRenderTypes.GLINT.apply(Witchery.id("textures/misc/all_black.png")))
-        event.registerRenderBuffer(WitcheryRenderTypes.GLINT_DIRECT.apply(Witchery.id("textures/misc/all_black.png")))
+        //TODO event.registerRenderBuffer(WitcheryRenderTypes.GLINT.apply(Witchery.id("textures/misc/all_black.png")))
+        //event.registerRenderBuffer(WitcheryRenderTypes.GLINT_DIRECT.apply(Witchery.id("textures/misc/all_black.png")))
     }
 
     @SubscribeEvent

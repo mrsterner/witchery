@@ -4,12 +4,16 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
+    "ClientPacketListenerMixin",
     "GuiMixin",
     "ItemRendererMixin"
   ],
   "mixins": [
     "ArgumentTypeInfosInvoker",
+    "BlockBehaviourMixin",
     "FoodDataMixin",
+    "ItemStackMixin",
+    "LevelChunkMixin",
     "LivingEntityMixin",
     "PlayerMixin",
     "StructureTemplatePoolAccessor"
