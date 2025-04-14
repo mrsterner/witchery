@@ -14,6 +14,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure.StructurePiece
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data.BloodPoolHandler
+import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
 import dev.sterner.witchery.platform.WitcheryAttributes
@@ -119,7 +120,7 @@ object VampireEventHandler {
      */
     private fun vampireTick(player: ServerPlayer, vampData: VampirePlayerAttachment.Data) {
         val isInSunlight = player.level().canSeeSky(player.blockPosition()) && player.level().isDay
-        val sunDamageSource = player.level().damageSources().source(WitcheryDamageSources.IN_SUN)
+        val sunDamageSource = (player.level().damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
 
         if (isInSunlight) {

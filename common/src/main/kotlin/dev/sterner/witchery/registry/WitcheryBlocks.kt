@@ -37,6 +37,7 @@ import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockComponent
 import dev.sterner.witchery.block.trees.StrippableLogBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarComponent
+import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.StrippableHelper
 import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.BlockPos
@@ -397,7 +398,7 @@ object WitcheryBlocks {
         FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    private val ROWAN_WOOD_TYPE: WoodType = WoodType.register(WoodType("$MODID:rowan", BlockSetType.OAK))
+    private val ROWAN_WOOD_TYPE: WoodType = PlatformUtils.registerWoodType(WoodType("$MODID:rowan", BlockSetType.OAK))
 
     val ROWAN_FENCE_GATE: RegistrySupplier<FenceGateBlock> = BLOCKS.register("rowan_fence_gate") {
         FenceGateBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
@@ -509,7 +510,8 @@ object WitcheryBlocks {
         FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    private val ALDER_WOOD_TYPE: WoodType = WoodType.register(WoodType("$MODID:alder", BlockSetType.OAK))
+    private val ALDER_WOOD_TYPE: WoodType = PlatformUtils.registerWoodType(WoodType("$MODID:alder", BlockSetType.OAK))
+
 
     val ALDER_FENCE_GATE: RegistrySupplier<FenceGateBlock> = BLOCKS.register("alder_fence_gate") {
         FenceGateBlock(ALDER_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
@@ -622,7 +624,7 @@ object WitcheryBlocks {
         FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    private val HAWTHORN_WOOD_TYPE: WoodType = WoodType.register(WoodType("$MODID:hawthorn", BlockSetType.OAK))
+    private val HAWTHORN_WOOD_TYPE: WoodType = PlatformUtils.registerWoodType(WoodType("$MODID:hawthorn", BlockSetType.OAK))
 
     val HAWTHORN_FENCE_GATE: RegistrySupplier<FenceGateBlock> = BLOCKS.register("hawthorn_fence_gate") {
         FenceGateBlock(HAWTHORN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))

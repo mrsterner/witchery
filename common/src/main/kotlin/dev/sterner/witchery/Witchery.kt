@@ -33,7 +33,6 @@ import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
-import dev.sterner.witchery.client.renderer.accessory.BatwingPendantRenderer
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen

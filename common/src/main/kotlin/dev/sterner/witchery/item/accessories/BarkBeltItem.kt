@@ -1,7 +1,8 @@
 package dev.sterner.witchery.item.accessories
 
+import dev.sterner.witchery.api.AccessoryItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Rarity
 
-open class BarkBeltItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)) {
+open class BarkBeltItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)), AccessoryItem {
 }

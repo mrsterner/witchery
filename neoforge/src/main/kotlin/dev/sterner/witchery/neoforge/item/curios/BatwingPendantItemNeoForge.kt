@@ -1,8 +1,6 @@
-package dev.sterner.witchery.fabric.item.trinkets
+package dev.sterner.witchery.neoforge.item.curios
 
 import com.google.common.collect.Multimap
-import dev.emi.trinkets.api.SlotReference
-import dev.emi.trinkets.api.Trinket
 import dev.sterner.witchery.item.accessories.BatwingPendantItem
 import dev.sterner.witchery.platform.WitcheryAttributes
 import net.minecraft.core.Holder
@@ -11,17 +9,18 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.Attribute
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.item.ItemStack
+import top.theillusivec4.curios.api.SlotContext
+import top.theillusivec4.curios.api.type.capability.ICurioItem
 
-class BatwingPendantItemNeoForge(settings: Properties) : BatwingPendantItem(settings), Trinket {
+class BatwingPendantItemNeoForge(settings: Properties) : BatwingPendantItem(settings), ICurioItem {
 
-    override fun getModifiers(
-        stack: ItemStack,
-        slot: SlotReference,
-        entity: LivingEntity,
-        slotIdentifier: ResourceLocation
+    override fun getAttributeModifiers(
+        slotContext: SlotContext?,
+        id: ResourceLocation?,
+        stack: ItemStack?
     ): Multimap<Holder<Attribute>, AttributeModifier> {
-        val multimap = super.getModifiers(stack, slot, entity, slotIdentifier)
-        multimap.put(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION, modifier)
-        return multimap
+        val map = super.getAttributeModifiers(slotContext, id, stack)
+        map.put(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION, modifier)
+        return map
     }
 }

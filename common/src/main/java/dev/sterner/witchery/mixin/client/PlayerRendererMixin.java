@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import dev.sterner.witchery.mixin.LivingEntityAccessor;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
@@ -105,10 +106,13 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 
                 bat.swingingArm = entity.getMainArm() == HumanoidArm.RIGHT ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
                 bat.deathTime = entity.deathTime;
-                bat.walkAnimation = entity.walkAnimation;
+                //bat.walkAnimation = entity.walkAnimation;
 
-                bat.swimAmount = entity.swimAmount;
-                bat.swimAmountO = entity.swimAmountO;
+                float swimAmt = ((LivingEntityAccessor) entity).getSwimAmount();
+                ((LivingEntityAccessor) bat).setSwimAmount(swimAmt);
+
+                float swimAmtO = ((LivingEntityAccessor) entity).getSwimAmountO();
+                ((LivingEntityAccessor) bat).setSwimAmountO(swimAmtO);
                 bat.startUsingItem(entity.getUsedItemHand() == null ? InteractionHand.MAIN_HAND : entity.getUsedItemHand());
                 
                 Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(bat)

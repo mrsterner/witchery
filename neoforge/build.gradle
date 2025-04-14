@@ -1,14 +1,10 @@
 plugins {
-    id 'com.gradleup.shadow'
+    id 'com.github.johnrengelman.shadow'
 }
 
 architectury {
     platformSetupLoomIde()
     neoForge()
-}
-
-loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
 }
 
 configurations {
@@ -76,6 +72,5 @@ shadowJar {
 }
 
 remapJar {
-//    atAccessWideners.add loom.accessWidenerPath.get().asFile.name
     input.set shadowJar.archiveFile
 }

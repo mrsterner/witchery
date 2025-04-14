@@ -14,6 +14,7 @@ import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood
 import dev.sterner.witchery.platform.CursePlayerAttachment
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
+import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
@@ -24,7 +25,6 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
-import net.minecraft.commands.synchronization.ArgumentTypeInfos
 import net.minecraft.commands.synchronization.SingletonArgumentInfo
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
@@ -48,9 +48,12 @@ object WitcheryCommands {
         infoClass: Class<A>?,
         argumentTypeInfo: I
     ): I {
-        ArgumentTypeInfos.BY_CLASS[infoClass] = argumentTypeInfo
+        val byClass: MutableMap<Class<*>, ArgumentTypeInfo<*, *>> = PlatformUtils.getByClass()
+        byClass[infoClass as Class<*>] = argumentTypeInfo as ArgumentTypeInfo<*, *>
+
         return argumentTypeInfo
     }
+
 
     fun register(
         dispatcher: CommandDispatcher<CommandSourceStack>,

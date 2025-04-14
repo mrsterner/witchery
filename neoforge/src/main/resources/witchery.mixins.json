@@ -8,9 +8,11 @@
     "ItemRendererMixin"
   ],
   "mixins": [
+    "ArgumentTypeInfosInvoker",
     "FoodDataMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "StructureTemplatePoolAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

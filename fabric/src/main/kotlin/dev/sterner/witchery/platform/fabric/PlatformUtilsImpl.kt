@@ -2,8 +2,12 @@ package dev.sterner.witchery.platform.fabric
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethodStage.Vanilla
 import dev.architectury.registry.registries.RegistrySupplier
+import dev.emi.trinkets.api.TrinketComponent
+import dev.emi.trinkets.api.TrinketsApi
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.item.trinkets.*
+import dev.sterner.witchery.fabric.mixin.ArgumentTypeInfosInvoker
+import dev.sterner.witchery.fabric.mixin.WoodTypeInvoker
 import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.item.accessories.*
 import dev.sterner.witchery.platform.WitcheryAttributes
@@ -12,6 +16,7 @@ import io.github.ladysnake.pal.AbilitySource
 import io.github.ladysnake.pal.Pal
 import io.github.ladysnake.pal.VanillaAbilities
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.commands.synchronization.ArgumentTypeInfo
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
@@ -20,6 +25,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.*
 import net.minecraft.world.item.component.ItemAttributeModifiers
+import net.minecraft.world.level.block.state.properties.WoodType
 import java.awt.Color
 
 
@@ -36,32 +42,32 @@ object PlatformUtilsImpl {
     }
 
     @JvmStatic
-    fun getBarkBelt(): BarkBeltItem {
+    fun getBarkBeltItem(): BarkBeltItem {
         return BarkBeltItemFabric(Item.Properties())
     }
 
     @JvmStatic
-    fun getBatwingPendant(): BatwingPendantItem {
+    fun getBatwingPendantItem(): BatwingPendantItem {
         return BatwingPendantItemFabric(Item.Properties())
     }
 
     @JvmStatic
-    fun getBitingBelt(): BitingBeltItem {
+    fun getBitingBeltItem(): BitingBeltItem {
         return BitingBeltItemFabric(Item.Properties())
     }
 
     @JvmStatic
-    fun getBloodstonePendant(): BloodstonePendantItem {
+    fun getBloodstonePendantItem(): BloodstonePendantItem {
         return BloodstonePendantItemFabric(Item.Properties())
     }
 
     @JvmStatic
-    fun getSunstonePendant(): SunstonePendantItem {
+    fun getSunstonePendantItem(): SunstonePendantItem {
         return SunstonePendantItemFabric(Item.Properties())
     }
 
     @JvmStatic
-    fun getDreamCharm(): DreamweaverCharmItem {
+    fun getDreamweaverCharmItem(): DreamweaverCharmItem {
         return DreamCharmItemFabric(Item.Properties())
     }
 
@@ -154,6 +160,11 @@ object PlatformUtilsImpl {
         }
     }
 
+    @JvmStatic
+    fun allEquippedAccessories(livingEntity: Player): List<ItemStack> {
+        return TrinketsApi.TRINKET_COMPONENT.get(livingEntity).allEquipped.map { it.b }
+    }
+
     //PAL
     val BAT_FLIGHT_ABILITY_SOURCE_ID: ResourceLocation = Witchery.id("bat")
     val BAT_ABILITY_SOURCE: AbilitySource = Pal.getAbilitySource(BAT_FLIGHT_ABILITY_SOURCE_ID)
@@ -168,5 +179,15 @@ object PlatformUtilsImpl {
     fun tryDisableBatFlight(player: Player) {
         BAT_ABILITY_SOURCE.revokeFrom(player, VanillaAbilities.FLYING)
         BAT_ABILITY_SOURCE.revokeFrom(player, VanillaAbilities.ALLOW_FLYING)
+    }
+
+    @JvmStatic
+    fun registerWoodType(woodType: WoodType): WoodType {
+        return WoodTypeInvoker.invokeRegister(woodType)
+    }
+
+    @JvmStatic
+    fun getByClass(): MutableMap<Class<*>, ArgumentTypeInfo<*, *>> {
+        return ArgumentTypeInfosInvoker.getByClass()
     }
 }

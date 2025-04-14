@@ -6,8 +6,10 @@
   "client": [
   ],
   "mixins": [
+    "ArgumentTypeInfosInvoker",
     "PlayerMixin",
-    "StructureTemplatePoolAccessor"
+    "StructureTemplatePoolAccessor",
+    "WoodTypeInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

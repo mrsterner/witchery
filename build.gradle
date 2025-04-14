@@ -1,8 +1,8 @@
 plugins {
-    id 'dev.architectury.loom' version '1.9.428' apply false
+    id 'dev.architectury.loom' version '1.7.401' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
-    id 'com.gradleup.shadow' version '8.3.6' apply false
-    id "org.jetbrains.kotlin.jvm" version "2.0.21" apply false
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+    id "org.jetbrains.kotlin.jvm" version "2.0.10" apply false
 }
 
 architectury {
@@ -58,7 +58,7 @@ subprojects {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.layered() {
             officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip")
+            parchment("org.parchmentmc.data:parchment-1.21:2024.07.28@zip")
         }
     }
 

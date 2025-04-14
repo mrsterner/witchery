@@ -16,7 +16,6 @@
   "license": "ARR",
   "icon": "assets/logo.png",
   "environment": "*",
-  "accessWidener": "witchery.accesswidener",
   "entrypoints": {
     "main": [
       "dev.sterner.witchery.fabric.WitcheryFabric"
@@ -50,7 +49,6 @@
     "fabric": "*",
     "minecraft": ">=1.21.1",
     "architectury": "*",
-    "modonomicon": "*",
-    "accessories": "*"
+    "modonomicon": "*"
   }
 }

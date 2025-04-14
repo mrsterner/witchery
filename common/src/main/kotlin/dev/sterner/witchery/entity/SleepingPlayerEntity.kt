@@ -5,12 +5,14 @@ import dev.sterner.witchery.api.SleepingPlayerData
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.mixin.PlayerInvoker
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
@@ -233,7 +235,9 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             entity.setEquipment(sleepingPlayerBuilder.equipment)
             entity.setPos(player.x, max(player.y + 0.2f, player.level().minBuildHeight.toDouble()), player.z)
             entity.yRot = player.yRot
-            entity.setSleepingModel(player.entityData.get(Player.DATA_PLAYER_MODE_CUSTOMISATION))
+
+            val playerModeCustomisation: EntityDataAccessor<Byte> = PlayerInvoker.getPlayerModeCustomisationAccessor()
+            entity.setSleepingModel(player.entityData.get(playerModeCustomisation))
             if (player.level() is ServerLevel) {
                 val serverLevel = player.level() as ServerLevel
                 SleepingLevelAttachment.add(player.uuid, entity.uuid, player.blockPosition(), serverLevel)

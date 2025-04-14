@@ -1,11 +1,13 @@
 package dev.sterner.witchery.api
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.mixin.PlayerInvoker
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.NbtOps
+import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -117,7 +119,8 @@ class SleepingPlayerData(
                 builder.equipment[i] = player.getItemBySlot(EquipmentSlot.entries[i]).copy()
             }
 
-            builder.model = player.entityData.get(Player.DATA_PLAYER_MODE_CUSTOMISATION)
+            val playerModeCustomisation: EntityDataAccessor<Byte> = PlayerInvoker.getPlayerModeCustomisationAccessor()
+            builder.model = player.entityData.get(playerModeCustomisation)
             return builder
         }
 

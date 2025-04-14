@@ -4,6 +4,7 @@ import dev.sterner.witchery.entity.goal.DrinkBloodTargetingGoal
 import dev.sterner.witchery.entity.goal.NightHuntGoal
 import dev.sterner.witchery.entity.goal.VampireEscapeSunGoal
 import dev.sterner.witchery.entity.goal.VampireHurtByTargetGoal
+import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryEntityTypes
@@ -84,7 +85,8 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         super.baseTick()
 
         val isInSunlight = this.level().canSeeSky(this.blockPosition()) && this.level().isDay
-        val sunDamageSource = this.level().damageSources().source(WitcheryDamageSources.IN_SUN)
+        val sunDamageSource = (this.level().damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
+
         if (isInSunlight) {
             inSunTick++
             inSunTick = min(inSunTick, 80)

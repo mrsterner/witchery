@@ -1,5 +1,6 @@
 package dev.sterner.witchery.handler
 
+import dev.sterner.witchery.api.AccessoryItem
 import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.component.DataComponents
@@ -28,10 +29,9 @@ object AccessoryHandler {
         var itemStack: ItemStack? = null
 
         if (livingEntity is Player && PlatformUtils.isModLoaded("accessories")) {
-            val list: List<ItemStack> = AccessoriesCapability.get(livingEntity)?.allEquipped
-                ?.filter { it.stack.item is PoppetItem }
-                ?.filter { it.stack.`is`(item) }
-                ?.map { it.stack }.orEmpty()
+            val list: List<ItemStack> = PlatformUtils.allEquippedAccessories(livingEntity)
+                .filter { it.item is PoppetItem }
+                .filter { it.`is`(item) }
 
             for (accessory in list) {
                 val profile = accessory.get(DataComponents.PROFILE)
@@ -62,10 +62,9 @@ object AccessoryHandler {
         var itemStack: ItemStack? = null
 
         if (livingEntity is Player && PlatformUtils.isModLoaded("accessories")) {
-            val list: List<ItemStack> = AccessoriesCapability.get(livingEntity)?.allEquipped
-                ?.filter { it.stack.item is PoppetItem }
-                ?.filter { it.stack.`is`(item) }
-                ?.map { it.stack }.orEmpty()
+            val list: List<ItemStack> = PlatformUtils.allEquippedAccessories(livingEntity)
+                .filter { it.item is PoppetItem }
+                .filter { it.`is`(item) }
 
             for (accessory in list) {
                 val profile = accessory.get(DataComponents.PROFILE)
@@ -90,10 +89,10 @@ object AccessoryHandler {
         var itemStack: ItemStack? = null
 
         if (livingEntity is Player && PlatformUtils.isModLoaded("accessories")) {
-            val list: List<ItemStack> = AccessoriesCapability.get(livingEntity)?.allEquipped
-                ?.filter { it.stack.item is AccessoryItem }
-                ?.filter { it.stack.`is`(item) }
-                ?.map { it.stack }.orEmpty()
+            val list: List<ItemStack> = PlatformUtils.allEquippedAccessories(livingEntity)
+                .filter { it.item is AccessoryItem }
+                .filter { it.`is`(item) }
+
 
             if (list.isNotEmpty()) {
                 itemStack = list[0]

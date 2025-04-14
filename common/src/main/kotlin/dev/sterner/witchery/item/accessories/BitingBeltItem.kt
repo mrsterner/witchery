@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item.accessories
 
 import dev.architectury.event.EventResult
+import dev.sterner.witchery.api.AccessoryItem
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
@@ -13,7 +14,8 @@ import net.minecraft.world.item.Rarity
 import net.minecraft.world.item.TooltipFlag
 import java.util.*
 
-open class BitingBeltItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)) {
+open class BitingBeltItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)),
+    AccessoryItem {
 
     override fun appendHoverText(
         stack: ItemStack,
