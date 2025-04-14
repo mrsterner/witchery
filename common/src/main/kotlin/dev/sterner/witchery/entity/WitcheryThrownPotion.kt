@@ -11,6 +11,7 @@ import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.projectile.ItemSupplier
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile
@@ -24,6 +25,8 @@ import net.minecraft.world.phys.HitResult
 import kotlin.math.sqrt
 
 class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
+
+    var lingering: Boolean = false
 
     constructor(level: Level) : super(WitcheryEntityTypes.THROWN_POTION.get(), level)
 
@@ -50,9 +53,13 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         if (!level().isClientSide) {
             val itemStack = this.item
             if (itemStack.item is WitcheryPotionItem) {
-                applySplash(itemStack,
-                    if (result.type == HitResult.Type.ENTITY) (result as EntityHitResult).entity else null)
+                if (lingering) {
+                    itemStack.get(WITCHERY_POTION_CONTENT.get())?.let { makeAreaOfEffectCloud(it.toMutableList()) }
+                } else {
+                    applySplash(itemStack, if (result.type == HitResult.Type.ENTITY) (result as EntityHitResult).entity else null)
 
+                }
+                EntityType.AREA_EFFECT_CLOUD
                 val color = itemStack.get(WITCHERY_POTION_CONTENT.get())?.last()?.color
                 color?.let { level().levelEvent(2002, this.blockPosition(), it) }
             }

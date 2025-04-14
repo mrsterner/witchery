@@ -1,0 +1,12 @@
+{
+  "altar_power": 100,
+  "capacity_cost": 0,
+  "color": -10822044,
+  "dispersal_modifier": {
+    "lingeringDurationModifier": 3
+  },
+  "item": {
+    "count": 1,
+    "id": "minecraft:lapis_lazuli"
+  }
+}

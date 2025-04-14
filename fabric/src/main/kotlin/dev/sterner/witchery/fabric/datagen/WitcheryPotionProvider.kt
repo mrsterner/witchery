@@ -205,6 +205,11 @@ class WitcheryPotionProvider(
             altarPower = 150,
             dispersalModifier = Optional.of(DispersalModifier(lingeringDurationModifier = 4))
         )
+        makeIngredient(provider,
+            Items.DRAGON_BREATH,
+            altarPower = 150,
+            type = Type.LINGERING
+        )
     }
 
     private fun makeIngredient(

@@ -119,7 +119,16 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
             }
 
             WitcheryPotionIngredient.Type.LINGERING -> {
-                // TODO: Handle lingering potion throw (e.g. create AreaEffectCloud)
+                if (!level.isClientSide) {
+                    val thrown = WitcheryThrownPotion(level, player)
+                    thrown.item = stack
+                    thrown.lingering = true
+                    thrown.shootFromRotation(player, player.xRot, player.yRot, -20.0f, 0.5f, 1.0f)
+                    level.addFreshEntity(thrown)
+                    if (!player.abilities.instabuild) {
+                        stack.shrink(1)
+                    }
+                }
                 InteractionResultHolder.sidedSuccess(stack, level.isClientSide)
             }
         }

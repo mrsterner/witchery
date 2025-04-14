@@ -1,0 +1,12 @@
+{
+  "altar_power": 50,
+  "capacity_cost": 0,
+  "color": -10822044,
+  "dispersal_modifier": {
+    "lingeringDurationModifier": 2
+  },
+  "item": {
+    "count": 1,
+    "id": "witchery:belladonna_flower"
+  }
+}

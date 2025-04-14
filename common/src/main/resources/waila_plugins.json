@@ -2,7 +2,8 @@
 {
   "witchery:plugin": {
     "entrypoints": {
-      "client": "dev.sterner.witchery.integration.wthit.WitcheryWailaPlugin"
+      "client": "dev.sterner.witchery.integration.wthit.WitcheryWailaPlugin",
+      "common": "dev.sterner.witchery.integration.wthit.WitcheryWailaPlugin"
     },
     "side"       : "*",
     "required"   : []
