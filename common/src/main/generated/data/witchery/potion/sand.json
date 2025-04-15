@@ -1,0 +1,10 @@
+{
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -10158236,
+  "item": {
+    "count": 1,
+    "id": "minecraft:sand"
+  },
+  "special_effect": "witchery:part_water"
+}

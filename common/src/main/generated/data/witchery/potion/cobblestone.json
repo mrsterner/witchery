@@ -1,11 +1,11 @@
 {
-  "altar_power": 150,
+  "altar_power": 100,
   "base_duration": 900,
   "capacity_cost": -2,
   "color": -10158236,
   "item": {
     "count": 1,
-    "id": "minecraft:slime_ball"
+    "id": "minecraft:cobblestone"
   },
-  "special_effect": "witchery:pull"
+  "special_effect": "witchery:part_lava"
 }

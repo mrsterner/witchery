@@ -1,0 +1,11 @@
+{
+  "altar_power": 2500,
+  "base_duration": 900,
+  "capacity_cost": -6,
+  "color": -10158236,
+  "item": {
+    "count": 1,
+    "id": "minecraft:emerald"
+  },
+  "special_effect": "witchery:resize"
+}

@@ -1,0 +1,11 @@
+{
+  "altar_power": 500,
+  "base_duration": 900,
+  "capacity_cost": -4,
+  "color": -10158236,
+  "item": {
+    "count": 1,
+    "id": "minecraft:poppy"
+  },
+  "special_effect": "witchery:love"
+}

@@ -1,0 +1,11 @@
+{
+  "altar_power": 10000,
+  "base_duration": 900,
+  "capacity_cost": -12,
+  "color": -10158236,
+  "item": {
+    "count": 1,
+    "id": "witchery:witches_hat"
+  },
+  "special_effect": "witchery:summon_leonard"
+}

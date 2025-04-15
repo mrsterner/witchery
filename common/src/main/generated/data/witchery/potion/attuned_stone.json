@@ -1,7 +1,7 @@
 {
   "altar_power": 150,
   "base_duration": 900,
-  "capacity_cost": 0,
+  "capacity_cost": -1,
   "color": -62786,
   "effect_modifier": {
     "power": 4

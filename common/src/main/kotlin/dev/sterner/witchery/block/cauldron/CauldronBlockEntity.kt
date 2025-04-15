@@ -192,8 +192,8 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 item.shrink(1)
                 setChanged()
             }
-            // Handle Slime Ball - Start potion brewing process
-            else if (item.`is`(Items.SLIME_BALL) && cauldronCraftingRecipe == null && cauldronBrewingRecipe == null) {
+            // Handle Nether Wart - Start potion brewing process
+            else if (item.`is`(Items.NETHER_WART) && cauldronCraftingRecipe == null && cauldronBrewingRecipe == null) {
                 PotionDataHandler.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
                 forceColor(item)
                 level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
@@ -346,122 +346,119 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     }
 
     override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
-        if (pStack.`is`(Items.FLINT_AND_STEEL)) {
-            playSound(level, pPlayer, blockPos, SoundEvents.FLINTANDSTEEL_USE)
-            level!!.setBlock(blockPos, blockState.setValue(BlockStateProperties.LIT, true), 11)
-            level!!.gameEvent(pPlayer, GameEvent.BLOCK_CHANGE, blockPos)
-            pStack.hurtAndBreak(1, pPlayer, LivingEntity.getSlotForHand(pHand))
+        return when {
+            pStack.`is`(Items.FLINT_AND_STEEL) -> {
+                playSound(level, pPlayer, blockPos, SoundEvents.FLINTANDSTEEL_USE)
+                level!!.setBlock(blockPos, blockState.setValue(BlockStateProperties.LIT, true), 11)
+                level!!.gameEvent(pPlayer, GameEvent.BLOCK_CHANGE, blockPos)
+                pStack.hurtAndBreak(1, pPlayer, LivingEntity.getSlotForHand(pHand))
+                ItemInteractionResult.SUCCESS
+            }
 
-            return ItemInteractionResult.SUCCESS
+            pStack.`is`(Items.GLASS_BOTTLE) -> handleGlassBottleInteraction(pPlayer, pStack)
+
+            else -> {
+                handleFluidInteraction(pPlayer, pStack, pHand)
+                    ?: super.onUseWithItem(pPlayer, pStack, pHand)
+            }
         }
-        if (fluidTank.capacity != fluidTank.getFluidAmount()) {
-            if (pStack.`is`(Items.WATER_BUCKET)) {
+    }
+
+    private fun handleFluidInteraction(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult? {
+        if (fluidTank.getFluidAmount() == fluidTank.capacity) return null
+
+        when {
+            pStack.`is`(Items.WATER_BUCKET) -> {
                 playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_FILL)
                 fluidTank.fill(FluidStack.create(Fluids.WATER, FluidStack.bucketAmount()), false)
                 setChanged()
                 return ItemInteractionResult.SUCCESS
             }
 
-            if (pStack.`is`(Items.POTION)) {
+            pStack.`is`(Items.POTION) -> {
                 val potionContents = pStack.get(DataComponents.POTION_CONTENTS)
                 if (potionContents?.`is`(Potions.WATER) == true) {
                     playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_FILL)
                     if (!pPlayer.isCreative) {
                         pPlayer.setItemInHand(pHand, Items.GLASS_BOTTLE.defaultInstance)
                     }
-                    val currentFluidAmount = fluidTank.getFluidAmount()
                     fluidTank.fill(
                         FluidStack.create(
                             Fluids.WATER,
-                            currentFluidAmount + FluidStack.bucketAmount() / 3
-                        ),
-                        false
+                            fluidTank.getFluidAmount() + FluidStack.bucketAmount() / 3
+                        ), false
                     )
                     setChanged()
                     return ItemInteractionResult.SUCCESS
                 }
             }
         }
-        if (pStack.`is`(Items.GLASS_BOTTLE)) {
 
-            if (witcheryPotionItemCache.isNotEmpty() && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
-                pStack.shrink(1)
-                WitcheryApi.makePlayerWitchy(pPlayer)
+        return null
+    }
 
-                val witchesPotion = WITCHERY_POTION.get().defaultInstance
-                witchesPotion.set(WITCHERY_POTION_CONTENT.get(), witcheryPotionItemCache)
 
-                Containers.dropItemStack(
-                    level!!,
-                    pPlayer.x,
-                    pPlayer.y,
-                    pPlayer.z,
-                    witchesPotion
-                )
+    private fun handleGlassBottleInteraction(pPlayer: Player, pStack: ItemStack): ItemInteractionResult {
+        if (witcheryPotionItemCache.isNotEmpty() && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
+            pStack.shrink(1)
+            WitcheryApi.makePlayerWitchy(pPlayer)
+            val potion = WITCHERY_POTION.get().defaultInstance.apply {
+                set(WITCHERY_POTION_CONTENT.get(), witcheryPotionItemCache)
+            }
+            val witchesPotion = createOutput(pPlayer, potion)
 
-                fluidTank.drain(FluidStackHooks.bucketAmount() / 3, false)
-                playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
-                playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)
-                if (fluidTank.getFluidAmount() < (FluidStackHooks.bucketAmount() / 3)) {
-                    fullReset()
+            if (level!!.random.nextFloat() < witchesPotion.first) {
+                Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, witchesPotion.second)
+            }
+            if (level!!.random.nextFloat() < witchesPotion.third) {
+                Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, witchesPotion.second)
+            }
+            Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, witchesPotion.second)
+
+            fluidTank.drain(FluidStackHooks.bucketAmount() / 3, false)
+            playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
+            playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)
+            if (fluidTank.getFluidAmount() < (FluidStackHooks.bucketAmount() / 3)) fullReset()
+            return ItemInteractionResult.SUCCESS
+        }
+        if (!brewItemOutput.isEmpty && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
+            WitcheryApi.makePlayerWitchy(pPlayer)
+            pStack.shrink(1)
+            val brewOutput = createOutput(pPlayer, brewItemOutput.copy())
+
+            if (level != null) {
+                if (level!!.random.nextFloat() < brewOutput.first) {
+                    Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, brewOutput.second)
                 }
-                return ItemInteractionResult.SUCCESS
+                if (level!!.random.nextFloat() < brewOutput.third) {
+                    Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, brewOutput.second)
+                }
+                Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, brewOutput.second)
             }
 
-            if (!brewItemOutput.isEmpty && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
+            fluidTank.drain(FluidStackHooks.bucketAmount() / 3, false)
+            playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
+            playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)
+            if (fluidTank.getFluidAmount() < (FluidStackHooks.bucketAmount() / 3)) fullReset()
+            setChanged()
+            return ItemInteractionResult.SUCCESS
+        }
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+    }
 
-                WitcheryApi.makePlayerWitchy(pPlayer)
-
-                var thirdBonus = 0f
-                var bonus = 0f
-                if (pPlayer.getItemBySlot(EquipmentSlot.HEAD).`is`(WitcheryItems.WITCHES_HAT.get())) {
-                    bonus += 0.35f
-                }
-                if (pPlayer.getItemBySlot(EquipmentSlot.CHEST).`is`(WitcheryItems.WITCHES_ROBES.get())) {
-                    bonus += 0.35f
-                }
-                if (pPlayer.getItemBySlot(EquipmentSlot.CHEST).`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
-                    bonus += 0.25f
-                    thirdBonus += 0.25f
-                }
-                pStack.shrink(1)
-
-                if (level != null) {
-                    if (level!!.random.nextFloat() < bonus) {
-                        Containers.dropItemStack(
-                            level!!,
-                            pPlayer.x,
-                            pPlayer.y,
-                            pPlayer.z,
-                            ItemStack(brewItemOutput.copy().item)
-                        )
-                    }
-
-                    if (level!!.random.nextFloat() < thirdBonus) {
-                        Containers.dropItemStack(
-                            level!!,
-                            pPlayer.x,
-                            pPlayer.y,
-                            pPlayer.z,
-                            ItemStack(brewItemOutput.copy().item)
-                        )
-                    }
-                    Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, ItemStack(brewItemOutput.copy().item))
-                }
-                fluidTank.drain(FluidStackHooks.bucketAmount() / 3, false)
-                playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
-                playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)
-                if (fluidTank.getFluidAmount() < (FluidStackHooks.bucketAmount() / 3)) {
-                    fullReset()
-                }
-                setChanged()
-
-                return ItemInteractionResult.SUCCESS
-            }
+    private fun createOutput(pPlayer: Player, itemStack: ItemStack): Triple<Float, ItemStack, Float> {
+        var bonus = 0f
+        var thirdBonus = 0f
+        if (pPlayer.getItemBySlot(EquipmentSlot.HEAD).`is`(WitcheryItems.WITCHES_HAT.get())) bonus += 0.35f
+        if (pPlayer.getItemBySlot(EquipmentSlot.CHEST).`is`(WitcheryItems.WITCHES_ROBES.get())) bonus += 0.35f
+        if (pPlayer.getItemBySlot(EquipmentSlot.CHEST).`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
+            bonus += 0.25f
+            thirdBonus += 0.25f
         }
 
-        return super.onUseWithItem(pPlayer, pStack, pHand)
+        return Triple(bonus, itemStack, thirdBonus)
     }
+
 
     private fun playSound(level: Level?, player: Player, blockPos: BlockPos, sound: SoundEvent, volume: Float = 1.0f) {
         level!!.playSound(

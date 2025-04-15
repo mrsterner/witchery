@@ -2,7 +2,7 @@
   "type": "splash",
   "altar_power": 100,
   "base_duration": 900,
-  "capacity_cost": 0,
+  "capacity_cost": -1,
   "color": -10197916,
   "item": {
     "count": 1,

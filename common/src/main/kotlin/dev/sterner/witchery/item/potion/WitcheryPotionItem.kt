@@ -4,6 +4,7 @@ import dev.sterner.witchery.entity.WitcheryThrownPotion
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.util.WitcheryUtil
+import net.minecraft.client.Minecraft
 import net.minecraft.core.Holder
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
@@ -49,6 +50,8 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
             if (potionContentList != null) {
                 if (potionContentList.isNotEmpty()) {
+
+
                     tooltipComponents.add(
                         Component.translatable("Type: " + potionContentList.last().type.name.lowercase().replaceFirstChar { it.uppercase() })
                             .setStyle(Style.EMPTY.withColor(Color(120, 180, 180).rgb))
@@ -61,15 +64,43 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                     for ((index, potionContent) in potionContentList.withIndex()) {
                         if (index == 0) continue
 
+                        val shift = true
+                        val capacity = potionContent.capacityCost
+                        val special = potionContent.specialEffect
+
                         tooltipComponents.add(
                             Component.literal(" - ")
                                 .append(
                                     Component.translatable(potionContent.item.descriptionId)
                                         .withStyle { it.withColor(potionContent.color) }
                                 )
-
-
+                                .append(
+                                    if (potionContent.effect != WitcheryMobEffects.EMPTY) {
+                                        Component.literal(" (Effect: ")
+                                            .append(Component.translatable(MobEffectInstance(potionContent.effect).descriptionId))
+                                            .append(Component.literal(")"))
+                                    } else {
+                                        Component.literal("")
+                                    }
+                                )
+                                .append(
+                                    if (shift && capacity > 0) {
+                                        Component.literal(" (Capacity: +$capacity)")
+                                    } else {
+                                        Component.literal("")
+                                    }
+                                )
+                                .append(
+                                    if (shift && special.isPresent) {
+                                        Component.literal(" (Special: ")
+                                            .append(Component.translatable(special.get().toString()))
+                                            .append(Component.literal(")"))
+                                    } else {
+                                        Component.literal("")
+                                    }
+                                )
                         )
+
                     }
                     addPotionTooltip(tooltipComponents, potionContentList, context.tickRate())
                 }

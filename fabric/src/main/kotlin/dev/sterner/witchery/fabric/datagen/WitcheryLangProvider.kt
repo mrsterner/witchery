@@ -1,16 +1,29 @@
 package dev.sterner.witchery.fabric.datagen
 
-import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.registry.*
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.minecraft.core.HolderLookup
+import net.minecraft.resources.ResourceLocation
 import java.util.concurrent.CompletableFuture
 
 class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: CompletableFuture<HolderLookup.Provider>) :
     FabricLanguageProvider(dataOutput, registryLookup) {
+
+    fun formatId(id: ResourceLocation): String {
+        val name = id.path.split('.').last()
+
+        val exceptions = setOf("of", "the", "and", "in", "for", "on", "to")
+
+        return name.split('_')
+            .joinToString(" ") { word ->
+                if (word in exceptions) {
+                    word.lowercase()
+                } else {
+                    word.replaceFirstChar { it.uppercase() }
+                }
+            }
+    }
 
     override fun generateTranslations(registryLookup: HolderLookup.Provider?, builder: TranslationBuilder) {
         builder.add("witchery.main", "Witchery")
@@ -53,7 +66,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery.captured.slime", "Slime")
         builder.add("witchery.captured.bat", "Bat")
 
-
+        for (special in WitcherySpecialPotionEffects.SPECIALS.entrySet()) {
+            builder.add("witchery:${special.value.id.path}", formatId(special.value.id))
+        }
 
         builder.add(WitcheryBlocks.SNOWBELL_CROP.get(), "Snowbell")
         builder.add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), "Water Artichoke")

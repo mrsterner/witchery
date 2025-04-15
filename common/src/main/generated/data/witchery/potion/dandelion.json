@@ -1,0 +1,11 @@
+{
+  "altar_power": 200,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -10158236,
+  "item": {
+    "count": 1,
+    "id": "minecraft:dandelion"
+  },
+  "special_effect": "witchery:grow_flowers"
+}

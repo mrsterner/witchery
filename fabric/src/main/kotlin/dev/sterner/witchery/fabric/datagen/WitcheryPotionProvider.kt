@@ -50,92 +50,77 @@ class WitcheryPotionProvider(
         lookup: HolderLookup.Provider?
     ) {
 
-        makeIngredient(provider, Items.SLIME_BALL,
-            color = Color(200, 255, 50).rgb)
+        makeIngredient(provider, Items.NETHER_WART,
+            capacity = 0,
+            color = Color(255, 10, 50).rgb)
 
         makeIngredient(provider,
             Items.BLAZE_POWDER,
             MobEffects.DAMAGE_BOOST,
-            color = Color(255, 130, 20).rgb,
-            capacity = -2
+            color = Color(255, 130, 20).rgb
         )
-
         makeIngredient(provider,
             Items.GLISTERING_MELON_SLICE,
             MobEffects.HEAL,
-            color = Color(255, 20, 20).rgb,
-            capacity = -2
+            color = Color(255, 20, 20).rgb
         )
-
         makeIngredient(provider,
             Items.SPIDER_EYE,
             MobEffects.POISON,
-            color = Color(100, 220, 20).rgb,
-            capacity = -2
+            color = Color(100, 220, 20).rgb
         )
-
         makeIngredient(provider,
             Items.GHAST_TEAR,
             MobEffects.REGENERATION,
-            color = Color(200, 200, 200).rgb,
-            capacity = -2
+            color = Color(200, 200, 200).rgb
         )
-
         makeIngredient(provider,
             Items.GOLDEN_CARROT,
             MobEffects.NIGHT_VISION,
-            color = Color(250, 180, 100).rgb,
-            capacity = -2
+            color = Color(250, 180, 100).rgb
         )
-
         makeIngredient(provider,
             Items.SUGAR,
             MobEffects.MOVEMENT_SPEED,
-            color = Color(150, 180, 255).rgb,
-            capacity = -2,
+            color = Color(150, 180, 255).rgb
         )
-
         makeIngredient(provider,
             WitcheryItems.MANDRAKE_ROOT.get(),
             altarPower = 50,
-            capacity = 2,
+            capacity = 1,
             effectModifier = EffectModifier(durationMultiplier = 6),
             color = Color(200, 60, 50).rgb
         )
-
         makeIngredient(provider,
             WitcheryItems.TEAR_OF_THE_GODDESS.get(),
             altarPower = 100,
-            capacity = 2,
+            capacity = 1,
             color = Color(110, 110, 250).rgb
         )
-
         makeIngredient(provider,
             WitcheryItems.PHANTOM_VAPOR.get(),
             altarPower = 150,
-            capacity = 2,
+            capacity = 1,
             color = Color(160, 160, 250).rgb
         )
         makeIngredient(provider,
             Items.NETHER_STAR,
             altarPower = 0,
-            capacity = 4,
+            capacity = 2,
             color = Color(200, 200, 250).rgb
         )
         makeIngredient(provider,
             WitcheryItems.PENTACLE.get(),
             altarPower = 0,
-            capacity = 8,
+            capacity = 4,
             color = Color(155, 70, 80).rgb
         )
-
         makeIngredient(provider,
             Items.GOLD_NUGGET,
             altarPower = 50,
             generalModifier = listOf(GeneralModifier.NO_PARTICLE),
             color = Color(255, 160, 20).rgb
         )
-
         makeIngredient(provider,
             Items.FERMENTED_SPIDER_EYE,
             altarPower = 25,
@@ -160,14 +145,12 @@ class WitcheryPotionProvider(
             generalModifier = listOf(GeneralModifier.DRINK_SPEED_BOOST),
             color = Color(155, 190, 90).rgb
         )
-
         makeIngredient(provider,
             Items.GLOWSTONE_DUST,
             altarPower = 50,
             effectModifier = EffectModifier(powerAddition = 1),
             color = Color(255, 190, 90).rgb
         )
-
         makeIngredient(provider,
             Items.BLAZE_ROD,
             altarPower = 100,
@@ -192,21 +175,18 @@ class WitcheryPotionProvider(
             effectModifier = EffectModifier(durationMultiplier = 4),
             color = Color(50, 20, 100).rgb
         )
-
         makeIngredient(provider,
             Items.GUNPOWDER,
             altarPower = 100,
             type = Type.SPLASH,
             color = Color(100, 100, 100).rgb
         )
-
         makeIngredient(provider,
             Items.COCOA_BEANS,
             altarPower = 100,
             dispersalModifier = DispersalModifier(rangeModifier = 2),
             color = Color(150, 100, 10).rgb
         )
-
         makeIngredient(provider,
             WitcheryItems.WISPY_COTTON.get(),
             altarPower = 150,
@@ -238,10 +218,156 @@ class WitcheryPotionProvider(
             color = Color(255, 140, 255).rgb
         )
         makeIngredient(provider,
-            Items.ICE,
+            Items.APPLE,
             altarPower = 50,
-            color = Color(100, 150, 255).rgb,
-            specialPotion = Optional.of(WitcherySpecialPotionEffects.GROW_CROPS.id)
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.HARVEST.id)
+        )
+        makeIngredient(provider,
+            Items.BONE_MEAL,
+            altarPower = 250,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.FERTILE.id)
+        )
+        makeIngredient(provider,
+            Items.COAL,
+            altarPower = 250,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.EXTINGUISH.id)
+        )
+        makeIngredient(provider,
+            Items.DANDELION,
+            altarPower = 200,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.GROW_FLOWERS.id)
+        )
+        makeIngredient(provider,
+            Items.DIRT,
+            altarPower = 0,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.TILL_LAND.id)
+        )
+        makeIngredient(provider,
+            WitcheryItems.ENDER_DEW.get(),
+            altarPower = 200,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.ENDER_INHIBITION.id)
+        )
+        makeIngredient(provider,
+            Items.LILY_PAD,
+            altarPower = 200,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.GROW_LILY.id)
+        )
+        makeIngredient(provider,
+            Items.BROWN_MUSHROOM,
+            altarPower = 200,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.PRUNE_LEAVES.id)
+        )
+        makeIngredient(provider,
+            Items.SAND,
+            altarPower = 0,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.PART_WATER.id)
+        )
+        makeIngredient(provider,
+            Items.WHEAT_SEEDS,
+            altarPower = 0,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.PLANT_DROPPED_SEEDS.id)
+        )
+        makeIngredient(provider,
+            WitcheryItems.WOLFSBANE.get(),
+            altarPower = 0,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.WEREWOLF_LOCK.id)
+        )
+        makeIngredient(provider,
+            Items.STRING,
+            altarPower = 0,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.FELL_TREE.id)
+        )
+        makeIngredient(provider,
+            Items.COBBLESTONE,
+            altarPower = 100,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.PART_LAVA.id)
+        )
+        makeIngredient(provider,
+            WitcheryItems.ENT_TWIG.get(),
+            altarPower = 350,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.SPROUTING.id)
+        )
+        makeIngredient(provider,
+            Items.NETHERRACK,
+            altarPower = 200,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.LEVEL_LAND.id)
+        )
+        makeIngredient(provider,
+            Items.SLIME_BALL,
+            altarPower = 150,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.PULL.id)
+        )
+        makeIngredient(provider,
+            Items.STICK,
+            capacity = -1,
+            altarPower = 200,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.PUSH.id)
+        )
+        makeIngredient(provider,
+            Items.ENDER_PEARL,
+            capacity = -2,
+            altarPower = 1000,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.TELEPORT.id)
+        )
+        makeIngredient(provider,
+            Items.ROSE_BUSH,
+            capacity = -2,
+            altarPower = 500,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.TAME_ANIMALS.id)
+        )
+        makeIngredient(provider,
+            Items.IRON_INGOT,
+            capacity = -2,
+            altarPower = 2000,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.BREAK_ORES.id)
+        )
+        makeIngredient(provider,
+            Items.QUARTZ,
+            capacity = -2,
+            altarPower = 2000,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.RAISE_LAND.id)
+        )
+        makeIngredient(provider,
+            Items.POPPY,
+            capacity = -2,
+            altarPower = 500,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.LOVE.id)
+        )
+        makeIngredient(provider,
+            Items.EMERALD,
+            capacity = -3,
+            altarPower = 2500,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.RESIZE.id)
+        )
+        makeIngredient(provider,
+            WitcheryItems.WITCHES_HAT.get(),
+            capacity = -8,
+            altarPower = 10000,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.SUMMON_LEONARD.id)
         )
     }
 
@@ -252,7 +378,7 @@ class WitcheryPotionProvider(
         specialPotion: Optional<ResourceLocation> = Optional.empty(),
         baseDuration: Int = 20 * 45,
         altarPower: Int = 200,
-        capacity: Int = 0,
+        capacity: Int = -1,
         generalModifier: List<GeneralModifier> = listOf(),
         effectModifier: EffectModifier = EffectModifier(0, 0, 1),
         dispersalModifier: DispersalModifier = DispersalModifier(1,1),

@@ -1,7 +1,7 @@
 {
   "altar_power": 100,
   "base_duration": 900,
-  "capacity_cost": 0,
+  "capacity_cost": -1,
   "color": -10197761,
   "dispersal_modifier": {
     "lingering_duration_modifier": 3
