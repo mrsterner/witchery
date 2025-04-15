@@ -19,8 +19,8 @@ class DismountBroomC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(buf: RegistryFriendlyByteBuf?) {
-        buf?.writeNbt(nbt)
+    private fun write(buf: RegistryFriendlyByteBuf) {
+        buf.writeNbt(nbt)
     }
 
     fun handleC2S(payload: DismountBroomC2SPayload, context: NetworkManager.PacketContext?) {
@@ -35,7 +35,7 @@ class DismountBroomC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<DismountBroomC2SPayload> =
             CustomPacketPayload.Type(Witchery.id("dismount_broom"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, DismountBroomC2SPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, DismountBroomC2SPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> DismountBroomC2SPayload(buf) }

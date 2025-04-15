@@ -28,8 +28,8 @@ class SpawnTransfixParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SpawnTransfixParticlesS2CPayload, context: NetworkManager.PacketContext) {
@@ -64,7 +64,7 @@ class SpawnTransfixParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
         val ID: CustomPacketPayload.Type<SpawnTransfixParticlesS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("spawn_transfix"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnTransfixParticlesS2CPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SpawnTransfixParticlesS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SpawnTransfixParticlesS2CPayload(buf) }

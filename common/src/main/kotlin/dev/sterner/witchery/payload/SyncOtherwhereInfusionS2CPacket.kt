@@ -25,8 +25,8 @@ class SyncOtherwhereInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayloa
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SyncOtherwhereInfusionS2CPacket, context: NetworkManager.PacketContext) {
@@ -49,7 +49,7 @@ class SyncOtherwhereInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayloa
         val ID: CustomPacketPayload.Type<SyncOtherwhereInfusionS2CPacket> =
             CustomPacketPayload.Type(Witchery.id("sync_otherwhere_infusion"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncOtherwhereInfusionS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncOtherwhereInfusionS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SyncOtherwhereInfusionS2CPacket(buf) }

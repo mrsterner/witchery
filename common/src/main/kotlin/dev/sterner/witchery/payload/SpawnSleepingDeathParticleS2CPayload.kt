@@ -23,7 +23,7 @@ class SpawnSleepingDeathParticleS2CPayload(val nbt: CompoundTag) : CustomPacketP
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
         friendlyByteBuf?.writeNbt(nbt)
     }
 
@@ -54,7 +54,7 @@ class SpawnSleepingDeathParticleS2CPayload(val nbt: CompoundTag) : CustomPacketP
         val ID: CustomPacketPayload.Type<SpawnSleepingDeathParticleS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("spawn_death_poof"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnSleepingDeathParticleS2CPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SpawnSleepingDeathParticleS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SpawnSleepingDeathParticleS2CPayload(buf) }

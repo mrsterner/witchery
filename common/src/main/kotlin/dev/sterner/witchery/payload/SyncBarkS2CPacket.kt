@@ -27,8 +27,8 @@ class SyncBarkS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SyncBarkS2CPacket, context: NetworkManager.PacketContext) {
@@ -52,7 +52,7 @@ class SyncBarkS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<SyncBarkS2CPacket> =
             CustomPacketPayload.Type(Witchery.id("sync_bark_player"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncBarkS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncBarkS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SyncBarkS2CPacket(buf) }

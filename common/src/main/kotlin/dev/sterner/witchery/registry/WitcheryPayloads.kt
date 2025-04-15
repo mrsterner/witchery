@@ -139,7 +139,7 @@ object WitcheryPayloads {
 
     private fun <T : CustomPacketPayload?> registerC2S(
         type: CustomPacketPayload.Type<T>,
-        codec: StreamCodec<in RegistryFriendlyByteBuf?, T>,
+        codec: StreamCodec<in RegistryFriendlyByteBuf, T>,
         receiver: NetworkManager.NetworkReceiver<T>
     ) {
         NetworkManager.registerReceiver(NetworkManager.c2s(), type, codec, receiver)
@@ -147,7 +147,7 @@ object WitcheryPayloads {
 
     private fun <T : CustomPacketPayload?> registerS2C(
         type: CustomPacketPayload.Type<T>,
-        codec: StreamCodec<in RegistryFriendlyByteBuf?, T>,
+        codec: StreamCodec<in RegistryFriendlyByteBuf, T>,
         receiver: NetworkManager.NetworkReceiver<T>
     ) {
         if (Platform.getEnvironment() === Env.CLIENT) {

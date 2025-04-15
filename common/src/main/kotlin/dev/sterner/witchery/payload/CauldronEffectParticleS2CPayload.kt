@@ -29,8 +29,8 @@ class CauldronEffectParticleS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: CauldronEffectParticleS2CPayload, context: NetworkManager.PacketContext) {
@@ -66,7 +66,7 @@ class CauldronEffectParticleS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
         val ID: CustomPacketPayload.Type<CauldronEffectParticleS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("cauldron_effect"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, CauldronEffectParticleS2CPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, CauldronEffectParticleS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> CauldronEffectParticleS2CPayload(buf) }

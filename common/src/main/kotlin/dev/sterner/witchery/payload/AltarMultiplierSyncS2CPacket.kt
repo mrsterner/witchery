@@ -17,9 +17,9 @@ class AltarMultiplierSyncS2CPacket(val pos: BlockPos, val multiplier: Double) : 
         return ID
     }
 
-    private fun write(buf: RegistryFriendlyByteBuf?) {
-        buf?.writeBlockPos(pos)
-        buf?.writeDouble(multiplier)
+    private fun write(buf: RegistryFriendlyByteBuf) {
+        buf.writeBlockPos(pos)
+        buf.writeDouble(multiplier)
     }
 
     fun handleS2C(payload: AltarMultiplierSyncS2CPacket, context: NetworkManager.PacketContext) {
@@ -36,7 +36,7 @@ class AltarMultiplierSyncS2CPacket(val pos: BlockPos, val multiplier: Double) : 
         val ID: CustomPacketPayload.Type<AltarMultiplierSyncS2CPacket> =
             CustomPacketPayload.Type(Witchery.id("altar_multiplier_sync"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, AltarMultiplierSyncS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, AltarMultiplierSyncS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> AltarMultiplierSyncS2CPacket(buf) }

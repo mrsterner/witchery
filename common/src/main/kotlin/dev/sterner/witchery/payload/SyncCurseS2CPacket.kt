@@ -26,8 +26,8 @@ class SyncCurseS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SyncCurseS2CPacket, context: NetworkManager.PacketContext) {
@@ -52,7 +52,7 @@ class SyncCurseS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<SyncCurseS2CPacket> =
             CustomPacketPayload.Type(Witchery.id("sync_curse_player"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncCurseS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncCurseS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SyncCurseS2CPacket(buf) }

@@ -27,8 +27,8 @@ class SyncTransformationS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SyncTransformationS2CPayload, context: NetworkManager.PacketContext) {
@@ -51,7 +51,7 @@ class SyncTransformationS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<SyncTransformationS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("sync_transformation_player"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncTransformationS2CPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncTransformationS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SyncTransformationS2CPayload(buf) }

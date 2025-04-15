@@ -25,8 +25,8 @@ class SpawnSmokePoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
         putDouble("z", vec3.z)
     })
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SpawnSmokePoofParticles, context: NetworkManager.PacketContext) {
@@ -51,7 +51,7 @@ class SpawnSmokePoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<SpawnSmokePoofParticles> =
             CustomPacketPayload.Type(Witchery.id("spawn_smoke_poof"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnSmokePoofParticles> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SpawnSmokePoofParticles> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SpawnSmokePoofParticles(buf) }

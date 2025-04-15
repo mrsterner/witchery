@@ -23,8 +23,8 @@ class SyncOwlAbilityS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SyncOwlAbilityS2CPayload, context: NetworkManager.PacketContext) {
@@ -47,7 +47,7 @@ class SyncOwlAbilityS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<SyncOwlAbilityS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("sync_owl_ability"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncOwlAbilityS2CPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncOwlAbilityS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SyncOwlAbilityS2CPayload(buf) }

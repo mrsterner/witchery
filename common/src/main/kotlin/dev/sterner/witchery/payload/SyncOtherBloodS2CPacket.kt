@@ -24,8 +24,8 @@ class SyncOtherBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SyncOtherBloodS2CPacket, context: NetworkManager.PacketContext) {
@@ -52,7 +52,7 @@ class SyncOtherBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<SyncOtherBloodS2CPacket> =
             CustomPacketPayload.Type(Witchery.id("sync_other_blood_living"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncOtherBloodS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncOtherBloodS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SyncOtherBloodS2CPacket(buf) }

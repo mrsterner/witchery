@@ -70,25 +70,25 @@ abstract class BookDistillingRecipePageRenderer<T : Recipe<*>?>(page: BookDistil
         )
 
 
-        if (recipeHolder.value.inputItems.isNotEmpty()) {
+        if (recipeHolder.value!!.inputItems.isNotEmpty()) {
             this.parentScreen.renderItemStack(
                 guiGraphics,
                 recipeX + 2 + 2 + 9 - 4 + 5 - 1,
                 recipeY + 50 - 18 - 4 - 18 - 2 + 1 - 7 - 1,
                 mouseX,
                 mouseY,
-                recipeHolder.value.inputItems[0]
+                recipeHolder.value!!.inputItems[0]
             )
         }
 
-        if (recipeHolder.value.inputItems.size > 1) {
+        if (recipeHolder.value!!.inputItems.size > 1) {
             this.parentScreen.renderItemStack(
                 guiGraphics,
                 recipeX + 2 + 2 + 9 + 18 - 4 + 5,
                 recipeY + 50 - 18 - 4 - 18 - 2 + 1 - 7 - 1,
                 mouseX,
                 mouseY,
-                recipeHolder.value.inputItems[1]
+                recipeHolder.value!!.inputItems[1]
             )
         }
 
@@ -100,52 +100,52 @@ abstract class BookDistillingRecipePageRenderer<T : Recipe<*>?>(page: BookDistil
             mouseX,
             mouseY,
             ItemStack(
-                WitcheryItems.JAR.get(), recipeHolder.value.jarConsumption
+                WitcheryItems.JAR.get(), recipeHolder.value!!.jarConsumption
             )
         )
 
 
-        if (recipeHolder.value.outputItems.isNotEmpty()) {
+        if (recipeHolder.value!!.outputItems.isNotEmpty()) {
             this.parentScreen.renderItemStack(
                 guiGraphics,
                 recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 - 1 - 22 - 9 + 1,
                 recipeY + 50 - 18 - 4 - 9 - 1 - 9 - 1,
                 mouseX,
                 mouseY,
-                recipeHolder.value.outputItems[0]
+                recipeHolder.value!!.outputItems[0]
             )
         }
 
-        if (recipeHolder.value.outputItems.size > 1) {
+        if (recipeHolder.value!!.outputItems.size > 1) {
             this.parentScreen.renderItemStack(
                 guiGraphics,
                 recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1 - 22 - 9 + 2,
                 recipeY + 50 - 18 - 4 - 9 - 1 - 9 - 1,
                 mouseX,
                 mouseY,
-                recipeHolder.value.outputItems[1]
+                recipeHolder.value!!.outputItems[1]
             )
         }
 
-        if (recipeHolder.value.outputItems.size > 2) {
+        if (recipeHolder.value!!.outputItems.size > 2) {
             this.parentScreen.renderItemStack(
                 guiGraphics,
                 recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 - 1 - 22 - 9 + 1,
                 recipeY + 50 - 18 - 4 + 18 - 9 - 1 - 9,
                 mouseX,
                 mouseY,
-                recipeHolder.value.outputItems[2]
+                recipeHolder.value!!.outputItems[2]
             )
         }
 
-        if (recipeHolder.value.outputItems.size > 3) {
+        if (recipeHolder.value!!.outputItems.size > 3) {
             this.parentScreen.renderItemStack(
                 guiGraphics,
                 recipeX + 2 + 2 + 18 + 24 + 24 + 9 + 18 + 18 - 1 - 22 - 9 + 2,
                 recipeY + 50 - 18 - 4 + 18 - 9 - 1 - 9,
                 mouseX,
                 mouseY,
-                recipeHolder.value.outputItems[3]
+                recipeHolder.value!!.outputItems[3]
             )
         }
 
@@ -158,7 +158,7 @@ abstract class BookDistillingRecipePageRenderer<T : Recipe<*>?>(page: BookDistil
             96, 23,
         )
 
-        val c = Component.literal("Altar Power: ${recipeHolder.value.altarPower}/s")
+        val c = Component.literal("Altar Power: ${recipeHolder.value!!.altarPower}/s")
         val i: Int = Minecraft.getInstance().font.width(c)
         guiGraphics.drawStringWithBackdrop(
             Minecraft.getInstance().font,

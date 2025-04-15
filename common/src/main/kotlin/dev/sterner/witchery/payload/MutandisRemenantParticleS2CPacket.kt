@@ -27,8 +27,8 @@ class MutandisRemenantParticleS2CPacket(val nbt: CompoundTag) : CustomPacketPayl
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: MutandisRemenantParticleS2CPacket, context: NetworkManager.PacketContext) {
@@ -50,7 +50,7 @@ class MutandisRemenantParticleS2CPacket(val nbt: CompoundTag) : CustomPacketPayl
         val ID: CustomPacketPayload.Type<MutandisRemenantParticleS2CPacket> =
             CustomPacketPayload.Type(Witchery.id("mutandis_particle"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, MutandisRemenantParticleS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, MutandisRemenantParticleS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> MutandisRemenantParticleS2CPacket(buf) }

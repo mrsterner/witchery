@@ -18,8 +18,8 @@ class SpawnPoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SpawnPoofParticles, context: NetworkManager.PacketContext) {
@@ -50,7 +50,7 @@ class SpawnPoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<SpawnPoofParticles> =
             CustomPacketPayload.Type(Witchery.id("spawn_poof"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnPoofParticles> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SpawnPoofParticles> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> SpawnPoofParticles(buf) }

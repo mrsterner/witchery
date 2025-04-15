@@ -56,7 +56,7 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
             this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0)
         }
         // Render input items
-        for ((index, ingredient) in recipeHolder.value.inputItems.withIndex()) {
+        for ((index, ingredient) in recipeHolder.value!!.inputItems.withIndex()) {
             // Draw background texture for each ingredient
             guiGraphics.blit(
                 Witchery.id("textures/gui/order_widget.png"),
@@ -86,7 +86,7 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
         }
 
         // Render output items
-        for ((index, itemStack) in recipeHolder.value.outputItems.withIndex()) {
+        for ((index, itemStack) in recipeHolder.value!!.outputItems.withIndex()) {
             guiGraphics.renderItem(
                 itemStack,
                 recipeX + 48 + 9 + 4 + 6 + (18 * index),

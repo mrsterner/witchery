@@ -28,8 +28,8 @@ class CauldronPoofS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {
-        friendlyByteBuf?.writeNbt(nbt)
+    private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: CauldronPoofS2CPacket, context: NetworkManager.PacketContext) {
@@ -59,7 +59,7 @@ class CauldronPoofS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<CauldronPoofS2CPacket> =
             CustomPacketPayload.Type(Witchery.id("cauldron_smoke"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, CauldronPoofS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, CauldronPoofS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> CauldronPoofS2CPacket(buf) }

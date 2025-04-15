@@ -22,8 +22,8 @@ class VampireAbilityUseC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
         return ID
     }
 
-    private fun write(buf: RegistryFriendlyByteBuf?) {
-        buf?.writeNbt(nbt)
+    private fun write(buf: RegistryFriendlyByteBuf) {
+        buf.writeNbt(nbt)
     }
 
     fun handleC2S(payload: VampireAbilityUseC2SPayload, context: NetworkManager.PacketContext?) {
@@ -40,7 +40,7 @@ class VampireAbilityUseC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val ID: CustomPacketPayload.Type<VampireAbilityUseC2SPayload> =
             CustomPacketPayload.Type(Witchery.id("vampire_use_ability"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, VampireAbilityUseC2SPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, VampireAbilityUseC2SPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
                 { buf -> VampireAbilityUseC2SPayload(buf) }
