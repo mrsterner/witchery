@@ -50,14 +50,14 @@ class WitcheryPotionProvider(
 
         makeIngredient(provider,
             Items.BLAZE_POWDER,
-            WitcheryPotionEffectRegistry.STRENGTH.get(),
+            WitcheryPotionEffectRegistry.DAMAGE_BOOST.get(),
             color = Color(255, 130, 20).rgb,
             capacity = -2
         )
 
         makeIngredient(provider,
             Items.GLISTERING_MELON_SLICE,
-            WitcheryPotionEffectRegistry.INSTANT_HEALTH.get(),
+            WitcheryPotionEffectRegistry.HEAL.get(),
             color = Color(255, 20, 20).rgb,
             capacity = -2
         )
@@ -85,7 +85,7 @@ class WitcheryPotionProvider(
 
         makeIngredient(provider,
             Items.SUGAR,
-            WitcheryPotionEffectRegistry.SPEED_BOOST.get(),
+            WitcheryPotionEffectRegistry.MOVEMENT_SPEED.get(),
             color = Color(150, 180, 255).rgb,
             capacity = -2
         )

@@ -3,7 +3,6 @@ package dev.sterner.witchery.mixin;
 import dev.sterner.witchery.registry.WitcheryMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -18,7 +17,6 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.*;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -70,8 +68,7 @@ public class BlockMixin {
                             return true;
                         }
                     }
-                }
-                else if (entry instanceof CompositeEntryBase composite) {
+                } else if (entry instanceof CompositeEntryBase composite) {
                     if (checkCompositeForFortune(composite)) {
                         return true;
                     }
@@ -90,8 +87,7 @@ public class BlockMixin {
                         return true;
                     }
                 }
-            }
-            else if (child instanceof CompositeEntryBase deeperComposite) {
+            } else if (child instanceof CompositeEntryBase deeperComposite) {
                 if (checkCompositeForFortune(deeperComposite)) {
                     return true;
                 }

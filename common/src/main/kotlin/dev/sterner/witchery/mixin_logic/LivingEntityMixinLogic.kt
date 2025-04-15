@@ -1,6 +1,7 @@
 package dev.sterner.witchery.mixin_logic
 
 import dev.sterner.witchery.handler.PoppetHandler.handleVampiricPoppet
+import dev.sterner.witchery.handler.PotionHandler
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
 import dev.sterner.witchery.platform.BarkBeltPlayerAttachment
@@ -51,6 +52,10 @@ object LivingEntityMixinLogic {
             if (remainingDamage > 0f) {
                 remainingDamage = WerewolfEventHandler.handleHurtWolf(entity, damageSource, remainingDamage)
             }
+        }
+
+        if (remainingDamage > 0f) {
+            remainingDamage = PotionHandler.handleHurt(entity, damageSource, remainingDamage)
         }
 
         return remainingDamage

@@ -5,7 +5,7 @@
   "effect": {
     "amplifier": 0,
     "duration": 1800,
-    "effect": "witchery:speed"
+    "effect": "witchery:movement_speed"
   },
   "item": {
     "count": 1,

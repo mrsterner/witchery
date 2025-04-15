@@ -5,7 +5,7 @@
   "effect": {
     "amplifier": 0,
     "duration": 900,
-    "effect": "witchery:strength"
+    "effect": "witchery:damage_boost"
   },
   "item": {
     "count": 1,

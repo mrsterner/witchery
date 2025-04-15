@@ -155,6 +155,7 @@ object Witchery {
         VampireEventHandler.registerEvents()
         WerewolfEventHandler.registerEvents()
         CursePlayerAttachment.registerEvents()
+        PotionHandler.registerEvents()
 
         ServerLevelTick.SERVER_LEVEL_POST.register(MutandisLevelAttachment::tick)
 

@@ -27,14 +27,44 @@ object WitcheryPotionEffectRegistry {
 
     val EMPTY = registerEffect("empty") { name -> WitcheryPotionEffect(name, 0,0) }
 
-    val STRENGTH = registerEffect("strength") { name -> MobEffectPotionEffect(name, MobEffects.DAMAGE_BOOST) }
+    //Vanilla
+    val DAMAGE_BOOST = registerEffect("damage_boost") { name -> MobEffectPotionEffect(name, MobEffects.DAMAGE_BOOST) }
     val WEAKNESS = registerEffect("weakness") { name -> MobEffectPotionEffect(name, MobEffects.WEAKNESS) }
-    val SLOW_FALL = registerEffect("slow_fall") { name -> MobEffectPotionEffect(name, MobEffects.SLOW_FALLING) }
+    val SLOW_FALLING = registerEffect("slow_falling") { name -> MobEffectPotionEffect(name, MobEffects.SLOW_FALLING) }
     val REGENERATION = registerEffect("regeneration") { name -> MobEffectPotionEffect(name, MobEffects.REGENERATION) }
     val POISON = registerEffect("poison") { name -> MobEffectPotionEffect(name, MobEffects.POISON) }
-    val SPEED_BOOST = registerEffect("speed") { name -> MobEffectPotionEffect(name, MobEffects.MOVEMENT_SPEED, duration = 20 * 90) }
-    val INSTANT_HEALTH = registerEffect("health") { name -> MobEffectPotionEffect(name, MobEffects.HEAL) }
+    val MOVEMENT_SPEED = registerEffect("movement_speed") { name -> MobEffectPotionEffect(name, MobEffects.MOVEMENT_SPEED, duration = 20 * 90) }
+    val HEAL = registerEffect("heal") { name -> MobEffectPotionEffect(name, MobEffects.HEAL) }
     val NIGHT_VISION = registerEffect("night_vision") { name -> MobEffectPotionEffect(name, MobEffects.NIGHT_VISION) }
+    val INVISIBILITY = registerEffect("invisibility") { name -> MobEffectPotionEffect(name, MobEffects.INVISIBILITY) }
+    val ABSORPTION = registerEffect("absorption") { name -> MobEffectPotionEffect(name, MobEffects.ABSORPTION) }
+    val BAD_OMEN = registerEffect("bad_omen") { name -> MobEffectPotionEffect(name, MobEffects.BAD_OMEN) }
+    val BLINDNESS = registerEffect("blindness") { name -> MobEffectPotionEffect(name, MobEffects.BLINDNESS) }
+    val CONFUSION = registerEffect("confusion") { name -> MobEffectPotionEffect(name, MobEffects.CONFUSION) }
+    val CONDUIT_POWER = registerEffect("conduit") { name -> MobEffectPotionEffect(name, MobEffects.CONDUIT_POWER) }
+    val DIG_SLOWDOWN = registerEffect("dig_slowdown") { name -> MobEffectPotionEffect(name, MobEffects.DIG_SLOWDOWN) }
+    val FIRE_RESISTANCE = registerEffect("fire_resistance") { name -> MobEffectPotionEffect(name, MobEffects.FIRE_RESISTANCE) }
+    val GLOWING = registerEffect("glowing") { name -> MobEffectPotionEffect(name, MobEffects.GLOWING) }
+    val DIG_SPEED = registerEffect("dig_speed") { name -> MobEffectPotionEffect(name, MobEffects.DIG_SPEED) }
+    val HEALTH_BOOST = registerEffect("health_boost") { name -> MobEffectPotionEffect(name, MobEffects.HEALTH_BOOST) }
+    val DARKNESS = registerEffect("darkness") { name -> MobEffectPotionEffect(name, MobEffects.DARKNESS) }
+    val HUNGER = registerEffect("hunger") { name -> MobEffectPotionEffect(name, MobEffects.HUNGER) }
+    val JUMP = registerEffect("jump") { name -> MobEffectPotionEffect(name, MobEffects.JUMP) }
+    val LEVITATION = registerEffect("levitation") { name -> MobEffectPotionEffect(name, MobEffects.LEVITATION) }
+    val MOVEMENT_SLOWDOWN = registerEffect("movement_slowdown") { name -> MobEffectPotionEffect(name, MobEffects.MOVEMENT_SLOWDOWN) }
+    val WITHER = registerEffect("wither") { name -> MobEffectPotionEffect(name, MobEffects.WITHER) }
+    val WATER_BREATHING = registerEffect("water_breathing") { name -> MobEffectPotionEffect(name, MobEffects.WATER_BREATHING) }
+    val SATURATION = registerEffect("saturation") { name -> MobEffectPotionEffect(name, MobEffects.SATURATION) }
+    val LUCK = registerEffect("luck") { name -> MobEffectPotionEffect(name, MobEffects.LUCK) }
+    val UNLUCK = registerEffect("unluck") { name -> MobEffectPotionEffect(name, MobEffects.UNLUCK) }
+    val HARM = registerEffect("harm") { name -> MobEffectPotionEffect(name, MobEffects.HARM) }
+    val DAMAGE_RESISTANCE = registerEffect("damage_resistance") { name -> MobEffectPotionEffect(name, MobEffects.DAMAGE_RESISTANCE) }
+
+    //Witchery
+    val FORTUNE_TOOL = registerEffect("fortune_tool") { name -> MobEffectPotionEffect(name, WitcheryMobEffects.FORTUNE_TOOL) }
+    val DISEASE = registerEffect("disease") { name -> MobEffectPotionEffect(name, WitcheryMobEffects.DISEASE) }
+    val POISON_WEAPON = registerEffect("poison_weapon") { name -> MobEffectPotionEffect(name, WitcheryMobEffects.POISON_WEAPON) }
+    val REFLECT_ARROW = registerEffect("reflect_arrow") { name -> MobEffectPotionEffect(name, WitcheryMobEffects.REFLECT_ARROW) }
 
     /*
     //Level 1
