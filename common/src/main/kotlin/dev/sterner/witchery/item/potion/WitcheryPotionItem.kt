@@ -21,20 +21,7 @@ import java.awt.Color
 
 class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
-    private fun getMergedEffectModifier(potionContentList: List<WitcheryPotionIngredient>): WitcheryPotionIngredient.EffectModifier {
-        var powerAddition = 0
-        var durationAddition = 0
-        var durationMultiplier = 1
 
-        for (ingredient in potionContentList) {
-            val mod = ingredient.effectModifier
-            powerAddition = maxOf(powerAddition, mod.powerAddition)
-            durationAddition = maxOf(durationAddition, mod.durationAddition)
-            durationMultiplier = maxOf(durationMultiplier, mod.durationMultiplier)
-        }
-
-        return WitcheryPotionIngredient.EffectModifier(powerAddition, durationAddition, durationMultiplier)
-    }
 
 
     override fun appendHoverText(
@@ -273,6 +260,34 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
             }
 
             return false
+        }
+
+        fun getMergedEffectModifier(potionContentList: List<WitcheryPotionIngredient>): WitcheryPotionIngredient.EffectModifier {
+            var powerAddition = 0
+            var durationAddition = 0
+            var durationMultiplier = 1
+
+            for (ingredient in potionContentList) {
+                val mod = ingredient.effectModifier
+                powerAddition = maxOf(powerAddition, mod.powerAddition)
+                durationAddition = maxOf(durationAddition, mod.durationAddition)
+                durationMultiplier = maxOf(durationMultiplier, mod.durationMultiplier)
+            }
+
+            return WitcheryPotionIngredient.EffectModifier(powerAddition, durationAddition, durationMultiplier)
+        }
+
+        fun getMergedDisperseModifier(potionContentList: List<WitcheryPotionIngredient>): WitcheryPotionIngredient.DispersalModifier {
+            var rangeModifier = 1
+            var lingeringDurationModifier = 1
+
+            for (ingredient in potionContentList) {
+                val mod = ingredient.dispersalModifier
+                rangeModifier *= mod.rangeModifier
+                lingeringDurationModifier *= mod.lingeringDurationModifier
+            }
+
+            return WitcheryPotionIngredient.DispersalModifier(rangeModifier, lingeringDurationModifier)
         }
     }
 }

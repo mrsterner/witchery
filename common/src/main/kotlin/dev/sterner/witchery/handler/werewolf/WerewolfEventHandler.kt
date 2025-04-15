@@ -5,6 +5,8 @@ import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
@@ -78,8 +80,54 @@ object WerewolfEventHandler {
         return EventResult.pass()
     }
 
-    private fun tick(player: Player?) {
+    private fun tick(player: Player) {
+        if (player.level().gameTime % 20 == 0L) {
+            val wereData = WerewolfPlayerAttachment.getData(player)
 
+            if (!player.level().isDay && player.level().moonPhase == 0) {
+
+                if (wereData.werewolfLevel > 0) {
+                    val type = TransformationPlayerAttachment.getData(player).transformationType
+                    if (type == TransformationPlayerAttachment.TransformationType.NONE) {
+                        tryForceTurnToWerewolf(player, wereData)
+                    }
+                }
+            } else {
+                if (wereData.werewolfLevel > 0) {
+                    tryForceTurnWerewolfToHuman(player, wereData)
+                }
+            }
+        }
+        
+        if (TransformationPlayerAttachment.isWolf(player)) {
+            wolfTick(player)
+        } else if(TransformationPlayerAttachment.isWerewolf(player)) {
+            werewolfTick(player)
+        }
+    }
+
+    private fun werewolfTick(player: Player) {
+
+    }
+
+    private fun wolfTick(player: Player) {
+
+    }
+
+    private fun tryForceTurnWerewolfToHuman(player: Player, data: WerewolfPlayerAttachment.Data) {
+        if (data.werewolfLevel < 3) {
+            TransformationPlayerAttachment.removeForm(player)
+        } else if (data.werewolfLevel < 5) {
+            TransformationPlayerAttachment.removeForm(player)
+        }
+    }
+
+    private fun tryForceTurnToWerewolf(player: Player, data: WerewolfPlayerAttachment.Data) {
+        if (data.werewolfLevel < 3) {
+            TransformationPlayerAttachment.setWolfForm(player)
+        } else if (data.werewolfLevel < 5) {
+            TransformationPlayerAttachment.setWereWolfForm(player)
+        }
     }
 
     private fun respawn(serverPlayer: ServerPlayer?, serverPlayer1: ServerPlayer?, b: Boolean) {

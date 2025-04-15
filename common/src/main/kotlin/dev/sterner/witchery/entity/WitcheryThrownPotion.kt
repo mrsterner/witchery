@@ -122,7 +122,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                     // Run special effects regardless of entities in list
                     if (potionContent.specialEffect.isPresent) {
                         val special = WitcherySpecialPotionEffects.SPECIALS.get(potionContent.specialEffect.get())
-                        special?.onActivated(level(), owner, result, list)
+                        special?.onActivated(level(), owner, result, list, WitcheryPotionItem.getMergedDisperseModifier(potionContentList))
                     }
 
                     // Handle the general modifier logic

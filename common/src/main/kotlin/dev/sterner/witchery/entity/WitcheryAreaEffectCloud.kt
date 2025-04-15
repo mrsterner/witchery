@@ -4,6 +4,7 @@ import com.google.common.collect.Lists
 import com.google.common.collect.Maps
 import com.mojang.logging.LogUtils
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
@@ -201,12 +202,15 @@ class WitcheryAreaEffectCloud(
                 for (ingredient in potionContents) {
 
                     if (ingredient.specialEffect.isPresent) {
-                        WitcherySpecialPotionEffects.SPECIALS.get(ingredient.specialEffect.get())?.onActivated(
-                            level(),
-                            owner,
-                            hitResult = hitResult,
-                            victims.map { it.key }.toMutableList()
-                        )
+                        hitResult?.let { hitResult1 ->
+                            WitcherySpecialPotionEffects.SPECIALS.get(ingredient.specialEffect.get())?.onActivated(
+                                level(),
+                                owner,
+                                hitResult = hitResult1,
+                                victims.map { it.key }.toMutableList(),
+                                WitcheryPotionItem.getMergedDisperseModifier(potionContents)
+                            )
+                        }
                     }
 
                     if (ingredient.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {

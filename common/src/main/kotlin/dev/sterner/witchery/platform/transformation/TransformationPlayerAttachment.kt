@@ -57,6 +57,16 @@ object TransformationPlayerAttachment {
     }
 
     @JvmStatic
+    fun isWolf(player: Player): Boolean {
+        return getData(player).transformationType == TransformationType.WOLF
+    }
+
+    @JvmStatic
+    fun isWerewolf(player: Player): Boolean {
+        return getData(player).transformationType == TransformationType.WEREWOLF
+    }
+
+    @JvmStatic
     fun removeForm(player: Player) {
         setData(player, Data(TransformationType.NONE, MAX_COOLDOWN))
     }

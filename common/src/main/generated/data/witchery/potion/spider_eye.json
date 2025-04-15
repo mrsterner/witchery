@@ -1,7 +1,7 @@
 {
   "altar_power": 200,
   "base_duration": 900,
-  "capacity_cost": -2,
+  "capacity_cost": -1,
   "color": -10167276,
   "effect": "minecraft:poison",
   "item": {
