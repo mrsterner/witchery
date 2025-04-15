@@ -2,7 +2,9 @@ package dev.sterner.witchery.item.potion
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.registry.WitcheryMobEffects
+import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import net.minecraft.core.Holder
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.item.ItemStack
@@ -12,6 +14,7 @@ import java.util.Optional
 data class WitcheryPotionIngredient(
     val item: ItemStack,
     val effect: Holder<MobEffect>,
+    val specialEffect: Optional<SpecialPotion>,
     val baseDuration: Int,
     val altarPower: Int,
     val capacityCost: Int = 1,
@@ -83,6 +86,7 @@ data class WitcheryPotionIngredient(
             instance.group(
                 ItemStack.CODEC.fieldOf("item").forGetter { it.item },
                 MobEffect.CODEC.optionalFieldOf("effect", WitcheryMobEffects.EMPTY).forGetter { it.effect },
+                WitcherySpecialPotionEffects.CODEC.optionalFieldOf("special_effect").forGetter { it.specialEffect },
                 Codec.INT.optionalFieldOf("base_duration", 0).forGetter { it.baseDuration },
                 Codec.INT.optionalFieldOf("altar_power", 0).forGetter { it.altarPower },
                 Codec.INT.optionalFieldOf("capacity_cost", 1).forGetter { it.capacityCost },

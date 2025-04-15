@@ -1,6 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.data.ErosionHandler
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient.*
@@ -241,6 +242,7 @@ class WitcheryPotionProvider(
         provider: BiConsumer<ResourceLocation, WitcheryPotionIngredient>,
         item: Item,
         effect: Holder<MobEffect> = WitcheryMobEffects.EMPTY,
+        specialPotion: Optional<SpecialPotion> = Optional.empty(),
         baseDuration: Int = 20 * 45,
         altarPower: Int = 200,
         capacity: Int = 0,
@@ -257,6 +259,7 @@ class WitcheryPotionProvider(
             WitcheryPotionIngredient(
                 item.defaultInstance,
                 effect,
+                specialPotion,
                 baseDuration,
                 altarPower,
                 capacity,

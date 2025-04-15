@@ -221,7 +221,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                 return false
             }
 
-            var totalCapacity = 4
+            var totalCapacity = 0
 
             for (ingredient in potion) {
                 totalCapacity += ingredient.capacityCost

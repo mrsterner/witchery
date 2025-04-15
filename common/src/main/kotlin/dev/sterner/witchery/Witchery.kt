@@ -104,6 +104,7 @@ object Witchery {
     fun init() {
         WitcheryCurseRegistry.init()
         WitcheryRitualRegistry.init()
+        WitcherySpecialPotionEffects.init()
         WitcheryFluids.FLUIDS.register()
         WitcheryFluids.init()
         WitcheryArmorMaterials.MATERIALS.register()
