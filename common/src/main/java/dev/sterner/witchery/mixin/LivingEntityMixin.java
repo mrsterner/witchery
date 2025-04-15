@@ -7,6 +7,7 @@ import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachm
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -46,14 +47,20 @@ public class LivingEntityMixin {
         if (livingEntity instanceof Player player && TransformationPlayerAttachment.isBat(player)) {
             return EntityDimensions.scalable(0.5f, 0.85f);
         }
-
+        if (livingEntity instanceof Player player && TransformationPlayerAttachment.isWolf(player)) {
+            return EntityDimensions.scalable(0.6F, 0.85F);
+        }
         return original;
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getScale()F"))
     private void witchery$modifyScale(CallbackInfo ci) {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
-        if (livingEntity instanceof Player player && TransformationPlayerAttachment.isBat(player)) {
+        if (livingEntity instanceof Player player && (
+                TransformationPlayerAttachment.isBat(player) ||
+                TransformationPlayerAttachment.isWolf(player) ||
+                TransformationPlayerAttachment.isWerewolf(player)
+        )) {
             if (witchery$shouldUpdateDim) {
                 livingEntity.refreshDimensions();
                 witchery$shouldUpdateDim = false;
@@ -62,6 +69,5 @@ public class LivingEntityMixin {
             witchery$shouldUpdateDim = true;
         }
     }
-
 }
 

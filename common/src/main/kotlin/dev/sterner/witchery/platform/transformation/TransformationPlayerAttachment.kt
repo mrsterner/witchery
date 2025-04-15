@@ -15,8 +15,10 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.StructureTags
 import net.minecraft.util.StringRepresentable
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ambient.Bat
+import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
 import kotlin.math.max
 
@@ -24,6 +26,8 @@ object TransformationPlayerAttachment {
 
     const val MAX_COOLDOWN = 20 * 10
     var bat: Bat? = null
+    var wolf: Wolf? = null
+
 
     @JvmStatic
     fun getBatEntity(player: Player): Bat? {
@@ -32,6 +36,14 @@ object TransformationPlayerAttachment {
             bat!!.isResting = false
         }
         return this.bat
+    }
+
+    @JvmStatic
+    fun getWolfEntity(player: Player): Wolf? {
+        if (wolf == null) {
+            wolf = EntityType.WOLF.create(player.level())
+        }
+        return this.wolf
     }
 
     @ExpectPlatform
@@ -44,11 +56,6 @@ object TransformationPlayerAttachment {
     @JvmStatic
     fun setData(player: Player, data: Data) {
         throw AssertionError()
-    }
-
-    @JvmStatic
-    fun getForm(player: Player): TransformationType {
-        return getData(player).transformationType
     }
 
     @JvmStatic
@@ -114,6 +121,16 @@ object TransformationPlayerAttachment {
     }
 
     private var villageCheckTicker = 0
+
+    fun tickWolf(player: Player) {
+        if (player.level() is ServerLevel) {
+
+        } else {
+            if (isWolf(player)) {
+                wolf?.tick()
+            }
+        }
+    }
 
     fun tickBat(player: Player) {
 

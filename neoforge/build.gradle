@@ -7,6 +7,10 @@ architectury {
     neoForge()
 }
 
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
 configurations {
     common {
         canBeResolved = true
@@ -72,5 +76,6 @@ shadowJar {
 }
 
 remapJar {
+    atAccessWideners.add loom.accessWidenerPath.get().asFile.name
     input.set shadowJar.archiveFile
 }

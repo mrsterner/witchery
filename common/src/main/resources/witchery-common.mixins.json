@@ -33,8 +33,9 @@
     "PlayerInvoker",
     "ServerPlayerMixin",
     "ShapelessRecipeAccessor",
+    "TargetingConditionsMixin",
     "VillagerMixin",
-    "TargetingConditionsMixin"
+    "WalkAnimationStateAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

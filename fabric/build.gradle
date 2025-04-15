@@ -23,6 +23,7 @@ configurations {
 }
 
 loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
     runs {
         create("data") {
             client()
@@ -100,6 +101,7 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
+    exclude "architectury.common.json"
 }
 
 remapJar {

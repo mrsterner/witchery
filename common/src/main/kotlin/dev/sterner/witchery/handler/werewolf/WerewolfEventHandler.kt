@@ -32,7 +32,6 @@ object WerewolfEventHandler {
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killPiglin)
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killAny)
         TickEvent.PLAYER_PRE.register(WerewolfEventHandler::tick)
-        PlayerEvent.PLAYER_CLONE.register(WerewolfEventHandler::respawn)
     }
 
     fun infectPlayer(player: Player) {
@@ -81,37 +80,39 @@ object WerewolfEventHandler {
     }
 
     private fun tick(player: Player) {
-        if (player.level().gameTime % 20 == 0L) {
-            val wereData = WerewolfPlayerAttachment.getData(player)
+        if (!player.level().isClientSide) {
+            if (player.level().gameTime % 20 == 0L) {
+                val wereData = WerewolfPlayerAttachment.getData(player)
 
-            if (!player.level().isDay && player.level().moonPhase == 0) {
+                if (!player.level().isDay && player.level().moonPhase == 0) {
+                    if (wereData.werewolfLevel > 0) {
+                        val type = TransformationPlayerAttachment.getData(player).transformationType
+                        if (type == TransformationPlayerAttachment.TransformationType.NONE) {
+                            tryForceTurnToWerewolf(player, wereData)
+                        }
+                    }
 
-                if (wereData.werewolfLevel > 0) {
-                    val type = TransformationPlayerAttachment.getData(player).transformationType
-                    if (type == TransformationPlayerAttachment.TransformationType.NONE) {
-                        tryForceTurnToWerewolf(player, wereData)
+                } else if(player.level().isDay || player.level().moonPhase != 0){
+                    if (wereData.werewolfLevel > 0) {
+                        tryForceTurnWerewolfToHuman(player, wereData)
                     }
                 }
-            } else {
-                if (wereData.werewolfLevel > 0) {
-                    tryForceTurnWerewolfToHuman(player, wereData)
-                }
             }
-        }
-        
-        if (TransformationPlayerAttachment.isWolf(player)) {
-            wolfTick(player)
-        } else if(TransformationPlayerAttachment.isWerewolf(player)) {
-            werewolfTick(player)
+
+            if (TransformationPlayerAttachment.isWolf(player)) {
+                wolfTick(player)
+            } else if(TransformationPlayerAttachment.isWerewolf(player)) {
+                werewolfTick(player)
+            }
         }
     }
 
     private fun werewolfTick(player: Player) {
-
+        TransformationPlayerAttachment.sync(player, TransformationPlayerAttachment.getData(player))
     }
 
     private fun wolfTick(player: Player) {
-
+        TransformationPlayerAttachment.sync(player, TransformationPlayerAttachment.getData(player))
     }
 
     private fun tryForceTurnWerewolfToHuman(player: Player, data: WerewolfPlayerAttachment.Data) {
@@ -130,8 +131,26 @@ object WerewolfEventHandler {
         }
     }
 
-    private fun respawn(serverPlayer: ServerPlayer?, serverPlayer1: ServerPlayer?, b: Boolean) {
-
+    fun parseAbilityFromIndex(player: Player, abilityIndex: Int): Boolean {
+        if (abilityIndex == WerewolfAbility.FREE_WOLF_TRANSFORM.ordinal) {
+            val isWolf = TransformationPlayerAttachment.isWolf(player)
+            if (isWolf) {
+                TransformationPlayerAttachment.removeForm(player)
+            } else {
+                TransformationPlayerAttachment.setWolfForm(player)
+            }
+            return true
+        }
+        if (abilityIndex == WerewolfAbility.FREE_WEREWOLF_TRANSITION.ordinal) {
+            val isWerewolf = TransformationPlayerAttachment.isWerewolf(player)
+            if (isWerewolf) {
+                TransformationPlayerAttachment.removeForm(player)
+            } else {
+                TransformationPlayerAttachment.setWereWolfForm(player)
+            }
+            return true
+        }
+        return false
     }
 
 

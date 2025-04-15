@@ -63,7 +63,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
     @ModifyArgs(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;scale(FFF)V", ordinal = 0))
     private void witchery$applyModelScales(Args args, LivingEntity livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource bufferSource, int i) {
-        if (livingEntity instanceof  Player player && TransformationPlayerAttachment.isBat(player)) {
+        if (livingEntity instanceof Player player && (TransformationPlayerAttachment.isBat(player) || TransformationPlayerAttachment.isWolf(player))) {
             float x = args.get(0);
             float y = args.get(1);
             float z = args.get(2);

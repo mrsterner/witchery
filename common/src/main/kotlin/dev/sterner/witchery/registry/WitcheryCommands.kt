@@ -11,6 +11,7 @@ import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood
+import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
 import dev.sterner.witchery.platform.CursePlayerAttachment
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
@@ -19,7 +20,9 @@ import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
+import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -67,6 +70,7 @@ object WitcheryCommands {
                 .then(registerManifestationCommands())
                 .then(registerCurseCommands())
                 .then(registerVampireCommands())
+                .then(registerWerewolfCommands())
         )
     }
 
@@ -286,5 +290,37 @@ object WitcheryCommands {
                 )
             )
 
+    }
+
+    private fun registerWerewolfCommands(): LiteralArgumentBuilder<CommandSourceStack> {
+        return Commands.literal("werewolf")
+            .requires { it.hasPermission(2) }
+            .then(Commands.literal("setLevel")
+                .then(Commands.argument("player", EntityArgument.player())
+                    .then(Commands.argument("level", IntegerArgumentType.integer(0))
+                        .executes { context ->
+
+                            val level = IntegerArgumentType.getInteger(context, "level")
+                            val player = context.source.playerOrException
+
+                            val data = WerewolfPlayerAttachment.getData(player)
+
+                            WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = level))
+                            val type = TransformationPlayerAttachment.getData(player).transformationType
+
+                            WerewolfLeveling.updateModifiers(player,
+                                type == TransformationPlayerAttachment.TransformationType.WOLF,
+                                type == TransformationPlayerAttachment.TransformationType.WEREWOLF
+                            )
+
+                            context.source.sendSuccess(
+                                { Component.literal("Set werewolf level to $level for ${player.name.string}") },
+                                true
+                            )
+                            1
+                        }
+                    )
+                )
+            )
     }
 }

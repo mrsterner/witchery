@@ -10,6 +10,7 @@ import net.minecraft.core.UUIDUtil
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
+import java.util.Optional
 import java.util.UUID
 
 object WerewolfPlayerAttachment {
@@ -33,7 +34,7 @@ object WerewolfPlayerAttachment {
     }
 
     data class Data(
-        val lycanSourceUUID: UUID? = null,
+        val lycanSourceUUID: Optional<UUID> = Optional.empty(),
         val werewolfLevel: Int = 0,
         val hasGivenGold: Boolean = false,
         val killedSheep: Int = 0,
@@ -53,8 +54,8 @@ object WerewolfPlayerAttachment {
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    UUIDUtil.CODEC.fieldOf("lycanSourceUUID").forGetter(Data::lycanSourceUUID),
-                    Codec.INT.fieldOf("vampireLevel").forGetter { it.werewolfLevel },
+                    UUIDUtil.CODEC.optionalFieldOf("lycanSourceUUID").forGetter(Data::lycanSourceUUID),
+                    Codec.INT.fieldOf("werewolfLevel").forGetter { it.werewolfLevel },
                     Codec.BOOL.fieldOf("hasGivenGold").forGetter { it.hasGivenGold },
                     Codec.INT.fieldOf("killedBlazes").forGetter { it.killedSheep },
                     Codec.INT.fieldOf("killedWolves").forGetter { it.killedWolves },
