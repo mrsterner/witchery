@@ -8,6 +8,7 @@ import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryMobEffects
+import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import net.minecraft.core.particles.ColorParticleOption
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleTypes
@@ -191,9 +192,13 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
                 var shouldInvertNext = false
 
                 for (ingredient in potionContents) {
+
+                    if (ingredient.specialEffect.isPresent) {
+                        WitcherySpecialPotionEffects.SPECIALS.get(ingredient.specialEffect.get().id)?.onActivated(level(), owner)
+                    }
+
                     if (ingredient.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
                         shouldInvertNext = true
-                        continue
                     }
 
                     val effect = if (shouldInvertNext) {

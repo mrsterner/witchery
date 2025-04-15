@@ -5,6 +5,7 @@ import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryMobEffects
+import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
@@ -121,9 +122,12 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                                 for ((i, potionContent) in potionContentList.withIndex()) {
                                     if (i == 0) continue
 
+                                    if (potionContent.specialEffect.isPresent) {
+                                        WitcherySpecialPotionEffects.SPECIALS.get(potionContent.specialEffect.get().id)?.onActivated(level(), owner)
+                                    }
+
                                     if (potionContent.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
                                         shouldInvertNext = true
-                                        continue
                                     }
 
                                     val effectData = potionContent.effectModifier
