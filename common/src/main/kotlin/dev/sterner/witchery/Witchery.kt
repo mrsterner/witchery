@@ -121,6 +121,7 @@ object Witchery {
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
         WitcheryFeatures.FEATURES.register()
+        WitcheryMobEffects.init()
 
         WitcheryPayloads.register()
 

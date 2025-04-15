@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin.client;
+package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;

@@ -14,8 +14,10 @@
     "client.WorldOpenFlowsMixin"
   ],
   "mixins": [
+    "BlockMixin",
     "BookCategoryNodeScreenMixin",
     "BrushItemMixin",
+    "CompositeEntryBaseAccessor",
     "DamageSourcesInvoker",
     "DoorBlockMixin",
     "EntityMixin",
@@ -24,12 +26,15 @@
     "LightningBoltMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
+    "LootPoolAccessor",
+    "LootPoolSingletonContainerAccessor",
+    "LootTableAccessor",
     "MobMixin",
     "PlayerInvoker",
     "ServerPlayerMixin",
     "ShapelessRecipeAccessor",
     "VillagerMixin",
-    "client.TargetingConditionsMixin"
+    "TargetingConditionsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

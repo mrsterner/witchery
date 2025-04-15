@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.potion.FinalPotionData
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import net.minecraft.core.GlobalPos
@@ -109,29 +110,6 @@ object WitcheryDataComponents {
             .persistent(FinalPotionData.CODEC.listOf())
             .build()
     }
-
-    data class FinalPotionData(val durationAmplifier: DurationAmplifier, val ingredientInfo: WitcheryPotionIngredient) {
-        companion object {
-            val CODEC: Codec<FinalPotionData> = RecordCodecBuilder.create { instance ->
-                instance.group(
-                    DurationAmplifier.CODEC.fieldOf("durationAmplifier").forGetter { it.durationAmplifier },
-                    WitcheryPotionIngredient.CODEC.fieldOf("ingredientInfo").forGetter { it.ingredientInfo }
-                ).apply(instance, ::FinalPotionData)
-            }
-        }
-    }
-
-    data class DurationAmplifier(val duration: Int, val amplifier: Int){
-        companion object {
-            val CODEC: Codec<DurationAmplifier> = RecordCodecBuilder.create { instance ->
-                instance.group(
-                    Codec.INT.fieldOf("duration").forGetter { it.duration },
-                    Codec.INT.fieldOf("amplifier").forGetter { it.amplifier }
-                ).apply(instance, ::DurationAmplifier)
-            }
-        }
-    }
-
 
     data class DualPotionContents(
         val positive: Optional<PotionContents>,

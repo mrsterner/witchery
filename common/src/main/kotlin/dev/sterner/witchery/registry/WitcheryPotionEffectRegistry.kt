@@ -37,84 +37,67 @@ object WitcheryPotionEffectRegistry {
     val NIGHT_VISION = registerEffect("night_vision") { name -> MobEffectPotionEffect(name, MobEffects.NIGHT_VISION) }
 
     /*
-
+    //Level 1
     Bat Burst	Bat Ball	2	1,000	Negative
-    Insect Bane	Blue Orchid	2	200	Positive
     Air Hike	Breath of the Goddess	2	750	Negative
     Cactus/Thorned	Cactus	2	150	Both
-    Part Lava	Cobblestone	2	100	Tool
-    Reflect Arrows	Cobweb	2	250	Positive
     Webs	Dense Web	2	200	Negative
     Repel Attacker	Ender Bramble	2	250	Positive
-    Sprouting	Ent Twig	2	350	Tool
-    Attract Arrows	FSE + Cobweb	2	275	Negative
-    Brew Gass Immunity	Gravel	2	100	Positive
     Freeze	Icy Needle	2	200	Negative
     Jump	Leather	2	200	Positive
     Fire Resistance	Magma Cream	2	100	Positive
-    Level Land	Netherack	2	200	Tool
-    Erosion	Oil of Vitriol	2	200	Tool
     Water Breathing	Pufferfish	2	100	Positive
     Undead Bane	Pumpkin	2	200	Positive
     Remove Debuffs	Purified Milk	2	200	Positive
-    Poison Weapon	Red Mushroom	2	200	Positive
     Remove Buffs	Reek of Misfortune	2	250	Negative
-    Grow Sapling	Sapling	2	200	Tool
-    Pull	Slimeball	2	150	Tool
-    Endless Water	Snow	2	3,000	Tool
-    Push Away	Stick	2	200	Tool
-    Floating	Sugar Cane	2	250	Tool
     Vines/Flammable	Vines	2	150	Both
+
+    //Level 2
+
     Raise Dead	Bone	4	2,000	Positive
     Fear	Demon Blood	4	500	Positive
-    Paralysis	Demon Heart	4	750	Negative
     Brew Bottling	Drop of Luck	4	5,000	Positive
     Overheating	Ember Moss	4	3,000	Negative
-    Random Teleport	Ender Pearl	4	1,000	Tool
     Stout Belly	Foul Fume	4	1,000	Positive
-    Insanity	FSE + Drop of Luck	4	5,025	Negative
     Fullness	FSE + Subdued Spirit	4	525	Positive
     Weaken Vampires	Garlic	4	500	Negative
     Flames	Glintweed	4	750	Negative
     Absorbtion	Golden Apple	4	1,000	Positive
-    Tame Animals	Heart of Gold	4	500	Tool
     Blindness	Ink	4	1,000	Negative
-    Break Nearby Ores	Iron Ingot	4	2,000	Tool
     Nightmare	Mellifluous Hunger	4	10,000	Negative
-    Raise Land	Nether Quartz	4	2,000	Tool
     Health Boost	Notch Apple	4	1,000	Positive
     Revealing	Odour of Purity	4	100	Negative
-    Blight	Poisonous Potato	4	2,000	Tool
-    Love	Poppy	4	500	Tool
     Explode on Hit	Shrub	4	1,000	Negative
     Harm Werewolves	Silver	4	1,000	Negative
-    Darkness Allergy	Soulsand	4	4,000	Negative
     Hungry	Subdued Spirit	4	500	Negative
     Extra Jump	Toe of Frog	4	500	Positive
     Absorb Magic	Whiff of Magic	4	2,000	Positive
     Sinking	Disturbed Cotton	4	3,000	Negative
     Wither	Wither Skeleton Skull	4	200	Negative
-    Disease	Zombie Flesh	4	2,000	Negative
-    Convert to Ice	Ender Eye	5	2,000	Tool
-    Ice Shell	Frozen Heart	5	500	Tool
+
+    //Level 3
+
     Explode	Gold Ingot	5	500	Negative
     Demonbane	Ice	5	500	Positive
     Burn Nearby Creatures	Refined Evil	5	3,000	Positive
     Reflect Damage	Spectral Dust	5	2,000	Positive
     Summon Exploding Toad	Sunflower	5	500	Negative
-    Fortune	Clay	6	1,000	Positive
+
+    //Level 4
+
     Drain Magic	Condensed Fear	6	1,000	Negative
     Extend Active Potions	Creeper Heart	6	5,000	Both
-    Resize	Emerald	6	2,500	Tool
-    Reincarnate	Hint of Rebirth	6	2,500	Tool
     Sunlight Burn	Raw Salmon	6	1,000	Negative
     Steal Buffs	Skeleton Skull	6	100	Positive
     Drop Armor	Wild Bramble	6	8,000	Negative
-    Shifting Seasons	Biome Page	8	5,000	Tool
+
+    //Level 5
+
     Spread Debuffs	Creeper Skull	8	2,000	Negative
     Keep Inventory	Focused Will	8	10,000	Positive
     Keep Effects	Redstone Soup	8	10,000	Positive
-    Summon Leonard	Witches Hat	12	10,000	Tool
+
+    //Tool
 
     Harvest	Apple	1		Tool
     Fertilize	Bonemeal	1	250	Tool
@@ -135,6 +118,28 @@ object WitcheryPotionEffectRegistry {
     Fell Tree	String	1		Tool
     Moonshine	Wheat	1		Tool
     Werewolf Lock	Wolfsbane	1		Tool
+    Part Lava	Cobblestone	2	100	Tool
+    Sprouting	Ent Twig	2	350	Tool
+    Level Land	Netherack	2	200	Tool
+    Erosion	Oil of Vitriol	2	200	Tool
+    Grow Sapling	Sapling	2	200	Tool
+    Pull	Slimeball	2	150	Tool
+    Endless Water	Snow	2	3,000	Tool
+    Push Away	Stick	2	200	Tool
+    Floating	Sugar Cane	2	250	Tool
+    Random Teleport	Ender Pearl	4	1,000	Tool
+    Tame Animals	Heart of Gold	4	500	Tool
+    Break Nearby Ores	Iron Ingot	4	2,000	Tool
+    Raise Land	Nether Quartz	4	2,000	Tool
+    Blight	Poisonous Potato	4	2,000	Tool
+    Convert to Ice	Ender Eye	5	2,000	Tool
+    Ice Shell	Frozen Heart	5	500	Tool
+    Love	Poppy	4	500	Tool
+    Resize	Emerald	6	2,500	Tool
+    Reincarnate	Hint of Rebirth	6	2,500	Tool
+    Shifting Seasons	Biome Page	8	5,000	Tool
+    Summon Leonard	Witches Hat	12	10,000	Tool
+
      */
 
 

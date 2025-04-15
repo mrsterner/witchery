@@ -6,6 +6,8 @@ import dev.architectury.platform.Platform
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.fluid.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.api.potion.DurationAmplifier
+import dev.sterner.witchery.api.potion.FinalPotionData
 import dev.sterner.witchery.data.PotionDataHandler
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
@@ -390,11 +392,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 val effectDurations = witcheryPotionItemCache
                     .map { ingredient ->
                         val (duration, amplifier) = getTotalEffectValues(ingredient, witcheryPotionItemCache)
-                        WitcheryDataComponents.DurationAmplifier(duration, amplifier)
+                        DurationAmplifier(duration, amplifier)
                     }
 
                 val finalPotionDataList = effectDurations.zip(witcheryPotionItemCache) { durationAmplifier, ingredient ->
-                    WitcheryDataComponents.FinalPotionData(durationAmplifier, ingredient)
+                    FinalPotionData(durationAmplifier, ingredient)
                 }
 
                 witchesPotion.set(WITCHERY_POTION_CONTENT.get(), finalPotionDataList)
