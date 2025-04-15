@@ -13,3 +13,4 @@ mutable field net/minecraft/world/entity/LivingEntity walkAnimation Lnet/minecra
 accessible field net/minecraft/world/entity/LivingEntity swimAmount F
 accessible field net/minecraft/world/entity/LivingEntity swimAmountO F
 accessible method net/minecraft/world/damagesource/DamageSources source (Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/world/damagesource/DamageSource;
+accessible method net/minecraft/client/KeyMapping release ()V

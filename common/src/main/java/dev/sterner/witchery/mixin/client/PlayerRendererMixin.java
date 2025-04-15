@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import dev.sterner.witchery.mixin.LivingEntityAccessor;
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
@@ -15,6 +16,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.BatRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
@@ -23,6 +25,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ambient.Bat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -70,8 +73,16 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
             var bat = TransformationPlayerAttachment.getBatEntity(entity);
             if (bat != null) {
                 witchery$copyTransforms(bat, entity);
+                var bl = entity.onGround() && !entity.getAbilities().flying;
+                bat.setResting(bl);
+                poseStack.pushPose();
+                if (bl) {
+                    poseStack.translate(0f, 0.85f, 0f);
+                    poseStack.mulPose(Axis.XP.rotationDegrees(-180f));
+                }
                 Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(bat)
                                 .render(bat, entityYaw, partialTicks, poseStack, buffer, packedLight);
+                poseStack.popPose();
                 ci.cancel();
             }
         } else if (TransformationPlayerAttachment.isWolf(entity)) {

@@ -4,12 +4,14 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.vampire.VampireLevelRequirements.LEVEL_REQUIREMENTS
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.ChunkPos
@@ -18,6 +20,12 @@ object VampireLeveling {
 
     private val KNOCKBACK_BONUS =
         AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+
+    private val BAT_WEAKNESS =
+        AttributeModifier(Witchery.id("bat_weakness"), -2.5, AttributeModifier.Operation.ADD_VALUE)
+    private val BAT_HEALTH =
+        AttributeModifier(Witchery.id("bat_health"), -4.0, AttributeModifier.Operation.ADD_VALUE)
+
 
     /**
      * Will level upp a vampire-player if they for fills the requirements to do so.
@@ -31,7 +39,7 @@ object VampireLeveling {
             setData(player, data.copy(vampireLevel = nextLevel))
             setMaxBlood(player, nextLevel)
             player.sendSystemMessage(Component.literal("Vampire Level Up: $nextLevel"))
-            updateModifiers(player, nextLevel)
+            updateModifiers(player, nextLevel, false)
         }
     }
 
@@ -63,11 +71,17 @@ object VampireLeveling {
     /**
      * When the player vampire-level changes this will reset and add potential attributes
      */
-    fun updateModifiers(player: Player, level: Int) {
+    fun updateModifiers(player: Player, level: Int, toBat: Boolean) {
         player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.removeModifier(KNOCKBACK_BONUS)
+        player.attributes.getInstance(Attributes.MAX_HEALTH)?.removeModifier(BAT_HEALTH)
+        player.attributes.getInstance(Attributes.ARMOR)?.removeModifier(BAT_WEAKNESS)
         if (level >= 3) {
-            player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)
-                ?.addPermanentModifier(KNOCKBACK_BONUS)
+            player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.addPermanentModifier(KNOCKBACK_BONUS)
+        }
+
+        if (toBat) {
+            player.attributes.getInstance(Attributes.MAX_HEALTH)?.addPermanentModifier(BAT_HEALTH)
+            player.attributes.getInstance(Attributes.ARMOR)?.addPermanentModifier(BAT_WEAKNESS)
         }
     }
 

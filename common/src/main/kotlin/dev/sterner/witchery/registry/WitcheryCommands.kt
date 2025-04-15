@@ -247,7 +247,7 @@ object WitcheryCommands {
                             val data = VampirePlayerAttachment.getData(player)
 
                             VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
-                            VampireLeveling.updateModifiers(player, level)
+                            VampireLeveling.updateModifiers(player, level, false)
                             val maxBlood = levelToBlood(level)
                             BloodPoolLivingEntityAttachment.setData(
                                 player,
@@ -306,12 +306,6 @@ object WitcheryCommands {
                             val data = WerewolfPlayerAttachment.getData(player)
 
                             WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = level))
-                            val type = TransformationPlayerAttachment.getData(player).transformationType
-
-                            WerewolfLeveling.updateModifiers(player,
-                                type == TransformationPlayerAttachment.TransformationType.WOLF,
-                                type == TransformationPlayerAttachment.TransformationType.WEREWOLF
-                            )
 
                             context.source.sendSuccess(
                                 { Component.literal("Set werewolf level to $level for ${player.name.string}") },

@@ -6,6 +6,7 @@ import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.vampire.VampireAbility
 import dev.sterner.witchery.handler.vampire.VampireLeveling
+import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
 import dev.sterner.witchery.payload.SyncTransformationS2CPayload
 import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.WitcheryAttributes
@@ -76,23 +77,28 @@ object TransformationPlayerAttachment {
     @JvmStatic
     fun removeForm(player: Player) {
         setData(player, Data(TransformationType.NONE, MAX_COOLDOWN))
+        VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).vampireLevel, false)
+        WerewolfLeveling.updateModifiers(player, wolf = false, wolfMan = false)
     }
 
     @JvmStatic
     fun setBatForm(player: Player) {
         val data = getData(player)
         if (data.batFormCooldown <= 0) {
+            VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).vampireLevel, true)
             setData(player, Data(TransformationType.BAT, 0, 0))
         }
     }
 
     @JvmStatic
     fun setWolfForm(player: Player) {
+        WerewolfLeveling.updateModifiers(player, wolf = true, wolfMan = false)
         setData(player, Data(TransformationType.WOLF))
     }
 
     @JvmStatic
     fun setWereWolfForm(player: Player) {
+        WerewolfLeveling.updateModifiers(player, wolf = false, wolfMan = true)
         setData(player, Data(TransformationType.WEREWOLF))
     }
 
