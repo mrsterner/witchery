@@ -3,7 +3,9 @@
   "base_duration": 900,
   "capacity_cost": 0,
   "color": -6570406,
-  "general_modifier": "drink_speed_boost",
+  "general_modifier": [
+    "drink_speed_boost"
+  ],
   "item": {
     "count": 1,
     "id": "witchery:exhale_of_the_horned_one"

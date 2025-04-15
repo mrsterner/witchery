@@ -94,7 +94,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
         var shouldInvertNext = false
 
         for (ingredient in potionContentList) {
-            if (ingredient.item.item == Items.FERMENTED_SPIDER_EYE) {
+            if (ingredient.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
                 shouldInvertNext = true
                 continue
             }
@@ -188,10 +188,9 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
         var shouldInvertNext = false
 
-        for ((i, potionContent) in potionContentList.withIndex()) {
-            if (i == 0) continue
+        for (potionContent in potionContentList) {
 
-            if (potionContent.item.item == Items.FERMENTED_SPIDER_EYE) {
+            if (potionContent.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
                 shouldInvertNext = true
                 continue
             }
@@ -206,16 +205,15 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
             val duration = (potionContent.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
             val amplifier = globalModifier.powerAddition
 
-            entity.addEffect(MobEffectInstance(effect, duration, amplifier))
+            if (effect != WitcheryMobEffects.EMPTY) {
+                entity.addEffect(MobEffectInstance(effect, duration, amplifier))
+            }
         }
 
         return stack
     }
 
     companion object {
-
-
-
 
         fun tryAddItemToPotion(potion: MutableList<WitcheryPotionIngredient>, toAdd: WitcheryPotionIngredient): Boolean {
 

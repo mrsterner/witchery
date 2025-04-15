@@ -185,29 +185,29 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
 
                 val list: MutableList<MobEffectInstance> = Lists.newArrayList()
                 val visible = !potionContents.any {
-                    it.generalModifier.orElse(null) == WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE
+                    it.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE)
                 }
 
                 var shouldInvertNext = false
 
-                for (mobEffectInstance in potionContents) {
-                    if (mobEffectInstance.item.item == Items.FERMENTED_SPIDER_EYE) {
+                for (ingredient in potionContents) {
+                    if (ingredient.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
                         shouldInvertNext = true
                         continue
                     }
 
                     val effect = if (shouldInvertNext) {
                         shouldInvertNext = false
-                        WitcheryMobEffects.invertEffect(mobEffectInstance.effect)
+                        WitcheryMobEffects.invertEffect(ingredient.effect)
                     } else {
-                        mobEffectInstance.effect
+                        ingredient.effect
                     }
 
                     list.add(
                         MobEffectInstance(
                             effect,
-                            (mobEffectInstance.baseDuration + mobEffectInstance.effectModifier.durationAddition) * mobEffectInstance.effectModifier.durationMultiplier,
-                            mobEffectInstance.effectModifier.powerAddition,
+                            (ingredient.baseDuration + ingredient.effectModifier.durationAddition) * ingredient.effectModifier.durationMultiplier,
+                            ingredient.effectModifier.powerAddition,
                             false,
                             visible
                         )
@@ -233,7 +233,9 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
                                             this.getOwner(), livingEntity, mobEffectInstance2.amplifier, 0.5
                                         )
                                     } else {
-                                        livingEntity.addEffect(MobEffectInstance(mobEffectInstance2), this)
+                                        if (mobEffectInstance2 != WitcheryMobEffects.EMPTY) {
+                                            livingEntity.addEffect(MobEffectInstance(mobEffectInstance2), this)
+                                        }
                                     }
                                 }
 

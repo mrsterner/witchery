@@ -130,32 +130,32 @@ class WitcheryPotionProvider(
         makeIngredient(provider,
             Items.GOLD_NUGGET,
             altarPower = 50,
-            generalModifier = Optional.of(GeneralModifier.NO_PARTICLE),
+            generalModifier = listOf(GeneralModifier.NO_PARTICLE),
             color = Color(255, 160, 20).rgb
         )
 
         makeIngredient(provider,
             Items.FERMENTED_SPIDER_EYE,
             altarPower = 25,
-            generalModifier = Optional.of(GeneralModifier.INVERT_NEXT),
+            generalModifier = listOf(GeneralModifier.INVERT_NEXT),
             color = Color(255, 70, 80).rgb
         )
         makeIngredient(provider,
             WitcheryItems.ROWAN_BERRIES.get(),
             altarPower = 50,
-            generalModifier = Optional.of(GeneralModifier.DRINK_SPEED_BOOST),
+            generalModifier = listOf(GeneralModifier.DRINK_SPEED_BOOST),
             color = Color(255, 70, 20).rgb
         )
         makeIngredient(provider,
             WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get(),
             altarPower = 50,
-            generalModifier = Optional.of(GeneralModifier.DRINK_SPEED_BOOST),
+            generalModifier = listOf(GeneralModifier.DRINK_SPEED_BOOST),
             color = Color(155, 190, 90).rgb
         )
         makeIngredient(provider,
             WitcheryItems.SPANISH_MOSS.get(),
             altarPower = 50,
-            generalModifier = Optional.of(GeneralModifier.DRINK_SPEED_BOOST),
+            generalModifier = listOf(GeneralModifier.DRINK_SPEED_BOOST),
             color = Color(155, 190, 90).rgb
         )
 
@@ -244,7 +244,7 @@ class WitcheryPotionProvider(
         baseDuration: Int = 20 * 45,
         altarPower: Int = 200,
         capacity: Int = 0,
-        generalModifier: Optional<GeneralModifier> = Optional.empty(),
+        generalModifier: List<GeneralModifier> = listOf(),
         effectModifier: EffectModifier = EffectModifier(0, 0, 1),
         dispersalModifier: DispersalModifier = DispersalModifier(1,1),
         type: Type = Type.CONSUMABLE,

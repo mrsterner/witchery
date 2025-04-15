@@ -121,7 +121,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                                 for ((i, potionContent) in potionContentList.withIndex()) {
                                     if (i == 0) continue
 
-                                    if (potionContent.item.item == Items.FERMENTED_SPIDER_EYE) {
+                                    if (potionContent.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
                                         shouldInvertNext = true
                                         continue
                                     }
@@ -143,7 +143,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                                         )
                                     } else {
                                         val visible = !potionContentList.any {
-                                            it.generalModifier.orElse(null) == WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE
+                                            it.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE)
                                         }
 
                                         val mobEffectInstance = MobEffectInstance(
@@ -155,7 +155,9 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                                         )
 
                                         if (!mobEffectInstance.endsWithin(20)) {
-                                            livingEntity.addEffect(mobEffectInstance, entity2)
+                                            if (effect != WitcheryMobEffects.EMPTY) {
+                                                livingEntity.addEffect(mobEffectInstance, entity2)
+                                            }
                                         }
                                     }
                                 }
