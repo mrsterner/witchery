@@ -4,9 +4,7 @@ import com.google.common.collect.Lists
 import com.google.common.collect.Maps
 import com.mojang.logging.LogUtils
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import net.minecraft.core.particles.ColorParticleOption
@@ -22,14 +20,18 @@ import net.minecraft.util.FastColor
 import net.minecraft.util.Mth
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.*
-import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.material.PushReaction
+import net.minecraft.world.phys.HitResult
 import org.slf4j.Logger
 import java.util.*
 
 
-class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud?>, level: Level) :
+class WitcheryAreaEffectCloud(
+    entityType: EntityType<out WitcheryAreaEffectCloud?>,
+    level: Level,
+    var hitResult: HitResult?
+) :
     Entity(entityType, level), TraceableEntity {
 
     private var potionContents: MutableList<WitcheryPotionIngredient> = mutableListOf()
@@ -47,10 +49,15 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
         this.noPhysics = true
     }
 
-    constructor(level: Level) : this(WitcheryEntityTypes.AREA_EFFECT_CLOUD.get(), level)
+    constructor(level: Level) : this(WitcheryEntityTypes.AREA_EFFECT_CLOUD.get(), level, null)
 
-    constructor(level: Level, x: Double, y: Double, z: Double) : this(WitcheryEntityTypes.AREA_EFFECT_CLOUD.get(), level) {
+    constructor(level: Level, x: Double, y: Double, z: Double, hitResult: HitResult) : this(
+        WitcheryEntityTypes.AREA_EFFECT_CLOUD.get(),
+        level,
+        hitResult
+    ) {
         this.setPos(x, y, z)
+        this.hitResult = hitResult
     }
 
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
@@ -194,7 +201,12 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
                 for (ingredient in potionContents) {
 
                     if (ingredient.specialEffect.isPresent) {
-                        WitcherySpecialPotionEffects.SPECIALS.get(ingredient.specialEffect.get().id)?.onActivated(level(), owner)
+                        WitcherySpecialPotionEffects.SPECIALS.get(ingredient.specialEffect.get())?.onActivated(
+                            level(),
+                            owner,
+                            hitResult = hitResult,
+                            victims.map { it.key }.toMutableList()
+                        )
                     }
 
                     if (ingredient.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {

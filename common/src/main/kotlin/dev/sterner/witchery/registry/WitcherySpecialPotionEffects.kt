@@ -4,9 +4,16 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.registry.registries.Registrar
 import dev.architectury.registry.registries.RegistrarManager
+import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.SpecialPotion
+import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.HitResult
 
 object WitcherySpecialPotionEffects {
 
@@ -14,6 +21,19 @@ object WitcherySpecialPotionEffects {
 
     val SPECIALS: Registrar<SpecialPotion> = RegistrarManager.get(Witchery.MODID).builder<SpecialPotion>(ID)
         .syncToClients().build()
+
+    val GROW_CROPS: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("grow_crops")) {
+        object : SpecialPotion("grow_crops"){
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult?,
+                list: MutableList<Entity>
+            ) {
+                super.onActivated(level, owner, hitResult, list)
+            }
+        }
+    }
 
     val CODEC: Codec<SpecialPotion> = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<SpecialPotion> ->
         instance.group(

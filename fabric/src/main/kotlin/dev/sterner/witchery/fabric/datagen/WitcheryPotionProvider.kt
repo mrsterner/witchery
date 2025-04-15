@@ -7,6 +7,7 @@ import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient.*
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryMobEffects
+import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
 import net.minecraft.core.Holder
@@ -236,13 +237,19 @@ class WitcheryPotionProvider(
             type = Type.LINGERING,
             color = Color(255, 140, 255).rgb
         )
+        makeIngredient(provider,
+            Items.ICE,
+            altarPower = 50,
+            color = Color(100, 150, 255).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.GROW_CROPS.id)
+        )
     }
 
     private fun makeIngredient(
         provider: BiConsumer<ResourceLocation, WitcheryPotionIngredient>,
         item: Item,
         effect: Holder<MobEffect> = WitcheryMobEffects.EMPTY,
-        specialPotion: Optional<SpecialPotion> = Optional.empty(),
+        specialPotion: Optional<ResourceLocation> = Optional.empty(),
         baseDuration: Int = 20 * 45,
         altarPower: Int = 200,
         capacity: Int = 0,
