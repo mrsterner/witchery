@@ -14,7 +14,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure.StructurePiece
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data.BloodPoolHandler
-import dev.sterner.witchery.handler.werewolf.WerewolfAbilities
+import dev.sterner.witchery.handler.ability.VampireAbility
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
@@ -131,7 +131,7 @@ object VampireEventHandler {
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
 
         if (isInSunlight) {
-            VampireAbilities.increaseInSunTick(player)
+            VampireAbilityHandler.increaseInSunTick(player)
             val maxInSunTicks = player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0
             val data = getData(player)
             setData(player, data.copy(maxInSunTickClient = maxInSunTicks.toInt()))
@@ -166,7 +166,7 @@ object VampireEventHandler {
         } else {
             val decreaseAmount =
                 (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.div(100)) ?: 1.0
-            VampireAbilities.decreaseInSunTick(player, (ceil(decreaseAmount)).toInt())
+            VampireAbilityHandler.decreaseInSunTick(player, (ceil(decreaseAmount)).toInt())
         }
 
         if (bloodData.bloodPool >= 75 && player.level().random.nextBoolean()) {
@@ -314,7 +314,7 @@ object VampireEventHandler {
         }
 
         val abilityIndex = getData(player).abilityIndex
-        val size = VampireAbilities.getAbilities(player)
+        val size = VampireAbilityHandler.getAbilities(player)
 
         val y = guiGraphics.guiHeight() - 18 - 5
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
@@ -333,7 +333,7 @@ object VampireEventHandler {
 
         val batCooldown = TransformationPlayerAttachment.getData(player).batFormCooldown
         for (i in size.indices) {
-            var name = size[i].serializedName
+            var name = size[i].id
             if (size[i] == VampireAbility.TRANSFIX && bl) {
                 name = "night_vision"
             }
@@ -483,10 +483,10 @@ object VampireEventHandler {
      */
     fun parseAbilityFromIndex(player: Player, abilityIndex: Int): Boolean {
         if (abilityIndex == VampireAbility.TRANSFIX.ordinal && player.isShiftKeyDown) {
-            VampireAbilities.toggleNightVision(player)
+            VampireAbilityHandler.toggleNightVision(player)
             return true
         } else if (abilityIndex == VampireAbility.SPEED.ordinal) {
-            VampireAbilities.toggleSpeedBoost(player)
+            VampireAbilityHandler.toggleSpeedBoost(player)
             return true
         } else if (abilityIndex == VampireAbility.BAT_FORM.ordinal) {
             val isBta = TransformationPlayerAttachment.isBat(player)

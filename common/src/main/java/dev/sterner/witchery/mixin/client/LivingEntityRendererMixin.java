@@ -38,6 +38,12 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             if (LightInfusionDataAttachment.isInvisible(player).isInvisible()) {
                 return 0f;
             }
+            if (TransformationPlayerAttachment.isBat(player)) {
+                return original / 2f;
+            }
+            if (TransformationPlayerAttachment.isWolf(player)) {
+                return original / 1.5f;
+            }
         }
         return original;
     }

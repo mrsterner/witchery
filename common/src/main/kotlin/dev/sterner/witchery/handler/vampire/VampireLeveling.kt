@@ -1,13 +1,14 @@
 package dev.sterner.witchery.handler.vampire
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.vampire.VampireLevelRequirements.LEVEL_REQUIREMENTS
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
@@ -17,21 +18,17 @@ import net.minecraft.world.level.ChunkPos
 
 object VampireLeveling {
 
-    private val KNOCKBACK_BONUS =
-        AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-
-    private val BAT_WEAKNESS =
-        AttributeModifier(Witchery.id("bat_weakness"), -2.5, AttributeModifier.Operation.ADD_VALUE)
-    private val BAT_HEALTH =
-        AttributeModifier(Witchery.id("bat_health"), -4.0, AttributeModifier.Operation.ADD_VALUE)
-
+    private val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val BAT_WEAKNESS = AttributeModifier(Witchery.id("bat_weakness"), -2.5, AttributeModifier.Operation.ADD_VALUE)
+    private val BAT_HEALTH = AttributeModifier(Witchery.id("bat_health"), -4.0, AttributeModifier.Operation.ADD_VALUE)
 
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
         val data = getData(player)
         setData(player, data.copy(vampireLevel = level))
         if (level == 0) {
-            VampireAbilities.setAbilityIndex(player, -1)
+            VampireAbilityHandler.setAbilityIndex(player, -1)
+            TransformationPlayerAttachment.removeForm(player)
         }
     }
 
@@ -42,20 +39,21 @@ object VampireLeveling {
     fun increaseVampireLevel(player: ServerPlayer) {
         val data = getData(player)
         val nextLevel = data.getVampireLevel() + 1
-        setLevel(player, nextLevel)
 
-        if (VampireLevelRequirements.canLevelUp(player, nextLevel)) {
-            setData(player, data.copy(vampireLevel = nextLevel))
-            setMaxBlood(player, nextLevel)
-            player.sendSystemMessage(Component.literal("Vampire Level Up: $nextLevel"))
-            updateModifiers(player, nextLevel, false)
-        }
+        if (!canLevelUp(player, nextLevel)) return
+
+        val updatedData = data.copy(vampireLevel = nextLevel)
+        setData(player, updatedData)
+        setMaxBlood(player, nextLevel)
+        player.sendSystemMessage(Component.literal("Vampire Level Up: $nextLevel"))
+        updateModifiers(player, nextLevel, false)
     }
+
 
     /**
      * Maps the current players level to what its max blood pool amount should be
      */
-    fun setMaxBlood(player: Player, level: Int) {
+    private fun setMaxBlood(player: Player, level: Int) {
         val maxBlood = levelToBlood(level)
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
         BloodPoolLivingEntityAttachment.setData(player, bloodData.copy(maxBlood = maxBlood))
@@ -235,4 +233,40 @@ object VampireLeveling {
         }
     }
 
+    val LEVEL_REQUIREMENTS: Map<Int, Requirement> = mapOf(
+        3 to Requirement(Witchery.id("vampire/2"), halfVillagers = 5),
+        4 to Requirement(Witchery.id("vampire/3"), nightCounter = 24000),
+        5 to Requirement(Witchery.id("vampire/4"), sunGrenades = 10),
+        6 to Requirement(Witchery.id("vampire/5"), blazesKilled = 20),
+        7 to Requirement(Witchery.id("vampire/6")),
+        8 to Requirement(Witchery.id("vampire/7"), villagesVisited = 2),
+        9 to Requirement(Witchery.id("vampire/8"), trappedVillagers = 5),
+        10 to Requirement(Witchery.id("vampire/9"))
+    )
+
+    fun canLevelUp(player: ServerPlayer, targetLevel: Int): Boolean {
+        val data = VampirePlayerAttachment.getData(player)
+        val requirement = LEVEL_REQUIREMENTS[targetLevel] ?: return false
+
+        return (requirement.advancement.let { TornPageItem.hasAdvancement(player, it) } &&
+                (requirement.halfVillagers?.let { data.villagersHalfBlood.size >= it } ?: true) &&
+                (requirement.nightCounter?.let {
+                    data.nightTicker >= it && player.level().isNight
+                } ?: true) &&
+                (requirement.sunGrenades?.let { data.usedSunGrenades >= it } ?: true) &&
+                (requirement.blazesKilled?.let { data.killedBlazes >= it } ?: true) &&
+                (requirement.villagesVisited?.let { data.visitedVillages.size >= it } ?: true) &&
+                (requirement.trappedVillagers?.let { data.trappedVillagers.size >= it } ?: true)
+                )
+    }
+
+    data class Requirement(
+        val advancement: ResourceLocation,
+        val halfVillagers: Int? = null,
+        val nightCounter: Int? = null,
+        val sunGrenades: Int? = null,
+        val blazesKilled: Int? = null,
+        val villagesVisited: Int? = null,
+        val trappedVillagers: Int? = null
+    )
 }

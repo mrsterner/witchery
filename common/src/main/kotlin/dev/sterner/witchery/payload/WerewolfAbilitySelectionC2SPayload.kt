@@ -2,7 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.werewolf.WerewolfAbilities
+import dev.sterner.witchery.handler.werewolf.WerewolfAbilityHandler
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
@@ -31,7 +31,7 @@ class WerewolfAbilitySelectionC2SPayload(val nbt: CompoundTag) : CustomPacketPay
         val index = payload.nbt.getInt("Index")
 
         if (player != null) {
-            WerewolfAbilities.updateAbilityIndex(player, index)
+            WerewolfAbilityHandler.updateAbilityIndex(player, index)
         }
     }
 

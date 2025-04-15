@@ -300,8 +300,6 @@ object WitcheryCommands {
                             val level = IntegerArgumentType.getInteger(context, "level")
                             val player = context.source.playerOrException
 
-                            val data = WerewolfPlayerAttachment.getData(player)
-
                             WerewolfLeveling.setLevel(player, level)
 
                             context.source.sendSuccess(

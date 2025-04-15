@@ -1,66 +1,56 @@
 package dev.sterner.witchery.handler.werewolf
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.werewolf.WerewolfLevelRequirements.LEVEL_REQUIREMENTS
 import dev.sterner.witchery.item.TornPageItem
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.ai.attributes.AttributeInstance
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
 
 object WerewolfLeveling {
 
-    private val KNOCKBACK_BONUS =
-        AttributeModifier(Witchery.id("werewolf_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-    private val KNOCKBACK_BONUS_2 =
-        AttributeModifier(Witchery.id("werewolf_knockback_2"), 0.6, AttributeModifier.Operation.ADD_VALUE)
-    private val ATTACK_BONUS =
-        AttributeModifier(Witchery.id("werewolf_damage"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-    private val ATTACK_BONUS_2 =
-        AttributeModifier(Witchery.id("werewolf_damage_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
-    private val SPEED_BONUS =
-        AttributeModifier(Witchery.id("werewolf_speed"), 0.1, AttributeModifier.Operation.ADD_VALUE)
-    private val SPEED_BONUS_2 =
-        AttributeModifier(Witchery.id("werewolf_speed_2"), 0.05, AttributeModifier.Operation.ADD_VALUE)
-    private val STEP_HEIGHT_BONUS =
-        AttributeModifier(Witchery.id("werewolf_step"), 0.75, AttributeModifier.Operation.ADD_VALUE)
-    private val JUMP_HEIGHT_BONUS =
-        AttributeModifier(Witchery.id("werewolf_jump"), 1.1, AttributeModifier.Operation.ADD_VALUE)
-    private val HEALTH_BONUS =
-        AttributeModifier(Witchery.id("werewolf_health"), 10.0, AttributeModifier.Operation.ADD_VALUE)
-
-    private val RESIST_BONUS =
-        AttributeModifier(Witchery.id("werewolf_resist"), 5.0, AttributeModifier.Operation.ADD_VALUE)
-    private val RESIST_TOUGH_BONUS =
-        AttributeModifier(Witchery.id("werewolf_resist_tough"), 5.0, AttributeModifier.Operation.ADD_VALUE)
+    private val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("werewolf_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val KNOCKBACK_BONUS_2 = AttributeModifier(Witchery.id("werewolf_knockback_2"), 0.6, AttributeModifier.Operation.ADD_VALUE)
+    private val ATTACK_BONUS = AttributeModifier(Witchery.id("werewolf_damage"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val ATTACK_BONUS_2 = AttributeModifier(Witchery.id("werewolf_damage_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
+    private val SPEED_BONUS = AttributeModifier(Witchery.id("werewolf_speed"), 0.1, AttributeModifier.Operation.ADD_VALUE)
+    private val SPEED_BONUS_2 = AttributeModifier(Witchery.id("werewolf_speed_2"), 0.05, AttributeModifier.Operation.ADD_VALUE)
+    private val STEP_HEIGHT_BONUS = AttributeModifier(Witchery.id("werewolf_step"), 0.75, AttributeModifier.Operation.ADD_VALUE)
+    private val JUMP_HEIGHT_BONUS = AttributeModifier(Witchery.id("werewolf_jump"), 1.1, AttributeModifier.Operation.ADD_VALUE)
+    private val HEALTH_BONUS = AttributeModifier(Witchery.id("werewolf_health"), 10.0, AttributeModifier.Operation.ADD_VALUE)
+    private val RESIST_BONUS = AttributeModifier(Witchery.id("werewolf_resist"), 5.0, AttributeModifier.Operation.ADD_VALUE)
+    private val RESIST_TOUGH_BONUS = AttributeModifier(Witchery.id("werewolf_resist_tough"), 5.0, AttributeModifier.Operation.ADD_VALUE)
 
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
         val data = WerewolfPlayerAttachment.getData(player)
         WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = level))
         if (level == 0) {
-            WerewolfAbilities.setAbilityIndex(player, -1)
+            WerewolfAbilityHandler.setAbilityIndex(player, -1)
+            TransformationPlayerAttachment.removeForm(player)
         }
     }
 
     /**
-     * Will level upp a vampire-player if they for fills the requirements to do so.
+     * Will level up a werewolf player if they fulfill the requirements.
      */
     @JvmStatic
     fun increaseWerewolfLevel(player: ServerPlayer) {
         val data = WerewolfPlayerAttachment.getData(player)
         val nextLevel = data.getWerewolfLevel() + 1
-        setLevel(player, nextLevel)
 
-        if (WerewolfLevelRequirements.canLevelUp(player, nextLevel)) {
-            WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = nextLevel))
-            player.sendSystemMessage(Component.literal("Werewolf Level Up: $nextLevel"))
-            updateModifiers(player, data.isWolfFormActive, data.isWolfManFormActive)
-        }
+        if (!canLevelUp(player, nextLevel)) return
+
+        val updatedData = data.copy(werewolfLevel = nextLevel)
+        WerewolfPlayerAttachment.setData(player, updatedData)
+        player.sendSystemMessage(Component.literal("Werewolf Level Up: $nextLevel"))
+        updateModifiers(player, data.isWolfFormActive, data.isWolfManFormActive)
     }
-
 
     fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = WerewolfPlayerAttachment.getData(player)
@@ -109,7 +99,6 @@ object WerewolfLeveling {
         increaseWerewolfLevel(player)
     }
 
-
     /**
      * When the player werewolf-level changes this will reset and add potential attributes
      */
@@ -147,4 +136,44 @@ object WerewolfLeveling {
         }
     }
 
+    val LEVEL_REQUIREMENTS: Map<Int, Requirement> = mapOf(
+        2 to Requirement(Witchery.id("werewolf/1"), threeGold = true),
+        3 to Requirement(Witchery.id("werewolf/2"), killedSheep = 30),
+        4 to Requirement(Witchery.id("werewolf/3"), killedWolves = 10),
+        5 to Requirement(Witchery.id("werewolf/4"), killHornedOne = true),
+        6 to Requirement(Witchery.id("werewolf/5"), airSlayMonster = 10),
+        7 to Requirement(Witchery.id("werewolf/6"), nightHowl = 10),
+        8 to Requirement(Witchery.id("werewolf/7"), wolfPack = 6),
+        9 to Requirement(Witchery.id("werewolf/8"), pigmenKilled = 30),
+        10 to Requirement(Witchery.id("werewolf/9"), spreadLycantropy = true)
+    )
+
+    private fun canLevelUp(player: ServerPlayer, targetLevel: Int): Boolean {
+        val data = WerewolfPlayerAttachment.getData(player)
+        val requirement = LEVEL_REQUIREMENTS[targetLevel] ?: return false
+
+        return ((requirement.threeGold?.let { data.hasGivenGold == it } ?: true) &&
+                (requirement.killedSheep?.let { data.killedSheep >= it } ?: true) &&
+                (requirement.killedWolves?.let { data.killedWolves >= it } ?: true) &&
+                (requirement.killHornedOne?.let { data.killHornedOne == it } ?: true) &&
+                (requirement.airSlayMonster?.let { data.airSlayMonster == it } ?: true) &&
+                (requirement.nightHowl?.let { data.nightHowl == it } ?: true) &&
+                (requirement.wolfPack?.let { data.wolfPack == it } ?: true) &&
+                (requirement.pigmenKilled?.let { data.pigmenKilled == it } ?: true) &&
+                (requirement.spreadLycantropy?.let { data.spreadLycantropy == it } ?: true)
+                )
+    }
+
+    data class Requirement(
+        val advancement: ResourceLocation,
+        val threeGold: Boolean? = null,
+        val killedSheep: Int? = null,
+        val killedWolves: Int? = null,
+        val killHornedOne: Boolean? = null,
+        val airSlayMonster: Int? = null,
+        val nightHowl: Int? = null,
+        val wolfPack: Int? = null,
+        val pigmenKilled: Int? = null,
+        val spreadLycantropy: Boolean? = null,
+    )
 }

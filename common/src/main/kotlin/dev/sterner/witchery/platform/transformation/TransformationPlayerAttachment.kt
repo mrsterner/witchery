@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.vampire.VampireAbility
+import dev.sterner.witchery.handler.ability.VampireAbility
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
 import dev.sterner.witchery.payload.SyncTransformationS2CPayload

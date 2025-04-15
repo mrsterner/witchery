@@ -7,6 +7,7 @@ import dev.architectury.event.events.common.TickEvent
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.handler.ability.WerewolfAbility
 import dev.sterner.witchery.payload.WerewolfAbilityUseC2SPayload
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
@@ -133,9 +134,6 @@ object WerewolfEventHandler {
                         tryForceTurnWerewolfToHuman(player, wereData)
                     }
                 }
-                if (wereData.getWerewolfLevel() == 0) {
-                    WerewolfAbilities.setAbilityIndex(player, -1)
-                }
             }
 
             if (TransformationPlayerAttachment.isWolf(player)) {
@@ -203,7 +201,7 @@ object WerewolfEventHandler {
         }
 
         val abilityIndex = WerewolfPlayerAttachment.getData(player).abilityIndex
-        val size = WerewolfAbilities.getAbilities(player)
+        val size = WerewolfAbilityHandler.getAbilities(player)
 
         val y = guiGraphics.guiHeight() - 18 - 5
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
@@ -214,7 +212,7 @@ object WerewolfEventHandler {
         }
 
         for (i in size.indices) {
-            val name = size[i].serializedName
+            val name = size[i].id
 
             val iconX = x - (25 * i) + 4
             val iconY = y + 4

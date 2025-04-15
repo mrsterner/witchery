@@ -45,9 +45,9 @@ import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.data.PotionDataHandler
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
-import dev.sterner.witchery.handler.vampire.VampireAbilities
+import dev.sterner.witchery.handler.vampire.VampireAbilityHandler
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
-import dev.sterner.witchery.handler.werewolf.WerewolfAbilities
+import dev.sterner.witchery.handler.werewolf.WerewolfAbilityHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.CaneSwordItem
@@ -175,8 +175,8 @@ object Witchery {
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
         PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
         PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
-            VampireAbilities.setAbilityIndex(player, -1)
-            WerewolfAbilities.setAbilityIndex(player, -1)
+            VampireAbilityHandler.setAbilityIndex(player, -1)
+            VampireAbilityHandler.setAbilityIndex(player, -1)
         }
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
@@ -644,8 +644,9 @@ object Witchery {
         )
 
         KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)
-        ClientRawInputEvent.MOUSE_SCROLLED.register(VampireAbilities::scroll)
-        ClientRawInputEvent.MOUSE_SCROLLED.register(WerewolfAbilities::scroll)
+        ClientRawInputEvent.MOUSE_SCROLLED.register(VampireAbilityHandler::scroll)
+        ClientRawInputEvent.MOUSE_SCROLLED.register(WerewolfAbilityHandler::scroll)
+
 
         ClientTickEvent.CLIENT_POST.register(ClientTickEvent.Client { minecraft: Minecraft? ->
             while (WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING.consumeClick()) {
