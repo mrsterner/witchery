@@ -71,7 +71,6 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
-import net.minecraft.client.particle.PlayerCloudParticle
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
@@ -81,7 +80,6 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
-import net.minecraft.world.entity.AreaEffectCloud
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.animal.Pig
 import net.minecraft.world.level.block.Blocks
@@ -123,7 +121,7 @@ object Witchery {
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
         WitcheryFeatures.FEATURES.register()
-        WitcheryMobEffects.init()
+        WitcheryMobEffects.EFFECTS.register()
 
         WitcheryPayloads.register()
 

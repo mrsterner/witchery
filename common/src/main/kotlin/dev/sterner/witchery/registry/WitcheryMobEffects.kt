@@ -1,16 +1,22 @@
 package dev.sterner.witchery.registry
 
+import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.Witchery.MODID
 import dev.sterner.witchery.mobeffect.*
 import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
 import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.level.block.Block
 import java.awt.Color
 
 object WitcheryMobEffects {
+
+    val EFFECTS: DeferredRegister<MobEffect> = DeferredRegister.create(MODID, Registries.MOB_EFFECT)
 
     val EMPTY: Holder<MobEffect> = register("empty", EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 255, 255).rgb))
 
@@ -49,14 +55,6 @@ object WitcheryMobEffects {
     }
 
     private fun register(name: String, effect: MobEffect): Holder<MobEffect> {
-        return Registry.registerForHolder(
-            BuiltInRegistries.MOB_EFFECT,
-            Witchery.id(name),
-            effect
-        )
-    }
-
-    fun init(){
-
+        return EFFECTS.register(name) {effect}
     }
 }
