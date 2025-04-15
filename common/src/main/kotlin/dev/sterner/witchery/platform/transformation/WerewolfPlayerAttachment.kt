@@ -48,7 +48,7 @@ object WerewolfPlayerAttachment {
         val isWolfManFormActive: Boolean = false,
         val isWolfFormActive: Boolean = false,
 
-    ) {
+        ) {
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->

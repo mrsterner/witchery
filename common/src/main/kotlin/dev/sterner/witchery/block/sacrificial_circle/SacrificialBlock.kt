@@ -17,9 +17,11 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 
-class SacrificialBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(
-    litBlockEmission(14)
-)) {
+class SacrificialBlock(properties: Properties) : WitcheryBaseEntityBlock(
+    properties.noOcclusion().lightLevel(
+        litBlockEmission(14)
+    )
+) {
 
     init {
         this.registerDefaultState(
@@ -74,9 +76,7 @@ class SacrificialBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
                         0,
                         1,
                         WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get().defaultBlockState()
-                    )
-
-                    ,
+                    ),
                     MultiBlockStructure.StructurePiece(
                         1,
                         0,

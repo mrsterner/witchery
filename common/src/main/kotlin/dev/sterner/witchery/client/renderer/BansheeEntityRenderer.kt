@@ -87,7 +87,6 @@ class BansheeEntityRenderer(context: EntityRendererProvider.Context) :
     }
 
 
-
     override fun getTextureLocation(entity: BansheeEntity): ResourceLocation {
         return Witchery.id("textures/entity/banshee.png")
     }

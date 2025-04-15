@@ -1,11 +1,11 @@
 package dev.sterner.witchery.handler.vampire
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.handler.vampire.VampireLevelRequirements.LEVEL_REQUIREMENTS
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
-import dev.sterner.witchery.handler.vampire.VampireLevelRequirements.LEVEL_REQUIREMENTS
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
@@ -16,7 +16,8 @@ import net.minecraft.world.level.ChunkPos
 
 object VampireLeveling {
 
-    private val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val KNOCKBACK_BONUS =
+        AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
 
     /**
      * Will level upp a vampire-player if they for fills the requirements to do so.
@@ -89,7 +90,7 @@ object VampireLeveling {
     //To go from Level 2 -> 3
     @JvmStatic
     fun increaseVillagersHalfBlood(player: ServerPlayer, villager: Villager) {
-        if(!canPerformQuest(player, 2)) {
+        if (!canPerformQuest(player, 2)) {
             return
         }
 
@@ -113,7 +114,7 @@ object VampireLeveling {
     //To go from Level 3 -> 4
     @JvmStatic
     fun increaseNightTicker(player: ServerPlayer) {
-        if(!canPerformQuest(player, 3)) {
+        if (!canPerformQuest(player, 3)) {
             return
         }
 
@@ -132,7 +133,7 @@ object VampireLeveling {
     //To go from Level 4 -> 5
     @JvmStatic
     fun increaseUsedSunGrenades(player: ServerPlayer) {
-        if(!canPerformQuest(player, 4)) {
+        if (!canPerformQuest(player, 4)) {
             return
         }
 
@@ -145,7 +146,7 @@ object VampireLeveling {
     //To go from Level 5 -> 6
     @JvmStatic
     fun increaseKilledBlazes(player: ServerPlayer) {
-        if(!canPerformQuest(player, 5)) {
+        if (!canPerformQuest(player, 5)) {
             return
         }
 
@@ -158,7 +159,7 @@ object VampireLeveling {
     //To go from Level 6 -> 7 is handles in LilithEntity
     @JvmStatic
     fun givePoppy(player: ServerPlayer) {
-        if(!canPerformQuest(player, 6)) {
+        if (!canPerformQuest(player, 6)) {
             return
         }
 
@@ -168,7 +169,7 @@ object VampireLeveling {
     //To go from Level 7 -> 8
     @JvmStatic
     fun addVillage(player: ServerPlayer, pos: ChunkPos) {
-        if(!canPerformQuest(player, 7)) {
+        if (!canPerformQuest(player, 7)) {
             return
         }
 
@@ -190,7 +191,7 @@ object VampireLeveling {
     //To go from Level 8 -> 9
     @JvmStatic
     fun increaseTrappedVillagers(player: ServerPlayer, villager: Villager) {
-        if(!canPerformQuest(player, 8)) {
+        if (!canPerformQuest(player, 8)) {
             return
         }
 

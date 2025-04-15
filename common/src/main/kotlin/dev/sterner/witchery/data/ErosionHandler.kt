@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.Block
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
-object ErosionHandler{
+object ErosionHandler {
 
     val LOADER = ErosionResourceReloadListener(Gson(), "erosion")
     val EROSION_PAIR = mutableMapOf<Block, Block>()
@@ -47,7 +47,8 @@ object ErosionHandler{
         })
     }
 
-    class ErosionResourceReloadListener(gson: Gson, directory: String) : SimpleJsonResourceReloadListener(gson, directory) {
+    class ErosionResourceReloadListener(gson: Gson, directory: String) :
+        SimpleJsonResourceReloadListener(gson, directory) {
 
         override fun apply(
             `object`: MutableMap<ResourceLocation, JsonElement>,

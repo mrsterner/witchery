@@ -41,7 +41,16 @@ class ReflectArrowsMobEffect(category: MobEffectCategory, color: Int) :
                     arrow.setOwner(entity)
                     arrow.hasImpulse = true
 
-                    level.playSound(null, arrow.blockX.toDouble(), arrow.blockY.toDouble(), arrow.blockZ.toDouble(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0f, 1.0f)
+                    level.playSound(
+                        null,
+                        arrow.blockX.toDouble(),
+                        arrow.blockY.toDouble(),
+                        arrow.blockZ.toDouble(),
+                        SoundEvents.SHIELD_BLOCK,
+                        SoundSource.PLAYERS,
+                        1.0f,
+                        1.0f
+                    )
                 }
             }
         }

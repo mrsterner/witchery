@@ -12,18 +12,29 @@ import net.minecraft.world.entity.player.Player
 
 object WerewolfLeveling {
 
-    private val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("werewolf_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-    private val KNOCKBACK_BONUS_2 = AttributeModifier(Witchery.id("werewolf_knockback_2"), 0.6, AttributeModifier.Operation.ADD_VALUE)
-    private val ATTACK_BONUS = AttributeModifier(Witchery.id("werewolf_damage"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-    private val ATTACK_BONUS_2 = AttributeModifier(Witchery.id("werewolf_damage_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
-    private val SPEED_BONUS = AttributeModifier(Witchery.id("werewolf_speed"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-    private val SPEED_BONUS_2 = AttributeModifier(Witchery.id("werewolf_speed_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
-    private val STEP_HEIGHT_BONUS = AttributeModifier(Witchery.id("werewolf_step"), 0.75, AttributeModifier.Operation.ADD_VALUE)
-    private val JUMP_HEIGHT_BONUS = AttributeModifier(Witchery.id("werewolf_jump"), 1.1, AttributeModifier.Operation.ADD_VALUE)
-    private val HEALTH_BONUS = AttributeModifier(Witchery.id("werewolf_health"), 10.0, AttributeModifier.Operation.ADD_VALUE)
+    private val KNOCKBACK_BONUS =
+        AttributeModifier(Witchery.id("werewolf_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val KNOCKBACK_BONUS_2 =
+        AttributeModifier(Witchery.id("werewolf_knockback_2"), 0.6, AttributeModifier.Operation.ADD_VALUE)
+    private val ATTACK_BONUS =
+        AttributeModifier(Witchery.id("werewolf_damage"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val ATTACK_BONUS_2 =
+        AttributeModifier(Witchery.id("werewolf_damage_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
+    private val SPEED_BONUS =
+        AttributeModifier(Witchery.id("werewolf_speed"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val SPEED_BONUS_2 =
+        AttributeModifier(Witchery.id("werewolf_speed_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
+    private val STEP_HEIGHT_BONUS =
+        AttributeModifier(Witchery.id("werewolf_step"), 0.75, AttributeModifier.Operation.ADD_VALUE)
+    private val JUMP_HEIGHT_BONUS =
+        AttributeModifier(Witchery.id("werewolf_jump"), 1.1, AttributeModifier.Operation.ADD_VALUE)
+    private val HEALTH_BONUS =
+        AttributeModifier(Witchery.id("werewolf_health"), 10.0, AttributeModifier.Operation.ADD_VALUE)
 
-    private val RESIST_BONUS = AttributeModifier(Witchery.id("werewolf_resist"), 5.0, AttributeModifier.Operation.ADD_VALUE)
-    private val RESIST_TOUGH_BONUS = AttributeModifier(Witchery.id("werewolf_resist_tough"), 5.0, AttributeModifier.Operation.ADD_VALUE)
+    private val RESIST_BONUS =
+        AttributeModifier(Witchery.id("werewolf_resist"), 5.0, AttributeModifier.Operation.ADD_VALUE)
+    private val RESIST_TOUGH_BONUS =
+        AttributeModifier(Witchery.id("werewolf_resist_tough"), 5.0, AttributeModifier.Operation.ADD_VALUE)
 
     /**
      * Will level upp a vampire-player if they for fills the requirements to do so.
@@ -54,7 +65,7 @@ object WerewolfLeveling {
 
     //To go from Level 8 -> 9
     fun increaseKilledPiglin(player: ServerPlayer) {
-        if(!canPerformQuest(player, 8)) {
+        if (!canPerformQuest(player, 8)) {
             return
         }
 
@@ -66,7 +77,7 @@ object WerewolfLeveling {
 
     //To go from Level 3 -> 4
     fun increaseKilledWolf(player: ServerPlayer) {
-        if(!canPerformQuest(player, 3)) {
+        if (!canPerformQuest(player, 3)) {
             return
         }
 
@@ -78,7 +89,7 @@ object WerewolfLeveling {
 
     //To go from Level 2 -> 3
     fun increaseKilledSheep(player: ServerPlayer) {
-        if(!canPerformQuest(player, 2)) {
+        if (!canPerformQuest(player, 2)) {
             return
         }
 

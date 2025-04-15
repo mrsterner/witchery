@@ -14,7 +14,7 @@ class WitcheryFluidTank(
     val capacity: Long = FluidStack.bucketAmount(),
     var predicate: Predicate<FluidStack?> = Predicate { true }
 
-): WitcheryFluidHandler {
+) : WitcheryFluidHandler {
 
     override fun getFluidAmount(): Long {
         return fluid.amount

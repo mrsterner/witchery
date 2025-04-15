@@ -52,8 +52,11 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         goalSelector.addGoal(0, VampireEscapeSunGoal(this, 1.4))
         goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, true))
         goalSelector.addGoal(2, WaterAvoidingRandomStrollGoal(this, 0.5))
-        goalSelector.addGoal(2, LookAtPlayerGoal(this,
-            Player::class.java, 15.0f, 1.0f)
+        goalSelector.addGoal(
+            2, LookAtPlayerGoal(
+                this,
+                Player::class.java, 15.0f, 1.0f
+            )
         )
         goalSelector.addGoal(5, NightHuntGoal(this))
         targetSelector.addGoal(3, DrinkBloodTargetingGoal(this, Mob::class.java, true))
@@ -85,7 +88,8 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         super.baseTick()
 
         val isInSunlight = this.level().canSeeSky(this.blockPosition()) && this.level().isDay
-        val sunDamageSource = (this.level().damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
+        val sunDamageSource =
+            (this.level().damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
 
         if (isInSunlight) {
             inSunTick++
@@ -96,7 +100,16 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
                     this.hurt(sunDamageSource, 1f)
                     BloodPoolLivingEntityAttachment.decreaseBlood(this, 10)
                     this.remainingFireTicks = 20
-                    this.level().playSound(null, this.x, this.y, this.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
+                    this.level().playSound(
+                        null,
+                        this.x,
+                        this.y,
+                        this.z,
+                        SoundEvents.FIRE_EXTINGUISH,
+                        SoundSource.PLAYERS,
+                        0.5f,
+                        1.0f
+                    )
                 }
             }
         } else {
@@ -169,7 +182,6 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         this.huntedLastNight = compound.getBoolean("HuntedLastNight")
         this.lastHuntTimestamp = compound.getLong("LastHuntTimestamp")
     }
-
 
 
     companion object {

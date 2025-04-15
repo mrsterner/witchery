@@ -63,9 +63,9 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             val chunk = ChunkPos(player.onPos)
             serverLevel.setChunkForced(chunk.x, chunk.z, true)
         }
-        val maxDreamweavers = (if(hasFrog) 3 else 4)
+        val maxDreamweavers = (if (hasFrog) 3 else 4)
         val maxFlowingSpirits = 4
-        val maxWispyCotton = (if(hasFrog) 3 else 4)
+        val maxWispyCotton = (if (hasFrog) 3 else 4)
         val dreamweaverCount = countNearbyBlocks(player, WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())
         val flowingSpiritCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
         val wispyCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
@@ -111,7 +111,8 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
                 if (hasSleeping != null) {
                     val chunk = ChunkPos(hasSleeping.pos)
                     serverLevel.setChunkForced(chunk.x, chunk.z, true)
-                    val sleepEntity: SleepingPlayerEntity? = serverLevel.getEntity(hasSleeping.uuid) as SleepingPlayerEntity?
+                    val sleepEntity: SleepingPlayerEntity? =
+                        serverLevel.getEntity(hasSleeping.uuid) as SleepingPlayerEntity?
                     if (sleepEntity != null) {
                         SleepingPlayerEntity.replaceWithPlayer(newServerPlayer, sleepEntity)
                     }

@@ -173,7 +173,7 @@ object Witchery {
 
         PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
         PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
-        PlayerEvent.PLAYER_RESPAWN.register{ player, _, _ ->
+        PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
             VampireAbilities.setAbilityIndex(player, -1)
         }
 
@@ -199,7 +199,7 @@ object Witchery {
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 
-        PlayerEvent.PLAYER_JOIN.register {serverPlayer ->
+        PlayerEvent.PLAYER_JOIN.register { serverPlayer ->
             val data = DeathQueueLevelAttachment.getData(serverPlayer.serverLevel())
             if (data.killerQueue.contains(serverPlayer.uuid)) {
                 serverPlayer.kill()
@@ -214,41 +214,55 @@ object Witchery {
     /**
      * Adds Graveyards to Plains and Taiga Villages.
      */
-    private fun addStructure(server: MinecraftServer){
-        val builtinTemplate: Registry<StructureTemplatePool> = server.registryAccess().registry(Registries.TEMPLATE_POOL).get()
-        val builtinProcessor: Registry<StructureProcessorList> = server.registryAccess().registry(Registries.PROCESSOR_LIST).get()
+    private fun addStructure(server: MinecraftServer) {
+        val builtinTemplate: Registry<StructureTemplatePool> =
+            server.registryAccess().registry(Registries.TEMPLATE_POOL).get()
+        val builtinProcessor: Registry<StructureProcessorList> =
+            server.registryAccess().registry(Registries.PROCESSOR_LIST).get()
 
-        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+        VillageHelper.addBuildingToPool(
+            builtinTemplate, builtinProcessor,
             ResourceLocation.parse("minecraft:village/plains/houses"),
             "$MODID:village/houses/plains_graveyard",
-            2)
+            2
+        )
 
-        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+        VillageHelper.addBuildingToPool(
+            builtinTemplate, builtinProcessor,
             ResourceLocation.parse("minecraft:village/plains/houses"),
             "$MODID:village/houses/plains_graveyard_2",
-            2)
+            2
+        )
 
-        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+        VillageHelper.addBuildingToPool(
+            builtinTemplate, builtinProcessor,
             ResourceLocation.parse("minecraft:village/plains/houses"),
             "$MODID:village/houses/plains_graveyard_3",
-            2)
+            2
+        )
 
 
 
-        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+        VillageHelper.addBuildingToPool(
+            builtinTemplate, builtinProcessor,
             ResourceLocation.parse("minecraft:village/taiga/houses"),
             "$MODID:village/houses/plains_graveyard",
-            2)
+            2
+        )
 
-        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+        VillageHelper.addBuildingToPool(
+            builtinTemplate, builtinProcessor,
             ResourceLocation.parse("minecraft:village/taiga/houses"),
             "$MODID:village/houses/plains_graveyard_2",
-            2)
+            2
+        )
 
-        VillageHelper.addBuildingToPool(builtinTemplate, builtinProcessor,
+        VillageHelper.addBuildingToPool(
+            builtinTemplate, builtinProcessor,
             ResourceLocation.parse("minecraft:village/taiga/houses"),
             "$MODID:village/houses/plains_graveyard_3",
-            2)
+            2
+        )
 
     }
 
@@ -442,14 +456,29 @@ object Witchery {
             ::DreamWeaverBlockEntityRenderer
         )
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.POPPET.get(), ::PoppetBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(), ::SpiritPortalBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(), ::SuspiciousGraveyardDirtBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(), ::SacrificialCircleBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(
+            WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(),
+            ::SpiritPortalBlockEntityRenderer
+        )
+        BlockEntityRendererRegistry.register(
+            WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(),
+            ::SuspiciousGraveyardDirtBlockEntityRenderer
+        )
+        BlockEntityRendererRegistry.register(
+            WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(),
+            ::SacrificialCircleBlockEntityRenderer
+        )
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.GRASSPER.get(), ::GrassperBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CRITTER_SNARE.get(), ::CritterSnareBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(
+            WitcheryBlockEntityTypes.CRITTER_SNARE.get(),
+            ::CritterSnareBlockEntityRenderer
+        )
 
 
-        ClientTooltipComponentRegistry.register(BloodPoolComponent::class.java, BloodPoolComponent::getClientTooltipComponent)
+        ClientTooltipComponentRegistry.register(
+            BloodPoolComponent::class.java,
+            BloodPoolComponent::getClientTooltipComponent
+        )
 
         ParticleProviderRegistry.register(WitcheryParticleTypes.COLOR_BUBBLE.get(), ColorBubbleParticle::Provider)
         ParticleProviderRegistry.register(WitcheryParticleTypes.ZZZ.get(), ZzzParticle::Provider)

@@ -39,7 +39,10 @@ class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
                 val maxBlood = payload.nbt.getInt("maxBlood")
                 val bloodPool = payload.nbt.getInt("bloodPool")
-                BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(maxBlood, bloodPool))
+                BloodPoolLivingEntityAttachment.setData(
+                    player,
+                    BloodPoolLivingEntityAttachment.Data(maxBlood, bloodPool)
+                )
             }
         }
     }
@@ -51,7 +54,7 @@ class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncBloodS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncBloodS2CPacket(buf!!) }
+                { buf -> SyncBloodS2CPacket(buf) }
             )
     }
 }

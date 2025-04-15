@@ -121,7 +121,7 @@ object WitcheryBlockEntityTypes {
 
     val CUSTOM_SIGN = BLOCK_ENTITY_TYPES.register("custom_sign") {
         BlockEntityType.Builder.of(
-            { pos, state -> CustomSignBE(pos, state) as SignBlockEntity },
+            { pos, state -> CustomSignBE(pos, state) },
             WitcheryBlocks.ROWAN_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_SIGN.get(),
             WitcheryBlocks.ALDER_SIGN.get(),
@@ -133,7 +133,7 @@ object WitcheryBlockEntityTypes {
 
     val CUSTOM_HANGING_SIGN = BLOCK_ENTITY_TYPES.register("custom_hanging_sign") {
         BlockEntityType.Builder.of(
-            { pos, state -> CustomHangingSignBE(pos, state) as SignBlockEntity },
+            { pos, state -> CustomHangingSignBE(pos, state) },
             WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(),
             WitcheryBlocks.ALDER_HANGING_SIGN.get(),
@@ -217,12 +217,13 @@ object WitcheryBlockEntityTypes {
 
     val BRUSHABLE_BLOCK = BLOCK_ENTITY_TYPES.register("suspicious_graveyard_dirt") {
         BlockEntityType.Builder.of(
-             { pos: BlockPos, blockState: BlockState ->
+            { pos: BlockPos, blockState: BlockState ->
                 SuspiciousGraveyardDirtBlockEntity(
                     pos,
                     blockState
                 )
-            }, WitcheryBlocks.SUSPICIOUS_GRAVEYARD_DIRT.get()).build(null)
+            }, WitcheryBlocks.SUSPICIOUS_GRAVEYARD_DIRT.get()
+        ).build(null)
     }
 
     val SACRIFICIAL_CIRCLE = BLOCK_ENTITY_TYPES.register("sacrificial_circle") {
@@ -232,7 +233,8 @@ object WitcheryBlockEntityTypes {
                     pos,
                     blockState
                 )
-            }, WitcheryBlocks.SACRIFICIAL_CIRCLE.get()).build(null)
+            }, WitcheryBlocks.SACRIFICIAL_CIRCLE.get()
+        ).build(null)
     }
 
     val GRASSPER = BLOCK_ENTITY_TYPES.register("grassper") {

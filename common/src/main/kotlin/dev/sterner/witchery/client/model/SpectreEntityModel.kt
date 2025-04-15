@@ -23,7 +23,7 @@ class SpectreEntityModel(val root: ModelPart) :
         RenderType.entityTranslucent(
             location
         )
-    }){
+    }) {
 
     private val body: ModelPart = root.getChild("body")
     private val head: ModelPart = root.getChild("head")

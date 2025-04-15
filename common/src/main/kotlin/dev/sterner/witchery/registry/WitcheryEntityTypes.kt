@@ -30,13 +30,15 @@ object WitcheryEntityTypes {
     }
 
 
-    val AREA_EFFECT_CLOUD: RegistrySupplier<EntityType<WitcheryAreaEffectCloud>> = ENTITY_TYPES.register("area_effect_cloud") {
-        EntityType.Builder.of(
-            { _: EntityType<WitcheryAreaEffectCloud>, level: Level ->
-                WitcheryAreaEffectCloud(level)
-            }, MobCategory.MISC
-        ).sized(6F, 0.5F).clientTrackingRange(10).fireImmune().updateInterval(Int.Companion.MAX_VALUE).build(Witchery.id("imp").toString())
-    }
+    val AREA_EFFECT_CLOUD: RegistrySupplier<EntityType<WitcheryAreaEffectCloud>> =
+        ENTITY_TYPES.register("area_effect_cloud") {
+            EntityType.Builder.of(
+                { _: EntityType<WitcheryAreaEffectCloud>, level: Level ->
+                    WitcheryAreaEffectCloud(level)
+                }, MobCategory.MISC
+            ).sized(6F, 0.5F).clientTrackingRange(10).fireImmune().updateInterval(Int.Companion.MAX_VALUE)
+                .build(Witchery.id("imp").toString())
+        }
 
     val DEMON: RegistrySupplier<EntityType<DemonEntity>> = ENTITY_TYPES.register("demon") {
         EntityType.Builder.of(

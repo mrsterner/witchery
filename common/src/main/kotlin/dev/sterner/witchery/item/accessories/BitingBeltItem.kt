@@ -29,7 +29,7 @@ open class BitingBeltItem(properties: Properties) : Item(properties.stacksTo(1).
             val neg = dualData.negative
             if (pos.isPresent) {
                 tooltipComponents.add(Component.literal("Positive:"))
-                pos.get().addPotionTooltip( { e: Component? ->
+                pos.get().addPotionTooltip({ e: Component? ->
                     tooltipComponents.add(
                         e!!
                     )
@@ -37,7 +37,7 @@ open class BitingBeltItem(properties: Properties) : Item(properties.stacksTo(1).
             }
             if (neg.isPresent) {
                 tooltipComponents.add(Component.literal("Negative:"))
-                neg.get().addPotionTooltip( { e: Component? ->
+                neg.get().addPotionTooltip({ e: Component? ->
                     tooltipComponents.add(
                         e!!
                     )

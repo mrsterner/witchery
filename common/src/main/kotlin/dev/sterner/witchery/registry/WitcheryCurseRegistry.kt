@@ -35,11 +35,12 @@ object WitcheryCurseRegistry {
         CurseOfSinking()
     }
 
-    val WALKING_NIGHTMARE: RegistrySupplier<CurseOfWalkingNightmare> = CURSES.register(Witchery.id("walking_nightmare")) {
-        CurseOfWalkingNightmare()
-    }
+    val WALKING_NIGHTMARE: RegistrySupplier<CurseOfWalkingNightmare> =
+        CURSES.register(Witchery.id("walking_nightmare")) {
+            CurseOfWalkingNightmare()
+        }
 
-    fun init(){
+    fun init() {
 
     }
 }

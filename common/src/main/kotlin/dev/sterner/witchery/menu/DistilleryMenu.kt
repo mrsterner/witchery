@@ -69,6 +69,7 @@ class DistilleryMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
                     if (!moveItemStackTo(slotStack, 2, 3, false))
                         return ItemStack.EMPTY
                 }
+
                 else -> {
                     if (!moveItemStackTo(slotStack, 0, 6, false))
                         return ItemStack.EMPTY

@@ -16,7 +16,7 @@ class ResurrectFamiliarRitual : Ritual(Witchery.id("resurrect_familiar")) {
     override fun onEndRitual(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
 
         if (level is ServerLevel) {
-            val area = AABB.ofSize(blockPos.center, 11.0,5.0,11.0)
+            val area = AABB.ofSize(blockPos.center, 11.0, 5.0, 11.0)
 
             val playersInArea = level.getEntitiesOfClass(Player::class.java, area)
 

@@ -10,7 +10,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.world.item.ItemStack
 
 @Environment(EnvType.CLIENT)
-class ClientBloodPoolComponent(val stack: ItemStack): ClientTooltipComponent {
+class ClientBloodPoolComponent(val stack: ItemStack) : ClientTooltipComponent {
 
     override fun getHeight(): Int {
         return 12

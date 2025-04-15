@@ -58,7 +58,7 @@ class GrassperBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun isEmpty(): Boolean {
-       return item.isEmpty()
+        return item.isEmpty()
     }
 
     override fun getItem(slot: Int): ItemStack {

@@ -22,7 +22,11 @@ object InfernalInfusionDataAttachment {
 
     fun sync(player: Player, data: InfernalInfusionData) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncInfernalInfusionS2CPacket(player, data))
+            WitcheryPayloads.sendToPlayers(
+                player.level(),
+                player.blockPosition(),
+                SyncInfernalInfusionS2CPacket(player, data)
+            )
         }
     }
 }

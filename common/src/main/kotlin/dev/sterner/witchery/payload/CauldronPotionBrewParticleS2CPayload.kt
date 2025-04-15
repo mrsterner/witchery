@@ -65,7 +65,7 @@ class CauldronPotionBrewParticleS2CPayload(val nbt: CompoundTag) : CustomPacketP
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, CauldronPotionBrewParticleS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> CauldronPotionBrewParticleS2CPayload(buf!!) }
+                { buf -> CauldronPotionBrewParticleS2CPayload(buf) }
             )
     }
 }

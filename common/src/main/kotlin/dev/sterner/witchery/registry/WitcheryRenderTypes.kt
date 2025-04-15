@@ -51,6 +51,7 @@ object WitcheryRenderTypes {
     init {
         RenderType.RENDERTYPE_EYES_SHADER
     }
+
     val SPIRIT_PORTAL = Util.memoize { resourceLocation: ResourceLocation ->
         val compositeState: RenderType.CompositeState? =
             RenderType.CompositeState.builder()

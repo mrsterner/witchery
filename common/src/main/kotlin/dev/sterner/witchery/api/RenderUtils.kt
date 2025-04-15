@@ -75,7 +75,7 @@ object RenderUtils {
     /**
      * Renders a living entity's blood drops. Used for vampire hot bar and also for hud element when looking at an entity with blood
      */
-    fun innerRenderBlood(guiGraphics: GuiGraphics, maxBlood: Int, bloodPool: Int , y: Int, x: Int) {
+    fun innerRenderBlood(guiGraphics: GuiGraphics, maxBlood: Int, bloodPool: Int, y: Int, x: Int) {
 
         val dropCount = maxBlood / WitcheryConstants.BLOOD_DROP
         val fullIcons = bloodPool / WitcheryConstants.BLOOD_DROP

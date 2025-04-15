@@ -39,7 +39,7 @@ object LivingEntityMixinLogic {
             if (remainingDamage > 0f) {
                 remainingDamage = handleVampiricPoppet(entity, damageSource, remainingDamage)
             }
-        } else if(isVamp) {
+        } else if (isVamp) {
 
             if (remainingDamage > 0f) {
                 remainingDamage = VampireEventHandler.handleHurt(entity, damageSource, remainingDamage)

@@ -61,7 +61,8 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             .horizontalAlign(TextWidget.Alignment.CENTER)
         widgets.addTooltipText(listOf(Component.translatable("$id.tooltip")), 9, 2, 18 * 7, 18)
 
-        widgets.addTexture(Witchery.id("textures/gui/black_square.png"),
+        widgets.addTexture(
+            Witchery.id("textures/gui/black_square.png"),
             18 * 3 - 9,
             displayHeight - (18 * 6),
             92,
@@ -72,7 +73,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             72,
             72,
             72
-            )
+        )
 
         val fullMoon = recipe.celestialConditions.contains(RitualRecipe.Celestial.FULL_MOON)
         val newMoon = recipe.celestialConditions.contains(RitualRecipe.Celestial.NEW_MOON)
@@ -83,20 +84,30 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
 
         val all = recipe.celestialConditions.isEmpty()
 
-        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(day || all) "sun" else "empty"}.png"),
-            20, 4 + 20 + 20,10,10, 0,0, 10, 10, 10, 10)
+        widgets.addTexture(
+            Witchery.id("textures/gui/celestial/${if (day || all) "sun" else "empty"}.png"),
+            20, 4 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
+        )
             .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Day", Style.EMPTY))))
-        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(fullMoon || night || all) "full_moon" else "empty"}.png"),
-            20, 4 + 11 + 20 + 20,10,10, 0,0, 10, 10, 10, 10)
+        widgets.addTexture(
+            Witchery.id("textures/gui/celestial/${if (fullMoon || night || all) "full_moon" else "empty"}.png"),
+            20, 4 + 11 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
+        )
             .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Full Moon", Style.EMPTY))))
-        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(newMoon || night || all) "new_moon" else "empty"}.png"),
-            20, 4 + 11 + 11 + 20 + 20,10,10, 0,0, 10, 10, 10, 10)
+        widgets.addTexture(
+            Witchery.id("textures/gui/celestial/${if (newMoon || night || all) "new_moon" else "empty"}.png"),
+            20, 4 + 11 + 11 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
+        )
             .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("New Moon", Style.EMPTY))))
-        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(waxing || night || all) "waxing_moon" else "empty"}.png"),
-            20 - 11, 4 + 6 + 20 + 20 + 10,10,10, 0,0, 10, 10, 10, 10)
+        widgets.addTexture(
+            Witchery.id("textures/gui/celestial/${if (waxing || night || all) "waxing_moon" else "empty"}.png"),
+            20 - 11, 4 + 6 + 20 + 20 + 10, 10, 10, 0, 0, 10, 10, 10, 10
+        )
             .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Waxing Moon", Style.EMPTY))))
-        widgets.addTexture(Witchery.id("textures/gui/celestial/${if(waning || night || all) "waning_moon" else "empty"}.png"),
-            20 + 11, 4 + 6 + 20 + 20 + 10,10,10, 0,0, 10, 10, 10, 10)
+        widgets.addTexture(
+            Witchery.id("textures/gui/celestial/${if (waning || night || all) "waning_moon" else "empty"}.png"),
+            20 + 11, 4 + 6 + 20 + 20 + 10, 10, 10, 0, 0, 10, 10, 10, 10
+        )
             .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Waning Moon", Style.EMPTY))))
 
         val itemsPerRow = 6

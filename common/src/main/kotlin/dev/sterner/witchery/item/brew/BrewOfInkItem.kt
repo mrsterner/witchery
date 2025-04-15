@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level
 class BrewOfInkItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 
     override fun applyEffectOnEntities(level: Level, livingEntity: LivingEntity, hasFrog: Boolean) {
-        livingEntity.addEffect(MobEffectInstance(MobEffects.BLINDNESS, 20 * (if(hasFrog) 8 else 7), 1))
+        livingEntity.addEffect(MobEffectInstance(MobEffects.BLINDNESS, 20 * (if (hasFrog) 8 else 7), 1))
         if (livingEntity !is Player) {
-            livingEntity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * (if(hasFrog) 8 else 7), 2))
+            livingEntity.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * (if (hasFrog) 8 else 7), 2))
         }
     }
 }

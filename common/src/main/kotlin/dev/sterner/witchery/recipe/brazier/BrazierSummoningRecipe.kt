@@ -22,7 +22,7 @@ class BrazierSummoningRecipe(
     val inputItems: List<ItemStack>,
     val outputEntities: List<EntityType<*>>,
     val altarPower: Int,
-): Recipe<MultipleItemRecipeInput> {
+) : Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
         val filteredInputItems = inputItems.filter { !it.isEmpty }
@@ -76,7 +76,8 @@ class BrazierSummoningRecipe(
                 RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<BrazierSummoningRecipe> ->
                     obj.group(
                         ItemStack.CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
-                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("outputEntities").forGetter { it.outputEntities },
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("outputEntities")
+                            .forGetter { it.outputEntities },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
                     ).apply(obj, ::BrazierSummoningRecipe)
                 }

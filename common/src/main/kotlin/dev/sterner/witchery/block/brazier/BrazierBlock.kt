@@ -18,9 +18,11 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class BrazierBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.lightLevel(
-    litBlockEmission(14)
-)) {
+class BrazierBlock(properties: Properties) : WitcheryBaseEntityBlock(
+    properties.lightLevel(
+        litBlockEmission(14)
+    )
+) {
 
     init {
         this.registerDefaultState(
@@ -70,7 +72,15 @@ class BrazierBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.
             level.addParticle(ParticleTypes.SMOKE, baseX + offsetX, baseY + offsetY, baseZ + offsetZ, 0.0, 0.0, 0.0)
             level.addParticle(ParticleTypes.FLAME, baseX + offsetX, baseY + offsetY, baseZ + offsetZ, 0.0, 0.0, 0.0)
 
-            level.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, baseX + offsetX, baseY + offsetY, baseZ + offsetZ, 0.0, 0.0, 0.0)
+            level.addParticle(
+                ParticleTypes.CAMPFIRE_COSY_SMOKE,
+                baseX + offsetX,
+                baseY + offsetY,
+                baseZ + offsetZ,
+                0.0,
+                0.0,
+                0.0
+            )
         }
     }
 }

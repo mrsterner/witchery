@@ -43,7 +43,7 @@ class VampireAbilityUseC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, VampireAbilityUseC2SPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> VampireAbilityUseC2SPayload(buf!!) }
+                { buf -> VampireAbilityUseC2SPayload(buf) }
             )
     }
 }

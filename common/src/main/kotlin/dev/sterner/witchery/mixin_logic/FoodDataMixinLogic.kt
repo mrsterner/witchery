@@ -22,7 +22,7 @@ object FoodDataMixinLogic {
         }
     }
 
-    fun getSaturation(player: Player?, cir : CallbackInfoReturnable<Float>) {
+    fun getSaturation(player: Player?, cir: CallbackInfoReturnable<Float>) {
         if (player != null && getData(player).vampireLevel > 0) {
             cir.setReturnValue(0f)
         }

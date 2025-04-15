@@ -98,7 +98,7 @@ object VampireAbilities {
     }
 
     @JvmStatic
-    fun updateAbilityIndex(player: Player, abilityIndex: Int){
+    fun updateAbilityIndex(player: Player, abilityIndex: Int) {
         val data = getData(player)
         setData(player, data.copy(abilityIndex = abilityIndex))
     }

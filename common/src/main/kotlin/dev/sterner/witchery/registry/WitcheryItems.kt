@@ -292,7 +292,7 @@ object WitcheryItems {
     }
 
     val NECROMANTIC_STONE: RegistrySupplier<Item> = ITEMS.register("necromantic_stone") {
-        object : Item(Properties()){
+        object : Item(Properties()) {
             override fun isFoil(stack: ItemStack): Boolean {
                 return true
             }
@@ -1012,7 +1012,7 @@ object WitcheryItems {
     }
 
     val BREW_OF_INK: RegistrySupplier<BrewOfInkItem> = ITEMS.register("brew_of_ink") {
-        BrewOfInkItem(Color(40,40,80).rgb, Item.Properties().stacksTo(16))
+        BrewOfInkItem(Color(40, 40, 80).rgb, Item.Properties().stacksTo(16))
     }
 
     val BREW_OF_REVEALING: RegistrySupplier<BrewOfRevealingItem> = ITEMS.register("brew_of_revealing") {
@@ -1097,9 +1097,10 @@ object WitcheryItems {
     }
 
     val CANE_SWORD: RegistrySupplier<CaneSwordItem> = ITEMS.register("cane_sword") {
-        CaneSwordItem(Tiers.DIAMOND, Item.Properties()
-            .stacksTo(1)
-            .durability(1561)
+        CaneSwordItem(
+            Tiers.DIAMOND, Item.Properties()
+                .stacksTo(1)
+                .durability(1561)
         )
     }
 

@@ -49,8 +49,12 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
         goalSelector.addGoal(0, FloatGoal(this))
         goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, true))
         goalSelector.addGoal(2, WaterAvoidingRandomStrollGoal(this, if (entityData.get(IS_DEFEATED)) 0.5 else 1.0))
-        goalSelector.addGoal(2, LookAtPlayerGoal(this,
-            Player::class.java, 15.0f, 1.0f))
+        goalSelector.addGoal(
+            2, LookAtPlayerGoal(
+                this,
+                Player::class.java, 15.0f, 1.0f
+            )
+        )
         //targetSelector.addGoal(0, HurtByTargetGoal(this))
         targetSelector.addGoal(1, TargetWhenNotDefeated(this, LivingEntity::class.java))
         super.registerGoals()
@@ -123,7 +127,7 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
     }
 
     public override fun getDefaultDimensions(pose: Pose): EntityDimensions {
-        return super.getDefaultDimensions(pose).scale(if (entityData.get(IS_DEFEATED)) 0.75f else 1f )
+        return super.getDefaultDimensions(pose).scale(if (entityData.get(IS_DEFEATED)) 0.75f else 1f)
     }
 
     override fun onSyncedDataUpdated(dataAccessor: EntityDataAccessor<*>) {

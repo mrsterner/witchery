@@ -45,7 +45,11 @@ object ManifestationPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncManifestationS2CPacket(player, data))
+            WitcheryPayloads.sendToPlayers(
+                player.level(),
+                player.blockPosition(),
+                SyncManifestationS2CPacket(player, data)
+            )
         }
     }
 

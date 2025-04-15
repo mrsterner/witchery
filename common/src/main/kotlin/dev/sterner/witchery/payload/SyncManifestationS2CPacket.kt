@@ -39,7 +39,10 @@ class SyncManifestationS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
         client.execute {
             if (player != null) {
-                ManifestationPlayerAttachment.setData(player, ManifestationPlayerAttachment.Data(hasRiteOfManifestation, manifestationTimer))
+                ManifestationPlayerAttachment.setData(
+                    player,
+                    ManifestationPlayerAttachment.Data(hasRiteOfManifestation, manifestationTimer)
+                )
             }
         }
     }
@@ -51,7 +54,7 @@ class SyncManifestationS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncManifestationS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncManifestationS2CPacket(buf!!) }
+                { buf -> SyncManifestationS2CPacket(buf) }
             )
     }
 }

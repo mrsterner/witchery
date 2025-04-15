@@ -13,7 +13,7 @@ class SpawnSleepingDeathParticleS2CPayload(val nbt: CompoundTag) : CustomPacketP
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(x: Double, y: Double,z: Double) : this(CompoundTag().apply {
+    constructor(x: Double, y: Double, z: Double) : this(CompoundTag().apply {
         putDouble("x", x)
         putDouble("y", y)
         putDouble("z", z)
@@ -57,7 +57,7 @@ class SpawnSleepingDeathParticleS2CPayload(val nbt: CompoundTag) : CustomPacketP
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnSleepingDeathParticleS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SpawnSleepingDeathParticleS2CPayload(buf!!) }
+                { buf -> SpawnSleepingDeathParticleS2CPayload(buf) }
             )
     }
 }

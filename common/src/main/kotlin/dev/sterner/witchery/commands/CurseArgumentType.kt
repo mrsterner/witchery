@@ -36,7 +36,7 @@ class CurseArgumentType : ArgumentType<Curse> {
     ): CompletableFuture<Suggestions> {
         val input = builder.remaining
 
-        WitcheryCurseRegistry.CURSES.ids .forEach { curse ->
+        WitcheryCurseRegistry.CURSES.ids.forEach { curse ->
             val curseId = curse.toString()
             if (curseId.startsWith(input)) {
                 builder.suggest(curseId)

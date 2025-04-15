@@ -58,7 +58,7 @@ abstract class BookCauldronBrewingRecipePageRenderer<T : Recipe<*>?>(page: BookC
             this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0)
         }
         // Render input items
-        for ((index, ingredient) in recipeHolder.value!!.inputItems.withIndex()) {
+        for ((index, ingredient) in recipeHolder.value.inputItems.withIndex()) {
             // Draw background texture for each ingredient
 
 
@@ -95,7 +95,7 @@ abstract class BookCauldronBrewingRecipePageRenderer<T : Recipe<*>?>(page: BookC
             recipeY + 20 + 6 - 4 + 18,
             mouseX,
             mouseY,
-            recipeHolder.value!!.outputItem
+            recipeHolder.value.outputItem
         )
         this.parentScreen.renderItemStack(
             guiGraphics,

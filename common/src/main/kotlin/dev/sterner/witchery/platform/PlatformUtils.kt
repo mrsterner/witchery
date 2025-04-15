@@ -102,7 +102,7 @@ object PlatformUtils {
     @JvmStatic
     @ExpectPlatform
     fun tryEnableBatFlight(player: Player) {
-       throw AssertionError()
+        throw AssertionError()
     }
 
     @JvmStatic

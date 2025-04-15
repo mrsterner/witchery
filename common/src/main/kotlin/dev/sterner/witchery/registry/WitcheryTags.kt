@@ -12,11 +12,13 @@ import net.minecraft.world.level.block.Block
 object WitcheryTags {
 
     val PLACEABLE_POPPETS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("placeable_poppets"))
-    val SPIRIT_WORLD_TRANSFERABLE: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("spirit_world_transferable"))
+    val SPIRIT_WORLD_TRANSFERABLE: TagKey<Item> =
+        TagKey.create(Registries.ITEM, Witchery.id("spirit_world_transferable"))
 
     val WOODEN_WEAPONS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("wooden_weapons"))
 
-    val SMASH_STONE: TagKey<Block> = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "smash_stone"))
+    val SMASH_STONE: TagKey<Block> =
+        TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "smash_stone"))
 
     val ROWAN_LOGS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("rowan_logs"))
     val ROWAN_LOG_ITEMS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("rowan_logs"))

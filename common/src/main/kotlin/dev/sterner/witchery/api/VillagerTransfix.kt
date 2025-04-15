@@ -8,28 +8,28 @@ import java.util.*
  */
 interface VillagerTransfix {
 
-   /**
-    * Forces the Villager to look in this direction when transfixed
-    */
-   fun setTransfixedLookVector(vec3: Vec3)
+    /**
+     * Forces the Villager to look in this direction when transfixed
+     */
+    fun setTransfixedLookVector(vec3: Vec3)
 
-   /**
-    * Returns true if there's an active transfix going on
-    */
-   fun isTransfixed(): Boolean
+    /**
+     * Returns true if there's an active transfix going on
+     */
+    fun isTransfixed(): Boolean
 
-   /**
-    * A more powerful version of Transfix, this will make the Villager follow the vampire player too
-    */
-   fun setMesmerized(uuid: UUID)
+    /**
+     * A more powerful version of Transfix, this will make the Villager follow the vampire player too
+     */
+    fun setMesmerized(uuid: UUID)
 
-   /**
-    * Returns true if there's an active mesmer going on
-    */
-   fun isMesmerized(): Boolean
+    /**
+     * Returns true if there's an active mesmer going on
+     */
+    fun isMesmerized(): Boolean
 
-   /**
-    * Get the player vampire which is currently mesmerising the villager
-    */
-   fun getMesmerized(): UUID
+    /**
+     * Get the player vampire which is currently mesmerising the villager
+     */
+    fun getMesmerized(): UUID
 }

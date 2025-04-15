@@ -46,9 +46,15 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                 val potionContentList = itemStack.get(WITCHERY_POTION_CONTENT.get())
 
                 if (lingering) {
-                    potionContentList?.let { potionContent -> makeAreaOfEffectCloud(potionContent.map { it }.toMutableList(), result) }
+                    potionContentList?.let { potionContent ->
+                        makeAreaOfEffectCloud(potionContent.map { it }.toMutableList(), result)
+                    }
                 } else {
-                    applySplash(itemStack, if (result.type == HitResult.Type.ENTITY) (result as EntityHitResult).entity else null, result)
+                    applySplash(
+                        itemStack,
+                        if (result.type == HitResult.Type.ENTITY) (result as EntityHitResult).entity else null,
+                        result
+                    )
 
                 }
                 potionContentList?.let {
@@ -67,7 +73,8 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         areaEffectCloud.radiusOnUse = -0.5f
         areaEffectCloud.waitTime = 10
         areaEffectCloud.hitResult = result
-        areaEffectCloud.duration *= potionContentList.maxOfOrNull { it.dispersalModifier.lingeringDurationModifier } ?: 1
+        areaEffectCloud.duration *= potionContentList.maxOfOrNull { it.dispersalModifier.lingeringDurationModifier }
+            ?: 1
         areaEffectCloud.radiusPerTick = -areaEffectCloud.radius / areaEffectCloud.duration.toFloat()
         areaEffectCloud.setPotionContents(potionContentList)
         level().addFreshEntity(areaEffectCloud)
@@ -124,7 +131,8 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                     }
 
                     val effectData = potionContent.effectModifier
-                    val duration = (potionContent.baseDuration + effectData.durationAddition) * effectData.durationMultiplier
+                    val duration =
+                        (potionContent.baseDuration + effectData.durationAddition) * effectData.durationMultiplier
                     val amplifier = effectData.powerAddition
 
                     // Handle effect inversion based on modifier

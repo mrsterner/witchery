@@ -42,7 +42,9 @@ class CritterSnareBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
     }
 
     override fun getStateForPlacement(context: BlockPlaceContext): BlockState? {
-        val cap = if(context.itemInHand.has(WitcheryDataComponents.CAPTURED_ENTITY.get())) context.itemInHand.get(WitcheryDataComponents.CAPTURED_ENTITY.get()) else CapturedEntity.NONE
+        val cap = if (context.itemInHand.has(WitcheryDataComponents.CAPTURED_ENTITY.get())) context.itemInHand.get(
+            WitcheryDataComponents.CAPTURED_ENTITY.get()
+        ) else CapturedEntity.NONE
 
         return defaultBlockState().setValue(
             CAPTURED_STATE,
@@ -54,7 +56,7 @@ class CritterSnareBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
         return WitcheryBlockEntityTypes.CRITTER_SNARE.get().create(pos, state)
     }
 
-     private fun mayPlaceOn(state: BlockState, level: BlockGetter, pos: BlockPos?): Boolean {
+    private fun mayPlaceOn(state: BlockState, level: BlockGetter, pos: BlockPos?): Boolean {
         return state.`is`(BlockTags.DIRT) || state.`is`(Blocks.GRASS_BLOCK)
     }
 
@@ -143,7 +145,7 @@ class CritterSnareBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
         val CAPTURED_STATE = EnumProperty.create("captured", CapturedEntity::class.java)
     }
 
-    enum class CapturedEntity: StringRepresentable {
+    enum class CapturedEntity : StringRepresentable {
         NONE,
         SLIME,
         SILVERFISH,
@@ -154,7 +156,8 @@ class CritterSnareBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
         }
 
         companion object {
-            val CODEC: StringRepresentable.EnumCodec<CapturedEntity> = StringRepresentable.fromEnum { CapturedEntity.entries.toTypedArray() }
+            val CODEC: StringRepresentable.EnumCodec<CapturedEntity> =
+                StringRepresentable.fromEnum { CapturedEntity.entries.toTypedArray() }
         }
     }
 }

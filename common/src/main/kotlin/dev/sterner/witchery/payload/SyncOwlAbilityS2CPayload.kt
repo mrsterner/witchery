@@ -50,7 +50,7 @@ class SyncOwlAbilityS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncOwlAbilityS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncOwlAbilityS2CPayload(buf!!) }
+                { buf -> SyncOwlAbilityS2CPayload(buf) }
             )
     }
 }

@@ -37,7 +37,16 @@ class DiseaseMobEffect(category: MobEffectCategory, color: Int) :
                     if (zombieVillager != null) {
                         zombieVillager.setCanPickUpLoot(false)
                         zombieVillager.heal(10f)
-                        level.playSound(null, zombieVillager.blockX.toDouble(), zombieVillager.blockY.toDouble(), zombieVillager.blockZ.toDouble(), SoundEvents.ZOMBIE_INFECT, SoundSource.PLAYERS, 1.0f, 1.0f)
+                        level.playSound(
+                            null,
+                            zombieVillager.blockX.toDouble(),
+                            zombieVillager.blockY.toDouble(),
+                            zombieVillager.blockZ.toDouble(),
+                            SoundEvents.ZOMBIE_INFECT,
+                            SoundSource.PLAYERS,
+                            1.0f,
+                            1.0f
+                        )
                     }
                 } else {
                     val harm = livingEntity.isInvertedHealAndHarm

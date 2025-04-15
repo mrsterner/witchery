@@ -37,6 +37,7 @@ class BansheeEntity(level: Level) : FlyingMob(WitcheryEntityTypes.BANSHEE.get(),
                 .add(Attributes.ATTACK_DAMAGE, 4.0)
                 .add(Attributes.FOLLOW_RANGE, 48.0)
         }
+
         val REVEALED: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
             BansheeEntity::class.java, EntityDataSerializers.BOOLEAN
         )

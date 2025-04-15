@@ -26,7 +26,6 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
     }
 
 
-
     override fun render(
         entity: SleepingPlayerEntity,
         entityYaw: Float,
@@ -68,7 +67,6 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
 
         poseStack.popPose()
     }
-
 
 
     private fun addZ(player: SleepingPlayerEntity) {

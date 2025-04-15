@@ -26,15 +26,16 @@ class GrassperBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         poseStack.scale(0.5f, 0.5f, 0.5f)
 
         Minecraft.getInstance().itemRenderer
-                .renderStatic(blockEntity.item[0],
-                    ItemDisplayContext.FIXED,
-                    packedLight,
-                    packedOverlay,
-                    poseStack,
-                    bufferSource,
-                    blockEntity.level,
-                    123321
-                )
+            .renderStatic(
+                blockEntity.item[0],
+                ItemDisplayContext.FIXED,
+                packedLight,
+                packedOverlay,
+                poseStack,
+                bufferSource,
+                blockEntity.level,
+                123321
+            )
 
         poseStack.popPose()
     }

@@ -42,7 +42,7 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
         return super.useOn(context)
     }
 
-    private fun transformCane(level: Level, player: Player, hand: InteractionHand, itemStack: ItemStack){
+    private fun transformCane(level: Level, player: Player, hand: InteractionHand, itemStack: ItemStack) {
         if (!level.isClientSide && !player.isShiftKeyDown && hand == InteractionHand.MAIN_HAND) {
             val item = itemStack.copy()
             item.remove(DataComponents.ATTRIBUTE_MODIFIERS)
@@ -135,7 +135,7 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
                         val oldBloodValue = cane.get(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get()) ?: 0
                         val finalValue = min(oldBloodValue + absorbedAmount, MAX_STORED_BLOOD)
                         cane.set(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get(), finalValue)
-                        player.setItemInHand(InteractionHand.MAIN_HAND ,cane)
+                        player.setItemInHand(InteractionHand.MAIN_HAND, cane)
                     }
                 }
             }

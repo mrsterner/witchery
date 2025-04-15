@@ -83,7 +83,10 @@ object VampireEventHandler {
             val absorbableDamage = minOf(original * DAMAGE_DISTRIBUTION, maxBloodAbsorbableDamage.toFloat())
             val bloodRequired = (absorbableDamage * bloodPerHealthPoint).toInt()
 
-            BloodPoolLivingEntityAttachment.setData(player, bloodData.copy(bloodPool = bloodData.bloodPool - bloodRequired))
+            BloodPoolLivingEntityAttachment.setData(
+                player,
+                bloodData.copy(bloodPool = bloodData.bloodPool - bloodRequired)
+            )
 
             return original * (1 - DAMAGE_DISTRIBUTION)
         }
@@ -122,7 +125,8 @@ object VampireEventHandler {
      */
     private fun vampireTick(player: ServerPlayer, vampData: VampirePlayerAttachment.Data) {
         val isInSunlight = player.level().canSeeSky(player.blockPosition()) && player.level().isDay
-        val sunDamageSource = (player.level().damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
+        val sunDamageSource =
+            (player.level().damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
 
         if (isInSunlight) {
@@ -138,8 +142,20 @@ object VampireEventHandler {
                     if (bloodData.bloodPool >= bloodThreshold) {
                         if (player.tickCount % 20 == 0) {
                             player.hurt(sunDamageSource, 2f)
-                            player.level().playSound(null, player.x, player.y, player.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS , 0.5f, 1.0f)
-                            WitcheryPayloads.sendToPlayers(player.level(), SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
+                            player.level().playSound(
+                                null,
+                                player.x,
+                                player.y,
+                                player.z,
+                                SoundEvents.FIRE_EXTINGUISH,
+                                SoundSource.PLAYERS,
+                                0.5f,
+                                1.0f
+                            )
+                            WitcheryPayloads.sendToPlayers(
+                                player.level(),
+                                SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5))
+                            )
                         }
                     } else {
                         player.hurt(sunDamageSource, Float.MAX_VALUE)
@@ -147,7 +163,8 @@ object VampireEventHandler {
                 }
             }
         } else {
-            val decreaseAmount = (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.div(100)) ?: 1.0
+            val decreaseAmount =
+                (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value?.div(100)) ?: 1.0
             VampireAbilities.decreaseInSunTick(player, (ceil(decreaseAmount)).toInt())
         }
 
@@ -348,7 +365,7 @@ object VampireEventHandler {
         }
 
         if (abilityIndex != -1) {
-            guiGraphics.blit(overlay, x - (25 * abilityIndex), y, 24, 23, 0f,0f,24, 23,24, 23)
+            guiGraphics.blit(overlay, x - (25 * abilityIndex), y, 24, 23, 0f, 0f, 24, 23, 24, 23)
         }
     }
 
@@ -363,6 +380,7 @@ object VampireEventHandler {
             RenderUtils.innerRenderBat(guiGraphics, maxTicks, currentTicks, y, x)
         }
     }
+
     /**
      * Draws the sun-exposure HUD
      */
@@ -378,7 +396,18 @@ object VampireEventHandler {
         }
 
         if (raw > 1) {
-            RenderUtils.blitWithAlpha(guiGraphics.pose(), sun.withSuffix("${sunTick}.png"), x, y, 0f, 0f, 16, 16, 16, 16)
+            RenderUtils.blitWithAlpha(
+                guiGraphics.pose(),
+                sun.withSuffix("${sunTick}.png"),
+                x,
+                y,
+                0f,
+                0f,
+                16,
+                16,
+                16,
+                16
+            )
         }
     }
 
@@ -390,7 +419,7 @@ object VampireEventHandler {
         val y = guiGraphics.guiHeight() / 2 + 9
         val target = Minecraft.getInstance().crosshairPickEntity
         if (target is LivingEntity && BloodPoolLivingEntityAttachment.getData(target).maxBlood > 0) {
-            RenderUtils.innerRenderBlood(guiGraphics,target, y, x)
+            RenderUtils.innerRenderBlood(guiGraphics, target, y, x)
         }
     }
 
@@ -403,7 +432,10 @@ object VampireEventHandler {
         if (getData(oldPlayer).vampireLevel > 0) {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
             newPlayer.foodData.foodLevel = 10
-            BloodPoolLivingEntityAttachment.setData(newPlayer, BloodPoolLivingEntityAttachment.Data(oldBloodData.maxBlood, 900))
+            BloodPoolLivingEntityAttachment.setData(
+                newPlayer,
+                BloodPoolLivingEntityAttachment.Data(oldBloodData.maxBlood, 900)
+            )
             val data = getData(oldPlayer).copy(inSunTick = 0)
             setData(newPlayer, data)
         }
@@ -426,7 +458,12 @@ object VampireEventHandler {
      * One of two functions which is used to trigger abilities, this is for when there is a block interaction.
      * Together with VampireEventHandler.clientRightClickAbility
      */
-    private fun rightClickBlockAbility(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
+    private fun rightClickBlockAbility(
+        player: Player?,
+        interactionHand: InteractionHand?,
+        blockPos: BlockPos?,
+        direction: Direction?
+    ): EventResult? {
 
         if (player == null || interactionHand == InteractionHand.OFF_HAND) {
             return EventResult.pass()

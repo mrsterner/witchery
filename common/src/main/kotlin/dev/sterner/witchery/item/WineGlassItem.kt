@@ -2,7 +2,6 @@ package dev.sterner.witchery.item
 
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.api.VillagerTransfix
-import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.entity.LilithEntity
 import dev.sterner.witchery.handler.vampire.VampireLeveling
@@ -130,9 +129,14 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
         val bl = stack.has(WitcheryDataComponents.BLOOD.get())
         val bl2 = stack.has(WitcheryDataComponents.VAMPIRE_BLOOD.get())
         if (bl2 && stack.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true) {
-            tooltipComponents.add(Component.translatable("witchery.vampire_blood").setStyle(Style.EMPTY.withColor(Color(255, 50, 100).rgb)).withStyle(ChatFormatting.ITALIC))
+            tooltipComponents.add(
+                Component.translatable("witchery.vampire_blood")
+                    .setStyle(Style.EMPTY.withColor(Color(255, 50, 100).rgb)).withStyle(ChatFormatting.ITALIC)
+            )
         } else if (bl && stack.get(WitcheryDataComponents.BLOOD.get()) != null) {
-            tooltipComponents.add(Component.translatable("witchery.blood").setStyle(Style.EMPTY.withColor(Color(255, 50, 80).rgb)))
+            tooltipComponents.add(
+                Component.translatable("witchery.blood").setStyle(Style.EMPTY.withColor(Color(255, 50, 80).rgb))
+            )
         } else {
             tooltipComponents.add(Component.translatable("witchery.use_with_needle"))
         }
@@ -146,7 +150,10 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
         interactionTarget: LivingEntity,
         usedHand: InteractionHand
     ): InteractionResult {
-        if (!player.level().isClientSide && interactionTarget is LilithEntity && interactionTarget.entityData.get(LilithEntity.IS_DEFEATED) && !interactionTarget.hasUsedLilith) {
+        if (!player.level().isClientSide && interactionTarget is LilithEntity && interactionTarget.entityData.get(
+                LilithEntity.IS_DEFEATED
+            ) && !interactionTarget.hasUsedLilith
+        ) {
             stack.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
             stack.set(WitcheryDataComponents.BLOOD.get(), interactionTarget.uuid)
             player.setItemInHand(InteractionHand.MAIN_HAND, stack)
@@ -157,8 +164,8 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
         return super.interactLivingEntity(stack, player, interactionTarget, usedHand)
     }
 
-   companion object {
-       fun applyWineOnVillager(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
+    companion object {
+        fun applyWineOnVillager(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
             if (entity is Villager && player != null) {
                 val item = player.mainHandItem
                 val bl = item.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true
@@ -174,7 +181,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
                         player.level().addFreshEntity(vampire)
                         entity.discard()
                         if (player is ServerPlayer) {
-                            if(canPerformQuest(player, 9)) {
+                            if (canPerformQuest(player, 9)) {
                                 VampireLeveling.increaseVampireLevel(player)
                             }
                         }
@@ -183,7 +190,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
                 }
             }
 
-           return EventResult.pass()
-       }
-   }
+            return EventResult.pass()
+        }
+    }
 }

@@ -295,19 +295,31 @@ object PoppetHandler {
             }
 
             if (entity.isUnderWater) {
-                boundPlayer?.let { VoodooPoppetLivingEntityAttachment.setPoppetData(it,
-                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(true)
-                ) }
-                boundEntity?.let { VoodooPoppetLivingEntityAttachment.setPoppetData(it,
-                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(true)
-                ) }
+                boundPlayer?.let {
+                    VoodooPoppetLivingEntityAttachment.setPoppetData(
+                        it,
+                        VoodooPoppetLivingEntityAttachment.VoodooPoppetData(true)
+                    )
+                }
+                boundEntity?.let {
+                    VoodooPoppetLivingEntityAttachment.setPoppetData(
+                        it,
+                        VoodooPoppetLivingEntityAttachment.VoodooPoppetData(true)
+                    )
+                }
             } else {
-                boundPlayer?.let { VoodooPoppetLivingEntityAttachment.setPoppetData(it,
-                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false)
-                ) }
-                boundEntity?.let { VoodooPoppetLivingEntityAttachment.setPoppetData(it,
-                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false)
-                ) }
+                boundPlayer?.let {
+                    VoodooPoppetLivingEntityAttachment.setPoppetData(
+                        it,
+                        VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false)
+                    )
+                }
+                boundEntity?.let {
+                    VoodooPoppetLivingEntityAttachment.setPoppetData(
+                        it,
+                        VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false)
+                    )
+                }
             }
 
             entity.item.damageValue += 1

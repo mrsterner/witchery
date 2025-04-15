@@ -5,15 +5,12 @@ import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraft.world.entity.monster.Zombie
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.entity.BlockEntity
 import java.util.stream.Stream
 
 class WerewolfEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.WEREWOLF.get(), level) {
@@ -37,7 +34,7 @@ class WerewolfEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.WEREWOLF.
 
             val hasAltar = stream.anyMatch { pos -> serverLevel.getBlockEntity(pos) is WerewolfAltarBlockEntity }
             if (hasAltar) {
-                WerewolfEventHandler.infectPlayer(target as Player)
+                WerewolfEventHandler.infectPlayer(target)
             }
         }
         return super.doHurtTarget(target)

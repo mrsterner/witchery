@@ -35,7 +35,8 @@ class BrazierBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
             poseStack.mulPose(Axis.XP.rotationDegrees(90f))
             poseStack.mulPose(Axis.ZP.rotationDegrees(transform.w()))
             Minecraft.getInstance().itemRenderer
-                .renderStatic(item,
+                .renderStatic(
+                    item,
                     ItemDisplayContext.FIXED,
                     packedLight,
                     packedOverlay,

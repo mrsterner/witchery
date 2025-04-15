@@ -55,7 +55,7 @@ class SyncCurseS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncCurseS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncCurseS2CPacket(buf!!) }
+                { buf -> SyncCurseS2CPacket(buf) }
             )
     }
 }

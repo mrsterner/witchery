@@ -52,7 +52,7 @@ class SyncOtherwhereInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayloa
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncOtherwhereInfusionS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncOtherwhereInfusionS2CPacket(buf!!) }
+                { buf -> SyncOtherwhereInfusionS2CPacket(buf) }
             )
     }
 }

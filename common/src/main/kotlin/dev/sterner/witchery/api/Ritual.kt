@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level
 
 open class Ritual(val id: ResourceLocation) {
 
-    constructor(id: String): this(Witchery.id(id))
+    constructor(id: String) : this(Witchery.id(id))
 
     /**
      * Runs once every tick if the ritual has a tick time of more than 0

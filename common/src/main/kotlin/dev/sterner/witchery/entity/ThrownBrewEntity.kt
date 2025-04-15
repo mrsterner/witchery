@@ -46,7 +46,10 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
             val itemStack = this.item
             if (itemStack.item is BrewItem) {
 
-                val frog = owner is Player && FamiliarLevelAttachment.getFamiliarEntityType(owner!!.uuid, level() as ServerLevel) == EntityType.FROG
+                val frog = owner is Player && FamiliarLevelAttachment.getFamiliarEntityType(
+                    owner!!.uuid,
+                    level() as ServerLevel
+                ) == EntityType.FROG
 
                 val brew = itemStack.item as BrewItem
                 if (result.type == HitResult.Type.BLOCK && brew.predicate.test((result as BlockHitResult).direction)) {
@@ -60,7 +63,13 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
                     val color = (itemStack.item as BrewItem).color
                     level().levelEvent(2002, this.blockPosition(), color)
                 } else {
-                    Containers.dropItemStack(level(), result.location.x, result.location.y, result.location.z, itemStack)
+                    Containers.dropItemStack(
+                        level(),
+                        result.location.x,
+                        result.location.y,
+                        result.location.z,
+                        itemStack
+                    )
                 }
             }
             this.discard()

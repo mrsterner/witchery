@@ -49,14 +49,13 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
                     player.addEffect(MobEffectInstance(MobEffects.JUMP, 20 * 3, 0))
                 }
 
-                if (data.currentCreature == CreatureType.SILVERFISH || data.currentCreature == CreatureType.WOLF || data.currentCreature == CreatureType.OCELOT  || data.currentCreature == CreatureType.HORSE) {
+                if (data.currentCreature == CreatureType.SILVERFISH || data.currentCreature == CreatureType.WOLF || data.currentCreature == CreatureType.OCELOT || data.currentCreature == CreatureType.HORSE) {
                     if (!player.isInWaterOrRain) {
                         player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 3, 0))
                     }
                 }
             }
         }
-
 
 
         val CODEC: Codec<InfernalInfusionData> = RecordCodecBuilder.create { instance ->
@@ -67,7 +66,7 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
         val ID: ResourceLocation = Witchery.id("infernal_infusion_data")
     }
 
-    enum class CreatureType(val entityType: EntityType<*>?): StringRepresentable {
+    enum class CreatureType(val entityType: EntityType<*>?) : StringRepresentable {
         NONE(null) {
             override fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean {
                 return false
@@ -223,7 +222,7 @@ class InfernalInfusionData(val currentCreature: CreatureType = CreatureType.NONE
 
         abstract fun usePower(player: Player, level: Level, lookVec: Vec3, hitResult: HitResult): Boolean
 
-        fun getCost() : Int {
+        fun getCost(): Int {
             return 100
         }
 

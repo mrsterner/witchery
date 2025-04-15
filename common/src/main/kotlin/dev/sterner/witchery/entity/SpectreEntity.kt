@@ -37,6 +37,7 @@ class SpectreEntity(level: Level) : FlyingMob(WitcheryEntityTypes.SPECTRE.get(),
                 .add(Attributes.ATTACK_DAMAGE, 4.0)
                 .add(Attributes.FOLLOW_RANGE, 48.0)
         }
+
         val REVEALED: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
             SpectreEntity::class.java, EntityDataSerializers.BOOLEAN
         )

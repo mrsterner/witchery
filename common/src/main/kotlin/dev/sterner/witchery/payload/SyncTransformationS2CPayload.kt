@@ -54,7 +54,7 @@ class SyncTransformationS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncTransformationS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncTransformationS2CPayload(buf!!) }
+                { buf -> SyncTransformationS2CPayload(buf) }
             )
     }
 }

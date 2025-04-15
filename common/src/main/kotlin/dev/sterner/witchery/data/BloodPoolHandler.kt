@@ -18,7 +18,7 @@ import net.minecraft.world.entity.EntityType
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
-object BloodPoolHandler{
+object BloodPoolHandler {
 
     val LOADER = BloodPoolResourceReloadListener(Gson(), "blood_pool")
     val BLOOD_PAIR = mutableMapOf<EntityType<*>, BloodData>()
@@ -47,7 +47,8 @@ object BloodPoolHandler{
         })
     }
 
-    class BloodPoolResourceReloadListener(gson: Gson, directory: String) : SimpleJsonResourceReloadListener(gson, directory) {
+    class BloodPoolResourceReloadListener(gson: Gson, directory: String) :
+        SimpleJsonResourceReloadListener(gson, directory) {
 
         override fun apply(
             `object`: MutableMap<ResourceLocation, JsonElement>,
@@ -94,7 +95,7 @@ object BloodPoolHandler{
                         Codec.INT.fieldOf("qualityBloodDrops").forGetter(BloodData::qualityBloodDrops),
                     ).apply(
                         instance
-                    ) { entity, bloodDrops, qualityBloodDrops->
+                    ) { entity, bloodDrops, qualityBloodDrops ->
                         BloodData(entity, bloodDrops, qualityBloodDrops)
                     }
                 }

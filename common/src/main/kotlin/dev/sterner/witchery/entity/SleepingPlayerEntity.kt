@@ -48,7 +48,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {
 
-        if (level() is ServerLevel){
+        if (level() is ServerLevel) {
             hurtCounter++
             entityData.set(HURT_TIME, 10)
             playSound(SoundEvents.PLAYER_HURT)
@@ -59,9 +59,15 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
 
                     val player = playerUuid?.let { level().server!!.playerList.getPlayer(it) }
                     if (player != null) {
-                        TeleportQueueLevelAttachment.addRequest(level() as ServerLevel, TeleportRequest(playerUuid, blockPosition(), ChunkPos(blockPosition())))
+                        TeleportQueueLevelAttachment.addRequest(
+                            level() as ServerLevel,
+                            TeleportRequest(playerUuid, blockPosition(), ChunkPos(blockPosition()))
+                        )
                         val old = ManifestationPlayerAttachment.getData(player)
-                        ManifestationPlayerAttachment.setData(player, ManifestationPlayerAttachment.Data(old.hasRiteOfManifestation, 0))
+                        ManifestationPlayerAttachment.setData(
+                            player,
+                            ManifestationPlayerAttachment.Data(old.hasRiteOfManifestation, 0)
+                        )
                         foundPlayer = true
                         break
                     }
@@ -77,10 +83,13 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 Containers.dropContents(level(), blockPosition(), data.offHandInventory)
                 Containers.dropContents(level(), blockPosition(), data.extraInventory)
                 SleepingLevelAttachment.removeBySleepingUUID(uuid, level() as ServerLevel)
-                WitcheryPayloads.sendToPlayers(level(), SpawnSleepingDeathParticleS2CPayload(
-                    this.getRandomX(1.5),
-                    this.randomY,
-                    this.getRandomZ(1.5)))
+                WitcheryPayloads.sendToPlayers(
+                    level(), SpawnSleepingDeathParticleS2CPayload(
+                        this.getRandomX(1.5),
+                        this.randomY,
+                        this.getRandomZ(1.5)
+                    )
+                )
 
                 this.remove(RemovalReason.KILLED)
             }

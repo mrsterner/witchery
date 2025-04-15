@@ -5,7 +5,6 @@ import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.entity.WerewolfEntity
-import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity

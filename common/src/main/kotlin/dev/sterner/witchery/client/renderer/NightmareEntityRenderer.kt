@@ -27,7 +27,7 @@ class NightmareEntityRenderer(context: EntityRendererProvider.Context) :
         buffer: MultiBufferSource,
         packedLight: Int
     ) {
-        var alpha =   255
+        var alpha = 255
 
         if (entity.entityData.get(NightmareEntity.INTANGIBLE)) {
             alpha = 100

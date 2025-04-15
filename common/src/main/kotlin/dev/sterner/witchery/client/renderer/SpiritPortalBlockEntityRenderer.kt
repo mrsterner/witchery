@@ -36,18 +36,18 @@ class SpiritPortalBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) 
         poseStack.mulPose(Axis.YP.rotationDegrees(180 - yDir))
         poseStack.scale(-1f, -1f, 1f)
         poseStack.mulPose(Axis.YP.rotationDegrees(180f))
-        poseStack.translate(0.0,0.0,-0.05)
+        poseStack.translate(0.0, 0.0, -0.05)
         if (dir == Direction.WEST) {
-            poseStack.translate(0.0,0.0,1.0)
+            poseStack.translate(0.0, 0.0, 1.0)
         }
         if (dir == Direction.EAST) {
-            poseStack.translate(1.0,0.0,0.0)
+            poseStack.translate(1.0, 0.0, 0.0)
         }
         if (dir == Direction.NORTH) {
-            poseStack.translate(0.0,0.0,0.0)
+            poseStack.translate(0.0, 0.0, 0.0)
         }
         if (dir == Direction.SOUTH) {
-            poseStack.translate(1.0,0.0,1.0)
+            poseStack.translate(1.0, 0.0, 1.0)
         }
         modelShaderModel.renderToBuffer(
             poseStack,

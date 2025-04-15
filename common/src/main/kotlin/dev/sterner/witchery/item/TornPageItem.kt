@@ -15,7 +15,6 @@ import net.minecraft.world.level.Level
 class TornPageItem(properties: Properties) : Item(properties) {
 
 
-
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (player is ServerPlayer) {
             val nextAdvancement = advancementLocations.firstOrNull { !hasAdvancement(player, it) }

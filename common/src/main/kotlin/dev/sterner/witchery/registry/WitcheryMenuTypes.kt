@@ -30,7 +30,8 @@ object WitcheryMenuTypes {
         MenuRegistry.ofExtended(::DistilleryMenu)
     }
 
-    val SPINNING_WHEEL_MENU_TYPE: RegistrySupplier<MenuType<SpinningWheelMenu>> = MENU_TYPES.register("spinning_wheel_menu") {
-        MenuRegistry.ofExtended(::SpinningWheelMenu)
-    }
+    val SPINNING_WHEEL_MENU_TYPE: RegistrySupplier<MenuType<SpinningWheelMenu>> =
+        MENU_TYPES.register("spinning_wheel_menu") {
+            MenuRegistry.ofExtended(::SpinningWheelMenu)
+        }
 }

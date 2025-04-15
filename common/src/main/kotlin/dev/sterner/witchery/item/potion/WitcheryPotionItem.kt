@@ -3,21 +3,19 @@ package dev.sterner.witchery.item.potion
 import dev.sterner.witchery.entity.WitcheryThrownPotion
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryMobEffects
-import dev.sterner.witchery.util.WitcheryUtil
-import net.minecraft.client.Minecraft
-import net.minecraft.core.Holder
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.util.Mth
 import net.minecraft.util.StringUtil
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
-import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectInstance
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.*
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.item.UseAnim
 import net.minecraft.world.level.Level
 import java.awt.Color
 
@@ -53,7 +51,9 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
 
                     tooltipComponents.add(
-                        Component.translatable("Type: " + potionContentList.last().type.name.lowercase().replaceFirstChar { it.uppercase() })
+                        Component.translatable(
+                            "Type: " + potionContentList.last().type.name.lowercase()
+                                .replaceFirstChar { it.uppercase() })
                             .setStyle(Style.EMPTY.withColor(Color(120, 180, 180).rgb))
                     )
 
@@ -110,7 +110,11 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
 
-    private fun formatDuration(effect: WitcheryPotionIngredient, ticksPerSecond: Float, modifier: WitcheryPotionIngredient.EffectModifier): Component {
+    private fun formatDuration(
+        effect: WitcheryPotionIngredient,
+        ticksPerSecond: Float,
+        modifier: WitcheryPotionIngredient.EffectModifier
+    ): Component {
         val i = Mth.floor((effect.baseDuration.toFloat() + modifier.durationAddition) * modifier.durationMultiplier)
         return Component.literal(StringUtil.formatTickDuration(i, ticksPerSecond))
     }
@@ -149,7 +153,8 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                 )
             }
 
-            val totalDuration = (ingredient.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
+            val totalDuration =
+                (ingredient.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
             if (totalDuration >= 20) {
                 mutableComponent = Component.translatable(
                     "potion.withDuration",
@@ -233,7 +238,8 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                 potionContent.effect
             }
 
-            val duration = (potionContent.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
+            val duration =
+                (potionContent.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
             val amplifier = globalModifier.powerAddition
 
             if (effect != WitcheryMobEffects.EMPTY) {
@@ -246,7 +252,10 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
     companion object {
 
-        fun tryAddItemToPotion(potion: MutableList<WitcheryPotionIngredient>, toAdd: WitcheryPotionIngredient): Boolean {
+        fun tryAddItemToPotion(
+            potion: MutableList<WitcheryPotionIngredient>,
+            toAdd: WitcheryPotionIngredient
+        ): Boolean {
 
             if (potion.map { it.item }.contains(toAdd.item)) {
                 return false

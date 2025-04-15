@@ -30,9 +30,10 @@ object WitcheryRitualRegistry {
         BindFamiliarRitual()
     }
 
-    val RESURRECT_FAMILIAR: RegistrySupplier<ResurrectFamiliarRitual> = RITUALS.register(Witchery.id("resurrect_familiar")) {
-        ResurrectFamiliarRitual()
-    }
+    val RESURRECT_FAMILIAR: RegistrySupplier<ResurrectFamiliarRitual> =
+        RITUALS.register(Witchery.id("resurrect_familiar")) {
+            ResurrectFamiliarRitual()
+        }
 
     val BIND_SPECTRAL_CREATURES = RITUALS.register(Witchery.id("bind_spectral_creatures")) {
         BindSpectralCreaturesRitual()
@@ -46,7 +47,7 @@ object WitcheryRitualRegistry {
         }
     }
 
-    fun init(){
+    fun init() {
 
     }
 }

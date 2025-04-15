@@ -56,7 +56,13 @@ object VampireChildrenHuntLevelAttachment {
         val entity = EntityType.loadEntityRecursive(huntData.entityNbt, serverLevel) { it as? VampireEntity }
             ?: return null
 
-        entity.moveTo(spawnPos.x + 0.5, spawnPos.y.toDouble(), spawnPos.z + 0.5, serverLevel.random.nextFloat() * 360F, 0F)
+        entity.moveTo(
+            spawnPos.x + 0.5,
+            spawnPos.y.toDouble(),
+            spawnPos.z + 0.5,
+            serverLevel.random.nextFloat() * 360F,
+            0F
+        )
         serverLevel.addFreshEntity(entity)
         return entity as VampireEntity
     }
@@ -89,7 +95,11 @@ object VampireChildrenHuntLevelAttachment {
 
         setData(serverLevel, Data(mutableData))
 
-        WitcheryPayloads.sendToPlayers(serverLevel, vampireEntity.blockPosition(), SpawnSmokeParticlesS2CPayload(vampireEntity.position()))
+        WitcheryPayloads.sendToPlayers(
+            serverLevel,
+            vampireEntity.blockPosition(),
+            SpawnSmokeParticlesS2CPayload(vampireEntity.position())
+        )
         vampireEntity.remove(Entity.RemovalReason.DISCARDED)
     }
 
@@ -138,8 +148,6 @@ object VampireChildrenHuntLevelAttachment {
     }
 
 
-
-
     class HuntData(
         val entityNbt: CompoundTag,
         val coffinPos: BlockPos,
@@ -157,7 +165,7 @@ object VampireChildrenHuntLevelAttachment {
         }
     }
 
-    data class Data(val data: MutableMap<UUID, MutableList<HuntData>> = mutableMapOf()){
+    data class Data(val data: MutableMap<UUID, MutableList<HuntData>> = mutableMapOf()) {
 
         companion object {
             val ID: ResourceLocation = Witchery.id("vampire_hunt_level_data")

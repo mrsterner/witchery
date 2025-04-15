@@ -49,7 +49,7 @@ class SyncMiscS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncMiscS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncMiscS2CPacket(buf!!) }
+                { buf -> SyncMiscS2CPacket(buf) }
             )
     }
 }

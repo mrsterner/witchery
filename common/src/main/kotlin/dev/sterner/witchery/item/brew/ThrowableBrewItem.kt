@@ -14,7 +14,11 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.ProjectileItem
 import net.minecraft.world.level.Level
 
-open class ThrowableBrewItem(override val color: Int, properties: Properties, predicate: Predicate<Direction> = Predicate { true }) : BrewItem(color, properties, predicate),
+open class ThrowableBrewItem(
+    override val color: Int,
+    properties: Properties,
+    predicate: Predicate<Direction> = Predicate { true }
+) : BrewItem(color, properties, predicate),
     ProjectileItem {
 
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {

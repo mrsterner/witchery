@@ -85,7 +85,7 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
         }
     }
 
-    private fun setIntangible(){
+    private fun setIntangible() {
         entityData.set(INTANGIBLE, true)
         intangibleCooldown = 20 * 3
     }

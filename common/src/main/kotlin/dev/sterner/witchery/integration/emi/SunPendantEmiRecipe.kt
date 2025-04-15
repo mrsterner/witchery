@@ -19,12 +19,15 @@ class SunPendantEmiRecipe(id: ResourceLocation?) :
             0 -> {
                 return SlotWidget(EmiStack.of(WitcheryItems.WOOL_OF_BAT.get()), x, y)
             }
+
             1 -> {
                 return SlotWidget(EmiStack.of(WitcheryItems.ATTUNED_STONE.get()), x, y)
             }
+
             2 -> {
                 return SlotWidget(EmiStack.of(WitcheryItems.IMPREGNATED_FABRIC.get()), x, y)
             }
+
             3 -> {
                 val blood = WitcheryItems.QUARTZ_SPHERE.get().defaultInstance
                 blood.set(WitcheryDataComponents.HAS_SUN.get(), true)

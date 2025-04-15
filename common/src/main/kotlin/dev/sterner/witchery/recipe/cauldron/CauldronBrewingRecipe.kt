@@ -17,7 +17,12 @@ import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
 
 
-class CauldronBrewingRecipe(val inputItems: List<ItemStackWithColor>, val outputItem: ItemStack, val altarPower: Int, val dimensionKey: Set<String>) :
+class CauldronBrewingRecipe(
+    val inputItems: List<ItemStackWithColor>,
+    val outputItem: ItemStack,
+    val altarPower: Int,
+    val dimensionKey: Set<String>
+) :
     Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {

@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockState
 
 class WerewolfAltarBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) {
 
-    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
+    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return WerewolfAltarBlockEntity(pos, state)
     }
 }

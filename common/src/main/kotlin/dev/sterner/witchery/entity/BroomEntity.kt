@@ -218,7 +218,8 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         val entityPassenger: Entity? = this.controllingPassenger
 
         if (!level().isClientSide && entityPassenger is LivingEntity) {
-            hasFamiliar = FamiliarLevelAttachment.getFamiliarEntityType(entityPassenger.uuid, level() as ServerLevel) != null
+            hasFamiliar =
+                FamiliarLevelAttachment.getFamiliarEntityType(entityPassenger.uuid, level() as ServerLevel) != null
             WitcheryPayloads.sendToPlayers(level(), SyncOwlAbilityS2CPayload(entityPassenger as Player, hasFamiliar))
 
         }
@@ -393,7 +394,7 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
     private fun destroy(source: DamageSource?) {
         this.destroy(WitcheryItems.BROOM.get())
     }
-    
+
     companion object {
         val DATA_ID_HURT: EntityDataAccessor<Int> = SynchedEntityData.defineId(
             BroomEntity::class.java, EntityDataSerializers.INT

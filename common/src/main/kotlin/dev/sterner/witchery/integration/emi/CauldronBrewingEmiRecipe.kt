@@ -101,11 +101,11 @@ class CauldronBrewingEmiRecipe(val recipeId: ResourceLocation, val recipe: Cauld
                 )
             }
         }
-        if(!bl) {
+        if (!bl) {
             widgets.addText(
                 Component.translatable("witchery:all_worlds"),
                 displayWidth / 4 + 18,
-                  36 + 36,
+                36 + 36,
                 0xffffff,
                 true
             )

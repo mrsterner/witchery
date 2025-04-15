@@ -28,9 +28,11 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 import java.util.function.ToIntFunction
 
-class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noCollission().lightLevel(
-    litBlockEmission(8)
-)) {
+class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(
+    properties.noCollission().lightLevel(
+        litBlockEmission(8)
+    )
+) {
 
     init {
         this.registerDefaultState(
@@ -60,12 +62,15 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
             Direction.NORTH -> {
                 NORTH
             }
+
             Direction.EAST -> {
                 EAST
             }
+
             Direction.WEST -> {
                 WEST
             }
+
             else -> {
                 SOUTH
             }
@@ -86,12 +91,15 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
             Direction.NORTH -> {
                 NORTH
             }
+
             Direction.EAST -> {
                 EAST
             }
+
             Direction.WEST -> {
                 WEST
             }
+
             else -> {
                 SOUTH
             }
@@ -107,10 +115,10 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(proper
 
             val dir = state.getValue(HORIZONTAL_FACING)
             val portalShape = when (dir) {
-                Direction.NORTH -> SpiritPortalBlock.NORTH
-                Direction.EAST -> SpiritPortalBlock.EAST
-                Direction.WEST -> SpiritPortalBlock.WEST
-                Direction.SOUTH -> SpiritPortalBlock.SOUTH
+                Direction.NORTH -> NORTH
+                Direction.EAST -> EAST
+                Direction.WEST -> WEST
+                Direction.SOUTH -> SOUTH
                 else -> return
             }
 

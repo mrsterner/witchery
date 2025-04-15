@@ -18,11 +18,12 @@ import java.util.function.Function
 import kotlin.math.cos
 import kotlin.math.sin
 
-class VampireEntityModel(val root: ModelPart) : HierarchicalModel<VampireEntity>(Function { location: ResourceLocation ->
-    RenderType.entityTranslucent(
-        location
-    )
-}) {
+class VampireEntityModel(val root: ModelPart) :
+    HierarchicalModel<VampireEntity>(Function { location: ResourceLocation ->
+        RenderType.entityTranslucent(
+            location
+        )
+    }) {
 
     private var head: ModelPart = root.getChild("head")
     private var nose: ModelPart = head.getChild("nose")
@@ -77,8 +78,8 @@ class VampireEntityModel(val root: ModelPart) : HierarchicalModel<VampireEntity>
         left_leg.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
         right_leg.xRot = cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
 
-        left_arm.xRot =+ cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.2f * limbSwingAmount
-        right_arm.xRot =+ cos(limbSwing * 0.6662f) * 1.2f * limbSwingAmount
+        left_arm.xRot = +cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.2f * limbSwingAmount
+        right_arm.xRot = +cos(limbSwing * 0.6662f) * 1.2f * limbSwingAmount
 
         head.yRot = netHeadYaw * (Math.PI.toFloat() / 180f)
         head.xRot = headPitch * (Math.PI.toFloat() / 180f)
@@ -125,7 +126,8 @@ class VampireEntityModel(val root: ModelPart) : HierarchicalModel<VampireEntity>
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val arms = partdefinition.addOrReplaceChild("arms", CubeListBuilder.create(), PartPose.offset(0.0f, 3.5f, 0.3f))
+            val arms =
+                partdefinition.addOrReplaceChild("arms", CubeListBuilder.create(), PartPose.offset(0.0f, 3.5f, 0.3f))
 
             val arms_rotation = arms.addOrReplaceChild(
                 "arms_rotation",
@@ -173,8 +175,6 @@ class VampireEntityModel(val root: ModelPart) : HierarchicalModel<VampireEntity>
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
     }
-
-
 
 
 }

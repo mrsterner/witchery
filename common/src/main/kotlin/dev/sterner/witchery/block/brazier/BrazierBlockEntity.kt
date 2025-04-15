@@ -56,7 +56,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 summoningTicker++
                 if (summoningTicker >= 20 * 5) {
                     summoningTicker = 0
-                    for (entity in  brazierSummonRecipe.value.outputEntities) {
+                    for (entity in brazierSummonRecipe.value.outputEntities) {
                         val summonPos = findRandomPositionAround(level, pos)
                         summonPos?.let { validPos ->
                             val summon = entity.create(level)
@@ -107,9 +107,33 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (level != null && pPlayer.mainHandItem.`is`(Items.FLINT_AND_STEEL) || pPlayer.mainHandItem.`is`(Items.FIRE_CHARGE)) {
             val brazierSummonRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(items), level!!).orElse(null)
             if (brazierSummonRecipe != null) {
-                level?.addParticle(ParticleTypes.SMOKE, blockPos.x + 0.5, blockPos.y + 0.65, blockPos.z + 0.5, 0.0, 0.0, 0.0)
-                level?.addParticle(ParticleTypes.FLAME, blockPos.x + 0.5, blockPos.y + 0.65, blockPos.z + 0.5, 0.0, 0.0, 0.0)
-                level?.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, blockPos.x + 0.5, blockPos.y + 0.65, blockPos.z + 0.5, 0.0, 0.0, 0.0)
+                level?.addParticle(
+                    ParticleTypes.SMOKE,
+                    blockPos.x + 0.5,
+                    blockPos.y + 0.65,
+                    blockPos.z + 0.5,
+                    0.0,
+                    0.0,
+                    0.0
+                )
+                level?.addParticle(
+                    ParticleTypes.FLAME,
+                    blockPos.x + 0.5,
+                    blockPos.y + 0.65,
+                    blockPos.z + 0.5,
+                    0.0,
+                    0.0,
+                    0.0
+                )
+                level?.addParticle(
+                    ParticleTypes.CAMPFIRE_COSY_SMOKE,
+                    blockPos.x + 0.5,
+                    blockPos.y + 0.65,
+                    blockPos.z + 0.5,
+                    0.0,
+                    0.0,
+                    0.0
+                )
 
                 pStack.hurtAndBreak(1, pPlayer, EquipmentSlot.MAINHAND)
                 level?.playSound(null, blockPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS)

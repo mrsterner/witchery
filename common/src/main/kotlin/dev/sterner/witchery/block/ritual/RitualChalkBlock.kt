@@ -122,7 +122,7 @@ class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: P
             return EventResult.pass()
         }
 
-        private fun tryMakeSacrificialCircle(level: Level, skullPos: BlockPos, entity: Player): EventResult?  {
+        private fun tryMakeSacrificialCircle(level: Level, skullPos: BlockPos, entity: Player): EventResult? {
 
             val allInfernalChalk = level.getBlockStates(AABB.ofSize(skullPos.center, 2.0, 2.0, 2.0))
                 .filter { it.`is`(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get()) }.count()

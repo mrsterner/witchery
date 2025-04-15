@@ -16,10 +16,12 @@ import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
-import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
+import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryItems.WITCHERY_POTION
+import dev.sterner.witchery.registry.WitcheryPayloads
+import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
@@ -102,7 +104,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         val allRecipesOfType = level.recipeManager
             .getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
             .filter { recipe ->
-                recipe.value.dimensionKey.isNotEmpty() && recipe.value.dimensionKey.contains(level.dimension().location().toString())
+                recipe.value.dimensionKey.isNotEmpty() && recipe.value.dimensionKey.contains(
+                    level.dimension().location().toString()
+                )
             }
         val nonEmptyItems = inputItems.filter { !it.isEmpty }
 
@@ -248,17 +252,29 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 // Handle other ingredients for potion brewing
                 if (witcheryPotionItemCache.isNotEmpty()) {
                     PotionDataHandler.getIngredientFromItem(item)?.let { it ->
-                        if(hasEnoughAltarPower(level, it) && WitcheryPotionItem.tryAddItemToPotion(witcheryPotionItemCache, it)) {
+                        if (hasEnoughAltarPower(level, it) && WitcheryPotionItem.tryAddItemToPotion(
+                                witcheryPotionItemCache,
+                                it
+                            )
+                        ) {
                             consumeAltarPower(level, it)
                             forceColor(item)
                             level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
                             item.shrink(1)
                         } else {
-                            level.playSound(null, pos, SoundEvents.FIREWORK_ROCKET_LARGE_BLAST_FAR, SoundSource.BLOCKS, 0.25f, 1f)
+                            level.playSound(
+                                null,
+                                pos,
+                                SoundEvents.FIREWORK_ROCKET_LARGE_BLAST_FAR,
+                                SoundSource.BLOCKS,
+                                0.25f,
+                                1f
+                            )
                             level.playSound(null, pos, SoundEvents.HONEY_BLOCK_PLACE, SoundSource.BLOCKS, 0.95f, 1f)
                             spawnFailParticle(level, pos)
 
-                            fun randomSmallOffset(): Double = (level.getRandom().nextDouble() * 0.1 - 0.05).let { if (it < 0.001 && it > -0.001) 0.01 else it }
+                            fun randomSmallOffset(): Double = (level.getRandom()
+                                .nextDouble() * 0.1 - 0.05).let { if (it < 0.001 && it > -0.001) 0.01 else it }
 
                             val dx = randomSmallOffset()
                             val dz = randomSmallOffset()
@@ -286,7 +302,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         }
     }
 
-    private fun forceColor(potionIngredientStack: ItemStack){
+    private fun forceColor(potionIngredientStack: ItemStack) {
         color = PotionDataHandler.getIngredientFromItem(potionIngredientStack)?.color ?: 0x5a2d0d
     }
 
@@ -411,7 +427,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         }
     }
 
-    private fun handleFluidInteraction(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult? {
+    private fun handleFluidInteraction(
+        pPlayer: Player,
+        pStack: ItemStack,
+        pHand: InteractionHand
+    ): ItemInteractionResult? {
         if (fluidTank.getFluidAmount() == fluidTank.capacity) return null
 
         when {

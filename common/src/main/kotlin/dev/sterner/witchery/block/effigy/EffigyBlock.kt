@@ -61,14 +61,15 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
                     WitcheryItems.TRENT_EFFIGY.get().defaultInstance
                 } else if (bl2) {
                     WitcheryItems.SCARECROW.get().defaultInstance
-                } else  {
+                } else {
                     WitcheryItems.WITCHES_LADDER.get().defaultInstance
                 }
                 itemStack.set(WitcheryDataComponents.BANSHEE_COUNT.get(), blockEntity.bansheeCount)
                 itemStack.set(WitcheryDataComponents.SPECTRE_COUNT.get(), blockEntity.specterCount)
                 itemStack.set(WitcheryDataComponents.POLTERGEIST_COUNT.get(), blockEntity.poltergeistCount)
 
-                val itemEntity = ItemEntity(level, pos.x.toDouble() + 0.5, pos.y.toDouble() + 0.5, pos.z.toDouble() + 0.5, itemStack)
+                val itemEntity =
+                    ItemEntity(level, pos.x.toDouble() + 0.5, pos.y.toDouble() + 0.5, pos.z.toDouble() + 0.5, itemStack)
                 itemEntity.setDefaultPickUpDelay()
                 level.addFreshEntity(itemEntity)
             }

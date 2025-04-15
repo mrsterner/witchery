@@ -55,7 +55,7 @@ class SyncWerewolfS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncWerewolfS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncWerewolfS2CPacket(buf!!) }
+                { buf -> SyncWerewolfS2CPacket(buf) }
             )
     }
 }

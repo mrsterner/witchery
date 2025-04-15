@@ -24,9 +24,11 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class SpiritPortalBlockComponent(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion().noCollission().lightLevel(
-    litBlockEmission(8)
-)) {
+class SpiritPortalBlockComponent(properties: Properties) : MultiBlockComponentBlock(
+    properties.noOcclusion().noCollission().lightLevel(
+        litBlockEmission(8)
+    )
+) {
 
     init {
         this.registerDefaultState(
@@ -48,12 +50,15 @@ class SpiritPortalBlockComponent(properties: Properties) : MultiBlockComponentBl
             Direction.NORTH -> {
                 NORTH
             }
+
             Direction.EAST -> {
                 EAST
             }
+
             Direction.WEST -> {
                 WEST
             }
+
             else -> {
                 SOUTH
             }
@@ -74,12 +79,15 @@ class SpiritPortalBlockComponent(properties: Properties) : MultiBlockComponentBl
             Direction.NORTH -> {
                 NORTH
             }
+
             Direction.EAST -> {
                 EAST
             }
+
             Direction.WEST -> {
                 WEST
             }
+
             else -> {
                 SOUTH
             }
@@ -99,10 +107,10 @@ class SpiritPortalBlockComponent(properties: Properties) : MultiBlockComponentBl
                 // Get the portal direction and the corresponding shape
                 val dir = state.getValue(HORIZONTAL_FACING)
                 val portalShape = when (dir) {
-                    Direction.NORTH -> SpiritPortalBlock.NORTH
-                    Direction.EAST -> SpiritPortalBlock.EAST
-                    Direction.WEST -> SpiritPortalBlock.WEST
-                    Direction.SOUTH -> SpiritPortalBlock.SOUTH
+                    Direction.NORTH -> NORTH
+                    Direction.EAST -> EAST
+                    Direction.WEST -> WEST
+                    Direction.SOUTH -> SOUTH
                     else -> return  // Should never happen, but handle gracefully
                 }
 

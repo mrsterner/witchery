@@ -22,7 +22,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.gameevent.GameEvent
 
-class SuspiciousGraveyardDirtBlock(val turnsInto: Block, val brushSound: SoundEvent, val brushCompletedSound: SoundEvent, properties: Properties) : BaseEntityBlock(properties), Fallable {
+class SuspiciousGraveyardDirtBlock(
+    val turnsInto: Block,
+    val brushSound: SoundEvent,
+    val brushCompletedSound: SoundEvent,
+    properties: Properties
+) : BaseEntityBlock(properties), Fallable {
 
     override fun codec(): MapCodec<out BaseEntityBlock> {
         return CODEC

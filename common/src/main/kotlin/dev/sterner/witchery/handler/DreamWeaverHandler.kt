@@ -18,9 +18,10 @@ object DreamWeaverHandler {
         if (sleepCount >= 100) {
             var corrupt = 0
 
-            val dreamWeaverPositions: List<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(player.boundingBox.inflate(10.0))
-                .filter { player.level().getBlockEntity(it) is DreamWeaverBlockEntity }
-                .toList()
+            val dreamWeaverPositions: List<BlockPos> =
+                BlockPos.MutableBlockPos.betweenClosedStream(player.boundingBox.inflate(10.0))
+                    .filter { player.level().getBlockEntity(it) is DreamWeaverBlockEntity }
+                    .toList()
 
             for (pos in dreamWeaverPositions) {
                 val dreamWeaver = player.level().getBlockState(pos)

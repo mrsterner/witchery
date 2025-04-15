@@ -29,15 +29,20 @@ class CritterSnareBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) 
         poseStack.translate(0.5, 0.2, 0.5)
         poseStack.scale(0.5f, 0.5f, 0.5f)
 
-        if (blockEntity.blockState.hasProperty(CritterSnareBlock.CAPTURED_STATE) && blockEntity.blockState.getValue(CritterSnareBlock.CAPTURED_STATE) != CritterSnareBlock.CapturedEntity.NONE) {
-            val state = blockEntity.blockState.getValue(CritterSnareBlock.CAPTURED_STATE)!!
+        if (blockEntity.blockState.hasProperty(CritterSnareBlock.CAPTURED_STATE) && blockEntity.blockState.getValue(
+                CritterSnareBlock.CAPTURED_STATE
+            ) != CritterSnareBlock.CapturedEntity.NONE
+        ) {
+            val state = blockEntity.blockState.getValue(CritterSnareBlock.CAPTURED_STATE)
             val entityType = when (state) {
                 CritterSnareBlock.CapturedEntity.BAT -> {
                     EntityType.BAT
                 }
+
                 CritterSnareBlock.CapturedEntity.SLIME -> {
                     EntityType.SLIME
                 }
+
                 else -> {
                     EntityType.SILVERFISH
                 }
@@ -65,7 +70,8 @@ class CritterSnareBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) 
                 entity.yRot = 0f
                 entity.yHeadRot = 0f
                 entity.yHeadRotO = 0f
-                Minecraft.getInstance().entityRenderDispatcher.getRenderer(entity).render(entity, 0f, 0f, poseStack, bufferSource, packedLight)
+                Minecraft.getInstance().entityRenderDispatcher.getRenderer(entity)
+                    .render(entity, 0f, 0f, poseStack, bufferSource, packedLight)
             }
         }
 

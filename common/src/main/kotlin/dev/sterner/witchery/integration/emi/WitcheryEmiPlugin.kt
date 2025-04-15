@@ -178,7 +178,7 @@ class WitcheryEmiPlugin : EmiPlugin {
         }
 
         for (recipe in getRecipes(registry, RecipeType.CRAFTING)) {
-			if (recipe is PendantDataComponentRecipe) {
+            if (recipe is PendantDataComponentRecipe) {
                 registry.addRecipe(BloodPendantEmiRecipe(Witchery.id("/blood")))
                 registry.addRecipe(SunPendantEmiRecipe(Witchery.id("/sun")))
             }

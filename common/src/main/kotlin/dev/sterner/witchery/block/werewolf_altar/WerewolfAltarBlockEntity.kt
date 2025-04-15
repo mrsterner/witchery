@@ -5,7 +5,6 @@ import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.block.state.BlockState
 
-class WerewolfAltarBlockEntity(blockPos: BlockPos, blockState: BlockState
-) : WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(), blockPos, blockState) {
-
-}
+class WerewolfAltarBlockEntity(
+    blockPos: BlockPos, blockState: BlockState
+) : WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(), blockPos, blockState)

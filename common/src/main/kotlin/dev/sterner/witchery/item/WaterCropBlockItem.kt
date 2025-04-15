@@ -7,7 +7,8 @@ import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 
-class WaterCropBlockItem(private val cropBlock: Block, properties: Properties) : ItemNameBlockItem(cropBlock, properties) {
+class WaterCropBlockItem(private val cropBlock: Block, properties: Properties) :
+    ItemNameBlockItem(cropBlock, properties) {
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level

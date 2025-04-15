@@ -64,7 +64,7 @@ class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), l
         }
     }
 
-    private fun transformToLilith(){
+    private fun transformToLilith() {
         val lilith = WitcheryEntityTypes.LILITH.get().create(level())
         lilith!!.moveTo(position())
         level().addFreshEntity(lilith)
@@ -77,8 +77,12 @@ class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), l
 
     override fun registerGoals() {
         this.goalSelector.addGoal(1, ElleFollowOwnerGoal(this, 1.0, 5.0f))
-        this.goalSelector.addGoal(2, LookAtPlayerGoal(this,
-            Player::class.java, 15.0f, 1.0f))
+        this.goalSelector.addGoal(
+            2, LookAtPlayerGoal(
+                this,
+                Player::class.java, 15.0f, 1.0f
+            )
+        )
         super.registerGoals()
     }
 
@@ -153,7 +157,7 @@ class ElleEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.ELLE.get(), l
                 }
             }
 
-           return false
+            return false
         }
 
         override fun canContinueToUse(): Boolean {

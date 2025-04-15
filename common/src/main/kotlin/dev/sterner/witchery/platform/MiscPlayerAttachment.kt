@@ -30,7 +30,7 @@ object MiscPlayerAttachment {
      *
      * Note: What exactly constitutes as being a witch is not yet defined, maybe when a player has a certain amount of witchery advancements
      */
-    fun setWitcheryAligned(player: Player, aligned: Boolean){
+    fun setWitcheryAligned(player: Player, aligned: Boolean) {
         val old = getData(player)
         old.isWitcheryAligned = aligned
         setData(player, old)

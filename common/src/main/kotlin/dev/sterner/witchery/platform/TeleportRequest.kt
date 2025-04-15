@@ -19,7 +19,15 @@ data class TeleportRequest(
         val serverPlayer = minecraftServer.playerList.getPlayer(player)
         if (serverPlayer != null) {
             val overworld = minecraftServer.overworld()
-            serverPlayer.teleportTo(overworld, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, setOf(), serverPlayer.yRot, serverPlayer.xRot)
+            serverPlayer.teleportTo(
+                overworld,
+                pos.x + 0.5,
+                pos.y + 0.5,
+                pos.z + 0.5,
+                setOf(),
+                serverPlayer.yRot,
+                serverPlayer.xRot
+            )
             val sleepingData = SleepingLevelAttachment.getPlayerFromSleeping(serverPlayer.uuid, overworld)
             val sleepingPlayer = overworld.getEntity(sleepingData!!.uuid)
             replaceWithPlayer(serverPlayer, sleepingPlayer as SleepingPlayerEntity)

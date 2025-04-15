@@ -50,7 +50,8 @@ object PotionDataHandler {
         })
     }
 
-    class PotionResourceReloadListener(gson: Gson, directory: String) : SimpleJsonResourceReloadListener(gson, directory) {
+    class PotionResourceReloadListener(gson: Gson, directory: String) :
+        SimpleJsonResourceReloadListener(gson, directory) {
 
         override fun apply(
             `object`: MutableMap<ResourceLocation, JsonElement>,

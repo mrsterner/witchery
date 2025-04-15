@@ -11,6 +11,7 @@ open class BatwingPendantItem(properties: Properties) : Item(properties.stacksTo
 
     val modifier = AttributeModifier(
         Witchery.id("batwing_modifier"), 60.0 * 20,
-        AttributeModifier.Operation.ADD_VALUE)
+        AttributeModifier.Operation.ADD_VALUE
+    )
 
 }

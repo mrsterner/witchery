@@ -22,7 +22,11 @@ import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec3
 
-open class BrewItem(open val color: Int, properties: Properties, val predicate: Predicate<Direction> = Predicate { true }) : Item(properties) {
+open class BrewItem(
+    open val color: Int,
+    properties: Properties,
+    val predicate: Predicate<Direction> = Predicate { true }
+) : Item(properties) {
 
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
         val player = if (livingEntity is Player) livingEntity else null
@@ -31,8 +35,9 @@ open class BrewItem(open val color: Int, properties: Properties, val predicate: 
         }
 
         if (!level.isClientSide && player != null) {
-            val frog = FamiliarLevelAttachment.getFamiliarEntityType(player.uuid, level as ServerLevel) == EntityType.FROG
-            
+            val frog =
+                FamiliarLevelAttachment.getFamiliarEntityType(player.uuid, level as ServerLevel) == EntityType.FROG
+
             WitcheryApi.makePlayerWitchy(player)
             applyEffectOnSelf(player, frog)
         }

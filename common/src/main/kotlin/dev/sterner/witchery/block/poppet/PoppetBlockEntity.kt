@@ -93,7 +93,10 @@ class PoppetBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     level.setBlockEntity(be)
 
                     if (level is ServerLevel) {
-                        PoppetLevelAttachment.addPoppetData(level, PoppetLevelAttachment.PoppetData.Data(pos, be.poppetItemStack.copy()))
+                        PoppetLevelAttachment.addPoppetData(
+                            level,
+                            PoppetLevelAttachment.PoppetData.Data(pos, be.poppetItemStack.copy())
+                        )
                     }
 
                     return true

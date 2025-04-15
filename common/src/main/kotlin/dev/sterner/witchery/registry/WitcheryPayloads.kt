@@ -43,7 +43,7 @@ object WitcheryPayloads {
             payload.handleS2C(payload, context)
         }
         registerS2C(
-                CauldronPotionBrewParticleS2CPayload.ID,
+            CauldronPotionBrewParticleS2CPayload.ID,
             CauldronPotionBrewParticleS2CPayload.STREAM_CODEC
         ) { payload, context ->
             payload.handleS2C(payload, context)
@@ -97,7 +97,10 @@ object WitcheryPayloads {
         registerS2C(SpawnBloodParticlesS2CPayload.ID, SpawnBloodParticlesS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SpawnTransfixParticlesS2CPayload.ID, SpawnTransfixParticlesS2CPayload.STREAM_CODEC) { payload, context ->
+        registerS2C(
+            SpawnTransfixParticlesS2CPayload.ID,
+            SpawnTransfixParticlesS2CPayload.STREAM_CODEC
+        ) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(SpawnSmokeParticlesS2CPayload.ID, SpawnSmokeParticlesS2CPayload.STREAM_CODEC) { payload, context ->
@@ -112,14 +115,20 @@ object WitcheryPayloads {
         registerS2C(SyncBarkS2CPacket.ID, SyncBarkS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SpawnSleepingDeathParticleS2CPayload.ID, SpawnSleepingDeathParticleS2CPayload.STREAM_CODEC) { payload, context ->
+        registerS2C(
+            SpawnSleepingDeathParticleS2CPayload.ID,
+            SpawnSleepingDeathParticleS2CPayload.STREAM_CODEC
+        ) { payload, context ->
             payload.handleS2C(payload, context)
         }
         //C2S
         registerC2S(DismountBroomC2SPayload.ID, DismountBroomC2SPayload.STREAM_CODEC) { payload, context ->
             payload.handleC2S(payload, context)
         }
-        registerC2S(VampireAbilitySelectionC2SPayload.ID, VampireAbilitySelectionC2SPayload.STREAM_CODEC) { payload, context ->
+        registerC2S(
+            VampireAbilitySelectionC2SPayload.ID,
+            VampireAbilitySelectionC2SPayload.STREAM_CODEC
+        ) { payload, context ->
             payload.handleC2S(payload, context)
         }
         registerC2S(VampireAbilityUseC2SPayload.ID, VampireAbilityUseC2SPayload.STREAM_CODEC) { payload, context ->

@@ -52,7 +52,7 @@ class SyncCauldronS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncCauldronS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncCauldronS2CPacket(buf!!) }
+                { buf -> SyncCauldronS2CPacket(buf) }
             )
     }
 }

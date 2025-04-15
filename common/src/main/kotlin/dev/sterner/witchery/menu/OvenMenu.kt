@@ -76,23 +76,27 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
             // Move from player inventory to machine input
             when {
                 isJar(slotStack) -> {
-                    if (!moveItemStackTo(slotStack, 1,  2, false)) {
+                    if (!moveItemStackTo(slotStack, 1, 2, false)) {
                         return ItemStack.EMPTY
                     }
                 }
+
                 canSmelt(slotStack) -> {
                     if (!moveItemStackTo(slotStack, 0, 1, false)) {
                         return ItemStack.EMPTY
                     }
                 }
+
                 isFuel(slotStack) -> {
-                    if (!moveItemStackTo(slotStack, 2,  3, false)) {
+                    if (!moveItemStackTo(slotStack, 2, 3, false)) {
                         return ItemStack.EMPTY
                     }
                 }
+
                 index in 5..31 -> {
                     if (!moveItemStackTo(slotStack, 32, 41, false)) return ItemStack.EMPTY
                 }
+
                 index in 32..40 -> {
                     if (!moveItemStackTo(slotStack, 5, 32, false)) return ItemStack.EMPTY
                 }

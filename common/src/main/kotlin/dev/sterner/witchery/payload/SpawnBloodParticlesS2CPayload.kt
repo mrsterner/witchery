@@ -12,7 +12,7 @@ import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 
-class SpawnBloodParticlesS2CPayload (val nbt: CompoundTag) : CustomPacketPayload {
+class SpawnBloodParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -65,7 +65,7 @@ class SpawnBloodParticlesS2CPayload (val nbt: CompoundTag) : CustomPacketPayload
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnBloodParticlesS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SpawnBloodParticlesS2CPayload(buf!!) }
+                { buf -> SpawnBloodParticlesS2CPayload(buf) }
             )
     }
 }

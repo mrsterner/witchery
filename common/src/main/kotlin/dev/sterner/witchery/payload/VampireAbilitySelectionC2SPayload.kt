@@ -42,7 +42,7 @@ class VampireAbilitySelectionC2SPayload(val nbt: CompoundTag) : CustomPacketPayl
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, VampireAbilitySelectionC2SPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> VampireAbilitySelectionC2SPayload(buf!!) }
+                { buf -> VampireAbilitySelectionC2SPayload(buf) }
             )
     }
 }

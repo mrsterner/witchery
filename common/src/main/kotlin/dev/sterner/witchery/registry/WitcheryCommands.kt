@@ -34,7 +34,8 @@ import net.minecraft.world.entity.EntityType
 
 object WitcheryCommands {
 
-    val COMMAND_ARGUMENTS: DeferredRegister<ArgumentTypeInfo<*, *>> = DeferredRegister.create(Witchery.MODID, Registries.COMMAND_ARGUMENT_TYPE)
+    val COMMAND_ARGUMENTS: DeferredRegister<ArgumentTypeInfo<*, *>> =
+        DeferredRegister.create(Witchery.MODID, Registries.COMMAND_ARGUMENT_TYPE)
 
     val INFUSION_TYPE = COMMAND_ARGUMENTS.register("infusion_type") {
         registerByClass(InfusionArgumentType::class.java, SingletonArgumentInfo.contextFree(::InfusionArgumentType))
@@ -81,7 +82,10 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
-                                        PlayerInfusionDataAttachment.setPlayerInfusion(player, InfusionData(infusionType))
+                                        PlayerInfusionDataAttachment.setPlayerInfusion(
+                                            player,
+                                            InfusionData(infusionType)
+                                        )
                                         1
                                     }
                             )
@@ -130,7 +134,10 @@ object WitcheryCommands {
                                         val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
                                         player.hurt(player.level().damageSources().magic(), 100f)
                                         if (player.health > 0) {
-                                            PlayerInfusionDataAttachment.setPlayerInfusion(player, InfusionData(infusionType))
+                                            PlayerInfusionDataAttachment.setPlayerInfusion(
+                                                player,
+                                                InfusionData(infusionType)
+                                            )
                                         }
                                         1
                                     }
@@ -188,11 +195,18 @@ object WitcheryCommands {
                                         val curseType = CurseArgumentType.getCurse(ctx, "curseType")
                                         val commandSender = ctx.source.player
                                         val cat = if (commandSender != null) {
-                                            FamiliarLevelAttachment.getFamiliarEntityType(commandSender.uuid, commandSender.serverLevel()) == EntityType.CAT
+                                            FamiliarLevelAttachment.getFamiliarEntityType(
+                                                commandSender.uuid,
+                                                commandSender.serverLevel()
+                                            ) == EntityType.CAT
                                         } else {
                                             false
                                         }
-                                        CursePlayerAttachment.addCurse(player, WitcheryCurseRegistry.CURSES.getId(curseType)!!, cat)
+                                        CursePlayerAttachment.addCurse(
+                                            player,
+                                            WitcheryCurseRegistry.CURSES.getId(curseType)!!,
+                                            cat
+                                        )
                                         1
                                     }
                             )
@@ -231,13 +245,19 @@ object WitcheryCommands {
                             VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
                             VampireLeveling.updateModifiers(player, level)
                             val maxBlood = levelToBlood(level)
-                            BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(maxBlood, maxBlood))
+                            BloodPoolLivingEntityAttachment.setData(
+                                player,
+                                BloodPoolLivingEntityAttachment.Data(maxBlood, maxBlood)
+                            )
 
-                            context.source.sendSuccess({Component.literal("Set vampire level to $level for ${player.name.string}")}, true)
+                            context.source.sendSuccess(
+                                { Component.literal("Set vampire level to $level for ${player.name.string}") },
+                                true
+                            )
                             1
                         }
                     )
-            ))
+                ))
             .then(Commands.literal("setBlood")
                 .then(Commands.argument("player", EntityArgument.player())
                     .then(Commands.argument("level", IntegerArgumentType.integer(0))
@@ -248,9 +268,18 @@ object WitcheryCommands {
 
                             val data = BloodPoolLivingEntityAttachment.getData(player)
 
-                            BloodPoolLivingEntityAttachment.setData(player, BloodPoolLivingEntityAttachment.Data(data.maxBlood, Mth.clamp(level, 0, data.maxBlood)))
+                            BloodPoolLivingEntityAttachment.setData(
+                                player,
+                                BloodPoolLivingEntityAttachment.Data(
+                                    data.maxBlood,
+                                    Mth.clamp(level, 0, data.maxBlood)
+                                )
+                            )
 
-                            context.source.sendSuccess({ Component.literal("Set blood level to $level for ${player.name.string}") }, true)
+                            context.source.sendSuccess(
+                                { Component.literal("Set blood level to $level for ${player.name.string}") },
+                                true
+                            )
                             1
                         }
                     )

@@ -14,7 +14,12 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class SpiritPortalBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    MultiBlockCoreEntity(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(), SpiritPortalBlock.STRUCTURE.get(), blockPos, blockState) {
+    MultiBlockCoreEntity(
+        WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(),
+        SpiritPortalBlock.STRUCTURE.get(),
+        blockPos,
+        blockState
+    ) {
 
     private var isOpening: Boolean = false
     private var lastProgress = 0.0f

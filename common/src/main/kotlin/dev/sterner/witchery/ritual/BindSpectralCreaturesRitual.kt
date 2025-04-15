@@ -18,8 +18,10 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
         if (level is ServerLevel) {
             val area = AABB.ofSize(blockPos.center, 16.0, 16.0, 16.0)
 
-            val unboundEntities = level.getEntitiesOfClass(LivingEntity::class.java, area).filter { (it is BansheeEntity) }//TODO add the other spectral creatures
-            val possibleEffigies = BlockPos.betweenClosedStream(area).filter{ level.getBlockEntity(it) is EffigyBlockEntity }.findAny()
+            val unboundEntities = level.getEntitiesOfClass(LivingEntity::class.java, area)
+                .filter { (it is BansheeEntity) }//TODO add the other spectral creatures
+            val possibleEffigies =
+                BlockPos.betweenClosedStream(area).filter { level.getBlockEntity(it) is EffigyBlockEntity }.findAny()
 
             if (unboundEntities.isNotEmpty() && possibleEffigies.isPresent) {
                 val effigy = level.getBlockEntity(possibleEffigies.get()) as EffigyBlockEntity
@@ -40,7 +42,6 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
 
                      */
                 }
-
 
 
             } else {

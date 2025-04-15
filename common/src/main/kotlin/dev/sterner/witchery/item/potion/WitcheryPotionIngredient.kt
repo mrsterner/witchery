@@ -2,15 +2,13 @@ package dev.sterner.witchery.item.potion
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.registry.WitcheryMobEffects
-import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import net.minecraft.core.Holder
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.item.ItemStack
 import java.awt.Color
-import java.util.Optional
+import java.util.*
 
 data class WitcheryPotionIngredient(
     val item: ItemStack,
@@ -76,7 +74,8 @@ data class WitcheryPotionIngredient(
             val CODEC: Codec<DispersalModifier> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.INT.optionalFieldOf("range", 1).forGetter { it.rangeModifier },
-                    Codec.INT.optionalFieldOf("lingering_duration_modifier", 1).forGetter { it.lingeringDurationModifier },
+                    Codec.INT.optionalFieldOf("lingering_duration_modifier", 1)
+                        .forGetter { it.lingeringDurationModifier },
                 ).apply(instance, ::DispersalModifier)
             }
         }
@@ -91,10 +90,13 @@ data class WitcheryPotionIngredient(
                 Codec.INT.optionalFieldOf("base_duration", 0).forGetter { it.baseDuration },
                 Codec.INT.optionalFieldOf("altar_power", 0).forGetter { it.altarPower },
                 Codec.INT.optionalFieldOf("capacity_cost", 1).forGetter { it.capacityCost },
-                Codec.list(GeneralModifier.CODEC).optionalFieldOf("general_modifier", emptyList()).forGetter { it.generalModifier },
-                EffectModifier.CODEC.optionalFieldOf("effect_modifier", EffectModifier(0,0,1)).forGetter { it.effectModifier },
-                DispersalModifier.CODEC.optionalFieldOf("dispersal_modifier", DispersalModifier(1, 1)).forGetter { it.dispersalModifier },
-                Type.CODEC.optionalFieldOf("type", Type.CONSUMABLE).forGetter{ it.type },
+                Codec.list(GeneralModifier.CODEC).optionalFieldOf("general_modifier", emptyList())
+                    .forGetter { it.generalModifier },
+                EffectModifier.CODEC.optionalFieldOf("effect_modifier", EffectModifier(0, 0, 1))
+                    .forGetter { it.effectModifier },
+                DispersalModifier.CODEC.optionalFieldOf("dispersal_modifier", DispersalModifier(1, 1))
+                    .forGetter { it.dispersalModifier },
+                Type.CODEC.optionalFieldOf("type", Type.CONSUMABLE).forGetter { it.type },
                 Codec.INT.optionalFieldOf("color", 0x000000).forGetter { it.color },
             ).apply(instance, ::WitcheryPotionIngredient)
         }

@@ -44,7 +44,7 @@ class SpawnTransfixParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
         val randY = (y + 1.8)
         val randZ = z + Mth.nextDouble(client.level!!.random, -0.25, 0.25)
 
-        val color = if (shouldSpawnRed) Color(250,50, 0).rgb else Color(30,255, 255).rgb
+        val color = if (shouldSpawnRed) Color(250, 50, 0).rgb else Color(30, 255, 255).rgb
         val r = ((color shr 16) and 0xFF) / 255.0f
         val g = ((color shr 8) and 0xFF) / 255.0f
         val b = (color and 0xFF) / 255.0f
@@ -67,7 +67,7 @@ class SpawnTransfixParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnTransfixParticlesS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SpawnTransfixParticlesS2CPayload(buf!!) }
+                { buf -> SpawnTransfixParticlesS2CPayload(buf) }
             )
     }
 }

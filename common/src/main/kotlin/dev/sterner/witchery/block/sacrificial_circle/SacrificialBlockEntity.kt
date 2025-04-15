@@ -18,7 +18,12 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    MultiBlockCoreEntity(WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(), SacrificialBlock.STRUCTURE.get(), blockPos, blockState),
+    MultiBlockCoreEntity(
+        WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(),
+        SacrificialBlock.STRUCTURE.get(),
+        blockPos,
+        blockState
+    ),
     Container {
 
     var hasSkull: Boolean = true
@@ -33,7 +38,10 @@ class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                         candles[i] = pStack.copy()
                         candles[i].count = 1
                         pStack.shrink(1)
-                        level?.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, candles.isNotEmpty()))
+                        level?.setBlockAndUpdate(
+                            blockPos,
+                            blockState.setValue(BlockStateProperties.LIT, candles.isNotEmpty())
+                        )
                         setChanged()
                         return ItemInteractionResult.SUCCESS
                     }
@@ -48,7 +56,15 @@ class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (!player.isCreative) {
             level?.let { Containers.dropContents(it, blockPos, candles) }
             if (hasSkull) {
-                level?.let { Containers.dropItemStack(it, blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5, Items.SKELETON_SKULL.defaultInstance) }
+                level?.let {
+                    Containers.dropItemStack(
+                        it,
+                        blockPos.x + 0.5,
+                        blockPos.y + 0.5,
+                        blockPos.z + 0.5,
+                        Items.SKELETON_SKULL.defaultInstance
+                    )
+                }
             }
         }
         super.onBreak(player)
@@ -113,7 +129,12 @@ class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     companion object {
-        fun rightClick(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos, direction: Direction?): EventResult? {
+        fun rightClick(
+            player: Player?,
+            interactionHand: InteractionHand?,
+            blockPos: BlockPos,
+            direction: Direction?
+        ): EventResult? {
             if (player != null && player.mainHandItem.`is`(Items.SKELETON_SKULL)) {
                 if (player.level().getBlockEntity(blockPos) is SacrificialBlockEntity) {
                     val be = player.level().getBlockEntity(blockPos) as SacrificialBlockEntity

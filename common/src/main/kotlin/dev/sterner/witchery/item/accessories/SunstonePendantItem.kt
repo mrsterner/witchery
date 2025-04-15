@@ -11,5 +11,6 @@ open class SunstonePendantItem(properties: Properties) : Item(properties.stacksT
 
     val modifier = AttributeModifier(
         Witchery.id("sunresist_modifier"), 100.0,
-        AttributeModifier.Operation.ADD_VALUE)
+        AttributeModifier.Operation.ADD_VALUE
+    )
 }

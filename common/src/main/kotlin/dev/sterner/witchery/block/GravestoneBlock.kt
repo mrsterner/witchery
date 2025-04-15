@@ -25,9 +25,11 @@ class GravestoneBlock(properties: Properties) : Block(properties), SimpleWaterlo
     }
 
 
-
     override fun rotate(state: BlockState, rotation: Rotation): BlockState {
-        return state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING)))
+        return state.setValue(
+            BlockStateProperties.HORIZONTAL_FACING,
+            rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+        )
     }
 
     override fun mirror(state: BlockState, mirror: Mirror): BlockState {
@@ -39,7 +41,7 @@ class GravestoneBlock(properties: Properties) : Block(properties), SimpleWaterlo
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
-        return when(state.getValue(BlockStateProperties.HORIZONTAL_FACING)){
+        return when (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
             Direction.NORTH -> NORTH_SOUTH
             Direction.SOUTH -> NORTH_SOUTH
             else -> EAST_WEST

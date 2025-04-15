@@ -6,7 +6,8 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
 
-class BrewOfRaisingItem(color: Int, properties: Properties) : ThrowableBrewItem(color, properties, Predicate { it == Direction.UP }) {
+class BrewOfRaisingItem(color: Int, properties: Properties) :
+    ThrowableBrewItem(color, properties, Predicate { it == Direction.UP }) {
 
     override fun applyEffectOnBlock(level: Level, blockHit: BlockHitResult, hasFrog: Boolean) {
         val belowPos = blockHit.blockPos

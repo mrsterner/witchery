@@ -53,7 +53,7 @@ class SpawnPoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnPoofParticles> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SpawnPoofParticles(buf!!) }
+                { buf -> SpawnPoofParticles(buf) }
             )
     }
 }

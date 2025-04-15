@@ -55,7 +55,7 @@ class SyncBarkS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncBarkS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncBarkS2CPacket(buf!!) }
+                { buf -> SyncBarkS2CPacket(buf) }
             )
     }
 }

@@ -54,7 +54,7 @@ class SpawnSmokePoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SpawnSmokePoofParticles> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SpawnSmokePoofParticles(buf!!) }
+                { buf -> SpawnSmokePoofParticles(buf) }
             )
     }
 }

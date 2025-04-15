@@ -81,9 +81,11 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
                     Direction.NORTH -> {
                         makePortal(level, belowPops, direction.opposite)
                     }
+
                     Direction.SOUTH -> {
                         makePortal(level, belowPops.east(), direction.opposite)
                     }
+
                     else -> {
                         makePortal(level, belowPops, direction)
                     }
@@ -95,9 +97,11 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
                     Direction.NORTH -> {
                         makePortal(level, belowPops.west(), direction.opposite)
                     }
+
                     Direction.SOUTH -> {
                         makePortal(level, belowPops, direction.opposite)
                     }
+
                     else -> {
                         makePortal(level, belowPops, direction)
                     }
@@ -109,9 +113,11 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
                     Direction.EAST -> {
                         makePortal(level, belowPops.north(), direction.opposite)
                     }
+
                     Direction.WEST -> {
                         makePortal(level, belowPops, direction.opposite)
                     }
+
                     else -> {
                         makePortal(level, belowPops, direction)
                     }
@@ -123,9 +129,11 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
                     Direction.EAST -> {
                         makePortal(level, belowPops, direction.opposite)
                     }
+
                     Direction.WEST -> {
                         makePortal(level, belowPops.south(), direction.opposite)
                     }
+
                     else -> {
                         makePortal(level, belowPops, direction)
                     }

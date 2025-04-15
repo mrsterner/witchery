@@ -48,7 +48,8 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
                 val pos = livingEntity.respawnPosition ?: overworld.sharedSpawnPos
                 if (pos != null) {
                     playerHasNoBodyClearInv(livingEntity)
-                    livingEntity.teleportTo(overworld, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, setOf(),
+                    livingEntity.teleportTo(
+                        overworld, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, setOf(),
                         livingEntity.yRot,
                         livingEntity.xRot
                     )
@@ -56,13 +57,18 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
             }
         }
 
-        if (livingEntity is Player && livingEntity.level().dimension() == Level.OVERWORLD && ManifestationPlayerAttachment.getData(livingEntity).manifestationTimer > 0) {
+        if (livingEntity is Player && livingEntity.level()
+                .dimension() == Level.OVERWORLD && ManifestationPlayerAttachment.getData(livingEntity).manifestationTimer > 0
+        ) {
             if (livingEntity.level() is ServerLevel) {
                 val serverLevel = livingEntity.level() as ServerLevel
                 val sleepingData = SleepingLevelAttachment.getPlayerFromSleeping(livingEntity.uuid, serverLevel)
                 livingEntity.inventory.dropAll()
                 val oldData = ManifestationPlayerAttachment.getData(livingEntity)
-                ManifestationPlayerAttachment.setData(livingEntity, ManifestationPlayerAttachment.Data(oldData.hasRiteOfManifestation, 0))
+                ManifestationPlayerAttachment.setData(
+                    livingEntity,
+                    ManifestationPlayerAttachment.Data(oldData.hasRiteOfManifestation, 0)
+                )
                 if (sleepingData != null) {
                     val chunkPos = ChunkPos(sleepingData.pos)
                     serverLevel.setChunkForced(chunkPos.x, chunkPos.z, true)
@@ -94,7 +100,7 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
         return ItemUtils.startUsingInstantly(level, player, usedHand)
     }
 
-    fun playerHasNoBodyClearInv(player: Player){
+    fun playerHasNoBodyClearInv(player: Player) {
         val itemsToKeep = mutableListOf<ItemStack>()
         val armorToKeep = mutableListOf<ItemStack>()
 

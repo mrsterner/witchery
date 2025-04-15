@@ -11,8 +11,11 @@ import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 
-class SpectralPigRenderer(context: EntityRendererProvider.Context) : MobRenderer<SpectralPigEntity, PigModel<SpectralPigEntity>>(context,
-    PigModel(context.bakeLayer(ModelLayers.PIG)), 0.0f) {
+class SpectralPigRenderer(context: EntityRendererProvider.Context) :
+    MobRenderer<SpectralPigEntity, PigModel<SpectralPigEntity>>(
+        context,
+        PigModel(context.bakeLayer(ModelLayers.PIG)), 0.0f
+    ) {
 
     override fun render(
         entity: SpectralPigEntity,
@@ -57,7 +60,7 @@ class SpectralPigRenderer(context: EntityRendererProvider.Context) : MobRenderer
         model.prepareMobModel(entity, m, l, partialTicks)
         model.setupAnim(entity, m, l, k, h, j)
 
-        var alpha =  20
+        var alpha = 20
 
         if (entity.entityData.get(SpectralPigEntity.REVEALED)) {
             alpha = 160
@@ -93,6 +96,6 @@ class SpectralPigRenderer(context: EntityRendererProvider.Context) : MobRenderer
     }
 
     override fun getTextureLocation(entity: SpectralPigEntity): ResourceLocation {
-        return ResourceLocation.withDefaultNamespace("textures/entity/pig/pig.png");
+        return ResourceLocation.withDefaultNamespace("textures/entity/pig/pig.png")
     }
 }

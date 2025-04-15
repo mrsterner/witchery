@@ -24,7 +24,7 @@ class BrazierEmiRecipe(val recipeId: ResourceLocation, val recipe: BrazierSummon
 
     override fun getInputs(): MutableList<EmiIngredient> {
         return mutableListOf<EmiIngredient>().apply {
-            addAll( recipe.inputItems.map { EmiIngredient.of(Ingredient.of(it)) })
+            addAll(recipe.inputItems.map { EmiIngredient.of(Ingredient.of(it)) })
         }
     }
 

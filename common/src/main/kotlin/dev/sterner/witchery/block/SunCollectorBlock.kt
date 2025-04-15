@@ -24,9 +24,11 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.ToIntFunction
 
-class SunCollectorBlock(properties: Properties) : Block(properties.lightLevel(
-    litBlockEmission(14)
-)) {
+class SunCollectorBlock(properties: Properties) : Block(
+    properties.lightLevel(
+        litBlockEmission(14)
+    )
+) {
 
     init {
         this.registerDefaultState(
@@ -121,7 +123,7 @@ class SunCollectorBlock(properties: Properties) : Block(properties.lightLevel(
     }
 
     companion object {
-        val SPHERE_STATE: IntegerProperty = IntegerProperty.create("sphere_state", 0,2)
+        val SPHERE_STATE: IntegerProperty = IntegerProperty.create("sphere_state", 0, 2)
 
         fun litBlockEmission(lightValue: Int): ToIntFunction<BlockState> {
             return ToIntFunction { blockState: BlockState ->

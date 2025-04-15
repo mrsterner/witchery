@@ -50,13 +50,14 @@ object TransformationPlayerAttachment {
     fun getForm(player: Player): TransformationType {
         return getData(player).transformationType
     }
+
     @JvmStatic
     fun isBat(player: Player): Boolean {
         return getData(player).transformationType == TransformationType.BAT
     }
 
     @JvmStatic
-    fun removeForm(player: Player){
+    fun removeForm(player: Player) {
         setData(player, Data(TransformationType.NONE, MAX_COOLDOWN))
     }
 
@@ -79,13 +80,13 @@ object TransformationPlayerAttachment {
     }
 
     @JvmStatic
-    fun increaseBatFormTimer(player: Player){
+    fun increaseBatFormTimer(player: Player) {
         val data = getData(player)
         setData(player, data.copy(batFormTicker = data.batFormTicker + 1))
     }
 
     @JvmStatic
-    fun decreaseBatFormCooldown(player: Player){
+    fun decreaseBatFormCooldown(player: Player) {
         val data = getData(player)
         if (data.batFormCooldown > 0) {
             setData(player, data.copy(batFormCooldown = max(data.batFormCooldown - 1, 0)))
@@ -94,13 +95,17 @@ object TransformationPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncTransformationS2CPayload(player, data))
+            WitcheryPayloads.sendToPlayers(
+                player.level(),
+                player.blockPosition(),
+                SyncTransformationS2CPayload(player, data)
+            )
         }
     }
 
     private var villageCheckTicker = 0
 
-    fun tickBat(player: Player){
+    fun tickBat(player: Player) {
 
         if (VampirePlayerAttachment.getData(player).vampireLevel >= VampireAbility.BAT_FORM.unlockLevel) {
             if (player.level() is ServerLevel) {
@@ -113,8 +118,9 @@ object TransformationPlayerAttachment {
 
                     increaseBatFormTimer(player)
 
-                    var maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
-                    maxBatTime += if(VampirePlayerAttachment.getData(player).vampireLevel >= 9) 60 * 20 else 0
+                    var maxBatTime =
+                        (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
+                    maxBatTime += if (VampirePlayerAttachment.getData(player).vampireLevel >= 9) 60 * 20 else 0
                     val data = getData(player)
                     setData(player, data.copy(maxBatTimeClient = maxBatTime))
                     if (getData(player).batFormTicker > maxBatTime) {
@@ -136,7 +142,7 @@ object TransformationPlayerAttachment {
         }
     }
 
-    private fun checkForVillage(player: Player){
+    private fun checkForVillage(player: Player) {
         if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
             villageCheckTicker++
             if (villageCheckTicker > 20) {
@@ -150,7 +156,8 @@ object TransformationPlayerAttachment {
                 ) {
                     val structureStart = serverLevel.structureManager().getStructureWithPieceAt(
                         player.blockPosition(),
-                        StructureTags.VILLAGE)
+                        StructureTags.VILLAGE
+                    )
 
                     VampireLeveling.addVillage(player as ServerPlayer, structureStart.chunkPos)
                 }
@@ -168,19 +175,20 @@ object TransformationPlayerAttachment {
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    TransformationType.TRANSFORMATION_CODEC.fieldOf("transformationType").forGetter { it.transformationType },
+                    TransformationType.TRANSFORMATION_CODEC.fieldOf("transformationType")
+                        .forGetter { it.transformationType },
                     Codec.INT.fieldOf("batFormCooldown").forGetter { it.batFormCooldown },
                     Codec.INT.fieldOf("batFormTicker").forGetter { it.batFormTicker },
                     Codec.INT.fieldOf("maxBatTimeClient").forGetter { it.maxBatTimeClient },
 
-                ).apply(instance, ::Data)
+                    ).apply(instance, ::Data)
             }
 
             val ID: ResourceLocation = Witchery.id("transformation_player_data")
         }
     }
 
-    enum class TransformationType: StringRepresentable{
+    enum class TransformationType : StringRepresentable {
         NONE,
         BAT,
         WOLF,
@@ -191,7 +199,8 @@ object TransformationPlayerAttachment {
         }
 
         companion object {
-            val TRANSFORMATION_CODEC: Codec<TransformationType> = StringRepresentable.fromEnum(TransformationType::values)
+            val TRANSFORMATION_CODEC: Codec<TransformationType> =
+                StringRepresentable.fromEnum(TransformationType::values)
         }
     }
 }

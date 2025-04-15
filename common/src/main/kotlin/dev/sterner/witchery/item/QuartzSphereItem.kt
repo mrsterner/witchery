@@ -16,7 +16,10 @@ import java.awt.Color
 class QuartzSphereItem(properties: Properties) : Item(properties) {
 
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
-        if (livingEntity is ServerPlayer && stack.has(WitcheryDataComponents.HAS_SUN.get()) && stack.get(WitcheryDataComponents.HAS_SUN.get()) == true) {
+        if (livingEntity is ServerPlayer && stack.has(WitcheryDataComponents.HAS_SUN.get()) && stack.get(
+                WitcheryDataComponents.HAS_SUN.get()
+            ) == true
+        ) {
             livingEntity.mainHandItem.shrink(1)
             livingEntity.remainingFireTicks = 20 * 4
             VampireLeveling.increaseUsedSunGrenades(livingEntity)
@@ -48,7 +51,9 @@ class QuartzSphereItem(properties: Properties) : Item(properties) {
         tooltipFlag: TooltipFlag
     ) {
         if (stack.has(WitcheryDataComponents.HAS_SUN.get()) && stack.get(WitcheryDataComponents.HAS_SUN.get()) == true) {
-            tooltipComponents.add(Component.translatable("witchery.has_sun").setStyle(Style.EMPTY.withColor(Color(250, 220, 40).rgb)))
+            tooltipComponents.add(
+                Component.translatable("witchery.has_sun").setStyle(Style.EMPTY.withColor(Color(250, 220, 40).rgb))
+            )
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)

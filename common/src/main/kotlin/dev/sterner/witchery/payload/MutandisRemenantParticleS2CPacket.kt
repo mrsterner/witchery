@@ -53,7 +53,7 @@ class MutandisRemenantParticleS2CPacket(val nbt: CompoundTag) : CustomPacketPayl
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, MutandisRemenantParticleS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> MutandisRemenantParticleS2CPacket(buf!!) }
+                { buf -> MutandisRemenantParticleS2CPacket(buf) }
             )
     }
 }

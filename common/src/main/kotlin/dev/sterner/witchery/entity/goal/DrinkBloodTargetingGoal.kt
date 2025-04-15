@@ -8,8 +8,8 @@ import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.player.Player
 
-class DrinkBloodTargetingGoal<T : LivingEntity?>(mob: Mob, targetClass: Class<T>, checkVisibility: Boolean)
-    : NearestAttackableTargetGoal<T>(mob, targetClass, checkVisibility) {
+class DrinkBloodTargetingGoal<T : LivingEntity?>(mob: Mob, targetClass: Class<T>, checkVisibility: Boolean) :
+    NearestAttackableTargetGoal<T>(mob, targetClass, checkVisibility) {
 
     override fun canUse(): Boolean {
         val bloodPool = BloodPoolLivingEntityAttachment.getData(mob)

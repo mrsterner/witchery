@@ -69,7 +69,7 @@ class CauldronEffectParticleS2CPayload(val nbt: CompoundTag) : CustomPacketPaylo
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, CauldronEffectParticleS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> CauldronEffectParticleS2CPayload(buf!!) }
+                { buf -> CauldronEffectParticleS2CPayload(buf) }
             )
     }
 }

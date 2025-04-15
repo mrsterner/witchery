@@ -38,7 +38,7 @@ class DismountBroomC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, DismountBroomC2SPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> DismountBroomC2SPayload(buf!!) }
+                { buf -> DismountBroomC2SPayload(buf) }
             )
     }
 }

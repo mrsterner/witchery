@@ -37,7 +37,8 @@ class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
         client.execute {
             if (player != null) {
-                VoodooPoppetLivingEntityAttachment.setPoppetData(player,
+                VoodooPoppetLivingEntityAttachment.setPoppetData(
+                    player,
                     VoodooPoppetLivingEntityAttachment.VoodooPoppetData(isUnderWater)
                 )
             }
@@ -51,7 +52,7 @@ class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, SyncVoodooDataS2CPacket> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncVoodooDataS2CPacket(buf!!) }
+                { buf -> SyncVoodooDataS2CPacket(buf) }
             )
     }
 }

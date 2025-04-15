@@ -88,7 +88,11 @@ object CursePlayerAttachment {
                 if (curseData.duration > 0) {
                     curseData.duration -= 1
                     dataModified = true
-                    WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(player.level(), player, curseData.catBoosted)
+                    WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(
+                        player.level(),
+                        player,
+                        curseData.catBoosted
+                    )
                 }
 
                 if (curseData.duration <= 0) {
@@ -108,7 +112,8 @@ object CursePlayerAttachment {
             val data = getData(livingEntity)
             if (data.playerCurseList.isNotEmpty()) {
                 for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.onHurt(livingEntity.level(), livingEntity, damageSource, amount, curse.catBoosted)
+                    WitcheryCurseRegistry.CURSES.get(curse.curseId)
+                        ?.onHurt(livingEntity.level(), livingEntity, damageSource, amount, curse.catBoosted)
                 }
             }
         }
@@ -116,12 +121,19 @@ object CursePlayerAttachment {
         return EventResult.pass()
     }
 
-    fun breakBlock(level: Level?, blockPos: BlockPos?, blockState: BlockState, serverPlayer: ServerPlayer?, intValue: IntValue?): EventResult? {
+    fun breakBlock(
+        level: Level?,
+        blockPos: BlockPos?,
+        blockState: BlockState,
+        serverPlayer: ServerPlayer?,
+        intValue: IntValue?
+    ): EventResult? {
         if (serverPlayer != null) {
             val data = getData(serverPlayer)
             if (data.playerCurseList.isNotEmpty()) {
                 for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.breakBlock(level!!, serverPlayer, blockState, curse.catBoosted)
+                    WitcheryCurseRegistry.CURSES.get(curse.curseId)
+                        ?.breakBlock(level!!, serverPlayer, blockState, curse.catBoosted)
                 }
             }
         }
@@ -134,19 +146,27 @@ object CursePlayerAttachment {
             val data = getData(entity)
             if (data.playerCurseList.isNotEmpty()) {
                 for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.placeBlock(level!!, entity, blockState, curse.catBoosted)
+                    WitcheryCurseRegistry.CURSES.get(curse.curseId)
+                        ?.placeBlock(level!!, entity, blockState, curse.catBoosted)
                 }
             }
         }
         return EventResult.pass()
     }
 
-    fun attackEntity(player: Player?, level: Level?, target: Entity?, interactionHand: InteractionHand?, entityHitResult: EntityHitResult?): EventResult? {
+    fun attackEntity(
+        player: Player?,
+        level: Level?,
+        target: Entity?,
+        interactionHand: InteractionHand?,
+        entityHitResult: EntityHitResult?
+    ): EventResult? {
         if (player != null && target != null && entityHitResult != null) {
             val data = getData(player)
             if (data.playerCurseList.isNotEmpty()) {
                 for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)?.attackEntity(level!!, player, target, entityHitResult, curse.catBoosted)
+                    WitcheryCurseRegistry.CURSES.get(curse.curseId)
+                        ?.attackEntity(level!!, player, target, entityHitResult, curse.catBoosted)
                 }
             }
         }

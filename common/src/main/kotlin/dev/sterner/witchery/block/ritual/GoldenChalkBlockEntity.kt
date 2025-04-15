@@ -10,9 +10,6 @@ import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.*
-import dev.sterner.witchery.ritual.BindFamiliarRitual
-import dev.sterner.witchery.ritual.PushMobsRitual
-import dev.sterner.witchery.ritual.ResurrectFamiliarRitual
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
@@ -311,7 +308,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             Witchery.logDebugRitual("No current ritual recipe found. Searching for valid recipes.")
 
             val items: MutableList<ItemStack> =
-                pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }.map { it.item }.toMutableList()
+                pPlayer.level().getEntities(EntityType.ITEM, AABB(blockPos).inflate(3.0, 0.0, 3.0)) { true }
+                    .map { it.item }.toMutableList()
             val entities: List<LivingEntity> = pPlayer.level()
                 .getEntitiesOfClass(LivingEntity::class.java, AABB(blockPos).inflate(4.0, 1.0, 4.0)) { true }
 
