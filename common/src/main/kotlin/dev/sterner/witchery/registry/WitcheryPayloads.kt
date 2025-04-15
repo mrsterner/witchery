@@ -42,6 +42,12 @@ object WitcheryPayloads {
         ) { payload, context ->
             payload.handleS2C(payload, context)
         }
+        registerS2C(
+                CauldronPotionBrewParticleS2CPayload.ID,
+            CauldronPotionBrewParticleS2CPayload.STREAM_CODEC
+        ) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
 
         registerS2C(SyncLightInfusionS2CPacket.ID, SyncLightInfusionS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)

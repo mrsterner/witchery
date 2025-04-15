@@ -150,6 +150,17 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             consumeItem(level, pos)
         }
 
+        if (witcheryPotionItemCache.isNotEmpty()) {
+            val randX = pos.x + 0.5 + Mth.nextDouble(level.random, -0.15, 0.15)
+            val randY = (pos.y + 1.0)
+            val randZ = pos.z + 0.5 + Mth.nextDouble(level.random, -0.15, 0.15)
+            WitcheryPayloads.sendToPlayers(
+                level,
+                blockPos,
+                CauldronPotionBrewParticleS2CPayload(Vector3d(randX, randY, randZ), color)
+            )
+        }
+
         if (!brewItemOutput.isEmpty) {
             val randX = pos.x + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
             val randY = (pos.y + 1.0)
