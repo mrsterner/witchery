@@ -33,7 +33,7 @@ object VampirePlayerAttachment {
     }
 
     data class Data(
-        val vampireLevel: Int = 0,
+        private val vampireLevel: Int = 0,
         val killedBlazes: Int = 0,
         val usedSunGrenades: Int = 0,
         val villagersHalfBlood: MutableList<UUID> = mutableListOf(),
@@ -47,6 +47,8 @@ object VampirePlayerAttachment {
         val isBatFormActive: Boolean = false,
         val maxInSunTickClient: Int = 0
     ) {
+
+        fun getVampireLevel(): Int = vampireLevel
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->

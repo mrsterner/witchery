@@ -32,7 +32,6 @@ class WerewolfAbilityUseC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val ordinal = payload.nbt.getInt("Ordinal")
 
         if (player != null) {
-
             WerewolfEventHandler.parseAbilityFromIndex(player, ordinal)
         }
     }

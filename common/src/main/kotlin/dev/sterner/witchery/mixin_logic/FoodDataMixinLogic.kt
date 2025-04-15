@@ -11,7 +11,7 @@ object FoodDataMixinLogic {
         player: Player?,
         cir: CallbackInfoReturnable<Int>
     ) {
-        if (player != null && getData(player).vampireLevel > 0) {
+        if (player != null && getData(player).getVampireLevel() > 0) {
             val bloodData = BloodPoolLivingEntityAttachment.getData(player)
             val maxBlood = bloodData.maxBlood
             if (maxBlood > 0) {
@@ -23,13 +23,13 @@ object FoodDataMixinLogic {
     }
 
     fun getSaturation(player: Player?, cir: CallbackInfoReturnable<Float>) {
-        if (player != null && getData(player).vampireLevel > 0) {
+        if (player != null && getData(player).getVampireLevel() > 0) {
             cir.setReturnValue(0f)
         }
     }
 
     fun onAdd(instance: Player, foodLevel: Int, saturationLevel: Float) {
-        if (getData(instance).vampireLevel == 0) {
+        if (getData(instance).getVampireLevel() == 0) {
             val bloodData = BloodPoolLivingEntityAttachment.getData(instance)
             if (bloodData.bloodPool < bloodData.maxBlood) {
                 BloodPoolLivingEntityAttachment.increaseBlood(instance, foodLevel)

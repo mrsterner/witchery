@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack
 class WoodenStakeItem(properties: Properties) : Item(properties) {
 
     override fun hurtEnemy(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
-        if (target is VampireEntity || (target is Player && VampirePlayerAttachment.getData(target).vampireLevel > 0)) {
+        if (target is VampireEntity || (target is Player && VampirePlayerAttachment.getData(target).getVampireLevel() > 0)) {
             val source = (target.damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
             target.hurt(source, 4f)
         }

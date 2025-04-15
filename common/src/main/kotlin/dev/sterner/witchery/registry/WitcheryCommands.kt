@@ -11,7 +11,6 @@ import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood
-import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
 import dev.sterner.witchery.platform.CursePlayerAttachment
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
@@ -20,7 +19,6 @@ import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.commands.CommandBuildContext
@@ -244,9 +242,7 @@ object WitcheryCommands {
                             val level = IntegerArgumentType.getInteger(context, "level")
                             val player = context.source.playerOrException
 
-                            val data = VampirePlayerAttachment.getData(player)
-
-                            VampirePlayerAttachment.setData(player, data.copy(vampireLevel = level))
+                            VampireLeveling.setLevel(player, level)
                             VampireLeveling.updateModifiers(player, level, false)
                             val maxBlood = levelToBlood(level)
                             BloodPoolLivingEntityAttachment.setData(

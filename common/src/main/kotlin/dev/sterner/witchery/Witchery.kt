@@ -497,6 +497,7 @@ object Witchery {
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
         ClientGuiEvent.RENDER_HUD.register(ManifestationPlayerAttachment::renderHud)
         ClientGuiEvent.RENDER_HUD.register(VampireEventHandler::renderHud)
+        ClientGuiEvent.RENDER_HUD.register(WerewolfEventHandler::renderHud)
         ClientGuiEvent.RENDER_HUD.register(BarkBeltPlayerAttachment::renderHud)
 
         ItemPropertiesRegistry.register(

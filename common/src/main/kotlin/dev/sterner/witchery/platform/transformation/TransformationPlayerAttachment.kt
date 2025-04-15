@@ -77,7 +77,7 @@ object TransformationPlayerAttachment {
     @JvmStatic
     fun removeForm(player: Player) {
         setData(player, Data(TransformationType.NONE, MAX_COOLDOWN))
-        VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).vampireLevel, false)
+        VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).getVampireLevel(), false)
         WerewolfLeveling.updateModifiers(player, wolf = false, wolfMan = false)
     }
 
@@ -85,7 +85,7 @@ object TransformationPlayerAttachment {
     fun setBatForm(player: Player) {
         val data = getData(player)
         if (data.batFormCooldown <= 0) {
-            VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).vampireLevel, true)
+            VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).getVampireLevel(), true)
             setData(player, Data(TransformationType.BAT, 0, 0))
         }
     }
@@ -140,7 +140,7 @@ object TransformationPlayerAttachment {
 
     fun tickBat(player: Player) {
 
-        if (VampirePlayerAttachment.getData(player).vampireLevel >= VampireAbility.BAT_FORM.unlockLevel) {
+        if (VampirePlayerAttachment.getData(player).getVampireLevel() >= VampireAbility.BAT_FORM.unlockLevel) {
             if (player.level() is ServerLevel) {
 
                 decreaseBatFormCooldown(player)
@@ -153,7 +153,7 @@ object TransformationPlayerAttachment {
 
                     var maxBatTime =
                         (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
-                    maxBatTime += if (VampirePlayerAttachment.getData(player).vampireLevel >= 9) 60 * 20 else 0
+                    maxBatTime += if (VampirePlayerAttachment.getData(player).getVampireLevel() >= 9) 60 * 20 else 0
                     val data = getData(player)
                     setData(player, data.copy(maxBatTimeClient = maxBatTime))
                     if (getData(player).batFormTicker > maxBatTime) {
@@ -161,7 +161,7 @@ object TransformationPlayerAttachment {
                     }
 
                 } else {
-                    if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
+                    if (VampirePlayerAttachment.getData(player).getVampireLevel() == 7) {
                         VampireLeveling.resetVillages(player)
                     }
 
@@ -176,7 +176,7 @@ object TransformationPlayerAttachment {
     }
 
     private fun checkForVillage(player: Player) {
-        if (VampirePlayerAttachment.getData(player).vampireLevel == 7) {
+        if (VampirePlayerAttachment.getData(player).getVampireLevel() == 7) {
             villageCheckTicker++
             if (villageCheckTicker > 20) {
                 villageCheckTicker = 0

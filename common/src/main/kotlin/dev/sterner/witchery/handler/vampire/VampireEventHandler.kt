@@ -14,6 +14,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure.StructurePiece
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data.BloodPoolHandler
+import dev.sterner.witchery.handler.werewolf.WerewolfAbilities
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
@@ -71,7 +72,7 @@ object VampireEventHandler {
         }
 
         val vampData = getData(player)
-        if (vampData.vampireLevel < 1) {
+        if (vampData.getVampireLevel() < 1) {
             return original
         }
 
@@ -101,7 +102,7 @@ object VampireEventHandler {
     fun tick(player: Player?) {
         if (player is ServerPlayer) {
             val vampData = getData(player)
-            if (vampData.vampireLevel < 1) {
+            if (vampData.getVampireLevel() < 1) {
                 val humanBloodData = BloodPoolLivingEntityAttachment.getData(player)
                 if (humanBloodData.bloodPool < humanBloodData.maxBlood) {
                     if (player.tickCount % 1000 == 0) {
@@ -136,7 +137,7 @@ object VampireEventHandler {
             setData(player, data.copy(maxInSunTickClient = maxInSunTicks.toInt()))
 
             if (getData(player).inSunTick >= maxInSunTicks) {
-                if (vampData.vampireLevel < 5) {
+                if (vampData.getVampireLevel() < 5) {
                     player.hurt(sunDamageSource, Float.MAX_VALUE)
                 } else {
                     if (bloodData.bloodPool >= bloodThreshold) {
@@ -213,7 +214,7 @@ object VampireEventHandler {
         if (entity is Villager) {
             val transfixVillager = entity as VillagerTransfix
             transfixVillager.setTransfixedLookVector(player.eyePosition)
-            if (getData(player).vampireLevel >= 8) {
+            if (getData(player).getVampireLevel() >= 8) {
                 transfixVillager.setMesmerized(player.uuid)
             }
             return EventResult.interruptFalse()
@@ -306,7 +307,7 @@ object VampireEventHandler {
         val player = client.player ?: return
 
 
-        val isNotVamp = getData(player).vampireLevel <= 0
+        val isNotVamp = getData(player).getVampireLevel() <= 0
 
         if (isNotVamp) {
             return
@@ -429,7 +430,7 @@ object VampireEventHandler {
      * Also sets the food to 10 to let us handle exhaustion in our FoodData mixin.
      */
     private fun respawn(oldPlayer: ServerPlayer, newPlayer: ServerPlayer, b: Boolean) {
-        if (getData(oldPlayer).vampireLevel > 0) {
+        if (getData(oldPlayer).getVampireLevel() > 0) {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
             newPlayer.foodData.foodLevel = 10
             BloodPoolLivingEntityAttachment.setData(
@@ -576,7 +577,7 @@ object VampireEventHandler {
      * If the player dies the night counter will reset
      */
     private fun resetNightCount(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
-        if (livingEntity is Player && getData(livingEntity).vampireLevel == 3) {
+        if (livingEntity is Player && getData(livingEntity).getVampireLevel() == 3) {
             VampireLeveling.resetNightCounter(livingEntity)
         }
 

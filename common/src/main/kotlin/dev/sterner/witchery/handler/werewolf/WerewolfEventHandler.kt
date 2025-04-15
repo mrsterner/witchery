@@ -2,12 +2,21 @@ package dev.sterner.witchery.handler.werewolf
 
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.PlayerEvent
+import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.TickEvent
+import dev.architectury.networking.NetworkManager
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.payload.WerewolfAbilityUseC2SPayload
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
+import net.minecraft.client.DeltaTracker
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Sheep
@@ -16,6 +25,9 @@ import net.minecraft.world.entity.monster.piglin.Piglin
 import net.minecraft.world.entity.player.Player
 
 object WerewolfEventHandler {
+
+    private val overlay = Witchery.id("textures/gui/ability_hotbar_selection.png")
+
     fun handleHurtWolfman(entity: LivingEntity, damageSource: DamageSource, remainingDamage: Float): Float {
         return remainingDamage
     }
@@ -32,6 +44,30 @@ object WerewolfEventHandler {
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killPiglin)
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killAny)
         TickEvent.PLAYER_PRE.register(WerewolfEventHandler::tick)
+        InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(WerewolfEventHandler::clientRightClickAbility)
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(WerewolfEventHandler::rightClickBlockAbility)
+    }
+
+    private fun rightClickBlockAbility(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
+        if (player == null || interactionHand == InteractionHand.OFF_HAND) {
+            return EventResult.pass()
+        }
+
+        val playerData = WerewolfPlayerAttachment.getData(player)
+        if (parseAbilityFromIndex(player, playerData.abilityIndex)) {
+            return EventResult.interruptTrue()
+        }
+
+        return EventResult.pass()
+    }
+
+    private fun clientRightClickAbility(player: Player?, interactionHand: InteractionHand?) {
+        if (player == null || interactionHand == InteractionHand.OFF_HAND) {
+            return
+        }
+
+        val playerData = WerewolfPlayerAttachment.getData(player)
+        NetworkManager.sendToServer(WerewolfAbilityUseC2SPayload(playerData.abilityIndex))
     }
 
     fun infectPlayer(player: Player) {
@@ -85,7 +121,7 @@ object WerewolfEventHandler {
                 val wereData = WerewolfPlayerAttachment.getData(player)
 
                 if (!player.level().isDay && player.level().moonPhase == 0) {
-                    if (wereData.werewolfLevel > 0) {
+                    if (wereData.getWerewolfLevel() > 0) {
                         val type = TransformationPlayerAttachment.getData(player).transformationType
                         if (type == TransformationPlayerAttachment.TransformationType.NONE) {
                             tryForceTurnToWerewolf(player, wereData)
@@ -93,9 +129,12 @@ object WerewolfEventHandler {
                     }
 
                 } else if(player.level().isDay || player.level().moonPhase != 0){
-                    if (wereData.werewolfLevel > 0) {
+                    if (wereData.getWerewolfLevel() > 0) {
                         tryForceTurnWerewolfToHuman(player, wereData)
                     }
+                }
+                if (wereData.getWerewolfLevel() == 0) {
+                    WerewolfAbilities.setAbilityIndex(player, -1)
                 }
             }
 
@@ -116,17 +155,17 @@ object WerewolfEventHandler {
     }
 
     private fun tryForceTurnWerewolfToHuman(player: Player, data: WerewolfPlayerAttachment.Data) {
-        if (data.werewolfLevel < 3) {
+        if (data.getWerewolfLevel() < 3) {
             TransformationPlayerAttachment.removeForm(player)
-        } else if (data.werewolfLevel < 5) {
+        } else if (data.getWerewolfLevel() < 5) {
             TransformationPlayerAttachment.removeForm(player)
         }
     }
 
     private fun tryForceTurnToWerewolf(player: Player, data: WerewolfPlayerAttachment.Data) {
-        if (data.werewolfLevel < 3) {
+        if (data.getWerewolfLevel() < 3) {
             TransformationPlayerAttachment.setWolfForm(player)
-        } else if (data.werewolfLevel < 5) {
+        } else if (data.getWerewolfLevel() < 5) {
             TransformationPlayerAttachment.setWereWolfForm(player)
         }
     }
@@ -153,5 +192,44 @@ object WerewolfEventHandler {
         return false
     }
 
+    fun renderHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker) {
+        val client = Minecraft.getInstance()
+        val player = client.player ?: return
 
+        val isNotWere = WerewolfPlayerAttachment.getData(player).getWerewolfLevel() <= 0
+
+        if (isNotWere) {
+            return
+        }
+
+        val abilityIndex = WerewolfPlayerAttachment.getData(player).abilityIndex
+        val size = WerewolfAbilities.getAbilities(player)
+
+        val y = guiGraphics.guiHeight() - 18 - 5
+        val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
+
+        val bl2 = client.gameMode!!.canHurtPlayer()
+        if (!bl2) {
+            return
+        }
+
+        for (i in size.indices) {
+            val name = size[i].serializedName
+
+            val iconX = x - (25 * i) + 4
+            val iconY = y + 4
+
+            guiGraphics.blit(
+                Witchery.id("textures/gui/werewolf_abilities/${name}.png"),
+                iconX, iconY,
+                16, 16,
+                0f, 0f, 16, 16,
+                16, 16
+            )
+        }
+
+        if (abilityIndex != -1) {
+            guiGraphics.blit(overlay, x - (25 * abilityIndex), y, 24, 23, 0f, 0f, 24, 23, 24, 23)
+        }
+    }
 }

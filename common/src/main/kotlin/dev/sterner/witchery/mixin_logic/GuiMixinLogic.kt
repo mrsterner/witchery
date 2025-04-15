@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player
 object GuiMixinLogic {
 
     fun renderFoodLevel(player: Player, guiGraphics: GuiGraphics, y: Int, x: Int): Boolean {
-        if (getData(player).vampireLevel > 0) {
+        if (getData(player).getVampireLevel() > 0) {
             innerRenderBlood(guiGraphics, player, y, x)
             return false
         }

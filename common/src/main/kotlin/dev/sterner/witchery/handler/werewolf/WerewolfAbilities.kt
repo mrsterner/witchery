@@ -83,7 +83,7 @@ object WerewolfAbilities {
      */
     @JvmStatic
     fun getAbilities(player: Player): List<WerewolfAbility> {
-        val level = WerewolfPlayerAttachment.getData(player).werewolfLevel
+        val level = WerewolfPlayerAttachment.getData(player).getWerewolfLevel()
         return WerewolfAbility.entries.filter { it.unlockLevel <= level }
     }
 }

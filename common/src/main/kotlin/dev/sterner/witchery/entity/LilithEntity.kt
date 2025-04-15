@@ -67,7 +67,7 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
 
     override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
         if (player is ServerPlayer && hand == InteractionHand.MAIN_HAND) {
-            if (VampirePlayerAttachment.getData(player).vampireLevel == 6) {
+            if (VampirePlayerAttachment.getData(player).getVampireLevel() == 6) {
                 if (player.mainHandItem.`is`(Items.POPPY)) {
                     VampireLeveling.givePoppy(player)
                     hasUsedLilith = true

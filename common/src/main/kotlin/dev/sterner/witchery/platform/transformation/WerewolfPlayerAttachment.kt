@@ -35,7 +35,7 @@ object WerewolfPlayerAttachment {
 
     data class Data(
         val lycanSourceUUID: Optional<UUID> = Optional.empty(),
-        val werewolfLevel: Int = 0,
+        private val werewolfLevel: Int = 0,
         val hasGivenGold: Boolean = false,
         val killedSheep: Int = 0,
         val killedWolves: Int = 0,
@@ -50,6 +50,8 @@ object WerewolfPlayerAttachment {
         val isWolfFormActive: Boolean = false,
 
         ) {
+
+        fun getWerewolfLevel(): Int = werewolfLevel
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->

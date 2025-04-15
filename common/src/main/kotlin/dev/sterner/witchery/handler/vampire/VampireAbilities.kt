@@ -108,7 +108,7 @@ object VampireAbilities {
      */
     @JvmStatic
     fun getAbilities(player: Player): List<VampireAbility> {
-        val level = getData(player).vampireLevel
+        val level = getData(player).getVampireLevel()
         return VampireAbility.entries.filter { it.unlockLevel <= level }
     }
 

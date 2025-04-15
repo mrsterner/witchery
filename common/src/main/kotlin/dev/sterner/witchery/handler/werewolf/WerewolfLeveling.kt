@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.werewolf
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.werewolf.WerewolfLevelRequirements.LEVEL_REQUIREMENTS
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
@@ -21,9 +22,9 @@ object WerewolfLeveling {
     private val ATTACK_BONUS_2 =
         AttributeModifier(Witchery.id("werewolf_damage_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
     private val SPEED_BONUS =
-        AttributeModifier(Witchery.id("werewolf_speed"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+        AttributeModifier(Witchery.id("werewolf_speed"), 0.1, AttributeModifier.Operation.ADD_VALUE)
     private val SPEED_BONUS_2 =
-        AttributeModifier(Witchery.id("werewolf_speed_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
+        AttributeModifier(Witchery.id("werewolf_speed_2"), 0.05, AttributeModifier.Operation.ADD_VALUE)
     private val STEP_HEIGHT_BONUS =
         AttributeModifier(Witchery.id("werewolf_step"), 0.75, AttributeModifier.Operation.ADD_VALUE)
     private val JUMP_HEIGHT_BONUS =
@@ -36,13 +37,23 @@ object WerewolfLeveling {
     private val RESIST_TOUGH_BONUS =
         AttributeModifier(Witchery.id("werewolf_resist_tough"), 5.0, AttributeModifier.Operation.ADD_VALUE)
 
+    @JvmStatic
+    fun setLevel(player: ServerPlayer, level: Int) {
+        val data = WerewolfPlayerAttachment.getData(player)
+        WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = level))
+        if (level == 0) {
+            WerewolfAbilities.setAbilityIndex(player, -1)
+        }
+    }
+
     /**
      * Will level upp a vampire-player if they for fills the requirements to do so.
      */
     @JvmStatic
     fun increaseWerewolfLevel(player: ServerPlayer) {
         val data = WerewolfPlayerAttachment.getData(player)
-        val nextLevel = data.werewolfLevel + 1
+        val nextLevel = data.getWerewolfLevel() + 1
+        VampireLeveling.setLevel(player, nextLevel)
 
         if (WerewolfLevelRequirements.canLevelUp(player, nextLevel)) {
             WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = nextLevel))
@@ -55,7 +66,7 @@ object WerewolfLeveling {
     fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = WerewolfPlayerAttachment.getData(player)
 
-        if (data.werewolfLevel != targetLevel) {
+        if (data.getWerewolfLevel() != targetLevel) {
             return false
         }
 

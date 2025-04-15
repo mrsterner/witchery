@@ -4,14 +4,13 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.vampire.VampireLevelRequirements.LEVEL_REQUIREMENTS
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.ChunkPos
@@ -27,13 +26,23 @@ object VampireLeveling {
         AttributeModifier(Witchery.id("bat_health"), -4.0, AttributeModifier.Operation.ADD_VALUE)
 
 
+    @JvmStatic
+    fun setLevel(player: ServerPlayer, level: Int) {
+        val data = getData(player)
+        setData(player, data.copy(vampireLevel = level))
+        if (level == 0) {
+            VampireAbilities.setAbilityIndex(player, -1)
+        }
+    }
+
     /**
      * Will level upp a vampire-player if they for fills the requirements to do so.
      */
     @JvmStatic
     fun increaseVampireLevel(player: ServerPlayer) {
         val data = getData(player)
-        val nextLevel = data.vampireLevel + 1
+        val nextLevel = data.getVampireLevel() + 1
+        setLevel(player, nextLevel)
 
         if (VampireLevelRequirements.canLevelUp(player, nextLevel)) {
             setData(player, data.copy(vampireLevel = nextLevel))
@@ -91,7 +100,7 @@ object VampireLeveling {
     fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = getData(player)
 
-        if (data.vampireLevel != targetLevel) {
+        if (data.getVampireLevel() != targetLevel) {
             return false
         }
 

@@ -75,7 +75,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
         val data = player.mainHandItem.get(WitcheryDataComponents.BLOOD.get())
         if (data == null && player.isShiftKeyDown && player.offhandItem.`is`(WitcheryItems.BONE_NEEDLE.get())) {
             player.mainHandItem.set(WitcheryDataComponents.BLOOD.get(), player.uuid)
-            if (VampirePlayerAttachment.getData(player).vampireLevel == 10) {
+            if (VampirePlayerAttachment.getData(player).getVampireLevel() == 10) {
                 player.mainHandItem.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
             }
             player.hurt(level.damageSources().playerAttack(player), 4f)
@@ -169,7 +169,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
             if (entity is Villager && player != null) {
                 val item = player.mainHandItem
                 val bl = item.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true
-                if (bl && VampirePlayerAttachment.getData(player).vampireLevel >= 9) {
+                if (bl && VampirePlayerAttachment.getData(player).getVampireLevel() >= 9) {
                     val transfix = entity as VillagerTransfix
                     val blood = BloodPoolLivingEntityAttachment.getData(entity)
                     if (blood.bloodPool <= blood.maxBlood / 2 && transfix.isMesmerized()) {

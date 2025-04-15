@@ -40,7 +40,7 @@ object BloodPoolLivingEntityAttachment {
         setData(livingEntity, data.copy(bloodPool = newBloodPool))
 
         if (livingEntity is ServerPlayer) {
-            if (VampirePlayerAttachment.getData(livingEntity).vampireLevel == 1 && newBloodPool == 900) {
+            if (VampirePlayerAttachment.getData(livingEntity).getVampireLevel() == 1 && newBloodPool == 900) {
                 VampireLeveling.increaseVampireLevel(livingEntity)
             }
         }
@@ -69,7 +69,7 @@ object BloodPoolLivingEntityAttachment {
 
         if (player != null && player.level() is ServerLevel) {
 
-            val bl = VampirePlayerAttachment.getData(player).vampireLevel > 0
+            val bl = VampirePlayerAttachment.getData(player).getVampireLevel() > 0
             if (bl) {
                 ticker++
                 if (ticker > 10) {
