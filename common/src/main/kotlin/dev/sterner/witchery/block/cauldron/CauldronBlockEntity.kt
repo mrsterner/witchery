@@ -4,8 +4,10 @@ import dev.architectury.fluid.FluidStack
 import dev.architectury.hooks.fluid.FluidStackHooks
 import dev.architectury.platform.Platform
 import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.fluid.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.data.PotionDataHandler
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
@@ -14,6 +16,7 @@ import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
+import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHERY_POTION
@@ -24,6 +27,7 @@ import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
+import net.minecraft.nbt.NbtUtils
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
@@ -51,7 +55,7 @@ import org.joml.Vector3d
 class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.CAULDRON.get(), CauldronBlock.STRUCTURE.get(),
     pos, state
-), Container, WorldlyContainer {
+), Container, WorldlyContainer, AltarPowerConsumer {
 
     private var cauldronCraftingRecipe: CauldronCraftingRecipe? = null
     private var cauldronBrewingRecipe: CauldronBrewingRecipe? = null
@@ -59,6 +63,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     private var inputItems: NonNullList<ItemStack> = NonNullList.withSize(12, ItemStack.EMPTY)
     private var craftingProgressTicker = 0
     private var brewItemOutput: ItemStack = ItemStack.EMPTY
+    private var cachedAltarPos: BlockPos? = null
 
     var color = WATER_COLOR
     var fluidTank = WitcheryFluidTank(this)
@@ -187,11 +192,43 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         }
     }
 
+
+    private fun hasEnoughAltarPower(level: Level, ingredient: WitcheryPotionIngredient): Boolean {
+        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
+            cachedAltarPos = null
+            setChanged()
+            return false
+        }
+        val requiredAltarPower = ingredient.altarPower
+        if (requiredAltarPower > 0 && cachedAltarPos != null) {
+            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
+        }
+        return requiredAltarPower == 0
+    }
+
+    private fun consumeAltarPower(level: Level, ingredient: WitcheryPotionIngredient): Boolean {
+        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
+            cachedAltarPos = null
+            setChanged()
+            return false
+        }
+
+        val requiredAltarPower = ingredient.altarPower
+        if (requiredAltarPower > 0 && cachedAltarPos != null) {
+            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
+        }
+        return requiredAltarPower == 0
+    }
+
     /**
      * Checks within the cauldron if there's any item entities, adds them to the inventory,
      * check for recipes and applies appropriate color
      */
     private fun consumeItem(level: Level, pos: BlockPos) {
+        if (cachedAltarPos == null && level is ServerLevel) {
+            cachedAltarPos = getAltarPos(level, blockPos)
+        }
+
         level.getEntities(EntityType.ITEM, AABB(blockPos)) { true }.forEach { entity ->
             val item = entity.item
             val cacheForColorItem = item.copy()
@@ -213,7 +250,8 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 // Handle other ingredients for potion brewing
                 if (witcheryPotionItemCache.isNotEmpty()) {
                     PotionDataHandler.getIngredientFromItem(item)?.let { it ->
-                        if(WitcheryPotionItem.tryAddItemToPotion(witcheryPotionItemCache, it)) {
+                        if(hasEnoughAltarPower(level, it) && WitcheryPotionItem.tryAddItemToPotion(witcheryPotionItemCache, it)) {
+                            consumeAltarPower(level, it)
                             forceColor(item)
                             level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
                             item.shrink(1)
@@ -523,7 +561,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 witcheryPotionItemCache = it.get().toMutableList()
             }
         }
-
+        if (pTag.contains("altarPos")) {
+            cachedAltarPos = NbtUtils.readBlockPos(pTag, "altarPos").get()
+        }
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
@@ -539,6 +579,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
         val listResult = WitcheryPotionIngredient.CODEC.listOf().encodeStart(NbtOps.INSTANCE, witcheryPotionItemCache)
         listResult.resultOrPartial { _ -> }?.let { tag.put("witcheryPotionItemCache", it.get()) }
+        if (cachedAltarPos != null) {
+            tag.put("altarPos", NbtUtils.writeBlockPos(cachedAltarPos!!))
+        }
     }
 
     //INVENTORY IMPL
@@ -607,5 +650,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             // If all items match, return true
             return true
         }
+    }
+
+    override fun receiveAltarPosition(blockPos: BlockPos) {
+
     }
 }
