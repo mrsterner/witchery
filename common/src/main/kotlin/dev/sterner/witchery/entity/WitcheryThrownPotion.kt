@@ -2,10 +2,9 @@ package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
-import dev.sterner.witchery.potion.MobEffectPotionEffect
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryPotionEffectRegistry
+import dev.sterner.witchery.registry.WitcheryMobEffects
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
@@ -46,13 +45,13 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                 val potionContentList = itemStack.get(WITCHERY_POTION_CONTENT.get())
 
                 if (lingering) {
-                    potionContentList?.let { potionContent -> makeAreaOfEffectCloud(potionContent.map { it.ingredientInfo }.toMutableList()) }
+                    potionContentList?.let { potionContent -> makeAreaOfEffectCloud(potionContent.map { it }.toMutableList()) }
                 } else {
                     applySplash(itemStack, if (result.type == HitResult.Type.ENTITY) (result as EntityHitResult).entity else null)
 
                 }
                 potionContentList?.let {
-                    val color = potionContentList.last().ingredientInfo.color
+                    val color = potionContentList.last().color
                     color.let { level().levelEvent(2002, this.blockPosition(), it) }
                 }
 
@@ -66,7 +65,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         areaEffectCloud.radius = 3.0f + getRangeBonus(potionContentList)
         areaEffectCloud.radiusOnUse = -0.5f
         areaEffectCloud.waitTime = 10
-        areaEffectCloud.duration *= potionContentList.mapNotNull { it.dispersalModifier.orElse(null)?.lingeringDurationModifier }.maxOrNull() ?: 1
+        areaEffectCloud.duration *= potionContentList.maxOfOrNull { it.dispersalModifier.lingeringDurationModifier } ?: 1
         areaEffectCloud.radiusPerTick = -areaEffectCloud.radius / areaEffectCloud.duration.toFloat()
         areaEffectCloud.setPotionContents(potionContentList)
         level().addFreshEntity(areaEffectCloud)
@@ -86,15 +85,13 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
     }
 
     private fun getRangeBonus(potion: List<WitcheryPotionIngredient>): Int {
-        return potion.mapNotNull { it.dispersalModifier.orElse(null)?.rangeModifier }
-            .maxOrNull() ?: 1
+        return potion.maxOfOrNull { it.dispersalModifier.rangeModifier } ?: 1
     }
 
     private fun getRangeBonus(stack: ItemStack): Int {
         val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return 1
 
-        return potionContentList.mapNotNull { it.ingredientInfo.dispersalModifier.orElse(null)?.rangeModifier }
-            .maxOrNull() ?: 1
+        return potionContentList.maxOfOrNull { it.dispersalModifier.rangeModifier } ?: 1
     }
 
     private fun applySplash(stack: ItemStack, entity: Entity?) {
@@ -119,37 +116,46 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                         if (stack.has(WITCHERY_POTION_CONTENT.get())) {
                             val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get())
                             if (potionContentList != null) {
+                                var shouldInvertNext = false
+
                                 for ((i, potionContent) in potionContentList.withIndex()) {
                                     if (i == 0) continue
 
-                                    val instance = WitcheryPotionEffectRegistry.EFFECTS.get(potionContent.ingredientInfo.effect.effectId)
+                                    if (potionContent.item.item == Items.FERMENTED_SPIDER_EYE) {
+                                        shouldInvertNext = true
+                                        continue
+                                    }
 
-                                    potionContent.ingredientInfo.effect.affectEntity(livingEntity, potionContent.ingredientInfo)
+                                    val effectData = potionContent.effectModifier
+                                    val duration = (potionContent.baseDuration + effectData.durationAddition) * effectData.durationMultiplier
+                                    val amplifier = effectData.powerAddition
 
-                                    if (instance is MobEffectPotionEffect) {
-                                        val effectData = potionContent.durationAmplifier
-                                        val duration = effectData.duration
-                                        val amplifier = effectData.amplifier
+                                    val effect = if (shouldInvertNext) {
+                                        shouldInvertNext = false
+                                        WitcheryMobEffects.invertEffect(potionContent.effect)
+                                    } else {
+                                        potionContent.effect
+                                    }
 
-                                        val holder = instance.mobEffect
-                                        if (holder.value().isInstantenous) {
-                                            holder.value().applyInstantenousEffect(
-                                                this,
-                                                this.owner, livingEntity, amplifier, e
-                                            )
-                                        } else {
+                                    if (effect.value().isInstantenous) {
+                                        effect.value().applyInstantenousEffect(
+                                            this, this.owner, livingEntity, amplifier, e
+                                        )
+                                    } else {
+                                        val visible = !potionContentList.any {
+                                            it.generalModifier.orElse(null) == WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE
+                                        }
 
-                                            val visible = !potionContentList.any { it.ingredientInfo.generalModifier.orElse(null) == WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE }
-                                            val mobEffectInstance2 = MobEffectInstance(
-                                                holder,
-                                                duration,
-                                                amplifier,
-                                                false,
-                                                visible
-                                            )
-                                            if (!mobEffectInstance2.endsWithin(20)) {
-                                                livingEntity.addEffect(mobEffectInstance2, entity2)
-                                            }
+                                        val mobEffectInstance = MobEffectInstance(
+                                            effect,
+                                            duration,
+                                            amplifier,
+                                            false,
+                                            visible
+                                        )
+
+                                        if (!mobEffectInstance.endsWithin(20)) {
+                                            livingEntity.addEffect(mobEffectInstance, entity2)
                                         }
                                     }
                                 }
@@ -160,4 +166,5 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
             }
         }
     }
+
 }

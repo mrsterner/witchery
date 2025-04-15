@@ -103,7 +103,6 @@ object Witchery {
     @JvmStatic
     fun init() {
         WitcheryCurseRegistry.init()
-        WitcheryPotionEffectRegistry.init()
         WitcheryRitualRegistry.init()
         WitcheryFluids.FLUIDS.register()
         WitcheryFluids.init()

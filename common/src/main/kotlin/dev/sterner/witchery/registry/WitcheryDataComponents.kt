@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.potion.FinalPotionData
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import net.minecraft.core.GlobalPos
@@ -106,8 +105,8 @@ object WitcheryDataComponents {
     }
 
     val WITCHERY_POTION_CONTENT = DATA.register("witchery_potion_content") {
-        DataComponentType.builder<List<FinalPotionData>>()
-            .persistent(FinalPotionData.CODEC.listOf())
+        DataComponentType.builder<List<WitcheryPotionIngredient>>()
+            .persistent(WitcheryPotionIngredient.CODEC.listOf())
             .build()
     }
 

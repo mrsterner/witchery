@@ -13,7 +13,7 @@ object PotionColor : ItemColor {
         if (itemStack.has(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get())) {
             val potionContentList = itemStack.get(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get())!!
             if (potionContentList.isNotEmpty()) {
-                val color = potionContentList.last().ingredientInfo.color
+                val color = potionContentList.last().color
                 return if (i > 0) -1 else FastColor.ARGB32.opaque(color)
             }
         }

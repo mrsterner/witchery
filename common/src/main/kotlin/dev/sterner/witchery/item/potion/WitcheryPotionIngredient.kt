@@ -2,19 +2,22 @@ package dev.sterner.witchery.item.potion
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.registry.WitcheryPotionEffectRegistry
+import dev.sterner.witchery.registry.WitcheryMobEffects
+import net.minecraft.core.Holder
+import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.item.ItemStack
 import java.awt.Color
 import java.util.Optional
 
 data class WitcheryPotionIngredient(
     val item: ItemStack,
-    val effect: WitcheryPotionEffect,
+    val effect: Holder<MobEffect>,
+    val baseDuration: Int,
     val altarPower: Int,
     val capacityCost: Int = 1,
     val generalModifier: Optional<GeneralModifier> = Optional.empty(),
-    val effectModifier: Optional<EffectModifier> = Optional.empty(),
-    val dispersalModifier: Optional<DispersalModifier> = Optional.empty(),
+    val effectModifier: EffectModifier = EffectModifier(0, 0, 1),
+    val dispersalModifier: DispersalModifier = DispersalModifier(1, 1),
     val type: Type = Type.CONSUMABLE,
     val color: Int = Color(90, 222, 100).rgb
 ) {
@@ -55,7 +58,7 @@ data class WitcheryPotionIngredient(
                 instance.group(
                     Codec.INT.optionalFieldOf("power", 0).forGetter { it.powerAddition },
                     Codec.INT.optionalFieldOf("duration", 0).forGetter { it.durationAddition },
-                    Codec.INT.optionalFieldOf("durationMultiplier", 1).forGetter { it.durationMultiplier }
+                    Codec.INT.optionalFieldOf("duration_multiplier", 1).forGetter { it.durationMultiplier }
                 ).apply(instance, ::EffectModifier)
             }
         }
@@ -69,7 +72,7 @@ data class WitcheryPotionIngredient(
             val CODEC: Codec<DispersalModifier> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.INT.optionalFieldOf("range", 1).forGetter { it.rangeModifier },
-                    Codec.INT.optionalFieldOf("lingeringDurationModifier", 1).forGetter { it.lingeringDurationModifier },
+                    Codec.INT.optionalFieldOf("lingering_duration_modifier", 1).forGetter { it.lingeringDurationModifier },
                 ).apply(instance, ::DispersalModifier)
             }
         }
@@ -79,12 +82,13 @@ data class WitcheryPotionIngredient(
         val CODEC: Codec<WitcheryPotionIngredient> = RecordCodecBuilder.create { instance ->
             instance.group(
                 ItemStack.CODEC.fieldOf("item").forGetter { it.item },
-                WitcheryPotionEffect.CODEC.optionalFieldOf("effect", WitcheryPotionEffectRegistry.EMPTY.get()).forGetter { it.effect },
+                MobEffect.CODEC.optionalFieldOf("effect", WitcheryMobEffects.EMPTY).forGetter { it.effect },
+                Codec.INT.optionalFieldOf("base_duration", 0).forGetter { it.baseDuration },
                 Codec.INT.optionalFieldOf("altar_power", 0).forGetter { it.altarPower },
                 Codec.INT.optionalFieldOf("capacity_cost", 1).forGetter { it.capacityCost },
                 GeneralModifier.CODEC.optionalFieldOf("general_modifier").forGetter { it.generalModifier },
-                EffectModifier.CODEC.optionalFieldOf("effect_modifier").forGetter { it.effectModifier },
-                DispersalModifier.CODEC.optionalFieldOf("dispersal_modifier").forGetter { it.dispersalModifier },
+                EffectModifier.CODEC.optionalFieldOf("effect_modifier", EffectModifier(0,0,1)).forGetter { it.effectModifier },
+                DispersalModifier.CODEC.optionalFieldOf("dispersal_modifier", DispersalModifier(1, 1)).forGetter { it.dispersalModifier },
                 Type.CODEC.optionalFieldOf("type", Type.CONSUMABLE).forGetter{ it.type },
                 Codec.INT.optionalFieldOf("color", 0x000000).forGetter { it.color },
             ).apply(instance, ::WitcheryPotionIngredient)

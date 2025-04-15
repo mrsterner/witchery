@@ -1,12 +1,9 @@
 {
   "altar_power": 200,
+  "base_duration": 900,
   "capacity_cost": -2,
   "color": -60396,
-  "effect": {
-    "amplifier": 0,
-    "duration": 900,
-    "effect": "witchery:heal"
-  },
+  "effect": "minecraft:instant_health",
   "item": {
     "count": 1,
     "id": "minecraft:glistering_melon_slice"

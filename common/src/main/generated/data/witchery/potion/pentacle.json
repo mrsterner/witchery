@@ -1,6 +1,7 @@
 {
+  "base_duration": 900,
   "capacity_cost": 8,
-  "color": -10822044,
+  "color": -6601136,
   "item": {
     "count": 1,
     "id": "witchery:pentacle"

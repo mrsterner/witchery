@@ -4,9 +4,10 @@ import com.google.common.collect.Lists
 import com.google.common.collect.Maps
 import com.mojang.logging.LogUtils
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.potion.MobEffectPotionEffect
+import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryPotionEffectRegistry
+import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryMobEffects
 import net.minecraft.core.particles.ColorParticleOption
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleTypes
@@ -20,6 +21,7 @@ import net.minecraft.util.FastColor
 import net.minecraft.util.Mth
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.*
+import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.material.PushReaction
 import org.slf4j.Logger
@@ -180,43 +182,49 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
 
             if (this.tickCount % 5 == 0) {
                 victims.entries.removeIf { entry: Map.Entry<Entity, Int> -> this.tickCount >= entry.value }
-                val list: MutableList<MobEffectInstance> = Lists.newArrayList()
-                val visible = !potionContents.any { it.generalModifier.orElse(null) == WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE }
 
-                val mobEffects: List<MobEffectPotionEffect> = potionContents.map { WitcheryPotionEffectRegistry.EFFECTS.get(it.effect.effectId) }.filterIsInstance<MobEffectPotionEffect>()
-                for (mobEffectInstance in mobEffects) {
+                val list: MutableList<MobEffectInstance> = Lists.newArrayList()
+                val visible = !potionContents.any {
+                    it.generalModifier.orElse(null) == WitcheryPotionIngredient.GeneralModifier.NO_PARTICLE
+                }
+
+                var shouldInvertNext = false
+
+                for (mobEffectInstance in potionContents) {
+                    if (mobEffectInstance.item.item == Items.FERMENTED_SPIDER_EYE) {
+                        shouldInvertNext = true
+                        continue
+                    }
+
+                    val effect = if (shouldInvertNext) {
+                        shouldInvertNext = false
+                        WitcheryMobEffects.invertEffect(mobEffectInstance.effect)
+                    } else {
+                        mobEffectInstance.effect
+                    }
+
                     list.add(
                         MobEffectInstance(
-                            mobEffectInstance.mobEffect,
-                            mobEffectInstance.duration,
-                            mobEffectInstance.amplifier,
+                            effect,
+                            (mobEffectInstance.baseDuration + mobEffectInstance.effectModifier.durationAddition) * mobEffectInstance.effectModifier.durationMultiplier,
+                            mobEffectInstance.effectModifier.powerAddition,
                             false,
                             visible
                         )
                     )
                 }
 
-                val list2 = level().getEntitiesOfClass(
-                    LivingEntity::class.java, this.boundingBox
-                )
+                val list2 = level().getEntitiesOfClass(LivingEntity::class.java, this.boundingBox)
                 if (list2.isNotEmpty()) {
                     for (livingEntity in list2) {
-                        if (!victims.containsKey(livingEntity) && livingEntity.isAffectedByPotions && !list.stream()
-                                .noneMatch { effectInstance: MobEffectInstance ->
-                                    livingEntity.canBeAffected(
-                                        effectInstance
-                                    )
-                                }
+                        if (!victims.containsKey(livingEntity) && livingEntity.isAffectedByPotions &&
+                            list.any { livingEntity.canBeAffected(it) }
                         ) {
                             val m = livingEntity.x - this.x
                             val n = livingEntity.z - this.z
                             val o = m * m + n * n
                             if (o <= (f * f).toDouble()) {
                                 victims[livingEntity] = this.tickCount + this.reapplicationDelay
-
-                                for (ingredient in potionContents) {
-                                    ingredient.effect.affectEntity(livingEntity, ingredient)
-                                }
 
                                 for (mobEffectInstance2 in list) {
                                     if (mobEffectInstance2.effect.value().isInstantenous) {
@@ -225,10 +233,7 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
                                             this.getOwner(), livingEntity, mobEffectInstance2.amplifier, 0.5
                                         )
                                     } else {
-                                        livingEntity.addEffect(
-                                            MobEffectInstance(mobEffectInstance2),
-                                            this
-                                        )
+                                        livingEntity.addEffect(MobEffectInstance(mobEffectInstance2), this)
                                     }
                                 }
 
@@ -238,7 +243,6 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
                                         this.discard()
                                         return
                                     }
-
                                     this.radius = f
                                 }
 
@@ -254,6 +258,7 @@ class WitcheryAreaEffectCloud(entityType: EntityType<out WitcheryAreaEffectCloud
                     }
                 }
             }
+
         }
     }
 

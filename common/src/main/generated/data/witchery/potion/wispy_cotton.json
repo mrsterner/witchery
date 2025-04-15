@@ -1,7 +1,8 @@
 {
   "altar_power": 150,
+  "base_duration": 900,
   "capacity_cost": 0,
-  "color": -10822044,
+  "color": -3618616,
   "dispersal_modifier": {
     "range": 4
   },

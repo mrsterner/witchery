@@ -6,12 +6,9 @@ import dev.architectury.platform.Platform
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.fluid.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.api.potion.DurationAmplifier
-import dev.sterner.witchery.api.potion.FinalPotionData
 import dev.sterner.witchery.data.PotionDataHandler
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
-import dev.sterner.witchery.item.potion.WitcheryPotionItem.Companion.getTotalEffectValues
 import dev.sterner.witchery.payload.*
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
@@ -198,7 +195,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             // Handle Slime Ball - Start potion brewing process
             else if (item.`is`(Items.SLIME_BALL) && cauldronCraftingRecipe == null && cauldronBrewingRecipe == null) {
                 PotionDataHandler.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
-                updateColor(level, item)
+                forceColor(item)
                 level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
                 item.shrink(1)
             } else {
@@ -206,7 +203,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 if (witcheryPotionItemCache.isNotEmpty()) {
                     PotionDataHandler.getIngredientFromItem(item)?.let { it ->
                         if(WitcheryPotionItem.tryAddItemToPotion(witcheryPotionItemCache, it)) {
-                            updateColor(level, item)
+                            forceColor(item)
                             level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
                             item.shrink(1)
                         } else {
@@ -240,6 +237,10 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
             setChanged()
         }
+    }
+
+    private fun forceColor(potionIngredientStack: ItemStack){
+        color = PotionDataHandler.getIngredientFromItem(potionIngredientStack)?.color ?: 0x5a2d0d
     }
 
     private fun updateColor(level: Level, cacheForColorItem: ItemStack) {
@@ -388,19 +389,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 WitcheryApi.makePlayerWitchy(pPlayer)
 
                 val witchesPotion = WITCHERY_POTION.get().defaultInstance
-
-                val effectDurations = witcheryPotionItemCache
-                    .map { ingredient ->
-                        val (duration, amplifier) = getTotalEffectValues(ingredient, witcheryPotionItemCache)
-                        DurationAmplifier(duration, amplifier)
-                    }
-
-                val finalPotionDataList = effectDurations.zip(witcheryPotionItemCache) { durationAmplifier, ingredient ->
-                    FinalPotionData(durationAmplifier, ingredient)
-                }
-
-                witchesPotion.set(WITCHERY_POTION_CONTENT.get(), finalPotionDataList)
-
+                witchesPotion.set(WITCHERY_POTION_CONTENT.get(), witcheryPotionItemCache)
 
                 Containers.dropItemStack(
                     level!!,

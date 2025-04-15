@@ -1,9 +1,10 @@
 {
   "altar_power": 50,
+  "base_duration": 900,
   "capacity_cost": 2,
-  "color": -10822044,
+  "color": -3654606,
   "effect_modifier": {
-    "durationMultiplier": 6
+    "duration_multiplier": 6
   },
   "item": {
     "count": 1,
