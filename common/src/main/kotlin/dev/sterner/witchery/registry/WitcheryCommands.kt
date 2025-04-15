@@ -11,6 +11,7 @@ import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood
+import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
 import dev.sterner.witchery.platform.CursePlayerAttachment
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
@@ -301,7 +302,7 @@ object WitcheryCommands {
 
                             val data = WerewolfPlayerAttachment.getData(player)
 
-                            WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = level))
+                            WerewolfLeveling.setLevel(player, level)
 
                             context.source.sendSuccess(
                                 { Component.literal("Set werewolf level to $level for ${player.name.string}") },

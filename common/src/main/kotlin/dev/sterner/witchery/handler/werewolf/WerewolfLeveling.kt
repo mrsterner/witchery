@@ -1,7 +1,6 @@
 package dev.sterner.witchery.handler.werewolf
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.werewolf.WerewolfLevelRequirements.LEVEL_REQUIREMENTS
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
@@ -53,7 +52,7 @@ object WerewolfLeveling {
     fun increaseWerewolfLevel(player: ServerPlayer) {
         val data = WerewolfPlayerAttachment.getData(player)
         val nextLevel = data.getWerewolfLevel() + 1
-        VampireLeveling.setLevel(player, nextLevel)
+        setLevel(player, nextLevel)
 
         if (WerewolfLevelRequirements.canLevelUp(player, nextLevel)) {
             WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = nextLevel))
