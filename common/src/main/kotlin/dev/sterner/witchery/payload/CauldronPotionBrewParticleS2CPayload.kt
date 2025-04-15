@@ -2,6 +2,8 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.particle.SneezeData
+import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.particle.ParticleEngine
 import net.minecraft.core.particles.ParticleTypes
@@ -47,7 +49,8 @@ class CauldronPotionBrewParticleS2CPayload(val nbt: CompoundTag) : CustomPacketP
             val manager: ParticleEngine = client.particleEngine
 
             val effectParticle = manager.createParticle(
-                ParticleTypes.SNEEZE, pos.x, pos.y, pos.z,
+                SneezeData(r, g, b),
+                pos.x, pos.y, pos.z,
                 0.0, 0.0, 0.0
             )
 

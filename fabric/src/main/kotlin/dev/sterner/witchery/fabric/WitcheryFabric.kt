@@ -2,9 +2,7 @@ package dev.sterner.witchery.fabric
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.particle.BloodSplashParticle
-import dev.sterner.witchery.client.particle.ColorBubbleParticle
-import dev.sterner.witchery.client.particle.ZzzParticle
+import dev.sterner.witchery.client.particle.*
 import dev.sterner.witchery.fabric.client.*
 import dev.sterner.witchery.fabric.registry.WitcheryCompostables
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
@@ -25,6 +23,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
+import net.minecraft.client.particle.PlayerCloudParticle
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.world.level.levelgen.GenerationStep
 import java.io.IOException
@@ -133,6 +132,14 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryParticleTypes.ZZZ.get()
         ) { sprite: FabricSpriteProvider? ->
             ZzzParticle.Provider(
+                sprite!!
+            )
+        }
+
+        ParticleFactoryRegistry.getInstance().register(
+            WitcheryParticleTypes.SNEEZE.get()
+        ) { sprite: FabricSpriteProvider? ->
+            SneezeParticle.SneezeProvider(
                 sprite!!
             )
         }

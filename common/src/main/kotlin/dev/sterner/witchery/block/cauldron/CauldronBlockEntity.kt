@@ -48,7 +48,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.AABB
-import net.minecraft.world.phys.Vec3
 import org.joml.Vector3d
 
 
@@ -156,9 +155,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         }
 
         if (witcheryPotionItemCache.isNotEmpty()) {
-            val randX = pos.x + 0.5 + Mth.nextDouble(level.random, -0.15, 0.15)
+            val randX = pos.x + 0.5 + Mth.nextDouble(level.random, -0.1, 0.1)
             val randY = (pos.y + 1.0)
-            val randZ = pos.z + 0.5 + Mth.nextDouble(level.random, -0.15, 0.15)
+            val randZ = pos.z + 0.5 + Mth.nextDouble(level.random, -0.1, 0.1)
             WitcheryPayloads.sendToPlayers(
                 level,
                 blockPos,
@@ -191,7 +190,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
         }
     }
-
 
     private fun hasEnoughAltarPower(level: Level, ingredient: WitcheryPotionIngredient): Boolean {
         if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {

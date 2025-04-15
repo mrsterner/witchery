@@ -10,6 +10,7 @@ import dev.sterner.witchery.client.model.poppet.VampiricPoppetModel
 import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
 import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.client.particle.SneezeParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
 import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
@@ -33,6 +34,7 @@ import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.client.model.BoatModel
+import net.minecraft.client.particle.PlayerCloudParticle
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
@@ -184,6 +186,9 @@ object WitcheryNeoForgeClientEvent {
         }
         event.registerSpriteSet(WitcheryParticleTypes.ZZZ.get()) { o ->
             ZzzParticle.Provider(o)
+        }
+        event.registerSpriteSet(WitcheryParticleTypes.SNEEZE.get()) { o ->
+            SneezeParticle.SneezeProvider(o)
         }
         event.registerSpriteSet(WitcheryParticleTypes.SPLASHING_BLOOD.get()){ o ->
             BloodSplashParticle.ParticleFactory(o)
