@@ -230,6 +230,10 @@ object WitcheryNeoForgeClientEvent {
             WitcheryItems.WEREWOLF_ALTAR.get()
         )
         event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(BearTrapBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.BEAR_TRAP.get()
+        )
+        event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
             WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get()
         )

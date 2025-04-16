@@ -17,17 +17,25 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 class BearTrapBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.BEAR_TRAP.get(), blockPos, blockState) {
 
-    var isUsing = false
-    var isUsingTicker = 0
+    var isOpen = false
+    private var isTriggered = false
 
     var angle = 0
     var prevAngle = 0
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-        isUsing = true
-        isUsingTicker = 10
-        setChanged()
+        if (!isOpen && !isTriggered) {
+            isOpen = true
+            setChanged()
+        }
         return super.onUseWithoutItem(pPlayer)
+    }
+
+    fun triggerBearTrap() {
+        if (isOpen && !isTriggered) {
+            isTriggered = true
+            setChanged()
+        }
     }
 
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
@@ -35,18 +43,21 @@ class BearTrapBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         prevAngle = angle
 
-        if (isUsingTicker > 0) {
-            isUsingTicker--
-            if (angle < 80) {
-                angle = minOf(angle + 5, 80)
-            }
-            setChanged()
-        } else {
-            if (angle > 0) {
-                angle = maxOf(angle - 5, 0)
+        when {
+            isOpen && !isTriggered && angle < 110 -> {
+                angle = minOf(angle + 2, 110)
                 setChanged()
-            } else {
-                isUsing = false
+            }
+
+            isTriggered && angle > 0 -> {
+                angle = maxOf(angle - 30, 0)
+                setChanged()
+            }
+
+            isTriggered && angle <= 0 -> {
+                isOpen = false
+                isTriggered = false
+                setChanged()
             }
         }
     }
@@ -54,10 +65,14 @@ class BearTrapBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun loadAdditional(compoundTag: CompoundTag, provider: HolderLookup.Provider) {
         super.loadAdditional(compoundTag, provider)
         angle = compoundTag.getInt("angle")
+        isOpen = compoundTag.getBoolean("isOpen")
+        isTriggered = compoundTag.getBoolean("isTriggered")
     }
 
     override fun saveAdditional(compoundTag: CompoundTag, provider: HolderLookup.Provider) {
         super.saveAdditional(compoundTag, provider)
         compoundTag.putInt("angle", angle)
+        compoundTag.putBoolean("isOpen", isOpen)
+        compoundTag.putBoolean("isTriggered", isTriggered)
     }
 }

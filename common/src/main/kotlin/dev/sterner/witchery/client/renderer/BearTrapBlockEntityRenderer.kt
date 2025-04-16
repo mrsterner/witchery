@@ -24,8 +24,22 @@ class BearTrapBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         packedOverlay: Int
     ) {
 
-        val smoothRot = Mth.lerp(partialTick, blockEntity.prevAngle.toFloat(), blockEntity.angle.toFloat())
+        poseStack.pushPose()
+        val smoothRot = Mth.lerp(partialTick, blockEntity.prevAngle.toFloat(), blockEntity.angle.toFloat()) - 90
 
+        val rad = Math.toRadians(smoothRot.toDouble()).toFloat()
+
+        coreModel.leftClaw.xRot = rad
+        coreModel.rightClaw.xRot = -rad
+
+        coreModel.crank.zRot = - 20 - rad / 2
+
+        val plateOffset = Mth.lerp(smoothRot / 80f, 0f, 0.0625f)
+        coreModel.plate.y = plateOffset
+
+
+        poseStack.scale(-1f, -1f, 1f)
+        poseStack.translate(-0.5, -1.5, 0.5)
 
         coreModel.renderToBuffer(
             poseStack,
@@ -34,6 +48,7 @@ class BearTrapBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
             packedOverlay,
             -0x1
         )
+        poseStack.popPose()
     }
 
 }

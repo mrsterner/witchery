@@ -23,11 +23,11 @@ class BearTrapModel(root: ModelPart) :
         )
     }) {
 
-    private val bone: ModelPart = root.getChild("bone")
-    private val leftClaw: ModelPart = bone.getChild("leftClaw")
-    private val rightClaw: ModelPart = bone.getChild("rightClaw")
-    private val crank: ModelPart = bone.getChild("crank")
-    private val plate: ModelPart = bone.getChild("plate")
+    val bone: ModelPart = root.getChild("bone")
+    val leftClaw: ModelPart = bone.getChild("leftClaw")
+    val rightClaw: ModelPart = bone.getChild("rightClaw")
+    val crank: ModelPart = bone.getChild("crank")
+    val plate: ModelPart = bone.getChild("plate")
 
     override fun renderToBuffer(
         poseStack: PoseStack,

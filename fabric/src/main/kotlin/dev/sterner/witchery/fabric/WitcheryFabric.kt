@@ -77,6 +77,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         )
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.BROOM.get(), BroomDynamicRenderer())
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.WEREWOLF_ALTAR.get(), WerewolfAltarDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.BEAR_TRAP.get(), BearTrapDynamicRenderer())
         BuiltinItemRendererRegistry.INSTANCE.register(
             WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get(),
             DreamWeaverDynamicRenderer()
