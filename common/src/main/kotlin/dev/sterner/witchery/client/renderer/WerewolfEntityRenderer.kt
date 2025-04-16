@@ -30,6 +30,6 @@ class WerewolfEntityRenderer(context: EntityRendererProvider.Context) :
     }
 
     override fun getTextureLocation(entity: WerewolfEntity): ResourceLocation {
-        return Witchery.id("textures/entity/werewolf_grey.png")
+        return Witchery.id("textures/entity/werewolf.png")
     }
 }
