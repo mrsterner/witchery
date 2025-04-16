@@ -8,6 +8,7 @@ import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.handler.ability.WerewolfAbility
+import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.payload.WerewolfAbilityUseC2SPayload
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
@@ -138,9 +139,9 @@ object WerewolfEventHandler {
                 }
             }
 
-            if (TransformationPlayerAttachment.isWolf(player)) {
+            if (TransformationHandler.isWolf(player)) {
                 wolfTick(player)
-            } else if(TransformationPlayerAttachment.isWerewolf(player)) {
+            } else if(TransformationHandler.isWerewolf(player)) {
                 werewolfTick(player)
             }
         }
@@ -156,36 +157,36 @@ object WerewolfEventHandler {
 
     private fun tryForceTurnWerewolfToHuman(player: Player, data: WerewolfPlayerAttachment.Data) {
         if (data.getWerewolfLevel() < 3) {
-            TransformationPlayerAttachment.removeForm(player)
+            TransformationHandler.removeForm(player)
         } else if (data.getWerewolfLevel() < 5) {
-            TransformationPlayerAttachment.removeForm(player)
+            TransformationHandler.removeForm(player)
         }
     }
 
     private fun tryForceTurnToWerewolf(player: Player, data: WerewolfPlayerAttachment.Data) {
         if (data.getWerewolfLevel() < 3) {
-            TransformationPlayerAttachment.setWolfForm(player)
+            TransformationHandler.setWolfForm(player)
         } else if (data.getWerewolfLevel() < 5) {
-            TransformationPlayerAttachment.setWereWolfForm(player)
+            TransformationHandler.setWereWolfForm(player)
         }
     }
 
     fun parseAbilityFromIndex(player: Player, abilityIndex: Int): Boolean {
         if (abilityIndex == WerewolfAbility.FREE_WOLF_TRANSFORM.ordinal) {
-            val isWolf = TransformationPlayerAttachment.isWolf(player)
+            val isWolf = TransformationHandler.isWolf(player)
             if (isWolf) {
-                TransformationPlayerAttachment.removeForm(player)
+                TransformationHandler.removeForm(player)
             } else {
-                TransformationPlayerAttachment.setWolfForm(player)
+                TransformationHandler.setWolfForm(player)
             }
             return true
         }
         if (abilityIndex == WerewolfAbility.FREE_WEREWOLF_TRANSITION.ordinal) {
-            val isWerewolf = TransformationPlayerAttachment.isWerewolf(player)
+            val isWerewolf = TransformationHandler.isWerewolf(player)
             if (isWerewolf) {
-                TransformationPlayerAttachment.removeForm(player)
+                TransformationHandler.removeForm(player)
             } else {
-                TransformationPlayerAttachment.setWereWolfForm(player)
+                TransformationHandler.setWereWolfForm(player)
             }
             return true
         }

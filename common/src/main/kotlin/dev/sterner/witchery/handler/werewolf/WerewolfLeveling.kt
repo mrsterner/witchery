@@ -1,9 +1,9 @@
 package dev.sterner.witchery.handler.werewolf
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
@@ -22,7 +22,7 @@ object WerewolfLeveling {
     private val SPEED_BONUS = AttributeModifier(Witchery.id("werewolf_speed"), 0.1, AttributeModifier.Operation.ADD_VALUE)
     private val SPEED_BONUS_2 = AttributeModifier(Witchery.id("werewolf_speed_2"), 0.05, AttributeModifier.Operation.ADD_VALUE)
     private val STEP_HEIGHT_BONUS = AttributeModifier(Witchery.id("werewolf_step"), 0.75, AttributeModifier.Operation.ADD_VALUE)
-    private val JUMP_HEIGHT_BONUS = AttributeModifier(Witchery.id("werewolf_jump"), 1.1, AttributeModifier.Operation.ADD_VALUE)
+    private val JUMP_HEIGHT_BONUS = AttributeModifier(Witchery.id("werewolf_jump"), 0.1, AttributeModifier.Operation.ADD_VALUE)
     private val HEALTH_BONUS = AttributeModifier(Witchery.id("werewolf_health"), 10.0, AttributeModifier.Operation.ADD_VALUE)
     private val RESIST_BONUS = AttributeModifier(Witchery.id("werewolf_resist"), 5.0, AttributeModifier.Operation.ADD_VALUE)
     private val RESIST_TOUGH_BONUS = AttributeModifier(Witchery.id("werewolf_resist_tough"), 5.0, AttributeModifier.Operation.ADD_VALUE)
@@ -33,10 +33,10 @@ object WerewolfLeveling {
         WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = level))
         if (level == 0) {
             WerewolfAbilityHandler.setAbilityIndex(player, -1)
-            TransformationPlayerAttachment.removeForm(player)
+            TransformationHandler.removeForm(player)
         }
-        val wolf = TransformationPlayerAttachment.isWolf(player)
-        val were = TransformationPlayerAttachment.isWerewolf(player)
+        val wolf = TransformationHandler.isWolf(player)
+        val were = TransformationHandler.isWerewolf(player)
         updateModifiers(player, wolf = wolf, wolfMan = were)
         player.refreshDimensions()
         WitcheryPayloads.sendToPlayers(

@@ -45,6 +45,7 @@ import dev.sterner.witchery.data.NaturePowerHandler
 import dev.sterner.witchery.data.PotionDataHandler
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
+import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.handler.vampire.VampireAbilityHandler
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfAbilityHandler
@@ -193,8 +194,8 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(NightmarePlayerAttachment::tick)
-        TickEvent.PLAYER_PRE.register(TransformationPlayerAttachment::tickBat)
-        TickEvent.PLAYER_PRE.register(TransformationPlayerAttachment::tickWolf)
+        TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
+        TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)
         TickEvent.PLAYER_PRE.register(BarkBeltPlayerAttachment::tick)
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)

@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.vampire
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
@@ -31,7 +32,7 @@ object VampireLeveling {
         setData(player, data.copy(vampireLevel = level))
         if (level == 0) {
             VampireAbilityHandler.setAbilityIndex(player, -1)
-            TransformationPlayerAttachment.removeForm(player)
+            TransformationHandler.removeForm(player)
         }
         updateModifiers(player, level, false)
         player.refreshDimensions()

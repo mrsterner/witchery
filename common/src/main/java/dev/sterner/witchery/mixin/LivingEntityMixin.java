@@ -2,6 +2,7 @@ package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.mixin_logic.LivingEntityMixinLogic;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
@@ -44,10 +45,10 @@ public class LivingEntityMixin {
     @ModifyReturnValue(method = "getDimensions", at = @At("RETURN"))
     private EntityDimensions witchery$modifyDimensions(EntityDimensions original) {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
-        if (livingEntity instanceof Player player && TransformationPlayerAttachment.isBat(player)) {
+        if (livingEntity instanceof Player player && TransformationHandler.isBat(player)) {
             return EntityDimensions.scalable(0.5f, 0.85f);
         }
-        if (livingEntity instanceof Player player && TransformationPlayerAttachment.isWolf(player)) {
+        if (livingEntity instanceof Player player && TransformationHandler.isWolf(player)) {
             return EntityDimensions.scalable(0.6F, 0.85F);
         }
         return original;
@@ -57,9 +58,9 @@ public class LivingEntityMixin {
     private void witchery$modifyScale(CallbackInfo ci) {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
         if (livingEntity instanceof Player player && (
-                TransformationPlayerAttachment.isBat(player) ||
-                TransformationPlayerAttachment.isWolf(player) ||
-                TransformationPlayerAttachment.isWerewolf(player)
+                TransformationHandler.isBat(player) ||
+                TransformationHandler.isWolf(player) ||
+                TransformationHandler.isWerewolf(player)
         )) {
             if (witchery$shouldUpdateDim) {
                 livingEntity.refreshDimensions();

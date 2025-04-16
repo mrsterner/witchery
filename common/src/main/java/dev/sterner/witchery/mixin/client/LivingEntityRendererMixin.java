@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
@@ -38,10 +39,10 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             if (LightInfusionDataAttachment.isInvisible(player).isInvisible()) {
                 return 0f;
             }
-            if (TransformationPlayerAttachment.isBat(player)) {
+            if (TransformationHandler.isBat(player)) {
                 return original / 2f;
             }
-            if (TransformationPlayerAttachment.isWolf(player)) {
+            if (TransformationHandler.isWolf(player)) {
                 return original / 1.5f;
             }
         }
@@ -69,7 +70,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
     @ModifyArgs(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;scale(FFF)V", ordinal = 0))
     private void witchery$applyModelScales(Args args, LivingEntity livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource bufferSource, int i) {
-        if (livingEntity instanceof Player player && (TransformationPlayerAttachment.isBat(player) || TransformationPlayerAttachment.isWolf(player))) {
+        if (livingEntity instanceof Player player && (TransformationHandler.isBat(player) || TransformationHandler.isWolf(player))) {
             float x = args.get(0);
             float y = args.get(1);
             float z = args.get(2);

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.mixin.client;
 
+import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.phys.Vec3;
@@ -17,7 +18,7 @@ public class LocalPlayerMixin {
     private void witchery$preventGroundBatMovement(Args args) {
         LocalPlayer player = LocalPlayer.class.cast(this);
 
-        if (TransformationPlayerAttachment.isBat(player) && player.onGround()) {
+        if (TransformationHandler.isBat(player) && player.onGround()) {
             Vec3 old = args.get(1);
             args.set(1, new Vec3(0f, old.y, 0f));
         }

@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.mixin.LivingEntityAccessor;
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
@@ -68,8 +69,8 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
             cancellable = true
     )
     private void witchery$renderTransformation(AbstractClientPlayer entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci){
-        if (TransformationPlayerAttachment.isBat(entity)) {
-            var bat = TransformationPlayerAttachment.getBatEntity(entity);
+        if (TransformationHandler.isBat(entity)) {
+            var bat = TransformationHandler.getBatEntity(entity);
             if (bat != null) {
                 witchery$copyTransforms(bat, entity);
                 var bl = entity.onGround() && !entity.getAbilities().flying;
@@ -84,8 +85,8 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
                 poseStack.popPose();
                 ci.cancel();
             }
-        } else if (TransformationPlayerAttachment.isWolf(entity)) {
-            var wolf = TransformationPlayerAttachment.getWolfEntity(entity);
+        } else if (TransformationHandler.isWolf(entity)) {
+            var wolf = TransformationHandler.getWolfEntity(entity);
             if (wolf != null) {
                 witchery$copyTransforms(wolf, entity);
                 wolf.setInSittingPose(entity.isShiftKeyDown());
@@ -93,15 +94,23 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
                         .render(wolf, entityYaw, partialTicks, poseStack, buffer, packedLight);
                 ci.cancel();
             }
+        } else if(TransformationHandler.isWerewolf(entity)){
+            var werewolf = TransformationHandler.getWerewolf(entity);
+            if (werewolf != null) {
+                witchery$copyTransforms(werewolf, entity);
+                Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(werewolf)
+                        .render(werewolf, entityYaw, partialTicks, poseStack, buffer, packedLight);
+                ci.cancel();
+            }
         }
     }
 
     @ModifyArg(method = "getRenderOffset(Lnet/minecraft/client/player/AbstractClientPlayer;F)Lnet/minecraft/world/phys/Vec3;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;<init>(DDD)V"), index = 1)
     private double witchery$applyModelScaleToPlayerOffset(double d, @Local(argsOnly = true) AbstractClientPlayer playerEntity) {
-        if (TransformationPlayerAttachment.isBat(playerEntity)) {
+        if (TransformationHandler.isBat(playerEntity)) {
             return 0.85f / 16;
         }
-        if (TransformationPlayerAttachment.isWolf(playerEntity)) {
+        if (TransformationHandler.isWolf(playerEntity)) {
             return 0f;
         }
 

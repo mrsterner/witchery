@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.payload.SyncBarkS2CPacket
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryPayloads
@@ -90,7 +91,7 @@ object BarkBeltPlayerAttachment {
             return
         }
 
-        val bl2 = TransformationPlayerAttachment.isBat(player)
+        val bl2 = TransformationHandler.isBat(player)
         val bl3 = player.armorValue > 0
         val y = guiGraphics.guiHeight() - 18 - 18 - 12 - (if (bl3) 10 else 0) - (if (bl2) 8 else 0)
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 3

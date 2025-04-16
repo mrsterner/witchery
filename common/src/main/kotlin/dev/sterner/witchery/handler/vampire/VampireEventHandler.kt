@@ -15,6 +15,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockStructure.StructurePiece
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.handler.ability.VampireAbility
+import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.payload.VampireAbilityUseC2SPayload
@@ -350,7 +351,7 @@ object VampireEventHandler {
             )
 
             if (size[i] == VampireAbility.BAT_FORM && batCooldown > 0) {
-                val cooldownPercent = batCooldown.toFloat() / TransformationPlayerAttachment.MAX_COOLDOWN
+                val cooldownPercent = batCooldown.toFloat() / TransformationHandler.MAX_COOLDOWN
                 val fillStart = iconY + Mth.floor(16f * (1.0f - cooldownPercent))
                 val fillEnd = fillStart + Mth.ceil(16f * cooldownPercent)
 
@@ -372,7 +373,7 @@ object VampireEventHandler {
 
     // /vampire_abilities/
     private fun drawBatFormHud(guiGraphics: GuiGraphics, player: LocalPlayer) {
-        if (TransformationPlayerAttachment.isBat(player)) {
+        if (TransformationHandler.isBat(player)) {
             val maxTicks = TransformationPlayerAttachment.getData(player).maxBatTimeClient
             val currentTicks = maxTicks - TransformationPlayerAttachment.getData(player).batFormTicker
             val bl = player.armorValue > 0
@@ -489,11 +490,11 @@ object VampireEventHandler {
             VampireAbilityHandler.toggleSpeedBoost(player)
             return true
         } else if (abilityIndex == VampireAbility.BAT_FORM.ordinal) {
-            val isBta = TransformationPlayerAttachment.isBat(player)
+            val isBta = TransformationHandler.isBat(player)
             if (isBta) {
-                TransformationPlayerAttachment.removeForm(player)
+                TransformationHandler.removeForm(player)
             } else {
-                TransformationPlayerAttachment.setBatForm(player)
+                TransformationHandler.setBatForm(player)
             }
             return true
         }
