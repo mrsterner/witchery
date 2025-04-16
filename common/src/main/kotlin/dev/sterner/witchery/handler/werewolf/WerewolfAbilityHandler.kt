@@ -18,7 +18,7 @@ object WerewolfAbilityHandler : AbilityHandler<WerewolfAbility> {
         WerewolfPlayerAttachment.getData(player).getWerewolfLevel()
 
     override fun getAbilities(player: Player): List<WerewolfAbility> =
-        WerewolfAbility.entries.filter { it.isAvailable(getLevel(player)) }
+        WerewolfAbility.entries.filter { it.isAvailable(player) }
 
     override fun setAbilityIndex(player: Player, index: Int) {
         updateAbilityIndex(player, index)

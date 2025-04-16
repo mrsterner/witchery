@@ -3,6 +3,7 @@ package dev.sterner.witchery.fabric.item.trinkets
 import com.google.common.collect.Multimap
 import dev.emi.trinkets.api.SlotReference
 import dev.emi.trinkets.api.Trinket
+import dev.emi.trinkets.api.TrinketsApi
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.item.accessories.BatwingPendantItem
 import dev.sterner.witchery.item.accessories.BloodstonePendantItem
@@ -17,6 +18,11 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 
 class BloodstonePendantItemFabric(settings: Properties) : BloodstonePendantItem(settings), Trinket {
+
+    init {
+        TrinketsApi.registerTrinket(this, this)
+    }
+
 
     override fun getModifiers(
         stack: ItemStack?,

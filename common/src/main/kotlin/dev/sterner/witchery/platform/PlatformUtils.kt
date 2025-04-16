@@ -57,6 +57,13 @@ object PlatformUtils {
 
     @JvmStatic
     @get:ExpectPlatform
+    val moonCharmItem: MoonCharmItem
+        get() {
+            throw AssertionError()
+        }
+
+    @JvmStatic
+    @get:ExpectPlatform
     val bitingBeltItem: BitingBeltItem
         get() {
             throw AssertionError()

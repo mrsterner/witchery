@@ -2,12 +2,13 @@ package dev.sterner.witchery.handler.werewolf
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.item.TornPageItem
+import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
+import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.ai.attributes.AttributeInstance
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
@@ -34,6 +35,15 @@ object WerewolfLeveling {
             WerewolfAbilityHandler.setAbilityIndex(player, -1)
             TransformationPlayerAttachment.removeForm(player)
         }
+        val wolf = TransformationPlayerAttachment.isWolf(player)
+        val were = TransformationPlayerAttachment.isWerewolf(player)
+        updateModifiers(player, wolf = wolf, wolfMan = were)
+        player.refreshDimensions()
+        WitcheryPayloads.sendToPlayers(
+            player.level(),
+            player.blockPosition(),
+            RefreshDimensionsS2CPayload()
+        )
     }
 
     /**
@@ -52,7 +62,7 @@ object WerewolfLeveling {
         updateModifiers(player, data.isWolfFormActive, data.isWolfManFormActive)
     }
 
-    fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
+    private fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = WerewolfPlayerAttachment.getData(player)
 
         if (data.getWerewolfLevel() != targetLevel) {

@@ -39,6 +39,11 @@ object PlatformUtilsImpl {
     }
 
     @JvmStatic
+    fun getMoonCharmItem(): MoonCharmItem {
+        return MoonCharmItemNeoForge(Item.Properties())
+    }
+
+    @JvmStatic
     fun getBatwingPendantItem(): BatwingPendantItem {
         return BatwingPendantItemNeoForge(Item.Properties())
     }

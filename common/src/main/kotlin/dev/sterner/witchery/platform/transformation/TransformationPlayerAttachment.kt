@@ -7,6 +7,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.ability.VampireAbility
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
+import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.payload.SyncTransformationS2CPayload
 import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.WitcheryAttributes
@@ -79,6 +80,14 @@ object TransformationPlayerAttachment {
         setData(player, Data(TransformationType.NONE, MAX_COOLDOWN))
         VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).getVampireLevel(), false)
         WerewolfLeveling.updateModifiers(player, wolf = false, wolfMan = false)
+        if (player.level() is ServerLevel) {
+            PlatformUtils.tryDisableBatFlight(player)
+        }
+        WitcheryPayloads.sendToPlayers(
+            player.level(),
+            player.blockPosition(),
+            RefreshDimensionsS2CPayload()
+        )
     }
 
     @JvmStatic

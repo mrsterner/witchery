@@ -60,10 +60,7 @@ import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
-import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
+import dev.sterner.witchery.platform.transformation.*
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryDataComponents.UNSHEETED
 import dev.sterner.witchery.registry.WitcheryItems.CANE_SWORD
@@ -208,7 +205,9 @@ object Witchery {
                 serverPlayer.kill()
             }
             VampirePlayerAttachment.sync(serverPlayer, VampirePlayerAttachment.getData(serverPlayer))
+            WerewolfPlayerAttachment.sync(serverPlayer, WerewolfPlayerAttachment.getData(serverPlayer))
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
+            TransformationPlayerAttachment.sync(serverPlayer, TransformationPlayerAttachment.getData(serverPlayer))
         }
 
         LifecycleEvent.SERVER_STARTED.register { addStructure(it) }
@@ -374,6 +373,7 @@ object Witchery {
         EntityModelLayerRegistry.register(AltarBlockEntityModel.LAYER_LOCATION) { AltarBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpiritPortalBlockEntityModel.LAYER_LOCATION) { SpiritPortalBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpiritPortalPortalModel.LAYER_LOCATION) { SpiritPortalPortalModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(WerewolfAltarModel.LAYER_LOCATION) { WerewolfAltarModel.createBodyLayer() }
         EntityModelLayerRegistry.register(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
         EntityModelLayerRegistry.register(ArmorPoppetModel.LAYER_LOCATION) { ArmorPoppetModel.createBodyLayer() }
         EntityModelLayerRegistry.register(HungerPoppetModel.LAYER_LOCATION) { HungerPoppetModel.createBodyLayer() }
@@ -462,6 +462,10 @@ object Witchery {
         BlockEntityRendererRegistry.register(
             WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(),
             ::SpiritPortalBlockEntityRenderer
+        )
+        BlockEntityRendererRegistry.register(
+            WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(),
+            ::WerewolfAltarBlockEntityRenderer
         )
         BlockEntityRendererRegistry.register(
             WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(),

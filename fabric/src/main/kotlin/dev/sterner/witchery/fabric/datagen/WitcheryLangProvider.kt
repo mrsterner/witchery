@@ -39,7 +39,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("container.witchery.spinning_wheel", "Spinning Wheel")
         builder.add("container.witchery.distillery", "Distillery")
 
-        builder.add("accessories.slot.poppet", "Poppet")
+        builder.add("trinkets.slot.chest.charm", "Charm")
+        builder.add("trinkets.slot.legs.poppet", "Poppet")
 
         builder.add("witchery.secondbrewbonus.25", "+25% chance of second brew")
         builder.add("witchery.secondbrewbonus.35", "+35% chance of second brew")
@@ -392,6 +393,9 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add(WitcheryBlocks.BLOOD_POPPY.get(), "Blood Poppy")
         builder.add(WitcheryItems.BATWING_PENDANT.get(), "Batwing Pendant")
+        builder.add(WitcheryItems.MOON_CHARM.get(), "Moon Charm")
+        builder.add(WitcheryItems.WEREWOLF_ALTAR.get(), "Werewolf Altar")
+        builder.add(WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get(), "Werewolf Altar")
         builder.add(WitcheryItems.SUNSTONE_PENDANT.get(), "Sunstone Pendant")
         builder.add(WitcheryItems.BLOODSTONE_PENDANT.get(), "Bloodstone Pendant")
         builder.add(WitcheryItems.DREAMWEAVER_CHARM.get(), "Dreamweaver Charm")

@@ -13,10 +13,7 @@ import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.SneezeParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.*
-import dev.sterner.witchery.neoforge.client.BroomBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.neoforge.client.DreamWeaverBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.neoforge.client.SpinningWheelBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.neoforge.client.WitcheryBlockEntityWithoutLevelRendererInstance
+import dev.sterner.witchery.neoforge.client.*
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.VampireArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
@@ -151,6 +148,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(AltarBlockEntityModel.LAYER_LOCATION, AltarBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(SpiritPortalBlockEntityModel.LAYER_LOCATION, SpiritPortalBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(SpiritPortalPortalModel.LAYER_LOCATION, SpiritPortalPortalModel::createBodyLayer)
+        event.registerLayerDefinition(WerewolfAltarModel.LAYER_LOCATION, WerewolfAltarModel::createBodyLayer)
         event.registerLayerDefinition(AltarClothBlockEntityModel.LAYER_LOCATION, AltarClothBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(JarModel.LAYER_LOCATION, JarModel::createBodyLayer)
         event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION, ArmorPoppetModel::createBodyLayer)
@@ -225,6 +223,10 @@ object WitcheryNeoForgeClientEvent {
         event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()),
             WitcheryItems.BROOM.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(WerewolfAltarBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.WEREWOLF_ALTAR.get()
         )
         event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),

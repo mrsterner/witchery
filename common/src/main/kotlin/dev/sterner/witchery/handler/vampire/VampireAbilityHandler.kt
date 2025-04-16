@@ -5,12 +5,8 @@ import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.handler.ability.AbilityHandler
 import dev.sterner.witchery.handler.ability.AbilityScrollHandler
 import dev.sterner.witchery.handler.ability.VampireAbility
-import dev.sterner.witchery.handler.ability.WerewolfAbility
-import dev.sterner.witchery.handler.werewolf.WerewolfAbilityHandler
 import dev.sterner.witchery.payload.VampireAbilitySelectionC2SPayload
-import dev.sterner.witchery.payload.WerewolfAbilitySelectionC2SPayload
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
-import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.player.Player
 

@@ -32,6 +32,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.DISTILLERY.get())
                 output.accept(WitcheryItems.SPINNING_WHEEL.get())
                 output.accept(WitcheryItems.BRAZIER.get())
+                output.accept(WitcheryItems.WEREWOLF_ALTAR.get())
                 output.accept(WitcheryItems.GRASSPER.get())
                 output.accept(WitcheryItems.CRITTER_SNARE.get())
 
@@ -157,6 +158,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.BATWING_PENDANT.get())
                 output.accept(WitcheryItems.SUNSTONE_PENDANT.get())
                 output.accept(WitcheryItems.BLOODSTONE_PENDANT.get())
+                output.accept(WitcheryItems.MOON_CHARM.get())
 
                 output.accept(WitcheryItems.DISTURBED_COTTON.get())
                 output.accept(WitcheryItems.WISPY_COTTON.get())

@@ -3,7 +3,6 @@ package dev.sterner.witchery.fabric.item.trinkets
 import com.google.common.collect.Multimap
 import dev.emi.trinkets.api.SlotReference
 import dev.emi.trinkets.api.Trinket
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.item.accessories.BatwingPendantItem
 import dev.sterner.witchery.platform.WitcheryAttributes
 import net.minecraft.core.Holder

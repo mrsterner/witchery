@@ -2,11 +2,14 @@ package dev.sterner.witchery.handler.vampire
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.item.TornPageItem
+import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
+import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
+import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -30,6 +33,13 @@ object VampireLeveling {
             VampireAbilityHandler.setAbilityIndex(player, -1)
             TransformationPlayerAttachment.removeForm(player)
         }
+        updateModifiers(player, level, false)
+        player.refreshDimensions()
+        WitcheryPayloads.sendToPlayers(
+            player.level(),
+            player.blockPosition(),
+            RefreshDimensionsS2CPayload()
+        )
     }
 
     /**
@@ -42,8 +52,7 @@ object VampireLeveling {
 
         if (!canLevelUp(player, nextLevel)) return
 
-        val updatedData = data.copy(vampireLevel = nextLevel)
-        setData(player, updatedData)
+        setLevel(player, nextLevel)
         setMaxBlood(player, nextLevel)
         player.sendSystemMessage(Component.literal("Vampire Level Up: $nextLevel"))
         updateModifiers(player, nextLevel, false)

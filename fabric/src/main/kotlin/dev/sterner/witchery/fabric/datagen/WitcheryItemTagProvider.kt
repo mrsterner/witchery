@@ -17,6 +17,10 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {
 
+        getOrCreateTagBuilder(WitcheryTags.WEREWOLF_ALTAR_ITEM)
+            .add(Items.GOLD_INGOT)
+            .add(Items.MUTTON)
+
         getOrCreateTagBuilder(WitcheryTags.PLACEABLE_POPPETS)
             .add(WitcheryItems.VAMPIRIC_POPPET.get())
             .add(WitcheryItems.ARMOR_PROTECTION_POPPET.get())

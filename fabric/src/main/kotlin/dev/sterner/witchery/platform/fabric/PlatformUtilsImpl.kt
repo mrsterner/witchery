@@ -52,6 +52,11 @@ object PlatformUtilsImpl {
     }
 
     @JvmStatic
+    fun getMoonCharmItem(): MoonCharmItem {
+        return MoonCharmItemFabric(Item.Properties())
+    }
+
+    @JvmStatic
     fun getBitingBeltItem(): BitingBeltItem {
         return BitingBeltItemFabric(Item.Properties())
     }

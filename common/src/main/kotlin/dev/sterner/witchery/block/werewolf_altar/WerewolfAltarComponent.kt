@@ -26,14 +26,11 @@ class WerewolfAltarComponent(properties: Properties) : MultiBlockComponentBlock(
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
-        return SHAPE
+        return Shapes.block()
     }
 
     companion object {
 
-        private val shapeTop: VoxelShape = box(3.0, 4.0, 3.0, 13.0, 9.0, 13.0)
-        private val shapeShaft: VoxelShape = box(4.0, 0.0, 4.0, 12.0, 4.0, 12.0)
-        val SHAPE = Shapes.join(shapeTop, shapeShaft, BooleanOp.OR)
 
     }
 }

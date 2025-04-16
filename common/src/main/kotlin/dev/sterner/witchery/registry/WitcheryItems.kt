@@ -10,6 +10,7 @@ import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.effigy.EffigyBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
+import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.item.*
 import dev.sterner.witchery.item.accessories.*
 import dev.sterner.witchery.item.brew.*
@@ -17,7 +18,6 @@ import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.food.Foods
 import net.minecraft.world.item.*
 import java.awt.Color
@@ -635,6 +635,10 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.BRAZIER.get(), Item.Properties())
     }
 
+    val WEREWOLF_ALTAR: RegistrySupplier<MultiBlockItem> = ITEMS.register("werewolf_altar") {
+        MultiBlockItem(WitcheryBlocks.WEREWOLF_ALTAR.get(), Item.Properties(), WerewolfAltarBlock.STRUCTURE)
+    }
+
     // start WOOD
 
     val ROWAN_LOG: RegistrySupplier<BlockItem> = ITEMS.register("rowan_log") {
@@ -1102,6 +1106,10 @@ object WitcheryItems {
                 .stacksTo(1)
                 .durability(1561)
         )
+    }
+
+    val MOON_CHARM: RegistrySupplier<MoonCharmItem> = ITEMS.register("moon_charm") {
+        PlatformUtils.moonCharmItem
     }
 
     val BATWING_PENDANT: RegistrySupplier<BatwingPendantItem> = ITEMS.register("batwing_pendant") {

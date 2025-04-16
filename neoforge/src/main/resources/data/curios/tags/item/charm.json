@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "witchery:dreamweaver_charm"
+    "witchery:dreamweaver_charm",
+    "witchery:moon_charm"
   ]
 }
