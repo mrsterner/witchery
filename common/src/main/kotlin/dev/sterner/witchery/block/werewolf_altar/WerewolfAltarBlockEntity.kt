@@ -1,12 +1,11 @@
 package dev.sterner.witchery.block.werewolf_altar
 
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.block.bear_trap.BearTrapBlock
+import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.payload.SpawnItemParticlesS2CPayload
 import dev.sterner.witchery.payload.SpawnSmokePoofParticles
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryPayloads
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
@@ -24,6 +23,7 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 
 class WerewolfAltarBlockEntity(
@@ -79,7 +79,24 @@ class WerewolfAltarBlockEntity(
                     }
                 }
             }
+
+            lookForWerewolf(level, pos)
         }
+    }
+
+    private fun lookForWerewolf(level: ServerLevel, pos: BlockPos) {
+        if (level.gameTime % 20 == 0L) {
+            val box = AABB(pos).inflate(4.0)
+            val traps = BlockPos.betweenClosedStream(box).filter { level.getBlockState(it).block is BearTrapBlock }
+            traps.forEach { blockPos ->
+                val trapAabb = AABB(blockPos).inflate(0.0, 1.0 ,0.0)
+                val werewolves = level.getEntities(WitcheryEntityTypes.WEREWOLF.get(), trapAabb) { it.isAlive }
+                werewolves.forEach { entity ->
+                    entity.entityData.set(WerewolfEntity.CAN_INFECT, true)
+                }
+            }
+        }
+
     }
 
     private fun spawnConsumeParticles(level: ServerLevel, itemStack: ItemStack){

@@ -71,8 +71,10 @@ object WerewolfEventHandler {
         NetworkManager.sendToServer(WerewolfAbilityUseC2SPayload(playerData.abilityIndex))
     }
 
-    fun infectPlayer(player: Player) {
-
+    fun infectPlayer(player: ServerPlayer) {
+        if (WerewolfPlayerAttachment.getData(player).getWerewolfLevel() == 0) {
+            WerewolfLeveling.increaseWerewolfLevel(player)
+        }
     }
 
     private fun killWerewolf(werewolfEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
