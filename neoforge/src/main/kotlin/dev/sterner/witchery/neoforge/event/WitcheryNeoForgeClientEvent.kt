@@ -149,6 +149,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(SpiritPortalBlockEntityModel.LAYER_LOCATION, SpiritPortalBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(SpiritPortalPortalModel.LAYER_LOCATION, SpiritPortalPortalModel::createBodyLayer)
         event.registerLayerDefinition(WerewolfAltarModel.LAYER_LOCATION, WerewolfAltarModel::createBodyLayer)
+        event.registerLayerDefinition(BearTrapModel.LAYER_LOCATION, BearTrapModel::createBodyLayer)
         event.registerLayerDefinition(AltarClothBlockEntityModel.LAYER_LOCATION, AltarClothBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(JarModel.LAYER_LOCATION, JarModel::createBodyLayer)
         event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION, ArmorPoppetModel::createBodyLayer)

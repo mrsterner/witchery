@@ -9,6 +9,7 @@ import dev.sterner.witchery.block.*
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
 import dev.sterner.witchery.block.arthana.ArthanaBlock
+import dev.sterner.witchery.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlock
 import dev.sterner.witchery.block.brazier.BrazierBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
@@ -348,6 +349,10 @@ object WitcheryBlocks {
 
     val INFINITY_EGG: RegistrySupplier<InfinityEggBlock> = BLOCKS.register("infinity_egg") {
         InfinityEggBlock(BlockBehaviour.Properties.of())
+    }
+
+    val BEAR_TRAP: RegistrySupplier<Block> = BLOCKS.register("bear_trap") {
+        BearTrapBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 
     val STRIPPED_ROWAN_LOG: RegistrySupplier<RotatedPillarBlock> = BLOCKS.register("stripped_rowan_log") {

@@ -374,6 +374,7 @@ object Witchery {
         EntityModelLayerRegistry.register(SpiritPortalBlockEntityModel.LAYER_LOCATION) { SpiritPortalBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpiritPortalPortalModel.LAYER_LOCATION) { SpiritPortalPortalModel.createBodyLayer() }
         EntityModelLayerRegistry.register(WerewolfAltarModel.LAYER_LOCATION) { WerewolfAltarModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(BearTrapModel.LAYER_LOCATION) { BearTrapModel.createBodyLayer() }
         EntityModelLayerRegistry.register(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
         EntityModelLayerRegistry.register(ArmorPoppetModel.LAYER_LOCATION) { ArmorPoppetModel.createBodyLayer() }
         EntityModelLayerRegistry.register(HungerPoppetModel.LAYER_LOCATION) { HungerPoppetModel.createBodyLayer() }
@@ -466,6 +467,10 @@ object Witchery {
         BlockEntityRendererRegistry.register(
             WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(),
             ::WerewolfAltarBlockEntityRenderer
+        )
+        BlockEntityRendererRegistry.register(
+            WitcheryBlockEntityTypes.BEAR_TRAP.get(),
+            ::BearTrapBlockEntityRenderer
         )
         BlockEntityRendererRegistry.register(
             WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(),

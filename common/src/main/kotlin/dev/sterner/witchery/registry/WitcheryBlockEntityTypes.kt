@@ -7,6 +7,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.SuspiciousGraveyardDirtBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
+import dev.sterner.witchery.block.bear_trap.BearTrapBlockEntity
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlockEntity
 import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
@@ -60,6 +61,15 @@ object WitcheryBlockEntityTypes {
         )
             .build(null)
     }
+
+    val BEAR_TRAP: RegistrySupplier<BlockEntityType<BearTrapBlockEntity>> = BLOCK_ENTITY_TYPES.register("bear_trap") {
+        BlockEntityType.Builder.of(
+            { pos, state -> BearTrapBlockEntity(pos, state) },
+            WitcheryBlocks.BEAR_TRAP.get(),
+        )
+            .build(null)
+    }
+
 
     val CAULDRON: RegistrySupplier<BlockEntityType<CauldronBlockEntity>> = BLOCK_ENTITY_TYPES.register("cauldron") {
         BlockEntityType.Builder.of(

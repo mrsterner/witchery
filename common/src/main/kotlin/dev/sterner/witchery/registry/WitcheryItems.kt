@@ -627,6 +627,10 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.DISTILLERY.get(), Item.Properties(), DistilleryBlock.STRUCTURE)
     }
 
+    val BEAR_TRAP: RegistrySupplier<BlockItem> = ITEMS.register("bear_trap") {
+        BlockItem(WitcheryBlocks.BEAR_TRAP.get(), Item.Properties())
+    }
+
     val SPINNING_WHEEL: RegistrySupplier<BlockItem> = ITEMS.register("spinning_wheel") {
         BlockItem(WitcheryBlocks.SPINNING_WHEEL.get(), Item.Properties())
     }
