@@ -69,6 +69,7 @@ object WerewolfEventHandler {
         }
 
         val playerData = WerewolfPlayerAttachment.getData(player)
+        parseAbilityFromIndex(player, playerData.abilityIndex)
         NetworkManager.sendToServer(WerewolfAbilityUseC2SPayload(playerData.abilityIndex))
     }
 
