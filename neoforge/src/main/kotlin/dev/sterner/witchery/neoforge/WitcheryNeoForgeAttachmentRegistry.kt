@@ -226,6 +226,18 @@ object WitcheryNeoForgeAttachmentRegistry {
     )
 
     @JvmStatic
+    val COVEN_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CovenPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "coven_player_data",
+        Supplier {
+            AttachmentType.builder(Supplier { CovenPlayerAttachment.Data() })
+                .serialize(CovenPlayerAttachment.Data.CODEC)
+                .copyOnDeath()
+                .build()
+        }
+    )
+
+
+    @JvmStatic
     val BLOOD_LIVING_ENTITY_DATA_ATTACHMENT: Supplier<AttachmentType<BloodPoolLivingEntityAttachment.Data>> = ATTACHMENT_TYPES.register(
         "blood_living_data",
         Supplier {

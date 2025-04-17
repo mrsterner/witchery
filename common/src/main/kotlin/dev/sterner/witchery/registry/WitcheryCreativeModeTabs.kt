@@ -145,6 +145,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.CHALICE.get())
                 output.accept(WitcheryItems.PENTACLE.get())
                 output.accept(WitcheryItems.WINE_GLASS.get())
+                output.accept(WitcheryItems.SEER_STONE.get())
                 output.accept(WitcheryItems.GRAVESTONE.get())
                 output.accept(WitcheryItems.TORN_PAGE.get())
                 output.accept(WitcheryItems.QUARTZ_SPHERE.get())

@@ -136,6 +136,7 @@ object Witchery {
         EntityAttributeRegistry.register(WitcheryEntityTypes.VAMPIRE, VampireEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.WEREWOLF, WerewolfEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.LILITH, LilithEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.COVEN_WITCH, CovenWitchEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.ELLE, ElleEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.PARASITIC_LOUSE, ParasiticLouseEntity::createAttributes)
 

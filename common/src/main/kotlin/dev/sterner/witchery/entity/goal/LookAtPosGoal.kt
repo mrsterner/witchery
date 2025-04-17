@@ -1,0 +1,31 @@
+package dev.sterner.witchery.entity.goal
+
+import dev.sterner.witchery.entity.CovenWitchEntity
+import net.minecraft.world.entity.ai.goal.Goal
+import java.util.*
+
+class LookAtPosGoal(private val witch: CovenWitchEntity) : Goal() {
+
+    init {
+        this.flags = EnumSet.of(Flag.MOVE, Flag.LOOK)
+    }
+
+    override fun canUse(): Boolean {
+        return witch.lastRitualPos.isPresent
+    }
+
+    override fun canContinueToUse(): Boolean {
+        return witch.lastRitualPos.isPresent
+    }
+
+    override fun requiresUpdateEveryTick(): Boolean {
+        return true
+    }
+
+    override fun tick() {
+        val pos = witch.getLastRitualPos()
+        if (pos.isPresent) {
+            witch.lookControl.setLookAt(pos.get().x + 0.5, pos.get().y + 0.5, pos.get().z + 0.5)
+        }
+    }
+}

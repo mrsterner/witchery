@@ -51,6 +51,10 @@ object WitcheryItems {
         BroomItem(Item.Properties().stacksTo(1))
     }
 
+    val SEER_STONE: RegistrySupplier<SeerStoneItem> = ITEMS.register("seer_stone") {
+        SeerStoneItem(Item.Properties().stacksTo(1))
+    }
+
     //start ARMOR
 
     val WITCHES_HAT: RegistrySupplier<ArmorItem> = ITEMS.register("witches_hat") {
