@@ -1,5 +1,6 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.entity.goal.InterruptWaterAvoidingRandomStrollGoal
 import dev.sterner.witchery.entity.goal.LookAtPosGoal
 import dev.sterner.witchery.registry.WitcheryEntityTypes
@@ -39,6 +40,16 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         goalSelector.addGoal(3, RandomLookAroundGoal(this))
     }
 
+    override fun aiStep() {
+        if (level().gameTime % 200 == 0L) {
+            if (lastRitualPos.isPresent) {
+                if (level().getBlockState(lastRitualPos.get()).block !is GoldenChalkBlock) {
+                    setLastRitualPos(Optional.empty<BlockPos>())
+                }
+            }
+        }
+        super.aiStep()
+    }
 
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         super.defineSynchedData(builder)
@@ -49,8 +60,8 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         return entityData.get(LAST_RITUAL_POS)
     }
 
-    fun setLastRitualPos(ritualPos: BlockPos) {
-        entityData.set(LAST_RITUAL_POS, Optional.of(ritualPos))
+    fun setLastRitualPos(ritualPos: Optional<BlockPos>) {
+        entityData.set(LAST_RITUAL_POS, ritualPos)
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
