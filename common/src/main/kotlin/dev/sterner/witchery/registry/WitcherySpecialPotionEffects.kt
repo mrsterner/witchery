@@ -680,24 +680,28 @@ object WitcherySpecialPotionEffects {
     }
 
     fun serverTick(server: MinecraftServer) {
-        val level = server.overworld() // or loop over levels if needed
-        val data = WitcheryWorldState.get(level)
+        for (level in server.allLevels) {
+            val levelKey = level.dimension()
+            val data = WitcheryWorldState.get(level)
 
-        val iterator = data.pendingRestores.iterator()
-        while (iterator.hasNext()) {
-            val (origin, pair) = iterator.next()
-            val (ticks, stateMap) = pair
+            val iterator = data.pendingRestores.iterator()
+            while (iterator.hasNext()) {
+                val (globalPos, pair) = iterator.next()
+                val (ticks, stateMap) = pair
 
-            if (ticks - 1 <= 0) {
-                for ((pos, state) in stateMap) {
-                    if (level.getBlockState(pos).isAir) {
-                        level.setBlockAndUpdate(pos, state)
+                if (globalPos.dimension() != levelKey) continue
+
+                if (ticks - 1 <= 0) {
+                    for ((pos, state) in stateMap) {
+                        if (level.getBlockState(pos).isAir || !level.getBlockState(pos).fluidState.isEmpty) {
+                            level.setBlockAndUpdate(pos, state)
+                        }
                     }
+                    iterator.remove()
+                    data.setDirty()
+                } else {
+                    data.pendingRestores[globalPos] = (ticks - 1) to stateMap
                 }
-                iterator.remove()
-                data.setDirty()
-            } else {
-                data.pendingRestores[origin] = (ticks - 1) to stateMap
             }
         }
     }

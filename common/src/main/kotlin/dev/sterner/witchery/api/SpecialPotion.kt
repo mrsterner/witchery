@@ -4,6 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.world.WitcheryWorldState
 import net.minecraft.core.BlockPos
+import net.minecraft.core.GlobalPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
@@ -37,10 +38,10 @@ open class SpecialPotion(val id: ResourceLocation) {
         )
     }
 
-    fun partLiquidFor(level: Level, box: AABB, fluid: Fluid, seconds: Int = 20){
-        val origin = BlockPos.containing(box.center)
+    fun partLiquidFor(level: Level, box: AABB, fluid: Fluid, seconds: Int = 20) {
         val serverLevel = level as? ServerLevel ?: return
         val data = WitcheryWorldState.get(serverLevel)
+        val origin = GlobalPos.of(serverLevel.dimension(), BlockPos.containing(box.center))
 
         val stateMap = mutableMapOf<BlockPos, BlockState>()
         BlockPos.betweenClosedStream(box).forEach { pos ->
@@ -54,5 +55,4 @@ open class SpecialPotion(val id: ResourceLocation) {
         data.pendingRestores[origin] = 20 * seconds to stateMap
         data.setDirty()
     }
-
 }

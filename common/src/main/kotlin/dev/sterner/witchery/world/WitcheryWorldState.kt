@@ -1,6 +1,7 @@
 package dev.sterner.witchery.world
 
 import net.minecraft.core.BlockPos
+import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.*
 import net.minecraft.server.level.ServerLevel
@@ -10,15 +11,14 @@ import net.minecraft.world.level.saveddata.SavedData
 
 class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
 
-    val pendingRestores: MutableMap<BlockPos, Pair<Int, Map<BlockPos, BlockState>>> = mutableMapOf()
+    val pendingRestores: MutableMap<GlobalPos, Pair<Int, Map<BlockPos, BlockState>>> = mutableMapOf()
+    private val cacheMap: MutableMap<GlobalPos, MutableMap<BlockPos, BlockState>> = mutableMapOf()
 
-    private val cacheMap: MutableMap<BlockPos, MutableMap<BlockPos, BlockState>> = mutableMapOf()
+    fun getCache(origin: GlobalPos): Map<BlockPos, BlockState>? = cacheMap[origin]
 
-    fun getCache(origin: BlockPos): Map<BlockPos, BlockState>? = cacheMap[origin]
+    fun get(origin: GlobalPos, pos: BlockPos): BlockState? = cacheMap[origin]?.get(pos)
 
-    fun get(origin: BlockPos, pos: BlockPos): BlockState? = cacheMap[origin]?.get(pos)
-
-    fun put(origin: BlockPos, pos: BlockPos, state: BlockState) {
+    fun put(origin: GlobalPos, pos: BlockPos, state: BlockState) {
         val cache = cacheMap.getOrPut(origin) { mutableMapOf() }
         cache[pos] = state
         setDirty()
@@ -27,9 +27,11 @@ class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
     override fun save(tag: CompoundTag, registries: HolderLookup.Provider): CompoundTag {
         val allCaches = ListTag()
 
-        for ((origin, stateMap) in cacheMap) {
+        for ((globalOrigin, stateMap) in cacheMap) {
             val cacheTag = CompoundTag()
-            cacheTag.put("origin", NbtUtils.writeBlockPos(origin))
+            cacheTag.put("origin", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, globalOrigin)
+                .result()
+                .orElseThrow { IllegalStateException("Failed to encode GlobalPos $globalOrigin") })
 
             val stateList = ListTag()
             for ((pos, state) in stateMap) {
@@ -46,8 +48,32 @@ class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
         }
 
         tag.put("StateCaches", allCaches)
+
+        val restoreList = ListTag()
+        for ((globalPos, pair) in pendingRestores) {
+            val (ticks, stateMap) = pair
+            val entry = CompoundTag()
+            entry.put("pos", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, globalPos).result().orElseThrow())
+            entry.putInt("ticks", ticks)
+
+            val stateList = ListTag()
+            for ((pos, state) in stateMap) {
+                val stateTag = CompoundTag()
+                stateTag.put("pos", NbtUtils.writeBlockPos(pos))
+                stateTag.put("state", BlockState.CODEC.encodeStart(NbtOps.INSTANCE, state)
+                    .result()
+                    .orElseThrow())
+                stateList.add(stateTag)
+            }
+
+            entry.put("states", stateList)
+            restoreList.add(entry)
+        }
+
+        tag.put("PendingRestores", restoreList)
         return tag
     }
+
 
     companion object {
         private fun factory(level: ServerLevel): Factory<WitcheryWorldState> {
@@ -60,11 +86,12 @@ class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
 
         private fun load(level: ServerLevel, tag: CompoundTag, registries: HolderLookup.Provider?): WitcheryWorldState {
             val data = WitcheryWorldState(level)
-            val allCaches = tag.getList("StateCaches", Tag.TAG_COMPOUND.toInt())
 
+            val allCaches = tag.getList("StateCaches", Tag.TAG_COMPOUND.toInt())
             for (cacheTag in allCaches) {
                 if (cacheTag !is CompoundTag) continue
 
+                val globalPos = GlobalPos.CODEC.parse(NbtOps.INSTANCE, cacheTag.get("origin")).result().orElse(null) ?: continue
                 val stateList = cacheTag.getList("states", Tag.TAG_COMPOUND.toInt())
                 val stateMap = mutableMapOf<BlockPos, BlockState>()
 
@@ -76,17 +103,35 @@ class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
                     if (pos != null && state != null) {
                         stateMap[pos] = state
                     }
-
                 }
 
-                NbtUtils.readBlockPos(cacheTag, ("origin")).ifPresent { origin ->
-                    data.cacheMap[origin] = stateMap
+                data.cacheMap[globalPos] = stateMap
+            }
+
+            val restoreList = tag.getList("PendingRestores", Tag.TAG_COMPOUND.toInt())
+            for (entry in restoreList) {
+                if (entry !is CompoundTag) continue
+
+                val globalPos = GlobalPos.CODEC.parse(NbtOps.INSTANCE, entry.get("pos")).result().orElse(null) ?: continue
+                val ticks = entry.getInt("ticks")
+                val stateList = entry.getList("states", Tag.TAG_COMPOUND.toInt())
+                val stateMap = mutableMapOf<BlockPos, BlockState>()
+
+                for (stateEntry in stateList) {
+                    if (stateEntry !is CompoundTag) continue
+                    val pos = NbtUtils.readBlockPos(stateEntry, "pos").orElse(null)
+                    val state = BlockState.CODEC.parse(NbtOps.INSTANCE, stateEntry.get("state")).result().orElse(null)
+                    if (pos != null && state != null) {
+                        stateMap[pos] = state
+                    }
                 }
 
+                data.pendingRestores[globalPos] = ticks to stateMap
             }
 
             return data
         }
+
 
         fun get(level: ServerLevel): WitcheryWorldState {
             return level.dataStorage.computeIfAbsent(factory(level), "witchery_world_state")
