@@ -2,7 +2,7 @@
   "altar_power": 10000,
   "base_duration": 900,
   "capacity_cost": -8,
-  "color": -10158236,
+  "color": -60276,
   "item": {
     "count": 1,
     "id": "witchery:witches_hat"

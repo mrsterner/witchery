@@ -11,11 +11,11 @@ class LookAtPosGoal(private val witch: CovenWitchEntity) : Goal() {
     }
 
     override fun canUse(): Boolean {
-        return witch.lastRitualPos.isPresent
+        return witch.getLastRitualPos().isPresent
     }
 
     override fun canContinueToUse(): Boolean {
-        return witch.lastRitualPos.isPresent
+        return witch.getLastRitualPos().isPresent
     }
 
     override fun requiresUpdateEveryTick(): Boolean {

@@ -23,7 +23,7 @@ import java.util.*
 
 class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_WITCH.get(), level) {
 
-    var lastRitualPos = Optional.empty<BlockPos>()
+    var lastRitualPosInternal = Optional.empty<BlockPos>()
 
     override fun registerGoals() {
         super.registerGoals()
@@ -42,8 +42,8 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
 
     override fun aiStep() {
         if (level().gameTime % 200 == 0L) {
-            if (lastRitualPos.isPresent) {
-                if (level().getBlockState(lastRitualPos.get()).block !is GoldenChalkBlock) {
+            if (lastRitualPosInternal.isPresent) {
+                if (level().getBlockState(lastRitualPosInternal.get()).block !is GoldenChalkBlock) {
                     setLastRitualPos(Optional.empty<BlockPos>())
                 }
             }
@@ -66,8 +66,8 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
-        if (this.lastRitualPos.isPresent) {
-            val tag = NbtUtils.writeBlockPos(this.lastRitualPos.get())
+        if (this.lastRitualPosInternal.isPresent) {
+            val tag = NbtUtils.writeBlockPos(this.lastRitualPosInternal.get())
             compound.put("LastRitualPos", tag)
         }
     }
@@ -76,7 +76,7 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         super.readAdditionalSaveData(compound)
 
         if (compound.contains("LastRitualPos")) {
-            lastRitualPos = NbtUtils.readBlockPos(compound, "LastRitualPos")
+            lastRitualPosInternal = NbtUtils.readBlockPos(compound, "LastRitualPos")
         }
     }
 

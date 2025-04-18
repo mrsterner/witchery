@@ -51,7 +51,7 @@ class SyncCovenS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     companion object {
         val ID: CustomPacketPayload.Type<SyncCovenS2CPacket> =
-            CustomPacketPayload.Type(Witchery.id("sync_werewolf_player"))
+            CustomPacketPayload.Type(Witchery.id("sync_coven_player"))
 
         val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncCovenS2CPacket> =
             CustomPacketPayload.codec(

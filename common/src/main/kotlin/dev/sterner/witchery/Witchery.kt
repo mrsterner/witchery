@@ -187,6 +187,7 @@ object Witchery {
         BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
 
         TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
+        TickEvent.SERVER_POST.register(WitcherySpecialPotionEffects::serverTick)
         TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
         TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
         TickEvent.SERVER_POST.register(VampireChildrenHuntLevelAttachment::tickHuntAllLevels)

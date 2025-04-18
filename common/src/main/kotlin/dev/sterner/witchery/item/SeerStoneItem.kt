@@ -48,7 +48,7 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
                                 val spawnPos = findValidSpawnPosition(level, targetPos)
                                 if (spawnPos != null) {
                                     val witch = CovenHandler.summonWitchFromCoven(livingEntity, i, Vec3(spawnPos.x + 0.5, spawnPos.y.toDouble(), spawnPos.z + 0.5))
-                                    witch?.lastRitualPos = Optional.of(pos)
+                                    witch?.setLastRitualPos(Optional.of(pos))
                                 }
                             }
 

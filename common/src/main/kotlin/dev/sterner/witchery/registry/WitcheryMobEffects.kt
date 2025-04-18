@@ -34,6 +34,13 @@ object WitcheryMobEffects {
     val FORTUNE_TOOL: Holder<MobEffect> =
         register("fortune_tool", FortuneToolMobEffect(MobEffectCategory.BENEFICIAL, Color(100, 170, 210).rgb))
 
+    val ENDER_BOUND: Holder<MobEffect> =
+        register("ender_bound", FortuneToolMobEffect(MobEffectCategory.HARMFUL, Color(255, 60, 210).rgb))
+
+    val WEREWOLF_BOUND: Holder<MobEffect> =
+        register("werewolf_bound", FortuneToolMobEffect(MobEffectCategory.HARMFUL, Color(255, 255, 100).rgb))
+
+
     fun invertEffect(effect: Holder<MobEffect>): Holder<MobEffect> {
         return when (effect) {
             MobEffects.MOVEMENT_SPEED -> MobEffects.MOVEMENT_SLOWDOWN

@@ -10,21 +10,46 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.mixin.CompositeEntryBaseAccessor
+import dev.sterner.witchery.mixin.SaplingBlockAccessor
+import dev.sterner.witchery.world.WitcheryWorldState
 import net.minecraft.core.BlockPos
+import net.minecraft.core.particles.ParticleOptions
+import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.tags.BlockTags
+import net.minecraft.util.Mth
+import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.TamableAnimal
+import net.minecraft.world.entity.animal.Animal
+import net.minecraft.world.entity.animal.Fox
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.ItemNameBlockItem
-import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.*
+import net.minecraft.world.level.block.grower.TreeGrower
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.level.material.Fluids
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.HitResult
+import net.minecraft.world.phys.Vec3
+import java.util.stream.Collectors
 import java.util.stream.Stream
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+
 
 object WitcherySpecialPotionEffects {
 
@@ -110,7 +135,37 @@ object WitcherySpecialPotionEffects {
     }
     val GROW_FLOWERS: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("grow_flowers")) {
         object : SpecialPotion("grow_flowers") {
-            //Grow Flowers	Dandelion	1	200	Tool	Makes flowers appear
+
+            fun getAllFlowers(): List<Block> {
+                return BuiltInRegistries.BLOCK
+                    .stream()
+                    .filter { block: Block ->
+                        block.builtInRegistryHolder().`is`(BlockTags.FLOWERS)
+                    }
+                    .collect(Collectors.toList())
+            }
+
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val box = getBox(hitResult, mergedDispersalModifier)
+                val blockPoses: Stream<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(box).filter{
+                    level.getBlockState(it.below()).`is`(BlockTags.DIRT)
+                            && level.getBlockState(it).isAir
+                }
+
+                val flowers = getAllFlowers()
+
+                blockPoses.forEach { pos ->
+                    if (level.random.nextFloat() < 0.45) {
+                        level.setBlockAndUpdate(pos, flowers.random().defaultBlockState())
+                    }
+                }
+            }
         }
     }
     val TILL_LAND: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("till_land")) {
@@ -125,7 +180,7 @@ object WitcherySpecialPotionEffects {
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 if (level is ServerLevel) {
-                    val blockPoses: Stream<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(box)
+                    val blockPoses: Stream<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(box).filter { level.getBlockState(it).`is`(BlockTags.DIRT) }
                     blockPoses.forEach { pos ->
                         val state = level.getBlockState(pos)
                         if (!level.getBlockState(pos.above()).isCollisionShapeFullBlock(level, pos)) {
@@ -139,7 +194,17 @@ object WitcherySpecialPotionEffects {
     }
     val ENDER_INHIBITION: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("ender_inhibition")) {
         object : SpecialPotion("ender_inhibition") {
-            //Ender Inhibition	Ender Dew	1	200	Tool	Endermen can't teleport
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val box = getBox(hitResult, mergedDispersalModifier)
+                level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan -> enderMan.addEffect(
+                    MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, 20 * 60 * mergedDispersalModifier.lingeringDurationModifier,0)) }
+            }
         }
     }
     val GROW_LILY: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("grow_lily")) {
@@ -192,7 +257,15 @@ object WitcherySpecialPotionEffects {
     }
     val PART_WATER: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("part_water")) {
         object : SpecialPotion("part_water") {
-            //Part Water	Sand	1		Tool	Temporarily removes water from area
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                partLiquidFor(level, getBox(hitResult, mergedDispersalModifier), Fluids.WATER)
+            }
         }
     }
     val PLANT_DROPPED_SEEDS: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("plant_dropped_seeds")) {
@@ -239,62 +312,335 @@ object WitcherySpecialPotionEffects {
     }
     val WEREWOLF_LOCK: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("werewolf_lock")) {
         object : SpecialPotion("werewolf_lock") {
-            //Werewolf Lock	Wolfsbane	1		Tool	Prevents a werewolf from shapeshifting into/out of their forms
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val box = getBox(hitResult, mergedDispersalModifier)
+                level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan -> enderMan.addEffect(
+                    MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, 20 * 30 * mergedDispersalModifier.lingeringDurationModifier,0)) }
+            }
         }
     }
     val FELL_TREE: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("fell_tree")) {
         object : SpecialPotion("fell_tree") {
             //Fell Tree	String	1		Tool	Knocks down trees
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val box = getBox(hitResult, mergedDispersalModifier)
+                val logStart = BlockPos
+                    .betweenClosedStream(box)
+                    .filter { pos -> level.getBlockState(pos).`is`(BlockTags.LOGS) }
+                    .findFirst()
+
+
+                logStart.ifPresent { start ->
+                    val visited = mutableSetOf<BlockPos>()
+                    val queue = ArrayDeque<BlockPos>()
+                    queue.add(start)
+
+                    while (queue.isNotEmpty() && visited.size < 64) {
+                        val current = queue.removeFirst()
+
+                        if (!visited.add(current)) continue
+                        if (!level.getBlockState(current).`is`(BlockTags.LOGS)) continue
+
+                        level.destroyBlock(current, true)
+
+                        for (dx in -1..1) for (dy in -1..1) for (dz in -1..1) {
+                            val neighbor = current.offset(dx, dy, dz)
+                            if (!visited.contains(neighbor) && level.getBlockState(neighbor).`is`(BlockTags.LOGS)) {
+                                queue.add(neighbor)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     val PART_LAVA: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("part_lava")) {
         object : SpecialPotion("part_lava") {
-            //Part Lava	Cobblestone	2	100	Tool	Temporarily removes lava from area around affected players
+
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                partLiquidFor(level, getBox(hitResult, mergedDispersalModifier), Fluids.LAVA)
+            }
         }
     }
     val SPROUTING: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("sprouting")) {
         object : SpecialPotion("sprouting") {
-            //Sprouting	Ent Twig	2	350	Tool	Grows a tree. Instant elevator
+            // Sprouting: Ent Twig, Tool, Grows a tree, Instant elevator
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val pos = BlockPos.containing(hitResult.location)
+
+                var sapling = Blocks.OAK_SAPLING
+
+                if (owner is Player) {
+                    for (i in 0 until owner.inventory.containerSize) {
+                        val stack = owner.inventory.getItem(i)
+                        val item = stack.item
+                        if (item is BlockItem) {
+                            if (item.block is SaplingBlock) {
+                                sapling = item.block
+                                break
+                            }
+                        }
+                    }
+                }
+
+                if (level is ServerLevel) {
+                    val success = (sapling as SaplingBlockAccessor).treeGrower.growTree(level, level.chunkSource.generator, pos, sapling.defaultBlockState(), level.random)
+                    if (!success) {
+                        TreeGrower.OAK.growTree(level, level.chunkSource.generator, pos, sapling.defaultBlockState(), level.random)
+                    }
+
+                    val treeHeight = getTreeHeight(level, pos)
+
+                    val radius = 10
+                    val entities = level.getEntitiesOfClass(Entity::class.java, AABB(pos).inflate(radius.toDouble()))
+
+                    for (entity in entities) {
+                        if (entity is LivingEntity) {
+                            val entityPos = entity.position()
+
+                            if (isUnderTree(level, entity, treeHeight)) {
+                                val newPos = Vec3(entityPos.x, pos.y + treeHeight.toDouble(), entityPos.z)
+
+                                entity.teleportTo(newPos.x, newPos.y, newPos.z)
+                            }
+                        }
+                    }
+                }
+            }
+
+            private fun getTreeHeight(level: Level, basePos: BlockPos): Int {
+                var height = 0
+                var foundLeaf = false
+                while (!foundLeaf && level.getBlockState(basePos.above(height)).`is`(BlockTags.LEAVES) || level.getBlockState(basePos.above(height)).`is`(BlockTags.LOGS)) {
+                    if (level.getBlockState(basePos.above(height)).`is`(Blocks.OAK_LEAVES)) {
+                        foundLeaf = true
+                    }
+                    height++
+                }
+                return height
+            }
+
+            private fun isUnderTree(level: Level, entity: Entity, treeHeight: Int): Boolean {
+                val entityPos = entity.blockPosition()
+
+                for (y in 0 until treeHeight) {
+                    val treePart = level.getBlockState(entityPos.above(y))
+                    if (treePart.`is`(BlockTags.LEAVES) || treePart.`is`(BlockTags.LOGS)) {
+                        return true
+                    }
+                }
+
+                return false
+            }
         }
     }
-    val LEVEL_LAND: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("level_land")) {
-        object : SpecialPotion("level_land") {
-            //Level Land	Netherack	2	200	Tool	Make an area flat
-        }
-    }
+
+
     val PULL: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("pull")) {
         object : SpecialPotion("pull") {
             //Pull	Slimeball	2	150	Tool	Suck creatures near
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val box = getBox(hitResult, mergedDispersalModifier)
+                val center = box.center
+
+                list.filter { entity ->
+                    box.contains(entity.blockPosition().center)
+                }.forEach { entity ->
+                    val entityPos = entity.position()
+
+                    val direction = center.subtract(entityPos).normalize().scale(0.5)
+
+                    entity.deltaMovement = entity.deltaMovement.add(direction)
+                }
+            }
         }
     }
     val PUSH: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("push")) {
         object : SpecialPotion("push") {
-            //Push Away	Stick	2	200	Tool	Push creatures away
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val box = getBox(hitResult, mergedDispersalModifier)
+                val center = box.center
+
+                list.filter { entity ->
+                    box.contains(entity.blockPosition().center)
+                }.forEach { entity ->
+                    val entityPos = entity.position()
+                    val direction = entityPos.subtract(center).normalize().scale(0.5)
+
+                    entity.deltaMovement = entity.deltaMovement.add(direction)
+                }
+            }
         }
     }
     val TELEPORT: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("teleport")) {
         object : SpecialPotion("teleport") {
             //Random Teleport	Ender Pearl	4	1,000	Tool	Potion causes random teleport, but if cast it as a ritual you can set the destination
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val box = getBox(hitResult, mergedDispersalModifier)
+                val entitiesInBox = level.getEntitiesOfClass(LivingEntity::class.java, box)
+
+                for (entity in entitiesInBox) {
+                    for (i in 0 until 16) {
+                        val d = entity.x + (entity.random.nextDouble() - 0.5) * 16.0
+                        val e = Mth.clamp(
+                            entity.y + (entity.random.nextInt(16) - 8).toDouble(),
+                            level.minBuildHeight.toDouble(),
+                            (level.minBuildHeight + (level as ServerLevel).logicalHeight - 1).toDouble()
+                        )
+                        val f = entity.z + (entity.random.nextDouble() - 0.5) * 16.0
+
+                        if (entity.isPassenger) {
+                            entity.stopRiding()
+                        }
+
+                        val vec3 = entity.position()
+                        if (entity.randomTeleport(d, e, f, true)) {
+
+                            level.gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(entity))
+                            val soundEvent: SoundEvent = if (entity is Fox) {
+                                SoundEvents.FOX_TELEPORT
+                            } else {
+                                SoundEvents.CHORUS_FRUIT_TELEPORT
+                            }
+                            val soundSource: SoundSource = SoundSource.PLAYERS
+
+                            level.playSound(null, entity.x, entity.y, entity.z, soundEvent, soundSource)
+                            entity.resetFallDistance()
+                            break
+                        }
+                    }
+                }
+            }
         }
     }
     val TAME_ANIMALS: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("tame_animals")) {
         object : SpecialPotion("tame_animals") {
-            //Tame Animals	Heart of Gold	4	500	Tool	Attracts animals to you and tames them. Inverted, it repells them and untaims those that were tamed by others
+            // Tame Animals: Heart of Gold, Tool, Attracts animals to you and tames them.
+            // Inverted, it repels them and untaims those that were tamed by others
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val box = getBox(hitResult, mergedDispersalModifier)
+
+                if (owner is Player) {
+                    val entitiesInBox = level.getEntitiesOfClass(LivingEntity::class.java, box)
+
+                    for (entity in entitiesInBox) {
+                        if (entity is TamableAnimal) {
+                            if (!entity.isTame) {
+                                entity.navigation.moveTo(owner, 1.0)
+                                entity.tame(owner)
+                                val particleOptions: ParticleOptions = ParticleTypes.HEART
+
+                                for (i in 0..6) {
+                                    val d: Double = entity.random.nextGaussian() * 0.02
+                                    val e: Double = entity.random.nextGaussian() * 0.02
+                                    val f: Double = entity.random.nextGaussian() * 0.02
+                                    entity.level().addParticle(
+                                        particleOptions,
+                                        entity.getRandomX(1.0),
+                                        entity.getRandomY() + 0.5,
+                                        entity.getRandomZ(1.0), d, e, f
+                                    )
+                                }
+                            } else {
+                                val dx = entity.x - owner.x
+                                val dz = entity.z - owner.z
+                                val distance = sqrt(dx * dx + dz * dz)
+
+                                if (distance < 3.0) {
+                                    val randomDirection = entity.random.nextDouble() * 360.0
+                                    val newX = entity.x + cos(randomDirection) * 5.0
+                                    val newZ = entity.z + sin(randomDirection) * 5.0
+
+                                    entity.navigation.moveTo(newX, entity.y, newZ, 1.0)
+                                }
+
+                                entity.setTame(true, true)
+                                entity.ownerUUID = null
+                                val particleOptions: ParticleOptions = ParticleTypes.SMOKE
+
+                                for (i in 0..6) {
+                                    val d: Double = entity.random.nextGaussian() * 0.02
+                                    val e: Double = entity.random.nextGaussian() * 0.02
+                                    val f: Double = entity.random.nextGaussian() * 0.02
+                                    entity.level().addParticle(
+                                        particleOptions,
+                                        entity.getRandomX(1.0),
+                                        entity.getRandomY() + 0.5,
+                                        entity.getRandomZ(1.0), d, e, f
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
-    val BREAK_ORES: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("break_ores")) {
-        object : SpecialPotion("break_ores") {
-            //Break Nearby Ores	Iron Ingot	4	2,000	Tool	Breaks nearby ores in radius large radius, good look finding them
-        }
-    }
-    val RAISE_LAND: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("raise_land")) {
-        object : SpecialPotion("raise_land") {
-            //Raise Land	Nether Quartz	4	2,000	Tool	Raises land into air. Defaults one block radius or any blocks under creatures
-        }
-    }
+
     val LOVE: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("love")) {
         object : SpecialPotion("love") {
             //Love	Poppy	4	500	Tool	Mating (zombies too)
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+            ) {
+                val box = getBox(hitResult, mergedDispersalModifier)
+                val lovableEntities = level.getEntitiesOfClass(Animal::class.java, box)
+                lovableEntities.forEach {
+                    it.setInLove(if(owner is Player) owner else null)
+                }
+            }
         }
     }
     val RESIZE: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("resize")) {
@@ -331,6 +677,29 @@ object WitcherySpecialPotionEffects {
             pos,
             GameEvent.Context.of(entity, state)
         )
+    }
+
+    fun serverTick(server: MinecraftServer) {
+        val level = server.overworld() // or loop over levels if needed
+        val data = WitcheryWorldState.get(level)
+
+        val iterator = data.pendingRestores.iterator()
+        while (iterator.hasNext()) {
+            val (origin, pair) = iterator.next()
+            val (ticks, stateMap) = pair
+
+            if (ticks - 1 <= 0) {
+                for ((pos, state) in stateMap) {
+                    if (level.getBlockState(pos).isAir) {
+                        level.setBlockAndUpdate(pos, state)
+                    }
+                }
+                iterator.remove()
+                data.setDirty()
+            } else {
+                data.pendingRestores[origin] = (ticks - 1) to stateMap
+            }
+        }
     }
 
     val TILLABLES: Map<Block, BlockState> = Maps.newHashMap(

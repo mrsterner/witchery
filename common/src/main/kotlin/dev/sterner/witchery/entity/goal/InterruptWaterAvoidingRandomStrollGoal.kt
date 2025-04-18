@@ -7,14 +7,14 @@ class InterruptWaterAvoidingRandomStrollGoal(var witch: CovenWitchEntity, speedM
     WaterAvoidingRandomStrollGoal(witch, speedModifier) {
 
     override fun canContinueToUse(): Boolean {
-        if (witch.lastRitualPos.isEmpty) {
+        if (witch.getLastRitualPos().isEmpty) {
             return super.canContinueToUse()
         }
         return false
     }
 
     override fun canUse(): Boolean {
-        if (witch.lastRitualPos.isEmpty) {
+        if (witch.getLastRitualPos().isEmpty) {
             return super.canUse()
         }
         return false
