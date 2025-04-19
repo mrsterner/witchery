@@ -35,7 +35,8 @@ object WitcheryMobEffects {
 
     val WEREWOLF_BOUND: Holder<MobEffect> = register("werewolf_bound", EmptyMobEffect(MobEffectCategory.HARMFUL, Color(255, 255, 100).rgb))
 
-    val RESIZE: Holder<MobEffect> = register("resize_effect", ResizeMobEffect(MobEffectCategory.NEUTRAL, Color(255, 255, 100).rgb))
+    val GROW: Holder<MobEffect> = register("grow", ResizeMobEffect(true, MobEffectCategory.NEUTRAL, Color(255, 255, 100).rgb))
+    val SHRINK: Holder<MobEffect> = register("shrink", ResizeMobEffect(false, MobEffectCategory.NEUTRAL, Color(255, 255, 100).rgb))
 
     private fun register(name: String, effect: MobEffect): Holder<MobEffect> {
         return Registry.registerForHolder(

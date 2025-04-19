@@ -1,8 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.SpecialPotion
-import dev.sterner.witchery.data.ErosionHandler
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient.*
 import dev.sterner.witchery.registry.WitcheryItems
@@ -19,8 +17,6 @@ import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
 import java.awt.Color
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -340,7 +336,7 @@ class WitcheryPotionProvider(
             capacity = -3,
             altarPower = 2500,
             color = Color(100, 255, 100).rgb,
-            specialPotion = Optional.of(WitcherySpecialPotionEffects.RESIZE.id)
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.GROW.id)
         )
         makeIngredient(provider,
             WitcheryItems.WITCHES_HAT.get(),

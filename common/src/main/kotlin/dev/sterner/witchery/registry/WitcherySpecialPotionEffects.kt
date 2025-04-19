@@ -680,9 +680,9 @@ object WitcherySpecialPotionEffects {
             }
         }
     }
-    val RESIZE: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("resize")) {
-        object : SpecialPotion("resize") {
-            //Resize	Emerald	6	2,500	Tool	Make animals/players smaller or bigger. Size depends on power of effect : 1=1/4, 2=1/2, 3=1 1/2, 4=2
+    val GROW: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("grow")) {
+        object : SpecialPotion("grow") {
+            //Resize	Emerald	6	2,500	Tool	Make animals/players smaller or bigger.
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -693,7 +693,7 @@ object WitcherySpecialPotionEffects {
                 amplifier: Int
             ) {
                 list.filterIsInstance<LivingEntity>().forEach { living ->
-                    living.addEffect(MobEffectInstance(WitcheryMobEffects.RESIZE, duration, amplifier))
+                    living.addEffect(MobEffectInstance(WitcheryMobEffects.GROW, duration, amplifier))
                 }
             }
 
@@ -703,7 +703,34 @@ object WitcherySpecialPotionEffects {
                 duration: Int,
                 amplifier: Int
             ) {
-                owner?.addEffect(MobEffectInstance(WitcheryMobEffects.RESIZE, duration, amplifier))
+                owner?.addEffect(MobEffectInstance(WitcheryMobEffects.GROW, duration, amplifier))
+            }
+        }
+    }
+    val SHRINK: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("shrink")) {
+        object : SpecialPotion("shrink") {
+            //Resize	Emerald	6	2,500	Tool	Make animals/players smaller or bigger.
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
+            ) {
+                list.filterIsInstance<LivingEntity>().forEach { living ->
+                    living.addEffect(MobEffectInstance(WitcheryMobEffects.SHRINK, duration, amplifier))
+                }
+            }
+
+            override fun onDrunk(
+                level: Level,
+                owner: LivingEntity?,
+                duration: Int,
+                amplifier: Int
+            ) {
+                owner?.addEffect(MobEffectInstance(WitcheryMobEffects.SHRINK, duration, amplifier))
             }
         }
     }

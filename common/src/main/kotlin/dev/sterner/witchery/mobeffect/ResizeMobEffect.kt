@@ -9,7 +9,7 @@ import virtuoel.pehkui.api.ScaleData
 import virtuoel.pehkui.api.ScaleTypes
 
 
-class ResizeMobEffect(category: MobEffectCategory, color: Int) : MobEffect(category, color), OnRemovedEffect {
+class ResizeMobEffect(val grow: Boolean, category: MobEffectCategory, color: Int) : MobEffect(category, color), OnRemovedEffect {
 
     override fun applyEffectTick(livingEntity: LivingEntity, amplifier: Int): Boolean {
         return true
@@ -23,22 +23,39 @@ class ResizeMobEffect(category: MobEffectCategory, color: Int) : MobEffect(categ
     override fun onEffectAdded(livingEntity: LivingEntity, amplifier: Int) {
         super.onEffectAdded(livingEntity, amplifier)
         if (!livingEntity.level().isClientSide) {
-            val data: ScaleData = WitcheryPehkuiScaleTypes.GROWING.getScaleData(livingEntity)
-            data.scale = getScale(amplifier)
+            val data: ScaleData = if (grow) {
+                 WitcheryPehkuiScaleTypes.GROWING.getScaleData(livingEntity)
+            } else {
+                WitcheryPehkuiScaleTypes.SHRINKING.getScaleData(livingEntity)
+            }
+            if (grow) {
+                data.scale = getGrowthScale(amplifier)
+            } else {
+                data.scale = getShrinkScale(amplifier)
+            }
+
             ScaleTypes.BASE.getScaleData(livingEntity).markForSync(true)
             data.markForSync(true)
         }
     }
 
-    private fun getScale(amplifier: Int): Float {
+    private fun getGrowthScale(amplifier: Int): Float {
         return (amplifier + 2).toFloat()
     }
 
-    override fun onRemovedEffect(entity: LivingEntity) {
-        if (!entity.level().isClientSide) {
-            val data: ScaleData = WitcheryPehkuiScaleTypes.GROWING.getScaleData(entity)
+    private fun getShrinkScale(amplifier: Int): Float {
+        return 1f / (2f * (amplifier + 1).toFloat())
+    }
+
+    override fun onRemovedEffect(livingEntity: LivingEntity) {
+        if (!livingEntity.level().isClientSide) {
+            val data: ScaleData = if (grow) {
+                WitcheryPehkuiScaleTypes.GROWING.getScaleData(livingEntity)
+            } else {
+                WitcheryPehkuiScaleTypes.SHRINKING.getScaleData(livingEntity)
+            }
             data.resetScale(true)
-            ScaleTypes.BASE.getScaleData(entity).markForSync(true)
+            ScaleTypes.BASE.getScaleData(livingEntity).markForSync(true)
             data.markForSync(true)
         }
     }
