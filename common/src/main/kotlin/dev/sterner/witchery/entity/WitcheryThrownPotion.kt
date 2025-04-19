@@ -119,21 +119,20 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                 for ((i, potionContent) in potionContentList.withIndex()) {
                     if (i == 0) continue
 
+                    val effectData = potionContent.effectModifier
+                    val duration = (potionContent.baseDuration + effectData.durationAddition) * effectData.durationMultiplier
+                    val amplifier = effectData.powerAddition
+
                     // Run special effects regardless of entities in list
                     if (potionContent.specialEffect.isPresent) {
                         val special = WitcherySpecialPotionEffects.SPECIALS.get(potionContent.specialEffect.get())
-                        special?.onActivated(level(), owner, result, list, WitcheryPotionItem.getMergedDisperseModifier(potionContentList))
+                        special?.onActivated(level(), owner, result, list, WitcheryPotionItem.getMergedDisperseModifier(potionContentList), duration, amplifier)
                     }
 
                     // Handle the general modifier logic
                     if (potionContent.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
                         shouldInvertNext = true
                     }
-
-                    val effectData = potionContent.effectModifier
-                    val duration =
-                        (potionContent.baseDuration + effectData.durationAddition) * effectData.durationMultiplier
-                    val amplifier = effectData.powerAddition
 
                     // Handle effect inversion based on modifier
                     val effect = if (shouldInvertNext) {

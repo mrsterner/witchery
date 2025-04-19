@@ -37,16 +37,20 @@ subprojects {
         maven {
             url = "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
         }
-
-        maven { url 'https://maven.fabricmc.net' }
-        maven { url 'https://maven.shedaniel.me/' }
-
         maven {
-            url "https://maven2.bai.lol"
+            url = 'https://maven.fabricmc.net'
         }
         maven {
-            name = 'Ladysnake Mods'
+            url = 'https://maven.shedaniel.me/'
+        }
+        maven {
+            url = "https://maven2.bai.lol"
+        }
+        maven {
             url = 'https://maven.ladysnake.org/releases'
+        }
+        maven {
+            url = "https://jitpack.io"
         }
     }
 

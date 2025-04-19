@@ -3,6 +3,7 @@ package dev.sterner.witchery.item.potion
 import dev.sterner.witchery.entity.WitcheryThrownPotion
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryMobEffects
+import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.util.Mth
@@ -211,26 +212,33 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
         var shouldInvertNext = false
 
-        for (potionContent in potionContentList) {
+        if (!level.isClientSide) {
+            for (potionContent in potionContentList) {
 
-            if (potionContent.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
-                shouldInvertNext = true
-                continue
-            }
+                if (potionContent.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
+                    shouldInvertNext = true
+                    continue
+                }
 
-            val effect = if (shouldInvertNext) {
-                shouldInvertNext = false
-                WitcheryMobEffects.invertEffect(potionContent.effect)
-            } else {
-                potionContent.effect
-            }
 
-            val duration =
-                (potionContent.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
-            val amplifier = globalModifier.powerAddition
+                val effect = if (shouldInvertNext) {
+                    shouldInvertNext = false
+                    WitcheryMobEffects.invertEffect(potionContent.effect)
+                } else {
+                    potionContent.effect
+                }
 
-            if (effect != WitcheryMobEffects.EMPTY) {
-                entity.addEffect(MobEffectInstance(effect, duration, amplifier))
+                val duration = (potionContent.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
+                val amplifier = globalModifier.powerAddition
+
+                if (effect != WitcheryMobEffects.EMPTY) {
+                    entity.addEffect(MobEffectInstance(effect, duration, amplifier))
+                }
+
+                if (potionContent.specialEffect.isPresent) {
+                    val special = WitcherySpecialPotionEffects.SPECIALS.get(potionContent.specialEffect.get())
+                    special?.onDrunk(level, entity, duration, amplifier)
+                }
             }
         }
 

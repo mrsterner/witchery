@@ -13,9 +13,12 @@ import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
 import dev.sterner.witchery.platform.neoforge.WitcheryFluidHandlerNeoForge
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryPehkuiScaleTypes.GROWING
+import dev.sterner.witchery.registry.WitcheryPehkuiScaleTypes.SHRINKING
 import net.minecraft.client.Minecraft
 import net.minecraft.core.NonNullList
 import net.minecraft.network.syncher.EntityDataSerializer
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.BrushItem
 import net.minecraft.world.item.ItemStack
@@ -39,6 +42,8 @@ import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
+import virtuoel.pehkui.api.ScaleData
+import virtuoel.pehkui.api.ScaleEventCallback
 
 
 @Mod(Witchery.MODID)
@@ -85,7 +90,21 @@ object WitcheryNeoForge {
     }
 
     private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
+        GROWING.scaleChangedEvent.register(ScaleEventCallback { ev: ScaleData ->
+            val e: Entity? = ev.entity
+            val g: Boolean = e?.onGround() ?: false
+            e?.refreshDimensions()
+            e?.setOnGround(g)
+            GROWING.getScaleData(e).markForSync(true)
+        })
 
+        SHRINKING.scaleChangedEvent.register(ScaleEventCallback { ev: ScaleData ->
+            val e: Entity? = ev.entity
+            val g: Boolean = e?.onGround() ?: false
+            e?.refreshDimensions()
+            e?.setOnGround(g)
+            SHRINKING.getScaleData(e).markForSync(true)
+        })
     }
 
     private fun onClientSetup(event: FMLClientSetupEvent) {
@@ -95,8 +114,6 @@ object WitcheryNeoForge {
     private fun onLoadComplete(event: FMLLoadCompleteEvent) {
         WitcheryFlammability.register()
     }
-
-
 
     @SubscribeEvent
     private fun registerScreens(event: RegisterMenuScreensEvent) {

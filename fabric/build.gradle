@@ -86,6 +86,10 @@ dependencies {
     modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}"
     modRuntimeOnly "lol.bai:badpackets:fabric-${badpacketsVersion}"
 
+    modApi("com.github.Virtuoel:Pehkui:${pehkui_version}", {
+        exclude group: "net.fabricmc.fabric-api"
+    })
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }

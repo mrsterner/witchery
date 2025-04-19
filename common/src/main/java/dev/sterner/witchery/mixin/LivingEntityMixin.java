@@ -2,11 +2,14 @@ package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.sterner.witchery.api.OnRemovedEffect;
 import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.mixin_logic.LivingEntityMixinLogic;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -68,6 +71,13 @@ public class LivingEntityMixin {
             }
         } else {
             witchery$shouldUpdateDim = true;
+        }
+    }
+    @Inject(method = "onEffectRemoved", at = @At("HEAD"))
+    private void witchery$onEffectRemoved(CallbackInfo ci, @Local(argsOnly = true) MobEffectInstance instance) {
+        LivingEntity livingEntity = LivingEntity.class.cast(this);
+        if (instance.getEffect().value() instanceof OnRemovedEffect removedEffect) {
+            removedEffect.onRemovedEffect(livingEntity);
         }
     }
 }

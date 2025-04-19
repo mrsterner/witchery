@@ -103,7 +103,9 @@ object Witchery {
     fun init() {
         WitcheryCurseRegistry.init()
         WitcheryRitualRegistry.init()
+        WitcheryMobEffects.init()
         WitcherySpecialPotionEffects.init()
+        WitcheryPehkuiScaleTypes.init();
         WitcheryFluids.FLUIDS.register()
         WitcheryFluids.init()
         WitcheryArmorMaterials.MATERIALS.register()
@@ -120,7 +122,7 @@ object Witchery {
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
         WitcheryFeatures.FEATURES.register()
-        WitcheryMobEffects.EFFECTS.register()
+
 
         WitcheryPayloads.register()
 

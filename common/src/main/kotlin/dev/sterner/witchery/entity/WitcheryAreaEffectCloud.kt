@@ -201,6 +201,9 @@ class WitcheryAreaEffectCloud(
 
                 for (ingredient in potionContents) {
 
+                    val duration = (ingredient.baseDuration + ingredient.effectModifier.durationAddition) * ingredient.effectModifier.durationMultiplier
+                    val amplifier = ingredient.effectModifier.powerAddition
+
                     if (ingredient.specialEffect.isPresent) {
                         hitResult?.let { hitResult1 ->
                             WitcherySpecialPotionEffects.SPECIALS.get(ingredient.specialEffect.get())?.onActivated(
@@ -208,7 +211,9 @@ class WitcheryAreaEffectCloud(
                                 owner,
                                 hitResult = hitResult1,
                                 victims.map { it.key }.toMutableList(),
-                                WitcheryPotionItem.getMergedDisperseModifier(potionContents)
+                                WitcheryPotionItem.getMergedDisperseModifier(potionContents),
+                                duration,
+                                amplifier
                             )
                         }
                     }
@@ -227,8 +232,8 @@ class WitcheryAreaEffectCloud(
                     list.add(
                         MobEffectInstance(
                             effect,
-                            (ingredient.baseDuration + ingredient.effectModifier.durationAddition) * ingredient.effectModifier.durationMultiplier,
-                            ingredient.effectModifier.powerAddition,
+                            duration,
+                            amplifier,
                             false,
                             visible
                         )

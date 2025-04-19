@@ -9,6 +9,8 @@ import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
 import dev.sterner.witchery.platform.fabric.WitcheryFluidHandlerFabric
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryPehkuiScaleTypes.GROWING
+import dev.sterner.witchery.registry.WitcheryPehkuiScaleTypes.SHRINKING
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
@@ -25,7 +27,10 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
 import net.minecraft.client.particle.PlayerCloudParticle
 import net.minecraft.client.renderer.ShaderInstance
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.levelgen.GenerationStep
+import virtuoel.pehkui.api.ScaleData
+import virtuoel.pehkui.api.ScaleEventCallback
 import java.io.IOException
 
 
@@ -48,6 +53,22 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryBlocks.HAWTHORN_WOOD.get(),
             WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get()
         )
+
+        GROWING.scaleChangedEvent.register(ScaleEventCallback { ev: ScaleData ->
+            val e: Entity? = ev.entity
+            val g: Boolean = e?.onGround() ?: false
+            e?.refreshDimensions()
+            e?.setOnGround(g)
+            GROWING.getScaleData(e).markForSync(true)
+        })
+
+        SHRINKING.scaleChangedEvent.register(ScaleEventCallback { ev: ScaleData ->
+            val e: Entity? = ev.entity
+            val g: Boolean = e?.onGround() ?: false
+            e?.refreshDimensions()
+            e?.setOnGround(g)
+            SHRINKING.getScaleData(e).markForSync(true)
+        })
 
         WitcheryFlammability.register()
         WitcheryOxidizables.register()

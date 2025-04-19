@@ -57,6 +57,8 @@ dependencies {
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curio_version}"
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curio_version}:api"
 
+    modApi("com.github.Virtuoel:Pehkui:${pehkui_version}-1.21-neoforge")
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }

@@ -10,7 +10,6 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.mixin.CompositeEntryBaseAccessor
 import dev.sterner.witchery.mixin.SaplingBlockAccessor
 import dev.sterner.witchery.world.WitcheryWorldState
 import net.minecraft.core.BlockPos
@@ -66,7 +65,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
 
@@ -91,7 +92,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 if (level is ServerLevel) {
@@ -118,7 +121,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 if (level is ServerLevel) {
@@ -150,7 +155,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 val blockPoses: Stream<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(box).filter{
@@ -176,7 +183,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 if (level is ServerLevel) {
@@ -199,11 +208,13 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan -> enderMan.addEffect(
-                    MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, 20 * 60 * mergedDispersalModifier.lingeringDurationModifier,0)) }
+                    MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, duration, amplifier)) }
             }
         }
     }
@@ -215,7 +226,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 if (level is ServerLevel) {
@@ -240,7 +253,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 if (level is ServerLevel) {
@@ -262,7 +277,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 partLiquidFor(level, getBox(hitResult, mergedDispersalModifier), Fluids.WATER)
             }
@@ -276,7 +293,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
 
                 val box = getBox(hitResult, mergedDispersalModifier).inflate(2.0)
@@ -317,11 +336,13 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan -> enderMan.addEffect(
-                    MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, 20 * 30 * mergedDispersalModifier.lingeringDurationModifier,0)) }
+                    MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, duration, amplifier)) }
             }
         }
     }
@@ -333,7 +354,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 val logStart = BlockPos
@@ -374,7 +397,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 partLiquidFor(level, getBox(hitResult, mergedDispersalModifier), Fluids.LAVA)
             }
@@ -388,7 +413,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val pos = BlockPos.containing(hitResult.location)
 
@@ -468,7 +495,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 val center = box.center
@@ -492,7 +521,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 val center = box.center
@@ -516,7 +547,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 val entitiesInBox = level.getEntitiesOfClass(LivingEntity::class.java, box)
@@ -564,7 +597,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
 
@@ -633,7 +668,9 @@ object WitcherySpecialPotionEffects {
                 owner: Entity?,
                 hitResult: HitResult,
                 list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 val lovableEntities = level.getEntitiesOfClass(Animal::class.java, box)
@@ -646,6 +683,28 @@ object WitcherySpecialPotionEffects {
     val RESIZE: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("resize")) {
         object : SpecialPotion("resize") {
             //Resize	Emerald	6	2,500	Tool	Make animals/players smaller or bigger. Size depends on power of effect : 1=1/4, 2=1/2, 3=1 1/2, 4=2
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
+            ) {
+                list.filterIsInstance<LivingEntity>().forEach { living ->
+                    living.addEffect(MobEffectInstance(WitcheryMobEffects.RESIZE, duration, amplifier))
+                }
+            }
+
+            override fun onDrunk(
+                level: Level,
+                owner: LivingEntity?,
+                duration: Int,
+                amplifier: Int
+            ) {
+                owner?.addEffect(MobEffectInstance(WitcheryMobEffects.RESIZE, duration, amplifier))
+            }
         }
     }
     val SUMMON_LEONARD: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("summon_leonard")) {
