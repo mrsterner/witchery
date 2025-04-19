@@ -5,7 +5,7 @@
   "color": -10158236,
   "item": {
     "count": 1,
-    "id": "minecraft:emerald"
+    "id": "minecraft:red_mushroom"
   },
-  "special_effect": "witchery:resize"
+  "special_effect": "witchery:shrink"
 }

@@ -101,6 +101,7 @@ object Witchery {
 
     @JvmStatic
     fun init() {
+        PotionDataHandler.registerListener()
         WitcheryCurseRegistry.init()
         WitcheryRitualRegistry.init()
         WitcheryMobEffects.init()
@@ -146,7 +147,7 @@ object Witchery {
 
         NaturePowerHandler.registerListener()
         ErosionHandler.registerListener()
-        PotionDataHandler.registerListener()
+
         BloodPoolHandler.registerListener()
 
         WitcheryModonomiconLoaders.register()

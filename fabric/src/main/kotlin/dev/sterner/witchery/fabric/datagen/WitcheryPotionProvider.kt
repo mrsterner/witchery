@@ -100,9 +100,21 @@ class WitcheryPotionProvider(
             color = Color(160, 160, 250).rgb
         )
         makeIngredient(provider,
+            Items.AMETHYST_SHARD,
+            altarPower = 250,
+            capacity = 1,
+            color = Color(180, 100, 250).rgb
+        )
+        makeIngredient(provider,
+            Items.HEART_OF_THE_SEA,
+            altarPower = 200,
+            capacity = 1,
+            color = Color(100, 100, 250).rgb
+        )
+        makeIngredient(provider,
             Items.NETHER_STAR,
             altarPower = 0,
-            capacity = 2,
+            capacity = 3,
             color = Color(200, 200, 250).rgb
         )
         makeIngredient(provider,
@@ -256,7 +268,7 @@ class WitcheryPotionProvider(
             specialPotion = Optional.of(WitcherySpecialPotionEffects.GROW_LILY.id)
         )
         makeIngredient(provider,
-            Items.BROWN_MUSHROOM,
+            Items.DEAD_BUSH,
             altarPower = 200,
             color = Color(200, 140, 50).rgb,
             specialPotion = Optional.of(WitcherySpecialPotionEffects.PRUNE_LEAVES.id)
@@ -332,11 +344,18 @@ class WitcheryPotionProvider(
             specialPotion = Optional.of(WitcherySpecialPotionEffects.LOVE.id)
         )
         makeIngredient(provider,
-            Items.EMERALD,
+            Items.BROWN_MUSHROOM,
             capacity = -3,
             altarPower = 2500,
             color = Color(100, 255, 100).rgb,
             specialPotion = Optional.of(WitcherySpecialPotionEffects.GROW.id)
+        )
+        makeIngredient(provider,
+            Items.RED_MUSHROOM,
+            capacity = -3,
+            altarPower = 2500,
+            color = Color(100, 255, 100).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.SHRINK.id)
         )
         makeIngredient(provider,
             WitcheryItems.WITCHES_HAT.get(),

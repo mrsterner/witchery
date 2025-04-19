@@ -1,5 +1,6 @@
 package dev.sterner.witchery.integration.modonomicon
 
+import com.klikli_dev.modonomicon.api.ModonomiconConstants
 import com.klikli_dev.modonomicon.book.page.BookPage
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry
 import dev.sterner.witchery.Witchery
@@ -58,6 +59,16 @@ object WitcheryPageRendererRegistry {
             object :
                 BookDistillingRecipePageRenderer<DistilleryCraftingRecipe>(
                     p as BookDistillingRecipePage
+                ) {
+            }
+        }
+
+        PageRendererRegistry.registerPageRenderer(
+            Witchery.id("potion_model")
+        ) { p: BookPage ->
+            object :
+                BookPotionPageRenderer(
+                    p as BookPotionPage
                 ) {
             }
         }

@@ -1,0 +1,28 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "potions",
+  "description": "book.witchery.guidebook.potions.beginning_potions.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:witchery_potion"
+  },
+  "name": "book.witchery.guidebook.potions.beginning_potions.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "potions.beginning_potions.page.1",
+      "title": "potions.beginning_potions.title",
+      "use_markdown_in_title": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 0,
+  "x": -4,
+  "y": 0
+}

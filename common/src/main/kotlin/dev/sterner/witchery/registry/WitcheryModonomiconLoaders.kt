@@ -1,9 +1,11 @@
 package dev.sterner.witchery.registry
 
 import com.google.gson.JsonObject
+import com.klikli_dev.modonomicon.api.ModonomiconConstants
 import com.klikli_dev.modonomicon.book.page.BookPage
 import com.klikli_dev.modonomicon.data.BookPageJsonLoader
 import com.klikli_dev.modonomicon.data.LoaderRegistry
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.integration.modonomicon.*
 import net.minecraft.core.HolderLookup
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -68,6 +70,21 @@ object WitcheryModonomiconLoaders {
             } as BookPageJsonLoader<*>
         ) { buffer: RegistryFriendlyByteBuf ->
             BookDistillingRecipePage.fromNetwork(
+                buffer
+            )
+        }
+
+        LoaderRegistry.registerPageLoader(
+            Witchery.id("potion_model"),
+            BookPageJsonLoader<BookPage> { entryId: ResourceLocation, json: JsonObject, provider: HolderLookup.Provider ->
+                BookPotionPage.fromJson(
+                    entryId,
+                    json,
+                    provider
+                )
+            } as BookPageJsonLoader<*>
+        ) { buffer: RegistryFriendlyByteBuf ->
+            BookPotionPage.fromNetwork(
                 buffer
             )
         }

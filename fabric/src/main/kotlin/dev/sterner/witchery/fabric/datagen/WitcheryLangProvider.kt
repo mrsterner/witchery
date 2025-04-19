@@ -1062,5 +1062,18 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
                 "\\\n" +
                 "Require four Alder Saplings, Water, Cobweb and a Zombie."
         )
+
+        //Potion Book
+
+        fun genPotionCapacity(name: String){
+            builder.add("witchery.potion_crafting.$name", "Capacity: +%1\$d\nAltar Power: -%2\$d")
+        }
+        genPotionCapacity("mandrake")
+        genPotionCapacity("tear_of_the_goddess")
+        genPotionCapacity("amethyst")
+        genPotionCapacity("heart_of_the_sea")
+        genPotionCapacity("phantom_vapour")
+        genPotionCapacity("nether_star")
+        genPotionCapacity("pentacle")
     }
 }
