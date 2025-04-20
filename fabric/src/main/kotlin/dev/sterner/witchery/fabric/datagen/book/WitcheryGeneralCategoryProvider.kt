@@ -65,7 +65,7 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
         addEntry(oven)
 
-        val cauldron = DoubleItemEntryProvider(this, "cauldron", WitcheryItems.CAULDRON.get(),  WitcheryItems.COPPER_CAULDRON.get()).generate("c")
+        val cauldron = DoubleItemEntryProvider(this, "cauldron", WitcheryItems.CAULDRON.get(),  WitcheryItems.COPPER_CAULDRON.get(), noSecondTitle = true).generate("c")
         cauldron
             .withCondition(
                 BookAndConditionModel.create().withChildren(

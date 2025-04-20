@@ -10,7 +10,7 @@ import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Item
 
-class DoubleItemEntryProvider(parent: CategoryProviderBase?, var id: String, var item1: Item, var item2: Item) : EntryProvider(parent) {
+class DoubleItemEntryProvider(parent: CategoryProviderBase?, var id: String, var item1: Item, var item2: Item, val noSecondTitle: Boolean) : EntryProvider(parent) {
 
     override fun generatePages() {
         this.page(id) {
@@ -19,12 +19,18 @@ class DoubleItemEntryProvider(parent: CategoryProviderBase?, var id: String, var
                 .withTitle("${parent.categoryId()}.$id.title.1")
                 .withText("${parent.categoryId()}.$id.page.1")
         }
-
-        this.page("${id}_2") {
-            BookSpotlightPageModel.create()
-                .withItem(item2)
-                .withTitle("${parent.categoryId()}.$id.title.2")
-                .withText("${parent.categoryId()}.$id.page.2")
+        if (noSecondTitle) {
+            this.page("${id}_2") {
+                BookSpotlightPageModel.create()
+                    .withItem(item2)
+            }
+        } else {
+            this.page("${id}_2") {
+                BookSpotlightPageModel.create()
+                    .withItem(item2)
+                    .withTitle("${parent.categoryId()}.$id.title.2")
+                    .withText("${parent.categoryId()}.$id.page.2")
+            }
         }
     }
 

@@ -51,7 +51,7 @@ class WitcheryBrewingCategoryProvider(
             index++
         }
 
-        val cauldron = DoubleItemEntryProvider(this, "cauldron", WitcheryItems.CAULDRON.get(), WitcheryItems.COPPER_CAULDRON.get()).generate("c")
+        val cauldron = DoubleItemEntryProvider(this, "cauldron", WitcheryItems.CAULDRON.get(), WitcheryItems.COPPER_CAULDRON.get(), noSecondTitle = true).generate("c")
         cauldron.withCondition(
             BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("cauldron"))
         )
