@@ -1,13 +1,13 @@
 {
   "background_u_index": 0,
   "background_v_index": 0,
-  "category": "potions",
-  "description": "book.witchery.guidebook.potions.potion_capacity.description",
+  "category": "brewing",
+  "description": "book.witchery.guidebook.brewing.potion_capacity.description",
   "hide_while_locked": false,
   "icon": {
     "item": "witchery:mandrake_root"
   },
-  "name": "book.witchery.guidebook.potions.potion_capacity.name",
+  "name": "book.witchery.guidebook.brewing.potion_capacity.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -16,8 +16,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "potions.potion_capacity.page.1",
-      "title": "potions.potion_capacity.title",
+      "text": "brewing.potion_capacity.page.1",
+      "title": "brewing.potion_capacity.title",
       "use_markdown_in_title": false
     },
     {
@@ -137,13 +137,13 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "potions/beginning_potions",
+      "entry": "brewing/beginning_potions",
       "line_enabled": true,
       "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 1,
-  "x": -2,
-  "y": 0
+  "sort_number": 2,
+  "x": -1,
+  "y": -4
 }

@@ -1079,15 +1079,158 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         genPotionCapacity("nether_star")
         genPotionCapacity("pentacle")
 
-        builder.add("book.witchery.guidebook.potions.beginning_potions.name", "Custom Potions")
-        builder.add("book.witchery.guidebook.potions.beginning_potions.description", "For when you want more effects")
-        builder.add("potions.beginning_potions.title", "Custom Potions")
-        builder.add("potions.beginning_potions.page.1", "Custom potions are made in a lit Cauldron access to an Altar with sufficient power depending on the resources used. The first ingredient must be a Nether Wart. Other than Altar Power, Potions require Capacity to increase the amount of ingredients the potion can hold.")
-        builder.add("potions.beginning_potions.page.2", "")
+        builder.add("book.witchery.guidebook.brewing.beginning_potions.name", "Custom Potions")
+        builder.add("book.witchery.guidebook.brewing.beginning_potions.description", "For when you want more effects")
+        builder.add("brewing.beginning_potions.title", "Custom Potions")
+        builder.add("brewing.beginning_potions.page.1", "Custom potions are made in a lit Cauldron access to an Altar with sufficient power depending on the resources used. The first ingredient must be a Nether Wart. Other than Altar Power, Potions require Capacity to increase the amount of ingredients the potion can hold.")
+        builder.add("brewing.beginning_potions.page.2", "Stronger ingredients require more altar power to successfully mix.")
 
-        builder.add("book.witchery.guidebook.potions.potion_capacity.name", "Potion Capacity")
-        builder.add("book.witchery.guidebook.potions.potion_capacity.description", "More room for more fun")
-        builder.add("potions.potion_capacity.title", "Potion Capacity")
-        builder.add("potions.potion_capacity.page.1", "After the Nether Wart has been added the potion starts without any capacity. And since most ingredients cost capacity, capacity modifiers should be added first, but not limited to first. Potent ingredients might require more than one capacity.")
+        builder.add("book.witchery.guidebook.brewing.potion_capacity.name", "Potion Capacity")
+        builder.add("book.witchery.guidebook.brewing.potion_capacity.description", "More room for more fun")
+        builder.add("brewing.potion_capacity.title", "Potion Capacity")
+        builder.add("brewing.potion_capacity.page.1", "After the Nether Wart has been added the potion starts without any capacity. And since most ingredients cost capacity, capacity modifiers should be added first, but not limited to first. Potent ingredients might require more than one capacity.")
+
+        builder.add("book.witchery.guidebook.brewing.potion_effect.name", "Potion Effect")
+        builder.add("book.witchery.guidebook.brewing.potion_effect.description", "More room for more fun")
+        builder.add("brewing.potion_effect.title", "Potion Effect")
+        builder.add("brewing.potion_effect.page.1", "Once the brew holds capacity, ingredients may bestow their magick. Each carries a tale, each a tincture. Choose wisely, for not all gifts are kind. Most potions needs to be thrown")
+
+        builder.add("brewing.potion_effect_type.title", "Effect Type")
+        builder.add("brewing.potion_effect_type.page.1", "Modifies the behaviour of potions")
+
+        builder.add("potion_effect.blaze_powder", "Brings strength like fire, fierce and fleeting.")
+        builder.add("potion_effect.blaze_powder.title", "Strength")
+
+        builder.add("potion_effect.glistering_melon_slice", "Restores the flesh with golden sweetness.")
+        builder.add("potion_effect.glistering_melon_slice.title", "Healing")
+
+        builder.add("potion_effect.spider_eye", "A cursed touch, brings poison with a glance.")
+        builder.add("potion_effect.spider_eye.title", "Poison")
+
+        builder.add("potion_effect.ghast_tear", "Tear of the damned")
+        builder.add("potion_effect.ghast_tear.title", "Regeneration")
+
+        builder.add("potion_effect.sugar", "Glucose induced hyperactivity")
+        builder.add("potion_effect.sugar.title", "Speed")
+
+        builder.add("potion_effect.golden_carrot", "See")
+        builder.add("potion_effect.golden_carrot.title", "Night Vision")
+
+        builder.add("potion_effect.gold_nugget", "I fancy a sneaky potion")
+        builder.add("potion_effect.gold_nugget.title", "Hide Particles")
+
+        builder.add("potion_effect.fermented_spider_eye", "Good to bad and bad to good")
+        builder.add("potion_effect.fermented_spider_eye.title", "Inverse Effect")
+
+        builder.add("potion_effect.rowan_berries", "Taste too good!")
+        builder.add("potion_effect.rowan_berries.title", "Fast Drinking")
+
+        builder.add("potion_effect.exhale_of_the_horned_one", "Taste too good!")
+        builder.add("potion_effect.exhale_of_the_horned_one.title", "Fast Drinking")
+
+        builder.add("potion_effect.spanish_moss", "Taste too good!")
+        builder.add("potion_effect.spanish_moss.title", "Fast Drinking")
+
+        builder.add("potion_effect.glowstone_dust", "Extra Omph!")
+        builder.add("potion_effect.glowstone_dust.title", "Amplify +1")
+
+        builder.add("potion_effect.blaze_rod", "Extra Omph!")
+        builder.add("potion_effect.blaze_rod.title", "Amplify +2")
+
+        builder.add("potion_effect.attuned_stone", "Extra Omph!")
+        builder.add("potion_effect.attuned_stone.title", "Amplify +4")
+
+        builder.add("potion_effect.redstone", "Extra Long!")
+        builder.add("potion_effect.redstone.title", "Mult 2")
+
+        builder.add("potion_effect.obsidian", "Extra Long!")
+        builder.add("potion_effect.obsidian.title", "Mult 4")
+
+        builder.add("potion_effect.gunpowder", "")
+        builder.add("potion_effect.gunpowder.title", "Splash")
+
+        builder.add("potion_effect.cocoa_beans", "")
+        builder.add("potion_effect.cocoa_beans.title", "Range Mod *2")
+
+        builder.add("potion_effect.wispy_cotton", "")
+        builder.add("potion_effect.wispy_cotton.title", "Range Mod *4")
+
+        builder.add("potion_effect.belladonna_flower", "")
+        builder.add("potion_effect.belladonna_flower.title", "Lingering Mod *2")
+
+        builder.add("potion_effect.lapis_lazuli", "")
+        builder.add("potion_effect.lapis_lazuli.title", "Lingering Mod *2")
+
+        builder.add("potion_effect.end_stone", "")
+        builder.add("potion_effect.end_stone.title", "Lingering Mod *4")
+
+        builder.add("potion_effect.dragon_breath", "")
+        builder.add("potion_effect.dragon_breath.title", "Lingering")
+
+        builder.add("potion_effect.apple", "Harvests crops on Splash")
+        builder.add("potion_effect.apple.title", "Harvest")
+
+        builder.add("potion_effect.bone_meal", "Bone Meal effect on Splash")
+        builder.add("potion_effect.bone_meal.title", "Fertile")
+
+        builder.add("potion_effect.coal", "Puts out fire")
+        builder.add("potion_effect.coal.title", "Extinguish")
+
+        builder.add("potion_effect.dandelion", "Grow random flowers")
+        builder.add("potion_effect.dandelion.title", "Grow Flowers")
+
+        builder.add("potion_effect.dirt", "Tills all dirt")
+        builder.add("potion_effect.dirt.title", "Till Land")
+
+        builder.add("potion_effect.ender_dew", "Disables Endermen teleportation")
+        builder.add("potion_effect.ender_dew.title", "Ender Inhibition")
+
+        builder.add("potion_effect.lily_pad", "Grows Lilies on water")
+        builder.add("potion_effect.lily_pad.title", "Grow Lily")
+
+        builder.add("potion_effect.dead_bush", "Destroys all leaves")
+        builder.add("potion_effect.dead_bush.title", "Prune Leaves")
+
+        builder.add("potion_effect.sand", "Temporarily removes water")
+        builder.add("potion_effect.sand.title", "Part Water")
+
+        builder.add("potion_effect.wheat_seeds", "Plants seed items on the ground on tilled land")
+        builder.add("potion_effect.wheat_seeds.title", "Plant Seeds")
+
+        builder.add("potion_effect.wolfsbane", "Inhibits werewolf transformation")
+        builder.add("potion_effect.wolfsbane.title", "Werewolf Lock")
+
+        builder.add("potion_effect.string", "Harvests whole trees")
+        builder.add("potion_effect.string.title", "Fell Tree")
+
+        builder.add("potion_effect.cobblestone", "Temporarily removes lava")
+        builder.add("potion_effect.cobblestone.title", "Part Lava")
+
+        builder.add("potion_effect.ent_twig", "Grows a tree. Can pick sapling from inventory")
+        builder.add("potion_effect.ent_twig.title", "Sprouting")
+
+        builder.add("potion_effect.slime_ball", "Pulls mobs to the center")
+        builder.add("potion_effect.slime_ball.title", "Pull")
+
+        builder.add("potion_effect.stick", "Push mobs from the center")
+        builder.add("potion_effect.stick.title", "Push")
+
+        builder.add("potion_effect.ender_pearl", "Random Teleportation")
+        builder.add("potion_effect.ender_pearl.title", "Teleport")
+
+        builder.add("potion_effect.rose_bush", "Tames or Un-tames animals")
+        builder.add("potion_effect.rose_bush.title", "Tame Animals")
+
+        builder.add("potion_effect.poppy", "Puts animals into spontaneous labour")
+        builder.add("potion_effect.poppy.title", "Love")
+
+        builder.add("potion_effect.brown_mushroom", "Grow the entity in size")
+        builder.add("potion_effect.brown_mushroom.title", "Grow")
+
+        builder.add("potion_effect.red_mushroom", "Shrinks the entity in size")
+        builder.add("potion_effect.red_mushroom.title", "Shrink")
+
+        builder.add("potion_effect.witches_hat", "...")
+        builder.add("potion_effect.witches_hat.title", "Summon Leonard")
     }
 }

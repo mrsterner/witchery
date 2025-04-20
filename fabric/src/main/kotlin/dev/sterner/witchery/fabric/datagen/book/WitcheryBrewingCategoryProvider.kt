@@ -27,9 +27,9 @@ class WitcheryBrewingCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
+            "______________p_m_n_______________",
             "__________________________________",
-            "__________________________________",
-            "________________h___g_____________",
+            "_____________h__j___g_____________",
             "__________________________________",
             "________l_s_b___c_r__o____________",
             "____________a_____________________",
@@ -56,6 +56,22 @@ class WitcheryBrewingCategoryProvider(
             BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("cauldron"))
         )
         addEntry(cauldron)
+
+        val introduction = PotionBeginningEntryProvider(this).generate("j")
+        introduction.addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+        addEntry(introduction)
+
+        val capacity = PotionCapacityEntryProvider(this).generate("m")
+        capacity.addParent(BookEntryParentModel.create(introduction.id).withDrawArrow(true))
+        addEntry(capacity)
+
+        val effect = PotionEffectEntryProvider(this).generate("n")
+        effect.addParent(BookEntryParentModel.create(introduction.id).withDrawArrow(true))
+        addEntry(effect)
+
+        val effectType = PotionEffectTypeEntryProvider(this).generate("p")
+        effectType.addParent(BookEntryParentModel.create(introduction.id).withDrawArrow(true))
+        addEntry(effectType)
 
         val redstoneSoup = RedstoneSoupEntryProvider(this).generate("r")
         redstoneSoup

@@ -13,10 +13,10 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.ItemLike
 
-class BookPotionPageModel :
-    BookPageModel<BookPotionPageModel?>(Witchery.id("potion_model")) {
+class BookPotionEffectPageModel :
+    BookPageModel<BookPotionEffectPageModel?>(Witchery.id("potion_effect")) {
 
-    var items: MutableList<Pair<ItemStack, BookTextHolder>> = mutableListOf()
+    var items: MutableList<Pair<ItemStack, Pair<BookTextHolder, BookTextHolder>>> = mutableListOf()
     var title: BookTextHolderModel = BookTextHolderModel("")
     var text: BookTextHolderModel = BookTextHolderModel("")
 
@@ -25,7 +25,7 @@ class BookPotionPageModel :
         json.add("title", title.toJson(provider))
         json.add(
             "items",
-            BookPotionCapacityPage.ITEMS_WITH_TEXT_LIST_CODEC.encodeStart(
+            BookPotionCapacityPage.ITEMS_WITH_TEXT_LIST_PAIR_CODEC.encodeStart(
                 provider.createSerializationContext(JsonOps.INSTANCE),
                 this.items
             ).getOrThrow()
@@ -34,43 +34,50 @@ class BookPotionPageModel :
         return json
     }
 
-    fun withTitle(title: String?): BookPotionPageModel {
+    fun withTitle(title: String?): BookPotionEffectPageModel {
         this.title = BookTextHolderModel(title!!)
         return this
     }
 
-    fun withTitle(title: Component?): BookPotionPageModel {
+    fun withTitle(title: Component?): BookPotionEffectPageModel {
         this.title = BookTextHolderModel(title)
         return this
     }
 
-    fun addItem(item: ItemStack, holder: BookTextHolder): BookPotionPageModel {
-        this.items.add(item to holder)
+    fun addItem(item: ItemStack): BookPotionEffectPageModel {
+        this.addItem(item, BookTextHolder(
+            Component.translatable("potion_effect." + item.item.toString().substringAfter(":"))), BookTextHolder(
+            Component.translatable("potion_effect." + item.item.toString().substringAfter(":") + ".title")))
         return this
     }
 
-    fun addItem(item: ItemStack, text: Component): BookPotionPageModel {
-        this.items.add(item to BookTextHolder(text))
+    fun addItem(item: ItemStack, holder: BookTextHolder, holderTitle: BookTextHolder): BookPotionEffectPageModel {
+        this.items.add(item to (holder to holderTitle))
         return this
     }
 
-    fun addItem(item: ItemLike, text: Component): BookPotionPageModel {
-        return addItem(ItemStack(item), text)
+    fun addItem(item: ItemStack, text: Component, textTitle: Component): BookPotionEffectPageModel {
+        this.items.add(item to (BookTextHolder(text) to (BookTextHolder(textTitle))))
+        return this
     }
 
-    fun withText(text: String?): BookPotionPageModel {
+    fun addItem(item: ItemLike, text: Component, textTitle: Component): BookPotionEffectPageModel {
+        return addItem(ItemStack(item), text, textTitle)
+    }
+
+    fun withText(text: String?): BookPotionEffectPageModel {
         this.text = BookTextHolderModel(text!!)
         return this
     }
 
-    fun withText(text: Component?): BookPotionPageModel {
+    fun withText(text: Component?): BookPotionEffectPageModel {
         this.text = BookTextHolderModel(text)
         return this
     }
 
     companion object {
-        fun create(): BookPotionPageModel {
-            return BookPotionPageModel()
+        fun create(): BookPotionEffectPageModel {
+            return BookPotionEffectPageModel()
         }
     }
 }

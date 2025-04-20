@@ -1,7 +1,6 @@
 package dev.sterner.witchery.integration.modonomicon
 
 import com.google.gson.JsonObject
-import com.klikli_dev.modonomicon.api.ModonomiconConstants
 import com.klikli_dev.modonomicon.book.BookTextHolder
 import com.klikli_dev.modonomicon.book.RenderedBookTextHolder
 import com.klikli_dev.modonomicon.book.conditions.BookCondition
@@ -14,6 +13,8 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.integration.modonomicon.BookPotionCapacityPage.Companion.ITEMS_WITH_TEXT_LIST_STREAM_CODEC
+import dev.sterner.witchery.integration.modonomicon.BookPotionCapacityPage.Companion.ITEMS_WITH_TEXT_TEXT_LIST_STREAM_CODEC
 import net.minecraft.client.resources.language.I18n
 import net.minecraft.core.HolderLookup
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -26,10 +27,10 @@ import net.minecraft.util.GsonHelper
 import net.minecraft.world.item.ItemStack
 import java.util.*
 
-class BookPotionPage(
+class BookPotionEffectPage(
     var title: BookTextHolder,
     var text: BookTextHolder,
-    var items: MutableList<Pair<ItemStack, BookTextHolder>>,
+    var items: MutableList<Pair<ItemStack, Pair<BookTextHolder, BookTextHolder>>>,
     anchor: String?,
     condition: BookCondition?
 ) :
@@ -40,7 +41,7 @@ class BookPotionPage(
     }
 
     override fun getType(): ResourceLocation {
-        return Witchery.id("potion_model")
+        return Witchery.id("potion_effect")
     }
 
     override fun prerenderMarkdown(textRenderer: BookTextRenderer) {
@@ -69,7 +70,7 @@ class BookPotionPage(
 
     override fun toNetwork(buffer: RegistryFriendlyByteBuf) {
         title.toNetwork(buffer)
-        ITEMS_WITH_TEXT_LIST_STREAM_CODEC.encode(buffer, items)
+        ITEMS_WITH_TEXT_TEXT_LIST_STREAM_CODEC.encode(buffer, items)
         text.toNetwork(buffer)
         buffer.writeUtf(anchor ?: "")
         BookCondition.toNetwork(condition, buffer)
@@ -98,54 +99,7 @@ class BookPotionPage(
 
     companion object {
 
-        val CODEC: Codec<BookTextHolder> = Codec.either(
-            ComponentSerialization.CODEC,
-            Codec.STRING
-        ).xmap(
-            { either -> either.map(::BookTextHolder, ::BookTextHolder) },
-            { holder -> if (holder.hasComponent()) Either.left(holder.component) else Either.right(holder.string) }
-        )
-
-        val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, BookTextHolder> =
-            StreamCodec.of(
-                { buffer, value -> value.toNetwork(buffer) },
-                { buffer -> BookTextHolder.fromNetwork(buffer) }
-            )
-
-        val ITEM_TEXT_PAIR_STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, Pair<ItemStack, BookTextHolder>> =
-            StreamCodec.composite(
-                ItemStack.STREAM_CODEC,
-                { it.first },
-                STREAM_CODEC,
-                { it.second },
-                ::Pair
-            )
-
-        val ITEMS_WITH_TEXT_LIST_STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, List<Pair<ItemStack, BookTextHolder>>> =
-            StreamCodec.of(
-                { buffer, list ->
-                    buffer.writeVarInt(list.size)
-                    list.forEach { ITEM_TEXT_PAIR_STREAM_CODEC.encode(buffer, it) }
-                },
-                { buffer ->
-                    val size = buffer.readVarInt()
-                    List(size) { ITEM_TEXT_PAIR_STREAM_CODEC.decode(buffer) }
-                }
-            )
-
-        val ITEM_TEXT_PAIR_CODEC: Codec<Pair<ItemStack, BookTextHolder>> =
-            RecordCodecBuilder.create { instance ->
-                instance.group(
-                    ItemStack.CODEC.fieldOf("item").forGetter { it.first },
-                    CODEC.fieldOf("text").forGetter { it.second }
-                ).apply(instance, ::Pair)
-            }
-
-        val ITEMS_WITH_TEXT_LIST_CODEC: Codec<List<Pair<ItemStack, BookTextHolder>>> =
-            ITEM_TEXT_PAIR_CODEC.listOf()
-
-
-        fun fromJson(entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider): BookPotionPage {
+        fun fromJson(entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider): BookPotionEffectPage {
             val title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY, provider)
             val text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider)
             val anchor = GsonHelper.getAsString(json, "anchor", "")
@@ -160,21 +114,24 @@ class BookPotionPage(
                     obj.get("item")
                 ).result().orElse(ItemStack.EMPTY)
 
-                val itemText = BookGsonHelper.getAsBookTextHolder(obj, "text", BookTextHolder.EMPTY, provider)
-                stack to itemText
+                val textsObj = obj.getAsJsonObject("texts")
+                val itemText = BookGsonHelper.getAsBookTextHolder(textsObj, "text", BookTextHolder.EMPTY, provider)
+                val itemText1 = BookGsonHelper.getAsBookTextHolder(textsObj, "text_title", BookTextHolder.EMPTY, provider)
+
+                stack to (itemText to itemText1)
             }.toMutableList()
 
-            return BookPotionPage(title, text, itemList, anchor, condition)
+            return BookPotionEffectPage(title, text, itemList, anchor, condition)
         }
 
 
-        fun fromNetwork(buffer: RegistryFriendlyByteBuf): BookPotionPage {
+        fun fromNetwork(buffer: RegistryFriendlyByteBuf): BookPotionEffectPage {
             val title = BookTextHolder.fromNetwork(buffer)
-            val itemList = ITEMS_WITH_TEXT_LIST_STREAM_CODEC.decode(buffer)
+            val itemList = BookPotionCapacityPage.ITEMS_WITH_TEXT_TEXT_LIST_STREAM_CODEC.decode(buffer)
             val text = BookTextHolder.fromNetwork(buffer)
             val anchor = buffer.readUtf()
             val condition = BookCondition.fromNetwork(buffer)
-            return BookPotionPage(title, text, itemList.toMutableList(), anchor, condition)
+            return BookPotionEffectPage(title, text, itemList.toMutableList(), anchor, condition)
         }
     }
 }

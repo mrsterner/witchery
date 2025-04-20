@@ -1,13 +1,13 @@
 {
   "background_u_index": 0,
   "background_v_index": 0,
-  "category": "potions",
-  "description": "book.witchery.guidebook.potions.beginning_potions.description",
+  "category": "brewing",
+  "description": "book.witchery.guidebook.brewing.beginning_potions.description",
   "hide_while_locked": false,
   "icon": {
     "item": "witchery:witchery_potion"
   },
-  "name": "book.witchery.guidebook.potions.beginning_potions.name",
+  "name": "book.witchery.guidebook.brewing.beginning_potions.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -16,8 +16,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "potions.beginning_potions.page.1",
-      "title": "potions.beginning_potions.title",
+      "text": "brewing.beginning_potions.page.1",
+      "title": "brewing.beginning_potions.title",
       "use_markdown_in_title": false
     },
     {
@@ -27,13 +27,21 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "potions.beginning_potions.page.2",
+      "text": "brewing.beginning_potions.page.2",
       "title": "",
       "use_markdown_in_title": false
     }
   ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "brewing/cauldron",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 0,
-  "x": -4,
-  "y": 0
+  "sort_number": 1,
+  "x": -1,
+  "y": -2
 }

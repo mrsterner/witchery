@@ -10,19 +10,12 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Style
 
 
-open class BookPotionPageRenderer(page: BookPotionPage) :
-    BookPageRenderer<BookPotionPage>(page),
+open class BookPotionEffectPageRenderer(page: BookPotionEffectPage) :
+    BookPageRenderer<BookPotionEffectPage>(page),
     PageWithTextRenderer {
 
     override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, ticks: Float) {
-        if (page!!.hasTitle()) {
-            this.renderTitle(
-                guiGraphics,
-                page!!.title, false, BookEntryScreen.PAGE_WIDTH / 2, 0
-            )
-        }
-
-        var currentY = this.textY - 18
+        var currentY = this.textY - 40
 
         val itemHeight = 18
         val offsetX = 0
@@ -52,15 +45,25 @@ open class BookPotionPageRenderer(page: BookPotionPage) :
 
             renderBookTextHolder(
                 guiGraphics,
-                item.second,
+                item.second.second,
                 Minecraft.getInstance().font,
                 offsetX + 18 + 11,
-                currentY + 4,
-                BookEntryScreen.PAGE_WIDTH + 18,
+                currentY + 8,
+                BookEntryScreen.PAGE_WIDTH - 5,
                 BookEntryScreen.PAGE_HEIGHT - currentY
             )
 
-            currentY += itemHeight + 7
+            renderBookTextHolder(
+                guiGraphics,
+                item.second.first,
+                Minecraft.getInstance().font,
+                offsetX + 18 + 11 - 24,
+                currentY + 4 + 18 + 4,
+                BookEntryScreen.PAGE_WIDTH - 5,
+                BookEntryScreen.PAGE_HEIGHT - currentY
+            )
+
+            currentY += itemHeight + 7 + 28
         }
 
         val style = this.getClickedComponentStyleAt(mouseX.toDouble(), mouseY.toDouble())

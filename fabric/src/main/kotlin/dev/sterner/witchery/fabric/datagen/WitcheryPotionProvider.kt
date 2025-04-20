@@ -126,30 +126,35 @@ class WitcheryPotionProvider(
         makeIngredient(provider,
             Items.GOLD_NUGGET,
             altarPower = 50,
+            capacity = 0,
             generalModifier = listOf(GeneralModifier.NO_PARTICLE),
             color = Color(255, 160, 20).rgb
         )
         makeIngredient(provider,
             Items.FERMENTED_SPIDER_EYE,
             altarPower = 25,
+            capacity = 0,
             generalModifier = listOf(GeneralModifier.INVERT_NEXT),
             color = Color(255, 70, 80).rgb
         )
         makeIngredient(provider,
             WitcheryItems.ROWAN_BERRIES.get(),
             altarPower = 50,
+            capacity = 0,
             generalModifier = listOf(GeneralModifier.DRINK_SPEED_BOOST),
             color = Color(255, 70, 20).rgb
         )
         makeIngredient(provider,
             WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get(),
             altarPower = 50,
+            capacity = 0,
             generalModifier = listOf(GeneralModifier.DRINK_SPEED_BOOST),
             color = Color(155, 190, 90).rgb
         )
         makeIngredient(provider,
             WitcheryItems.SPANISH_MOSS.get(),
             altarPower = 50,
+            capacity = 0,
             generalModifier = listOf(GeneralModifier.DRINK_SPEED_BOOST),
             color = Color(155, 190, 90).rgb
         )
@@ -185,6 +190,7 @@ class WitcheryPotionProvider(
         )
         makeIngredient(provider,
             Items.GUNPOWDER,
+            capacity = 0,
             altarPower = 100,
             type = Type.SPLASH,
             color = Color(100, 100, 100).rgb

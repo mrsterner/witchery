@@ -1,7 +1,6 @@
 package dev.sterner.witchery.registry
 
 import com.google.gson.JsonObject
-import com.klikli_dev.modonomicon.api.ModonomiconConstants
 import com.klikli_dev.modonomicon.book.page.BookPage
 import com.klikli_dev.modonomicon.data.BookPageJsonLoader
 import com.klikli_dev.modonomicon.data.LoaderRegistry
@@ -92,14 +91,29 @@ object WitcheryModonomiconLoaders {
         LoaderRegistry.registerPageLoader(
             Witchery.id("potion_model"),
             BookPageJsonLoader<BookPage> { entryId: ResourceLocation, json: JsonObject, provider: HolderLookup.Provider ->
-                BookPotionPage.fromJson(
+                BookPotionCapacityPage.fromJson(
                     entryId,
                     json,
                     provider
                 )
             } as BookPageJsonLoader<*>
         ) { buffer: RegistryFriendlyByteBuf ->
-            BookPotionPage.fromNetwork(
+            BookPotionCapacityPage.fromNetwork(
+                buffer
+            )
+        }
+
+        LoaderRegistry.registerPageLoader(
+            Witchery.id("potion_effect"),
+            BookPageJsonLoader<BookPage> { entryId: ResourceLocation, json: JsonObject, provider: HolderLookup.Provider ->
+                BookPotionEffectPage.fromJson(
+                    entryId,
+                    json,
+                    provider
+                )
+            } as BookPageJsonLoader<*>
+        ) { buffer: RegistryFriendlyByteBuf ->
+            BookPotionEffectPage.fromNetwork(
                 buffer
             )
         }

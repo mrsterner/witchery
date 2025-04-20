@@ -24,7 +24,7 @@ public abstract class BookCategoryNodeScreenMixin {
     )
     private int witchery$modifyUnreadIconHeight(int height) {
         if (this.bookParentScreen.getBook().getId().equals(Witchery.INSTANCE.id("guidebook"))) {
-            return 10;
+            return height;
         }
         return height;
     }
