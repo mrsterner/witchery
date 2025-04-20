@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.general.fume_expansion.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:iron_witches_oven_fume_extension"
+      },
       "text": "general.fume_expansion.page.1",
-      "title": "general.fume_expansion.title",
-      "use_markdown_in_title": false
+      "title": "general.fume_expansion.title"
     },
     {
       "type": "modonomicon:crafting_recipe",

@@ -18,6 +18,6 @@ object PotionColor : ItemColor {
             }
         }
 
-        return if (i > 0) -1 else Color(100, 200, 100).rgb
+        return if (i > 0) -1 else Color(255, 20, 100).rgb
     }
 }

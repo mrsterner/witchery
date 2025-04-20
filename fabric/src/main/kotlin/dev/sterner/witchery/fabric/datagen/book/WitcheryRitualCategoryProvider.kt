@@ -146,7 +146,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(infernalChalk.id).withDrawArrow(true))
         addEntry(summonWitch)
 
-        val summonSpectral = RitualEntryProvider("summon_spectral", WitcheryItems.SPECTRAL_DUST.get(),this).generate("s")
+        val summonSpectral = RitualEntryProvider("summon_spectral_pig", WitcheryItems.SPECTRAL_DUST.get(),this).generate("s")
         summonSpectral
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -208,7 +208,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(applyOintment)
 
-        val midnight = RitualEntryProvider("midnight", Items.WOODEN_AXE,this).generate("k")
+        val midnight = RitualEntryProvider("set_midnight", Items.WOODEN_AXE,this).generate("k")
         midnight
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -220,7 +220,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(midnight)
 
-        val attuned = RitualEntryProvider("attuned", WitcheryItems.ATTUNED_STONE.get(),this).generate("a")
+        val attuned = RitualEntryProvider("charge_attuned", WitcheryItems.ATTUNED_STONE.get(),this).generate("a")
         attuned
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -232,7 +232,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(attuned)
 
-        val necro = RitualEntryProvider("necro", WitcheryItems.NECROMANTIC_STONE.get(),this).generate("n")
+        val necro = RitualEntryProvider("necro_stone", WitcheryItems.NECROMANTIC_STONE.get(),this).generate("n")
         necro
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -244,7 +244,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(necro)
 
-        val chargeInfusion = RitualEntryProvider("charge_infusion", Items.FIRE_CHARGE,this).generate("u")
+        val chargeInfusion = RitualEntryProvider("rite_of_charging_infusion", Items.FIRE_CHARGE,this).generate("u")
         chargeInfusion
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -280,7 +280,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(bindFamiliar)
 
-        val bindSpectralCreature = RitualEntryProvider("bind_spectral_creature", WitcheryItems.ARTHANA.get(),this).generate("y")
+        val bindSpectralCreature = RitualEntryProvider("bind_spectral_creatures", WitcheryItems.ARTHANA.get(),this).generate("y")
         bindSpectralCreature
             .withCondition(
                 BookAndConditionModel.create().withChildren(

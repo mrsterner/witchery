@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.ritual.infernal_chalk.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:infernal_chalk"
+      },
       "text": "ritual.infernal_chalk.page.1",
-      "title": "ritual.infernal_chalk.title",
-      "use_markdown_in_title": false
+      "title": "ritual.infernal_chalk.title"
     }
   ],
   "parents": [

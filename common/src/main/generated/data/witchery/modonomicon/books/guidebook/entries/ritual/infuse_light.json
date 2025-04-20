@@ -28,6 +28,17 @@
       "text": "ritual.infuse_light.page.1",
       "title": "ritual.infuse_light.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:ritual_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:ritual/infuse_light",
+      "text": "ritual.infuse_light.page.2",
+      "title1": "",
+      "title2": ""
     }
   ],
   "parents": [

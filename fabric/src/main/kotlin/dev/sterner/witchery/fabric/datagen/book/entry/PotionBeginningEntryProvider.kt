@@ -20,6 +20,10 @@ class PotionBeginningEntryProvider(parent: CategoryProviderBase?) : EntryProvide
                 .withTitle("${parent.categoryId()}.$ID.title")
                 .withText("${parent.categoryId()}.$ID.page.1")
         }
+        this.page("${ID}.2") {
+            BookTextPageModel.create()
+                .withText("${parent.categoryId()}.$ID.page.2")
+        }
     }
 
     override fun entryName(): String {

@@ -10,6 +10,17 @@
   "name": "book.witchery.guidebook.potions.potion_capacity.name",
   "pages": [
     {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "potions.potion_capacity.page.1",
+      "title": "potions.potion_capacity.title",
+      "use_markdown_in_title": false
+    },
+    {
       "type": "witchery:potion_model",
       "anchor": "",
       "condition": {
@@ -121,6 +132,14 @@
       ],
       "text": "",
       "title": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "potions/beginning_potions",
+      "line_enabled": true,
+      "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,

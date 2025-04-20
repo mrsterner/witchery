@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.general.grassper.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:grassper"
+      },
       "text": "general.grassper.page.1",
-      "title": "general.grassper.title",
-      "use_markdown_in_title": false
+      "title": "general.grassper.title"
     },
     {
       "type": "modonomicon:image",

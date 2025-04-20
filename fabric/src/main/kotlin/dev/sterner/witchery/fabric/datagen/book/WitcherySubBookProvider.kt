@@ -40,7 +40,6 @@ class WitcherySubBookProvider(defaultLang: BiConsumer<String, String>?) :
             .withRightFrameOverride(RIGHT_FRAME_OVERLAY)
             .withTopFrameOverride(TOP_FRAME_OVERLAY)
             .withBottomFrameOverride(BOTTOM_FRAME_OVERLAY)
-
     }
 
     companion object {

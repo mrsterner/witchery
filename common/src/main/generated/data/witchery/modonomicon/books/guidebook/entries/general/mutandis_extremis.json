@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.general.mutandis_extremis.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:mutandis_extremis"
+      },
       "text": "general.mutandis_extremis.page.1",
-      "title": "general.mutandis_extremis.title",
-      "use_markdown_in_title": false
+      "title": "general.mutandis_extremis.title"
     },
     {
       "type": "witchery:cauldron_crafting_recipe",

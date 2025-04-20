@@ -9,7 +9,5 @@ class BookDistillingPageModel : BookRecipePageModel<BookDistillingPageModel>(DIS
         fun create(): BookDistillingPageModel {
             return BookDistillingPageModel()
         }
-
-
     }
 }

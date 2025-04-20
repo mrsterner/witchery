@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.brewing.ritual_chalk.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:ritual_chalk"
+      },
       "text": "brewing.ritual_chalk.page.1",
-      "title": "brewing.ritual_chalk.title",
-      "use_markdown_in_title": false
+      "title": "brewing.ritual_chalk.title"
     },
     {
       "type": "witchery:cauldron_crafting_recipe",

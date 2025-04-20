@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.brewing.ghost_of_the_light.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:ghost_of_the_light"
+      },
       "text": "brewing.ghost_of_the_light.page.1",
-      "title": "brewing.ghost_of_the_light.title",
-      "use_markdown_in_title": false
+      "title": "brewing.ghost_of_the_light.title"
     },
     {
       "type": "witchery:cauldron_brewing_recipe",

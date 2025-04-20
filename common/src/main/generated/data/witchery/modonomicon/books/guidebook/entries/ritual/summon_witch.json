@@ -28,6 +28,17 @@
       "text": "ritual.summon_witch.page.1",
       "title": "ritual.summon_witch.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:ritual_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:ritual/summon_witch",
+      "text": "ritual.summon_witch.page.2",
+      "title1": "",
+      "title2": ""
     }
   ],
   "parents": [

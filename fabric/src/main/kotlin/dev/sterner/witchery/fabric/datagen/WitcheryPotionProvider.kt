@@ -85,7 +85,7 @@ class WitcheryPotionProvider(
             altarPower = 50,
             capacity = 1,
             effectModifier = EffectModifier(durationMultiplier = 6),
-            color = Color(200, 60, 50).rgb
+            color = Color(60, 250, 50).rgb
         )
         makeIngredient(provider,
             WitcheryItems.TEAR_OF_THE_GODDESS.get(),
@@ -121,7 +121,7 @@ class WitcheryPotionProvider(
             WitcheryItems.PENTACLE.get(),
             altarPower = 0,
             capacity = 4,
-            color = Color(155, 70, 80).rgb
+            color = Color(160, 30, 60).rgb
         )
         makeIngredient(provider,
             Items.GOLD_NUGGET,
@@ -193,7 +193,7 @@ class WitcheryPotionProvider(
             Items.COCOA_BEANS,
             altarPower = 100,
             dispersalModifier = DispersalModifier(rangeModifier = 2),
-            color = Color(150, 100, 10).rgb
+            color = Color(250, 100, 10).rgb
         )
         makeIngredient(provider,
             WitcheryItems.WISPY_COTTON.get(),
@@ -252,7 +252,7 @@ class WitcheryPotionProvider(
         makeIngredient(provider,
             Items.DIRT,
             altarPower = 0,
-            color = Color(160, 100, 60).rgb,
+            color = Color(250, 100, 60).rgb,
             specialPotion = Optional.of(WitcherySpecialPotionEffects.TILL_LAND.id)
         )
         makeIngredient(provider,
@@ -306,7 +306,7 @@ class WitcheryPotionProvider(
         makeIngredient(provider,
             WitcheryItems.ENT_TWIG.get(),
             altarPower = 350,
-            color = Color(200, 120, 30).rgb,
+            color = Color(250, 120, 30).rgb,
             specialPotion = Optional.of(WitcherySpecialPotionEffects.SPROUTING.id)
         )
         makeIngredient(provider,

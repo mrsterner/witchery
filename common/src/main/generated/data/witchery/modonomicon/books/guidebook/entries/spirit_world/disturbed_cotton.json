@@ -14,15 +14,17 @@
   "name": "book.witchery.guidebook.spirit_world.disturbed_cotton.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:disturbed_cotton"
+      },
       "text": "spirit_world.disturbed_cotton.page.1",
-      "title": "spirit_world.disturbed_cotton.title",
-      "use_markdown_in_title": false
+      "title": "spirit_world.disturbed_cotton.title"
     }
   ],
   "show_when_any_parent_unlocked": false,

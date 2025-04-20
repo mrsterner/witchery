@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.ritual.otherwhere_chalk.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:otherwhere_chalk"
+      },
       "text": "ritual.otherwhere_chalk.page.1",
-      "title": "ritual.otherwhere_chalk.title",
-      "use_markdown_in_title": false
+      "title": "ritual.otherwhere_chalk.title"
     }
   ],
   "parents": [

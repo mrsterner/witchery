@@ -23,15 +23,17 @@
   "name": "book.witchery.guidebook.general.mutandis.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:mutandis"
+      },
       "text": "general.mutandis.page.1",
-      "title": "general.mutandis.title",
-      "use_markdown_in_title": false
+      "title": "general.mutandis.title"
     },
     {
       "type": "witchery:cauldron_crafting_recipe",

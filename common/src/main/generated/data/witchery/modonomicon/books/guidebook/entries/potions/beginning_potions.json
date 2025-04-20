@@ -19,6 +19,17 @@
       "text": "potions.beginning_potions.page.1",
       "title": "potions.beginning_potions.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "potions.beginning_potions.page.2",
+      "title": "",
+      "use_markdown_in_title": false
     }
   ],
   "show_when_any_parent_unlocked": false,

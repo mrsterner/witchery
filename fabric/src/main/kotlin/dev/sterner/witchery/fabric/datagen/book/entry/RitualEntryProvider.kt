@@ -6,6 +6,10 @@ import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.fabric.datagen.book.page.BookRitualPageModel
+import dev.sterner.witchery.integration.modonomicon.BookRitualRecipePage
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 
 class RitualEntryProvider(val id: String, val item: Item, parent: CategoryProviderBase?) : EntryProvider(parent) {
@@ -16,6 +20,11 @@ class RitualEntryProvider(val id: String, val item: Item, parent: CategoryProvid
             BookTextPageModel.create()
                 .withTitle("${parent.categoryId()}.$id.title")
                 .withText("${parent.categoryId()}.$id.page.1")
+        }
+        this.page(id) {
+            BookRitualPageModel.create()
+                .withText("${parent.categoryId()}.$id.page.2")
+                .withRecipeId1(Witchery.id("ritual/$id"))
         }
     }
 

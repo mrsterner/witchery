@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.general.wormwood.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:wormwood"
+      },
       "text": "general.wormwood.page.1",
-      "title": "general.wormwood.title",
-      "use_markdown_in_title": false
+      "title": "general.wormwood.title"
     },
     {
       "type": "modonomicon:image",

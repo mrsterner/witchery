@@ -11,12 +11,12 @@
       }
     ]
   },
-  "description": "book.witchery.guidebook.ritual.bind_spectral_creature.description",
+  "description": "book.witchery.guidebook.ritual.necro_stone.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:arthana"
+    "item": "witchery:necromantic_stone"
   },
-  "name": "book.witchery.guidebook.ritual.bind_spectral_creature.name",
+  "name": "book.witchery.guidebook.ritual.necro_stone.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,9 +25,20 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "ritual.bind_spectral_creature.page.1",
-      "title": "ritual.bind_spectral_creature.title",
+      "text": "ritual.necro_stone.page.1",
+      "title": "ritual.necro_stone.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:ritual_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:ritual/necro_stone",
+      "text": "ritual.necro_stone.page.2",
+      "title1": "",
+      "title2": ""
     }
   ],
   "parents": [
@@ -39,7 +50,7 @@
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 19,
-  "x": -7,
-  "y": 1
+  "sort_number": 15,
+  "x": -3,
+  "y": 2
 }

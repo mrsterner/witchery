@@ -11,12 +11,12 @@
       }
     ]
   },
-  "description": "book.witchery.guidebook.ritual.charge_infusion.description",
+  "description": "book.witchery.guidebook.ritual.charge_attuned.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:fire_charge"
+    "item": "witchery:attuned_stone"
   },
-  "name": "book.witchery.guidebook.ritual.charge_infusion.name",
+  "name": "book.witchery.guidebook.ritual.charge_attuned.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,9 +25,20 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "ritual.charge_infusion.page.1",
-      "title": "ritual.charge_infusion.title",
+      "text": "ritual.charge_attuned.page.1",
+      "title": "ritual.charge_attuned.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:ritual_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:ritual/charge_attuned",
+      "text": "ritual.charge_attuned.page.2",
+      "title1": "",
+      "title2": ""
     }
   ],
   "parents": [
@@ -39,7 +50,7 @@
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 16,
-  "x": -6,
-  "y": 0
+  "sort_number": 14,
+  "x": -4,
+  "y": 1
 }

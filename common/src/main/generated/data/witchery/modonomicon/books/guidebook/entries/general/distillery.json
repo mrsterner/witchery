@@ -23,15 +23,17 @@
   "name": "book.witchery.guidebook.general.distillery.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:distillery"
+      },
       "text": "general.distillery.page.1",
-      "title": "general.distillery.title",
-      "use_markdown_in_title": false
+      "title": "general.distillery.title"
     },
     {
       "type": "witchery:distilling_recipe",

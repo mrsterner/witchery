@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.ritual.golden_chalk.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:golden_chalk"
+      },
       "text": "ritual.golden_chalk.page.1",
-      "title": "ritual.golden_chalk.title",
-      "use_markdown_in_title": false
+      "title": "ritual.golden_chalk.title"
     }
   ],
   "parents": [

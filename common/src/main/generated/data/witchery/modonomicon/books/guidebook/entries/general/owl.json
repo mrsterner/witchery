@@ -30,6 +30,20 @@
       "use_markdown_in_title": false
     },
     {
+      "type": "modonomicon:entity",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "default_rotation": -45.0,
+      "entity_id": "witchery:owl",
+      "name": "",
+      "offset": 0.0,
+      "rotate": true,
+      "scale": 1.0,
+      "text": ""
+    },
+    {
       "type": "modonomicon:image",
       "anchor": "",
       "border": true,

@@ -14,15 +14,30 @@
   "name": "book.witchery.guidebook.brewing.cauldron.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:cauldron"
+      },
       "text": "brewing.cauldron.page.1",
-      "title": "brewing.cauldron.title",
-      "use_markdown_in_title": false
+      "title": "brewing.cauldron.title"
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:copper_cauldron"
+      },
+      "text": "brewing.cauldron.page.2",
+      "title": "brewing.cauldron.title2"
     }
   ],
   "show_when_any_parent_unlocked": false,

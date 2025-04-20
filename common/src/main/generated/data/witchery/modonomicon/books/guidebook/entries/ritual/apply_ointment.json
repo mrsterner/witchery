@@ -28,6 +28,17 @@
       "text": "ritual.apply_ointment.page.1",
       "title": "ritual.apply_ointment.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:ritual_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:ritual/apply_ointment",
+      "text": "ritual.apply_ointment.page.2",
+      "title1": "",
+      "title2": ""
     }
   ],
   "parents": [

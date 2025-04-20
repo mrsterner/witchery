@@ -10,6 +10,7 @@ import com.mojang.datafixers.util.Pair
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data.PotionDataHandler
+import dev.sterner.witchery.fabric.datagen.book.entry.MutandisExtremisEntryProvider.Companion
 import dev.sterner.witchery.fabric.datagen.book.page.BookPotionPageModel
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.registry.WitcheryItems
@@ -27,10 +28,10 @@ class PotionCapacityEntryProvider(parent: CategoryProviderBase?) : EntryProvider
     override fun generatePages() {
         this.page(ID) {
             BookTextPageModel.create()
-                .withTitle("${parent.categoryId()}.$ID.title")
-                .withText("${parent.categoryId()}.$ID.page.1")
-
-
+                .withTitle("${parent.categoryId()}.${ID}.title")
+                .withText("${parent.categoryId()}.${ID}.page.1")
+        }
+        this.page("${ID}_2") {
             BookPotionPageModel.create()
                 .withTitle("Capacity Modifiers")
                 .addItem(WitcheryItems.MANDRAKE_ROOT.get().defaultInstance, BookTextHolder(
@@ -50,7 +51,7 @@ class PotionCapacityEntryProvider(parent: CategoryProviderBase?) : EntryProvider
                 ))
 
         }
-        this.page("${ID}_2") {
+        this.page("${ID}_3") {
             BookPotionPageModel.create()
                 .addItem(Items.NETHER_STAR.defaultInstance, BookTextHolder(
                     Component.translatable("witchery.potion_crafting.nether_star", 3, 0)

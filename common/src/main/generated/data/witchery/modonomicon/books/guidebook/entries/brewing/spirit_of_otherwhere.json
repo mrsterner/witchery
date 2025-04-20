@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.brewing.spirit_of_otherwhere.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:spirit_of_otherwhere"
+      },
       "text": "brewing.spirit_of_otherwhere.page.1",
-      "title": "brewing.spirit_of_otherwhere.title",
-      "use_markdown_in_title": false
+      "title": "brewing.spirit_of_otherwhere.title"
     },
     {
       "type": "witchery:cauldron_brewing_recipe",

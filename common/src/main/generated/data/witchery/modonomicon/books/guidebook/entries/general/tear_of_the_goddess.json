@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.general.tear_of_the_goddess.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:tear_of_the_goddess"
+      },
       "text": "general.tear_of_the_goddess.page.1",
-      "title": "general.tear_of_the_goddess.title",
-      "use_markdown_in_title": false
+      "title": "general.tear_of_the_goddess.title"
     }
   ],
   "parents": [

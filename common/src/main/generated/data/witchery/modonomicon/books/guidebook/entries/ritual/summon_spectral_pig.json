@@ -11,12 +11,12 @@
       }
     ]
   },
-  "description": "book.witchery.guidebook.ritual.summon_spectral.description",
+  "description": "book.witchery.guidebook.ritual.summon_spectral_pig.description",
   "hide_while_locked": false,
   "icon": {
     "item": "witchery:spectral_dust"
   },
-  "name": "book.witchery.guidebook.ritual.summon_spectral.name",
+  "name": "book.witchery.guidebook.ritual.summon_spectral_pig.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,9 +25,20 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "ritual.summon_spectral.page.1",
-      "title": "ritual.summon_spectral.title",
+      "text": "ritual.summon_spectral_pig.page.1",
+      "title": "ritual.summon_spectral_pig.title",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:ritual_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:ritual/summon_spectral_pig",
+      "text": "ritual.summon_spectral_pig.page.2",
+      "title1": "",
+      "title2": ""
     }
   ],
   "parents": [

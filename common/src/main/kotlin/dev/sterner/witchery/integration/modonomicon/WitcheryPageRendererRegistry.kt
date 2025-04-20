@@ -8,6 +8,7 @@ import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
+import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import net.minecraft.resources.ResourceLocation
 
 object WitcheryPageRendererRegistry {
@@ -23,6 +24,9 @@ object WitcheryPageRendererRegistry {
 
     val DISTILLING_RECIPE: ResourceLocation =
         ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "distilling_recipe")
+
+    val RITUAL_RECIPE: ResourceLocation =
+        ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "ritual_recipe")
 
     fun register() {
         PageRendererRegistry.registerPageRenderer(
@@ -59,6 +63,16 @@ object WitcheryPageRendererRegistry {
             object :
                 BookDistillingRecipePageRenderer<DistilleryCraftingRecipe>(
                     p as BookDistillingRecipePage
+                ) {
+            }
+        }
+
+        PageRendererRegistry.registerPageRenderer(
+            RITUAL_RECIPE
+        ) { p: BookPage ->
+            object :
+                BookRitualRecipePageRenderer<RitualRecipe>(
+                    p as BookRitualRecipePage
                 ) {
             }
         }

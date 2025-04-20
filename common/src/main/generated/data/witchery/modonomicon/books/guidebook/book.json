@@ -11,7 +11,7 @@
     "frame_height": 8,
     "frame_width": 72,
     "frame_x_offset": 0,
-    "frame_y_offset": -4,
+    "frame_y_offset": 0,
     "texture": "witchery:textures/gui/modonomicon/bottom.png",
     "texture_height": 256,
     "texture_width": 256
@@ -44,7 +44,7 @@
   "right_frame_overlay": {
     "frame_height": 70,
     "frame_width": 8,
-    "frame_x_offset": -4,
+    "frame_x_offset": -6,
     "frame_y_offset": 0,
     "texture": "witchery:textures/gui/modonomicon/right.png",
     "texture_height": 256,
@@ -58,7 +58,7 @@
     "frame_height": 7,
     "frame_width": 72,
     "frame_x_offset": 0,
-    "frame_y_offset": 4,
+    "frame_y_offset": 0,
     "texture": "witchery:textures/gui/modonomicon/top.png",
     "texture_height": 256,
     "texture_width": 256

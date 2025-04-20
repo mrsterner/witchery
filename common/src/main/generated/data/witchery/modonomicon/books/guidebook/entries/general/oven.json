@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.general.oven.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:iron_witches_oven"
+      },
       "text": "general.oven.page.1",
-      "title": "general.oven.title",
-      "use_markdown_in_title": false
+      "title": "general.oven.title"
     },
     {
       "type": "witchery:oven_fuming_recipe",

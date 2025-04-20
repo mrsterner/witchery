@@ -4,6 +4,7 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
+import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import net.minecraft.world.item.Item
@@ -13,7 +14,8 @@ class CottonEntryProvider(val id: String, val item: Item, parent: CategoryProvid
 
     override fun generatePages() {
         this.page(id) {
-            BookTextPageModel.create()
+            BookSpotlightPageModel.create()
+                .withItem(item)
                 .withTitle("${parent.categoryId()}.$id.title")
                 .withText("${parent.categoryId()}.$id.page.1")
         }

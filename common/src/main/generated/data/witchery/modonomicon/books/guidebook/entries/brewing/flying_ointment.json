@@ -19,15 +19,17 @@
   "name": "book.witchery.guidebook.brewing.flying_ointment.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:flying_ointment"
+      },
       "text": "brewing.flying_ointment.page.1",
-      "title": "brewing.flying_ointment.title",
-      "use_markdown_in_title": false
+      "title": "brewing.flying_ointment.title"
     },
     {
       "type": "witchery:cauldron_brewing_recipe",
