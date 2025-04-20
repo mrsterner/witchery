@@ -33,7 +33,7 @@
         "item": "witchery:mutandis"
       },
       "text": "general.mutandis.page.1",
-      "title": "general.mutandis.title"
+      "title": "general.mutandis.title.1"
     },
     {
       "type": "witchery:cauldron_crafting_recipe",
@@ -42,8 +42,8 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_crafting/mutandis",
-      "text": "general.mutandis.mutandis.title",
-      "title1": "general.mutandis.mutandis",
+      "text": "general.mutandis.title.2",
+      "title1": "general.mutandis",
       "title2": ""
     }
   ],

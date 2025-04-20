@@ -5,37 +5,30 @@ import com.klikli_dev.modonomicon.api.datagen.EntryBackground
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronBrewingPageModel
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.world.item.Item
 
-class SpiritOfOtherwhereEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
-
-    companion object {
-        val ID = "spirit_of_otherwhere"
-    }
+class InfusionEntryProvider(parent: CategoryProviderBase?, var id: String, var item: Item) : EntryProvider(parent) {
 
     override fun generatePages() {
-        this.page(ID) {
+        this.page(id) {
             BookSpotlightPageModel.create()
-                .withItem(WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
-                .withTitle("${parent.categoryId()}.$ID.title")
-                .withText("${parent.categoryId()}.$ID.page.1")
+                .withItem(item)
+                .withTitle("${parent.categoryId()}.$id.title.1")
+                .withText("${parent.categoryId()}.$id.page.1")
         }
 
-        this.page("${parent.categoryId()}.${ID}.spirit_of_otherwhere") {
-            BookCauldronBrewingPageModel.create().withText("${parent.categoryId()}.$ID.title")
-                .withRecipeId1(Witchery.id("cauldron_brewing/spirit_of_otherwhere"))
-                .withTitle1("${parent.categoryId()}.${ID}.spirit_of_otherwhere")
+        this.page("${id}_2") {
+            BookCauldronBrewingPageModel.create().withText("${parent.categoryId()}.$id.title.1")
+                .withRecipeId1(Witchery.id("cauldron_brewing/$id"))
         }
-
-
     }
 
     override fun entryName(): String {
-        return ID.replaceFirstChar { it.uppercaseChar() }
+        return id
     }
 
     override fun entryDescription(): String {
@@ -47,10 +40,10 @@ class SpiritOfOtherwhereEntryProvider(parent: CategoryProviderBase?) : EntryProv
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
+        return BookIconModel.create(WitcheryItems.FLYING_OINTMENT.get())
     }
 
     override fun entryId(): String {
-        return ID
+        return id
     }
 }

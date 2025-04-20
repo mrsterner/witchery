@@ -6,28 +6,29 @@ import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.fabric.datagen.book.page.BookRitualPageModel
+import dev.sterner.witchery.integration.modonomicon.BookRitualRecipePage
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.Item
 
-class PotionBeginningEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
-
-    companion object {
-        val ID = "beginning_potions"
-    }
+class DoubleEntryProvider(parent: CategoryProviderBase?, val id: String, val icon: Item) : EntryProvider(parent) {
 
     override fun generatePages() {
-        this.page(ID) {
+        this.page(id) {
             BookTextPageModel.create()
-                .withTitle("${parent.categoryId()}.$ID.title")
-                .withText("${parent.categoryId()}.$ID.page.1")
+                .withTitle("${parent.categoryId()}.$id.title.1")
+                .withText("${parent.categoryId()}.$id.page.1")
         }
-        this.page("${ID}.2") {
+        this.page("${id}_2") {
             BookTextPageModel.create()
-                .withText("${parent.categoryId()}.$ID.page.2")
+                .withTitle("${parent.categoryId()}.$id.title.2")
+                .withText("${parent.categoryId()}.$id.page.2")
         }
     }
 
     override fun entryName(): String {
-        return ID.replaceFirstChar { it.uppercaseChar() }
+        return id
     }
 
     override fun entryDescription(): String {
@@ -39,10 +40,10 @@ class PotionBeginningEntryProvider(parent: CategoryProviderBase?) : EntryProvide
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.WITCHERY_POTION.get())
+        return BookIconModel.create(icon)
     }
 
     override fun entryId(): String {
-        return ID
+        return id
     }
 }

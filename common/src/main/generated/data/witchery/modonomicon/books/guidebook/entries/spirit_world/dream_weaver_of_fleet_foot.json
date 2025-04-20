@@ -23,15 +23,17 @@
   "name": "book.witchery.guidebook.spirit_world.dream_weaver_of_fleet_foot.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:dream_weaver_of_fleet_foot"
+      },
       "text": "spirit_world.dream_weaver_of_fleet_foot.page.1",
-      "title": "spirit_world.dream_weaver_of_fleet_foot.title",
-      "use_markdown_in_title": false
+      "title": "spirit_world.dream_weaver_of_fleet_foot.title.1"
     }
   ],
   "parents": [

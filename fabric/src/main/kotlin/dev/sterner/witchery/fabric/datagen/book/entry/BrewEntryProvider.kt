@@ -16,17 +16,15 @@ class BrewEntryProvider(val icon: Item, val id: String, parent: CategoryProvider
     override fun generatePages() {
         this.page(id) {
             BookTextPageModel.create()
-                .withTitle("${parent.categoryId()}.$id.title")
+                .withTitle("${parent.categoryId()}.$id.title.1")
                 .withText("${parent.categoryId()}.$id.page.1")
         }
 
         this.page("${parent.categoryId()}.${id}") {
-            BookCauldronBrewingPageModel.create().withText("${parent.categoryId()}.$id.title")
+            BookCauldronBrewingPageModel.create().withText("${parent.categoryId()}.$id.title.1")
                 .withRecipeId1(Witchery.id("cauldron_brewing/$id"))
                 .withTitle1("${parent.categoryId()}.${id}")
         }
-
-
     }
 
     override fun entryName(): String {

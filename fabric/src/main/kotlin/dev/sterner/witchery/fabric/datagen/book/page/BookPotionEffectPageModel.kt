@@ -47,7 +47,7 @@ class BookPotionEffectPageModel :
     fun addItem(item: ItemStack): BookPotionEffectPageModel {
         this.addItem(item, BookTextHolder(
             Component.translatable("potion_effect." + item.item.toString().substringAfter(":"))), BookTextHolder(
-            Component.translatable("potion_effect." + item.item.toString().substringAfter(":") + ".title")))
+            Component.translatable("potion_effect." + item.item.toString().substringAfter(":") + ".title.1")))
         return this
     }
 

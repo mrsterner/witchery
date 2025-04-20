@@ -8,30 +8,21 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.world.item.Item
 
-class CauldronEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
-
-    companion object {
-        val ID = "cauldron"
-    }
+class SingleItemEntryProvider(parent: CategoryProviderBase?, var id: String, var item: Item) : EntryProvider(parent) {
 
     override fun generatePages() {
-        this.page(ID) {
+        this.page(id) {
             BookSpotlightPageModel.create()
-                .withItem(WitcheryItems.CAULDRON.get())
-                .withTitle("${parent.categoryId()}.$ID.title")
-                .withText("${parent.categoryId()}.$ID.page.1")
-        }
-        this.page("cauldron_2") {
-            BookSpotlightPageModel.create()
-                .withItem(WitcheryItems.COPPER_CAULDRON.get())
-                .withTitle("${parent.categoryId()}.$ID.title2")
-                .withText("${parent.categoryId()}.$ID.page.2")
+                .withItem(item)
+                .withTitle("${parent.categoryId()}.$id.title.1")
+                .withText("${parent.categoryId()}.$id.page.1")
         }
     }
 
     override fun entryName(): String {
-        return ID.replaceFirstChar { it.uppercaseChar() }
+        return id
     }
 
     override fun entryDescription(): String {
@@ -43,10 +34,10 @@ class CauldronEntryProvider(parent: CategoryProviderBase?) : EntryProvider(paren
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.CAULDRON.get())
+        return BookIconModel.create(item)
     }
 
     override fun entryId(): String {
-        return ID
+        return id
     }
 }

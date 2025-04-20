@@ -26,7 +26,7 @@
       },
       "show_title_separator": true,
       "text": "spirit_world.brew_of_flowing_spirit.page.1",
-      "title": "spirit_world.brew_of_flowing_spirit.title",
+      "title": "spirit_world.brew_of_flowing_spirit.title.1",
       "use_markdown_in_title": false
     },
     {
@@ -36,7 +36,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_brewing/brew_of_flowing_spirit",
-      "text": "spirit_world.brew_of_flowing_spirit.title",
+      "text": "spirit_world.brew_of_flowing_spirit.title.1",
       "title1": "spirit_world.brew_of_flowing_spirit",
       "title2": ""
     }

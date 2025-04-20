@@ -16,7 +16,7 @@ class VampireLevelOneEntryProvider(val id: String, parent: CategoryProviderBase?
     override fun generatePages() {
         this.page(id) {
             BookTextPageModel.create()
-                .withTitle("${parent.categoryId()}.$id.title")
+                .withTitle("${parent.categoryId()}.$id.title.1")
                 .withText("${parent.categoryId()}.$id.page.1")
                 .withUseMarkdownInTitle(true)
         }

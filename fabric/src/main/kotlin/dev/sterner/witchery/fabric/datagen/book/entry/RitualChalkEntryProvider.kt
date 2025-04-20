@@ -21,21 +21,21 @@ class RitualChalkEntryProvider(parent: CategoryProviderBase?) : EntryProvider(pa
         this.page(ID) {
             BookSpotlightPageModel.create()
                 .withItem(WitcheryItems.RITUAL_CHALK.get())
-                .withTitle("${parent.categoryId()}.$ID.title")
+                .withTitle("${parent.categoryId()}.$ID.title.1")
                 .withText("${parent.categoryId()}.$ID.page.1")
         }
         this.page("${parent.categoryId()}.${ID}.golden_chalk") {
-            BookCauldronCraftingPageModel.create().withText("${parent.categoryId()}.${ID}.golden_chalk.title")
+            BookCauldronCraftingPageModel.create().withText("${parent.categoryId()}.${ID}.golden_chalk.title.1")
                 .withRecipeId1(Witchery.id("cauldron_crafting/golden_chalk"))
                 .withTitle1("${parent.categoryId()}.${ID}.golden_chalk")
         }
         this.page("${parent.categoryId()}.${ID}.infernal_chalk") {
-            BookCauldronCraftingPageModel.create().withText("${parent.categoryId()}.${ID}.infernal_chalk.title")
+            BookCauldronCraftingPageModel.create().withText("${parent.categoryId()}.${ID}.infernal_chalk.title.1")
                 .withRecipeId1(Witchery.id("cauldron_crafting/infernal_chalk"))
                 .withTitle1("${parent.categoryId()}.${ID}.infernal_chalk")
         }
         this.page("${parent.categoryId()}.${ID}.otherwhere_chalk") {
-            BookCauldronCraftingPageModel.create().withText("${parent.categoryId()}.${ID}.otherwhere_chalk.title")
+            BookCauldronCraftingPageModel.create().withText("${parent.categoryId()}.${ID}.otherwhere_chalk.title.1")
                 .withRecipeId1(Witchery.id("cauldron_crafting/otherwhere_chalk"))
                 .withTitle1("${parent.categoryId()}.${ID}.otherwhere_chalk")
         }

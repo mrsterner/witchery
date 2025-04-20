@@ -111,7 +111,7 @@ class BookPotionCapacityPage(
                 { buffer -> BookTextHolder.fromNetwork(buffer) }
             )
 
-        val ITEM_TEXT_PAIR_STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, Pair<ItemStack, BookTextHolder>> =
+        private val ITEM_TEXT_PAIR_STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, Pair<ItemStack, BookTextHolder>> =
             StreamCodec.composite(
                 ItemStack.STREAM_CODEC,
                 { it.first },
@@ -120,7 +120,7 @@ class BookPotionCapacityPage(
                 ::Pair
             )
 
-        val BOOK_TEXT_PAIR_STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, Pair<BookTextHolder, BookTextHolder>> =
+        private val BOOK_TEXT_PAIR_STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, Pair<BookTextHolder, BookTextHolder>> =
             StreamCodec.composite(
                 STREAM_CODEC,
                 { it.first },
@@ -129,7 +129,7 @@ class BookPotionCapacityPage(
                 ::Pair
             )
 
-        val ITEM_TEXT_TEXT_PAIR_STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, Pair<ItemStack, Pair<BookTextHolder, BookTextHolder>>> =
+        private val ITEM_TEXT_TEXT_PAIR_STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, Pair<ItemStack, Pair<BookTextHolder, BookTextHolder>>> =
             StreamCodec.composite(
                 ItemStack.STREAM_CODEC,
                 { it.first },
@@ -163,7 +163,7 @@ class BookPotionCapacityPage(
                 }
             )
 
-        val ITEM_TEXT_PAIR_CODEC: Codec<Pair<ItemStack, BookTextHolder>> =
+        private val ITEM_TEXT_PAIR_CODEC: Codec<Pair<ItemStack, BookTextHolder>> =
             RecordCodecBuilder.create { instance ->
                 instance.group(
                     ItemStack.CODEC.fieldOf("item").forGetter { it.first },
@@ -171,7 +171,7 @@ class BookPotionCapacityPage(
                 ).apply(instance, ::Pair)
             }
 
-        val TEXT_PAIR_PAIR_CODEC: Codec<Pair<BookTextHolder, BookTextHolder>> =
+        private val TEXT_PAIR_PAIR_CODEC: Codec<Pair<BookTextHolder, BookTextHolder>> =
             RecordCodecBuilder.create { instance ->
                 instance.group(
                     CODEC.fieldOf("text").forGetter { it.first },
@@ -179,7 +179,7 @@ class BookPotionCapacityPage(
                 ).apply(instance, ::Pair)
             }
 
-        val ITEM_TEXT_PAIR_PAIR_CODEC: Codec<Pair<ItemStack, Pair<BookTextHolder, BookTextHolder>>> =
+        private val ITEM_TEXT_PAIR_PAIR_CODEC: Codec<Pair<ItemStack, Pair<BookTextHolder, BookTextHolder>>> =
             RecordCodecBuilder.create { instance ->
                 instance.group(
                     ItemStack.CODEC.fieldOf("item").forGetter { it.first },

@@ -21,46 +21,46 @@ class DistilleryEntryProvider(parent: CategoryProviderBase?) : EntryProvider(par
         this.page(ID) {
             BookSpotlightPageModel.create()
                 .withItem(WitcheryItems.DISTILLERY.get())
-                .withTitle("${parent.categoryId()}.$ID.title")
+                .withTitle("${parent.categoryId()}.$ID.title.1")
                 .withText("${parent.categoryId()}.$ID.page.1")
         }
 
         this.page("${parent.categoryId()}.${ID}.oil_of_vitriol_gypsum") {
-            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}oil_of_vitriol_gypsum.title")
+            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}oil_of_vitriol_gypsum.title.1")
                 .withRecipeId1(Witchery.id("distillery_crafting/oil_of_vitriol_gypsum"))
                 .withTitle1("${parent.categoryId()}.${ID}.oil_of_vitriol_gypsum")
         }
 
         this.page("${parent.categoryId()}.${ID}.demons_blood") {
-            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}demons_blood.title")
+            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}demons_blood.title.1")
                 .withRecipeId1(Witchery.id("distillery_crafting/demons_blood"))
                 .withTitle1("${parent.categoryId()}.${ID}.demons_blood")
         }
 
         this.page("${parent.categoryId()}.${ID}.ender_dew") {
-            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}ender_dew.title")
+            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}ender_dew.title.1")
                 .withRecipeId1(Witchery.id("distillery_crafting/ender_dew"))
                 .withTitle1("${parent.categoryId()}.${ID}.ender_dew")
         }
 
         this.page("${parent.categoryId()}.${ID}.phantom_vapor") {
-            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}phantom_vapor.title")
+            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}phantom_vapor.title.1")
                 .withRecipeId1(Witchery.id("distillery_crafting/phantom_vapor"))
                 .withTitle1("${parent.categoryId()}.${ID}.phantom_vapor")
         }
 
         this.page("${parent.categoryId()}.${ID}.reek_of_misfortune") {
-            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}reek_of_misfortune.title")
+            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}reek_of_misfortune.title.1")
                 .withRecipeId1(Witchery.id("distillery_crafting/reek_of_misfortune_glowstone"))
                 .withTitle1("${parent.categoryId()}.${ID}.reek_of_misfortune")
         }
         this.page("${parent.categoryId()}.${ID}.refined_evil") {
-            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}refined_evil.title")
+            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}refined_evil.title.1")
                 .withRecipeId1(Witchery.id("distillery_crafting/refined_evil"))
                 .withTitle1("${parent.categoryId()}.${ID}.refined_evil")
         }
         this.page("${parent.categoryId()}.${ID}.tear_and_whiff") {
-            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}tear_and_whiff.title")
+            BookDistillingPageModel.create().withText("${parent.categoryId()}.${ID}tear_and_whiff.title.1")
                 .withRecipeId1(Witchery.id("distillery_crafting/tear_and_whiff"))
                 .withTitle1("${parent.categoryId()}.${ID}.tear_and_whiff")
         }

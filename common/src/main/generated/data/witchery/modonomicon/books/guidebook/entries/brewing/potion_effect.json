@@ -17,7 +17,7 @@
       },
       "show_title_separator": true,
       "text": "brewing.potion_effect.page.1",
-      "title": "brewing.potion_effect.title",
+      "title": "brewing.potion_effect.title.1",
       "use_markdown_in_title": false
     },
     {
@@ -37,7 +37,7 @@
               "translate": "potion_effect.blaze_powder"
             },
             "text_title": {
-              "translate": "potion_effect.blaze_powder.title"
+              "translate": "potion_effect.blaze_powder.title.1"
             }
           }
         },
@@ -51,7 +51,7 @@
               "translate": "potion_effect.glistering_melon_slice"
             },
             "text_title": {
-              "translate": "potion_effect.glistering_melon_slice.title"
+              "translate": "potion_effect.glistering_melon_slice.title.1"
             }
           }
         },
@@ -65,7 +65,7 @@
               "translate": "potion_effect.spider_eye"
             },
             "text_title": {
-              "translate": "potion_effect.spider_eye.title"
+              "translate": "potion_effect.spider_eye.title.1"
             }
           }
         }
@@ -90,7 +90,7 @@
               "translate": "potion_effect.ghast_tear"
             },
             "text_title": {
-              "translate": "potion_effect.ghast_tear.title"
+              "translate": "potion_effect.ghast_tear.title.1"
             }
           }
         },
@@ -104,7 +104,7 @@
               "translate": "potion_effect.sugar"
             },
             "text_title": {
-              "translate": "potion_effect.sugar.title"
+              "translate": "potion_effect.sugar.title.1"
             }
           }
         },
@@ -118,7 +118,7 @@
               "translate": "potion_effect.apple"
             },
             "text_title": {
-              "translate": "potion_effect.apple.title"
+              "translate": "potion_effect.apple.title.1"
             }
           }
         }
@@ -143,7 +143,7 @@
               "translate": "potion_effect.bone_meal"
             },
             "text_title": {
-              "translate": "potion_effect.bone_meal.title"
+              "translate": "potion_effect.bone_meal.title.1"
             }
           }
         },
@@ -157,7 +157,7 @@
               "translate": "potion_effect.coal"
             },
             "text_title": {
-              "translate": "potion_effect.coal.title"
+              "translate": "potion_effect.coal.title.1"
             }
           }
         },
@@ -171,7 +171,7 @@
               "translate": "potion_effect.dandelion"
             },
             "text_title": {
-              "translate": "potion_effect.dandelion.title"
+              "translate": "potion_effect.dandelion.title.1"
             }
           }
         }
@@ -196,7 +196,7 @@
               "translate": "potion_effect.dirt"
             },
             "text_title": {
-              "translate": "potion_effect.dirt.title"
+              "translate": "potion_effect.dirt.title.1"
             }
           }
         },
@@ -210,7 +210,7 @@
               "translate": "potion_effect.ender_dew"
             },
             "text_title": {
-              "translate": "potion_effect.ender_dew.title"
+              "translate": "potion_effect.ender_dew.title.1"
             }
           }
         },
@@ -224,7 +224,7 @@
               "translate": "potion_effect.lily_pad"
             },
             "text_title": {
-              "translate": "potion_effect.lily_pad.title"
+              "translate": "potion_effect.lily_pad.title.1"
             }
           }
         }
@@ -249,7 +249,7 @@
               "translate": "potion_effect.dead_bush"
             },
             "text_title": {
-              "translate": "potion_effect.dead_bush.title"
+              "translate": "potion_effect.dead_bush.title.1"
             }
           }
         },
@@ -263,7 +263,7 @@
               "translate": "potion_effect.sand"
             },
             "text_title": {
-              "translate": "potion_effect.sand.title"
+              "translate": "potion_effect.sand.title.1"
             }
           }
         },
@@ -277,7 +277,7 @@
               "translate": "potion_effect.wheat_seeds"
             },
             "text_title": {
-              "translate": "potion_effect.wheat_seeds.title"
+              "translate": "potion_effect.wheat_seeds.title.1"
             }
           }
         }
@@ -302,7 +302,7 @@
               "translate": "potion_effect.wolfsbane"
             },
             "text_title": {
-              "translate": "potion_effect.wolfsbane.title"
+              "translate": "potion_effect.wolfsbane.title.1"
             }
           }
         },
@@ -316,7 +316,7 @@
               "translate": "potion_effect.string"
             },
             "text_title": {
-              "translate": "potion_effect.string.title"
+              "translate": "potion_effect.string.title.1"
             }
           }
         },
@@ -330,7 +330,7 @@
               "translate": "potion_effect.cobblestone"
             },
             "text_title": {
-              "translate": "potion_effect.cobblestone.title"
+              "translate": "potion_effect.cobblestone.title.1"
             }
           }
         }
@@ -355,7 +355,7 @@
               "translate": "potion_effect.ent_twig"
             },
             "text_title": {
-              "translate": "potion_effect.ent_twig.title"
+              "translate": "potion_effect.ent_twig.title.1"
             }
           }
         },
@@ -369,7 +369,7 @@
               "translate": "potion_effect.slime_ball"
             },
             "text_title": {
-              "translate": "potion_effect.slime_ball.title"
+              "translate": "potion_effect.slime_ball.title.1"
             }
           }
         },
@@ -383,7 +383,7 @@
               "translate": "potion_effect.stick"
             },
             "text_title": {
-              "translate": "potion_effect.stick.title"
+              "translate": "potion_effect.stick.title.1"
             }
           }
         }
@@ -408,7 +408,7 @@
               "translate": "potion_effect.ender_pearl"
             },
             "text_title": {
-              "translate": "potion_effect.ender_pearl.title"
+              "translate": "potion_effect.ender_pearl.title.1"
             }
           }
         },
@@ -422,7 +422,7 @@
               "translate": "potion_effect.rose_bush"
             },
             "text_title": {
-              "translate": "potion_effect.rose_bush.title"
+              "translate": "potion_effect.rose_bush.title.1"
             }
           }
         },
@@ -436,7 +436,7 @@
               "translate": "potion_effect.poppy"
             },
             "text_title": {
-              "translate": "potion_effect.poppy.title"
+              "translate": "potion_effect.poppy.title.1"
             }
           }
         }
@@ -461,7 +461,7 @@
               "translate": "potion_effect.brown_mushroom"
             },
             "text_title": {
-              "translate": "potion_effect.brown_mushroom.title"
+              "translate": "potion_effect.brown_mushroom.title.1"
             }
           }
         },
@@ -475,7 +475,7 @@
               "translate": "potion_effect.red_mushroom"
             },
             "text_title": {
-              "translate": "potion_effect.red_mushroom.title"
+              "translate": "potion_effect.red_mushroom.title.1"
             }
           }
         },
@@ -489,7 +489,7 @@
               "translate": "potion_effect.witches_hat"
             },
             "text_title": {
-              "translate": "potion_effect.witches_hat.title"
+              "translate": "potion_effect.witches_hat.title.1"
             }
           }
         }

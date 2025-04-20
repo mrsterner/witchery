@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.brewing.redstone_soup.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:redstone_soup"
+    "item": "witchery:flying_ointment"
   },
   "name": "book.witchery.guidebook.brewing.redstone_soup.name",
   "pages": [
@@ -29,7 +29,7 @@
         "item": "witchery:redstone_soup"
       },
       "text": "brewing.redstone_soup.page.1",
-      "title": "brewing.redstone_soup.title"
+      "title": "brewing.redstone_soup.title.1"
     },
     {
       "type": "witchery:cauldron_brewing_recipe",
@@ -38,8 +38,8 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_brewing/redstone_soup",
-      "text": "brewing.redstone_soup.title",
-      "title1": "brewing.redstone_soup.redstone_soup",
+      "text": "brewing.redstone_soup.title.1",
+      "title1": "",
       "title2": ""
     }
   ],

@@ -12,19 +12,18 @@ import dev.sterner.witchery.integration.modonomicon.BookRitualRecipePage
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 
-class RitualEntryProvider(val id: String, val item: Item, parent: CategoryProviderBase?) : EntryProvider(parent) {
-
+class RitualEntryProvider(parent: CategoryProviderBase?, val id: String, val icon: Item) : EntryProvider(parent) {
 
     override fun generatePages() {
         this.page(id) {
             BookTextPageModel.create()
-                .withTitle("${parent.categoryId()}.$id.title")
+                .withTitle("${parent.categoryId()}.$id.title.1")
                 .withText("${parent.categoryId()}.$id.page.1")
         }
-        this.page(id) {
+        this.page("${id}_2") {
             BookRitualPageModel.create()
-                .withText("${parent.categoryId()}.$id.page.2")
                 .withRecipeId1(Witchery.id("ritual/$id"))
+                .withText("${parent.categoryId()}.$id.page.2")
         }
     }
 
@@ -41,7 +40,7 @@ class RitualEntryProvider(val id: String, val item: Item, parent: CategoryProvid
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(item)
+        return BookIconModel.create(icon)
     }
 
     override fun entryId(): String {

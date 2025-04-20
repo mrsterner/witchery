@@ -21,16 +21,16 @@ class FumeExtensionEntryProvider(parent: CategoryProviderBase?) : EntryProvider(
         this.page(ID) {
             BookSpotlightPageModel.create()
                 .withItem(WitcheryItems.IRON_WITCHES_OVEN_FUME_EXTENSION.get())
-                .withTitle("${parent.categoryId()}.$ID.title")
+                .withTitle("${parent.categoryId()}.$ID.title.1")
                 .withText("${parent.categoryId()}.$ID.page.1")
         }
         this.page("${parent.categoryId()}.${ID}") {
-            BookCraftingRecipePageModel.create().withText("${parent.categoryId()}.${ID}.title")
+            BookCraftingRecipePageModel.create().withText("${parent.categoryId()}.${ID}.title.1")
                 .withRecipeId1(Witchery.id("iron_witches_oven_fume_extension"))
                 .withTitle1("${parent.categoryId()}.${ID}")
         }
         this.page("${parent.categoryId()}.${ID}.copper") {
-            BookCraftingRecipePageModel.create().withText("${parent.categoryId()}.${ID}.title")
+            BookCraftingRecipePageModel.create().withText("${parent.categoryId()}.${ID}.title.1")
                 .withRecipeId1(Witchery.id("copper_witches_oven_fume_extension"))
                 .withTitle1("${parent.categoryId()}.${ID}")
         }

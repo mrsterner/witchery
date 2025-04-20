@@ -24,7 +24,7 @@
         "item": "witchery:cauldron"
       },
       "text": "brewing.cauldron.page.1",
-      "title": "brewing.cauldron.title"
+      "title": "brewing.cauldron.title.1"
     },
     {
       "type": "modonomicon:spotlight",
@@ -37,7 +37,7 @@
         "item": "witchery:copper_cauldron"
       },
       "text": "brewing.cauldron.page.2",
-      "title": "brewing.cauldron.title2"
+      "title": "brewing.cauldron.title.2"
     }
   ],
   "show_when_any_parent_unlocked": false,

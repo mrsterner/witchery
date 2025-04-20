@@ -10,7 +10,6 @@ import com.mojang.datafixers.util.Pair
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data.PotionDataHandler
-import dev.sterner.witchery.fabric.datagen.book.entry.MutandisExtremisEntryProvider.Companion
 import dev.sterner.witchery.fabric.datagen.book.page.BookPotionPageModel
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.registry.WitcheryItems

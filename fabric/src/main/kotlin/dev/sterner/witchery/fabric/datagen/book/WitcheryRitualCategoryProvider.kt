@@ -59,7 +59,7 @@ class WitcheryRitualCategoryProvider(
 
         addEntry(ritualChalk)
 
-        val goldenChalk = GoldenChalkEntryProvider(this).generate("g")
+        val goldenChalk = SingleItemEntryProvider(this, "golden_chalk", WitcheryItems.GOLDEN_CHALK.get()).generate("g")
         goldenChalk
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -72,7 +72,7 @@ class WitcheryRitualCategoryProvider(
         addEntry(goldenChalk)
 
 
-        val otherwhereChalk = OtherwhereChalkEntryProvider(this).generate("o")
+        val otherwhereChalk = SingleItemEntryProvider(this, "otherwhere_chalk", WitcheryItems.OTHERWHERE_CHALK.get()).generate("o")
         otherwhereChalk
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -84,7 +84,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(otherwhereChalk)
 
-        val infernalChalk = InfernalChalkEntryProvider(this).generate("i")
+        val infernalChalk = SingleItemEntryProvider(this, "infernal_chalk", WitcheryItems.INFERNAL_CHALK.get()).generate("i")
         infernalChalk
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -98,7 +98,7 @@ class WitcheryRitualCategoryProvider(
 
 
 
-        val summonDemon = RitualEntryProvider("summon_demon", WitcheryItems.DEMON_HEART.get(),this).generate("d")
+        val summonDemon = RitualEntryProvider(this, "summon_demon", WitcheryItems.DEMON_HEART.get()).generate("d")
         summonDemon
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -110,7 +110,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(infernalChalk.id).withDrawArrow(true))
         addEntry(summonDemon)
 
-        val summonImp = RitualEntryProvider("summon_imp", Items.NETHERRACK,this).generate("m")
+        val summonImp = RitualEntryProvider(this,"summon_imp", Items.NETHERRACK).generate("m")
         summonImp
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -122,7 +122,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(infernalChalk.id).withDrawArrow(true))
         addEntry(summonImp)
 
-        val summonWither = RitualEntryProvider("summon_wither", Items.WITHER_SKELETON_SKULL,this).generate("w")
+        val summonWither = RitualEntryProvider(this,"summon_wither",  Items.WITHER_SKELETON_SKULL).generate("w")
         summonWither
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -134,7 +134,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(infernalChalk.id).withDrawArrow(true))
         addEntry(summonWither)
 
-        val summonWitch = RitualEntryProvider("summon_witch", WitcheryItems.WITCHES_HAND.get(),this).generate("c")
+        val summonWitch = RitualEntryProvider(this,"summon_witch", WitcheryItems.WITCHES_HAND.get()).generate("c")
         summonWitch
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -146,7 +146,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(infernalChalk.id).withDrawArrow(true))
         addEntry(summonWitch)
 
-        val summonSpectral = RitualEntryProvider("summon_spectral_pig", WitcheryItems.SPECTRAL_DUST.get(),this).generate("s")
+        val summonSpectral = RitualEntryProvider(this,"summon_spectral_pig", WitcheryItems.SPECTRAL_DUST.get()).generate("s")
         summonSpectral
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -160,7 +160,7 @@ class WitcheryRitualCategoryProvider(
 
 
 
-        val teleportOtW = RitualEntryProvider("teleport_owner_to_waystone", WitcheryItems.WAYSTONE.get(),this).generate("t")
+        val teleportOtW = RitualEntryProvider(this,"teleport_owner_to_waystone", WitcheryItems.WAYSTONE.get()).generate("t")
         teleportOtW
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -172,7 +172,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(otherwhereChalk.id).withDrawArrow(true))
         addEntry(teleportOtW)
 
-        val infuseOtherwhere = RitualEntryProvider("infuse_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get(),this).generate("p")
+        val infuseOtherwhere = RitualEntryProvider(this,"infuse_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get()).generate("p")
         infuseOtherwhere
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -184,7 +184,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(otherwhereChalk.id).withDrawArrow(true))
         addEntry(infuseOtherwhere)
 
-        val infuseLight = RitualEntryProvider("infuse_light", WitcheryItems.GHOST_OF_THE_LIGHT.get(),this).generate("x")
+        val infuseLight = RitualEntryProvider(this,"infuse_light", WitcheryItems.GHOST_OF_THE_LIGHT.get()).generate("x")
         infuseLight
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -196,7 +196,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(infuseLight)
 
-        val applyOintment = RitualEntryProvider("apply_ointment", WitcheryItems.FLYING_OINTMENT.get(),this).generate("q")
+        val applyOintment = RitualEntryProvider(this,"apply_ointment", WitcheryItems.FLYING_OINTMENT.get()).generate("q")
         applyOintment
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -208,7 +208,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(applyOintment)
 
-        val midnight = RitualEntryProvider("set_midnight", Items.WOODEN_AXE,this).generate("k")
+        val midnight = RitualEntryProvider(this,"set_midnight", Items.WOODEN_AXE).generate("k")
         midnight
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -220,7 +220,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(midnight)
 
-        val attuned = RitualEntryProvider("charge_attuned", WitcheryItems.ATTUNED_STONE.get(),this).generate("a")
+        val attuned = RitualEntryProvider(this,"charge_attuned", WitcheryItems.ATTUNED_STONE.get()).generate("a")
         attuned
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -232,7 +232,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(attuned)
 
-        val necro = RitualEntryProvider("necro_stone", WitcheryItems.NECROMANTIC_STONE.get(),this).generate("n")
+        val necro = RitualEntryProvider(this,"necro_stone", WitcheryItems.NECROMANTIC_STONE.get()).generate("n")
         necro
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -244,7 +244,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(necro)
 
-        val chargeInfusion = RitualEntryProvider("rite_of_charging_infusion", Items.FIRE_CHARGE,this).generate("u")
+        val chargeInfusion = RitualEntryProvider(this,"rite_of_charging_infusion",  Items.FIRE_CHARGE).generate("u")
         chargeInfusion
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -256,7 +256,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(chargeInfusion)
 
-        val manifestation = RitualEntryProvider("manifestation", Items.WIND_CHARGE,this).generate("e")
+        val manifestation = RitualEntryProvider(this,"manifestation", Items.WIND_CHARGE).generate("e")
         manifestation
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -268,7 +268,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(otherwhereChalk.id).withDrawArrow(true))
         addEntry(manifestation)
 
-        val bindFamiliar = RitualEntryProvider("bind_familiar", WitcheryItems.TEAR_OF_THE_GODDESS.get(),this).generate("b")
+        val bindFamiliar = RitualEntryProvider(this,"bind_familiar", WitcheryItems.TEAR_OF_THE_GODDESS.get()).generate("b")
         bindFamiliar
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -280,7 +280,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(bindFamiliar)
 
-        val bindSpectralCreature = RitualEntryProvider("bind_spectral_creatures", WitcheryItems.ARTHANA.get(),this).generate("y")
+        val bindSpectralCreature = RitualEntryProvider(this,"bind_spectral_creatures", WitcheryItems.ARTHANA.get()).generate("y")
         bindSpectralCreature
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -292,7 +292,7 @@ class WitcheryRitualCategoryProvider(
             .addParent(BookEntryParentModel.create(ritualChalk.id).withDrawArrow(true))
         addEntry(bindSpectralCreature)
 
-        val pushMobs = RitualEntryProvider("push_mobs", Items.FEATHER,this).generate("f")
+        val pushMobs = RitualEntryProvider(this,"push_mobs", Items.FEATHER).generate("f")
         pushMobs
             .withCondition(
                 BookAndConditionModel.create().withChildren(

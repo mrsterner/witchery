@@ -24,7 +24,7 @@
         "item": "witchery:ritual_chalk"
       },
       "text": "ritual.ritual_chalk.page.1",
-      "title": "ritual.ritual_chalk.title"
+      "title": "ritual.ritual_chalk.title.1"
     },
     {
       "type": "witchery:cauldron_crafting_recipe",
@@ -33,7 +33,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_crafting/golden_chalk",
-      "text": "ritual.ritual_chalk.golden_chalk.title",
+      "text": "ritual.ritual_chalk.golden_chalk.title.1",
       "title1": "ritual.ritual_chalk.golden_chalk",
       "title2": ""
     },
@@ -44,7 +44,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_crafting/infernal_chalk",
-      "text": "ritual.ritual_chalk.infernal_chalk.title",
+      "text": "ritual.ritual_chalk.infernal_chalk.title.1",
       "title1": "ritual.ritual_chalk.infernal_chalk",
       "title2": ""
     },
@@ -55,7 +55,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_crafting/otherwhere_chalk",
-      "text": "ritual.ritual_chalk.otherwhere_chalk.title",
+      "text": "ritual.ritual_chalk.otherwhere_chalk.title.1",
       "title1": "ritual.ritual_chalk.otherwhere_chalk",
       "title2": ""
     }

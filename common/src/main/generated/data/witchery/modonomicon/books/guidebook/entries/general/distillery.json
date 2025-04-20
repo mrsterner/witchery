@@ -33,7 +33,7 @@
         "item": "witchery:distillery"
       },
       "text": "general.distillery.page.1",
-      "title": "general.distillery.title"
+      "title": "general.distillery.title.1"
     },
     {
       "type": "witchery:distilling_recipe",
@@ -42,7 +42,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:distillery_crafting/oil_of_vitriol_gypsum",
-      "text": "general.distilleryoil_of_vitriol_gypsum.title",
+      "text": "general.distilleryoil_of_vitriol_gypsum.title.1",
       "title1": "general.distillery.oil_of_vitriol_gypsum",
       "title2": ""
     },
@@ -53,7 +53,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:distillery_crafting/demons_blood",
-      "text": "general.distillerydemons_blood.title",
+      "text": "general.distillerydemons_blood.title.1",
       "title1": "general.distillery.demons_blood",
       "title2": ""
     },
@@ -64,7 +64,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:distillery_crafting/ender_dew",
-      "text": "general.distilleryender_dew.title",
+      "text": "general.distilleryender_dew.title.1",
       "title1": "general.distillery.ender_dew",
       "title2": ""
     },
@@ -75,7 +75,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:distillery_crafting/phantom_vapor",
-      "text": "general.distilleryphantom_vapor.title",
+      "text": "general.distilleryphantom_vapor.title.1",
       "title1": "general.distillery.phantom_vapor",
       "title2": ""
     },
@@ -86,7 +86,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:distillery_crafting/reek_of_misfortune_glowstone",
-      "text": "general.distilleryreek_of_misfortune.title",
+      "text": "general.distilleryreek_of_misfortune.title.1",
       "title1": "general.distillery.reek_of_misfortune",
       "title2": ""
     },
@@ -97,7 +97,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:distillery_crafting/refined_evil",
-      "text": "general.distilleryrefined_evil.title",
+      "text": "general.distilleryrefined_evil.title.1",
       "title1": "general.distillery.refined_evil",
       "title2": ""
     },
@@ -108,7 +108,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:distillery_crafting/tear_and_whiff",
-      "text": "general.distillerytear_and_whiff.title",
+      "text": "general.distillerytear_and_whiff.title.1",
       "title1": "general.distillery.tear_and_whiff",
       "title2": ""
     }

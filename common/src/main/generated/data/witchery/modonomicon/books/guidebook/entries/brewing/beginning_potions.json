@@ -17,7 +17,7 @@
       },
       "show_title_separator": true,
       "text": "brewing.beginning_potions.page.1",
-      "title": "brewing.beginning_potions.title",
+      "title": "brewing.beginning_potions.title.1",
       "use_markdown_in_title": false
     },
     {
@@ -28,7 +28,7 @@
       },
       "show_title_separator": true,
       "text": "brewing.beginning_potions.page.2",
-      "title": "",
+      "title": "brewing.beginning_potions.title.2",
       "use_markdown_in_title": false
     }
   ],

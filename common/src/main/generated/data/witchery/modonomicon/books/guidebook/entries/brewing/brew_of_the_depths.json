@@ -26,7 +26,7 @@
       },
       "show_title_separator": true,
       "text": "brewing.brew_of_the_depths.page.1",
-      "title": "brewing.brew_of_the_depths.title",
+      "title": "brewing.brew_of_the_depths.title.1",
       "use_markdown_in_title": false
     },
     {
@@ -36,7 +36,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_brewing/brew_of_the_depths",
-      "text": "brewing.brew_of_the_depths.title",
+      "text": "brewing.brew_of_the_depths.title.1",
       "title1": "brewing.brew_of_the_depths",
       "title2": ""
     }

@@ -275,7 +275,7 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>?>(page: BookRitualReci
             }
 
             else -> {
-                renderChalk(poseStack, Witchery.id(""), Color(255, 255, 255).rgb)
+                guiGraphics.renderItem(itemStack, posX, posY, index)
             }
         }
 

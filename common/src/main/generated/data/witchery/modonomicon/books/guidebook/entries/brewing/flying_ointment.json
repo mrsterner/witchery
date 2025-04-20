@@ -29,7 +29,7 @@
         "item": "witchery:flying_ointment"
       },
       "text": "brewing.flying_ointment.page.1",
-      "title": "brewing.flying_ointment.title"
+      "title": "brewing.flying_ointment.title.1"
     },
     {
       "type": "witchery:cauldron_brewing_recipe",
@@ -38,8 +38,8 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_brewing/flying_ointment",
-      "text": "brewing.flying_ointment.title",
-      "title1": "brewing.flying_ointment.flying_ointment",
+      "text": "brewing.flying_ointment.title.1",
+      "title1": "",
       "title2": ""
     }
   ],

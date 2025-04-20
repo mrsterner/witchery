@@ -23,15 +23,17 @@
   "name": "book.witchery.guidebook.spirit_world.dream_weaver_of_iron_arm.name",
   "pages": [
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:spotlight",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "show_title_separator": true,
+      "item": {
+        "count": 1,
+        "item": "witchery:dream_weaver_of_iron_arm"
+      },
       "text": "spirit_world.dream_weaver_of_iron_arm.page.1",
-      "title": "spirit_world.dream_weaver_of_iron_arm.title",
-      "use_markdown_in_title": false
+      "title": "spirit_world.dream_weaver_of_iron_arm.title.1"
     }
   ],
   "parents": [

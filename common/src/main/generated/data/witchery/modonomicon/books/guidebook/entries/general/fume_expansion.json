@@ -29,7 +29,7 @@
         "item": "witchery:iron_witches_oven_fume_extension"
       },
       "text": "general.fume_expansion.page.1",
-      "title": "general.fume_expansion.title"
+      "title": "general.fume_expansion.title.1"
     },
     {
       "type": "modonomicon:crafting_recipe",
@@ -38,7 +38,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:iron_witches_oven_fume_extension",
-      "text": "general.fume_expansion.title",
+      "text": "general.fume_expansion.title.1",
       "title1": "general.fume_expansion",
       "title2": ""
     },
@@ -49,7 +49,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:copper_witches_oven_fume_extension",
-      "text": "general.fume_expansion.title",
+      "text": "general.fume_expansion.title.1",
       "title1": "general.fume_expansion",
       "title2": ""
     }

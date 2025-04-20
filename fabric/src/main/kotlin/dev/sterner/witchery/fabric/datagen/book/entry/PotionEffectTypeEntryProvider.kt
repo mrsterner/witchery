@@ -10,7 +10,6 @@ import com.mojang.datafixers.util.Pair
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data.PotionDataHandler
-import dev.sterner.witchery.fabric.datagen.book.entry.MutandisExtremisEntryProvider.Companion
 import dev.sterner.witchery.fabric.datagen.book.page.BookPotionEffectPageModel
 import dev.sterner.witchery.fabric.datagen.book.page.BookPotionPageModel
 import dev.sterner.witchery.integration.modonomicon.BookPotionEffectPage
@@ -30,7 +29,7 @@ class PotionEffectTypeEntryProvider(parent: CategoryProviderBase?) : EntryProvid
     override fun generatePages() {
         this.page(ID) {
             BookTextPageModel.create()
-                .withTitle("${parent.categoryId()}.${ID}.title")
+                .withTitle("${parent.categoryId()}.${ID}.title.1")
                 .withText("${parent.categoryId()}.${ID}.page.1")
         }
 

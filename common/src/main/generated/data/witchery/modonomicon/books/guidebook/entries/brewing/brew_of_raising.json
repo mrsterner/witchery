@@ -26,7 +26,7 @@
       },
       "show_title_separator": true,
       "text": "brewing.brew_of_raising.page.1",
-      "title": "brewing.brew_of_raising.title",
+      "title": "brewing.brew_of_raising.title.1",
       "use_markdown_in_title": false
     },
     {
@@ -36,7 +36,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_brewing/brew_of_raising",
-      "text": "brewing.brew_of_raising.title",
+      "text": "brewing.brew_of_raising.title.1",
       "title1": "brewing.brew_of_raising",
       "title2": ""
     }

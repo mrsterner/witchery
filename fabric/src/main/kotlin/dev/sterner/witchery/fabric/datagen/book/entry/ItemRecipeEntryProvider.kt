@@ -5,34 +5,32 @@ import com.klikli_dev.modonomicon.api.datagen.EntryBackground
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronCraftingPageModel
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.world.item.Item
 
-class MutandisEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
+class ItemRecipeEntryProvider(parent: CategoryProviderBase?, var id: String, var recipePath: String, var item: Item) : EntryProvider(parent) {
 
-    companion object {
-        val ID = "mutandis"
-    }
 
     override fun generatePages() {
-        this.page(ID) {
+        this.page(id) {
             BookSpotlightPageModel.create()
-                .withItem(WitcheryItems.MUTANDIS.get())
-                .withTitle("${parent.categoryId()}.$ID.title")
-                .withText("${parent.categoryId()}.$ID.page.1")
+                .withItem(item)
+                .withTitle("${parent.categoryId()}.$id.title.1")
+                .withText("${parent.categoryId()}.$id.page.1")
         }
-        this.page("${parent.categoryId()}.${ID}.mutandis") {
-            BookCauldronCraftingPageModel.create().withText("${parent.categoryId()}.${ID}.mutandis.title")
-                .withRecipeId1(Witchery.id("cauldron_crafting/mutandis"))
-                .withTitle1("${parent.categoryId()}.${ID}.mutandis")
+        this.page("${id}_2") {
+            BookCauldronCraftingPageModel.create()
+                .withText("${parent.categoryId()}.${id}.title.2")
+                .withRecipeId1(Witchery.id("$recipePath/$id"))
+                .withTitle1("${parent.categoryId()}.${id}")
         }
     }
 
     override fun entryName(): String {
-        return ID.replaceFirstChar { it.uppercaseChar() }
+        return id
     }
 
     override fun entryDescription(): String {
@@ -44,10 +42,10 @@ class MutandisEntryProvider(parent: CategoryProviderBase?) : EntryProvider(paren
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.MUTANDIS.get())
+        return BookIconModel.create(item)
     }
 
     override fun entryId(): String {
-        return ID
+        return id
     }
 }

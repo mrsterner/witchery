@@ -51,7 +51,7 @@ class WitcheryGeneralCategoryProvider(
             index++
         }
 
-        val beginning = BeginningEntryProvider(this).generate("b")
+        val beginning = SingleEntryProvider(this, "beginning", WitcheryItems.GUIDEBOOK.get()).generate("b")
         addEntry(beginning)
 
         val oven = OvenEntryProvider(this).generate("o")
@@ -65,7 +65,7 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
         addEntry(oven)
 
-        val cauldron = CauldronEntryProvider(this).generate("c")
+        val cauldron = DoubleItemEntryProvider(this, "cauldron", WitcheryItems.CAULDRON.get(),  WitcheryItems.COPPER_CAULDRON.get()).generate("c")
         cauldron
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -76,7 +76,7 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
         addEntry(cauldron)
 
-        val mutandis = MutandisEntryProvider(this).generate("m")
+        val mutandis = ItemRecipeEntryProvider(this, "mutandis", "cauldron_crafting", WitcheryItems.MUTANDIS.get()).generate("m")
         mutandis
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -88,7 +88,7 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
         addEntry(mutandis)
 
-        val mutandisExtremis = MutandisExtremisEntryProvider(this).generate("y")
+        val mutandisExtremis = ItemRecipeEntryProvider(this, "mutandis_extremis", "cauldron_crafting", WitcheryItems.MUTANDIS_EXTREMIS.get()).generate("y")
         mutandisExtremis
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -99,7 +99,7 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(mutandis.id).withDrawArrow(true))
         addEntry(mutandisExtremis)
 
-        val spring = MutatingSpringEntryProvider(this).generate("s")
+        val spring = ItemRecipeEntryProvider(this, "mutating_spring", "cauldron_crafting", WitcheryItems.MUTATING_SPRING.get()).generate("s")
         spring
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -177,7 +177,7 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
         addEntry(distillery)
 
-        val whiffOfMagic = WhiffOfMagicEntryProvider(this).generate("w")
+        val whiffOfMagic = SingleItemEntryProvider(this, "whiff_of_magic", WitcheryItems.WHIFF_OF_MAGIC.get()).generate("w")
         whiffOfMagic
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -191,7 +191,7 @@ class WitcheryGeneralCategoryProvider(
         addEntry(whiffOfMagic)
 
 
-        val hintOfRebirth = HintOfRebirthEntryProvider(this).generate("h")
+        val hintOfRebirth = SingleItemEntryProvider(this, "hint_of_rebirth", WitcheryItems.HINT_OF_REBIRTH.get()).generate("h")
         hintOfRebirth
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -202,7 +202,7 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
         addEntry(hintOfRebirth)
 
-        val exhaleOfTheHornedOne = ExhaleOfTheHornedOneEntryProvider(this).generate("e")
+        val exhaleOfTheHornedOne = SingleItemEntryProvider(this, "exhale_of_the_horned_one", WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get()).generate("e")
         exhaleOfTheHornedOne
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -213,7 +213,7 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
         addEntry(exhaleOfTheHornedOne)
 
-        val breathOfTheGoddess = BreathOfTheGoddessEntryProvider(this).generate("x")
+        val breathOfTheGoddess = SingleItemEntryProvider(this, "breath_of_the_goddess", WitcheryItems.BREATH_OF_THE_GODDESS.get()).generate("x")
         breathOfTheGoddess
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -224,7 +224,7 @@ class WitcheryGeneralCategoryProvider(
             .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
         addEntry(breathOfTheGoddess)
 
-        val tearOfTheGoddess = TearOfTheGoddessEntryProvider(this).generate("t")
+        val tearOfTheGoddess = SingleItemEntryProvider(this, "tear_of_the_goddess", WitcheryItems.TEAR_OF_THE_GODDESS.get()).generate("t")
         tearOfTheGoddess
             .withCondition(
                 BookAndConditionModel.create().withChildren(

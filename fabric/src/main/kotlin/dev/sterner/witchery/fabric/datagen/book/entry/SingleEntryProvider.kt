@@ -4,28 +4,24 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.world.item.Item
 
-class OtherwhereChalkEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
+class SingleEntryProvider(parent: CategoryProviderBase?, val id: String, val icon: Item) : EntryProvider(parent) {
 
-    companion object {
-        val ID = "otherwhere_chalk"
-    }
 
     override fun generatePages() {
-        this.page(ID) {
-            BookSpotlightPageModel.create()
-                .withItem(WitcheryItems.OTHERWHERE_CHALK.get())
-                .withTitle("${parent.categoryId()}.$ID.title")
-                .withText("${parent.categoryId()}.$ID.page.1")
+        this.page(id) {
+            BookTextPageModel.create()
+                .withTitle("${parent.categoryId()}.$id.title.1")
+                .withText("${parent.categoryId()}.$id.page.1")
         }
     }
 
     override fun entryName(): String {
-        return ID.replaceFirstChar { it.uppercaseChar() }
+        return id.replaceFirstChar { it.uppercaseChar() }
     }
 
     override fun entryDescription(): String {
@@ -37,10 +33,10 @@ class OtherwhereChalkEntryProvider(parent: CategoryProviderBase?) : EntryProvide
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.OTHERWHERE_CHALK.get())
+        return BookIconModel.create(icon)
     }
 
     override fun entryId(): String {
-        return ID
+        return id
     }
 }

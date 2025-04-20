@@ -19,7 +19,7 @@ class VampireSunCollectorEntryProvider(parent: CategoryProviderBase?) : EntryPro
     override fun generatePages() {
         this.page(ID) {
             BookTextPageModel.create()
-                .withTitle("${parent.categoryId()}.$ID.title")
+                .withTitle("${parent.categoryId()}.$ID.title.1")
                 .withText("${parent.categoryId()}.$ID.page.1")
         }
 

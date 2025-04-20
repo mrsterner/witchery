@@ -22,7 +22,7 @@ class OwlEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
     override fun generatePages() {
         this.page(ID) {
             BookTextPageModel.create()
-                .withTitle("${parent.categoryId()}.$ID.title")
+                .withTitle("${parent.categoryId()}.$ID.title.1")
                 .withText("${parent.categoryId()}.$ID.page.1")
         }
         this.page("entity") {

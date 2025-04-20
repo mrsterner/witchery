@@ -21,7 +21,7 @@ class GrassperEntryProvider(parent: CategoryProviderBase?) : EntryProvider(paren
         this.page(ID) {
             BookSpotlightPageModel.create()
                 .withItem(WitcheryItems.GRASSPER.get())
-                .withTitle("${parent.categoryId()}.$ID.title")
+                .withTitle("${parent.categoryId()}.$ID.title.1")
                 .withText("${parent.categoryId()}.$ID.page.1")
         }
         this.page("grassper_image") {

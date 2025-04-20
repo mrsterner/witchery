@@ -29,7 +29,7 @@
         "item": "witchery:cauldron"
       },
       "text": "general.cauldron.page.1",
-      "title": "general.cauldron.title"
+      "title": "general.cauldron.title.1"
     },
     {
       "type": "modonomicon:spotlight",
@@ -42,7 +42,7 @@
         "item": "witchery:copper_cauldron"
       },
       "text": "general.cauldron.page.2",
-      "title": "general.cauldron.title2"
+      "title": "general.cauldron.title.2"
     }
   ],
   "parents": [

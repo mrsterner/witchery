@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.brewing.ghost_of_the_light.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:ghost_of_the_light"
+    "item": "witchery:flying_ointment"
   },
   "name": "book.witchery.guidebook.brewing.ghost_of_the_light.name",
   "pages": [
@@ -29,7 +29,7 @@
         "item": "witchery:ghost_of_the_light"
       },
       "text": "brewing.ghost_of_the_light.page.1",
-      "title": "brewing.ghost_of_the_light.title"
+      "title": "brewing.ghost_of_the_light.title.1"
     },
     {
       "type": "witchery:cauldron_brewing_recipe",
@@ -38,8 +38,8 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_brewing/ghost_of_the_light",
-      "text": "brewing.ghost_of_the_light.title",
-      "title1": "brewing.ghost_of_the_light.ghost_of_the_light",
+      "text": "brewing.ghost_of_the_light.title.1",
+      "title1": "",
       "title2": ""
     }
   ],

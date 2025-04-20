@@ -29,7 +29,7 @@
         "item": "witchery:mutating_spring"
       },
       "text": "general.mutating_spring.page.1",
-      "title": "general.mutating_spring.title"
+      "title": "general.mutating_spring.title.1"
     },
     {
       "type": "witchery:cauldron_crafting_recipe",
@@ -38,7 +38,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_crafting/mutating_spring",
-      "text": "general.mutating_spring.title",
+      "text": "general.mutating_spring.title.2",
       "title1": "general.mutating_spring",
       "title2": ""
     }
