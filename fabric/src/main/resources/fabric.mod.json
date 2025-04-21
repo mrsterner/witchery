@@ -29,6 +29,9 @@
     "emi": [
       "dev.sterner.witchery.integration.emi.WitcheryEmiPlugin"
     ],
+    "jei_mod_plugin": [
+      "dev.sterner.witchery.integration.jei.WitcheryJeiPlugin"
+    ],
     "mm:early_risers": [
       {
         "adapter": "kotlin",

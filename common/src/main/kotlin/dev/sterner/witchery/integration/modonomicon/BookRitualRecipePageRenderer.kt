@@ -8,9 +8,6 @@ import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
-import dev.sterner.witchery.integration.emi.RitualEmiRecipe
-import dev.sterner.witchery.integration.emi.RitualEmiRecipe.Companion.renderChalk
-import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.client.Minecraft
@@ -18,6 +15,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.FormattedCharSequence
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Recipe
@@ -208,16 +206,18 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>?>(page: BookRitualReci
             val centerX = squareX + squareSize / 2
             val centerY = squareY + squareSize / 2
 
-            val maxPatternSize = max(patternWidth, patternHeight)
-            val targetSize = squareSize - 8
-            val scale = targetSize.toFloat() / maxPatternSize.toFloat()
-
-            val offsetX = -patternWidth / 2 + 24
-            val offsetY = -patternHeight / 2 - 16
+            val padding = 8
+            val targetSize = squareSize - padding * 2
+            val scale = targetSize.toFloat() / max(patternWidth, patternHeight).toFloat()
 
             poseStack.pushPose()
             poseStack.translate(centerX.toDouble(), centerY.toDouble(), 0.0)
             poseStack.scale(scale, scale, 1f)
+            poseStack.translate(
+                (12 - patternWidth / 2).toDouble(),
+                (- 16 - patternHeight / 2).toDouble(),
+                0.0
+            )
 
             for (y in pattern.indices) {
                 val row = pattern[y]
@@ -226,8 +226,8 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>?>(page: BookRitualReci
                     val block = blockMapping[char]
                     val itemStack = block?.asItem()?.defaultInstance ?: continue
 
-                    val posX = offsetX + x * itemSize
-                    val posY = offsetY + y * itemSize
+                    val posX = x * itemSize
+                    val posY = y * itemSize
 
                     renderItem(guiGraphics, itemStack, posX, posY, y + x)
                 }
@@ -282,4 +282,22 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>?>(page: BookRitualReci
         poseStack.popPose()
     }
 
+    companion object {
+        fun renderChalk(
+            poseStack: PoseStack,
+            texture: ResourceLocation,
+            color: Int
+        ) {
+            RenderUtils.blitWithAlpha(poseStack, texture, 1, 1 + 32, 0f, 0f, 16, 16, 16, 16, 0.45f, 0x000000)
+            RenderUtils.blitWithAlpha(poseStack, texture, 0, 0 + 32, 0f, 0f, 16, 16, 16, 16, 1f, color)
+        }
+
+        fun renderChalk(
+            poseStack: PoseStack,
+            texture: ResourceLocation
+        ) {
+            RenderUtils.blitWithAlpha(poseStack, texture, 1, 1 + 32, 0f, 0f, 16, 16, 16, 16, 0.45f, 0x000000)
+            RenderUtils.blitWithAlpha(poseStack, texture, 0, 0 + 32, 0f, 0f, 16, 16, 16, 16)
+        }
+    }
 }

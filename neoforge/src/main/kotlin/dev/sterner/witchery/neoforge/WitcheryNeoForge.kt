@@ -1,29 +1,26 @@
 package dev.sterner.witchery.neoforge
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.BloodPoolComponent
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
-import dev.sterner.witchery.item.CaneSwordItem
-import dev.sterner.witchery.mixin.BrushItemMixin
+import dev.sterner.witchery.integration.jei.WitcheryJeiPlugin
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
-import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
 import dev.sterner.witchery.platform.neoforge.WitcheryFluidHandlerNeoForge
+import dev.sterner.witchery.platform.neoforge.WitcheryPehkuiImpl
 import dev.sterner.witchery.registry.*
-import dev.sterner.witchery.registry.WitcheryPehkuiScaleTypes.GROWING
-import dev.sterner.witchery.registry.WitcheryPehkuiScaleTypes.SHRINKING
 import net.minecraft.client.Minecraft
+import net.minecraft.core.Holder
 import net.minecraft.core.NonNullList
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.syncher.EntityDataSerializer
+import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.item.BrushItem
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
-import net.minecraft.world.level.block.BrushableBlock
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
@@ -32,9 +29,7 @@ import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.neoforged.neoforge.capabilities.Capabilities
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
-import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
-import net.neoforged.neoforge.common.crafting.SizedIngredient
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.registries.DeferredHolder
@@ -49,6 +44,8 @@ import virtuoel.pehkui.api.ScaleEventCallback
 @Mod(Witchery.MODID)
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 object WitcheryNeoForge {
+
+    val MOB_EFFECTS: DeferredRegister<MobEffect> = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, Witchery.MODID)
 
     private val DATA_SERIALIZER_REGISTER: DeferredRegister<EntityDataSerializer<*>> =
         DeferredRegister.create(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, Witchery.MODID)
@@ -70,9 +67,10 @@ object WitcheryNeoForge {
         WitcheryNeoForgeAttachmentRegistry.ATTACHMENT_TYPES.register(MOD_BUS)
         Witchery.init()
 
-
+        kotlin.jvm.internal.Reflection.typeOf(WitcheryJeiPlugin::class.java)
 
         DATA_SERIALIZER_REGISTER.register(MOD_BUS)
+        MOB_EFFECTS.register(MOD_BUS)
         WitcheryAttributesImpl.attributes.register()
 
         runForDist(
@@ -90,20 +88,20 @@ object WitcheryNeoForge {
     }
 
     private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
-        GROWING.scaleChangedEvent.register(ScaleEventCallback { ev: ScaleData ->
+        WitcheryPehkuiImpl.getGrowing().scaleChangedEvent.add(ScaleEventCallback { ev: ScaleData ->
             val e: Entity? = ev.entity
             val g: Boolean = e?.onGround() ?: false
             e?.refreshDimensions()
             e?.setOnGround(g)
-            GROWING.getScaleData(e).markForSync(true)
+            WitcheryPehkuiImpl.getGrowing().getScaleData(e).markForSync(true)
         })
 
-        SHRINKING.scaleChangedEvent.register(ScaleEventCallback { ev: ScaleData ->
+        WitcheryPehkuiImpl.getShrinking().scaleChangedEvent.add(ScaleEventCallback { ev: ScaleData ->
             val e: Entity? = ev.entity
             val g: Boolean = e?.onGround() ?: false
             e?.refreshDimensions()
             e?.setOnGround(g)
-            SHRINKING.getScaleData(e).markForSync(true)
+            WitcheryPehkuiImpl.getShrinking().getScaleData(e).markForSync(true)
         })
     }
 

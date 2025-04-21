@@ -289,7 +289,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
     }
 
     companion object {
-        fun renderChalk(
+        private fun renderChalk(
             poseStack: PoseStack,
             texture: ResourceLocation,
             color: Int
@@ -298,7 +298,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             RenderUtils.blitWithAlpha(poseStack, texture, 0, 0 + 32, 0f, 0f, 16, 16, 16, 16, 1f, color)
         }
 
-        fun renderChalk(
+        private fun renderChalk(
             poseStack: PoseStack,
             texture: ResourceLocation
         ) {

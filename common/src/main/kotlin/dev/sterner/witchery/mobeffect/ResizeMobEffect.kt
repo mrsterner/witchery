@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mobeffect
 
 import dev.sterner.witchery.api.OnRemovedEffect
-import dev.sterner.witchery.registry.WitcheryPehkuiScaleTypes
+import dev.sterner.witchery.platform.WitcheryPehkui
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
 import net.minecraft.world.entity.LivingEntity
@@ -24,9 +24,9 @@ class ResizeMobEffect(val grow: Boolean, category: MobEffectCategory, color: Int
         super.onEffectAdded(livingEntity, amplifier)
         if (!livingEntity.level().isClientSide) {
             val data: ScaleData = if (grow) {
-                 WitcheryPehkuiScaleTypes.GROWING.getScaleData(livingEntity)
+                WitcheryPehkui.getGrowing().getScaleData(livingEntity)
             } else {
-                WitcheryPehkuiScaleTypes.SHRINKING.getScaleData(livingEntity)
+                WitcheryPehkui.getShrinking().getScaleData(livingEntity)
             }
             if (grow) {
                 data.scale = getGrowthScale(amplifier)
@@ -50,9 +50,9 @@ class ResizeMobEffect(val grow: Boolean, category: MobEffectCategory, color: Int
     override fun onRemovedEffect(livingEntity: LivingEntity) {
         if (!livingEntity.level().isClientSide) {
             val data: ScaleData = if (grow) {
-                WitcheryPehkuiScaleTypes.GROWING.getScaleData(livingEntity)
+                WitcheryPehkui.getGrowing().getScaleData(livingEntity)
             } else {
-                WitcheryPehkuiScaleTypes.SHRINKING.getScaleData(livingEntity)
+                WitcheryPehkui.getShrinking().getScaleData(livingEntity)
             }
             data.resetScale(true)
             ScaleTypes.BASE.getScaleData(livingEntity).markForSync(true)

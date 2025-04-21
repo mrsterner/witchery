@@ -17,9 +17,13 @@ import io.github.ladysnake.pal.Pal
 import io.github.ladysnake.pal.VanillaAbilities
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
+import net.minecraft.core.Holder
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.entity.EquipmentSlotGroup
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
@@ -194,5 +198,14 @@ object PlatformUtilsImpl {
     @JvmStatic
     fun getByClass(): MutableMap<Class<*>, ArgumentTypeInfo<*, *>> {
         return ArgumentTypeInfosInvoker.getByClass()
+    }
+
+    @JvmStatic
+    fun registerMobEffect(name: String, effect: MobEffect): Holder<MobEffect> {
+        return Registry.registerForHolder(
+            BuiltInRegistries.MOB_EFFECT,
+            Witchery.id(name),
+            effect
+        )
     }
 }

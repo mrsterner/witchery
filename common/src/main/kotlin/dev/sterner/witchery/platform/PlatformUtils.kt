@@ -5,6 +5,8 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.item.accessories.*
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
+import net.minecraft.core.Holder
+import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
@@ -133,6 +135,12 @@ object PlatformUtils {
     @JvmStatic
     @ExpectPlatform
     fun getByClass(): MutableMap<Class<*>, ArgumentTypeInfo<*, *>> {
+        throw AssertionError()
+    }
+
+    @JvmStatic
+    @ExpectPlatform
+    fun registerMobEffect(name: String, effect: MobEffect): Holder<MobEffect> {
         throw AssertionError()
     }
 }

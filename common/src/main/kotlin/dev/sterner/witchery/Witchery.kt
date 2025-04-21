@@ -106,7 +106,7 @@ object Witchery {
         WitcheryRitualRegistry.init()
         WitcheryMobEffects.init()
         WitcherySpecialPotionEffects.init()
-        WitcheryPehkuiScaleTypes.init();
+        WitcheryPehkui.init()
         WitcheryFluids.FLUIDS.register()
         WitcheryFluids.init()
         WitcheryArmorMaterials.MATERIALS.register()

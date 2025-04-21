@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.RegistrarManager
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.mobeffect.*
+import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -39,11 +40,7 @@ object WitcheryMobEffects {
     val SHRINK: Holder<MobEffect> = register("shrink", ResizeMobEffect(false, MobEffectCategory.NEUTRAL, Color(255, 255, 100).rgb))
 
     private fun register(name: String, effect: MobEffect): Holder<MobEffect> {
-        return Registry.registerForHolder(
-            BuiltInRegistries.MOB_EFFECT,
-            Witchery.id(name),
-            effect
-        )
+        return PlatformUtils.registerMobEffect(name, effect)
     }
 
     fun invertEffect(effect: Holder<MobEffect>): Holder<MobEffect> {
