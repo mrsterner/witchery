@@ -57,16 +57,16 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         val recipe = recipeHolder.value
 
         val itemsPerRow = 2
-        val itemSpacing = 18 // Space between items
-        val startX = recipeX + 2 + 2 + 18 + 64 + 9 // You can adjust this base X
-        val startY = recipeY - 32 + 9 // Base Y position
+        val itemSpacing = 18
+        val startX = recipeX + 2 + 2 + 18 + 64 + 9
+        val startY = recipeY - 32 + 9
 
         for ((index, item) in recipe.inputItems.withIndex()) {
             val row = index / itemsPerRow
             val col = index % itemsPerRow
 
-            val x = startX - col * itemSpacing // Moves leftward
-            val y = startY + row * itemSpacing // Rows go down
+            val x = startX - col * itemSpacing
+            val y = startY + row * itemSpacing
 
             this.parentScreen.renderItemStack(guiGraphics, x, y, mouseX, mouseY, item)
         }
