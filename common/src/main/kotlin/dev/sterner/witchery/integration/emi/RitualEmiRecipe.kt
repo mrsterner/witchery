@@ -224,9 +224,9 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             poseStack.scale(scaleFactor, scaleFactor, scaleFactor)
 
             if (color != null) {
-                renderChalk(poseStack, Witchery.id(texturePath), color)
+                RenderUtils.renderChalk(poseStack, texture = Witchery.id(texturePath), color = color)
             } else {
-                renderChalk(poseStack, Witchery.id(texturePath))
+                RenderUtils.renderChalk(poseStack, texture = Witchery.id(texturePath))
             }
 
             poseStack.popPose()
@@ -288,22 +288,4 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         }
     }
 
-    companion object {
-        private fun renderChalk(
-            poseStack: PoseStack,
-            texture: ResourceLocation,
-            color: Int
-        ) {
-            RenderUtils.blitWithAlpha(poseStack, texture, 1, 1 + 32, 0f, 0f, 16, 16, 16, 16, 0.45f, 0x000000)
-            RenderUtils.blitWithAlpha(poseStack, texture, 0, 0 + 32, 0f, 0f, 16, 16, 16, 16, 1f, color)
-        }
-
-        private fun renderChalk(
-            poseStack: PoseStack,
-            texture: ResourceLocation
-        ) {
-            RenderUtils.blitWithAlpha(poseStack, texture, 1, 1 + 32, 0f, 0f, 16, 16, 16, 16, 0.45f, 0x000000)
-            RenderUtils.blitWithAlpha(poseStack, texture, 0, 0 + 32, 0f, 0f, 16, 16, 16, 16)
-        }
-    }
 }

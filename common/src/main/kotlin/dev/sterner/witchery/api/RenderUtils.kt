@@ -204,4 +204,25 @@ object RenderUtils {
             }
         }
     }
+
+    fun renderChalk(
+        poseStack: PoseStack,
+        px: Int = 0,
+        py: Int = 0,
+        texture: ResourceLocation,
+        color: Int
+    ) {
+        blitWithAlpha(poseStack, texture, 1 + px, 1 + 32 + py, 0f, 0f, 16, 16, 16, 16, 0.45f, 0x000000)
+        blitWithAlpha(poseStack, texture, 0 + px, 0 + 32 + py, 0f, 0f, 16, 16, 16, 16, 1f, color)
+    }
+
+    fun renderChalk(
+        poseStack: PoseStack,
+        px: Int = 0,
+        py: Int = 0,
+        texture: ResourceLocation
+    ) {
+        blitWithAlpha(poseStack, texture, 1 + px, 1 + 32 + py, 0f, 0f, 16, 16, 16, 16, 0.45f, 0x000000)
+        blitWithAlpha(poseStack, texture, 0 + px, 0 + 32 + py, 0f, 0f, 16, 16, 16, 16)
+    }
 }
