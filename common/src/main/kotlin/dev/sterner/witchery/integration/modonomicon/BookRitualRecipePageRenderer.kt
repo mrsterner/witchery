@@ -1,10 +1,8 @@
 package dev.sterner.witchery.integration.modonomicon
 
 import com.klikli_dev.modonomicon.book.page.BookRecipePage
-import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
 import com.mojang.blaze3d.vertex.PoseStack
-import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
@@ -12,11 +10,9 @@ import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.FormattedCharSequence
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeHolder
@@ -25,8 +21,8 @@ import java.awt.Color
 import kotlin.math.max
 
 
-abstract class BookRitualRecipePageRenderer<T : Recipe<*>?>(page: BookRitualRecipePage?) :
-    BookRecipePageRenderer<RitualRecipe?, BookRecipePage<RitualRecipe?>?>(page) {
+abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecipePage?) :
+    BookRecipePageRenderer<RitualRecipe, BookRecipePage<RitualRecipe>>(page) {
 
 
     override fun getRecipeHeight(): Int {
@@ -48,7 +44,7 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>?>(page: BookRitualReci
 
     override fun drawRecipe(
         guiGraphics: GuiGraphics,
-        recipeHolder: RecipeHolder<RitualRecipe?>,
+        recipeHolder: RecipeHolder<RitualRecipe>,
         recipeX: Int,
         recipeY: Int,
         mouseX: Int,
@@ -58,11 +54,23 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>?>(page: BookRitualReci
         val pose = guiGraphics.pose()
         pose.pushPose()
 
-        val recipe = recipeHolder.value!!
+        val recipe = recipeHolder.value
 
-        if (!this.page!!.title1.isEmpty) {
-            this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0)
+        val itemsPerRow = 2
+        val itemSpacing = 18 // Space between items
+        val startX = recipeX + 2 + 2 + 18 + 64 + 9 // You can adjust this base X
+        val startY = recipeY - 32 + 9 // Base Y position
+
+        for ((index, item) in recipe.inputItems.withIndex()) {
+            val row = index / itemsPerRow
+            val col = index % itemsPerRow
+
+            val x = startX - col * itemSpacing // Moves leftward
+            val y = startY + row * itemSpacing // Rows go down
+
+            this.parentScreen.renderItemStack(guiGraphics, x, y, mouseX, mouseY, item)
         }
+
 
         val squareSize = 92
         renderRitualCircle(
@@ -107,83 +115,57 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>?>(page: BookRitualReci
 
 
 
+        val iconSize = 10
         var x = 20
         var y = 0
-        blitWithAlpha(pose, Witchery.id("textures/gui/celestial/${if (day || all) "sun" else "empty"}.png"),
-            x,
-            y,
-            0f,
-            0f,
-            10,
-            10,
-            10,
-            10,
-            1f
-        )
-        //var tooltipText = listOf(FormattedCharSequence.forward("Day", Style.EMPTY))
-        //guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltipText, x, y)
+
+
+        val showSun = day || all
+        blitWithAlpha(pose, Witchery.id("textures/gui/celestial/${if (showSun) "sun" else "empty"}.png"),
+            x, y, 0f, 0f, iconSize, iconSize, iconSize, iconSize, 1f)
+        if (mouseX in x..(x + iconSize) && mouseY in y..(y + iconSize)) {
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Day"), mouseX, mouseY)
+        }
 
         y += 11
-        blitWithAlpha(pose, Witchery.id("textures/gui/celestial/${if (fullMoon || night || all) "full_moon" else "empty"}.png"),
-            x,
-            y,
-            0f,
-            0f,
-            10,
-            10,
-            10,
-            10,
-            1f
-        )
-        //tooltipText = listOf(FormattedCharSequence.forward("Full Moon", Style.EMPTY))
-        //guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltipText, x, y)
+
+
+        val showFullMoon = fullMoon || night || all
+        blitWithAlpha(pose, Witchery.id("textures/gui/celestial/${if (showFullMoon) "full_moon" else "empty"}.png"),
+            x, y, 0f, 0f, iconSize, iconSize, iconSize, iconSize, 1f)
+        if (mouseX in x..(x + iconSize) && mouseY in y..(y + iconSize)) {
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Full Moon"), mouseX, mouseY)
+        }
 
         y += 11
-        blitWithAlpha(pose,  Witchery.id("textures/gui/celestial/${if (newMoon || night || all) "new_moon" else "empty"}.png"),
-            x,
-            y,
-            0f,
-            0f,
-            10,
-            10,
-            10,
-            10,
-            1f
-        )
-        //tooltipText = listOf(FormattedCharSequence.forward("New Moon", Style.EMPTY))
-        //guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltipText, x, y)
 
-        x = 20 - 11
-        y = 0 + 16
-        blitWithAlpha(pose, Witchery.id("textures/gui/celestial/${if (waxing || night || all) "waxing_moon" else "empty"}.png"),
-            x,
-            y,
-            0f,
-            0f,
-            10,
-            10,
-            10,
-            10,
-            1f
-        )
-        //tooltipText = listOf(FormattedCharSequence.forward("Waxing Moon", Style.EMPTY))
-        //guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltipText, x, y)
 
-        x = 20 + 11
-        y = 0 + 16
-        blitWithAlpha(pose, Witchery.id("textures/gui/celestial/${if (waning || night || all) "waning_moon" else "empty"}.png"),
-            x,
-            y,
-            0f,
-            0f,
-            10,
-            10,
-            10,
-            10,
-            1f
-        )
-        //tooltipText = listOf(FormattedCharSequence.forward("Waning Moon", Style.EMPTY))
-        //guiGraphics.renderTooltip(Minecraft.getInstance().font, tooltipText, x, y)
+        val showNewMoon = newMoon || night || all
+        blitWithAlpha(pose, Witchery.id("textures/gui/celestial/${if (showNewMoon) "new_moon" else "empty"}.png"),
+            x, y, 0f, 0f, iconSize, iconSize, iconSize, iconSize, 1f)
+        if (mouseX in x..(x + iconSize) && mouseY in y..(y + iconSize)) {
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("New Moon"), mouseX, mouseY)
+        }
+
+
+        x = 9
+        y = 16
+        val showWaxing = waxing || night || all
+        blitWithAlpha(pose, Witchery.id("textures/gui/celestial/${if (showWaxing) "waxing_moon" else "empty"}.png"),
+            x, y, 0f, 0f, iconSize, iconSize, iconSize, iconSize, 1f)
+        if (mouseX in x..(x + iconSize) && mouseY in y..(y + iconSize)) {
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Waxing Moon"), mouseX, mouseY)
+        }
+
+
+        x = 31
+        y = 16
+        val showWaning = waning || night || all
+        blitWithAlpha(pose, Witchery.id("textures/gui/celestial/${if (showWaning) "waning_moon" else "empty"}.png"),
+            x, y, 0f, 0f, iconSize, iconSize, iconSize, iconSize, 1f)
+        if (mouseX in x..(x + iconSize) && mouseY in y..(y + iconSize)) {
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Waning Moon"), mouseX, mouseY)
+        }
 
         pose.popPose()
     }

@@ -20,7 +20,6 @@ class WitcheryJeiPlugin : IModPlugin {
 
     override fun onRuntimeAvailable(jeiRuntime: IJeiRuntime) {
 
-        println("JEI_RUNTIME")
     }
 
     companion object {
