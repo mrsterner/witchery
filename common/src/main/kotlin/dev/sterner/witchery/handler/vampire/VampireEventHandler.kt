@@ -317,8 +317,10 @@ object VampireEventHandler {
         val abilityIndex = getData(player).abilityIndex
         val size = VampireAbilityHandler.getAbilities(player)
 
+        val hasOffhand = !player.offhandItem.isEmpty
+
         val y = guiGraphics.guiHeight() - 18 - 5
-        val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5
+        val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - if(hasOffhand) 32 else 0
 
         drawBloodSense(guiGraphics)
 

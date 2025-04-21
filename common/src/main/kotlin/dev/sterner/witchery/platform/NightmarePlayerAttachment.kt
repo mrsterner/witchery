@@ -6,7 +6,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.NightmareEntity
+import dev.sterner.witchery.payload.SyncNightmareS2CPacket
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -29,6 +31,16 @@ object NightmarePlayerAttachment {
         throw AssertionError()
     }
 
+    fun sync(player: Player, data: Data) {
+        if (player.level() is ServerLevel) {
+            WitcheryPayloads.sendToPlayers(
+                player.level(),
+                player.blockPosition(),
+                SyncNightmareS2CPacket(player, data)
+            )
+        }
+    }
+
     fun tick(player: Player?) {
         if (player?.level()?.dimension() == WitcheryWorldgenKeys.NIGHTMARE && player.level() is ServerLevel) {
             val data = getData(player)
@@ -49,7 +61,7 @@ object NightmarePlayerAttachment {
                 nightmare.moveTo(spawnX + 0.5, spawnY.toDouble() + 1, spawnZ + 0.5)
 
 
-                player.level().addFreshEntity(nightmare)
+                level.addFreshEntity(nightmare)
                 setData(player, Data(true, Optional.of(nightmare.uuid)))
             }
 

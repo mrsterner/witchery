@@ -14,5 +14,6 @@ object NightmarePlayerAttachmentImpl {
     @JvmStatic
     fun setData(player: Player, data: NightmarePlayerAttachment.Data) {
         player.setAttached(WitcheryFabricAttachmentRegistry.NIGHTMARE_PLAYER_DATA_TYPE, data)
+        NightmarePlayerAttachment.sync(player, data)
     }
 }
