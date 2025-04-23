@@ -2,6 +2,7 @@ package dev.sterner.witchery.integration.jei
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.integration.jei.wrapper.BrazierSummoningJeiRecipe
+import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
 import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
@@ -42,10 +43,12 @@ class WitcheryJeiPlugin : IModPlugin {
     override fun registerRecipes(registration: IRecipeRegistration) {
         val level: ClientLevel? = Minecraft.getInstance().level
         if (level != null) {
-            registration.addRecipes(RITUAL,
-                level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())
-                    .stream().map { it.value }.collect(Collectors.toList())
-            )
+
+            val wrappedRitualRecipes = level.recipeManager
+                .getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())
+                .map { RitualJeiRecipe(it.id, it.value) }
+
+            registration.addRecipes(RITUAL, wrappedRitualRecipes)
 
             val wrappedRecipes = level.recipeManager
                 .getAllRecipesFor(WitcheryRecipeTypes.BRAZIER_SUMMONING_RECIPE_TYPE.get())
@@ -84,7 +87,7 @@ class WitcheryJeiPlugin : IModPlugin {
     companion object {
         val ID: ResourceLocation = Witchery.id("main")
 
-        val RITUAL: RecipeType<RitualRecipe> = RecipeType(Witchery.id("ritual"), RitualRecipe::class.java)
+        val RITUAL: RecipeType<RitualJeiRecipe> = RecipeType(Witchery.id("ritual"), RitualJeiRecipe::class.java)
         val BRAZIER: RecipeType<BrazierSummoningJeiRecipe> = RecipeType(Witchery.id("brazier"), BrazierSummoningJeiRecipe::class.java)
         val CAULDRON_BREWING: RecipeType<CauldronBrewingRecipe> = RecipeType(Witchery.id("cauldron_brewing"), CauldronBrewingRecipe::class.java)
         val CAULDRON_CRAFTING: RecipeType<CauldronCraftingRecipe> = RecipeType(Witchery.id("cauldron_crafting"), CauldronCraftingRecipe::class.java)

@@ -3,10 +3,12 @@ package dev.sterner.witchery.integration.jei
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import mezz.jei.api.constants.VanillaTypes
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder
+import mezz.jei.api.gui.builder.ITooltipBuilder
 import mezz.jei.api.gui.drawable.IDrawable
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView
 import mezz.jei.api.helpers.IJeiHelpers
@@ -20,9 +22,9 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.level.block.Block
 import java.awt.Color
 
-class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<RitualRecipe> {
+class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<RitualJeiRecipe> {
 
-    override fun getRecipeType(): RecipeType<RitualRecipe> {
+    override fun getRecipeType(): RecipeType<RitualJeiRecipe> {
         return WitcheryJeiPlugin.RITUAL
     }
 
@@ -38,9 +40,9 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
       return guiHelper.guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, WitcheryItems.GOLDEN_CHALK.get().defaultInstance)
     }
 
-    override fun setRecipe(builder: IRecipeLayoutBuilder, recipe: RitualRecipe, focuses: IFocusGroup) {
-        val inputItems = recipe.inputItems
-        val outputItems = recipe.outputItems
+    override fun setRecipe(builder: IRecipeLayoutBuilder, recipe: RitualJeiRecipe, focuses: IFocusGroup) {
+        val inputItems = recipe.recipe.inputItems
+        val outputItems = recipe.recipe.outputItems
 
         val itemsPerRow = 6
         inputItems.forEachIndexed { index, stack ->
@@ -61,24 +63,49 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
         }
     }
 
+    override fun getTooltip(
+        tooltip: ITooltipBuilder,
+        recipe: RitualJeiRecipe,
+        recipeSlotsView: IRecipeSlotsView,
+        mouseX: Double,
+        mouseY: Double
+    ) {
+        super.getTooltip(tooltip, recipe, recipeSlotsView, mouseX, mouseY)
+        val font = Minecraft.getInstance().font
+        val text = Component.translatable("${recipe.id}.tooltip")
+        val textWidth = font.width(text)
+        val textX = (width / 2) - (textWidth / 2)
+
+        if (mouseX in textX.toDouble()..(textX + textWidth).toDouble() &&
+            mouseY in 2.toDouble()..(2 + font.lineHeight).toDouble()
+        ) {
+            tooltip.add(text)
+        }
+    }
+
     override fun draw(
-        recipe: RitualRecipe,
+        recipe: RitualJeiRecipe,
         recipeSlotsView: IRecipeSlotsView,
         graphics: GuiGraphics,
         mouseX: Double,
         mouseY: Double
     ) {
-        val squareX = 18 * 3 - 9
-        val squareY = background.height - (18 * 6)
+
+        graphics.drawCenteredString(
+            Minecraft.getInstance().font,
+            Component.translatable("${recipe.id}"), (width / 2), 2, -1)
+
+        val squareX = 18 * 4 - 12
+        val squareY = background.height - (18 * 8) + 9
         val squareSize = 92
 
-        val pattern = recipe.pattern
-        val blockMapping = recipe.blockMapping
+        val pattern = recipe.recipe.pattern
+        val blockMapping = recipe.recipe.blockMapping
 
         drawCirclePattern(graphics, pattern, blockMapping, squareX, squareY, squareSize)
 
         // Draw Celestial Icons
-        val celestial = recipe.celestialConditions
+        val celestial = recipe.recipe.celestialConditions
         val all = celestial.isEmpty()
 
         drawCelestial(graphics, "sun", celestial.contains(RitualRecipe.Celestial.DAY) || all, 20, 64)
@@ -87,40 +114,16 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
         drawCelestial(graphics, "waxing_moon", celestial.contains(RitualRecipe.Celestial.WAXING) || celestial.contains(RitualRecipe.Celestial.NIGHT) || all, 9, 81)
         drawCelestial(graphics, "waning_moon", celestial.contains(RitualRecipe.Celestial.WANING) || celestial.contains(RitualRecipe.Celestial.NIGHT) || all, 31, 81)
 
-        val append = if (recipe.isInfinite) "/s" else ""
-        graphics.drawString(Minecraft.getInstance().font, "Power", 7, background.height / 2 + 6, 0xffffff, true)
-        graphics.drawString(
+        val append = if (recipe.recipe.isInfinite) "/s" else ""
+        graphics.drawCenteredString(Minecraft.getInstance().font, "Power", 24, background.height - 40, 0xffffff)
+        graphics.drawCenteredString(
             Minecraft.getInstance().font,
-            "${recipe.altarPower}$append",
-            7,
-            background.height / 2 + 18,
+            "${recipe.recipe.altarPower}$append",
+            24,
+            background.height - 30,
             0xffffff,
-            true
         )
     }
-
-    private fun drawChalk(poseStack: PoseStack, x: Int, y: Int, texturePath: String, patternSize: Int, color: Int?) {
-        poseStack.pushPose()
-
-        val scaleFactor = 7f / patternSize
-
-        val pixelSize = patternSize * 2f
-
-        val offsetX = x - (pixelSize / 2f) * scaleFactor
-        val offsetY = y - (pixelSize / 2f) * scaleFactor
-
-        poseStack.translate(offsetX.toDouble(), offsetY.toDouble(), 0.0)
-        poseStack.scale(scaleFactor, scaleFactor, scaleFactor)
-
-        if (color != null) {
-            RenderUtils.renderChalk(poseStack, 0, 0, Witchery.id(texturePath), color)
-        } else {
-            RenderUtils.renderChalk(poseStack, 0, 0, Witchery.id(texturePath))
-        }
-
-        poseStack.popPose()
-    }
-
 
     private fun drawCirclePattern(
         graphics: GuiGraphics,
@@ -132,19 +135,26 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
     ) {
         if (pattern.isEmpty()) return
 
-        val basePatternSize = 15
-        val baseScale = 1 / 3.0
         val patternSize = pattern.size
-        val scale = baseScale * (basePatternSize / patternSize.toDouble())
-        val itemSize = (16 * scale).toInt()
+        val itemSize = 16
 
-        val totalWidth = pattern[0].length * itemSize
-        val totalHeight = pattern.size * itemSize
+        val scale = 7f / patternSize
+
+        val poseStack = graphics.pose()
+        poseStack.pushPose()
+
         val centerX = squareX + squareSize / 2
         val centerY = squareY + squareSize / 2
+        val halfPatternPx = (patternSize * itemSize) / 2f
 
-        val startX = centerX - totalWidth / 2
-        val startY = centerY - totalHeight / 2 - 16
+        val yOffsetCorrection = (patternSize - 7) * 2.5
+
+        poseStack.translate(
+            (centerX - halfPatternPx * scale).toDouble(),
+            (centerY - halfPatternPx * scale + yOffsetCorrection),
+            0.0
+        )
+        poseStack.scale(scale, scale, scale)
 
         for (y in pattern.indices) {
             val row = pattern[y]
@@ -153,22 +163,21 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
                 val block = blockMapping[char] ?: continue
                 val stack = block.asItem().defaultInstance
 
-                val px = startX + x * itemSize
-                val py = startY + y * itemSize
-
+                val px = x * itemSize
+                val py = y * itemSize
 
                 when {
                     stack.`is`(WitcheryItems.GOLDEN_CHALK.get()) -> {
-                        drawChalk(graphics.pose(), px, py, "textures/block/golden_chalk.png", patternSize, null)
+                        drawChalk(poseStack, px, py, "textures/block/golden_chalk.png", null)
                     }
                     stack.`is`(WitcheryItems.RITUAL_CHALK.get()) -> {
-                        drawChalk(graphics.pose(), px, py, "textures/block/chalk_${(y + x) % 15}.png", patternSize, null)
+                        drawChalk(poseStack, px, py, "textures/block/chalk_${(y + x) % 15}.png", null)
                     }
                     stack.`is`(WitcheryItems.OTHERWHERE_CHALK.get()) -> {
-                        drawChalk(graphics.pose(), px, py, "textures/block/chalk_${(y + x) % 15}.png", patternSize, Color(190, 55, 250).rgb)
+                        drawChalk(poseStack, px, py, "textures/block/chalk_${(y + x) % 15}.png", Color(190, 55, 250).rgb)
                     }
                     stack.`is`(WitcheryItems.INFERNAL_CHALK.get()) -> {
-                        drawChalk(graphics.pose(), px, py, "textures/block/chalk_${(y + x) % 15}.png", patternSize, Color(230, 0, 75).rgb)
+                        drawChalk(poseStack, px, py, "textures/block/chalk_${(y + x) % 15}.png", Color(230, 0, 75).rgb)
                     }
                     else -> {
                         graphics.renderItem(stack, px, py)
@@ -176,6 +185,21 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
                 }
             }
         }
+
+        poseStack.popPose()
+    }
+
+    private fun drawChalk(poseStack: PoseStack, x: Int, y: Int, texturePath: String, color: Int?) {
+        poseStack.pushPose()
+        poseStack.translate(x.toDouble(), y.toDouble(), 0.0)
+
+        if (color != null) {
+            RenderUtils.renderChalk(poseStack, 0, 0, Witchery.id(texturePath), color)
+        } else {
+            RenderUtils.renderChalk(poseStack, 0, 0, Witchery.id(texturePath))
+        }
+
+        poseStack.popPose()
     }
 
     private fun drawCelestial(graphics: GuiGraphics, type: String, enabled: Boolean, x: Int, y: Int) {

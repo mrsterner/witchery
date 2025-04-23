@@ -44,6 +44,16 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("emi.category.witchery.oven_cooking", "Oven Fumigation")
         builder.add("emi.category.witchery.distilling", "Distilling")
         builder.add("emi.category.witchery.spinning", "Spinning")
+
+
+        builder.add("witchery.brazier.category", "Brazier")
+        builder.add("witchery.cauldron_brewing.category", "Cauldron Brewing")
+        builder.add("witchery.cauldron_crafting.category", "Cauldron Crafting")
+        builder.add("witchery.ritual.category", "Ritual")
+        builder.add("witchery.oven.category", "Oven Fumigation")
+        builder.add("witchery.distilling.category", "Distilling")
+        builder.add("witchery.spinning.category", "Spinning")
+
         builder.add("container.witchery.oven_menu", "Witches Oven")
         builder.add("container.witchery.altar_menu", "Altar")
         builder.add("container.witchery.spinning_wheel", "Spinning Wheel")
