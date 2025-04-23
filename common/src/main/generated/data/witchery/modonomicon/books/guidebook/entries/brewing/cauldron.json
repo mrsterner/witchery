@@ -36,8 +36,8 @@
         "count": 1,
         "item": "witchery:copper_cauldron"
       },
-      "text": "brewing.cauldron.page.2",
-      "title": "brewing.cauldron.title.2"
+      "text": "",
+      "title": ""
     }
   ],
   "show_when_any_parent_unlocked": false,

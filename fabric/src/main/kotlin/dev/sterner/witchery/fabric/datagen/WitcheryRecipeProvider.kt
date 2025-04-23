@@ -101,7 +101,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addInput(ItemStack(WitcheryItems.FANCIFUL_THREAD.get(), 2))
             .setAltarPower(5)
             .setCookingTime(100)
-            .addOutput(WitcheryItems.DREAM_WEAVER_OF_FASTING.get())
+            .addOutput(WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get())
             .save(exporter, Witchery.id("dream_weaver_of_iron_arm"))
 
         SpinningWheelRecipeBuilder.create()

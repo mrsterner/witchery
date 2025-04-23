@@ -1,10 +1,12 @@
 package dev.sterner.witchery.integration.jei
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.RenderUtils
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder
 import mezz.jei.api.gui.drawable.IDrawable
+import mezz.jei.api.gui.drawable.IDrawableBuilder
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView
 import mezz.jei.api.helpers.IJeiHelpers
 import mezz.jei.api.recipe.IFocusGroup
@@ -27,7 +29,7 @@ class CauldronBrewingRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategor
     }
 
     override fun getBackground(): IDrawable {
-        return guiHelper.guiHelper.createBlankDrawable(18 * 8, 18 * 7)
+        return guiHelper.guiHelper.createBlankDrawable(18 * 8, 18 * 9)
     }
 
     override fun getIcon(): IDrawable? {
@@ -36,16 +38,16 @@ class CauldronBrewingRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategor
 
     override fun setRecipe(builder: IRecipeLayoutBuilder, recipe: CauldronBrewingRecipe, focuses: IFocusGroup) {
         // Input ingredients
+        var drawableBuilder = guiHelper.guiHelper.drawableBuilder(Witchery.id("textures/gui/order_widget.png"), 0, 0, 48, 18)
+        drawableBuilder.setTextureSize(48, 18)
         for ((index, ingredient) in recipe.inputItems.withIndex()) {
             builder.addSlot(RecipeIngredientRole.INPUT, 2 + 2 + 18, 20 * index)
                 .addItemStack(ingredient.itemStack)
-                .setBackground(guiHelper.guiHelper.drawableBuilder(
-                    Witchery.id("textures/gui/order_widget.png"),
-                    0, 0, 48, 18
-                ).build(), -2, -2)
+                .setBackground(drawableBuilder.build(), -18, -1)
+
         }
 
-        // Glass Bottle (additional input)
+        // Glass Bottle
         builder.addSlot(RecipeIngredientRole.INPUT, 48 + 18 + 9 - 12, 20 * 1 + 6 - 18)
             .addItemStack(Items.GLASS_BOTTLE.defaultInstance)
 
@@ -57,6 +59,24 @@ class CauldronBrewingRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategor
 
         guiGraphics.blit(Witchery.id("textures/gui/cauldron.png"), 48 + 18 + 9, 20 * 1 - 18 + 8, 0f, 0f, 35, 56, 35, 56)
 
+        for ((index, ingredient) in recipe.inputItems.withIndex()) {
+            val order = ingredient.order
+            if (order in 0..8) {
+                RenderUtils.blitWithAlpha(
+                    guiGraphics.pose(),
+                    Witchery.id("textures/gui/index_${order + 1}.png"),
+                    2 + 2 + 18 + 2 - 18,
+                    20 * index + 2,
+                    0f,
+                    0f,
+                    13,
+                    13,
+                    13,
+                    13
+                )
+            }
+        }
+
         var bl = false
         if (recipe.dimensionKey.isNotEmpty()) {
             for ((index, key) in recipe.dimensionKey.withIndex()) {
@@ -67,7 +87,7 @@ class CauldronBrewingRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategor
                 guiGraphics.drawString(
                     Minecraft.getInstance().font,
                     text,
-                    width / 4 + 18,
+                    width / 4 + 18 + 18,
                     36 + 36 + 14 * index,
                     0xffffff,
                     true
@@ -79,7 +99,7 @@ class CauldronBrewingRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategor
             guiGraphics.drawString(
                 Minecraft.getInstance().font,
                 text,
-                width / 4 + 18,
+                width / 4 + 18 + 18,
                 36 + 36,
                 0xffffff,
                 true
