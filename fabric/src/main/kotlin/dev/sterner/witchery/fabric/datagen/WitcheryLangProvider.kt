@@ -28,6 +28,16 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
     override fun generateTranslations(registryLookup: HolderLookup.Provider?, builder: TranslationBuilder) {
         builder.add("witchery.main", "Witchery")
 
+        builder.add("witchery.add_page.1", "Added the first page to the key")
+        builder.add("witchery.add_page.2", "Added the second page to the key")
+        builder.add("witchery.add_page.3", "Added the third page to the key")
+        builder.add("witchery.add_page.4", "Added the forth page to the key")
+        builder.add("witchery.add_page.5", "Added the fifth page to the key")
+        builder.add("witchery.add_page.6", "Added the sixth page to the key")
+        builder.add("witchery.add_page.7", "Added the seventh page to the key")
+        builder.add("witchery.add_page.8", "Added the eight page to the key")
+        builder.add("witchery.add_page.9", "Added the final page to the key")
+
         builder.add("emi.category.witchery.cauldron_brewing", "Cauldron Brewing")
         builder.add("emi.category.witchery.cauldron_crafting", "Cauldron Crafting")
         builder.add("emi.category.witchery.ritual", "Ritual")
