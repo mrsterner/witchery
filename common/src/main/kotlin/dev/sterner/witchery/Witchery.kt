@@ -39,10 +39,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
-import dev.sterner.witchery.data.BloodPoolHandler
-import dev.sterner.witchery.data.ErosionHandler
-import dev.sterner.witchery.data.NaturePowerHandler
-import dev.sterner.witchery.data.PotionDataHandler
+import dev.sterner.witchery.data.*
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.transformation.TransformationHandler
@@ -103,6 +100,7 @@ object Witchery {
     fun init() {
         PotionDataHandler.registerListener()
         WitcheryCurseRegistry.init()
+        WitcheryEffigyEffects.init()
         WitcheryRitualRegistry.init()
         WitcheryMobEffects.init()
         WitcherySpecialPotionEffects.init()
@@ -145,6 +143,7 @@ object Witchery {
 
         MODIFY_LOOT_TABLE.register(::addSeeds)
 
+        FetishEffectHandler.registerListener()
         NaturePowerHandler.registerListener()
         ErosionHandler.registerListener()
 

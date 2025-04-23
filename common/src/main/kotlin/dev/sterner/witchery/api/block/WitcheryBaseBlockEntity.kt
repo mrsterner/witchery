@@ -30,10 +30,10 @@ open class WitcheryBaseBlockEntity(
 
     private var initialized = false
 
-    open fun tick(level: Level, pos: BlockPos, state: BlockState) {
+    open fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
         if (!initialized) {
             initialized = true
-            init(level, pos, state)
+            init(level, pos, blockState)
         }
     }
 
