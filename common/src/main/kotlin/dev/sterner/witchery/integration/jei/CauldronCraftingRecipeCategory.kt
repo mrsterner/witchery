@@ -1,18 +1,16 @@
 package dev.sterner.witchery.integration.jei
 
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder
 import mezz.jei.api.gui.drawable.IDrawable
-import mezz.jei.api.helpers.IGuiHelper
+import mezz.jei.api.helpers.IJeiHelpers
 import mezz.jei.api.recipe.IFocusGroup
 import mezz.jei.api.recipe.RecipeType
 import mezz.jei.api.recipe.category.IRecipeCategory
 import net.minecraft.network.chat.Component
 
-class CauldronCraftingRecipeCategory(var guiHelper: IGuiHelper) : IRecipeCategory<CauldronCraftingRecipe> {
+class CauldronCraftingRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<CauldronCraftingRecipe> {
 
     override fun getRecipeType(): RecipeType<CauldronCraftingRecipe> {
         return WitcheryJeiPlugin.CAULDRON_CRAFTING
@@ -23,11 +21,11 @@ class CauldronCraftingRecipeCategory(var guiHelper: IGuiHelper) : IRecipeCategor
     }
 
     override fun getBackground(): IDrawable {
-        return guiHelper.createBlankDrawable(18 * 8, 18 * 8)
+        return guiHelper.guiHelper.createBlankDrawable(18 * 8, 18 * 8)
     }
 
     override fun getIcon(): IDrawable? {
-        return guiHelper.createDrawableItemStack(WitcheryItems.CAULDRON.get().defaultInstance)
+        return guiHelper.guiHelper.createDrawableItemStack(WitcheryItems.CAULDRON.get().defaultInstance)
     }
 
     override fun setRecipe(builder: IRecipeLayoutBuilder, recipe: CauldronCraftingRecipe, focuses: IFocusGroup) {

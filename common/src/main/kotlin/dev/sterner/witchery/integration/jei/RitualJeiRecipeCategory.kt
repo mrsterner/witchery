@@ -9,7 +9,7 @@ import mezz.jei.api.constants.VanillaTypes
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder
 import mezz.jei.api.gui.drawable.IDrawable
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView
-import mezz.jei.api.helpers.IGuiHelper
+import mezz.jei.api.helpers.IJeiHelpers
 import mezz.jei.api.recipe.IFocusGroup
 import mezz.jei.api.recipe.RecipeIngredientRole
 import mezz.jei.api.recipe.RecipeType
@@ -20,7 +20,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.level.block.Block
 import java.awt.Color
 
-class RitualJeiRecipeCategory(var guiHelper: IGuiHelper) : IRecipeCategory<RitualRecipe> {
+class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<RitualRecipe> {
 
     override fun getRecipeType(): RecipeType<RitualRecipe> {
         return WitcheryJeiPlugin.RITUAL
@@ -31,11 +31,11 @@ class RitualJeiRecipeCategory(var guiHelper: IGuiHelper) : IRecipeCategory<Ritua
     }
 
     override fun getBackground(): IDrawable {
-        return guiHelper.createBlankDrawable(18 * 9, 18 * 8)
+        return guiHelper.guiHelper.createBlankDrawable(18 * 9, 18 * 8)
     }
 
     override fun getIcon(): IDrawable? {
-      return guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, WitcheryItems.GOLDEN_CHALK.get().defaultInstance)
+      return guiHelper.guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, WitcheryItems.GOLDEN_CHALK.get().defaultInstance)
     }
 
     override fun setRecipe(builder: IRecipeLayoutBuilder, recipe: RitualRecipe, focuses: IFocusGroup) {

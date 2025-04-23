@@ -1,6 +1,7 @@
 package dev.sterner.witchery.integration.jei
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.integration.jei.wrapper.BrazierSummoningJeiRecipe
 import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
@@ -14,7 +15,6 @@ import mezz.jei.api.JeiPlugin
 import mezz.jei.api.recipe.RecipeType
 import mezz.jei.api.registration.IRecipeCategoryRegistration
 import mezz.jei.api.registration.IRecipeRegistration
-import mezz.jei.api.runtime.IJeiRuntime
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.resources.ResourceLocation
@@ -25,8 +25,11 @@ import java.util.stream.Collectors
 class WitcheryJeiPlugin : IModPlugin {
 
     override fun registerCategories(registration: IRecipeCategoryRegistration) {
-        val guiHelper = registration.jeiHelpers.guiHelper
+        val guiHelper = registration.jeiHelpers
 
+        for (recipe in registration.jeiHelpers.getRecipeType(Witchery.id("brazier_summoning")).stream()) {
+
+        }
         registration.addRecipeCategories(RitualJeiRecipeCategory(guiHelper))
         registration.addRecipeCategories(BrazierRecipeCategory(guiHelper))
         registration.addRecipeCategories(CauldronBrewingRecipeCategory(guiHelper))
@@ -44,10 +47,12 @@ class WitcheryJeiPlugin : IModPlugin {
                     .stream().map { it.value }.collect(Collectors.toList())
             )
 
-            registration.addRecipes(BRAZIER,
-                level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.BRAZIER_SUMMONING_RECIPE_TYPE.get())
-                    .stream().map { it.value }.collect(Collectors.toList())
-            )
+            val wrappedRecipes = level.recipeManager
+                .getAllRecipesFor(WitcheryRecipeTypes.BRAZIER_SUMMONING_RECIPE_TYPE.get())
+                .map { BrazierSummoningJeiRecipe(it.id, it.value) }
+
+            registration.addRecipes(BRAZIER, wrappedRecipes)
+
 
             registration.addRecipes(CAULDRON_BREWING,
                 level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
@@ -80,7 +85,7 @@ class WitcheryJeiPlugin : IModPlugin {
         val ID: ResourceLocation = Witchery.id("main")
 
         val RITUAL: RecipeType<RitualRecipe> = RecipeType(Witchery.id("ritual"), RitualRecipe::class.java)
-        val BRAZIER: RecipeType<BrazierSummoningRecipe> = RecipeType(Witchery.id("brazier"), BrazierSummoningRecipe::class.java)
+        val BRAZIER: RecipeType<BrazierSummoningJeiRecipe> = RecipeType(Witchery.id("brazier"), BrazierSummoningJeiRecipe::class.java)
         val CAULDRON_BREWING: RecipeType<CauldronBrewingRecipe> = RecipeType(Witchery.id("cauldron_brewing"), CauldronBrewingRecipe::class.java)
         val CAULDRON_CRAFTING: RecipeType<CauldronCraftingRecipe> = RecipeType(Witchery.id("cauldron_crafting"), CauldronCraftingRecipe::class.java)
         val DISTILLING: RecipeType<DistilleryCraftingRecipe> = RecipeType(Witchery.id("distilling"), DistilleryCraftingRecipe::class.java)
