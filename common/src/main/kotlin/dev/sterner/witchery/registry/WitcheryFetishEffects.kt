@@ -4,12 +4,13 @@ import dev.architectury.registry.registries.Registrar
 import dev.architectury.registry.registries.RegistrarManager
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.FetishEffect
-import dev.sterner.witchery.curse.CurseOfCorruptPoppet
 import dev.sterner.witchery.fetish.EmptyFetishEffect
+import dev.sterner.witchery.fetish.GhostWalkingFetishEffect
+import dev.sterner.witchery.fetish.ShriekingFetishEffect
+import dev.sterner.witchery.fetish.SummonDeathFetishEffect
 
-object WitcheryEffigyEffects {
+object WitcheryFetishEffects {
 
     val ID = Witchery.id("fetish_effect")
 
@@ -28,12 +29,16 @@ object WitcheryEffigyEffects {
         EmptyFetishEffect()
     }
 
-    val SHRIEKING: RegistrySupplier<FetishEffect> = FETISH_EFFECTS.register(Witchery.id("shrieking")) {
-        EmptyFetishEffect()
+    val SHRIEKING: RegistrySupplier<ShriekingFetishEffect> = FETISH_EFFECTS.register(Witchery.id("shrieking")) {
+        ShriekingFetishEffect()
     }
 
-    val GHOST_WALKING: RegistrySupplier<FetishEffect> = FETISH_EFFECTS.register(Witchery.id("ghost_walking")) {
-        EmptyFetishEffect()
+    val GHOST_WALKING: RegistrySupplier<GhostWalkingFetishEffect> = FETISH_EFFECTS.register(Witchery.id("ghost_walking")) {
+        GhostWalkingFetishEffect()
+    }
+
+    val SUMMON_DEATH: RegistrySupplier<SummonDeathFetishEffect> = FETISH_EFFECTS.register(Witchery.id("summon_death")) {
+        SummonDeathFetishEffect()
     }
 
     fun init() {

@@ -39,6 +39,10 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
                         effigy.poltergeistCount += 1
                         makeParticles(level, entity)
                     }
+                    if (entity is Spirit) {
+                        effigy.spiritCount += 1
+                        makeParticles(level, entity)
+                    }
 
                      */
                 }

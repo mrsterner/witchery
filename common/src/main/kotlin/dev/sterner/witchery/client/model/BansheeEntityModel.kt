@@ -25,12 +25,12 @@ class BansheeEntityModel(val root: ModelPart) :
         )
     }) {
 
-    private val body: ModelPart = root.getChild("body")
-    private val head: ModelPart = body.getChild("head")
-    private val headMain: ModelPart = head.getChild("headMain")
-    private val jaw: ModelPart = headMain.getChild("jaw")
-    private val lArm: ModelPart = body.getChild("lArm")
-    private val rArm: ModelPart = body.getChild("rArm")
+    val body: ModelPart = root.getChild("body")
+    val head: ModelPart = body.getChild("head")
+    val headMain: ModelPart = head.getChild("headMain")
+    val jaw: ModelPart = headMain.getChild("jaw")
+    val lArm: ModelPart = body.getChild("lArm")
+    val rArm: ModelPart = body.getChild("rArm")
 
     override fun renderToBuffer(
         poseStack: PoseStack,

@@ -101,6 +101,10 @@ object WitcheryDataComponents {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
     }
 
+    val SPIRIT_COUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("spirit_count") {
+        DataComponentType.builder<Int>().persistent(Codec.INT).build()
+    }
+
     val CAPTURED_ENTITY = DATA.register("captured_entity") {
         DataComponentType.builder<CritterSnareBlock.CapturedEntity>().persistent(CritterSnareBlock.CapturedEntity.CODEC)
             .build()

@@ -7,7 +7,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.registry.ReloadListenerRegistry
 import dev.sterner.witchery.api.FetishEffect
-import dev.sterner.witchery.registry.WitcheryEffigyEffects
+import dev.sterner.witchery.registry.WitcheryFetishEffects
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.resources.PreparableReloadListener
@@ -22,16 +22,17 @@ object FetishEffectHandler {
     val loader = FetishResourceReloadListener(Gson(), "fetish")
     val dataMap = mutableMapOf<ResourceLocation, Data>()
 
-    fun findMatchingEffect(banshee: Int, specter: Int, poltergeist: Int): ResourceLocation? {
+    fun findMatchingEffect(spirit: Int, banshee: Int, specter: Int, poltergeist: Int): ResourceLocation? {
         return dataMap.entries.firstOrNull { (_, data) ->
             data.bansheeCount == banshee &&
                     data.specterCount == specter &&
-                    data.poltergeistCount == poltergeist
+                    data.poltergeistCount == poltergeist &&
+                    data.spiritCount == spirit
         }?.key
     }
 
     fun getEffect(location: ResourceLocation): FetishEffect? {
-        return dataMap[location]?.effectLocation?.let { WitcheryEffigyEffects.FETISH_EFFECTS.get(it) }
+        return dataMap[location]?.effectLocation?.let { WitcheryFetishEffects.FETISH_EFFECTS.get(it) }
     }
 
     fun registerListener() {
@@ -81,6 +82,7 @@ object FetishEffectHandler {
 
         private fun parseJson(json: JsonObject, file: ResourceLocation) {
 
+            val spiritCount = json.get("spirit_count")?.asInt ?: 0
             val bansheeCount = json.get("banshee_count")?.asInt ?: 0
             val specterCount = json.get("specter_count")?.asInt ?: 0
             val poltergeistCount = json.get("poltergeist_count")?.asInt ?: 0
@@ -89,6 +91,7 @@ object FetishEffectHandler {
             val effectLocation = ResourceLocation.tryParse(effectString) ?: return
 
             val data = Data(
+                spiritCount = spiritCount,
                 bansheeCount = bansheeCount,
                 specterCount = specterCount,
                 poltergeistCount = poltergeistCount,
@@ -100,6 +103,7 @@ object FetishEffectHandler {
     }
 
     data class Data(
+        var spiritCount:Int = 0,
         var bansheeCount: Int = 0,
         var specterCount: Int = 0,
         var poltergeistCount: Int = 0,
@@ -108,6 +112,7 @@ object FetishEffectHandler {
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
+                    Codec.INT.optionalFieldOf("spirit_count", 0).forGetter { it.spiritCount },
                     Codec.INT.optionalFieldOf("banshee_count", 0).forGetter { it.bansheeCount },
                     Codec.INT.optionalFieldOf("specter_count", 0).forGetter { it.specterCount },
                     Codec.INT.optionalFieldOf("poltergeist_count", 0).forGetter { it.poltergeistCount },

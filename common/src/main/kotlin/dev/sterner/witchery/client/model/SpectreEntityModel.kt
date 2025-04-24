@@ -25,10 +25,10 @@ class SpectreEntityModel(val root: ModelPart) :
         )
     }) {
 
-    private val body: ModelPart = root.getChild("body")
-    private val head: ModelPart = root.getChild("head")
-    private val lArm: ModelPart = root.getChild("lArm")
-    private val rArm: ModelPart = root.getChild("rArm")
+    val body: ModelPart = root.getChild("body")
+    val head: ModelPart = root.getChild("head")
+    val lArm: ModelPart = root.getChild("lArm")
+    val rArm: ModelPart = root.getChild("rArm")
 
     override fun renderToBuffer(
         poseStack: PoseStack,

@@ -64,6 +64,7 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
                 } else {
                     WitcheryItems.WITCHES_LADDER.get().defaultInstance
                 }
+                itemStack.set(WitcheryDataComponents.SPIRIT_COUNT.get(), blockEntity.spiritCount)
                 itemStack.set(WitcheryDataComponents.BANSHEE_COUNT.get(), blockEntity.bansheeCount)
                 itemStack.set(WitcheryDataComponents.SPECTRE_COUNT.get(), blockEntity.specterCount)
                 itemStack.set(WitcheryDataComponents.POLTERGEIST_COUNT.get(), blockEntity.poltergeistCount)

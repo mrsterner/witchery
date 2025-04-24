@@ -100,7 +100,7 @@ object Witchery {
     fun init() {
         PotionDataHandler.registerListener()
         WitcheryCurseRegistry.init()
-        WitcheryEffigyEffects.init()
+        WitcheryFetishEffects.init()
         WitcheryRitualRegistry.init()
         WitcheryMobEffects.init()
         WitcherySpecialPotionEffects.init()
@@ -490,7 +490,7 @@ object Witchery {
             WitcheryBlockEntityTypes.CRITTER_SNARE.get(),
             ::CritterSnareBlockEntityRenderer
         )
-
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.EFFIGY.get(), ::EffigyBlockEntityRenderer)
 
         ClientTooltipComponentRegistry.register(
             BloodPoolComponent::class.java,

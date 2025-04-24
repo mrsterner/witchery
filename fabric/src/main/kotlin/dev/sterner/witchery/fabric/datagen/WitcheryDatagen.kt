@@ -62,7 +62,9 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
         pack.addProvider { out, tag ->
             WitcheryBloodProvider(out, tag)
         }
-
+        pack.addProvider { out, tag ->
+            WitcheryFetishProvider(out, tag)
+        }
         pack.addProvider(::WitcheryWorldGenProvider)
     }
 
