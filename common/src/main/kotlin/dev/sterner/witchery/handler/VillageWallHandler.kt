@@ -1,59 +1,50 @@
 package dev.sterner.witchery.handler
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.mixin.LevelChunkAccessor
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.level.biome.Biomes
 import net.minecraft.world.level.levelgen.Heightmap
 import net.minecraft.world.level.levelgen.structure.BoundingBox
 
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate
 import net.minecraft.world.level.block.Rotation
 import net.minecraft.world.level.block.Mirror
+
 object VillageWallHandler {
     private val seenVillages: MutableSet<String> = mutableSetOf()
-    private val toDecorate: MutableList<BoundingBox> = mutableListOf()
+    private val toDecorate: MutableList<VillageData> = mutableListOf()
 
     private val wallStraightStructure = Witchery.id("wall_straight") // 8x7x5
     private val wallCornerStructure = Witchery.id("wall_corner") // 7x8x7
 
     private const val SEGMENT_LENGTH = 8
-    private const val WALL_HEIGHT = 16
     private const val WALL_WIDTH = 5
-
-    fun markVillage(box: BoundingBox): Boolean {
-        val key = "${box.minX()},${box.minY()},${box.minZ()},${box.maxX()},${box.maxY()},${box.maxZ()}"
-        return if (seenVillages.add(key)) {
-            toDecorate.add(box)
-            true
-        } else false
-    }
 
     fun tick(level: ServerLevel) {
         if (toDecorate.isEmpty()) return
         val copy = ArrayList(toDecorate)
         toDecorate.clear()
 
-        for (box in copy) {
-            placeWallSegmentsAround(level, box)
+        for (village in copy) {
+            if (isChunkLoaded(level, village.villageCenter)) {
+                placeWallSegmentsAround(level, village)
+            } else {
+                toDecorate.add(village)
+            }
         }
     }
 
-    private fun placeWallSegmentsAround(level: ServerLevel, box: BoundingBox) {
-        val straightTemplate = level.structureManager.getOrCreate(wallStraightStructure)
-        val cornerTemplate = level.structureManager.getOrCreate(wallCornerStructure)
-
-        val newBox = getExpandedBoundingBox(box)
-
-        // Place corner structures at the 4 corners of the expanded bounding box
-        placeCornerStructures(level, newBox.minX(), newBox.maxX(), newBox.minZ(), newBox.maxZ(), cornerTemplate)
-
-        // Place straight walls along the sides of the expanded bounding box, avoiding overlap with corners
-        placeStraightWalls(level, newBox.minX(), newBox.maxX(), newBox.minZ(), newBox.maxZ(), straightTemplate)
+    private fun getCenterOfBoundingBox(box: BoundingBox): BlockPos {
+        val centerX = (box.minX() + box.maxX()) / 2
+        val centerZ = (box.minZ() + box.maxZ()) / 2
+        val y = box.minY()
+        return BlockPos(centerX, y, centerZ)
     }
 
-    private fun getExpandedBoundingBox(box: BoundingBox): BoundingBox {
+    private fun getAdjustedBoundingBox(box: BoundingBox): BoundingBox {
         val expandedMinX = box.minX() - WALL_WIDTH
         val expandedMaxX = box.maxX() + WALL_WIDTH
         val expandedMinZ = box.minZ() - WALL_WIDTH
@@ -62,12 +53,12 @@ object VillageWallHandler {
         return BoundingBox(expandedMinX, box.minY(), expandedMinZ, expandedMaxX, box.maxY(), expandedMaxZ)
     }
 
-    private fun placeCornerStructures(level: ServerLevel, minX: Int, maxX: Int, minZ: Int, maxZ: Int, template: StructureTemplate) {
+    private fun placeCornerStructures(level: ServerLevel, box: BoundingBox, template: StructureTemplate) {
         val cornerPositions = listOf(
-            BlockPos(minX, getHeightAt(level, minX, minZ), minZ), // NW corner
-            BlockPos(minX, getHeightAt(level, minX, maxZ), maxZ), // SW corner
-            BlockPos(maxX, getHeightAt(level, maxX, minZ), minZ), // NE corner
-            BlockPos(maxX, getHeightAt(level, maxX, maxZ), maxZ)  // SE corner
+            BlockPos(box.minX(), getHeightAt(level, box.minX(), box.minZ()), box.minZ()),
+            BlockPos(box.minX(), getHeightAt(level, box.minX(), box.maxZ()), box.maxZ()),
+            BlockPos(box.maxX(), getHeightAt(level, box.maxX(), box.minZ()), box.minZ()),
+            BlockPos(box.maxX(), getHeightAt(level, box.maxX(), box.maxZ()), box.maxZ())
         )
 
         for (pos in cornerPositions) {
@@ -75,41 +66,29 @@ object VillageWallHandler {
         }
     }
 
-    private fun placeStraightWalls(level: ServerLevel, minX: Int, maxX: Int, minZ: Int, maxZ: Int, template: StructureTemplate) {
-        // North side (straight wall)
-        for (x in (minX + SEGMENT_LENGTH) until maxX step SEGMENT_LENGTH) {
-            if (x + SEGMENT_LENGTH < maxX) {
-                val y = getHeightAt(level, x, minZ)
-                val pos = BlockPos(x, y, minZ - WALL_WIDTH)
-                placeStructure(template, level, pos, Rotation.NONE)
-            }
+    private fun placeStraightWalls(level: ServerLevel, box: BoundingBox, template: StructureTemplate) {
+        for (x in (box.minX() + SEGMENT_LENGTH) until box.maxX() step SEGMENT_LENGTH) {
+            val y = getHeightAt(level, x, box.minZ())
+            val pos = BlockPos(x, y, box.minZ() - WALL_WIDTH)
+            placeStructure(template, level, pos, Rotation.NONE)
         }
 
-        // South side (straight wall)
-        for (x in (minX + SEGMENT_LENGTH) until maxX step SEGMENT_LENGTH) {
-            if (x + SEGMENT_LENGTH < maxX) {
-                val y = getHeightAt(level, x, maxZ)
-                val pos = BlockPos(x, y, maxZ + 1)
-                placeStructure(template, level, pos, Rotation.NONE)
-            }
+        for (x in (box.minX() + SEGMENT_LENGTH) until box.maxX() step SEGMENT_LENGTH) {
+            val y = getHeightAt(level, x, box.maxZ())
+            val pos = BlockPos(x, y, box.maxZ() + 1)
+            placeStructure(template, level, pos, Rotation.NONE)
         }
 
-        // West side (straight wall)
-        for (z in (minZ + SEGMENT_LENGTH) until maxZ step SEGMENT_LENGTH) {
-            if (z + SEGMENT_LENGTH < maxZ) {
-                val y = getHeightAt(level, minX, z)
-                val pos = BlockPos(minX - WALL_WIDTH, y, z)
-                placeStructure(template, level, pos, Rotation.CLOCKWISE_90)
-            }
+        for (z in (box.minZ() + SEGMENT_LENGTH) until box.maxZ() step SEGMENT_LENGTH) {
+            val y = getHeightAt(level, box.minX(), z)
+            val pos = BlockPos(box.minX() - WALL_WIDTH, y, z)
+            placeStructure(template, level, pos, Rotation.CLOCKWISE_90)
         }
 
-        // East side (straight wall)
-        for (z in (minZ + SEGMENT_LENGTH) until maxZ step SEGMENT_LENGTH) {
-            if (z + SEGMENT_LENGTH < maxZ) {
-                val y = getHeightAt(level, maxX, z)
-                val pos = BlockPos(maxX + 1, y, z)
-                placeStructure(template, level, pos, Rotation.CLOCKWISE_90)
-            }
+        for (z in (box.minZ() + SEGMENT_LENGTH) until box.maxZ() step SEGMENT_LENGTH) {
+            val y = getHeightAt(level, box.maxX(), z)
+            val pos = BlockPos(box.maxX() + 1, y, z)
+            placeStructure(template, level, pos, Rotation.CLOCKWISE_90)
         }
     }
 
@@ -130,4 +109,34 @@ object VillageWallHandler {
     private fun getHeightAt(level: ServerLevel, x: Int, z: Int): Int {
         return level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z) - 1
     }
+
+    private fun isChunkLoaded(level: ServerLevel, pos: BlockPos): Boolean {
+        val chunk = level.getChunkAt(pos)
+        return (chunk as LevelChunkAccessor).isLoaded
+    }
+    private fun placeWallSegmentsAround(level: ServerLevel, village: VillageData) {
+        val straightTemplate = level.structureManager.getOrCreate(wallStraightStructure)
+        val cornerTemplate = level.structureManager.getOrCreate(wallCornerStructure)
+
+
+        placeCornerStructures(level, village.adjustedBox, cornerTemplate)
+        placeStraightWalls(level, village.adjustedBox, straightTemplate)
+    }
+
+    fun markVillage(box: BoundingBox): Boolean {
+        val center = getCenterOfBoundingBox(box)
+        val adjustedBox = getAdjustedBoundingBox(box)
+
+        val key = "${box.minX()},${box.minY()},${box.minZ()},${box.maxX()},${box.maxY()},${box.maxZ()}"
+        return if (seenVillages.add(key)) {
+            toDecorate.add(VillageData(center, box, adjustedBox))
+            true
+        } else false
+    }
+
+    data class VillageData(
+        val villageCenter: BlockPos,
+        val boundingBox: BoundingBox,
+        val adjustedBox: BoundingBox
+    )
 }

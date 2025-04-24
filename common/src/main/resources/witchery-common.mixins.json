@@ -24,6 +24,7 @@
     "EntityMixin",
     "FoodDataMixin",
     "ItemEntityMixin",
+    "LevelChunkAccessor",
     "LightningBoltMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
