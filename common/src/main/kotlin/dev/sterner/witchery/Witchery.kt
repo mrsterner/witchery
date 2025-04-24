@@ -216,6 +216,9 @@ object Witchery {
         }
 
         LifecycleEvent.SERVER_STARTED.register { addStructure(it) }
+        //TickEvent.SERVER_LEVEL_PRE.register(VillageWallHandler::tick)
+        //ChunkEvent.LOAD_DATA.register(VillageWallHandler::loadChunk)
+
     }
 
     /**
@@ -369,8 +372,6 @@ object Witchery {
                 )
             context.addPool(pool4)
         }
-
-        TickEvent.SERVER_LEVEL_PRE.register(VillageWallHandler::tick)
     }
 
     @JvmStatic

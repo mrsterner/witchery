@@ -2,12 +2,14 @@ package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.VillageHelper;
 import dev.sterner.witchery.handler.VillageWallHandler;
+import dev.sterner.witchery.world.WitcheryWallWorldState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
@@ -42,7 +44,7 @@ public class StructureStartMixin {
         if (key != null && key.location().getPath().contains("village")) {
             BoundingBox bounds = self.getBoundingBox();
 
-            if (VillageWallHandler.INSTANCE.markVillage(bounds)) {
+            if (VillageWallHandler.INSTANCE.markVillage(bounds, level)) {
                 System.out.println("New village detected at: " + bounds);
             }
         }

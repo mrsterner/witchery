@@ -1,142 +1,169 @@
 package dev.sterner.witchery.handler
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.mixin.LevelChunkAccessor
+import dev.sterner.witchery.world.WitcheryWallWorldState
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.level.biome.Biomes
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.WorldGenLevel
+import net.minecraft.world.level.block.Rotation
+import net.minecraft.world.level.chunk.ChunkAccess
 import net.minecraft.world.level.levelgen.Heightmap
 import net.minecraft.world.level.levelgen.structure.BoundingBox
-
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate
-import net.minecraft.world.level.block.Rotation
-import net.minecraft.world.level.block.Mirror
 
 object VillageWallHandler {
-    private val seenVillages: MutableSet<String> = mutableSetOf()
-    private val toDecorate: MutableList<VillageData> = mutableListOf()
-
     private val wallStraightStructure = Witchery.id("wall_straight") // 8x7x5
     private val wallCornerStructure = Witchery.id("wall_corner") // 7x8x7
 
-    private const val SEGMENT_LENGTH = 8
-    private const val WALL_WIDTH = 5
+    private val walledVillages = mutableSetOf<BoundingBox>()
 
-    fun tick(level: ServerLevel) {
-        if (toDecorate.isEmpty()) return
-        val copy = ArrayList(toDecorate)
-        toDecorate.clear()
-
-        for (village in copy) {
-            if (isChunkLoaded(level, village.villageCenter)) {
-                placeWallSegmentsAround(level, village)
-            } else {
-                toDecorate.add(village)
+    // Data class for wall segment information
+    data class WallSegment(
+        val structureId: ResourceLocation,
+        val pos: BlockPos,
+        val rotation: Rotation
+    ) {
+        companion object {
+            val CODEC: Codec<WallSegment> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    ResourceLocation.CODEC.fieldOf("structure_id").forGetter { it.structureId },
+                    BlockPos.CODEC.fieldOf("pos").forGetter { it.pos },
+                    Rotation.CODEC.fieldOf("rotation").forGetter { it.rotation }
+                ).apply(instance, ::WallSegment)
             }
         }
     }
 
-    private fun getCenterOfBoundingBox(box: BoundingBox): BlockPos {
-        val centerX = (box.minX() + box.maxX()) / 2
-        val centerZ = (box.minZ() + box.maxZ()) / 2
-        val y = box.minY()
-        return BlockPos(centerX, y, centerZ)
+    fun markVillage(bounds: BoundingBox, level: WorldGenLevel): Boolean {
+        if (true) {
+            return false
+        }
+        if (walledVillages.contains(bounds)) return false
+
+        walledVillages.add(bounds)
+
+        val segments = generateWallSegments(bounds)
+        println("Generated ${segments.size} wall segments for village at: $bounds")
+
+        for (segment in segments) {
+            val chunkPos = ChunkPos(segment.pos)
+            val data = WitcheryWallWorldState.get(level.level)
+            val old = data.cachedSegments.getOrElse(chunkPos) { mutableListOf() }.toMutableList()
+            old.add(segment)
+            data.cachedSegments[chunkPos] = old
+            data.setDirty()
+            println("Saved segment at: ${segment.pos} to chunk: $chunkPos")
+        }
+
+        return true
     }
 
-    private fun getAdjustedBoundingBox(box: BoundingBox): BoundingBox {
-        val expandedMinX = box.minX() - WALL_WIDTH
-        val expandedMaxX = box.maxX() + WALL_WIDTH
-        val expandedMinZ = box.minZ() - WALL_WIDTH
-        val expandedMaxZ = box.maxZ() + WALL_WIDTH
 
-        return BoundingBox(expandedMinX, box.minY(), expandedMinZ, expandedMaxX, box.maxY(), expandedMaxZ)
-    }
+    private fun generateWallSegments(bounds: BoundingBox): List<WallSegment> {
+        val segments = mutableListOf<WallSegment>()
 
-    private fun placeCornerStructures(level: ServerLevel, box: BoundingBox, template: StructureTemplate) {
-        val cornerPositions = listOf(
-            BlockPos(box.minX(), getHeightAt(level, box.minX(), box.minZ()), box.minZ()),
-            BlockPos(box.minX(), getHeightAt(level, box.minX(), box.maxZ()), box.maxZ()),
-            BlockPos(box.maxX(), getHeightAt(level, box.maxX(), box.minZ()), box.minZ()),
-            BlockPos(box.maxX(), getHeightAt(level, box.maxX(), box.maxZ()), box.maxZ())
+        val minX = bounds.minX()
+        val maxX = bounds.maxX()
+        val minZ = bounds.minZ()
+        val maxZ = bounds.maxZ()
+
+        val wallSize = 8
+
+        val corners = listOf(
+            Triple(BlockPos(minX, 0, minZ), Rotation.NONE, Direction.EAST),  // NW
+            Triple(BlockPos(maxX, 0, minZ), Rotation.CLOCKWISE_90, Direction.SOUTH), // NE
+            Triple(BlockPos(maxX, 0, maxZ), Rotation.CLOCKWISE_180, Direction.WEST), // SE
+            Triple(BlockPos(minX, 0, maxZ), Rotation.COUNTERCLOCKWISE_90, Direction.NORTH) // SW
         )
 
-        for (pos in cornerPositions) {
-            placeStructure(template, level, pos, Rotation.NONE)
+        for ((index, corner) in corners.withIndex()) {
+            val (cornerPos, cornerRotation, dir) = corner
+            segments.add(WallSegment(wallCornerStructure, cornerPos, cornerRotation))
+
+            val next = corners[(index + 1) % 4]
+            val nextPos = next.first
+
+            val dx = nextPos.x - cornerPos.x
+            val dz = nextPos.z - cornerPos.z
+
+            val distance = if (dx != 0) dx else dz
+            val stepDir = if (dx != 0) Direction.EAST else Direction.SOUTH
+            val step = stepDir.normal
+
+            val absDistance = kotlin.math.abs(distance)
+            val segmentCount = absDistance / wallSize
+
+            val gateIndex = segmentCount / 2
+
+            for (i in 1 until segmentCount) {
+                val offset = i * wallSize
+                val pos = cornerPos.offset(step.x * offset, 0, step.z * offset)
+                val rotation = when (stepDir) {
+                    Direction.EAST -> Rotation.NONE
+                    Direction.SOUTH -> Rotation.CLOCKWISE_90
+                    Direction.WEST -> Rotation.CLOCKWISE_180
+                    Direction.NORTH -> Rotation.COUNTERCLOCKWISE_90
+                    else -> Rotation.NONE
+                }
+
+                val structure = if (i == gateIndex) wallCornerStructure else wallStraightStructure
+                segments.add(WallSegment(structure, pos, rotation))
+            }
+        }
+
+        return segments
+    }
+
+
+    fun tick(level: ServerLevel) {
+
+    }
+
+    private fun getRotatedSize(size: BlockPos, rotation: Rotation): BlockPos {
+        return when (rotation) {
+            Rotation.NONE, Rotation.CLOCKWISE_180 -> size
+            Rotation.CLOCKWISE_90, Rotation.COUNTERCLOCKWISE_90 -> BlockPos(size.z, size.y, size.x)
         }
     }
 
-    private fun placeStraightWalls(level: ServerLevel, box: BoundingBox, template: StructureTemplate) {
-        for (x in (box.minX() + SEGMENT_LENGTH) until box.maxX() step SEGMENT_LENGTH) {
-            val y = getHeightAt(level, x, box.minZ())
-            val pos = BlockPos(x, y, box.minZ() - WALL_WIDTH)
-            placeStructure(template, level, pos, Rotation.NONE)
-        }
+    private fun placeWallSegment(level: ServerLevel, segment: WallSegment) {
+        try {
+            val structureManager = level.structureManager
+            val template = structureManager.getOrCreate(segment.structureId)
 
-        for (x in (box.minX() + SEGMENT_LENGTH) until box.maxX() step SEGMENT_LENGTH) {
-            val y = getHeightAt(level, x, box.maxZ())
-            val pos = BlockPos(x, y, box.maxZ() + 1)
-            placeStructure(template, level, pos, Rotation.NONE)
-        }
+            val size = template.size
+            val rotatedSize = getRotatedSize(BlockPos(size), segment.rotation)
 
-        for (z in (box.minZ() + SEGMENT_LENGTH) until box.maxZ() step SEGMENT_LENGTH) {
-            val y = getHeightAt(level, box.minX(), z)
-            val pos = BlockPos(box.minX() - WALL_WIDTH, y, z)
-            placeStructure(template, level, pos, Rotation.CLOCKWISE_90)
-        }
+            val x = segment.pos.x - rotatedSize.x / 2
+            val z = segment.pos.z - rotatedSize.z / 2
+            val y = level.getHeight(Heightmap.Types.MOTION_BLOCKING, segment.pos.x, segment.pos.z)
 
-        for (z in (box.minZ() + SEGMENT_LENGTH) until box.maxZ() step SEGMENT_LENGTH) {
-            val y = getHeightAt(level, box.maxX(), z)
-            val pos = BlockPos(box.maxX() + 1, y, z)
-            placeStructure(template, level, pos, Rotation.CLOCKWISE_90)
+            val placePos = BlockPos(x, y, z)
+
+            val settings = StructurePlaceSettings().setRotation(segment.rotation)
+            template.placeInWorld(level, placePos, placePos, settings, level.random, 2)
+        } catch (e: Exception) {
+            println("Error placing wall segment: ${e.message}")
         }
     }
 
-    private fun placeStructure(
-        template: StructureTemplate,
-        level: ServerLevel,
-        pos: BlockPos,
-        rotation: Rotation
-    ) {
-        val settings = StructurePlaceSettings()
-            .setRotation(rotation)
-            .setMirror(Mirror.NONE)
-            .setIgnoreEntities(true)
-
-        template.placeInWorld(level, pos, pos, settings, level.random, 2)
+    fun loadChunk(chunkAccess: ChunkAccess, serverLevel: ServerLevel?, compoundTag: CompoundTag?) {
+        if (serverLevel != null) {
+            val segments = WitcheryWallWorldState.get(serverLevel).cachedSegments.remove(chunkAccess.pos)
+            if (segments.isNullOrEmpty()) {
+                println("No wall segments found for chunk: ${chunkAccess.pos}")
+            } else {
+                segments.forEach { segment ->
+                    println("Placing wall segment at ${segment.pos}")
+                    placeWallSegment(serverLevel, segment)
+                }
+            }
+        }
     }
-
-    private fun getHeightAt(level: ServerLevel, x: Int, z: Int): Int {
-        return level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z) - 1
-    }
-
-    private fun isChunkLoaded(level: ServerLevel, pos: BlockPos): Boolean {
-        val chunk = level.getChunkAt(pos)
-        return (chunk as LevelChunkAccessor).isLoaded
-    }
-    private fun placeWallSegmentsAround(level: ServerLevel, village: VillageData) {
-        val straightTemplate = level.structureManager.getOrCreate(wallStraightStructure)
-        val cornerTemplate = level.structureManager.getOrCreate(wallCornerStructure)
-
-
-        placeCornerStructures(level, village.adjustedBox, cornerTemplate)
-        placeStraightWalls(level, village.adjustedBox, straightTemplate)
-    }
-
-    fun markVillage(box: BoundingBox): Boolean {
-        val center = getCenterOfBoundingBox(box)
-        val adjustedBox = getAdjustedBoundingBox(box)
-
-        val key = "${box.minX()},${box.minY()},${box.minZ()},${box.maxX()},${box.maxY()},${box.maxZ()}"
-        return if (seenVillages.add(key)) {
-            toDecorate.add(VillageData(center, box, adjustedBox))
-            true
-        } else false
-    }
-
-    data class VillageData(
-        val villageCenter: BlockPos,
-        val boundingBox: BoundingBox,
-        val adjustedBox: BoundingBox
-    )
 }
