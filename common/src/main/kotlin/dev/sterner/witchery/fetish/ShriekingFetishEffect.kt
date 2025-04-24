@@ -1,6 +1,7 @@
 package dev.sterner.witchery.fetish
 
 import dev.sterner.witchery.api.FetishEffect
+import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -14,7 +15,7 @@ class ShriekingFetishEffect : FetishEffect() {
         level.playSound(null, pos.x, pos.y, pos.z, SoundEvents.GHAST_SCREAM, SoundSource.BLOCKS)
     }
 
-    override fun onUnknownPlayerNearbyTick(level: Level, pos: BlockPos, nearby: List<Player>) {
+    override fun onUnknownPlayerNearbyTick(level: Level, blockEntity: EffigyBlockEntity,  pos: BlockPos, nearby: List<Player>) {
         if (level.random.nextDouble() < 0.1) {
             shriek(level, pos.center)
         }

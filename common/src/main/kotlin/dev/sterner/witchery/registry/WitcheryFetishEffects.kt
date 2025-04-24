@@ -5,10 +5,7 @@ import dev.architectury.registry.registries.RegistrarManager
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.FetishEffect
-import dev.sterner.witchery.fetish.EmptyFetishEffect
-import dev.sterner.witchery.fetish.GhostWalkingFetishEffect
-import dev.sterner.witchery.fetish.ShriekingFetishEffect
-import dev.sterner.witchery.fetish.SummonDeathFetishEffect
+import dev.sterner.witchery.fetish.*
 
 object WitcheryFetishEffects {
 
@@ -21,12 +18,12 @@ object WitcheryFetishEffects {
         EmptyFetishEffect()
     }
 
-    val SENTINEL: RegistrySupplier<FetishEffect> = FETISH_EFFECTS.register(Witchery.id("sentinel")) {
-        EmptyFetishEffect()
+    val SENTINEL: RegistrySupplier<SentinelFetishEffect> = FETISH_EFFECTS.register(Witchery.id("sentinel")) {
+        SentinelFetishEffect()
     }
 
-    val DISORIENTATION: RegistrySupplier<FetishEffect> = FETISH_EFFECTS.register(Witchery.id("disorientation")) {
-        EmptyFetishEffect()
+    val DISORIENTATION: RegistrySupplier<DisorientationFetishEffect> = FETISH_EFFECTS.register(Witchery.id("disorientation")) {
+        DisorientationFetishEffect()
     }
 
     val SHRIEKING: RegistrySupplier<ShriekingFetishEffect> = FETISH_EFFECTS.register(Witchery.id("shrieking")) {

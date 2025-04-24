@@ -34,6 +34,8 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var specterCount = 0
     var poltergeistCount = 0
 
+    var deployedSpectreCount = 0
+
     var state: EffigyState? = EffigyState.IDLE
 
     override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
@@ -48,7 +50,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     setChanged()
                 }
 
-                effect?.onTickEffect(level, state, pos, taglocks)
+                effect?.onTickEffect(level, this,  state, pos, taglocks)
             }
         }
     }
@@ -80,6 +82,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putInt("Spectre", specterCount)
         tag.putInt("Poltergeist", poltergeistCount)
 
+        tag.putInt("DeployedSpectres", deployedSpectreCount)
         EffigyState.CODEC.encodeStart(NbtOps.INSTANCE, state ?: EffigyState.IDLE).result().ifPresent {
             tag.put("EffigyState", it)
         }
@@ -93,6 +96,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         specterCount = pTag.getInt("Spectre")
         poltergeistCount = pTag.getInt("Poltergeist")
 
+        deployedSpectreCount = pTag.getInt("DeployedSpectres")
         state = EffigyState.CODEC.parse(NbtOps.INSTANCE, pTag.get("EffigyState")).result().orElse(EffigyState.IDLE)
 
         this.taglocks = NonNullList.withSize(8, ItemStack.EMPTY)
