@@ -1,11 +1,13 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.sterner.witchery.MobAccessor;
 import dev.sterner.witchery.MobHelper;
 import dev.sterner.witchery.data.BloodPoolHandler;
 import dev.sterner.witchery.entity.goal.DisorientationGoal;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.util.WitcheryConstants;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
@@ -59,17 +61,25 @@ public abstract class MobMixin extends LivingEntity implements MobAccessor {
         goalSelector.addGoal(0, new DisorientationGoal((Mob)(Object)this));
     }
 
-    @Inject(method = "defineSynchedData", at = @At("HEAD"))
-    public void defineDisorientData(CallbackInfo ci, @Local(argsOnly = true) SynchedEntityData.Builder builder) {
-        builder.define(MobHelper.DISORIENTED, false);
+
+    @SuppressWarnings("WrongEntityDataParameterClass")
+    @Inject(method = "<clinit>", at = @At(value = "TAIL"))
+    private static void rpm$defineEntityDataAccessor(CallbackInfo ci) {
+        Data.DISORIENTED = SynchedEntityData.defineId(Mob.class, EntityDataSerializers.BOOLEAN);
+    }
+
+
+    @Inject(method = "defineSynchedData", at = @At(value = "TAIL"))
+    public void witchery$defineDisData(SynchedEntityData.Builder builder, CallbackInfo ci) {
+        builder.define(Data.DISORIENTED, false);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void tickDisorientation(CallbackInfo ci) {
-        if (this.entityData.get(MobHelper.DISORIENTED)) {
+        if (this.entityData.get(Data.DISORIENTED)) {
             disorientTime++;
             if (disorientTime >= 20 * 20) {
-                this.entityData.set(MobHelper.DISORIENTED, false);
+                this.entityData.set(Data.DISORIENTED, false);
                 disorientCooldown = 20 * 20;
                 disorientTime = 0;
             }
@@ -80,13 +90,13 @@ public abstract class MobMixin extends LivingEntity implements MobAccessor {
 
     @Override
     public boolean witchery$canBeDisoriented() {
-        return disorientCooldown <= 0 && !this.entityData.get(MobHelper.DISORIENTED);
+        return disorientCooldown <= 0 && !this.entityData.get(Data.DISORIENTED);
     }
 
     @Override
     public void witchery$setDisorientedActive(boolean active) {
         if (witchery$canBeDisoriented()) {
-            this.entityData.set(MobHelper.DISORIENTED, active);
+            this.entityData.set(Data.DISORIENTED, active);
             disorientTime = 0;
         }
     }

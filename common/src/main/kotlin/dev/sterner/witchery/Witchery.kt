@@ -369,6 +369,8 @@ object Witchery {
                 )
             context.addPool(pool4)
         }
+
+        TickEvent.SERVER_LEVEL_PRE.register(VillageWallHandler::tick)
     }
 
     @JvmStatic

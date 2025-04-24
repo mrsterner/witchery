@@ -3,7 +3,7 @@ package dev.sterner.witchery.fetish
 import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.mixin.MobAccessor
+import dev.sterner.witchery.MobAccessor
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob

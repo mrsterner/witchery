@@ -35,6 +35,7 @@
     "SaplingBlockAccessor",
     "ServerPlayerMixin",
     "ShapelessRecipeAccessor",
+    "StructureStartMixin",
     "TargetingConditionsMixin",
     "VillagerMixin",
     "WalkAnimationStateAccessor"
