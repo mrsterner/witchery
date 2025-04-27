@@ -235,6 +235,10 @@ object WitcheryNeoForgeClientEvent {
             WitcheryItems.BEAR_TRAP.get()
         )
         event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(CoffinBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.COFFIN.get()
+        )
+        event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
             WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get()
         )
