@@ -131,7 +131,7 @@ object VampireEventHandler {
             (player.level().damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
 
-        if (isInSunlight) {
+        if (isInSunlight && !(player.isCreative && player.isSpectator)) {
             VampireAbilityHandler.increaseInSunTick(player)
             val maxInSunTicks = player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0
             val data = getData(player)
