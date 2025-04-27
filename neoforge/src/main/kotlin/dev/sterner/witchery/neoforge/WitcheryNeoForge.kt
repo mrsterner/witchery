@@ -1,6 +1,7 @@
 package dev.sterner.witchery.neoforge
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.block.coffin.CoffinBlock
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
@@ -12,15 +13,18 @@ import dev.sterner.witchery.platform.neoforge.WitcheryFluidHandlerNeoForge
 import dev.sterner.witchery.platform.neoforge.WitcheryPehkuiImpl
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
-import net.minecraft.core.Holder
+import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.syncher.EntityDataSerializer
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
+import net.minecraft.world.level.block.state.BlockState
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
@@ -32,13 +36,18 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
+import net.neoforged.neoforge.event.entity.player.CanContinueSleepingEvent
+import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent
+import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
+import org.jetbrains.annotations.NotNull
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
 import virtuoel.pehkui.api.ScaleData
 import virtuoel.pehkui.api.ScaleEventCallback
+import java.util.*
 
 
 @Mod(Witchery.MODID)
@@ -141,5 +150,56 @@ object WitcheryNeoForge {
         event.add(EntityType.PLAYER, WitcheryAttributesImpl.VAMPIRE_BAT_FORM_DURATION)
         event.add(EntityType.PLAYER, WitcheryAttributesImpl.VAMPIRE_SUN_RESISTANCE)
         event.add(EntityType.PLAYER, WitcheryAttributesImpl.VAMPIRE_DRINK_SPEED)
+    }
+
+
+    @SubscribeEvent
+    fun canContinueToSleep(event: CanContinueSleepingEvent) {
+        if (event.entity.sleepingPos.map { s: BlockPos ->
+                event.entity.level().getBlockState(s)
+            }.map { s: BlockState -> s.block is CoffinBlock }.orElse(false)) {
+            val day: Boolean = event.entity.level().isDay
+            if (day && event.problem == Player.BedSleepingProblem.NOT_POSSIBLE_NOW) {
+                event.setContinueSleeping(true)
+            } else if (!day) {
+                event.setContinueSleeping(false)
+            }
+        }
+    }
+
+    @SubscribeEvent
+    fun sleepTimeFinish(@NotNull event: SleepFinishedTimeEvent) {
+        if (event.level is ServerLevel && (event.level as ServerLevel).isDay) {
+            val sleepingInCoffin = event.level.players().stream().anyMatch { player: Player? ->
+                val pos: Optional<BlockPos> = player!!.sleepingPos
+                pos.isPresent && event.level.getBlockState(pos.get()).block is CoffinBlock
+            }
+            if (sleepingInCoffin) {
+                val dist =
+                    (if ((event.level as ServerLevel).dayTime % 24000L > 12000L) 13000 else -11000).toLong()
+                event.setTimeAddition(event.newTime + dist)
+            }
+        }
+    }
+
+    @SubscribeEvent
+    fun canStartSleeping(event: CanPlayerSleepEvent) {
+        if (event.state.block is CoffinBlock) {
+            when (event.problem) {
+                Player.BedSleepingProblem.OTHER_PROBLEM,
+                Player.BedSleepingProblem.NOT_POSSIBLE_HERE,
+                Player.BedSleepingProblem.TOO_FAR_AWAY -> {
+                    return
+                }
+                else -> {
+                    event.entity.setRespawnPosition(event.level.dimension(), event.pos, event.entity.yRot, false, true)
+                    event.problem = if (!event.level.isDay) {
+                        Player.BedSleepingProblem.NOT_POSSIBLE_NOW
+                    } else {
+                        null
+                    }
+                }
+            }
+        }
     }
 }

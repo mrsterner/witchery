@@ -33,6 +33,7 @@
     "LootTableAccessor",
     "MobMixin",
     "PlayerInvoker",
+    "PlayerMixin",
     "SaplingBlockAccessor",
     "ServerPlayerMixin",
     "ShapelessRecipeAccessor",

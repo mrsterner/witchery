@@ -647,6 +647,10 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.WEREWOLF_ALTAR.get(), Item.Properties(), WerewolfAltarBlock.STRUCTURE)
     }
 
+    val COFFIN = ITEMS.register("coffin") {
+        BlockItem(WitcheryBlocks.COFFIN.get(), Item.Properties())
+    }
+
     // start WOOD
 
     val ROWAN_LOG: RegistrySupplier<BlockItem> = ITEMS.register("rowan_log") {

@@ -2,6 +2,7 @@ package dev.sterner.witchery.fabric
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.block.coffin.CoffinBlock
 import dev.sterner.witchery.client.particle.*
 import dev.sterner.witchery.fabric.client.*
 import dev.sterner.witchery.fabric.registry.WitcheryCompostables
@@ -20,13 +21,15 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
+import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
-import net.minecraft.client.particle.PlayerCloudParticle
 import net.minecraft.client.renderer.ShaderInstance
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.levelgen.GenerationStep
 import virtuoel.pehkui.api.ScaleData
 import virtuoel.pehkui.api.ScaleEventCallback
@@ -85,6 +88,23 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             },
             WitcheryBlockEntityTypes.CAULDRON.get()
         )
+
+        EntitySleepEvents.ALLOW_SLEEP_TIME.register{player, pos, res ->
+            if (player.level().getBlockState(pos).block is CoffinBlock && player.level().isDay) {
+                return@register InteractionResult.SUCCESS
+            }
+            return@register InteractionResult.PASS
+        }
+        EntitySleepEvents.ALLOW_SLEEPING.register { player, pos ->
+            val b = player.level().getBlockState(pos).block
+            if (b is CoffinBlock) {
+                if (player.level().isNight) {
+                    return@register Player.BedSleepingProblem.OTHER_PROBLEM
+                }
+            }
+            return@register null
+        }
+
     }
 
 
