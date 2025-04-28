@@ -60,6 +60,12 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private var tickCounter = 0
     private var ritualTickCounter = 0
 
+    companion object {
+        private const val INVENTORY_SIZE = 16
+        private const val RITUAL_AREA_RADIUS = 4.0
+        private const val TICK_INTERVAL = 20
+    }
+
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
         super.tick(level, pos, state)
 
