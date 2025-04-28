@@ -35,4 +35,12 @@ open class Curse {
     ) {
 
     }
+
+    open fun onRemoved(level: Level, player: Player, catBoosted: Boolean) {
+
+    }
+
+    open fun onAdded(level: Level, player: Player, catBoosted: Boolean) {
+
+    }
 }

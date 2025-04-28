@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
 import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity.Companion.replaceWithPlayer
+import dev.sterner.witchery.handler.SleepingPlayerHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.level.ChunkPos
@@ -28,7 +29,7 @@ data class TeleportRequest(
                 serverPlayer.yRot,
                 serverPlayer.xRot
             )
-            val sleepingData = SleepingLevelAttachment.getPlayerFromSleeping(serverPlayer.uuid, overworld)
+            val sleepingData = SleepingPlayerHandler.getPlayerFromSleeping(serverPlayer.uuid, overworld)
             val sleepingPlayer = overworld.getEntity(sleepingData!!.uuid)
             replaceWithPlayer(serverPlayer, sleepingPlayer as SleepingPlayerEntity)
 

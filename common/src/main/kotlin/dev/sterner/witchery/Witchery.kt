@@ -156,16 +156,16 @@ object Witchery {
 
         VampireEventHandler.registerEvents()
         WerewolfEventHandler.registerEvents()
-        CursePlayerAttachment.registerEvents()
+        CurseHandler.registerEvents()
         PotionHandler.registerEvents()
 
-        ServerLevelTick.SERVER_LEVEL_POST.register(MutandisLevelAttachment::tick)
+        ServerLevelTick.SERVER_LEVEL_POST.register(MutandisHandler::tick)
 
         CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
 
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
-        EntityEvent.LIVING_DEATH.register(FamiliarLevelAttachment::familiarDeath)
+        EntityEvent.LIVING_DEATH.register(FamiliarHandler::familiarDeath)
         EntityEvent.LIVING_DEATH.register(CaneSwordItem::harvestBlood)
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
         EntityEvent.LIVING_HURT.register(BitingBeltItem::usePotion)
@@ -185,22 +185,22 @@ object Witchery {
         InteractionEvent.INTERACT_ENTITY.register(WineGlassItem::applyWineOnVillager)
         InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
 
-        BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
+        BlockEvent.BREAK.register(EntSpawningHandler::breakBlock)
         BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
 
-        TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
+        TickEvent.SERVER_POST.register(EntSpawningHandler::serverTick)
         TickEvent.SERVER_POST.register(WitcherySpecialPotionEffects::serverTick)
-        TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
-        TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
+        TickEvent.SERVER_POST.register(TeleportQueueHandler::processQueue)
+        TickEvent.SERVER_POST.register(ManifestationHandler::tick)
         TickEvent.SERVER_POST.register(VampireChildrenHuntLevelAttachment::tickHuntAllLevels)
         TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
         TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
-        TickEvent.PLAYER_PRE.register(NightmarePlayerAttachment::tick)
+        TickEvent.PLAYER_PRE.register(NightmareHandler::tick)
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)
-        TickEvent.PLAYER_PRE.register(BarkBeltPlayerAttachment::tick)
+        TickEvent.PLAYER_PRE.register(BarkBeltHandler::tick)
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 
@@ -514,10 +514,10 @@ object Witchery {
         WitcheryPageRendererRegistry.register()
 
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
-        ClientGuiEvent.RENDER_HUD.register(ManifestationPlayerAttachment::renderHud)
+        ClientGuiEvent.RENDER_HUD.register(ManifestationHandler::renderHud)
         ClientGuiEvent.RENDER_HUD.register(VampireEventHandler::renderHud)
         ClientGuiEvent.RENDER_HUD.register(WerewolfEventHandler::renderHud)
-        ClientGuiEvent.RENDER_HUD.register(BarkBeltPlayerAttachment::renderHud)
+        ClientGuiEvent.RENDER_HUD.register(BarkBeltHandler::renderHud)
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),

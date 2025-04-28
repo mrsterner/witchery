@@ -1,6 +1,5 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.EventResult
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos

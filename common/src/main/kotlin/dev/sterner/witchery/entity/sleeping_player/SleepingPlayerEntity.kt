@@ -2,6 +2,8 @@ package dev.sterner.witchery.entity.sleeping_player
 
 import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.handler.AccessoryHandler
+import dev.sterner.witchery.handler.SleepingPlayerHandler
+import dev.sterner.witchery.handler.TeleportQueueHandler
 import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.mixin.PlayerInvoker
@@ -54,11 +56,11 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             var foundPlayer = false
             if (data.resolvableProfile != null) {
                 for (serverLevel in level().server!!.allLevels) {
-                    val playerUuid = SleepingLevelAttachment.getPlayerFromSleepingUUID(uuid, serverLevel)
+                    val playerUuid = SleepingPlayerHandler.getPlayerFromSleepingUUID(uuid, serverLevel)
 
                     val player = playerUuid?.let { level().server!!.playerList.getPlayer(it) }
                     if (player != null) {
-                        TeleportQueueLevelAttachment.addRequest(
+                        TeleportQueueHandler.addRequest(
                             level() as ServerLevel,
                             TeleportRequest(playerUuid, blockPosition(), ChunkPos(blockPosition()))
                         )
@@ -81,7 +83,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 Containers.dropContents(level(), blockPosition(), data.armorInventory)
                 Containers.dropContents(level(), blockPosition(), data.offHandInventory)
                 Containers.dropContents(level(), blockPosition(), data.extraInventory)
-                SleepingLevelAttachment.removeBySleepingUUID(uuid, level() as ServerLevel)
+                SleepingPlayerHandler.removeBySleepingUUID(uuid, level() as ServerLevel)
                 WitcheryPayloads.sendToPlayers(
                     level(), SpawnSleepingDeathParticleS2CPayload(
                         this.getRandomX(1.5),
@@ -157,13 +159,13 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 val level = level() as? ServerLevel ?: return
                 val sleepingUUID = uuid
 
-                val playerUUID = SleepingLevelAttachment.getPlayerFromSleepingUUID(sleepingUUID, level)
+                val playerUUID = SleepingPlayerHandler.getPlayerFromSleepingUUID(sleepingUUID, level)
                 if (playerUUID != null) {
                     val currentPos = blockPosition()
-                    val sleepingData = SleepingLevelAttachment.getPlayerFromSleeping(playerUUID, level)
+                    val sleepingData = SleepingPlayerHandler.getPlayerFromSleeping(playerUUID, level)
 
                     if (sleepingData != null && sleepingData.pos != currentPos) {
-                        SleepingLevelAttachment.add(playerUUID, sleepingUUID, currentPos, level)
+                        SleepingPlayerHandler.add(playerUUID, sleepingUUID, currentPos, level)
                     }
                 }
             }
@@ -248,7 +250,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             entity.setSleepingModel(player.entityData.get(playerModeCustomisation))
             if (player.level() is ServerLevel) {
                 val serverLevel = player.level() as ServerLevel
-                SleepingLevelAttachment.add(player.uuid, entity.uuid, player.blockPosition(), serverLevel)
+                SleepingPlayerHandler.add(player.uuid, entity.uuid, player.blockPosition(), serverLevel)
             }
 
             return entity

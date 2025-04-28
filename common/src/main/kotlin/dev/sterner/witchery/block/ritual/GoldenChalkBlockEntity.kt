@@ -6,6 +6,7 @@ import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
+import dev.sterner.witchery.handler.CovenHandler
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
@@ -359,10 +360,11 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 val hasValidCircle = validateRitualCircle(level!!, selectedRecipe.value)
                 val hasEnoughPower = hasEnoughAltarPower(level!!, selectedRecipe.value)
                 val meetsCelestialCondition = hasCelestialCondition(level!!, selectedRecipe.value)
+                val hasCovenCount = hasCovenCondition(pPlayer, selectedRecipe.value)
 
                 Witchery.logDebugRitual("Ritual conditions - Valid Circle: $hasValidCircle, Enough Power: $hasEnoughPower : ${selectedRecipe.value.altarPower}, Celestial Condition: $meetsCelestialCondition.")
 
-                if (hasValidCircle && hasEnoughPower && meetsCelestialCondition) {
+                if (hasValidCircle && hasEnoughPower && meetsCelestialCondition && hasCovenCount) {
                     ownerName = pPlayer.gameProfile.name.replaceFirstChar(Char::uppercase)
                     ritualRecipe = selectedRecipe.value
                     shouldRun = true
@@ -393,6 +395,15 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun playRitualFailureSound(pPlayer: Player) {
         level?.playSound(pPlayer, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
         level?.playSound(null, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
+    }
+
+    private fun hasCovenCondition(player: Player, value: RitualRecipe): Boolean {
+        if(value.covenCount != 0){
+            val count = player.level().getEntities(WitcheryEntityTypes.COVEN_WITCH.get(), AABB(blockPos).inflate(16.0, 8.0, 16.0)) { it.isAlive }.size
+            return count > value.covenCount
+        }
+
+        return true
     }
 
     private fun hasCelestialCondition(level: Level, recipeHolder: RitualRecipe): Boolean {

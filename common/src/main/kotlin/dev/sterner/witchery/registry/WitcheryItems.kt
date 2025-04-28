@@ -1067,6 +1067,10 @@ object WitcheryItems {
         BrewOfFlowingSpiritItem(Color(125, 170, 230).rgb, Item.Properties().stacksTo(16))
     }
 
+    val BREW_OF_THE_GROTESQUE: RegistrySupplier<BrewOfTheGrotesqueItem> = ITEMS.register("brew_of_flowing_spirit") {
+        BrewOfTheGrotesqueItem(Color(125, 170, 230).rgb, Item.Properties().stacksTo(16))
+    }
+
     val FLOWING_SPIRIT_BUCKET: RegistrySupplier<Item> = ITEMS.register(
         "flowing_spirit_bucket"
     ) {

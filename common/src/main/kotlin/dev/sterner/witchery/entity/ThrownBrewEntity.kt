@@ -1,5 +1,6 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.item.brew.BrewItem
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
@@ -46,7 +47,7 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
             val itemStack = this.item
             if (itemStack.item is BrewItem) {
 
-                val frog = owner is Player && FamiliarLevelAttachment.getFamiliarEntityType(
+                val frog = owner is Player && FamiliarHandler.getFamiliarEntityType(
                     owner!!.uuid,
                     level() as ServerLevel
                 ) == EntityType.FROG

@@ -8,6 +8,18 @@ import net.minecraft.world.level.Level
 
 class CurseOfMisfortune : Curse() {
 
+    /*
+    storm
+    AP: 2000
+    taglock
+    exhale
+    fermented
+    gunpoweder
+    brew of grotesque
+
+    11x11 infernal
+     */
+
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
 
         if (level.gameTime % 20 == 0L) {

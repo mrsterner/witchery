@@ -9,6 +9,9 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
+import dev.sterner.witchery.handler.CurseHandler
+import dev.sterner.witchery.handler.FamiliarHandler
+import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood
 import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
@@ -161,7 +164,7 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val status = BoolArgumentType.getBool(ctx, "status")
-                                        ManifestationPlayerAttachment.setHasRiteOfManifestation(player, status)
+                                        ManifestationHandler.setHasRiteOfManifestation(player, status)
                                         1
                                     }
                             )
@@ -198,15 +201,16 @@ object WitcheryCommands {
                                         val curseType = CurseArgumentType.getCurse(ctx, "curse")
                                         val commandSender = ctx.source.player
                                         val cat = if (commandSender != null) {
-                                            FamiliarLevelAttachment.getFamiliarEntityType(
+                                            FamiliarHandler.getFamiliarEntityType(
                                                 commandSender.uuid,
                                                 commandSender.serverLevel()
                                             ) == EntityType.CAT
                                         } else {
                                             false
                                         }
-                                        CursePlayerAttachment.addCurse(
+                                        CurseHandler.addCurse(
                                             player,
+                                            commandSender,
                                             WitcheryCurseRegistry.CURSES.getId(curseType)!!,
                                             cat
                                         )
@@ -224,7 +228,7 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val curseType = CurseArgumentType.getCurse(ctx, "curse")
-                                        CursePlayerAttachment.removeCurse(player, curseType)
+                                        CurseHandler.removeCurse(player, curseType)
                                         1
                                     }
                             )
@@ -321,6 +325,18 @@ object WitcheryCommands {
         return Commands.literal("werewolf")
             .requires { it.hasPermission(2) }
             .then(Commands.literal("level")
+                .then(Commands.literal("try_curse")
+                    .then(Commands.argument("player", EntityArgument.player())
+                        .executes { context ->
+                            val player = context.source.playerOrException
+                            val currentLevel = WerewolfPlayerAttachment.getData(player).getWerewolfLevel()
+                            if (currentLevel == 0) {
+                                WerewolfLeveling.increaseWerewolfLevel(player)
+                            }
+                            1
+                        }
+                    )
+                )
                 .then(Commands.literal("set")
                     .then(Commands.argument("player", EntityArgument.player())
                         .then(Commands.argument("level", IntegerArgumentType.integer(0, WerewolfLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()))

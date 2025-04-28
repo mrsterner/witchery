@@ -161,6 +161,12 @@ object WerewolfLeveling {
 
     private fun canLevelUp(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = WerewolfPlayerAttachment.getData(player)
+        if (targetLevel == 1) {
+            return true
+        }
+        if (targetLevel > 10) {
+            return false
+        }
         val requirement = LEVEL_REQUIREMENTS[targetLevel] ?: return false
 
         return ((requirement.threeGold?.let { data.hasGivenGold == it } ?: true) &&

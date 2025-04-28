@@ -2,6 +2,7 @@ package dev.sterner.witchery.fetish
 
 import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
+import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.player.Player
@@ -12,7 +13,7 @@ class GhostWalkingFetishEffect : FetishEffect(rangeMod = 2) {
     private fun resetManifestationTimer(player: Player){
         val data = ManifestationPlayerAttachment.getData(player)
         if (data.manifestationTimer > 0) {
-            ManifestationPlayerAttachment.setManifestationTimer(player)
+            ManifestationHandler.setManifestationTimer(player)
         }
     }
 
