@@ -1,4 +1,4 @@
-package dev.sterner.witchery.api
+package dev.sterner.witchery.api.client
 
 import net.minecraft.world.item.ItemStack
 

@@ -4,8 +4,8 @@ import com.klikli_dev.modonomicon.book.page.BookRecipePage
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.RenderUtils
-import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
+import dev.sterner.witchery.util.RenderUtils
+import dev.sterner.witchery.util.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.client.Minecraft

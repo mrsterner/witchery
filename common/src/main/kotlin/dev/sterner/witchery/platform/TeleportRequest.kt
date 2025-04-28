@@ -3,8 +3,8 @@ package dev.sterner.witchery.platform
 import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.entity.SleepingPlayerEntity
-import dev.sterner.witchery.entity.SleepingPlayerEntity.Companion.replaceWithPlayer
+import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
+import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity.Companion.replaceWithPlayer
 import net.minecraft.core.BlockPos
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.level.ChunkPos

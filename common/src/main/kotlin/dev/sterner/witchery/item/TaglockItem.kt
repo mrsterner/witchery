@@ -1,6 +1,6 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.entity.SleepingPlayerEntity
+import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component

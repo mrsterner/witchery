@@ -1,16 +1,12 @@
 package dev.sterner.witchery.neoforge.event
 
 import dev.sterner.witchery.block.coffin.CoffinBlock
-import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.block.state.BlockState
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.event.entity.player.CanContinueSleepingEvent
 import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent
 import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent
-import org.jetbrains.annotations.NotNull
-import java.util.*
 
 object WitcheryNeoForgeEvent {
 

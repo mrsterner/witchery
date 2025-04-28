@@ -28,6 +28,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
     override fun generateTranslations(registryLookup: HolderLookup.Provider?, builder: TranslationBuilder) {
         builder.add("witchery.main", "Witchery")
 
+        builder.add("death.attack.inSun", "Turned to ash but the sun")
+
         builder.add("witchery.add_page.1", "Added the first page to the key")
         builder.add("witchery.add_page.2", "Added the second page to the key")
         builder.add("witchery.add_page.3", "Added the third page to the key")

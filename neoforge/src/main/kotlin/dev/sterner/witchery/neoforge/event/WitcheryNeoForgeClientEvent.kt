@@ -2,7 +2,7 @@ package dev.sterner.witchery.neoforge.event
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.BloodPoolComponent
+import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
 import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
@@ -31,7 +31,6 @@ import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.client.model.BoatModel
-import net.minecraft.client.particle.PlayerCloudParticle
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer

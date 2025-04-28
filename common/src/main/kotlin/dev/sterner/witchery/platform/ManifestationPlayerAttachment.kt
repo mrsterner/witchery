@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.payload.SyncManifestationS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.fabricmc.api.EnvType

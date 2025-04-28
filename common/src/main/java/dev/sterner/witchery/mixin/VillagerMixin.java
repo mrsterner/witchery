@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.api.VillagerTransfix;
+import dev.sterner.witchery.api.interfaces.VillagerTransfix;
 import dev.sterner.witchery.payload.SpawnTransfixParticlesS2CPayload;
 import dev.sterner.witchery.registry.WitcheryPayloads;
 import net.minecraft.nbt.CompoundTag;

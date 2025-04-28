@@ -20,8 +20,8 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
-import dev.sterner.witchery.api.BloodPoolComponent
-import dev.sterner.witchery.api.SleepingEvent
+import dev.sterner.witchery.api.client.BloodPoolComponent
+import dev.sterner.witchery.api.event.SleepingEvent
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.client.colors.PotionColor

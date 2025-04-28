@@ -1,6 +1,8 @@
 package dev.sterner.witchery.handler.vampire
 
+import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
@@ -49,15 +51,22 @@ object VampireLeveling {
     @JvmStatic
     fun increaseVampireLevel(player: ServerPlayer) {
         val data = getData(player)
-        val nextLevel = data.getVampireLevel() + 1
+        val currentLevel = data.getVampireLevel()
+        val nextLevel = currentLevel + 1
 
-        if (!canLevelUp(player, nextLevel)) return
+        if (nextLevel > 10) return
+
+        if (nextLevel > 2 && !canLevelUp(player, nextLevel)) return
+
+        val result = VampireEvent.ON_LEVEL_UP.invoker().invoke(player, currentLevel, nextLevel)
+        if (result == EventResult.interruptFalse()) return
 
         setLevel(player, nextLevel)
         setMaxBlood(player, nextLevel)
         player.sendSystemMessage(Component.literal("Vampire Level Up: $nextLevel"))
         updateModifiers(player, nextLevel, false)
     }
+
 
 
     /**
@@ -254,21 +263,28 @@ object VampireLeveling {
         10 to Requirement(Witchery.id("vampire/9"))
     )
 
-    fun canLevelUp(player: ServerPlayer, targetLevel: Int): Boolean {
-        val data = VampirePlayerAttachment.getData(player)
+    private fun canLevelUp(player: ServerPlayer, targetLevel: Int): Boolean {
+        if (targetLevel > 10) {
+            return false
+        }
+
+        if (targetLevel <= 2) {
+            return true
+        }
+
+        val data = getData(player)
         val requirement = LEVEL_REQUIREMENTS[targetLevel] ?: return false
 
         return (requirement.advancement.let { TornPageItem.hasAdvancement(player, it) } &&
                 (requirement.halfVillagers?.let { data.villagersHalfBlood.size >= it } ?: true) &&
-                (requirement.nightCounter?.let {
-                    data.nightTicker >= it && player.level().isNight
-                } ?: true) &&
+                (requirement.nightCounter?.let { data.nightTicker >= it && player.level().isNight } ?: true) &&
                 (requirement.sunGrenades?.let { data.usedSunGrenades >= it } ?: true) &&
                 (requirement.blazesKilled?.let { data.killedBlazes >= it } ?: true) &&
                 (requirement.villagesVisited?.let { data.visitedVillages.size >= it } ?: true) &&
                 (requirement.trappedVillagers?.let { data.trappedVillagers.size >= it } ?: true)
                 )
     }
+
 
     data class Requirement(
         val advancement: ResourceLocation,

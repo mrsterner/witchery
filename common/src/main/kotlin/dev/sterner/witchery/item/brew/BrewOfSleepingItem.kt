@@ -1,8 +1,8 @@
 package dev.sterner.witchery.item.brew
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.SleepingPlayerData
-import dev.sterner.witchery.entity.SleepingPlayerEntity
+import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerData
+import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.platform.SleepingLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlocks

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.api
+package dev.sterner.witchery.api.interfaces
 
 import net.minecraft.world.phys.Vec3
 import java.util.*

@@ -4,10 +4,9 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.payload.SyncBarkS2CPacket
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.client.DeltaTracker

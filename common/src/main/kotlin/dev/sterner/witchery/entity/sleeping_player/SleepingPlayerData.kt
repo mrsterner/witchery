@@ -1,4 +1,4 @@
-package dev.sterner.witchery.api
+package dev.sterner.witchery.entity.sleeping_player
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.mixin.PlayerInvoker

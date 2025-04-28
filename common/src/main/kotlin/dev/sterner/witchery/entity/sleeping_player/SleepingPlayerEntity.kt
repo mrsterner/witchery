@@ -1,7 +1,6 @@
-package dev.sterner.witchery.entity
+package dev.sterner.witchery.entity.sleeping_player
 
 import com.mojang.authlib.GameProfile
-import dev.sterner.witchery.api.SleepingPlayerData
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem

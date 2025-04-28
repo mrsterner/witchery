@@ -1,6 +1,5 @@
 package dev.sterner.witchery.integration.emi
 
-import com.mojang.blaze3d.vertex.PoseStack
 import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
@@ -8,7 +7,7 @@ import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.TextWidget
 import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
