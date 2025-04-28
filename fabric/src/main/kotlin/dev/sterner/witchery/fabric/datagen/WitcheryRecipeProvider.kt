@@ -1362,7 +1362,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .pattern("WWW")
             .define('B', ItemTags.BEDS)
             .define('W', ItemTags.LOGS)
-            .define('S', ItemTags.SLABS)
+            .define('S', ItemTags.WOODEN_SLABS)
             .unlockedBy("has_bed", has(ItemTags.BEDS))
             .save(exporter)
 

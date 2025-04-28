@@ -8,6 +8,8 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.CreativeModeTabs
+import java.util.Optional
+import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 
 object WitcheryCreativeModeTabs {
@@ -146,6 +148,17 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.CHALICE.get())
                 output.accept(WitcheryItems.PENTACLE.get())
                 output.accept(WitcheryItems.WINE_GLASS.get())
+
+                val wineVamp = WitcheryItems.WINE_GLASS.get().defaultInstance
+                wineVamp.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
+                wineVamp.set(WitcheryDataComponents.BLOOD.get(), UUID.randomUUID())
+
+                val wineBlood = WitcheryItems.WINE_GLASS.get().defaultInstance
+                wineBlood.set(WitcheryDataComponents.BLOOD.get(), UUID.randomUUID())
+
+                output.accept(wineBlood)
+                output.accept(wineVamp)
+
                 output.accept(WitcheryItems.SEER_STONE.get())
                 output.accept(WitcheryItems.GRAVESTONE.get())
                 output.accept(WitcheryItems.TORN_PAGE.get())
