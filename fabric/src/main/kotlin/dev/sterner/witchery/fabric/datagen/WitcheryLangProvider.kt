@@ -532,6 +532,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/resurrect_familiar", "Resurrect Familiar")
         builder.add("witchery:ritual/resurrect_familiar.tooltip", "A bound familiar will be revived")
 
+        builder.add("witchery.too_few_in_coven", "Coven too small")
+
         //GUIDEBOOK GENERAL
         builder.add("book.witchery.guidebook.general.name", "General")
         builder.add("book.witchery.guidebook.brewing.name", "Brewing")

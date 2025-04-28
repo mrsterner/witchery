@@ -17,6 +17,7 @@ import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.*
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
@@ -414,6 +415,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     return true
                 }
             }
+            player.displayClientMessage(Component.translatable("witchery.too_few_in_coven"), true)
             return false
         }
 
