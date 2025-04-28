@@ -16,20 +16,20 @@ interface VillagerTransfix {
     /**
      * Returns true if there's an active transfix going on
      */
-    fun isTransfixed(): Boolean
+    fun `witchery$isTransfixed`(): Boolean
 
     /**
      * A more powerful version of Transfix, this will make the Villager follow the vampire player too
      */
-    fun setMesmerized(uuid: UUID)
+    fun `witchery$setMesmerized`(uuid: UUID)
 
     /**
      * Returns true if there's an active mesmer going on
      */
-    fun isMesmerized(): Boolean
+    fun `witchery$isMesmerized`(): Boolean
 
     /**
      * Get the player vampire which is currently mesmerising the villager
      */
-    fun getMesmerized(): UUID
+    fun `witchery$getMesmerized`(): UUID
 }

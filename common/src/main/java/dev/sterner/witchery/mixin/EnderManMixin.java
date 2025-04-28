@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EnderManMixin {
 
     @Inject(method = "teleport(DDD)Z", at = @At("HEAD"), cancellable = true)
-    private void teleport(double x, double y, double z, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$teleport(double x, double y, double z, CallbackInfoReturnable<Boolean> cir) {
         var enderMan = EnderMan.class.cast(this);
         if (enderMan.hasEffect(WitcheryMobEffects.INSTANCE.getENDER_BOUND())) {
             cir.setReturnValue(false);

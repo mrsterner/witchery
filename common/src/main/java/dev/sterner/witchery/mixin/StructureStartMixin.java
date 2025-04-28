@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class StructureStartMixin {
 
     @Inject(method = "placeInChunk", at = @At("HEAD"))
-    private void onPlaceVillage(
+    private void witchery$onPlaceVillage(
             WorldGenLevel level,
             StructureManager structureManager,
             ChunkGenerator generator,

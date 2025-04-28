@@ -224,7 +224,7 @@ object VampireEventHandler {
             val transfixVillager = entity as VillagerTransfix
             transfixVillager.setTransfixedLookVector(player.eyePosition)
             if (getData(player).getVampireLevel() >= 8) {
-                transfixVillager.setMesmerized(player.uuid)
+                transfixVillager.`witchery$setMesmerized`(player.uuid)
             }
             return EventResult.interruptFalse()
         }
@@ -289,7 +289,7 @@ object VampireEventHandler {
         BloodPoolLivingEntityAttachment.increaseBlood(player, modifiedAmount)
 
         val shouldHurt = when {
-            entity is Villager && entity is VillagerTransfix && !entity.isSleeping && !entity.isTransfixed() -> true
+            entity is Villager && entity is VillagerTransfix && !entity.isSleeping && !entity.`witchery$isTransfixed`() -> true
             targetData.bloodPool < targetHalfBlood -> true
             else -> false
         }

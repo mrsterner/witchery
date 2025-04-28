@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class BrushItemMixin {
 
     @Inject(method = "onUseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;)V"))
-    private void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration, CallbackInfo ci, @Local Player player, @Local BlockPos blockPos, @Local BlockHitResult blockHitResult) {
+    private void witchery$onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration, CallbackInfo ci, @Local Player player, @Local BlockPos blockPos, @Local BlockHitResult blockHitResult) {
         if (!level.isClientSide() && level.getBlockEntity(blockPos) instanceof SuspiciousGraveyardDirtBlockEntity brushableBlockEntity) {
             boolean bl2 = brushableBlockEntity.brush(level.getGameTime(), player, blockHitResult.getDirection());
             if (bl2) {

@@ -1,8 +1,6 @@
 package dev.sterner.witchery.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import dev.sterner.witchery.MobAccessor;
-import dev.sterner.witchery.MobHelper;
 import dev.sterner.witchery.data.BloodPoolHandler;
 import dev.sterner.witchery.entity.goal.DisorientationGoal;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
@@ -31,7 +29,7 @@ public abstract class MobMixin extends LivingEntity implements MobAccessor {
     }
 
     @Inject(method = "finalizeSpawn", at = @At("HEAD"))
-    private void finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
+    private void witchery$finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
         Mob mob = Mob.class.cast(this);
 
         var data = BloodPoolLivingEntityAttachment.getData(mob);
@@ -57,14 +55,14 @@ public abstract class MobMixin extends LivingEntity implements MobAccessor {
     private int disorientTime = 0;
 
     @Inject(method = "registerGoals", at = @At("TAIL"))
-    public void registerDisorientationGoal(CallbackInfo ci) {
+    public void witchery$registerDisorientationGoal(CallbackInfo ci) {
         goalSelector.addGoal(0, new DisorientationGoal((Mob)(Object)this));
     }
 
 
     @SuppressWarnings("WrongEntityDataParameterClass")
     @Inject(method = "<clinit>", at = @At(value = "TAIL"))
-    private static void rpm$defineEntityDataAccessor(CallbackInfo ci) {
+    private static void witchery$defineEntityDataAccessor(CallbackInfo ci) {
         Data.DISORIENTED = SynchedEntityData.defineId(Mob.class, EntityDataSerializers.BOOLEAN);
     }
 
@@ -75,7 +73,7 @@ public abstract class MobMixin extends LivingEntity implements MobAccessor {
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    public void tickDisorientation(CallbackInfo ci) {
+    public void witchery$tickDisorientation(CallbackInfo ci) {
         if (this.entityData.get(Data.DISORIENTED)) {
             disorientTime++;
             if (disorientTime >= 20 * 20) {

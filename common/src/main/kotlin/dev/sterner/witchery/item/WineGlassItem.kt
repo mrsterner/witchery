@@ -175,7 +175,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
                 if (bl && VampirePlayerAttachment.getData(player).getVampireLevel() >= 9) {
                     val transfix = entity as VillagerTransfix
                     val blood = BloodPoolLivingEntityAttachment.getData(entity)
-                    if (blood.bloodPool <= blood.maxBlood / 2 && transfix.isMesmerized()) {
+                    if (blood.bloodPool <= blood.maxBlood / 2 && transfix.`witchery$isMesmerized`()) {
                         val vampire = WitcheryEntityTypes.VAMPIRE.get().create(player.level())
                         vampire!!.moveTo(entity.position(), entity.xRot, entity.yRot)
                         vampire.setOwnerUUID(player.uuid)

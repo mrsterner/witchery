@@ -33,7 +33,7 @@ public class VillagerMixin implements VillagerTransfix {
     }
 
     @Inject(method = "tick", at = @At(value = "TAIL"))
-    private void onTick(CallbackInfo ci) {
+    private void witchery$onTick(CallbackInfo ci) {
 
         Villager villager = Villager.class.cast(this);
 
@@ -53,7 +53,7 @@ public class VillagerMixin implements VillagerTransfix {
             }
 
             if (witchery$mesmerisedUUIDCounter > 0) {
-                var player = villager.level().getPlayerByUUID(getMesmerized());
+                var player = villager.level().getPlayerByUUID(witchery$getMesmerized());
                 if (player != null) {
                     villager.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(player.position(), 1f,2));
                 }
@@ -65,7 +65,7 @@ public class VillagerMixin implements VillagerTransfix {
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
-    private void addAdditionalSaveData(CompoundTag compoundTag, CallbackInfo ci) {
+    private void witchery$addAdditionalSaveData(CompoundTag compoundTag, CallbackInfo ci) {
         compoundTag.putInt("WitcheryTransfixCounter", witchery$transfixCounter);
         compoundTag.putInt("WitcheryMesmerisedUUIDCounter", witchery$mesmerisedUUIDCounter);
         if (witchery$transfixVector != null) {
@@ -79,7 +79,7 @@ public class VillagerMixin implements VillagerTransfix {
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
-    private void readAdditionalSaveData(CompoundTag compoundTag, CallbackInfo ci) {
+    private void witchery$readAdditionalSaveData(CompoundTag compoundTag, CallbackInfo ci) {
         witchery$transfixCounter = compoundTag.getInt("WitcheryTransfixCounter");
         witchery$mesmerisedUUIDCounter = compoundTag.getInt("WitcheryMesmerisedUUIDCounter");
         if (compoundTag.contains("WitcheryTransfixVectorX")) {
@@ -96,24 +96,24 @@ public class VillagerMixin implements VillagerTransfix {
     }
 
     @Override
-    public boolean isTransfixed() {
+    public boolean witchery$isTransfixed() {
         return witchery$transfixCounter > 0;
     }
 
     @Override
-    public void setMesmerized(@NotNull UUID uuid) {
+    public void witchery$setMesmerized(@NotNull UUID uuid) {
         this.witchery$mesmerisedUUID = uuid;
         this.witchery$mesmerisedUUIDCounter = 20 * 20;
     }
 
     @Override
-    public boolean isMesmerized() {
+    public boolean witchery$isMesmerized() {
         return witchery$mesmerisedUUID != null;
     }
 
     @NotNull
     @Override
-    public UUID getMesmerized() {
+    public UUID witchery$getMesmerized() {
         return witchery$mesmerisedUUID;
     }
 }
