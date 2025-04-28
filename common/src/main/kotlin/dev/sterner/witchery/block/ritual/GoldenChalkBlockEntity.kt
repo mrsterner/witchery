@@ -82,8 +82,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         IDLE,
         CONSUMING_ITEMS,
         CONSUMING_SACRIFICES,
-        ACTIVE,
-        COMPLETED
+        ACTIVE
     }
 
     private var cachedAltarPos: BlockPos? = null
@@ -117,7 +116,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             RitualState.CONSUMING_ITEMS -> processItemConsumption(level)
             RitualState.CONSUMING_SACRIFICES -> processSacrificeConsumption(level)
             RitualState.ACTIVE -> processActiveRitual(level)
-            else -> {} // No action for IDLE or COMPLETED
+            else -> {} // No action for IDLE
         }
     }
 
@@ -279,7 +278,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             // If nothing consumed from entities, try grasspers
             if (!consumedFromEntity) {
                 val grasspers = findNearbyGrasspers(level)
-                for ((grassperPos, grassper) in grasspers) {
+                for ((_, grassper) in grasspers) {
                     if (tryConsumeFromGrassper(grassper, recipeItems, consumedItems)) {
                         break
                     }
