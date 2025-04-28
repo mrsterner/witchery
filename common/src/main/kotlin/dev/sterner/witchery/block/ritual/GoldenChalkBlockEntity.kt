@@ -330,7 +330,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     ): Boolean {
         val stack = itemEntity.item
 
-        val matchingRecipeItem = recipeItems.find { recipeItem ->
+        recipeItems.find { recipeItem ->
             ItemStack.isSameItem(stack, recipeItem)
         } ?: return false
 
@@ -356,7 +356,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     ): Boolean {
         val grassperItem = grassper.item[0].copy()
 
-        val matchingRecipeItem = recipeItems.find { recipeItem ->
+        recipeItems.find { recipeItem ->
             ItemStack.isSameItem(grassperItem, recipeItem)
         } ?: return false
 
