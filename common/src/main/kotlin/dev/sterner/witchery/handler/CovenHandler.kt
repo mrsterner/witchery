@@ -28,7 +28,7 @@ object CovenHandler {
     /**
      * Get all the players Coven-Witches
      */
-    fun getWitchesFromCoven(player: ServerPlayer): List<CovenWitchEntity> {
+    fun getWitchesFromCoven(player: Player): List<CovenWitchEntity> {
         val data = CovenPlayerAttachment.getData(player)
         val level = player.level()
 
@@ -40,7 +40,7 @@ object CovenHandler {
     /**
      * Takes a Coven-Witch from a specific index in the players list of coven witches
      */
-    fun summonWitchFromCoven(player: ServerPlayer, index: Int, summonTo: Vec3): CovenWitchEntity? {
+    fun summonWitchFromCoven(player: Player, index: Int, summonTo: Vec3): CovenWitchEntity? {
         val data = CovenPlayerAttachment.getData(player)
         val tag = data.covenWitchList.getOrNull(index) ?: return null
         val level = player.level()

@@ -13,6 +13,7 @@
       "command": "witchery infusion setAndKill {owner} light"
     }
   ],
+  "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [

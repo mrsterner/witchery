@@ -1,32 +1,40 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 3000,
+  "altarPower": 10000,
   "blockMapping": {
     "G": "witchery:golden_chalk",
-    "M": "witchery:otherwhere_chalk"
+    "M": "witchery:infernal_chalk"
   },
-  "celestialConditions": [],
+  "celestialConditions": [
+    "full_moon"
+  ],
   "commands": [
     {
       "type": "end",
-      "command": "tp {taglockPlayerOrEntity} {waystonePos}"
+      "command": "witchery werewolf level try_curse {taglockPlayerOrEntity}"
     }
   ],
-  "covenCount": 0,
+  "covenCount": 6,
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [
     {
-      "id": "witchery:ender_dew"
-    },
-    {
-      "id": "witchery:waystone"
-    },
-    {
       "id": "witchery:taglock"
     },
     {
-      "id": "minecraft:iron_ingot"
+      "id": "witchery:exhale_of_the_horned_one"
+    },
+    {
+      "id": "witchery:wolfsbane"
+    },
+    {
+      "id": "witchery:tongue_of_dog"
+    },
+    {
+      "id": "minecraft:amethyst_shard"
+    },
+    {
+      "id": "witchery:brew_of_flowing_spirit"
     }
   ],
   "isInfinite": false,
@@ -48,5 +56,5 @@
   "ritual": {
     "id": "witchery:empty"
   },
-  "ticks": 40
+  "ticks": 20
 }

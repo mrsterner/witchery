@@ -12,6 +12,7 @@
       "command": "summon lightning_bolt {chalkPos}"
     }
   ],
+  "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [

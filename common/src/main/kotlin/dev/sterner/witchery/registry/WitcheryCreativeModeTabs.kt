@@ -159,10 +159,10 @@ object WitcheryCreativeModeTabs {
                 output.accept(wineBlood)
                 output.accept(wineVamp)
 
-                output.accept(WitcheryItems.SEER_STONE.get())
                 output.accept(WitcheryItems.GRAVESTONE.get())
                 output.accept(WitcheryItems.TORN_PAGE.get())
                 output.accept(WitcheryItems.QUARTZ_SPHERE.get())
+                output.accept(WitcheryItems.SEER_STONE.get())
                 output.accept(WitcheryItems.SUN_COLLECTOR.get())
                 output.accept(WitcheryItems.BLOOD_STAINED_WOOL.get())
                 output.accept(WitcheryItems.WOVEN_CRUOR.get())

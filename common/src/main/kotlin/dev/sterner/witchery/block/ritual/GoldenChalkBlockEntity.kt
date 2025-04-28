@@ -7,6 +7,7 @@ import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.handler.CovenHandler
+import dev.sterner.witchery.item.SeerStoneItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
@@ -399,8 +400,21 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun hasCovenCondition(player: Player, value: RitualRecipe): Boolean {
         if(value.covenCount != 0){
-            val count = player.level().getEntities(WitcheryEntityTypes.COVEN_WITCH.get(), AABB(blockPos).inflate(16.0, 8.0, 16.0)) { it.isAlive }.size
-            return count > value.covenCount
+            val witches = player.level().getEntities(WitcheryEntityTypes.COVEN_WITCH.get(), AABB(blockPos).inflate(16.0, 8.0, 16.0)) { it.isAlive }
+            witches.forEach {
+                it.setLastRitualPos(Optional.of(this.blockPos))
+            }
+            if (witches.size >= value.covenCount) {
+                return true
+            }
+            if (player.inventory.contains{ it.`is`(WitcheryItems.SEER_STONE.get())}) {
+                val size = CovenHandler.getWitchesFromCoven(player).size
+                if (size >= value.covenCount) {
+                    SeerStoneItem.summonWitchesAroundCircle(player, level!!, size)
+                    return true
+                }
+            }
+            return false
         }
 
         return true

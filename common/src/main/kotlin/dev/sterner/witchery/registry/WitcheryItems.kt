@@ -251,6 +251,10 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val HAPPENSTANCE_OIL: RegistrySupplier<Item> = ITEMS.register("happenstance_oil") {
+        Item(Item.Properties())
+    }
+
     val FLYING_OINTMENT: RegistrySupplier<Item> = ITEMS.register("flying_ointment") {
         Item(Item.Properties())
     }
@@ -1095,6 +1099,8 @@ object WitcheryItems {
     val QUARTZ_SPHERE: RegistrySupplier<QuartzSphereItem> = ITEMS.register("quartz_sphere") {
         QuartzSphereItem(Item.Properties())
     }
+
+
 
     val SUN_COLLECTOR: RegistrySupplier<BlockItem> = ITEMS.register("sunlight_collector") {
         BlockItem(WitcheryBlocks.SUNLIGHT_COLLECTOR.get(), Item.Properties().stacksTo(1))

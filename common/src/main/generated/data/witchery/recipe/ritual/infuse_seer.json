@@ -1,34 +1,34 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 40,
+  "altarPower": 2000,
   "blockMapping": {
     "G": "witchery:golden_chalk",
-    "M": "witchery:otherwhere_chalk",
+    "M": "witchery:ritual_chalk",
     "S": "witchery:ritual_chalk"
   },
   "celestialConditions": [],
-  "commands": [
-    {
-      "type": "tick",
-      "command": "witchery infusion increase {owner} 1"
-    }
-  ],
+  "commands": [],
   "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [
     {
-      "components": {
-        "minecraft:potion_contents": {
-          "potion": "minecraft:strong_regeneration"
-        }
-      },
-      "id": "minecraft:potion"
+      "id": "minecraft:obsidian"
+    },
+    {
+      "id": "witchery:quartz_sphere"
+    },
+    {
+      "id": "witchery:happenstance_oil"
     }
   ],
-  "isInfinite": true,
+  "isInfinite": false,
   "outputEntities": [],
-  "outputItems": [],
+  "outputItems": [
+    {
+      "id": "witchery:seer_stone"
+    }
+  ],
   "pattern": [
     "___MMMMM___",
     "__M_____M__",

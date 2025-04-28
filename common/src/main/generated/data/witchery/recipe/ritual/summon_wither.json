@@ -8,6 +8,7 @@
   },
   "celestialConditions": [],
   "commands": [],
+  "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [
     "minecraft:villager"

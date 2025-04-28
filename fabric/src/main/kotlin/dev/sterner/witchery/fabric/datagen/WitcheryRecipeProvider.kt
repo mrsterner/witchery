@@ -274,6 +274,19 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get(), Color(255, 50, 50).rgb)
+            .addInputWithColor(Items.GOLDEN_CARROT, Color(250, 250, 250).rgb)
+            .addInputWithColor(
+                PotionContents.createItemStack(Items.POTION, Potions.NIGHT_VISION),
+                Color(125, 165, 250).rgb
+            )
+            .addInputWithColor(Items.SPIDER_EYE, Color(150, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get(), Color(255, 180, 10).rgb)
+            .setOutput(WitcheryItems.HAPPENSTANCE_OIL.get())
+            .setAltarPower(100)
+            .save(exporter, Witchery.id("happenstance"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get(), Color(255, 50, 50).rgb)
             .addInputWithColor(WitcheryItems.ATTUNED_STONE.get(), Color(255, 50, 250).rgb)
             .addInputWithColor(
                 PotionContents.createItemStack(Items.POTION, Potions.REGENERATION),
@@ -1656,6 +1669,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("charge_attuned"))
 
+
         val broom = ItemStack(WitcheryItems.BROOM.get())
         broom.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
 
@@ -1666,6 +1680,16 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(3000)
             .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("apply_ointment"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.OBSIDIAN)
+            .addInputItem(WitcheryItems.QUARTZ_SPHERE.get())
+            .addInputItem(WitcheryItems.HAPPENSTANCE_OIL.get())
+            .addOutputItem(WitcheryItems.SEER_STONE.get())
+            .setAltarPower(2000)
+            .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .save(exporter, Witchery.id("infuse_seer"))
+
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.GHOST_OF_THE_LIGHT.get())
