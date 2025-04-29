@@ -67,7 +67,7 @@ object VampireEventHandler {
     private const val SUN_DAMAGE_AMOUNT = 2f
     private const val HUMAN_BLOOD_REGEN_RATE = 1000 // Ticks between blood regeneration
     private const val HUMAN_BLOOD_REGEN_AMOUNT = 10
-    private const val POISON_CHANCE_BAD_BLOOD = 0.25f
+    private const val POISON_CHANCE_BAD_BLOOD = 0.15f
     private const val POISON_EFFECT_DURATION = 200
     private const val VILLAGER_DAMAGE_AMOUNT = 2f
     private const val RESPAWN_BLOOD_AMOUNT = 900
