@@ -6,6 +6,7 @@ import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.TickEvent
 import dev.architectury.utils.value.IntValue
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.event.CurseEvent
 import dev.sterner.witchery.platform.CursePlayerAttachment.Data
@@ -26,22 +27,33 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.EntityHitResult
 
 object CurseHandler {
-
     /**
      * Tries to add a curse to a player. Triggers the on curse event if succeeded. Replaces the same curse.
-     * @param player the target to be cursed
-     * @param sourcePlayer the player who is cursing the other player
+     * @param player The target to be cursed
+     * @param sourcePlayer The player who is cursing the other player (can be null)
+     * @param curse The identifier of the curse to apply
+     * @param catBoosted Whether the curse is boosted by cat magic
+     * @param duration Duration of the curse in ticks (default 24000, which is 20 minutes in real time)
+     * @return Boolean indicating if the curse was successfully applied
      */
-    fun addCurse(player: Player, sourcePlayer: ServerPlayer?, curse: ResourceLocation, catBoosted: Boolean, duration: Int = 24000) {
-        val data = getData(player).playerCurseList.toMutableList()
-        val existingCurse = data.find { it.curseId == curse }
-        val newCurseData = PlayerCurseData(curse, duration = duration, catBoosted)
-
+    fun addCurse(
+        player: Player,
+        sourcePlayer: ServerPlayer?,
+        curse: ResourceLocation,
+        catBoosted: Boolean,
+        duration: Int = 24000
+    ): Boolean {
+        // Early check: only proceed if the curse event allows it
         val result = CurseEvent.ON_CURSE.invoker().invoke(player, sourcePlayer, curse, catBoosted)
         if (result != EventResult.pass()) {
-            return
+            return false
         }
 
+        val data = getData(player).playerCurseList.toMutableList()
+        val existingCurse = data.find { it.curseId == curse }
+        val newCurseData = PlayerCurseData(curse, duration = duration, catBoosted = catBoosted)
+
+        // Replace existing curse if found
         if (existingCurse != null) {
             data.remove(existingCurse)
         }
@@ -49,83 +61,142 @@ object CurseHandler {
 
         setData(player, Data(data))
 
+        // Notify the curse about being added
         WitcheryCurseRegistry.CURSES[newCurseData.curseId]?.onAdded(
             player.level(),
             player,
             newCurseData.catBoosted
         )
+
+        return true
     }
 
+    /**
+     * Removes a curse from the player while also triggering the onRemoved effect of the curse.
+     * @param player The player to remove the curse from
+     * @param curse The curse to remove
+     * @return Boolean indicating if the curse was found and removed
+     */
+    fun removeCurse(player: Player, curse: Curse): Boolean {
+        val data = getData(player).playerCurseList.toMutableList()
+        val curseId = WitcheryCurseRegistry.CURSES.getId(curse)
+        val curseData = data.find { it.curseId == curseId } ?: return false
+
+        // Execute onRemoved effect before removing
+        curse.onRemoved(player.level(), player, curseData.catBoosted)
+
+        // Remove the curse from data
+        data.remove(curseData)
+        setData(player, Data(data))
+
+        return true
+    }
 
     /**
-     * Removes a curse from the player while also trigger the onRemoved effect of th curse.
+     * Removes all curses from a player.
+     * @param player The player to remove curses from
+     * @return The number of curses removed
      */
-    fun removeCurse(player: Player, curse: Curse) {
-        val data = getData(player).playerCurseList.toMutableList()
-        val curseIterator = data.iterator()
+    fun removeAllCurses(player: Player): Int {
+        val data = getData(player).playerCurseList
+        if (data.isEmpty()) return 0
 
-        while (curseIterator.hasNext()) {
-            val curseData = curseIterator.next()
+        val count = data.size
+        val level = player.level()
 
-            if (curseData.curseId == WitcheryCurseRegistry.CURSES.getId(curse)) {
-                WitcheryCurseRegistry.CURSES[curseData.curseId]?.onRemoved(
-                    player.level(),
-                    player,
-                    curseData.catBoosted
-                )
-                curseIterator.remove()
-                break
-            }
+        // Trigger onRemoved for each curse
+        data.forEach { curseData ->
+            WitcheryCurseRegistry.CURSES[curseData.curseId]?.onRemoved(
+                level,
+                player,
+                curseData.catBoosted
+            )
         }
 
-        setData(player, Data(data))
+        // Clear the data
+        setData(player, Data(mutableListOf()))
+
+        return count
+    }
+
+    /**
+     * Checks if a player has a specific curse.
+     * @param player The player to check
+     * @param curse The curse to check for
+     * @return Boolean indicating if the player has the curse
+     */
+    fun hasCurse(player: Player, curse: Curse): Boolean {
+        val curseId = WitcheryCurseRegistry.CURSES.getId(curse)
+        return getData(player).playerCurseList.any { it.curseId == curseId }
+    }
+
+    /**
+     * Gets the remaining duration of a curse on a player.
+     * @param player The player to check
+     * @param curse The curse to check
+     * @return The remaining duration in ticks, or -1 if the player doesn't have the curse
+     */
+    fun getCurseDuration(player: Player, curse: Curse): Int {
+        val curseId = WitcheryCurseRegistry.CURSES.getId(curse)
+        return getData(player).playerCurseList.find { it.curseId == curseId }?.duration ?: -1
     }
 
     /**
      * Tick the curse effect and the duration of the curse. Runs the onRemoved effect when duration reaches 0.
      */
-    private fun tickCurse(
-        player: Player?
-    ) {
+    private fun tickCurse(player: Player?): EventResult {
         if (player == null) {
-            return
+            return EventResult.pass()
         }
 
         val data = getData(player)
         if (data.playerCurseList.isEmpty()) {
-            return
+            return EventResult.pass()
         }
 
         var dataModified = false
-        val iterator = data.playerCurseList.iterator()
+        val curses = data.playerCurseList.toMutableList()
+        val iterator = curses.iterator()
 
         while (iterator.hasNext()) {
             val curseData = iterator.next()
+
             if (curseData.duration > 0) {
                 curseData.duration -= 1
                 dataModified = true
-                WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(
-                    player.level(),
-                    player,
-                    curseData.catBoosted
-                )
+
+                try {
+                    WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(
+                        player.level(),
+                        player,
+                        curseData.catBoosted
+                    )
+                } catch (e: Exception) {
+                    Witchery.LOGGER.error("Error ticking curse ${curseData.curseId}", e)
+                }
             }
 
             if (curseData.duration <= 0) {
-                WitcheryCurseRegistry.CURSES[curseData.curseId]?.onRemoved(
-                    player.level(),
-                    player,
-                    curseData.catBoosted
-                )
+                try {
+                    WitcheryCurseRegistry.CURSES[curseData.curseId]?.onRemoved(
+                        player.level(),
+                        player,
+                        curseData.catBoosted
+                    )
+                } catch (e: Exception) {
+                    Witchery.LOGGER.error("Error removing curse ${curseData.curseId}", e)
+                }
+
                 iterator.remove()
                 dataModified = true
             }
         }
 
         if (dataModified) {
-            setData(player, data)
+            setData(player, Data(curses))
         }
 
+        return EventResult.pass()
     }
 
     /**
@@ -135,14 +206,23 @@ object CurseHandler {
         livingEntity: LivingEntity?,
         damageSource: DamageSource?,
         amount: Float
-    ): EventResult? {
-        if (livingEntity is Player) {
-            val data = getData(livingEntity)
-            if (data.playerCurseList.isNotEmpty()) {
-                for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)
-                        ?.onHurt(livingEntity.level(), livingEntity, damageSource, amount, curse.catBoosted)
-                }
+    ): EventResult {
+        if (livingEntity !is Player || damageSource == null) {
+            return EventResult.pass()
+        }
+
+        val data = getData(livingEntity)
+        for (curse in data.playerCurseList) {
+            try {
+                WitcheryCurseRegistry.CURSES[curse.curseId]?.onHurt(
+                    livingEntity.level(),
+                    livingEntity,
+                    damageSource,
+                    amount,
+                    curse.catBoosted
+                )
+            } catch (e: Exception) {
+                Witchery.LOGGER.error("Error processing onHurt for curse ${curse.curseId}", e)
             }
         }
 
@@ -158,19 +238,27 @@ object CurseHandler {
         blockState: BlockState,
         serverPlayer: ServerPlayer?,
         intValue: IntValue?
-    ): EventResult? {
-        if (serverPlayer != null && level != null) {
-            val data = getData(serverPlayer)
-            if (data.playerCurseList.isNotEmpty()) {
-                for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)
-                        ?.breakBlock(level, serverPlayer, blockState, curse.catBoosted)
-                }
+    ): EventResult {
+        if (serverPlayer == null || level == null) {
+            return EventResult.pass()
+        }
+
+        val data = getData(serverPlayer)
+        for (curse in data.playerCurseList) {
+            try {
+                WitcheryCurseRegistry.CURSES[curse.curseId]?.breakBlock(
+                    level,
+                    serverPlayer,
+                    blockState,
+                    curse.catBoosted
+                )
+            } catch (e: Exception) {
+                Witchery.LOGGER.error("Error processing breakBlock for curse ${curse.curseId}", e)
             }
         }
+
         return EventResult.pass()
     }
-
 
     /**
      * Triggers the placeBlock effect of the curse when a player places a block.
@@ -180,16 +268,25 @@ object CurseHandler {
         blockPos: BlockPos?,
         blockState: BlockState?,
         entity: Entity?
-    ): EventResult? {
-        if (entity is Player) {
-            val data = getData(entity)
-            if (data.playerCurseList.isNotEmpty()) {
-                for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)
-                        ?.placeBlock(level!!, entity, blockState, curse.catBoosted)
-                }
+    ): EventResult {
+        if (level == null || blockState == null || entity !is Player) {
+            return EventResult.pass()
+        }
+
+        val data = getData(entity)
+        for (curse in data.playerCurseList) {
+            try {
+                WitcheryCurseRegistry.CURSES[curse.curseId]?.placeBlock(
+                    level,
+                    entity,
+                    blockState,
+                    curse.catBoosted
+                )
+            } catch (e: Exception) {
+                Witchery.LOGGER.error("Error processing placeBlock for curse ${curse.curseId}", e)
             }
         }
+
         return EventResult.pass()
     }
 
@@ -202,19 +299,41 @@ object CurseHandler {
         target: Entity?,
         interactionHand: InteractionHand?,
         entityHitResult: EntityHitResult?
-    ): EventResult? {
-        if (player != null && target != null && entityHitResult != null) {
-            val data = getData(player)
-            if (data.playerCurseList.isNotEmpty()) {
-                for (curse in data.playerCurseList) {
-                    WitcheryCurseRegistry.CURSES.get(curse.curseId)
-                        ?.attackEntity(level!!, player, target, entityHitResult, curse.catBoosted)
-                }
+    ): EventResult {
+        if (player == null || level == null || target == null || entityHitResult == null) {
+            return EventResult.pass()
+        }
+
+        val data = getData(player)
+        for (curse in data.playerCurseList) {
+            try {
+                WitcheryCurseRegistry.CURSES[curse.curseId]?.attackEntity(
+                    level,
+                    player,
+                    target,
+                    entityHitResult,
+                    curse.catBoosted
+                )
+            } catch (e: Exception) {
+                Witchery.LOGGER.error("Error processing attackEntity for curse ${curse.curseId}", e)
             }
         }
+
         return EventResult.pass()
     }
 
+    /**
+     * Gets the list of active curses on a player.
+     * @param player The player to check
+     * @return List of resource locations identifying the curses
+     */
+    fun getActiveCurses(player: Player): List<ResourceLocation> {
+        return getData(player).playerCurseList.map { it.curseId }
+    }
+
+    /**
+     * Register all event handlers for curse functionality.
+     */
     fun registerEvents() {
         EntityEvent.LIVING_HURT.register(::onHurt)
         BlockEvent.BREAK.register(::breakBlock)
