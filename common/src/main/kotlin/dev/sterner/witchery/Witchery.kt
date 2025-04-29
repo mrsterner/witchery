@@ -177,7 +177,7 @@ object Witchery {
         PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
         PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
             VampireAbilityHandler.setAbilityIndex(player, -1)
-            VampireAbilityHandler.setAbilityIndex(player, -1)
+            WerewolfAbilityHandler.setAbilityIndex(player, -1)
         }
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
@@ -515,7 +515,7 @@ object Witchery {
 
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
         ClientGuiEvent.RENDER_HUD.register(ManifestationHandler::renderHud)
-        ClientGuiEvent.RENDER_HUD.register(VampireEventHandler::renderHud)
+        ClientGuiEvent.RENDER_HUD.register{ guiGraphics, _ -> VampireEventHandler.renderHud(guiGraphics)}
         ClientGuiEvent.RENDER_HUD.register(WerewolfEventHandler::renderHud)
         ClientGuiEvent.RENDER_HUD.register(BarkBeltHandler::renderHud)
 

@@ -349,6 +349,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.DREAM_WEAVER.get(), "Dream Weaver")
 
         builder.add(WitcheryItems.BREW_OF_SLEEPING.get(), "Brew of Sleeping")
+        builder.add(WitcheryItems.BREW_OF_THE_GROTESQUE.get(), "Brew of the Grotesque")
+        builder.add(WitcheryItems.HAPPENSTANCE_OIL.get(), "Happenstance Oil")
         builder.add(WitcheryItems.BREW_OF_LOVE.get(), "Brew of Love")
         builder.add(WitcheryItems.BREW_OF_INK.get(), "Brew of Ink")
         builder.add(WitcheryItems.BREW_OF_REVEALING.get(), "Brew of Revealing")

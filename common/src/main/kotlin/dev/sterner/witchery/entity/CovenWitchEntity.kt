@@ -23,9 +23,8 @@ import java.util.*
 
 class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_WITCH.get(), level) {
 
-    var lastRitualPosInternal = Optional.empty<BlockPos>()
-    var isCoven = false
-    var isCovenAndDeSpawnTimer = 20 * 60 * 5
+    private var lastRitualPosInternal = Optional.empty<BlockPos>()
+    private var isCovenAndDeSpawnTimer = 20 * 60 * 5
 
     override fun registerGoals() {
         super.registerGoals()

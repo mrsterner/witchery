@@ -39,6 +39,9 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
         pack.addProvider { output, reg ->
             WitcheryEntityTypeTagProvider(output, reg)
         }
+        pack.addProvider { output, reg ->
+            WitcheryDamageTypeTagProvider(output, reg)
+        }
 
         pack.addProvider { out, teg ->
             WitcheryBookProvider(out, teg) { a, s ->

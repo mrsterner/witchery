@@ -81,6 +81,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.REFINED_EVIL.get())
                 output.accept(WitcheryItems.REDSTONE_SOUP.get())
                 output.accept(WitcheryItems.FLYING_OINTMENT.get())
+                output.accept(WitcheryItems.HAPPENSTANCE_OIL.get())
                 output.accept(WitcheryItems.GHOST_OF_THE_LIGHT.get())
                 output.accept(WitcheryItems.SOUL_OF_THE_WORLD.get())
                 output.accept(WitcheryItems.INFERNAL_ANIMUS.get())
@@ -193,6 +194,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.BREW_OF_FROST.get())
                 output.accept(WitcheryItems.BREW_OF_RAISING.get())
                 output.accept(WitcheryItems.BREW_OF_SLEEPING.get())
+                output.accept(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
                 output.accept(WitcheryItems.BREW_FLOWING_SPIRIT.get())
 
                 output.accept(WitcheryItems.FLOWING_SPIRIT_BUCKET.get())
@@ -469,6 +471,7 @@ object WitcheryCreativeModeTabs {
             output.accept(WitcheryItems.REFINED_EVIL.get())
             output.accept(WitcheryItems.REDSTONE_SOUP.get())
             output.accept(WitcheryItems.FLYING_OINTMENT.get())
+            output.accept(WitcheryItems.HAPPENSTANCE_OIL.get())
             output.accept(WitcheryItems.GHOST_OF_THE_LIGHT.get())
             output.accept(WitcheryItems.SOUL_OF_THE_WORLD.get())
             output.accept(WitcheryItems.INFERNAL_ANIMUS.get())

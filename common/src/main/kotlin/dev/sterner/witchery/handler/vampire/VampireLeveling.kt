@@ -6,10 +6,7 @@ import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
-import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
 import dev.sterner.witchery.registry.WitcheryPayloads
