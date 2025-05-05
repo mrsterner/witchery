@@ -150,6 +150,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(SpiritPortalPortalModel.LAYER_LOCATION, SpiritPortalPortalModel::createBodyLayer)
         event.registerLayerDefinition(WerewolfAltarModel.LAYER_LOCATION, WerewolfAltarModel::createBodyLayer)
         event.registerLayerDefinition(BearTrapModel.LAYER_LOCATION, BearTrapModel::createBodyLayer)
+        event.registerLayerDefinition(ChainModel.LAYER_LOCATION, ChainModel::createBodyLayer)
         event.registerLayerDefinition(AltarClothBlockEntityModel.LAYER_LOCATION, AltarClothBlockEntityModel::createBodyLayer)
         event.registerLayerDefinition(JarModel.LAYER_LOCATION, JarModel::createBodyLayer)
         event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION, ArmorPoppetModel::createBodyLayer)
@@ -280,6 +281,11 @@ object WitcheryNeoForgeClientEvent {
             ShaderInstance(event.resourceProvider, Witchery.id("spirit_portal"), DefaultVertexFormat.NEW_ENTITY)
         ) { shaderInstance ->
             WitcheryShaders.spiritPortal = shaderInstance
+        }
+        event.registerShader(
+            ShaderInstance(event.resourceProvider, Witchery.id("chain"), DefaultVertexFormat.NEW_ENTITY)
+        ) { shaderInstance ->
+            WitcheryShaders.chain = shaderInstance
         }
     }
 }

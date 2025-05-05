@@ -48,8 +48,28 @@ object WitcheryRenderTypes {
         256
     }
 
-    init {
-        RenderType.RENDERTYPE_EYES_SHADER
+
+    val CHAIN = Util.memoize { resourceLocation: ResourceLocation ->
+        val compositeState: RenderType.CompositeState? =
+            RenderType.CompositeState.builder()
+                .setShaderState(ShaderStateShard(WitcheryShaders::chain))
+                .setTextureState(TextureStateShard(resourceLocation, false, true))
+                .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                .setWriteMaskState(COLOR_WRITE)
+                .createCompositeState(true)
+        create(
+            Witchery.MODID + "chain",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            BUFFER_SIZE,
+            true,
+            false,
+            compositeState!!
+        )
     }
 
     val SPIRIT_PORTAL = Util.memoize { resourceLocation: ResourceLocation ->
@@ -120,4 +140,5 @@ object WitcheryRenderTypes {
             compositeState!!
         )
     }
+
 }

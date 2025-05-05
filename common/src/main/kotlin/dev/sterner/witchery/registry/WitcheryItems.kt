@@ -27,6 +27,10 @@ object WitcheryItems {
 
     val ITEMS: DeferredRegister<Item> = DeferredRegister.create(Witchery.MODID, Registries.ITEM)
 
+    val DEBUG = ITEMS.register("debug") {
+        DebugWand(Item.Properties())
+    }
+
     val GLINTWEED: RegistrySupplier<BlockItem> = ITEMS.register("glintweed") {
         BlockItem(WitcheryBlocks.GLINTWEED.get(), Item.Properties())
     }

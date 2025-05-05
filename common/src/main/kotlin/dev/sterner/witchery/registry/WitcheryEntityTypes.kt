@@ -72,6 +72,14 @@ object WitcheryEntityTypes {
         ).sized(1.0F, 0.6F).clientTrackingRange(10).build(Witchery.id("broom").toString())
     }
 
+    val CHAIN: RegistrySupplier<EntityType<ChainEntity>> = ENTITY_TYPES.register("chain") {
+        EntityType.Builder.of(
+            { _: EntityType<ChainEntity>, level: Level ->
+                ChainEntity(level)
+            }, MobCategory.MISC
+        ).sized(0.5F, 0.5F).clientTrackingRange(10).build(Witchery.id("chain").toString())
+    }
+
     val SLEEPING_PLAYER: RegistrySupplier<EntityType<SleepingPlayerEntity>> = ENTITY_TYPES.register("sleeping_player") {
         EntityType.Builder.of(
             { _: EntityType<SleepingPlayerEntity>, level: Level ->
