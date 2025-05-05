@@ -7,6 +7,7 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
@@ -114,6 +115,10 @@ object WitcheryDataComponents {
         DataComponentType.builder<List<WitcheryPotionIngredient>>()
             .persistent(WitcheryPotionIngredient.CODEC.listOf())
             .build()
+    }
+
+    val CHAIN_POS: RegistrySupplier<DataComponentType<BlockPos>> = DATA.register("chain_pos") {
+        DataComponentType.builder<BlockPos>().persistent(BlockPos.CODEC).build()
     }
 
     data class DualPotionContents(

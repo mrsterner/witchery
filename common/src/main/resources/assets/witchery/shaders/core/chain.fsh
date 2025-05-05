@@ -22,12 +22,16 @@ void main() {
         discard;
     }
 
-    float pulse = 0.5 + 0.5 * sin(GameTime * 300.0);
-    vec3 emissiveColor = mix(vec3(1.0, 0.85, 0.2), vec3(1.0, 0.65, 0.0), pulse);
+    float pulse = 0.5 + 0.5 * sin(GameTime * 5000.0);
+    vec3 emissiveColor = mix(vec3(0.65, 0.0, 0.85), vec3(0.55, 0.0, 0.7), pulse);
 
-    vec4 lightningColor = vec4(emissiveColor * 2.5, 1.0);
+    float brightness = baseColor.r;
 
-    lightningColor.rgb = mix(overlayColor.rgb, lightningColor.rgb, overlayColor.a);
+    float intensityFactor = 0.75;
 
-    fragColor = lightningColor * baseColor.a * ColorModulator.a;
+    vec3 finalColor = emissiveColor * brightness * 2.75 * intensityFactor;
+
+    finalColor = mix(overlayColor.rgb, finalColor, overlayColor.a);
+
+    fragColor = vec4(finalColor, 1.0) * baseColor.a * ColorModulator.a;
 }

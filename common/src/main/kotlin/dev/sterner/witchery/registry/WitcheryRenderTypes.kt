@@ -7,6 +7,7 @@ import dev.architectury.platform.Platform
 import dev.sterner.witchery.Witchery
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap
 import net.minecraft.Util
+import net.minecraft.client.renderer.RenderStateShard
 import net.minecraft.client.renderer.RenderStateShard.*
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.RenderType.create
@@ -55,11 +56,12 @@ object WitcheryRenderTypes {
                 .setShaderState(ShaderStateShard(WitcheryShaders::chain))
                 .setTextureState(TextureStateShard(resourceLocation, false, true))
                 .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                .setDepthTestState(LEQUAL_DEPTH_TEST)
                 .setCullState(CULL)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)
                 .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                .setWriteMaskState(COLOR_WRITE)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
                 .createCompositeState(true)
         create(
             Witchery.MODID + "chain",

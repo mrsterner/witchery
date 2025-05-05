@@ -21,8 +21,8 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
 
     private val chainModel = ChainModel(context.bakeLayer(ChainModel.LAYER_LOCATION))
 
-    private val CHAIN_LINK_LENGTH = 0.7f
-    private val CHAIN_OVERLAP = 0.3f
+    private val CHAIN_LINK_LENGTH = 0.35f * 1.5
+    private val CHAIN_OVERLAP = 0.15f * 1.5
     private val EFFECTIVE_LINK_LENGTH = CHAIN_LINK_LENGTH - CHAIN_OVERLAP
 
     override fun render(
@@ -38,21 +38,19 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
         val targetEntity = entity.getTargetEntity()
         if (targetEntity != null) {
             val startPos = entity.getLockedPosition() ?: entity.position()
-            val targetPos = targetEntity.position()
+            val targetPos = targetEntity.position().add(0.0, targetEntity.bbHeight / 2.0, 0.0)
 
             val directionVec = targetPos.subtract(startPos)
             val distance = directionVec.length()
 
             val numLinks = max(ceil(distance / EFFECTIVE_LINK_LENGTH).toInt())
+
             val normalizedDir = directionVec.normalize()
 
             val yaw = atan2(normalizedDir.x, normalizedDir.z) * (180f / Math.PI)
             val pitch = atan2(normalizedDir.y, sqrt(normalizedDir.x * normalizedDir.x + normalizedDir.z * normalizedDir.z)) * (180f / Math.PI)
 
-            val chainBuffer = bufferSource.getBuffer(WitcheryRenderTypes.CHAIN.apply(getTextureLocation(entity)))
-
-            poseStack.translate(-0.0, -1.0, -0.0)
-
+            poseStack.translate(-0.0, -0.5, -0.0)
             for (i in 1 until numLinks) {
                 poseStack.pushPose()
 
@@ -66,18 +64,25 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
                 poseStack.mulPose(Axis.YP.rotationDegrees(yaw.toFloat() - 90f))
                 poseStack.mulPose(Axis.ZP.rotationDegrees(pitch.toFloat()))
 
+                poseStack.scale(0.75f, 0.75f, 0.75f)
+
                 if (i % 2 == 1) {
-
                     poseStack.translate(-2.0f, 21/16f, 0.0f)
-
                     poseStack.mulPose(Axis.XP.rotationDegrees(90f))
-
                     poseStack.translate(2.0f, -21/16f, 0.0f)
                 }
 
-                chainModel.renderToBuffer(
+                chainModel.chain.render(
                     poseStack,
-                    chainBuffer,
+                    bufferSource.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(entity))),
+                    packedLight,
+                    OverlayTexture.NO_OVERLAY,
+                    -1
+                )
+
+                chainModel.overlay.render(
+                    poseStack,
+                    bufferSource.getBuffer(WitcheryRenderTypes.CHAIN.apply(getTextureLocation(entity))),
                     packedLight,
                     OverlayTexture.NO_OVERLAY,
                     -1
