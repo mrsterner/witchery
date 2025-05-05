@@ -50,7 +50,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
             val yaw = atan2(normalizedDir.x, normalizedDir.z) * (180f / Math.PI)
             val pitch = atan2(normalizedDir.y, sqrt(normalizedDir.x * normalizedDir.x + normalizedDir.z * normalizedDir.z)) * (180f / Math.PI)
 
-            poseStack.translate(-0.0, -0.5, -0.0)
+            poseStack.translate(-0.0, -0.75, -0.0)
             for (i in 1 until numLinks) {
                 poseStack.pushPose()
 
