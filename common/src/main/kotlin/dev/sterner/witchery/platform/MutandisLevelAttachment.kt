@@ -53,29 +53,6 @@ object MutandisLevelAttachment {
         throw AssertionError()
     }
 
-    fun tick(serverLevel: ServerLevel?) {
-        if (serverLevel == null) return
-
-        val toRemove = mutableListOf<BlockPos>()
-
-        val iterator = getMap(serverLevel).iterator()
-        while (iterator.hasNext()) {
-            val entry = iterator.next()
-            val (pos, mutandisData) = entry
-            val (tag, time) = mutandisData
-            if (time <= 1) {
-                toRemove.add(pos)
-            } else {
-                WitcheryPayloads.sendToPlayers(serverLevel, pos, MutandisRemenantParticleS2CPacket(pos))
-                updateTimeForTagBlockPos(serverLevel, pos)
-            }
-        }
-
-        for (pos in toRemove) {
-            removeTagForBlockPos(serverLevel, pos)
-        }
-    }
-
     val ID: ResourceLocation = Witchery.id("mutandis_level_data")
 
     data class MutandisData(val tag: TagKey<Block>, val time: Int) {

@@ -6,9 +6,6 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.world.damagesource.DamageType
 
 object WitcheryDamageSources {
-    init {
-
-    }
 
     val IN_SUN: ResourceKey<DamageType> = ResourceKey.create(Registries.DAMAGE_TYPE, Witchery.id("in_sun"))
 }

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.handler
 
-import dev.sterner.witchery.api.AccessoryItem
+import dev.sterner.witchery.api.interfaces.AccessoryItem
 import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.component.DataComponents

@@ -12,6 +12,7 @@
       "command": "tp {taglockPlayerOrEntity} {waystonePos}"
     }
   ],
+  "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [

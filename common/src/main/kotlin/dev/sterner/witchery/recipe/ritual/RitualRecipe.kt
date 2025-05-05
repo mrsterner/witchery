@@ -35,6 +35,7 @@ class RitualRecipe(
     val outputItems: List<ItemStack>,
     val outputEntities: List<EntityType<*>>,
     val altarPower: Int,
+    val covenCount: Int,
     val commands: Set<CommandType>,
     val isInfinite: Boolean,
     val floatingItemOutput: Boolean,
@@ -103,6 +104,7 @@ class RitualRecipe(
                         BuiltInRegistries.ENTITY_TYPE.byNameCodec().listOf().orElse(listOf()).fieldOf("outputEntities")
                             .forGetter { it.outputEntities },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
+                        Codec.INT.fieldOf("covenCount").forGetter { recipe -> recipe.covenCount },
                         COMMANDS_SET_CODEC.fieldOf("commands").orElse(setOf(CommandType.DEFAULT))
                             .forGetter { recipe -> recipe.commands },
                         Codec.BOOL.fieldOf("isInfinite").orElse(false).forGetter { recipe -> recipe.isInfinite },
@@ -169,6 +171,7 @@ class RitualRecipe(
             }
 
             val altarPower = if (tag.contains("altarPower")) tag.getInt("altarPower") else 0
+            val covenCount = if (tag.contains("covenCount")) tag.getInt("covenCount") else 0
 
             val commands = tag.getList("commands", 10).mapNotNull { commandElement ->
                 val commandTag = commandElement as CompoundTag
@@ -222,6 +225,7 @@ class RitualRecipe(
                 outputItems,
                 outputEntities,
                 altarPower,
+                covenCount,
                 commands,
                 isInfinite,
                 floatingItemOutput,
@@ -263,6 +267,7 @@ class RitualRecipe(
         }
 
         tag.putInt("altarPower", altarPower)
+        tag.putInt("covenCount", covenCount)
 
         commands.let {
             val commandsTag = ListTag()

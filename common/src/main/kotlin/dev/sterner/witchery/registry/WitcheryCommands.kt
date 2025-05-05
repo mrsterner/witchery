@@ -9,6 +9,9 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
+import dev.sterner.witchery.handler.CurseHandler
+import dev.sterner.witchery.handler.FamiliarHandler
+import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood
 import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
@@ -81,10 +84,10 @@ object WitcheryCommands {
                     .then(
                         Commands.argument("player", EntityArgument.player())
                             .then(
-                                Commands.argument("infusionType", InfusionArgumentType.infusionType())
+                                Commands.argument("infusion", InfusionArgumentType.infusionType())
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
-                                        val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
+                                        val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusion")
                                         PlayerInfusionDataAttachment.setPlayerInfusion(
                                             player,
                                             InfusionData(infusionType)
@@ -161,7 +164,7 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val status = BoolArgumentType.getBool(ctx, "status")
-                                        ManifestationPlayerAttachment.setHasRiteOfManifestation(player, status)
+                                        ManifestationHandler.setHasRiteOfManifestation(player, status)
                                         1
                                     }
                             )
@@ -192,21 +195,22 @@ object WitcheryCommands {
                     .then(
                         Commands.argument("player", EntityArgument.player())
                             .then(
-                                Commands.argument("curseType", CurseArgumentType.curseType())
+                                Commands.argument("curse", CurseArgumentType.curseType())
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
-                                        val curseType = CurseArgumentType.getCurse(ctx, "curseType")
+                                        val curseType = CurseArgumentType.getCurse(ctx, "curse")
                                         val commandSender = ctx.source.player
                                         val cat = if (commandSender != null) {
-                                            FamiliarLevelAttachment.getFamiliarEntityType(
+                                            FamiliarHandler.getFamiliarEntityType(
                                                 commandSender.uuid,
                                                 commandSender.serverLevel()
                                             ) == EntityType.CAT
                                         } else {
                                             false
                                         }
-                                        CursePlayerAttachment.addCurse(
+                                        CurseHandler.addCurse(
                                             player,
+                                            commandSender,
                                             WitcheryCurseRegistry.CURSES.getId(curseType)!!,
                                             cat
                                         )
@@ -220,11 +224,11 @@ object WitcheryCommands {
                     .then(
                         Commands.argument("player", EntityArgument.player())
                             .then(
-                                Commands.argument("curseType", CurseArgumentType.curseType())
+                                Commands.argument("curse", CurseArgumentType.curseType())
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
-                                        val curseType = CurseArgumentType.getCurse(ctx, "curseType")
-                                        CursePlayerAttachment.removeCurse(player, curseType)
+                                        val curseType = CurseArgumentType.getCurse(ctx, "curse")
+                                        CurseHandler.removeCurse(player, curseType)
                                         1
                                     }
                             )
@@ -235,75 +239,130 @@ object WitcheryCommands {
     private fun registerVampireCommands(): LiteralArgumentBuilder<CommandSourceStack> {
         return Commands.literal("vampire")
             .requires { it.hasPermission(2) }
-            .then(Commands.literal("setLevel")
-                .then(Commands.argument("player", EntityArgument.player())
-                    .then(Commands.argument("level", IntegerArgumentType.integer(0))
+            .then(Commands.literal("level")
+                .then(Commands.literal("get")
+                    .then(Commands.argument("player", EntityArgument.player())
                         .executes { context ->
-
-                            val level = IntegerArgumentType.getInteger(context, "level")
                             val player = context.source.playerOrException
-
-                            VampireLeveling.setLevel(player, level)
-                            VampireLeveling.updateModifiers(player, level, false)
-                            val maxBlood = levelToBlood(level)
-                            BloodPoolLivingEntityAttachment.setData(
-                                player,
-                                BloodPoolLivingEntityAttachment.Data(maxBlood, maxBlood)
-                            )
-
+                            val level = VampirePlayerAttachment.getData(player).getVampireLevel()
                             context.source.sendSuccess(
-                                { Component.literal("Set vampire level to $level for ${player.name.string}") },
+                                { Component.literal("Level: $level for ${player.name.string}") },
                                 true
                             )
                             1
                         }
-                    )
-                ))
-            .then(Commands.literal("setBlood")
-                .then(Commands.argument("player", EntityArgument.player())
-                    .then(Commands.argument("level", IntegerArgumentType.integer(0, VampireLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()))
-                        .executes { context ->
+                    ))
 
-                            val level = IntegerArgumentType.getInteger(context, "level")
+                .then(Commands.literal("set")
+                    .then(Commands.argument("player", EntityArgument.player())
+                        .then(Commands.argument("level", IntegerArgumentType.integer(0))
+                            .executes { context ->
+
+                                val level = IntegerArgumentType.getInteger(context, "level")
+                                val player = context.source.playerOrException
+
+                                VampireLeveling.setLevel(player, level)
+                                VampireLeveling.updateModifiers(player, level, false)
+                                val maxBlood = levelToBlood(level)
+                                BloodPoolLivingEntityAttachment.setData(
+                                    player,
+                                    BloodPoolLivingEntityAttachment.Data(maxBlood, maxBlood)
+                                )
+
+                                context.source.sendSuccess(
+                                    { Component.literal("Set vampire level to $level for ${player.name.string}") },
+                                    true
+                                )
+                                1
+                            }
+                        )
+                    ))
+                )
+            .then(Commands.literal("blood")
+
+                .then(Commands.literal("set")
+                    .then(Commands.argument("player", EntityArgument.player())
+                        .then(Commands.argument("level", IntegerArgumentType.integer(0, VampireLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()))
+                            .executes { context ->
+
+                                val level = IntegerArgumentType.getInteger(context, "level")
+                                val player = context.source.playerOrException
+
+                                val data = BloodPoolLivingEntityAttachment.getData(player)
+
+                                BloodPoolLivingEntityAttachment.setData(
+                                    player,
+                                    BloodPoolLivingEntityAttachment.Data(
+                                        data.maxBlood,
+                                        Mth.clamp(level, 0, data.maxBlood)
+                                    )
+                                )
+
+                                context.source.sendSuccess(
+                                    { Component.literal("Set blood level to $level for ${player.name.string}") },
+                                    true
+                                )
+                                1
+                            }
+                        )
+                    ))
+
+
+                .then(Commands.literal("get")
+                    .then(Commands.argument("player", EntityArgument.player())
+                        .executes { context ->
                             val player = context.source.playerOrException
 
                             val data = BloodPoolLivingEntityAttachment.getData(player)
-
-                            BloodPoolLivingEntityAttachment.setData(
-                                player,
-                                BloodPoolLivingEntityAttachment.Data(
-                                    data.maxBlood,
-                                    Mth.clamp(level, 0, data.maxBlood)
-                                )
-                            )
-
-                            context.source.sendSuccess(
-                                { Component.literal("Set blood level to $level for ${player.name.string}") },
-                                true
-                            )
+                            player.sendSystemMessage(Component.literal("Blood Level: " + data.bloodPool + "/" + data.maxBlood))
                             1
-                        }
+                        })
                     )
-                )
             )
-
     }
 
     private fun registerWerewolfCommands(): LiteralArgumentBuilder<CommandSourceStack> {
         return Commands.literal("werewolf")
             .requires { it.hasPermission(2) }
-            .then(Commands.literal("setLevel")
-                .then(Commands.argument("player", EntityArgument.player())
-                    .then(Commands.argument("level", IntegerArgumentType.integer(0, WerewolfLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()))
+            .then(Commands.literal("level")
+                .then(Commands.literal("try_curse")
+                    .then(Commands.argument("player", EntityArgument.player())
                         .executes { context ->
-
-                            val level = IntegerArgumentType.getInteger(context, "level")
                             val player = context.source.playerOrException
+                            val currentLevel = WerewolfPlayerAttachment.getData(player).getWerewolfLevel()
+                            if (currentLevel == 0) {
+                                WerewolfLeveling.increaseWerewolfLevel(player)
+                            }
+                            1
+                        }
+                    )
+                )
+                .then(Commands.literal("set")
+                    .then(Commands.argument("player", EntityArgument.player())
+                        .then(Commands.argument("level", IntegerArgumentType.integer(0, WerewolfLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()))
+                            .executes { context ->
 
-                            WerewolfLeveling.setLevel(player, level)
+                                val level = IntegerArgumentType.getInteger(context, "level")
+                                val player = context.source.playerOrException
 
+                                WerewolfLeveling.setLevel(player, level)
+
+                                context.source.sendSuccess(
+                                    { Component.literal("Set werewolf level to $level for ${player.name.string}") },
+                                    true
+                                )
+                                1
+                            }
+                        )
+                    ))
+
+                .then(Commands.literal("get")
+                    .then(Commands.argument("player", EntityArgument.player())
+                        .executes{ context ->
+                            val player = context.source.playerOrException
+                            val level = WerewolfPlayerAttachment.getData(player).getWerewolfLevel()
                             context.source.sendSuccess(
-                                { Component.literal("Set werewolf level to $level for ${player.name.string}") },
+                                { Component.literal("Level $level for ${player.name.string}") },
                                 true
                             )
                             1
@@ -311,19 +370,6 @@ object WitcheryCommands {
                     )
                 )
             )
-            .then(Commands.literal("getLevel")
-                .then(Commands.argument("player", EntityArgument.player())
-                    .executes{ context ->
-                        val player = context.source.playerOrException
-                        var level = WerewolfPlayerAttachment.getData(player).getWerewolfLevel()
-                        println(level)
-                        context.source.sendSuccess(
-                            { Component.literal("Get werewolf level to $level for ${player.name.string}") },
-                            true
-                        )
-                        1
-                    }
-                )
-            )
+
     }
 }

@@ -2,6 +2,8 @@ package dev.sterner.witchery.item
 
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.handler.AccessoryHandler
+import dev.sterner.witchery.handler.SleepingPlayerHandler
+import dev.sterner.witchery.handler.TeleportQueueHandler
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.platform.SleepingLevelAttachment
 import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
@@ -29,13 +31,13 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
         if (livingEntity is ServerPlayer && (WitcheryApi.isInSpiritWorld(livingEntity))) {
             val overworld = level.server!!.overworld()
 
-            val sleepingData = SleepingLevelAttachment.getPlayerFromSleeping(livingEntity.uuid, overworld)
+            val sleepingData = SleepingPlayerHandler.getPlayerFromSleeping(livingEntity.uuid, overworld)
 
             if (sleepingData != null) {
                 val chunkPos = ChunkPos(sleepingData.pos)
                 overworld.setChunkForced(chunkPos.x, chunkPos.z, true)
 
-                TeleportQueueLevelAttachment.addRequest(
+                TeleportQueueHandler.addRequest(
                     overworld,
                     TeleportRequest(
                         player = livingEntity.uuid,
@@ -62,7 +64,7 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
         ) {
             if (livingEntity.level() is ServerLevel) {
                 val serverLevel = livingEntity.level() as ServerLevel
-                val sleepingData = SleepingLevelAttachment.getPlayerFromSleeping(livingEntity.uuid, serverLevel)
+                val sleepingData = SleepingPlayerHandler.getPlayerFromSleeping(livingEntity.uuid, serverLevel)
                 livingEntity.inventory.dropAll()
                 val oldData = ManifestationPlayerAttachment.getData(livingEntity)
                 ManifestationPlayerAttachment.setData(
@@ -73,7 +75,7 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
                     val chunkPos = ChunkPos(sleepingData.pos)
                     serverLevel.setChunkForced(chunkPos.x, chunkPos.z, true)
 
-                    TeleportQueueLevelAttachment.addRequest(
+                    TeleportQueueHandler.addRequest(
                         serverLevel,
                         TeleportRequest(
                             player = livingEntity.uuid,

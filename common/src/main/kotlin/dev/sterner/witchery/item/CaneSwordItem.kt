@@ -1,7 +1,7 @@
 package dev.sterner.witchery.item
 
 import dev.architectury.event.EventResult
-import dev.sterner.witchery.api.BloodPoolComponent
+import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents

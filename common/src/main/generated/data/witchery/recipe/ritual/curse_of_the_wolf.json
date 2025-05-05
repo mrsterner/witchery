@@ -1,0 +1,60 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 10000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "M": "witchery:infernal_chalk"
+  },
+  "celestialConditions": [
+    "full_moon"
+  ],
+  "commands": [
+    {
+      "type": "end",
+      "command": "witchery werewolf level try_curse {taglockPlayerOrEntity}"
+    }
+  ],
+  "covenCount": 6,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:taglock"
+    },
+    {
+      "id": "witchery:exhale_of_the_horned_one"
+    },
+    {
+      "id": "witchery:wolfsbane"
+    },
+    {
+      "id": "witchery:tongue_of_dog"
+    },
+    {
+      "id": "minecraft:amethyst_shard"
+    },
+    {
+      "id": "witchery:brew_of_the_grotesque"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "___MMMMM___",
+    "__M_____M__",
+    "_M_______M_",
+    "M_________M",
+    "M_________M",
+    "M____G____M",
+    "M_________M",
+    "M_________M",
+    "_M_______M_",
+    "__M_____M__",
+    "___MMMMM___"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 20
+}

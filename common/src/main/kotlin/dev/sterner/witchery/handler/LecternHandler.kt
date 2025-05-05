@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.entity.LecternBlockEntity
 
 object LecternHandler {
+
     fun tryAccessGuidebook(player: Player, hand: InteractionHand, pos: BlockPos, face: Direction): EventResult {
         val be = player.level().getBlockEntity(pos)
         if (player is ServerPlayer && be is LecternBlockEntity && be.book.`is`(WitcheryItems.GUIDEBOOK.get())) {

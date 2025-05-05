@@ -2,16 +2,13 @@ package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.api.OnRemovedEffect;
+import dev.sterner.witchery.api.interfaces.OnRemovedEffect;
 import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.mixin_logic.LivingEntityMixinLogic;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;

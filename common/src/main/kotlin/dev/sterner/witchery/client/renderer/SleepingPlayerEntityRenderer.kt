@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.client.SleepingClientPlayerEntity
 import dev.sterner.witchery.client.particle.ZzzData
-import dev.sterner.witchery.entity.SleepingPlayerEntity
+import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.MultiBufferSource

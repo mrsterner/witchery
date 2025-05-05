@@ -11,6 +11,7 @@ import dev.sterner.witchery.block.bear_trap.BearTrapBlockEntity
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlockEntity
 import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
+import dev.sterner.witchery.block.coffin.CoffinBlockEntity
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlockEntity
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
@@ -267,6 +268,13 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::CritterSnareBlockEntity,
             WitcheryBlocks.CRITTER_SNARE.get()
+        ).build(null)
+    }
+
+    val COFFIN = BLOCK_ENTITY_TYPES.register("coffin") {
+        BlockEntityType.Builder.of(
+            ::CoffinBlockEntity,
+            WitcheryBlocks.COFFIN.get()
         ).build(null)
     }
 }

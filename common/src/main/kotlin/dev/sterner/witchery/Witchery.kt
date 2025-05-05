@@ -20,8 +20,8 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
-import dev.sterner.witchery.api.BloodPoolComponent
-import dev.sterner.witchery.api.SleepingEvent
+import dev.sterner.witchery.api.client.BloodPoolComponent
+import dev.sterner.witchery.api.event.SleepingEvent
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.client.colors.PotionColor
@@ -156,16 +156,16 @@ object Witchery {
 
         VampireEventHandler.registerEvents()
         WerewolfEventHandler.registerEvents()
-        CursePlayerAttachment.registerEvents()
+        CurseHandler.registerEvents()
         PotionHandler.registerEvents()
 
-        ServerLevelTick.SERVER_LEVEL_POST.register(MutandisLevelAttachment::tick)
+        ServerLevelTick.SERVER_LEVEL_POST.register(MutandisHandler::tick)
 
         CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
 
         EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
         EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
-        EntityEvent.LIVING_DEATH.register(FamiliarLevelAttachment::familiarDeath)
+        EntityEvent.LIVING_DEATH.register(FamiliarHandler::familiarDeath)
         EntityEvent.LIVING_DEATH.register(CaneSwordItem::harvestBlood)
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
         EntityEvent.LIVING_HURT.register(BitingBeltItem::usePotion)
@@ -177,7 +177,7 @@ object Witchery {
         PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
         PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
             VampireAbilityHandler.setAbilityIndex(player, -1)
-            VampireAbilityHandler.setAbilityIndex(player, -1)
+            WerewolfAbilityHandler.setAbilityIndex(player, -1)
         }
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
@@ -185,22 +185,22 @@ object Witchery {
         InteractionEvent.INTERACT_ENTITY.register(WineGlassItem::applyWineOnVillager)
         InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
 
-        BlockEvent.BREAK.register(EntSpawnLevelAttachment::breakBlock)
+        BlockEvent.BREAK.register(EntSpawningHandler::breakBlock)
         BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
 
-        TickEvent.SERVER_POST.register(EntSpawnLevelAttachment::serverTick)
+        TickEvent.SERVER_POST.register(EntSpawningHandler::serverTick)
         TickEvent.SERVER_POST.register(WitcherySpecialPotionEffects::serverTick)
-        TickEvent.SERVER_POST.register(TeleportQueueLevelAttachment::processQueue)
-        TickEvent.SERVER_POST.register(ManifestationPlayerAttachment::tick)
+        TickEvent.SERVER_POST.register(TeleportQueueHandler::processQueue)
+        TickEvent.SERVER_POST.register(ManifestationHandler::tick)
         TickEvent.SERVER_POST.register(VampireChildrenHuntLevelAttachment::tickHuntAllLevels)
         TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
         TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
         TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
-        TickEvent.PLAYER_PRE.register(NightmarePlayerAttachment::tick)
+        TickEvent.PLAYER_PRE.register(NightmareHandler::tick)
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)
-        TickEvent.PLAYER_PRE.register(BarkBeltPlayerAttachment::tick)
+        TickEvent.PLAYER_PRE.register(BarkBeltHandler::tick)
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 
@@ -382,6 +382,7 @@ object Witchery {
         EntityModelLayerRegistry.register(SpiritPortalBlockEntityModel.LAYER_LOCATION) { SpiritPortalBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpiritPortalPortalModel.LAYER_LOCATION) { SpiritPortalPortalModel.createBodyLayer() }
         EntityModelLayerRegistry.register(WerewolfAltarModel.LAYER_LOCATION) { WerewolfAltarModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(CoffinModel.LAYER_LOCATION) { CoffinModel.createBodyLayer() }
         EntityModelLayerRegistry.register(BearTrapModel.LAYER_LOCATION) { BearTrapModel.createBodyLayer() }
         EntityModelLayerRegistry.register(ChainModel.LAYER_LOCATION) { ChainModel.createBodyLayer() }
         EntityModelLayerRegistry.register(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
@@ -459,6 +460,7 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DISTILLERY.get(), ::DistilleryBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRAZIER.get(), ::BrazierBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.COFFIN.get(), ::CoffinBlockEntityRenderer)
         BlockEntityRendererRegistry.register(
             WitcheryBlockEntityTypes.SPINNING_WHEEL.get(),
             ::SpinningWheelBlockEntityRenderer
@@ -514,10 +516,10 @@ object Witchery {
         WitcheryPageRendererRegistry.register()
 
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
-        ClientGuiEvent.RENDER_HUD.register(ManifestationPlayerAttachment::renderHud)
-        ClientGuiEvent.RENDER_HUD.register(VampireEventHandler::renderHud)
+        ClientGuiEvent.RENDER_HUD.register(ManifestationHandler::renderHud)
+        ClientGuiEvent.RENDER_HUD.register{ guiGraphics, _ -> VampireEventHandler.renderHud(guiGraphics)}
         ClientGuiEvent.RENDER_HUD.register(WerewolfEventHandler::renderHud)
-        ClientGuiEvent.RENDER_HUD.register(BarkBeltPlayerAttachment::renderHud)
+        ClientGuiEvent.RENDER_HUD.register(BarkBeltHandler::renderHud)
 
         ItemPropertiesRegistry.register(
             WitcheryItems.WAYSTONE.get(),

@@ -5,10 +5,14 @@ import dev.sterner.witchery.platform.CovenPlayerAttachment
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 
 object CovenHandler {
 
+    /**
+     * Adds a Coven-Witch to the player's coven. Discards the Witch
+     */
     fun addWitchToCoven(player: ServerPlayer, witch: CovenWitchEntity) {
         val data = CovenPlayerAttachment.getData(player)
         val newList = data.covenWitchList.toMutableList()
@@ -21,7 +25,10 @@ object CovenHandler {
         }
     }
 
-    fun getWitchesFromCoven(player: ServerPlayer): List<CovenWitchEntity> {
+    /**
+     * Get all the players Coven-Witches
+     */
+    fun getWitchesFromCoven(player: Player): List<CovenWitchEntity> {
         val data = CovenPlayerAttachment.getData(player)
         val level = player.level()
 
@@ -30,7 +37,10 @@ object CovenHandler {
         }
     }
 
-    fun summonWitchFromCoven(player: ServerPlayer, index: Int, summonTo: Vec3): CovenWitchEntity? {
+    /**
+     * Takes a Coven-Witch from a specific index in the players list of coven witches
+     */
+    fun summonWitchFromCoven(player: Player, index: Int, summonTo: Vec3): CovenWitchEntity? {
         val data = CovenPlayerAttachment.getData(player)
         val tag = data.covenWitchList.getOrNull(index) ?: return null
         val level = player.level()
@@ -42,6 +52,9 @@ object CovenHandler {
         return mob
     }
 
+    /**
+     * Removes a coven-witch from its index
+     */
     fun removeWitchFromCoven(player: ServerPlayer, index: Int): Boolean {
         val data = CovenPlayerAttachment.getData(player)
         val list = data.covenWitchList.toMutableList()
@@ -54,7 +67,7 @@ object CovenHandler {
         return false
     }
 
-    fun getSummonableWitchCount(player: ServerPlayer): Int {
+    fun getSummonableWitchCount(player: Player): Int {
         return CovenPlayerAttachment.getData(player).covenWitchList.size
     }
 }

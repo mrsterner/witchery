@@ -44,12 +44,12 @@ public class BlockMixin {
         ResourceKey<LootTable> lootTableId = state.getBlock().getLootTable();
         LootTable table = serverLevel.getServer().reloadableRegistries().getLootTable(lootTableId);
 
-        if (supportsFortune(table)) {
+        if (witchery$supportsFortune(table)) {
             List<ItemStack> extraDrops = Block.getDrops(state, serverLevel, pos, blockEntity, player, tool);
 
             int fortuneLevel = effect.getAmplifier() + 1;
             for (ItemStack stack : extraDrops) {
-                ItemStack bonus = applyFortuneEffect(stack.copy(), fortuneLevel, serverLevel.random);
+                ItemStack bonus = witchery$applyFortuneEffect(stack.copy(), fortuneLevel, serverLevel.random);
                 if (!bonus.isEmpty()) {
                     Block.popResource(serverLevel, pos, bonus);
                 }
@@ -59,17 +59,17 @@ public class BlockMixin {
 
 
     @Unique
-    private static boolean supportsFortune(LootTable lootTable) {
+    private static boolean witchery$supportsFortune(LootTable lootTable) {
         for (LootPool pool : ((LootTableAccessor) lootTable).getPools()) {
             for (LootPoolEntryContainer entry : ((LootPoolAccessor) pool).getEntries()) {
                 if (entry instanceof LootItem lootItem) {
                     for (LootItemFunction function : ((LootPoolSingletonContainerAccessor) lootItem).getFunctions()) {
-                        if (isFortuneFunction(function)) {
+                        if (witchery$isFortuneFunction(function)) {
                             return true;
                         }
                     }
                 } else if (entry instanceof CompositeEntryBase composite) {
-                    if (checkCompositeForFortune(composite)) {
+                    if (witchery$checkCompositeForFortune(composite)) {
                         return true;
                     }
                 }
@@ -79,16 +79,16 @@ public class BlockMixin {
     }
 
     @Unique
-    private static boolean checkCompositeForFortune(CompositeEntryBase composite) {
+    private static boolean witchery$checkCompositeForFortune(CompositeEntryBase composite) {
         for (LootPoolEntryContainer child : ((CompositeEntryBaseAccessor) composite).getChildren()) {
             if (child instanceof LootPoolSingletonContainer lootItem) {
                 for (LootItemFunction function : ((LootPoolSingletonContainerAccessor) lootItem).getFunctions()) {
-                    if (isFortuneFunction(function)) {
+                    if (witchery$isFortuneFunction(function)) {
                         return true;
                     }
                 }
             } else if (child instanceof CompositeEntryBase deeperComposite) {
-                if (checkCompositeForFortune(deeperComposite)) {
+                if (witchery$checkCompositeForFortune(deeperComposite)) {
                     return true;
                 }
             }
@@ -97,12 +97,12 @@ public class BlockMixin {
     }
 
     @Unique
-    private static boolean isFortuneFunction(LootItemFunction function) {
+    private static boolean witchery$isFortuneFunction(LootItemFunction function) {
         return function instanceof ApplyBonusCount;
     }
 
     @Unique
-    private static ItemStack applyFortuneEffect(ItemStack drop, int fortuneLevel, RandomSource random) {
+    private static ItemStack witchery$applyFortuneEffect(ItemStack drop, int fortuneLevel, RandomSource random) {
         if (drop.isEmpty() || fortuneLevel <= 0) return ItemStack.EMPTY;
 
         int extra = 0;

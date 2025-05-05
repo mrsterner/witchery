@@ -13,6 +13,7 @@
       "command": "witchery infusion increase {owner} 1"
     }
   ],
+  "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [

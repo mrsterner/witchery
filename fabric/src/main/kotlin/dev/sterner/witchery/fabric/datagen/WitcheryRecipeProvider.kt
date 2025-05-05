@@ -274,6 +274,19 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get(), Color(255, 50, 50).rgb)
+            .addInputWithColor(Items.GOLDEN_CARROT, Color(250, 250, 250).rgb)
+            .addInputWithColor(
+                PotionContents.createItemStack(Items.POTION, Potions.NIGHT_VISION),
+                Color(125, 165, 250).rgb
+            )
+            .addInputWithColor(Items.SPIDER_EYE, Color(150, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get(), Color(255, 180, 10).rgb)
+            .setOutput(WitcheryItems.HAPPENSTANCE_OIL.get())
+            .setAltarPower(100)
+            .save(exporter, Witchery.id("happenstance"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get(), Color(255, 50, 50).rgb)
             .addInputWithColor(WitcheryItems.ATTUNED_STONE.get(), Color(255, 50, 250).rgb)
             .addInputWithColor(
                 PotionContents.createItemStack(Items.POTION, Potions.REGENERATION),
@@ -1346,6 +1359,26 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_stick", has(Items.STICK))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.WEREWOLF_ALTAR.get())
+            .pattern(" S ")
+            .pattern("SFS")
+            .pattern("SOS")
+            .define('S', Items.STONE)
+            .define('F', WitcheryItems.WOLFSBANE.get())
+            .define('O', WitcheryItems.TONGUE_OF_DOG.get())
+            .unlockedBy("has_wolfsbane", has(WitcheryItems.WOLFSBANE.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.COFFIN.get())
+            .pattern("SSS")
+            .pattern("WBW")
+            .pattern("WWW")
+            .define('B', ItemTags.BEDS)
+            .define('W', ItemTags.LOGS)
+            .define('S', ItemTags.WOODEN_SLABS)
+            .unlockedBy("has_bed", has(ItemTags.BEDS))
+            .save(exporter)
+
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.NETHERITE_SCRAP, Color(205, 125, 50).rgb)
             .addInputWithColor(WitcheryItems.OIL_OF_VITRIOL.get(), Color(50, 50, 50).rgb)
@@ -1636,6 +1669,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("charge_attuned"))
 
+
         val broom = ItemStack(WitcheryItems.BROOM.get())
         broom.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
 
@@ -1646,6 +1680,16 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setAltarPower(3000)
             .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("apply_ointment"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.OBSIDIAN)
+            .addInputItem(WitcheryItems.QUARTZ_SPHERE.get())
+            .addInputItem(WitcheryItems.HAPPENSTANCE_OIL.get())
+            .addOutputItem(WitcheryItems.SEER_STONE.get())
+            .setAltarPower(2000)
+            .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .save(exporter, Witchery.id("infuse_seer"))
+
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.GHOST_OF_THE_LIGHT.get())
@@ -1739,6 +1783,21 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .setCustomRitual(BindSpectralCreaturesRitual())
             .setTicks(20)
             .save(exporter, Witchery.id("bind_spectral_creatures"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.TAGLOCK.get())
+            .addInputItem(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get())
+            .addInputItem(WitcheryItems.WOLFSBANE.get())
+            .addInputItem(WitcheryItems.TONGUE_OF_DOG.get())
+            .addInputItem(Items.AMETHYST_SHARD)
+            .setCelestialConditions(setOf(RitualRecipe.Celestial.FULL_MOON))
+            .addInputItem(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
+            .addCommand(CommandType("witchery werewolf level try_curse {taglockPlayerOrEntity}", CommandType.END))
+            .setAltarPower(10000)
+            .setCovenCount(6)
+            .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .setTicks(20)
+            .save(exporter, Witchery.id("curse_of_the_wolf"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.FOUL_FUME.get())

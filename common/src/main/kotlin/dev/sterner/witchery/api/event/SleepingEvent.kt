@@ -1,4 +1,4 @@
-package dev.sterner.witchery.api
+package dev.sterner.witchery.api.event
 
 import dev.architectury.event.Event
 import dev.architectury.event.EventFactory

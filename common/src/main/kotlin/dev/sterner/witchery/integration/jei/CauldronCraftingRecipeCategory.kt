@@ -1,7 +1,7 @@
 package dev.sterner.witchery.integration.jei
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder

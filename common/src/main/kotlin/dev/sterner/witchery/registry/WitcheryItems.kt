@@ -255,6 +255,10 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val HAPPENSTANCE_OIL: RegistrySupplier<Item> = ITEMS.register("happenstance_oil") {
+        Item(Item.Properties())
+    }
+
     val FLYING_OINTMENT: RegistrySupplier<Item> = ITEMS.register("flying_ointment") {
         Item(Item.Properties())
     }
@@ -649,6 +653,10 @@ object WitcheryItems {
 
     val WEREWOLF_ALTAR: RegistrySupplier<MultiBlockItem> = ITEMS.register("werewolf_altar") {
         MultiBlockItem(WitcheryBlocks.WEREWOLF_ALTAR.get(), Item.Properties(), WerewolfAltarBlock.STRUCTURE)
+    }
+
+    val COFFIN = ITEMS.register("coffin") {
+        BlockItem(WitcheryBlocks.COFFIN.get(), Item.Properties())
     }
 
     // start WOOD
@@ -1063,6 +1071,10 @@ object WitcheryItems {
         BrewOfSleepingItem(Color(255, 90, 130).rgb, Item.Properties().stacksTo(16))
     }
 
+    val BREW_OF_THE_GROTESQUE: RegistrySupplier<BrewOfTheGrotesqueItem> = ITEMS.register("brew_of_the_grotesque") {
+        BrewOfTheGrotesqueItem(Color(170, 70, 70).rgb, Item.Properties().stacksTo(16))
+    }
+
     val BREW_FLOWING_SPIRIT: RegistrySupplier<BrewOfFlowingSpiritItem> = ITEMS.register("brew_of_flowing_spirit") {
         BrewOfFlowingSpiritItem(Color(125, 170, 230).rgb, Item.Properties().stacksTo(16))
     }
@@ -1091,6 +1103,8 @@ object WitcheryItems {
     val QUARTZ_SPHERE: RegistrySupplier<QuartzSphereItem> = ITEMS.register("quartz_sphere") {
         QuartzSphereItem(Item.Properties())
     }
+
+
 
     val SUN_COLLECTOR: RegistrySupplier<BlockItem> = ITEMS.register("sunlight_collector") {
         BlockItem(WitcheryBlocks.SUNLIGHT_COLLECTOR.get(), Item.Properties().stacksTo(1))

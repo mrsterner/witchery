@@ -1,0 +1,58 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "altarPower": 100,
+  "dimensionKey": [
+    ""
+  ],
+  "inputItems": [
+    {
+      "color": -52686,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:redstone_soup"
+      },
+      "order": 0
+    },
+    {
+      "color": -328966,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:golden_carrot"
+      },
+      "order": 1
+    },
+    {
+      "color": -8542726,
+      "itemStack": {
+        "components": {
+          "minecraft:potion_contents": {
+            "potion": "minecraft:night_vision"
+          }
+        },
+        "count": 1,
+        "id": "minecraft:potion"
+      },
+      "order": 2
+    },
+    {
+      "color": -6933966,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:spider_eye"
+      },
+      "order": 3
+    },
+    {
+      "color": -19446,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:mandrake_root"
+      },
+      "order": 4
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:happenstance_oil"
+  }
+}

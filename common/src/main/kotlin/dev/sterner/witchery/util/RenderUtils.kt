@@ -1,10 +1,9 @@
-package dev.sterner.witchery.api
+package dev.sterner.witchery.util
 
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
 import dev.sterner.witchery.Witchery.id
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.util.WitcheryConstants
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.resources.ResourceLocation

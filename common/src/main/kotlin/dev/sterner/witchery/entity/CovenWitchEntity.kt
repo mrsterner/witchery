@@ -23,7 +23,8 @@ import java.util.*
 
 class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_WITCH.get(), level) {
 
-    var lastRitualPosInternal = Optional.empty<BlockPos>()
+    private var lastRitualPosInternal = Optional.empty<BlockPos>()
+    private var isCovenAndDeSpawnTimer = 20 * 60 * 5
 
     override fun registerGoals() {
         super.registerGoals()
@@ -48,12 +49,19 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
                 }
             }
         }
+        if (getIsCoven()) {
+            isCovenAndDeSpawnTimer--
+            if (isCovenAndDeSpawnTimer < 0) {
+                discard()
+            }
+        }
         super.aiStep()
     }
 
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         super.defineSynchedData(builder)
         builder.define(LAST_RITUAL_POS, Optional.empty())
+        builder.define(IS_COVEN, false)
     }
 
     fun getLastRitualPos(): Optional<BlockPos> {
@@ -64,12 +72,23 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         entityData.set(LAST_RITUAL_POS, ritualPos)
     }
 
+    fun getIsCoven(): Boolean {
+        return entityData.get(IS_COVEN)
+    }
+
+    fun setIsCoven(isCoven: Boolean) {
+        entityData.set(IS_COVEN, isCoven)
+    }
+
+
     override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         if (this.lastRitualPosInternal.isPresent) {
             val tag = NbtUtils.writeBlockPos(this.lastRitualPosInternal.get())
             compound.put("LastRitualPos", tag)
         }
+        compound.putInt("IsCovenAndDeSpawnTimer", isCovenAndDeSpawnTimer)
+        compound.putBoolean("IsCoven", getIsCoven())
     }
 
     override fun readAdditionalSaveData(compound: CompoundTag) {
@@ -78,11 +97,20 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         if (compound.contains("LastRitualPos")) {
             lastRitualPosInternal = NbtUtils.readBlockPos(compound, "LastRitualPos")
         }
+        if (compound.contains("IsCovenAndDeSpawnTimer")) {
+            isCovenAndDeSpawnTimer = compound.getInt("IsCovenAndDeSpawnTimer")
+        }
+        if (compound.contains("IsCoven")) {
+            setIsCoven(compound.getBoolean("IsCoven"))
+        }
     }
 
     companion object {
         val LAST_RITUAL_POS: EntityDataAccessor<Optional<BlockPos>> = SynchedEntityData.defineId(
             CovenWitchEntity::class.java, EntityDataSerializers.OPTIONAL_BLOCK_POS
+        )
+        val IS_COVEN: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
+            CovenWitchEntity::class.java, EntityDataSerializers.BOOLEAN
         )
 
         fun createAttributes(): AttributeSupplier.Builder {

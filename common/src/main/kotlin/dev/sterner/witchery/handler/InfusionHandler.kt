@@ -2,7 +2,7 @@ package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.RenderUtils
+import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.platform.infusion.InfusionData
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment

@@ -1,6 +1,7 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.entity.SleepingPlayerEntity;
+import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity;
+import dev.sterner.witchery.handler.SleepingPlayerHandler;
 import dev.sterner.witchery.platform.SleepingLevelAttachment;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,7 +21,7 @@ public class ServerPlayerMixin {
         var player = ServerPlayer.class.cast(this);
 
         for (ServerLevel serverLevel: player.level().getServer().getAllLevels()) {
-            var hasSleeping = SleepingLevelAttachment.INSTANCE.getPlayerFromSleeping(player.getUUID(), serverLevel);
+            var hasSleeping = SleepingPlayerHandler.INSTANCE.getPlayerFromSleeping(player.getUUID(), serverLevel);
             if (hasSleeping != null) {
                 var chunk = new ChunkPos(hasSleeping.getPos());
                 serverLevel.setChunkForced(chunk.x, chunk.z, true);

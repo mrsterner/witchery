@@ -15,6 +15,7 @@ import dev.sterner.witchery.block.brazier.BrazierBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.cauldron.CopperCauldronBlock
+import dev.sterner.witchery.block.coffin.CoffinBlock
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.distillery.DistilleryCompanionBlock
@@ -49,6 +50,7 @@ import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.DyeColor
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockBehaviour
@@ -173,6 +175,9 @@ object WitcheryBlocks {
         )
     }
 
+    val COFFIN = BLOCKS.register("coffin") {
+        CoffinBlock(BlockBehaviour.Properties.of(), DyeColor.BLACK)
+    }
 
     val WEREWOLF_ALTAR = BLOCKS.register("werewolf_altar") {
         WerewolfAltarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE))

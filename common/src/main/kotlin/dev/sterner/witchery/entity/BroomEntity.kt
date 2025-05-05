@@ -1,5 +1,6 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.payload.SyncOwlAbilityS2CPayload
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -219,7 +220,7 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
 
         if (!level().isClientSide && entityPassenger is LivingEntity) {
             hasFamiliar =
-                FamiliarLevelAttachment.getFamiliarEntityType(entityPassenger.uuid, level() as ServerLevel) != null
+                FamiliarHandler.getFamiliarEntityType(entityPassenger.uuid, level() as ServerLevel) != null
             WitcheryPayloads.sendToPlayers(level(), SyncOwlAbilityS2CPayload(entityPassenger as Player, hasFamiliar))
 
         }

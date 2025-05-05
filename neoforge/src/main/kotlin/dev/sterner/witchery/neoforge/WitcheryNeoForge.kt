@@ -7,12 +7,12 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.integration.jei.WitcheryJeiPlugin
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
+import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvent
 import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
 import dev.sterner.witchery.platform.neoforge.WitcheryFluidHandlerNeoForge
 import dev.sterner.witchery.platform.neoforge.WitcheryPehkuiImpl
 import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
-import net.minecraft.core.Holder
 import net.minecraft.core.NonNullList
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.syncher.EntityDataSerializer
@@ -30,6 +30,7 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.neoforged.neoforge.capabilities.Capabilities
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
+import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.registries.DeferredHolder
@@ -72,6 +73,8 @@ object WitcheryNeoForge {
         DATA_SERIALIZER_REGISTER.register(MOD_BUS)
         MOB_EFFECTS.register(MOD_BUS)
         WitcheryAttributesImpl.attributes.register()
+
+        NeoForge.EVENT_BUS.register(WitcheryNeoForgeEvent)
 
         runForDist(
             clientTarget = {
@@ -143,3 +146,5 @@ object WitcheryNeoForge {
         event.add(EntityType.PLAYER, WitcheryAttributesImpl.VAMPIRE_DRINK_SPEED)
     }
 }
+
+

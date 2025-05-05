@@ -46,7 +46,6 @@ object WerewolfEventHandler {
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killPiglin)
         EntityEvent.LIVING_DEATH.register(WerewolfEventHandler::killAny)
         TickEvent.PLAYER_PRE.register(WerewolfEventHandler::tick)
-        InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(WerewolfEventHandler::clientRightClickAbility)
         InteractionEvent.RIGHT_CLICK_BLOCK.register(WerewolfEventHandler::rightClickBlockAbility)
     }
 
@@ -63,14 +62,19 @@ object WerewolfEventHandler {
         return EventResult.pass()
     }
 
-    private fun clientRightClickAbility(player: Player?, interactionHand: InteractionHand?) {
+    fun clientRightClickAbility(player: Player?, interactionHand: InteractionHand?): Boolean {
         if (player == null || interactionHand == InteractionHand.OFF_HAND) {
-            return
+            return false
         }
 
         val playerData = WerewolfPlayerAttachment.getData(player)
-        parseAbilityFromIndex(player, playerData.abilityIndex)
-        NetworkManager.sendToServer(WerewolfAbilityUseC2SPayload(playerData.abilityIndex))
+        if (playerData.abilityIndex != -1) {
+            parseAbilityFromIndex(player, playerData.abilityIndex)
+            NetworkManager.sendToServer(WerewolfAbilityUseC2SPayload(playerData.abilityIndex))
+            return true
+        }
+
+        return false
     }
 
     fun infectPlayer(player: ServerPlayer) {

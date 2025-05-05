@@ -1,7 +1,7 @@
 package dev.sterner.witchery.item.accessories
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.AccessoryItem
+import dev.sterner.witchery.api.interfaces.AccessoryItem
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Rarity

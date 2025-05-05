@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PlayerMixin {
 
     @Inject(method = "createAttributes", require = 1, allow = 1, at = @At("RETURN"))
-    private static void additionalEntityAttributes$addPlayerAttributes(final CallbackInfoReturnable<AttributeSupplier.Builder> info) {
+    private static void witchery$additionalEntityAttributes$addPlayerAttributes(final CallbackInfoReturnable<AttributeSupplier.Builder> info) {
         info.getReturnValue().add(WitcheryAttributes.INSTANCE.getVAMPIRE_BAT_FORM_DURATION());
         info.getReturnValue().add(WitcheryAttributes.INSTANCE.getVAMPIRE_DRINK_SPEED());
         info.getReturnValue().add(WitcheryAttributes.INSTANCE.getVAMPIRE_SUN_RESISTANCE());

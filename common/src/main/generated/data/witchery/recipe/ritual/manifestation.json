@@ -12,6 +12,7 @@
       "command": "witchery manifestation set {owner} true"
     }
   ],
+  "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [

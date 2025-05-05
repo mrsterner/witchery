@@ -32,8 +32,15 @@ object WerewolfAbilityHandler : AbilityHandler<WerewolfAbility> {
         WerewolfPlayerAttachment.setData(player, data.copy(abilityIndex = index))
     }
 
-    fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult? {
-        val player = minecraft?.player
-        return player?.let { AbilityScrollHandler().handleScroll(it, y, WerewolfAbilityHandler) }
+    fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult {
+        val player = minecraft?.player ?: return EventResult.pass()
+
+        // Get player's current abilities
+        val abilities = getAbilities(player)
+        if (abilities.isEmpty()) return EventResult.pass()
+
+        // Handle scrolling with modified logic
+        return AbilityScrollHandler().handleScroll(player, y, this)
     }
+
 }

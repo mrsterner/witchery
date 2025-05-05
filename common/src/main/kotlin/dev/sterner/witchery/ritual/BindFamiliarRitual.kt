@@ -4,6 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.entity.OwlEntity
+import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
@@ -23,7 +24,7 @@ class BindFamiliarRitual : Ritual(Witchery.id("bind_familiar")) {
             val area = AABB.ofSize(blockPos.center, 11.0, 5.0, 11.0)
 
             val unboundEntities = level.getEntitiesOfClass(LivingEntity::class.java, area)
-                .filter { (it is Cat || it is Frog || it is OwlEntity) && !FamiliarLevelAttachment.isBound(level, it) }
+                .filter { (it is Cat || it is Frog || it is OwlEntity) && !FamiliarHandler.isBound(level, it) }
 
             val playersInArea = level.getEntitiesOfClass(Player::class.java, area)
 
@@ -31,7 +32,7 @@ class BindFamiliarRitual : Ritual(Witchery.id("bind_familiar")) {
                 val player = playersInArea[0]
                 val animal = unboundEntities[0]
 
-                FamiliarLevelAttachment.bindOwnerAndFamiliar(level, player.uuid, animal)
+                FamiliarHandler.bindOwnerAndFamiliar(level, player.uuid, animal)
 
                 for (i in 0..10) {
                     val offsetX = (level.random.nextDouble() - 0.5) * 0.5

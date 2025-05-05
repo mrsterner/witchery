@@ -40,6 +40,10 @@ object WitcheryCurseRegistry {
             CurseOfWalkingNightmare()
         }
 
+    val WOLF: RegistrySupplier<CurseOfWolf> = CURSES.register(Witchery.id("wolf")) {
+        CurseOfWolf()
+    }
+
     fun init() {
 
     }

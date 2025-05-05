@@ -27,6 +27,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
     private var outputItems: MutableList<ItemStack> = mutableListOf()
     private var outputEntities: MutableList<EntityType<*>> = mutableListOf()
     private var altarPower: Int = 0
+    private var covenCount: Int = 0
     private var commands: MutableSet<CommandType> = mutableSetOf()
     private var isInfinite: Boolean = false
     private var floatingItemOutput: Boolean = false
@@ -146,6 +147,11 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
 
     fun setRequireNewMoon(): RitualRecipeBuilder {
         this.celestialConditions = setOf(Celestial.NIGHT, Celestial.NEW_MOON)
+        return this
+    }
+
+    fun setCovenCount(count: Int): RitualRecipeBuilder {
+        this.covenCount = count
         return this
     }
 
@@ -342,6 +348,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             outputItems = outputItems,
             outputEntities = outputEntities,
             altarPower = altarPower,
+            covenCount = covenCount,
             commands = commands,
             isInfinite = isInfinite,
             floatingItemOutput = floatingItemOutput,

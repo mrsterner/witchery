@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mobeffect
 
-import dev.sterner.witchery.api.OnRemovedEffect
+import dev.sterner.witchery.api.interfaces.OnRemovedEffect
 import dev.sterner.witchery.platform.WitcheryPehkui
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
@@ -9,7 +9,8 @@ import virtuoel.pehkui.api.ScaleData
 import virtuoel.pehkui.api.ScaleTypes
 
 
-class ResizeMobEffect(val grow: Boolean, category: MobEffectCategory, color: Int) : MobEffect(category, color), OnRemovedEffect {
+class ResizeMobEffect(val grow: Boolean, category: MobEffectCategory, color: Int) : MobEffect(category, color),
+    OnRemovedEffect {
 
     override fun applyEffectTick(livingEntity: LivingEntity, amplifier: Int): Boolean {
         return true

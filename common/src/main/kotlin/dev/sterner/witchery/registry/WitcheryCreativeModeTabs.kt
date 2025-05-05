@@ -8,6 +8,8 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.CreativeModeTabs
+import java.util.Optional
+import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 
 object WitcheryCreativeModeTabs {
@@ -33,6 +35,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.SPINNING_WHEEL.get())
                 output.accept(WitcheryItems.BRAZIER.get())
                 output.accept(WitcheryItems.WEREWOLF_ALTAR.get())
+                output.accept(WitcheryItems.COFFIN.get())
                 output.accept(WitcheryItems.BEAR_TRAP.get())
                 output.accept(WitcheryItems.GRASSPER.get())
                 output.accept(WitcheryItems.CRITTER_SNARE.get())
@@ -78,6 +81,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.REFINED_EVIL.get())
                 output.accept(WitcheryItems.REDSTONE_SOUP.get())
                 output.accept(WitcheryItems.FLYING_OINTMENT.get())
+                output.accept(WitcheryItems.HAPPENSTANCE_OIL.get())
                 output.accept(WitcheryItems.GHOST_OF_THE_LIGHT.get())
                 output.accept(WitcheryItems.SOUL_OF_THE_WORLD.get())
                 output.accept(WitcheryItems.INFERNAL_ANIMUS.get())
@@ -145,10 +149,21 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.CHALICE.get())
                 output.accept(WitcheryItems.PENTACLE.get())
                 output.accept(WitcheryItems.WINE_GLASS.get())
-                output.accept(WitcheryItems.SEER_STONE.get())
+
+                val wineVamp = WitcheryItems.WINE_GLASS.get().defaultInstance
+                wineVamp.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
+                wineVamp.set(WitcheryDataComponents.BLOOD.get(), UUID.randomUUID())
+
+                val wineBlood = WitcheryItems.WINE_GLASS.get().defaultInstance
+                wineBlood.set(WitcheryDataComponents.BLOOD.get(), UUID.randomUUID())
+
+                output.accept(wineBlood)
+                output.accept(wineVamp)
+
                 output.accept(WitcheryItems.GRAVESTONE.get())
                 output.accept(WitcheryItems.TORN_PAGE.get())
                 output.accept(WitcheryItems.QUARTZ_SPHERE.get())
+                output.accept(WitcheryItems.SEER_STONE.get())
                 output.accept(WitcheryItems.SUN_COLLECTOR.get())
                 output.accept(WitcheryItems.BLOOD_STAINED_WOOL.get())
                 output.accept(WitcheryItems.WOVEN_CRUOR.get())
@@ -179,6 +194,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.BREW_OF_FROST.get())
                 output.accept(WitcheryItems.BREW_OF_RAISING.get())
                 output.accept(WitcheryItems.BREW_OF_SLEEPING.get())
+                output.accept(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
                 output.accept(WitcheryItems.BREW_FLOWING_SPIRIT.get())
 
                 output.accept(WitcheryItems.FLOWING_SPIRIT_BUCKET.get())
@@ -455,6 +471,7 @@ object WitcheryCreativeModeTabs {
             output.accept(WitcheryItems.REFINED_EVIL.get())
             output.accept(WitcheryItems.REDSTONE_SOUP.get())
             output.accept(WitcheryItems.FLYING_OINTMENT.get())
+            output.accept(WitcheryItems.HAPPENSTANCE_OIL.get())
             output.accept(WitcheryItems.GHOST_OF_THE_LIGHT.get())
             output.accept(WitcheryItems.SOUL_OF_THE_WORLD.get())
             output.accept(WitcheryItems.INFERNAL_ANIMUS.get())

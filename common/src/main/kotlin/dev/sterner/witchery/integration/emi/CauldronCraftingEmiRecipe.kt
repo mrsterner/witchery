@@ -6,7 +6,7 @@ import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.RenderUtils.blitWithAlpha
+import dev.sterner.witchery.util.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.crafting.Ingredient

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.mixin_logic
 
+import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.PoppetHandler.handleVampiricPoppet
 import dev.sterner.witchery.handler.PotionHandler
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
@@ -33,7 +34,7 @@ object LivingEntityMixinLogic {
         val isWereMan = entity is Player && WerewolfPlayerAttachment.getData(entity).isWolfManFormActive
         val isWere = entity is Player && WerewolfPlayerAttachment.getData(entity).isWolfFormActive
         if (!isVamp && !isWere) {
-            val barkMitigated = BarkBeltPlayerAttachment.hurt(entity, damageSource, remainingDamage)
+            val barkMitigated = BarkBeltHandler.hurt(entity, damageSource, remainingDamage)
             remainingDamage = barkMitigated.coerceAtMost(remainingDamage)
 
             if (remainingDamage > 0f) {

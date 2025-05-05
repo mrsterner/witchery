@@ -2,6 +2,7 @@ package dev.sterner.witchery.item.brew
 
 import com.google.common.base.Predicate
 import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.Direction
@@ -36,7 +37,7 @@ open class BrewItem(
 
         if (!level.isClientSide && player != null) {
             val frog =
-                FamiliarLevelAttachment.getFamiliarEntityType(player.uuid, level as ServerLevel) == EntityType.FROG
+                FamiliarHandler.getFamiliarEntityType(player.uuid, level as ServerLevel) == EntityType.FROG
 
             WitcheryApi.makePlayerWitchy(player)
             applyEffectOnSelf(player, frog)

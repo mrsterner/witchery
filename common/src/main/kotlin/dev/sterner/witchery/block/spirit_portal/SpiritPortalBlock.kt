@@ -3,6 +3,7 @@ package dev.sterner.witchery.block.spirit_portal
 import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
@@ -151,7 +152,7 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(
                     entity.inventory.add(keep.copy())
                 }
 
-                ManifestationPlayerAttachment.setManifestationTimer(entity)
+                ManifestationHandler.setManifestationTimer(entity)
                 entity.teleportTo(overworld, entity.x, entity.y, entity.z, setOf(), entity.yHeadRot, entity.xRot)
             }
         }

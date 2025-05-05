@@ -25,57 +25,63 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
         if (livingEntity is ServerPlayer && !level.isClientSide) {
             val covenSize = CovenHandler.getSummonableWitchCount(livingEntity)
             if (covenSize > 0) {
-                val box = AABB(livingEntity.blockPosition()).inflate(16.0, 8.0, 16.0)
-                val posStream = BlockPos.betweenClosedStream(box)
-
-                for (pos in posStream) {
-                    val state = level.getBlockState(pos)
-                    if (state.block is GoldenChalkBlock) {
-                        val be = level.getBlockEntity(pos)
-                        if (be is GoldenChalkBlockEntity) {
-                            val centerX = pos.x + 0.5
-                            val centerY = pos.y + 1.0
-                            val centerZ = pos.z + 0.5
-                            val radius = 4.5
-                            val angleIncrement = (2 * Math.PI) / covenSize
-
-                            for (i in 0 .. covenSize) {
-                                val angle = i * angleIncrement
-                                val targetX = centerX + radius * cos(angle)
-                                val targetZ = centerZ + radius * sin(angle)
-                                val targetPos = BlockPos.containing(targetX, centerY, targetZ)
-
-                                val spawnPos = findValidSpawnPosition(level, targetPos)
-                                if (spawnPos != null) {
-                                    val witch = CovenHandler.summonWitchFromCoven(livingEntity, i, Vec3(spawnPos.x + 0.5, spawnPos.y.toDouble(), spawnPos.z + 0.5))
-                                    witch?.setLastRitualPos(Optional.of(pos))
-                                }
-                            }
-
-                            break
-                        }
-                    }
-                }
+                summonWitchesAroundCircle(livingEntity, level, covenSize)
             }
         }
 
         return super.finishUsingItem(stack, level, livingEntity)
     }
 
-    private fun findValidSpawnPosition(level: Level, origin: BlockPos, radius: Int = 2): BlockPos? {
-        for (dy in -1..1) {
-            for (dx in -radius..radius) {
-                for (dz in -radius..radius) {
-                    val checkPos = origin.offset(dx, dy, dz)
-                    if (level.getBlockState(checkPos).canBeReplaced() && level.getBlockState(checkPos.above()).canBeReplaced()) {
-                        return checkPos
+    companion object {
+        fun summonWitchesAroundCircle(player: Player, level: Level, covenSize: Int) {
+            val box = AABB(player.blockPosition()).inflate(16.0, 8.0, 16.0)
+            val posStream = BlockPos.betweenClosedStream(box)
+
+            for (pos in posStream) {
+                val state = level.getBlockState(pos)
+                if (state.block is GoldenChalkBlock) {
+                    val be = level.getBlockEntity(pos)
+                    if (be is GoldenChalkBlockEntity) {
+                        val centerX = pos.x + 0.5
+                        val centerY = pos.y + 1.0
+                        val centerZ = pos.z + 0.5
+                        val radius = 4.5
+                        val angleIncrement = (2 * Math.PI) / covenSize
+
+                        for (i in 0 .. covenSize) {
+                            val angle = i * angleIncrement
+                            val targetX = centerX + radius * cos(angle)
+                            val targetZ = centerZ + radius * sin(angle)
+                            val targetPos = BlockPos.containing(targetX, centerY, targetZ)
+
+                            val spawnPos = findValidSpawnPosition(level, targetPos)
+                            if (spawnPos != null) {
+                                val witch = CovenHandler.summonWitchFromCoven(player, i, Vec3(spawnPos.x + 0.5, spawnPos.y.toDouble(), spawnPos.z + 0.5))
+                                witch?.setLastRitualPos(Optional.of(pos))
+                                witch?.setIsCoven(true)
+                            }
+                        }
+
+                        break
                     }
                 }
             }
         }
-        return null
-    }
 
+        private fun findValidSpawnPosition(level: Level, origin: BlockPos, radius: Int = 2): BlockPos? {
+            for (dy in -1..1) {
+                for (dx in -radius..radius) {
+                    for (dz in -radius..radius) {
+                        val checkPos = origin.offset(dx, dy, dz)
+                        if (level.getBlockState(checkPos).canBeReplaced() && level.getBlockState(checkPos.above()).canBeReplaced()) {
+                            return checkPos
+                        }
+                    }
+                }
+            }
+            return null
+        }
+    }
 
     override fun getUseAnimation(stack: ItemStack): UseAnim {
         return UseAnim.BLOCK

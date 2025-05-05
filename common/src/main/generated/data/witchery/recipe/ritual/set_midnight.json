@@ -12,6 +12,7 @@
       "command": "time set midnight"
     }
   ],
+  "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [

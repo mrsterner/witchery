@@ -28,6 +28,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
     override fun generateTranslations(registryLookup: HolderLookup.Provider?, builder: TranslationBuilder) {
         builder.add("witchery.main", "Witchery")
 
+        builder.add("death.attack.inSun", "Turned to ash but the sun")
+
         builder.add("witchery.add_page.1", "Added the first page to the key")
         builder.add("witchery.add_page.2", "Added the second page to the key")
         builder.add("witchery.add_page.3", "Added the third page to the key")
@@ -188,6 +190,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.BABA_YAGAS_HAT.get(), "Baba Yaga's Hat")
         builder.add(WitcheryItems.IMPREGNATED_FABRIC.get(), "Impregnated Fabric")
         builder.add(WitcheryItems.MUTATING_SPRING.get(), "Mutating Spring")
+        builder.add(WitcheryItems.SEER_STONE.get(), "Seer Stone")
         builder.add(WitcheryItems.BROOM.get(), "Broom")
         builder.add(WitcheryEntityTypes.BROOM.get(), "Broom")
         builder.add(WitcheryEntityTypes.DEMON.get(), "Demon")
@@ -207,6 +210,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add(WitcheryItems.CANE_SWORD.get(), "Cane Sword")
         builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
+        builder.add(WitcheryBlocks.COFFIN.get(), "Coffin")
         builder.add(WitcheryBlocks.GRASSPER.get(), "Grassper")
         builder.add(WitcheryBlocks.CRITTER_SNARE.get(), "Critter Snare")
         builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
@@ -345,6 +349,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.DREAM_WEAVER.get(), "Dream Weaver")
 
         builder.add(WitcheryItems.BREW_OF_SLEEPING.get(), "Brew of Sleeping")
+        builder.add(WitcheryItems.BREW_OF_THE_GROTESQUE.get(), "Brew of the Grotesque")
+        builder.add(WitcheryItems.HAPPENSTANCE_OIL.get(), "Happenstance Oil")
         builder.add(WitcheryItems.BREW_OF_LOVE.get(), "Brew of Love")
         builder.add(WitcheryItems.BREW_OF_INK.get(), "Brew of Ink")
         builder.add(WitcheryItems.BREW_OF_REVEALING.get(), "Brew of Revealing")
@@ -445,23 +451,23 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("entity.witchery.hawthorn_chest_boat", "Hawthorn Chest Boat")
 
 
-        builder.add("advancements.witchery.seeds.title.1", "The Start")
+        builder.add("advancements.witchery.seeds.title", "The Start")
         builder.add("advancements.witchery.seeds.description", "Expensive on Etsy")
-        builder.add("advancements.witchery.oven.title.1", "Smells nice")
+        builder.add("advancements.witchery.oven.title", "Smells nice")
         builder.add("advancements.witchery.oven.description", "In my gingerbread house")
-        builder.add("advancements.witchery.cauldron.title.1", "A Stew is due")
+        builder.add("advancements.witchery.cauldron.title", "A Stew is due")
         builder.add("advancements.witchery.cauldron.description", "Cookin'")
-        builder.add("advancements.witchery.mutandis.title.1", "Lost plants")
+        builder.add("advancements.witchery.mutandis.title", "Lost plants")
         builder.add("advancements.witchery.mutandis.description", "CRISPR those flowers")
-        builder.add("advancements.witchery.whiff_of_magic.title.1", "Wonder")
+        builder.add("advancements.witchery.whiff_of_magic.title", "Wonder")
         builder.add("advancements.witchery.whiff_of_magic.description", "Unicorn farts")
-        builder.add("advancements.witchery.chalk.title.1", "Rituals")
+        builder.add("advancements.witchery.chalk.title", "Rituals")
         builder.add("advancements.witchery.chalk.description", "And I started ritualing")
-        builder.add("advancements.witchery.necromantic.title.1", "Necromantic")
+        builder.add("advancements.witchery.necromantic.title", "Necromantic")
         builder.add("advancements.witchery.necromantic.description", "No mind to break")
-        builder.add("advancements.witchery.spirit_world.title.1", "The Spirit World")
+        builder.add("advancements.witchery.spirit_world.title", "The Spirit World")
         builder.add("advancements.witchery.spirit_world.description", "I have a dream")
-        builder.add("advancements.witchery.disturbed.title.1", "The Disturbed")
+        builder.add("advancements.witchery.disturbed.title", "The Disturbed")
         builder.add("advancements.witchery.disturbed.description", "Easy, just don't have a nightmare")
 
         builder.add("emi.category.witchery.brazier", "Brazier")
@@ -527,6 +533,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/manifestation.tooltip", "Allows you to pass through spirit portals")
         builder.add("witchery:ritual/resurrect_familiar", "Resurrect Familiar")
         builder.add("witchery:ritual/resurrect_familiar.tooltip", "A bound familiar will be revived")
+
+        builder.add("witchery.too_few_in_coven", "Coven too small")
 
         //GUIDEBOOK GENERAL
         builder.add("book.witchery.guidebook.general.name", "General")

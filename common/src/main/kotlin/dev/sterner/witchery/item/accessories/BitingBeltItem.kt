@@ -1,7 +1,7 @@
 package dev.sterner.witchery.item.accessories
 
 import dev.architectury.event.EventResult
-import dev.sterner.witchery.api.AccessoryItem
+import dev.sterner.witchery.api.interfaces.AccessoryItem
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems

@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.player.Player
 
 object VampireAbilityHandler : AbilityHandler<VampireAbility> {
+
     override val abilityIndex: Int
         get() = VampirePlayerAttachment.getData(Minecraft.getInstance().player!!).abilityIndex
 
@@ -89,8 +90,14 @@ object VampireAbilityHandler : AbilityHandler<VampireAbility> {
         setSpeedBoost(player, !VampirePlayerAttachment.getData(player).isSpeedBoostActive)
     }
 
-    fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult? {
-        val player = minecraft?.player
-        return player?.let { AbilityScrollHandler().handleScroll(it, y, VampireAbilityHandler) }
+    fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult {
+        val player = minecraft?.player ?: return EventResult.pass()
+
+        // Get player's current abilities
+        val abilities = getAbilities(player)
+        if (abilities.isEmpty()) return EventResult.pass()
+
+        // Handle scrolling with modified logic
+        return AbilityScrollHandler().handleScroll(player, y, this)
     }
 }
