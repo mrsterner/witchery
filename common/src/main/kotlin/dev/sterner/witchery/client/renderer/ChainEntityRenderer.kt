@@ -78,20 +78,45 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
 
                 when (chainState) {
                     ChainEntity.ChainState.EXTENDING -> {
+                        // Calculate current head distance along path to target
                         val headDist = distance * headPosition
 
+                        // Calculate how many links we can currently show based on the head position
                         val currentVisibleLinks = min(ceil(headDist / linkLength).toInt(), visibleLinks)
+
+                        // Always track current target position, not initial position
+                        // This ensures the chain adapts if target moves during extension
+                        val currentTargetPos = targetPos
+                        val currentDirection = currentTargetPos.subtract(startPos)
+                        val currentDistance = currentDirection.length()
+                        val currentNormalizedDir = if (currentDistance > 0) currentDirection.normalize() else normalizedDir
 
                         val linkPositions = ArrayList<Vec3>()
 
+                        // Calculate a dynamic head position that's capped by the current headPosition
+                        val dynamicHeadPos = startPos.add(currentNormalizedDir.scale(headDist.coerceAtMost(currentDistance)))
+
                         for (i in 0 until currentVisibleLinks) {
-                            val linkOffset = i * linkLength
-                            val shiftedPosition = startPos.add(
-                                normalizedDir.scale(max(0.0, headDist - linkOffset))
+                            // Here's the key fix - always start from the chain entity's position
+                            // This ensures the chain stays anchored to the chain entity even as it tracks the target's movement
+                            val linkProgress = i.toFloat() / max(1, currentVisibleLinks).toFloat()
+
+                            // Calculate the maximum allowed extension for this link
+                            val maxExtensionPct = headPosition // 0->1 normalized extension
+                            val cappedProgress = min(linkProgress, maxExtensionPct) // don't extend past head
+
+                            // Position is always interpolated from start toward dynamic head position
+                            // that tracks the target's current position
+                            val shiftedPosition = lerpVec3(
+                                cappedProgress * (currentVisibleLinks.toFloat() / visibleLinks.toFloat()),
+                                startPos,
+                                dynamicHeadPos
                             )
 
                             linkPositions.add(shiftedPosition)
                         }
+
+                        // Rendering code remains the same...
 
                         for (i in linkPositions.indices.reversed()) {
                             renderSingleLink(
@@ -142,24 +167,42 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
                     }
 
                     ChainEntity.ChainState.RETRACTING -> {
-                        val headDist = distance * headPosition
-                        val headPos = startPos.add(normalizedDir.scale(headDist))
-
+                        // Account for targets that resist being pulled by always tracking their actual position
                         val retractFactor = 1.0f - retractProgress
                         val currentVisibleLinks = (visibleLinks * retractFactor).toInt()
 
                         if (currentVisibleLinks > 0) {
-
                             val linkPositions = ArrayList<Vec3>()
 
-                            for (i in 0 until currentVisibleLinks) {
-                                val linkOffset = i * linkLength * (1.0f + retractProgress * 0.5f)
+                            // Even if the target couldn't be moved, we still need to maintain a valid chain
+                            // Use the actual current position of the target, not the theoretical position
+                            val currentTargetPos = targetPos
+                            val currentDirection = currentTargetPos.subtract(startPos)
+                            val currentDistance = currentDirection.length()
+                            val currentNormalizedDir = if (currentDistance > 0) currentDirection.normalize() else normalizedDir
 
-                                val shiftedPosition = headPos.subtract(
-                                    normalizedDir.scale(min(headDist, linkOffset))
+                            // Calculate a blend factor - as we retract, we pull more toward the chain entity
+                            // but we still track the target's actual position to handle resistance
+                            val pullBlend = min(retractProgress * 2.0f, 1.0f) // 0->1 during first half of retraction
+
+                            // Adjusted target position that moves toward the chain entity based on retraction progress
+                            val adjustedTargetPos = lerpVec3(
+                                pullBlend,
+                                currentTargetPos,
+                                startPos.add(currentNormalizedDir.scale(currentDistance * 0.3f)) // Pull 70% of the way
+                            )
+
+                            for (i in 0 until currentVisibleLinks) {
+                                val linkProgress = i.toFloat() / max(1, currentVisibleLinks).toFloat()
+
+                                // Interpolate from chain entity to the adjusted target position
+                                val linkPos = lerpVec3(
+                                    linkProgress,
+                                    startPos,
+                                    adjustedTargetPos
                                 )
 
-                                linkPositions.add(shiftedPosition)
+                                linkPositions.add(linkPos)
                             }
 
                             for (i in linkPositions.indices) {
@@ -184,6 +227,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
                             }
                         }
                     }
+
 
                     else -> {}
                 }

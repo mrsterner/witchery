@@ -21,6 +21,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import java.util.*
+import kotlin.math.pow
 
 class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level) {
 
@@ -102,39 +103,49 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
             }
 
             ChainState.RETRACTING -> {
-                val progress = entityData.get(RETRACT_PROGRESS) + retractionSpeed
-                entityData.set(RETRACT_PROGRESS, progress.coerceAtMost(1.0f))
-
-                if (progress > 0.8f) {
-                    val headPullRate = retractionSpeed * 5f
-                    val currentHead = entityData.get(HEAD_POSITION)
-                    val newHead = currentHead - headPullRate
-                    entityData.set(HEAD_POSITION, newHead.coerceAtLeast(0f))
-                }
-
                 targetEntity?.let { target ->
                     if (target is LivingEntity) {
                         val origin = position()
-                        val toOrigin = origin.subtract(target.position())
-                        if (toOrigin.length() < 0.3) {
+                        val targetPos = target.position()
+                        val toOrigin = origin.subtract(targetPos)
+                        val distance = toOrigin.length()
+
+                        // Check if entities are colliding using bounding boxes
+                        if (this.boundingBox.intersects(target.boundingBox)) {
                             setChainState(ChainState.FINISHED)
-                            runDiscard(targetEntity)
                             return@let
                         }
 
-                        val adjusted = Vec3(toOrigin.x, toOrigin.y, toOrigin.z)
+                        // Advance retraction progress proportional to the actual pull
+                        // This ensures the visual and physics stay synchronized
+                        val progressIncrement = if (distance > 2.0) {
+                            retractionSpeed * 0.5f  // Slow the visual retraction at a distance
+                        } else {
+                            retractionSpeed * 0.8f  // Slightly faster when closer
+                        }
 
-                        val maxPullPerTick = 0.65
+                        val progress = entityData.get(RETRACT_PROGRESS) + progressIncrement
+                        entityData.set(RETRACT_PROGRESS, progress.coerceAtMost(1.0f))
+
+                        // Keep the head position at 1.0 (fully extended) until later in the retraction
+                        if (progress <= 0.5f) {
+                            entityData.set(HEAD_POSITION, 1.0f)
+                        } else {
+                            // Slower head retraction that's tied to the actual distance
+                            val targetDistanceFactor = (distance / (distance + 2.0)).coerceIn(0.0, 1.0)
+                            val headPos = targetDistanceFactor.toFloat()
+                            entityData.set(HEAD_POSITION, headPos)
+                        }
+
+                        // Apply force to the target - make this stronger to match visual speed
+                        val adjusted = Vec3(toOrigin.x, toOrigin.y, toOrigin.z)
+                        val maxPullPerTick = 0.75  // Increased from 0.65
                         val clamped = adjusted.length().coerceAtMost(maxPullPerTick)
-                        val pullVector = adjusted.normalize().scale(clamped * pullStrength)
+                        val pullVector = adjusted.normalize().scale(clamped * pullStrength * 1.2f)  // 20% stronger pull
 
                         target.deltaMovement = target.deltaMovement.add(pullVector)
                         target.fallDistance = 0f
                     }
-                }
-
-                if (progress >= 1.0f) {
-                    setChainState(ChainState.FINISHED)
                 }
             }
 
