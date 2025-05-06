@@ -1,21 +1,21 @@
 package dev.sterner.witchery.api
 
 import dev.sterner.witchery.entity.ChainEntity
+import net.minecraft.world.phys.Vec3
 
-// EntityChainInterface.kt
 interface EntityChainInterface {
     /**
-     * Called when the entity is being restrained by a chain
+     * Add a chain entity that is restraining this entity
      */
-    fun `witchery$restrainMovement`(chainEntity: ChainEntity)
+    fun `witchery$restrainMovement`(chainEntity: ChainEntity, totalRestrain: Boolean)
 
     /**
-     * Check if this entity is currently restrained by any chains
+     * Check if this entity is currently restrained by chains
      */
     fun `witchery$isRestrained`(): Boolean
 
     /**
-     * Get the chains that are currently restraining this entity
+     * Get all chains currently restraining this entity
      */
     fun `witchery$getRestrainingChains`(): List<ChainEntity>
 }

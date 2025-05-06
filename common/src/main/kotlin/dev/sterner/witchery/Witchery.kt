@@ -20,6 +20,7 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
+import dev.sterner.witchery.api.TickTaskScheduler
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.api.event.SleepingEvent
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
@@ -201,6 +202,9 @@ object Witchery {
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)
         TickEvent.PLAYER_PRE.register(BarkBeltHandler::tick)
+        TickEvent.SERVER_POST.register {
+            TickTaskScheduler.tick()
+        }
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 

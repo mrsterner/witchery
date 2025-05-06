@@ -2,7 +2,10 @@ package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.datafixers.util.Pair;
+import dev.sterner.witchery.api.EntityChainInterface;
 import dev.sterner.witchery.api.interfaces.OnRemovedEffect;
+import dev.sterner.witchery.entity.ChainEntity;
 import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.mixin_logic.LivingEntityMixinLogic;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
@@ -10,18 +13,28 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
+public class LivingEntityMixin implements EntityChainInterface {
 
     @Unique
     private boolean witchery$shouldUpdateDim = true;
+    @Unique
+    private final List<Pair<ChainEntity, Boolean>> witchery$restrainingChains = new ArrayList<>();
+    @Unique
+    private boolean witchery$restrained = false;
 
     @ModifyReturnValue(method = "getDamageAfterArmorAbsorb", at = @At("RETURN"))
     private float witchery$modifyHurt(float original, @Local(argsOnly = true) DamageSource damageSource) {
@@ -75,6 +88,58 @@ public class LivingEntityMixin {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
         if (instance.getEffect().value() instanceof OnRemovedEffect removedEffect) {
             removedEffect.onRemovedEffect(livingEntity);
+        }
+    }
+
+    @Override
+    public void witchery$restrainMovement(@NotNull ChainEntity chainEntity, boolean totalRestrict) {
+        witchery$restrainingChains.removeIf(pair -> pair.getFirst().equals(chainEntity));
+
+        witchery$restrainingChains.add(Pair.of(chainEntity, totalRestrict));
+
+        witchery$restrained = true;
+    }
+
+    @Override
+    public boolean witchery$isRestrained() {
+        witchery$restrainingChains.removeIf(pair -> pair.getFirst().isRemoved());
+
+        witchery$restrained = !witchery$restrainingChains.isEmpty();
+        return witchery$restrained;
+    }
+
+    @Override
+    public @NotNull List<ChainEntity> witchery$getRestrainingChains() {
+        witchery$restrainingChains.removeIf(pair -> pair.getFirst().isRemoved());
+
+        return witchery$restrainingChains.stream()
+                .map(Pair::getFirst)
+                .toList();
+    }
+
+    @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
+    private void witchery$onTravel(Vec3 travelVector, CallbackInfo ci) {
+        if (witchery$isRestrained()) {
+            LivingEntity self = (LivingEntity) (Object) this;
+            self.walkAnimation.setSpeed(0);
+            self.walkAnimation.update(0, 0.0F);
+            if (self instanceof Mob mob) {
+                mob.getNavigation().stop();
+            }
+            if (witchery$restrainingChains.stream().anyMatch(Pair::getSecond)) {
+                ci.cancel();
+            }
+        }
+    }
+
+    @Inject(method = "aiStep", at = @At("HEAD"))
+    private void witchery$restrainMotion(CallbackInfo ci) {
+        if (witchery$isRestrained()) {
+            LivingEntity self = (LivingEntity)(Object) this;
+            self.zza = 0.0F;
+            self.xxa = 0.0F;
+            self.yya = 0.0F;
+            self.setJumping(false);
         }
     }
 }

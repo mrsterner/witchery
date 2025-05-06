@@ -15,21 +15,31 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.phys.Vec3
-import kotlin.math.atan2
-import kotlin.math.ceil
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRenderer<ChainEntity>(context) {
 
     private val chainModel = ChainModel(context.bakeLayer(ChainModel.LAYER_LOCATION))
 
-    private val chainLinkLength = 0.35f * 1.5
-    private val chainOverlap = 0.15f * 1.5
-    private val effectiveLinkLength = chainLinkLength - chainOverlap
-
     private val swayAmplitude = 5.0f
     private val swaySpeed = 0.05f
+
+    private val chainLinkLength = 0.35f * 1.5
+    private val chainOverlap = 0.15f * 1.5
+    private val linkLength = chainLinkLength - chainOverlap
+
+    private val particleFrequency = 0.3f  // How often particles spawn (0-1)
+
+    override fun getTextureLocation(entity: ChainEntity): ResourceLocation {
+        return Witchery.id("textures/entity/chain.png")
+    }
+
+    private fun lerpVec3(t: Float, start: Vec3, end: Vec3): Vec3 {
+        val x = start.x + (end.x - start.x) * t
+        val y = start.y + (end.y - start.y) * t
+        val z = start.z + (end.z - start.z) * t
+        return Vec3(x, y, z)
+    }
 
     override fun render(
         entity: ChainEntity,
@@ -48,67 +58,135 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
 
             val directionVec = targetPos.subtract(startPos)
             val distance = directionVec.length()
-
-            val numLinks = max(ceil(distance / effectiveLinkLength).toInt())
-
             val normalizedDir = directionVec.normalize()
 
-            val yaw = atan2(normalizedDir.x, normalizedDir.z) * (180f / Math.PI)
-            val pitch = atan2(normalizedDir.y, sqrt(normalizedDir.x * normalizedDir.x + normalizedDir.z * normalizedDir.z)) * (180f / Math.PI)
+            val chainState = entity.getChainState()
+            val retractProgress = entity.getRetractProgress()
+            val headPosition = entity.getHeadPosition()
 
-            poseStack.translate(-0.0, -0.75, -0.0)
 
-            val worldTime = entity.level().gameTime
+            val rawLinkCount = entity.getRawLinkCount()
+            val visibleLinks = floor(rawLinkCount).toInt()
 
-            for (i in 1 until numLinks) {
-                poseStack.pushPose()
+            if (rawLinkCount > 0) {
+                val yaw = atan2(normalizedDir.x, normalizedDir.z) * (180f / Math.PI)
+                val pitch = atan2(normalizedDir.y, sqrt(normalizedDir.x * normalizedDir.x + normalizedDir.z * normalizedDir.z)) * (180f / Math.PI)
 
-                val linkPos = startPos.add(normalizedDir.scale(i * effectiveLinkLength))
-                poseStack.translate(
-                    linkPos.x - entity.x,
-                    linkPos.y - entity.y,
-                    linkPos.z - entity.z
-                )
+                poseStack.translate(-0.0, -1.0, -0.0)
 
-                poseStack.mulPose(Axis.YP.rotationDegrees(yaw.toFloat() - 90f))
-                poseStack.mulPose(Axis.ZP.rotationDegrees(pitch.toFloat()))
+                val worldTime = entity.level().gameTime
 
-                val animationOffset = (i * 0.5f) + (worldTime + partialTick) * swaySpeed
-                val swayAngle = sin(animationOffset) * swayAmplitude * (i.toFloat() / numLinks)
+                when (chainState) {
+                    ChainEntity.ChainState.EXTENDING -> {
+                        val headDist = distance * headPosition
 
-                if (i % 2 == 0) {
-                    poseStack.mulPose(Axis.XP.rotationDegrees(swayAngle))
-                } else {
-                    poseStack.mulPose(Axis.ZP.rotationDegrees(swayAngle))
+                        val currentVisibleLinks = min(ceil(headDist / linkLength).toInt(), visibleLinks)
+
+                        val linkPositions = ArrayList<Vec3>()
+
+                        for (i in 0 until currentVisibleLinks) {
+                            val linkOffset = i * linkLength
+                            val shiftedPosition = startPos.add(
+                                normalizedDir.scale(max(0.0, headDist - linkOffset))
+                            )
+
+                            linkPositions.add(shiftedPosition)
+                        }
+
+                        for (i in linkPositions.indices.reversed()) {
+                            renderSingleLink(
+                                entity,
+                                linkPositions[i],
+                                i,
+                                worldTime,
+                                partialTick,
+                                yaw.toFloat(),
+                                pitch.toFloat(),
+                                i.toFloat() / currentVisibleLinks.toFloat(),
+                                poseStack,
+                                bufferSource,
+                                packedLight,
+                                1.5f
+                            )
+
+                            if (i == 0 || entity.level().random.nextFloat() < particleFrequency) {
+                                spawnChainParticles(entity, linkPositions[i])
+                            }
+                        }
+                    }
+
+                    ChainEntity.ChainState.CONNECTED -> {
+                        for (i in 0 until visibleLinks) {
+                            val linkProgress = i.toFloat() / visibleLinks.toFloat()
+                            val linkPos = lerpVec3(linkProgress, startPos, targetPos)
+
+                            renderSingleLink(
+                                entity,
+                                linkPos,
+                                i,
+                                worldTime,
+                                partialTick,
+                                yaw.toFloat(),
+                                pitch.toFloat(),
+                                linkProgress,
+                                poseStack,
+                                bufferSource,
+                                packedLight,
+                                1.0f
+                            )
+
+                            if (entity.level().random.nextFloat() < particleFrequency) {
+                                spawnChainParticles(entity, linkPos)
+                            }
+                        }
+                    }
+
+                    ChainEntity.ChainState.RETRACTING -> {
+                        val headDist = distance * headPosition
+                        val headPos = startPos.add(normalizedDir.scale(headDist))
+
+                        val retractFactor = 1.0f - retractProgress
+                        val currentVisibleLinks = (visibleLinks * retractFactor).toInt()
+
+                        if (currentVisibleLinks > 0) {
+
+                            val linkPositions = ArrayList<Vec3>()
+
+                            for (i in 0 until currentVisibleLinks) {
+                                val linkOffset = i * linkLength * (1.0f + retractProgress * 0.5f)
+
+                                val shiftedPosition = headPos.subtract(
+                                    normalizedDir.scale(min(headDist, linkOffset))
+                                )
+
+                                linkPositions.add(shiftedPosition)
+                            }
+
+                            for (i in linkPositions.indices) {
+                                renderSingleLink(
+                                    entity,
+                                    linkPositions[i],
+                                    i,
+                                    worldTime,
+                                    partialTick,
+                                    yaw.toFloat(),
+                                    pitch.toFloat(),
+                                    i.toFloat() / currentVisibleLinks.toFloat(),
+                                    poseStack,
+                                    bufferSource,
+                                    packedLight,
+                                    1.8f
+                                )
+
+                                if (i == linkPositions.lastIndex || entity.level().random.nextFloat() < particleFrequency * 1.5f) {
+                                    spawnChainParticles(entity, linkPositions[i])
+                                }
+                            }
+                        }
+                    }
+
+                    else -> {}
                 }
-
-                poseStack.scale(0.75f, 0.75f, 0.75f)
-
-                if (i % 2 == 1) {
-                    poseStack.translate(-2.0f, 21/16f, 0.0f)
-                    poseStack.mulPose(Axis.XP.rotationDegrees(90f))
-                    poseStack.translate(2.0f, -21/16f, 0.0f)
-                }
-
-                chainModel.chain.render(
-                    poseStack,
-                    bufferSource.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(entity))),
-                    packedLight,
-                    OverlayTexture.NO_OVERLAY,
-                    -1
-                )
-
-                chainModel.overlay.render(
-                    poseStack,
-                    bufferSource.getBuffer(WitcheryRenderTypes.CHAIN.apply(getTextureLocation(entity))),
-                    packedLight,
-                    OverlayTexture.NO_OVERLAY,
-                    -1
-                )
-
-                spawnChainParticles(entity, linkPos, 1)
-
-                poseStack.popPose()
             }
         }
 
@@ -117,46 +195,118 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight)
     }
 
-    /**
-     * Spawn particles around the chain links
-     */
-    private fun spawnChainParticles(entity: ChainEntity, linkPos: Vec3, count: Int) {
-        val level = entity.level()
+    private fun renderSingleLink(
+        entity: ChainEntity,
+        linkPos: Vec3,
+        linkIndex: Int,
+        worldTime: Long,
+        partialTick: Float,
+        yaw: Float,
+        pitch: Float,
+        linkProgress: Float,
+        poseStack: PoseStack,
+        bufferSource: MultiBufferSource,
+        packedLight: Int,
+        swayMultiplier: Float
+    ) {
+        poseStack.pushPose()
 
+        poseStack.translate(
+            linkPos.x - entity.x,
+            linkPos.y - entity.y,
+            linkPos.z - entity.z
+        )
 
-        if (entity.random.nextFloat() > 0.1f) return
+        poseStack.translate(0.0, 1.5, 0.0)
+        poseStack.mulPose(Axis.YP.rotationDegrees(yaw - 90f))
+        poseStack.mulPose(Axis.ZP.rotationDegrees(pitch))
+        poseStack.translate(0.0, -1.5, 0.0)
 
-        for (i in 0 until count) {
-            val offsetX: Float = (entity.random.nextFloat() - 0.5f) * 0.2f
-            val offsetY: Float = (entity.random.nextFloat() - 0.5f) * 0.2f
-            val offsetZ: Float = (entity.random.nextFloat() - 0.5f) * 0.2f
+        val animationOffset = (linkIndex * 0.5f) + (worldTime + partialTick) * swaySpeed
+        val swayAngle = sin(animationOffset) * swayAmplitude * linkProgress * swayMultiplier
 
-            val velX: Double = (entity.random.nextDouble() - 0.5f) * 0.02f
-            val velY: Double = entity.random.nextDouble() * 0.02f
-            val velZ: Double = (entity.random.nextDouble() - 0.5f) * 0.02f
-
-            if (entity.random.nextDouble() < 0.2) {
-                level.addParticle(
-                    ParticleTypes.SMOKE,
-                    linkPos.x + offsetX,
-                    linkPos.y + offsetY + 0.25,
-                    linkPos.z + offsetZ,
-                    velX, velY, velZ
-                )
-
-                level.addParticle(
-                    ParticleTypes.DRAGON_BREATH,
-                    linkPos.x + offsetX,
-                    linkPos.y + offsetY + 0.25,
-                    linkPos.z + offsetZ,
-                    velX, velY, velZ
-                )
-            }
+        if (linkIndex % 2 == 0) {
+            poseStack.mulPose(Axis.XP.rotationDegrees(swayAngle))
+        } else {
+            poseStack.mulPose(Axis.ZP.rotationDegrees(swayAngle))
         }
+
+        val baseScale = 0.75f
+        poseStack.scale(baseScale, baseScale, baseScale)
+
+        if (linkIndex % 2 == 1) {
+            poseStack.translate(-2.0f, 21/16f, 0.0f)
+            poseStack.mulPose(Axis.XP.rotationDegrees(90f))
+            poseStack.translate(2.0f, -21/16f, 0.0f)
+        }
+
+        chainModel.chain.render(
+            poseStack,
+            bufferSource.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(entity))),
+            packedLight,
+            OverlayTexture.NO_OVERLAY,
+            -1
+        )
+
+        chainModel.overlay.render(
+            poseStack,
+            bufferSource.getBuffer(WitcheryRenderTypes.CHAIN.apply(getTextureLocation(entity))),
+            packedLight,
+            OverlayTexture.NO_OVERLAY,
+            -1
+        )
+
+        poseStack.popPose()
     }
 
-    override fun getTextureLocation(entity: ChainEntity): ResourceLocation {
-        return Witchery.id("textures/entity/chain.png")
+
+    /**
+     * Spawns particles around a position based on chain state
+     */
+    private fun spawnChainParticles(entity: ChainEntity, pos: Vec3, count: Int = 1) {
+        val level = entity.level()
+        val random = level.random
+
+        for (i in 0 until count) {
+            val offsetX = (random.nextFloat() - 0.5f) * 0.5f
+            val offsetY = (random.nextFloat() - 0.5f) * 0.5f
+            val offsetZ = (random.nextFloat() - 0.5f) * 0.5f
+
+            val chainState = entity.getChainState()
+
+            val particlePos = Vec3(
+                pos.x + offsetX,
+                pos.y + offsetY,
+                pos.z + offsetZ
+            )
+
+            if (random.nextFloat() < 0.1f) {
+                level.addParticle(
+                    ParticleTypes.SMOKE,
+                    particlePos.x, particlePos.y, particlePos.z,
+                    0.0, 0.0, 0.0
+                )
+
+                when (chainState) {
+                    ChainEntity.ChainState.EXTENDING -> {
+                        level.addParticle(
+                            ParticleTypes.WITCH,
+                            particlePos.x, particlePos.y, particlePos.z,
+                            0.0, 0.05, 0.0
+                        )
+                    }
+                    ChainEntity.ChainState.RETRACTING -> {
+                        level.addParticle(
+                            ParticleTypes.WITCH,
+                            particlePos.x, particlePos.y, particlePos.z,
+                            offsetX * 0.1, 0.05, offsetZ * 0.1
+                        )
+                    }
+                    else -> {
+                    }
+                }
+            }
+        }
     }
 
     override fun shouldRender(
@@ -173,9 +323,5 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
         }
 
         return super.shouldRender(livingEntity, camera, camX, camY, camZ)
-    }
-
-    private fun max(b: Int): Int {
-        return if (1 > b) 1 else b
     }
 }
