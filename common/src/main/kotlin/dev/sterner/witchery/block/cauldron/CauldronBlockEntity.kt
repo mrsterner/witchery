@@ -104,21 +104,25 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         val allRecipesOfType = level.recipeManager
             .getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
             .filter { recipe ->
-                recipe.value.dimensionKey.isNotEmpty() && recipe.value.dimensionKey.contains(
-                    level.dimension().location().toString()
-                )
-            }
-        val nonEmptyItems = inputItems.filter { !it.isEmpty }
+                val dimensions = recipe.value.dimensionKey
+                val noRequirement = dimensions.isEmpty() || (dimensions.size == 1 && dimensions.contains(""))
+                val currentDimension = level.dimension().location().toString()
 
+                noRequirement || dimensions.contains(currentDimension)
+            }
+
+        val nonEmptyItems = inputItems.filter { !it.isEmpty }
         // Find the possible recipe based on current input items
         val possibleRecipe =
             allRecipesOfType.firstOrNull { it.value.matches(MultipleItemRecipeInput(nonEmptyItems), level) }
 
         // If a recipe is found and the order is correct, set cauldronBrewingRecipe
         possibleRecipe?.let { recipe ->
+            println(recipe.id)
             val isOrderCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
 
             if (isOrderCorrect) {
+                println(recipe.id)
                 cauldronBrewingRecipe = recipe.value // Set the recipe even if incomplete
                 complete = nonEmptyItems.size == recipe.value.inputItems.size // Only complete if all items are matched
             } else {
@@ -332,6 +336,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         if (!colorSet) {
             allBrewingRecipes.forEach { recipe ->
                 recipe.value.inputItems.forEach { ingredientWithColor ->
+
                     // Check if the ingredient matches and the order is correct
                     val orderIsCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
                     if (ItemStack.isSameItem(ingredientWithColor.itemStack, cacheForColorItem) && orderIsCorrect) {
@@ -466,6 +471,8 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
 
     private fun handleGlassBottleInteraction(pPlayer: Player, pStack: ItemStack): ItemInteractionResult {
+        println(witcheryPotionItemCache)
+
         if (witcheryPotionItemCache.isNotEmpty() && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
             pStack.shrink(1)
             WitcheryApi.makePlayerWitchy(pPlayer)
