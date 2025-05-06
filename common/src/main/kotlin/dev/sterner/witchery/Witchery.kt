@@ -20,7 +20,7 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
-import dev.sterner.witchery.api.TickTaskScheduler
+import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.api.event.SleepingEvent
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
@@ -63,6 +63,7 @@ import dev.sterner.witchery.platform.transformation.*
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryDataComponents.UNSHEETED
 import dev.sterner.witchery.registry.WitcheryItems.CANE_SWORD
+import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
@@ -205,6 +206,9 @@ object Witchery {
         TickEvent.SERVER_POST.register {
             TickTaskScheduler.tick()
         }
+
+        BindSpectralCreaturesRitual.registerChainEvents()
+
 
         LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
 

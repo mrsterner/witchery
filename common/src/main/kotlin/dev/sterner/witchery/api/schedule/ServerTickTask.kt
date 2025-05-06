@@ -1,4 +1,4 @@
-package dev.sterner.witchery.api
+package dev.sterner.witchery.api.schedule
 
 
 class ServerTickTask(private var ticksRemaining: Int, private val task: Runnable) : DelayedTask {

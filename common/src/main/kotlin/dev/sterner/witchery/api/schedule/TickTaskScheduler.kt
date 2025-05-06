@@ -1,4 +1,4 @@
-package dev.sterner.witchery.api
+package dev.sterner.witchery.api.schedule
 
 object TickTaskScheduler {
     private val tasks = mutableListOf<ServerTickTask>()

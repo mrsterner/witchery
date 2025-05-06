@@ -28,8 +28,8 @@ class EffigyBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         packedLight: Int,
         packedOverlay: Int
     ) {
-        val spectreCount = 2//blockEntity.specterCount.coerceAtMost(5)
-        val bansheeCount = 3//blockEntity.bansheeCount.coerceAtMost(5)
+        val spectreCount = blockEntity.specterCount.coerceAtMost(5)
+        val bansheeCount = blockEntity.bansheeCount.coerceAtMost(5)
 
         val spectreY = 1.2f
         val bansheeY = 0.8f

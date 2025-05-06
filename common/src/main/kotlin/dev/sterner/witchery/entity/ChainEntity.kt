@@ -1,6 +1,7 @@
 package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.api.EntityChainInterface
+import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.handler.ChainManager
 import dev.sterner.witchery.payload.SyncChainS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
@@ -64,6 +65,9 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
 
     override fun tick() {
         super.tick()
+        if (level().isClientSide) {
+            return
+        }
 
         if (targetEntity == null && targetEntityId.isPresent && level() is ServerLevel) {
             targetEntity = (level() as ServerLevel).getEntity(targetEntityId.get())
@@ -114,8 +118,7 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
                         val toOrigin = origin.subtract(target.position())
                         if (toOrigin.length() < 0.3) {
                             setChainState(ChainState.FINISHED)
-                            ChainManager.tryReleaseEntity(this, target)
-                            discard()
+                            runDiscard(targetEntity)
                             return@let
                         }
 
@@ -132,29 +135,26 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
 
                 if (progress >= 1.0f) {
                     setChainState(ChainState.FINISHED)
-
-                    targetEntity?.let { target ->
-                        ChainManager.tryReleaseEntity(this, target)
-                    }
-
-                    discard()
                 }
             }
 
             ChainState.FINISHED -> {
-                discard()
+                runDiscard(targetEntity)
             }
         }
 
         if (life > 0) {
             life--
             if (life <= 0) {
-                targetEntity?.let { target ->
-                    ChainManager.tryReleaseEntity(this, target)
-                }
-                discard()
+                runDiscard(targetEntity)
             }
         }
+    }
+
+    private fun runDiscard(targetEntity: Entity?) {
+        targetEntity?.let { ChainManager.tryReleaseEntity(this, it) }
+        ChainEvent.ON_DISCARD.invoker().invoke(targetEntity, this)
+        discard()
     }
 
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
