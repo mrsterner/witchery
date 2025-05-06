@@ -12,18 +12,24 @@ import net.minecraft.client.renderer.culling.Frustum
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.phys.Vec3
 import kotlin.math.atan2
 import kotlin.math.ceil
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRenderer<ChainEntity>(context) {
 
     private val chainModel = ChainModel(context.bakeLayer(ChainModel.LAYER_LOCATION))
 
-    private val CHAIN_LINK_LENGTH = 0.35f * 1.5
-    private val CHAIN_OVERLAP = 0.15f * 1.5
-    private val EFFECTIVE_LINK_LENGTH = CHAIN_LINK_LENGTH - CHAIN_OVERLAP
+    private val chainLinkLength = 0.35f * 1.5
+    private val chainOverlap = 0.15f * 1.5
+    private val effectiveLinkLength = chainLinkLength - chainOverlap
+
+    private val swayAmplitude = 5.0f
+    private val swaySpeed = 0.05f
 
     override fun render(
         entity: ChainEntity,
@@ -43,7 +49,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
             val directionVec = targetPos.subtract(startPos)
             val distance = directionVec.length()
 
-            val numLinks = max(ceil(distance / EFFECTIVE_LINK_LENGTH).toInt())
+            val numLinks = max(ceil(distance / effectiveLinkLength).toInt())
 
             val normalizedDir = directionVec.normalize()
 
@@ -51,10 +57,13 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
             val pitch = atan2(normalizedDir.y, sqrt(normalizedDir.x * normalizedDir.x + normalizedDir.z * normalizedDir.z)) * (180f / Math.PI)
 
             poseStack.translate(-0.0, -0.75, -0.0)
+
+            val worldTime = entity.level().gameTime
+
             for (i in 1 until numLinks) {
                 poseStack.pushPose()
 
-                val linkPos = startPos.add(normalizedDir.scale((i * EFFECTIVE_LINK_LENGTH).toDouble()))
+                val linkPos = startPos.add(normalizedDir.scale(i * effectiveLinkLength))
                 poseStack.translate(
                     linkPos.x - entity.x,
                     linkPos.y - entity.y,
@@ -63,6 +72,15 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
 
                 poseStack.mulPose(Axis.YP.rotationDegrees(yaw.toFloat() - 90f))
                 poseStack.mulPose(Axis.ZP.rotationDegrees(pitch.toFloat()))
+
+                val animationOffset = (i * 0.5f) + (worldTime + partialTick) * swaySpeed
+                val swayAngle = sin(animationOffset) * swayAmplitude * (i.toFloat() / numLinks)
+
+                if (i % 2 == 0) {
+                    poseStack.mulPose(Axis.XP.rotationDegrees(swayAngle))
+                } else {
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(swayAngle))
+                }
 
                 poseStack.scale(0.75f, 0.75f, 0.75f)
 
@@ -88,6 +106,8 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
                     -1
                 )
 
+                spawnChainParticles(entity, linkPos, 1)
+
                 poseStack.popPose()
             }
         }
@@ -95,6 +115,44 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
         poseStack.popPose()
 
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight)
+    }
+
+    /**
+     * Spawn particles around the chain links
+     */
+    private fun spawnChainParticles(entity: ChainEntity, linkPos: Vec3, count: Int) {
+        val level = entity.level()
+
+
+        if (entity.random.nextFloat() > 0.1f) return
+
+        for (i in 0 until count) {
+            val offsetX: Float = (entity.random.nextFloat() - 0.5f) * 0.2f
+            val offsetY: Float = (entity.random.nextFloat() - 0.5f) * 0.2f
+            val offsetZ: Float = (entity.random.nextFloat() - 0.5f) * 0.2f
+
+            val velX: Double = (entity.random.nextDouble() - 0.5f) * 0.02f
+            val velY: Double = entity.random.nextDouble() * 0.02f
+            val velZ: Double = (entity.random.nextDouble() - 0.5f) * 0.02f
+
+            if (entity.random.nextDouble() < 0.2) {
+                level.addParticle(
+                    ParticleTypes.SMOKE,
+                    linkPos.x + offsetX,
+                    linkPos.y + offsetY + 0.25,
+                    linkPos.z + offsetZ,
+                    velX, velY, velZ
+                )
+
+                level.addParticle(
+                    ParticleTypes.DRAGON_BREATH,
+                    linkPos.x + offsetX,
+                    linkPos.y + offsetY + 0.25,
+                    linkPos.z + offsetZ,
+                    velX, velY, velZ
+                )
+            }
+        }
     }
 
     override fun getTextureLocation(entity: ChainEntity): ResourceLocation {
