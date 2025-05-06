@@ -43,7 +43,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
 
         val targetEntity = entity.getTargetEntity()
         if (targetEntity != null) {
-            val startPos = entity.getLockedPosition() ?: entity.position()
+            val startPos = entity.position()
             val targetPos = targetEntity.position().add(0.0, targetEntity.bbHeight / 2.0, 0.0)
 
             val directionVec = targetPos.subtract(startPos)
@@ -166,7 +166,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
         camY: Double,
         camZ: Double
     ): Boolean {
-        val aABB = livingEntity.boundingBoxForCulling.inflate(0.5).expandTowards(livingEntity.position())
+        val aABB = livingEntity.boundingBoxForCulling.inflate(1.5).expandTowards(livingEntity.position())
 
         if (camera.isVisible(aABB)) {
             return true

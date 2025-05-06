@@ -10,40 +10,35 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.context.UseOnContext
 import java.awt.Color
 
 class DebugWand(properties: Properties) : Item(properties) {
 
-    override fun useOn(context: UseOnContext): InteractionResult {
-        val pos = context.clickedPos.relative(context.clickedFace)
-        context.itemInHand.set(WitcheryDataComponents.CHAIN_POS.get(), pos)
-        context.player?.displayClientMessage(
-            Component.literal("Chain loc start: $pos").setStyle(Style.EMPTY.withColor(
-                Color.CYAN.rgb)
-            ),
-            true
-        )
-        return super.useOn(context)
-    }
-
     override fun interactLivingEntity(
         stack: ItemStack,
         player: Player,
-        interactionTarget: LivingEntity,
+        targetEntity: LivingEntity,
         usedHand: InteractionHand
     ): InteractionResult {
-        if (stack.has(WitcheryDataComponents.CHAIN_POS.get())) {
-            val pos = stack.get(WitcheryDataComponents.CHAIN_POS.get())
+        val level = player.level()
 
-            ChainManager.createChain(
-                level = player.level(),
-                position = pos!!.center,
-                targetEntity = interactionTarget,
-                lifetime = 20 * 60
+        if (!level.isClientSide) {
+            val chains = ChainManager.createMultipleChains(
+                level = level,
+                targetEntity = targetEntity,
+                numChains = 5,
+                radius = 8.0,
+                lifetime = 20 * 20
+            )
+
+            player.displayClientMessage(
+                Component.literal("Created ${chains.size} chains around the target!").setStyle(
+                    Style.EMPTY.withColor(Color.GREEN.rgb)
+                ),
+                true
             )
         }
 
-        return super.interactLivingEntity(stack, player, interactionTarget, usedHand)
+        return InteractionResult.SUCCESS
     }
 }
