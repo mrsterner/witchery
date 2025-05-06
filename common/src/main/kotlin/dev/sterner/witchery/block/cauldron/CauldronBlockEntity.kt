@@ -104,6 +104,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         val allRecipesOfType = level.recipeManager
             .getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
             .filter { recipe ->
+                //Fix 29
                 val dimensions = recipe.value.dimensionKey
                 val noRequirement = dimensions.isEmpty() || (dimensions.size == 1 && dimensions.contains(""))
                 val currentDimension = level.dimension().location().toString()
