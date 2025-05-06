@@ -75,6 +75,16 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
             targetEntity?.let { sync(it) }
         }
 
+        targetEntity?.let { target ->
+            val currentDistance = position().distanceTo(target.position())
+            val effectiveLinkLength = 0.35f * 1.5 - 0.15f * 1.5
+
+            if (currentDistance > initialDistance * 1.1) {
+                initialDistance = currentDistance
+                maxLinks = kotlin.math.ceil(currentDistance / effectiveLinkLength).toInt()
+            }
+        }
+
         when(getChainState()) {
             ChainState.EXTENDING -> {
                 val headPos = entityData.get(HEAD_POSITION) + extensionSpeed
@@ -83,6 +93,14 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
                 val chainGrowthSpeed = extensionSpeed * 0.8f
                 val progress = entityData.get(CHAIN_PROGRESS) + chainGrowthSpeed
                 entityData.set(CHAIN_PROGRESS, progress.coerceAtMost(1.0f))
+
+                // Check if target is moving away too quickly
+                targetEntity?.let { target ->
+                    val currentDistance = position().distanceTo(target.position())
+                    if (currentDistance > initialDistance * 1.5 && headPos > 0.7f) {
+                        entityData.set(HEAD_POSITION, (headPos - 0.01f).coerceAtLeast(0.7f))
+                    }
+                }
 
                 if (headPos >= 1.0f) {
                     setChainState(ChainState.CONNECTED)
@@ -110,44 +128,39 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
                         val toOrigin = origin.subtract(targetPos)
                         val distance = toOrigin.length()
 
-                        // Check if entities are colliding using bounding boxes
                         if (this.boundingBox.intersects(target.boundingBox)) {
                             setChainState(ChainState.FINISHED)
                             return@let
                         }
 
-                        // Advance retraction progress proportional to the actual pull
-                        // This ensures the visual and physics stay synchronized
                         val progressIncrement = if (distance > 2.0) {
-                            retractionSpeed * 0.5f  // Slow the visual retraction at a distance
+                            retractionSpeed * 0.5f
                         } else {
-                            retractionSpeed * 0.8f  // Slightly faster when closer
+                            retractionSpeed * 0.8f
                         }
 
                         val progress = entityData.get(RETRACT_PROGRESS) + progressIncrement
                         entityData.set(RETRACT_PROGRESS, progress.coerceAtMost(1.0f))
 
-                        // Keep the head position at 1.0 (fully extended) until later in the retraction
                         if (progress <= 0.5f) {
                             entityData.set(HEAD_POSITION, 1.0f)
                         } else {
-                            // Slower head retraction that's tied to the actual distance
                             val targetDistanceFactor = (distance / (distance + 2.0)).coerceIn(0.0, 1.0)
                             val headPos = targetDistanceFactor.toFloat()
                             entityData.set(HEAD_POSITION, headPos)
                         }
 
-                        // Apply force to the target - make this stronger to match visual speed
                         val adjusted = Vec3(toOrigin.x, toOrigin.y, toOrigin.z)
-                        val maxPullPerTick = 0.75  // Increased from 0.65
+                        val maxPullPerTick = 0.75
                         val clamped = adjusted.length().coerceAtMost(maxPullPerTick)
-                        val pullVector = adjusted.normalize().scale(clamped * pullStrength * 1.2f)  // 20% stronger pull
+                        val pullVector = adjusted.normalize().scale(clamped * pullStrength * 1.2f)
 
                         target.deltaMovement = target.deltaMovement.add(pullVector)
                         target.fallDistance = 0f
                     }
                 }
             }
+
 
             ChainState.FINISHED -> {
                 runDiscard(targetEntity)
@@ -307,7 +320,20 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
     }
 
     fun getRawLinkCount(): Float {
-        return when(getChainState()) {
+        val chainState = getChainState()
+
+        targetEntity?.let { target ->
+            val currentDistance = position().distanceTo(target.position())
+            val effectiveLinkLength = 0.35f * 1.5 - 0.15f * 1.5
+            if (chainState == ChainState.EXTENDING || chainState == ChainState.CONNECTED) {
+                val neededLinks = kotlin.math.ceil(currentDistance / effectiveLinkLength).toInt()
+                if (neededLinks > maxLinks) {
+                    maxLinks = neededLinks
+                }
+            }
+        }
+
+        return when(chainState) {
             ChainState.EXTENDING -> {
                 (maxLinks * getChainProgress()).coerceAtLeast(0.1f)
             }
