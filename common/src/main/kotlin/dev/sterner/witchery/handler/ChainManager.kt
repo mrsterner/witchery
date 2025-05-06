@@ -33,8 +33,8 @@ object ChainManager {
         level: Level,
         position: Vec3,
         targetEntity: Entity,
-        extensionSpeed: Float = 0.05f,
-        retractionSpeed: Float = 0.03f,
+        extensionSpeed: Float = 0.15f,
+        retractionSpeed: Float = 0.05f,
         pullStrength: Float = 0.15f,
         lifetime: Int = -1
     ): ChainEntity {

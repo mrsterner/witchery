@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import java.util.*
 
-class SpectreEntity(level: Level) : FlyingMob(WitcheryEntityTypes.SPECTRE.get(), level) {
+class SpectreEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.SPECTRE.get(), level) {
 
     val ignoredUUIDs: MutableSet<UUID> = mutableSetOf()
     var summonPos: Vec3 = Vec3.ZERO

@@ -115,7 +115,10 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
 
                     makeParticles(level, entity)
 
-                    ChainManager.createHookAndPullChain(level, effigyCenter.add(0.0,1.0,0.0), entity)
+                    ChainManager.createHookAndPullChain(level, effigyCenter.add(0.0,0.2,0.0), entity,
+                        pullDelay = 0,
+                        extensionSpeed = 0.8f
+                    )
                 }
             } else {
                 Containers.dropContents(level, blockPos, blockEntity)

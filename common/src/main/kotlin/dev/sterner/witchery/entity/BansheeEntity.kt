@@ -17,7 +17,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import java.util.*
 
-class BansheeEntity(level: Level) : FlyingMob(WitcheryEntityTypes.BANSHEE.get(), level) {
+class BansheeEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.BANSHEE.get(), level) {
 
     init {
         this.moveControl = GhostMoveControl(this)
@@ -70,7 +70,7 @@ class BansheeEntity(level: Level) : FlyingMob(WitcheryEntityTypes.BANSHEE.get(),
         override fun tick() {
             if (this.operation == Operation.MOVE_TO) {
                 if (floatDuration-- <= 0) {
-                    this.floatDuration = this.floatDuration + ghost.random.nextInt(5) + 2
+                    this.floatDuration += ghost.random.nextInt(5) + 2
                     var vec3 = Vec3(
                         this.wantedX - ghost.x,
                         this.wantedY - ghost.y,
@@ -136,7 +136,7 @@ class BansheeEntity(level: Level) : FlyingMob(WitcheryEntityTypes.BANSHEE.get(),
 
         override fun start() {
             val randomSource = bansheeEntity.random
-            val d = bansheeEntity.x + ((randomSource.nextFloat() * 2.0f - 1.0f) * 16.0f).toDouble()
+            val d = bansheeEntity.x + ((randomSource.nextFloat() * 2.0f - 1.0f) * 8.0f).toDouble()
 
             val e = if (randomSource.nextFloat() < 0.6) {
                 bansheeEntity.y - (randomSource.nextFloat() * 8.0f).toDouble()
@@ -144,7 +144,7 @@ class BansheeEntity(level: Level) : FlyingMob(WitcheryEntityTypes.BANSHEE.get(),
                 bansheeEntity.y + (randomSource.nextFloat() * 8.0f).toDouble()
             }
 
-            val f = bansheeEntity.z + ((randomSource.nextFloat() * 2.0f - 1.0f) * 16.0f).toDouble()
+            val f = bansheeEntity.z + ((randomSource.nextFloat() * 2.0f - 1.0f) * 8.0f).toDouble()
             bansheeEntity.moveControl.setWantedPosition(d, e, f, 1.0)
         }
     }

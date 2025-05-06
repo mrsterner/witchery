@@ -72,7 +72,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
                 val yaw = atan2(normalizedDir.x, normalizedDir.z) * (180f / Math.PI)
                 val pitch = atan2(normalizedDir.y, sqrt(normalizedDir.x * normalizedDir.x + normalizedDir.z * normalizedDir.z)) * (180f / Math.PI)
 
-                poseStack.translate(-0.0, -1.0, -0.0)
+                poseStack.translate(0.0, -0.85, 0.0)
 
                 val worldTime = entity.level().gameTime
 
@@ -221,6 +221,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
         poseStack.mulPose(Axis.YP.rotationDegrees(yaw - 90f))
         poseStack.mulPose(Axis.ZP.rotationDegrees(pitch))
         poseStack.translate(0.0, -1.5, 0.0)
+        poseStack.translate(0.25, 0.0, 0.0)
 
         val animationOffset = (linkIndex * 0.5f) + (worldTime + partialTick) * swaySpeed
         val swayAngle = sin(animationOffset) * swayAmplitude * linkProgress * swayMultiplier

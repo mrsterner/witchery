@@ -122,7 +122,7 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
                             return@let
                         }
 
-                        val adjusted = Vec3(toOrigin.x, toOrigin.y * 0.2, toOrigin.z)
+                        val adjusted = Vec3(toOrigin.x, toOrigin.y, toOrigin.z)
 
                         val maxPullPerTick = 0.65
                         val clamped = adjusted.length().coerceAtMost(maxPullPerTick)
@@ -152,6 +152,7 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
     }
 
     private fun runDiscard(targetEntity: Entity?) {
+        targetEntity?.let { it.deltaMovement = Vec3.ZERO }
         targetEntity?.let { ChainManager.tryReleaseEntity(this, it) }
         ChainEvent.ON_DISCARD.invoker().invoke(targetEntity, this)
         discard()
