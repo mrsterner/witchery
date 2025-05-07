@@ -5,8 +5,6 @@
 
 # Witchery
 
-
-
 [![CurseForge](https://img.shields.io/badge/Download%20on-CurseForge-orange?style=flat-square)](https://legacy.curseforge.com/minecraft/mc-mods/just-another-witchery-remake)
 [![Modrinth](https://img.shields.io/badge/Download%20on-Modrinth-green?style=flat-square)](https://modrinth.com/mod/just-another-witchery-remake)
 
@@ -19,6 +17,7 @@ Witchery adds mods stuff from the original witchery mod.
 - Uses Modomomicon for in-game wiki
 
 ## Ritual JSON Structure
+Rituals support a lot of customizable functions. They are data-driven and can execute commands.
 
 ```json
 {
