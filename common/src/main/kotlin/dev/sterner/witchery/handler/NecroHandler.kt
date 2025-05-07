@@ -28,6 +28,12 @@ object NecroHandler {
     private const val PARTICLE_DETECTION_RANGE = 16.0
     private const val PARTICLE_COUNT = 3
 
+    fun registerEvents() {
+        EntityEvent.LIVING_DEATH.register(::onDeath)
+        TickEvent.SERVER_LEVEL_POST.register(::processListExhaustion)
+        TickEvent.SERVER_LEVEL_POST.register(::tick)
+    }
+
     fun tickLiving(livingEntity: LivingEntity) {
         if (livingEntity.level().gameTime % 10 != 0L) return
 
@@ -90,11 +96,6 @@ object NecroHandler {
 
             WitcheryPayloads.sendToPlayers(level, SpawnNecroParticlesS2CPayload(Vec3(x, y, z)))
         }
-    }
-
-    fun registerEvents() {
-        EntityEvent.LIVING_DEATH.register(::onDeath)
-        TickEvent.SERVER_LEVEL_POST.register(::processListExhaustion)
     }
 
     private fun processListExhaustion(serverLevel: ServerLevel?) {

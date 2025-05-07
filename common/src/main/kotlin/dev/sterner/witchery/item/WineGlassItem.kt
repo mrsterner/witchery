@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.InteractionEvent
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.entity.LilithEntity
@@ -172,7 +173,11 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
     }
 
     companion object {
-        fun applyWineOnVillager(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
+        fun registerEvents() {
+            InteractionEvent.INTERACT_ENTITY.register(WineGlassItem::applyWineOnVillager)
+        }
+
+        private fun applyWineOnVillager(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
             if (entity is Villager && player != null) {
                 val item = player.mainHandItem
                 val bl = item.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true

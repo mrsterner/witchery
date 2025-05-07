@@ -1,6 +1,9 @@
 package dev.sterner.witchery.handler
 
+import dev.architectury.event.events.common.LifecycleEvent
+import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.Witchery.LOGGER
 import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
 import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.teleport.TeleportRequest
@@ -19,6 +22,32 @@ object TeleportQueueHandler {
     private const val MIN_WAIT_TICKS = 5 // Wait at least 5 ticks before processing
     private const val MAX_ATTEMPTS = 10 // Maximum teleport attempts
     private const val STALE_REQUEST_TIME = 6000L // 5 minutes in ticks
+
+    fun registerEvents() {
+        TickEvent.SERVER_POST.register(::processQueue)
+        LifecycleEvent.SERVER_STOPPING.register(::clearQueue)
+    }
+
+    private fun clearQueue(server: MinecraftServer) {
+        server.allLevels.forEach { level ->
+            try {
+                val data = TeleportQueueLevelAttachment.getData(level)
+                data.pendingTeleports.forEach { request ->
+                    try {
+                        level.setChunkForced(request.chunkPos.x, request.chunkPos.z, false)
+                    } catch (e: Exception) {
+                        LOGGER.error("Failed to unforce chunk at ${request.chunkPos} on server stop", e)
+                    }
+                }
+
+                // Clear the teleport queue
+                TeleportQueueLevelAttachment.setData(level, TeleportQueueLevelAttachment.Data(mutableListOf()))
+            } catch (e: Exception) {
+                LOGGER.error("Error clearing teleport queue during server shutdown", e)
+            }
+        }
+    }
+
 
     /**
      * Process all pending teleport requests across all server levels

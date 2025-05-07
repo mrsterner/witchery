@@ -1,5 +1,6 @@
 package dev.sterner.witchery.handler
 
+import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.entity.NightmareEntity
 import dev.sterner.witchery.platform.NightmarePlayerAttachment.Data
 import dev.sterner.witchery.platform.NightmarePlayerAttachment.getData
@@ -14,6 +15,10 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 object NightmareHandler {
+
+    fun registerEvents() {
+        TickEvent.PLAYER_PRE.register(NightmareHandler::tick)
+    }
 
     fun tick(player: Player?) {
         if (player?.level()?.dimension() == WitcheryWorldgenKeys.NIGHTMARE && player.level() is ServerLevel) {

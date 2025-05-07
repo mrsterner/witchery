@@ -5,9 +5,6 @@ import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientRawInputEvent
 import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.*
-import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
-import dev.architectury.event.events.common.LootEvent.MODIFY_LOOT_TABLE
-import dev.architectury.event.events.common.TickEvent.ServerLevelTick
 import dev.architectury.networking.NetworkManager
 import dev.architectury.registry.client.gui.ClientTooltipComponentRegistry
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
@@ -18,10 +15,8 @@ import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
-import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.client.BloodPoolComponent
-import dev.sterner.witchery.api.event.SleepingEvent
 import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
@@ -41,7 +36,6 @@ import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.data.*
-import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.infusion.InfernalInfusionHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
@@ -63,9 +57,6 @@ import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.DeathQueueLevelAttachment
 import dev.sterner.witchery.platform.WitcheryPehkui
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionPlayerAttachment
-import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.transformation.*
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryDataComponents.UNSHEETED
@@ -83,20 +74,7 @@ import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.NoopRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
-import net.minecraft.core.Registry
-import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.MinecraftServer
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.animal.Pig
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList
-import net.minecraft.world.level.storage.loot.LootPool
-import net.minecraft.world.level.storage.loot.LootTable
-import net.minecraft.world.level.storage.loot.entries.LootItem
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
 import org.slf4j.Logger
 
 
@@ -108,17 +86,27 @@ object Witchery {
 
     val debugRitualLog: Boolean = false
 
+    fun id(name: String): ResourceLocation {
+        return ResourceLocation.fromNamespaceAndPath(MODID, name)
+    }
+
+    fun logDebugRitual(message: String) {
+        if (debugRitualLog) {
+            println(message)
+        }
+    }
+
     @JvmStatic
     fun init() {
         PotionDataReloadListener.registerListener()
-        WitcheryCurseRegistry.init()
-        WitcheryFetishEffects.init()
-        WitcheryRitualRegistry.init()
-        WitcheryMobEffects.init()
-        WitcherySpecialPotionEffects.init()
-        WitcheryPehkui.init()
+        WitcheryCurseRegistry.register()
+        WitcheryFetishEffects.register()
+        WitcheryRitualRegistry.register()
+        WitcheryMobEffects.register()
+        WitcherySpecialPotionEffects.register()
+        WitcheryPehkui.register()
         WitcheryFluids.FLUIDS.register()
-        WitcheryFluids.init()
+        WitcheryFluids.register()
         WitcheryArmorMaterials.MATERIALS.register()
         WitcheryBlocks.BLOCKS.register()
         WitcheryBlockEntityTypes.BLOCK_ENTITY_TYPES.register()
@@ -133,27 +121,8 @@ object Witchery {
         WitcheryDataComponents.DATA.register()
         WitcheryCommands.COMMAND_ARGUMENTS.register()
         WitcheryFeatures.FEATURES.register()
-
-
         WitcheryPayloads.register()
-
-        EntityAttributeRegistry.register(WitcheryEntityTypes.MANDRAKE, MandrakeEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.IMP, ImpEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.DEMON, DemonEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.OWL, OwlEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.ENT, EntEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.BANSHEE, BansheeEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.SPECTRE, SpectreEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.SPECTRAL_PIG, Pig::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.NIGHTMARE, NightmareEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.VAMPIRE, VampireEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.WEREWOLF, WerewolfEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.LILITH, LilithEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.COVEN_WITCH, CovenWitchEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.ELLE, ElleEntity::createAttributes)
-        EntityAttributeRegistry.register(WitcheryEntityTypes.PARASITIC_LOUSE, ParasiticLouseEntity::createAttributes)
-
-        MODIFY_LOOT_TABLE.register(::addSeeds)
+        WitcheryEntityAttributes.register()
 
         FetishEffectReloadListener.registerListener()
         NaturePowerReloadListener.registerListener()
@@ -162,66 +131,47 @@ object Witchery {
 
         WitcheryModonomiconLoaders.register()
 
-        MODIFY_LOOT_TABLE.register(::addWitchesHand)
-        MODIFY_LOOT_TABLE.register(::addLootInjects)
-
+        WitcheryCommands.registerEvents()
         VampireEventHandler.registerEvents()
         WerewolfEventHandler.registerEvents()
         CurseHandler.registerEvents()
         PotionHandler.registerEvents()
         NecroHandler.registerEvents()
+        MutandisHandler.registerEvents()
+        PoppetHandler.registerEvents()
+        FamiliarHandler.registerEvents()
+        CaneSwordItem.registerEvents()
+        EquipmentHandler.registerEvents()
+        BitingBeltItem.registerEvents()
+        BloodPoolHandler.registerEvents()
+        DreamWeaverHandler.registerEvents()
+        BrewOfSleepingItem.registerEvents()
+        InfusionHandler.registerEvents()
+        SacrificialBlockEntity.registerEvents()
+        LecternHandler.registerEvents()
+        WineGlassItem.registerEvents()
+        EntSpawningHandler.registerEvents()
+        RitualChalkBlock.registerEvents()
+        WitcherySpecialPotionEffects.registerEvents()
+        TeleportQueueHandler.registerEvents()
+        ManifestationHandler.registerEvents()
+        VampireChildrenHuntHandler.registerEvents()
+        InfernalInfusionHandler.registerEvents()
+        BloodPoolHandler.registerEvents()
+        LightInfusionHandler.registerEvents()
+        OtherwhereInfusionHandler.registerEvents()
+        NightmareHandler.registerEvents()
+        TransformationHandler.registerEvents()
+        BarkBeltHandler.registerEvents()
+        TickTaskScheduler.registerEvents()
+        BindSpectralCreaturesRitual.registerEvents()
+        WitcheryLootInjects.registerEvents()
+        WitcheryStructureInjects.registerEvents()
 
-        ServerLevelTick.SERVER_LEVEL_POST.register(MutandisHandler::tick)
-
-        CommandRegistrationEvent.EVENT.register(WitcheryCommands::register)
-
-        EntityEvent.LIVING_DEATH.register(PoppetHandler::deathProtectionPoppet)
-        EntityEvent.LIVING_DEATH.register(PoppetHandler::hungerProtectionPoppet)
-        EntityEvent.LIVING_DEATH.register(FamiliarHandler::familiarDeath)
-        EntityEvent.LIVING_DEATH.register(CaneSwordItem::harvestBlood)
-        EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
-        EntityEvent.LIVING_HURT.register(BitingBeltItem::usePotion)
-        EntityEvent.ADD.register(BloodPoolHandler::setBloodOnAdded)
-
-        SleepingEvent.POST.register(DreamWeaverHandler::onWake)
-
-        PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
-        PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
         PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
             VampireAbilityHandler.setAbilityIndex(player, -1)
             WerewolfAbilityHandler.setAbilityIndex(player, -1)
         }
-
-        InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
-        InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)
-        InteractionEvent.INTERACT_ENTITY.register(WineGlassItem::applyWineOnVillager)
-        InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
-
-        BlockEvent.BREAK.register(EntSpawningHandler::breakBlock)
-        BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
-
-        TickEvent.SERVER_POST.register(EntSpawningHandler::serverTick)
-        TickEvent.SERVER_POST.register(WitcherySpecialPotionEffects::serverTick)
-        TickEvent.SERVER_POST.register(TeleportQueueHandler::processQueue)
-        TickEvent.SERVER_POST.register(ManifestationHandler::tick)
-        TickEvent.SERVER_POST.register(VampireChildrenHuntHandler::tickHuntAllLevels)
-        TickEvent.PLAYER_POST.register(InfernalInfusionHandler::tick)
-        TickEvent.PLAYER_PRE.register(BloodPoolHandler::tick)
-        TickEvent.PLAYER_PRE.register(LightInfusionHandler::tick)
-        TickEvent.PLAYER_PRE.register(OtherwhereInfusionHandler::tick)
-        TickEvent.PLAYER_PRE.register(NightmareHandler::tick)
-        TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
-        TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)
-        TickEvent.PLAYER_PRE.register(BarkBeltHandler::tick)
-        TickEvent.SERVER_POST.register {
-            TickTaskScheduler.tick()
-        }
-        TickEvent.SERVER_LEVEL_POST.register(NecroHandler::tick)
-
-        BindSpectralCreaturesRitual.registerChainEvents()
-
-
-        LightningEvent.STRIKE.register(InfernalInfusionHandler::strikeLightning)
 
         PlayerEvent.PLAYER_JOIN.register { serverPlayer ->
             val data = DeathQueueLevelAttachment.getData(serverPlayer.serverLevel())
@@ -233,183 +183,6 @@ object Witchery {
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
             TransformationPlayerAttachment.sync(serverPlayer, TransformationPlayerAttachment.getData(serverPlayer))
             InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getPlayerInfusion(serverPlayer))
-        }
-
-        LifecycleEvent.SERVER_STARTED.register { addStructure(it) }
-        LifecycleEvent.SERVER_STOPPING.register { server ->
-            // Clear all forced chunks on server stop
-            server.allLevels.forEach { level ->
-                try {
-                    val data = TeleportQueueLevelAttachment.getData(level)
-                    data.pendingTeleports.forEach { request ->
-                        try {
-                            level.setChunkForced(request.chunkPos.x, request.chunkPos.z, false)
-                        } catch (e: Exception) {
-                            LOGGER.error("Failed to unforce chunk at ${request.chunkPos} on server stop", e)
-                        }
-                    }
-
-                    // Clear the teleport queue
-                    TeleportQueueLevelAttachment.setData(level, TeleportQueueLevelAttachment.Data(mutableListOf()))
-                } catch (e: Exception) {
-                    LOGGER.error("Error clearing teleport queue during server shutdown", e)
-                }
-            }
-        }
-        //TickEvent.SERVER_LEVEL_PRE.register(VillageWallHandler::tick)
-        //ChunkEvent.LOAD_DATA.register(VillageWallHandler::loadChunk)
-    }
-
-    /**
-     * Adds Graveyards to Plains and Taiga Villages.
-     */
-    private fun addStructure(server: MinecraftServer) {
-        val builtinTemplate: Registry<StructureTemplatePool> =
-            server.registryAccess().registry(Registries.TEMPLATE_POOL).get()
-        val builtinProcessor: Registry<StructureProcessorList> =
-            server.registryAccess().registry(Registries.PROCESSOR_LIST).get()
-
-        VillageHelper.addBuildingToPool(
-            builtinTemplate, builtinProcessor,
-            ResourceLocation.parse("minecraft:village/plains/houses"),
-            "$MODID:village/houses/plains_graveyard",
-            2
-        )
-
-        VillageHelper.addBuildingToPool(
-            builtinTemplate, builtinProcessor,
-            ResourceLocation.parse("minecraft:village/plains/houses"),
-            "$MODID:village/houses/plains_graveyard_2",
-            2
-        )
-
-        VillageHelper.addBuildingToPool(
-            builtinTemplate, builtinProcessor,
-            ResourceLocation.parse("minecraft:village/plains/houses"),
-            "$MODID:village/houses/plains_graveyard_3",
-            2
-        )
-
-
-
-        VillageHelper.addBuildingToPool(
-            builtinTemplate, builtinProcessor,
-            ResourceLocation.parse("minecraft:village/taiga/houses"),
-            "$MODID:village/houses/plains_graveyard",
-            2
-        )
-
-        VillageHelper.addBuildingToPool(
-            builtinTemplate, builtinProcessor,
-            ResourceLocation.parse("minecraft:village/taiga/houses"),
-            "$MODID:village/houses/plains_graveyard_2",
-            2
-        )
-
-        VillageHelper.addBuildingToPool(
-            builtinTemplate, builtinProcessor,
-            ResourceLocation.parse("minecraft:village/taiga/houses"),
-            "$MODID:village/houses/plains_graveyard_3",
-            2
-        )
-
-    }
-
-    /**
-     * Adds the item Witches Hand to The witches loot table at a 50% chance drop
-     */
-    private fun addWitchesHand(
-        resourceKey: ResourceKey<LootTable>?,
-        context: LootTableModificationContext,
-        isBuiltin: Boolean
-    ) {
-        if (isBuiltin && EntityType.WITCH.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.WITCHES_HAND.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.5f))
-                )
-            context.addPool(pool)
-        }
-    }
-
-    /**
-     * Adds Witchery drops to vanilla creatures. Wolf, Frog and Bat
-     */
-    private fun addLootInjects(
-        resourceKey: ResourceKey<LootTable>?,
-        context: LootTableModificationContext,
-        isBuiltin: Boolean
-    ) {
-
-        if (isBuiltin && EntityType.WOLF.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.TONGUE_OF_DOG.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
-                )
-            context.addPool(pool)
-        }
-
-        if (isBuiltin && EntityType.FROG.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.TOE_OF_FROG.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
-                )
-            context.addPool(pool)
-        }
-
-        if (isBuiltin && EntityType.BAT.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.WOOL_OF_BAT.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
-                )
-            context.addPool(pool)
-        }
-    }
-
-    /**
-     * Adds Witchery Seeds to Vanilla short grass and long grass loot table. 5% chance
-     */
-    private fun addSeeds(key: ResourceKey<LootTable>?, context: LootTableModificationContext, builtin: Boolean) {
-        if (builtin && Blocks.SHORT_GRASS.lootTable.equals(key) || Blocks.TALL_GRASS.lootTable.equals(key)) {
-            val pool: LootPool.Builder = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.BELLADONNA_SEEDS.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
-                )
-            context.addPool(pool)
-
-            val pool2: LootPool.Builder = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.WATER_ARTICHOKE_SEEDS.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
-                )
-            context.addPool(pool2)
-
-            val pool3: LootPool.Builder = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.MANDRAKE_SEEDS.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
-                )
-            context.addPool(pool3)
-
-            val pool4: LootPool.Builder = LootPool
-                .lootPool()
-                .add(
-                    LootItem.lootTableItem(WitcheryItems.SNOWBELL_SEEDS.get())
-                        .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
-                )
-            context.addPool(pool4)
         }
     }
 
@@ -716,15 +489,5 @@ object Witchery {
                 }
             }
         })
-    }
-
-    fun id(name: String): ResourceLocation {
-        return ResourceLocation.fromNamespaceAndPath(MODID, name)
-    }
-
-    fun logDebugRitual(message: String) {
-        if (debugRitualLog) {
-            println(message)
-        }
     }
 }

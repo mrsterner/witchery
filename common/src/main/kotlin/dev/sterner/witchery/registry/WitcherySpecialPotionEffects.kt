@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap
 import com.google.common.collect.Maps
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.architectury.event.events.common.TickEvent
 import dev.architectury.registry.registries.Registrar
 import dev.architectury.registry.registries.RegistrarManager
 import dev.architectury.registry.registries.RegistrySupplier
@@ -774,7 +775,11 @@ object WitcherySpecialPotionEffects {
             }
         }
 
-    fun init() {
+    fun register() {
+    }
+
+    fun registerEvents() {
+        TickEvent.SERVER_POST.register(WitcherySpecialPotionEffects::serverTick)
     }
 
     fun changeIntoState(state: BlockState, level: Level, pos: BlockPos, entity: Entity?) {

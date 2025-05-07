@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.EntityEvent
 import dev.sterner.witchery.entity.OwlEntity
 import dev.sterner.witchery.platform.FamiliarLevelAttachment.Data
 import dev.sterner.witchery.platform.FamiliarLevelAttachment.FamiliarData
@@ -18,6 +19,9 @@ import java.util.*
 
 object FamiliarHandler {
 
+    fun registerEvents() {
+        EntityEvent.LIVING_DEATH.register(FamiliarHandler::familiarDeath)
+    }
     /**
      * Checks if a given entity is currently bound as a familiar in the world.
      */
@@ -116,4 +120,6 @@ object FamiliarHandler {
 
         return EventResult.pass()
     }
+
+
 }

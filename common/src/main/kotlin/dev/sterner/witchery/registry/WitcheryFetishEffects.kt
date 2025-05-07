@@ -40,7 +40,7 @@ object WitcheryFetishEffects {
         SummonDeathFetishEffect()
     }
 
-    fun init() {
+    fun register() {
 
     }
 }

@@ -72,7 +72,7 @@ object WitcheryMobEffects {
         }
     }
 
-    fun init() {
+    fun register() {
 
     }
 }

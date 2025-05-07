@@ -32,7 +32,7 @@ object WitcheryPehkui {
 
     @JvmStatic
     @ExpectPlatform
-    fun init() {
+    fun register() {
 
     }
 }

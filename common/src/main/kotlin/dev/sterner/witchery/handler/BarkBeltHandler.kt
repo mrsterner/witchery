@@ -1,5 +1,6 @@
 package dev.sterner.witchery.handler
 
+import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.platform.BarkBeltPlayerAttachment.getData
@@ -17,6 +18,10 @@ import net.minecraft.world.entity.player.Player
 object BarkBeltHandler {
 
     const val TIME_TO_RECHARGE = 20 * 5
+
+    fun registerEvents() {
+        TickEvent.PLAYER_PRE.register(BarkBeltHandler::tick)
+    }
 
     /**
      * Modifies the incoming damage if the player has a bark belt equipped and charged. Will absorb some of the damage.

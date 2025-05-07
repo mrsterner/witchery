@@ -1,5 +1,6 @@
 package dev.sterner.witchery.handler.vampire
 
+import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
@@ -20,6 +21,10 @@ import java.util.*
 import java.util.stream.Stream
 
 object VampireChildrenHuntHandler {
+
+    fun registerEvents() {
+        TickEvent.SERVER_POST.register(::tickHuntAllLevels)
+    }
 
     @JvmStatic
     fun getPlayerHunts(serverLevel: ServerLevel, playerUUID: UUID): List<HuntData> {

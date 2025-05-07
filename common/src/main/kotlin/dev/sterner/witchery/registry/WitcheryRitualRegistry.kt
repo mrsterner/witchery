@@ -47,7 +47,7 @@ object WitcheryRitualRegistry {
         }
     }
 
-    fun init() {
+    fun register() {
 
     }
 }

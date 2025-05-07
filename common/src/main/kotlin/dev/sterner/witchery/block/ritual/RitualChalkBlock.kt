@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.BlockEvent
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
@@ -92,7 +93,11 @@ class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: P
         const val VARIANTS = 15
         val VARIANT: IntegerProperty = IntegerProperty.create("variant", 0, VARIANTS)
 
-        fun placeInfernal(level: Level, blockPos: BlockPos, blockState: BlockState, entity: Entity?): EventResult? {
+        fun registerEvents() {
+            BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
+        }
+
+        private fun placeInfernal(level: Level, blockPos: BlockPos, blockState: BlockState, entity: Entity?): EventResult? {
             if (entity !is Player) {
                 return EventResult.pass()
             }
@@ -134,6 +139,5 @@ class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: P
 
             return EventResult.pass()
         }
-
     }
 }

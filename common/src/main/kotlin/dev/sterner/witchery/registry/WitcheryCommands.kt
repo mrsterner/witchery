@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.commands.CurseArgumentType
@@ -58,6 +59,9 @@ object WitcheryCommands {
         return argumentTypeInfo
     }
 
+    fun registerEvents() {
+        CommandRegistrationEvent.EVENT.register(::register)
+    }
 
     fun register(
         dispatcher: CommandDispatcher<CommandSourceStack>,

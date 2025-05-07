@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.EntityEvent
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntity
 import dev.sterner.witchery.item.TaglockItem.Companion.getPlayer
@@ -33,7 +34,10 @@ import net.minecraft.world.phys.Vec3
 
 object PoppetHandler {
 
-
+    fun registerEvents() {
+        EntityEvent.LIVING_DEATH.register(::deathProtectionPoppet)
+        EntityEvent.LIVING_DEATH.register(::hungerProtectionPoppet)
+    }
     /**
      * Handles the Death Protection Poppet's behavior, which can prevent death for a player
      * under certain conditions.

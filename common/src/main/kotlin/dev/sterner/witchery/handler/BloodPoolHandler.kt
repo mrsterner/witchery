@@ -1,6 +1,8 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.EntityEvent
+import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.data.BloodPoolReloadListener
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment.getData
@@ -17,6 +19,11 @@ import net.minecraft.world.level.Level
 object BloodPoolHandler {
 
     private var ticker = 0
+
+    fun registerEvents() {
+        TickEvent.PLAYER_PRE.register(BloodPoolHandler::tick)
+        EntityEvent.ADD.register(BloodPoolHandler::setBloodOnAdded)
+    }
 
     fun tick(player: Player?) {
 

@@ -1,6 +1,8 @@
 package dev.sterner.witchery.handler.infusion
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.InteractionEvent
+import dev.architectury.event.events.common.PlayerEvent
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment.MAX_CHARGE
@@ -27,6 +29,18 @@ import net.minecraft.world.phys.EntityHitResult
  * Provides functionality to manage infusion-specific behaviors based on player actions such as right-clicking or left-clicking entities and blocks.
  */
 object InfusionHandler {
+
+    private val infusionMeter = Witchery.id("textures/gui/infusion_meter.png")
+    private val infusionMeterOtherwhere = Witchery.id("textures/gui/infusion_meter_otherwhere.png")
+    private val infusionMeterInfernal = Witchery.id("textures/gui/infusion_meter_infernal.png")
+    private val infusionMeterNecro = Witchery.id("textures/gui/infusion_meter_necro.png")
+    private val infusionMeterOverworld = Witchery.id("textures/gui/infusion_meter_overworld.png")
+    private val infusionMeterLight = Witchery.id("textures/gui/infusion_meter_light.png")
+
+    fun registerEvents() {
+        PlayerEvent.ATTACK_ENTITY.register(::leftClickEntity)
+        InteractionEvent.LEFT_CLICK_BLOCK.register(::leftClickBlock)
+    }
 
     @JvmStatic
     fun increaseInfusionCharge(player: Player, toAdd: Int) {
@@ -148,14 +162,6 @@ object InfusionHandler {
         }
         return EventResult.pass()
     }
-
-    private val infusionMeter = Witchery.id("textures/gui/infusion_meter.png")
-    private val infusionMeterOverlay = Witchery.id("textures/gui/infusion_meter_overlay.png")
-    private val infusionMeterOtherwhere = Witchery.id("textures/gui/infusion_meter_otherwhere.png")
-    private val infusionMeterInfernal = Witchery.id("textures/gui/infusion_meter_infernal.png")
-    private val infusionMeterNecro = Witchery.id("textures/gui/infusion_meter_necro.png")
-    private val infusionMeterOverworld = Witchery.id("textures/gui/infusion_meter_overworld.png")
-    private val infusionMeterLight = Witchery.id("textures/gui/infusion_meter_light.png")
 
     @Environment(EnvType.CLIENT)
     fun renderInfusionHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker?) {

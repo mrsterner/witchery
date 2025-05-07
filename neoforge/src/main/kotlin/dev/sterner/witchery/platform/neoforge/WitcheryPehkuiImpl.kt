@@ -48,7 +48,7 @@ object WitcheryPehkuiImpl {
     }
 
     @JvmStatic
-    fun init() {
+    fun register() {
         ScaleTypes.BASE.defaultBaseValueModifiers.add(getShrinkingModifier())
         ScaleTypes.BASE.defaultBaseValueModifiers.add(getGrowingModifier())
     }

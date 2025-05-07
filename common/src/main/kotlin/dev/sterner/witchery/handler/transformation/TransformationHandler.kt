@@ -1,5 +1,6 @@
 package dev.sterner.witchery.handler.transformation
 
+import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.handler.ability.VampireAbility
 import dev.sterner.witchery.handler.vampire.VampireLeveling
@@ -31,6 +32,11 @@ object TransformationHandler {
     var werewolf: WerewolfEntity? = null
 
     private var villageCheckTicker = 0
+
+    fun registerEvents() {
+        TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
+        TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)
+    }
 
     @JvmStatic
     fun getBatEntity(player: Player): Bat? {

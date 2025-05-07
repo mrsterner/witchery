@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item.brew
 
+import dev.architectury.event.events.common.PlayerEvent
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerData
 import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
@@ -28,10 +29,14 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         private const val MAX_NEARBY_BLOCKS = 4
         private const val SEARCH_RADIUS = 6
 
+        fun registerEvents() {
+            PlayerEvent.PLAYER_CLONE.register(BrewOfSleepingItem::respawnPlayer)
+        }
+
         /**
          * Handles player respawn after death or returning from the dream world
          */
-        fun respawnPlayer(oldPlayer: ServerPlayer?, newServerPlayer: ServerPlayer?, wonGame: Boolean) {
+        private fun respawnPlayer(oldPlayer: ServerPlayer?, newServerPlayer: ServerPlayer?, wonGame: Boolean) {
             if (newServerPlayer?.level() !is ServerLevel) return
 
             val serverLevel = newServerPlayer.level() as ServerLevel

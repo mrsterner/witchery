@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.payload.OpenLecternGuidebook
 import dev.sterner.witchery.registry.WitcheryItems
@@ -13,7 +14,11 @@ import net.minecraft.world.level.block.entity.LecternBlockEntity
 
 object LecternHandler {
 
-    fun tryAccessGuidebook(player: Player, hand: InteractionHand, pos: BlockPos, face: Direction): EventResult {
+    fun registerEvents() {
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(LecternHandler::tryAccessGuidebook)
+    }
+
+    private fun tryAccessGuidebook(player: Player, hand: InteractionHand, pos: BlockPos, face: Direction): EventResult {
         val be = player.level().getBlockEntity(pos)
         if (player is ServerPlayer && be is LecternBlockEntity && be.book.`is`(WitcheryItems.GUIDEBOOK.get())) {
             NetworkManager.sendToPlayer(player, OpenLecternGuidebook())

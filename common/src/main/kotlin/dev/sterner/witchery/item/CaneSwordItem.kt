@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.EntityEvent
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.data.BloodPoolReloadListener
 import dev.sterner.witchery.handler.BloodPoolHandler
@@ -125,7 +126,11 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
 
         const val MAX_STORED_BLOOD = WitcheryConstants.BLOOD_DROP * 2
 
-        fun harvestBlood(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+        fun registerEvents() {
+            EntityEvent.LIVING_DEATH.register(CaneSwordItem::harvestBlood)
+        }
+
+        private fun harvestBlood(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
             if (livingEntity != null && BloodPoolReloadListener.BLOOD_PAIR.contains(livingEntity.type)) {
                 if (damageSource?.entity is Player) {
                     val player = damageSource.entity as Player
@@ -144,6 +149,4 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
             return EventResult.pass()
         }
     }
-
-
 }

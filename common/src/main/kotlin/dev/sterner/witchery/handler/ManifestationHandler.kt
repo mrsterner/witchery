@@ -1,5 +1,6 @@
 package dev.sterner.witchery.handler
 
+import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment.getData
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment.setData
@@ -18,6 +19,9 @@ object ManifestationHandler {
 
     const val MAX_TIME = 2400
 
+    fun registerEvents() {
+        TickEvent.SERVER_POST.register(ManifestationHandler::tick)
+    }
     /**
      * True if the player may use a Spirit Portal back to the material world as a ghost
      */

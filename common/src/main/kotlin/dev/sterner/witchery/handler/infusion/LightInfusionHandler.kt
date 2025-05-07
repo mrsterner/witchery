@@ -1,5 +1,6 @@
 package dev.sterner.witchery.handler.infusion
 
+import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.payload.SpawnPoofParticles
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionType
@@ -11,6 +12,10 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 
 object LightInfusionHandler {
+
+    fun registerEvents() {
+        TickEvent.PLAYER_PRE.register(LightInfusionHandler::tick)
+    }
 
     fun poof(player: Player) {
         if (player.level() is ServerLevel) {
@@ -36,5 +41,4 @@ object LightInfusionHandler {
             }
         }
     }
-
 }

@@ -1,6 +1,8 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.BlockEvent
+import dev.architectury.event.events.common.TickEvent
 import dev.architectury.utils.value.IntValue
 import dev.sterner.witchery.entity.EntEntity
 import dev.sterner.witchery.platform.EntSpawnLevelAttachment.BlockEntry
@@ -20,12 +22,17 @@ object EntSpawningHandler {
 
     private const val MAX_DISTANCE = 24
 
+    fun registerEvents() {
+        BlockEvent.BREAK.register(::breakBlock)
+        TickEvent.SERVER_POST.register(::serverTick)
+    }
+
     /**
      * Handles breaking of special tree logs (Rowan, Hawthorn, Alder).
      * Tracks the number of nearby logs broken and prepares for Ent spawning
      * if conditions are met.
      */
-    fun breakBlock(
+    private fun breakBlock(
         level: Level?,
         blockPos: BlockPos?,
         blockState: BlockState,
@@ -75,7 +82,7 @@ object EntSpawningHandler {
      * Decreases timers, resets counts, and spawns Ents when enough logs
      * have been broken nearby.
      */
-    fun serverTick(minecraftServer: MinecraftServer) {
+    private fun serverTick(minecraftServer: MinecraftServer) {
         minecraftServer.allLevels.forEach { level ->
             if (level is ServerLevel) {
                 val data = getData(level)

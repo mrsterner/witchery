@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.sacrificial_circle
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.InteractionEvent
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
@@ -129,7 +130,12 @@ class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     companion object {
-        fun rightClick(
+
+        fun registerEvents() {
+            InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
+        }
+
+        private fun rightClick(
             player: Player?,
             interactionHand: InteractionHand?,
             blockPos: BlockPos,

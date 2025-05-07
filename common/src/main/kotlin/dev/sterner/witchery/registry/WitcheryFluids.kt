@@ -44,7 +44,7 @@ object WitcheryFluids {
         .sourceTexture(ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "block/flowing_spirit_still"))
         .flowingTexture(ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "block/flowing_spirit_flowing"))
 
-    fun init() {
+    fun register() {
         FLUIDS_INFOS.add(BLOOD_ATTRIBUTES)
     }
 }

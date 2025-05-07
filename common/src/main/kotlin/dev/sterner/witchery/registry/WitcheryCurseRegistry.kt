@@ -44,7 +44,7 @@ object WitcheryCurseRegistry {
         CurseOfWolf()
     }
 
-    fun init() {
+    fun register() {
 
     }
 }
