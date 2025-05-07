@@ -91,7 +91,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     private RenderType witchery$necroMod(@Nullable RenderType original, @Local(argsOnly = true) T livingEntity){
         if (livingEntity.getType().is(WitcheryTags.INSTANCE.getNECROMANCER_SUMMONABLE())) {
             var bl = EtherealEntityAttachment.getData(livingEntity).isEthereal();
-            if (!bl) {
+            if (bl) {
                 ResourceLocation resourceLocation = this.getTextureLocation(livingEntity);
                 return WitcheryRenderTypes.INSTANCE.getGHOST().apply(resourceLocation);
             }

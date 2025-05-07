@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 
 object NecroHandler {
 
@@ -64,7 +65,7 @@ object NecroHandler {
         return EventResult.pass()
     }
 
-    fun summonNecroAroundPos(level: ServerLevel, center: BlockPos, radius: Int) {
+    fun summonNecroAroundPos(level: ServerLevel, summoner: Player, center: BlockPos, radius: Int) {
         val list = collectNecroLists(level, center, radius)
         for ((pos, entityType) in list) {
             val entity = entityType.create(level) as? LivingEntity ?: continue
@@ -77,7 +78,10 @@ object NecroHandler {
                 0f
             )
             
-            EtherealEntityAttachment.setData(entity, EtherealEntityAttachment.Data(false))
+            EtherealEntityAttachment.setData(entity, EtherealEntityAttachment.Data(summoner.uuid,
+                canDropLoot = false,
+                isEthereal = true
+            ))
             
             level.addFreshEntity(entity)
 

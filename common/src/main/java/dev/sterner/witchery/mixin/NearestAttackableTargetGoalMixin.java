@@ -1,6 +1,5 @@
 package dev.sterner.witchery.mixin;
 
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.sterner.witchery.platform.EtherealEntityAttachment;
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryTags;
@@ -10,37 +9,40 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(NearestAttackableTargetGoal.class)
 public abstract class NearestAttackableTargetGoalMixin<T extends LivingEntity> extends TargetGoal {
+
+    @Shadow protected TargetingConditions targetConditions;
 
     public NearestAttackableTargetGoalMixin(Mob mob, boolean mustSee) {
         super(mob, mustSee);
     }
 
-    @WrapWithCondition(method = "findTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getNearestPlayer(Lnet/minecraft/world/entity/ai/targeting/TargetingConditions;Lnet/minecraft/world/entity/LivingEntity;DDD)Lnet/minecraft/world/entity/player/Player;"))
-    private boolean witchery$dontAttackSummonerOwner2(Level instance, TargetingConditions targetingConditions, LivingEntity livingEntity, double x, double y, double z){
+    @Inject(method = "findTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getNearestPlayer(Lnet/minecraft/world/entity/ai/targeting/TargetingConditions;Lnet/minecraft/world/entity/LivingEntity;DDD)Lnet/minecraft/world/entity/player/Player;"), cancellable = true)
+    private void witchery$dontAttackSummonerOwner2(CallbackInfo ci){
 
-        var player = instance.getNearestPlayer(targetingConditions, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+        var player = this.mob.level().getNearestPlayer(this.targetConditions, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
         if (player != null) {
             if (mob.getType().is(WitcheryTags.INSTANCE.getNECROMANCER_SUMMONABLE())) {
                 var uuid = EtherealEntityAttachment.getData(mob).getOwnerUUID();
                 if (uuid != null) {
                     if (player.getUUID().equals(uuid)) {
-                        return false;
+                        ci.cancel();
                     }
                 }
             }
             if (mob.getType().is(EntityTypeTags.UNDEAD)) {
                 boolean bl = VampirePlayerAttachment.getData(player).getVampireLevel() > 0;
-                return !bl;
+                if (bl) {
+                    ci.cancel();
+                }
             }
         }
-
-        return true;
     }
 }
