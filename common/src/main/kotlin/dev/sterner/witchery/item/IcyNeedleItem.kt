@@ -5,8 +5,6 @@ import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.handler.TeleportQueueHandler
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
-import dev.sterner.witchery.platform.SleepingLevelAttachment
-import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.TeleportRequest
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
@@ -42,7 +40,8 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
                     TeleportRequest(
                         player = livingEntity.uuid,
                         pos = sleepingData.pos,
-                        chunkPos = chunkPos
+                        chunkPos = chunkPos,
+                        level.gameTime
                     )
                 )
                 return stack
@@ -80,10 +79,14 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
                         TeleportRequest(
                             player = livingEntity.uuid,
                             pos = sleepingData.pos,
-                            chunkPos = chunkPos
+                            chunkPos = chunkPos,
+                            level.gameTime
                         )
                     )
                 }
+            }
+            if (!livingEntity.isCreative) {
+                stack.shrink(1)
             }
         }
 

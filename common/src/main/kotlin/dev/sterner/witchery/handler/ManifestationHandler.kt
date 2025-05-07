@@ -59,7 +59,8 @@ object ManifestationHandler {
                             TeleportRequest(
                                 player = player.uuid,
                                 pos = sleepingData.pos,
-                                chunkPos = chunkPos
+                                chunkPos = chunkPos,
+                                player.level().gameTime
                             )
                         )
                     }

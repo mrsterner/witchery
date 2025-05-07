@@ -5,11 +5,11 @@ import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerData
 import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.handler.SleepingPlayerHandler
-import dev.sterner.witchery.platform.SleepingLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -24,22 +24,27 @@ import net.minecraft.world.level.levelgen.Heightmap
 class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, properties) {
 
     override fun applyEffectOnSelf(player: Player, hasFrog: Boolean) {
-
+        // Don't allow sleeping in dimensions other than the overworld
         if (player.level().dimension() != Level.OVERWORLD) {
+            player.sendSystemMessage(Component.translatable("witchery.message.cant_sleep_here"))
             return
         }
 
         val itemsToKeep = mutableListOf<ItemStack>()
         val armorToKeep = mutableListOf<ItemStack>()
 
+        // Check if player has a dreamweaver charm that allows keeping armor
         val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
 
+        // If player has charm, save armor items to restore after inventory clearing
         if (charmStack != null) {
             for (armor in player.armorSlots) {
                 armorToKeep.add(armor)
                 player.inventory.removeItem(armor)
             }
         }
+
+        // Always keep icy needle items
         for (i in 0 until player.inventory.containerSize) {
             val itemStack = player.inventory.getItem(i)
             if (itemStack.item == WitcheryItems.ICY_NEEDLE.get()) {
@@ -50,26 +55,34 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         val sleepingPlayer = SleepingPlayerEntity.createFromPlayer(player, SleepingPlayerData.fromPlayer(player))
         player.inventory.clearContent()
 
+        // Return kept items to inventory
         for (keep in itemsToKeep) {
             player.inventory.add(keep.copy())
         }
+
+        // Return kept armor items
         for (armor in armorToKeep) {
             val slot = player.getEquipmentSlotForItem(armor)
             player.setItemSlot(slot, armor)
         }
 
+        // Add sleeping entity to the world
         player.level().addFreshEntity(sleepingPlayer)
+
+        // Force load the chunk where the sleeping player is to prevent unloading
         if (player.level() is ServerLevel) {
             val serverLevel = player.level() as ServerLevel
             val chunk = ChunkPos(player.onPos)
             serverLevel.setChunkForced(chunk.x, chunk.z, true)
         }
+
+        // Calculate dream quality based on nearby blocks
         val maxDreamweavers = (if (hasFrog) 3 else 4)
         val maxFlowingSpirits = 4
         val maxWispyCotton = (if (hasFrog) 3 else 4)
         val dreamweaverCount = countNearbyBlocks(player, WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())
         val flowingSpiritCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
-        val wispyCount = countNearbyBlocks(player, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
+        val wispyCount = countNearbyBlocks(player, WitcheryBlocks.WISPY_COTTON.get())
 
         val maxEffectCount = (maxDreamweavers + maxFlowingSpirits + maxWispyCotton).toDouble()
         val effectiveCount =
@@ -77,11 +90,13 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
                     + wispyCount.coerceAtMost(maxWispyCotton)).toDouble()
         val goodDreamChance = 0.05 + 0.85 * (effectiveCount / maxEffectCount) // Scale up to 90% with max blocks
 
+        // Determine which dream dimension to send to based on chance calculation
         val key = ResourceKey.create(Registries.DIMENSION, Witchery.id("dream_world"))
         val nightmareKey = ResourceKey.create(Registries.DIMENSION, Witchery.id("nightmare_world"))
 
         val destinationKey = if (player.level().random.nextDouble() < goodDreamChance) key else nightmareKey
 
+        // Get the dimension and teleport the player
         val destination = player.level().server?.getLevel(destinationKey)
         if (destination != null) {
             val targetX = player.x
@@ -98,23 +113,31 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             if (player is ServerPlayer) {
                 player.teleportTo(destination, targetX, solidY + 1.0, targetZ, player.yRot, player.xRot)
             }
-
         }
 
         super.applyEffectOnSelf(player, hasFrog)
     }
 
     companion object {
+        /**
+         * Handles player respawn after death or returning from the dream world
+         */
         fun respawnPlayer(oldPlayer: ServerPlayer?, newServerPlayer: ServerPlayer?, wonGame: Boolean) {
             if (newServerPlayer?.level() is ServerLevel) {
                 val serverLevel = newServerPlayer.level() as ServerLevel
                 val hasSleeping = SleepingPlayerHandler.getPlayerFromSleeping(newServerPlayer.uuid, serverLevel)
+
                 if (hasSleeping != null) {
+                    // Force load chunk with sleeping body
                     val chunk = ChunkPos(hasSleeping.pos)
                     serverLevel.setChunkForced(chunk.x, chunk.z, true)
+
+                    // Find the sleeping entity
                     val sleepEntity: SleepingPlayerEntity? =
                         serverLevel.getEntity(hasSleeping.uuid) as SleepingPlayerEntity?
+
                     if (sleepEntity != null) {
+                        // Replace player with sleeping entity
                         SleepingPlayerEntity.replaceWithPlayer(newServerPlayer, sleepEntity)
                     }
                 }

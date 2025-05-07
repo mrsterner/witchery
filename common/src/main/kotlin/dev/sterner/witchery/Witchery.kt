@@ -224,6 +224,20 @@ object Witchery {
         }
 
         LifecycleEvent.SERVER_STARTED.register { addStructure(it) }
+        LifecycleEvent.SERVER_STOPPING.register {
+            it.allLevels.forEach { level ->
+                val data = TeleportQueueLevelAttachment.getData(level)
+                data.pendingTeleports.forEach { request ->
+                    try {
+                        level.setChunkForced(request.chunkPos.x, request.chunkPos.z, false)
+                    } catch (_: Exception) {
+
+                    }
+                }
+
+                TeleportQueueLevelAttachment.setData(level, TeleportQueueLevelAttachment.Data(mutableListOf()))
+            }
+        }
         //TickEvent.SERVER_LEVEL_PRE.register(VillageWallHandler::tick)
         //ChunkEvent.LOAD_DATA.register(VillageWallHandler::loadChunk)
 

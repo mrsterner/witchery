@@ -24,8 +24,6 @@ object SleepingLevelAttachment {
         throw AssertionError()
     }
 
-
-
     data class PlayerSleepingData(val uuid: UUID, val pos: BlockPos) {
 
         companion object {

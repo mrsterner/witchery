@@ -13,6 +13,7 @@ import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
@@ -48,42 +49,63 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
     }
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {
-
         if (level() is ServerLevel) {
             hurtCounter++
             entityData.set(HURT_TIME, 10)
             playSound(SoundEvents.PLAYER_HURT)
             var foundPlayer = false
+
             if (data.resolvableProfile != null) {
+                // First, try to find the player in any dimension
                 for (serverLevel in level().server!!.allLevels) {
                     val playerUuid = SleepingPlayerHandler.getPlayerFromSleepingUUID(uuid, serverLevel)
 
                     val player = playerUuid?.let { level().server!!.playerList.getPlayer(it) }
                     if (player != null) {
-                        TeleportQueueHandler.addRequest(
-                            level() as ServerLevel,
-                            TeleportRequest(playerUuid, blockPosition(), ChunkPos(blockPosition()))
+                        // Create a teleport request with current position and source dimension
+                        val teleportRequest = TeleportRequest(
+                            player = playerUuid,
+                            pos = blockPosition(),
+                            chunkPos = ChunkPos(blockPosition()),
+                            createdGameTime = level().gameTime,
+                            attempts = 0,
+                            sourceDimension = player.level().dimension() // Store source dimension
                         )
-                        val old = ManifestationPlayerAttachment.getData(player)
-                        ManifestationPlayerAttachment.setData(
-                            player,
-                            ManifestationPlayerAttachment.Data(old.hasRiteOfManifestation, 0)
-                        )
+
+                        TeleportQueueHandler.addRequest(level() as ServerLevel, teleportRequest)
+
+                        // Update player manifestation data if applicable
+                        val manifestationData = ManifestationPlayerAttachment.getData(player)
+                        if (manifestationData.manifestationTimer > 0) {
+                            ManifestationPlayerAttachment.setData(
+                                player,
+                                ManifestationPlayerAttachment.Data(manifestationData.hasRiteOfManifestation, 0)
+                            )
+                        }
+
+                        // Notify player they're being pulled back
+                        player.sendSystemMessage(Component.translatable("witchery.message.body_hurt"))
+
                         foundPlayer = true
                         break
                     }
                 }
             }
 
+            // Handle death after too much damage
             if (hurtCounter > 8) {
                 if (!foundPlayer && data.resolvableProfile?.id != null && data.resolvableProfile!!.id.isPresent) {
+                    // Queue death event for player who couldn't be found
                     DeathQueueLevelAttachment.addDeathToQueue(level() as ServerLevel, data.resolvableProfile!!.id.get())
                 }
-                Containers.dropContents(level(), blockPosition(), data.mainInventory)
-                Containers.dropContents(level(), blockPosition(), data.armorInventory)
-                Containers.dropContents(level(), blockPosition(), data.offHandInventory)
-                Containers.dropContents(level(), blockPosition(), data.extraInventory)
+
+                // Drop all inventory contents
+                dropInventory()
+
+                // Remove from sleeping player map
                 SleepingPlayerHandler.removeBySleepingUUID(uuid, level() as ServerLevel)
+
+                // Spawn death particles
                 WitcheryPayloads.sendToPlayers(
                     level(), SpawnSleepingDeathParticleS2CPayload(
                         this.getRandomX(1.5),
@@ -92,11 +114,19 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                     )
                 )
 
+                // Remove entity
                 this.remove(RemovalReason.KILLED)
             }
         }
 
         return super.hurt(source, amount)
+    }
+
+    private fun dropInventory() {
+        Containers.dropContents(level(), blockPosition(), data.mainInventory)
+        Containers.dropContents(level(), blockPosition(), data.armorInventory)
+        Containers.dropContents(level(), blockPosition(), data.offHandInventory)
+        Containers.dropContents(level(), blockPosition(), data.extraInventory)
     }
 
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
