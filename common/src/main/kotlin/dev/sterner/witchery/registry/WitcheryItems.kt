@@ -337,7 +337,7 @@ object WitcheryItems {
     }
 
     val DEATH_PROTECTION_POPPET: RegistrySupplier<Item> = register("death_protection_poppet") {
-        PoppetItem(Item.Properties().durability(4))
+        PoppetItem(Item.Properties().durability(1))
     }
 
     val HUNGER_PROTECTION_POPPET: RegistrySupplier<Item> = register("hunger_protection_poppet") {
@@ -353,7 +353,7 @@ object WitcheryItems {
     }
 
     val VOODOO_PROTECTION_POPPET: RegistrySupplier<Item> = register("voodoo_protection_poppet") {
-        PoppetItem(Item.Properties().durability(4))
+        PoppetItem(Item.Properties().durability(1))
     }
 
     //end POPPETS

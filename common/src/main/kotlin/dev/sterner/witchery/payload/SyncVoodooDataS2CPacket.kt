@@ -17,6 +17,7 @@ class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     constructor(player: Player, data: VoodooPoppetLivingEntityAttachment.VoodooPoppetData) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putBoolean("isUnderWater", data.isUnderWater)
+        putInt("ticks", data.underWaterTicks)
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -32,6 +33,7 @@ class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
         val id = payload.nbt.getUUID("Id")
         val isUnderWater = payload.nbt.getBoolean("isUnderWater")
+        val ticks = payload.nbt.getInt("ticks")
 
         val player = client.level?.getPlayerByUUID(id)
 
@@ -39,7 +41,7 @@ class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
             if (player != null) {
                 VoodooPoppetLivingEntityAttachment.setPoppetData(
                     player,
-                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(isUnderWater)
+                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(isUnderWater, ticks)
                 )
             }
         }

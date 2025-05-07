@@ -41,6 +41,7 @@ import dev.sterner.witchery.handler.infusion.InfernalInfusionHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.handler.infusion.LightInfusionHandler
 import dev.sterner.witchery.handler.infusion.OtherwhereInfusionHandler
+import dev.sterner.witchery.handler.poppet.PoppetHandler
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.handler.vampire.VampireAbilityHandler
 import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
@@ -71,7 +72,6 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
-import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.NoopRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.resources.ResourceLocation
@@ -122,6 +122,7 @@ object Witchery {
         WitcheryFeatures.FEATURES.register()
         WitcheryPayloads.register()
         WitcheryEntityAttributes.register()
+        WitcheryPoppetRegistry.register()
 
         PotionDataReloadListener.registerListener()
         FetishEffectReloadListener.registerListener()
@@ -260,55 +261,25 @@ object Witchery {
         EntityRendererRegistry.register(WitcheryEntityTypes.THROWN_POTION, ::ThrownItemRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.SLEEPING_PLAYER, ::SleepingPlayerEntityRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.SPECTRAL_PIG, ::SpectralPigRenderer)
-        EntityRendererRegistry.register(
-            WitcheryEntityTypes.AREA_EFFECT_CLOUD
-        ) { context: EntityRendererProvider.Context ->
-            NoopRenderer(
-                context
-            )
-        }
+        EntityRendererRegistry.register(WitcheryEntityTypes.AREA_EFFECT_CLOUD, ::NoopRenderer)
 
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DISTILLERY.get(), ::DistilleryBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRAZIER.get(), ::BrazierBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.COFFIN.get(), ::CoffinBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.SPINNING_WHEEL.get(),
-            ::SpinningWheelBlockEntityRenderer
-        )
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPINNING_WHEEL.get(), ::SpinningWheelBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_SIGN.get(), ::SignRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get(), ::HangingSignRenderer)
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.DREAM_WEAVER.get(),
-            ::DreamWeaverBlockEntityRenderer
-        )
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DREAM_WEAVER.get(), ::DreamWeaverBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.POPPET.get(), ::PoppetBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(),
-            ::SpiritPortalBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(),
-            ::WerewolfAltarBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.BEAR_TRAP.get(),
-            ::BearTrapBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(),
-            ::SuspiciousGraveyardDirtBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(),
-            ::SacrificialCircleBlockEntityRenderer
-        )
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(), ::SpiritPortalBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(), ::WerewolfAltarBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BEAR_TRAP.get(), ::BearTrapBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(), ::SuspiciousGraveyardDirtBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(), ::SacrificialCircleBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.GRASSPER.get(), ::GrassperBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(
-            WitcheryBlockEntityTypes.CRITTER_SNARE.get(),
-            ::CritterSnareBlockEntityRenderer
-        )
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CRITTER_SNARE.get(), ::CritterSnareBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.EFFIGY.get(), ::EffigyBlockEntityRenderer)
 
         ClientTooltipComponentRegistry.register(

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.handler.PoppetHandler
+import dev.sterner.witchery.poppet.VoodooPoppet
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.ClipContext
@@ -19,7 +19,7 @@ class VoodooPoppetItem(properties: Properties) : PoppetItem(properties) {
                 player,
                 ClipContext.Fluid.SOURCE_ONLY
             )
-            return PoppetHandler.handleUseVoodoo(level, pos, item, player, blockHitResult)
+            return VoodooPoppet.handleInteraction(level, pos, item, player, blockHitResult)
         }
 
         return InteractionResult.PASS

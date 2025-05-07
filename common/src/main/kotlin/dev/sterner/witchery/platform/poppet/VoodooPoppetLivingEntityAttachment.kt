@@ -35,12 +35,16 @@ object VoodooPoppetLivingEntityAttachment {
         }
     }
 
-    data class VoodooPoppetData(val isUnderWater: Boolean) {
+    data class VoodooPoppetData(
+        val isUnderWater: Boolean,
+        val underWaterTicks: Int = 0
+    ) {
 
         companion object {
             val CODEC: Codec<VoodooPoppetData> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.BOOL.fieldOf("isUnderWater").forGetter { it.isUnderWater },
+                    Codec.INT.fieldOf("underWaterTicks").forGetter { it.underWaterTicks },
                 ).apply(instance, ::VoodooPoppetData)
             }
 

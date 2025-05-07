@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin_logic
 
 import dev.sterner.witchery.handler.BarkBeltHandler
-import dev.sterner.witchery.handler.PoppetHandler.handleVampiricPoppet
 import dev.sterner.witchery.handler.PotionHandler
+import dev.sterner.witchery.handler.poppet.PoppetHandler
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment.getData
@@ -37,7 +37,7 @@ object LivingEntityMixinLogic {
             remainingDamage = barkMitigated.coerceAtMost(remainingDamage)
 
             if (remainingDamage > 0f) {
-                remainingDamage = handleVampiricPoppet(entity, damageSource, remainingDamage)
+                remainingDamage = PoppetHandler.onLivingHurt(entity, damageSource, remainingDamage)
             }
         } else if (isVamp) {
 
@@ -63,8 +63,20 @@ object LivingEntityMixinLogic {
 
     fun modifyBaseTick(livingEntity: LivingEntity) {
         val prevData = getPoppetData(livingEntity)
-        if (prevData.isUnderWater) {
-            setPoppetData(livingEntity, VoodooPoppetData(false))
+
+        if (prevData.underWaterTicks > 0) {
+            val newTicks = prevData.underWaterTicks - 1
+
+            setPoppetData(livingEntity, VoodooPoppetData(
+                isUnderWater = true,
+                underWaterTicks = newTicks
+            ))
+        } else if (prevData.isUnderWater) {
+            setPoppetData(livingEntity, VoodooPoppetData(
+                isUnderWater = false,
+                underWaterTicks = 0
+            ))
         }
     }
+
 }
