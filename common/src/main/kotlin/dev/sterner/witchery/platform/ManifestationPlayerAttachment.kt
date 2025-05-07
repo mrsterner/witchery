@@ -4,19 +4,11 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.payload.SyncManifestationS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.client.DeltaTracker
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.ChunkPos
 
 object ManifestationPlayerAttachment {
 
@@ -32,7 +24,6 @@ object ManifestationPlayerAttachment {
     fun setData(player: Player, data: Data) {
         throw AssertionError()
     }
-
 
 
     fun sync(player: Player, data: Data) {

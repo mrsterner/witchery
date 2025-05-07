@@ -69,7 +69,10 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
 
             if (rawLinkCount > 0) {
                 val yaw = atan2(normalizedDir.x, normalizedDir.z) * (180f / Math.PI)
-                val pitch = atan2(normalizedDir.y, sqrt(normalizedDir.x * normalizedDir.x + normalizedDir.z * normalizedDir.z)) * (180f / Math.PI)
+                val pitch = atan2(
+                    normalizedDir.y,
+                    sqrt(normalizedDir.x * normalizedDir.x + normalizedDir.z * normalizedDir.z)
+                ) * (180f / Math.PI)
 
                 poseStack.translate(0.0, -0.85, 0.0)
 
@@ -228,6 +231,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
                             }
                         }
                     }
+
                     else -> {}
                 }
             }
@@ -279,9 +283,9 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
         poseStack.scale(baseScale, baseScale, baseScale)
 
         if (linkIndex % 2 == 1) {
-            poseStack.translate(-2.0f, 21/16f, 0.0f)
+            poseStack.translate(-2.0f, 21 / 16f, 0.0f)
             poseStack.mulPose(Axis.XP.rotationDegrees(90f))
-            poseStack.translate(2.0f, -21/16f, 0.0f)
+            poseStack.translate(2.0f, -21 / 16f, 0.0f)
         }
 
         chainModel.chain.render(
@@ -338,6 +342,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
                             0.0, 0.05, 0.0
                         )
                     }
+
                     ChainEntity.ChainState.RETRACTING -> {
                         level.addParticle(
                             ParticleTypes.WITCH,
@@ -345,6 +350,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
                             offsetX * 0.1, 0.05, offsetZ * 0.1
                         )
                     }
+
                     else -> {
                     }
                 }

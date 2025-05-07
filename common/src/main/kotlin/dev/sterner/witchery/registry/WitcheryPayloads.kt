@@ -119,6 +119,9 @@ object WitcheryPayloads {
         registerS2C(SpawnSmokeParticlesS2CPayload.ID, SpawnSmokeParticlesS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
+        registerS2C(SpawnNecroParticlesS2CPayload.ID, SpawnNecroParticlesS2CPayload.STREAM_CODEC) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
         registerS2C(RefreshDimensionsS2CPayload.ID, RefreshDimensionsS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }

@@ -49,7 +49,8 @@ class BearTrapModel(root: ModelPart) :
 
             val bone = partdefinition.addOrReplaceChild(
                 "bone",
-                CubeListBuilder.create().texOffs(0, 16).addBox(-13.0f, 1.0f, 7.0f, 14.0f, 1.0f, 2.0f, CubeDeformation(0.0f))
+                CubeListBuilder.create().texOffs(0, 16)
+                    .addBox(-13.0f, 1.0f, 7.0f, 14.0f, 1.0f, 2.0f, CubeDeformation(0.0f))
                     .texOffs(8, 25).addBox(-1.0f, -1.0f, 7.0f, 2.0f, 2.0f, 2.0f, CubeDeformation(0.0f))
                     .texOffs(0, 25).addBox(-12.5f, -1.0f, 7.0f, 2.0f, 2.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offset(6.0f, 22.0f, -8.0f)
@@ -80,7 +81,8 @@ class BearTrapModel(root: ModelPart) :
 
             val plate = bone.addOrReplaceChild(
                 "plate",
-                CubeListBuilder.create().texOffs(0, 19).addBox(-8.5f, -0.5f, 5.5f, 5.0f, 1.0f, 5.0f, CubeDeformation(0.0f))
+                CubeListBuilder.create().texOffs(0, 19)
+                    .addBox(-8.5f, -0.5f, 5.5f, 5.0f, 1.0f, 5.0f, CubeDeformation(0.0f))
                     .texOffs(0, 0).addBox(-6.5f, 0.0f, 7.5f, 1.0f, 2.0f, 1.0f, CubeDeformation(0.0f)),
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )

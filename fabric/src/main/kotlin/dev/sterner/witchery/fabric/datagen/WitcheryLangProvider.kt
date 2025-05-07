@@ -156,6 +156,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryItems.FLYING_OINTMENT.get(), "Flying Ointment")
         builder.add(WitcheryItems.SOUL_OF_THE_WORLD.get(), "Soul of the Overworld")
         builder.add(WitcheryItems.SPIRIT_OF_OTHERWHERE.get(), "Spirit of Otherwhere")
+        builder.add(WitcheryItems.NECROMANTIC_SOULBIND.get(), "Necromantic Soulbind")
         builder.add(WitcheryItems.GHOST_OF_THE_LIGHT.get(), "Ghost of the Light")
         builder.add(WitcheryItems.INFERNAL_ANIMUS.get(), "Infernal Animus")
         builder.add(WitcheryItems.TONGUE_OF_DOG.get(), "Tongue of Dog")
@@ -255,6 +256,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
             "Waxed Oxidized Copper Witches Oven Fume Filter"
         )
 
+        builder.add(WitcheryBlocks.BEAR_TRAP.get(), "Bear Trap")
         builder.add(WitcheryBlocks.IRON_CANDELABRA.get(), "Iron Candelabra")
         builder.add(WitcheryBlocks.WHITE_IRON_CANDELABRA.get(), "White Iron Candelabra")
         builder.add(WitcheryBlocks.ORANGE_IRON_CANDELABRA.get(), "Orange Iron Candelabra")
@@ -281,6 +283,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add(WitcheryBlocks.TRENT_EFFIGY.get(), "Trent Effigy")
         builder.add(WitcheryBlocks.SCARECROW.get(), "Scarecrow")
+        builder.add(WitcheryBlocks.EFFIGY_COMPONENT.get(), "Effigy")
         builder.add(WitcheryBlocks.WITCHS_LADDER.get(), "Witch's Ladder")
 
         builder.add(WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(), "Golden Chalk")

@@ -7,5 +7,4 @@ import net.minecraft.world.level.block.state.BlockState
 
 
 class CoffinBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.COFFIN.get(), blockPos, blockState) {
-}
+    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.COFFIN.get(), blockPos, blockState)

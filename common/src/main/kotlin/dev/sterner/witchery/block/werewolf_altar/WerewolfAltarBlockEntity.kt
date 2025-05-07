@@ -4,14 +4,11 @@ import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.payload.SpawnItemParticlesS2CPayload
-import dev.sterner.witchery.payload.SpawnSmokePoofParticles
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
-import net.minecraft.core.particles.ItemParticleOption
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.ContainerHelper
@@ -28,7 +25,12 @@ import net.minecraft.world.phys.Vec3
 
 class WerewolfAltarBlockEntity(
     blockPos: BlockPos, blockState: BlockState
-) : MultiBlockCoreEntity(WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(), WerewolfAltarBlock.STRUCTURE.get(), blockPos, blockState) {
+) : MultiBlockCoreEntity(
+    WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(),
+    WerewolfAltarBlock.STRUCTURE.get(),
+    blockPos,
+    blockState
+) {
 
     var items: NonNullList<ItemStack> = NonNullList.withSize(1, ItemStack.EMPTY)
 
@@ -89,7 +91,7 @@ class WerewolfAltarBlockEntity(
             val box = AABB(pos).inflate(4.0)
             val traps = BlockPos.betweenClosedStream(box).filter { level.getBlockState(it).block is BearTrapBlock }
             traps.forEach { blockPos ->
-                val trapAabb = AABB(blockPos).inflate(0.0, 1.0 ,0.0)
+                val trapAabb = AABB(blockPos).inflate(0.0, 1.0, 0.0)
                 val werewolves = level.getEntities(WitcheryEntityTypes.WEREWOLF.get(), trapAabb) { it.isAlive }
                 werewolves.forEach { entity ->
                     entity.entityData.set(WerewolfEntity.CAN_INFECT, true)
@@ -99,7 +101,7 @@ class WerewolfAltarBlockEntity(
 
     }
 
-    private fun spawnConsumeParticles(level: ServerLevel, itemStack: ItemStack){
+    private fun spawnConsumeParticles(level: ServerLevel, itemStack: ItemStack) {
         if (level.random.nextFloat() < 0.3) {
             val dir = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
             val offset = Vec3(-0.35, 0.4, 0.9)
@@ -107,8 +109,8 @@ class WerewolfAltarBlockEntity(
             val rotatedOffset = when (dir) {
                 Direction.NORTH -> offset
                 Direction.SOUTH -> Vec3(-offset.x, offset.y, -offset.z)
-                Direction.WEST  -> Vec3(offset.z, offset.y, -offset.x)
-                Direction.EAST  -> Vec3(-offset.z, offset.y, offset.x)
+                Direction.WEST -> Vec3(offset.z, offset.y, -offset.x)
+                Direction.EAST -> Vec3(-offset.z, offset.y, offset.x)
                 else -> offset
             }
 

@@ -118,7 +118,10 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
     /**
      * Save items that should be kept during sleep
      */
-    private fun savePlayerItems(player: Player, hasFrog: Boolean): Pair<MutableList<ItemStack>, MutableList<ItemStack>> {
+    private fun savePlayerItems(
+        player: Player,
+        hasFrog: Boolean
+    ): Pair<MutableList<ItemStack>, MutableList<ItemStack>> {
         val itemsToKeep = mutableListOf<ItemStack>()
         val armorToKeep = mutableListOf<ItemStack>()
 
@@ -138,7 +141,9 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         // Keep items that match the tag
         for (i in 0 until player.inventory.containerSize) {
             val itemStack = player.inventory.getItem(i)
-            if (!itemStack.isEmpty && itemStack.item.builtInRegistryHolder().`is`(WitcheryTags.TO_SPIRIT_WORLD_TRANSFERABLE)) {
+            if (!itemStack.isEmpty && itemStack.item.builtInRegistryHolder()
+                    .`is`(WitcheryTags.TO_SPIRIT_WORLD_TRANSFERABLE)
+            ) {
                 itemsToKeep.add(player.inventory.removeItem(i, itemStack.count))
             }
         }

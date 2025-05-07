@@ -125,16 +125,11 @@ object WitcheryNeoForge {
     }
 
     @SubscribeEvent
-    fun modifyExistingTabs(event: BuildCreativeModeTabContentsEvent) {
-        WitcheryCreativeModeTabs.modifyExistingTabs(event.tab, event)
-    }
-
-    @SubscribeEvent
     fun onRegisterCapabilities(event: RegisterCapabilitiesEvent) {
         event.registerBlockEntity(
             Capabilities.FluidHandler.BLOCK,
             WitcheryBlockEntityTypes.CAULDRON.get()
-        ) { be, direction ->
+        ) { be, _ ->
             WitcheryFluidHandlerNeoForge(be.fluidTank)
         }
     }

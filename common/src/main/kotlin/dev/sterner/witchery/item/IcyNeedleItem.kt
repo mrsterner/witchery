@@ -37,7 +37,8 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
             // Handle manifested player in overworld
             if (livingEntity is Player &&
                 livingEntity.level().dimension() == Level.OVERWORLD &&
-                ManifestationPlayerAttachment.getData(livingEntity).manifestationTimer > 0) {
+                ManifestationPlayerAttachment.getData(livingEntity).manifestationTimer > 0
+            ) {
 
                 handleManifestationEnd(livingEntity, level)
 

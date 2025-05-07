@@ -4,13 +4,13 @@ import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
+import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncEtherealS2CPacket
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
-import java.util.UUID
+import java.util.*
 
 object EtherealEntityAttachment {
 
@@ -28,7 +28,16 @@ object EtherealEntityAttachment {
 
     fun sync(living: LivingEntity, data: Data) {
         if (living.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(living.level(), living.blockPosition(), SyncEtherealS2CPacket(living.id, data))
+            val serverLevel = living.level() as ServerLevel
+
+            val packet = SyncEtherealS2CPacket(living.id, data)
+
+            val players = serverLevel.server.playerList.players
+            for (player in players) {
+                if (player.level() == serverLevel) {
+                    NetworkManager.sendToPlayer(player, packet)
+                }
+            }
         }
     }
 

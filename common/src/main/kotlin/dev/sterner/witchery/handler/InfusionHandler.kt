@@ -2,11 +2,13 @@ package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.util.RenderUtils
-import dev.sterner.witchery.platform.infusion.InfusionData
+import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment.MAX_CHARGE
+import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment.getInfusionCharge
+import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment.setInfusionCharge
 import dev.sterner.witchery.platform.infusion.InfusionType
-import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.util.RenderUtils
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.DeltaTracker
@@ -26,6 +28,21 @@ import net.minecraft.world.phys.EntityHitResult
  */
 object InfusionHandler {
 
+    @JvmStatic
+    fun increaseInfusionCharge(player: Player, toAdd: Int) {
+        val currentCharge = getInfusionCharge(player)
+        val newCharge = (currentCharge + toAdd).coerceAtMost(MAX_CHARGE)
+        setInfusionCharge(player, newCharge)
+    }
+
+    @JvmStatic
+    fun decreaseInfusionCharge(player: Player, toRemove: Int) {
+        val currentCharge = getInfusionCharge(player)
+        if (currentCharge > 0) {
+            setInfusionCharge(player, currentCharge - toRemove)
+        }
+    }
+
     /**
      * Checks if the player is holding the Witches' Hand in their main hand.
      *
@@ -44,7 +61,7 @@ object InfusionHandler {
      * @return true if the player can use infusion actions, false otherwise.
      */
     private fun canUse(player: Player): Boolean {
-        return hasWitchesHand(player) && PlayerInfusionDataAttachment.getPlayerInfusion(player).type != InfusionType.NONE
+        return hasWitchesHand(player) && InfusionPlayerAttachment.getPlayerInfusion(player).type != InfusionType.NONE
     }
 
     /**
@@ -54,7 +71,7 @@ object InfusionHandler {
      */
     fun onHoldRightClick(player: Player) {
         if (canUse(player)) {
-            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
+            val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
             infusionType.onHoldRightClick(player)
         }
     }
@@ -67,7 +84,7 @@ object InfusionHandler {
      */
     fun onHoldReleaseRightClick(player: Player) {
         if (canUse(player)) {
-            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
+            val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
             if (player.isShiftKeyDown) {
                 infusionType.onReleaseRightClickShift(player)
             } else {
@@ -95,7 +112,7 @@ object InfusionHandler {
         entityHitResult: EntityHitResult?
     ): EventResult? {
         if (canUse(player)) {
-            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
+            val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
             if (player.isShiftKeyDown) {
                 infusionType.leftClickEntityShift(player, entity, entityHitResult)
             } else {
@@ -122,7 +139,7 @@ object InfusionHandler {
         direction: Direction?
     ): EventResult? {
         if (canUse(player)) {
-            val infusionType = PlayerInfusionDataAttachment.getPlayerInfusion(player).type
+            val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
             if (player.isShiftKeyDown) {
                 infusionType.leftClickBlockShift(player, blockPos, direction)
             } else {
@@ -136,6 +153,7 @@ object InfusionHandler {
     private val infusionMeterOverlay = Witchery.id("textures/gui/infusion_meter_overlay.png")
     private val infusionMeterOtherwhere = Witchery.id("textures/gui/infusion_meter_otherwhere.png")
     private val infusionMeterInfernal = Witchery.id("textures/gui/infusion_meter_infernal.png")
+    private val infusionMeterNecro = Witchery.id("textures/gui/infusion_meter_necro.png")
     private val infusionMeterOverworld = Witchery.id("textures/gui/infusion_meter_overworld.png")
     private val infusionMeterLight = Witchery.id("textures/gui/infusion_meter_light.png")
 
@@ -144,11 +162,11 @@ object InfusionHandler {
         val minecraft = Minecraft.getInstance()
         val clientPlayer = minecraft.player ?: return
 
-        val data = PlayerInfusionDataAttachment.getPlayerInfusion(clientPlayer)
+        val data = InfusionPlayerAttachment.getPlayerInfusion(clientPlayer)
         if (data.type == InfusionType.NONE) return
 
         val scaledY = minecraft.window.guiScaledHeight
-        val chargePercentage = data.charge.toFloat() / InfusionData.MAX_CHARGE
+        val chargePercentage = data.charge.toFloat() / MAX_CHARGE
 
         val texture = when (data.type) {
             InfusionType.LIGHT -> {
@@ -161,6 +179,10 @@ object InfusionHandler {
 
             InfusionType.INFERNAL -> {
                 infusionMeterInfernal
+            }
+
+            InfusionType.NECRO -> {
+                infusionMeterNecro
             }
 
             else -> infusionMeterOverworld

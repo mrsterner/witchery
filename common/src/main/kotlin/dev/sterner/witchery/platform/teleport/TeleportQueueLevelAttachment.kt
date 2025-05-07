@@ -22,7 +22,6 @@ object TeleportQueueLevelAttachment {
     }
 
 
-
     data class Data(val pendingTeleports: MutableList<TeleportRequest> = mutableListOf()) {
 
         companion object {

@@ -2,7 +2,6 @@ package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.payload.SyncOwlAbilityS2CPayload
-import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems

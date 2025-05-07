@@ -2,8 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
+import dev.sterner.witchery.platform.infusion.OtherwhereInfusionPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -15,7 +14,7 @@ class SyncOtherwhereInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayloa
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: OtherwhereInfusionData) : this(CompoundTag().apply {
+    constructor(player: Player, data: OtherwhereInfusionPlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putInt("teleportHoldTicks", data.teleportHoldTicks)
         putInt("teleportCooldown", data.teleportCooldown)
@@ -40,7 +39,7 @@ class SyncOtherwhereInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayloa
 
         client.execute {
             if (player != null) {
-                OtherwhereInfusionDataAttachment.setInfusion(player, teleportHoldTicks, teleportCooldown)
+                OtherwhereInfusionPlayerAttachment.setInfusion(player, teleportHoldTicks, teleportCooldown)
             }
         }
     }

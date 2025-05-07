@@ -49,7 +49,12 @@ object WerewolfEventHandler {
         InteractionEvent.RIGHT_CLICK_BLOCK.register(WerewolfEventHandler::rightClickBlockAbility)
     }
 
-    private fun rightClickBlockAbility(player: Player?, interactionHand: InteractionHand?, blockPos: BlockPos?, direction: Direction?): EventResult? {
+    private fun rightClickBlockAbility(
+        player: Player?,
+        interactionHand: InteractionHand?,
+        blockPos: BlockPos?,
+        direction: Direction?
+    ): EventResult? {
         if (player == null || interactionHand == InteractionHand.OFF_HAND) {
             return EventResult.pass()
         }
@@ -137,7 +142,7 @@ object WerewolfEventHandler {
                         }
                     }
 
-                } else if(player.level().isDay || player.level().moonPhase != 0){
+                } else if (player.level().isDay || player.level().moonPhase != 0) {
                     if (wereData.getWerewolfLevel() > 0) {
                         tryForceTurnWerewolfToHuman(player, wereData)
                     }
@@ -146,7 +151,7 @@ object WerewolfEventHandler {
 
             if (TransformationHandler.isWolf(player)) {
                 wolfTick(player)
-            } else if(TransformationHandler.isWerewolf(player)) {
+            } else if (TransformationHandler.isWerewolf(player)) {
                 werewolfTick(player)
             }
         }
@@ -214,7 +219,7 @@ object WerewolfEventHandler {
         val hasOffhand = !player.offhandItem.isEmpty
 
         val y = guiGraphics.guiHeight() - 18 - 5
-        val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - if(hasOffhand) 32 else 0
+        val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - if (hasOffhand) 32 else 0
 
         val bl2 = client.gameMode!!.canHurtPlayer()
         if (!bl2) {

@@ -11,11 +11,16 @@ import net.minecraft.world.phys.Vec3
 
 class ShriekingFetishEffect : FetishEffect() {
 
-    private fun shriek(level: Level, pos: Vec3){
+    private fun shriek(level: Level, pos: Vec3) {
         level.playSound(null, pos.x, pos.y, pos.z, SoundEvents.GHAST_SCREAM, SoundSource.BLOCKS)
     }
 
-    override fun onUnknownPlayerNearbyTick(level: Level, blockEntity: EffigyBlockEntity,  pos: BlockPos, nearby: List<Player>) {
+    override fun onUnknownPlayerNearbyTick(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        nearby: List<Player>
+    ) {
         if (level.random.nextDouble() < 0.1) {
             shriek(level, pos.center)
         }

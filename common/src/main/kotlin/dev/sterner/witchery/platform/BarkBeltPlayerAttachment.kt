@@ -4,19 +4,10 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.util.RenderUtils
-import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.payload.SyncBarkS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
-import dev.sterner.witchery.registry.WitcheryTags
-import net.minecraft.client.DeltaTracker
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 
 object BarkBeltPlayerAttachment {

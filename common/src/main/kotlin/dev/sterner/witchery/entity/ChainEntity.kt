@@ -21,7 +21,6 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import java.util.*
-import kotlin.math.pow
 
 class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level) {
 
@@ -53,7 +52,8 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
     private var headPosition = 0f
 
     companion object {
-        private val TARGET_ENTITY = SynchedEntityData.defineId(ChainEntity::class.java, EntityDataSerializers.OPTIONAL_UUID)
+        private val TARGET_ENTITY =
+            SynchedEntityData.defineId(ChainEntity::class.java, EntityDataSerializers.OPTIONAL_UUID)
         private val CHAIN_STATE = SynchedEntityData.defineId(ChainEntity::class.java, EntityDataSerializers.INT)
         private val CHAIN_PROGRESS = SynchedEntityData.defineId(ChainEntity::class.java, EntityDataSerializers.FLOAT)
         private val RETRACT_PROGRESS = SynchedEntityData.defineId(ChainEntity::class.java, EntityDataSerializers.FLOAT)
@@ -85,7 +85,7 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
             }
         }
 
-        when(getChainState()) {
+        when (getChainState()) {
             ChainState.EXTENDING -> {
                 val headPos = entityData.get(HEAD_POSITION) + extensionSpeed
                 entityData.set(HEAD_POSITION, headPos.coerceAtMost(1.0f))
@@ -237,9 +237,13 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
         maxLinks = kotlin.math.ceil(initialDistance / effectiveLinkLength).toInt()
     }
 
-    fun sync(entity: Entity){
+    fun sync(entity: Entity) {
         if (entity.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(entity.level() as ServerLevel, entity.blockPosition(), SyncChainS2CPayload(this, entity))
+            WitcheryPayloads.sendToPlayers(
+                entity.level() as ServerLevel,
+                entity.blockPosition(),
+                SyncChainS2CPayload(this, entity)
+            )
         }
     }
 
@@ -333,15 +337,17 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
             }
         }
 
-        return when(chainState) {
+        return when (chainState) {
             ChainState.EXTENDING -> {
                 (maxLinks * getChainProgress()).coerceAtLeast(0.1f)
             }
+
             ChainState.CONNECTED -> maxLinks.toFloat()
             ChainState.RETRACTING -> {
                 val baseRetraction = getRetractProgress()
                 ((1.0f - baseRetraction) * maxLinks).coerceAtLeast(0.1f)
             }
+
             ChainState.FINISHED -> 0f
         }
     }
@@ -353,15 +359,17 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
     private fun setChainState(state: ChainState) {
         entityData.set(CHAIN_STATE, state.ordinal)
 
-        when(state) {
+        when (state) {
             ChainState.EXTENDING -> {
                 entityData.set(CHAIN_PROGRESS, 0f)
                 entityData.set(HEAD_POSITION, 0f)
             }
+
             ChainState.RETRACTING -> {
                 entityData.set(RETRACT_PROGRESS, 0f)
                 entityData.set(HEAD_POSITION, 1.0f)
             }
+
             else -> {}
         }
     }

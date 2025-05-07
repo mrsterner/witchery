@@ -4,8 +4,8 @@ import com.klikli_dev.modonomicon.book.page.BookRecipePage
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.util.RenderUtils.blitWithAlpha
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
+import dev.sterner.witchery.util.RenderUtils.blitWithAlpha
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Style
 import net.minecraft.world.item.crafting.Recipe
@@ -88,7 +88,7 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
             recipeY + 18 + 2,
             mouseX,
             mouseY,
-            recipeHolder.value!!.result
+            recipeHolder.value.result
         )
         this.parentScreen.renderItemStack(
             guiGraphics,
@@ -96,7 +96,7 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
             recipeY + 36 + 3,
             mouseX,
             mouseY,
-            recipeHolder.value!!.extraIngredient.items[0]
+            recipeHolder.value.extraIngredient.items[0]
         )
         this.parentScreen.renderItemStack(
             guiGraphics,
@@ -104,7 +104,7 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
             recipeY + 1,
             mouseX,
             mouseY,
-            recipeHolder.value!!.extraOutput
+            recipeHolder.value.extraOutput
         )
         this.parentScreen.renderItemStack(
             guiGraphics,
@@ -112,7 +112,7 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
             recipeY + 18 + 2,
             mouseX,
             mouseY,
-            recipeHolder.value!!.ingredient.items[0]
+            recipeHolder.value.ingredient.items[0]
         )
 
         // Pop the pose to restore state

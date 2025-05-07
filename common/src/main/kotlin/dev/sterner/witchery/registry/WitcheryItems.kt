@@ -279,6 +279,10 @@ object WitcheryItems {
         Item(Item.Properties())
     }
 
+    val NECROMANTIC_SOULBIND: RegistrySupplier<Item> = ITEMS.register("necromantic_soulbind") {
+        Item(Item.Properties())
+    }
+
     val GOLDEN_THREAD: RegistrySupplier<Item> = ITEMS.register("golden_thread") {
         Item(Item.Properties())
     }
@@ -1103,7 +1107,6 @@ object WitcheryItems {
     val QUARTZ_SPHERE: RegistrySupplier<QuartzSphereItem> = ITEMS.register("quartz_sphere") {
         QuartzSphereItem(Item.Properties())
     }
-
 
 
     val SUN_COLLECTOR: RegistrySupplier<BlockItem> = ITEMS.register("sunlight_collector") {

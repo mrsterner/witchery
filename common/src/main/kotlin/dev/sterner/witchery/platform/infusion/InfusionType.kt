@@ -1,8 +1,11 @@
 package dev.sterner.witchery.platform.infusion
 
 import com.mojang.serialization.Codec
+import dev.sterner.witchery.handler.InfusionHandler
+import dev.sterner.witchery.handler.NecroHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.Entity
@@ -20,15 +23,15 @@ enum class InfusionType : StringRepresentable {
     NONE,
     LIGHT {
         override fun onHoldRightClick(player: Player): Boolean {
-            val data = LightInfusionDataAttachment.isInvisible(player)
+            val data = LightInfusionPlayerAttachment.isInvisible(player)
 
-            if (PlayerInfusionDataAttachment.getInfusionCharge(player) >= 200 && !data.isInvisible) {
-                LightInfusionDataAttachment.setInvisible(player, true, 10)
-                PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 200)
+            if (InfusionPlayerAttachment.getInfusionCharge(player) >= 200 && !data.isInvisible) {
+                LightInfusionPlayerAttachment.setInvisible(player, true, 10)
+                InfusionHandler.decreaseInfusionCharge(player, 200)
                 return true
-            } else if (PlayerInfusionDataAttachment.getInfusionCharge(player) > 2 && data.invisibleTimer > 4) {
-                LightInfusionDataAttachment.setInvisible(player, true, 6)
-                PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 2)
+            } else if (InfusionPlayerAttachment.getInfusionCharge(player) > 2 && data.invisibleTimer > 4) {
+                LightInfusionPlayerAttachment.setInvisible(player, true, 6)
+                InfusionHandler.decreaseInfusionCharge(player, 2)
                 return true
             }
             return false
@@ -41,7 +44,7 @@ enum class InfusionType : StringRepresentable {
     },
     INFERNAL {
         override fun onReleaseRightClick(player: Player): Boolean {
-            val data = InfernalInfusionDataAttachment.getData(player)
+            val data = InfernalInfusionPlayerAttachment.getData(player)
 
             val hit = ProjectileUtil.getHitResultOnViewVector(
                 player,
@@ -50,7 +53,7 @@ enum class InfusionType : StringRepresentable {
 
             val bl = data.currentCreature.usePower(player, player.level(), player.lookAngle, hit)
             if (bl) {
-                PlayerInfusionDataAttachment.decreaseInfusionCharge(player, data.currentCreature.getCost())
+                InfusionHandler.decreaseInfusionCharge(player, data.currentCreature.getCost())
             }
 
             return false
@@ -58,36 +61,59 @@ enum class InfusionType : StringRepresentable {
     },
     OTHERWHERE {
         override fun onReleaseRightClick(player: Player): Boolean {
-            if (PlayerInfusionDataAttachment.getInfusionCharge(player) >= 500) {
+            if (InfusionPlayerAttachment.getInfusionCharge(player) >= 500) {
 
-                val data = OtherwhereInfusionDataAttachment.getInfusion(player)
+                val data = OtherwhereInfusionPlayerAttachment.getInfusion(player)
 
                 val target = raytraceForTeleport(player, data.teleportHoldTicks)
                 if (target != null) {
-                    PlayerInfusionDataAttachment.decreaseInfusionCharge(player, 500)
+                    InfusionHandler.decreaseInfusionCharge(player, 500)
                     player.teleportTo(target.x, target.y, target.z)
-                    val old = OtherwhereInfusionDataAttachment.getInfusion(player)
-                    OtherwhereInfusionDataAttachment.setInfusion(player, 0, old.teleportCooldown)
+                    val old = OtherwhereInfusionPlayerAttachment.getInfusion(player)
+                    OtherwhereInfusionPlayerAttachment.setInfusion(player, 0, old.teleportCooldown)
                     return true
                 }
             }
 
-            val old = OtherwhereInfusionDataAttachment.getInfusion(player)
-            OtherwhereInfusionDataAttachment.setInfusion(player, 0, old.teleportCooldown)
+            val old = OtherwhereInfusionPlayerAttachment.getInfusion(player)
+            OtherwhereInfusionPlayerAttachment.setInfusion(player, 0, old.teleportCooldown)
 
             return false
         }
 
         override fun onHoldRightClick(player: Player): Boolean {
-            val old = OtherwhereInfusionDataAttachment.getInfusion(player)
+            val old = OtherwhereInfusionPlayerAttachment.getInfusion(player)
             val n = old.teleportHoldTicks + 1
-            OtherwhereInfusionDataAttachment.setInfusion(player, min(n, 20 * 4), old.teleportCooldown)
+            OtherwhereInfusionPlayerAttachment.setInfusion(player, min(n, 20 * 4), old.teleportCooldown)
 
             if (n % 40 == 0) {
                 player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 0.5f, 1f)
             }
 
             return super.onHoldRightClick(player)
+        }
+    },
+    NECRO {
+
+        override fun onReleaseRightClick(player: Player): Boolean {
+            println(InfusionPlayerAttachment.getInfusionCharge(player))
+            if (InfusionPlayerAttachment.getInfusionCharge(player) >= 500) {
+                val hit = ProjectileUtil.getHitResultOnViewVector(
+                    player,
+                    { entity: Entity -> !entity.isSpectator && entity.isPickable }, player.blockInteractionRange() * 2
+                )
+                if (player.level() is ServerLevel) {
+                    NecroHandler.summonNecroAroundPos(
+                        player.level() as ServerLevel,
+                        player,
+                        BlockPos.containing(hit.location),
+                        8
+                    )
+                }
+                InfusionHandler.decreaseInfusionCharge(player, 500)
+                return true
+            }
+            return false
         }
     };
 

@@ -194,7 +194,11 @@ class BookPotionCapacityPage(
             ITEM_TEXT_PAIR_PAIR_CODEC.listOf()
 
 
-        fun fromJson(entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider): BookPotionCapacityPage {
+        fun fromJson(
+            entryId: ResourceLocation?,
+            json: JsonObject,
+            provider: HolderLookup.Provider
+        ): BookPotionCapacityPage {
             val title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY, provider)
             val text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider)
             val anchor = GsonHelper.getAsString(json, "anchor", "")

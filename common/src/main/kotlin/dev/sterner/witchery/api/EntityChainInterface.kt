@@ -1,7 +1,6 @@
 package dev.sterner.witchery.api
 
 import dev.sterner.witchery.entity.ChainEntity
-import net.minecraft.world.phys.Vec3
 
 interface EntityChainInterface {
     /**

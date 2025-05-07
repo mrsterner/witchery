@@ -1,27 +1,26 @@
-package dev.sterner.witchery.platform
+package dev.sterner.witchery.platform.infusion
 
-import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncNightmareS2CPacket
+import dev.sterner.witchery.payload.SyncInfernalInfusionS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
-import java.util.*
 
-object NightmarePlayerAttachment {
-    @ExpectPlatform
+object InfernalInfusionPlayerAttachment {
+
     @JvmStatic
-    fun getData(player: Player): Data {
+    @ExpectPlatform
+    fun setData(player: Player, data: Data) {
         throw AssertionError()
     }
 
-    @ExpectPlatform
     @JvmStatic
-    fun setData(player: Player, data: Data) {
+    @ExpectPlatform
+    fun getData(player: Player): Data {
         throw AssertionError()
     }
 
@@ -30,22 +29,23 @@ object NightmarePlayerAttachment {
             WitcheryPayloads.sendToPlayers(
                 player.level(),
                 player.blockPosition(),
-                SyncNightmareS2CPacket(player, data)
+                SyncInfernalInfusionS2CPacket(player, data)
             )
         }
     }
 
-    class Data(var hasNightmare: Boolean = false, var nightmareUUID: Optional<UUID> = Optional.empty()) {
+    class Data(val currentCreature: CreatureType = CreatureType.NONE) {
 
         companion object {
+
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    Codec.BOOL.fieldOf("hasNightmare").forGetter { it.hasNightmare },
-                    Codecs.UUID.optionalFieldOf("nightmareUUID").forGetter { it.nightmareUUID }
+                    CreatureType.CODEC.fieldOf("currentCreature").forGetter { it.currentCreature }
                 ).apply(instance, ::Data)
             }
-
-            val ID: ResourceLocation = Witchery.id("nightmare_player_data")
+            val ID: ResourceLocation = Witchery.id("infernal_infusion_data")
         }
+
+
     }
 }

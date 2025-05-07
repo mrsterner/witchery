@@ -60,9 +60,11 @@ class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
             for ((pos, state) in stateMap) {
                 val stateTag = CompoundTag()
                 stateTag.put("pos", NbtUtils.writeBlockPos(pos))
-                stateTag.put("state", BlockState.CODEC.encodeStart(NbtOps.INSTANCE, state)
-                    .result()
-                    .orElseThrow())
+                stateTag.put(
+                    "state", BlockState.CODEC.encodeStart(NbtOps.INSTANCE, state)
+                        .result()
+                        .orElseThrow()
+                )
                 stateList.add(stateTag)
             }
 
@@ -91,14 +93,16 @@ class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
             for (cacheTag in allCaches) {
                 if (cacheTag !is CompoundTag) continue
 
-                val globalPos = GlobalPos.CODEC.parse(NbtOps.INSTANCE, cacheTag.get("origin")).result().orElse(null) ?: continue
+                val globalPos =
+                    GlobalPos.CODEC.parse(NbtOps.INSTANCE, cacheTag.get("origin")).result().orElse(null) ?: continue
                 val stateList = cacheTag.getList("states", Tag.TAG_COMPOUND.toInt())
                 val stateMap = mutableMapOf<BlockPos, BlockState>()
 
                 for (entry in stateList) {
                     if (entry !is CompoundTag) continue
                     val pos = entry.get("pos")?.let { NbtUtils.readBlockPos(it as CompoundTag, "pos").orElse(null) }
-                    val state = entry.get("state")?.let { BlockState.CODEC.parse(NbtOps.INSTANCE, it).result().orElse(null) }
+                    val state =
+                        entry.get("state")?.let { BlockState.CODEC.parse(NbtOps.INSTANCE, it).result().orElse(null) }
 
                     if (pos != null && state != null) {
                         stateMap[pos] = state
@@ -112,7 +116,8 @@ class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
             for (entry in restoreList) {
                 if (entry !is CompoundTag) continue
 
-                val globalPos = GlobalPos.CODEC.parse(NbtOps.INSTANCE, entry.get("pos")).result().orElse(null) ?: continue
+                val globalPos =
+                    GlobalPos.CODEC.parse(NbtOps.INSTANCE, entry.get("pos")).result().orElse(null) ?: continue
                 val ticks = entry.getInt("ticks")
                 val stateList = entry.getList("states", Tag.TAG_COMPOUND.toInt())
                 val stateMap = mutableMapOf<BlockPos, BlockState>()

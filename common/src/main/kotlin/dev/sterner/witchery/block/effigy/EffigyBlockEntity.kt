@@ -43,14 +43,15 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (!level.isClientSide) {
 
             if (state != EffigyState.IDLE) {
-                val newMatch = FetishEffectHandler.findMatchingEffect(spiritCount, bansheeCount, specterCount, poltergeistCount)
+                val newMatch =
+                    FetishEffectHandler.findMatchingEffect(spiritCount, bansheeCount, specterCount, poltergeistCount)
                 if (newMatch != matchedEffect) {
                     matchedEffect = newMatch
                     effect = matchedEffect?.let { FetishEffectHandler.getEffect(it) }
                     setChanged()
                 }
 
-                effect?.onTickEffect(level, this,  state, pos, taglocks)
+                effect?.onTickEffect(level, this, state, pos, taglocks)
             }
         }
     }

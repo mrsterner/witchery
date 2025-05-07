@@ -22,10 +22,10 @@ class DebugWand(properties: Properties) : Item(properties) {
         val level = player.level()
 
         if (!level.isClientSide) {
-            if(player.isShiftKeyDown){
+            if (player.isShiftKeyDown) {
                 ChainManager.createHookAndPullChain(
                     player.level(),
-                    player.position().add(0.0,0.0,7.0),
+                    player.position().add(0.0, 0.0, 7.0),
                     targetEntity,
                     0.15f, // Pull strength
                     0.15f  // Fast extension speed

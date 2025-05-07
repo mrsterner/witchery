@@ -11,7 +11,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
 
-class SpawnSmokeParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
+class SpawnNecroParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -29,7 +29,7 @@ class SpawnSmokeParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPayload 
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SpawnSmokeParticlesS2CPayload, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SpawnNecroParticlesS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val x = payload.nbt.getDouble("x")
@@ -38,27 +38,27 @@ class SpawnSmokeParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPayload 
 
 
         client.execute {
-            for (i in 0..2) {
+            for (i in 0..32) {
                 client.level!!.addAlwaysVisibleParticle(
-                    ParticleTypes.SOUL,
+                    ParticleTypes.SMOKE,
                     true,
                     x + 0.0 + Mth.nextDouble(client.level!!.random, -0.5, 0.5),
                     (y + 1.0) + Mth.nextDouble(client.level!!.random, -1.25, 1.25),
                     z + 0.0 + Mth.nextDouble(client.level!!.random, -0.5, 0.5),
-                    0.0, 0.0, 0.0
+                    0.0, 0.2, 0.0
                 )
             }
         }
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SpawnSmokeParticlesS2CPayload> =
-            CustomPacketPayload.Type(Witchery.id("spawn_smoke"))
+        val ID: CustomPacketPayload.Type<SpawnNecroParticlesS2CPayload> =
+            CustomPacketPayload.Type(Witchery.id("spawn_necro_smoke"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SpawnSmokeParticlesS2CPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SpawnNecroParticlesS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SpawnSmokeParticlesS2CPayload(buf) }
+                { buf -> SpawnNecroParticlesS2CPayload(buf) }
             )
     }
 }

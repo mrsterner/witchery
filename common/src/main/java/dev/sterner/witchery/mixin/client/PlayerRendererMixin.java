@@ -9,10 +9,8 @@ import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.mixin.LivingEntityAccessor;
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
-import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
+import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.BatModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -42,7 +40,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 
     @Inject(method = "setModelProperties", at = @At("TAIL"))
     private void witchery$lightInfusionInvisibility(AbstractClientPlayer clientPlayer, CallbackInfo ci){
-        if(LightInfusionDataAttachment.isInvisible(clientPlayer).isInvisible()){
+        if(LightInfusionPlayerAttachment.isInvisible(clientPlayer).isInvisible()){
             var model = getModel();
             model.setAllVisible(false);
         }

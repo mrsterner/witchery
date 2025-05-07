@@ -65,7 +65,7 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
                 ticker = 0
 
                 val nightmareWorld = level().server?.getLevel(WitcheryWorldgenKeys.NIGHTMARE)
-                if (nightmareWorld != null ) {
+                if (nightmareWorld != null) {
                     var foundMatchingUUID = false
 
                     for (player in nightmareWorld.getPlayers { !(it.isCreative || it.isSpectator) }) {

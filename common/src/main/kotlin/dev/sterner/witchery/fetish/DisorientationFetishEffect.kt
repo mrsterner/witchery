@@ -1,9 +1,9 @@
 package dev.sterner.witchery.fetish
 
+import dev.sterner.witchery.MobAccessor
 import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.MobAccessor
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
@@ -42,7 +42,12 @@ class DisorientationFetishEffect : FetishEffect() {
         applyDisorientation(level, blockEntity, pos, listOf(known), invert = false)
     }
 
-    override fun onUnknownEntityTick(level: Level, blockEntity: EffigyBlockEntity, pos: BlockPos, nearby: List<LivingEntity>) {
+    override fun onUnknownEntityTick(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        nearby: List<LivingEntity>
+    ) {
         applyDisorientation(level, blockEntity, pos, nearby, invert = true)
     }
 }

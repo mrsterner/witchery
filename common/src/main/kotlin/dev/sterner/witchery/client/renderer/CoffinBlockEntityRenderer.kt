@@ -17,7 +17,8 @@ import net.minecraft.world.level.block.state.properties.BedPart
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import kotlin.math.pow
 
-class CoffinBlockEntityRenderer(private val ctx: BlockEntityRendererProvider.Context) : BlockEntityRenderer<CoffinBlockEntity> {
+class CoffinBlockEntityRenderer(private val ctx: BlockEntityRendererProvider.Context) :
+    BlockEntityRenderer<CoffinBlockEntity> {
 
     private val model = CoffinModel(ctx.bakeLayer(CoffinModel.LAYER_LOCATION))
     private var openProgress = 0f
@@ -43,7 +44,8 @@ class CoffinBlockEntityRenderer(private val ctx: BlockEntityRendererProvider.Con
             poseStack.mulPose(Axis.ZP.rotationDegrees(180f))
             poseStack.translate(0.5, -1.5, -0.5)
 
-            val vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(Witchery.id("textures/block/coffin.png")))
+            val vertexConsumer =
+                bufferSource.getBuffer(RenderType.entityCutout(Witchery.id("textures/block/coffin.png")))
             val isOpen = state.getValue(CoffinBlock.OPEN)
             renderCoffin(poseStack, vertexConsumer, isOpen, packedLight, packedOverlay, state)
 

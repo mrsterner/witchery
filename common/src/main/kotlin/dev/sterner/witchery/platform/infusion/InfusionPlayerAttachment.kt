@@ -1,24 +1,29 @@
 package dev.sterner.witchery.platform.infusion
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncInfusionS2CPacket
-import dev.sterner.witchery.platform.infusion.InfusionData.Companion.MAX_CHARGE
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 
-object PlayerInfusionDataAttachment {
+object InfusionPlayerAttachment {
+
+    const val MAX_CHARGE = 6000
 
     @JvmStatic
     @ExpectPlatform
-    fun setPlayerInfusion(player: Player, infusionData: InfusionData) {
+    fun setPlayerInfusion(player: Player, infusionData: Data) {
         throw AssertionError()
     }
 
     @JvmStatic
     @ExpectPlatform
-    fun getPlayerInfusion(player: Player): InfusionData {
+    fun getPlayerInfusion(player: Player): Data {
         throw AssertionError()
     }
 
@@ -34,22 +39,7 @@ object PlayerInfusionDataAttachment {
         throw AssertionError()
     }
 
-    @JvmStatic
-    fun increaseInfusionCharge(player: Player, toAdd: Int) {
-        val currentCharge = getInfusionCharge(player)
-        val newCharge = (currentCharge + toAdd).coerceAtMost(MAX_CHARGE)
-        setInfusionCharge(player, newCharge)
-    }
-
-    @JvmStatic
-    fun decreaseInfusionCharge(player: Player, toRemove: Int) {
-        val currentCharge = getInfusionCharge(player)
-        if (currentCharge > 0) {
-            setInfusionCharge(player, currentCharge - toRemove)
-        }
-    }
-
-    fun sync(player: Player, data: InfusionData) {
+    fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
             WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncInfusionS2CPacket(
                 CompoundTag().apply {
@@ -58,6 +48,21 @@ object PlayerInfusionDataAttachment {
                     putString("Type", data.type.serializedName)
                 }
             ))
+        }
+    }
+
+    data class Data(val type: InfusionType = InfusionType.NONE, val charge: Int = MAX_CHARGE) {
+
+        companion object {
+
+            val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    InfusionType.CODEC.fieldOf("type").forGetter { it.type },
+                    Codec.INT.fieldOf("charge").forGetter { it.charge }
+                ).apply(instance, ::Data)
+            }
+
+            val ID: ResourceLocation = Witchery.id("infusion_player_data")
         }
     }
 }

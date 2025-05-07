@@ -1,9 +1,9 @@
 package dev.sterner.witchery.integration.jei
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.util.RenderUtils
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder
 import mezz.jei.api.gui.drawable.IDrawable
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView
@@ -37,7 +37,8 @@ class CauldronBrewingRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategor
 
     override fun setRecipe(builder: IRecipeLayoutBuilder, recipe: CauldronBrewingRecipe, focuses: IFocusGroup) {
         // Input ingredients
-        var drawableBuilder = guiHelper.guiHelper.drawableBuilder(Witchery.id("textures/gui/order_widget.png"), 0, 0, 48, 18)
+        var drawableBuilder =
+            guiHelper.guiHelper.drawableBuilder(Witchery.id("textures/gui/order_widget.png"), 0, 0, 48, 18)
         drawableBuilder.setTextureSize(48, 18)
         for ((index, ingredient) in recipe.inputItems.withIndex()) {
             builder.addSlot(RecipeIngredientRole.INPUT, 2 + 2 + 18, 20 * index)
@@ -54,7 +55,14 @@ class CauldronBrewingRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategor
         builder.addSlot(RecipeIngredientRole.OUTPUT, 48 + 18 + 9 + 18 + 9 + 4, 20 * 1 + 6 - 18)
             .addItemStack(recipe.outputItem)
     }
-    override fun draw(recipe: CauldronBrewingRecipe, recipeSlotsView: IRecipeSlotsView, guiGraphics: GuiGraphics, mouseX: Double, mouseY: Double) {
+
+    override fun draw(
+        recipe: CauldronBrewingRecipe,
+        recipeSlotsView: IRecipeSlotsView,
+        guiGraphics: GuiGraphics,
+        mouseX: Double,
+        mouseY: Double
+    ) {
 
         guiGraphics.blit(Witchery.id("textures/gui/cauldron.png"), 48 + 18 + 9, 20 * 1 - 18 + 8, 0f, 0f, 35, 56, 35, 56)
 

@@ -9,10 +9,8 @@ import dev.architectury.event.events.common.TickEvent
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.VampireEvent
-import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
-import dev.sterner.witchery.api.multiblock.MultiBlockStructure.StructurePiece
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data.BloodPoolHandler
 import dev.sterner.witchery.handler.ability.VampireAbility
@@ -27,13 +25,12 @@ import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.setData
 import dev.sterner.witchery.registry.*
-import net.minecraft.client.DeltaTracker
+import dev.sterner.witchery.util.RenderUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.player.LocalPlayer
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -51,7 +48,6 @@ import net.minecraft.world.entity.monster.Blaze
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
-import java.util.function.Consumer
 import kotlin.math.ceil
 
 /**
@@ -326,7 +322,8 @@ object VampireEventHandler {
         // Check if blood drinking is possible
         if (playerBloodData.bloodPool >= playerBloodData.maxBlood ||
             targetData.bloodPool < 0 ||
-            targetData.maxBlood <= 0) {
+            targetData.maxBlood <= 0
+        ) {
             return EventResult.interruptFalse()
         }
 
@@ -418,12 +415,17 @@ object VampireEventHandler {
     /**
      * Handles damage to blood-drained entities
      */
-    private fun handleTargetDamage(player: ServerPlayer, entity: LivingEntity, targetData: BloodPoolLivingEntityAttachment.Data) {
+    private fun handleTargetDamage(
+        player: ServerPlayer,
+        entity: LivingEntity,
+        targetData: BloodPoolLivingEntityAttachment.Data
+    ) {
         val targetHalfBlood = targetData.maxBlood / 2
 
         val shouldHurt = when {
             entity is Villager && entity is VillagerTransfix &&
                     !entity.isSleeping && !entity.`witchery$isTransfixed`() -> true
+
             targetData.bloodPool < targetHalfBlood -> true
             else -> false
         }
@@ -466,7 +468,7 @@ object VampireEventHandler {
         // Calculate HUD positions
         val hasOffhand = !player.offhandItem.isEmpty
         val y = guiGraphics.guiHeight() - 18 - 5
-        val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - if(hasOffhand) 32 else 0
+        val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - if (hasOffhand) 32 else 0
 
         // Draw HUD elements
         drawBloodSense(guiGraphics)
@@ -673,6 +675,7 @@ object VampireEventHandler {
                 }
                 true
             }
+
             else -> false
         }
     }
@@ -689,7 +692,8 @@ object VampireEventHandler {
 
         // Check if player has required items
         if (!player.mainHandItem.`is`(WitcheryItems.ARTHANA.get()) ||
-            !player.offhandItem.`is`(WitcheryItems.WINE_GLASS.get())) {
+            !player.offhandItem.`is`(WitcheryItems.WINE_GLASS.get())
+        ) {
             return EventResult.pass()
         }
 
@@ -807,7 +811,7 @@ object VampireEventHandler {
         // Entity interaction events
         InteractionEvent.INTERACT_ENTITY.register { player, entity, _ -> interactEntityWithAbility(player, entity) }
 
-        InteractionEvent.RIGHT_CLICK_BLOCK.register{ player, hand, _, _ -> rightClickBlockAbility(player, hand) }
+        InteractionEvent.RIGHT_CLICK_BLOCK.register { player, hand, _, _ -> rightClickBlockAbility(player, hand) }
 
         // Death events
         EntityEvent.LIVING_DEATH.register { entity, _ -> resetNightCount(entity) }
@@ -815,6 +819,6 @@ object VampireEventHandler {
         EntityEvent.LIVING_DEATH.register(VampireEventHandler::killBlaze)
 
         // Player clone event (respawn)
-        PlayerEvent.PLAYER_CLONE.register{ oldPlayer, newPlayer, _ -> respawn(oldPlayer, newPlayer) }
+        PlayerEvent.PLAYER_CLONE.register { oldPlayer, newPlayer, _ -> respawn(oldPlayer, newPlayer) }
     }
 }

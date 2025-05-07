@@ -2,7 +2,6 @@ package dev.sterner.witchery.client.renderer
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.SpectreEntityModel
 import dev.sterner.witchery.entity.SpectreEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.EntityModel

@@ -1,21 +1,20 @@
 package dev.sterner.witchery.platform.infusion.neoforge
 
 import dev.sterner.witchery.neoforge.WitcheryNeoForgeAttachmentRegistry
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
+import dev.sterner.witchery.platform.infusion.OtherwhereInfusionPlayerAttachment
 import net.minecraft.world.entity.player.Player
 
-object OtherwhereInfusionDataAttachmentImpl {
+object OtherwhereInfusionPlayerAttachmentImpl {
 
     @JvmStatic
     fun setInfusion(player: Player, teleportHoldTicks: Int, teleportCooldown: Int) {
-        val data = OtherwhereInfusionData(teleportHoldTicks, teleportCooldown)
+        val data = OtherwhereInfusionPlayerAttachment.Data(teleportHoldTicks, teleportCooldown)
         player.setData(WitcheryNeoForgeAttachmentRegistry.OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT, data)
-        OtherwhereInfusionDataAttachment.sync(player, data)
+        OtherwhereInfusionPlayerAttachment.sync(player, data)
     }
 
     @JvmStatic
-    fun getInfusion(player: Player): OtherwhereInfusionData {
+    fun getInfusion(player: Player): OtherwhereInfusionPlayerAttachment.Data {
         return player.getData(WitcheryNeoForgeAttachmentRegistry.OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT)
     }
 }

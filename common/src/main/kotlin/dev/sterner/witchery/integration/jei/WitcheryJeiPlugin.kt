@@ -3,12 +3,10 @@ package dev.sterner.witchery.integration.jei
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.integration.jei.wrapper.BrazierSummoningJeiRecipe
 import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import mezz.jei.api.IModPlugin
@@ -57,27 +55,32 @@ class WitcheryJeiPlugin : IModPlugin {
             registration.addRecipes(BRAZIER, wrappedRecipes)
 
 
-            registration.addRecipes(CAULDRON_BREWING,
+            registration.addRecipes(
+                CAULDRON_BREWING,
                 level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
                     .stream().map { it.value }.collect(Collectors.toList())
             )
 
-            registration.addRecipes(CAULDRON_CRAFTING,
+            registration.addRecipes(
+                CAULDRON_CRAFTING,
                 level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())
                     .stream().map { it.value }.collect(Collectors.toList())
             )
 
-            registration.addRecipes(DISTILLING,
+            registration.addRecipes(
+                DISTILLING,
                 level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.DISTILLERY_RECIPE_TYPE.get())
                     .stream().map { it.value }.collect(Collectors.toList())
             )
 
-            registration.addRecipes(OVEN,
+            registration.addRecipes(
+                OVEN,
                 level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.OVEN_RECIPE_TYPE.get())
                     .stream().map { it.value }.collect(Collectors.toList())
             )
 
-            registration.addRecipes(SPINNING,
+            registration.addRecipes(
+                SPINNING,
                 level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.SPINNING_WHEEL_RECIPE_TYPE.get())
                     .stream().map { it.value }.collect(Collectors.toList())
             )
@@ -88,12 +91,17 @@ class WitcheryJeiPlugin : IModPlugin {
         val ID: ResourceLocation = Witchery.id("main")
 
         val RITUAL: RecipeType<RitualJeiRecipe> = RecipeType(Witchery.id("ritual"), RitualJeiRecipe::class.java)
-        val BRAZIER: RecipeType<BrazierSummoningJeiRecipe> = RecipeType(Witchery.id("brazier"), BrazierSummoningJeiRecipe::class.java)
-        val CAULDRON_BREWING: RecipeType<CauldronBrewingRecipe> = RecipeType(Witchery.id("cauldron_brewing"), CauldronBrewingRecipe::class.java)
-        val CAULDRON_CRAFTING: RecipeType<CauldronCraftingRecipe> = RecipeType(Witchery.id("cauldron_crafting"), CauldronCraftingRecipe::class.java)
-        val DISTILLING: RecipeType<DistilleryCraftingRecipe> = RecipeType(Witchery.id("distilling"), DistilleryCraftingRecipe::class.java)
+        val BRAZIER: RecipeType<BrazierSummoningJeiRecipe> =
+            RecipeType(Witchery.id("brazier"), BrazierSummoningJeiRecipe::class.java)
+        val CAULDRON_BREWING: RecipeType<CauldronBrewingRecipe> =
+            RecipeType(Witchery.id("cauldron_brewing"), CauldronBrewingRecipe::class.java)
+        val CAULDRON_CRAFTING: RecipeType<CauldronCraftingRecipe> =
+            RecipeType(Witchery.id("cauldron_crafting"), CauldronCraftingRecipe::class.java)
+        val DISTILLING: RecipeType<DistilleryCraftingRecipe> =
+            RecipeType(Witchery.id("distilling"), DistilleryCraftingRecipe::class.java)
         val OVEN: RecipeType<OvenCookingRecipe> = RecipeType(Witchery.id("oven"), OvenCookingRecipe::class.java)
-        val SPINNING: RecipeType<SpinningWheelRecipe> = RecipeType(Witchery.id("spinning"), SpinningWheelRecipe::class.java)
+        val SPINNING: RecipeType<SpinningWheelRecipe> =
+            RecipeType(Witchery.id("spinning"), SpinningWheelRecipe::class.java)
     }
 
     override fun getPluginUid(): ResourceLocation {

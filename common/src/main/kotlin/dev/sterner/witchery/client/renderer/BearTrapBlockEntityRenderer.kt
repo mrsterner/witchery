@@ -32,7 +32,7 @@ class BearTrapBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         coreModel.leftClaw.xRot = rad
         coreModel.rightClaw.xRot = -rad
 
-        coreModel.crank.zRot = - 20 - rad / 2
+        coreModel.crank.zRot = -20 - rad / 2
 
         val plateOffset = Mth.lerp(smoothRot / 80f, 0f, 0.0625f)
         coreModel.plate.y = plateOffset

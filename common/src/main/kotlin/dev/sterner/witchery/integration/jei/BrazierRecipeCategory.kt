@@ -1,9 +1,7 @@
 package dev.sterner.witchery.integration.jei
 
 import dev.sterner.witchery.integration.jei.wrapper.BrazierSummoningJeiRecipe
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder
 import mezz.jei.api.gui.drawable.IDrawable
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView
@@ -44,7 +42,8 @@ class BrazierRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Brazie
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY)
         guiGraphics.drawCenteredString(
             Minecraft.getInstance().font,
-            Component.translatable("${recipe.id}.tooltip"), (width / 2), 2, -1)
+            Component.translatable("${recipe.id}.tooltip"), (width / 2), 2, -1
+        )
     }
 
     override fun setRecipe(builder: IRecipeLayoutBuilder, recipe: BrazierSummoningJeiRecipe, focuses: IFocusGroup) {

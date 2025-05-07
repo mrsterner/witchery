@@ -69,7 +69,7 @@ object ChainManager {
 
         val extensionSpeed = 0.04f + (random.nextFloat() * 0.03f)
         val retractionSpeed = 0.02f + (random.nextFloat() * 0.02f)
-        val pullStrength = if(noPull) 0f else 0.12f + (random.nextFloat() * 0.08f)
+        val pullStrength = if (noPull) 0f else 0.12f + (random.nextFloat() * 0.08f)
 
         return createChain(
             level,

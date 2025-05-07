@@ -20,9 +20,9 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.menu.MenuRegistry
-import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.api.event.SleepingEvent
+import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.client.colors.PotionColor
@@ -55,10 +55,11 @@ import dev.sterner.witchery.item.WineGlassItem
 import dev.sterner.witchery.item.accessories.BitingBeltItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
-import dev.sterner.witchery.platform.*
-import dev.sterner.witchery.platform.infusion.InfernalInfusionData
-import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
+import dev.sterner.witchery.platform.DeathQueueLevelAttachment
+import dev.sterner.witchery.platform.WitcheryPehkui
+import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment
+import dev.sterner.witchery.platform.infusion.OtherwhereInfusionPlayerAttachment
 import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.transformation.*
 import dev.sterner.witchery.registry.*
@@ -73,7 +74,10 @@ import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
-import net.minecraft.client.renderer.entity.*
+import net.minecraft.client.renderer.entity.BoatRenderer
+import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.client.renderer.entity.NoopRenderer
+import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
@@ -196,10 +200,10 @@ object Witchery {
         TickEvent.SERVER_POST.register(TeleportQueueHandler::processQueue)
         TickEvent.SERVER_POST.register(ManifestationHandler::tick)
         TickEvent.SERVER_POST.register(VampireChildrenHuntLevelAttachment::tickHuntAllLevels)
-        TickEvent.PLAYER_POST.register(InfernalInfusionData::tick)
+        TickEvent.PLAYER_POST.register(InfernalInfusionHandler::tick)
         TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
-        TickEvent.PLAYER_PRE.register(LightInfusionDataAttachment::tick)
-        TickEvent.PLAYER_PRE.register(OtherwhereInfusionDataAttachment::tick)
+        TickEvent.PLAYER_PRE.register(LightInfusionPlayerAttachment::tick)
+        TickEvent.PLAYER_PRE.register(OtherwhereInfusionPlayerAttachment::tick)
         TickEvent.PLAYER_PRE.register(NightmareHandler::tick)
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)
@@ -207,11 +211,12 @@ object Witchery {
         TickEvent.SERVER_POST.register {
             TickTaskScheduler.tick()
         }
+        TickEvent.SERVER_LEVEL_POST.register(NecroHandler::tick)
 
         BindSpectralCreaturesRitual.registerChainEvents()
 
 
-        LightningEvent.STRIKE.register(InfernalInfusionData::strikeLightning)
+        LightningEvent.STRIKE.register(InfernalInfusionHandler::strikeLightning)
 
         PlayerEvent.PLAYER_JOIN.register { serverPlayer ->
             val data = DeathQueueLevelAttachment.getData(serverPlayer.serverLevel())
@@ -222,6 +227,7 @@ object Witchery {
             WerewolfPlayerAttachment.sync(serverPlayer, WerewolfPlayerAttachment.getData(serverPlayer))
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
             TransformationPlayerAttachment.sync(serverPlayer, TransformationPlayerAttachment.getData(serverPlayer))
+            InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getPlayerInfusion(serverPlayer))
         }
 
         LifecycleEvent.SERVER_STARTED.register { addStructure(it) }
@@ -545,7 +551,7 @@ object Witchery {
 
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
         ClientGuiEvent.RENDER_HUD.register(ManifestationHandler::renderHud)
-        ClientGuiEvent.RENDER_HUD.register{ guiGraphics, _ -> VampireEventHandler.renderHud(guiGraphics)}
+        ClientGuiEvent.RENDER_HUD.register { guiGraphics, _ -> VampireEventHandler.renderHud(guiGraphics) }
         ClientGuiEvent.RENDER_HUD.register(WerewolfEventHandler::renderHud)
         ClientGuiEvent.RENDER_HUD.register(BarkBeltHandler::renderHud)
 

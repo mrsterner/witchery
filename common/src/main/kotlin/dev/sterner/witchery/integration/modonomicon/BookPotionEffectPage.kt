@@ -8,20 +8,14 @@ import com.klikli_dev.modonomicon.book.conditions.BookNoneCondition
 import com.klikli_dev.modonomicon.book.page.BookPage
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer
 import com.klikli_dev.modonomicon.util.BookGsonHelper
-import com.mojang.datafixers.util.Either
-import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
-import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.integration.modonomicon.BookPotionCapacityPage.Companion.ITEMS_WITH_TEXT_LIST_STREAM_CODEC
 import dev.sterner.witchery.integration.modonomicon.BookPotionCapacityPage.Companion.ITEMS_WITH_TEXT_TEXT_LIST_STREAM_CODEC
 import net.minecraft.client.resources.language.I18n
 import net.minecraft.core.HolderLookup
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.ComponentSerialization
 import net.minecraft.network.chat.Style
-import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.GsonHelper
 import net.minecraft.world.item.ItemStack
@@ -99,7 +93,11 @@ class BookPotionEffectPage(
 
     companion object {
 
-        fun fromJson(entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider): BookPotionEffectPage {
+        fun fromJson(
+            entryId: ResourceLocation?,
+            json: JsonObject,
+            provider: HolderLookup.Provider
+        ): BookPotionEffectPage {
             val title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY, provider)
             val text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider)
             val anchor = GsonHelper.getAsString(json, "anchor", "")
@@ -116,7 +114,8 @@ class BookPotionEffectPage(
 
                 val textsObj = obj.getAsJsonObject("texts")
                 val itemText = BookGsonHelper.getAsBookTextHolder(textsObj, "text", BookTextHolder.EMPTY, provider)
-                val itemText1 = BookGsonHelper.getAsBookTextHolder(textsObj, "text_title", BookTextHolder.EMPTY, provider)
+                val itemText1 =
+                    BookGsonHelper.getAsBookTextHolder(textsObj, "text_title", BookTextHolder.EMPTY, provider)
 
                 stack to (itemText to itemText1)
             }.toMutableList()
@@ -127,7 +126,7 @@ class BookPotionEffectPage(
 
         fun fromNetwork(buffer: RegistryFriendlyByteBuf): BookPotionEffectPage {
             val title = BookTextHolder.fromNetwork(buffer)
-            val itemList = BookPotionCapacityPage.ITEMS_WITH_TEXT_TEXT_LIST_STREAM_CODEC.decode(buffer)
+            val itemList = ITEMS_WITH_TEXT_TEXT_LIST_STREAM_CODEC.decode(buffer)
             val text = BookTextHolder.fromNetwork(buffer)
             val anchor = buffer.readUtf()
             val condition = BookCondition.fromNetwork(buffer)

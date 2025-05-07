@@ -330,6 +330,16 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get(), Color(255, 50, 50).rgb)
+            .addInputWithColor(Items.TOTEM_OF_UNDYING, Color(230, 180, 30).rgb)
+            .addInputWithColor(Items.BONE, Color(200, 200, 200).rgb)
+            .addInputWithColor(WitcheryItems.MELLIFLUOUS_HUNGER.get(), Color(150, 50, 250).rgb)
+            .addInputWithColor(WitcheryItems.NECROMANTIC_STONE.get(), Color(20, 255, 160).rgb)
+            .setOutput(WitcheryItems.NECROMANTIC_SOULBIND.get())
+            .setAltarPower(100)
+            .save(exporter, Witchery.id("necromantic_soulbind"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.REDSTONE_SOUP.get(), Color(255, 50, 50).rgb)
             .addInputWithColor(
                 PotionContents.createItemStack(Items.POTION, Potions.LONG_INVISIBILITY),
                 Color(60, 165, 250).rgb
@@ -1697,6 +1707,13 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addCommand(CommandType("witchery infusion setAndKill {owner} light", CommandType.END))
             .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("infuse_light"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.NECROMANTIC_SOULBIND.get())
+            .setAltarPower(4000)
+            .addCommand(CommandType("witchery infusion setAndKill {owner} necro", CommandType.END))
+            .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .save(exporter, Witchery.id("infuse_necromancy"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.SPIRIT_OF_OTHERWHERE.get())

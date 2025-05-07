@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin_logic
 
-import dev.sterner.witchery.util.RenderUtils.innerRenderBlood
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
+import dev.sterner.witchery.util.RenderUtils.innerRenderBlood
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.world.entity.player.Player
 

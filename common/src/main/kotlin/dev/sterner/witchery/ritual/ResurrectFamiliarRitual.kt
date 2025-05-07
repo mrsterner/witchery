@@ -4,7 +4,6 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.handler.FamiliarHandler
-import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.Containers

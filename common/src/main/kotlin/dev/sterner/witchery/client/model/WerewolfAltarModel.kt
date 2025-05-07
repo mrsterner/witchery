@@ -17,11 +17,11 @@ import java.util.function.Function
 
 
 class WerewolfAltarModel(root: ModelPart) :
-Model(Function { location: ResourceLocation ->
-    RenderType.entitySolid(
-        location
-    )
-}) {
+    Model(Function { location: ResourceLocation ->
+        RenderType.entitySolid(
+            location
+        )
+    }) {
     private val body: ModelPart = root.getChild("body")
     private val bb_main: ModelPart = root.getChild("bb_main")
 

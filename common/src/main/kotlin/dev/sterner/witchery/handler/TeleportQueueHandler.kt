@@ -107,7 +107,11 @@ object TeleportQueueHandler {
     /**
      * Update the pending teleports list, removing processed requests
      */
-    private fun updatePendingTeleports(level: ServerLevel, data: TeleportQueueLevelAttachment.Data, toRemove: List<TeleportRequest>) {
+    private fun updatePendingTeleports(
+        level: ServerLevel,
+        data: TeleportQueueLevelAttachment.Data,
+        toRemove: List<TeleportRequest>
+    ) {
         try {
             val updatedRequests = data.pendingTeleports.toMutableList()
             updatedRequests.removeAll(toRemove)

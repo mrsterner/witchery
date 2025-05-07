@@ -43,7 +43,7 @@ class BearTrapBlock(properties: Properties) : WitcheryBaseEntityBlock(properties
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
-        return Shapes.box(2.0 / 16,0.0,2.0 / 16, 14.0 / 16.0, 4.0 / 16.0 ,14.0 / 16.0)
+        return Shapes.box(2.0 / 16, 0.0, 2.0 / 16, 14.0 / 16.0, 4.0 / 16.0, 14.0 / 16.0)
     }
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {

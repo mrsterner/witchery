@@ -3,15 +3,12 @@ package dev.sterner.witchery.payload
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.particle.SneezeData
-import dev.sterner.witchery.registry.WitcheryParticleTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.particle.ParticleEngine
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.util.Mth
 import org.joml.Vector3d
 
 

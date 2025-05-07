@@ -11,17 +11,15 @@ import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.handler.CurseHandler
 import dev.sterner.witchery.handler.FamiliarHandler
+import dev.sterner.witchery.handler.InfusionHandler
 import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood
 import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
-import dev.sterner.witchery.platform.CursePlayerAttachment
-import dev.sterner.witchery.platform.FamiliarLevelAttachment
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.platform.PlatformUtils
-import dev.sterner.witchery.platform.infusion.InfusionData
+import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionType
-import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
@@ -88,9 +86,9 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusion")
-                                        PlayerInfusionDataAttachment.setPlayerInfusion(
+                                        InfusionPlayerAttachment.setPlayerInfusion(
                                             player,
-                                            InfusionData(infusionType)
+                                            InfusionPlayerAttachment.Data(infusionType)
                                         )
                                         1
                                     }
@@ -103,7 +101,7 @@ object WitcheryCommands {
                         Commands.argument("player", EntityArgument.player())
                             .executes { ctx ->
                                 val player = EntityArgument.getPlayer(ctx, "player")
-                                val currentInfusion = PlayerInfusionDataAttachment.getPlayerInfusion(player)
+                                val currentInfusion = InfusionPlayerAttachment.getPlayerInfusion(player)
                                 ctx.source.sendSuccess(
                                     { Component.literal("Current infusion type: ${currentInfusion.type.serializedName} for player ${player.name.string}") },
                                     false
@@ -121,8 +119,8 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val amount = IntegerArgumentType.getInteger(ctx, "amount")
-                                        if (PlayerInfusionDataAttachment.getPlayerInfusion(player).type != InfusionType.NONE) {
-                                            PlayerInfusionDataAttachment.increaseInfusionCharge(player, amount)
+                                        if (InfusionPlayerAttachment.getPlayerInfusion(player).type != InfusionType.NONE) {
+                                            InfusionHandler.increaseInfusionCharge(player, amount)
                                         }
                                         1
                                     }
@@ -140,9 +138,9 @@ object WitcheryCommands {
                                         val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
                                         player.hurt(player.level().damageSources().magic(), 100f)
                                         if (player.health > 0) {
-                                            PlayerInfusionDataAttachment.setPlayerInfusion(
+                                            InfusionPlayerAttachment.setPlayerInfusion(
                                                 player,
-                                                InfusionData(infusionType)
+                                                InfusionPlayerAttachment.Data(infusionType)
                                             )
                                         }
                                         1
@@ -277,12 +275,18 @@ object WitcheryCommands {
                             }
                         )
                     ))
-                )
+            )
             .then(Commands.literal("blood")
 
                 .then(Commands.literal("set")
                     .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.argument("level", IntegerArgumentType.integer(0, VampireLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()))
+                        .then(Commands.argument(
+                            "level",
+                            IntegerArgumentType.integer(
+                                0,
+                                VampireLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
+                            )
+                        )
                             .executes { context ->
 
                                 val level = IntegerArgumentType.getInteger(context, "level")
@@ -308,16 +312,17 @@ object WitcheryCommands {
                     ))
 
 
-                .then(Commands.literal("get")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .executes { context ->
-                            val player = context.source.playerOrException
+                .then(
+                    Commands.literal("get")
+                        .then(Commands.argument("player", EntityArgument.player())
+                            .executes { context ->
+                                val player = context.source.playerOrException
 
-                            val data = BloodPoolLivingEntityAttachment.getData(player)
-                            player.sendSystemMessage(Component.literal("Blood Level: " + data.bloodPool + "/" + data.maxBlood))
-                            1
-                        })
-                    )
+                                val data = BloodPoolLivingEntityAttachment.getData(player)
+                                player.sendSystemMessage(Component.literal("Blood Level: " + data.bloodPool + "/" + data.maxBlood))
+                                1
+                            })
+                )
             )
     }
 
@@ -339,7 +344,13 @@ object WitcheryCommands {
                 )
                 .then(Commands.literal("set")
                     .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.argument("level", IntegerArgumentType.integer(0, WerewolfLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()))
+                        .then(Commands.argument(
+                            "level",
+                            IntegerArgumentType.integer(
+                                0,
+                                WerewolfLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
+                            )
+                        )
                             .executes { context ->
 
                                 val level = IntegerArgumentType.getInteger(context, "level")
@@ -358,7 +369,7 @@ object WitcheryCommands {
 
                 .then(Commands.literal("get")
                     .then(Commands.argument("player", EntityArgument.player())
-                        .executes{ context ->
+                        .executes { context ->
                             val player = context.source.playerOrException
                             val level = WerewolfPlayerAttachment.getData(player).getWerewolfLevel()
                             context.source.sendSuccess(

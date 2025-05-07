@@ -33,10 +33,11 @@ class WerewolfEntityModel(root: ModelPart) : HumanoidModel<WerewolfEntity>(root)
         leftArm.zRot = sin(ageInTicks * 0.1f) * 0.05f
 
         leftLeg.xRot = cos(limbSwing * 0.6662f) * 0.75f * limbSwingAmount - Math.toRadians(17.5).toFloat()
-        rightLeg.xRot = cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 0.75f * limbSwingAmount - Math.toRadians(17.5).toFloat()
+        rightLeg.xRot =
+            cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 0.75f * limbSwingAmount - Math.toRadians(17.5).toFloat()
 
-        leftArm.xRot =+ cos(limbSwing * 0.3333f + Math.PI.toFloat()) * limbSwingAmount - Math.toRadians(2.5).toFloat()
-        rightArm.xRot =+ cos(limbSwing * 0.3333f) * limbSwingAmount - Math.toRadians(2.5).toFloat()
+        leftArm.xRot = +cos(limbSwing * 0.3333f + Math.PI.toFloat()) * limbSwingAmount - Math.toRadians(2.5).toFloat()
+        rightArm.xRot = +cos(limbSwing * 0.3333f) * limbSwingAmount - Math.toRadians(2.5).toFloat()
 
         head.yRot = netHeadYaw * (Math.PI.toFloat() / 180f)
         head.xRot = headPitch * (Math.PI.toFloat() / 180f)

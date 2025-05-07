@@ -44,7 +44,7 @@ object CovenPlayerAttachment {
                 instance.group(
                     CompoundTag.CODEC.listOf().fieldOf("covenWitchList").forGetter { it.covenWitchList }
 
-                    ).apply(instance, ::Data)
+                ).apply(instance, ::Data)
             }
 
             val ID: ResourceLocation = Witchery.id("coven_player_data")

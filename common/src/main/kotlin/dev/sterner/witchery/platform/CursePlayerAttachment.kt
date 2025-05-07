@@ -2,31 +2,13 @@ package dev.sterner.witchery.platform
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.BlockEvent
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.PlayerEvent
-import dev.architectury.event.events.common.TickEvent
 import dev.architectury.injectables.annotations.ExpectPlatform
-import dev.architectury.utils.value.IntValue
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.Curse
-import dev.sterner.witchery.api.event.CurseEvent
 import dev.sterner.witchery.payload.SyncCurseS2CPacket
-import dev.sterner.witchery.registry.WitcheryCurseRegistry
 import dev.sterner.witchery.registry.WitcheryPayloads
-import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.phys.EntityHitResult
 
 object CursePlayerAttachment {
 

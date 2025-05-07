@@ -132,7 +132,6 @@ class CoffinModel(root: ModelPart) :
     }
 
 
-
     override fun renderToBuffer(
         poseStack: PoseStack,
         buffer: VertexConsumer,

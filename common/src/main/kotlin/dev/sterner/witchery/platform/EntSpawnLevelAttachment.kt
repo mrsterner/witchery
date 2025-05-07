@@ -2,20 +2,11 @@ package dev.sterner.witchery.platform
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.event.EventResult
 import dev.architectury.injectables.annotations.ExpectPlatform
-import dev.architectury.utils.value.IntValue
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.EntEntity
-import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.tags.BlockTags
-import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 
 object EntSpawnLevelAttachment {

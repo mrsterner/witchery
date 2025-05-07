@@ -3,7 +3,7 @@ package dev.sterner.witchery.fabric.client
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.VampireArmorModel
-import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
+import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.HumanoidModel
@@ -37,7 +37,7 @@ class VampireArmorRendererFabric : ArmorRenderer {
             contextModel.copyPropertiesTo(armor!!)
             armor!!.setAllVisible(false)
 
-            if (entity.hasEffect(MobEffects.INVISIBILITY) || (entity is Player && LightInfusionDataAttachment.isInvisible(
+            if (entity.hasEffect(MobEffects.INVISIBILITY) || (entity is Player && LightInfusionPlayerAttachment.isInvisible(
                     entity
                 ).isInvisible)
             ) {

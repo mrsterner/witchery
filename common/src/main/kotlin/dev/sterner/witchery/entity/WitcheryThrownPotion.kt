@@ -120,13 +120,22 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                     if (i == 0) continue
 
                     val effectData = potionContent.effectModifier
-                    val duration = (potionContent.baseDuration + effectData.durationAddition) * effectData.durationMultiplier
+                    val duration =
+                        (potionContent.baseDuration + effectData.durationAddition) * effectData.durationMultiplier
                     val amplifier = effectData.powerAddition
 
                     // Run special effects regardless of entities in list
                     if (potionContent.specialEffect.isPresent) {
                         val special = WitcherySpecialPotionEffects.SPECIALS.get(potionContent.specialEffect.get())
-                        special?.onActivated(level(), owner, result, list, WitcheryPotionItem.getMergedDisperseModifier(potionContentList), duration, amplifier)
+                        special?.onActivated(
+                            level(),
+                            owner,
+                            result,
+                            list,
+                            WitcheryPotionItem.getMergedDisperseModifier(potionContentList),
+                            duration,
+                            amplifier
+                        )
                     }
 
                     // Handle the general modifier logic

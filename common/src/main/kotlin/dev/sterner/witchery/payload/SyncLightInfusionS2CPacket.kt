@@ -2,8 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.infusion.LightInfusionData
-import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
+import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -15,7 +14,7 @@ class SyncLightInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: LightInfusionData) : this(CompoundTag().apply {
+    constructor(player: Player, data: LightInfusionPlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putBoolean("Invisible", data.isInvisible)
         putInt("InvisibleTimer", data.invisibleTimer)
@@ -40,7 +39,7 @@ class SyncLightInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
         client.execute {
             if (player != null) {
-                LightInfusionDataAttachment.setInvisible(player, charge, timer)
+                LightInfusionPlayerAttachment.setInvisible(player, charge, timer)
             }
         }
     }

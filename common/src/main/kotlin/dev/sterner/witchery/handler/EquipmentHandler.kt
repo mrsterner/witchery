@@ -3,8 +3,8 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.EventResult
+import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionType
-import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -23,7 +23,7 @@ object EquipmentHandler {
         if (livingEntity is Player && livingEntity.getItemBySlot(EquipmentSlot.HEAD)
                 .`is`(WitcheryItems.BABA_YAGAS_HAT.get())
         ) {
-            if (PlayerInfusionDataAttachment.getPlayerInfusion(livingEntity).type != InfusionType.NONE) {
+            if (InfusionPlayerAttachment.getPlayerInfusion(livingEntity).type != InfusionType.NONE) {
                 val level = livingEntity.level()
 
                 if (level.random.nextFloat() < 0.2f && fl > 0) {

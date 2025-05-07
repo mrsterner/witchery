@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import dev.sterner.witchery.api.EntityChainInterface;
 import dev.sterner.witchery.api.interfaces.OnRemovedEffect;
 import dev.sterner.witchery.entity.ChainEntity;
+import dev.sterner.witchery.handler.NecroHandler;
 import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.mixin_logic.LivingEntityMixinLogic;
 import dev.sterner.witchery.platform.EtherealEntityAttachment;
@@ -58,6 +59,7 @@ public abstract class LivingEntityMixin extends Entity implements EntityChainInt
         LivingEntity livingEntity = LivingEntity.class.cast(this);
         LivingEntityMixinLogic.INSTANCE.modifyBaseTick(livingEntity);
         BloodPoolLivingEntityAttachment.INSTANCE.tickBloodRegen(livingEntity);
+        NecroHandler.INSTANCE.tickLiving(livingEntity);
     }
 
     @ModifyReturnValue(method = "getDimensions", at = @At("RETURN"))

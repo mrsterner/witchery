@@ -22,17 +22,19 @@ object WitcheryFetishEffects {
         SentinelFetishEffect()
     }
 
-    val DISORIENTATION: RegistrySupplier<DisorientationFetishEffect> = FETISH_EFFECTS.register(Witchery.id("disorientation")) {
-        DisorientationFetishEffect()
-    }
+    val DISORIENTATION: RegistrySupplier<DisorientationFetishEffect> =
+        FETISH_EFFECTS.register(Witchery.id("disorientation")) {
+            DisorientationFetishEffect()
+        }
 
     val SHRIEKING: RegistrySupplier<ShriekingFetishEffect> = FETISH_EFFECTS.register(Witchery.id("shrieking")) {
         ShriekingFetishEffect()
     }
 
-    val GHOST_WALKING: RegistrySupplier<GhostWalkingFetishEffect> = FETISH_EFFECTS.register(Witchery.id("ghost_walking")) {
-        GhostWalkingFetishEffect()
-    }
+    val GHOST_WALKING: RegistrySupplier<GhostWalkingFetishEffect> =
+        FETISH_EFFECTS.register(Witchery.id("ghost_walking")) {
+            GhostWalkingFetishEffect()
+        }
 
     val SUMMON_DEATH: RegistrySupplier<SummonDeathFetishEffect> = FETISH_EFFECTS.register(Witchery.id("summon_death")) {
         SummonDeathFetishEffect()

@@ -23,8 +23,6 @@ import java.awt.Color
 class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
 
-
-
     override fun appendHoverText(
         stack: ItemStack,
         context: TooltipContext,
@@ -228,7 +226,8 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                     potionContent.effect
                 }
 
-                val duration = (potionContent.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
+                val duration =
+                    (potionContent.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
                 val amplifier = globalModifier.powerAddition
 
                 if (effect != WitcheryMobEffects.EMPTY) {

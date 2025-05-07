@@ -103,12 +103,12 @@ object FetishEffectHandler {
     }
 
     data class Data(
-        var spiritCount:Int = 0,
+        var spiritCount: Int = 0,
         var bansheeCount: Int = 0,
         var specterCount: Int = 0,
         var poltergeistCount: Int = 0,
         var effectLocation: ResourceLocation
-    ){
+    ) {
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(

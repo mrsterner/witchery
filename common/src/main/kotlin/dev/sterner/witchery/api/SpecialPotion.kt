@@ -25,7 +25,7 @@ open class SpecialPotion(val id: ResourceLocation) {
         owner: LivingEntity?,
         duration: Int,
         amplifier: Int
-    ){
+    ) {
 
     }
 
@@ -42,7 +42,8 @@ open class SpecialPotion(val id: ResourceLocation) {
     }
 
     fun getBox(hitResult: HitResult, mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier): AABB {
-        return AABB.ofSize(hitResult.location,
+        return AABB.ofSize(
+            hitResult.location,
             4 * mergedDispersalModifier.rangeModifier.toDouble(),
             2 * mergedDispersalModifier.rangeModifier.toDouble(),
             4 * mergedDispersalModifier.rangeModifier.toDouble()

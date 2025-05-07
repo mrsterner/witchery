@@ -48,7 +48,7 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
                         val radius = 4.5
                         val angleIncrement = (2 * Math.PI) / covenSize
 
-                        for (i in 0 .. covenSize) {
+                        for (i in 0..covenSize) {
                             val angle = i * angleIncrement
                             val targetX = centerX + radius * cos(angle)
                             val targetZ = centerZ + radius * sin(angle)
@@ -56,7 +56,11 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
 
                             val spawnPos = findValidSpawnPosition(level, targetPos)
                             if (spawnPos != null) {
-                                val witch = CovenHandler.summonWitchFromCoven(player, i, Vec3(spawnPos.x + 0.5, spawnPos.y.toDouble(), spawnPos.z + 0.5))
+                                val witch = CovenHandler.summonWitchFromCoven(
+                                    player,
+                                    i,
+                                    Vec3(spawnPos.x + 0.5, spawnPos.y.toDouble(), spawnPos.z + 0.5)
+                                )
                                 witch?.setLastRitualPos(Optional.of(pos))
                                 witch?.setIsCoven(true)
                             }
@@ -73,7 +77,9 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
                 for (dx in -radius..radius) {
                     for (dz in -radius..radius) {
                         val checkPos = origin.offset(dx, dy, dz)
-                        if (level.getBlockState(checkPos).canBeReplaced() && level.getBlockState(checkPos.above()).canBeReplaced()) {
+                        if (level.getBlockState(checkPos).canBeReplaced() && level.getBlockState(checkPos.above())
+                                .canBeReplaced()
+                        ) {
                             return checkPos
                         }
                     }

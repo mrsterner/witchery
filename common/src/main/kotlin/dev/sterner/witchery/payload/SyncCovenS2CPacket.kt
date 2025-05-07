@@ -3,7 +3,6 @@ package dev.sterner.witchery.payload
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.CovenPlayerAttachment
-import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps

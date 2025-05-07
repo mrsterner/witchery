@@ -1,6 +1,5 @@
 package dev.sterner.witchery.integration.jei
 
-import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.registry.WitcheryItems

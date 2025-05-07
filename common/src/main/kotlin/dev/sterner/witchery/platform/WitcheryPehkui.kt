@@ -3,7 +3,6 @@ package dev.sterner.witchery.platform
 import dev.architectury.injectables.annotations.ExpectPlatform
 import virtuoel.pehkui.api.ScaleModifier
 import virtuoel.pehkui.api.ScaleType
-import virtuoel.pehkui.api.ScaleTypes
 
 object WitcheryPehkui {
 

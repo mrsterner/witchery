@@ -9,24 +9,34 @@ import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
 
 object WerewolfLeveling {
 
-    private val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("werewolf_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-    private val KNOCKBACK_BONUS_2 = AttributeModifier(Witchery.id("werewolf_knockback_2"), 0.6, AttributeModifier.Operation.ADD_VALUE)
-    private val ATTACK_BONUS = AttributeModifier(Witchery.id("werewolf_damage"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-    private val ATTACK_BONUS_2 = AttributeModifier(Witchery.id("werewolf_damage_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
-    private val SPEED_BONUS = AttributeModifier(Witchery.id("werewolf_speed"), 0.1, AttributeModifier.Operation.ADD_VALUE)
-    private val SPEED_BONUS_2 = AttributeModifier(Witchery.id("werewolf_speed_2"), 0.05, AttributeModifier.Operation.ADD_VALUE)
-    private val STEP_HEIGHT_BONUS = AttributeModifier(Witchery.id("werewolf_step"), 0.75, AttributeModifier.Operation.ADD_VALUE)
-    private val SAFE_HEIGHT = AttributeModifier(Witchery.id("werewolf_land"), 2.0, AttributeModifier.Operation.ADD_VALUE)
-    private val HEALTH_BONUS = AttributeModifier(Witchery.id("werewolf_health"), 10.0, AttributeModifier.Operation.ADD_VALUE)
-    private val RESIST_BONUS = AttributeModifier(Witchery.id("werewolf_resist"), 5.0, AttributeModifier.Operation.ADD_VALUE)
-    private val RESIST_TOUGH_BONUS = AttributeModifier(Witchery.id("werewolf_resist_tough"), 5.0, AttributeModifier.Operation.ADD_VALUE)
+    private val KNOCKBACK_BONUS =
+        AttributeModifier(Witchery.id("werewolf_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val KNOCKBACK_BONUS_2 =
+        AttributeModifier(Witchery.id("werewolf_knockback_2"), 0.6, AttributeModifier.Operation.ADD_VALUE)
+    private val ATTACK_BONUS =
+        AttributeModifier(Witchery.id("werewolf_damage"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val ATTACK_BONUS_2 =
+        AttributeModifier(Witchery.id("werewolf_damage_2"), 0.75, AttributeModifier.Operation.ADD_VALUE)
+    private val SPEED_BONUS =
+        AttributeModifier(Witchery.id("werewolf_speed"), 0.1, AttributeModifier.Operation.ADD_VALUE)
+    private val SPEED_BONUS_2 =
+        AttributeModifier(Witchery.id("werewolf_speed_2"), 0.05, AttributeModifier.Operation.ADD_VALUE)
+    private val STEP_HEIGHT_BONUS =
+        AttributeModifier(Witchery.id("werewolf_step"), 0.75, AttributeModifier.Operation.ADD_VALUE)
+    private val SAFE_HEIGHT =
+        AttributeModifier(Witchery.id("werewolf_land"), 2.0, AttributeModifier.Operation.ADD_VALUE)
+    private val HEALTH_BONUS =
+        AttributeModifier(Witchery.id("werewolf_health"), 10.0, AttributeModifier.Operation.ADD_VALUE)
+    private val RESIST_BONUS =
+        AttributeModifier(Witchery.id("werewolf_resist"), 5.0, AttributeModifier.Operation.ADD_VALUE)
+    private val RESIST_TOUGH_BONUS =
+        AttributeModifier(Witchery.id("werewolf_resist_tough"), 5.0, AttributeModifier.Operation.ADD_VALUE)
 
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {

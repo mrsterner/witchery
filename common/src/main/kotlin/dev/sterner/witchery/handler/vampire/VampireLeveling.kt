@@ -21,8 +21,10 @@ import net.minecraft.world.level.ChunkPos
 
 object VampireLeveling {
 
-    private val KNOCKBACK_BONUS = AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
-    private val BAT_WEAKNESS = AttributeModifier(Witchery.id("bat_weakness"), -2.5, AttributeModifier.Operation.ADD_VALUE)
+    private val KNOCKBACK_BONUS =
+        AttributeModifier(Witchery.id("vampire_knockback"), 0.5, AttributeModifier.Operation.ADD_VALUE)
+    private val BAT_WEAKNESS =
+        AttributeModifier(Witchery.id("bat_weakness"), -2.5, AttributeModifier.Operation.ADD_VALUE)
     private val BAT_HEALTH = AttributeModifier(Witchery.id("bat_health"), -4.0, AttributeModifier.Operation.ADD_VALUE)
 
     @JvmStatic
@@ -63,7 +65,6 @@ object VampireLeveling {
         player.sendSystemMessage(Component.literal("Vampire Level Up: $nextLevel"))
         updateModifiers(player, nextLevel, false)
     }
-
 
 
     /**

@@ -47,7 +47,7 @@ class OvenRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<OvenCooki
 
         // Output: Byproduct (top-right)
         builder.addSlot(RecipeIngredientRole.OUTPUT, 2 + 2 + 18 + 36 + 36 + 12 + 1, 9)
-            .addItemStack(recipe.extraOutput ?: WitcheryItems.FOUL_FUME.get().defaultInstance)
+            .addItemStack(recipe.extraOutput)
     }
 
     override fun draw(

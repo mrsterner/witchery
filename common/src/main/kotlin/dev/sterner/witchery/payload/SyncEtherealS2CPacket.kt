@@ -5,22 +5,29 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.EtherealEntityAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtOps
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.LivingEntity
 
 
+/**
+ * Fixed S2C packet for ethereal entity sync
+ */
 class SyncEtherealS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(entity: Int, data: EtherealEntityAttachment.Data) : this(CompoundTag().apply {
-        putInt("entity", entity)
-        EtherealEntityAttachment.Data.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
-            put("Data", it.get())
-        }
+    constructor(entityId: Int, data: EtherealEntityAttachment.Data) : this(CompoundTag().apply {
+        putInt("entity", entityId)
+
+        put("Data", CompoundTag().apply {
+            if (data.ownerUUID != null) {
+                putUUID("owner", data.ownerUUID)
+            }
+            putBoolean("canDropLoot", data.canDropLoot)
+            putBoolean("isEthereal", data.isEthereal)
+        })
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -33,14 +40,30 @@ class SyncEtherealS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     fun handleS2C(payload: SyncEtherealS2CPacket, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
-
+        val entityId = payload.nbt.getInt("entity")
         val dataTag = payload.nbt.getCompound("Data")
-        val data = EtherealEntityAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
-        val entity = client.level?.getEntity(payload.nbt.getInt("entity"))
+        val ownerUUID = if (dataTag.contains("owner")) dataTag.getUUID("owner") else null
+        val canDropLoot = dataTag.getBoolean("canDropLoot")
+        val isEthereal = dataTag.getBoolean("isEthereal")
+
+        val data = EtherealEntityAttachment.Data(
+            ownerUUID = ownerUUID,
+            canDropLoot = canDropLoot,
+            isEthereal = isEthereal
+        )
+
         client.execute {
-            if (entity is LivingEntity && data.isPresent) {
-                EtherealEntityAttachment.setData(entity, data.get())
+            try {
+                val entity = client.level?.getEntity(entityId)
+                if (entity is LivingEntity) {
+                    // Set data directly
+                    EtherealEntityAttachment.setData(entity, data)
+
+                    entity.refreshDimensions()
+                }
+            } catch (_: Exception) {
+
             }
         }
     }

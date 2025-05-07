@@ -1,8 +1,8 @@
 package dev.sterner.witchery.api.client
 
-import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.item.CaneSwordItem.Companion.MAX_STORED_BLOOD
 import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.util.RenderUtils
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.gui.Font

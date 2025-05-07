@@ -2,9 +2,8 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.infusion.InfusionData
+import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionType
-import dev.sterner.witchery.platform.infusion.PlayerInfusionDataAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -16,7 +15,7 @@ class SyncInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: InfusionData) : this(CompoundTag().apply {
+    constructor(player: Player, data: InfusionPlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putInt("Charge", data.charge)
         putString("Type", data.type.serializedName) // serializedName should be in lowercase
@@ -41,7 +40,7 @@ class SyncInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
         client.execute {
             if (player != null) {
-                PlayerInfusionDataAttachment.setPlayerInfusion(player, InfusionData(type, charge))
+                InfusionPlayerAttachment.setPlayerInfusion(player, InfusionPlayerAttachment.Data(type, charge))
             }
         }
     }

@@ -2,10 +2,8 @@ package dev.sterner.witchery.neoforge
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.*
-import dev.sterner.witchery.platform.infusion.InfernalInfusionData
-import dev.sterner.witchery.platform.infusion.InfusionData
-import dev.sterner.witchery.platform.infusion.LightInfusionData
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
+import dev.sterner.witchery.platform.infusion.*
+import dev.sterner.witchery.platform.infusion.neoforge.InfusionPlayerAttachmentImpl
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
@@ -54,34 +52,34 @@ object WitcheryNeoForgeAttachmentRegistry {
     )
 
     @JvmStatic
-    val INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfusionData>> = ATTACHMENT_TYPES.register(
+    val INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfusionPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
         "infusion_player_data",
         Supplier {
-            AttachmentType.builder(Supplier { InfusionData() })
-                .serialize(InfusionData.CODEC)
+            AttachmentType.builder(Supplier { InfusionPlayerAttachment.Data() })
+                .serialize(InfusionPlayerAttachment.Data.CODEC)
                 .copyOnDeath()
                 .build()
         }
     )
 
     @JvmStatic
-    val LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<LightInfusionData>> = ATTACHMENT_TYPES.register(
+    val LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<LightInfusionPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
         "light_infusion_player_data",
         Supplier {
-            AttachmentType.builder(Supplier { LightInfusionData() })
-                .serialize(LightInfusionData.CODEC)
+            AttachmentType.builder(Supplier { LightInfusionPlayerAttachment.Data() })
+                .serialize(LightInfusionPlayerAttachment.Data.CODEC)
                 .copyOnDeath()
                 .build()
         }
     )
 
     @JvmStatic
-    val OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<OtherwhereInfusionData>> =
+    val OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<OtherwhereInfusionPlayerAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "otherwhere_infusion_player_data",
             Supplier {
-                AttachmentType.builder(Supplier { OtherwhereInfusionData() })
-                    .serialize(OtherwhereInfusionData.CODEC)
+                AttachmentType.builder(Supplier { OtherwhereInfusionPlayerAttachment.Data() })
+                    .serialize(OtherwhereInfusionPlayerAttachment.Data.CODEC)
                     .copyOnDeath()
                     .build()
             }
@@ -175,11 +173,11 @@ object WitcheryNeoForgeAttachmentRegistry {
         )
 
     @JvmStatic
-    val INFERNAL_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfernalInfusionData>> = ATTACHMENT_TYPES.register(
+    val INFERNAL_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfernalInfusionPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
         "infernal_infusion_player_data",
         Supplier {
-            AttachmentType.builder(Supplier { InfernalInfusionData() })
-                .serialize(InfernalInfusionData.CODEC)
+            AttachmentType.builder(Supplier { InfernalInfusionPlayerAttachment.Data() })
+                .serialize(InfernalInfusionPlayerAttachment.Data.CODEC)
                 .copyOnDeath()
                 .build()
         }

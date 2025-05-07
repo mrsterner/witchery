@@ -1,6 +1,5 @@
 package dev.sterner.witchery.integration.jei.wrapper
 
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import net.minecraft.resources.ResourceLocation
 

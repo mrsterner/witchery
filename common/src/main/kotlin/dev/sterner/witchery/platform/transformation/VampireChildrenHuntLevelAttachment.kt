@@ -16,7 +16,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.phys.AABB
-import java.util.UUID
+import java.util.*
 import java.util.stream.Stream
 
 object VampireChildrenHuntLevelAttachment {

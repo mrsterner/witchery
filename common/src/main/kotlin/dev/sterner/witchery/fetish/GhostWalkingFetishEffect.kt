@@ -10,20 +10,30 @@ import net.minecraft.world.level.Level
 
 class GhostWalkingFetishEffect : FetishEffect(rangeMod = 2) {
 
-    private fun resetManifestationTimer(player: Player){
+    private fun resetManifestationTimer(player: Player) {
         val data = ManifestationPlayerAttachment.getData(player)
         if (data.manifestationTimer > 0) {
             ManifestationHandler.setManifestationTimer(player)
         }
     }
 
-    override fun onUnknownPlayerNearbyTick(level: Level, blockEntity: EffigyBlockEntity, pos: BlockPos, nearby: List<Player>) {
+    override fun onUnknownPlayerNearbyTick(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        nearby: List<Player>
+    ) {
         for (player in nearby) {
             resetManifestationTimer(player)
         }
     }
 
-    override fun onKnownPlayerNearbyTick(level: Level, blockEntity: EffigyBlockEntity, pos: BlockPos, taggedPlayer: Player) {
+    override fun onKnownPlayerNearbyTick(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        taggedPlayer: Player
+    ) {
         resetManifestationTimer(taggedPlayer)
     }
 }

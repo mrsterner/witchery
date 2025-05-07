@@ -2,8 +2,6 @@ package dev.sterner.witchery.curse
 
 import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.handler.CurseHandler
-import dev.sterner.witchery.handler.transformation.TransformationHandler
-import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
 import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.server.level.ServerPlayer

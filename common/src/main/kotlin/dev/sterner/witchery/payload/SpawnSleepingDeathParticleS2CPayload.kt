@@ -24,7 +24,7 @@ class SpawnSleepingDeathParticleS2CPayload(val nbt: CompoundTag) : CustomPacketP
     }
 
     private fun write(friendlyByteBuf: RegistryFriendlyByteBuf) {
-        friendlyByteBuf?.writeNbt(nbt)
+        friendlyByteBuf.writeNbt(nbt)
     }
 
     fun handleS2C(payload: SpawnSleepingDeathParticleS2CPayload, context: NetworkManager.PacketContext) {

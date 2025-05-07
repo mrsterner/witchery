@@ -3,13 +3,9 @@ package dev.sterner.witchery.payload
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import net.minecraft.client.Minecraft
-import net.minecraft.core.particles.ParticleTypes
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.util.Mth
-import net.minecraft.world.phys.Vec3
 
 class RefreshDimensionsS2CPayload() : CustomPacketPayload {
 

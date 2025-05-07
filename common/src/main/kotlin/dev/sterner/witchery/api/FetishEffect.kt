@@ -5,7 +5,6 @@ import dev.sterner.witchery.block.effigy.EffigyState
 import dev.sterner.witchery.item.TaglockItem
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -14,7 +13,14 @@ import net.minecraft.world.phys.AABB
 
 open class FetishEffect(var rangeMod: Int = 1) {
 
-    open fun onTickEffect(level: Level, blockEntity: EffigyBlockEntity, state: EffigyState?, pos: BlockPos, taglock: NonNullList<ItemStack>, tickRate: Int = 20) {
+    open fun onTickEffect(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        state: EffigyState?,
+        pos: BlockPos,
+        taglock: NonNullList<ItemStack>,
+        tickRate: Int = 20
+    ) {
         if (level.gameTime % tickRate == 0L) {
             when (state) {
                 EffigyState.IDLE -> {}
@@ -28,10 +34,18 @@ open class FetishEffect(var rangeMod: Int = 1) {
         }
     }
 
-    private fun checkUnknownPlayerNearby(level: Level, blockEntity: EffigyBlockEntity,pos: BlockPos, taglocks: NonNullList<ItemStack>) {
+    private fun checkUnknownPlayerNearby(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        taglocks: NonNullList<ItemStack>
+    ) {
         for (taglock in taglocks) {
             val taggedPlayer = TaglockItem.getPlayer(level, taglock)
-            val nearby = level.getEntitiesOfClass(Player::class.java, AABB.ofSize(pos.center, 16.0 * rangeMod, 8.0 * rangeMod, 16.0 * rangeMod)) {
+            val nearby = level.getEntitiesOfClass(
+                Player::class.java,
+                AABB.ofSize(pos.center, 16.0 * rangeMod, 8.0 * rangeMod, 16.0 * rangeMod)
+            ) {
                 it != taggedPlayer
             }
             if (nearby.isNotEmpty()) {
@@ -40,11 +54,21 @@ open class FetishEffect(var rangeMod: Int = 1) {
         }
     }
 
-    open fun onUnknownPlayerNearbyTick(level: Level, blockEntity: EffigyBlockEntity,pos: BlockPos, nearby: List<Player>) {
+    open fun onUnknownPlayerNearbyTick(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        nearby: List<Player>
+    ) {
         all(level, blockEntity, pos, nearby)
     }
 
-    private fun checkKnownPlayerNearby(level: Level, blockEntity: EffigyBlockEntity,pos: BlockPos, taglocks: NonNullList<ItemStack>) {
+    private fun checkKnownPlayerNearby(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        taglocks: NonNullList<ItemStack>
+    ) {
         for (taglock in taglocks) {
             val taggedPlayer = TaglockItem.getPlayer(level, taglock)
             if (taggedPlayer != null && taggedPlayer.distanceToSqr(pos.center) < 64.0 * rangeMod) {
@@ -53,14 +77,27 @@ open class FetishEffect(var rangeMod: Int = 1) {
         }
     }
 
-    open fun onKnownPlayerNearbyTick(level: Level, blockEntity: EffigyBlockEntity,pos: BlockPos, taggedPlayer: Player) {
+    open fun onKnownPlayerNearbyTick(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        taggedPlayer: Player
+    ) {
         all(level, blockEntity, pos, listOf(taggedPlayer))
     }
 
-    private fun checkUnknownEntityNearby(level: Level, blockEntity: EffigyBlockEntity,pos: BlockPos, taglocks: NonNullList<ItemStack>) {
+    private fun checkUnknownEntityNearby(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        taglocks: NonNullList<ItemStack>
+    ) {
         for (taglock in taglocks) {
             val taggedEntity = TaglockItem.getLivingEntity(level, taglock)
-            val nearby = level.getEntitiesOfClass(LivingEntity::class.java, AABB.ofSize(pos.center, 16.0 * rangeMod, 8.0 * rangeMod, 16.0 * rangeMod)) {
+            val nearby = level.getEntitiesOfClass(
+                LivingEntity::class.java,
+                AABB.ofSize(pos.center, 16.0 * rangeMod, 8.0 * rangeMod, 16.0 * rangeMod)
+            ) {
                 it != taggedEntity
             }
             if (nearby.isNotEmpty()) {
@@ -69,11 +106,21 @@ open class FetishEffect(var rangeMod: Int = 1) {
         }
     }
 
-    open fun onUnknownEntityTick(level: Level, blockEntity: EffigyBlockEntity,pos: BlockPos, nearby: List<LivingEntity>) {
+    open fun onUnknownEntityTick(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        nearby: List<LivingEntity>
+    ) {
         all(level, blockEntity, pos, nearby)
     }
 
-    private fun checkAnyKnownEntityNearby(level: Level, blockEntity: EffigyBlockEntity, pos: BlockPos, taglocks: NonNullList<ItemStack>) {
+    private fun checkAnyKnownEntityNearby(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        taglocks: NonNullList<ItemStack>
+    ) {
         for (taglock in taglocks) {
             val known = TaglockItem.getLivingEntity(level, taglock)
             if (known != null && known.distanceToSqr(pos.center) < 64.0 * rangeMod) {
@@ -86,11 +133,16 @@ open class FetishEffect(var rangeMod: Int = 1) {
         all(level, blockEntity, pos, listOf(known))
     }
 
-    private fun checkAllKnownEntitiesAway(level: Level, blockEntity: EffigyBlockEntity, pos: BlockPos, taglocks: NonNullList<ItemStack>) {
+    private fun checkAllKnownEntitiesAway(
+        level: Level,
+        blockEntity: EffigyBlockEntity,
+        pos: BlockPos,
+        taglocks: NonNullList<ItemStack>
+    ) {
         for (taglock in taglocks) {
             val known = TaglockItem.getLivingEntity(level, taglock)
             if (known == null || known.distanceToSqr(pos.center) >= 64.0 * rangeMod) {
-                onKnownEntityAwayTick(level,  blockEntity,pos)
+                onKnownEntityAwayTick(level, blockEntity, pos)
             }
         }
     }

@@ -42,7 +42,6 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         WitcheryFabricAttachmentRegistry.init()
         Witchery.init()
         WitcheryEntityDataSerializers.register()
-        ItemGroupEvents.MODIFY_ENTRIES_ALL.register(WitcheryCreativeModeTabs::modifyExistingTabs)
 
         StrippableBlockRegistry.register(WitcheryBlocks.ROWAN_LOG.get(), WitcheryBlocks.STRIPPED_ROWAN_LOG.get())
         StrippableBlockRegistry.register(WitcheryBlocks.ROWAN_WOOD.get(), WitcheryBlocks.STRIPPED_ROWAN_WOOD.get())

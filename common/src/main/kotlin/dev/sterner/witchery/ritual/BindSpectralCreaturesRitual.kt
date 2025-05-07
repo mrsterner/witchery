@@ -5,7 +5,6 @@ import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.entity.BansheeEntity
-import dev.sterner.witchery.entity.ChainEntity
 import dev.sterner.witchery.entity.SpectreEntity
 import dev.sterner.witchery.handler.ChainManager
 import net.minecraft.core.BlockPos
@@ -18,7 +17,6 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 import java.util.*
-import kotlin.collections.HashMap
 
 class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
 
@@ -46,6 +44,7 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
                         entityToEffigyMap.remove(entityId)
                         entity.discard()
                     }
+
                     is SpectreEntity -> {
                         blockEntity.specterCount += 1
                         blockEntity.setChanged()
@@ -115,7 +114,8 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
 
                     makeParticles(level, entity)
 
-                    ChainManager.createHookAndPullChain(level, effigyCenter.add(0.0,0.2,0.0), entity,
+                    ChainManager.createHookAndPullChain(
+                        level, effigyCenter.add(0.0, 0.2, 0.0), entity,
                         pullDelay = 0,
                         extensionSpeed = 0.8f
                     )

@@ -3,7 +3,6 @@ package dev.sterner.witchery.payload
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import net.minecraft.client.Minecraft
-import net.minecraft.core.HolderLookup
 import net.minecraft.core.particles.ItemParticleOption
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
@@ -11,8 +10,6 @@ import net.minecraft.nbt.NbtOps
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.util.Mth
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.phys.Vec3
 
@@ -25,7 +22,7 @@ class SpawnItemParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         putDouble("y", vec3.y)
         putDouble("z", vec3.z)
         val result = ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack)
-        result.resultOrPartial { _ ->  }?.let {
+        result.resultOrPartial { _ -> }?.let {
             put("stack", it.get())
         }
     })

@@ -1,21 +1,20 @@
 package dev.sterner.witchery.platform.infusion.fabric
 
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
-import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
+import dev.sterner.witchery.platform.infusion.OtherwhereInfusionPlayerAttachment
 import net.minecraft.world.entity.player.Player
 
-object OtherwhereInfusionDataAttachmentImpl {
+object OtherwhereInfusionPlayerAttachmentImpl {
 
     @JvmStatic
     fun setInfusion(player: Player, teleportHoldTicks: Int, teleportCooldown: Int) {
-        val data = OtherwhereInfusionData(teleportHoldTicks, teleportCooldown)
+        val data = OtherwhereInfusionPlayerAttachment.Data(teleportHoldTicks, teleportCooldown)
         player.setAttached(WitcheryFabricAttachmentRegistry.OTHERWHERE_INFUSION_PLAYER_DATA_TYPE, data)
-        OtherwhereInfusionDataAttachment.sync(player, data)
+        OtherwhereInfusionPlayerAttachment.sync(player, data)
     }
 
     @JvmStatic
-    fun getInfusion(player: Player): OtherwhereInfusionData {
+    fun getInfusion(player: Player): OtherwhereInfusionPlayerAttachment.Data {
         return player.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.OTHERWHERE_INFUSION_PLAYER_DATA_TYPE)
     }
 }

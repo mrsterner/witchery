@@ -37,10 +37,12 @@ class CoffinBlock(properties: Properties, color: DyeColor) : BedBlock(color, pro
     val SHAPE: VoxelShape = Shapes.box(0.0, 0.0, 0.0, 16.0 / 16, 10.0 / 16, 16.0 / 16)
 
     init {
-        this.registerDefaultState(this.stateDefinition.any().setValue(PART, BedPart.FOOT).setValue(OCCUPIED, false).setValue(OPEN, false))
+        this.registerDefaultState(
+            this.stateDefinition.any().setValue(PART, BedPart.FOOT).setValue(OCCUPIED, false).setValue(OPEN, false)
+        )
     }
 
-    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
+    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return CoffinBlockEntity(pos, state)
     }
 
@@ -70,7 +72,7 @@ class CoffinBlock(properties: Properties, color: DyeColor) : BedBlock(color, pro
                 OCCUPIED, neighborState.getValue(
                     OCCUPIED
                 )
-            ).setValue(OPEN, neighborState.getValue(OPEN)) else Blocks.AIR.defaultBlockState();
+            ).setValue(OPEN, neighborState.getValue(OPEN)) else Blocks.AIR.defaultBlockState()
         }
 
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos)
@@ -109,16 +111,16 @@ class CoffinBlock(properties: Properties, color: DyeColor) : BedBlock(color, pro
         if (pLevel.isClientSide) {
             return ItemInteractionResult.CONSUME
         } else {
-            if(pPlayer.isShiftKeyDown){
+            if (pPlayer.isShiftKeyDown) {
                 val state = pState.cycle(OPEN)
                 pLevel.setBlockAndUpdate(pPos, state)
                 return ItemInteractionResult.SUCCESS
-            }else{
-                if(pState.getValue(OPEN)){
+            } else {
+                if (pState.getValue(OPEN)) {
                     val state = pState.cycle(OPEN)
                     pLevel.setBlockAndUpdate(pPos, state)
                     return super.useItemOn(stack, pState, pLevel, pPos, pPlayer, hand, hitResult)
-                }else{
+                } else {
                     return ItemInteractionResult.CONSUME
                 }
             }

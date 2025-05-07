@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
+import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryItems;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.PlayerItemInHandLayer;
@@ -20,7 +20,7 @@ public class PlayerItemInHandLayerMixin {
 
     @Inject(method = "renderArmWithItem", at = @At("HEAD"), cancellable = true)
     private void witchery$hideWitchesHand(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext displayContext, HumanoidArm arm, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci){
-        if (livingEntity instanceof Player player && LightInfusionDataAttachment.isInvisible(player).isInvisible() && itemStack.is(WitcheryItems.INSTANCE.getWITCHES_HAND().get())) {
+        if (livingEntity instanceof Player player && LightInfusionPlayerAttachment.isInvisible(player).isInvisible() && itemStack.is(WitcheryItems.INSTANCE.getWITCHES_HAND().get())) {
             ci.cancel();
         }
     }

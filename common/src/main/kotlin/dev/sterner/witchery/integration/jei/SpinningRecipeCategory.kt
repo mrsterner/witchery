@@ -54,14 +54,26 @@ class SpinningRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Spinn
         }
 
         // Output slot
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 2 + 2 + 18 + 24 + 24 + 9 + 18 - 18 + 2, 50 - 18 - 4 - 9 - 1 + 10 - 1)
+        builder.addSlot(
+            RecipeIngredientRole.OUTPUT,
+            2 + 2 + 18 + 24 + 24 + 9 + 18 - 18 + 2,
+            50 - 18 - 4 - 9 - 1 + 10 - 1
+        )
             .addItemStack(recipe.outputItem)
     }
-    override fun draw(recipe: SpinningWheelRecipe, recipeSlotsView: IRecipeSlotsView, graphics: GuiGraphics, mouseX: Double, mouseY: Double) {
+
+    override fun draw(
+        recipe: SpinningWheelRecipe,
+        recipeSlotsView: IRecipeSlotsView,
+        graphics: GuiGraphics,
+        mouseX: Double,
+        mouseY: Double
+    ) {
         val texture = Witchery.id("textures/gui/spinning_wheel_emi.png")
         graphics.blit(texture, 8, 8, 0, 0, 123, 54)
 
-        graphics.drawCenteredString(Minecraft.getInstance().font, Component.literal("Altar Power: ${recipe.altarPower}/s"),
+        graphics.drawCenteredString(
+            Minecraft.getInstance().font, Component.literal("Altar Power: ${recipe.altarPower}/s"),
             width / 2,
             height - 18,
             0xffffff

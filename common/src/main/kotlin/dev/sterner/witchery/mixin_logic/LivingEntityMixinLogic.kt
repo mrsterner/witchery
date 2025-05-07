@@ -5,7 +5,6 @@ import dev.sterner.witchery.handler.PoppetHandler.handleVampiricPoppet
 import dev.sterner.witchery.handler.PotionHandler
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
-import dev.sterner.witchery.platform.BarkBeltPlayerAttachment
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment.getData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.getPoppetData

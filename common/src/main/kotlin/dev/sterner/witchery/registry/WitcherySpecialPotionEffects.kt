@@ -160,7 +160,7 @@ object WitcherySpecialPotionEffects {
                 amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
-                val blockPoses: Stream<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(box).filter{
+                val blockPoses: Stream<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(box).filter {
                     level.getBlockState(it.below()).`is`(BlockTags.DIRT)
                             && level.getBlockState(it).isAir
                 }
@@ -189,7 +189,8 @@ object WitcherySpecialPotionEffects {
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 if (level is ServerLevel) {
-                    val blockPoses: Stream<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(box).filter { level.getBlockState(it).`is`(BlockTags.DIRT) }
+                    val blockPoses: Stream<BlockPos> = BlockPos.MutableBlockPos.betweenClosedStream(box)
+                        .filter { level.getBlockState(it).`is`(BlockTags.DIRT) }
                     blockPoses.forEach { pos ->
                         val state = level.getBlockState(pos)
                         if (!level.getBlockState(pos.above()).isCollisionShapeFullBlock(level, pos)) {
@@ -213,8 +214,11 @@ object WitcherySpecialPotionEffects {
                 amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
-                level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan -> enderMan.addEffect(
-                    MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, duration, amplifier)) }
+                level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan ->
+                    enderMan.addEffect(
+                        MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, duration, amplifier)
+                    )
+                }
             }
         }
     }
@@ -341,8 +345,11 @@ object WitcherySpecialPotionEffects {
                 amplifier: Int
             ) {
                 val box = getBox(hitResult, mergedDispersalModifier)
-                level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan -> enderMan.addEffect(
-                    MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, duration, amplifier)) }
+                level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan ->
+                    enderMan.addEffect(
+                        MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, duration, amplifier)
+                    )
+                }
             }
         }
     }
@@ -435,9 +442,21 @@ object WitcherySpecialPotionEffects {
                 }
 
                 if (level is ServerLevel) {
-                    val success = (sapling as SaplingBlockAccessor).treeGrower.growTree(level, level.chunkSource.generator, pos, sapling.defaultBlockState(), level.random)
+                    val success = (sapling as SaplingBlockAccessor).treeGrower.growTree(
+                        level,
+                        level.chunkSource.generator,
+                        pos,
+                        sapling.defaultBlockState(),
+                        level.random
+                    )
                     if (!success) {
-                        TreeGrower.OAK.growTree(level, level.chunkSource.generator, pos, sapling.defaultBlockState(), level.random)
+                        TreeGrower.OAK.growTree(
+                            level,
+                            level.chunkSource.generator,
+                            pos,
+                            sapling.defaultBlockState(),
+                            level.random
+                        )
                     }
 
                     val treeHeight = getTreeHeight(level, pos)
@@ -462,7 +481,9 @@ object WitcherySpecialPotionEffects {
             private fun getTreeHeight(level: Level, basePos: BlockPos): Int {
                 var height = 0
                 var foundLeaf = false
-                while (!foundLeaf && level.getBlockState(basePos.above(height)).`is`(BlockTags.LEAVES) || level.getBlockState(basePos.above(height)).`is`(BlockTags.LOGS)) {
+                while (!foundLeaf && level.getBlockState(basePos.above(height))
+                        .`is`(BlockTags.LEAVES) || level.getBlockState(basePos.above(height)).`is`(BlockTags.LOGS)
+                ) {
                     if (level.getBlockState(basePos.above(height)).`is`(Blocks.OAK_LEAVES)) {
                         foundLeaf = true
                     }
@@ -675,7 +696,7 @@ object WitcherySpecialPotionEffects {
                 val box = getBox(hitResult, mergedDispersalModifier)
                 val lovableEntities = level.getEntitiesOfClass(Animal::class.java, box)
                 lovableEntities.forEach {
-                    it.setInLove(if(owner is Player) owner else null)
+                    it.setInLove(if (owner is Player) owner else null)
                 }
             }
         }

@@ -201,7 +201,8 @@ class WitcheryAreaEffectCloud(
 
                 for (ingredient in potionContents) {
 
-                    val duration = (ingredient.baseDuration + ingredient.effectModifier.durationAddition) * ingredient.effectModifier.durationMultiplier
+                    val duration =
+                        (ingredient.baseDuration + ingredient.effectModifier.durationAddition) * ingredient.effectModifier.durationMultiplier
                     val amplifier = ingredient.effectModifier.powerAddition
 
                     if (ingredient.specialEffect.isPresent) {

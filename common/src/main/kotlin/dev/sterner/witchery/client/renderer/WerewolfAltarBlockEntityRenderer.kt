@@ -44,7 +44,16 @@ class WerewolfAltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
         if (!blockEntity.items.isEmpty()) {
             val item = blockEntity.items.first()
             poseStack.translate(-0.35, 0.4, -0.9)
-            Minecraft.getInstance().itemRenderer.renderStatic(item, ItemDisplayContext.GROUND, packedLight, packedOverlay, poseStack, bufferSource, blockEntity.level, 432423)
+            Minecraft.getInstance().itemRenderer.renderStatic(
+                item,
+                ItemDisplayContext.GROUND,
+                packedLight,
+                packedOverlay,
+                poseStack,
+                bufferSource,
+                blockEntity.level,
+                432423
+            )
         }
 
         poseStack.popPose()

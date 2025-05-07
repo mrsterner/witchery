@@ -34,7 +34,6 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.RecipeHolder
-import net.minecraft.world.item.crafting.RecipeManager
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
@@ -313,7 +312,14 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      * Find nearby grassper block entities that could provide items
      */
     private fun findNearbyGrasspers(level: Level): List<Pair<BlockPos, GrassperBlockEntity>> {
-        return BlockPos.betweenClosedStream(AABB.ofSize(blockPos.center, RITUAL_AREA_RADIUS, RITUAL_AREA_RADIUS, RITUAL_AREA_RADIUS))
+        return BlockPos.betweenClosedStream(
+            AABB.ofSize(
+                blockPos.center,
+                RITUAL_AREA_RADIUS,
+                RITUAL_AREA_RADIUS,
+                RITUAL_AREA_RADIUS
+            )
+        )
             .filter { level.getBlockEntity(it) is GrassperBlockEntity }
             .map { it to (level.getBlockEntity(it) as GrassperBlockEntity) }
             .filter { (_, grassper) -> !grassper.isEmpty }
@@ -478,7 +484,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      */
     private fun updateAltarCache(level: Level) {
         if (cachedAltarPos == null && level is ServerLevel) {
-            cachedAltarPos = getAltarPos(level as ServerLevel, blockPos)
+            cachedAltarPos = getAltarPos(level, blockPos)
             setChanged()
             Witchery.logDebugRitual("Cached altar position updated: $cachedAltarPos.")
         }
@@ -556,7 +562,14 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         ) { true }.map { it.item })
 
         // Add items from grasspers
-        BlockPos.betweenClosedStream(AABB.ofSize(blockPos.center, RITUAL_AREA_RADIUS, RITUAL_AREA_RADIUS, RITUAL_AREA_RADIUS))
+        BlockPos.betweenClosedStream(
+            AABB.ofSize(
+                blockPos.center,
+                RITUAL_AREA_RADIUS,
+                RITUAL_AREA_RADIUS,
+                RITUAL_AREA_RADIUS
+            )
+        )
             .filter { level.getBlockEntity(it) is GrassperBlockEntity }
             .map { level.getBlockEntity(it) as GrassperBlockEntity }
             .filter { !it.isEmpty }
@@ -676,16 +689,22 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return when {
             recipe.celestialConditions.contains(RitualRecipe.Celestial.DAY) ->
                 RitualHelper.isDaytime(level)
+
             recipe.celestialConditions.contains(RitualRecipe.Celestial.FULL_MOON) ->
                 RitualHelper.isFullMoon(level)
+
             recipe.celestialConditions.contains(RitualRecipe.Celestial.NEW_MOON) ->
                 RitualHelper.isNewMoon(level)
+
             recipe.celestialConditions.contains(RitualRecipe.Celestial.NIGHT) ->
                 RitualHelper.isNighttime(level)
+
             recipe.celestialConditions.contains(RitualRecipe.Celestial.WAXING) ->
                 RitualHelper.isWaxing(level)
+
             recipe.celestialConditions.contains(RitualRecipe.Celestial.WANING) ->
                 RitualHelper.isWaning(level)
+
             else -> false
         }
     }
@@ -792,6 +811,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     else -> RitualState.IDLE
                 }
             }
+
             else -> RitualState.IDLE
         }
 
@@ -903,7 +923,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         // Save consumed sacrifices
-        val sacrificesList = consumedSacrifices.mapNotNull { EntityType.getKey(it)?.toString() }
+        val sacrificesList = consumedSacrifices.mapNotNull { EntityType.getKey(it).toString() }
         tag.put(TAG_CONSUMED_SACRIFICES, sacrificesList.fold(ListTag()) { list, entity ->
             list.add(StringTag.valueOf(entity))
             list

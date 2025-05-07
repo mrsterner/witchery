@@ -1,20 +1,19 @@
 package dev.sterner.witchery.platform.infusion.fabric
 
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
-import dev.sterner.witchery.platform.infusion.InfernalInfusionData
-import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment
+import dev.sterner.witchery.platform.infusion.InfernalInfusionPlayerAttachment
 import net.minecraft.world.entity.player.Player
 
-object InfernalInfusionDataAttachmentImpl {
+object InfernalInfusionPlayerAttachmentImpl {
 
     @JvmStatic
-    fun setData(player: Player, data: InfernalInfusionData) {
+    fun setData(player: Player, data: InfernalInfusionPlayerAttachment.Data) {
         player.setAttached(WitcheryFabricAttachmentRegistry.INFERNAL_INFUSION_PLAYER_DATA_TYPE, data)
-        InfernalInfusionDataAttachment.sync(player, data)
+        InfernalInfusionPlayerAttachment.sync(player, data)
     }
 
     @JvmStatic
-    fun getData(player: Player): InfernalInfusionData {
+    fun getData(player: Player): InfernalInfusionPlayerAttachment.Data {
         return player.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.INFERNAL_INFUSION_PLAYER_DATA_TYPE)
     }
 }

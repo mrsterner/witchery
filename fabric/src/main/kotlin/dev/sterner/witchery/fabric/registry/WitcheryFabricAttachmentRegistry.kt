@@ -27,28 +27,28 @@ object WitcheryFabricAttachmentRegistry {
             .buildAndRegister(AltarLevelAttachment.AltarDataCodec.ID)
 
     @Suppress("UnstableApiUsage")
-    val INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfusionData> =
-        AttachmentRegistry.builder<InfusionData>()
-            .persistent(InfusionData.CODEC)
+    val INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfusionPlayerAttachment.Data> =
+        AttachmentRegistry.builder<InfusionPlayerAttachment.Data>()
+            .persistent(InfusionPlayerAttachment.Data.CODEC)
             .copyOnDeath()
-            .initializer { InfusionData(InfusionType.NONE) }
-            .buildAndRegister(InfusionData.ID)
+            .initializer { InfusionPlayerAttachment.Data(InfusionType.NONE) }
+            .buildAndRegister(InfusionPlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
-    val LIGHT_INFUSION_PLAYER_DATA_TYPE: AttachmentType<LightInfusionData> =
-        AttachmentRegistry.builder<LightInfusionData>()
-            .persistent(LightInfusionData.CODEC)
+    val LIGHT_INFUSION_PLAYER_DATA_TYPE: AttachmentType<LightInfusionPlayerAttachment.Data> =
+        AttachmentRegistry.builder<LightInfusionPlayerAttachment.Data>()
+            .persistent(LightInfusionPlayerAttachment.Data.CODEC)
             .copyOnDeath()
-            .initializer { LightInfusionData(false, 0) }
-            .buildAndRegister(LightInfusionData.ID)
+            .initializer { LightInfusionPlayerAttachment.Data(false, 0) }
+            .buildAndRegister(LightInfusionPlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
-    val OTHERWHERE_INFUSION_PLAYER_DATA_TYPE: AttachmentType<OtherwhereInfusionData> =
-        AttachmentRegistry.builder<OtherwhereInfusionData>()
-            .persistent(OtherwhereInfusionData.CODEC)
+    val OTHERWHERE_INFUSION_PLAYER_DATA_TYPE: AttachmentType<OtherwhereInfusionPlayerAttachment.Data> =
+        AttachmentRegistry.builder<OtherwhereInfusionPlayerAttachment.Data>()
+            .persistent(OtherwhereInfusionPlayerAttachment.Data.CODEC)
             .copyOnDeath()
-            .initializer { OtherwhereInfusionData(0, 0) }
-            .buildAndRegister(OtherwhereInfusionData.ID)
+            .initializer { OtherwhereInfusionPlayerAttachment.Data(0, 0) }
+            .buildAndRegister(OtherwhereInfusionPlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
     val VOODOO_POPPET_DATA_TYPE: AttachmentType<VoodooPoppetData> =
@@ -110,12 +110,12 @@ object WitcheryFabricAttachmentRegistry {
 
 
     @Suppress("UnstableApiUsage")
-    val INFERNAL_INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfernalInfusionData> =
-        AttachmentRegistry.builder<InfernalInfusionData>()
-            .persistent(InfernalInfusionData.CODEC)
+    val INFERNAL_INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfernalInfusionPlayerAttachment.Data> =
+        AttachmentRegistry.builder<InfernalInfusionPlayerAttachment.Data>()
+            .persistent(InfernalInfusionPlayerAttachment.Data.CODEC)
             .copyOnDeath()
-            .initializer { InfernalInfusionData() }
-            .buildAndRegister(InfernalInfusionData.ID)
+            .initializer { InfernalInfusionPlayerAttachment.Data() }
+            .buildAndRegister(InfernalInfusionPlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
     val DEATH_QUEUE_LEVEL_DATA_TYPE: AttachmentType<DeathQueueLevelAttachment.Data> =

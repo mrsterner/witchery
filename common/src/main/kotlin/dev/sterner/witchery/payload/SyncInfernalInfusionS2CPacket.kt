@@ -2,8 +2,8 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.infusion.InfernalInfusionData
-import dev.sterner.witchery.platform.infusion.InfernalInfusionDataAttachment
+import dev.sterner.witchery.platform.infusion.CreatureType
+import dev.sterner.witchery.platform.infusion.InfernalInfusionPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag
@@ -16,7 +16,7 @@ class SyncInfernalInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload 
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: InfernalInfusionData) : this(CompoundTag().apply {
+    constructor(player: Player, data: InfernalInfusionPlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         val entityTypeKey = data.currentCreature.entityType?.let {
             BuiltInRegistries.ENTITY_TYPE.getKey(it).toString()
@@ -43,11 +43,11 @@ class SyncInfernalInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload 
         client.execute {
             if (player != null) {
                 val creatureType = runCatching {
-                    InfernalInfusionData.CreatureType.valueOf(entityType.uppercase())
+                    CreatureType.valueOf(entityType.uppercase())
                 }.getOrElse {
-                    InfernalInfusionData.CreatureType.NONE
+                    CreatureType.NONE
                 }
-                InfernalInfusionDataAttachment.setData(player, InfernalInfusionData(creatureType))
+                InfernalInfusionPlayerAttachment.setData(player, InfernalInfusionPlayerAttachment.Data(creatureType))
             }
         }
     }

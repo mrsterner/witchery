@@ -8,7 +8,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.EtherealEntityAttachment;
-import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
+import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryRenderTypes;
 import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.client.model.EntityModel;
@@ -40,7 +40,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     @ModifyReturnValue(method = "getShadowRadius(Lnet/minecraft/world/entity/LivingEntity;)F", at = @At("RETURN"))
     private float witchery$getShadowRadius(float original, @Local(argsOnly = true) T entity) {
         if (entity instanceof Player player) {
-            if (LightInfusionDataAttachment.isInvisible(player).isInvisible()) {
+            if (LightInfusionPlayerAttachment.isInvisible(player).isInvisible()) {
                 return 0f;
             }
             if (TransformationHandler.isBat(player)) {
@@ -92,6 +92,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         if (livingEntity.getType().is(WitcheryTags.INSTANCE.getNECROMANCER_SUMMONABLE())) {
             var bl = EtherealEntityAttachment.getData(livingEntity).isEthereal();
             if (bl) {
+                System.out.println("render");
                 ResourceLocation resourceLocation = this.getTextureLocation(livingEntity);
                 return WitcheryRenderTypes.INSTANCE.getGHOST().apply(resourceLocation);
             }
