@@ -17,55 +17,17 @@ import net.minecraft.world.level.Level
 import java.util.*
 
 data class TeleportRequest(
-    val player: UUID,                // UUID of the player to teleport
-    val pos: BlockPos,               // Target position to teleport to
-    val chunkPos: ChunkPos,          // Chunk position to ensure is loaded
-    val createdGameTime: Long,       // Game time when request was created
-    var attempts: Int = 0,           // Number of processing attempts made
+    val player: UUID,                         // UUID of the player to teleport
+    val pos: BlockPos,                        // Target position to teleport to
+    val chunkPos: ChunkPos,                   // Chunk position to ensure is loaded
+    val createdGameTime: Long,                // Game time when request was created
+    var attempts: Int = 0,                    // Number of processing attempts made
     val sourceDimension: ResourceKey<Level>? = null // Source dimension, if cross-dimensional
 ) {
-    /**
-     * Check if the request has timed out based on game ticks or attempts
-     */
-    fun hasTimedOut(currentGameTime: Long): Boolean {
-        // Timeout after 12000 game ticks (10 minutes at 20tps) or 200 attempts
-        return (currentGameTime - createdGameTime > 12000) || attempts > 200
-    }
-
-    fun execute(minecraftServer: MinecraftServer): Boolean {
-        attempts++
-        val serverPlayer = minecraftServer.playerList.getPlayer(player)
-        if (serverPlayer != null) {
-            val overworld = minecraftServer.overworld()
-            try {
-                serverPlayer.teleportTo(
-                    overworld,
-                    pos.x + 0.5,
-                    pos.y + 0.5,
-                    pos.z + 0.5,
-                    setOf(),
-                    serverPlayer.yRot,
-                    serverPlayer.xRot
-                )
-                val sleepingData = SleepingPlayerHandler.getPlayerFromSleeping(serverPlayer.uuid, overworld)
-                if (sleepingData != null) {
-                    val sleepingPlayer = overworld.getEntity(sleepingData.uuid)
-                    if (sleepingPlayer is SleepingPlayerEntity) {
-                        replaceWithPlayer(serverPlayer, sleepingPlayer)
-                    } else {
-                        Witchery.LOGGER.warn("Failed to find sleeping player entity for UUID: ${sleepingData.uuid}")
-                    }
-                }
-                return true
-            } catch (e: Exception) {
-                Witchery.LOGGER.error("Failed to execute teleport request for player ${serverPlayer.name.string}", e)
-                return false
-            }
-        }
-        return hasTimedOut(minecraftServer.overworld().gameTime)
-    }
-
     companion object {
+        /**
+         * Codec for serializing/deserializing TeleportRequest objects
+         */
         val CODEC: Codec<TeleportRequest> = RecordCodecBuilder.create { instance ->
             instance.group(
                 Codecs.UUID.fieldOf("playerUUID").forGetter { it.player },

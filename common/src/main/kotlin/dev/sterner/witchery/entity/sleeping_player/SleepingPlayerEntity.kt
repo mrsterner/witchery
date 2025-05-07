@@ -322,7 +322,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
             for (i in 0 until player.inventory.containerSize) {
                 val itemStack = player.inventory.getItem(i)
 
-                if (itemStack.`is`(WitcheryTags.SPIRIT_WORLD_TRANSFERABLE)) {
+                if (itemStack.`is`(WitcheryTags.FROM_SPIRIT_WORLD_TRANSFERABLE)) {
                     itemsToKeep.add(itemStack.copy())
                 }
             }

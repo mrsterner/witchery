@@ -441,7 +441,8 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add(WitcheryTags.LEAF_ITEMS, "Witchery Leaves")
         builder.add(WitcheryTags.CANDELABRA_ITEMS, "Candelabras")
         builder.add(WitcheryTags.PLACEABLE_POPPETS, "Placeable Poppets")
-        builder.add(WitcheryTags.SPIRIT_WORLD_TRANSFERABLE, "Spirit World Transferable")
+        builder.add(WitcheryTags.FROM_SPIRIT_WORLD_TRANSFERABLE, "From Spirit World Transferable")
+        builder.add(WitcheryTags.TO_SPIRIT_WORLD_TRANSFERABLE, "To Spirit World Transferable")
 
         builder.add("entity.witchery.rowan_boat", "Rowan Boat")
         builder.add("entity.witchery.rowan_chest_boat", "Rowan Chest Boat")

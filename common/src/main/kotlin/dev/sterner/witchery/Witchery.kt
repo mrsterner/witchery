@@ -148,7 +148,6 @@ object Witchery {
         FetishEffectHandler.registerListener()
         NaturePowerHandler.registerListener()
         ErosionHandler.registerListener()
-
         BloodPoolHandler.registerListener()
 
         WitcheryModonomiconLoaders.register()
@@ -224,23 +223,28 @@ object Witchery {
         }
 
         LifecycleEvent.SERVER_STARTED.register { addStructure(it) }
-        LifecycleEvent.SERVER_STOPPING.register {
-            it.allLevels.forEach { level ->
-                val data = TeleportQueueLevelAttachment.getData(level)
-                data.pendingTeleports.forEach { request ->
-                    try {
-                        level.setChunkForced(request.chunkPos.x, request.chunkPos.z, false)
-                    } catch (_: Exception) {
-
+        LifecycleEvent.SERVER_STOPPING.register { server ->
+            // Clear all forced chunks on server stop
+            server.allLevels.forEach { level ->
+                try {
+                    val data = TeleportQueueLevelAttachment.getData(level)
+                    data.pendingTeleports.forEach { request ->
+                        try {
+                            level.setChunkForced(request.chunkPos.x, request.chunkPos.z, false)
+                        } catch (e: Exception) {
+                            LOGGER.error("Failed to unforce chunk at ${request.chunkPos} on server stop", e)
+                        }
                     }
-                }
 
-                TeleportQueueLevelAttachment.setData(level, TeleportQueueLevelAttachment.Data(mutableListOf()))
+                    // Clear the teleport queue
+                    TeleportQueueLevelAttachment.setData(level, TeleportQueueLevelAttachment.Data(mutableListOf()))
+                } catch (e: Exception) {
+                    LOGGER.error("Error clearing teleport queue during server shutdown", e)
+                }
             }
         }
         //TickEvent.SERVER_LEVEL_PRE.register(VillageWallHandler::tick)
         //ChunkEvent.LOAD_DATA.register(VillageWallHandler::loadChunk)
-
     }
 
     /**

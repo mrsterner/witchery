@@ -28,11 +28,16 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             .add(WitcheryItems.VOODOO_PROTECTION_POPPET.get())
             .add(WitcheryItems.VOODOO_POPPET.get())
 
-        getOrCreateTagBuilder(WitcheryTags.SPIRIT_WORLD_TRANSFERABLE)
+        getOrCreateTagBuilder(WitcheryTags.FROM_SPIRIT_WORLD_TRANSFERABLE)
             .add(WitcheryItems.ICY_NEEDLE.get())
             .add(WitcheryItems.MELLIFLUOUS_HUNGER.get())
             .add(WitcheryItems.WISPY_COTTON.get())
             .add(WitcheryItems.DISTURBED_COTTON.get())
+            .add(WitcheryItems.BREW_FLOWING_SPIRIT.get())
+
+        getOrCreateTagBuilder(WitcheryTags.TO_SPIRIT_WORLD_TRANSFERABLE)
+            .add(WitcheryItems.ICY_NEEDLE.get())
+            .add(WitcheryItems.WISPY_COTTON.get())
             .add(WitcheryItems.BREW_FLOWING_SPIRIT.get())
 
         getOrCreateTagBuilder(WitcheryTags.LEAF_ITEMS).add(

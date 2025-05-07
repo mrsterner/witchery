@@ -13,8 +13,10 @@ object WitcheryTags {
 
     val WEREWOLF_ALTAR_ITEM: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("werewolf_altar_item"))
     val PLACEABLE_POPPETS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("placeable_poppets"))
-    val SPIRIT_WORLD_TRANSFERABLE: TagKey<Item> =
-        TagKey.create(Registries.ITEM, Witchery.id("spirit_world_transferable"))
+    val FROM_SPIRIT_WORLD_TRANSFERABLE: TagKey<Item> =
+        TagKey.create(Registries.ITEM, Witchery.id("from_spirit_world_transferable"))
+    val TO_SPIRIT_WORLD_TRANSFERABLE: TagKey<Item> =
+        TagKey.create(Registries.ITEM, Witchery.id("to_spirit_world_transferable"))
 
     val WOODEN_WEAPONS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("wooden_weapons"))
 
