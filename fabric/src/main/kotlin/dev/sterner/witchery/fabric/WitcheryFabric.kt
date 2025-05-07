@@ -22,7 +22,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
@@ -88,7 +87,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryBlockEntityTypes.CAULDRON.get()
         )
 
-        EntitySleepEvents.ALLOW_SLEEP_TIME.register{player, pos, res ->
+        EntitySleepEvents.ALLOW_SLEEP_TIME.register { player, pos, res ->
             if (player.level().getBlockState(pos).block is CoffinBlock && player.level().isDay) {
                 return@register InteractionResult.SUCCESS
             }
@@ -115,7 +114,10 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             SpinningWheelDynamicRenderer()
         )
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.BROOM.get(), BroomDynamicRenderer())
-        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.WEREWOLF_ALTAR.get(), WerewolfAltarDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(
+            WitcheryItems.WEREWOLF_ALTAR.get(),
+            WerewolfAltarDynamicRenderer()
+        )
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.BEAR_TRAP.get(), BearTrapDynamicRenderer())
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.COFFIN.get(), CoffinDynamicRenderer())
         BuiltinItemRendererRegistry.INSTANCE.register(

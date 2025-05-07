@@ -71,7 +71,7 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
         builder.add("witchery.blood", "Blood")
         builder.add("witchery.vampire_blood", "Blood?")
-        builder.add( "witchery.use_with_needle", "Use with Bone Needle to fill")
+        builder.add("witchery.use_with_needle", "Use with Bone Needle to fill")
 
         builder.add("witchery:all_worlds", "All Worlds")
         builder.add("witchery:dream_world", "Dream World")
@@ -515,7 +515,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery:ritual/summon_imp", "Summon Imp")
         builder.add("witchery:ritual/summon_imp.tooltip", "Summon an Imp at ritual center")
         builder.add("witchery:ritual/apply_ointment", "Imbue Flying Ointment")
-        builder.add("witchery:ritual/apply_ointment.tooltip", "When imbued into broom-wood, the charm awakens. The air no longer resists, and the winds know thy name")
+        builder.add(
+            "witchery:ritual/apply_ointment.tooltip",
+            "When imbued into broom-wood, the charm awakens. The air no longer resists, and the winds know thy name"
+        )
 
 
         builder.add("witchery:ritual/summon_witch", "Summon Witch")
@@ -527,12 +530,21 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
 
         builder.add("witchery:ritual/necro_stone", "Necromantic Stone")
-        builder.add("witchery:ritual/necro_stone.tooltip", "A stone as cold as the grave and thrice as silent. It is not carved, but called—formed beneath moon-lit skies where the veil is thin. Death clings to it like moss to tombstone.")
+        builder.add(
+            "witchery:ritual/necro_stone.tooltip",
+            "A stone as cold as the grave and thrice as silent. It is not carved, but called—formed beneath moon-lit skies where the veil is thin. Death clings to it like moss to tombstone."
+        )
 
         builder.add("witchery:ritual/bind_spectral_creatures", "Bind Spectral Creatures")
-        builder.add("witchery:ritual/bind_spectral_creatures.tooltip", "Binds spectral being to Effigies. Multiple binds might yield unusual effects.")
+        builder.add(
+            "witchery:ritual/bind_spectral_creatures.tooltip",
+            "Binds spectral being to Effigies. Multiple binds might yield unusual effects."
+        )
         builder.add("witchery:ritual/bind_familiar", "Bind Familiar")
-        builder.add("witchery:ritual/bind_familiar.tooltip", "Binds a familiar to the Player. A Familiar might aid in certain prospects of a witches life.")
+        builder.add(
+            "witchery:ritual/bind_familiar.tooltip",
+            "Binds a familiar to the Player. A Familiar might aid in certain prospects of a witches life."
+        )
         builder.add("witchery:ritual/manifestation", "Rite of Manifestation")
         builder.add("witchery:ritual/manifestation.tooltip", "Allows you to pass through spirit portals")
         builder.add("witchery:ritual/resurrect_familiar", "Resurrect Familiar")
@@ -550,12 +562,18 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.general.beginning.name", "Beginning")
         builder.add("book.witchery.guidebook.general.beginning.description", "The roots of the Craft")
         builder.add("general.beginning.title.1", "The First Steps")
-        builder.add("general.beginning.page.1", "All witchery begins with the green. Break thee the wild grass, and the earth shall gift thee seeds most curious and rare.")
+        builder.add(
+            "general.beginning.page.1",
+            "All witchery begins with the green. Break thee the wild grass, and the earth shall gift thee seeds most curious and rare."
+        )
 
         builder.add("book.witchery.guidebook.general.cauldron.name", "Cauldron")
         builder.add("book.witchery.guidebook.general.cauldron.description", "A watched pot never boils")
         builder.add("general.cauldron.title.1", "The Cauldron")
-        builder.add("general.cauldron.page.1", "A vessel most vital for the crafting of Brews, Potions, and Witching Wares. Must be filled with Water and set Aflame. Often require an Altar nearby. A pinch of Wood Ash will cleanse its humours.")
+        builder.add(
+            "general.cauldron.page.1",
+            "A vessel most vital for the crafting of Brews, Potions, and Witching Wares. Must be filled with Water and set Aflame. Often require an Altar nearby. A pinch of Wood Ash will cleanse its humours."
+        )
         builder.add("general.cauldron.title.2", "")
         builder.add("general.cauldron.page.2", "")
         builder.add("brewing.cauldron.title.2", "")
@@ -564,12 +582,18 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.general.oven.name", "Witch's Oven")
         builder.add("book.witchery.guidebook.general.oven.description", "Smoke, soot, and secrets")
         builder.add("general.oven.title.1", "Witch's Oven")
-        builder.add("general.oven.page.1", "By fire and fume, the Oven doth turn Saplings to Essences. With Jars in place, the Spirits are caught, else they vanish into the aether.")
+        builder.add(
+            "general.oven.page.1",
+            "By fire and fume, the Oven doth turn Saplings to Essences. With Jars in place, the Spirits are caught, else they vanish into the aether."
+        )
 
         builder.add("book.witchery.guidebook.general.distillery.name", "Distillery")
         builder.add("book.witchery.guidebook.general.distillery.description", "Boil and bubble")
         builder.add("general.distillery.title.1", "The Distillery")
-        builder.add("general.distillery.page.1", "Herein lies the art of separation. By fire’s kiss and alchemical glass, one may draw forth the true soul of a mixture, layer by layer.")
+        builder.add(
+            "general.distillery.page.1",
+            "Herein lies the art of separation. By fire’s kiss and alchemical glass, one may draw forth the true soul of a mixture, layer by layer."
+        )
 
         builder.add("general.mutandis", "")
         builder.add("general.mutating_spring", "")
@@ -593,7 +617,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.general.mutandis.name", "Mutandis")
         builder.add("book.witchery.guidebook.general.mutandis.description", "CRISPR that plant")
         builder.add("general.mutandis.title.1", "Mutandis")
-        builder.add("general.mutandis.page.1", "Evil Scrambled Eggs. Used on Plants to mutate them into other plants, the mutations will be locked to the same type of plant for a few seconds on use, so for example saplings will turn into other saplings if used continually on the same sapling.")
+        builder.add(
+            "general.mutandis.page.1",
+            "Evil Scrambled Eggs. Used on Plants to mutate them into other plants, the mutations will be locked to the same type of plant for a few seconds on use, so for example saplings will turn into other saplings if used continually on the same sapling."
+        )
 
         builder.add("book.witchery.guidebook.general.whiff_of_magic.name", "Whiff of Magic")
         builder.add("book.witchery.guidebook.general.whiff_of_magic.description", "Smells like potpourri")
@@ -603,17 +630,26 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.general.exhale_of_the_horned_one.name", "Exhale of the Horned One")
         builder.add("book.witchery.guidebook.general.exhale_of_the_horned_one.description", "Smells like mold")
         builder.add("general.exhale_of_the_horned_one.title.1", "Exhale of the Horned One")
-        builder.add("general.exhale_of_the_horned_one.page.1", "This fume is born of the wild woods, where the Horned Lord treads. Burn the wood of oak or dark oak, and if the night be right, the smoke shall bear his mark. ")
+        builder.add(
+            "general.exhale_of_the_horned_one.page.1",
+            "This fume is born of the wild woods, where the Horned Lord treads. Burn the wood of oak or dark oak, and if the night be right, the smoke shall bear his mark. "
+        )
 
         builder.add("book.witchery.guidebook.general.hint_of_rebirth.name", "Hint of Rebirth")
         builder.add("book.witchery.guidebook.general.hint_of_rebirth.description", "Smells like lime")
         builder.add("general.hint_of_rebirth.title.1", "Hint of Rebirth")
-        builder.add("general.hint_of_rebirth.page.1", "The faintest whisper of life renewed. Found only in the last breath of dying spruce or the smoulder of young jungle green.")
+        builder.add(
+            "general.hint_of_rebirth.page.1",
+            "The faintest whisper of life renewed. Found only in the last breath of dying spruce or the smoulder of young jungle green."
+        )
 
         builder.add("book.witchery.guidebook.general.breath_of_the_goddess.name", "Breath of the Goddess")
         builder.add("book.witchery.guidebook.general.breath_of_the_goddess.description", "Smells nice")
         builder.add("general.breath_of_the_goddess.title.1", "Breath of the Goddess")
-        builder.add("general.breath_of_the_goddess.page.1", "A sacred fume drawn from the boughs of the Birch or Cherry, when touched by fire most gentle. 'Tis said the very breath of the Goddess herself lingers in its vapour.")
+        builder.add(
+            "general.breath_of_the_goddess.page.1",
+            "A sacred fume drawn from the boughs of the Birch or Cherry, when touched by fire most gentle. 'Tis said the very breath of the Goddess herself lingers in its vapour."
+        )
 
         builder.add("book.witchery.guidebook.general.tear_of_the_goddess.name", "Tear of the Goddess")
         builder.add(
@@ -621,13 +657,19 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
             "Better than gamer girl bathwater"
         )
         builder.add("general.tear_of_the_goddess.title.1", "Tear of the Goddess")
-        builder.add("general.tear_of_the_goddess.page.1", "Distilled sorrow and soft mercy. The Tear is not wept in vain, but drawn from sacred blooms under moonlight, when the air is thick with longing.")
+        builder.add(
+            "general.tear_of_the_goddess.page.1",
+            "Distilled sorrow and soft mercy. The Tear is not wept in vain, but drawn from sacred blooms under moonlight, when the air is thick with longing."
+        )
 
         //GUIDEBOOK BREWING
         builder.add("book.witchery.guidebook.brewing.cauldron.name", "Cauldron")
         builder.add("book.witchery.guidebook.brewing.cauldron.description", "A bubbling pot of wonders")
         builder.add("brewing.cauldron.title.1", "The Cauldron")
-        builder.add("brewing.cauldron.page.1", "A vessel most vital for the crafting of Brews, Potions, and Witching Wares. Must be filled with Water and set o’er Flame. Oft’ it doth require an Altar nearby. A pinch of Wood Ash shall cleanse its humours. Should thy brew turn brown, beware—'tis likely spoiled, lest the hue be true to thine ingredients.")
+        builder.add(
+            "brewing.cauldron.page.1",
+            "A vessel most vital for the crafting of Brews, Potions, and Witching Wares. Must be filled with Water and set o’er Flame. Oft’ it doth require an Altar nearby. A pinch of Wood Ash shall cleanse its humours. Should thy brew turn brown, beware—'tis likely spoiled, lest the hue be true to thine ingredients."
+        )
 
         builder.add("book.witchery.guidebook.brewing.ritual_chalk.name", "Ritual Chalk")
         builder.add("book.witchery.guidebook.brewing.ritual_chalk.description", "Better than crayons")
@@ -644,13 +686,19 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("brewing.ghost_of_the_light.title.1", "Ghost of the Light")
         builder.add("brewing.ghost_of_the_light", "")
         builder.add("brewing.ghost_of_the_light.ghost_of_the_light", "Ghost of the Light")
-        builder.add("brewing.ghost_of_the_light.page.1", "A pale brew born of spirits lost to the light. Stir it well, for it whispers secrets from the shadows.")
+        builder.add(
+            "brewing.ghost_of_the_light.page.1",
+            "A pale brew born of spirits lost to the light. Stir it well, for it whispers secrets from the shadows."
+        )
 
         builder.add("book.witchery.guidebook.brewing.spirit_of_otherwhere.name", "Spirit of Otherwhere")
         builder.add("book.witchery.guidebook.brewing.spirit_of_otherwhere.description", "Enderman goo")
         builder.add("brewing.spirit_of_otherwhere.title.1", "Spirit of Otherwhere")
         builder.add("brewing.spirit_of_otherwhere.spirit_of_otherwhere", "Spirit of Otherwhere")
-        builder.add("brewing.spirit_of_otherwhere.page.1", "A strange concoction that binds the essence of those who roam beyond. Drink deep, and feel the weight of distant worlds.")
+        builder.add(
+            "brewing.spirit_of_otherwhere.page.1",
+            "A strange concoction that binds the essence of those who roam beyond. Drink deep, and feel the weight of distant worlds."
+        )
 
         builder.add("book.witchery.guidebook.brewing.flying_ointment.name", "Flying Ointment")
         builder.add("book.witchery.guidebook.brewing.flying_ointment.description", "Flying goo")
@@ -672,7 +720,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.ritual.golden_chalk.name", "Golden Chalk")
         builder.add("book.witchery.guidebook.ritual.golden_chalk.description", "Better yellow than crayons")
         builder.add("ritual.golden_chalk.title.1", "Golden Chalk")
-        builder.add("ritual.golden_chalk.page.1", "The center block in a ritual circle, surround with items either on ground or on a Grassper. Rightclick to activate the ritual")
+        builder.add(
+            "ritual.golden_chalk.page.1",
+            "The center block in a ritual circle, surround with items either on ground or on a Grassper. Rightclick to activate the ritual"
+        )
 
         builder.add("book.witchery.guidebook.ritual.infernal_chalk.name", "Infernal Chalk")
         builder.add("book.witchery.guidebook.ritual.infernal_chalk.description", "Better red than crayons")
@@ -709,128 +760,159 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.vampirism.vamp_8.description", "Eighth Stage")
         builder.add("book.witchery.guidebook.vampirism.vamp_9.description", "Ninth Stage")
         builder.add("vampirism.vamp_1.title.1", "Observations of an Immortal")
-        builder.add("vampirism.vamp_1.page.1", "\n" +
-                "\\\n" +
-                "\\\nIt is with some reluctance I commit these observations to paper, for what I have witnessed is not for the weak of mind. Instead, take my words as a warning.")
-        builder.add("vampirism.vamp_1.page.2", "\n" +
-                "\\\n" +
-                "\\\n...he was reminiscing over dinner this evening about his \"birth\", a demonic pact of sorts...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ..butchering a chicken over a skull with an Arthana and holding a glass goblet to collect the blood is barbaric,\" I told him...")
-        builder.add("vampirism.vamp_1.page.3", "\n" +
-                "\\\n" +
-                "\\\n...apparently start of a long forgotten rite \n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ..night, open to the moon, chalk, candles and skull")
-        builder.add("vampirism.vamp_1.page.4", "\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...pouring the blood onto the skull... \n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ..mumbling about taking her to the underworld")
-        builder.add("vampirism.vamp_1.page.5", "\n" +
-                "\\\n" +
-                "\\\n...proving his worth to her... \n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ..that glass goblet again, could someone really drink such a thing? ...")
+        builder.add(
+            "vampirism.vamp_1.page.1", "\n" +
+                    "\\\n" +
+                    "\\\nIt is with some reluctance I commit these observations to paper, for what I have witnessed is not for the weak of mind. Instead, take my words as a warning."
+        )
+        builder.add(
+            "vampirism.vamp_1.page.2", "\n" +
+                    "\\\n" +
+                    "\\\n...he was reminiscing over dinner this evening about his \"birth\", a demonic pact of sorts...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ..butchering a chicken over a skull with an Arthana and holding a glass goblet to collect the blood is barbaric,\" I told him..."
+        )
+        builder.add(
+            "vampirism.vamp_1.page.3", "\n" +
+                    "\\\n" +
+                    "\\\n...apparently start of a long forgotten rite \n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ..night, open to the moon, chalk, candles and skull"
+        )
+        builder.add(
+            "vampirism.vamp_1.page.4", "\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...pouring the blood onto the skull... \n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ..mumbling about taking her to the underworld"
+        )
+        builder.add(
+            "vampirism.vamp_1.page.5", "\n" +
+                    "\\\n" +
+                    "\\\n...proving his worth to her... \n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ..that glass goblet again, could someone really drink such a thing? ..."
+        )
 
 
-        builder.add("vampirism.vamp_2.page.1", "\n" +
-                "\\\n" +
-                "\\\n...Today, or should I say this evening, he told me about his first kill...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ...the thirst that first night, he said, was overwhelming, he had to fully sait hes hunger...")
+        builder.add(
+            "vampirism.vamp_2.page.1", "\n" +
+                    "\\\n" +
+                    "\\\n...Today, or should I say this evening, he told me about his first kill...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ...the thirst that first night, he said, was overwhelming, he had to fully sait hes hunger..."
+        )
 
-        builder.add("vampirism.vamp_3.page.1", "\n" +
-                "\\\n...he found he was able to transfix his victims...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n... was now able to drink as he needed without others realizing, so long as he did not drain more than half..." +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ...did so, from five oblivious souls...")
+        builder.add(
+            "vampirism.vamp_3.page.1", "\n" +
+                    "\\\n...he found he was able to transfix his victims...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n... was now able to drink as he needed without others realizing, so long as he did not drain more than half..." +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ...did so, from five oblivious souls..."
+        )
 
-        builder.add("vampirism.vamp_4.page.1", "\n" +
-                "\\\n...strength was flowing into him, the more he drank, as the nights progressed, the stronger he became...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ...it was on the forth night after his mastery of drinking that the world slowed down...")
+        builder.add(
+            "vampirism.vamp_4.page.1", "\n" +
+                    "\\\n...strength was flowing into him, the more he drank, as the nights progressed, the stronger he became...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ...it was on the forth night after his mastery of drinking that the world slowed down..."
+        )
 
-        builder.add("vampirism.vamp_5.page.1", "\n" +
-                "\\\n...his greatest foe, the sun, was ever present, tormenting and instantly deadly to him...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ...became his obsession... ...found a way to collect sunlight and burnt himself with it ten times during the night...")
+        builder.add(
+            "vampirism.vamp_5.page.1", "\n" +
+                    "\\\n...his greatest foe, the sun, was ever present, tormenting and instantly deadly to him...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ...became his obsession... ...found a way to collect sunlight and burnt himself with it ten times during the night..."
+        )
 
-        builder.add("vampirism.vamp_6.page.1", "\n" +
-                "\\\n" +
-                "\\\n...first walk in the sun after his rebirth brought him to bloody tears, he felt his blood burning, but no longer instantly...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ...he needed more strength, and extinguishing creatures of pure fire was his solution... ...twenty died.")
+        builder.add(
+            "vampirism.vamp_6.page.1", "\n" +
+                    "\\\n" +
+                    "\\\n...first walk in the sun after his rebirth brought him to bloody tears, he felt his blood burning, but no longer instantly...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ...he needed more strength, and extinguishing creatures of pure fire was his solution... ...twenty died."
+        )
 
-        builder.add("vampirism.vamp_7.page.1", "\n" +
-                "\\\n...he could smash solid stone, but bound to the earth, however fast, he was still limited...\n" +
-                "\\\n" +
-                "\\\n ...he called in Her once more, repeating the rite of his rebirth..." +
-                "\\\n" +
-                "\\\n ...gifted Her a flower, the color of the blood She so craves...")
+        builder.add(
+            "vampirism.vamp_7.page.1", "\n" +
+                    "\\\n...he could smash solid stone, but bound to the earth, however fast, he was still limited...\n" +
+                    "\\\n" +
+                    "\\\n ...he called in Her once more, repeating the rite of his rebirth..." +
+                    "\\\n" +
+                    "\\\n ...gifted Her a flower, the color of the blood She so craves..."
+        )
 
-        builder.add("vampirism.vamp_8.page.1", "\n" +
-                "\\\n" +
-                "\\\n...he smiled, a rare event, when he told me of his first flight...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ...he flew from village to village, until he knew the full extent of his domain, there was now nowhere he could not go...")
+        builder.add(
+            "vampirism.vamp_8.page.1", "\n" +
+                    "\\\n" +
+                    "\\\n...he smiled, a rare event, when he told me of his first flight...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ...he flew from village to village, until he knew the full extent of his domain, there was now nowhere he could not go..."
+        )
 
-        builder.add("vampirism.vamp_9.page.1", "\n" +
-                "\\\n...the weak minded would now not only let him drink his fill, but would also follow like faithful hounds...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n ...horror of all horrors, he lured five of them to specially prepared iron cages, topped with wood and with a gap at the front. He sealed them inside...")
+        builder.add(
+            "vampirism.vamp_9.page.1", "\n" +
+                    "\\\n...the weak minded would now not only let him drink his fill, but would also follow like faithful hounds...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n ...horror of all horrors, he lured five of them to specially prepared iron cages, topped with wood and with a gap at the front. He sealed them inside..."
+        )
 
-        builder.add("vampirism.vamp_9.page.2", "\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...he began feeding from each of them; mesmerising them first, then carefully he drank al he could without damaging any...\n" +
-                "\\\n")
+        builder.add(
+            "vampirism.vamp_9.page.2", "\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...he began feeding from each of them; mesmerising them first, then carefully he drank al he could without damaging any...\n" +
+                    "\\\n"
+        )
 
-        builder.add("vampirism.vamp_9.page.3", "\n" +
-                "At last he knew his blood was strong enough to replicate what She had done for him... ...left me weak, close to oblivion but I watched him fill a glass goblet and hand it to me... ...we both sat next to a coffin, far from the sun's gaze, \"drink\" is all he said...")
+        builder.add(
+            "vampirism.vamp_9.page.3", "\n" +
+                    "At last he knew his blood was strong enough to replicate what She had done for him... ...left me weak, close to oblivion but I watched him fill a glass goblet and hand it to me... ...we both sat next to a coffin, far from the sun's gaze, \"drink\" is all he said..."
+        )
 
 
         builder.add("book.witchery.guidebook.vampirism.armor.name", "Being Dapper")
         builder.add("book.witchery.guidebook.vampirism.armor.description", "Suit Up!")
 
         builder.add("vampirism.armor.title.1", "Vampiric Attire")
-        builder.add("vampirism.armor.page.1", "\n" +
-            "\\\n" +
-            "Increased comfort will make all the difference. Use Bone Needle to stain wool"
+        builder.add(
+            "vampirism.armor.page.1", "\n" +
+                    "\\\n" +
+                    "Increased comfort will make all the difference. Use Bone Needle to stain wool"
         )
 
         builder.add("vampirism.armor.woven_cruor", "Woven Cruor")
@@ -848,19 +930,28 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("vampirism.sun_collector.title.1", "Sunlight Collector")
         builder.add("vampirism.sun_collector", "Sunlight Collector")
         builder.add("vampirism.sun_collector.sunlight_collector", "")
-        builder.add("vampirism.sun_collector.page.1", "Place in the sun and put a Quartz Sphere on it to collect the sunlight")
+        builder.add(
+            "vampirism.sun_collector.page.1",
+            "Place in the sun and put a Quartz Sphere on it to collect the sunlight"
+        )
         builder.add("book.witchery.guidebook.vampirism.sun_collector.description", "Can't slay it? Steal it!")
 
         builder.add("book.witchery.guidebook.vampirism.name", "Vampirism")
         builder.add("book.witchery.guidebook.vampirism.cane.name", "Cane Sword")
         builder.add("vampirism.cane.title.1", "Cane Sword")
         builder.add("vampirism.cane.cane", "")
-        builder.add("vampirism.cane.page.1", "Can collect blood with each hit, stored in the cane to be drunk whenever. ")
+        builder.add(
+            "vampirism.cane.page.1",
+            "Can collect blood with each hit, stored in the cane to be drunk whenever. "
+        )
         builder.add("book.witchery.guidebook.vampirism.cane.description", "Slash n' suck")
 
         builder.add("book.witchery.guidebook.general.fume_expansion.title.1", "Fume Extension Funnel")
         builder.add("general.fume_expansion.title.1", "Fume Extension Funnel")
-        builder.add("general.fume_expansion.page.1", "With a maximum of two, one on each side of the Oven, this will increase the output chance of Fumes")
+        builder.add(
+            "general.fume_expansion.page.1",
+            "With a maximum of two, one on each side of the Oven, this will increase the output chance of Fumes"
+        )
         builder.add("general.fume_expansion", "Fume Extension Funnel")
 
         builder.add("book.witchery.guidebook.brewing.brew_of_raising.name", "Brew of Raising")
@@ -896,7 +987,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.brewing.brew_of_revealing.name", "Brew of Revealing")
         builder.add("brewing.brew_of_revealing.title.1", "Brew of Revealing")
         builder.add("brewing.brew_of_revealing", "Brew of Revealing")
-        builder.add("brewing.brew_of_revealing.page.1", "Used to remove Invisibility effects on entities. Makes Spectral Creatures easier to see.")
+        builder.add(
+            "brewing.brew_of_revealing.page.1",
+            "Used to remove Invisibility effects on entities. Makes Spectral Creatures easier to see."
+        )
         builder.add("book.witchery.guidebook.brewing.brew_of_revealing.description", "Illegally Blind")
 
         builder.add("book.witchery.guidebook.brewing.brew_of_ink.name", "Brew of Ink")
@@ -908,19 +1002,28 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.brewing.brew_of_sleeping.name", "Brew of Sleeping")
         builder.add("brewing.brew_of_sleeping.title.1", "Brew of Sleeping")
         builder.add("brewing.brew_of_sleeping", "Brew of Sleeping")
-        builder.add("brewing.brew_of_sleeping.page.1", "Enter the Spirit world in your dreams, beware of your surroundings and to avoid a nightmare, use dream weavers, wispy cotton and flowing spirit nearby.")
+        builder.add(
+            "brewing.brew_of_sleeping.page.1",
+            "Enter the Spirit world in your dreams, beware of your surroundings and to avoid a nightmare, use dream weavers, wispy cotton and flowing spirit nearby."
+        )
         builder.add("book.witchery.guidebook.brewing.brew_of_sleeping.description", "Surely a good idea")
 
         builder.add("book.witchery.guidebook.brewing.brew_of_flowing_spirit.name", "Brew of Flowing Spirit")
         builder.add("brewing.brew_of_flowing_spirit.title.1", "Brew of Flowing Spirit")
         builder.add("brewing.brew_of_flowing_spirit", "Brew of Flowing Spirit")
-        builder.add("brewing.brew_of_flowing_spirit.page.1", "Can only be made in the Spirit World. Throw to make a fluid which applies regeneration to anyone bathing in it. Throw it on double doors in the Spirit World to make a Spirit Portal. Rite of Manifestation required to enter it")
+        builder.add(
+            "brewing.brew_of_flowing_spirit.page.1",
+            "Can only be made in the Spirit World. Throw to make a fluid which applies regeneration to anyone bathing in it. Throw it on double doors in the Spirit World to make a Spirit Portal. Rite of Manifestation required to enter it"
+        )
         builder.add("book.witchery.guidebook.brewing.brew_of_flowing_spirit.description", "Good for Hot Springs")
 
         builder.add("book.witchery.guidebook.spirit_world.brew_of_flowing_spirit.name", "Brew of Flowing Spirit")
         builder.add("spirit_world.brew_of_flowing_spirit.title.1", "Brew of Flowing Spirit")
         builder.add("spirit_world.brew_of_flowing_spirit", "Brew of Flowing Spirit")
-        builder.add("spirit_world.brew_of_flowing_spirit.page.1", "Can only be made in the Spirit World. Throw to make a fluid which applies regeneration to anyone bathing in it. Throw it on double doors in the Spirit World to make a Spirit Portal. Rite of Manifestation required to enter it")
+        builder.add(
+            "spirit_world.brew_of_flowing_spirit.page.1",
+            "Can only be made in the Spirit World. Throw to make a fluid which applies regeneration to anyone bathing in it. Throw it on double doors in the Spirit World to make a Spirit Portal. Rite of Manifestation required to enter it"
+        )
         builder.add("book.witchery.guidebook.spirit_world.brew_of_flowing_spirit.description", "Good for Hot Springs")
 
 
@@ -930,37 +1033,58 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.spirit_world.hunger.name", "Mellifluous Hunger")
         builder.add("book.witchery.guidebook.spirit_world.hunger.description", "Kill the Nightmare")
         builder.add("spirit_world.hunger.title.1", "Mellifluous Hunger")
-        builder.add("spirit_world.hunger.page.1", "Kill your Nightmare to acquire, can be brought between dream and reality.")
+        builder.add(
+            "spirit_world.hunger.page.1",
+            "Kill your Nightmare to acquire, can be brought between dream and reality."
+        )
 
         builder.add("book.witchery.guidebook.spirit_world.disturbed_cotton.name", "Disturbed Cotton")
         builder.add("book.witchery.guidebook.spirit_world.disturbed_cotton.description", "Something is off")
         builder.add("spirit_world.disturbed_cotton.title.1", "Disturbed Cotton")
-        builder.add("spirit_world.disturbed_cotton.page.1", "This nightmare warps and twists the Wispy Cotton to become... Disturbed..")
+        builder.add(
+            "spirit_world.disturbed_cotton.page.1",
+            "This nightmare warps and twists the Wispy Cotton to become... Disturbed.."
+        )
 
         builder.add("book.witchery.guidebook.spirit_world.wispy_cotton.name", "Wispy Cotton")
         builder.add("book.witchery.guidebook.spirit_world.wispy_cotton.description", "This is better")
         builder.add("spirit_world.wispy_cotton.title.1", "Wispy Cotton")
-        builder.add("spirit_world.wispy_cotton.page.1", "A delicate weave from the fabric of dreams. To hold it is to hold the softness of slumber itself")
+        builder.add(
+            "spirit_world.wispy_cotton.page.1",
+            "A delicate weave from the fabric of dreams. To hold it is to hold the softness of slumber itself"
+        )
 
         builder.add("book.witchery.guidebook.spirit_world.dream_weaver_of_nightmares.name", "Dreamweaver of Nightmares")
         builder.add("book.witchery.guidebook.spirit_world.dream_weaver_of_nightmares.description", "Catch the bad")
         builder.add("spirit_world.dream_weaver_of_nightmares.title.1", "Nightmares")
-        builder.add("spirit_world.dream_weaver_of_nightmares.page.1", "Born of shadow and fear, this weaver binds nightmares into the night. May it grant you peace when the dark calls.")
+        builder.add(
+            "spirit_world.dream_weaver_of_nightmares.page.1",
+            "Born of shadow and fear, this weaver binds nightmares into the night. May it grant you peace when the dark calls."
+        )
 
         builder.add("book.witchery.guidebook.spirit_world.dream_weaver_of_fleet_foot.name", "Dreamweaver of Fleet Foot")
         builder.add("book.witchery.guidebook.spirit_world.dream_weaver_of_fleet_foot.description", "Catch my Wind")
         builder.add("spirit_world.dream_weaver_of_fleet_foot.title.1", "Fleet Foot")
-        builder.add("spirit_world.dream_weaver_of_fleet_foot.page.1", "Swift as the wind, this spirit will carry you swiftly through the waking world, like a whisper in the breeze.")
+        builder.add(
+            "spirit_world.dream_weaver_of_fleet_foot.page.1",
+            "Swift as the wind, this spirit will carry you swiftly through the waking world, like a whisper in the breeze."
+        )
 
         builder.add("book.witchery.guidebook.spirit_world.dream_weaver_of_iron_arm.name", "Dreamweaver of Iron Arm")
         builder.add("book.witchery.guidebook.spirit_world.dream_weaver_of_iron_arm.description", "Sleep like a stone")
         builder.add("spirit_world.dream_weaver_of_iron_arm.title.1", "Iron Arm")
-        builder.add("spirit_world.dream_weaver_of_iron_arm.page.1", "The iron arm of slumber. Rest as if your body were bound by steel, and awaken with unyielding strength.")
+        builder.add(
+            "spirit_world.dream_weaver_of_iron_arm.page.1",
+            "The iron arm of slumber. Rest as if your body were bound by steel, and awaken with unyielding strength."
+        )
 
         builder.add("book.witchery.guidebook.spirit_world.dream_weaver_of_fasting.name", "Dreamweaver of Fasting")
         builder.add("book.witchery.guidebook.spirit_world.dream_weaver_of_fasting.description", "Hangry cinderella")
         builder.add("spirit_world.dream_weaver_of_fasting.title.1", "Fasting")
-        builder.add("spirit_world.dream_weaver_of_fasting.page.1", "A strange brew for the soul, fasting in sleep will still the hunger within, leaving you calm when the dawn breaks")
+        builder.add(
+            "spirit_world.dream_weaver_of_fasting.page.1",
+            "A strange brew for the soul, fasting in sleep will still the hunger within, leaving you calm when the dawn breaks"
+        )
 
 
 
@@ -968,7 +1092,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.ritual.summon_spectral_pig.name", "Summon Spectral Familiar")
         builder.add("book.witchery.guidebook.ritual.summon_spectral_pig.description", "One little piggy")
         builder.add("ritual.summon_spectral_pig.title.1", "Summon Spectral Familiar")
-        builder.add("ritual.summon_spectral_pig.page.1", "Summons a Spectral Pig which will drop Spectral Dust, a valuable resource")
+        builder.add(
+            "ritual.summon_spectral_pig.page.1",
+            "Summons a Spectral Pig which will drop Spectral Dust, a valuable resource"
+        )
 
         builder.add("book.witchery.guidebook.ritual.summon_imp.name", "Summon Imp")
         builder.add("book.witchery.guidebook.ritual.summon_imp.description", "Not implemented")
@@ -978,7 +1105,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.ritual.summon_demon.name", "Summon Demon")
         builder.add("book.witchery.guidebook.ritual.summon_demon.description", "Felt cute, summoned Satan")
         builder.add("ritual.summon_demon.title.1", "Summon Demon")
-        builder.add("ritual.summon_demon.page.1", "Summons a fierce Demon which will drop a Demon Heart, an incredibly valuable resource")
+        builder.add(
+            "ritual.summon_demon.page.1",
+            "Summons a fierce Demon which will drop a Demon Heart, an incredibly valuable resource"
+        )
 
         builder.add("book.witchery.guidebook.ritual.summon_wither.name", "Summon Wither")
         builder.add("book.witchery.guidebook.ritual.summon_wither.description", "Oh boy")
@@ -1028,7 +1158,10 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.ritual.charge_attuned.name", "Rite of Charging")
         builder.add("book.witchery.guidebook.ritual.charge_attuned.description", "It's over 90..., exactly 3000")
         builder.add("ritual.charge_attuned.title.1", "Rite of Charging")
-        builder.add("ritual.charge_attuned.page.1", "Charges an attuned stone, this charge is required by some recipes and rituals, can also replace Altar Power up to 3000.")
+        builder.add(
+            "ritual.charge_attuned.page.1",
+            "Charges an attuned stone, this charge is required by some recipes and rituals, can also replace Altar Power up to 3000."
+        )
 
         builder.add("book.witchery.guidebook.ritual.necro_stone.name", "Necromatic Stone")
         builder.add("book.witchery.guidebook.ritual.necro_stone.description", "One step closer to the grave")
@@ -1038,18 +1171,27 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.ritual.rite_of_charging_infusion.name", "Rite of Charge Infusion")
         builder.add("book.witchery.guidebook.ritual.rite_of_charging_infusion.description", "Need more juice")
         builder.add("ritual.rite_of_charging_infusion.title.1", "Charge Infusion")
-        builder.add("ritual.rite_of_charging_infusion.page.1", "Replenishes the infused players power during the duration of the rite.")
+        builder.add(
+            "ritual.rite_of_charging_infusion.page.1",
+            "Replenishes the infused players power during the duration of the rite."
+        )
 
 
         builder.add("book.witchery.guidebook.ritual.bind_familiar.name", "Rite of Binding")
         builder.add("book.witchery.guidebook.ritual.bind_familiar.description", "Team")
         builder.add("ritual.bind_familiar.title.1", "Rite of Binding")
-        builder.add("ritual.bind_familiar.page.1", "Cats, Owls and Frogs. All with unique powers while bound. Cats amplify rites and curses. Owls increases Broom manoeuvrability. Frogs increase chance of extra brewed potions.")
+        builder.add(
+            "ritual.bind_familiar.page.1",
+            "Cats, Owls and Frogs. All with unique powers while bound. Cats amplify rites and curses. Owls increases Broom manoeuvrability. Frogs increase chance of extra brewed potions."
+        )
 
         builder.add("book.witchery.guidebook.ritual.bind_spectral_creatures.name", "Rite of Binding")
         builder.add("book.witchery.guidebook.ritual.bind_spectral_creatures.description", "Curse you")
         builder.add("ritual.bind_spectral_creatures.title.1", "Rite of Binding")
-        builder.add("ritual.bind_spectral_creatures.page.1", "Binds spectral creatures like Spirit, Banshee, Spectre and Poltergeist to an Effigy, like a Scarecrow, Trent Effigy or Witch's Ladder.")
+        builder.add(
+            "ritual.bind_spectral_creatures.page.1",
+            "Binds spectral creatures like Spirit, Banshee, Spectre and Poltergeist to an Effigy, like a Scarecrow, Trent Effigy or Witch's Ladder."
+        )
 
         builder.add("general.mutandis_extremis", "")
         builder.add("book.witchery.guidebook.general.mutandis_extremis.name", "Mutandis Extremis")
@@ -1060,58 +1202,67 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.general.mutating_spring.name", "Mutating Spring")
         builder.add("book.witchery.guidebook.general.mutating_spring.description", "Flesh and Plant")
         builder.add("general.mutating_spring.title.1", "Mutating Spring")
-        builder.add("general.mutating_spring.page.1", "Can create Grasspers, Critter Snares, Wormwood, Parasytioc Lose and Owls. And convert some blocks into other.")
+        builder.add(
+            "general.mutating_spring.page.1",
+            "Can create Grasspers, Critter Snares, Wormwood, Parasytioc Lose and Owls. And convert some blocks into other."
+        )
 
 
         builder.add("book.witchery.guidebook.general.wormwood.name", "Wormwood")
         builder.add("book.witchery.guidebook.general.wormwood.description", "Ghastly")
         builder.add("general.wormwood.title.1", "Wormwood")
-        builder.add("general.wormwood.page.1", "Used mostly in necromancy and brazier.\n" +
-                "\\\n" +
-                "\\\n" +
-                "Require Wheat, four Wispy Cotton and Four Water."
+        builder.add(
+            "general.wormwood.page.1", "Used mostly in necromancy and brazier.\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "Require Wheat, four Wispy Cotton and Four Water."
         )
 
         builder.add("book.witchery.guidebook.general.owl.name", "Owl")
         builder.add("book.witchery.guidebook.general.owl.description", "Ho-ho")
         builder.add("general.owl.title.1", "Owl")
-        builder.add("general.owl.page.1", "\n" +
-                "Familiar, quite stupid but grants better control over broom when bound.\n" +
-                "\\\n" +
-                "\\\n" +
-                "Require three Mutandis Extremis, one Charges Attuned Stone, Water, Wolf, Cobweb and one Critter snare with a bat for each Owl."
+        builder.add(
+            "general.owl.page.1", "\n" +
+                    "Familiar, quite stupid but grants better control over broom when bound.\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "Require three Mutandis Extremis, one Charges Attuned Stone, Water, Wolf, Cobweb and one Critter snare with a bat for each Owl."
         )
 
         builder.add("book.witchery.guidebook.general.parasitic_louse.name", "Parasytic Louse")
         builder.add("book.witchery.guidebook.general.parasitic_louse.description", "Ho-ho")
         builder.add("general.parasitic_louse.title.1", "Parasytic Louse")
-        builder.add("general.parasitic_louse.page.1", "Can be picked up, has the ability to store and apply a Potion. Use potion on louse to apply it. has a chance to consume the potion on attacking a creature.\n" +
-                "\\\n" +
-                "\\\n" +
-                "Require Two Mutandis, One Tongue of Dog, one Charged Attuned Stone and one Critter Snare with a Silverfish. Water and Lily pads."
+        builder.add(
+            "general.parasitic_louse.page.1",
+            "Can be picked up, has the ability to store and apply a Potion. Use potion on louse to apply it. has a chance to consume the potion on attacking a creature.\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "Require Two Mutandis, One Tongue of Dog, one Charged Attuned Stone and one Critter Snare with a Silverfish. Water and Lily pads."
         )
 
         builder.add("book.witchery.guidebook.general.grassper.name", "Grassper")
         builder.add("book.witchery.guidebook.general.grassper.description", "Organic item pedestal")
         builder.add("general.grassper.title.1", "Grassper")
-        builder.add("general.grassper.page.1", "Can be used to hold items for rituals.\n" +
-                "\\\n" +
-                "\\\n" +
-                "Require four grass, one chest and one water."
+        builder.add(
+            "general.grassper.page.1", "Can be used to hold items for rituals.\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "Require four grass, one chest and one water."
         )
 
         builder.add("book.witchery.guidebook.general.critter_snare.name", "Critter Snare")
         builder.add("book.witchery.guidebook.general.critter_snare.description", "Organic critter holder")
         builder.add("general.critter_snare.title.1", "Critter Snare")
-        builder.add("general.critter_snare.page.1", "Small Slimes, Bats and Silverfish will be trapped in this plant.\n" +
-                "\\\n" +
-                "\\\n" +
-                "Require four Alder Saplings, Water, Cobweb and a Zombie."
+        builder.add(
+            "general.critter_snare.page.1", "Small Slimes, Bats and Silverfish will be trapped in this plant.\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "Require four Alder Saplings, Water, Cobweb and a Zombie."
         )
 
         //Potion Book
 
-        fun genPotionCapacity(name: String){
+        fun genPotionCapacity(name: String) {
             builder.add("witchery.potion_crafting.$name", "Capacity: +%1\$d\nAltar Power: -%2\$d")
         }
         genPotionCapacity("mandrake")
@@ -1126,18 +1277,30 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("book.witchery.guidebook.brewing.beginning_potions.description", "For when you want more effects")
         builder.add("brewing.beginning_potions.title.1", "Custom Potions")
         builder.add("brewing.beginning_potions.title.2", "")
-        builder.add("brewing.beginning_potions.page.1", "Custom potions are made in a lit Cauldron access to an Altar with sufficient power depending on the resources used. The first ingredient must be a Nether Wart. Other than Altar Power, Potions require Capacity to increase the amount of ingredients the potion can hold.")
-        builder.add("brewing.beginning_potions.page.2", "Stronger ingredients require more altar power to successfully mix.")
+        builder.add(
+            "brewing.beginning_potions.page.1",
+            "Custom potions are made in a lit Cauldron access to an Altar with sufficient power depending on the resources used. The first ingredient must be a Nether Wart. Other than Altar Power, Potions require Capacity to increase the amount of ingredients the potion can hold."
+        )
+        builder.add(
+            "brewing.beginning_potions.page.2",
+            "Stronger ingredients require more altar power to successfully mix."
+        )
 
         builder.add("book.witchery.guidebook.brewing.potion_capacity.name", "Potion Capacity")
         builder.add("book.witchery.guidebook.brewing.potion_capacity.description", "More room for more fun")
         builder.add("brewing.potion_capacity.title.1", "Potion Capacity")
-        builder.add("brewing.potion_capacity.page.1", "After the Nether Wart has been added the potion starts without any capacity. And since most ingredients cost capacity, capacity modifiers should be added first, but not limited to first. Potent ingredients might require more than one capacity.")
+        builder.add(
+            "brewing.potion_capacity.page.1",
+            "After the Nether Wart has been added the potion starts without any capacity. And since most ingredients cost capacity, capacity modifiers should be added first, but not limited to first. Potent ingredients might require more than one capacity."
+        )
 
         builder.add("book.witchery.guidebook.brewing.potion_effect.name", "Potion Effect")
         builder.add("book.witchery.guidebook.brewing.potion_effect.description", "More room for more fun")
         builder.add("brewing.potion_effect.title.1", "Potion Effect")
-        builder.add("brewing.potion_effect.page.1", "Once the brew holds capacity, ingredients may bestow their magick. Each carries a tale, each a tincture. Choose wisely, for not all gifts are kind. Most potions needs to be thrown")
+        builder.add(
+            "brewing.potion_effect.page.1",
+            "Once the brew holds capacity, ingredients may bestow their magick. Each carries a tale, each a tincture. Choose wisely, for not all gifts are kind. Most potions needs to be thrown"
+        )
 
         builder.add("book.witchery.guidebook.brewing.potion_effect_type.title.1", "Effect Type")
         builder.add("brewing.potion_effect_type.title.1", "Effect Type")

@@ -5,19 +5,9 @@ import com.klikli_dev.modonomicon.api.datagen.EntryBackground
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
-import com.klikli_dev.modonomicon.book.BookTextHolder
 import com.mojang.datafixers.util.Pair
-import dev.architectury.registry.registries.RegistrySupplier
-import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.PotionDataHandler
 import dev.sterner.witchery.fabric.datagen.book.page.BookPotionEffectPageModel
-import dev.sterner.witchery.fabric.datagen.book.page.BookPotionPageModel
-import dev.sterner.witchery.integration.modonomicon.BookPotionEffectPage
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.network.chat.Component
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 
 class PotionEffectTypeEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {

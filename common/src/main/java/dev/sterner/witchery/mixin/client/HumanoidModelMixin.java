@@ -19,9 +19,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(HumanoidModel.class)
 public abstract class HumanoidModelMixin<T extends LivingEntity> extends AgeableListModel<T> implements ArmedModel, HeadedModel {
 
-    @Shadow @Final public ModelPart leftArm;
+    @Shadow
+    @Final
+    public ModelPart leftArm;
 
-    @Shadow @Final public ModelPart rightArm;
+    @Shadow
+    @Final
+    public ModelPart rightArm;
 
     @Inject(method = "poseLeftArm", at = @At("TAIL"))
     private void witchery$setLeftArmPose(CallbackInfo ci, @Local T livingEntity) {

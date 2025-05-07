@@ -52,11 +52,12 @@ class WitcherySpiritWorldCategoryProvider(
             index++
         }
 
-        val disturbedCotton = SingleItemEntryProvider(this, "disturbed_cotton", WitcheryItems.DISTURBED_COTTON.get()).generate("a")
+        val disturbedCotton =
+            SingleItemEntryProvider(this, "disturbed_cotton", WitcheryItems.DISTURBED_COTTON.get()).generate("a")
         disturbedCotton
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("spirit_world"))
-        )
+            )
 
         addEntry(disturbedCotton)
 
@@ -79,7 +80,11 @@ class WitcherySpiritWorldCategoryProvider(
 
         addEntry(wispyCotton)
 
-        val dreamWeaverNightmare = SingleItemEntryProvider(this,"dream_weaver_of_nightmares", WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get()).generate("n")
+        val dreamWeaverNightmare = SingleItemEntryProvider(
+            this,
+            "dream_weaver_of_nightmares",
+            WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get()
+        ).generate("n")
         dreamWeaverNightmare.withCondition(
             BookAndConditionModel.create().withChildren(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("disturbed")),
@@ -91,7 +96,11 @@ class WitcherySpiritWorldCategoryProvider(
 
         addEntry(dreamWeaverNightmare)
 
-        val dreamWeaverFleeting = SingleItemEntryProvider(this, "dream_weaver_of_fleet_foot", WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get()).generate("f")
+        val dreamWeaverFleeting = SingleItemEntryProvider(
+            this,
+            "dream_weaver_of_fleet_foot",
+            WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get()
+        ).generate("f")
         dreamWeaverFleeting.withCondition(
             BookAndConditionModel.create().withChildren(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("disturbed")),
@@ -103,7 +112,11 @@ class WitcherySpiritWorldCategoryProvider(
 
         addEntry(dreamWeaverFleeting)
 
-        val dreamWeaverIron = SingleItemEntryProvider(this,"dream_weaver_of_iron_arm", WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get()).generate("t")
+        val dreamWeaverIron = SingleItemEntryProvider(
+            this,
+            "dream_weaver_of_iron_arm",
+            WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get()
+        ).generate("t")
         dreamWeaverIron.withCondition(
             BookAndConditionModel.create().withChildren(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("disturbed")),
@@ -115,7 +128,11 @@ class WitcherySpiritWorldCategoryProvider(
 
         addEntry(dreamWeaverIron)
 
-        val dreamWeaverFating = SingleItemEntryProvider(this, "dream_weaver_of_fasting", WitcheryItems.DREAM_WEAVER_OF_FASTING.get()).generate("i")
+        val dreamWeaverFating = SingleItemEntryProvider(
+            this,
+            "dream_weaver_of_fasting",
+            WitcheryItems.DREAM_WEAVER_OF_FASTING.get()
+        ).generate("i")
         dreamWeaverFating.withCondition(
             BookAndConditionModel.create().withChildren(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("disturbed")),
@@ -128,8 +145,8 @@ class WitcherySpiritWorldCategoryProvider(
         addEntry(dreamWeaverFating)
 
 
-
-        val spirit = BrewEntryProvider(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "brew_of_flowing_spirit", this).generate("g")
+        val spirit =
+            BrewEntryProvider(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "brew_of_flowing_spirit", this).generate("g")
         spirit.withCondition(
             BookAndConditionModel.create().withChildren(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("spirit_world"))

@@ -53,9 +53,9 @@ object WitcheryFabricAttachmentRegistry {
     @Suppress("UnstableApiUsage")
     val VOODOO_POPPET_DATA_TYPE: AttachmentType<VoodooPoppetData> =
         AttachmentRegistry.builder<VoodooPoppetData>()
-            .persistent(VoodooPoppetLivingEntityAttachment.VoodooPoppetData.CODEC)
+            .persistent(VoodooPoppetData.CODEC)
             .initializer { VoodooPoppetData(false) }
-            .buildAndRegister(VoodooPoppetLivingEntityAttachment.VoodooPoppetData.ID)
+            .buildAndRegister(VoodooPoppetData.ID)
 
     @Suppress("UnstableApiUsage")
     val POPPET_DATA_TYPE: AttachmentType<PoppetLevelAttachment.PoppetData> =

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerItemInHandLayerMixin {
 
     @Inject(method = "renderArmWithItem", at = @At("HEAD"), cancellable = true)
-    private void witchery$hideWitchesHand(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext displayContext, HumanoidArm arm, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci){
+    private void witchery$hideWitchesHand(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext displayContext, HumanoidArm arm, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
         if (livingEntity instanceof Player player && LightInfusionPlayerAttachment.isInvisible(player).isInvisible() && itemStack.is(WitcheryItems.INSTANCE.getWITCHES_HAND().get())) {
             ci.cancel();
         }

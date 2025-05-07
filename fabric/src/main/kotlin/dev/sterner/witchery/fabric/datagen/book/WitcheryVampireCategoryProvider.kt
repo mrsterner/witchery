@@ -49,14 +49,14 @@ class WitcheryVampireCategoryProvider(
             index++
         }
 
-        val vamp1 = VampireLevelOneEntryProvider("vamp_1",this).generate("a")
+        val vamp1 = VampireLevelOneEntryProvider("vamp_1", this).generate("a")
         vamp1.withCondition(
             BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/1"))
         )
 
         addEntry(vamp1)
 
-        val vamp2 = VampireLevelTwoEntryProvider("vamp_2",this).generate("b")
+        val vamp2 = VampireLevelTwoEntryProvider("vamp_2", this).generate("b")
         vamp2
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/2"))
@@ -64,7 +64,7 @@ class WitcheryVampireCategoryProvider(
             .addParent(BookEntryParentModel.create(vamp1.id).withDrawArrow(true))
         addEntry(vamp2)
 
-        val vamp3 = VampireLevelTwoEntryProvider("vamp_3",this).generate("c")
+        val vamp3 = VampireLevelTwoEntryProvider("vamp_3", this).generate("c")
         vamp3
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/3"))
@@ -72,7 +72,7 @@ class WitcheryVampireCategoryProvider(
             .addParent(BookEntryParentModel.create(vamp2.id).withDrawArrow(true))
         addEntry(vamp3)
 
-        val vamp4 = VampireLevelTwoEntryProvider("vamp_4",this).generate("d")
+        val vamp4 = VampireLevelTwoEntryProvider("vamp_4", this).generate("d")
         vamp4
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/4"))
@@ -80,7 +80,7 @@ class WitcheryVampireCategoryProvider(
             .addParent(BookEntryParentModel.create(vamp3.id).withDrawArrow(true))
         addEntry(vamp4)
 
-        val vamp5 = VampireLevelTwoEntryProvider("vamp_5",this).generate("e")
+        val vamp5 = VampireLevelTwoEntryProvider("vamp_5", this).generate("e")
         vamp5
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/5"))
@@ -88,7 +88,7 @@ class WitcheryVampireCategoryProvider(
             .addParent(BookEntryParentModel.create(vamp4.id).withDrawArrow(true))
         addEntry(vamp5)
 
-        val vamp6 = VampireLevelTwoEntryProvider("vamp_6",this).generate("f")
+        val vamp6 = VampireLevelTwoEntryProvider("vamp_6", this).generate("f")
         vamp6
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/6"))
@@ -96,7 +96,7 @@ class WitcheryVampireCategoryProvider(
             .addParent(BookEntryParentModel.create(vamp5.id).withDrawArrow(true))
         addEntry(vamp6)
 
-        val vamp7 = VampireLevelTwoEntryProvider("vamp_7",this).generate("g")
+        val vamp7 = VampireLevelTwoEntryProvider("vamp_7", this).generate("g")
         vamp7
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/7"))
@@ -104,7 +104,7 @@ class WitcheryVampireCategoryProvider(
             .addParent(BookEntryParentModel.create(vamp6.id).withDrawArrow(true))
         addEntry(vamp7)
 
-        val vamp8 = VampireLevelTwoEntryProvider("vamp_8",this).generate("h")
+        val vamp8 = VampireLevelTwoEntryProvider("vamp_8", this).generate("h")
         vamp8
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/8"))
@@ -112,7 +112,7 @@ class WitcheryVampireCategoryProvider(
             .addParent(BookEntryParentModel.create(vamp7.id).withDrawArrow(true))
         addEntry(vamp8)
 
-        val vamp9 = VampireLevelTenEntryProvider("vamp_9",this).generate("i")
+        val vamp9 = VampireLevelTenEntryProvider("vamp_9", this).generate("i")
         vamp9
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/9"))
@@ -120,7 +120,7 @@ class WitcheryVampireCategoryProvider(
             .addParent(BookEntryParentModel.create(vamp8.id).withDrawArrow(true))
         addEntry(vamp9)
 
-        val armor = VampireArmorEntryProvider("armor",this).generate("x")
+        val armor = VampireArmorEntryProvider("armor", this).generate("x")
         armor
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/2"))
@@ -128,7 +128,7 @@ class WitcheryVampireCategoryProvider(
             .addParent(BookEntryParentModel.create(vamp1.id).withDrawArrow(true))
         addEntry(armor)
 
-        val cane = VampireCaneEntryProvider("cane",this).generate("p")
+        val cane = VampireCaneEntryProvider("cane", this).generate("p")
         cane
             .withCondition(
                 BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("vampire/2"))

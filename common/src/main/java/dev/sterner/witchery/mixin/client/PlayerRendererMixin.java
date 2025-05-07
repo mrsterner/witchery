@@ -39,8 +39,8 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
     }
 
     @Inject(method = "setModelProperties", at = @At("TAIL"))
-    private void witchery$lightInfusionInvisibility(AbstractClientPlayer clientPlayer, CallbackInfo ci){
-        if(LightInfusionPlayerAttachment.isInvisible(clientPlayer).isInvisible()){
+    private void witchery$lightInfusionInvisibility(AbstractClientPlayer clientPlayer, CallbackInfo ci) {
+        if (LightInfusionPlayerAttachment.isInvisible(clientPlayer).isInvisible()) {
             var model = getModel();
             model.setAllVisible(false);
         }
@@ -50,7 +50,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
     private boolean witchery$renderGhostHand(ModelPart instance, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay,
                                              @Local(argsOnly = true) MultiBufferSource multiBufferSource,
                                              @Local(argsOnly = true) AbstractClientPlayer player,
-                                             @Local ResourceLocation resourceLocation){
+                                             @Local ResourceLocation resourceLocation) {
         if (ManifestationPlayerAttachment.getData(player).getManifestationTimer() > 0) {
             int originalAlpha = (654311423 >> 24) & 0xFF;
             int reducedAlpha = (int) (originalAlpha * 0.75) << 24;
@@ -66,7 +66,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
             at = @At(value = "HEAD"),
             cancellable = true
     )
-    private void witchery$renderTransformation(AbstractClientPlayer entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci){
+    private void witchery$renderTransformation(AbstractClientPlayer entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
         if (TransformationHandler.isBat(entity)) {
             var bat = TransformationHandler.getBatEntity(entity);
             if (bat != null) {
@@ -79,7 +79,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
                     poseStack.mulPose(Axis.XP.rotationDegrees(-180f));
                 }
                 Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(bat)
-                                .render(bat, entityYaw, partialTicks, poseStack, buffer, packedLight);
+                        .render(bat, entityYaw, partialTicks, poseStack, buffer, packedLight);
                 poseStack.popPose();
                 ci.cancel();
             }
@@ -92,7 +92,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
                         .render(wolf, entityYaw, partialTicks, poseStack, buffer, packedLight);
                 ci.cancel();
             }
-        } else if(TransformationHandler.isWerewolf(entity)){
+        } else if (TransformationHandler.isWerewolf(entity)) {
             var werewolf = TransformationHandler.getWerewolf(entity);
             if (werewolf != null) {
                 witchery$copyTransforms(werewolf, entity);
@@ -116,7 +116,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
     }
 
     @Unique
-    private void witchery$copyTransforms(Mob to, AbstractClientPlayer from){
+    private void witchery$copyTransforms(Mob to, AbstractClientPlayer from) {
         to.tickCount = from.tickCount;
         to.hurtTime = from.hurtTime;
         to.hurtDuration = from.hurtDuration;
@@ -157,9 +157,9 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         to.swingingArm = from.getMainArm() == HumanoidArm.RIGHT ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         to.deathTime = from.deathTime;
 
-        ((WalkAnimationStateAccessor) to.walkAnimation).setSpeed(((WalkAnimationStateAccessor)from.walkAnimation).getSpeed());
-        ((WalkAnimationStateAccessor) to.walkAnimation).setSpeedOld(((WalkAnimationStateAccessor)from.walkAnimation).getSpeedOld());
-        ((WalkAnimationStateAccessor) to.walkAnimation).setPosition(((WalkAnimationStateAccessor)from.walkAnimation).getPosition());
+        ((WalkAnimationStateAccessor) to.walkAnimation).setSpeed(((WalkAnimationStateAccessor) from.walkAnimation).getSpeed());
+        ((WalkAnimationStateAccessor) to.walkAnimation).setSpeedOld(((WalkAnimationStateAccessor) from.walkAnimation).getSpeedOld());
+        ((WalkAnimationStateAccessor) to.walkAnimation).setPosition(((WalkAnimationStateAccessor) from.walkAnimation).getPosition());
 
         float swimAmt = ((LivingEntityAccessor) from).getSwimAmount();
         ((LivingEntityAccessor) to).setSwimAmount(swimAmt);

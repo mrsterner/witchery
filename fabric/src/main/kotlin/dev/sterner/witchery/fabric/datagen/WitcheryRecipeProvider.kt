@@ -173,7 +173,10 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
 
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(Items.CARROT, Color(250, 150, 50).rgb)
-            .addInputWithColor(PotionContents.createItemStack(Items.POTION, Potions.NIGHT_VISION), Color(50, 20, 150).rgb)
+            .addInputWithColor(
+                PotionContents.createItemStack(Items.POTION, Potions.NIGHT_VISION),
+                Color(50, 20, 150).rgb
+            )
             .addInputWithColor(Items.SPIDER_EYE, Color(255, 50, 70).rgb)
             .addInputWithColor(Items.BROWN_MUSHROOM, Color(205, 110, 70).rgb)
             .addInputWithColor(Items.SPIDER_EYE, Color(255, 50, 70).rgb)
@@ -356,12 +359,12 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .save(exporter, Witchery.id("ghost_of_the_light"))
 
         CauldronBrewingRecipeBuilder.create()
-            .addInputWithColor(WitcheryItems.FANCIFUL_THREAD.get(), Color(200,150,100).rgb)
-            .addInputWithColor(WitcheryItems.SPANISH_MOSS.get(), Color(100,200,100).rgb)
-            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), Color(100,100,200).rgb)
+            .addInputWithColor(WitcheryItems.FANCIFUL_THREAD.get(), Color(200, 150, 100).rgb)
+            .addInputWithColor(WitcheryItems.SPANISH_MOSS.get(), Color(100, 200, 100).rgb)
+            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), Color(100, 100, 200).rgb)
             .addInputWithColor(WitcheryItems.GLINTWEED.get(), Color(250, 250, 50).rgb)
-            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get(), Color(150,100,5).rgb)
-            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get(), Color(80,150,255).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get(), Color(150, 100, 5).rgb)
+            .addInputWithColor(WitcheryItems.WOOL_OF_BAT.get(), Color(80, 150, 255).rgb)
             .setOutput(WitcheryItems.BREW_FLOWING_SPIRIT.get())
             .setAltarPower(100)
             .setDimensionKey(setOf("witchery:dream_world", "witchery:nightmare_world"))

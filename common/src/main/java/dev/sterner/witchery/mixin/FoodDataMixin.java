@@ -14,7 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(FoodData.class)
 public class FoodDataMixin {
 
-    @Unique Player witchery$player;
+    @Unique
+    Player witchery$player;
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void witchery$tick(Player player, CallbackInfo ci) {

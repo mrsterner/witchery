@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Player.class)
 public class PlayerMixin {
 
-    @Shadow private int sleepCounter;
+    @Shadow
+    private int sleepCounter;
 
     @Inject(method = "stopSleepInBed", at = @At("TAIL"))
     private void witchery$stopSleepInBed(boolean wakeImmediately, boolean updateLevelForSleepingPlayers, CallbackInfo ci) {

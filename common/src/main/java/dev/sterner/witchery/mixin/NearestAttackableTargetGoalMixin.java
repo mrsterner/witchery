@@ -18,14 +18,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(NearestAttackableTargetGoal.class)
 public abstract class NearestAttackableTargetGoalMixin<T extends LivingEntity> extends TargetGoal {
 
-    @Shadow protected TargetingConditions targetConditions;
+    @Shadow
+    protected TargetingConditions targetConditions;
 
     public NearestAttackableTargetGoalMixin(Mob mob, boolean mustSee) {
         super(mob, mustSee);
     }
 
     @Inject(method = "findTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getNearestPlayer(Lnet/minecraft/world/entity/ai/targeting/TargetingConditions;Lnet/minecraft/world/entity/LivingEntity;DDD)Lnet/minecraft/world/entity/player/Player;"), cancellable = true)
-    private void witchery$dontAttackSummonerOwner2(CallbackInfo ci){
+    private void witchery$dontAttackSummonerOwner2(CallbackInfo ci) {
 
         var player = this.mob.level().getNearestPlayer(this.targetConditions, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
         if (player != null) {

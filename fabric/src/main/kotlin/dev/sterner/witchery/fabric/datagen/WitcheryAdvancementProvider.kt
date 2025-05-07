@@ -247,8 +247,12 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
             )
 
 
-        fun makeVampTornPageAdvancement(id: String, parent: AdvancementHolder?, consumer: Consumer<AdvancementHolder>): AdvancementHolder {
-            val advancement =  Advancement.Builder.advancement()
+        fun makeVampTornPageAdvancement(
+            id: String,
+            parent: AdvancementHolder?,
+            consumer: Consumer<AdvancementHolder>
+        ): AdvancementHolder {
+            val advancement = Advancement.Builder.advancement()
                 .display(
                     WitcheryItems.TORN_PAGE.get(),
                     Component.translatable("advancements.witchery.vampire_${id}.title"),

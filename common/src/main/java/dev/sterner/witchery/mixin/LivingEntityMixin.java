@@ -79,8 +79,8 @@ public abstract class LivingEntityMixin extends Entity implements EntityChainInt
         LivingEntity livingEntity = LivingEntity.class.cast(this);
         if (livingEntity instanceof Player player && (
                 TransformationHandler.isBat(player) ||
-                TransformationHandler.isWolf(player) ||
-                TransformationHandler.isWerewolf(player)
+                        TransformationHandler.isWolf(player) ||
+                        TransformationHandler.isWerewolf(player)
         )) {
             if (witchery$shouldUpdateDim) {
                 livingEntity.refreshDimensions();
@@ -90,6 +90,7 @@ public abstract class LivingEntityMixin extends Entity implements EntityChainInt
             witchery$shouldUpdateDim = true;
         }
     }
+
     @Inject(method = "onEffectRemoved", at = @At("HEAD"))
     private void witchery$onEffectRemoved(CallbackInfo ci, @Local(argsOnly = true) MobEffectInstance instance) {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
@@ -151,7 +152,7 @@ public abstract class LivingEntityMixin extends Entity implements EntityChainInt
     @Inject(method = "aiStep", at = @At("HEAD"))
     private void witchery$restrainMotion(CallbackInfo ci) {
         if (witchery$isRestrained()) {
-            LivingEntity self = (LivingEntity)(Object) this;
+            LivingEntity self = (LivingEntity) (Object) this;
             self.zza = 0.0F;
             self.xxa = 0.0F;
             self.yya = 0.0F;

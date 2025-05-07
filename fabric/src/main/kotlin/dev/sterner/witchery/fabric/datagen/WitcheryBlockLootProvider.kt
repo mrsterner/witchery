@@ -353,12 +353,12 @@ class WitcheryBlockLootProvider(
         ).withPool(
             LootPool.lootPool().setRolls(ConstantValue.exactly(1f)).`when`(awakeBuilder)
                 .add(LootItem.lootTableItem(seedsItem)).apply(
-                ApplyBonusCount.addBonusBinomialDistributionCount(
-                    registryLookup.getOrThrow(Enchantments.FORTUNE),
-                    0.5714286F,
-                    3
+                    ApplyBonusCount.addBonusBinomialDistributionCount(
+                        registryLookup.getOrThrow(Enchantments.FORTUNE),
+                        0.5714286F,
+                        3
+                    )
                 )
-            )
         )
     }
 }

@@ -20,11 +20,15 @@ import java.util.UUID;
 @Mixin(Villager.class)
 public class VillagerMixin implements VillagerTransfix {
 
-    @Unique int witchery$transfixCounter = 0;
-    @Unique Vec3 witchery$transfixVector = null;
+    @Unique
+    int witchery$transfixCounter = 0;
+    @Unique
+    Vec3 witchery$transfixVector = null;
 
-    @Unique UUID witchery$mesmerisedUUID = null;
-    @Unique int witchery$mesmerisedUUIDCounter = 0;
+    @Unique
+    UUID witchery$mesmerisedUUID = null;
+    @Unique
+    int witchery$mesmerisedUUIDCounter = 0;
 
     @Override
     public void setTransfixedLookVector(@NotNull Vec3 vec3) {
@@ -55,7 +59,7 @@ public class VillagerMixin implements VillagerTransfix {
             if (witchery$mesmerisedUUIDCounter > 0) {
                 var player = villager.level().getPlayerByUUID(witchery$getMesmerized());
                 if (player != null) {
-                    villager.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(player.position(), 1f,2));
+                    villager.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(player.position(), 1f, 2));
                 }
                 witchery$mesmerisedUUIDCounter--;
             } else {

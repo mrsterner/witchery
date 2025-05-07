@@ -1,8 +1,6 @@
 package dev.sterner.witchery.platform.fabric
 
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethodStage.Vanilla
 import dev.architectury.registry.registries.RegistrySupplier
-import dev.emi.trinkets.api.TrinketComponent
 import dev.emi.trinkets.api.TrinketsApi
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.item.trinkets.*
@@ -133,7 +131,7 @@ object PlatformUtilsImpl {
         chestplate: ArmorItem.Type,
         properties: Item.Properties
     ): ArmorItem {
-        return object: ArmorItem(dapper, chestplate, properties) {
+        return object : ArmorItem(dapper, chestplate, properties) {
 
             fun createExtraAttributes(): List<ItemAttributeModifiers.Entry> {
                 val attributes = ItemAttributeModifiers.builder()

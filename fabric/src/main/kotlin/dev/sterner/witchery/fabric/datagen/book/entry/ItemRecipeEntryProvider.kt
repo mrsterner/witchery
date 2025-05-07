@@ -8,10 +8,10 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronCraftingPageModel
-import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Item
 
-class ItemRecipeEntryProvider(parent: CategoryProviderBase?, var id: String, var recipePath: String, var item: Item) : EntryProvider(parent) {
+class ItemRecipeEntryProvider(parent: CategoryProviderBase?, var id: String, var recipePath: String, var item: Item) :
+    EntryProvider(parent) {
 
 
     override fun generatePages() {

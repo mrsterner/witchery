@@ -90,18 +90,21 @@ object WitcheryConfiguredFeatureBootstrap {
             )
         )
 
-        bootstrapContext.register(WITCH_CIRCLE_KEY, ConfiguredFeature(
-            WitcheryFeatures.MUSHROOM_CIRCLE.get(),
-            FeatureUtils.simpleRandomPatchConfiguration( 8,
-                PlacementUtils.onlyWhenEmpty(
-                    Feature.SIMPLE_BLOCK,
-                    SimpleBlockConfiguration(
-                        BlockStateProvider.simple(
-                            Blocks.RED_MUSHROOM.defaultBlockState()
+        bootstrapContext.register(
+            WITCH_CIRCLE_KEY, ConfiguredFeature(
+                WitcheryFeatures.MUSHROOM_CIRCLE.get(),
+                FeatureUtils.simpleRandomPatchConfiguration(
+                    8,
+                    PlacementUtils.onlyWhenEmpty(
+                        Feature.SIMPLE_BLOCK,
+                        SimpleBlockConfiguration(
+                            BlockStateProvider.simple(
+                                Blocks.RED_MUSHROOM.defaultBlockState()
+                            )
                         )
                     )
                 )
             )
-        ))
+        )
     }
 }

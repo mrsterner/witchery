@@ -18,10 +18,7 @@ public abstract class LightningBoltMixin {
         if (instance instanceof ElleEntity) {
             return false;
         }
-        if (instance instanceof ItemEntity itemEntity && itemEntity.getItem().is(WitcheryItems.INSTANCE.getATTUNED_STONE().get())) {
-            return false;
-        }
-        return true;
+        return !(instance instanceof ItemEntity itemEntity) || !itemEntity.getItem().is(WitcheryItems.INSTANCE.getATTUNED_STONE().get());
     }
 
 }

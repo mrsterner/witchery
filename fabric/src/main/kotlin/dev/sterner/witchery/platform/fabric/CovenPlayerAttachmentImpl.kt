@@ -2,8 +2,6 @@ package dev.sterner.witchery.platform.fabric
 
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.platform.CovenPlayerAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
-import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.world.entity.player.Player
 
 object CovenPlayerAttachmentImpl {

@@ -12,7 +12,7 @@ object CursePlayerAttachmentImpl {
     }
 
     @JvmStatic
-    fun setData(player: Player, data: CursePlayerAttachment.Data ) {
+    fun setData(player: Player, data: CursePlayerAttachment.Data) {
         player.setAttached(WitcheryFabricAttachmentRegistry.CURSE_PLAYER_DATA_TYPE, data)
         CursePlayerAttachment.sync(player, data)
     }

@@ -51,13 +51,20 @@ class WitcheryBrewingCategoryProvider(
             index++
         }
 
-        val cauldron = DoubleItemEntryProvider(this, "cauldron", WitcheryItems.CAULDRON.get(), WitcheryItems.COPPER_CAULDRON.get(), noSecondTitle = true).generate("c")
+        val cauldron = DoubleItemEntryProvider(
+            this,
+            "cauldron",
+            WitcheryItems.CAULDRON.get(),
+            WitcheryItems.COPPER_CAULDRON.get(),
+            noSecondTitle = true
+        ).generate("c")
         cauldron.withCondition(
             BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("cauldron"))
         )
         addEntry(cauldron)
 
-        val introduction = DoubleEntryProvider(this, "beginning_potions", WitcheryItems.WITCHERY_POTION.get()).generate("j")
+        val introduction =
+            DoubleEntryProvider(this, "beginning_potions", WitcheryItems.WITCHERY_POTION.get()).generate("j")
         introduction.addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
         addEntry(introduction)
 
@@ -97,7 +104,8 @@ class WitcheryBrewingCategoryProvider(
 
         addEntry(ritualChalk)
 
-        val flyingOintment = InfusionEntryProvider(this, "flying_ointment", WitcheryItems.FLYING_OINTMENT.get()).generate("f")
+        val flyingOintment =
+            InfusionEntryProvider(this, "flying_ointment", WitcheryItems.FLYING_OINTMENT.get()).generate("f")
         flyingOintment
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -109,7 +117,8 @@ class WitcheryBrewingCategoryProvider(
             .addParent(BookEntryParentModel.create(redstoneSoup.id).withDrawArrow(true))
         addEntry(flyingOintment)
 
-        val spiritOfOtherwhere = InfusionEntryProvider(this, "spirit_of_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get()).generate("o")
+        val spiritOfOtherwhere =
+            InfusionEntryProvider(this, "spirit_of_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get()).generate("o")
         spiritOfOtherwhere
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -121,7 +130,8 @@ class WitcheryBrewingCategoryProvider(
             .addParent(BookEntryParentModel.create(redstoneSoup.id).withDrawArrow(true))
         addEntry(spiritOfOtherwhere)
 
-        val ghostOfLight = InfusionEntryProvider(this, "ghost_of_the_light", WitcheryItems.GHOST_OF_THE_LIGHT.get()).generate("g")
+        val ghostOfLight =
+            InfusionEntryProvider(this, "ghost_of_the_light", WitcheryItems.GHOST_OF_THE_LIGHT.get()).generate("g")
         ghostOfLight
             .withCondition(
                 BookAndConditionModel.create().withChildren(
@@ -207,7 +217,8 @@ class WitcheryBrewingCategoryProvider(
         addEntry(frost)
 
 
-        val revealing = BrewEntryProvider(WitcheryItems.BREW_OF_REVEALING.get(), "brew_of_revealing", this).generate("u")
+        val revealing =
+            BrewEntryProvider(WitcheryItems.BREW_OF_REVEALING.get(), "brew_of_revealing", this).generate("u")
         revealing.withCondition(
             BookAndConditionModel.create().withChildren(
                 BookEntryReadConditionModel.create()
@@ -231,7 +242,8 @@ class WitcheryBrewingCategoryProvider(
 
         addEntry(sleep)
 
-        val spirit = BrewEntryProvider(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "brew_of_flowing_spirit", this).generate("l")
+        val spirit =
+            BrewEntryProvider(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "brew_of_flowing_spirit", this).generate("l")
         spirit.withCondition(
             BookAndConditionModel.create().withChildren(
                 BookEntryReadConditionModel.create()

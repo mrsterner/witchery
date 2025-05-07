@@ -56,7 +56,7 @@ public abstract class MobMixin extends LivingEntity implements MobAccessor {
 
     @Inject(method = "registerGoals", at = @At("TAIL"))
     public void witchery$registerDisorientationGoal(CallbackInfo ci) {
-        goalSelector.addGoal(0, new DisorientationGoal((Mob)(Object)this));
+        goalSelector.addGoal(0, new DisorientationGoal((Mob) (Object) this));
     }
 
 

@@ -10,7 +10,7 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext
 import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant
 
 
-class WitcheryFluidHandlerFabric(val witcheryFluidHandler: WitcheryFluidHandler, val tank: Int):
+class WitcheryFluidHandlerFabric(val witcheryFluidHandler: WitcheryFluidHandler, val tank: Int) :
     SnapshotParticipant<ResourceAmount<FluidVariant>>(), SingleSlotStorage<FluidVariant> {
 
     override fun createSnapshot(): ResourceAmount<FluidVariant> {

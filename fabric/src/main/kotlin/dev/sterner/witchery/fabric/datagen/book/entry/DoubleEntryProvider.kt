@@ -6,10 +6,6 @@ import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
-import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.page.BookRitualPageModel
-import dev.sterner.witchery.integration.modonomicon.BookRitualRecipePage
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 
 class DoubleEntryProvider(parent: CategoryProviderBase?, val id: String, val icon: Item) : EntryProvider(parent) {

@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 class DoorBlockMixin {
 
     @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
-    private void witchery$cancelInteract(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir){
+    private void witchery$cancelInteract(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if (player.getMainHandItem().getItem() instanceof BrewOfFlowingSpiritItem) {
             cir.setReturnValue(InteractionResult.PASS);
         }

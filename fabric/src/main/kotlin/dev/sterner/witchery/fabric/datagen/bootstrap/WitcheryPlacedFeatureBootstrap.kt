@@ -59,14 +59,16 @@ object WitcheryPlacedFeatureBootstrap {
             )
         )
 
-        context.register(WITCH_CIRCLE_PLACED_KEY, PlacedFeature(configuredFeatures.getOrThrow(WITCH_CIRCLE_KEY),
-            ImmutableList.builder<PlacementModifier>()
-                .add(RarityFilter.onAverageOnceEvery(16))
-                .add(InSquarePlacement.spread())
-                .add(NoiseThresholdCountPlacement.of(-0.8, 15, 4))
-                .add(PlacementUtils.HEIGHTMAP)
-                .add(BiomeFilter.biome())
-                .build()
+        context.register(
+            WITCH_CIRCLE_PLACED_KEY, PlacedFeature(
+                configuredFeatures.getOrThrow(WITCH_CIRCLE_KEY),
+                ImmutableList.builder<PlacementModifier>()
+                    .add(RarityFilter.onAverageOnceEvery(16))
+                    .add(InSquarePlacement.spread())
+                    .add(NoiseThresholdCountPlacement.of(-0.8, 15, 4))
+                    .add(PlacementUtils.HEIGHTMAP)
+                    .add(BiomeFilter.biome())
+                    .build()
             )
         )
     }

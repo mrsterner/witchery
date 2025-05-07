@@ -12,7 +12,7 @@ object FamiliarLevelAttachmentImpl {
     }
 
     @JvmStatic
-    fun setData(level: ServerLevel, data:  FamiliarLevelAttachment.Data) {
+    fun setData(level: ServerLevel, data: FamiliarLevelAttachment.Data) {
         level.setAttached(WitcheryFabricAttachmentRegistry.FAMILIAR_LEVEL_DATA_TYPE, data)
     }
 }
