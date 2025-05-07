@@ -30,6 +30,7 @@ import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.world.level.block.entity.HangingSignBlockEntity
 import net.minecraft.world.level.block.entity.SignBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 
@@ -130,9 +131,9 @@ object WitcheryBlockEntityTypes {
                 .build(null)
         }
 
-    val CUSTOM_SIGN = BLOCK_ENTITY_TYPES.register("custom_sign") {
+    val CUSTOM_SIGN: RegistrySupplier<BlockEntityType<SignBlockEntity>> = BLOCK_ENTITY_TYPES.register("custom_sign") {
         BlockEntityType.Builder.of(
-            { pos, state -> CustomSignBE(pos, state) },
+            { pos, state -> CustomSignBE(pos, state) as SignBlockEntity },
             WitcheryBlocks.ROWAN_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_SIGN.get(),
             WitcheryBlocks.ALDER_SIGN.get(),
@@ -142,9 +143,9 @@ object WitcheryBlockEntityTypes {
         ).build(null)
     }
 
-    val CUSTOM_HANGING_SIGN = BLOCK_ENTITY_TYPES.register("custom_hanging_sign") {
+    val CUSTOM_HANGING_SIGN: RegistrySupplier<BlockEntityType<SignBlockEntity>> = BLOCK_ENTITY_TYPES.register("custom_hanging_sign") {
         BlockEntityType.Builder.of(
-            { pos, state -> CustomHangingSignBE(pos, state) },
+            { pos, state -> CustomHangingSignBE(pos, state) as SignBlockEntity },
             WitcheryBlocks.ROWAN_HANGING_SIGN.get(),
             WitcheryBlocks.ROWAN_WALL_HANGING_SIGN.get(),
             WitcheryBlocks.ALDER_HANGING_SIGN.get(),

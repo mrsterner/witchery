@@ -17,7 +17,7 @@ import net.minecraft.world.item.crafting.RecipeHolder
 
 
 abstract class BookDistillingRecipePageRenderer<T : Recipe<*>?>(page: BookDistillingRecipePage?) :
-    BookRecipePageRenderer<DistilleryCraftingRecipe?, BookRecipePage<DistilleryCraftingRecipe?>?>(page) {
+    BookRecipePageRenderer<DistilleryCraftingRecipe, BookRecipePage<DistilleryCraftingRecipe>?>(page) {
 
 
     override fun getRecipeHeight(): Int {
@@ -46,7 +46,7 @@ abstract class BookDistillingRecipePageRenderer<T : Recipe<*>?>(page: BookDistil
 
     override fun drawRecipe(
         guiGraphics: GuiGraphics,
-        recipeHolder: RecipeHolder<DistilleryCraftingRecipe?>,
+        recipeHolder: RecipeHolder<DistilleryCraftingRecipe>,
         recipeX: Int,
         recipeY: Int,
         mouseX: Int,

@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.RecipeHolder
 
 
 abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: BookCauldronCraftingRecipePage?) :
-    BookRecipePageRenderer<CauldronCraftingRecipe?, BookRecipePage<CauldronCraftingRecipe?>?>(page) {
+    BookRecipePageRenderer<CauldronCraftingRecipe, BookRecipePage<CauldronCraftingRecipe>?>(page) {
 
 
     override fun getRecipeHeight(): Int {
@@ -42,7 +42,7 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
 
     override fun drawRecipe(
         guiGraphics: GuiGraphics,
-        recipeHolder: RecipeHolder<CauldronCraftingRecipe?>,
+        recipeHolder: RecipeHolder<CauldronCraftingRecipe>,
         recipeX: Int,
         recipeY: Int,
         mouseX: Int,

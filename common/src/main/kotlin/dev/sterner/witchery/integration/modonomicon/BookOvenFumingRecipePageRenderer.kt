@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.RecipeHolder
 
 
 abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFumingRecipePage?) :
-    BookRecipePageRenderer<OvenCookingRecipe?, BookRecipePage<OvenCookingRecipe?>?>(page) {
+    BookRecipePageRenderer<OvenCookingRecipe, BookRecipePage<OvenCookingRecipe>?>(page) {
 
 
     override fun getRecipeHeight(): Int {
@@ -42,7 +42,7 @@ abstract class BookOvenFumingRecipePageRenderer<T : Recipe<*>?>(page: BookOvenFu
 
     override fun drawRecipe(
         guiGraphics: GuiGraphics,
-        recipeHolder: RecipeHolder<OvenCookingRecipe?>,
+        recipeHolder: RecipeHolder<OvenCookingRecipe>,
         recipeX: Int,
         recipeY: Int,
         mouseX: Int,
