@@ -98,7 +98,6 @@ object Witchery {
 
     @JvmStatic
     fun init() {
-        PotionDataReloadListener.registerListener()
         WitcheryCurseRegistry.register()
         WitcheryFetishEffects.register()
         WitcheryRitualRegistry.register()
@@ -124,6 +123,7 @@ object Witchery {
         WitcheryPayloads.register()
         WitcheryEntityAttributes.register()
 
+        PotionDataReloadListener.registerListener()
         FetishEffectReloadListener.registerListener()
         NaturePowerReloadListener.registerListener()
         ErosionReloadListener.registerListener()

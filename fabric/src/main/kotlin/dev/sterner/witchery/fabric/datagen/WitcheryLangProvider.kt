@@ -10,12 +10,17 @@ import java.util.concurrent.CompletableFuture
 class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: CompletableFuture<HolderLookup.Provider>) :
     FabricLanguageProvider(dataOutput, registryLookup) {
 
-    fun formatId(id: ResourceLocation): String {
+    private fun formatId(id: ResourceLocation): String {
         val name = id.path.split('.').last()
+        return formatId(name)
+    }
 
+    private fun formatId(name: String): String {
         val exceptions = setOf("of", "the", "and", "in", "for", "on", "to")
 
-        return name.split('_')
+        return name
+            .removeSuffix("_component")
+            .split('_')
             .joinToString(" ") { word ->
                 if (word in exceptions) {
                     word.lowercase()
@@ -27,6 +32,31 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
 
     override fun generateTranslations(registryLookup: HolderLookup.Provider?, builder: TranslationBuilder) {
         builder.add("witchery.main", "Witchery")
+
+        for (item in WitcheryItems.LANG_HELPER) {
+            builder.add("item.witchery.$item", formatId(item))
+        }
+
+        for (block in WitcheryBlocks.LANG_HELPER) {
+            builder.add("block.witchery.$block", formatId(block))
+        }
+
+        for (entity in WitcheryEntityTypes.LANG_HELPER) {
+            builder.add("entity.witchery.$entity", formatId(entity))
+        }
+
+        for (special in WitcherySpecialPotionEffects.SPECIALS.entrySet()) {
+            builder.add("witchery:${special.value.id.path}", formatId(special.value.id))
+        }
+
+        builder.add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")
+        builder.add(WitcheryTags.ALDER_LOG_ITEMS, "Alder Logs")
+        builder.add(WitcheryTags.HAWTHORN_LOG_ITEMS, "Hawthorn Logs")
+        builder.add(WitcheryTags.LEAF_ITEMS, "Witchery Leaves")
+        builder.add(WitcheryTags.CANDELABRA_ITEMS, "Candelabras")
+        builder.add(WitcheryTags.PLACEABLE_POPPETS, "Placeable Poppets")
+        builder.add(WitcheryTags.FROM_SPIRIT_WORLD_TRANSFERABLE, "From Spirit World Transferable")
+        builder.add(WitcheryTags.TO_SPIRIT_WORLD_TRANSFERABLE, "To Spirit World Transferable")
 
         builder.add("death.attack.inSun", "Turned to ash but the sun")
 
@@ -46,7 +76,6 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("emi.category.witchery.oven_cooking", "Oven Fumigation")
         builder.add("emi.category.witchery.distilling", "Distilling")
         builder.add("emi.category.witchery.spinning", "Spinning")
-
 
         builder.add("witchery.brazier.category", "Brazier")
         builder.add("witchery.cauldron_brewing.category", "Cauldron Brewing")
@@ -89,363 +118,12 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("witchery.captured.slime", "Slime")
         builder.add("witchery.captured.bat", "Bat")
 
-        for (special in WitcherySpecialPotionEffects.SPECIALS.entrySet()) {
-            builder.add("witchery:${special.value.id.path}", formatId(special.value.id))
-        }
-
-        builder.add(WitcheryBlocks.SNOWBELL_CROP.get(), "Snowbell")
-        builder.add(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), "Water Artichoke")
-        builder.add(WitcheryBlocks.BELLADONNA_CROP.get(), "Belladonna")
-        builder.add(WitcheryBlocks.WOLFSFBANE_CROP.get(), "Wolfsbane")
-        builder.add(WitcheryBlocks.MANDRAKE_CROP.get(), "Mandrake")
-        builder.add(WitcheryBlocks.GARLIC_CROP.get(), "Garlic")
-        builder.add(WitcheryBlocks.WORMWOOD_CROP.get(), "Wormwood")
-        builder.add(WitcheryItems.BLOOD_POPPY.get(), "Blood Poppy")
         builder.add("witchery.attuned.charged", "Attuned")
-
-        builder.add(WitcheryItems.WOODEN_OAK_STAKE.get(), "Wooden Oak Stake")
-        builder.add(WitcheryItems.WOODEN_HAWTHORN_STAKE.get(), "Wooden Hawthorn Stake")
-
-        builder.add(WitcheryItems.INFINITY_EGG.get(), "Infinity Egg")
-        builder.add(WitcheryItems.DEEPSLATE_ALTAR_BLOCK.get(), "Deepslate Altar Block")
-        builder.add(WitcheryItems.DISTILLERY.get(), "Distillery")
-        builder.add(WitcheryItems.SPINNING_WHEEL.get(), "Spinning Wheel")
-        builder.add(WitcheryItems.GUIDEBOOK.get(), "Lesser Key of Solomon")
-        builder.add(WitcheryItems.WITCHERY_POTION.get(), "Potion")
-        builder.add(WitcheryItems.CAULDRON.get(), "Cauldron")
-        builder.add(WitcheryItems.COPPER_CAULDRON.get(), "Copper Cauldron")
-
-        builder.add(WitcheryItems.WAXED_COPPER_CAULDRON.get(), "Waxed Copper Cauldron")
-        builder.add(WitcheryItems.EXPOSED_COPPER_CAULDRON.get(), "Exposed Copper Cauldron")
-        builder.add(WitcheryItems.WAXED_EXPOSED_COPPER_CAULDRON.get(), "Waxed Exposed Copper Cauldron")
-        builder.add(WitcheryItems.WEATHERED_COPPER_CAULDRON.get(), "Weathered Copper Cauldron")
-        builder.add(WitcheryItems.WAXED_WEATHERED_COPPER_CAULDRON.get(), "Waxed Weathered Copper Cauldron")
-        builder.add(WitcheryItems.OXIDIZED_COPPER_CAULDRON.get(), "Oxidized Copper Cauldron")
-        builder.add(WitcheryItems.WAXED_OXIDIZED_COPPER_CAULDRON.get(), "Waxed Oxidized Copper Cauldron")
-
-        builder.add(WitcheryItems.BLOOD_STAINED_WOOL.get(), "Blood-stained Wool")
-        builder.add(WitcheryItems.WOVEN_CRUOR.get(), "Woven Cruor")
-
-        builder.add(WitcheryItems.ALTAR.get(), "Altar")
-        builder.add(WitcheryItems.MUTANDIS.get(), "Mutandis")
-        builder.add(WitcheryItems.MUTANDIS_EXTREMIS.get(), "Mutandis Extremis")
-        builder.add(WitcheryItems.MANDRAKE_ROOT.get(), "Mandrake Root")
-        builder.add(WitcheryItems.GYPSUM.get(), "Gypsum")
-        builder.add(WitcheryItems.WOOD_ASH.get(), "Wood Ash")
-        builder.add(WitcheryItems.BELLADONNA_FLOWER.get(), "Belladonna Flower")
-        builder.add(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), "Water Artichoke Globe")
-        builder.add(WitcheryItems.BONE_NEEDLE.get(), "Bone Needle")
-        builder.add(WitcheryItems.DEMON_HEART.get(), "Demon Heart")
-        builder.add(WitcheryItems.RITUAL_CHALK.get(), "Ritual Chalk")
-        builder.add(WitcheryItems.INFERNAL_CHALK.get(), "Infernal Chalk")
-        builder.add(WitcheryItems.OTHERWHERE_CHALK.get(), "Otherwhere Chalk")
-        builder.add(WitcheryItems.GOLDEN_CHALK.get(), "Golden Chalk")
-        builder.add(WitcheryItems.ICY_NEEDLE.get(), "Icy Needle")
-        builder.add(WitcheryItems.BELLADONNA_SEEDS.get(), "Belladonna Seeds")
-        builder.add(WitcheryItems.MANDRAKE_SEEDS.get(), "Mandrake Seeds")
-        builder.add(WitcheryItems.SNOWBELL_SEEDS.get(), "Snowbell Seeds")
-        builder.add(WitcheryItems.WATER_ARTICHOKE_SEEDS.get(), "Water Artichoke Seeds")
-        builder.add(WitcheryItems.WORMWOOD.get(), "Wormwood")
-        builder.add(WitcheryItems.WORMWOOD_SEEDS.get(), "Wormwood Seeds")
-        builder.add(WitcheryItems.WOLFSBANE.get(), "Wolfsbane")
-        builder.add(WitcheryItems.GARLIC.get(), "Garlic")
-        builder.add(WitcheryItems.WOLFSBANE_SEEDS.get(), "Wolfsbane Seeds")
-        builder.add(WitcheryItems.TAGLOCK.get(), "Taglock")
-        builder.add(WitcheryItems.REFINED_EVIL.get(), "Refined Evil")
-        builder.add(WitcheryItems.REDSTONE_SOUP.get(), "Redstone Soup")
-        builder.add(WitcheryItems.FLYING_OINTMENT.get(), "Flying Ointment")
-        builder.add(WitcheryItems.SOUL_OF_THE_WORLD.get(), "Soul of the Overworld")
-        builder.add(WitcheryItems.SPIRIT_OF_OTHERWHERE.get(), "Spirit of Otherwhere")
-        builder.add(WitcheryItems.NECROMANTIC_SOULBIND.get(), "Necromantic Soulbind")
-        builder.add(WitcheryItems.GHOST_OF_THE_LIGHT.get(), "Ghost of the Light")
-        builder.add(WitcheryItems.INFERNAL_ANIMUS.get(), "Infernal Animus")
-        builder.add(WitcheryItems.TONGUE_OF_DOG.get(), "Tongue of Dog")
-        builder.add(WitcheryItems.WOOL_OF_BAT.get(), "Wool of Bat")
-        builder.add(WitcheryItems.TOE_OF_FROG.get(), "Toe of Frog")
-        builder.add(WitcheryItems.OWLETS_WING.get(), "Owlet's Wing")
-        builder.add(WitcheryItems.ENT_TWIG.get(), "Ent Twig")
-        builder.add(WitcheryItems.SPECTRAL_DUST.get(), "Spectral Dust")
-        builder.add(WitcheryItems.ATTUNED_STONE.get(), "Attuned Stone")
-        builder.add(WitcheryItems.ROWAN_BERRIES.get(), "Rowan Berries")
-        builder.add(WitcheryItems.PARASITIC_LOUSE.get(), "Parasytic Louse")
-        builder.add(WitcheryItems.WITCHES_HAND.get(), "Witches Hand")
-        builder.add(WitcheryItems.WITCHES_HAT.get(), "Witches Hat")
-        builder.add(WitcheryItems.WITCHES_ROBES.get(), "Witches Robes")
-        builder.add(WitcheryItems.WITCHES_SLIPPERS.get(), "Witches Slippers")
-        builder.add(WitcheryItems.HUNTER_HELMET.get(), "Hunter Helmet")
-        builder.add(WitcheryItems.HUNTER_CHESTPLATE.get(), "Hunter Chestplate")
-        builder.add(WitcheryItems.HUNTER_LEGGINGS.get(), "Hunter Leggings")
-        builder.add(WitcheryItems.HUNTER_BOOTS.get(), "Hunter Boots")
-        builder.add(WitcheryItems.TOP_HAT.get(), "Top Hat")
-        builder.add(WitcheryItems.DRESS_COAT.get(), "Dress Coat")
-        builder.add(WitcheryItems.TROUSERS.get(), "Trousers")
-        builder.add(WitcheryItems.OXFORD_BOOTS.get(), "Oxford Boots")
-        builder.add(WitcheryItems.GOLDEN_THREAD.get(), "Golden Thread")
-        builder.add(WitcheryItems.POPPET.get(), "Poppet")
-        builder.add(WitcheryItems.ARMOR_PROTECTION_POPPET.get(), "Armor Protection Poppet")
-        builder.add(WitcheryItems.HUNGER_PROTECTION_POPPET.get(), "Hunger Protection Poppet")
-        builder.add(WitcheryItems.DEATH_PROTECTION_POPPET.get(), "Death Protection Poppet")
-        builder.add(WitcheryItems.VAMPIRIC_POPPET.get(), "Vampiric Poppet")
-        builder.add(WitcheryItems.VOODOO_POPPET.get(), "Voodoo Poppet")
-        builder.add(WitcheryItems.VOODOO_PROTECTION_POPPET.get(), "Voodoo Protection Poppet")
-        builder.add(WitcheryItems.BABA_YAGAS_HAT.get(), "Baba Yaga's Hat")
-        builder.add(WitcheryItems.IMPREGNATED_FABRIC.get(), "Impregnated Fabric")
-        builder.add(WitcheryItems.MUTATING_SPRING.get(), "Mutating Spring")
-        builder.add(WitcheryItems.SEER_STONE.get(), "Seer Stone")
-        builder.add(WitcheryItems.BROOM.get(), "Broom")
-        builder.add(WitcheryEntityTypes.BROOM.get(), "Broom")
-        builder.add(WitcheryEntityTypes.DEMON.get(), "Demon")
-        builder.add(WitcheryEntityTypes.IMP.get(), "Imp")
-        builder.add(WitcheryEntityTypes.OWL.get(), "Owl")
-        builder.add(WitcheryEntityTypes.ENT.get(), "Ent")
-        builder.add(WitcheryEntityTypes.FLOATING_ITEM.get(), "Floating Item")
-        builder.add(WitcheryEntityTypes.SLEEPING_PLAYER.get(), "Sleeping Player")
-        builder.add(WitcheryEntityTypes.BANSHEE.get(), "Banshee")
-        builder.add(WitcheryEntityTypes.NIGHTMARE.get(), "Nightmare")
-        builder.add(WitcheryEntityTypes.VAMPIRE.get(), "Vampire")
-        builder.add(WitcheryEntityTypes.WEREWOLF.get(), "Werewolf")
-        builder.add(WitcheryEntityTypes.LILITH.get(), "Lilith")
-        builder.add(WitcheryEntityTypes.SPECTRE.get(), "Spectre")
-        builder.add(WitcheryEntityTypes.ELLE.get(), "Elle")
-        builder.add(WitcheryEntityTypes.PARASITIC_LOUSE.get(), "Parasitic Louse")
-
-        builder.add(WitcheryItems.CANE_SWORD.get(), "Cane Sword")
-        builder.add(WitcheryBlocks.GLINTWEED.get(), "Glintweed")
-        builder.add(WitcheryBlocks.COFFIN.get(), "Coffin")
-        builder.add(WitcheryBlocks.GRASSPER.get(), "Grassper")
-        builder.add(WitcheryBlocks.CRITTER_SNARE.get(), "Critter Snare")
-        builder.add(WitcheryBlocks.EMBER_MOSS.get(), "Ember Moss")
-        builder.add(WitcheryBlocks.SPANISH_MOSS.get(), "Spanish Moss")
-        builder.add(WitcheryBlocks.IRON_WITCHES_OVEN.get(), "Iron Witches Oven")
-        builder.add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get(), "Iron Witches Oven Fume Filter")
-        builder.add(WitcheryBlocks.COPPER_WITCHES_OVEN.get(), "Copper Witches Oven")
-        builder.add(WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN.get(), "Exposed Copper Witches Oven")
-        builder.add(WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN.get(), "Weathered Copper Witches Oven")
-        builder.add(WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN.get(), "Oxidized Copper Witches Oven")
-        builder.add(WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN.get(), "Waxed Copper Witches Oven")
-        builder.add(WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN.get(), "Waxed Exposed Copper Witches Oven")
-        builder.add(WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN.get(), "Waxed Weathered Copper Witches Oven")
-        builder.add(WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get(), "Waxed Oxidized Copper Witches Oven")
-        builder.add(WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION.get(), "Copper Witches Oven Fume Filter")
-        builder.add(
-            WitcheryBlocks.WAXED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
-            "Waxed Copper Witches Oven Fume Filter"
-        )
-        builder.add(
-            WitcheryBlocks.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
-            "Exposed Copper Witches Oven Fume Filter"
-        )
-        builder.add(
-            WitcheryBlocks.WAXED_EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
-            "Waxed Exposed Copper Witches Oven Fume Filter"
-        )
-        builder.add(
-            WitcheryBlocks.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
-            "Weathered Copper Witches Oven Fume Filter"
-        )
-        builder.add(
-            WitcheryBlocks.WAXED_WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
-            "Waxed Weathered Copper Witches Oven Fume Filter"
-        )
-        builder.add(
-            WitcheryBlocks.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
-            "Oxidized Copper Witches Oven Fume Filter"
-        )
-        builder.add(
-            WitcheryBlocks.WAXED_OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get(),
-            "Waxed Oxidized Copper Witches Oven Fume Filter"
-        )
-
-        builder.add(WitcheryBlocks.BEAR_TRAP.get(), "Bear Trap")
-        builder.add(WitcheryBlocks.IRON_CANDELABRA.get(), "Iron Candelabra")
-        builder.add(WitcheryBlocks.WHITE_IRON_CANDELABRA.get(), "White Iron Candelabra")
-        builder.add(WitcheryBlocks.ORANGE_IRON_CANDELABRA.get(), "Orange Iron Candelabra")
-        builder.add(WitcheryBlocks.MAGENTA_IRON_CANDELABRA.get(), "Magenta Iron Candelabra")
-        builder.add(WitcheryBlocks.LIGHT_BLUE_IRON_CANDELABRA.get(), "Light Blue Iron Candelabra")
-        builder.add(WitcheryBlocks.YELLOW_IRON_CANDELABRA.get(), "Yellow Iron Candelabra")
-        builder.add(WitcheryBlocks.LIME_IRON_CANDELABRA.get(), "Lime Iron Candelabra")
-        builder.add(WitcheryBlocks.PINK_IRON_CANDELABRA.get(), "Pink Iron Candelabra")
-        builder.add(WitcheryBlocks.GRAY_IRON_CANDELABRA.get(), "Gray Iron Candelabra")
-        builder.add(WitcheryBlocks.LIGHT_GRAY_IRON_CANDELABRA.get(), "Light Gray Iron Candelabra")
-        builder.add(WitcheryBlocks.CYAN_IRON_CANDELABRA.get(), "Cyan Iron Candelabra")
-        builder.add(WitcheryBlocks.PURPLE_IRON_CANDELABRA.get(), "Purple Iron Candelabra")
-        builder.add(WitcheryBlocks.BLUE_IRON_CANDELABRA.get(), "Blue Iron Candelabra")
-        builder.add(WitcheryBlocks.BROWN_IRON_CANDELABRA.get(), "Brown Iron Candelabra")
-        builder.add(WitcheryBlocks.GREEN_IRON_CANDELABRA.get(), "Green Iron Candelabra")
-        builder.add(WitcheryBlocks.RED_IRON_CANDELABRA.get(), "Red Iron Candelabra")
-        builder.add(WitcheryBlocks.BLACK_IRON_CANDELABRA.get(), "Black Iron Candelabra")
-        builder.add(WitcheryBlocks.ARTHANA.get(), "Arthana")
-        builder.add(WitcheryItems.ARTHANA.get(), "Arthana")
-        builder.add(WitcheryBlocks.CHALICE.get(), "Chalice")
-        builder.add(WitcheryBlocks.PENTACLE.get(), "Pentacle")
-        builder.add(WitcheryBlocks.BRAZIER.get(), "Brazier")
-        builder.add(WitcheryItems.NECROMANTIC_STONE.get(), "Necromantic Stone")
-
-        builder.add(WitcheryBlocks.TRENT_EFFIGY.get(), "Trent Effigy")
-        builder.add(WitcheryBlocks.SCARECROW.get(), "Scarecrow")
-        builder.add(WitcheryBlocks.EFFIGY_COMPONENT.get(), "Effigy")
-        builder.add(WitcheryBlocks.WITCHS_LADDER.get(), "Witch's Ladder")
-
-        builder.add(WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(), "Golden Chalk")
-        builder.add(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), "Ritual Chalk")
-        builder.add(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(), "Infernal Chalk")
-        builder.add(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(), "Otherwhere Chalk")
-        builder.add(WitcheryBlocks.DEMON_HEART.get(), "Demon Heart")
-        builder.add(WitcheryBlocks.ALTAR_COMPONENT.get(), "Altar")
-        builder.add(WitcheryBlocks.CAULDRON_COMPONENT.get(), "Cauldron")
-        builder.add(WitcheryBlocks.DISTILLERY_COMPONENT.get(), "Distillery")
-        builder.add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(), "Fume Filter")
-
-        builder.add(WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(), "Sacrificial Circle")
-        builder.add(WitcheryBlocks.SACRIFICIAL_CIRCLE.get(), "Sacrificial Circle")
-        builder.add(WitcheryItems.QUARTZ_SPHERE.get(), "Quartz Sphere")
-        builder.add(WitcheryBlocks.SUNLIGHT_COLLECTOR.get(), "Sunlight Collector")
         builder.add("witchery.has_sun", "Sunlight")
-
-        builder.add(WitcheryItems.WAYSTONE.get(), "Waystone")
-        builder.add(WitcheryItems.CLAY_JAR.get(), "Clay Jar")
-        builder.add(WitcheryItems.JAR.get(), "Jar")
-        builder.add(WitcheryItems.BREATH_OF_THE_GODDESS.get(), "Breath of the Goddess")
-        builder.add(WitcheryItems.WHIFF_OF_MAGIC.get(), "Whiff of Magic")
-        builder.add(WitcheryItems.FOUL_FUME.get(), "Foul Fume")
-        builder.add(WitcheryItems.TEAR_OF_THE_GODDESS.get(), "Tear of the Goddess")
-        builder.add(WitcheryItems.OIL_OF_VITRIOL.get(), "Oil of Vitriol")
-        builder.add(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get(), "Exhale of the Horned One")
-        builder.add(WitcheryItems.HINT_OF_REBIRTH.get(), "Hint of Rebirth")
-        builder.add(WitcheryItems.REEK_OF_MISFORTUNE.get(), "Reek of Misfortune")
-        builder.add(WitcheryItems.ODOR_OF_PURITY.get(), "Odor of Purity")
-        builder.add(WitcheryItems.DROP_OF_LUCK.get(), "Drop of Luck")
-        builder.add(WitcheryItems.ENDER_DEW.get(), "Ender Dew")
-        builder.add(WitcheryItems.DEMONS_BLOOD.get(), "Demon Blood")
-        builder.add(WitcheryItems.FOCUSED_WILL.get(), "Focused Will")
-        builder.add(WitcheryItems.CONDENSED_FEAR.get(), "Condensed Fear")
-        builder.add(WitcheryItems.MELLIFLUOUS_HUNGER.get(), "Mellifluous Hunger")
-        builder.add(WitcheryItems.PHANTOM_VAPOR.get(), "Phantom Vapor")
-
-        builder.add(WitcheryBlocks.ROWAN_LOG.get(), "Rowan Log")
-        builder.add(WitcheryBlocks.ROWAN_WOOD.get(), "Rowan Wood")
-        builder.add(WitcheryBlocks.STRIPPED_ROWAN_LOG.get(), "Stripped Rowan Log")
-        builder.add(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get(), "Stripped Rowan Wood")
-        builder.add(WitcheryBlocks.ROWAN_LEAVES.get(), "Rowan Leaves")
-        builder.add(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), "Rowan Berry Leaves")
-        builder.add(WitcheryBlocks.ROWAN_PLANKS.get(), "Rowan Planks")
-        builder.add(WitcheryBlocks.ROWAN_STAIRS.get(), "Rowan Stairs")
-        builder.add(WitcheryBlocks.ROWAN_SLAB.get(), "Rowan Slab")
-        builder.add(WitcheryBlocks.ROWAN_FENCE.get(), "Rowan Fence")
-        builder.add(WitcheryBlocks.ROWAN_FENCE_GATE.get(), "Rowan Fence Gate")
-        builder.add(WitcheryBlocks.ROWAN_DOOR.get(), "Rowan Door")
-        builder.add(WitcheryBlocks.ROWAN_TRAPDOOR.get(), "Rowan Trapdoor")
-        builder.add(WitcheryBlocks.ROWAN_PRESSURE_PLATE.get(), "Rowan Pressure Plate")
-        builder.add(WitcheryBlocks.ROWAN_BUTTON.get(), "Rowan Button")
-        builder.add(WitcheryBlocks.ROWAN_SAPLING.get(), "Rowan Sapling")
-        builder.add(WitcheryBlocks.POTTED_ROWAN_SAPLING.get(), "Potted Rowan Sapling")
-        builder.add(WitcheryBlocks.ROWAN_SIGN.get(), "Rowan Sign")
-        builder.add(WitcheryBlocks.ROWAN_HANGING_SIGN.get(), "Rowan Hanging Sign")
-        builder.add(WitcheryItems.ROWAN_BOAT.get(), "Rowan Boat")
-        builder.add(WitcheryItems.ROWAN_CHEST_BOAT.get(), "Rowan Chest Boat")
-
-        builder.add(WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get(), "Dream Weaver of Fleet Foot")
-        builder.add(WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get(), "Dream Weaver of Nightmares")
-        builder.add(WitcheryItems.DREAM_WEAVER_OF_FASTING.get(), "Dream Weaver of Fasting")
-        builder.add(WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get(), "Dream Weaver of Iron Arm")
-        builder.add(WitcheryItems.DREAM_WEAVER_OF_INTENSITY.get(), "Dream Weaver of Intensity")
-        builder.add(WitcheryItems.DREAM_WEAVER.get(), "Dream Weaver")
-
-        builder.add(WitcheryItems.BREW_OF_SLEEPING.get(), "Brew of Sleeping")
-        builder.add(WitcheryItems.BREW_OF_THE_GROTESQUE.get(), "Brew of the Grotesque")
-        builder.add(WitcheryItems.HAPPENSTANCE_OIL.get(), "Happenstance Oil")
-        builder.add(WitcheryItems.BREW_OF_LOVE.get(), "Brew of Love")
-        builder.add(WitcheryItems.BREW_OF_INK.get(), "Brew of Ink")
-        builder.add(WitcheryItems.BREW_OF_REVEALING.get(), "Brew of Revealing")
-        builder.add(WitcheryItems.BREW_OF_EROSION.get(), "Brew of Erosion")
-        builder.add(WitcheryItems.BREW_OF_WASTING.get(), "Brew of Wasting")
-        builder.add(WitcheryItems.BREW_OF_WEBS.get(), "Brew of Webs")
-        builder.add(WitcheryItems.BREW_OF_THE_DEPTHS.get(), "Brew of the Depths")
-        builder.add(WitcheryItems.BREW_OF_RAISING.get(), "Brew of Raising")
-        builder.add(WitcheryItems.BREW_OF_FROST.get(), "Brew of Frost")
-        builder.add(WitcheryItems.DISTURBED_COTTON.get(), "Disturbed Cotton")
-        builder.add(WitcheryItems.WISPY_COTTON.get(), "Wispy Cotton")
-        builder.add(WitcheryItems.FANCIFUL_THREAD.get(), "Fanciful Thread")
-        builder.add(WitcheryItems.WINE_GLASS.get(), "Wine Glass")
-        builder.add(WitcheryItems.TORMENTED_TWINE.get(), "Tormented Twine")
-        builder.add(WitcheryItems.FLOWING_SPIRIT_BUCKET.get(), "Flowing Spirit Bucket")
-        builder.add(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "Brew of Flowing Spirit")
-
-        builder.add(WitcheryBlocks.ALDER_LOG.get(), "Alder Log")
-        builder.add(WitcheryBlocks.ALDER_WOOD.get(), "Alder Wood")
-        builder.add(WitcheryBlocks.STRIPPED_ALDER_LOG.get(), "Stripped Alder Log")
-        builder.add(WitcheryBlocks.STRIPPED_ALDER_WOOD.get(), "Stripped Alder Wood")
-        builder.add(WitcheryBlocks.ALDER_LEAVES.get(), "Alder Leaves")
-        builder.add(WitcheryBlocks.ALDER_PLANKS.get(), "Alder Planks")
-        builder.add(WitcheryBlocks.ALDER_STAIRS.get(), "Alder Stairs")
-        builder.add(WitcheryBlocks.ALDER_SLAB.get(), "Alder Slab")
-        builder.add(WitcheryBlocks.ALDER_FENCE.get(), "Alder Fence")
-        builder.add(WitcheryBlocks.ALDER_FENCE_GATE.get(), "Alder Fence Gate")
-        builder.add(WitcheryBlocks.ALDER_DOOR.get(), "Alder Door")
-        builder.add(WitcheryBlocks.ALDER_TRAPDOOR.get(), "Alder Trapdoor")
-        builder.add(WitcheryBlocks.ALDER_PRESSURE_PLATE.get(), "Alder Pressure Plate")
-        builder.add(WitcheryBlocks.ALDER_BUTTON.get(), "Alder Button")
-        builder.add(WitcheryBlocks.ALDER_SAPLING.get(), "Alder Sapling")
-        builder.add(WitcheryBlocks.POTTED_ALDER_SAPLING.get(), "Potted Alder Sapling")
-        builder.add(WitcheryBlocks.ALDER_SIGN.get(), "Alder Sign")
-        builder.add(WitcheryBlocks.ALDER_HANGING_SIGN.get(), "Alder Hanging Sign")
-        builder.add(WitcheryItems.ALDER_BOAT.get(), "Alder Boat")
-        builder.add(WitcheryItems.ALDER_CHEST_BOAT.get(), "Alder Chest Boat")
-
-        builder.add(WitcheryItems.GRAVESTONE.get(), "Gravestone")
-        builder.add(WitcheryItems.TORN_PAGE.get(), "Torn Page")
-        builder.add(WitcheryItems.SUSPICIOUS_GRAVEYARD_DIRT.get(), "Suspicious Graveyard Dirt")
-
-        builder.add(WitcheryBlocks.SPIRIT_PORTAL.get(), "Spirit Portal")
-        builder.add(WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get(), "Spirit Portal")
-
-        builder.add(WitcheryBlocks.HAWTHORN_LOG.get(), "Hawthorn Log")
-        builder.add(WitcheryBlocks.HAWTHORN_WOOD.get(), "Hawthorn Wood")
-        builder.add(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get(), "Stripped Hawthorn Log")
-        builder.add(WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get(), "Stripped Hawthorn Wood")
-        builder.add(WitcheryBlocks.HAWTHORN_LEAVES.get(), "Hawthorn Leaves")
-        builder.add(WitcheryBlocks.HAWTHORN_PLANKS.get(), "Hawthorn Planks")
-        builder.add(WitcheryBlocks.HAWTHORN_STAIRS.get(), "Hawthorn Stairs")
-        builder.add(WitcheryBlocks.HAWTHORN_SLAB.get(), "Hawthorn Slab")
-        builder.add(WitcheryBlocks.HAWTHORN_FENCE.get(), "Hawthorn Fence")
-        builder.add(WitcheryBlocks.HAWTHORN_FENCE_GATE.get(), "Hawthorn Fence Gate")
-        builder.add(WitcheryBlocks.HAWTHORN_DOOR.get(), "Hawthorn Door")
-        builder.add(WitcheryBlocks.HAWTHORN_TRAPDOOR.get(), "Hawthorn Trapdoor")
-        builder.add(WitcheryBlocks.HAWTHORN_PRESSURE_PLATE.get(), "Hawthorn Pressure Plate")
-        builder.add(WitcheryBlocks.HAWTHORN_BUTTON.get(), "Hawthorn Button")
-        builder.add(WitcheryBlocks.HAWTHORN_SAPLING.get(), "Hawthorn Sapling")
-        builder.add(WitcheryBlocks.POTTED_HAWTHORN_SAPLING.get(), "Potted Hawthorn Sapling")
-        builder.add(WitcheryBlocks.HAWTHORN_SIGN.get(), "Hawthorn Sign")
-        builder.add(WitcheryBlocks.HAWTHORN_HANGING_SIGN.get(), "Hawthorn Hanging Sign")
-        builder.add(WitcheryItems.HAWTHORN_BOAT.get(), "Hawthorn Boat")
-        builder.add(WitcheryItems.HAWTHORN_CHEST_BOAT.get(), "Hawthorn Chest Boat")
-
-        builder.add(WitcheryBlocks.BLOOD_POPPY.get(), "Blood Poppy")
-        builder.add(WitcheryItems.BATWING_PENDANT.get(), "Batwing Pendant")
-        builder.add(WitcheryItems.MOON_CHARM.get(), "Moon Charm")
-        builder.add(WitcheryItems.WEREWOLF_ALTAR.get(), "Werewolf Altar")
-        builder.add(WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get(), "Werewolf Altar")
-        builder.add(WitcheryItems.SUNSTONE_PENDANT.get(), "Sunstone Pendant")
-        builder.add(WitcheryItems.BLOODSTONE_PENDANT.get(), "Bloodstone Pendant")
-        builder.add(WitcheryItems.DREAMWEAVER_CHARM.get(), "Dreamweaver Charm")
-        builder.add(WitcheryItems.BITING_BELT.get(), "Biting Belt")
-        builder.add(WitcheryItems.BARK_BELT.get(), "Bark Belt")
-
-        builder.add(WitcheryEntityTypes.MANDRAKE.get(), "Mandrake")
-        builder.add(WitcheryEntityTypes.SPECTRAL_PIG.get(), "Spectral Pig")
 
         builder.add("attribute.name.witchery.vampire_bat_form_duration", "Bat-form Duration")
         builder.add("attribute.name.witchery.vampire_drink_speed", "Blooding Drink Speed")
         builder.add("attribute.name.witchery.vampire_sun_resistance", "Sun Resistance")
-
-        builder.add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")
-        builder.add(WitcheryTags.ALDER_LOG_ITEMS, "Alder Logs")
-        builder.add(WitcheryTags.HAWTHORN_LOG_ITEMS, "Hawthorn Logs")
-        builder.add(WitcheryTags.LEAF_ITEMS, "Witchery Leaves")
-        builder.add(WitcheryTags.CANDELABRA_ITEMS, "Candelabras")
-        builder.add(WitcheryTags.PLACEABLE_POPPETS, "Placeable Poppets")
-        builder.add(WitcheryTags.FROM_SPIRIT_WORLD_TRANSFERABLE, "From Spirit World Transferable")
-        builder.add(WitcheryTags.TO_SPIRIT_WORLD_TRANSFERABLE, "To Spirit World Transferable")
 
         builder.add("entity.witchery.rowan_boat", "Rowan Boat")
         builder.add("entity.witchery.rowan_chest_boat", "Rowan Chest Boat")
@@ -453,7 +131,6 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         builder.add("entity.witchery.alder_chest_boat", "Alder Chest Boat")
         builder.add("entity.witchery.hawthorn_boat", "Hawthorn Boat")
         builder.add("entity.witchery.hawthorn_chest_boat", "Hawthorn Chest Boat")
-
 
         builder.add("advancements.witchery.seeds.title", "The Start")
         builder.add("advancements.witchery.seeds.description", "Expensive on Etsy")
