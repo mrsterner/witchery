@@ -43,6 +43,10 @@ import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.data.*
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
+import dev.sterner.witchery.handler.infusion.InfernalInfusionHandler
+import dev.sterner.witchery.handler.infusion.InfusionHandler
+import dev.sterner.witchery.handler.infusion.LightInfusionHandler
+import dev.sterner.witchery.handler.infusion.OtherwhereInfusionHandler
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.handler.vampire.VampireAbilityHandler
 import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
@@ -203,8 +207,8 @@ object Witchery {
         TickEvent.SERVER_POST.register(VampireChildrenHuntHandler::tickHuntAllLevels)
         TickEvent.PLAYER_POST.register(InfernalInfusionHandler::tick)
         TickEvent.PLAYER_PRE.register(BloodPoolHandler::tick)
-        TickEvent.PLAYER_PRE.register(LightInfusionPlayerAttachment::tick)
-        TickEvent.PLAYER_PRE.register(OtherwhereInfusionPlayerAttachment::tick)
+        TickEvent.PLAYER_PRE.register(LightInfusionHandler::tick)
+        TickEvent.PLAYER_PRE.register(OtherwhereInfusionHandler::tick)
         TickEvent.PLAYER_PRE.register(NightmareHandler::tick)
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
         TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)

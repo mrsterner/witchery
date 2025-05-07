@@ -1,6 +1,7 @@
 package dev.sterner.witchery.platform.infusion.fabric
 
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
+import dev.sterner.witchery.handler.infusion.LightInfusionHandler
 import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment
 import net.minecraft.world.entity.player.Player
 
@@ -10,7 +11,7 @@ object LightInfusionPlayerAttachmentImpl {
     fun setInvisible(player: Player, invisible: Boolean, invisibleTicks: Int) {
         val prevData = player.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.LIGHT_INFUSION_PLAYER_DATA_TYPE)
         if (!prevData.isInvisible && invisible) {
-            LightInfusionPlayerAttachment.poof(player)
+            LightInfusionHandler.poof(player)
         }
 
         val data = LightInfusionPlayerAttachment.Data(invisible, invisibleTicks)

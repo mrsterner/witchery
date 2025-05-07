@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.handler.infusion
 
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery

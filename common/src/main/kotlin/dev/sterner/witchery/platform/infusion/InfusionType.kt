@@ -1,7 +1,7 @@
 package dev.sterner.witchery.platform.infusion
 
 import com.mojang.serialization.Codec
-import dev.sterner.witchery.handler.InfusionHandler
+import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.handler.NecroHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

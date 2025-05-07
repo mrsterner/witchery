@@ -11,7 +11,7 @@ import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.handler.CurseHandler
 import dev.sterner.witchery.handler.FamiliarHandler
-import dev.sterner.witchery.handler.InfusionHandler
+import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood

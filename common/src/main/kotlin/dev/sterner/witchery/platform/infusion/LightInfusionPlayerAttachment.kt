@@ -38,31 +38,6 @@ object LightInfusionPlayerAttachment {
         }
     }
 
-    fun poof(player: Player) {
-        if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SpawnPoofParticles(
-                CompoundTag().apply {
-                    putUUID("Id", player.uuid)
-                }
-            ))
-        }
-    }
-
-    fun tick(player: Player?) {
-
-        if (player != null && InfusionPlayerAttachment.getPlayerInfusion(player).type == InfusionType.LIGHT) {
-            if (isInvisible(player).isInvisible) {
-                val ticks = isInvisible(player).invisibleTimer
-
-                if (ticks <= 0) {
-                    setInvisible(player, false, 0)
-                } else {
-                    setInvisible(player, true, ticks - 1)
-                }
-            }
-        }
-    }
-
     class Data(val isInvisible: Boolean = false, val invisibleTimer: Int = 0) {
 
         companion object {

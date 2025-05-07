@@ -1,7 +1,7 @@
 package dev.sterner.witchery.item
 
 import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.handler.InfusionHandler
+import dev.sterner.witchery.handler.infusion.InfusionHandler
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.LivingEntity

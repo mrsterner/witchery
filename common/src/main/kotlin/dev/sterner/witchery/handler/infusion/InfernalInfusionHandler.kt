@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.handler.infusion
 
 import dev.sterner.witchery.platform.infusion.CreatureType
 import dev.sterner.witchery.platform.infusion.InfernalInfusionPlayerAttachment.getData

@@ -3,6 +3,7 @@ package dev.sterner.witchery.handler
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.TickEvent
+import dev.sterner.witchery.payload.SpawnNecroParticlesS2CPayload
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.platform.EtherealEntityAttachment
 import dev.sterner.witchery.platform.NecromancerLevelAttachment
@@ -87,7 +88,7 @@ object NecroHandler {
             val y = blockCenter.y + offsetY
             val z = blockCenter.z + offsetZ
 
-            WitcheryPayloads.sendToPlayers(level, SpawnSmokeParticlesS2CPayload(Vec3(x, y, z)))
+            WitcheryPayloads.sendToPlayers(level, SpawnNecroParticlesS2CPayload(Vec3(x, y, z)))
         }
     }
 
@@ -133,7 +134,10 @@ object NecroHandler {
     private fun onDeath(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (livingEntity != null) {
             if (livingEntity.type.`is`(WitcheryTags.NECROMANCER_SUMMONABLE)) {
-                addNecro(livingEntity)
+                val isEthereal = EtherealEntityAttachment.getData(livingEntity).isEthereal
+                if (!isEthereal) {
+                    addNecro(livingEntity)
+                }
             }
         }
         return EventResult.pass()

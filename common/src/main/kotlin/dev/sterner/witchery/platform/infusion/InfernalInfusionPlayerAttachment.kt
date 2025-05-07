@@ -46,6 +46,5 @@ object InfernalInfusionPlayerAttachment {
             val ID: ResourceLocation = Witchery.id("infernal_infusion_data")
         }
 
-
     }
 }

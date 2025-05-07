@@ -37,20 +37,6 @@ object OtherwhereInfusionPlayerAttachment {
         }
     }
 
-    fun tick(player: Player?) {
-        if (player != null && InfusionPlayerAttachment.getPlayerInfusion(player).type == InfusionType.OTHERWHERE) {
-
-            val data = getInfusion(player)
-            val ticks = data.teleportCooldown
-
-            if (ticks <= 0) {
-                setInfusion(player, data.teleportHoldTicks, 0)
-            } else {
-                setInfusion(player, data.teleportHoldTicks, ticks - 1)
-            }
-        }
-    }
-
     class Data(val teleportHoldTicks: Int = 0, val teleportCooldown: Int = 0) {
 
         companion object {

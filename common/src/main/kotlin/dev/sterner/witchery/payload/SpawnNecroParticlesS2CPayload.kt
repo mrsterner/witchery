@@ -38,16 +38,14 @@ class SpawnNecroParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPayload 
 
 
         client.execute {
-            for (i in 0..32) {
-                client.level!!.addAlwaysVisibleParticle(
-                    ParticleTypes.SMOKE,
-                    true,
-                    x + 0.0 + Mth.nextDouble(client.level!!.random, -0.5, 0.5),
-                    (y + 1.0) + Mth.nextDouble(client.level!!.random, -1.25, 1.25),
-                    z + 0.0 + Mth.nextDouble(client.level!!.random, -0.5, 0.5),
-                    0.0, 0.2, 0.0
-                )
-            }
+            client.level!!.addAlwaysVisibleParticle(
+                ParticleTypes.SOUL,
+                true,
+                x + 0.0 + Mth.nextDouble(client.level!!.random, -0.5, 0.5),
+                (y + 0.0) + Mth.nextDouble(client.level!!.random, -0.5, 0.5),
+                z + 0.0 + Mth.nextDouble(client.level!!.random, -0.5, 0.5),
+                0.0, 0.01, 0.0
+            )
         }
     }
 
