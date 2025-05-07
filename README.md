@@ -1,4 +1,8 @@
 
+<div align="center">
+  <img src="fabric/src/main/resources/assets/logo.png" alt="Ritual Diagram" width="256"/>
+</div>
+
 # Witchery
 
 
