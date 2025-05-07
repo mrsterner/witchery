@@ -2,8 +2,8 @@ package dev.sterner.witchery.handler
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
-import dev.sterner.witchery.platform.TeleportQueueLevelAttachment
-import dev.sterner.witchery.platform.TeleportRequest
+import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
+import dev.sterner.witchery.platform.teleport.TeleportRequest
 import net.minecraft.core.BlockPos
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel

@@ -74,6 +74,28 @@ object WitcheryRenderTypes {
         )
     }
 
+    val GHOST = Util.memoize { resourceLocation: ResourceLocation ->
+        val compositeState: RenderType.CompositeState? =
+            RenderType.CompositeState.builder()
+                .setShaderState(ShaderStateShard(WitcheryShaders::ghost))
+                .setTextureState(TextureStateShard(resourceLocation, false, true))
+                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
+                .createCompositeState(true)
+        create(
+            Witchery.MODID + "ghost",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            BUFFER_SIZE,
+            true,
+            false,
+            compositeState!!
+        )
+    }
+
     val SPIRIT_PORTAL = Util.memoize { resourceLocation: ResourceLocation ->
         val compositeState: RenderType.CompositeState? =
             RenderType.CompositeState.builder()

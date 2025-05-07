@@ -9,4 +9,8 @@ object WitcheryShaders {
 
     @JvmField
     var chain: ShaderInstance? = null
+
+
+    @JvmField
+    var ghost: ShaderInstance? = null
 }

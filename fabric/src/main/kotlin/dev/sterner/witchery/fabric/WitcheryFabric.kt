@@ -213,6 +213,11 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
         ) { shaderInstance: ShaderInstance ->
             WitcheryShaders.chain = shaderInstance
         }
+        ctx.register(
+            Witchery.id("ghost"), DefaultVertexFormat.NEW_ENTITY
+        ) { shaderInstance: ShaderInstance ->
+            WitcheryShaders.ghost = shaderInstance
+        }
     }
 }
 

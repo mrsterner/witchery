@@ -5,11 +5,12 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.datafixers.util.Pair;
 import dev.sterner.witchery.api.EntityChainInterface;
 import dev.sterner.witchery.api.interfaces.OnRemovedEffect;
-import dev.sterner.witchery.entity.BansheeEntity;
 import dev.sterner.witchery.entity.ChainEntity;
 import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.mixin_logic.LivingEntityMixinLogic;
+import dev.sterner.witchery.platform.EtherealEntityAttachment;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
+import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -22,7 +23,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,6 +155,15 @@ public abstract class LivingEntityMixin extends Entity implements EntityChainInt
             self.yya = 0.0F;
             self.setJumping(false);
         }
+    }
+
+    @ModifyReturnValue(method = "shouldDropLoot", at = @At("RETURN"))
+    private boolean witchery$shouldDropLoot(boolean original) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (self.getType().is(WitcheryTags.INSTANCE.getNECROMANCER_SUMMONABLE())) {
+            return original && EtherealEntityAttachment.getData(self).getCanDropLoot();
+        }
+        return original;
     }
 }
 

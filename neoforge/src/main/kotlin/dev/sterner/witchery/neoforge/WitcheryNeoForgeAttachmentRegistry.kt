@@ -8,6 +8,7 @@ import dev.sterner.witchery.platform.infusion.LightInfusionData
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionData
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
+import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.transformation.*
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
@@ -40,6 +41,17 @@ object WitcheryNeoForgeAttachmentRegistry {
                     .build()
             }
         )
+
+    @JvmStatic
+    val ETHEREAL_DATA_ATTACHMENT: Supplier<AttachmentType<EtherealEntityAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "ethereal",
+        Supplier {
+            AttachmentType.builder(Supplier { EtherealEntityAttachment.Data() })
+                .serialize(EtherealEntityAttachment.Data.CODEC)
+                .copyOnDeath()
+                .build()
+        }
+    )
 
     @JvmStatic
     val INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfusionData>> = ATTACHMENT_TYPES.register(
@@ -124,6 +136,17 @@ object WitcheryNeoForgeAttachmentRegistry {
             Supplier {
                 AttachmentType.builder(Supplier { TeleportQueueLevelAttachment.Data() })
                     .serialize(TeleportQueueLevelAttachment.Data.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val NECRO_DATA_ATTACHMENT: Supplier<AttachmentType<NecromancerLevelAttachment.NecroList>> =
+        ATTACHMENT_TYPES.register(
+            "necro",
+            Supplier {
+                AttachmentType.builder(Supplier { NecromancerLevelAttachment.NecroList() })
+                    .serialize(NecromancerLevelAttachment.NecroList.CODEC)
                     .build()
             }
         )

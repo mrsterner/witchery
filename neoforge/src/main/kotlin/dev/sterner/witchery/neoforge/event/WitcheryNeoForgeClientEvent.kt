@@ -291,5 +291,10 @@ object WitcheryNeoForgeClientEvent {
         ) { shaderInstance ->
             WitcheryShaders.chain = shaderInstance
         }
+        event.registerShader(
+            ShaderInstance(event.resourceProvider, Witchery.id("ghost"), DefaultVertexFormat.NEW_ENTITY)
+        ) { shaderInstance ->
+            WitcheryShaders.ghost = shaderInstance
+        }
     }
 }

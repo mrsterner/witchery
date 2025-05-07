@@ -3,7 +3,7 @@ package dev.sterner.witchery.handler
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment.getData
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment.setData
-import dev.sterner.witchery.platform.TeleportRequest
+import dev.sterner.witchery.platform.teleport.TeleportRequest
 import dev.sterner.witchery.util.RenderUtils
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

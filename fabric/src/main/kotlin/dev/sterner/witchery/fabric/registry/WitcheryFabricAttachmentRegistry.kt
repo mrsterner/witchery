@@ -5,6 +5,7 @@ import dev.sterner.witchery.platform.infusion.*
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
+import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.transformation.*
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType
@@ -86,6 +87,13 @@ object WitcheryFabricAttachmentRegistry {
             .buildAndRegister(TeleportQueueLevelAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
+    val NECRO_DATA_ATTACHMENT: AttachmentType<NecromancerLevelAttachment.NecroList> =
+        AttachmentRegistry.builder<NecromancerLevelAttachment.NecroList>()
+            .persistent(NecromancerLevelAttachment.NecroList.CODEC)
+            .initializer { NecromancerLevelAttachment.NecroList() }
+            .buildAndRegister(NecromancerLevelAttachment.NecroList.ID)
+
+    @Suppress("UnstableApiUsage")
     val MISC_PLAYER_DATA_ATTACHMENT: AttachmentType<MiscPlayerAttachment.Data> =
         AttachmentRegistry.builder<MiscPlayerAttachment.Data>()
             .persistent(MiscPlayerAttachment.Data.CODEC)
@@ -137,6 +145,14 @@ object WitcheryFabricAttachmentRegistry {
             .persistent(NightmarePlayerAttachment.Data.CODEC)
             .initializer { NightmarePlayerAttachment.Data() }
             .buildAndRegister(NightmarePlayerAttachment.Data.ID)
+
+    @Suppress("UnstableApiUsage")
+    val ETHEREAL_DATA_TYPE: AttachmentType<EtherealEntityAttachment.Data> =
+        AttachmentRegistry.builder<EtherealEntityAttachment.Data>()
+            .persistent(EtherealEntityAttachment.Data.CODEC)
+            .copyOnDeath()
+            .initializer { EtherealEntityAttachment.Data() }
+            .buildAndRegister(EtherealEntityAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
     val VAMPIRE_PLAYER_DATA_TYPE: AttachmentType<VampirePlayerAttachment.Data> =

@@ -9,6 +9,7 @@ import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.mixin.PlayerInvoker
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.platform.*
+import dev.sterner.witchery.platform.teleport.TeleportRequest
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList

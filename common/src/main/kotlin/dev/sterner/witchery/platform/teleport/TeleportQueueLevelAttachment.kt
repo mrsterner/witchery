@@ -1,11 +1,10 @@
-package dev.sterner.witchery.platform
+package dev.sterner.witchery.platform.teleport
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
 
 object TeleportQueueLevelAttachment {
@@ -33,7 +32,7 @@ object TeleportQueueLevelAttachment {
                 instance.group(
                     Codec.list(TeleportRequest.CODEC).fieldOf("pendingTeleports")
                         .forGetter { it.pendingTeleports }
-                ).apply(instance, ::Data)
+                ).apply(instance, TeleportQueueLevelAttachment::Data)
             }
         }
     }

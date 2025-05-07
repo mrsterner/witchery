@@ -59,6 +59,7 @@ import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.InfernalInfusionData
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionDataAttachment
+import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.transformation.*
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryDataComponents.UNSHEETED
@@ -159,6 +160,7 @@ object Witchery {
         WerewolfEventHandler.registerEvents()
         CurseHandler.registerEvents()
         PotionHandler.registerEvents()
+        NecroHandler.registerEvents()
 
         ServerLevelTick.SERVER_LEVEL_POST.register(MutandisHandler::tick)
 

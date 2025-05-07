@@ -1,8 +1,8 @@
-package dev.sterner.witchery.platform.neoforge
+package dev.sterner.witchery.platform.teleport.neoforge
 
 
 import dev.sterner.witchery.neoforge.WitcheryNeoForgeAttachmentRegistry.TELEPORT_QUEUE_DATA_ATTACHMENT
-import dev.sterner.witchery.platform.TeleportQueueLevelAttachment.Data
+import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment.Data
 import net.minecraft.server.level.ServerLevel
 
 object TeleportQueueLevelAttachmentImpl {

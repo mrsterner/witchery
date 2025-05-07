@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.Block
 object MutandisLevelAttachmentImpl {
 
     @JvmStatic
-
     fun getMap(level: ServerLevel): MutableMap<BlockPos, MutandisLevelAttachment.MutandisData> {
         return level.getAttachedOrCreate(WitcheryFabricAttachmentRegistry.MUTANDIS_LEVEL_DATA_TYPE).mutandisCacheMap
     }

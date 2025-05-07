@@ -7,8 +7,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
+import dev.sterner.witchery.platform.EtherealEntityAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionDataAttachment;
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment;
+import dev.sterner.witchery.registry.WitcheryRenderTypes;
+import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -16,8 +18,10 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -78,5 +82,20 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             args.set(1, y * 0.75);
             args.set(2, z * 0.75);
         }
+    }
+
+    @ModifyReturnValue(
+            method = "getRenderType",
+            at = @At(value = "RETURN")
+    )
+    private RenderType witchery$necroMod(@Nullable RenderType original, @Local(argsOnly = true) T livingEntity){
+        if (livingEntity.getType().is(WitcheryTags.INSTANCE.getNECROMANCER_SUMMONABLE())) {
+            var bl = EtherealEntityAttachment.getData(livingEntity).isEthereal();
+            if (!bl) {
+                ResourceLocation resourceLocation = this.getTextureLocation(livingEntity);
+                return WitcheryRenderTypes.INSTANCE.getGHOST().apply(resourceLocation);
+            }
+        }
+        return original;
     }
 }

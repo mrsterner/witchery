@@ -58,4 +58,6 @@ object WitcheryTags {
     val WARPED_FUNGUS: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("warped_fungus"))
     val VINES: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("vines"))
     val WITCH_CIRCLE_BIOMES = TagKey.create(Registries.BIOME, Witchery.id("witch_circle_biomes"))
+
+    val NECROMANCER_SUMMONABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("necromancer_summonable"))
 }
