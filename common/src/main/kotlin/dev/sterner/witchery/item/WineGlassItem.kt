@@ -4,6 +4,7 @@ import dev.architectury.event.EventResult
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.entity.LilithEntity
+import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.vampire.VampireLeveling.canPerformQuest
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
@@ -46,7 +47,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
                 val data = VampirePlayerAttachment.getData(livingEntity)
                 if (data.getVampireLevel() == 0) {
                     VampireLeveling.increaseVampireLevel(player = livingEntity)
-                    BloodPoolLivingEntityAttachment.increaseBlood(
+                    BloodPoolHandler.increaseBlood(
                         livingEntity = livingEntity,
                         WitcheryConstants.BLOOD_DROP
                     )

@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.MobAccessor;
-import dev.sterner.witchery.data.BloodPoolHandler;
+import dev.sterner.witchery.data.BloodPoolReloadListener;
 import dev.sterner.witchery.entity.goal.DisorientationGoal;
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.util.WitcheryConstants;
@@ -33,7 +33,7 @@ public abstract class MobMixin extends LivingEntity implements MobAccessor {
         Mob mob = Mob.class.cast(this);
 
         var data = BloodPoolLivingEntityAttachment.getData(mob);
-        var bloodJson = BloodPoolHandler.INSTANCE.getBLOOD_PAIR();
+        var bloodJson = BloodPoolReloadListener.INSTANCE.getBLOOD_PAIR();
         if (data.getMaxBlood() == 0 && data.getBloodPool() == 0) {
             var entityType = mob.getType();
             var bloodValue = bloodJson.get(entityType);

@@ -1,7 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.NaturePowerBlockData
+import dev.sterner.witchery.data.NaturePowerReloadListener
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
@@ -17,12 +17,12 @@ import java.util.function.BiConsumer
 class WitcheryNatureBlockProvider(
     dataOutput: FabricDataOutput?,
     registriesFuture: CompletableFuture<HolderLookup.Provider>?
-) : FabricCodecDataProvider<NaturePowerBlockData>(
+) : FabricCodecDataProvider<NaturePowerReloadListener.Data>(
     dataOutput,
     registriesFuture,
     PackOutput.Target.DATA_PACK,
     DIRECTORY,
-    NaturePowerBlockData.CODEC
+    NaturePowerReloadListener.Data.CODEC
 ) {
 
     companion object {
@@ -34,7 +34,7 @@ class WitcheryNatureBlockProvider(
     }
 
     override fun configure(
-        provider: BiConsumer<ResourceLocation, NaturePowerBlockData>,
+        provider: BiConsumer<ResourceLocation, NaturePowerReloadListener.Data>,
         lookup: HolderLookup.Provider?
     ) {
         makeBlock(provider, Blocks.GRASS_BLOCK, 2, 80)
@@ -117,12 +117,12 @@ class WitcheryNatureBlockProvider(
     }
 
     private fun makeBlock(
-        provider: BiConsumer<ResourceLocation, NaturePowerBlockData>,
+        provider: BiConsumer<ResourceLocation, NaturePowerReloadListener.Data>,
         block: Block,
         power: Int,
         limit: Int
     ) {
         val id = BuiltInRegistries.BLOCK.getKey(block)
-        provider.accept(Witchery.id(id.path), NaturePowerBlockData(id, power, limit))
+        provider.accept(Witchery.id(id.path), NaturePowerReloadListener.Data(id, power, limit))
     }
 }

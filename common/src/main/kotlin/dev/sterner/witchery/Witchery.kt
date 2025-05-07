@@ -45,6 +45,7 @@ import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.handler.vampire.VampireAbilityHandler
+import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfAbilityHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
@@ -105,7 +106,7 @@ object Witchery {
 
     @JvmStatic
     fun init() {
-        PotionDataHandler.registerListener()
+        PotionDataReloadListener.registerListener()
         WitcheryCurseRegistry.init()
         WitcheryFetishEffects.init()
         WitcheryRitualRegistry.init()
@@ -150,10 +151,10 @@ object Witchery {
 
         MODIFY_LOOT_TABLE.register(::addSeeds)
 
-        FetishEffectHandler.registerListener()
-        NaturePowerHandler.registerListener()
-        ErosionHandler.registerListener()
-        BloodPoolHandler.registerListener()
+        FetishEffectReloadListener.registerListener()
+        NaturePowerReloadListener.registerListener()
+        ErosionReloadListener.registerListener()
+        BloodPoolReloadListener.registerListener()
 
         WitcheryModonomiconLoaders.register()
 
@@ -176,7 +177,7 @@ object Witchery {
         EntityEvent.LIVING_DEATH.register(CaneSwordItem::harvestBlood)
         EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
         EntityEvent.LIVING_HURT.register(BitingBeltItem::usePotion)
-        EntityEvent.ADD.register(BloodPoolLivingEntityAttachment::setBloodOnAdded)
+        EntityEvent.ADD.register(BloodPoolHandler::setBloodOnAdded)
 
         SleepingEvent.POST.register(DreamWeaverHandler::onWake)
 
@@ -199,9 +200,9 @@ object Witchery {
         TickEvent.SERVER_POST.register(WitcherySpecialPotionEffects::serverTick)
         TickEvent.SERVER_POST.register(TeleportQueueHandler::processQueue)
         TickEvent.SERVER_POST.register(ManifestationHandler::tick)
-        TickEvent.SERVER_POST.register(VampireChildrenHuntLevelAttachment::tickHuntAllLevels)
+        TickEvent.SERVER_POST.register(VampireChildrenHuntHandler::tickHuntAllLevels)
         TickEvent.PLAYER_POST.register(InfernalInfusionHandler::tick)
-        TickEvent.PLAYER_PRE.register(BloodPoolLivingEntityAttachment::tick)
+        TickEvent.PLAYER_PRE.register(BloodPoolHandler::tick)
         TickEvent.PLAYER_PRE.register(LightInfusionPlayerAttachment::tick)
         TickEvent.PLAYER_PRE.register(OtherwhereInfusionPlayerAttachment::tick)
         TickEvent.PLAYER_PRE.register(NightmareHandler::tick)

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.item.brew
 
-import dev.sterner.witchery.data.ErosionHandler
+import dev.sterner.witchery.data.ErosionReloadListener
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Vec3i
 import net.minecraft.world.level.Level
@@ -24,7 +24,7 @@ class BrewOfErosionItem(color: Int, properties: Properties) : ThrowableBrewItem(
             val blockState = level.getBlockState(pos)
             val fromBlock = blockState.block
 
-            val toBlock = ErosionHandler.EROSION_PAIR[fromBlock]
+            val toBlock = ErosionReloadListener.EROSION_PAIR[fromBlock]
             if (toBlock != null) {
                 var toBlockState = toBlock.defaultBlockState()
 

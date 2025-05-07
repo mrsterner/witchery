@@ -1,6 +1,6 @@
 package dev.sterner.witchery.fabric.datagen
 
-import dev.sterner.witchery.data.NaturePowerBlockData
+import dev.sterner.witchery.data.NaturePowerReloadListener
 import dev.sterner.witchery.registry.WitcheryTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
@@ -17,12 +17,12 @@ import java.util.function.BiConsumer
 class WitcheryNatureBlockTagProvider(
     dataOutput: FabricDataOutput?,
     registriesFuture: CompletableFuture<HolderLookup.Provider>?
-) : FabricCodecDataProvider<NaturePowerBlockData>(
+) : FabricCodecDataProvider<NaturePowerReloadListener.Data>(
     dataOutput,
     registriesFuture,
     PackOutput.Target.DATA_PACK,
     DIRECTORY,
-    NaturePowerBlockData.TAG_CODEC
+    NaturePowerReloadListener.Data.TAG_CODEC
 ) {
 
     companion object {
@@ -34,7 +34,7 @@ class WitcheryNatureBlockTagProvider(
     }
 
     override fun configure(
-        provider: BiConsumer<ResourceLocation, NaturePowerBlockData>,
+        provider: BiConsumer<ResourceLocation, NaturePowerReloadListener.Data>,
         lookup: HolderLookup.Provider?
     ) {
         makeTag(provider, BlockTags.SAPLINGS, 4, 20)
@@ -68,11 +68,11 @@ class WitcheryNatureBlockTagProvider(
     }
 
     private fun makeTag(
-        provider: BiConsumer<ResourceLocation, NaturePowerBlockData>,
+        provider: BiConsumer<ResourceLocation, NaturePowerReloadListener.Data>,
         tag: TagKey<Block>,
         power: Int,
         limit: Int
     ) {
-        provider.accept(tag.location, NaturePowerBlockData(tag.location, power, limit))
+        provider.accept(tag.location, NaturePowerReloadListener.Data(tag.location, power, limit))
     }
 }

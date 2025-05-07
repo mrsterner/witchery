@@ -1,6 +1,7 @@
 package dev.sterner.witchery.entity.goal
 
 import dev.sterner.witchery.entity.VampireEntity
+import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.ai.goal.Goal
@@ -12,7 +13,7 @@ class NightHuntGoal(val vampire: VampireEntity) : Goal() {
             val serverLevel = vampire.level() as ServerLevel
             val bl = (vampire.creationPos != null) || (vampire.coffinPos != null)
             if (bl && vampire.getOwnerUUID() != null) {
-                VampireChildrenHuntLevelAttachment.tryStarHunt(serverLevel, vampire, vampire.getOwnerUUID()!!)
+                VampireChildrenHuntHandler.tryStarHunt(serverLevel, vampire, vampire.getOwnerUUID()!!)
                 return true
             }
         }

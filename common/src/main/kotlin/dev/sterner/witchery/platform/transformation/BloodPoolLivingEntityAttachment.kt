@@ -2,21 +2,15 @@ package dev.sterner.witchery.platform.transformation
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.event.EventResult
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.BloodPoolHandler
-import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SyncBloodS2CPacket
 import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.Level
 
 object BloodPoolLivingEntityAttachment {
 
@@ -32,93 +26,12 @@ object BloodPoolLivingEntityAttachment {
         throw AssertionError()
     }
 
-    @JvmStatic
-    fun increaseBlood(livingEntity: LivingEntity, amount: Int) {
-        val data = getData(livingEntity)
-        val maxBlood = data.maxBlood
-        val newBloodPool = (data.bloodPool + amount).coerceAtMost(maxBlood)
-        setData(livingEntity, data.copy(bloodPool = newBloodPool))
-
-        if (livingEntity is ServerPlayer) {
-            if (VampirePlayerAttachment.getData(livingEntity).getVampireLevel() == 1 && newBloodPool == 900) {
-                VampireLeveling.increaseVampireLevel(livingEntity)
-            }
-        }
-    }
-
-    @JvmStatic
-    fun decreaseBlood(livingEntity: LivingEntity, amount: Int) {
-        val data = getData(livingEntity)
-        val newBloodPool = (data.bloodPool - amount).coerceAtLeast(0)
-        setData(livingEntity, data.copy(bloodPool = newBloodPool))
-    }
-
     fun sync(livingEntity: LivingEntity, data: Data) {
         if (livingEntity.level() is ServerLevel) {
             if (livingEntity is Player) {
                 WitcheryPayloads.sendToPlayers(livingEntity.level(), SyncBloodS2CPacket(livingEntity, data))
             } else {
                 WitcheryPayloads.sendToPlayers(livingEntity.level(), SyncOtherBloodS2CPacket(livingEntity, data))
-            }
-        }
-    }
-
-    private var ticker = 0
-
-    fun tick(player: Player?) {
-
-        if (player != null && player.level() is ServerLevel) {
-
-            val bl = VampirePlayerAttachment.getData(player).getVampireLevel() > 0
-            if (bl) {
-                ticker++
-                if (ticker > 10) {
-                    ticker = 0
-                    val entities = player.level().getEntities(player, player.boundingBox.inflate(5.0)).filter {
-                        it.isAlive &&
-                                it is LivingEntity &&
-                                it != player &&
-                                BloodPoolHandler.BLOOD_PAIR.contains(it.type)
-                    }
-                    for (entity in entities) {
-                        sync(entity as LivingEntity, getData(entity))
-                    }
-                    sync(player, getData(player))
-                }
-            }
-        }
-    }
-
-    fun setBloodOnAdded(entity: Entity?, level: Level?): EventResult? {
-        if (entity is LivingEntity) {
-            val data = getData(entity)
-            val bloodJson = BloodPoolHandler.BLOOD_PAIR
-            if (data.maxBlood == 0 && data.bloodPool == 0) {
-                val entityType = entity.type
-                val bloodValue = bloodJson[entityType]
-
-                if (bloodValue != null) {
-                    val maxBlood = bloodValue.bloodDrops * 300
-                    val initializedData = data.copy(maxBlood = maxBlood, bloodPool = maxBlood)
-                    setData(entity, initializedData)
-                }
-            }
-        }
-
-        return EventResult.pass()
-    }
-
-    fun tickBloodRegen(livingEntity: LivingEntity) {
-        if (livingEntity is Player || livingEntity.level().isClientSide) {
-            return
-        }
-        if (BloodPoolHandler.BLOOD_PAIR.contains(livingEntity.type)) {
-            val bloodData = getData(livingEntity)
-            if (bloodData.bloodPool < bloodData.maxBlood && bloodData.maxBlood > 0) {
-                if (livingEntity.tickCount % 1000 == 0) {
-                    val bloodPool = BloodPoolHandler.BLOOD_PAIR[livingEntity.type]
-                    increaseBlood(livingEntity, (bloodPool!!.qualityBloodDrops + 1) * 2)
-                }
             }
         }
     }

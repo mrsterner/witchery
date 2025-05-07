@@ -4,6 +4,7 @@ import dev.sterner.witchery.entity.goal.DrinkBloodTargetingGoal
 import dev.sterner.witchery.entity.goal.NightHuntGoal
 import dev.sterner.witchery.entity.goal.VampireEscapeSunGoal
 import dev.sterner.witchery.entity.goal.VampireHurtByTargetGoal
+import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDamageSources
@@ -76,8 +77,8 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         if (bl && target is LivingEntity && pool.bloodPool < pool.maxBlood) {
             val targetBlood = BloodPoolLivingEntityAttachment.getData(target)
             if (targetBlood.maxBlood > 0) {
-                BloodPoolLivingEntityAttachment.increaseBlood(this, 10)
-                BloodPoolLivingEntityAttachment.decreaseBlood(target, 10)
+                BloodPoolHandler.increaseBlood(this, 10)
+                BloodPoolHandler.decreaseBlood(target, 10)
             }
 
         }
@@ -98,7 +99,7 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
             if (inSunTick >= 80) {
                 if (this.tickCount % 20 == 0) {
                     this.hurt(sunDamageSource, 1f)
-                    BloodPoolLivingEntityAttachment.decreaseBlood(this, 10)
+                    BloodPoolHandler.decreaseBlood(this, 10)
                     this.remainingFireTicks = 20
                     this.level().playSound(
                         null,
@@ -119,7 +120,7 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         val bloodData = BloodPoolLivingEntityAttachment.getData(this)
         if (bloodData.bloodPool >= 75 && this.level().random.nextBoolean()) {
             if (this.health < this.maxHealth && this.health > 0) {
-                BloodPoolLivingEntityAttachment.decreaseBlood(this, 75)
+                BloodPoolHandler.decreaseBlood(this, 75)
                 this.heal(1f)
             }
         }

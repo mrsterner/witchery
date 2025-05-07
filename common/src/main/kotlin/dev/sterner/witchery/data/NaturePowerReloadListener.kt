@@ -5,7 +5,9 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.mojang.datafixers.util.Either
 import com.mojang.logging.LogUtils
+import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -23,7 +25,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.Executor
 
-object NaturePowerHandler {
+object NaturePowerReloadListener {
     private val LOGGER = LogUtils.getLogger()
     private val LOADER = NaturePowerLoader()
     private val NATURE_POWER_VALUES = mutableMapOf<Either<Block, TagKey<Block>>, Pair<Int, Int>>()
@@ -31,12 +33,12 @@ object NaturePowerHandler {
     /**
      * Do not touch. This is simply used to handle tags AFTER they are loaded!
      */
-    val tagQueue = ConcurrentLinkedQueue<NaturePowerBlockData>()
+    val tagQueue = ConcurrentLinkedQueue<Data>()
 
     /**
      * Do not touch. This is simply used to handle blocks AFTER tags are handled!
      */
-    val blockQueue = ConcurrentLinkedQueue<NaturePowerBlockData>()
+    val blockQueue = ConcurrentLinkedQueue<Data>()
 
     /**
      * This method gets the base power provided by the given Block.
@@ -160,7 +162,7 @@ object NaturePowerHandler {
                     return
                 }
                 tagQueue.add(
-                    NaturePowerBlockData.TAG_CODEC.decode(JsonOps.INSTANCE, json)
+                    Data.TAG_CODEC.decode(JsonOps.INSTANCE, json)
                         .getOrThrow(::IllegalArgumentException).first
                 )
             } else if (block != null) {
@@ -168,7 +170,7 @@ object NaturePowerHandler {
                     LOGGER.error("Invalid ResourceLocation of $block in $file")
                     return
                 }
-                val data = NaturePowerBlockData.CODEC.decode(JsonOps.INSTANCE, json)
+                val data = Data.CODEC.decode(JsonOps.INSTANCE, json)
                     .getOrThrow(::IllegalArgumentException).first
 
                 val block = BuiltInRegistries.BLOCK.getOptional(data.block)
@@ -179,6 +181,38 @@ object NaturePowerHandler {
                     LOGGER.error("Invalid Block ${data.block} from file $file!!!! Skipping it...")
             } else
                 LOGGER.error("JSON missing block or tag in file $file!!!! Skipping it...")
+        }
+    }
+
+    class Data(val block: ResourceLocation, val power: Int, val limit: Int) {
+
+        companion object {
+
+            val CODEC: Codec<Data> =
+                RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Data> ->
+                    instance.group(
+                        ResourceLocation.CODEC.fieldOf("block").forGetter(Data::block),
+                        Codec.INT.fieldOf("power").forGetter(Data::power),
+                        Codec.INT.fieldOf("limit").forGetter(Data::limit)
+                    ).apply(
+                        instance
+                    ) { name, parentCombinations, mutationChance ->
+                        Data(name, parentCombinations, mutationChance)
+                    }
+                }
+
+            val TAG_CODEC: Codec<Data> =
+                RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Data> ->
+                    instance.group(
+                        ResourceLocation.CODEC.fieldOf("tag").forGetter(Data::block),
+                        Codec.INT.fieldOf("power").forGetter(Data::power),
+                        Codec.INT.fieldOf("limit").forGetter(Data::limit)
+                    ).apply(
+                        instance
+                    ) { name, parentCombinations, mutationChance ->
+                        Data(name, parentCombinations, mutationChance)
+                    }
+                }
         }
     }
 }

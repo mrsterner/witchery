@@ -14,18 +14,18 @@ import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener
 import net.minecraft.util.profiling.ProfilerFiller
-import net.minecraft.world.level.block.Block
+import net.minecraft.world.entity.EntityType
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
-object ErosionHandler {
+object BloodPoolReloadListener {
 
-    val LOADER = ErosionResourceReloadListener(Gson(), "erosion")
-    val EROSION_PAIR = mutableMapOf<Block, Block>()
+    val LOADER = BloodPoolResourceReloadListener(Gson(), "blood_pool")
+    val BLOOD_PAIR = mutableMapOf<EntityType<*>, BloodData>()
 
     fun registerListener() {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
-            override fun getName() = "erosion"
+            override fun getName() = "blood_pool"
 
             override fun reload(
                 preparationBarrier: PreparableReloadListener.PreparationBarrier,
@@ -47,7 +47,7 @@ object ErosionHandler {
         })
     }
 
-    class ErosionResourceReloadListener(gson: Gson, directory: String) :
+    class BloodPoolResourceReloadListener(gson: Gson, directory: String) :
         SimpleJsonResourceReloadListener(gson, directory) {
 
         override fun apply(
@@ -69,36 +69,34 @@ object ErosionHandler {
         }
 
         private fun parseJson(json: JsonObject, file: ResourceLocation) {
-            val blockJson = json.get("fromBlock")?.asString
-            val targetJson = json.get("toBlock")?.asString
-            if (blockJson != null) {
-                if (ResourceLocation.tryParse(blockJson) == null || ResourceLocation.tryParse(targetJson) == null) {
+            val entityJson = json.get("entityType")?.asString
+            val bloodJson = json.get("bloodDrops")?.asString
+            if (entityJson != null) {
+                if (ResourceLocation.tryParse(entityJson) == null || ResourceLocation.tryParse(bloodJson) == null) {
                     return
                 }
-                val data = ErosionData.CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(::IllegalArgumentException).first
+                val data = BloodData.CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(::IllegalArgumentException).first
 
-                val fromBlock = BuiltInRegistries.BLOCK.getOptional(data.fromBlock)
-                val toBlock = BuiltInRegistries.BLOCK.getOptional(data.toBlock)
+                val entity = data.entity
 
-                if (fromBlock.isPresent && toBlock.isPresent) {
-                    EROSION_PAIR[fromBlock.get()] = toBlock.get()
-                }
+                BLOOD_PAIR[entity] = data
             }
         }
     }
 
-    data class ErosionData(val fromBlock: ResourceLocation, val toBlock: ResourceLocation) {
+    data class BloodData(val entity: EntityType<*>, val bloodDrops: Int, val qualityBloodDrops: Int) {
 
         companion object {
-            val CODEC: Codec<ErosionData> =
-                RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<ErosionData> ->
+            val CODEC: Codec<BloodData> =
+                RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<BloodData> ->
                     instance.group(
-                        ResourceLocation.CODEC.fieldOf("fromBlock").forGetter(ErosionData::fromBlock),
-                        ResourceLocation.CODEC.fieldOf("toBlock").forGetter(ErosionData::toBlock),
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityType").forGetter(BloodData::entity),
+                        Codec.INT.fieldOf("bloodDrops").forGetter(BloodData::bloodDrops),
+                        Codec.INT.fieldOf("qualityBloodDrops").forGetter(BloodData::qualityBloodDrops),
                     ).apply(
                         instance
-                    ) { fromBlock, toBlock ->
-                        ErosionData(fromBlock, toBlock)
+                    ) { entity, bloodDrops, qualityBloodDrops ->
+                        BloodData(entity, bloodDrops, qualityBloodDrops)
                     }
                 }
         }

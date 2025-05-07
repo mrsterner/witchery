@@ -8,7 +8,7 @@ import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.ChaliceBlock
-import dev.sterner.witchery.data.NaturePowerHandler
+import dev.sterner.witchery.data.NaturePowerReloadListener
 import dev.sterner.witchery.menu.AltarMenu
 import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
@@ -111,8 +111,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         val aabb = getLocalAABB()
         level.getBlockStatesIfLoaded(aabb).forEach { state ->
 
-            val power = NaturePowerHandler.getPower(state) ?: return@forEach
-            val limit = NaturePowerHandler.getLimit(state) ?: return@forEach
+            val power = NaturePowerReloadListener.getPower(state) ?: return@forEach
+            val limit = NaturePowerReloadListener.getLimit(state) ?: return@forEach
             if (limitTracker.getOrDefault(limit.first, 0) >= limit.second)
                 return@forEach
             maxPower += power

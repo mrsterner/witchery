@@ -1,6 +1,6 @@
 package dev.sterner.witchery.entity.goal
 
-import dev.sterner.witchery.data.BloodPoolHandler
+import dev.sterner.witchery.data.BloodPoolReloadListener
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity
@@ -24,7 +24,7 @@ class DrinkBloodTargetingGoal<T : LivingEntity?>(mob: Mob, targetClass: Class<T>
     override fun findTarget() {
         if (targetType != Player::class.java && targetType != ServerPlayer::class.java) {
             val entities = mob.level().getEntitiesOfClass(targetType, getTargetSearchArea(this.followDistance)) {
-                BloodPoolHandler.BLOOD_PAIR.contains(it.type)
+                BloodPoolReloadListener.BLOOD_PAIR.contains(it.type)
             }
             target = mob.level().getNearestEntity(entities, targetConditions, mob, mob.x, mob.eyeY, mob.z)
 

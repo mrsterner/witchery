@@ -1,7 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.BloodPoolHandler
+import dev.sterner.witchery.data.BloodPoolReloadListener
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
@@ -16,12 +16,12 @@ import java.util.function.BiConsumer
 class WitcheryBloodProvider(
     dataOutput: FabricDataOutput?,
     registriesFuture: CompletableFuture<HolderLookup.Provider>?
-) : FabricCodecDataProvider<BloodPoolHandler.BloodData>(
+) : FabricCodecDataProvider<BloodPoolReloadListener.BloodData>(
     dataOutput,
     registriesFuture,
     PackOutput.Target.DATA_PACK,
     DIRECTORY,
-    BloodPoolHandler.BloodData.CODEC
+    BloodPoolReloadListener.BloodData.CODEC
 ) {
 
     companion object {
@@ -33,7 +33,7 @@ class WitcheryBloodProvider(
     }
 
     override fun configure(
-        provider: BiConsumer<ResourceLocation, BloodPoolHandler.BloodData>,
+        provider: BiConsumer<ResourceLocation, BloodPoolReloadListener.BloodData>,
         lookup: HolderLookup.Provider?
     ) {
         makeBlood(provider, EntityType.PLAYER, 3, 2)
@@ -90,12 +90,12 @@ class WitcheryBloodProvider(
     // 1 normal: cant fill to max, (from sheep)
     // 2 pure: fill to max (from villagers)
     private fun makeBlood(
-        provider: BiConsumer<ResourceLocation, BloodPoolHandler.BloodData>,
+        provider: BiConsumer<ResourceLocation, BloodPoolReloadListener.BloodData>,
         entityType: EntityType<*>,
         bloodDrops: Int,
         quality: Int
     ) {
         val fromId = BuiltInRegistries.ENTITY_TYPE.getKey(entityType)
-        provider.accept(Witchery.id(fromId.path), BloodPoolHandler.BloodData(entityType, bloodDrops, quality))
+        provider.accept(Witchery.id(fromId.path), BloodPoolReloadListener.BloodData(entityType, bloodDrops, quality))
     }
 }

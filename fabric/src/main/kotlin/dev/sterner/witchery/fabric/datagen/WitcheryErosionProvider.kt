@@ -1,7 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.ErosionHandler
+import dev.sterner.witchery.data.ErosionReloadListener
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
 import net.minecraft.core.HolderLookup
@@ -16,12 +16,12 @@ import java.util.function.BiConsumer
 class WitcheryErosionProvider(
     dataOutput: FabricDataOutput?,
     registriesFuture: CompletableFuture<HolderLookup.Provider>?
-) : FabricCodecDataProvider<ErosionHandler.ErosionData>(
+) : FabricCodecDataProvider<ErosionReloadListener.ErosionData>(
     dataOutput,
     registriesFuture,
     PackOutput.Target.DATA_PACK,
     DIRECTORY,
-    ErosionHandler.ErosionData.CODEC
+    ErosionReloadListener.ErosionData.CODEC
 ) {
 
     companion object {
@@ -33,7 +33,7 @@ class WitcheryErosionProvider(
     }
 
     override fun configure(
-        provider: BiConsumer<ResourceLocation, ErosionHandler.ErosionData>,
+        provider: BiConsumer<ResourceLocation, ErosionReloadListener.ErosionData>,
         lookup: HolderLookup.Provider?
     ) {
 
@@ -72,12 +72,12 @@ class WitcheryErosionProvider(
     }
 
     private fun makeBlock(
-        provider: BiConsumer<ResourceLocation, ErosionHandler.ErosionData>,
+        provider: BiConsumer<ResourceLocation, ErosionReloadListener.ErosionData>,
         from: Block,
         to: Block
     ) {
         val fromId = BuiltInRegistries.BLOCK.getKey(from)
         val toId = BuiltInRegistries.BLOCK.getKey(to)
-        provider.accept(Witchery.id(fromId.path), ErosionHandler.ErosionData(fromId, toId))
+        provider.accept(Witchery.id(fromId.path), ErosionReloadListener.ErosionData(fromId, toId))
     }
 }

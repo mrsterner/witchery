@@ -1,7 +1,7 @@
 package dev.sterner.witchery.fabric.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.FetishEffectHandler
+import dev.sterner.witchery.data.FetishEffectReloadListener
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider
 import net.minecraft.core.HolderLookup
@@ -13,12 +13,12 @@ import java.util.function.BiConsumer
 class WitcheryFetishProvider(
     dataOutput: FabricDataOutput?,
     registriesFuture: CompletableFuture<HolderLookup.Provider>?
-) : FabricCodecDataProvider<FetishEffectHandler.Data>(
+) : FabricCodecDataProvider<FetishEffectReloadListener.Data>(
     dataOutput,
     registriesFuture,
     PackOutput.Target.DATA_PACK,
     DIRECTORY,
-    FetishEffectHandler.Data.CODEC
+    FetishEffectReloadListener.Data.CODEC
 ) {
 
     companion object {
@@ -30,12 +30,12 @@ class WitcheryFetishProvider(
     }
 
     override fun configure(
-        provider: BiConsumer<ResourceLocation, FetishEffectHandler.Data>,
+        provider: BiConsumer<ResourceLocation, FetishEffectReloadListener.Data>,
         lookup: HolderLookup.Provider?
     ) {
         provider.accept(
             Witchery.id("shrieking"),
-            FetishEffectHandler.Data(
+            FetishEffectReloadListener.Data(
                 specterCount = 3,
                 bansheeCount = 2,
                 effectLocation = Witchery.id("shrieking")
@@ -43,7 +43,7 @@ class WitcheryFetishProvider(
         )
         provider.accept(
             Witchery.id("ghost_walking"),
-            FetishEffectHandler.Data(
+            FetishEffectReloadListener.Data(
                 spiritCount = 3,
                 specterCount = 1,
                 bansheeCount = 1,
@@ -52,7 +52,7 @@ class WitcheryFetishProvider(
         )
         provider.accept(
             Witchery.id("disorientation"),
-            FetishEffectHandler.Data(
+            FetishEffectReloadListener.Data(
                 spiritCount = 3,
                 poltergeistCount = 2,
                 effectLocation = Witchery.id("disorientation")
@@ -60,7 +60,7 @@ class WitcheryFetishProvider(
         )
         provider.accept(
             Witchery.id("sentinel"),
-            FetishEffectHandler.Data(
+            FetishEffectReloadListener.Data(
                 spiritCount = 3,
                 specterCount = 3,
                 effectLocation = Witchery.id("sentinel")
@@ -68,7 +68,7 @@ class WitcheryFetishProvider(
         )
         provider.accept(
             Witchery.id("voodoo_protection"),
-            FetishEffectHandler.Data(
+            FetishEffectReloadListener.Data(
                 spiritCount = 3,
                 specterCount = 1,
                 bansheeCount = 1,
@@ -78,7 +78,7 @@ class WitcheryFetishProvider(
         )
         provider.accept(
             Witchery.id("summon_death"),
-            FetishEffectHandler.Data(
+            FetishEffectReloadListener.Data(
                 spiritCount = 5,
                 specterCount = 5,
                 bansheeCount = 5,

@@ -2,7 +2,8 @@ package dev.sterner.witchery.item
 
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.api.client.BloodPoolComponent
-import dev.sterner.witchery.data.BloodPoolHandler
+import dev.sterner.witchery.data.BloodPoolReloadListener
+import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
@@ -91,7 +92,7 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
 
                 val transferableBlood = minOf(storedBlood, maxBlood - currentBlood)
                 if (transferableBlood > 0) {
-                    BloodPoolLivingEntityAttachment.increaseBlood(livingEntity, transferableBlood)
+                    BloodPoolHandler.increaseBlood(livingEntity, transferableBlood)
                     stack.set(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get(), storedBlood - transferableBlood)
                     return stack
                 }
@@ -125,12 +126,12 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
         const val MAX_STORED_BLOOD = WitcheryConstants.BLOOD_DROP * 2
 
         fun harvestBlood(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
-            if (livingEntity != null && BloodPoolHandler.BLOOD_PAIR.contains(livingEntity.type)) {
+            if (livingEntity != null && BloodPoolReloadListener.BLOOD_PAIR.contains(livingEntity.type)) {
                 if (damageSource?.entity is Player) {
                     val player = damageSource.entity as Player
                     if (player.mainHandItem.`is`(WitcheryItems.CANE_SWORD.get())) {
                         val cane = player.mainHandItem.copy()
-                        val drops = BloodPoolHandler.BLOOD_PAIR[livingEntity.type]!!.bloodDrops
+                        val drops = BloodPoolReloadListener.BLOOD_PAIR[livingEntity.type]!!.bloodDrops
                         val absorbedAmount = (drops * WitcheryConstants.BLOOD_DROP) / 20
                         val oldBloodValue = cane.get(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get()) ?: 0
                         val finalValue = min(oldBloodValue + absorbedAmount, MAX_STORED_BLOOD)

@@ -2,7 +2,7 @@ package dev.sterner.witchery.block.effigy
 
 import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.data.FetishEffectHandler
+import dev.sterner.witchery.data.FetishEffectReloadListener
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -44,10 +44,10 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             if (state != EffigyState.IDLE) {
                 val newMatch =
-                    FetishEffectHandler.findMatchingEffect(spiritCount, bansheeCount, specterCount, poltergeistCount)
+                    FetishEffectReloadListener.findMatchingEffect(spiritCount, bansheeCount, specterCount, poltergeistCount)
                 if (newMatch != matchedEffect) {
                     matchedEffect = newMatch
-                    effect = matchedEffect?.let { FetishEffectHandler.getEffect(it) }
+                    effect = matchedEffect?.let { FetishEffectReloadListener.getEffect(it) }
                     setChanged()
                 }
 

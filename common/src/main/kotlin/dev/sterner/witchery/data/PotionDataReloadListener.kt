@@ -3,29 +3,32 @@ package dev.sterner.witchery.data
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
-import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.registry.ReloadListenerRegistry
-import net.minecraft.core.registries.BuiltInRegistries
+import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener
 import net.minecraft.util.profiling.ProfilerFiller
-import net.minecraft.world.entity.EntityType
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
-object BloodPoolHandler {
+object PotionDataReloadListener {
+    fun getIngredientFromItem(item: ItemStack): WitcheryPotionIngredient? {
+        return POTION_PAIR[item.item]
+    }
 
-    val LOADER = BloodPoolResourceReloadListener(Gson(), "blood_pool")
-    val BLOOD_PAIR = mutableMapOf<EntityType<*>, BloodData>()
+    val LOADER = PotionResourceReloadListener(Gson(), "potion")
+    val POTION_PAIR = mutableMapOf<Item, WitcheryPotionIngredient>()
 
     fun registerListener() {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
-            override fun getName() = "blood_pool"
+            override fun getName() = "potion"
 
             override fun reload(
                 preparationBarrier: PreparableReloadListener.PreparationBarrier,
@@ -47,7 +50,7 @@ object BloodPoolHandler {
         })
     }
 
-    class BloodPoolResourceReloadListener(gson: Gson, directory: String) :
+    class PotionResourceReloadListener(gson: Gson, directory: String) :
         SimpleJsonResourceReloadListener(gson, directory) {
 
         override fun apply(
@@ -65,40 +68,19 @@ object BloodPoolHandler {
                     throw IllegalArgumentException(e.fillInStackTrace())
                 }
             }
-
         }
 
         private fun parseJson(json: JsonObject, file: ResourceLocation) {
-            val entityJson = json.get("entityType")?.asString
-            val bloodJson = json.get("bloodDrops")?.asString
-            if (entityJson != null) {
-                if (ResourceLocation.tryParse(entityJson) == null || ResourceLocation.tryParse(bloodJson) == null) {
-                    return
+            val result = WitcheryPotionIngredient.CODEC.parse(JsonOps.INSTANCE, json)
+
+            result.resultOrPartial { _ ->
+
+            }?.let { ingredient ->
+                val item = ingredient.get().item.item
+                if (item != Items.AIR && ingredient.isPresent) {
+                    POTION_PAIR[item] = ingredient.get()
                 }
-                val data = BloodData.CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(::IllegalArgumentException).first
-
-                val entity = data.entity
-
-                BLOOD_PAIR[entity] = data
             }
-        }
-    }
-
-    data class BloodData(val entity: EntityType<*>, val bloodDrops: Int, val qualityBloodDrops: Int) {
-
-        companion object {
-            val CODEC: Codec<BloodData> =
-                RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<BloodData> ->
-                    instance.group(
-                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityType").forGetter(BloodData::entity),
-                        Codec.INT.fieldOf("bloodDrops").forGetter(BloodData::bloodDrops),
-                        Codec.INT.fieldOf("qualityBloodDrops").forGetter(BloodData::qualityBloodDrops),
-                    ).apply(
-                        instance
-                    ) { entity, bloodDrops, qualityBloodDrops ->
-                        BloodData(entity, bloodDrops, qualityBloodDrops)
-                    }
-                }
         }
     }
 }

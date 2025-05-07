@@ -17,7 +17,7 @@ import net.minecraft.util.profiling.ProfilerFiller
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
-object FetishEffectHandler {
+object FetishEffectReloadListener {
 
     val loader = FetishResourceReloadListener(Gson(), "fetish")
     val dataMap = mutableMapOf<ResourceLocation, Data>()

@@ -12,7 +12,8 @@ import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
-import dev.sterner.witchery.data.BloodPoolHandler
+import dev.sterner.witchery.data.BloodPoolReloadListener
+import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.ability.VampireAbility
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
@@ -140,7 +141,7 @@ object VampireEventHandler {
         val humanBloodData = BloodPoolLivingEntityAttachment.getData(player)
         if (humanBloodData.bloodPool < humanBloodData.maxBlood) {
             if (player.tickCount % HUMAN_BLOOD_REGEN_RATE == 0) {
-                BloodPoolLivingEntityAttachment.increaseBlood(player, HUMAN_BLOOD_REGEN_AMOUNT)
+                BloodPoolHandler.increaseBlood(player, HUMAN_BLOOD_REGEN_AMOUNT)
             }
         }
     }
@@ -251,7 +252,7 @@ object VampireEventHandler {
 
         if (bloodData.bloodPool >= BLOOD_HEALING_THRESHOLD && player.level().random.nextBoolean()) {
             if (player.health < player.maxHealth && player.health > 0) {
-                BloodPoolLivingEntityAttachment.decreaseBlood(player, BLOOD_HEALING_THRESHOLD)
+                BloodPoolHandler.decreaseBlood(player, BLOOD_HEALING_THRESHOLD)
                 player.heal(BLOOD_HEALING_AMOUNT)
             }
         }
@@ -317,7 +318,7 @@ object VampireEventHandler {
         playerBloodData: BloodPoolLivingEntityAttachment.Data
     ): EventResult? {
         val targetData = BloodPoolLivingEntityAttachment.getData(entity)
-        val quality = BloodPoolHandler.BLOOD_PAIR[entity.type] ?: 0
+        val quality = BloodPoolReloadListener.BLOOD_PAIR[entity.type] ?: 0
 
         // Check if blood drinking is possible
         if (playerBloodData.bloodPool >= playerBloodData.maxBlood ||
@@ -408,8 +409,8 @@ object VampireEventHandler {
         val attribute = player.getAttribute(WitcheryAttributes.VAMPIRE_DRINK_SPEED)?.value?.toInt() ?: 0
         val modifiedAmount = BLOOD_TRANSFER_AMOUNT_BASE + attribute
 
-        BloodPoolLivingEntityAttachment.decreaseBlood(entity, modifiedAmount)
-        BloodPoolLivingEntityAttachment.increaseBlood(player, modifiedAmount)
+        BloodPoolHandler.decreaseBlood(entity, modifiedAmount)
+        BloodPoolHandler.increaseBlood(player, modifiedAmount)
     }
 
     /**

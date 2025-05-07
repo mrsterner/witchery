@@ -8,7 +8,7 @@ import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.fluid.WitcheryFluidTank
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.data.PotionDataHandler
+import dev.sterner.witchery.data.PotionDataReloadListener
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.payload.*
@@ -249,14 +249,14 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
             // Handle Nether Wart - Start potion brewing process
             else if (item.`is`(Items.NETHER_WART) && cauldronCraftingRecipe == null && cauldronBrewingRecipe == null) {
-                PotionDataHandler.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
+                PotionDataReloadListener.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
                 forceColor(item)
                 level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
                 item.shrink(1)
             } else {
                 // Handle other ingredients for potion brewing
                 if (witcheryPotionItemCache.isNotEmpty()) {
-                    PotionDataHandler.getIngredientFromItem(item)?.let { it ->
+                    PotionDataReloadListener.getIngredientFromItem(item)?.let { it ->
                         if (hasEnoughAltarPower(level, it) && WitcheryPotionItem.tryAddItemToPotion(
                                 witcheryPotionItemCache,
                                 it
@@ -308,7 +308,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     }
 
     private fun forceColor(potionIngredientStack: ItemStack) {
-        color = PotionDataHandler.getIngredientFromItem(potionIngredientStack)?.color ?: 0x5a2d0d
+        color = PotionDataReloadListener.getIngredientFromItem(potionIngredientStack)?.color ?: 0x5a2d0d
     }
 
     private fun updateColor(level: Level, cacheForColorItem: ItemStack) {
