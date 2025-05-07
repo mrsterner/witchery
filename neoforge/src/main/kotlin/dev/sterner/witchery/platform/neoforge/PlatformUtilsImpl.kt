@@ -1,7 +1,6 @@
 package dev.sterner.witchery.platform.neoforge
 
 import dev.architectury.registry.registries.RegistrySupplier
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.item.accessories.*
 import dev.sterner.witchery.neoforge.WitcheryNeoForge
@@ -11,10 +10,7 @@ import dev.sterner.witchery.neoforge.item.WitchesRobesItemNeoForge
 import dev.sterner.witchery.neoforge.item.curios.*
 import dev.sterner.witchery.neoforge.mixin.ArgumentTypeInfosInvoker
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
-import net.minecraft.commands.synchronization.ArgumentTypeInfos
 import net.minecraft.core.Holder
-import net.minecraft.core.Registry
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorItem
@@ -24,7 +20,6 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.neoforged.fml.ModList
 import top.theillusivec4.curios.api.CuriosApi
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler
 import java.util.function.Supplier
 
 object PlatformUtilsImpl {

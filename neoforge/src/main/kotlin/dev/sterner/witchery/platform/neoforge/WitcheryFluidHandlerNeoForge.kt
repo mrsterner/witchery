@@ -25,7 +25,10 @@ class WitcheryFluidHandlerNeoForge(val witcheryFluidHandler: WitcheryFluidHandle
     }
 
     override fun fill(fluidStack: net.neoforged.neoforge.fluids.FluidStack, fluidAction: FluidAction): Int {
-        return witcheryFluidHandler.fill(FluidStackHooksForge.fromForge(fluidStack), fluidAction == FluidAction.SIMULATE).toInt()
+        return witcheryFluidHandler.fill(
+            FluidStackHooksForge.fromForge(fluidStack),
+            fluidAction == FluidAction.SIMULATE
+        ).toInt()
     }
 
     override fun drain(
@@ -35,7 +38,7 @@ class WitcheryFluidHandlerNeoForge(val witcheryFluidHandler: WitcheryFluidHandle
         return FluidStackHooksForge.toForge(
             witcheryFluidHandler.drain(
                 FluidStackHooksForge.fromForge(fluidStack),
-                fluidAction== FluidAction.SIMULATE
+                fluidAction == FluidAction.SIMULATE
             )
         )
     }

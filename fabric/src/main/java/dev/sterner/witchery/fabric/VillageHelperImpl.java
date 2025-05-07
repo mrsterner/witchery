@@ -27,7 +27,7 @@ public class VillageHelperImpl {
         SinglePoolElement piece = SinglePoolElement.single(nbtPieceRL, processorHolder).apply(StructureTemplatePool.Projection.RIGID);
 
         for (int i = 0; i < weight; i++) {
-            var mut =  ((StructureTemplatePoolAccessor) pool).getTemplates();
+            var mut = ((StructureTemplatePoolAccessor) pool).getTemplates();
             mut.add(piece);
             ((StructureTemplatePoolAccessor) pool).setTemplates(mut);
         }

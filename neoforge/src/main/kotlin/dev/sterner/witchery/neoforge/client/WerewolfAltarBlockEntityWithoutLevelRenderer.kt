@@ -2,7 +2,6 @@ package dev.sterner.witchery.neoforge.client
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.BroomEntityModel
 import dev.sterner.witchery.client.model.WerewolfAltarModel
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer

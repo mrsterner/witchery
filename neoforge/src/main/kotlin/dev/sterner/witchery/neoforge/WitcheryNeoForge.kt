@@ -11,7 +11,10 @@ import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvent
 import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
 import dev.sterner.witchery.platform.neoforge.WitcheryFluidHandlerNeoForge
 import dev.sterner.witchery.platform.neoforge.WitcheryPehkuiImpl
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
+import dev.sterner.witchery.registry.WitcheryFlammability
+import dev.sterner.witchery.registry.WitcheryMenuTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.core.NonNullList
 import net.minecraft.core.registries.BuiltInRegistries
@@ -31,7 +34,6 @@ import net.neoforged.neoforge.capabilities.Capabilities
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.common.NeoForge
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister

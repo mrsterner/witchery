@@ -12,7 +12,7 @@ object DeathQueueLevelAttachmentImpl {
     }
 
     @JvmStatic
-    fun setData(level: ServerLevel, data:  DeathQueueLevelAttachment.Data ) {
+    fun setData(level: ServerLevel, data: DeathQueueLevelAttachment.Data) {
         level.setData(DEATH_QUEUE_LEVEL_DATA_ATTACHMENT, data)
     }
 }

@@ -25,6 +25,6 @@ class ForgeStrippableLogBlock(strippedLog: Supplier<out Block>, properties: Prop
         if (ItemAbilities.AXE_STRIP == itemAbility)
             return strippedLog.get().defaultBlockState()
                 .setValue(BlockStateProperties.FACING, state.getValue(BlockStateProperties.FACING))
-        return super<IBlockExtension>.getToolModifiedState(state, context, itemAbility, simulate)
+        return super.getToolModifiedState(state, context, itemAbility, simulate)
     }
 }

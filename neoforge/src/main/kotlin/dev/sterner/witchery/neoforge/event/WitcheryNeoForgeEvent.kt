@@ -19,6 +19,7 @@ object WitcheryNeoForgeEvent {
                 Player.BedSleepingProblem.TOO_FAR_AWAY -> {
                     return
                 }
+
                 else -> {
                     event.entity.setRespawnPosition(event.level.dimension(), event.pos, event.entity.yRot, false, true)
                     event.problem = if (!event.level.isDay) {

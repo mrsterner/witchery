@@ -1,9 +1,7 @@
 package dev.sterner.witchery.platform.neoforge
 
 import dev.sterner.witchery.neoforge.WitcheryNeoForgeAttachmentRegistry.COVEN_PLAYER_DATA_ATTACHMENT
-import dev.sterner.witchery.neoforge.WitcheryNeoForgeAttachmentRegistry.WEREWOLF_PLAYER_DATA_ATTACHMENT
 import dev.sterner.witchery.platform.CovenPlayerAttachment
-import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.world.entity.player.Player
 
 object CovenPlayerAttachmentImpl {

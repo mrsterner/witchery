@@ -45,7 +45,7 @@ import org.jetbrains.annotations.NotNull
 object WitcheryNeoForgeClientEvent {
 
     @SubscribeEvent
-    fun addEnchantGlint(event: RegisterRenderBuffersEvent){
+    fun addEnchantGlint(event: RegisterRenderBuffersEvent) {
         //TODO event.registerRenderBuffer(WitcheryRenderTypes.GLINT.apply(Witchery.id("textures/misc/all_black.png")))
         //event.registerRenderBuffer(WitcheryRenderTypes.GLINT_DIRECT.apply(Witchery.id("textures/misc/all_black.png")))
     }
@@ -145,28 +145,43 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(BoatModels.ALDER_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
         event.registerLayerDefinition(BoatModels.HAWTHORN_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
         event.registerLayerDefinition(AltarBlockEntityModel.LAYER_LOCATION, AltarBlockEntityModel::createBodyLayer)
-        event.registerLayerDefinition(SpiritPortalBlockEntityModel.LAYER_LOCATION, SpiritPortalBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            SpiritPortalBlockEntityModel.LAYER_LOCATION,
+            SpiritPortalBlockEntityModel::createBodyLayer
+        )
         event.registerLayerDefinition(SpiritPortalPortalModel.LAYER_LOCATION, SpiritPortalPortalModel::createBodyLayer)
         event.registerLayerDefinition(WerewolfAltarModel.LAYER_LOCATION, WerewolfAltarModel::createBodyLayer)
         event.registerLayerDefinition(CoffinModel.LAYER_LOCATION, CoffinModel::createBodyLayer)
         event.registerLayerDefinition(BearTrapModel.LAYER_LOCATION, BearTrapModel::createBodyLayer)
         event.registerLayerDefinition(ChainModel.LAYER_LOCATION, ChainModel::createBodyLayer)
-        event.registerLayerDefinition(AltarClothBlockEntityModel.LAYER_LOCATION, AltarClothBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            AltarClothBlockEntityModel.LAYER_LOCATION,
+            AltarClothBlockEntityModel::createBodyLayer
+        )
         event.registerLayerDefinition(JarModel.LAYER_LOCATION, JarModel::createBodyLayer)
         event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION, ArmorPoppetModel::createBodyLayer)
         event.registerLayerDefinition(HungerPoppetModel.LAYER_LOCATION, HungerPoppetModel::createBodyLayer)
         event.registerLayerDefinition(VampiricPoppetModel.LAYER_LOCATION, VampiricPoppetModel::createBodyLayer)
         event.registerLayerDefinition(VoodooPoppetModel.LAYER_LOCATION, VoodooPoppetModel::createBodyLayer)
         event.registerLayerDefinition(WitchesRobesModel.LAYER_LOCATION, WitchesRobesModel::createBodyLayer)
-        event.registerLayerDefinition(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION, SpinningWheelWheelBlockEntityModel::createBodyLayer)
-        event.registerLayerDefinition(SpinningWheelBlockEntityModel.LAYER_LOCATION, SpinningWheelBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            SpinningWheelWheelBlockEntityModel.LAYER_LOCATION,
+            SpinningWheelWheelBlockEntityModel::createBodyLayer
+        )
+        event.registerLayerDefinition(
+            SpinningWheelBlockEntityModel.LAYER_LOCATION,
+            SpinningWheelBlockEntityModel::createBodyLayer
+        )
         event.registerLayerDefinition(DistilleryGemModel.LAYER_LOCATION, DistilleryGemModel::createBodyLayer)
         event.registerLayerDefinition(MandrakeEntityModel.LAYER_LOCATION, MandrakeEntityModel::createBodyLayer)
         event.registerLayerDefinition(ImpEntityModel.LAYER_LOCATION, ImpEntityModel::createBodyLayer)
         event.registerLayerDefinition(OwlEntityModel.LAYER_LOCATION, OwlEntityModel::createBodyLayer)
         event.registerLayerDefinition(BroomEntityModel.LAYER_LOCATION, BroomEntityModel::createBodyLayer)
         event.registerLayerDefinition(HunterArmorModel.LAYER_LOCATION, HunterArmorModel::createBodyLayer)
-        event.registerLayerDefinition(DreamWeaverBlockEntityModel.LAYER_LOCATION, DreamWeaverBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            DreamWeaverBlockEntityModel.LAYER_LOCATION,
+            DreamWeaverBlockEntityModel::createBodyLayer
+        )
         event.registerLayerDefinition(DemonEntityModel.LAYER_LOCATION, DemonEntityModel::createBodyLayer)
         event.registerLayerDefinition(EntEntityModel.LAYER_LOCATION, EntEntityModel::createBodyLayer)
         event.registerLayerDefinition(BansheeEntityModel.LAYER_LOCATION, BansheeEntityModel::createBodyLayer)
@@ -176,7 +191,10 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION, WerewolfEntityModel::createBodyLayer)
         event.registerLayerDefinition(NightmareEntityModel.LAYER_LOCATION, NightmareEntityModel::createBodyLayer)
         event.registerLayerDefinition(LilithEntityModel.LAYER_LOCATION, LilithEntityModel::createBodyLayer)
-        event.registerLayerDefinition(ParasiticLouseEntityModel.LAYER_LOCATION, ParasiticLouseEntityModel::createBodyLayer)
+        event.registerLayerDefinition(
+            ParasiticLouseEntityModel.LAYER_LOCATION,
+            ParasiticLouseEntityModel::createBodyLayer
+        )
     }
 
     @SubscribeEvent
@@ -190,7 +208,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerSpriteSet(WitcheryParticleTypes.SNEEZE.get()) { o ->
             SneezeParticle.SneezeProvider(o)
         }
-        event.registerSpriteSet(WitcheryParticleTypes.SPLASHING_BLOOD.get()){ o ->
+        event.registerSpriteSet(WitcheryParticleTypes.SPLASHING_BLOOD.get()) { o ->
             BloodSplashParticle.ParticleFactory(o)
         }
     }
@@ -280,7 +298,7 @@ object WitcheryNeoForgeClientEvent {
     }
 
     @SubscribeEvent
-    fun registerShader(event: RegisterShadersEvent){
+    fun registerShader(event: RegisterShadersEvent) {
         event.registerShader(
             ShaderInstance(event.resourceProvider, Witchery.id("spirit_portal"), DefaultVertexFormat.NEW_ENTITY)
         ) { shaderInstance ->

@@ -2,8 +2,10 @@ package dev.sterner.witchery.neoforge
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.platform.*
-import dev.sterner.witchery.platform.infusion.*
-import dev.sterner.witchery.platform.infusion.neoforge.InfusionPlayerAttachmentImpl
+import dev.sterner.witchery.platform.infusion.InfernalInfusionPlayerAttachment
+import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment
+import dev.sterner.witchery.platform.infusion.OtherwhereInfusionPlayerAttachment
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
@@ -52,26 +54,28 @@ object WitcheryNeoForgeAttachmentRegistry {
     )
 
     @JvmStatic
-    val INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfusionPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "infusion_player_data",
-        Supplier {
-            AttachmentType.builder(Supplier { InfusionPlayerAttachment.Data() })
-                .serialize(InfusionPlayerAttachment.Data.CODEC)
-                .copyOnDeath()
-                .build()
-        }
-    )
+    val INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfusionPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "infusion_player_data",
+            Supplier {
+                AttachmentType.builder(Supplier { InfusionPlayerAttachment.Data() })
+                    .serialize(InfusionPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
 
     @JvmStatic
-    val LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<LightInfusionPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "light_infusion_player_data",
-        Supplier {
-            AttachmentType.builder(Supplier { LightInfusionPlayerAttachment.Data() })
-                .serialize(LightInfusionPlayerAttachment.Data.CODEC)
-                .copyOnDeath()
-                .build()
-        }
-    )
+    val LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<LightInfusionPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "light_infusion_player_data",
+            Supplier {
+                AttachmentType.builder(Supplier { LightInfusionPlayerAttachment.Data() })
+                    .serialize(LightInfusionPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
 
     @JvmStatic
     val OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<OtherwhereInfusionPlayerAttachment.Data>> =
@@ -86,14 +90,15 @@ object WitcheryNeoForgeAttachmentRegistry {
         )
 
     @JvmStatic
-    val VOODOO_POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<VoodooPoppetLivingEntityAttachment.VoodooPoppetData>> = ATTACHMENT_TYPES.register(
-        "voodoo_poppet_data",
-        Supplier {
-            AttachmentType.builder(Supplier { VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false) })
-                .serialize(VoodooPoppetLivingEntityAttachment.VoodooPoppetData.CODEC)
-                .build()
-        }
-    )
+    val VOODOO_POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<VoodooPoppetLivingEntityAttachment.VoodooPoppetData>> =
+        ATTACHMENT_TYPES.register(
+            "voodoo_poppet_data",
+            Supplier {
+                AttachmentType.builder(Supplier { VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false) })
+                    .serialize(VoodooPoppetLivingEntityAttachment.VoodooPoppetData.CODEC)
+                    .build()
+            }
+        )
 
     @JvmStatic
     val POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<PoppetLevelAttachment.PoppetData>> = ATTACHMENT_TYPES.register(
@@ -173,35 +178,38 @@ object WitcheryNeoForgeAttachmentRegistry {
         )
 
     @JvmStatic
-    val INFERNAL_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfernalInfusionPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "infernal_infusion_player_data",
-        Supplier {
-            AttachmentType.builder(Supplier { InfernalInfusionPlayerAttachment.Data() })
-                .serialize(InfernalInfusionPlayerAttachment.Data.CODEC)
-                .copyOnDeath()
-                .build()
-        }
-    )
+    val INFERNAL_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<InfernalInfusionPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "infernal_infusion_player_data",
+            Supplier {
+                AttachmentType.builder(Supplier { InfernalInfusionPlayerAttachment.Data() })
+                    .serialize(InfernalInfusionPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
 
     @JvmStatic
-    val DEATH_QUEUE_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<DeathQueueLevelAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "death_queue_level_data",
-        Supplier {
-            AttachmentType.builder(Supplier { DeathQueueLevelAttachment.Data() })
-                .serialize(DeathQueueLevelAttachment.Data.CODEC)
-                .build()
-        }
-    )
+    val DEATH_QUEUE_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<DeathQueueLevelAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "death_queue_level_data",
+            Supplier {
+                AttachmentType.builder(Supplier { DeathQueueLevelAttachment.Data() })
+                    .serialize(DeathQueueLevelAttachment.Data.CODEC)
+                    .build()
+            }
+        )
 
     @JvmStatic
-    val FAMILIAR_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<FamiliarLevelAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "familiar_level_data",
-        Supplier {
-            AttachmentType.builder(Supplier { FamiliarLevelAttachment.Data() })
-                .serialize(FamiliarLevelAttachment.Data.CODEC)
-                .build()
-        }
-    )
+    val FAMILIAR_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<FamiliarLevelAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "familiar_level_data",
+            Supplier {
+                AttachmentType.builder(Supplier { FamiliarLevelAttachment.Data() })
+                    .serialize(FamiliarLevelAttachment.Data.CODEC)
+                    .build()
+            }
+        )
 
     @JvmStatic
     val CURSE_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CursePlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
@@ -215,36 +223,39 @@ object WitcheryNeoForgeAttachmentRegistry {
     )
 
     @JvmStatic
-    val NIGHTMARE_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<NightmarePlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "nightmare_player_data",
-        Supplier {
-            AttachmentType.builder(Supplier { NightmarePlayerAttachment.Data() })
-                .serialize(NightmarePlayerAttachment.Data.CODEC)
-                .build()
-        }
-    )
+    val NIGHTMARE_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<NightmarePlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "nightmare_player_data",
+            Supplier {
+                AttachmentType.builder(Supplier { NightmarePlayerAttachment.Data() })
+                    .serialize(NightmarePlayerAttachment.Data.CODEC)
+                    .build()
+            }
+        )
 
     @JvmStatic
-    val VAMPIRE_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<VampirePlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "vampire_player_data",
-        Supplier {
-            AttachmentType.builder(Supplier { VampirePlayerAttachment.Data() })
-                .serialize(VampirePlayerAttachment.Data.CODEC)
-                .copyOnDeath()
-                .build()
-        }
-    )
+    val VAMPIRE_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<VampirePlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "vampire_player_data",
+            Supplier {
+                AttachmentType.builder(Supplier { VampirePlayerAttachment.Data() })
+                    .serialize(VampirePlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
 
     @JvmStatic
-    val WEREWOLF_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<WerewolfPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "werewolf_player_data",
-        Supplier {
-            AttachmentType.builder(Supplier { WerewolfPlayerAttachment.Data() })
-                .serialize(WerewolfPlayerAttachment.Data.CODEC)
-                .copyOnDeath()
-                .build()
-        }
-    )
+    val WEREWOLF_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<WerewolfPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "werewolf_player_data",
+            Supplier {
+                AttachmentType.builder(Supplier { WerewolfPlayerAttachment.Data() })
+                    .serialize(WerewolfPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
 
     @JvmStatic
     val COVEN_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CovenPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
@@ -259,24 +270,26 @@ object WitcheryNeoForgeAttachmentRegistry {
 
 
     @JvmStatic
-    val BLOOD_LIVING_ENTITY_DATA_ATTACHMENT: Supplier<AttachmentType<BloodPoolLivingEntityAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "blood_living_data",
-        Supplier {
-            AttachmentType.builder(Supplier { BloodPoolLivingEntityAttachment.Data() })
-                .serialize(BloodPoolLivingEntityAttachment.Data.CODEC)
-                .build()
-        }
-    )
+    val BLOOD_LIVING_ENTITY_DATA_ATTACHMENT: Supplier<AttachmentType<BloodPoolLivingEntityAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "blood_living_data",
+            Supplier {
+                AttachmentType.builder(Supplier { BloodPoolLivingEntityAttachment.Data() })
+                    .serialize(BloodPoolLivingEntityAttachment.Data.CODEC)
+                    .build()
+            }
+        )
 
     @JvmStatic
-    val TRANSFORMATION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<TransformationPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
-        "transformation_data",
-        Supplier {
-            AttachmentType.builder(Supplier { TransformationPlayerAttachment.Data() })
-                .serialize(TransformationPlayerAttachment.Data.CODEC)
-                .build()
-        }
-    )
+    val TRANSFORMATION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<TransformationPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "transformation_data",
+            Supplier {
+                AttachmentType.builder(Supplier { TransformationPlayerAttachment.Data() })
+                    .serialize(TransformationPlayerAttachment.Data.CODEC)
+                    .build()
+            }
+        )
 
     @JvmStatic
     val VAMPIRE_HUNT_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<VampireChildrenHuntLevelAttachment.Data>> =

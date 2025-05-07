@@ -12,7 +12,7 @@ object CursePlayerAttachmentImpl {
     }
 
     @JvmStatic
-    fun setData(player: Player, data: CursePlayerAttachment.Data ) {
+    fun setData(player: Player, data: CursePlayerAttachment.Data) {
         player.setData(CURSE_PLAYER_DATA_ATTACHMENT, data)
         CursePlayerAttachment.sync(player, data)
     }
