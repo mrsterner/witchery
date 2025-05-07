@@ -45,7 +45,7 @@ logoFile="logo.png" #optional
 #credits="" #optional
 
 # A text field displayed in the mod UI
-authors="MrSterner, TechTastic, anatevka" #optional
+authors="MrSterner, anatevka" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''b'''
