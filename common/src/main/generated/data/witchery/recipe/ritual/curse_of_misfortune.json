@@ -1,30 +1,35 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 8000,
+  "altarPower": 2000,
   "blockMapping": {
     "G": "witchery:golden_chalk",
-    "M": "witchery:ritual_chalk"
+    "M": "witchery:infernal_chalk"
   },
   "celestialConditions": [],
-  "commands": [],
+  "commands": [
+    {
+      "type": "end",
+      "command": "witchery curse apply {taglockPlayer} witchery:misfortune"
+    }
+  ],
   "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
   "inputItems": [
     {
-      "id": "witchery:tear_of_the_goddess"
+      "id": "witchery:taglock"
     },
     {
-      "id": "witchery:odor_of_purity"
+      "id": "witchery:exhale_of_the_horned_one"
     },
     {
-      "id": "witchery:whiff_of_magic"
+      "id": "minecraft:fermented_spider_eye"
     },
     {
-      "id": "minecraft:diamond"
+      "id": "minecraft:gunpowder"
     },
     {
-      "id": "witchery:demons_blood"
+      "id": "witchery:brew_of_the_grotesque"
     }
   ],
   "isInfinite": false,
@@ -45,8 +50,10 @@
   ],
   "requireCat": false,
   "ritual": {
-    "id": "witchery:bind_familiar"
+    "id": "witchery:empty"
   },
   "ticks": 20,
-  "weather": []
+  "weather": [
+    "storm"
+  ]
 }

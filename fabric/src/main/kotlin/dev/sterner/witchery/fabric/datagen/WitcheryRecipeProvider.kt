@@ -15,10 +15,7 @@ import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipeBuilder
 import dev.sterner.witchery.registry.*
-import dev.sterner.witchery.ritual.BindFamiliarRitual
-import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
-import dev.sterner.witchery.ritual.PushMobsRitual
-import dev.sterner.witchery.ritual.ResurrectFamiliarRitual
+import dev.sterner.witchery.ritual.*
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.core.HolderLookup
@@ -1818,6 +1815,80 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setTicks(20)
             .save(exporter, Witchery.id("curse_of_the_wolf"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.TAGLOCK.get())
+            .addInputItem(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get())
+            .addInputItem(Items.POISONOUS_POTATO)
+            .addInputItem(Items.SUGAR)
+            .setWeather(RitualRecipe.Weather.STORM)
+            .addInputItem(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
+            .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .setAltarPower(2000)
+            .setTicks(20)
+            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:insanity", CommandType.END))
+            .save(exporter, Witchery.id("curse_of_insanity"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.TAGLOCK.get())
+            .addInputItem(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get())
+            .addInputItem(WitcheryItems.VOODOO_PROTECTION_POPPET.get())
+            .addInputItem(Items.BLAZE_POWDER)
+            .addInputItem(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
+            .requireCat()
+            .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .setAltarPower(7000)
+            .setTicks(20)
+            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:corrupt_poppet", CommandType.END))
+            .save(exporter, Witchery.id("curse_of_corrupt_poppet"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.TAGLOCK.get())
+            .addInputItem(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get())
+            .addInputItem(Items.FERMENTED_SPIDER_EYE)
+            .addInputItem(Items.GUNPOWDER)
+            .addInputItem(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
+            .setWeather(RitualRecipe.Weather.STORM)
+            .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .setAltarPower(2000)
+            .setTicks(20)
+            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:misfortune", CommandType.END))
+            .save(exporter, Witchery.id("curse_of_misfortune"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.TAGLOCK.get())
+            .addInputItem(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get())
+            .addInputItem(WitcheryItems.DEMONS_BLOOD.get())
+            .addInputItem(Items.BLAZE_ROD)
+            .addInputItem(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
+            .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .setAltarPower(2000)
+            .setTicks(20)
+            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:overheating", CommandType.END))
+            .save(exporter, Witchery.id("curse_of_overheating"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(WitcheryItems.TAGLOCK.get())
+            .addInputItem(WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get())
+            .addInputItem(Items.INK_SAC)
+            .addInputItem(Items.NETHER_WART)
+            .addInputItem(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
+            .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .setWeather(RitualRecipe.Weather.STORM)
+            .setAltarPower(2000)
+            .setTicks(20)
+            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:sinking", CommandType.END))
+            .save(exporter, Witchery.id("curse_of_sinking"))
+
+        RitualRecipeBuilder.create()
+            .setAltarPower(2000)
+            .addInputItem(WitcheryItems.TAGLOCK.get())
+            .addInputItem(WitcheryItems.BREATH_OF_THE_GODDESS.get())
+            .addInputItem(WitcheryItems.BREW_OF_LOVE.get())
+            .addMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .setTicks(20)
+            .setCustomRitual(RemoveCurseRitual())
+            .save(exporter, Witchery.id("remove_curse"))
 
         DistilleryCraftingRecipeBuilder.create()
             .addInput(WitcheryItems.FOUL_FUME.get())

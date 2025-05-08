@@ -6,17 +6,7 @@ import net.minecraft.world.level.Level
 
 class CurseOfSinking : Curse() {
 
-    /*
-    storm
- AP: 2000
- taglock
- exhale
- inc sac
- nerther wart
- brew of grotesque
 
- 11x11 infernal
-  */
 
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
         if (player.isInWater) {

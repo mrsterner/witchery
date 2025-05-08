@@ -26,6 +26,10 @@ object WitcheryRitualRegistry {
         PushMobsRitual()
     }
 
+    val REMOVE_CURSE: RegistrySupplier<RemoveCurseRitual> = RITUALS.register(Witchery.id("remove_curse")) {
+        RemoveCurseRitual()
+    }
+
     val BIND_FAMILIAR: RegistrySupplier<BindFamiliarRitual> = RITUALS.register(Witchery.id("bind_familiar")) {
         BindFamiliarRitual()
     }

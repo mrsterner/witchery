@@ -42,7 +42,9 @@ class RitualRecipe(
     val ticks: Int,
     val pattern: List<String>,
     val blockMapping: Map<Char, Block>,
-    val celestialConditions: Set<Celestial>
+    val celestialConditions: Set<Celestial>,
+    val weather: Set<Weather>,
+    val requireCat: Boolean
 ) : Recipe<MultipleItemRecipeInput> {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
@@ -115,7 +117,10 @@ class RitualRecipe(
                         Codec.unboundedMap(SYMBOL_CODEC, BuiltInRegistries.BLOCK.byNameCodec()).fieldOf("blockMapping")
                             .forGetter { recipe -> recipe.blockMapping },
                         Celestial.CELESTIAL_SET_CODEC.fieldOf("celestialConditions").orElse(setOf())
-                            .forGetter { recipe -> recipe.celestialConditions }
+                            .forGetter { recipe -> recipe.celestialConditions },
+                        Weather.WEATHER_SET_CODEC.fieldOf("weather").orElse(setOf())
+                            .forGetter { recipe -> recipe.weather },
+                        Codec.BOOL.fieldOf("requireCat").forGetter { it.requireCat }
 
 
                     ).apply(obj, ::RitualRecipe)
@@ -218,6 +223,20 @@ class RitualRecipe(
                 emptySet()
             }
 
+            val weather = if (tag.contains("weather")) {
+                tag.getList("weather", 8).mapNotNull {
+                    try {
+                        Weather.valueOf(it.asString.uppercase())
+                    } catch (e: IllegalArgumentException) {
+                        null
+                    }
+                }.toSet()
+            } else {
+                emptySet()
+            }
+
+            val requireCat = if (tag.contains("requireCat")) tag.getBoolean("requireCat") else false
+
             return RitualRecipe(
                 ritualType,
                 inputItems,
@@ -232,7 +251,9 @@ class RitualRecipe(
                 ticks,
                 pattern,
                 blockMapping,
-                celestialConditions
+                celestialConditions,
+                weather,
+                requireCat
             )
         }
     }
@@ -325,6 +346,25 @@ class RitualRecipe(
             val CELESTIAL_CODEC: Codec<Celestial> = StringRepresentable.fromEnum(Celestial::values)
 
             val CELESTIAL_SET_CODEC: Codec<Set<Celestial>> = CELESTIAL_CODEC.listOf().xmap(
+                { it.toSet() },
+                { it.toList() }
+            )
+        }
+    }
+
+    enum class Weather : StringRepresentable {
+        CLEAR,
+        RAIN,
+        STORM;
+
+        override fun getSerializedName(): String {
+            return name.lowercase()
+        }
+
+        companion object {
+            val WEATHER_CODEC: Codec<Weather> = StringRepresentable.fromEnum(Weather::values)
+
+            val WEATHER_SET_CODEC: Codec<Set<Weather>> = WEATHER_CODEC.listOf().xmap(
                 { it.toSet() },
                 { it.toList() }
             )

@@ -38,6 +38,8 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
         'G' to WitcheryBlocks.GOLDEN_CHALK_BLOCK.get()
     }
     private var celestialConditions: Set<Celestial> = setOf()
+    private var weather: MutableSet<RitualRecipe.Weather> = mutableSetOf()
+    private var requireCat = false
 
     companion object {
         fun create(): RitualRecipeBuilder {
@@ -127,6 +129,16 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
 
     fun setCelestialConditions(celestialConditions: Set<Celestial>): RitualRecipeBuilder {
         this.celestialConditions = celestialConditions
+        return this
+    }
+
+    fun requireCat(): RitualRecipeBuilder {
+        this.requireCat = true
+        return this
+    }
+
+    fun setWeather(weather: RitualRecipe.Weather): RitualRecipeBuilder {
+        this.weather.add(weather)
         return this
     }
 
@@ -355,7 +367,9 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             ticks = ticks,
             pattern = pattern,
             blockMapping = blockMapping,
-            celestialConditions = celestialConditions
+            celestialConditions = celestialConditions,
+            weather = weather,
+            requireCat = requireCat
         )
 
         recipeOutput.accept(

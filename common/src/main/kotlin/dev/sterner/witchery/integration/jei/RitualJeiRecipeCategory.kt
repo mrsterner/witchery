@@ -142,6 +142,45 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
             81
         )
 
+        if (recipe.recipe.requireCat) {
+            graphics.blit(
+                Witchery.id("textures/gui/cat.png"),
+                31 - 11,
+                64 - 20 + 10,
+                0f,
+                0f,
+                10,
+                10,
+                10,
+                10
+            )
+
+        }
+        if (recipe.recipe.weather.contains(RitualRecipe.Weather.RAIN)) {
+            graphics.blit(
+                Witchery.id("textures/gui/weather/rain.png"),
+                20 + 11, 64 + 3,
+                0f,
+                0f,
+                10,
+                10,
+                10,
+                10
+            )
+        }
+        if (recipe.recipe.weather.contains(RitualRecipe.Weather.STORM)) {
+            graphics.blit(
+                Witchery.id("textures/gui/weather/storm.png"),
+                20 - 11, 64 + 3,
+                0f,
+                0f,
+                10,
+                10,
+                10,
+                10
+            )
+        }
+
         val append = if (recipe.recipe.isInfinite) "/s" else ""
         graphics.drawCenteredString(Minecraft.getInstance().font, "Power", 24, background.height - 40, 0xffffff)
         graphics.drawCenteredString(

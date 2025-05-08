@@ -37,8 +37,10 @@
     "__M_____M__",
     "___MMMMM___"
   ],
+  "requireCat": false,
   "ritual": {
     "id": "witchery:bind_spectral_creatures"
   },
-  "ticks": 20
+  "ticks": 20,
+  "weather": []
 }

@@ -84,7 +84,7 @@ object Witchery {
 
     val LOGGER: Logger = LogUtils.getLogger()
 
-    val debugRitualLog: Boolean = false
+    val debugRitualLog: Boolean = true
 
     fun id(name: String): ResourceLocation {
         return ResourceLocation.fromNamespaceAndPath(MODID, name)

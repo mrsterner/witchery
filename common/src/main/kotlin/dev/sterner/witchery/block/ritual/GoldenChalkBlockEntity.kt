@@ -7,6 +7,7 @@ import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.handler.CovenHandler
+import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.item.SeerStoneItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
@@ -472,7 +473,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         updateAltarCache(player.level())
 
         // Try to start a ritual if none is active
-        if (ritualRecipe == null && level != null) {
+        if (ritualRecipe == null && level is ServerLevel) {
             tryStartRitual(player)
         }
 
@@ -629,16 +630,20 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val hasValidCircle = validateRitualCircle(level, recipe)
         val hasEnoughPower = hasEnoughAltarPower(level, recipe)
         val meetsCelestialCondition = hasCelestialCondition(level, recipe)
+        val meetsWeatherRequirement = hasWeatherCondition(level, recipe)
+        val requiresCat = requiresCat(player, recipe)
         val hasCovenCount = hasCovenCondition(player, recipe)
 
         Witchery.logDebugRitual(
             "Ritual conditions - Valid Circle: $hasValidCircle, " +
                     "Enough Power: $hasEnoughPower : ${recipe.altarPower}, " +
                     "Celestial Condition: $meetsCelestialCondition, " +
-                    "Coven Condition: $hasCovenCount"
+                    "Coven Condition: $hasCovenCount" +
+                    "Cat: $requiresCat" +
+                    "Weather Condition: $meetsWeatherRequirement"
         )
 
-        return hasValidCircle && hasEnoughPower && meetsCelestialCondition && hasCovenCount
+        return hasValidCircle && hasEnoughPower && meetsCelestialCondition && hasCovenCount && meetsWeatherRequirement && requiresCat
     }
 
     /**
@@ -676,6 +681,37 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         player.displayClientMessage(Component.translatable("witchery.too_few_in_coven"), true)
         return false
+    }
+
+    private fun requiresCat(player: Player, recipe: RitualRecipe): Boolean {
+        if (!recipe.requireCat) {
+            return true
+        }
+
+        if (player.level() is ServerLevel) {
+            return FamiliarHandler.getFamiliarEntityType(playerUUID = player.uuid, player.level() as ServerLevel) == EntityType.CAT
+        }
+
+        return false
+    }
+
+    private fun hasWeatherCondition(level: Level, recipe: RitualRecipe): Boolean {
+        if (recipe.weather.isEmpty()) {
+            return true
+        }
+        val rain = level.isRaining
+        val thunder = level.isThundering
+        val clear = !rain && !thunder
+        return when {
+            recipe.weather.contains(RitualRecipe.Weather.CLEAR) ->
+                clear
+            recipe.weather.contains(RitualRecipe.Weather.STORM) ->
+                thunder
+            recipe.weather.contains(RitualRecipe.Weather.RAIN) ->
+                rain || thunder
+
+            else -> false
+        }
     }
 
     /**

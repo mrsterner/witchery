@@ -45,8 +45,10 @@
     "__M_____M__",
     "___MMMMM___"
   ],
+  "requireCat": false,
   "ritual": {
     "id": "witchery:empty"
   },
-  "ticks": 40
+  "ticks": 40,
+  "weather": []
 }

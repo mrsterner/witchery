@@ -31,6 +31,10 @@ Rituals support a lot of customizable functions. They are data-driven and can ex
   "celestialConditions": [
     "night"
   ],
+  "requireCat": false,
+  "weather": [
+    "storm"
+  ],
   "commands": [
     {
       "type": "end",
@@ -97,6 +101,9 @@ Rituals support a lot of customizable functions. They are data-driven and can ex
 | `pattern`             | A visual layout using characters defined in `blockMapping`, forming the ritual circle layout.                                                             |
 | `ritual`              | `"witchery:empty"` means no special effect. Special effects is hardcoded.                                                                                 |
 | `ticks`               | Number of ticks the ritual takes to complete. `0` means instant.                                                                                          |
+| `requireCat`          | true if the ritual requires a familiar cat                                                                                                                |
+| `weather`             | `"clear"`, `"rain"`, `"storm"`. What weather is needed to start the ritual.                                                                               | 
+
 
 ### Command replacements
 These arguments will be replaced in the command parser with some context. For example 

@@ -109,6 +109,35 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         )
             .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Waning Moon", Style.EMPTY))))
 
+        val rain = recipe.weather.contains(RitualRecipe.Weather.RAIN)
+        val thunder = recipe.weather.contains(RitualRecipe.Weather.STORM)
+        if (rain) {
+            widgets.addTexture(
+                Witchery.id("textures/gui/weather/rain.png"),
+                20 + 11, 4 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
+            )
+                .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Requires Rain", Style.EMPTY))))
+
+        }
+        if (thunder) {
+            widgets.addTexture(
+                Witchery.id("textures/gui/weather/storm.png"),
+                20 - 11, 4 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
+            )
+                .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Requires Storm", Style.EMPTY))))
+
+        }
+
+        val cat = recipe.requireCat
+        if (cat) {
+            widgets.addTexture(
+                Witchery.id("textures/gui/cat.png"),
+                20, 4 + 20 + 20 - 11, 10, 10, 0, 0, 10, 10, 10, 10
+            )
+                .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Requires Cat Familiar", Style.EMPTY))))
+
+        }
+
         val itemsPerRow = 6
         val itemSize = 18
         var rowIndex = 0

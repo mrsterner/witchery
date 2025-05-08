@@ -200,18 +200,3 @@ class CurseOfCorruptPoppet : Curse() {
         }
     }
 }
-/*
-   cat
-  AP: 7000
-  taglock
-  exhale
-  voodoo prot
-  blaze powder
-  brew of grotesque
-
-  11x11 infernal
-   */
-
-/*
-
- */

@@ -7,16 +7,7 @@ import net.minecraft.world.level.Level
 
 class CurseOfOverheating : Curse() {
 
-    /*
- AP: 2000
- taglock
- exhale
-demonikc blood
- blaze rod
- brew of grotesque
 
- 11x11 infernal
-  */
 
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
 

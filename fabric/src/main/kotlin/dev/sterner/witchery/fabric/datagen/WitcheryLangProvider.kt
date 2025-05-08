@@ -171,6 +171,14 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
             "witchery:ritual/summon_lightning_on_waystone.tooltip",
             "Summons a Lightning Strike at bound Waystone location"
         )
+        builder.add("witchery:ritual/curse_of_corrupt_poppet", "Curse of Corrupt Poppet")
+        builder.add("witchery:ritual/curse_of_the_wolf", "Curse of the Wolf")
+        builder.add("witchery:ritual/curse_of_overheating", "Curse of Overheating")
+        builder.add("witchery:ritual/curse_of_sinking", "Curse of Sinking")
+        builder.add("witchery:ritual/curse_of_misfortune", "Curse of Misfortune")
+        builder.add("witchery:ritual/curse_of_insanity", "Curse of Insanity")
+        builder.add("witchery:ritual/infuse_seer", "Infuse Seer")
+        builder.add("witchery:ritual/infuse_necromancy", "Infuse Necromancy")
         builder.add("witchery:ritual/summon_lightning", "Lightning Strike")
         builder.add("witchery:ritual/summon_lightning.tooltip", "Summons a Lightning Strike at ritual center")
         builder.add("witchery:ritual/set_midnight", "Turn Night")
