@@ -3,6 +3,8 @@ package dev.sterner.witchery.poppet
 import dev.sterner.witchery.handler.poppet.PoppetType
 import dev.sterner.witchery.handler.poppet.PoppetUsage
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.ChatFormatting
+import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.tags.DamageTypeTags
 import net.minecraft.world.damagesource.DamageSource
@@ -18,6 +20,11 @@ class DeathProtectionPoppet : PoppetType {
         return source == null || !source.`is`(DamageTypeTags.BYPASSES_INVULNERABILITY)
     }
 
+    override fun getDurabilityDamage(usage: PoppetUsage): Int = when(usage) {
+        PoppetUsage.PROTECTION -> 1
+        else -> 0
+    }
+
     override fun onActivate(owner: LivingEntity, source: DamageSource?): Boolean {
         if (owner is Player) {
             owner.health = 4.0f
@@ -31,5 +38,27 @@ class DeathProtectionPoppet : PoppetType {
         return false
     }
 
-    override fun getDurabilityDamage(usage: PoppetUsage): Int = 1
+    override fun onCorruptedActivate(owner: LivingEntity, source: DamageSource?): Boolean {
+        if (owner is Player) {
+            owner.health = 1.0f
+            owner.removeAllEffects()
+
+            owner.addEffect(MobEffectInstance(MobEffects.WEAKNESS, 1200, 1))
+            owner.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1000, 1))
+            owner.addEffect(MobEffectInstance(MobEffects.UNLUCK, 2400, 0))
+
+            owner.addEffect(MobEffectInstance(MobEffects.REGENERATION, 200, 0))
+
+            owner.playSound(SoundEvents.TOTEM_USE, 0.8f, 0.5f)
+
+            owner.displayClientMessage(
+                Component.translatable("curse.witchery.corrupt_poppet.death_effect")
+                    .withStyle(ChatFormatting.DARK_PURPLE),
+                true
+            )
+
+            return true
+        }
+        return false
+    }
 }

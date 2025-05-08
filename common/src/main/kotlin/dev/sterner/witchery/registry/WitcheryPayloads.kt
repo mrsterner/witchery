@@ -86,6 +86,9 @@ object WitcheryPayloads {
         registerS2C(SyncCurseS2CPacket.ID, SyncCurseS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
+        registerS2C(SyncCorruptPoppetS2CPacket.ID, SyncCorruptPoppetS2CPacket.STREAM_CODEC) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
         registerS2C(SyncVampireS2CPacket.ID, SyncVampireS2CPacket.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }

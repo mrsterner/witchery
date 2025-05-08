@@ -49,7 +49,7 @@ class VoodooPoppet : PoppetType {
                     hurtMarked = true
                 }
             }
-            // Update underwater status
+
             if (entity.isUnderWater) {
                 boundPlayer?.let {
                     VoodooPoppetLivingEntityAttachment.setPoppetData(

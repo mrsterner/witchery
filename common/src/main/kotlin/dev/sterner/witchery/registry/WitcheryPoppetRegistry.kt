@@ -50,4 +50,12 @@ object WitcheryPoppetRegistry {
     fun register() {
 
     }
+
+    fun getAllTypes(): List<PoppetType>  {
+        return POPPETS.entrySet().map { it.value }
+    }
+
+    fun getIdForPoppet(poppetType: PoppetType): ResourceLocation {
+        return POPPETS.getId(poppetType)!!
+    }
 }

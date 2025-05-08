@@ -2,6 +2,7 @@ package dev.sterner.witchery.fabric.registry
 
 import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.*
+import dev.sterner.witchery.platform.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
@@ -63,6 +64,13 @@ object WitcheryFabricAttachmentRegistry {
             .persistent(PoppetLevelAttachment.PoppetData.CODEC)
             .initializer { PoppetLevelAttachment.PoppetData(mutableListOf()) }
             .buildAndRegister(PoppetLevelAttachment.PoppetData.ID)
+
+    @Suppress("UnstableApiUsage")
+    val CORRUPT_POPPET_DATA_TYPE: AttachmentType<CorruptPoppetPlayerAttachment.Data> =
+        AttachmentRegistry.builder<CorruptPoppetPlayerAttachment.Data>()
+            .persistent(CorruptPoppetPlayerAttachment.Data.CODEC)
+            .initializer { CorruptPoppetPlayerAttachment.Data() }
+            .buildAndRegister(CorruptPoppetPlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
     val ENT_DATA_TYPE: AttachmentType<EntSpawnLevelAttachment.Data> =

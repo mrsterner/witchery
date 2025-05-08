@@ -6,6 +6,7 @@ import dev.sterner.witchery.platform.infusion.InfernalInfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.OtherwhereInfusionPlayerAttachment
+import dev.sterner.witchery.platform.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
@@ -96,6 +97,17 @@ object WitcheryNeoForgeAttachmentRegistry {
             Supplier {
                 AttachmentType.builder(Supplier { VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false) })
                     .serialize(VoodooPoppetLivingEntityAttachment.VoodooPoppetData.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val CORRUPT_POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<CorruptPoppetPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "corrupt_poppet_data",
+            Supplier {
+                AttachmentType.builder(Supplier { CorruptPoppetPlayerAttachment.Data() })
+                    .serialize(CorruptPoppetPlayerAttachment.Data.CODEC)
                     .build()
             }
         )
