@@ -8,7 +8,10 @@ object WitcheryShaders {
 
 
     @JvmField
-    var chain: ShaderInstance? = null
+    var soul_chain: ShaderInstance? = null
+
+    @JvmField
+    var spirit_chain: ShaderInstance? = null
 
 
     @JvmField

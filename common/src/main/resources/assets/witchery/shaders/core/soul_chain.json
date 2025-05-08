@@ -1,6 +1,6 @@
 {
   "vertex": "rendertype_entity_translucent_emissive",
-  "fragment": "witchery:chain",
+  "fragment": "witchery:soul_chain",
   "samplers": [
     { "name": "Sampler0" },
     { "name": "Sampler1" }

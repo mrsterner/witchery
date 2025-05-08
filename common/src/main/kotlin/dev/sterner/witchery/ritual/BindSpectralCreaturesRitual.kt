@@ -1,12 +1,14 @@
 package dev.sterner.witchery.ritual
 
+import dev.architectury.event.EventResult
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.entity.BansheeEntity
 import dev.sterner.witchery.entity.SpectreEntity
-import dev.sterner.witchery.handler.ChainManager
+import dev.sterner.witchery.handler.chain.ChainManager
+import dev.sterner.witchery.handler.chain.ChainType
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
@@ -26,6 +28,7 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
         fun registerEvents() {
             ChainEvent.ON_DISCARD.register { entity, _ ->
                 handleChainDiscard(entity)
+                EventResult.pass()
             }
         }
 
@@ -117,7 +120,8 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
                     ChainManager.createHookAndPullChain(
                         level, effigyCenter.add(0.0, 0.2, 0.0), entity,
                         pullDelay = 0,
-                        extensionSpeed = 0.8f
+                        extensionSpeed = 0.8f,
+                        chainType = ChainType.SPIRIT
                     )
                 }
             } else {

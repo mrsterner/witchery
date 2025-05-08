@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.handler.chain
 
 import dev.sterner.witchery.api.EntityChainInterface
 import dev.sterner.witchery.api.schedule.ServerTickTask
@@ -36,9 +36,11 @@ object ChainManager {
         extensionSpeed: Float = 0.15f,
         retractionSpeed: Float = 0.05f,
         pullStrength: Float = 0.15f,
-        lifetime: Int = -1
+        lifetime: Int = -1,
+        chainType: ChainType
     ): ChainEntity {
         val chain = ChainEntity(level)
+        chain.entityData.set(ChainEntity.TYPE, chainType.index)
         chain.setPos(position.x, position.y, position.z)
         chain.setTargetEntity(targetEntity)
 
@@ -64,6 +66,7 @@ object ChainManager {
         targetEntity: Entity,
         lifetime: Int = -1,
         noPull: Boolean = false,
+        chainType: ChainType
     ): ChainEntity {
         val random = level.random
 
@@ -78,7 +81,8 @@ object ChainManager {
             extensionSpeed,
             retractionSpeed,
             pullStrength,
-            lifetime
+            lifetime,
+            chainType
         )
     }
 
@@ -101,13 +105,14 @@ object ChainManager {
         sequentialDelay: Int = 0,
         lifetime: Int = -1,
         noPull: Boolean = false,
+        chainType: ChainType
     ): List<ChainEntity> {
         val chainPositions = findChainPositions(level, targetEntity, numChains, radius)
         val chains = mutableListOf<ChainEntity>()
 
         if (sequentialDelay <= 0) {
             return chainPositions.map { pos ->
-                createRandomizedChain(level, pos, targetEntity, lifetime)
+                createRandomizedChain(level, pos, targetEntity, lifetime, chainType = chainType)
             }
         } else {
             var delay = 0
@@ -115,7 +120,7 @@ object ChainManager {
             chainPositions.forEach { pos ->
                 if (level is ServerLevel) {
                     TickTaskScheduler.addTask(ServerTickTask(delay) {
-                        val chain = createRandomizedChain(level, pos, targetEntity, lifetime, noPull)
+                        val chain = createRandomizedChain(level, pos, targetEntity, lifetime, noPull, chainType)
                         chains.add(chain)
                     })
                 }
@@ -145,7 +150,8 @@ object ChainManager {
         radius: Double = 3.0,
         height: Double = 10.0,
         sequentialDelay: Int = 5,
-        lifetime: Int = -1
+        lifetime: Int = -1,
+        chainType: ChainType
     ): List<ChainEntity> {
         val targetPos = targetEntity.position()
         val chains = mutableListOf<ChainEntity>()
@@ -162,7 +168,7 @@ object ChainManager {
 
             if (level is ServerLevel) {
                 TickTaskScheduler.addTask(ServerTickTask(i * sequentialDelay) {
-                    val chain = createRandomizedChain(level, chainPos, targetEntity, lifetime)
+                    val chain = createRandomizedChain(level, chainPos, targetEntity, lifetime, chainType = chainType)
                     chain.setExtensionSpeed(0.08f + (level.random.nextFloat() * 0.04f))
                     chains.add(chain)
                 })
@@ -256,7 +262,8 @@ object ChainManager {
         targetEntity: Entity,
         pullStrength: Float = 0.2f,
         extensionSpeed: Float = 0.1f,
-        pullDelay: Int = 10
+        pullDelay: Int = 10,
+        chainType: ChainType
     ): ChainEntity {
         val chain = createChain(
             level,
@@ -264,7 +271,8 @@ object ChainManager {
             targetEntity,
             extensionSpeed,
             0.02f,
-            pullStrength
+            pullStrength,
+            chainType = chainType
         )
 
         if (level is ServerLevel) {
@@ -293,7 +301,8 @@ object ChainManager {
         numChainsHorizontal: Int = 8,
         numChainsVertical: Int = 6,
         radius: Double = 3.0,
-        lifetime: Int = -1
+        lifetime: Int = -1,
+        chainType: ChainType
     ): List<ChainEntity> {
         val chains = mutableListOf<ChainEntity>()
         val targetPos = targetEntity.position()
@@ -305,7 +314,7 @@ object ChainManager {
             val z = targetPos.z + cos(angle) * radius
 
             val pos = Vec3(x, y, z)
-            chains.add(createChain(level, pos, targetEntity, 0.15f, 0.01f, 0.0f, lifetime))
+            chains.add(createChain(level, pos, targetEntity, 0.15f, 0.01f, 0.0f, lifetime, chainType))
         }
 
         for (i in 0 until numChainsVertical) {
@@ -315,14 +324,14 @@ object ChainManager {
             val z = targetPos.z
 
             val pos = Vec3(x, y, z)
-            chains.add(createChain(level, pos, targetEntity, 0.15f, 0.01f, 0.0f, lifetime))
+            chains.add(createChain(level, pos, targetEntity, 0.15f, 0.01f, 0.0f, lifetime, chainType))
 
             val x2 = targetPos.x
             val y2 = targetPos.y + cos(angle) * radius
             val z2 = targetPos.z + sin(angle) * radius
 
             val pos2 = Vec3(x2, y2, z2)
-            chains.add(createChain(level, pos2, targetEntity, 0.15f, 0.01f, 0.0f, lifetime))
+            chains.add(createChain(level, pos2, targetEntity, 0.15f, 0.01f, 0.0f, lifetime, chainType))
         }
 
         return chains

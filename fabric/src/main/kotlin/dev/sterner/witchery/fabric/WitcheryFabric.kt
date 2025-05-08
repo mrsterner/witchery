@@ -210,9 +210,14 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryShaders.spiritPortal = shaderInstance
         }
         ctx.register(
-            Witchery.id("chain"), DefaultVertexFormat.NEW_ENTITY
+            Witchery.id("spirit_chain"), DefaultVertexFormat.NEW_ENTITY
         ) { shaderInstance: ShaderInstance ->
-            WitcheryShaders.chain = shaderInstance
+            WitcheryShaders.spirit_chain = shaderInstance
+        }
+        ctx.register(
+            Witchery.id("soul_chain"), DefaultVertexFormat.NEW_ENTITY
+        ) { shaderInstance: ShaderInstance ->
+            WitcheryShaders.soul_chain = shaderInstance
         }
         ctx.register(
             Witchery.id("ghost"), DefaultVertexFormat.NEW_ENTITY

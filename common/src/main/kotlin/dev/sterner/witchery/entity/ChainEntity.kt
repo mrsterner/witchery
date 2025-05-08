@@ -1,8 +1,10 @@
 package dev.sterner.witchery.entity
 
+import com.sun.net.httpserver.Filter.Chain
 import dev.sterner.witchery.api.EntityChainInterface
 import dev.sterner.witchery.api.event.ChainEvent
-import dev.sterner.witchery.handler.ChainManager
+import dev.sterner.witchery.handler.chain.ChainManager
+import dev.sterner.witchery.handler.chain.ChainType
 import dev.sterner.witchery.payload.SyncChainS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
@@ -58,6 +60,7 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
         private val CHAIN_PROGRESS = SynchedEntityData.defineId(ChainEntity::class.java, EntityDataSerializers.FLOAT)
         private val RETRACT_PROGRESS = SynchedEntityData.defineId(ChainEntity::class.java, EntityDataSerializers.FLOAT)
         private val HEAD_POSITION = SynchedEntityData.defineId(ChainEntity::class.java, EntityDataSerializers.FLOAT)
+        val TYPE = SynchedEntityData.defineId(ChainEntity::class.java, EntityDataSerializers.INT)
     }
 
     init {
@@ -128,7 +131,7 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
                         val toOrigin = origin.subtract(targetPos)
                         val distance = toOrigin.length()
 
-                        if (this.boundingBox.intersects(target.boundingBox)) {
+                        if (this.boundingBox.inflate(.25).intersects(target.boundingBox)) {
                             setChainState(ChainState.FINISHED)
                             return@let
                         }
@@ -188,6 +191,7 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
         builder.define(CHAIN_PROGRESS, 0f)
         builder.define(RETRACT_PROGRESS, 0f)
         builder.define(HEAD_POSITION, 0f)
+        builder.define(TYPE, 0)
     }
 
     override fun readAdditionalSaveData(compound: CompoundTag) {

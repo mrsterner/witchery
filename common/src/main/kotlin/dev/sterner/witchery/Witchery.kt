@@ -20,6 +20,8 @@ import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
+import dev.sterner.witchery.block.soul_cage.SoulCageBlock
+import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.model.*
@@ -166,6 +168,7 @@ object Witchery {
         BarkBeltHandler.registerEvents()
         TickTaskScheduler.registerEvents()
         BindSpectralCreaturesRitual.registerEvents()
+        SoulCageBlockEntity.registerEvents()
         WitcheryLootInjects.registerEvents()
         WitcheryStructureInjects.registerEvents()
 
@@ -209,6 +212,7 @@ object Witchery {
         EntityModelLayerRegistry.register(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelWheelBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpinningWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(DistilleryGemModel.LAYER_LOCATION) { DistilleryGemModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(GlassContainerModel.LAYER_LOCATION) { GlassContainerModel.createBodyLayer() }
         EntityModelLayerRegistry.register(BroomEntityModel.LAYER_LOCATION) { BroomEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(DreamWeaverBlockEntityModel.LAYER_LOCATION) { DreamWeaverBlockEntityModel.createBodyLayer() }
 
@@ -269,6 +273,7 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DISTILLERY.get(), ::DistilleryBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRAZIER.get(), ::BrazierBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SOUL_CAGE.get(), ::SoulCageBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.COFFIN.get(), ::CoffinBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPINNING_WHEEL.get(), ::SpinningWheelBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_SIGN.get(), ::SignRenderer)
@@ -446,7 +451,8 @@ object Witchery {
             WitcheryBlocks.WITCHS_LADDER.get(),
             WitcheryBlocks.TRENT_EFFIGY.get(),
             WitcheryBlocks.SCARECROW.get(),
-            WitcheryBlocks.CRITTER_SNARE.get()
+            WitcheryBlocks.CRITTER_SNARE.get(),
+            WitcheryBlocks.SOUL_CAGE.get()
         )
 
         KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)

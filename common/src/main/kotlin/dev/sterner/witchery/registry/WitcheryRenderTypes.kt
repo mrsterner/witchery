@@ -10,8 +10,11 @@ import net.minecraft.Util
 import net.minecraft.client.renderer.RenderStateShard.*
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.RenderType.create
+import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
+import org.joml.Vector3f
+import java.util.function.Supplier
 
 
 object WitcheryRenderTypes {
@@ -48,12 +51,10 @@ object WitcheryRenderTypes {
         256
     }
 
-
-    val CHAIN = Util.memoize { resourceLocation: ResourceLocation ->
-        val compositeState: RenderType.CompositeState? =
-            RenderType.CompositeState.builder()
-                .setShaderState(ShaderStateShard(WitcheryShaders::chain))
-                .setTextureState(TextureStateShard(resourceLocation, false, true))
+    private fun makeSpectral(texture: ResourceLocation, shaderInstance: ShaderInstance): RenderType.CompositeState {
+        return RenderType.CompositeState.builder()
+                .setShaderState(ShaderStateShard { shaderInstance })
+                .setTextureState(TextureStateShard(texture, false, true))
                 .setTransparencyState(ADDITIVE_TRANSPARENCY)
                 .setDepthTestState(LEQUAL_DEPTH_TEST)
                 .setCullState(CULL)
@@ -62,16 +63,32 @@ object WitcheryRenderTypes {
                 .setLayeringState(VIEW_OFFSET_Z_LAYERING)
                 .setWriteMaskState(COLOR_DEPTH_WRITE)
                 .createCompositeState(true)
+    }
+
+    val SOUL_CHAIN = Util.memoize { texture: ResourceLocation ->
         create(
-            Witchery.MODID + "chain",
+            Witchery.MODID + "soul_chain",
             DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
             BUFFER_SIZE,
             true,
             false,
-            compositeState!!
+            makeSpectral(texture, WitcheryShaders.soul_chain!!)
         )
     }
+
+    val SPIRIT_CHAIN = Util.memoize { texture: ResourceLocation ->
+        create(
+            Witchery.MODID + "spirit_chain",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            BUFFER_SIZE,
+            true,
+            false,
+            makeSpectral(texture, WitcheryShaders.spirit_chain!!)
+        )
+    }
+
 
     val GHOST = Util.memoize { resourceLocation: ResourceLocation ->
         val compositeState: RenderType.CompositeState? =

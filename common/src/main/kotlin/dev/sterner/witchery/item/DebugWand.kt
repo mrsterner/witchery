@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.handler.ChainManager
+import dev.sterner.witchery.handler.chain.ChainManager
+import dev.sterner.witchery.handler.chain.ChainType
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.InteractionHand
@@ -28,7 +29,8 @@ class DebugWand(properties: Properties) : Item(properties) {
                     player.position().add(0.0, 0.0, 7.0),
                     targetEntity,
                     0.15f, // Pull strength
-                    0.15f  // Fast extension speed
+                    0.15f,  // Fast extension speed
+                    chainType = ChainType.SOUL
                 )
             } else {
                 val chains = ChainManager.createMultipleChains(
@@ -38,7 +40,8 @@ class DebugWand(properties: Properties) : Item(properties) {
                     8.0,
                     3,
                     160,
-                    true
+                    true,
+                    chainType = ChainType.SPIRIT
                 )
                 player.displayClientMessage(
                     Component.literal("Created ${chains.size} chains around the target!").setStyle(

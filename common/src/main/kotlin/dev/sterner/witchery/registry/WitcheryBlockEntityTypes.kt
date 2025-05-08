@@ -24,6 +24,7 @@ import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.signs.CustomHangingSignBE
 import dev.sterner.witchery.block.signs.CustomSignBE
+import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
@@ -276,6 +277,13 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::CoffinBlockEntity,
             WitcheryBlocks.COFFIN.get()
+        ).build(null)
+    }
+
+    val SOUL_CAGE = BLOCK_ENTITY_TYPES.register("soul_cage") {
+        BlockEntityType.Builder.of(
+            ::SoulCageBlockEntity,
+            WitcheryBlocks.SOUL_CAGE.get()
         ).build(null)
     }
 }

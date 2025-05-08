@@ -177,6 +177,7 @@ object WitcheryNeoForgeClientEvent {
             SpinningWheelBlockEntityModel::createBodyLayer
         )
         event.registerLayerDefinition(DistilleryGemModel.LAYER_LOCATION, DistilleryGemModel::createBodyLayer)
+        event.registerLayerDefinition(GlassContainerModel.LAYER_LOCATION, GlassContainerModel::createBodyLayer)
         event.registerLayerDefinition(MandrakeEntityModel.LAYER_LOCATION, MandrakeEntityModel::createBodyLayer)
         event.registerLayerDefinition(ImpEntityModel.LAYER_LOCATION, ImpEntityModel::createBodyLayer)
         event.registerLayerDefinition(OwlEntityModel.LAYER_LOCATION, OwlEntityModel::createBodyLayer)
@@ -309,9 +310,14 @@ object WitcheryNeoForgeClientEvent {
             WitcheryShaders.spiritPortal = shaderInstance
         }
         event.registerShader(
-            ShaderInstance(event.resourceProvider, Witchery.id("chain"), DefaultVertexFormat.NEW_ENTITY)
+            ShaderInstance(event.resourceProvider, Witchery.id("spirit_chain"), DefaultVertexFormat.NEW_ENTITY)
         ) { shaderInstance ->
-            WitcheryShaders.chain = shaderInstance
+            WitcheryShaders.spirit_chain = shaderInstance
+        }
+        event.registerShader(
+            ShaderInstance(event.resourceProvider, Witchery.id("soul_chain"), DefaultVertexFormat.NEW_ENTITY)
+        ) { shaderInstance ->
+            WitcheryShaders.soul_chain = shaderInstance
         }
         event.registerShader(
             ShaderInstance(event.resourceProvider, Witchery.id("ghost"), DefaultVertexFormat.NEW_ENTITY)

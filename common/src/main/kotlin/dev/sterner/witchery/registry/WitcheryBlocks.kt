@@ -33,6 +33,7 @@ import dev.sterner.witchery.block.signs.CustomCeilingHangingSignBlock
 import dev.sterner.witchery.block.signs.CustomStandingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallHangingSignBlock
 import dev.sterner.witchery.block.signs.CustomWallSignBlock
+import dev.sterner.witchery.block.soul_cage.SoulCageBlock
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockComponent
@@ -1031,6 +1032,10 @@ object WitcheryBlocks {
 
     val BRAZIER: RegistrySupplier<BrazierBlock> = register("brazier") {
         BrazierBlock(BlockBehaviour.Properties.of().noOcclusion())
+    }
+
+    val SOUL_CAGE: RegistrySupplier<SoulCageBlock> = register("soul_cage") {
+        SoulCageBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 
     val FLOWING_SPIRIT_BLOCK: RegistrySupplier<LiquidBlock> = register(

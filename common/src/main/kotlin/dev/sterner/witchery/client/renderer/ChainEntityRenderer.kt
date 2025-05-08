@@ -5,6 +5,7 @@ import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.ChainModel
 import dev.sterner.witchery.entity.ChainEntity
+import dev.sterner.witchery.handler.chain.ChainType
 import dev.sterner.witchery.registry.WitcheryRenderTypes
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
@@ -296,9 +297,12 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
             -1
         )
 
+        val ov = if (entity.entityData.get(ChainEntity.TYPE) == ChainType.SPIRIT.index) {
+            WitcheryRenderTypes.SPIRIT_CHAIN.apply(getTextureLocation(entity))
+        } else WitcheryRenderTypes.SOUL_CHAIN.apply(getTextureLocation(entity))
         chainModel.overlay.render(
             poseStack,
-            bufferSource.getBuffer(WitcheryRenderTypes.CHAIN.apply(getTextureLocation(entity))),
+            bufferSource.getBuffer(ov),
             packedLight,
             OverlayTexture.NO_OVERLAY,
             -1
