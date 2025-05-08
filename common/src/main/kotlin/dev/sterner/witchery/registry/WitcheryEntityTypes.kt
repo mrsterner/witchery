@@ -42,6 +42,13 @@ object WitcheryEntityTypes {
         ).sized(0.35F, 0.6F).eyeHeight(0.36F).build(Witchery.id("imp").toString())
     }
 
+    val INSANITY: RegistrySupplier<EntityType<InsanityEntity>> =register("insanity") {
+        EntityType.Builder.of(
+            { _: EntityType<InsanityEntity>, level: Level ->
+                InsanityEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(0.6f, 1.8f).build(Witchery.id("insanity").toString())
+    }
 
     val AREA_EFFECT_CLOUD: RegistrySupplier<EntityType<WitcheryAreaEffectCloud>> =
        register("area_effect_cloud") {

@@ -134,6 +134,10 @@ object WitcheryNeoForgeClientEvent {
             WitcheryEntityTypes.PARASITIC_LOUSE.get(),
             ::ParasiticLouseEntityRenderer
         )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.INSANITY.get(),
+            ::InsanityEntityRenderer
+        )
     }
 
     @SubscribeEvent

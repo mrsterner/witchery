@@ -21,5 +21,6 @@ object WitcheryEntityAttributes {
         EntityAttributeRegistry.register(WitcheryEntityTypes.COVEN_WITCH, CovenWitchEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.ELLE, ElleEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.PARASITIC_LOUSE, ParasiticLouseEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.INSANITY, InsanityEntity::createAttributes)
     }
 }
