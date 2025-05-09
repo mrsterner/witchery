@@ -346,7 +346,11 @@ object WitcheryRitualRecipeProvider {
 
         RitualRecipeBuilder.create()
             .setAltarPower(6000)
-
+            .addInputItem(WitcheryItems.FOUL_FUME.get())
+            .addInputItem(Items.ROTTEN_FLESH)
+            .addInputItem(WitcheryItems.BELLADONNA_FLOWER.get())
+            .addInputItem(WitcheryItems.REEK_OF_MISFORTUNE.get())
+            .addInputEntity(EntityType.ZOMBIE)
             .addLargePattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setTicks(20 * 10)
             .setCustomRitual(RotRitual())

@@ -1,5 +1,7 @@
 package dev.sterner.witchery.integration.jei
 
+import com.mojang.blaze3d.platform.Lighting
+import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
@@ -18,9 +20,15 @@ import mezz.jei.api.recipe.RecipeType
 import mezz.jei.api.recipe.category.IRecipeCategory
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.screens.inventory.InventoryScreen
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.network.chat.Component
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.block.Block
+import org.joml.Quaternionf
+import org.joml.Vector3f
 import java.awt.Color
+import kotlin.math.atan
 
 class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<RitualJeiRecipe> {
 
@@ -190,6 +198,54 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
             background.height - 30,
             0xffffff,
         )
+
+        if (recipe.recipe.inputEntities.isNotEmpty()) {
+
+            val minecraft = Minecraft.getInstance()
+            val entityX = background.width / 2
+            val entityY = background.height / 2
+
+            for ((k, entityType) in recipe.recipe.inputEntities.withIndex()) {
+                val entity = entityType.create(minecraft.level) as? LivingEntity ?: return
+
+                val entityHeight = entity.boundingBox.ysize * 4
+                val entityWidth = entity.boundingBox.xsize * 4
+
+                val baseScale = when {
+                    entityHeight > 2.0 -> 15
+                    entityHeight > 1.0 -> 25
+                    else -> 30
+                }
+
+                val widthAdjustment = if (entityWidth > 1.0) 0.8f else 1.0f
+                val scale = baseScale * widthAdjustment
+                val yOffset = if (entityHeight <= 1.0) 0f else -8f
+
+                RenderUtils.renderEntityInInventoryFollowsMouse(
+                    graphics,
+                    entityX - 20,
+                    entityY + 20,
+                    entityX + 20,
+                    entityY - 20,
+                    scale.toInt(),
+                    yOffset + 9,
+                    mouseX.toFloat(),
+                    mouseY.toFloat(),
+                    entity
+                )
+
+                val entityName = Component.translatable(entityType.descriptionId)
+                val textWidth = minecraft.font.width(entityName)
+                graphics.drawString(
+                    minecraft.font,
+                    entityName,
+                    entityX - textWidth / 2,
+                    entityY + 30,
+                    0xFFFFFF
+                )
+            }
+
+        }
     }
 
     private fun drawCirclePattern(
@@ -293,5 +349,6 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
             10
         )
     }
+
 
 }

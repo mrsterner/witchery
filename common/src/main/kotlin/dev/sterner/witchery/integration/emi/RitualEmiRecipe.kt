@@ -1,5 +1,6 @@
 package dev.sterner.witchery.integration.emi
 
+import com.mojang.blaze3d.vertex.PoseStack
 import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
@@ -10,11 +11,15 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.RenderUtils
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.screens.inventory.InventoryScreen
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.FormattedCharSequence
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
@@ -190,6 +195,74 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             0xffffff,
             true
         )
+
+        if (recipe.inputEntities.isNotEmpty()) {
+
+            val minecraft = Minecraft.getInstance()
+            val entityX = displayWidth / 2
+            val entityY = displayHeight / 2
+
+            for (entityType in recipe.inputEntities) {
+                widgets.addDrawable(entityX - 20, entityY - 40, 40, 40) { graphics, mouseX, mouseY, delta ->
+                    val entity = entityType.create(minecraft.level) as? LivingEntity ?: return@addDrawable
+
+                    val entityHeight = entity.boundingBox.ysize
+                    val entityWidth = entity.boundingBox.xsize
+
+                    val baseScale = when {
+                        entityHeight > 2.0 -> 15
+                        entityHeight > 1.0 -> 25
+                        else -> 30
+                    }
+
+                    val widthAdjustment = if (entityWidth > 1.0) 0.8f else 1.0f
+
+                    val scale = baseScale * widthAdjustment
+
+                    val yOffset = if (entityHeight <= 1.0) 0f else -8f
+
+                    val poseStack = graphics.pose()
+                    poseStack.pushPose()
+
+                    InventoryScreen.renderEntityInInventoryFollowsMouse(
+                        graphics,
+                        entityX - 10,       // X center position
+                        entityY + 10,       // Y position (adjusted to place entity on "ground")
+                        entityX + 10,       // X right bound
+                        entityY - 10,       // Y top bound
+                        scale.toInt(),      // Calculated scale
+                        yOffset,            // Y offset adjustment
+                        mouseX.toFloat(),   // Mouse X for rotation
+                        mouseY.toFloat(),   // Mouse Y for rotation
+                        entity              // The entity to render
+                    )
+
+                    poseStack.popPose()
+
+                    val entityName = Component.translatable(entityType.descriptionId)
+                    val textWidth = minecraft.font.width(entityName)
+                    graphics.drawString(
+                        minecraft.font,
+                        entityName,
+                        entityX - textWidth / 2,
+                        entityY + 20,
+                        0xFFFFFF
+                    )
+                }
+            }
+
+            val sacrificeText = Component.translatable("witchery.jei.required_sacrifice")
+            val textWidth = minecraft.font.width(sacrificeText)
+            widgets.addDrawable(entityX - textWidth / 2, 0 + 10, textWidth, 10) { graphics, _, _, _ ->
+                graphics.drawString(
+                    minecraft.font,
+                    sacrificeText,
+                    0,
+                    0,
+                    0xFF5555  // Reddish color for sacrifice text
+                )
+            }
+        }
     }
 
     private fun renderRitualCircle(

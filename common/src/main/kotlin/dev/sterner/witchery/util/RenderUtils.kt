@@ -1,14 +1,19 @@
 package dev.sterner.witchery.util
 
+import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
 import dev.sterner.witchery.Witchery.id
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.LivingEntity
 import org.joml.Matrix4f
+import org.joml.Quaternionf
+import org.joml.Vector3f
+import kotlin.math.atan
 
 object RenderUtils {
 
@@ -223,5 +228,107 @@ object RenderUtils {
     ) {
         blitWithAlpha(poseStack, texture, 1 + px, 1 + 32 + py, 0f, 0f, 16, 16, 16, 16, 0.45f, 0x000000)
         blitWithAlpha(poseStack, texture, 0 + px, 0 + 32 + py, 0f, 0f, 16, 16, 16, 16)
+    }
+
+    fun renderEntityOnScreen(
+        guiGraphics: GuiGraphics,
+        x1: Int,
+                             y1: Int,
+                             x2: Int,
+                             y2: Int,
+                             scale: Int,
+                             yOffset: Float,
+                             mouseX: Float,
+                             mouseY: Float,
+                             entity: LivingEntity){
+        guiGraphics.enableScissor(x1, y1, x2, y2)
+        renderEntityInInventoryFollowsMouse(guiGraphics, x1, y1, x2, y2, scale, yOffset, mouseX, mouseY, entity)
+        guiGraphics.disableScissor()
+    }
+
+    fun renderEntityInInventoryFollowsMouse(
+        guiGraphics: GuiGraphics,
+        x1: Int,
+        y1: Int,
+        x2: Int,
+        y2: Int,
+        scale: Int,
+        yOffset: Float,
+        mouseX: Float,
+        mouseY: Float,
+        entity: LivingEntity
+    ) {
+        val f = (x1 + x2).toFloat() / 2.0f
+        val g = (y1 + y2).toFloat() / 2.0f
+        //guiGraphics.enableScissor(x1, y1, x2, y2)
+        val h = atan(((f - mouseX) / 40.0f).toDouble()).toFloat()
+        val i = atan(((g - mouseY) / 40.0f).toDouble()).toFloat()
+        val quaternionf = Quaternionf().rotateZ(Math.PI.toFloat())
+        val quaternionf2 = Quaternionf().rotateX(i * 20.0f * (Math.PI / 180.0).toFloat())
+        quaternionf.mul(quaternionf2)
+        val j = entity.yBodyRot
+        val k = entity.yRot
+        val l = entity.xRot
+        val m = entity.yHeadRotO
+        val n = entity.yHeadRot
+        entity.yBodyRot = 180.0f + h * 20.0f
+        entity.yRot = 180.0f + h * 40.0f
+        entity.xRot = -i * 20.0f
+        entity.yHeadRot = entity.yRot
+        entity.yHeadRotO = entity.yRot
+        val o = entity.scale
+        val vector3f = Vector3f(0.0f, entity.bbHeight / 2.0f + yOffset * o, 0.0f)
+        val p = scale.toFloat() / o
+        renderEntityInInventory(guiGraphics, f, g, p, vector3f, quaternionf, quaternionf2, entity)
+        entity.yBodyRot = j
+        entity.yRot = k
+        entity.xRot = l
+        entity.yHeadRotO = m
+        entity.yHeadRot = n
+        //guiGraphics.disableScissor()
+    }
+
+    fun renderEntityInInventory(
+        guiGraphics: GuiGraphics,
+        x: Float,
+        y: Float,
+        scale: Float,
+        translate: Vector3f,
+        pose: Quaternionf?,
+        cameraOrientation: Quaternionf?,
+        entity: LivingEntity
+    ) {
+        val poseStack = guiGraphics.pose()
+        poseStack.pushPose()
+        poseStack.translate(x.toDouble(), y.toDouble(), 950.0)
+        poseStack.scale(scale, scale, -scale)
+        poseStack.translate(translate.x, translate.y, translate.z)
+        poseStack.mulPose(pose)
+        Lighting.setupForEntityInInventory()
+        val entityRenderDispatcher = Minecraft.getInstance().entityRenderDispatcher
+        if (cameraOrientation != null) {
+            entityRenderDispatcher.overrideCameraOrientation(
+                cameraOrientation.conjugate(Quaternionf()).rotateY(Math.PI.toFloat())
+            )
+        }
+
+        entityRenderDispatcher.setRenderShadow(false)
+        RenderSystem.runAsFancy {
+            entityRenderDispatcher.render(
+                entity,
+                0.0,
+                0.0,
+                0.0,
+                0.0f,
+                1.0f,
+                poseStack,
+                guiGraphics.bufferSource(),
+                15728880
+            )
+        }
+        guiGraphics.flush()
+        entityRenderDispatcher.setRenderShadow(true)
+        poseStack.popPose()
+        Lighting.setupFor3DItems()
     }
 }
