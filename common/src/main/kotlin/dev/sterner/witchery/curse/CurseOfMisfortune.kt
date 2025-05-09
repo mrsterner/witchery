@@ -8,11 +8,9 @@ import net.minecraft.world.level.Level
 
 class CurseOfMisfortune : Curse() {
 
-
-
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
 
-        if (level.gameTime % 20 == 0L) {
+        if (level.gameTime % 80 == 0L) {
             if (level.random.nextDouble() < 0.01) {
                 player.addEffect(MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20 * 2, 0))
             }

@@ -6,11 +6,13 @@ import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
+import dev.sterner.witchery.entity.CovenWitchEntity
 import dev.sterner.witchery.handler.CovenHandler
 import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.item.SeerStoneItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
+import dev.sterner.witchery.platform.CovenPlayerAttachment
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
@@ -116,7 +118,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             RitualState.CONSUMING_ITEMS -> processItemConsumption(level)
             RitualState.CONSUMING_SACRIFICES -> processSacrificeConsumption(level)
             RitualState.ACTIVE -> processActiveRitual(level)
-            else -> {} // No action for IDLE
+            else -> {}
         }
     }
 
@@ -126,7 +128,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun processActiveRitual(level: Level) {
         ritualTickCounter++
 
-        // Attempt to consume altar power, reset if failed
         if (ritualRecipe != null && !consumeAltarPower(level, ritualRecipe!!)) {
             resetRitual()
             return
@@ -134,7 +135,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         onTickRitual(level)
 
-        // Check if ritual should end
         if (ritualRecipe != null && tickCounter >= ritualRecipe!!.ticks && !ritualRecipe!!.isInfinite) {
             onEndRitual(level)
             resetRitual()
@@ -192,18 +192,15 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun processSacrificeConsumption(level: Level) {
         val recipeEntities: List<EntityType<*>> = ritualRecipe?.inputEntities ?: emptyList()
 
-        // Skip sacrifice phase if no sacrifices needed
         if (recipeEntities.isEmpty()) {
             onStartRitual(level)
             return
         }
 
-        // Skip if already consumed all required sacrifices
         if (consumedSacrifices.size == recipeEntities.size) {
             return
         }
 
-        // Process sacrifices on interval
         if (tickCounter % TICK_INTERVAL == 0) {
             val entities: List<LivingEntity> = getSacrificeEntities(level)
 
@@ -212,12 +209,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             if (matchingEntity != null) {
                 consumeSacrifice(matchingEntity)
 
-                // Check if all sacrifices are consumed
                 if (consumedSacrifices.containsAll(recipeEntities)) {
                     onStartRitual(level)
                 }
             } else {
-                // No matching entity found, reset ritual
                 resetRitual()
             }
         }
@@ -266,7 +261,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             val consumedItems = mutableListOf<ItemStack>()
             var consumedFromEntity = false
 
-            // Try to consume from item entities
             val itemEntities = getItemEntities(level)
             for (itemEntity in itemEntities) {
                 if (tryConsumeFromItemEntity(itemEntity, recipeItems, consumedItems)) {
@@ -275,7 +269,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
-            // If nothing consumed from entities, try grasspers
             if (!consumedFromEntity) {
                 val grasspers = findNearbyGrasspers(level)
                 for ((_, grassper) in grasspers) {
@@ -285,15 +278,12 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
 
-            // Add consumed items to inventory
             consumedItems.forEach { addItemToInventory(items, it) }
 
-            // Check if all required items are present
             if (itemsMatchRecipe(items, recipeItems)) {
                 currentState = RitualState.CONSUMING_SACRIFICES
                 setChanged()
             } else if (itemEntities.isEmpty() && findNearbyGrasspers(level).isEmpty()) {
-                // No more items available, ritual failed
                 resetRitual()
             }
         }
@@ -400,7 +390,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             level?.let { Containers.dropContents(it, blockPos, this) }
         }
 
-        // Clear inventory and state
         items = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY)
         consumedSacrifices = mutableListOf()
 
@@ -411,7 +400,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tickCounter = 0
         ritualTickCounter = 0
 
-        // Clear context data
         targetPlayer = null
         targetEntity = null
         targetPos = null
@@ -435,7 +423,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      * Add an item to the ritual inventory
      */
     private fun addItemToInventory(items: NonNullList<ItemStack>, stack: ItemStack) {
-        // First try to find a matching stack to merge with
+
         for (i in items.indices) {
             if (ItemStack.isSameItem(items[i], stack)) {
                 items[i].grow(1)
@@ -444,7 +432,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
         }
 
-        // Otherwise find an empty slot
         for (i in items.indices) {
             if (items[i].isEmpty) {
                 items[i] = stack.copy()
@@ -461,7 +448,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             return InteractionResult.PASS
         }
 
-        // Handle ritual reset with shift-click
         if (ritualRecipe != null && player.isShiftKeyDown) {
             items.clear()
             resetRitual()
@@ -469,10 +455,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             return InteractionResult.SUCCESS
         }
 
-        // Update altar position cache if needed
         updateAltarCache(player.level())
 
-        // Try to start a ritual if none is active
         if (ritualRecipe == null && level is ServerLevel) {
             tryStartRitual(player)
         }
@@ -508,7 +492,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (selectedRecipe != null) {
             Witchery.logDebugRitual("Selected recipe: ${selectedRecipe.value} with inputs: ${selectedRecipe.value.inputItems.size} items and ${selectedRecipe.value.inputEntities.size} entities.")
 
-            // Validate ritual conditions
             if (validateRitualRequirements(player, level!!, selectedRecipe.value)) {
                 startRitual(player, selectedRecipe.value)
             } else {
@@ -556,13 +539,11 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun collectNearbyItems(level: Level): List<ItemStack> {
         val result = mutableListOf<ItemStack>()
 
-        // Add dropped items
         result.addAll(level.getEntities(
             EntityType.ITEM,
             AABB(blockPos).inflate(ITEM_SEARCH_RADIUS, 0.0, ITEM_SEARCH_RADIUS)
         ) { true }.map { it.item })
 
-        // Add items from grasspers
         BlockPos.betweenClosedStream(
             AABB.ofSize(
                 blockPos.center,
@@ -597,7 +578,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         items: List<ItemStack>,
         entities: List<LivingEntity>
     ): RecipeHolder<RitualRecipe>? {
-        // Filter valid recipes based on items
         val validItemRecipes = recipes?.filter { recipe ->
             val recipeItems = recipe.value.inputItems
             recipeItems.all { recipeItem ->
@@ -607,7 +587,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         Witchery.logDebugRitual("Filtered valid item recipes: ${validItemRecipes.size} found.")
 
-        // Further filter by entities
         val validSacrificesAndItemsRecipe = validItemRecipes.filter { recipe ->
             val requiredSacrifices = recipe.value.inputEntities
             requiredSacrifices.isEmpty() || requiredSacrifices.all { requiredEntity ->
@@ -617,7 +596,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         Witchery.logDebugRitual("Filtered valid item and entity recipes: ${validSacrificesAndItemsRecipe.size} found.")
 
-        // Sort by number of inputs (items + entities), picking the longest recipe
         return validSacrificesAndItemsRecipe.maxByOrNull { recipe ->
             recipe.value.inputItems.size + recipe.value.inputEntities.size
         }
@@ -644,43 +622,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         )
 
         return hasValidCircle && hasEnoughPower && meetsCelestialCondition && hasCovenCount && meetsWeatherRequirement && requiresCat
-    }
-
-    /**
-     * Check if the coven requirements are met
-     */
-    private fun hasCovenCondition(player: Player, recipe: RitualRecipe): Boolean {
-        if (recipe.covenCount == 0) {
-            return true
-        }
-
-        // First check for actual witches nearby
-        val witches = player.level().getEntities(
-            WitcheryEntityTypes.COVEN_WITCH.get(),
-            AABB(blockPos).inflate(COVEN_SEARCH_RADIUS, COVEN_SEARCH_HEIGHT, COVEN_SEARCH_RADIUS)
-        ) { it.isAlive }
-
-        witches.forEach {
-            it.setLastRitualPos(Optional.of(this.blockPos))
-        }
-
-        if (witches.size >= recipe.covenCount) {
-            return true
-        }
-
-        // Check for seer stone as alternative
-        if (player.inventory.contains { it.`is`(WitcheryItems.SEER_STONE.get()) }) {
-            val size = CovenHandler.getWitchesFromCoven(player).size
-            if (size >= recipe.covenCount) {
-                level?.let { safeLevel ->
-                    SeerStoneItem.summonWitchesAroundCircle(player, safeLevel, size)
-                }
-                return true
-            }
-        }
-
-        player.displayClientMessage(Component.translatable("witchery.too_few_in_coven"), true)
-        return false
     }
 
     private fun requiresCat(player: Player, recipe: RitualRecipe): Boolean {
@@ -746,27 +687,66 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     /**
+     * Checks if there are enough coven witches nearby for the ritual
+     * This function counts actual witches in the area first
+     * If there aren't enough, it checks if the player has a seer stone and belongs to a coven
+     */
+    private fun hasCovenCondition(player: Player, recipe: RitualRecipe): Boolean {
+        if (recipe.covenCount == 0) {
+            return true
+        }
+
+        val witches = player.level().getEntities(
+            WitcheryEntityTypes.COVEN_WITCH.get(),
+            AABB(blockPos).inflate(COVEN_SEARCH_RADIUS, COVEN_SEARCH_HEIGHT, COVEN_SEARCH_RADIUS)
+        ) {
+            it.isAlive && it is CovenWitchEntity && it.getIsCoven()
+        }
+
+        witches.forEach {
+            if (it is CovenWitchEntity) {
+                it.setLastRitualPos(Optional.of(this.blockPos))
+            }
+        }
+
+        if (witches.size >= recipe.covenCount) {
+            return true
+        }
+
+        if (player.inventory.contains { it.`is`(WitcheryItems.SEER_STONE.get()) }) {
+            val covenData = CovenPlayerAttachment.getData(player)
+            val activeWitches = covenData.covenWitches.count { it.isActive }
+
+            if (activeWitches >= recipe.covenCount) {
+                level?.let { safeLevel ->
+                    SeerStoneItem.summonWitchesAroundCircle(player, safeLevel, activeWitches)
+                }
+                return true
+            }
+        }
+
+        player.displayClientMessage(Component.translatable("witchery.too_few_in_coven"), true)
+        return false
+    }
+
+    /**
      * Check if there's enough altar power for the ritual
      */
     private fun hasEnoughAltarPower(level: Level, recipe: RitualRecipe): Boolean {
         val attunedStoneBonus = getAttunedStoneBonus(level)
 
-        // Validate altar is still valid
         if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
             cachedAltarPos = null
             setChanged()
             return false
         }
 
-        // Calculate power requirement after bonus
         val requiredAltarPower = Mth.clamp(recipe.altarPower - attunedStoneBonus, 0, Int.MAX_VALUE)
 
-        // Skip check if no power required
         if (requiredAltarPower <= 0) {
             return true
         }
 
-        // Check altar power
         return cachedAltarPos != null &&
                 tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
     }
@@ -785,26 +765,21 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val attunedStoneBonus = getAttunedStoneBonus(level)
         val maybeAttunedItem = findAttunedStone(level)
 
-        // Validate altar is still valid
         if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
             cachedAltarPos = null
             setChanged()
             return false
         }
 
-        // Calculate power needed
         val requiredAltarPower = recipe.altarPower - attunedStoneBonus
 
-        // Skip check if no power required
         if (requiredAltarPower <= 0) {
             return true
         }
 
-        // Try to consume power
         val success = cachedAltarPos != null &&
                 tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
 
-        // Consume attuned stone if used and ritual succeeded
         if (success && maybeAttunedItem.isNotEmpty()) {
             maybeAttunedItem[0].item.remove(WitcheryDataComponents.ATTUNED.get())
         }
@@ -856,17 +831,14 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         ritualTickCounter = pTag.getInt(TAG_RITUAL_TICK_COUNTER)
         hasRitualStarted = pTag.getBoolean(TAG_HAS_RITUAL_STARTED)
 
-        // Load cached altar position
         if (pTag.contains(TAG_ALTAR_POS)) {
             cachedAltarPos = NbtUtils.readBlockPos(pTag, TAG_ALTAR_POS).getOrNull()
         }
 
-        // Load ritual recipe
         if (pTag.contains(TAG_RITUAL_ID)) {
             ritualRecipe = safelyLoadRitualRecipe(pTag.getCompound(TAG_RITUAL_ID), pRegistries)
         }
 
-        // Load context data
         if (pTag.contains(TAG_OWNER_NAME)) {
             ownerName = pTag.getString(TAG_OWNER_NAME)
         }
@@ -883,7 +855,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             loadGlobalPosition(pTag)
         }
 
-        // Load consumed sacrifices
         consumedSacrifices = pTag.getList(TAG_CONSUMED_SACRIFICES, 8)
             .mapNotNull { EntityType.byString(it.asString).getOrNull() }
             .toMutableList()
@@ -929,7 +900,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         super.saveAdditional(tag, registries)
         ContainerHelper.saveAllItems(tag, this.items, registries)
 
-        // Save ritual state
         tag.putBoolean(TAG_SHOULD_RUN, currentState != RitualState.IDLE)
         tag.putBoolean(TAG_SHOULD_CONSUME_SACRIFICES, currentState == RitualState.CONSUMING_SACRIFICES)
         tag.putBoolean(TAG_SHOULD_CONSUME_ITEMS, currentState == RitualState.CONSUMING_ITEMS)
@@ -938,28 +908,23 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putInt(TAG_TICK_COUNTER, tickCounter)
         tag.putInt(TAG_RITUAL_TICK_COUNTER, ritualTickCounter)
 
-        // Save cached altar position
         if (cachedAltarPos != null) {
             tag.put(TAG_ALTAR_POS, NbtUtils.writeBlockPos(cachedAltarPos!!))
         }
 
-        // Save ritual recipe
         if (ritualRecipe != null) {
             tag.put(TAG_RITUAL_ID, ritualRecipe!!.toNbt(registries))
         }
 
-        // Save context data
         ownerName?.let { tag.putString(TAG_OWNER_NAME, it) }
         targetPlayer?.let { tag.putUUID(TAG_TARGET_PLAYER, it) }
         targetEntity?.let { tag.putInt(TAG_TARGET_ENTITY, it) }
 
-        // Save global position
         if (targetPos != null) {
             saveGlobalPosition(tag)
         }
 
-        // Save consumed sacrifices
-        val sacrificesList = consumedSacrifices.mapNotNull { EntityType.getKey(it).toString() }
+        val sacrificesList = consumedSacrifices.map { EntityType.getKey(it).toString() }
         tag.put(TAG_CONSUMED_SACRIFICES, sacrificesList.fold(ListTag()) { list, entity ->
             list.add(StringTag.valueOf(entity))
             list
@@ -988,7 +953,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             .ifPresent { dimensionTag -> tag.put(TAG_DIMENSION, dimensionTag) }
     }
 
-    // Container implementation methods
 
     override fun clearContent() {
         items.clear()
@@ -1030,6 +994,5 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     override fun receiveAltarPosition(blockPos: BlockPos) {
-        // Implemented for AltarPowerConsumer interface
     }
 }

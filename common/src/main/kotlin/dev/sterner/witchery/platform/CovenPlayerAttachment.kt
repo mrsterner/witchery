@@ -6,26 +6,28 @@ import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncCovenS2CPacket
 import dev.sterner.witchery.registry.WitcheryPayloads
+import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
+import java.util.*
 
 object CovenPlayerAttachment {
-
     @ExpectPlatform
     @JvmStatic
-    fun getData(player: Player): Data {
+    fun getData(player: Player): CovenData {
         throw AssertionError()
     }
 
     @ExpectPlatform
     @JvmStatic
-    fun setData(player: Player, data: Data) {
+    fun setData(player: Player, data: CovenData) {
         throw AssertionError()
     }
 
-    fun sync(player: Player, data: Data) {
+    fun sync(player: Player, data: CovenData) {
         if (player.level() is ServerLevel) {
             WitcheryPayloads.sendToPlayers(
                 player.level(),
@@ -35,19 +37,45 @@ object CovenPlayerAttachment {
         }
     }
 
-    data class Data(
-        val covenWitchList: List<CompoundTag> = listOf()
+    data class CovenData(
+        val covenWitches: List<WitchData> = listOf(),
+        val playerMembers: List<UUID> = listOf(),
+        val lastRitualTime: Long = 0L
     ) {
-
         companion object {
-            val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
+            val CODEC: Codec<CovenData> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    CompoundTag.CODEC.listOf().fieldOf("covenWitchList").forGetter { it.covenWitchList }
-
-                ).apply(instance, ::Data)
+                    WitchData.CODEC.listOf().fieldOf("covenWitches").forGetter { it.covenWitches },
+                    UUIDUtil.CODEC.listOf().fieldOf("playerMembers").forGetter { it.playerMembers },
+                    Codec.LONG.fieldOf("lastRitualTime").forGetter { it.lastRitualTime }
+                ).apply(instance, ::CovenData)
             }
 
-            val ID: ResourceLocation = Witchery.id("coven_player_data")
+            val ID: ResourceLocation = Witchery.id("coven_data")
+        }
+
+
+        data class WitchData(
+            val entityData: CompoundTag,
+            val health: Float,
+            val name: Component,
+            val isActive: Boolean = true
+        ) {
+            companion object {
+                private val COMPONENT_CODEC: Codec<Component> = Codec.STRING.xmap(
+                    { str -> Component.literal(str) },
+                    { component -> component.string }
+                )
+
+                val CODEC: Codec<WitchData> = RecordCodecBuilder.create { instance ->
+                    instance.group(
+                        CompoundTag.CODEC.fieldOf("entityData").forGetter { it.entityData },
+                        Codec.FLOAT.fieldOf("health").forGetter { it.health },
+                        COMPONENT_CODEC.fieldOf("name").forGetter { it.name },
+                        Codec.BOOL.fieldOf("isActive").forGetter { it.isActive }
+                    ).apply(instance, ::WitchData)
+                }
+            }
         }
     }
 }

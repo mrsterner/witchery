@@ -8,17 +8,6 @@ import net.minecraft.world.level.Level
 
 class CurseOfInsanity : Curse() {
 
-    /*
-    storm
-   AP: 2000
-   taglock
-   exhale
-   poison potat
-   sugar
-   brew of grotesque
-
-   11x11 infernal
-    */
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
         if (level.gameTime % (20 * 60 + (level.random.nextDouble() * 30).toInt()) == 0L) {
             val pos = findLocationForInsanityMob(player.blockPosition(), level)
