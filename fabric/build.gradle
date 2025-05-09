@@ -61,7 +61,7 @@ dependencies {
     include(modImplementation 'com.github.Chocohead:Fabric-ASM:v2.3')
 
     modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
-    //modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
+    modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
 
     //modLocalRuntime "maven.modrinth:sodium:mc1.21-0.6.0-beta.2-fabric"
 
@@ -87,7 +87,7 @@ dependencies {
     modRuntimeOnly "lol.bai:badpackets:fabric-${badpacketsVersion}"
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
-    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+    //modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 
     modApi("com.github.Virtuoel:Pehkui:${pehkui_version}", {
         exclude group: "net.fabricmc.fabric-api"

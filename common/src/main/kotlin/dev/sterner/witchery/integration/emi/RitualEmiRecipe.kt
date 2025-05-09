@@ -202,42 +202,35 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             val entityX = displayWidth / 2
             val entityY = displayHeight / 2
 
-            for (entityType in recipe.inputEntities) {
-                widgets.addDrawable(entityX - 20, entityY - 40, 40, 40) { graphics, mouseX, mouseY, delta ->
-                    val entity = entityType.create(minecraft.level) as? LivingEntity ?: return@addDrawable
+            for ((k, entityType) in recipe.inputEntities.withIndex()) {
+                val entity = entityType.create(minecraft.level) as? LivingEntity ?: return
 
-                    val entityHeight = entity.boundingBox.ysize
-                    val entityWidth = entity.boundingBox.xsize
+                val entityHeight = entity.boundingBox.ysize * 4
+                val entityWidth = entity.boundingBox.xsize * 4
 
-                    val baseScale = when {
-                        entityHeight > 2.0 -> 15
-                        entityHeight > 1.0 -> 25
-                        else -> 30
-                    }
+                val baseScale = when {
+                    entityHeight > 2.0 -> 15
+                    entityHeight > 1.0 -> 25
+                    else -> 30
+                }
 
-                    val widthAdjustment = if (entityWidth > 1.0) 0.8f else 1.0f
+                val widthAdjustment = if (entityWidth > 1.0) 0.8f else 1.0f
+                val scale = baseScale * widthAdjustment
+                val yOffset = if (entityHeight <= 1.0) 0f else -8f
 
-                    val scale = baseScale * widthAdjustment
-
-                    val yOffset = if (entityHeight <= 1.0) 0f else -8f
-
-                    val poseStack = graphics.pose()
-                    poseStack.pushPose()
-
-                    InventoryScreen.renderEntityInInventoryFollowsMouse(
+                widgets.addDrawable(0,0, 128, 128) { graphics, mouseX, mouseY, _ ->
+                    RenderUtils.renderEntityInInventoryFollowsMouse(
                         graphics,
-                        entityX - 10,       // X center position
-                        entityY + 10,       // Y position (adjusted to place entity on "ground")
-                        entityX + 10,       // X right bound
-                        entityY - 10,       // Y top bound
-                        scale.toInt(),      // Calculated scale
-                        yOffset,            // Y offset adjustment
-                        mouseX.toFloat(),   // Mouse X for rotation
-                        mouseY.toFloat(),   // Mouse Y for rotation
-                        entity              // The entity to render
+                        entityX - 20,
+                        entityY + 20,
+                        entityX + 20,
+                        entityY - 20,
+                        scale.toInt(),
+                        yOffset + 8,
+                        mouseX.toFloat(),
+                        mouseY.toFloat(),
+                        entity
                     )
-
-                    poseStack.popPose()
 
                     val entityName = Component.translatable(entityType.descriptionId)
                     val textWidth = minecraft.font.width(entityName)
@@ -245,22 +238,10 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                         minecraft.font,
                         entityName,
                         entityX - textWidth / 2,
-                        entityY + 20,
+                        entityY + 15,
                         0xFFFFFF
                     )
                 }
-            }
-
-            val sacrificeText = Component.translatable("witchery.jei.required_sacrifice")
-            val textWidth = minecraft.font.width(sacrificeText)
-            widgets.addDrawable(entityX - textWidth / 2, 0 + 10, textWidth, 10) { graphics, _, _, _ ->
-                graphics.drawString(
-                    minecraft.font,
-                    sacrificeText,
-                    0,
-                    0,
-                    0xFF5555  // Reddish color for sacrifice text
-                )
             }
         }
     }
