@@ -68,6 +68,7 @@ class WitcheryBlockLootProvider(
         dropSelf(WitcheryBlocks.CRITTER_SNARE.get())
 
         dropOther(WitcheryBlocks.SACRIFICIAL_CIRCLE.get(), Blocks.SKELETON_SKULL)
+        dropOther(WitcheryBlocks.SOUL_CAGE.get(), WitcheryBlocks.BRAZIER.get())
 
         dropSelf(WitcheryBlocks.IRON_CANDELABRA.get())
         dropSelf(WitcheryBlocks.WHITE_IRON_CANDELABRA.get())

@@ -18,6 +18,7 @@ import dev.architectury.registry.item.ItemPropertiesRegistry
 import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.api.schedule.TickTaskScheduler
+import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.soul_cage.SoulCageBlock
@@ -168,6 +169,7 @@ object Witchery {
         BarkBeltHandler.registerEvents()
         TickTaskScheduler.registerEvents()
         BindSpectralCreaturesRitual.registerEvents()
+        BrazierBlockEntity.registerEvents()
         SoulCageBlockEntity.registerEvents()
         WitcheryLootInjects.registerEvents()
         WitcheryStructureInjects.registerEvents()

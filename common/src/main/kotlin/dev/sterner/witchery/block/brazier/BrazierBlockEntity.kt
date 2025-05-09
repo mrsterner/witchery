@@ -1,9 +1,12 @@
 package dev.sterner.witchery.block.brazier
 
+import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.InteractionEvent
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.BlockPos
@@ -16,15 +19,20 @@ import net.minecraft.nbt.NbtUtils
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.ItemTags
 import net.minecraft.world.*
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.RecipeCraftingHolder
+import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.RecipeHolder
 import net.minecraft.world.item.crafting.RecipeManager
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.StainedGlassBlock
+import net.minecraft.world.level.block.TintedGlassBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.Vec3
@@ -247,5 +255,31 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun getRecipeUsed(): RecipeHolder<*>? {
         return null
+    }
+
+    companion object {
+        fun registerEvents() {
+            InteractionEvent.RIGHT_CLICK_BLOCK.register(::makeSoulCage)
+        }
+
+        private fun makeSoulCage(player: Player, interactionHand: InteractionHand?, blockPos: BlockPos, direction: Direction?): EventResult? {
+            val level = player.level()
+            if (level.getBlockState(blockPos).`is`(WitcheryBlocks.BRAZIER.get())) {
+                val item = player.mainHandItem.item
+                val bl = if (item is BlockItem) {
+                    item.block is TintedGlassBlock || item.block is StainedGlassBlock
+                } else false
+
+                if (player.mainHandItem.`is`(Items.GLASS) || bl) {
+                    if (!player.isCreative) {
+                        player.mainHandItem.shrink(1)
+                    }
+                    level.setBlockAndUpdate(blockPos, WitcheryBlocks.SOUL_CAGE.get().defaultBlockState())
+                    return EventResult.interruptTrue()
+                }
+            }
+
+            return EventResult.pass()
+        }
     }
 }

@@ -5,6 +5,7 @@ import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.handler.chain.ChainManager
 import dev.sterner.witchery.handler.chain.ChainType
+import dev.sterner.witchery.platform.EtherealEntityAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
@@ -17,6 +18,7 @@ import net.minecraft.util.Mth
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.monster.ZombieVillager
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -29,6 +31,7 @@ import java.util.*
 import kotlin.Comparator
 import kotlin.collections.HashMap
 import kotlin.math.atan2
+import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
@@ -36,6 +39,8 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.SOUL_CAGE.get(), blockPos, blockState) {
 
     var hasSoul = false
+    var chainChargeUp = 0
+    var maxChargeUp = 2 //In seconds
 
     //Clientside:
     // Current rotation values
@@ -54,55 +59,50 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private var isTrackingPlayer = false
     private var previousTrackingState = false
 
-    override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
-        lookAndConsumeSoul(pPlayer.level(), blockPos)
-        return super.onUseWithItem(pPlayer, pStack, pHand)
-    }
-
     fun lookAndConsumeSoul(level: Level, pos: BlockPos, radius: Double = 8.0) {
         if (hasSoul) return
 
         if (level is ServerLevel) {
             val area = AABB.ofSize(pos.center, radius * 2, radius * 2, radius * 2)
 
-            val villagers = level.getEntitiesOfClass(Villager::class.java, area)
+            val villagers = level.getEntitiesOfClass(ZombieVillager::class.java, area)
+                .filter {
+                    EtherealEntityAttachment.getData(it).isEthereal
+                }
 
             if (villagers.isNotEmpty()) {
-                val closestVillager = villagers.minByOrNull { it.distanceToSqr(pos.center) }
-                closestVillager?.let { villager ->
 
-                    entityToSoulCageMap[villager.uuid] = pos
+                chainChargeUp++
 
-                    for (i in 0 until 20) {
-                        level.sendParticles(
-                            ParticleTypes.ENCHANT,
-                            villager.x + (level.random.nextDouble() - 0.5),
-                            villager.y + level.random.nextDouble() * 2,
-                            villager.z + (level.random.nextDouble() - 0.5),
-                            1, 0.0, 0.0, 0.0, 0.5
+                if (chainChargeUp > maxChargeUp) {
+                    chainChargeUp = 0
+
+                    val closestVillager = villagers.minByOrNull { it.distanceToSqr(pos.center) }
+                    closestVillager?.let { villager ->
+
+                        entityToSoulCageMap[villager.uuid] = pos
+
+                        ChainManager.createHookAndPullChain(
+                            level,
+                            pos.center.add(0.0, 0.25, 0.0),
+                            villager,
+                            pullDelay = 20,
+                            extensionSpeed = 0.4f,
+                            chainType = ChainType.SOUL
                         )
+
+                        level.playSound(
+                            null,
+                            pos,
+                            SoundEvents.CHAIN_PLACE,
+                            SoundSource.BLOCKS,
+                            1.0f,
+                            0.5f
+                        )
+                        return
                     }
-
-                    ChainManager.createHookAndPullChain(
-                        level,
-                        pos.center.add(0.0, 0.25, 0.0),
-                        villager,
-                        pullDelay = 20,
-                        extensionSpeed = 0.4f,
-                        chainType = ChainType.SOUL
-                    )
-
-                    level.playSound(
-                        null,
-                        pos,
-                        SoundEvents.CHAIN_PLACE,
-                        SoundSource.BLOCKS,
-                        1.0f,
-                        0.5f
-                    )
-
-                    return
                 }
+                setChanged()
             }
         }
     }
@@ -124,15 +124,58 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             lookAndConsumeSoul(level, pos)
         }
 
-        if (hasSoul && level.gameTime % 40 == 0L) {
+        if (hasSoul && level.gameTime % 20 == 0L) {
             if (level is ServerLevel) {
-                level.sendParticles(
-                    ParticleTypes.SOUL,
-                    pos.x + 0.5 + (level.random.nextDouble() - 0.5) * 0.3,
-                    pos.y + 0.5 + level.random.nextDouble() * 0.3,
-                    pos.z + 0.5 + (level.random.nextDouble() - 0.5) * 0.3,
-                    1, 0.0, 0.05, 0.0, 0.0
-                )
+                val blockWidthX = 12.0 / 16.0
+                val blockWidthZ = 12.0 / 16.0
+
+                val marginX = (1.0 - blockWidthX) / 2.0 + 0.75
+                val marginZ = (1.0 - blockWidthZ) / 2.0 + 0.75
+
+                val particleType = ParticleTypes.SOUL
+
+                when (level.random.nextInt(4)) {
+                    0 -> {
+                        level.sendParticles(
+                            particleType,
+                            pos.x + 0.5 + (level.random.nextDouble() - 0.5) * 0.4,
+                            pos.y + 1.0 + level.random.nextDouble() * 0.2,
+                            pos.z + 0.5 + (level.random.nextDouble() - 0.5) * 0.4,
+                            1, 0.0, 0.02, 0.0, 0.01
+                        )
+                    }
+
+                    1 -> {
+                        val cornerX = if (level.random.nextBoolean()) pos.x + marginX else pos.x + 1 - marginX
+                        val cornerZ = if (level.random.nextBoolean()) pos.z + marginZ else pos.z + 1 - marginZ
+
+                        level.sendParticles(
+                            particleType,
+                            cornerX,
+                            pos.y + 0.8 + level.random.nextDouble() * 0.3,
+                            cornerZ,
+                            1, 0.0, 0.03, 0.0, 0.01
+                        )
+                    }
+
+                    2, 3 -> {
+                        val side = level.random.nextInt(4)
+                        val (particleX, particleZ) = when (side) {
+                            0 -> Pair(pos.x + marginX + level.random.nextDouble() * 0.1, pos.z + 0.5 + (level.random.nextDouble() - 0.5) * 0.4)
+                            1 -> Pair(pos.x + 1 - marginX - level.random.nextDouble() * 0.1, pos.z + 0.5 + (level.random.nextDouble() - 0.5) * 0.4)
+                            2 -> Pair(pos.x + 0.5 + (level.random.nextDouble() - 0.5) * 0.4, pos.z + marginZ + level.random.nextDouble() * 0.1)
+                            else -> Pair(pos.x + 0.5 + (level.random.nextDouble() - 0.5) * 0.4, pos.z + 1 - marginZ - level.random.nextDouble() * 0.1)
+                        }
+
+                        level.sendParticles(
+                            particleType,
+                            particleX,
+                            pos.y + 0.4 + level.random.nextDouble() * 0.5,
+                            particleZ,
+                            1, 0.0, 0.02, 0.0, 0.01
+                        )
+                    }
+                }
             }
         }
 
@@ -237,7 +280,7 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             if (blockEntity is SoulCageBlockEntity) {
                 when (entity) {
-                    is Villager -> {
+                    is ZombieVillager -> {
                         blockEntity.hasSoul = true
                         blockEntity.setChanged()
 
@@ -252,12 +295,12 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
                         entityToSoulCageMap.remove(entityId)
                         entity.discard()
+
+                        makeBindingParticles(level, entity.position(), blockEntity.blockPos.center)
+                        level.setBlockAndUpdate(soulCagePos, level.getBlockState(soulCagePos).setValue(BlockStateProperties.LIT, true))
                     }
                 }
-
-                makeBindingParticles(level, entity.position(), blockEntity.blockPos.center)
             }
-            level.setBlockAndUpdate(soulCagePos, level.getBlockState(soulCagePos).setValue(BlockStateProperties.LIT, true))
         }
 
         private fun makeBindingParticles(level: Level, entityPos: Vec3, soulCagePos: Vec3) {
