@@ -8,6 +8,7 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.ritual.*
+import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket.Rot
 import net.minecraft.resources.ResourceLocation
 
 
@@ -41,6 +42,10 @@ object WitcheryRitualRegistry {
 
     val BIND_SPECTRAL_CREATURES = RITUALS.register(Witchery.id("bind_spectral_creatures")) {
         BindSpectralCreaturesRitual()
+    }
+
+    val ROT = RITUALS.register(Witchery.id("rot")) {
+        RotRitual()
     }
 
     val CODEC: Codec<Ritual?> = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Ritual> ->

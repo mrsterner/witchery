@@ -124,6 +124,41 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             lookAndConsumeSoul(level, pos)
         }
 
+        makeAmbientParticles(level, pos)
+
+        if (level is ServerLevel) {
+            return
+        }
+        prevYaw = currentYaw
+        prevPitch = currentPitch
+
+        val closestPlayer = findClosestPlayerInRange(level, pos)
+        previousTrackingState = isTrackingPlayer
+        isTrackingPlayer = closestPlayer != null
+
+        if (isTrackingPlayer && closestPlayer != null) {
+            val dx = closestPlayer.x - (pos.x + 0.5)
+            val dy = closestPlayer.y + closestPlayer.eyeHeight - (pos.y + 0.5)
+            val dz = closestPlayer.z - (pos.z + 0.5)
+
+            val newTargetYaw = (Math.toDegrees(atan2(-dx, dz)).toFloat() + 180) % 360
+
+            val horizontalDistance = sqrt(dx * dx + dz * dz)
+            val newTargetPitch = -Math.toDegrees(atan2(dy, horizontalDistance)).toFloat()
+
+            targetYaw = normalizeYawDifference(currentYaw, newTargetYaw)
+            targetPitch = newTargetPitch.coerceIn(-45f, 45f)
+        } else {
+            val gameTime = level.gameTime
+            targetYaw = (gameTime * 0.5f) % 360
+            targetPitch = (sin(gameTime * 0.05) * 10).toFloat()
+        }
+
+        currentYaw = lerpAngle(currentYaw, targetYaw)
+        currentPitch = lerpAngle(currentPitch, targetPitch)
+    }
+
+    private fun makeAmbientParticles(level: Level, pos: BlockPos) {
         if (hasSoul && level.gameTime % 20 == 0L) {
             if (level is ServerLevel) {
                 val blockWidthX = 12.0 / 16.0
@@ -178,37 +213,6 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
         }
-
-        if (level is ServerLevel) {
-            return
-        }
-        prevYaw = currentYaw
-        prevPitch = currentPitch
-
-        val closestPlayer = findClosestPlayerInRange(level, pos)
-        previousTrackingState = isTrackingPlayer
-        isTrackingPlayer = closestPlayer != null
-
-        if (isTrackingPlayer && closestPlayer != null) {
-            val dx = closestPlayer.x - (pos.x + 0.5)
-            val dy = closestPlayer.y + closestPlayer.eyeHeight - (pos.y + 0.5)
-            val dz = closestPlayer.z - (pos.z + 0.5)
-
-            val newTargetYaw = (Math.toDegrees(atan2(-dx, dz)).toFloat() + 180) % 360
-
-            val horizontalDistance = sqrt(dx * dx + dz * dz)
-            val newTargetPitch = -Math.toDegrees(atan2(dy, horizontalDistance)).toFloat()
-
-            targetYaw = normalizeYawDifference(currentYaw, newTargetYaw)
-            targetPitch = newTargetPitch.coerceIn(-45f, 45f)
-        } else {
-            val gameTime = level.gameTime
-            targetYaw = (gameTime * 0.5f) % 360
-            targetPitch = (sin(gameTime * 0.05) * 10).toFloat()
-        }
-
-        currentYaw = lerpAngle(currentYaw, targetYaw)
-        currentPitch = lerpAngle(currentPitch, targetPitch)
     }
 
     /**
