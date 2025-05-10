@@ -52,7 +52,7 @@ class VampireAltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) 
     ) {
         if (blockEntity.bloodPercent() > 0) {
             poseStack.pushPose()
-            poseStack.translate(0.5,0.5 + (0.2 * bloodPercent),0.5)
+            poseStack.translate(0.5,0.62 + (0.2 * bloodPercent),0.5)
             poseStack.scale(0.85f, 1f, 0.85f)
             val level = blockEntity.level
             if (level != null) {
