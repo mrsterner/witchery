@@ -177,6 +177,8 @@ object WitcheryNeoForgeClientEvent {
             SpinningWheelBlockEntityModel::createBodyLayer
         )
         event.registerLayerDefinition(DistilleryGemModel.LAYER_LOCATION, DistilleryGemModel::createBodyLayer)
+        event.registerLayerDefinition(VampireAltarModel.LAYER_LOCATION, VampireAltarModel::createBodyLayer)
+
         event.registerLayerDefinition(GlassContainerModel.LAYER_LOCATION, GlassContainerModel::createBodyLayer)
         event.registerLayerDefinition(MandrakeEntityModel.LAYER_LOCATION, MandrakeEntityModel::createBodyLayer)
         event.registerLayerDefinition(ImpEntityModel.LAYER_LOCATION, ImpEntityModel::createBodyLayer)

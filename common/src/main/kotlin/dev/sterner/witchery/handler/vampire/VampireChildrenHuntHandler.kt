@@ -26,12 +26,6 @@ object VampireChildrenHuntHandler {
         TickEvent.SERVER_POST.register(::tickHuntAllLevels)
     }
 
-    @JvmStatic
-    fun getPlayerHunts(serverLevel: ServerLevel, playerUUID: UUID): List<HuntData> {
-        val data = getData(serverLevel)
-        return data.data[playerUUID]?.toList() ?: emptyList()
-    }
-
     private fun findSpawnPosition(serverLevel: ServerLevel, coffinPos: BlockPos): BlockPos? {
         val directions: Stream<BlockPos> = BlockPos.betweenClosedStream(AABB.ofSize(coffinPos.center, 10.0, 10.0, 10.0))
 
@@ -49,16 +43,32 @@ object VampireChildrenHuntHandler {
         val entity = EntityType.loadEntityRecursive(huntData.entityNbt, serverLevel) { it as? VampireEntity }
             ?: return null
 
-        entity.moveTo(
-            spawnPos.x + 0.5,
-            spawnPos.y.toDouble(),
-            spawnPos.z + 0.5,
-            serverLevel.random.nextFloat() * 360F,
-            0F
-        )
-        serverLevel.addFreshEntity(entity)
-        return entity as VampireEntity
+        if (entity is VampireEntity) {
+            entity.moveTo(
+                spawnPos.x + 0.5,
+                spawnPos.y.toDouble(),
+                spawnPos.z + 0.5,
+                serverLevel.random.nextFloat() * 360F,
+                0F
+            )
+            serverLevel.addFreshEntity(entity)
+
+            val bloodCollected = calculateBloodCollected(serverLevel)
+
+            entity.returnFromHunt(bloodCollected)
+
+            return entity
+        }
+
+        return null
     }
+
+    private fun calculateBloodCollected(serverLevel: ServerLevel): Int {
+        val baseAmount = 25
+        val randomBonus = serverLevel.random.nextInt(75)
+        return baseAmount + randomBonus
+    }
+
 
     @JvmStatic
     fun tryStarHunt(serverLevel: ServerLevel, vampireEntity: VampireEntity, playerUUID: UUID) {

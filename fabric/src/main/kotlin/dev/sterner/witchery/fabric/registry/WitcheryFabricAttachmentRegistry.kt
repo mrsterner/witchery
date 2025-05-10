@@ -179,12 +179,12 @@ object WitcheryFabricAttachmentRegistry {
             .buildAndRegister(WerewolfPlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
-    val COVEN_PLAYER_DATA_TYPE: AttachmentType<CovenPlayerAttachment.Data> =
-        AttachmentRegistry.builder<CovenPlayerAttachment.Data>()
-            .persistent(CovenPlayerAttachment.Data.CODEC)
+    val COVEN_PLAYER_DATA_TYPE: AttachmentType<CovenPlayerAttachment.CovenData> =
+        AttachmentRegistry.builder<CovenPlayerAttachment.CovenData>()
+            .persistent(CovenPlayerAttachment.CovenData.CODEC)
             .copyOnDeath()
-            .initializer { CovenPlayerAttachment.Data() }
-            .buildAndRegister(CovenPlayerAttachment.Data.ID)
+            .initializer { CovenPlayerAttachment.CovenData() }
+            .buildAndRegister(CovenPlayerAttachment.CovenData.ID)
 
     @Suppress("UnstableApiUsage")
     val BLOOD_LIVING_DATA_TYPE: AttachmentType<BloodPoolLivingEntityAttachment.Data> =

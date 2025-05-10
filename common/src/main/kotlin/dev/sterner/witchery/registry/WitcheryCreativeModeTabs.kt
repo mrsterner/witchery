@@ -156,6 +156,7 @@ object WitcheryCreativeModeTabs {
 
                 output.accept(wineBlood)
                 output.accept(wineVamp)
+                output.accept { WitcheryItems.VAMPIRE_ALTAR.get() }
 
                 output.accept(WitcheryItems.GRAVESTONE.get())
                 output.accept(WitcheryItems.TORN_PAGE.get())

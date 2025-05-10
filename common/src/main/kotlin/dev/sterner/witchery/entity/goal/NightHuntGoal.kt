@@ -1,23 +1,31 @@
 package dev.sterner.witchery.entity.goal
 
 import dev.sterner.witchery.entity.VampireEntity
-import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
-import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.ai.goal.Goal
 
-class NightHuntGoal(val vampire: VampireEntity) : Goal() {
+class NightHuntGoal(private val vampire: VampireEntity) : Goal() {
+
+    private var huntAttemptCooldown: Int = 0
 
     override fun canUse(): Boolean {
-        if (vampire.level().isNight && vampire.level() is ServerLevel) {
-            val serverLevel = vampire.level() as ServerLevel
-            val bl = (vampire.creationPos != null) || (vampire.coffinPos != null)
-            if (bl && vampire.getOwnerUUID() != null) {
-                VampireChildrenHuntHandler.tryStarHunt(serverLevel, vampire, vampire.getOwnerUUID()!!)
-                return true
-            }
-        }
+        return vampire.level().isNight &&
+                vampire.getOwnerUUID() != null &&
+                !vampire.huntedLastNight &&
+                huntAttemptCooldown <= 0
+    }
 
-        return false
+    override fun start() {
+        vampire.tryStartHunt()
+        huntAttemptCooldown = 200
+    }
+
+    override fun tick() {
+        if (huntAttemptCooldown > 0) {
+            huntAttemptCooldown--
+        }
+    }
+
+    override fun requiresUpdateEveryTick(): Boolean {
+        return true
     }
 }

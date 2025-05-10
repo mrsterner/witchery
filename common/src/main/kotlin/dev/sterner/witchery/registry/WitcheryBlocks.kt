@@ -38,6 +38,7 @@ import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockComponent
 import dev.sterner.witchery.block.trees.StrippableLogBlock
+import dev.sterner.witchery.block.vampire_altar.VampireAltarBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarComponent
 import dev.sterner.witchery.platform.PlatformUtils
@@ -990,6 +991,10 @@ object WitcheryBlocks {
 
     val DREAM_WEAVER_OF_IRON_ARM: RegistrySupplier<DreamWeaverBlock> = register("dream_weaver_of_iron_arm") {
         DreamWeaverBlock(BlockBehaviour.Properties.of())
+    }
+
+    val VAMPIRE_ALTAR: RegistrySupplier<VampireAltarBlock> = register("vampire_altar") {
+        VampireAltarBlock(BlockBehaviour.Properties.of())
     }
 
     val WISPY_COTTON: RegistrySupplier<CottonBlock> = register("wispy_cotton") {

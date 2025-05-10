@@ -15,10 +15,10 @@ class SyncCovenS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: CovenPlayerAttachment.Data) : this(CompoundTag().apply {
+    constructor(player: Player, data: CovenPlayerAttachment.CovenData) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
 
-        CovenPlayerAttachment.Data.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
+        CovenPlayerAttachment.CovenData.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
             put("CovenData", it.get())
         }
     })
@@ -38,7 +38,7 @@ class SyncCovenS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
 
 
         val dataTag = payload.nbt.getCompound("CovenData")
-        val wereData = CovenPlayerAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
+        val wereData = CovenPlayerAttachment.CovenData.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
         val player = client.level?.getPlayerByUUID(id)
         client.execute {

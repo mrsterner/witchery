@@ -5,16 +5,20 @@ import dev.sterner.witchery.entity.goal.NightHuntGoal
 import dev.sterner.witchery.entity.goal.VampireEscapeSunGoal
 import dev.sterner.witchery.entity.goal.VampireHurtByTargetGoal
 import dev.sterner.witchery.handler.BloodPoolHandler
+import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.block.vampire_altar.VampireAltarBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.players.OldUsersConverter
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -42,7 +46,11 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
     var huntedLastNight: Boolean = false
     var creationPos: BlockPos? = null
     var coffinPos: BlockPos? = null
+    var altarPos: BlockPos? = null
+    var collectedBlood: Int = 0
     private var inSunTick = 0
+    private var masterPlayer: Player? = null
+    private var hasMaster = false
 
     override fun getWalkTargetValue(pos: BlockPos, level: LevelReader): Float {
         return -level.getPathfindingCostFromLightLevels(pos)
@@ -77,10 +85,11 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         if (bl && target is LivingEntity && pool.bloodPool < pool.maxBlood) {
             val targetBlood = BloodPoolLivingEntityAttachment.getData(target)
             if (targetBlood.maxBlood > 0) {
-                BloodPoolHandler.increaseBlood(this, 10)
-                BloodPoolHandler.decreaseBlood(target, 10)
+                val bloodAmount = 10
+                BloodPoolHandler.increaseBlood(this, bloodAmount)
+                BloodPoolHandler.decreaseBlood(target, bloodAmount)
+                collectedBlood += bloodAmount
             }
-
         }
         return bl
     }
@@ -88,6 +97,20 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
     override fun baseTick() {
         super.baseTick()
 
+        handleSunlightDamage()
+
+        handleBloodHealing()
+
+        updateHuntStatus()
+
+        tryDepositBloodAtAltar()
+
+        if (hasMaster && level() is ServerLevel) {
+            updateMasterPlayerReference()
+        }
+    }
+    
+    private fun handleSunlightDamage() {
         val isInSunlight = this.level().canSeeSky(this.blockPosition()) && this.level().isDay
         val sunDamageSource =
             (this.level().damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
@@ -116,7 +139,9 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         } else {
             inSunTick = 0
         }
-
+    }
+    
+    private fun handleBloodHealing() {
         val bloodData = BloodPoolLivingEntityAttachment.getData(this)
         if (bloodData.bloodPool >= 75 && this.level().random.nextBoolean()) {
             if (this.health < this.maxHealth && this.health > 0) {
@@ -124,13 +149,70 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
                 this.heal(1f)
             }
         }
+    }
+    
+    private fun updateHuntStatus() {
         val currentTime = level().dayTime
-        if (currentTime - lastHuntTimestamp >= level().nightDuration()) {
+        if (currentTime - lastHuntTimestamp >= nightDuration()) {
             huntedLastNight = false
         }
     }
+    
+    private fun tryDepositBloodAtAltar() {
+        if (level() is ServerLevel && collectedBlood > 0 && altarPos != null) {
+            val blockEntity = level().getBlockEntity(altarPos!!)
+            if (blockEntity is VampireAltarBlockEntity && this.distanceToSqr(altarPos!!.x.toDouble(), altarPos!!.y.toDouble(), altarPos!!.z.toDouble()) < 4.0) {
+                if (!level().canSeeSky(altarPos!!) || !level().isDay) {
+                    blockEntity.addBlood(collectedBlood)
+                    if (hasMaster && masterPlayer != null) {
+                        val masterBloodAmount = (collectedBlood * 0.2).toInt()
+                        if (masterBloodAmount > 0) {
+                            BloodPoolHandler.increaseBlood(masterPlayer!!, masterBloodAmount)
+                        }
+                    }
+                    collectedBlood = 0
+                }
+            }
+        }
+    }
 
-    private fun Level.nightDuration(): Long {
+    private fun updateMasterPlayerReference() {
+        val serverLevel = level() as ServerLevel
+        val uuid = getOwnerUUID()
+        if (uuid != null) {
+            val player = serverLevel.server.playerList.getPlayer(uuid)
+            if (player != null) {
+                val vampireData = VampirePlayerAttachment.getData(player)
+                if (vampireData.getVampireLevel() >= 10) {
+                    masterPlayer = player
+                    hasMaster = true
+                } else {
+                    hasMaster = false
+                    masterPlayer = null
+                }
+            }
+        }
+    }
+
+    fun tryStartHunt() {
+        if (level() is ServerLevel && !huntedLastNight && !level().isDay) {
+            val serverLevel = level() as ServerLevel
+            val ownerUUID = getOwnerUUID()
+            
+            if (ownerUUID != null) {
+                VampireChildrenHuntHandler.tryStarHunt(serverLevel, this, ownerUUID)
+                huntedLastNight = true
+                lastHuntTimestamp = level().dayTime
+            }
+        }
+    }
+
+    fun returnFromHunt(bloodAmount: Int) {
+        collectedBlood += bloodAmount
+        huntedLastNight = true
+    }
+
+    private fun nightDuration(): Long {
         return 23000 - 13000
     }
 
@@ -145,6 +227,16 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
 
     fun setOwnerUUID(uuid: UUID?) {
         entityData.set(DATA_OWNERUUID_ID, Optional.ofNullable(uuid))
+        if (uuid != null && level() is ServerLevel) {
+            val player = (level() as ServerLevel).server.playerList.getPlayer(uuid)
+            if (player != null) {
+                val vampireData = VampirePlayerAttachment.getData(player)
+                if (vampireData.getVampireLevel() >= 10) {
+                    masterPlayer = player
+                    hasMaster = true
+                }
+            }
+        }
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
@@ -159,8 +251,13 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         if (this.creationPos != null) {
             compound.put("CreationPos", NbtUtils.writeBlockPos(this.creationPos!!))
         }
+        if (this.altarPos != null) {
+            compound.put("AltarPos", NbtUtils.writeBlockPos(this.altarPos!!))
+        }
         compound.putLong("HuntTimeStamp", lastHuntTimestamp)
         compound.putBoolean("HuntedLastNight", this.huntedLastNight)
+        compound.putInt("CollectedBlood", this.collectedBlood)
+        compound.putBoolean("HasMaster", this.hasMaster)
     }
 
     override fun readAdditionalSaveData(compound: CompoundTag) {
@@ -180,10 +277,12 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
 
         this.coffinPos = NbtUtils.readBlockPos(compound, "CoffinPos").orElse(null)
         this.creationPos = NbtUtils.readBlockPos(compound, "CreationPos").orElse(null)
+        this.altarPos = NbtUtils.readBlockPos(compound, "AltarPos").orElse(null)
         this.huntedLastNight = compound.getBoolean("HuntedLastNight")
         this.lastHuntTimestamp = compound.getLong("LastHuntTimestamp")
+        this.collectedBlood = compound.getInt("CollectedBlood")
+        this.hasMaster = compound.getBoolean("HasMaster")
     }
-
 
     companion object {
         fun createAttributes(): AttributeSupplier.Builder {

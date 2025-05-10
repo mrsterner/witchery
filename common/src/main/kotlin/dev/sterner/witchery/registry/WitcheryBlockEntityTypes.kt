@@ -27,6 +27,7 @@ import dev.sterner.witchery.block.signs.CustomSignBE
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
+import dev.sterner.witchery.block.vampire_altar.VampireAltarBlockEntity
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
@@ -73,6 +74,13 @@ object WitcheryBlockEntityTypes {
             .build(null)
     }
 
+    val VAMPIRE_ALTAR: RegistrySupplier<BlockEntityType<VampireAltarBlockEntity>> = BLOCK_ENTITY_TYPES.register("vampire_altar") {
+        BlockEntityType.Builder.of(
+            { pos, state -> VampireAltarBlockEntity(pos, state) },
+            WitcheryBlocks.VAMPIRE_ALTAR.get(),
+        )
+            .build(null)
+    }
 
     val CAULDRON: RegistrySupplier<BlockEntityType<CauldronBlockEntity>> = BLOCK_ENTITY_TYPES.register("cauldron") {
         BlockEntityType.Builder.of(
