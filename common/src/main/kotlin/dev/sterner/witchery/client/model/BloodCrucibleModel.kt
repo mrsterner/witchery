@@ -15,14 +15,14 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import java.util.function.Function
 
-class VampireAltarModel(var root: ModelPart) :
+class BloodCrucibleModel(var root: ModelPart) :
     Model(Function { location: ResourceLocation ->
         RenderType.entitySolid(
             location
         )
     }) {
 
-    var bone = root.getChild("bone")
+    var bone: ModelPart = root.getChild("bone")
 
     override fun renderToBuffer(
         poseStack: PoseStack,
@@ -35,7 +35,7 @@ class VampireAltarModel(var root: ModelPart) :
     }
 
     companion object {
-       val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("vampire_altar"), "main")
+       val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("blood_crucible"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

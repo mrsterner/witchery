@@ -3,10 +3,12 @@ package dev.sterner.witchery.neoforge.event
 import dev.sterner.witchery.block.coffin.CoffinBlock
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.LevelAccessor
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.event.entity.player.CanContinueSleepingEvent
 import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent
 import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent
+
 
 object WitcheryNeoForgeEvent {
 
@@ -22,7 +24,7 @@ object WitcheryNeoForgeEvent {
 
                 else -> {
                     event.entity.setRespawnPosition(event.level.dimension(), event.pos, event.entity.yRot, false, true)
-                    event.problem = if (!event.level.isDay) {
+                    event.problem = if (!isDay(event.level)) {
                         Player.BedSleepingProblem.NOT_POSSIBLE_NOW
                     } else {
                         null
@@ -39,24 +41,30 @@ object WitcheryNeoForgeEvent {
             .orElse(null)
 
         if (blockState?.block is CoffinBlock) {
-            val isDay = event.entity.level().isDay
+            val isDay = isDay(event.entity.level())
             event.setContinueSleeping(isDay && event.problem == Player.BedSleepingProblem.NOT_POSSIBLE_NOW)
             if (!isDay) {
+                print("daytime: ${event.entity.level().dayTime}")
                 event.setContinueSleeping(false)
             }
         }
     }
 
+    fun isDay(level: LevelAccessor): Boolean {
+        val angle = level.getTimeOfDay(1.0f)
+        return angle > 0.78 || angle < 0.24
+    }
+
     @SubscribeEvent
     fun sleepFinishedTimeEvent(event: SleepFinishedTimeEvent) {
         val level = event.level
-        if (level is ServerLevel && level.isDay) {
+        if (level is ServerLevel && isDay(level)) {
             val sleepingInCoffin = level.players().any { player ->
                 player.sleepingPos
                     .map { level.getBlockState(it).block is CoffinBlock }
                     .orElse(false)
             }
-
+            print(sleepingInCoffin)
             if (sleepingInCoffin) {
                 val dayTime = level.dayTime % 24000L
                 val timeAdjustment = if (dayTime > 12000L) 13000 else -11000

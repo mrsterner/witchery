@@ -3,6 +3,7 @@ package dev.sterner.witchery.item
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
+import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.entity.LilithEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
@@ -14,6 +15,7 @@ import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryConstants
+import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.ChatFormatting
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.BlockPos
@@ -26,6 +28,7 @@ import net.minecraft.stats.Stats
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
@@ -35,6 +38,7 @@ import net.minecraft.world.item.*
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import java.awt.Color
+import java.util.UUID
 
 class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
 
@@ -96,6 +100,14 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
         val level = context.level
         val player = context.player
         val pos = context.clickedPos
+        val item = context.itemInHand
+
+        if (level.getBlockEntity(pos) is BloodCrucibleBlockEntity && player != null) {
+            val bloodCrucible = level.getBlockEntity(pos) as BloodCrucibleBlockEntity
+            bloodCrucible.handleWineGlass(player, item)
+            return InteractionResult.SUCCESS
+        }
+
         if (level.getBlockEntity(pos) is SacrificialBlockEntity && level.isNight) {
             val wine = player?.mainHandItem
 

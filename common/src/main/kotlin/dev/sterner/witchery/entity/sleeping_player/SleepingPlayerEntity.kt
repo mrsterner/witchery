@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.handler.TeleportQueueHandler
-import dev.sterner.witchery.item.BoneNeedleItem.Companion.addItemToInventoryAndConsume
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.mixin.PlayerInvoker
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
@@ -12,6 +11,7 @@ import dev.sterner.witchery.platform.DeathQueueLevelAttachment
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.platform.teleport.TeleportRequest
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
@@ -248,7 +248,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 val taglock = WitcheryItems.TAGLOCK.get().defaultInstance
                 TaglockItem.bindSleepingPlayer(this, taglock)
 
-                addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, taglock)
+                WitcheryUtil.addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, taglock)
                 level().playSound(
                     null,
                     BlockPos.containing(vec),

@@ -177,7 +177,7 @@ object WitcheryNeoForgeClientEvent {
             SpinningWheelBlockEntityModel::createBodyLayer
         )
         event.registerLayerDefinition(DistilleryGemModel.LAYER_LOCATION, DistilleryGemModel::createBodyLayer)
-        event.registerLayerDefinition(VampireAltarModel.LAYER_LOCATION, VampireAltarModel::createBodyLayer)
+        event.registerLayerDefinition(BloodCrucibleModel.LAYER_LOCATION, BloodCrucibleModel::createBodyLayer)
 
         event.registerLayerDefinition(GlassContainerModel.LAYER_LOCATION, GlassContainerModel::createBodyLayer)
         event.registerLayerDefinition(MandrakeEntityModel.LAYER_LOCATION, MandrakeEntityModel::createBodyLayer)
@@ -254,6 +254,10 @@ object WitcheryNeoForgeClientEvent {
         event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(WerewolfAltarBlockEntityWithoutLevelRenderer()),
             WitcheryItems.WEREWOLF_ALTAR.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(BloodCrucibleBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.BLOOD_CRUCIBLE.get()
         )
         event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(BearTrapBlockEntityWithoutLevelRenderer()),

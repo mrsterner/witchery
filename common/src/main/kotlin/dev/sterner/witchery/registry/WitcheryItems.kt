@@ -668,8 +668,8 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.WEREWOLF_ALTAR.get(), Item.Properties(), WerewolfAltarBlock.STRUCTURE)
     }
 
-    val VAMPIRE_ALTAR = register("vampire_altar") {
-        BlockItem(WitcheryBlocks.VAMPIRE_ALTAR.get(), Item.Properties())
+    val BLOOD_CRUCIBLE = register("blood_crucible") {
+        BlockItem(WitcheryBlocks.BLOOD_CRUCIBLE.get(), Item.Properties())
     }
 
     val COFFIN = register("coffin") {

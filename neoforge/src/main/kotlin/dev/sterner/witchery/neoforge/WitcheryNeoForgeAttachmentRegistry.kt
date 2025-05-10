@@ -270,11 +270,11 @@ object WitcheryNeoForgeAttachmentRegistry {
         )
 
     @JvmStatic
-    val COVEN_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CovenPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
+    val COVEN_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CovenPlayerAttachment.CovenData>> = ATTACHMENT_TYPES.register(
         "coven_player_data",
         Supplier {
-            AttachmentType.builder(Supplier { CovenPlayerAttachment.Data() })
-                .serialize(CovenPlayerAttachment.Data.CODEC)
+            AttachmentType.builder(Supplier { CovenPlayerAttachment.CovenData() })
+                .serialize(CovenPlayerAttachment.CovenData.CODEC)
                 .copyOnDeath()
                 .build()
         }

@@ -2,6 +2,7 @@ package dev.sterner.witchery.fabric.mixin;
 
 import dev.sterner.witchery.handler.poppet.PoppetHandler;
 import dev.sterner.witchery.handler.poppet.PoppetType;
+import dev.sterner.witchery.mixin_logic.ItemStackMixinLogic;
 import dev.sterner.witchery.registry.WitcheryPoppetRegistry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,15 +28,10 @@ public abstract class ItemStackMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"),
             cancellable = true)
     private void witchery$armorPortectionPoppet(int damage, ServerLevel level, @Nullable ServerPlayer player, Consumer<Item> onBreak, CallbackInfo ci) {
-        if (player != null) {
-            PoppetType armorPoppetType = WitcheryPoppetRegistry.INSTANCE.getARMOR_PROTECTION().get();
-
-             DamageSource armorDamageSource = level.damageSources().generic();
-
-            if (PoppetHandler.INSTANCE.activatePoppet(player, armorPoppetType, armorDamageSource)) {
-                setDamageValue(0);
-                ci.cancel();
-            }
+        var bl = ItemStackMixinLogic.INSTANCE.armorProtection(player);
+        if (bl) {
+            setDamageValue(0);
+            ci.cancel();
         }
     }
 }

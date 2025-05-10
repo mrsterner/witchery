@@ -1,6 +1,7 @@
 package dev.sterner.witchery.neoforge.mixin;
 
-import dev.sterner.witchery.handler.PoppetHandler;
+import dev.sterner.witchery.handler.poppet.PoppetHandler;
+import dev.sterner.witchery.mixin_logic.ItemStackMixinLogic;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,9 +24,12 @@ public abstract class ItemStackMixin {
     @Inject(method = "hurtAndBreak(ILnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LivingEntity;Ljava/util/function/Consumer;)V", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"), cancellable = true)
     private void witchery$armorPortectionPoppet(int j, ServerLevel arg, LivingEntity arg2, Consumer<Item> consumer, CallbackInfo ci) {
-        if (arg2 instanceof ServerPlayer player && PoppetHandler.INSTANCE.hasArmorProtectionPoppet(arg, player)) {
-            setDamageValue(0);
-            ci.cancel();
+        if (arg2 instanceof ServerPlayer player) {
+            var bl = ItemStackMixinLogic.INSTANCE.armorProtection(player);
+            if (bl) {
+                setDamageValue(0);
+                ci.cancel();
+            }
         }
     }
 }

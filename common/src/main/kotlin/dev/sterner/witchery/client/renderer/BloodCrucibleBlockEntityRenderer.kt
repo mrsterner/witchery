@@ -3,26 +3,25 @@ package dev.sterner.witchery.client.renderer
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.vampire_altar.VampireAltarBlockEntity
-import dev.sterner.witchery.client.model.VampireAltarModel
+import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
+import dev.sterner.witchery.client.model.BloodCrucibleModel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
-import net.minecraft.client.renderer.texture.TextureAtlas
 import net.minecraft.client.renderer.texture.TextureAtlas.LOCATION_BLOCKS
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.client.resources.model.Material
 import org.joml.Matrix4f
 import kotlin.math.sin
 
-class VampireAltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
-    BlockEntityRenderer<VampireAltarBlockEntity> {
+class BloodCrucibleBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
+    BlockEntityRenderer<BloodCrucibleBlockEntity> {
 
-    val model = VampireAltarModel(ctx.bakeLayer(VampireAltarModel.LAYER_LOCATION))
+    val model = BloodCrucibleModel(ctx.bakeLayer(BloodCrucibleModel.LAYER_LOCATION))
 
     override fun render(
-        blockEntity: VampireAltarBlockEntity,
+        blockEntity: BloodCrucibleBlockEntity,
         partialTick: Float,
         poseStack: PoseStack,
         bufferSource: MultiBufferSource,
@@ -43,7 +42,7 @@ class VampireAltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) 
     }
 
     private fun renderBlood(
-        blockEntity: VampireAltarBlockEntity,
+        blockEntity: BloodCrucibleBlockEntity,
         poseStack: PoseStack,
         buffer: MultiBufferSource,
         bloodPercent: Double,
@@ -60,7 +59,7 @@ class VampireAltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) 
                 val cycleTime = gameTime % 240
                 val normalizedTime = cycleTime / 240.0
 
-                val waveAmplitude = 0.02
+                val waveAmplitude = 0.01
                 val heightOffset = sin(normalizedTime * Math.PI * 2) * waveAmplitude
 
                 poseStack.translate(0.0, heightOffset, 0.0)

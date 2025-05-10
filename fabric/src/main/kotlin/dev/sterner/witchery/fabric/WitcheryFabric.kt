@@ -118,6 +118,10 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryItems.WEREWOLF_ALTAR.get(),
             WerewolfAltarDynamicRenderer()
         )
+        BuiltinItemRendererRegistry.INSTANCE.register(
+            WitcheryItems.BLOOD_CRUCIBLE.get(),
+            BloodCrucibleDynamicRenderer()
+        )
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.BEAR_TRAP.get(), BearTrapDynamicRenderer())
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.COFFIN.get(), CoffinDynamicRenderer())
         BuiltinItemRendererRegistry.INSTANCE.register(

@@ -58,6 +58,23 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
         }.save(exporter, "pendant_crafting")
         //end SPECIAL
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.BLOOD_CRUCIBLE.get())
+            .pattern("IWI")
+            .pattern("ISI")
+            .pattern(" S ")
+            .define('W', WitcheryItems.WINE_GLASS.get())
+            .define('I', Items.IRON_INGOT)
+            .define('S', Items.STONE_BRICKS)
+            .unlockedBy("has_wine", has(WitcheryItems.WINE_GLASS.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.WINE_GLASS.get())
+            .pattern("I")
+            .pattern("S")
+            .define('S', Items.GLASS_BOTTLE)
+            .define('I', Items.GLASS)
+            .unlockedBy("has_bottle", has(Items.GLASS_BOTTLE))
+            .save(exporter)
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.RITUAL_CHALK.get(), 2)
             .pattern("ATA")

@@ -27,12 +27,11 @@ import dev.sterner.witchery.block.signs.CustomSignBE
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
-import dev.sterner.witchery.block.vampire_altar.VampireAltarBlockEntity
+import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
-import net.minecraft.world.level.block.entity.HangingSignBlockEntity
 import net.minecraft.world.level.block.entity.SignBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 
@@ -74,10 +73,10 @@ object WitcheryBlockEntityTypes {
             .build(null)
     }
 
-    val VAMPIRE_ALTAR: RegistrySupplier<BlockEntityType<VampireAltarBlockEntity>> = BLOCK_ENTITY_TYPES.register("vampire_altar") {
+    val BLOOD_CRUCIBLE: RegistrySupplier<BlockEntityType<BloodCrucibleBlockEntity>> = BLOCK_ENTITY_TYPES.register("blood_crucible") {
         BlockEntityType.Builder.of(
-            { pos, state -> VampireAltarBlockEntity(pos, state) },
-            WitcheryBlocks.VAMPIRE_ALTAR.get(),
+            { pos, state -> BloodCrucibleBlockEntity(pos, state) },
+            WitcheryBlocks.BLOOD_CRUCIBLE.get(),
         )
             .build(null)
     }

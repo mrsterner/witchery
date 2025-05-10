@@ -11,7 +11,7 @@ import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachm
 import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.block.vampire_altar.VampireAltarBlockEntity
+import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
@@ -161,7 +161,7 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
     private fun tryDepositBloodAtAltar() {
         if (level() is ServerLevel && collectedBlood > 0 && altarPos != null) {
             val blockEntity = level().getBlockEntity(altarPos!!)
-            if (blockEntity is VampireAltarBlockEntity && this.distanceToSqr(altarPos!!.x.toDouble(), altarPos!!.y.toDouble(), altarPos!!.z.toDouble()) < 4.0) {
+            if (blockEntity is BloodCrucibleBlockEntity && this.distanceToSqr(altarPos!!.x.toDouble(), altarPos!!.y.toDouble(), altarPos!!.z.toDouble()) < 4.0) {
                 if (!level().canSeeSky(altarPos!!) || !level().isDay) {
                     blockEntity.addBlood(collectedBlood)
                     if (hasMaster && masterPlayer != null) {

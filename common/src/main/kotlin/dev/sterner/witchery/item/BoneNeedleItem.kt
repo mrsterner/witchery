@@ -1,9 +1,11 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
@@ -53,7 +55,7 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
                 if (serverPlayer.respawnPosition == pos) {
                     val taglock = WitcheryItems.TAGLOCK.get().defaultInstance
                     TaglockItem.bindPlayerOrLiving(serverPlayer, taglock)
-                    addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, taglock)
+                    WitcheryUtil.addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, taglock)
                     level.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.5f, 1.0f)
                     break
                 }
@@ -78,7 +80,7 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
         val taglock = WitcheryItems.TAGLOCK.get().defaultInstance
         if (tryTaglockEntity(player.level(), player, player.mainHandItem, interactionTarget, taglock)) {
             stack.set(WitcheryDataComponents.TIMESTAMP.get(), player.level().gameTime)
-            addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, taglock)
+            WitcheryUtil.addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, taglock)
             return InteractionResult.SUCCESS
         } else {
             val level = player.level()
@@ -155,22 +157,6 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
             }
 
             return player.random.nextDouble() < chance - lightLevelPenalty
-        }
-
-        fun addItemToInventoryAndConsume(player: Player, hand: InteractionHand, itemToAdd: ItemStack) {
-            val currentItemStack: ItemStack = player.getItemInHand(hand)
-            if (currentItemStack.isEmpty) {
-                player.setItemInHand(hand, itemToAdd)
-            } else {
-                if (currentItemStack.count == 1) {
-                    player.setItemInHand(hand, itemToAdd)
-                } else {
-                    currentItemStack.shrink(1)
-                    if (!player.inventory.add(itemToAdd)) {
-                        player.drop(itemToAdd, false, true)
-                    }
-                }
-            }
         }
     }
 }

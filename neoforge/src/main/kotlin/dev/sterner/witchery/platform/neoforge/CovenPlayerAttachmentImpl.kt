@@ -7,12 +7,12 @@ import net.minecraft.world.entity.player.Player
 object CovenPlayerAttachmentImpl {
 
     @JvmStatic
-    fun getData(player: Player): CovenPlayerAttachment.Data {
+    fun getData(player: Player): CovenPlayerAttachment.CovenData {
         return player.getData(COVEN_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(player: Player, data: CovenPlayerAttachment.Data, sync: Boolean = true) {
+    fun setData(player: Player, data: CovenPlayerAttachment.CovenData, sync: Boolean = true) {
         player.setData(COVEN_PLAYER_DATA_ATTACHMENT, data)
         if (sync) {
             CovenPlayerAttachment.sync(player, data)

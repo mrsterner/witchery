@@ -1,6 +1,9 @@
 package dev.sterner.witchery.util
 
 import net.minecraft.core.Direction
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
@@ -46,5 +49,21 @@ object WitcheryUtil {
             }
         }
         return result.toString()
+    }
+
+    fun addItemToInventoryAndConsume(player: Player, hand: InteractionHand, itemToAdd: ItemStack) {
+        val currentItemStack: ItemStack = player.getItemInHand(hand)
+        if (currentItemStack.isEmpty) {
+            player.setItemInHand(hand, itemToAdd)
+        } else {
+            if (currentItemStack.count == 1) {
+                player.setItemInHand(hand, itemToAdd)
+            } else {
+                currentItemStack.shrink(1)
+                if (!player.inventory.add(itemToAdd)) {
+                    player.drop(itemToAdd, false, true)
+                }
+            }
+        }
     }
 }

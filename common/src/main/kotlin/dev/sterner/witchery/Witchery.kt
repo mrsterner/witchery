@@ -21,7 +21,6 @@ import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
-import dev.sterner.witchery.block.soul_cage.SoulCageBlock
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
@@ -69,6 +68,8 @@ import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
+import net.minecraft.client.color.block.BlockColor
+import net.minecraft.client.color.block.BlockColors
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
@@ -77,8 +78,12 @@ import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.NoopRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
+import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.BlockAndTintGetter
+import net.minecraft.world.level.block.state.BlockState
 import org.slf4j.Logger
+import java.awt.Color
 
 
 object Witchery {
@@ -213,7 +218,7 @@ object Witchery {
         EntityModelLayerRegistry.register(HunterArmorModel.LAYER_LOCATION) { HunterArmorModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelWheelBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpinningWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelBlockEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(VampireAltarModel.LAYER_LOCATION) { VampireAltarModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(BloodCrucibleModel.LAYER_LOCATION) { BloodCrucibleModel.createBodyLayer() }
         EntityModelLayerRegistry.register(DistilleryGemModel.LAYER_LOCATION) { DistilleryGemModel.createBodyLayer() }
         EntityModelLayerRegistry.register(GlassContainerModel.LAYER_LOCATION) { GlassContainerModel.createBodyLayer() }
         EntityModelLayerRegistry.register(BroomEntityModel.LAYER_LOCATION) { BroomEntityModel.createBodyLayer() }
@@ -274,7 +279,7 @@ object Witchery {
 
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.VAMPIRE_ALTAR.get(), ::VampireAltarBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BLOOD_CRUCIBLE.get(), ::BloodCrucibleBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DISTILLERY.get(), ::DistilleryBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRAZIER.get(), ::BrazierBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SOUL_CAGE.get(), ::SoulCageBlockEntityRenderer)
