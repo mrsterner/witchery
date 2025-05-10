@@ -15,21 +15,11 @@ object WitcheryNeoForgeEvent {
     @SubscribeEvent
     fun canPlayerSleepEvent(event: CanPlayerSleepEvent) {
         if (event.state.block is CoffinBlock) {
-            when (event.problem) {
-                Player.BedSleepingProblem.OTHER_PROBLEM,
-                Player.BedSleepingProblem.NOT_POSSIBLE_HERE,
-                Player.BedSleepingProblem.TOO_FAR_AWAY -> {
-                    return
-                }
-
-                else -> {
-                    event.entity.setRespawnPosition(event.level.dimension(), event.pos, event.entity.yRot, false, true)
-                    event.problem = if (!isDay(event.level)) {
-                        Player.BedSleepingProblem.NOT_POSSIBLE_NOW
-                    } else {
-                        null
-                    }
-                }
+            if (event.level.isDay) {
+                event.entity.setRespawnPosition(event.level.dimension(), event.pos, event.entity.yRot, false, true)
+                event.problem = null
+            } else {
+                event.problem = Player.BedSleepingProblem.NOT_POSSIBLE_NOW
             }
         }
     }
@@ -41,34 +31,30 @@ object WitcheryNeoForgeEvent {
             .orElse(null)
 
         if (blockState?.block is CoffinBlock) {
-            val isDay = isDay(event.entity.level())
-            event.setContinueSleeping(isDay && event.problem == Player.BedSleepingProblem.NOT_POSSIBLE_NOW)
-            if (!isDay) {
-                print("daytime: ${event.entity.level().dayTime}")
+            if (event.entity.level().isDay) {
+                event.setContinueSleeping(true)
+            } else {
                 event.setContinueSleeping(false)
             }
         }
     }
 
-    fun isDay(level: LevelAccessor): Boolean {
-        val angle = level.getTimeOfDay(1.0f)
-        return angle > 0.78 || angle < 0.24
-    }
-
     @SubscribeEvent
     fun sleepFinishedTimeEvent(event: SleepFinishedTimeEvent) {
         val level = event.level
-        if (level is ServerLevel && isDay(level)) {
+        if (level is ServerLevel) {
             val sleepingInCoffin = level.players().any { player ->
                 player.sleepingPos
                     .map { level.getBlockState(it).block is CoffinBlock }
                     .orElse(false)
             }
-            print(sleepingInCoffin)
-            if (sleepingInCoffin) {
-                val dayTime = level.dayTime % 24000L
-                val timeAdjustment = if (dayTime > 12000L) 13000 else -11000
-                event.setTimeAddition(event.newTime + timeAdjustment)
+        
+            if (sleepingInCoffin && level.isDay) {
+                val fullDays = level.dayTime / 24000L
+
+                val newTime = (fullDays * 24000L) + 13000L
+
+                event.setTimeAddition(newTime)
             }
         }
     }
