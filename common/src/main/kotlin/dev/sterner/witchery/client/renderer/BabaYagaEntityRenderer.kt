@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
-import net.minecraft.client.renderer.entity.layers.WitchItemLayer
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
@@ -39,6 +38,7 @@ class BabaYagaEntityRenderer(var context: EntityRendererProvider.Context) :
         buffer: MultiBufferSource,
         packedLight: Int
     ) {
+        this.model.holdingItem = !entity.mainHandItem.isEmpty
         poseStack.pushPose()
         poseStack.translate(0.0, -0.25, 0.0)
 

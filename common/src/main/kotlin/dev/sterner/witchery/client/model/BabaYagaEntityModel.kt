@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.BabaYagaEntity
 import net.minecraft.client.model.HierarchicalModel
+import net.minecraft.client.model.WitchModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -25,6 +26,7 @@ class BabaYagaEntityModel(val root: ModelPart) :
         )
     }) {
 
+    var holdingItem = false
     val head: ModelPart = root.getChild("head")
     val nose: ModelPart = head.getChild("nose")
     private val body: ModelPart = root.getChild("body")
@@ -47,6 +49,11 @@ class BabaYagaEntityModel(val root: ModelPart) :
         this.nose.xRot = Mth.sin(entity.tickCount.toFloat() * f) * 4.5f * (Math.PI / 180.0).toFloat()
         this.nose.yRot = 0f
         this.nose.zRot = Mth.cos(entity.tickCount.toFloat() * f) * 2.5f * (Math.PI / 180.0).toFloat()
+
+        if (this.holdingItem) {
+            this.nose.setPos(0.0f, 1.0f, -1.5f)
+            this.nose.xRot = -0.9f
+        }
     }
 
     override fun renderToBuffer(

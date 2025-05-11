@@ -53,7 +53,7 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
         this.goalSelector.addGoal(2, WaterAvoidingRandomStrollGoal(this, 1.0))
         this.goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, 8.0f))
         this.goalSelector.addGoal(3, RandomLookAroundGoal(this))
-        this.targetSelector.addGoal(1, HurtByTargetGoal(this, Raider::class.java))
+        this.targetSelector.addGoal(1, HurtByTargetGoal(this))
         this.targetSelector.addGoal(3, this.attackPlayersGoal!!)
     }
 
