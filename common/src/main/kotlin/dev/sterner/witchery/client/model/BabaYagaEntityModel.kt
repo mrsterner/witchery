@@ -25,8 +25,8 @@ class BabaYagaEntityModel(val root: ModelPart) :
         )
     }) {
 
-    private val head: ModelPart = root.getChild("head")
-    private val nose: ModelPart = head.getChild("nose")
+    val head: ModelPart = root.getChild("head")
+    val nose: ModelPart = head.getChild("nose")
     private val body: ModelPart = root.getChild("body")
     private val arms: ModelPart = root.getChild("arms")
 

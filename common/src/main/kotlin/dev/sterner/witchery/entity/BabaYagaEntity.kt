@@ -1,6 +1,7 @@
 package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.Holder
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.particles.ParticleTypes
@@ -8,6 +9,7 @@ import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.tags.DamageTypeTags
@@ -57,7 +59,16 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
 
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         super.defineSynchedData(builder)
-        builder.define<Boolean?>(DATA_USING_ITEM, false)
+        builder.define(DATA_USING_ITEM, false)
+    }
+
+    override fun dropCustomDeathLoot(
+        level: ServerLevel,
+        damageSource: DamageSource,
+        recentlyHit: Boolean
+    ) {
+        this.spawnAtLocation(WitcheryItems.BABA_YAGAS_HAT.get())
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit)
     }
 
     override fun getAmbientSound(): SoundEvent {
@@ -73,7 +84,7 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
     }
 
     fun setUsingItem(usingItem: Boolean) {
-        this.getEntityData().set<Boolean?>(DATA_USING_ITEM, usingItem)
+        this.getEntityData().set(DATA_USING_ITEM, usingItem)
     }
 
     val isDrinkingPotion: Boolean

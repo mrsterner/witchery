@@ -3,6 +3,7 @@ package dev.sterner.witchery.client.renderer
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.layer.BabaItemLayer
 import dev.sterner.witchery.client.model.BabaYagaEntityModel
 import dev.sterner.witchery.client.model.WitchesRobesModel
 import dev.sterner.witchery.entity.BabaYagaEntity
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
+import net.minecraft.client.renderer.entity.layers.WitchItemLayer
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
@@ -24,6 +26,10 @@ class BabaYagaEntityRenderer(var context: EntityRendererProvider.Context) :
     ) {
 
     var hatModel = WitchesRobesModel(context.bakeLayer(WitchesRobesModel.LAYER_LOCATION))
+
+    init {
+        this.addLayer(BabaItemLayer(this, context.itemInHandRenderer))
+    }
 
     override fun render(
         entity: BabaYagaEntity,
