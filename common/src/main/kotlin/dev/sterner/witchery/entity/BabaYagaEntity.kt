@@ -23,7 +23,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.*
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
-import net.minecraft.world.entity.ai.goal.target.NearestHealableRaiderTargetGoal
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.monster.RangedAttackMob
 import net.minecraft.world.entity.player.Player
@@ -46,7 +45,7 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
     override fun registerGoals() {
         super.registerGoals()
         this.attackPlayersGoal =
-            NearestAttackableBabaTargetGoal(this, Player::class.java, 10, true, false, null)
+            NearestAttackableBabaTargetGoal(this, Player::class.java, 10, null)
         this.goalSelector.addGoal(1, FloatGoal(this))
         this.goalSelector.addGoal(2, RangedAttackGoal(this, 1.0, 60, 10.0f))
         this.goalSelector.addGoal(2, WaterAvoidingRandomStrollGoal(this, 1.0))
@@ -152,7 +151,7 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
 
     override fun handleEntityEvent(id: Byte) {
         if (id.toInt() == 15) {
-            for (i in 0..<this.random.nextInt(35) + 10) {
+            (0..< this.random.nextInt(35) + 10).forEach { i ->
                 this.level()
                     .addParticle(
                         ParticleTypes.WITCH,
@@ -245,10 +244,8 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
         mob: BabaYagaEntity,
         targetType: Class<T>,
         randomInterval: Int,
-        mustSee: Boolean,
-        mustReach: Boolean,
         targetPredicate: Predicate<LivingEntity>?
-    ) : NearestAttackableTargetGoal<T>(mob, targetType, randomInterval, mustSee, mustReach, targetPredicate) {
+    ) : NearestAttackableTargetGoal<T>(mob, targetType, randomInterval, true, false, targetPredicate) {
 
         private var canAttack = true
 
