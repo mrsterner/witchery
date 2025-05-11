@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "witchery:block/cauldron_no_logs"
+    }
+  }
+}

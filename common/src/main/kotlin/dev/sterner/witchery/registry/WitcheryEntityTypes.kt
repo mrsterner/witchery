@@ -211,6 +211,14 @@ object WitcheryEntityTypes {
         ).sized(1.15F, 1.8F).build(Witchery.id("vampire").toString())
     }
 
+    val BABA_YAGA: RegistrySupplier<EntityType<BabaYagaEntity>> =register("baba_yaga") {
+        EntityType.Builder.of(
+            { _: EntityType<BabaYagaEntity>, level: Level ->
+                BabaYagaEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(1.1F, 1.8F).build(Witchery.id("baba_yaga").toString())
+    }
+
     val WEREWOLF: RegistrySupplier<EntityType<WerewolfEntity>> =register("werewolf") {
         EntityType.Builder.of(
             { _: EntityType<WerewolfEntity>, level: Level ->

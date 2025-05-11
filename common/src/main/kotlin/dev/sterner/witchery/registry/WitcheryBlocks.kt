@@ -99,6 +99,10 @@ object WitcheryBlocks {
         )
     }
 
+    val CAULDRON_DUMMY: RegistrySupplier<Block> = register("cauldron_no_logs") {
+        Block(BlockBehaviour.Properties.of())
+    }
+
     val CAULDRON: RegistrySupplier<CauldronBlock> = register("cauldron") {
         CauldronBlock(
             BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)

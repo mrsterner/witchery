@@ -237,9 +237,11 @@ object Witchery {
         EntityRendererRegistry.register(WitcheryEntityTypes.ENT) { EntEntityRenderer(it) }
         EntityModelLayerRegistry.register(EntEntityModel.LAYER_LOCATION) { EntEntityModel.createBodyLayer() }
         EntityRendererRegistry.register(WitcheryEntityTypes.BANSHEE) { BansheeEntityRenderer(it) }
+        EntityRendererRegistry.register(WitcheryEntityTypes.BABA_YAGA) { BabaYagaEntityRenderer(it) }
         EntityRendererRegistry.register(WitcheryEntityTypes.SPECTRE) { SpectreEntityRenderer(it) }
         EntityModelLayerRegistry.register(BansheeEntityModel.LAYER_LOCATION) { BansheeEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpectreEntityModel.LAYER_LOCATION) { SpectreEntityModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(BabaYagaEntityModel.LAYER_LOCATION) { BabaYagaEntityModel.createBodyLayer() }
 
         EntityRendererRegistry.register(WitcheryEntityTypes.PARASITIC_LOUSE) { ParasiticLouseEntityRenderer(it) }
         EntityModelLayerRegistry.register(ParasiticLouseEntityModel.LAYER_LOCATION) { ParasiticLouseEntityModel.createBodyLayer() }

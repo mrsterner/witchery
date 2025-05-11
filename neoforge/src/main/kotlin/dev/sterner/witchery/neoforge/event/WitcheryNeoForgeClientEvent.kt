@@ -102,6 +102,10 @@ object WitcheryNeoForgeClientEvent {
             ::BansheeEntityRenderer
         )
         event.registerEntityRenderer(
+            WitcheryEntityTypes.BABA_YAGA.get(),
+            ::BabaYagaEntityRenderer
+        )
+        event.registerEntityRenderer(
             WitcheryEntityTypes.SPECTRE.get(),
             ::SpectreEntityRenderer
         )
@@ -193,6 +197,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(EntEntityModel.LAYER_LOCATION, EntEntityModel::createBodyLayer)
         event.registerLayerDefinition(BansheeEntityModel.LAYER_LOCATION, BansheeEntityModel::createBodyLayer)
         event.registerLayerDefinition(SpectreEntityModel.LAYER_LOCATION, SpectreEntityModel::createBodyLayer)
+        event.registerLayerDefinition(BabaYagaEntityModel.LAYER_LOCATION, BabaYagaEntityModel::createBodyLayer)
 
         event.registerLayerDefinition(VampireEntityModel.LAYER_LOCATION, VampireEntityModel::createBodyLayer)
         event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION, WerewolfEntityModel::createBodyLayer)
