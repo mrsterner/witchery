@@ -6,11 +6,9 @@ import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
-import dev.sterner.witchery.registry.WitcheryItems.ITEMS
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobCategory
-import net.minecraft.world.item.Item
 import net.minecraft.world.level.Level
 
 object WitcheryEntityTypes {
@@ -176,7 +174,7 @@ object WitcheryEntityTypes {
             { _: EntityType<SpectreEntity>, level: Level ->
                 SpectreEntity(level)
             }, MobCategory.MONSTER
-        ).sized(1.15F, 1.8F).build(Witchery.id("spectre").toString())
+        ).sized(0.6f, 1.8f).build(Witchery.id("spectre").toString())
     }
 
     var COVEN_WITCH =register("coven_witch") {
@@ -184,7 +182,7 @@ object WitcheryEntityTypes {
             { _: EntityType<CovenWitchEntity>, level: Level ->
                 CovenWitchEntity(level)
             }, MobCategory.MISC
-        ).sized(1.15F, 1.8F).build(Witchery.id("coven_witch").toString())
+        ).sized(0.6f, 1.8f).build(Witchery.id("coven_witch").toString())
     }
 
     val SPECTRAL_PIG: RegistrySupplier<EntityType<SpectralPigEntity>> =register("spectral_pig") {
@@ -208,7 +206,7 @@ object WitcheryEntityTypes {
             { _: EntityType<VampireEntity>, level: Level ->
                 VampireEntity(level)
             }, MobCategory.MONSTER
-        ).sized(1.15F, 1.8F).build(Witchery.id("vampire").toString())
+        ).sized(0.6f, 1.8f).build(Witchery.id("vampire").toString())
     }
 
     val BABA_YAGA: RegistrySupplier<EntityType<BabaYagaEntity>> =register("baba_yaga") {
@@ -216,7 +214,7 @@ object WitcheryEntityTypes {
             { _: EntityType<BabaYagaEntity>, level: Level ->
                 BabaYagaEntity(level)
             }, MobCategory.MONSTER
-        ).sized(1.1F, 1.8F).build(Witchery.id("baba_yaga").toString())
+        ).sized(1.0F, 1.8F).build(Witchery.id("baba_yaga").toString())
     }
 
     val WEREWOLF: RegistrySupplier<EntityType<WerewolfEntity>> =register("werewolf") {
@@ -240,7 +238,7 @@ object WitcheryEntityTypes {
             { _: EntityType<ElleEntity>, level: Level ->
                 ElleEntity(level)
             }, MobCategory.MONSTER
-        ).sized(1.0F, 1.85F).build(Witchery.id("elle").toString())
+        ).sized(0.6f, 1.8f).build(Witchery.id("elle").toString())
     }
 
     val PARASITIC_LOUSE: RegistrySupplier<EntityType<ParasiticLouseEntity>> =register("parasitic_louse") {

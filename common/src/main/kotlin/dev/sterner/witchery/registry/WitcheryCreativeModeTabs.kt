@@ -287,6 +287,24 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.EXPOSED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.WEATHERED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
                 output.accept(WitcheryItems.OXIDIZED_COPPER_WITCHES_OVEN_FUME_EXTENSION.get())
+
+                output.accept(WitcheryItems.MANDRAKE_SPAWN_EGG.get())
+                output.accept(WitcheryItems.IMP_SPAWN_EGG.get())
+                output.accept(WitcheryItems.DEMON_SPAWN_EGG.get())
+                output.accept(WitcheryItems.ENT_SPAWN_EGG.get())
+                output.accept(WitcheryItems.OWL_SPAWN_EGG.get())
+                output.accept(WitcheryItems.BANSHEE_SPAWN_EGG.get())
+                output.accept(WitcheryItems.SPECTRE_SPAWN_EGG.get())
+                output.accept(WitcheryItems.COVEN_WITCH_SPAWN_EGG.get())
+                output.accept(WitcheryItems.SPECTRAL_PIG_SPAWN_EGG.get())
+                output.accept(WitcheryItems.NIGHTMARE_SPAWN_EGG.get())
+                output.accept(WitcheryItems.VAMPIRE_SPAWN_EGG.get())
+                output.accept(WitcheryItems.BABA_YAGA_SPAWN_EGG.get())
+                output.accept(WitcheryItems.WEREWOLF_SPAWN_EGG.get())
+                output.accept(WitcheryItems.LILITH_SPAWN_EGG.get())
+                output.accept(WitcheryItems.ELLE_SPAWN_EGG.get())
+                output.accept(WitcheryItems.PARASITIC_LOUSE_SPAWN_EGG.get())
+
             }
         }
     }

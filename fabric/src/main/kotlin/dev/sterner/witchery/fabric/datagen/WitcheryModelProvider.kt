@@ -318,5 +318,23 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
         genetaror.generateFlatItem(WitcheryItems.HAWTHORN_CHEST_BOAT.get(), ModelTemplates.FLAT_ITEM)
 
         genetaror.generateFlatItem(WitcheryItems.ARTHANA.get(), ModelTemplates.FLAT_HANDHELD_ITEM)
+
+
+        genetaror.generateFlatItem(WitcheryItems.MANDRAKE_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.IMP_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.DEMON_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.ENT_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.OWL_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.BANSHEE_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.SPECTRE_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.COVEN_WITCH_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.SPECTRAL_PIG_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.NIGHTMARE_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.VAMPIRE_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.BABA_YAGA_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.WEREWOLF_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.LILITH_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.ELLE_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
+        genetaror.generateFlatItem(WitcheryItems.PARASITIC_LOUSE_SPAWN_EGG.get(), ModelTemplates.FLAT_ITEM)
     }
 }

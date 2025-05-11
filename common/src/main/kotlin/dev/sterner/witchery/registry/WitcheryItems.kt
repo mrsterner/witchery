@@ -2,6 +2,7 @@ package dev.sterner.witchery.registry
 
 import com.google.common.base.Supplier
 import dev.architectury.core.item.ArchitecturyBucketItem
+import dev.architectury.core.item.ArchitecturySpawnEggItem
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
@@ -19,6 +20,8 @@ import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.food.Foods
 import net.minecraft.world.item.*
 import java.awt.Color
@@ -1201,4 +1204,32 @@ object WitcheryItems {
     val TRENT_EFFIGY: RegistrySupplier<MultiBlockItem> = register("trent_effigy") {
         MultiBlockItem(WitcheryBlocks.TRENT_EFFIGY.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }
+
+    fun makeEgg(name: String, entityType: RegistrySupplier<out EntityType<out Mob>>): RegistrySupplier<ArchitecturySpawnEggItem> {
+        val egg = ArchitecturySpawnEggItem(
+            entityType,
+            Color.WHITE.rgb,
+            Color.WHITE.rgb,
+            Item.Properties()
+        )
+        return register(name, true) { egg }
+    }
+
+    val MANDRAKE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("mandrake_spawn_egg", WitcheryEntityTypes.MANDRAKE)
+    val IMP_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("imp_spawn_egg", WitcheryEntityTypes.IMP)
+    val DEMON_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("demon_spawn_egg", WitcheryEntityTypes.DEMON)
+    val ENT_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("ent_spawn_egg", WitcheryEntityTypes.ENT)
+    val OWL_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("owl_spawn_egg", WitcheryEntityTypes.OWL)
+    val BANSHEE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("banshee_spawn_egg", WitcheryEntityTypes.BANSHEE)
+    val SPECTRE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("spectre_spawn_egg", WitcheryEntityTypes.SPECTRE)
+    val COVEN_WITCH_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("coven_witch_spawn_egg", WitcheryEntityTypes.COVEN_WITCH)
+    val SPECTRAL_PIG_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("spectral_pig_spawn_egg", WitcheryEntityTypes.SPECTRAL_PIG)
+    val NIGHTMARE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("nightmare_spawn_egg", WitcheryEntityTypes.NIGHTMARE)
+    val VAMPIRE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("vampire_spawn_egg", WitcheryEntityTypes.VAMPIRE)
+    val BABA_YAGA_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("baba_yaga_spawn_egg", WitcheryEntityTypes.BABA_YAGA)
+    val WEREWOLF_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("werewolf_spawn_egg", WitcheryEntityTypes.WEREWOLF)
+    val LILITH_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("lilith_spawn_egg", WitcheryEntityTypes.LILITH)
+    val ELLE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("elle_spawn_egg", WitcheryEntityTypes.ELLE)
+    val PARASITIC_LOUSE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("parasitic_louse_spawn_egg", WitcheryEntityTypes.PARASITIC_LOUSE)
+
 }
