@@ -4,6 +4,7 @@ import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -17,6 +18,8 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityTicker
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BedPart
@@ -40,6 +43,18 @@ class CoffinBlock(properties: Properties, color: DyeColor) : BedBlock(color, pro
         this.registerDefaultState(
             this.stateDefinition.any().setValue(PART, BedPart.FOOT).setValue(OCCUPIED, false).setValue(OPEN, false)
         )
+    }
+
+    override fun <T : BlockEntity?> getTicker(
+        level: Level,
+        state: BlockState,
+        blockEntityType: BlockEntityType<T?>
+    ): BlockEntityTicker<T?>? {
+        return BlockEntityTicker { _, pos, _, blockEntity ->
+            if (blockEntity is CoffinBlockEntity) {
+                blockEntity.tick(level, pos, state)
+            }
+        }
     }
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
@@ -83,8 +98,6 @@ class CoffinBlock(properties: Properties, color: DyeColor) : BedBlock(color, pro
         return if (part == BedPart.FOOT) direction else direction.opposite
     }
 
-
-    //BASE
     override fun setPlacedBy(
         pLevel: Level,
         pPos: BlockPos,
@@ -99,29 +112,27 @@ class CoffinBlock(properties: Properties, color: DyeColor) : BedBlock(color, pro
         super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack)
     }
 
-    override fun useItemOn(
-        stack: ItemStack,
+    override fun useWithoutItem(
         pState: BlockState,
         pLevel: Level,
         pPos: BlockPos,
         pPlayer: Player,
-        hand: InteractionHand,
         hitResult: BlockHitResult
-    ): ItemInteractionResult {
+    ): InteractionResult? {
         if (pLevel.isClientSide) {
-            return ItemInteractionResult.CONSUME
+            return InteractionResult.CONSUME
         } else {
             if (pPlayer.isShiftKeyDown) {
                 val state = pState.cycle(OPEN)
                 pLevel.setBlockAndUpdate(pPos, state)
-                return ItemInteractionResult.SUCCESS
+                return InteractionResult.SUCCESS
             } else {
                 if (pState.getValue(OPEN)) {
                     val state = pState.cycle(OPEN)
                     pLevel.setBlockAndUpdate(pPos, state)
-                    return super.useItemOn(stack, pState, pLevel, pPos, pPlayer, hand, hitResult)
+                    return super.useWithoutItem(pState, pLevel, pPos, pPlayer, hitResult)
                 } else {
-                    return ItemInteractionResult.CONSUME
+                    return InteractionResult.CONSUME
                 }
             }
         }

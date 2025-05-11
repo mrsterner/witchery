@@ -15,13 +15,11 @@ import net.minecraft.world.level.block.BedBlock.PART
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BedPart
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import kotlin.math.pow
 
 class CoffinBlockEntityRenderer(private val ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<CoffinBlockEntity> {
 
     private val model = CoffinModel(ctx.bakeLayer(CoffinModel.LAYER_LOCATION))
-    private var openProgress = 0f
 
     override fun render(
         blockEntity: CoffinBlockEntity,
@@ -46,8 +44,8 @@ class CoffinBlockEntityRenderer(private val ctx: BlockEntityRendererProvider.Con
 
             val vertexConsumer =
                 bufferSource.getBuffer(RenderType.entityCutout(Witchery.id("textures/block/coffin.png")))
-            val isOpen = state.getValue(CoffinBlock.OPEN)
-            renderCoffin(poseStack, vertexConsumer, isOpen, packedLight, packedOverlay, state)
+            
+            renderCoffin(poseStack, vertexConsumer, blockEntity, packedLight, packedOverlay, state)
 
             poseStack.popPose()
         }
@@ -55,30 +53,19 @@ class CoffinBlockEntityRenderer(private val ctx: BlockEntityRendererProvider.Con
 
     private fun degToRad(degrees: Float): Float = degrees * (Math.PI.toFloat() / 180f)
 
-    private fun easeInOut(x: Float): Float {
-        val v = 45
-        val c = -v / 2
-        val g = -2
-        val s = 16
-        return (v / (1 + 10.0.pow((g * (c + x) / s).toDouble()))).toFloat()
-    }
-
     private fun renderCoffin(
         matrices: PoseStack,
         vertices: VertexConsumer,
-        isOpen: Boolean,
+        blockEntity: CoffinBlockEntity,
         light: Int,
         overlay: Int,
         blockState: BlockState
     ) {
-        if (blockState.getValue(PART) == BedPart.FOOT) {
-            openProgress = when {
-                isOpen && openProgress < 45f -> openProgress + 1f
-                !isOpen && openProgress > 0f -> openProgress - 1f
-                else -> openProgress
-            }
+        if (blockState.getValue(BlockStateProperties.BED_PART) == BedPart.FOOT) {
 
-            model.top.zRot = -degToRad(easeInOut(openProgress))
+            val easedOpenProgress = blockEntity.getEasedOpenProgress()
+
+            model.top.zRot = -degToRad(easedOpenProgress)
             model.bone.render(matrices, vertices, light, overlay)
         }
     }

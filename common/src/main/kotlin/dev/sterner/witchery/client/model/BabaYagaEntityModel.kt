@@ -26,7 +26,7 @@ class BabaYagaEntityModel(val root: ModelPart) :
     }) {
 
     private val head: ModelPart = root.getChild("head")
-    private val nose: ModelPart = root.getChild("nose")
+    private val nose: ModelPart = head.getChild("nose")
     private val body: ModelPart = root.getChild("body")
     private val arms: ModelPart = root.getChild("arms")
 
@@ -38,10 +38,14 @@ class BabaYagaEntityModel(val root: ModelPart) :
         netHeadYaw: Float,
         headPitch: Float
     ) {
+        this.head.yRot = netHeadYaw * (Math.PI / 180.0).toFloat()
+        this.head.xRot = headPitch * (Math.PI / 180.0).toFloat()
+        this.head.zRot = 0.0f
+
         this.nose.setPos(0.0f, -2.0f, 0.0f)
         val f = 0.01f * (entity.id % 10).toFloat()
         this.nose.xRot = Mth.sin(entity.tickCount.toFloat() * f) * 4.5f * (Math.PI / 180.0).toFloat()
-        this.nose.yRot = 0.0f
+        this.nose.yRot = 0f
         this.nose.zRot = Mth.cos(entity.tickCount.toFloat() * f) * 2.5f * (Math.PI / 180.0).toFloat()
     }
 
@@ -53,7 +57,6 @@ class BabaYagaEntityModel(val root: ModelPart) :
         color: Int
     ) {
         head.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
-        nose.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
         body.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
         arms.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
     }
@@ -77,7 +80,7 @@ class BabaYagaEntityModel(val root: ModelPart) :
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val nose = partdefinition.addOrReplaceChild(
+            val nose = head.addOrReplaceChild(
                 "nose",
                 CubeListBuilder.create().texOffs(24, 0)
                     .addBox(-1.0f, -1.0f, -6.0f, 2.0f, 4.0f, 2.0f, CubeDeformation(0.0f)),
