@@ -46,7 +46,7 @@ class WitcheryWallWorldState : SavedData() {
             return Factory(
                 { WitcheryWallWorldState() },
                 { tag, _ -> load(tag) },
-                DataFixTypes.SAVED_DATA_RAIDS
+                DataFixTypes.LEVEL
             )
         }
 

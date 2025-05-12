@@ -82,7 +82,7 @@ class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
             return Factory(
                 { WitcheryWorldState(level) },
                 { tag, lookup -> load(level, tag, lookup) },
-                DataFixTypes.SAVED_DATA_RAIDS
+                DataFixTypes.LEVEL
             )
         }
 
