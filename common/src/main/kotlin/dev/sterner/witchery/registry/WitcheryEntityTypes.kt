@@ -185,6 +185,15 @@ object WitcheryEntityTypes {
         ).sized(0.6f, 1.8f).build(Witchery.id("coven_witch").toString())
     }
 
+    var DEATH =register("death") {
+        EntityType.Builder.of(
+            { _: EntityType<DeathEntity>, level: Level ->
+                DeathEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(0.6f, 1.8f).build(Witchery.id("death").toString())
+    }
+
+
     val SPECTRAL_PIG: RegistrySupplier<EntityType<SpectralPigEntity>> =register("spectral_pig") {
         EntityType.Builder.of(
             { _: EntityType<SpectralPigEntity>, level: Level ->

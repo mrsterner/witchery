@@ -139,6 +139,10 @@ object WitcheryNeoForgeClientEvent {
             ::ParasiticLouseEntityRenderer
         )
         event.registerEntityRenderer(
+            WitcheryEntityTypes.DEATH.get(),
+            ::DeathEntityRenderer
+        )
+        event.registerEntityRenderer(
             WitcheryEntityTypes.INSANITY.get(),
             ::InsanityEntityRenderer
         )
@@ -196,6 +200,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(DemonEntityModel.LAYER_LOCATION, DemonEntityModel::createBodyLayer)
         event.registerLayerDefinition(EntEntityModel.LAYER_LOCATION, EntEntityModel::createBodyLayer)
         event.registerLayerDefinition(BansheeEntityModel.LAYER_LOCATION, BansheeEntityModel::createBodyLayer)
+        event.registerLayerDefinition(DeathEntityModel.LAYER_LOCATION, DeathEntityModel::createBodyLayer)
         event.registerLayerDefinition(SpectreEntityModel.LAYER_LOCATION, SpectreEntityModel::createBodyLayer)
         event.registerLayerDefinition(BabaYagaEntityModel.LAYER_LOCATION, BabaYagaEntityModel::createBodyLayer)
 

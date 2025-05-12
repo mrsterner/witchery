@@ -247,7 +247,7 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
             SynchedEntityData.defineId<Boolean?>(BabaYagaEntity::class.java, EntityDataSerializers.BOOLEAN)
 
         fun createAttributes(): AttributeSupplier.Builder {
-            return createMonsterAttributes().add(Attributes.MAX_HEALTH, 64.0).add(Attributes.MOVEMENT_SPEED, 0.25)
+            return createMonsterAttributes().add(Attributes.MAX_HEALTH, 64.0).add(Attributes.MOVEMENT_SPEED, 0.24)
         }
     }
 
