@@ -39,6 +39,8 @@ import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockComponent
 import dev.sterner.witchery.block.trees.StrippableLogBlock
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlock
+import dev.sterner.witchery.block.mushroom_log.MushroomLogBlock
+import dev.sterner.witchery.block.mushroom_log.MushroomLogComponent
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarComponent
 import dev.sterner.witchery.platform.PlatformUtils
@@ -96,6 +98,18 @@ object WitcheryBlocks {
     val ALTAR_COMPONENT: RegistrySupplier<AltarBlockComponent> = register("altar_component") {
         AltarBlockComponent(
             BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE)
+        )
+    }
+
+    val MUSHROOM_LOG: RegistrySupplier<MushroomLogBlock> = register("mushroom_log") {
+        MushroomLogBlock(
+            BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.WOOD)
+        )
+    }
+
+    val MUSHROOM_LOG_COMPONENT: RegistrySupplier<MushroomLogComponent> = register("mushroom_log_component") {
+        MushroomLogComponent(
+            BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.WOOD)
         )
     }
 

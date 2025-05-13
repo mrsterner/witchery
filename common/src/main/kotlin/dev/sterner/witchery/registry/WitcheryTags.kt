@@ -43,6 +43,7 @@ object WitcheryTags {
     val BROWN_MUSHROOM: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("brown_mushroom"))
     val RED_MUSHROOM: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("red_mushroom"))
 
+    val MUSHROOMS: TagKey<Item> = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "mushrooms"))
 
     val BAMBOO: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("bamboo"))
     val BIG_DRIPLEAF: TagKey<Block> = TagKey.create(Registries.BLOCK, Witchery.id("big_dripleaf"))

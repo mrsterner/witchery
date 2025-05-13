@@ -28,6 +28,7 @@ import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
+import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
@@ -52,7 +53,8 @@ object WitcheryBlockEntityTypes {
                 WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(),
                 WitcheryBlocks.DISTILLERY_COMPONENT.get(),
                 WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get(),
-                WitcheryBlocks.EFFIGY_COMPONENT.get()
+                WitcheryBlocks.EFFIGY_COMPONENT.get(),
+                WitcheryBlocks.MUSHROOM_LOG_COMPONENT.get()
             )
                 .build(null)
         }
@@ -61,6 +63,14 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             { pos, state -> AltarBlockEntity(pos, state) },
             WitcheryBlocks.ALTAR.get(),
+        )
+            .build(null)
+    }
+
+    val MUSHROOM_LOG: RegistrySupplier<BlockEntityType<MushroomLogBlockEntity>> = BLOCK_ENTITY_TYPES.register("mushroom_log") {
+        BlockEntityType.Builder.of(
+            { pos, state -> MushroomLogBlockEntity(pos, state) },
+            WitcheryBlocks.MUSHROOM_LOG.get(),
         )
             .build(null)
     }

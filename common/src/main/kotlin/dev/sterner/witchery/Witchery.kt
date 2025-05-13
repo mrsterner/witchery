@@ -19,6 +19,8 @@ import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.block.brazier.BrazierBlockEntity
+import dev.sterner.witchery.block.mushroom_log.MushroomLogBlock
+import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
@@ -178,6 +180,7 @@ object Witchery {
         SoulCageBlockEntity.registerEvents()
         WitcheryLootInjects.registerEvents()
         WitcheryStructureInjects.registerEvents()
+        MushroomLogBlock.registerEvents()
 
         PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
             VampireAbilityHandler.setAbilityIndex(player, -1)
@@ -202,6 +205,7 @@ object Witchery {
     fun initClient() {
         EntityModelLayerRegistry.register(AltarClothBlockEntityModel.LAYER_LOCATION) { AltarClothBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(AltarBlockEntityModel.LAYER_LOCATION) { AltarBlockEntityModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(MushroomLogModel.LAYER_LOCATION) { MushroomLogModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpiritPortalBlockEntityModel.LAYER_LOCATION) { SpiritPortalBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpiritPortalPortalModel.LAYER_LOCATION) { SpiritPortalPortalModel.createBodyLayer() }
         EntityModelLayerRegistry.register(WerewolfAltarModel.LAYER_LOCATION) { WerewolfAltarModel.createBodyLayer() }
@@ -301,6 +305,7 @@ object Witchery {
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.GRASSPER.get(), ::GrassperBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CRITTER_SNARE.get(), ::CritterSnareBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.EFFIGY.get(), ::EffigyBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.MUSHROOM_LOG.get(), ::MushroomLogBlockEntityRenderer)
 
         ClientTooltipComponentRegistry.register(
             BloodPoolComponent::class.java,
@@ -465,7 +470,8 @@ object Witchery {
             WitcheryBlocks.TRENT_EFFIGY.get(),
             WitcheryBlocks.SCARECROW.get(),
             WitcheryBlocks.CRITTER_SNARE.get(),
-            WitcheryBlocks.SOUL_CAGE.get()
+            WitcheryBlocks.SOUL_CAGE.get(),
+            WitcheryBlocks.MUSHROOM_LOG.get()
         )
 
         KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)

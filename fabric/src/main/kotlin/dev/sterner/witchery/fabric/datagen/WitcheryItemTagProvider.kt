@@ -363,5 +363,11 @@ class WitcheryItemTagProvider(output: FabricDataOutput, registriesFuture: Comple
             .add(Items.WOODEN_PICKAXE)
             .add(Items.WOODEN_HOE)
             .add(Items.WOODEN_SHOVEL)
+
+        getOrCreateTagBuilder(WitcheryTags.MUSHROOMS)
+            .add(Items.RED_MUSHROOM)
+            .add(Items.BROWN_MUSHROOM)
+            .add(Items.CRIMSON_FUNGUS)
+            .add(Items.WARPED_FUNGUS)
     }
 }
