@@ -141,6 +141,8 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.WOODEN_OAK_STAKE.get())
                 output.accept(WitcheryItems.WOODEN_HAWTHORN_STAKE.get())
 
+                output.accept { WitcheryItems.DEATH_SICKLE.get() }
+
                 output.accept(WitcheryItems.INFINITY_EGG.get())
                 output.accept(WitcheryItems.ARTHANA.get())
                 output.accept(WitcheryItems.CHALICE.get())

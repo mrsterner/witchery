@@ -16,6 +16,7 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
@@ -108,6 +109,8 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
     override fun onInitializeClient() {
         Witchery.initClient()
+
+        ModelLoadingPlugin.register(WitcheryModelLoaderPlugin())
 
         BuiltinItemRendererRegistry.INSTANCE.register(
             WitcheryItems.SPINNING_WHEEL.get(),

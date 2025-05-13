@@ -6,6 +6,7 @@ import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.integration.jei.WitcheryJeiPlugin
+import dev.sterner.witchery.neoforge.asm.EnumExtension
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvent
 import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
@@ -28,6 +29,7 @@ import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.neoforged.neoforge.capabilities.Capabilities

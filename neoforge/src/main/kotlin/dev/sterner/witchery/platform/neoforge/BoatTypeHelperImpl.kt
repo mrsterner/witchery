@@ -1,14 +1,15 @@
 package dev.sterner.witchery.platform.neoforge
 
 import dev.sterner.witchery.neoforge.asm.EnumExtension
+import net.minecraft.world.entity.vehicle.Boat
 
 object BoatTypeHelperImpl {
     @JvmStatic
-    fun getRowanBoatType() = EnumExtension.ROWAN_BOAT_TYPE_PROXY.value
+    fun getRowanBoatType(): Boat.Type = EnumExtension.ROWAN_BOAT_TYPE_PROXY.value
 
     @JvmStatic
-    fun getAlderBoatType() = EnumExtension.ALDER_BOAT_TYPE_PROXY.value
+    fun getAlderBoatType(): Boat.Type = EnumExtension.ALDER_BOAT_TYPE_PROXY.value
 
     @JvmStatic
-    fun getHawthornBoatType() = EnumExtension.HAWTHORN_BOAT_TYPE_PROXY.value
+    fun getHawthornBoatType(): Boat.Type = EnumExtension.HAWTHORN_BOAT_TYPE_PROXY.value
 }

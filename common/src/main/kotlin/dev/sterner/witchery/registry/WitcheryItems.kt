@@ -2,7 +2,6 @@ package dev.sterner.witchery.registry
 
 import com.google.common.base.Supplier
 import dev.architectury.core.item.ArchitecturyBucketItem
-import dev.architectury.core.item.ArchitecturySpawnEggItem
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
@@ -41,6 +40,10 @@ object WitcheryItems {
 
     val DEBUG = register("debug") {
         DebugWand(Item.Properties())
+    }
+
+    val DEATH_SICKLE = register("death_sickle") {
+        DeathSickleItem(Item.Properties().stacksTo(1))
     }
 
     val GLINTWEED: RegistrySupplier<BlockItem> = register("glintweed") {
@@ -1205,31 +1208,55 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.TRENT_EFFIGY.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }
 
-    fun makeEgg(name: String, entityType: RegistrySupplier<out EntityType<out Mob>>): RegistrySupplier<ArchitecturySpawnEggItem> {
-        val egg = ArchitecturySpawnEggItem(
-            entityType,
-            Color.WHITE.rgb,
-            Color.WHITE.rgb,
-            Item.Properties()
-        )
-        return register(name, true) { egg }
+    val MANDRAKE_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("mandrake_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.MANDRAKE.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
 
-    val MANDRAKE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("mandrake_spawn_egg", WitcheryEntityTypes.MANDRAKE)
-    val IMP_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("imp_spawn_egg", WitcheryEntityTypes.IMP)
-    val DEMON_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("demon_spawn_egg", WitcheryEntityTypes.DEMON)
-    val ENT_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("ent_spawn_egg", WitcheryEntityTypes.ENT)
-    val OWL_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("owl_spawn_egg", WitcheryEntityTypes.OWL)
-    val BANSHEE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("banshee_spawn_egg", WitcheryEntityTypes.BANSHEE)
-    val SPECTRE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("spectre_spawn_egg", WitcheryEntityTypes.SPECTRE)
-    val COVEN_WITCH_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("coven_witch_spawn_egg", WitcheryEntityTypes.COVEN_WITCH)
-    val SPECTRAL_PIG_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("spectral_pig_spawn_egg", WitcheryEntityTypes.SPECTRAL_PIG)
-    val NIGHTMARE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("nightmare_spawn_egg", WitcheryEntityTypes.NIGHTMARE)
-    val VAMPIRE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("vampire_spawn_egg", WitcheryEntityTypes.VAMPIRE)
-    val BABA_YAGA_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("baba_yaga_spawn_egg", WitcheryEntityTypes.BABA_YAGA)
-    val WEREWOLF_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("werewolf_spawn_egg", WitcheryEntityTypes.WEREWOLF)
-    val LILITH_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("lilith_spawn_egg", WitcheryEntityTypes.LILITH)
-    val ELLE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("elle_spawn_egg", WitcheryEntityTypes.ELLE)
-    val PARASITIC_LOUSE_SPAWN_EGG: RegistrySupplier<ArchitecturySpawnEggItem> = makeEgg("parasitic_louse_spawn_egg", WitcheryEntityTypes.PARASITIC_LOUSE)
+    val IMP_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("imp_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.IMP.get(), Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+
+    val DEMON_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("demon_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.DEMON.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val ENT_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("ent_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.ENT.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val OWL_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("owl_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.OWL.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val BANSHEE_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("banshee_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.BANSHEE.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val SPECTRE_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("spectre_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.SPECTRE.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val COVEN_WITCH_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("coven_witch_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.COVEN_WITCH.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val SPECTRAL_PIG_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("spectral_pig_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.SPECTRAL_PIG.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val NIGHTMARE_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("nightmare_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.NIGHTMARE.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val VAMPIRE_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("vampire_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.VAMPIRE.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val BABA_YAGA_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("baba_yaga_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.BABA_YAGA.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val WEREWOLF_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("werewolf_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.WEREWOLF.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val LILITH_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("lilith_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.LILITH.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val ELLE_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("elle_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.ELLE.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val PARASITIC_LOUSE_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("parasitic_louse_spawn_egg") {
+        SpawnEggItem(WitcheryEntityTypes.PARASITIC_LOUSE.get(),Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
 
 }
