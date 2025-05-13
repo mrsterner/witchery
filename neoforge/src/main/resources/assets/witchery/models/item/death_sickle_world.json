@@ -1,19 +1,7 @@
 {
   "parent": "item/handheld",
-  "loader": "neoforge:separate_transforms",
-  "base": {
-    "parent": "witchery:item/death_sickle_world"
-  },
-  "perspectives": {
-    "fixed": {
-      "parent": "witchery:item/death_sickle_gui"
-    },
-    "gui": {
-      "parent": "witchery:item/death_sickle_gui"
-    }
-  },
   "textures": {
-    "layer0": "witchery:item/death_sickle_gui"
+    "layer0": "witchery:item/death_sickle_world"
   },
   "display": {
     "thirdperson_righthand": {
