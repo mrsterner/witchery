@@ -1,5 +1,7 @@
 package dev.sterner.witchery.block.mushroom_log
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
@@ -8,19 +10,18 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
-import net.minecraft.util.Mth
 import net.minecraft.util.RandomSource
 import net.minecraft.world.Containers
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LightLayer
 import net.minecraft.world.level.block.state.BlockState
 import java.util.*
 import kotlin.math.min
+import net.minecraft.nbt.NbtOps
 
 class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     MultiBlockCoreEntity(WitcheryBlockEntityTypes.MUSHROOM_LOG.get(), MushroomLogBlock.STRUCTURE.get(), blockPos, blockState) {
@@ -43,7 +44,20 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         var scale: Float,
         val targetScale: Float,
         val growthOffset: Float
-    )
+    ) {
+        companion object {
+            val CODEC: Codec<MushroomData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.FLOAT.fieldOf("xOffset").forGetter { it.xOffset },
+                    Codec.FLOAT.fieldOf("zOffset").forGetter { it.zOffset },
+                    Codec.FLOAT.fieldOf("rotation").forGetter { it.rotation },
+                    Codec.FLOAT.fieldOf("scale").forGetter { it.scale },
+                    Codec.FLOAT.fieldOf("targetScale").forGetter { it.targetScale },
+                    Codec.FLOAT.fieldOf("growthOffset").forGetter { it.growthOffset }
+                ).apply(instance, ::MushroomData)
+            }
+        }
+    }
     
     /**
      * Set the mushroom type and reset growth
@@ -88,7 +102,6 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         mushroomPositions.clear()
 
-        // Generate 4-7 mushrooms
         val count = 4 + random.nextInt(4)
 
         val positions = mutableListOf<Pair<Float, Float>>()
@@ -114,7 +127,7 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
         }
 
-        val shuffledPositions = positions.shuffled(java.util.Random(seed))
+        val shuffledPositions = positions.shuffled(Random(seed))
         val selectedPositions = shuffledPositions.take(count)
 
         for (pos in selectedPositions) {
@@ -208,71 +221,41 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return mushroomPositions
     }
     
-    override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
-        super.loadAdditional(pTag, pRegistries)
-
-        if (pTag.contains("currentMushroom", 10)) {
-            val itemTag = pTag.getCompound("currentMushroom")
-            currentMushroom = ItemStack.parse(pRegistries, itemTag).orElse(ItemStack.EMPTY)
-        }
-
-        growthStage = pTag.getFloat("growthStage")
-
-        if (pTag.contains("mushroomPositions")) {
-            mushroomPositions.clear()
-            
-            val positionsTag = pTag.getCompound("mushroomPositions")
-            val count = positionsTag.getInt("count")
-            
-            for (i in 0 until count) {
-                val key = "mushroom_$i"
-                if (positionsTag.contains(key)) {
-                    val mushTag = positionsTag.getCompound(key)
-                    
-                    mushroomPositions.add(
-                        MushroomData(
-                            mushTag.getFloat("xOffset"),
-                            mushTag.getFloat("zOffset"),
-                            mushTag.getFloat("rotation"),
-                            mushTag.getFloat("scale"),
-                            mushTag.getFloat("targetScale"),
-                            mushTag.getFloat("growthOffset")
-                        )
-                    )
-                }
-            }
-        }
-
-        if (mushroomPositions.isEmpty() && !currentMushroom.isEmpty) {
-            generateMushroomPositions()
-        }
-    }
-    
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         super.saveAdditional(tag, registries)
 
         val itemTag = currentMushroom.save(registries)
         tag.put("currentMushroom", itemTag)
-
         tag.putFloat("growthStage", growthStage)
 
-        val positionsTag = CompoundTag()
-        positionsTag.putInt("count", mushroomPositions.size)
-        
-        for (i in mushroomPositions.indices) {
-            val data = mushroomPositions[i]
-            val mushTag = CompoundTag()
-            
-            mushTag.putFloat("xOffset", data.xOffset)
-            mushTag.putFloat("zOffset", data.zOffset)
-            mushTag.putFloat("rotation", data.rotation)
-            mushTag.putFloat("scale", data.scale)
-            mushTag.putFloat("targetScale", data.targetScale)
-            mushTag.putFloat("growthOffset", data.growthOffset)
-            
-            positionsTag.put("mushroom_$i", mushTag)
+        val mushroomPositionsNbt = MushroomData.CODEC.listOf()
+            .encodeStart(NbtOps.INSTANCE, mushroomPositions)
+            .getOrThrow()
+    
+        tag.put("mushroomPositions", mushroomPositionsNbt)
+    }
+
+    override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
+        super.loadAdditional(pTag, pRegistries)
+    
+        if (pTag.contains("currentMushroom", 10)) {
+            val itemTag = pTag.getCompound("currentMushroom")
+            currentMushroom = ItemStack.parse(pRegistries, itemTag).orElse(ItemStack.EMPTY)
         }
+    
+        growthStage = pTag.getFloat("growthStage")
+
+        if (pTag.contains("mushroomPositions")) {
+            val result = MushroomData.CODEC.listOf()
+                .parse(NbtOps.INSTANCE, pTag.get("mushroomPositions"))
+                .getOrThrow()
         
-        tag.put("mushroomPositions", positionsTag)
+            mushroomPositions.clear()
+            mushroomPositions.addAll(result)
+        }
+    
+        if (mushroomPositions.isEmpty() && !currentMushroom.isEmpty) {
+            generateMushroomPositions()
+        }
     }
 }
