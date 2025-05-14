@@ -18,6 +18,12 @@ object PlatformUtils {
 
     @JvmStatic
     @ExpectPlatform
+    fun isDevEnv(): Boolean {
+        throw AssertionError()
+    }
+
+    @JvmStatic
+    @ExpectPlatform
     fun isModLoaded(modId: String?): Boolean {
         throw AssertionError()
     }

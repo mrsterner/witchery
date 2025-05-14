@@ -100,6 +100,7 @@ import dev.sterner.witchery.item.accessories.BitingBeltItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.DeathQueueLevelAttachment
+import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.UnderWaterBreathPlayerAttachment
 import dev.sterner.witchery.platform.WitcheryPehkui
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
@@ -131,7 +132,7 @@ object Witchery {
 
     val LOGGER: Logger = LogUtils.getLogger()
 
-    val debugRitualLog: Boolean = true
+    val debugRitualLog: Boolean = PlatformUtils.isDevEnv()
 
     fun id(name: String): ResourceLocation {
         return ResourceLocation.fromNamespaceAndPath(MODID, name)

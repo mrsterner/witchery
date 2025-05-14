@@ -34,6 +34,11 @@ import java.awt.Color
 object PlatformUtilsImpl {
 
     @JvmStatic
+    fun isDevEnv(): Boolean {
+        return FabricLoader.getInstance().isDevelopmentEnvironment
+    }
+
+    @JvmStatic
     fun isModLoaded(modId: String?): Boolean {
         return FabricLoader.getInstance().isModLoaded(modId)
     }

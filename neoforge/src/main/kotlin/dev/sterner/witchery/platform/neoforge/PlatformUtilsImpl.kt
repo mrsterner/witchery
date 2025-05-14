@@ -19,10 +19,16 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.neoforged.fml.ModList
+import net.neoforged.fml.loading.FMLEnvironment
 import top.theillusivec4.curios.api.CuriosApi
 import java.util.function.Supplier
 
 object PlatformUtilsImpl {
+
+    @JvmStatic
+    fun isDevEnv(): Boolean {
+        return !FMLEnvironment.production
+    }
 
     @JvmStatic
     fun isModLoaded(modId: String?): Boolean {
