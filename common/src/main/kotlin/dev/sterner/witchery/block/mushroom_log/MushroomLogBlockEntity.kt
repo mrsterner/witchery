@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
@@ -85,9 +86,18 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         pHand: InteractionHand
     ): ItemInteractionResult {
         if (level != null) {
-            harvest(level!!, blockPos)?.let {
-                Containers.dropItemStack(level!!, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), it)
+            if (pPlayer.mainHandItem.isEmpty) {
+                harvest(level!!, blockPos)?.let {
+                    Containers.dropItemStack(level!!, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), it)
+                }
+            } else if (pStack.`is`(WitcheryTags.MUSHROOMS)) {
+                Containers.dropItemStack(level!!, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), currentMushroom.copy())
+                setMushroom(pStack)
+                pPlayer.mainHandItem.shrink(1)
+                pPlayer.swing(pHand)
+                return ItemInteractionResult.SUCCESS
             }
+
         }
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
@@ -155,14 +165,16 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         super.tick(level, pos, blockState)
         
         if (level.isClientSide) return
-        
-        if (!currentMushroom.isEmpty && growthStage < maxGrowthStage) {
-            if (canGrow(level, pos)) {
-                growthStage = min(maxGrowthStage, growthStage + growthRate)
 
-                if ((growthStage * 100).toInt() % 10 == 0) {
-                    setChanged()
-                    level.sendBlockUpdated(pos, blockState, blockState, 3)
+        if (level.gameTime % 20 == 0L) {
+            if (!currentMushroom.isEmpty && growthStage < maxGrowthStage) {
+                if (canGrow(level, pos)) {
+                    growthStage = min(maxGrowthStage, growthStage + growthRate)
+
+                    if ((growthStage * 100).toInt() % 10 == 0) {
+                        setChanged()
+                        level.sendBlockUpdated(pos, blockState, blockState, 3)
+                    }
                 }
             }
         }
@@ -223,9 +235,10 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         super.saveAdditional(tag, registries)
-
-        val itemTag = currentMushroom.save(registries)
-        tag.put("currentMushroom", itemTag)
+        if (!currentMushroom.isEmpty) {
+            val itemTag = currentMushroom.save(registries)
+            tag.put("currentMushroom", itemTag)
+        }
         tag.putFloat("growthStage", growthStage)
 
         val mushroomPositionsNbt = MushroomData.CODEC.listOf()

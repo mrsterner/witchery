@@ -68,7 +68,9 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
         fun makeMushroomLog(player: Player, hand: InteractionHand, pos: BlockPos, face: Direction): EventResult {
             val level = player.level()
 
-            if (player.mainHandItem.`is`(Items.MOSS_BLOCK) && player.offhandItem.`is`(WitcheryTags.MUSHROOMS) && level.getBlockState(pos).`is`(Blocks.DARK_OAK_LOG)) {
+            val state = level.getBlockState(pos)
+
+            if (player.mainHandItem.`is`(Items.MOSS_BLOCK) && player.offhandItem.`is`(WitcheryTags.MUSHROOMS) && state.`is`(Blocks.DARK_OAK_LOG)) {
                 val horizontalDirections = listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 
                 for (checkDir in horizontalDirections) {
@@ -76,6 +78,25 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
                     val checkState = level.getBlockState(checkPos)
 
                     if (checkState.`is`(Blocks.DARK_OAK_LOG)) {
+
+                        val canCreate = when (checkDir) {
+                            Direction.NORTH, Direction.SOUTH -> {
+                                val bl = state.getValue(BlockStateProperties.AXIS) == Direction.Axis.Z
+                                val bl2 = checkState.getValue(BlockStateProperties.AXIS) == Direction.Axis.Z
+                                bl && bl2
+                            }
+                            Direction.EAST, Direction.WEST -> {
+                                val bl = state.getValue(BlockStateProperties.AXIS) == Direction.Axis.X
+                                val bl2 = checkState.getValue(BlockStateProperties.AXIS) == Direction.Axis.X
+                                bl && bl2
+                            }
+                            else -> false
+                        }
+
+                        if (!canCreate) {
+                            return EventResult.pass()
+                        }
+
                         val coreDirection = checkDir
                         val componentDirection = checkDir.opposite
 
@@ -97,6 +118,7 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
 
                         if (!player.isCreative) {
                             player.mainHandItem.shrink(1)
+                            player.offhandItem.shrink(1)
                         }
 
                         return EventResult.interruptTrue()

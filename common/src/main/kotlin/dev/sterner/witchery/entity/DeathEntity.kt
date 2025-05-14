@@ -1,14 +1,16 @@
 package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.client.model.PiglinModel
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth
 import net.minecraft.util.RandomSource
+import net.minecraft.world.DifficultyInstance
 import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.*
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.FloatGoal
@@ -18,8 +20,12 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.monster.Monster
+import net.minecraft.world.entity.monster.piglin.PiglinBruteAi
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.ServerLevelAccessor
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
@@ -37,6 +43,20 @@ class DeathEntity(level: Level) : Monster(WitcheryEntityTypes.DEATH.get(), level
 
         targetSelector.addGoal(1, HurtByTargetGoal(this))
         targetSelector.addGoal(2, NearestAttackableTargetGoal(this, Player::class.java, true))
+    }
+
+    override fun finalizeSpawn(
+        level: ServerLevelAccessor,
+        difficulty: DifficultyInstance,
+        spawnType: MobSpawnType,
+        spawnGroupData: SpawnGroupData?
+    ): SpawnGroupData? {
+        this.populateDefaultEquipmentSlots(level.random, difficulty)
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
+    }
+
+    override fun populateDefaultEquipmentSlots(random: RandomSource, difficulty: DifficultyInstance) {
+        this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(WitcheryItems.DEATH_SICKLE.get()))
     }
 
     override fun tick() {

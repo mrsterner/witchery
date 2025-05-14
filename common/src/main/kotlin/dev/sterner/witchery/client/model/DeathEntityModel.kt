@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.DeathEntity
+import net.minecraft.client.model.ArmedModel
 import net.minecraft.client.model.HierarchicalModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -15,6 +16,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
+import net.minecraft.world.entity.HumanoidArm
 import java.util.function.Function
 
 
@@ -23,7 +25,7 @@ class DeathEntityModel(val root: ModelPart) :
         RenderType.entityTranslucent(
             location
         )
-    }) {
+    }), ArmedModel {
 
     private val head: ModelPart = root.getChild("head")
     private val hood: ModelPart = head.getChild("hood")
@@ -43,12 +45,16 @@ class DeathEntityModel(val root: ModelPart) :
         head.xRot = headPitch * 0.017453292f
         head.yRot = netHeadYaw * 0.017453292f
 
-        this.rightArm.xRot = Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 2.0f * limbSwingAmount * 0.5f
-        this.leftArm.xRot = Mth.cos(limbSwing * 0.6662f) * 2.0f * limbSwingAmount * 0.5f
-        this.rightArm.zRot = 0.0f
-        this.leftArm.zRot = 0.0f
+        val idleAmplitude = 0.05f
+        this.leftArm.xRot = Mth.sin(ageInTicks * 0.067f) * idleAmplitude
+
+        this.rightArm.xRot = -0.4f + Mth.sin(ageInTicks * 0.067f) * (idleAmplitude * 0.5f)
+
+        this.rightArm.zRot = 0.1f
+        this.leftArm.zRot = -0.1f
         this.rightArm.yRot = 0.0f
         this.leftArm.yRot = 0.0f
+
     }
 
     override fun renderToBuffer(
@@ -64,6 +70,16 @@ class DeathEntityModel(val root: ModelPart) :
 
     override fun root(): ModelPart? {
         return root
+    }
+
+    override fun translateToHand(
+        side: HumanoidArm,
+        poseStack: PoseStack
+    ) {
+        val modelPart: ModelPart = rightArm
+        poseStack.translate(-0.0, 0.8, -0.0)
+        modelPart.translateAndRotate(poseStack)
+        poseStack.translate(-0.0, -0.2, -0.0)
     }
 
     companion object {
