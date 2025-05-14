@@ -241,7 +241,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             // Handle Wood Ash - Reset potion and recipes
             if (item.`is`(WitcheryItems.WOOD_ASH.get())) {
                 fullReset()
-                WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPacket(pos, true))
+                WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPayload(pos, true))
                 item.shrink(1)
                 setChanged()
             }
@@ -365,7 +365,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
         }
 
-        WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPacket(pos, false))
+        WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPayload(pos, false))
 
         if (cauldronCraftingRecipe != null) {
             level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.5f, 1.0f)
@@ -544,11 +544,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     }
 
     private fun spawnSmokeParticle(level: Level, pos: BlockPos) {
-        WitcheryPayloads.sendToPlayers(level, pos, CauldronPoofS2CPacket(pos, color))
+        WitcheryPayloads.sendToPlayers(level, pos, CauldronPoofS2CPayload(pos, color))
     }
 
     private fun spawnFailParticle(level: Level, pos: BlockPos) {
-        WitcheryPayloads.sendToPlayers(level, pos, SpawnSmokePoofParticles(pos.center))
+        WitcheryPayloads.sendToPlayers(level, pos, SpawnSmokePoofParticlesS2CPayload(pos.center))
     }
 
     private fun getFirstEmptyIndex(): Int {

@@ -10,7 +10,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 
-class OpenLecternGuidebook() : CustomPacketPayload {
+class OpenLecternGuidebookS2CPayload() : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this()
 
@@ -20,7 +20,7 @@ class OpenLecternGuidebook() : CustomPacketPayload {
 
     private fun write(friendlyByteBuf: RegistryFriendlyByteBuf?) {}
 
-    fun handleS2C(payload: OpenLecternGuidebook, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: OpenLecternGuidebookS2CPayload, context: NetworkManager.PacketContext) {
         context.queue {
             val book = BookDataManager.get().getBook(GuideBookItem.ID)
             BookGuiManager.get().openBook(BookAddress.defaultFor(book))
@@ -28,13 +28,13 @@ class OpenLecternGuidebook() : CustomPacketPayload {
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<OpenLecternGuidebook> =
+        val ID: CustomPacketPayload.Type<OpenLecternGuidebookS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("open_lectern_guidebook"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, OpenLecternGuidebook> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf?, OpenLecternGuidebookS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { OpenLecternGuidebook() }
+                { OpenLecternGuidebookS2CPayload() }
             )
     }
 }

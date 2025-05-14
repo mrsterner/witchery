@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncBarkS2CPacket
+import dev.sterner.witchery.payload.SyncBarkS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -27,7 +27,7 @@ object BarkBeltPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncBarkS2CPacket(player, data))
+            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncBarkS2CPayload(player, data))
         }
     }
 

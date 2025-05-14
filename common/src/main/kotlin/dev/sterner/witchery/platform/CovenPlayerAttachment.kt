@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncCovenS2CPacket
+import dev.sterner.witchery.payload.SyncCovenS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag
@@ -32,7 +32,7 @@ object CovenPlayerAttachment {
             WitcheryPayloads.sendToPlayers(
                 player.level(),
                 player.blockPosition(),
-                SyncCovenS2CPacket(player, data)
+                SyncCovenS2CPayload(player, data)
             )
         }
     }

@@ -10,7 +10,7 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.util.Mth
 
-class SpawnPoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
+class SpawnPoofParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -22,7 +22,7 @@ class SpawnPoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SpawnPoofParticles, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SpawnPoofParticlesS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
@@ -47,13 +47,13 @@ class SpawnPoofParticles(val nbt: CompoundTag) : CustomPacketPayload {
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SpawnPoofParticles> =
+        val ID: CustomPacketPayload.Type<SpawnPoofParticlesS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("spawn_poof"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SpawnPoofParticles> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SpawnPoofParticlesS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SpawnPoofParticles(buf) }
+                { buf -> SpawnPoofParticlesS2CPayload(buf) }
             )
     }
 }

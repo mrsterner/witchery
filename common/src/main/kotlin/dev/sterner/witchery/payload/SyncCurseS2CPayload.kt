@@ -2,7 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.poppet.CorruptPoppetPlayerAttachment
+import dev.sterner.witchery.platform.CursePlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
@@ -11,14 +11,14 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
-class SyncCorruptPoppetS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncCurseS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: CorruptPoppetPlayerAttachment.Data) : this(CompoundTag().apply {
+    constructor(player: Player, data: CursePlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
-        CorruptPoppetPlayerAttachment.Data.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
-            put("corruptList", it.get())
+        CursePlayerAttachment.Data.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
+            put("playerCurseList", it.get())
         }
     })
 
@@ -30,32 +30,32 @@ class SyncCorruptPoppetS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncCorruptPoppetS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncCurseS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
 
-        val dataTag = payload.nbt.getCompound("corruptList")
-        val playerCurseData = CorruptPoppetPlayerAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
+        val dataTag = payload.nbt.getCompound("playerCurseList")
+        val playerCurseData = CursePlayerAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
 
         val player = client.level?.getPlayerByUUID(id)
 
         client.execute {
             if (player != null && playerCurseData.isPresent) {
-                CorruptPoppetPlayerAttachment.setData(player, playerCurseData.get())
+                CursePlayerAttachment.setData(player, playerCurseData.get())
             }
         }
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncCorruptPoppetS2CPacket> =
-            CustomPacketPayload.Type(Witchery.id("sync_corrupt_player"))
+        val ID: CustomPacketPayload.Type<SyncCurseS2CPayload> =
+            CustomPacketPayload.Type(Witchery.id("sync_curse_player"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncCorruptPoppetS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncCurseS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncCorruptPoppetS2CPacket(buf) }
+                { buf -> SyncCurseS2CPayload(buf) }
             )
     }
 }

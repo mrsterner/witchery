@@ -2,7 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.CursePlayerAttachment
+import dev.sterner.witchery.platform.CovenPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
@@ -11,14 +11,15 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
-class SyncCurseS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncCovenS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: CursePlayerAttachment.Data) : this(CompoundTag().apply {
+    constructor(player: Player, data: CovenPlayerAttachment.CovenData) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
-        CursePlayerAttachment.Data.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
-            put("playerCurseList", it.get())
+
+        CovenPlayerAttachment.CovenData.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
+            put("CovenData", it.get())
         }
     })
 
@@ -30,32 +31,31 @@ class SyncCurseS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncCurseS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncCovenS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
 
-        val dataTag = payload.nbt.getCompound("playerCurseList")
-        val playerCurseData = CursePlayerAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
+        val dataTag = payload.nbt.getCompound("CovenData")
+        val wereData = CovenPlayerAttachment.CovenData.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
         val player = client.level?.getPlayerByUUID(id)
-
         client.execute {
-            if (player != null && playerCurseData.isPresent) {
-                CursePlayerAttachment.setData(player, playerCurseData.get())
+            if (player != null && wereData.isPresent) {
+                CovenPlayerAttachment.setData(player, wereData.get())
             }
         }
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncCurseS2CPacket> =
-            CustomPacketPayload.Type(Witchery.id("sync_curse_player"))
+        val ID: CustomPacketPayload.Type<SyncCovenS2CPayload> =
+            CustomPacketPayload.Type(Witchery.id("sync_coven_player"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncCurseS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncCovenS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncCurseS2CPacket(buf) }
+                { buf -> SyncCovenS2CPayload(buf) }
             )
     }
 }

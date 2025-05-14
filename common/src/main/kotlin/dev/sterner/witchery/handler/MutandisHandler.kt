@@ -1,7 +1,7 @@
 package dev.sterner.witchery.handler
 
 import dev.architectury.event.events.common.TickEvent.ServerLevelTick
-import dev.sterner.witchery.payload.MutandisRemenantParticleS2CPacket
+import dev.sterner.witchery.payload.MutandisRemenantParticleS2CPayload
 import dev.sterner.witchery.platform.MutandisLevelAttachment.getMap
 import dev.sterner.witchery.platform.MutandisLevelAttachment.removeTagForBlockPos
 import dev.sterner.witchery.platform.MutandisLevelAttachment.updateTimeForTagBlockPos
@@ -28,7 +28,7 @@ object MutandisHandler {
             if (time <= 1) {
                 toRemove.add(pos)
             } else {
-                WitcheryPayloads.sendToPlayers(serverLevel, pos, MutandisRemenantParticleS2CPacket(pos))
+                WitcheryPayloads.sendToPlayers(serverLevel, pos, MutandisRemenantParticleS2CPayload(pos))
                 updateTimeForTagBlockPos(serverLevel, pos)
             }
         }

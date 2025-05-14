@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncMiscS2CPacket
+import dev.sterner.witchery.payload.SyncMiscS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -38,16 +38,20 @@ object MiscPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncMiscS2CPacket(player, data))
+            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncMiscS2CPayload(player, data))
         }
     }
 
-    class Data(var isWitcheryAligned: Boolean = false) {
+    class Data(
+        var isWitcheryAligned: Boolean = false,
+        var isDeath: Boolean = false,
+    ) {
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.BOOL.fieldOf("isWitcheryAligned").forGetter { it.isWitcheryAligned },
+                    Codec.BOOL.fieldOf("isDeath").forGetter { it.isDeath },
                 ).apply(instance, ::Data)
             }
 

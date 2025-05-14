@@ -1,7 +1,7 @@
 package dev.sterner.witchery.handler.infusion
 
 import dev.architectury.event.events.common.TickEvent
-import dev.sterner.witchery.payload.SpawnPoofParticles
+import dev.sterner.witchery.payload.SpawnPoofParticlesS2CPayload
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment.isInvisible
@@ -19,7 +19,7 @@ object LightInfusionHandler {
 
     fun poof(player: Player) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SpawnPoofParticles(
+            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SpawnPoofParticlesS2CPayload(
                 CompoundTag().apply {
                     putUUID("Id", player.uuid)
                 }

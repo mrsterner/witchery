@@ -10,7 +10,7 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
-class SyncManifestationS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncManifestationS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -28,7 +28,7 @@ class SyncManifestationS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncManifestationS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncManifestationS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
@@ -48,13 +48,13 @@ class SyncManifestationS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncManifestationS2CPacket> =
+        val ID: CustomPacketPayload.Type<SyncManifestationS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("sync_manifestation_player"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncManifestationS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncManifestationS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncManifestationS2CPacket(buf) }
+                { buf -> SyncManifestationS2CPayload(buf) }
             )
     }
 }

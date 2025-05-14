@@ -4,8 +4,8 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncBloodS2CPacket
-import dev.sterner.witchery.payload.SyncOtherBloodS2CPacket
+import dev.sterner.witchery.payload.SyncBloodS2CPayload
+import dev.sterner.witchery.payload.SyncOtherBloodS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -29,9 +29,9 @@ object BloodPoolLivingEntityAttachment {
     fun sync(livingEntity: LivingEntity, data: Data) {
         if (livingEntity.level() is ServerLevel) {
             if (livingEntity is Player) {
-                WitcheryPayloads.sendToPlayers(livingEntity.level(), SyncBloodS2CPacket(livingEntity, data))
+                WitcheryPayloads.sendToPlayers(livingEntity.level(), SyncBloodS2CPayload(livingEntity, data))
             } else {
-                WitcheryPayloads.sendToPlayers(livingEntity.level(), SyncOtherBloodS2CPacket(livingEntity, data))
+                WitcheryPayloads.sendToPlayers(livingEntity.level(), SyncOtherBloodS2CPayload(livingEntity, data))
             }
         }
     }

@@ -11,7 +11,7 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.util.Mth
 
-class CauldronPoofS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class CauldronPoofS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -32,7 +32,7 @@ class CauldronPoofS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: CauldronPoofS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: CauldronPoofS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
         val pos = BlockPos(payload.nbt.getInt("x"), payload.nbt.getInt("y"), payload.nbt.getInt("z"))
         val color = nbt.getInt("color")
@@ -56,13 +56,13 @@ class CauldronPoofS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<CauldronPoofS2CPacket> =
+        val ID: CustomPacketPayload.Type<CauldronPoofS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("cauldron_smoke"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, CauldronPoofS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, CauldronPoofS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> CauldronPoofS2CPacket(buf) }
+                { buf -> CauldronPoofS2CPayload(buf) }
             )
     }
 }

@@ -10,7 +10,7 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
-class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncVoodooDataS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -28,7 +28,7 @@ class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncVoodooDataS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncVoodooDataS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
@@ -48,13 +48,13 @@ class SyncVoodooDataS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncVoodooDataS2CPacket> =
+        val ID: CustomPacketPayload.Type<SyncVoodooDataS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("sync_voodoo_poppet"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncVoodooDataS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncVoodooDataS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncVoodooDataS2CPacket(buf) }
+                { buf -> SyncVoodooDataS2CPayload(buf) }
             )
     }
 }

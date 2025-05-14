@@ -18,22 +18,22 @@ object WitcheryPayloads {
 
     fun register() {
         //S2C
-        registerS2C(SyncCauldronS2CPacket.ID, SyncCauldronS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncCauldronS2CPayload.ID, SyncCauldronS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(CauldronPoofS2CPacket.ID, CauldronPoofS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(CauldronPoofS2CPayload.ID, CauldronPoofS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(AltarMultiplierSyncS2CPacket.ID, AltarMultiplierSyncS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(AltarMultiplierSyncS2CPayload.ID, AltarMultiplierSyncS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(
-            MutandisRemenantParticleS2CPacket.ID,
-            MutandisRemenantParticleS2CPacket.STREAM_CODEC
+            MutandisRemenantParticleS2CPayload.ID,
+            MutandisRemenantParticleS2CPayload.STREAM_CODEC
         ) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncInfusionS2CPacket.ID, SyncInfusionS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncInfusionS2CPayload.ID, SyncInfusionS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(
@@ -49,16 +49,16 @@ object WitcheryPayloads {
             payload.handleS2C(payload, context)
         }
 
-        registerS2C(SyncLightInfusionS2CPacket.ID, SyncLightInfusionS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncLightInfusionS2CPayload.ID, SyncLightInfusionS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
 
-        registerS2C(SyncNightmareS2CPacket.ID, SyncNightmareS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncNightmareS2CPayload.ID, SyncNightmareS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(
-            SyncOtherwhereInfusionS2CPacket.ID,
-            SyncOtherwhereInfusionS2CPacket.STREAM_CODEC
+            SyncOtherwhereInfusionS2CPayload.ID,
+            SyncOtherwhereInfusionS2CPayload.STREAM_CODEC
         ) { payload, context ->
             payload.handleS2C(payload, context)
         }
@@ -68,49 +68,49 @@ object WitcheryPayloads {
         ) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SpawnPoofParticles.ID, SpawnPoofParticles.STREAM_CODEC) { payload, context ->
+        registerS2C(SpawnPoofParticlesS2CPayload.ID, SpawnPoofParticlesS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncVoodooDataS2CPacket.ID, SyncVoodooDataS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncVoodooDataS2CPayload.ID, SyncVoodooDataS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(OpenLecternGuidebook.ID, OpenLecternGuidebook.STREAM_CODEC) { payload, context ->
+        registerS2C(OpenLecternGuidebookS2CPayload.ID, OpenLecternGuidebookS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncMiscS2CPacket.ID, SyncMiscS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncMiscS2CPayload.ID, SyncMiscS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncManifestationS2CPacket.ID, SyncManifestationS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncManifestationS2CPayload.ID, SyncManifestationS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncInfernalInfusionS2CPacket.ID, SyncInfernalInfusionS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncInfernalInfusionS2CPayload.ID, SyncInfernalInfusionS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(SyncOwlAbilityS2CPayload.ID, SyncOwlAbilityS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncCurseS2CPacket.ID, SyncCurseS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncCurseS2CPayload.ID, SyncCurseS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncCorruptPoppetS2CPacket.ID, SyncCorruptPoppetS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncCorruptPoppetS2CPayload.ID, SyncCorruptPoppetS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncVampireS2CPacket.ID, SyncVampireS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncVampireS2CPayload.ID, SyncVampireS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncEtherealS2CPacket.ID, SyncEtherealS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncEtherealS2CPayload.ID, SyncEtherealS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncWerewolfS2CPacket.ID, SyncWerewolfS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncWerewolfS2CPayload.ID, SyncWerewolfS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncCovenS2CPacket.ID, SyncCovenS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncCovenS2CPayload.ID, SyncCovenS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncBloodS2CPacket.ID, SyncBloodS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncBloodS2CPayload.ID, SyncBloodS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncOtherBloodS2CPacket.ID, SyncOtherBloodS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncOtherBloodS2CPayload.ID, SyncOtherBloodS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(SpawnBloodParticlesS2CPayload.ID, SpawnBloodParticlesS2CPayload.STREAM_CODEC) { payload, context ->
@@ -134,7 +134,7 @@ object WitcheryPayloads {
         registerS2C(RefreshDimensionsS2CPayload.ID, RefreshDimensionsS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SpawnSmokePoofParticles.ID, SpawnSmokePoofParticles.STREAM_CODEC) { payload, context ->
+        registerS2C(SpawnSmokePoofParticlesS2CPayload.ID, SpawnSmokePoofParticlesS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(SyncTransformationS2CPayload.ID, SyncTransformationS2CPayload.STREAM_CODEC) { payload, context ->
@@ -143,7 +143,7 @@ object WitcheryPayloads {
         registerS2C(SyncChainS2CPayload.ID, SyncChainS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncBarkS2CPacket.ID, SyncBarkS2CPacket.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncBarkS2CPayload.ID, SyncBarkS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(

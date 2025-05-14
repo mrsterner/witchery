@@ -12,7 +12,7 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
-class SyncInfernalInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncInfernalInfusionS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -32,7 +32,7 @@ class SyncInfernalInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload 
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncInfernalInfusionS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncInfernalInfusionS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
@@ -53,13 +53,13 @@ class SyncInfernalInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload 
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncInfernalInfusionS2CPacket> =
+        val ID: CustomPacketPayload.Type<SyncInfernalInfusionS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("sync_infernal_infusion"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncInfernalInfusionS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncInfernalInfusionS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncInfernalInfusionS2CPacket(buf) }
+                { buf -> SyncInfernalInfusionS2CPayload(buf) }
             )
     }
 }

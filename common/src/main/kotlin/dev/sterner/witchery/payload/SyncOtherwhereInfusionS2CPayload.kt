@@ -2,7 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment
+import dev.sterner.witchery.platform.infusion.OtherwhereInfusionPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -10,14 +10,14 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
-class SyncLightInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncOtherwhereInfusionS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: LightInfusionPlayerAttachment.Data) : this(CompoundTag().apply {
+    constructor(player: Player, data: OtherwhereInfusionPlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
-        putBoolean("Invisible", data.isInvisible)
-        putInt("InvisibleTimer", data.invisibleTimer)
+        putInt("teleportHoldTicks", data.teleportHoldTicks)
+        putInt("teleportCooldown", data.teleportCooldown)
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -28,30 +28,30 @@ class SyncLightInfusionS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncLightInfusionS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncOtherwhereInfusionS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         val id = payload.nbt.getUUID("Id")
-        val charge = payload.nbt.getBoolean("Invisible")
-        val timer = payload.nbt.getInt("InvisibleTimer")
+        val teleportHoldTicks = payload.nbt.getInt("teleportHoldTicks")
+        val teleportCooldown = payload.nbt.getInt("teleportCooldown")
 
         val player = client.level?.getPlayerByUUID(id)
 
         client.execute {
             if (player != null) {
-                LightInfusionPlayerAttachment.setInvisible(player, charge, timer)
+                OtherwhereInfusionPlayerAttachment.setInfusion(player, teleportHoldTicks, teleportCooldown)
             }
         }
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncLightInfusionS2CPacket> =
-            CustomPacketPayload.Type(Witchery.id("sync_light_infusion"))
+        val ID: CustomPacketPayload.Type<SyncOtherwhereInfusionS2CPayload> =
+            CustomPacketPayload.Type(Witchery.id("sync_otherwhere_infusion"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncLightInfusionS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncOtherwhereInfusionS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncLightInfusionS2CPacket(buf) }
+                { buf -> SyncOtherwhereInfusionS2CPayload(buf) }
             )
     }
 }

@@ -10,7 +10,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.ChaliceBlock
 import dev.sterner.witchery.data.NaturePowerReloadListener
 import dev.sterner.witchery.menu.AltarMenu
-import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPacket
+import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPayload
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryTags
@@ -260,7 +260,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     }
 
     private fun openMenu(player: ServerPlayer) {
-        NetworkManager.sendToPlayer(player, AltarMultiplierSyncS2CPacket(blockPos, powerMultiplier))
+        NetworkManager.sendToPlayer(player, AltarMultiplierSyncS2CPayload(blockPos, powerMultiplier))
 
         MenuRegistry.openExtendedMenu(player, object : ExtendedMenuProvider {
             override fun createMenu(i: Int, inventory: Inventory, player: Player): AbstractContainerMenu {

@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncEtherealS2CPacket
+import dev.sterner.witchery.payload.SyncEtherealS2CPayload
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
@@ -30,7 +30,7 @@ object EtherealEntityAttachment {
         if (living.level() is ServerLevel) {
             val serverLevel = living.level() as ServerLevel
 
-            val packet = SyncEtherealS2CPacket(living.id, data)
+            val packet = SyncEtherealS2CPayload(living.id, data)
 
             val players = serverLevel.server.playerList.players
             for (player in players) {

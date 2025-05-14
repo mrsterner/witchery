@@ -10,7 +10,7 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
-class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncBloodS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -28,7 +28,7 @@ class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncBloodS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncBloodS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
 
         client.execute {
@@ -48,13 +48,13 @@ class SyncBloodS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncBloodS2CPacket> =
+        val ID: CustomPacketPayload.Type<SyncBloodS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("sync_blood_living"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncBloodS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncBloodS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncBloodS2CPacket(buf) }
+                { buf -> SyncBloodS2CPayload(buf) }
             )
     }
 }

@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncWerewolfS2CPacket
+import dev.sterner.witchery.payload.SyncWerewolfS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.UUIDUtil
 import net.minecraft.resources.ResourceLocation
@@ -28,7 +28,7 @@ object WerewolfPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), SyncWerewolfS2CPacket(player, data))
+            WitcheryPayloads.sendToPlayers(player.level(), SyncWerewolfS2CPayload(player, data))
         }
     }
 

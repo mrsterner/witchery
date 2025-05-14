@@ -9,7 +9,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 
-class AltarMultiplierSyncS2CPacket(val pos: BlockPos, val multiplier: Double) : CustomPacketPayload {
+class AltarMultiplierSyncS2CPayload(val pos: BlockPos, val multiplier: Double) : CustomPacketPayload {
 
     constructor(buf: RegistryFriendlyByteBuf) : this(buf.readBlockPos(), buf.readDouble())
 
@@ -22,7 +22,7 @@ class AltarMultiplierSyncS2CPacket(val pos: BlockPos, val multiplier: Double) : 
         buf.writeDouble(multiplier)
     }
 
-    fun handleS2C(payload: AltarMultiplierSyncS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: AltarMultiplierSyncS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
         val pos = payload.pos
         client.execute {
@@ -33,13 +33,13 @@ class AltarMultiplierSyncS2CPacket(val pos: BlockPos, val multiplier: Double) : 
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<AltarMultiplierSyncS2CPacket> =
+        val ID: CustomPacketPayload.Type<AltarMultiplierSyncS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("altar_multiplier_sync"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, AltarMultiplierSyncS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, AltarMultiplierSyncS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> AltarMultiplierSyncS2CPacket(buf) }
+                { buf -> AltarMultiplierSyncS2CPayload(buf) }
             )
     }
 }

@@ -4,17 +4,20 @@ import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.block.effigy.EffigyState
 import dev.sterner.witchery.entity.DeathEntity
+import dev.sterner.witchery.platform.MiscPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.boss.wither.WitherBoss
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.Vec3
+import java.util.UUID
 
 class SummonDeathFetishEffect : FetishEffect() {
 
@@ -28,15 +31,28 @@ class SummonDeathFetishEffect : FetishEffect() {
     ) {
         if (level.isClientSide) return
 
-        val deathEntity = DeathEntity(level)
+        var playerDeathOnline: Player? = null
 
-        deathEntity.moveTo(Vec3(
-            pos.x + 0.5,
-            pos.y + 1.0,
-            pos.z + 0.5
-        ))
+        for (player in level.players()) {
+            val data = MiscPlayerAttachment.getData(player)
+            if (data.isDeath) {
+                playerDeathOnline = player
+                break
+            }
+        }
+        if (playerDeathOnline != null) {
+            playerDeathOnline.teleportTo(pos.x + 0.5, pos.y + 1.0, pos.z + 0.5)
+        } else {
+            val deathEntity = DeathEntity(level)
 
-        level.addFreshEntity(deathEntity)
+            deathEntity.moveTo(Vec3(
+                pos.x + 0.5,
+                pos.y + 1.0,
+                pos.z + 0.5
+            ))
+
+            level.addFreshEntity(deathEntity)
+        }
 
         level.playSound(
             null,

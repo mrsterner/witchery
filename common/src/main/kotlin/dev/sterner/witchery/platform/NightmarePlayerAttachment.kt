@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncNightmareS2CPacket
+import dev.sterner.witchery.payload.SyncNightmareS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -30,7 +30,7 @@ object NightmarePlayerAttachment {
             WitcheryPayloads.sendToPlayers(
                 player.level(),
                 player.blockPosition(),
-                SyncNightmareS2CPacket(player, data)
+                SyncNightmareS2CPayload(player, data)
             )
         }
     }

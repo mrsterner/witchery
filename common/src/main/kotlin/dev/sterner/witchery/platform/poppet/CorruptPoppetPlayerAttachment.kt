@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.architectury.injectables.annotations.ExpectPlatform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncCorruptPoppetS2CPacket
+import dev.sterner.witchery.payload.SyncCorruptPoppetS2CPayload
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -28,7 +28,7 @@ object CorruptPoppetPlayerAttachment {
         if (player.level() is ServerLevel) {
             WitcheryPayloads.sendToPlayers(
                 player.level(),
-                SyncCorruptPoppetS2CPacket(player, data)
+                SyncCorruptPoppetS2CPayload(player, data)
             )
         }
     }

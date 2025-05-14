@@ -14,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity
 /**
  * Fixed S2C packet for ethereal entity sync
  */
-class SyncEtherealS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncEtherealS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
@@ -38,7 +38,7 @@ class SyncEtherealS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
         friendlyByteBuf.writeNbt(nbt)
     }
 
-    fun handleS2C(payload: SyncEtherealS2CPacket, context: NetworkManager.PacketContext) {
+    fun handleS2C(payload: SyncEtherealS2CPayload, context: NetworkManager.PacketContext) {
         val client = Minecraft.getInstance()
         val entityId = payload.nbt.getInt("entity")
         val dataTag = payload.nbt.getCompound("Data")
@@ -69,13 +69,13 @@ class SyncEtherealS2CPacket(val nbt: CompoundTag) : CustomPacketPayload {
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncEtherealS2CPacket> =
+        val ID: CustomPacketPayload.Type<SyncEtherealS2CPayload> =
             CustomPacketPayload.Type(Witchery.id("sync_ethereal"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncEtherealS2CPacket> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncEtherealS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncEtherealS2CPacket(buf) }
+                { buf -> SyncEtherealS2CPayload(buf) }
             )
     }
 }
