@@ -44,6 +44,9 @@ class WitcheryBlockLootProvider(
 
         dropSelf(WitcheryBlocks.WEREWOLF_ALTAR.get())
         dropSelf(WitcheryBlocks.SOUL_CAGE.get())
+        dropSelf(WitcheryBlocks.BLOOD_CRUCIBLE.get())
+        dropSelf(WitcheryBlocks.SCARECROW.get())
+        dropSelf(WitcheryBlocks.BEAR_TRAP.get())
 
         dropSelf(WitcheryBlocks.CAULDRON.get())
         dropSelf(WitcheryBlocks.COPPER_CAULDRON.get())

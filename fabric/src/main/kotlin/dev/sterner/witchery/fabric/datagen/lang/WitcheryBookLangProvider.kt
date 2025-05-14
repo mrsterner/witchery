@@ -5,6 +5,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 object WitcheryBookLangProvider {
 
     fun book(builder: FabricLanguageProvider.TranslationBuilder){
+        builder.add("brewing.potion_capacity.title", "Brew Capacity")
+        builder.add("book.witchery.guidebook.brewing.potion_effect_type.name", "Effect Type")
+
         builder.add("book.witchery.guidebook.general.name", "General")
         builder.add("book.witchery.guidebook.brewing.name", "Brewing")
         builder.add("book.witchery.guidebook.ritual.name", "Rituals")
@@ -888,7 +891,7 @@ object WitcheryBookLangProvider {
         builder.add("potion_effect.red_mushroom", "Shrinks the entity in size")
         builder.add("potion_effect.red_mushroom.title.1", "Shrink")
 
-        builder.add("potion_effect.witches_hat", "...")
+        builder.add("potion_effect.witches_hat", "not yet implemented")
         builder.add("potion_effect.witches_hat.title.1", "Summon Leonard")
     }
 }

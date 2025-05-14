@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeHolder
@@ -118,6 +119,15 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         var x = 20
         var y = 0
 
+        if (recipe.requireCat) {
+            blitWithAlpha(pose,Witchery.id("textures/gui/cat.png"), 31 - 11, 64 - 20 + 10, 0f, 0f, 10, 10, 10, 10)
+        }
+        if (recipe.weather.contains(RitualRecipe.Weather.RAIN)) {
+            blitWithAlpha(pose,Witchery.id("textures/gui/weather/rain.png"), 20 + 11, 64 + 3, 0f, 0f, 10, 10, 10, 10)
+        }
+        if (recipe.weather.contains(RitualRecipe.Weather.STORM)) {
+            blitWithAlpha(pose,Witchery.id("textures/gui/weather/storm.png"), 20 - 11, 64 + 3, 0f, 0f, 10, 10, 10, 10)
+        }
 
         val showSun = day || all
         blitWithAlpha(
@@ -174,6 +184,44 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         )
         if (mouseX in x..(x + iconSize) && mouseY in y..(y + iconSize)) {
             guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Waning Moon"), mouseX, mouseY)
+        }
+
+        if (recipe.inputEntities.isNotEmpty()) {
+
+            val minecraft = Minecraft.getInstance()
+            val entityX = startX - 60
+            val entityY = startY + 50
+
+            for ((k, entityType) in recipe.inputEntities.withIndex()) {
+                val entity = entityType.create(minecraft.level) as? LivingEntity ?: return
+
+                val entityHeight = entity.boundingBox.ysize * 4
+                val entityWidth = entity.boundingBox.xsize * 4
+
+                val baseScale = when {
+                    entityHeight > 2.0 -> 15
+                    entityHeight > 1.0 -> 25
+                    else -> 30
+                }
+
+                val widthAdjustment = if (entityWidth > 1.0) 0.8f else 1.0f
+                val scale = baseScale * widthAdjustment
+                val yOffset = if (entityHeight <= 1.0) 0f else -8f
+
+                RenderUtils.renderEntityInInventoryFollowsMouse(
+                    guiGraphics,
+                    entityX - 20,
+                    entityY + 20,
+                    entityX + 20,
+                    entityY - 20,
+                    scale.toInt(),
+                    yOffset + 9,
+                    mouseX.toFloat(),
+                    mouseY.toFloat(),
+                    entity
+                )
+            }
+
         }
 
         pose.popPose()
