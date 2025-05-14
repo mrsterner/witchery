@@ -1,3 +1,13 @@
+### Version 0.3.0
+- Added Coffin
+- Added Modular Potion Brewing
+- Added JEI support
+- Added Fetishes
+- Added Curses
+- Added Mushroom Log
+- Massive amount of fixes
+- Start on Werewolf, Lich, Coven (Incomplete)
+
 ### Version 0.2.0
 - Added Grasspers
 - Added Critter Snare
