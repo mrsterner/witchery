@@ -16,6 +16,7 @@
     "client.WorldOpenFlowsMixin"
   ],
   "mixins": [
+    "AvoidEntityGoalMixin",
     "BlockMixin",
     "BookCategoryNodeScreenMixin",
     "BrushItemMixin",
@@ -42,6 +43,8 @@
     "StructureStartMixin",
     "TargetGoalMixin",
     "TargetingConditionsMixin",
+    "VillagerHostileSensorMixin",
+    "VillagerHostileSensorMixin",
     "VillagerMixin",
     "WalkAnimationStateAccessor",
     "ZoglinMixin"

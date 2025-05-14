@@ -44,6 +44,8 @@ object WitcheryMobEffects {
     val SHRINK: Holder<MobEffect> =
         register("shrink", ResizeMobEffect(false, MobEffectCategory.NEUTRAL, Color(255, 255, 100).rgb))
 
+    val GROTESQUE: Holder<MobEffect> = register("groteqsue", EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 100, 100).rgb))
+
     private fun register(name: String, effect: MobEffect): Holder<MobEffect> {
         return PlatformUtils.registerMobEffect(name, effect)
     }

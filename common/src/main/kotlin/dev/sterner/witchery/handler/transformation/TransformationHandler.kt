@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.transformation
 
 import dev.architectury.event.events.common.TickEvent
+import dev.sterner.witchery.entity.DemonEntity
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.handler.ability.VampireAbility
 import dev.sterner.witchery.handler.vampire.VampireLeveling

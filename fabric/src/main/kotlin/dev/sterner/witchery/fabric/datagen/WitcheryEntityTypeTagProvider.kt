@@ -8,6 +8,7 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.tags.EntityTypeTags
 import net.minecraft.world.entity.EntityType
 import java.util.concurrent.CompletableFuture
+import kotlin.math.E
 
 class WitcheryEntityTypeTagProvider(
     output: FabricDataOutput?,
@@ -34,5 +35,14 @@ class WitcheryEntityTypeTagProvider(
             .add(EntityType.SKELETON)
             .add(EntityType.SKELETON_HORSE)
             .add(EntityType.WITHER_SKELETON)
+
+        getOrCreateTagBuilder(WitcheryTags.SCARED_BY_GROTESQUE)
+            .add(EntityType.ZOMBIE)
+            .add(EntityType.CREEPER)
+            .add(EntityType.SKELETON)
+            .add(EntityType.COW)
+            .add(EntityType.SHEEP)
+            .add(EntityType.ZOMBIE_VILLAGER)
+            .add(EntityType.ZOMBIFIED_PIGLIN)
     }
 }

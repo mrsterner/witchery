@@ -6,11 +6,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.sterner.witchery.block.coffin.CoffinBlock;
+import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer;
+import dev.sterner.witchery.client.model.DemonEntityModel;
 import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.mixin.LivingEntityAccessor;
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
 import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment;
+import dev.sterner.witchery.registry.WitcheryMobEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -42,11 +45,21 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         super(context, model, shadowRadius);
     }
 
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void witchery$initModel(EntityRendererProvider.Context context, boolean slim, CallbackInfo ci) {
+        addLayer(new DemonHeadFeatureRenderer(this, context));
+    }
+
     @Inject(method = "setModelProperties", at = @At("TAIL"))
     private void witchery$lightInfusionInvisibility(AbstractClientPlayer clientPlayer, CallbackInfo ci) {
         if (LightInfusionPlayerAttachment.isInvisible(clientPlayer).isInvisible()) {
             var model = getModel();
             model.setAllVisible(false);
+        }
+
+        if (clientPlayer.hasEffect(WitcheryMobEffects.INSTANCE.getGROTESQUE())) {
+            var model = getModel();
+            model.head.visible = false;
         }
     }
 

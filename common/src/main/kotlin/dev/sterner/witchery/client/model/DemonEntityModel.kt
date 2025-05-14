@@ -27,17 +27,18 @@ class DemonEntityModel(root: ModelPart) :
     }),
     ArmedModel {
 
-    private val demon: ModelPart = root.getChild("demon")
-    private val head: ModelPart = demon.getChild("head")
-    private val leftArm: ModelPart = demon.getChild("leftArm")
-    private val rightArm: ModelPart = demon.getChild("rightArm")
-    private val rightLeg: ModelPart = demon.getChild("rightLeg")
-    private val leftLeg: ModelPart = demon.getChild("leftLeg")
-    private val body: ModelPart = demon.getChild("body")
-    private val coreBody: ModelPart = body.getChild("coreBody")
-    private val upperBody: ModelPart = coreBody.getChild("upperBody")
-    private val rWing: ModelPart = body.getChild("rWing")
-    private val lWing: ModelPart = body.getChild("lWing")
+
+    val demon: ModelPart = root.getChild("demon")
+    val head: ModelPart = demon.getChild("head")
+    val leftArm: ModelPart = demon.getChild("leftArm")
+    val rightArm: ModelPart = demon.getChild("rightArm")
+    val rightLeg: ModelPart = demon.getChild("rightLeg")
+    val leftLeg: ModelPart = demon.getChild("leftLeg")
+    val body: ModelPart = demon.getChild("body")
+    val coreBody: ModelPart = body.getChild("coreBody")
+    val upperBody: ModelPart = coreBody.getChild("upperBody")
+    val rWing: ModelPart = body.getChild("rWing")
+    val lWing: ModelPart = body.getChild("lWing")
 
     override fun setupAnim(
         entity: DemonEntity,
