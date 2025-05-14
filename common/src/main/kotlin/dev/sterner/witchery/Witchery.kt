@@ -99,6 +99,7 @@ import dev.sterner.witchery.item.accessories.BitingBeltItem
 import dev.sterner.witchery.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.DeathQueueLevelAttachment
+import dev.sterner.witchery.platform.UnderWaterBreathPlayerAttachment
 import dev.sterner.witchery.platform.WitcheryPehkui
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.*
@@ -214,6 +215,7 @@ object Witchery {
         WitcheryLootInjects.registerEvents()
         WitcheryStructureInjects.registerEvents()
         MushroomLogBlock.registerEvents()
+        UnderWaterBreathPlayerAttachment.registerEvents()
 
         PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
             VampireAbilityHandler.setAbilityIndex(player, -1)

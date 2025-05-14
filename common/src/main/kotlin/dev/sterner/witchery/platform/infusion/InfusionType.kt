@@ -96,7 +96,6 @@ enum class InfusionType : StringRepresentable {
     NECRO {
 
         override fun onReleaseRightClick(player: Player): Boolean {
-            println(InfusionPlayerAttachment.getInfusionCharge(player))
             if (InfusionPlayerAttachment.getInfusionCharge(player) >= 500) {
                 val hit = ProjectileUtil.getHitResultOnViewVector(
                     player,

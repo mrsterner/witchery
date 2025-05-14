@@ -119,11 +119,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
         // If a recipe is found and the order is correct, set cauldronBrewingRecipe
         possibleRecipe?.let { recipe ->
-            println(recipe.id)
             val isOrderCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
 
             if (isOrderCorrect) {
-                println(recipe.id)
                 cauldronBrewingRecipe = recipe.value // Set the recipe even if incomplete
                 complete = nonEmptyItems.size == recipe.value.inputItems.size // Only complete if all items are matched
             } else {
@@ -472,7 +470,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
 
     private fun handleGlassBottleInteraction(pPlayer: Player, pStack: ItemStack): ItemInteractionResult {
-        println(witcheryPotionItemCache)
 
         if (witcheryPotionItemCache.isNotEmpty() && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
             pStack.shrink(1)

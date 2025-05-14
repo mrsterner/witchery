@@ -155,6 +155,14 @@ object WitcheryFabricAttachmentRegistry {
             .buildAndRegister(NightmarePlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
+    val UNDERWATER_PLAYER_DATA_TYPE: AttachmentType<UnderWaterBreathPlayerAttachment.Data> =
+        AttachmentRegistry.builder<UnderWaterBreathPlayerAttachment.Data>()
+            .persistent(UnderWaterBreathPlayerAttachment.Data.CODEC)
+            .initializer { UnderWaterBreathPlayerAttachment.Data() }
+            .buildAndRegister(UnderWaterBreathPlayerAttachment.Data.ID)
+
+
+    @Suppress("UnstableApiUsage")
     val ETHEREAL_DATA_TYPE: AttachmentType<EtherealEntityAttachment.Data> =
         AttachmentRegistry.builder<EtherealEntityAttachment.Data>()
             .persistent(EtherealEntityAttachment.Data.CODEC)

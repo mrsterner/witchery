@@ -62,6 +62,12 @@ object WitcheryPayloads {
         ) { payload, context ->
             payload.handleS2C(payload, context)
         }
+        registerS2C(
+            SyncUnderWaterS2CPayload.ID,
+            SyncUnderWaterS2CPayload.STREAM_CODEC
+        ) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
         registerS2C(SpawnPoofParticles.ID, SpawnPoofParticles.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }

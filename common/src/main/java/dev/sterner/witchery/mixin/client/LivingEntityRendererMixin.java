@@ -93,7 +93,6 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         if (livingEntity.getType().is(WitcheryTags.INSTANCE.getNECROMANCER_SUMMONABLE())) {
             var bl = EtherealEntityAttachment.getData(livingEntity).isEthereal();
             if (bl) {
-                System.out.println("render");
                 ResourceLocation resourceLocation = this.getTextureLocation(livingEntity);
                 return WitcheryRenderTypes.INSTANCE.getGHOST().apply(resourceLocation);
             }

@@ -67,6 +67,19 @@ object WitcheryNeoForgeAttachmentRegistry {
         )
 
     @JvmStatic
+    val UNDER_WATER_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<UnderWaterBreathPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "underwater_player_data",
+            Supplier {
+                AttachmentType.builder(Supplier { UnderWaterBreathPlayerAttachment.Data() })
+                    .serialize(UnderWaterBreathPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
+
+
+    @JvmStatic
     val LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<LightInfusionPlayerAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "light_infusion_player_data",
