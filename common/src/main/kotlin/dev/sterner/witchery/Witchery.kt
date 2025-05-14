@@ -56,6 +56,7 @@ import dev.sterner.witchery.client.renderer.entity.BabaYagaEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.BansheeEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.BroomEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.ChainEntityRenderer
+import dev.sterner.witchery.client.renderer.entity.CovenWitchEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.DeathEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.DemonEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.ElleEntityRenderer
@@ -280,6 +281,7 @@ object Witchery {
         EntityModelLayerRegistry.register(SpectreEntityModel.LAYER_LOCATION) { SpectreEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(BabaYagaEntityModel.LAYER_LOCATION) { BabaYagaEntityModel.createBodyLayer() }
 
+        EntityRendererRegistry.register(WitcheryEntityTypes.COVEN_WITCH) { CovenWitchEntityRenderer(it) }
         EntityRendererRegistry.register(WitcheryEntityTypes.PARASITIC_LOUSE) { ParasiticLouseEntityRenderer(it) }
         EntityRendererRegistry.register(WitcheryEntityTypes.DEATH) { DeathEntityRenderer(it) }
         EntityModelLayerRegistry.register(ParasiticLouseEntityModel.LAYER_LOCATION) { ParasiticLouseEntityModel.createBodyLayer() }

@@ -3,9 +3,7 @@ package dev.sterner.witchery.client.model
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.BabaYagaEntity
 import net.minecraft.client.model.HierarchicalModel
-import net.minecraft.client.model.WitchModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -16,11 +14,12 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
+import net.minecraft.world.entity.Mob
 import java.util.function.Function
 
 
-class BabaYagaEntityModel(val root: ModelPart) :
-    HierarchicalModel<BabaYagaEntity>(Function { location: ResourceLocation ->
+class BabaYagaEntityModel<T : Mob>(val root: ModelPart) :
+    HierarchicalModel<T>(Function { location: ResourceLocation ->
         RenderType.entityTranslucent(
             location
         )
@@ -31,9 +30,11 @@ class BabaYagaEntityModel(val root: ModelPart) :
     val nose: ModelPart = head.getChild("nose")
     private val body: ModelPart = root.getChild("body")
     private val arms: ModelPart = root.getChild("arms")
+    val rightLeg: ModelPart = root.getChild("right_leg")
+    val leftLeg: ModelPart = root.getChild("left_leg")
 
     override fun setupAnim(
-        entity: BabaYagaEntity,
+        entity: T,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,
@@ -54,6 +55,11 @@ class BabaYagaEntityModel(val root: ModelPart) :
             this.nose.setPos(0.0f, 1.0f, -1.5f)
             this.nose.xRot = -0.9f
         }
+
+        this.rightLeg.xRot = Mth.cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount * 0.5f
+        this.leftLeg.xRot = Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount * 0.5f
+        this.rightLeg.yRot = 0.0f
+        this.leftLeg.yRot = 0.0f
     }
 
     override fun renderToBuffer(
@@ -66,6 +72,8 @@ class BabaYagaEntityModel(val root: ModelPart) :
         head.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
         body.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
         arms.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
+        rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
+        leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
     }
 
     override fun root(): ModelPart? {
@@ -110,6 +118,18 @@ class BabaYagaEntityModel(val root: ModelPart) :
                     .texOffs(44, 22).addBox(-8.0f, -2.0f, -2.0f, 4.0f, 8.0f, 4.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 2.0f, 0.0f, -0.7854f, 0.0f, 0.0f)
             )
+
+            partdefinition.addOrReplaceChild(
+                "right_leg",
+                CubeListBuilder.create().texOffs(0, 22).addBox(-2.0f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f),
+                PartPose.offset(-2.0f, 12.0f, 0.0f)
+            )
+            partdefinition.addOrReplaceChild(
+                "left_leg",
+                CubeListBuilder.create().texOffs(0, 22).mirror().addBox(-2.0f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f),
+                PartPose.offset(2.0f, 12.0f, 0.0f)
+            )
+
 
             return LayerDefinition.create(meshdefinition, 64, 128)
         }

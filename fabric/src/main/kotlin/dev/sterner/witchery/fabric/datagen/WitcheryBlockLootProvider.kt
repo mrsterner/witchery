@@ -11,8 +11,10 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.enchantment.Enchantments
+import net.minecraft.world.level.block.BedBlock
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.state.properties.BedPart
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
@@ -30,6 +32,19 @@ class WitcheryBlockLootProvider(
 ) : FabricBlockLootTableProvider(dataOutput, registryLookup) {
 
     override fun generate() {
+
+        fun createCoffinTable(coffin: Block): LootTable.Builder {
+            return this.createSinglePropConditionTable<BedPart>(
+                coffin,
+                BedBlock.PART,
+                BedPart.HEAD
+            )
+        }
+        this.add(WitcheryBlocks.COFFIN.get(), createCoffinTable(WitcheryBlocks.COFFIN.get()))
+
+        dropSelf(WitcheryBlocks.WEREWOLF_ALTAR.get())
+        dropSelf(WitcheryBlocks.SOUL_CAGE.get())
+
         dropSelf(WitcheryBlocks.CAULDRON.get())
         dropSelf(WitcheryBlocks.COPPER_CAULDRON.get())
         dropSelf(WitcheryBlocks.WAXED_COPPER_CAULDRON.get())

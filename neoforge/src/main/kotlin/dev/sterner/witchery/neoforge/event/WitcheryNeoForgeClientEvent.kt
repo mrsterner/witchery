@@ -15,6 +15,7 @@ import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.entity.BabaYagaEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.BansheeEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.BroomEntityRenderer
+import dev.sterner.witchery.client.renderer.entity.CovenWitchEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.DeathEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.DemonEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.ElleEntityRenderer
@@ -31,6 +32,7 @@ import dev.sterner.witchery.client.renderer.entity.SleepingPlayerEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.SpectreEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.VampireEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.WerewolfEntityRenderer
+import dev.sterner.witchery.entity.BabaYagaEntity
 import dev.sterner.witchery.neoforge.client.*
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.VampireArmorItemNeoForge
@@ -122,6 +124,10 @@ object WitcheryNeoForgeClientEvent {
         event.registerEntityRenderer(
             WitcheryEntityTypes.BABA_YAGA.get(),
             ::BabaYagaEntityRenderer
+        )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.COVEN_WITCH.get(),
+            ::CovenWitchEntityRenderer
         )
         event.registerEntityRenderer(
             WitcheryEntityTypes.SPECTRE.get(),
@@ -221,7 +227,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(BansheeEntityModel.LAYER_LOCATION, BansheeEntityModel::createBodyLayer)
         event.registerLayerDefinition(DeathEntityModel.LAYER_LOCATION, DeathEntityModel::createBodyLayer)
         event.registerLayerDefinition(SpectreEntityModel.LAYER_LOCATION, SpectreEntityModel::createBodyLayer)
-        event.registerLayerDefinition(BabaYagaEntityModel.LAYER_LOCATION, BabaYagaEntityModel::createBodyLayer)
+        event.registerLayerDefinition(BabaYagaEntityModel.LAYER_LOCATION, BabaYagaEntityModel.Companion::createBodyLayer)
 
         event.registerLayerDefinition(VampireEntityModel.LAYER_LOCATION, VampireEntityModel::createBodyLayer)
         event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION, WerewolfEntityModel::createBodyLayer)

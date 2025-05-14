@@ -44,6 +44,10 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             .add(WitcheryBlocks.DEEPLSTAE_ALTAR_BLOCK.get())
             .add(WitcheryBlocks.DISTILLERY.get())
             .add(WitcheryBlocks.DISTILLERY_COMPONENT.get())
+            .add(WitcheryBlocks.WEREWOLF_ALTAR.get())
+            .add(WitcheryBlocks.SOUL_CAGE.get())
+            .add(WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get())
+            .add(WitcheryBlocks.COFFIN.get())
 
 
         getOrCreateTagBuilder(WitcheryTags.LEAVES).add(

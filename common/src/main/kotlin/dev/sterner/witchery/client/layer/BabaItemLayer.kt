@@ -13,9 +13,9 @@ import net.minecraft.client.renderer.entity.layers.CrossedArmsItemLayer
 
 @Environment(EnvType.CLIENT)
 class BabaItemLayer(
-    renderer: RenderLayerParent<BabaYagaEntity, BabaYagaEntityModel>,
+    renderer: RenderLayerParent<BabaYagaEntity, BabaYagaEntityModel<BabaYagaEntity>>,
     itemInHandRenderer: ItemInHandRenderer
-) : CrossedArmsItemLayer<BabaYagaEntity, BabaYagaEntityModel>(renderer, itemInHandRenderer) {
+) : CrossedArmsItemLayer<BabaYagaEntity, BabaYagaEntityModel<BabaYagaEntity>>(renderer, itemInHandRenderer) {
     
     override fun render(
         poseStack: PoseStack,

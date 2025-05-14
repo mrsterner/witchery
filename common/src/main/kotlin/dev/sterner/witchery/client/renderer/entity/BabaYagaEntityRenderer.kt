@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 
 class BabaYagaEntityRenderer(var context: EntityRendererProvider.Context) :
-    MobRenderer<BabaYagaEntity, BabaYagaEntityModel>(
+    MobRenderer<BabaYagaEntity, BabaYagaEntityModel<BabaYagaEntity>>(
         context,
         BabaYagaEntityModel(context.bakeLayer(BabaYagaEntityModel.LAYER_LOCATION)),
         0.6f
@@ -38,6 +38,8 @@ class BabaYagaEntityRenderer(var context: EntityRendererProvider.Context) :
         buffer: MultiBufferSource,
         packedLight: Int
     ) {
+        model.leftLeg.visible = false
+        model.rightLeg.visible = false
         this.model.holdingItem = !entity.mainHandItem.isEmpty
         poseStack.pushPose()
         poseStack.translate(0.0, -0.25, 0.0)
