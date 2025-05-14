@@ -26,31 +26,27 @@ import java.util.*
 
 class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level) {
 
-    // Animation states
     enum class ChainState {
-        EXTENDING,  // Chain is growing toward target
-        CONNECTED,  // Chain has connected and is restraining target
-        RETRACTING, // Chain is pulling target back and retracting
-        FINISHED    // Chain animation is complete
+        EXTENDING,
+        CONNECTED,
+        RETRACTING,
+        FINISHED
     }
 
     private var life = 0
     private var targetEntityId: Optional<UUID> = Optional.empty<UUID>()
     private var targetEntity: Entity? = null
 
-    // Animation state variables
     private var chainState = ChainState.EXTENDING
-    private var chainProgress = 0f  // 0.0 to 1.0 for extension progress
-    private var retractProgress = 0f // 0.0 to 1.0 for retraction progress
-    private var extensionSpeed = 0.05f // How fast chain extends per tick
-    private var retractionSpeed = 0.03f // How fast chain retracts per tick
-    private var pullStrength = 0f // How strongly target is pulled when retracting
-    private var maxLinks = 0 // Maximum number of chain links
+    private var chainProgress = 0f
+    private var retractProgress = 0f
+    private var extensionSpeed = 0.05f
+    private var retractionSpeed = 0.03f
+    private var pullStrength = 0f
+    private var maxLinks = 0
 
-    // Store the initial distance for animation calculations
     private var initialDistance = 0.0
 
-    // Head position for leading link (0.0 to 1.0 along path to target)
     private var headPosition = 0f
 
     companion object {
@@ -97,7 +93,6 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
                 val progress = entityData.get(CHAIN_PROGRESS) + chainGrowthSpeed
                 entityData.set(CHAIN_PROGRESS, progress.coerceAtMost(1.0f))
 
-                // Check if target is moving away too quickly
                 targetEntity?.let { target ->
                     val currentDistance = position().distanceTo(target.position())
                     if (currentDistance > initialDistance * 1.5 && headPos > 0.7f) {
