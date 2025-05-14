@@ -25,6 +25,10 @@
     "witchery:altar_component",
     "witchery:deepslate_altar_block",
     "witchery:distillery",
-    "witchery:distillery_component"
+    "witchery:distillery_component",
+    "witchery:werewolf_altar",
+    "witchery:soul_cage",
+    "witchery:werewolf_altar_component",
+    "witchery:coffin"
   ]
 }
