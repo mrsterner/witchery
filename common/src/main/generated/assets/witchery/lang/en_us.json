@@ -1027,7 +1027,6 @@
   "witchery:brazier_summoning/summon_spectre": "Summon Spectre",
   "witchery:brazier_summoning/summon_spectre.tooltip": "Summons a Spectre",
   "witchery:dream_world": "Dream World",
-  "witchery:ender_inhibition": "Ender Inhibition",
   "witchery:extinguish": "Extinguish",
   "witchery:fell_tree": "Fell Tree",
   "witchery:fertile": "Fertile",
@@ -1110,6 +1109,5 @@
   "witchery:summon_leonard": "Summon Leonard",
   "witchery:tame_animals": "Tame Animals",
   "witchery:teleport": "Teleport",
-  "witchery:till_land": "Till Land",
-  "witchery:werewolf_lock": "Werewolf Lock"
+  "witchery:till_land": "Till Land"
 }

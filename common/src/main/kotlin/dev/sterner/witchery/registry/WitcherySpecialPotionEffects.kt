@@ -203,26 +203,6 @@ object WitcherySpecialPotionEffects {
             }
         }
     }
-    val ENDER_INHIBITION: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("ender_inhibition")) {
-        object : SpecialPotion("ender_inhibition") {
-            override fun onActivated(
-                level: Level,
-                owner: Entity?,
-                hitResult: HitResult,
-                list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
-                duration: Int,
-                amplifier: Int
-            ) {
-                val box = getBox(hitResult, mergedDispersalModifier)
-                level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan ->
-                    enderMan.addEffect(
-                        MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, duration, amplifier)
-                    )
-                }
-            }
-        }
-    }
     val GROW_LILY: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("grow_lily")) {
         object : SpecialPotion("grow_lily") {
             //Grow Lily	Lilypad	1	200	Tool	Places lilypads
@@ -330,26 +310,6 @@ object WitcherySpecialPotionEffects {
                             seedEntities.remove(seedEntity)
                         }
                     }
-                }
-            }
-        }
-    }
-    val WEREWOLF_LOCK: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("werewolf_lock")) {
-        object : SpecialPotion("werewolf_lock") {
-            override fun onActivated(
-                level: Level,
-                owner: Entity?,
-                hitResult: HitResult,
-                list: MutableList<Entity>,
-                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
-                duration: Int,
-                amplifier: Int
-            ) {
-                val box = getBox(hitResult, mergedDispersalModifier)
-                level.getEntities(EntityType.ENDERMAN, box) { it.isAlive }.forEach { enderMan ->
-                    enderMan.addEffect(
-                        MobEffectInstance(WitcheryMobEffects.ENDER_BOUND, duration, amplifier)
-                    )
                 }
             }
         }

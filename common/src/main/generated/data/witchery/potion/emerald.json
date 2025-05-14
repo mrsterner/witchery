@@ -2,10 +2,10 @@
   "altar_power": 200,
   "base_duration": 900,
   "capacity_cost": -1,
-  "color": -347106,
-  "effect": "witchery:werewolf_bound",
+  "color": -16056566,
+  "effect": "witchery:grow",
   "item": {
     "count": 1,
-    "id": "witchery:wolfsbane"
+    "id": "minecraft:emerald"
   }
 }

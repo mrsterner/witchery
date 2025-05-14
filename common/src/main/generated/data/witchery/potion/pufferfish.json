@@ -2,10 +2,10 @@
   "altar_power": 200,
   "base_duration": 900,
   "capacity_cost": -1,
-  "color": -347106,
-  "effect": "witchery:werewolf_bound",
+  "color": -10172316,
+  "effect": "witchery:poison_weapon",
   "item": {
     "count": 1,
-    "id": "witchery:wolfsbane"
+    "id": "minecraft:pufferfish"
   }
 }

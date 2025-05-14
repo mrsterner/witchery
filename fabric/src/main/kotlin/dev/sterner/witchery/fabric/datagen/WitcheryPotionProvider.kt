@@ -90,6 +90,48 @@ class WitcheryPotionProvider(
         )
         makeIngredient(
             provider,
+            Items.EMERALD,
+            WitcheryMobEffects.GROW,
+            color = Color(10, 255, 10).rgb
+        )
+        makeIngredient(
+            provider,
+            Items.COBWEB,
+            WitcheryMobEffects.REFLECT_ARROW,
+            color = Color(200, 200, 255).rgb
+        )
+        makeIngredient(
+            provider,
+            Items.PUFFERFISH,
+            WitcheryMobEffects.POISON_WEAPON,
+            color = Color(100, 200, 100).rgb
+        )
+        makeIngredient(
+            provider,
+            Items.ROTTEN_FLESH,
+            WitcheryMobEffects.DISEASE,
+            color = Color(220, 100, 100).rgb
+        )
+        makeIngredient(
+            provider,
+            Items.CLAY,
+            WitcheryMobEffects.FORTUNE_TOOL,
+            color = Color(130, 100, 255).rgb
+        )
+        makeIngredient(
+            provider,
+            Items.BLUE_ORCHID,
+            WitcheryMobEffects.BANE_OF_ARTHROPODS_WEAPON,
+            color = Color(180, 100, 255).rgb
+        )
+        makeIngredient(
+            provider,
+            WitcheryItems.WOLFSBANE.get(),
+            WitcheryMobEffects.WEREWOLF_BOUND,
+            color = Color(250, 180, 30).rgb
+        )
+        makeIngredient(
+            provider,
             WitcheryItems.MANDRAKE_ROOT.get(),
             altarPower = 50,
             capacity = 1,
@@ -300,13 +342,6 @@ class WitcheryPotionProvider(
         )
         makeIngredient(
             provider,
-            WitcheryItems.ENDER_DEW.get(),
-            altarPower = 200,
-            color = Color(40, 170, 90).rgb,
-            specialPotion = Optional.of(WitcherySpecialPotionEffects.ENDER_INHIBITION.id)
-        )
-        makeIngredient(
-            provider,
             Items.LILY_PAD,
             altarPower = 200,
             color = Color(100, 255, 100).rgb,
@@ -332,13 +367,6 @@ class WitcheryPotionProvider(
             altarPower = 0,
             color = Color(100, 255, 100).rgb,
             specialPotion = Optional.of(WitcherySpecialPotionEffects.PLANT_DROPPED_SEEDS.id)
-        )
-        makeIngredient(
-            provider,
-            WitcheryItems.WOLFSBANE.get(),
-            altarPower = 0,
-            color = Color(200, 200, 50).rgb,
-            specialPotion = Optional.of(WitcherySpecialPotionEffects.WEREWOLF_LOCK.id)
         )
         makeIngredient(
             provider,
