@@ -166,7 +166,7 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         
         if (level.isClientSide) return
 
-        if (level.gameTime % 20 == 0L) {
+        if (level.gameTime % 20 == 0L && level.random.nextFloat() < 0.33f) {
             if (!currentMushroom.isEmpty && growthStage < maxGrowthStage) {
                 if (canGrow(level, pos)) {
                     growthStage = min(maxGrowthStage, growthStage + growthRate)

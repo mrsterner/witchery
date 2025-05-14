@@ -1,3 +1,9 @@
+### Version 0.3.2
+- Added brew of the grotesque
+- Added missing potion effects to the witchery potion
+- Added a way to get Blood Stained wool :´)
+- 
+
 ### Version 0.3.1
 - Added brew of the depth
 - Added brew of wasting
