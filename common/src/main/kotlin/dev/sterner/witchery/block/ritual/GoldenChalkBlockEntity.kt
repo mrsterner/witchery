@@ -992,7 +992,4 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun stillValid(player: Player): Boolean {
         return Container.stillValidBlockEntity(this, player)
     }
-
-    override fun receiveAltarPosition(blockPos: BlockPos) {
-    }
 }

@@ -372,10 +372,6 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         })
     }
 
-    override fun receiveAltarPosition(blockPos: BlockPos) {
-
-    }
-
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
         super.loadAdditional(pTag, pRegistries)
         this.items = NonNullList.withSize(this.containerSize, ItemStack.EMPTY)

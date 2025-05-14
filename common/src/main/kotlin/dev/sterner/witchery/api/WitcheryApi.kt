@@ -11,8 +11,8 @@ object WitcheryApi {
      * True if the player is in the spirit world, aka the nightmare world or the dream world
      */
     fun isInSpiritWorld(player: Player): Boolean {
-        val dim = player.level().dimension()
-        return dim == WitcheryWorldgenKeys.NIGHTMARE || dim == WitcheryWorldgenKeys.DREAM
+        val level = player.level()
+        return isInSpiritWorld(level)
     }
 
     /**

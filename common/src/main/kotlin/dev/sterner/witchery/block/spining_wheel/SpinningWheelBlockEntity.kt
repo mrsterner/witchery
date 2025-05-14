@@ -430,10 +430,6 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return cookQuickTime.coerceAtLeast(1) // Ensure the cooking time is at least 1 tick
     }
 
-    override fun receiveAltarPosition(blockPos: BlockPos) {
-
-    }
-
     companion object {
         const val SLOT_INPUT: Int = 0
         const val SLOT_EXTRA_INPUT_1: Int = 1

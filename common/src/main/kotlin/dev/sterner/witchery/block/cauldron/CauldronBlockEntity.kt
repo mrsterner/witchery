@@ -674,8 +674,4 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             return true
         }
     }
-
-    override fun receiveAltarPosition(blockPos: BlockPos) {
-
-    }
 }

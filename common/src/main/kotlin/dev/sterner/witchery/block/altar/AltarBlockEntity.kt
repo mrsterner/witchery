@@ -80,11 +80,11 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         BlockEvent.PLACE.register { level, pos, state, entity ->
             if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
-                propagateAltarLocation(level as ServerLevel, pos)
                 powerUpdateQueued = true
 
-                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center))
+                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center)) {
                     augmentUpdateQueued = true
+                }
             }
 
             EventResult.pass()
@@ -94,8 +94,9 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
                 powerUpdateQueued = true
 
-                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center))
+                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center)) {
                     augmentUpdateQueued = true
+                }
             }
 
             EventResult.pass()
@@ -113,8 +114,10 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
             val power = NaturePowerReloadListener.getPower(state) ?: return@forEach
             val limit = NaturePowerReloadListener.getLimit(state) ?: return@forEach
-            if (limitTracker.getOrDefault(limit.first, 0) >= limit.second)
+
+            if (limitTracker.getOrDefault(limit.first, 0) >= limit.second) {
                 return@forEach
+            }
             maxPower += power
             limitTracker.compute(limit.first) { _, count -> count?.let { it + 1 } ?: 1 }
         }
@@ -124,10 +127,11 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     private fun updateCurrentPower() {
         val rate = 10 * powerMultiplier
-        if (currentPower + rate >= maxPower)
-            currentPower = maxPower
-        else
-            currentPower = floor(currentPower + rate).toInt()
+        currentPower = if (currentPower + rate >= maxPower) {
+            maxPower
+        } else {
+            floor(currentPower + rate).toInt()
+        }
     }
 
     fun getLocalAugmentAABB(direction: Direction): AABB {
@@ -165,70 +169,76 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         level.getBlockStatesIfLoaded(augments).forEach { state ->
             // Handle Light-based Augments which effect Recharge Rate
-            if (state.`is`(WitcheryTags.CANDELABRAS) { b -> b.getValue(BlockStateProperties.LIT) } && 2.0 > bestLightAugment)
+            if (state.`is`(WitcheryTags.CANDELABRAS) { b -> b.getValue(BlockStateProperties.LIT) } && 2.0 > bestLightAugment) {
                 bestLightAugment = 2.0
-            else if (state.`is`(Blocks.SOUL_TORCH) && 1.5 > bestLightAugment)
+            } else if (state.`is`(Blocks.SOUL_TORCH) && 1.5 > bestLightAugment) {
                 bestLightAugment = 1.5
-            else if ((state.`is`(Blocks.TORCH) || state.`is`(BlockTags.CANDLES) { s ->
+            } else if ((state.`is`(Blocks.TORCH) || state.`is`(BlockTags.CANDLES) { s ->
                     s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 4
-                }) && 1.0 > bestLightAugment)
+                }) && 1.0 > bestLightAugment) {
                 bestLightAugment = 1.0
-            else if (state.`is`(BlockTags.CANDLES) { s ->
+            } else if (state.`is`(BlockTags.CANDLES) { s ->
                     s.getValue(BlockStateProperties.LIT) && s.getValue(
                         BlockStateProperties.CANDLES
                     ) == 3
-                } && 0.75 > bestLightAugment)
+                } && 0.75 > bestLightAugment) {
                 bestLightAugment = 0.75
-            else if (state.`is`(BlockTags.CANDLES) { s ->
+            } else if (state.`is`(BlockTags.CANDLES) { s ->
                     s.getValue(BlockStateProperties.LIT) && s.getValue(
                         BlockStateProperties.CANDLES
                     ) == 2
-                } && 0.5 > bestLightAugment)
+                } && 0.5 > bestLightAugment) {
                 bestLightAugment = 0.5
-            else if ((state.`is`(BlockTags.CANDLES) { s ->
+            } else if ((state.`is`(BlockTags.CANDLES) { s ->
                     s.getValue(BlockStateProperties.LIT) && s.getValue(
                         BlockStateProperties.CANDLES
                     ) == 1
                 } ||
-                        state.`is`(BlockTags.CANDLE_CAKES) { s -> s.getValue(BlockStateProperties.LIT) }) && 0.25 > bestLightAugment)
+                        state.`is`(BlockTags.CANDLE_CAKES) { s -> s.getValue(BlockStateProperties.LIT) }) && 0.25 > bestLightAugment) {
                 bestLightAugment = 0.25
-
+            }
 
             // Handle Head-base Augments which effect Recharge Rate AND Power Boost
-            if ((state.`is`(Blocks.PLAYER_HEAD) || state.`is`(Blocks.PLAYER_WALL_HEAD)) && 3.0 > bestHeadAugment)
+            if ((state.`is`(Blocks.PLAYER_HEAD) || state.`is`(Blocks.PLAYER_WALL_HEAD)) && 3.0 > bestHeadAugment) {
                 bestHeadAugment = 3.0
-            else if ((state.`is`(Blocks.WITHER_SKELETON_SKULL) || state.`is`(Blocks.WITHER_SKELETON_WALL_SKULL)) && 2.0 > bestHeadAugment)
+            } else if ((state.`is`(Blocks.WITHER_SKELETON_SKULL) || state.`is`(Blocks.WITHER_SKELETON_WALL_SKULL)) && 2.0 > bestHeadAugment) {
                 bestHeadAugment = 2.0
-            else if ((state.`is`(Blocks.SKELETON_SKULL) || state.`is`(Blocks.SKELETON_WALL_SKULL)) && 1.0 > bestHeadAugment)
+            } else if ((state.`is`(Blocks.SKELETON_SKULL) || state.`is`(Blocks.SKELETON_WALL_SKULL)) && 1.0 > bestHeadAugment) {
                 bestHeadAugment = 1.0
-
+            }
 
             // Handle Pentacle
-            if (state.`is`(WitcheryBlocks.PENTACLE.get()) && !hasPentacle)
+            if (state.`is`(WitcheryBlocks.PENTACLE.get()) && !hasPentacle) {
                 hasPentacle = true
+            }
 
 
             // Handle Chalice
             if (state.`is`(WitcheryBlocks.CHALICE.get()))
-                if (state.getValue(ChaliceBlock.HAS_SOUP) && 2.0 > bestChaliceAugment)
+                if (state.getValue(ChaliceBlock.HAS_SOUP) && 2.0 > bestChaliceAugment) {
                     bestChaliceAugment = 2.0
-                else if (1.0 > bestChaliceAugment)
+                } else if (1.0 > bestChaliceAugment) {
                     bestChaliceAugment = 1.0
+                }
 
 
             // Handle Arthana
-            if (state.`is`(WitcheryBlocks.ARTHANA.get()) && 2.0 > rangeMultiplier)
+            if (state.`is`(WitcheryBlocks.ARTHANA.get()) && 2.0 > rangeMultiplier) {
                 rangeMultiplier = 2.0
+            }
 
 
             // Handle Infinity Egg
-            if (state.`is`(WitcheryBlocks.INFINITY_EGG.get()) && !hasInfinityEgg)
+            if (state.`is`(WitcheryBlocks.INFINITY_EGG.get()) && !hasInfinityEgg) {
                 hasInfinityEgg = true
+            }
         }
 
         powerMultiplier += powerMultiplier * bestLightAugment
         powerMultiplier += powerMultiplier * bestHeadAugment
-        if (hasPentacle) powerMultiplier *= 2
+        if (hasPentacle) {
+            powerMultiplier *= 2
+        }
 
         powerBoost += powerBoost * bestHeadAugment
         powerBoost += powerBoost * bestChaliceAugment
@@ -240,22 +250,15 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             powerBoost *= 2
         }
 
-        if (powerBoost != prevPowerBoost || range != prevRange)
+        if (powerBoost != prevPowerBoost || range != prevRange) {
             powerUpdateQueued = true
-    }
-
-    fun propagateAltarLocation(level: ServerLevel, pos: BlockPos) {
-        val block = level.getBlockState(pos).block
-        val be = level.getBlockEntity(pos)
-        if (be is AltarPowerConsumer)
-            be.receiveAltarPosition(blockPos)
-        if (block is AltarPowerConsumer)
-            block.receiveAltarPosition(blockPos)
+        }
     }
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-        if (pPlayer is ServerPlayer)
+        if (pPlayer is ServerPlayer) {
             openMenu(pPlayer)
+        }
         return InteractionResult.SUCCESS
     }
 
@@ -292,16 +295,19 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             augmentUpdateQueued = false
         }
 
-        if (ticks % 20 == 1)
+        if (ticks % 20 == 1) {
             updateCurrentPower()
+        }
 
-        if (ticks % 20 == 5)
+        if (ticks % 20 == 5) {
             augmentAltar(level)
+        }
 
-        if (ticks % 20 > 5)
+        if (ticks % 20 > 5) {
             ticks = 0
-        else
+        } else {
             ticks++
+        }
     }
 
 
@@ -322,10 +328,11 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean {
         val hasPower = amount <= currentPower
 
-        if (simulate || level?.isClientSide != false)
+        if (simulate || level?.isClientSide != false) {
             return hasPower
-        else if (!hasPower)
+        } else if (!hasPower) {
             return false
+        }
 
         currentPower -= amount
         return true
