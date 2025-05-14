@@ -55,13 +55,12 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                         if (result.type == HitResult.Type.ENTITY) (result as EntityHitResult).entity else null,
                         result
                     )
-
                 }
+                
                 potionContentList?.let {
                     val color = potionContentList.last().color
                     color.let { level().levelEvent(2002, this.blockPosition(), it) }
                 }
-
             }
             this.discard()
         }
@@ -73,8 +72,11 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         areaEffectCloud.radiusOnUse = -0.5f
         areaEffectCloud.waitTime = 10
         areaEffectCloud.hitResult = result
-        areaEffectCloud.duration *= potionContentList.maxOfOrNull { it.dispersalModifier.lingeringDurationModifier }
-            ?: 1
+
+        val baseDuration = areaEffectCloud.duration
+        val lingeringModifier = potionContentList.maxOfOrNull { it.dispersalModifier.lingeringDurationModifier } ?: 1
+        areaEffectCloud.duration = baseDuration * lingeringModifier
+        
         areaEffectCloud.radiusPerTick = -areaEffectCloud.radius / areaEffectCloud.duration.toFloat()
         areaEffectCloud.setPotionContents(potionContentList)
         level().addFreshEntity(areaEffectCloud)
@@ -99,8 +101,17 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
 
     private fun getRangeBonus(stack: ItemStack): Int {
         val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return 1
-
         return potionContentList.maxOfOrNull { it.dispersalModifier.rangeModifier } ?: 1
+    }
+
+    /**
+     * Calculate the proper duration for a potion effect based on its base duration and modifiers
+     */
+    private fun calculateEffectDuration(
+        potionContent: WitcheryPotionIngredient,
+        effectData: WitcheryPotionIngredient.EffectModifier
+    ): Int {
+        return ((potionContent.baseDuration + effectData.durationAddition) * effectData.durationMultiplier).toInt()
     }
 
     private fun applySplash(stack: ItemStack, entity: Entity?, result: HitResult) {
@@ -110,21 +121,19 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
             Entity::class.java, aABB
         )
 
-        // Get the potion content list
         if (stack.has(WITCHERY_POTION_CONTENT.get())) {
             val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get())
             if (potionContentList != null) {
                 var shouldInvertNext = false
 
+                val globalModifier = WitcheryPotionItem.getMergedEffectModifier(potionContentList)
+
                 for ((i, potionContent) in potionContentList.withIndex()) {
                     if (i == 0) continue
 
-                    val effectData = potionContent.effectModifier
-                    val duration =
-                        (potionContent.baseDuration + effectData.durationAddition) * effectData.durationMultiplier
-                    val amplifier = effectData.powerAddition
+                    val duration = calculateEffectDuration(potionContent, globalModifier)
+                    val amplifier = globalModifier.powerAddition
 
-                    // Run special effects regardless of entities in list
                     if (potionContent.specialEffect.isPresent) {
                         val special = WitcherySpecialPotionEffects.SPECIALS.get(potionContent.specialEffect.get())
                         special?.onActivated(
@@ -138,12 +147,11 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                         )
                     }
 
-                    // Handle the general modifier logic
                     if (potionContent.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
                         shouldInvertNext = true
+                        continue
                     }
 
-                    // Handle effect inversion based on modifier
                     val effect = if (shouldInvertNext) {
                         shouldInvertNext = false
                         WitcheryMobEffects.invertEffect(potionContent.effect)
@@ -151,7 +159,8 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                         potionContent.effect
                     }
 
-                    // Handle entities affected by the potion
+                    if (effect == WitcheryMobEffects.EMPTY) continue
+
                     if (list.isNotEmpty()) {
                         val livingList = list.filterIsInstance<LivingEntity>()
                         for (livingEntity in livingList) {
@@ -182,9 +191,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                                         )
 
                                         if (!mobEffectInstance.endsWithin(20)) {
-                                            if (effect != WitcheryMobEffects.EMPTY) {
-                                                livingEntity.addEffect(mobEffectInstance, effectSource)
-                                            }
+                                            livingEntity.addEffect(mobEffectInstance, effectSource)
                                         }
                                     }
                                 }

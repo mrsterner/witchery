@@ -2,10 +2,10 @@
   "altar_power": 200,
   "base_duration": 900,
   "capacity_cost": -1,
-  "color": -12788616,
-  "effect": "minecraft:hero_of_the_village",
+  "color": -999896,
+  "effect": "minecraft:saturation",
   "item": {
     "count": 1,
-    "id": "minecraft:emerald"
+    "id": "minecraft:honey_bottle"
   }
 }

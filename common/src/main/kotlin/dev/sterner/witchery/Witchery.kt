@@ -1,6 +1,7 @@
 package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
+import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientRawInputEvent
 import dev.architectury.event.events.client.ClientTickEvent
@@ -119,7 +120,9 @@ import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.NoopRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.BlockTags
 import org.slf4j.Logger
+import java.util.UUID
 
 
 object Witchery {
@@ -216,6 +219,28 @@ object Witchery {
         WitcheryStructureInjects.registerEvents()
         MushroomLogBlock.registerEvents()
         UnderWaterBreathPlayerAttachment.registerEvents()
+
+        InteractionEvent.RIGHT_CLICK_BLOCK.register { player, hand, pos, face ->
+
+            if (player.mainHandItem.item is WineGlassItem && player.level().getBlockState(pos).`is`(BlockTags.WOOL)) {
+                val bl = player.mainHandItem.has(WitcheryDataComponents.BLOOD.get())
+                val bl2 = player.mainHandItem.has(WitcheryDataComponents.CHICKEN_BLOOD.get())
+                if (bl || bl2) {
+                    val bl3: UUID? = player.mainHandItem.get(WitcheryDataComponents.BLOOD.get())
+                    val bl4 = player.mainHandItem.get(WitcheryDataComponents.CHICKEN_BLOOD.get())
+                    if (bl3 != null || bl4 != null) {
+                        player.level().setBlockAndUpdate(pos, WitcheryBlocks.BLOOD_STAINED_WOOL.get().defaultBlockState())
+                        player.mainHandItem.remove(WitcheryDataComponents.BLOOD.get())
+                        player.mainHandItem.remove(WitcheryDataComponents.CHICKEN_BLOOD.get())
+                        player.mainHandItem.remove(WitcheryDataComponents.VAMPIRE_BLOOD.get())
+                        return@register EventResult.interruptTrue()
+                    }
+                }
+
+            }
+
+            return@register EventResult.pass()
+        }
 
         PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
             VampireAbilityHandler.setAbilityIndex(player, -1)

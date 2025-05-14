@@ -90,9 +90,142 @@ class WitcheryPotionProvider(
         )
         makeIngredient(
             provider,
+            Items.PRISMARINE_CRYSTALS,
+            MobEffects.DIG_SPEED,
+            color = Color(60, 220, 190).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.RABBIT_FOOT,
+            MobEffects.JUMP,
+            color = Color(185, 165, 130).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.TURTLE_SCUTE,
+            MobEffects.DAMAGE_RESISTANCE,
+            color = Color(40, 175, 95).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.MAGMA_CREAM,
+            MobEffects.FIRE_RESISTANCE,
+            color = Color(230, 130, 50).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.KELP,
+            MobEffects.WATER_BREATHING,
+            color = Color(50, 120, 220).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.GLOW_BERRIES,
+            MobEffects.GLOWING,
+            color = Color(250, 250, 110).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.INK_SAC,
+            MobEffects.BLINDNESS,
+            color = Color(30, 30, 35).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.CHICKEN,
+            MobEffects.HUNGER,
+            color = Color(120, 90, 60).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.WITHER_ROSE,
+            MobEffects.WITHER,
+            color = Color(30, 30, 30).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.ARMADILLO_SCUTE,
+            MobEffects.HEALTH_BOOST,
+            color = Color(90, 200, 240).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.GOLDEN_APPLE,
+            MobEffects.ABSORPTION,
+            color = Color(255, 215, 0).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.HONEY_BOTTLE,
+            MobEffects.SATURATION,
+            color = Color(240, 190, 40).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.SHULKER_SHELL,
+            MobEffects.LEVITATION,
+            color = Color(200, 180, 200).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.PHANTOM_MEMBRANE,
+            MobEffects.SLOW_FALLING,
+            color = Color(180, 220, 230).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.POISONOUS_POTATO,
+            MobEffects.UNLUCK,
+            color = Color(120, 130, 60).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.NAUTILUS_SHELL,
+            MobEffects.CONDUIT_POWER,
+            color = Color(60, 180, 210).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.COD,
+            MobEffects.DOLPHINS_GRACE,
+            color = Color(160, 200, 230).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.CROSSBOW,
+            MobEffects.BAD_OMEN,
+            color = Color(100, 40, 40).rgb
+        )
+
+        makeIngredient(
+            provider,
             Items.EMERALD,
-            WitcheryMobEffects.GROW,
-            color = Color(10, 255, 10).rgb
+            MobEffects.HERO_OF_THE_VILLAGE,
+            color = Color(60, 220, 120).rgb
+        )
+
+        makeIngredient(
+            provider,
+            Items.SOUL_SOIL,
+            MobEffects.DARKNESS,
+            color = Color(35, 45, 60).rgb
         )
         makeIngredient(
             provider,

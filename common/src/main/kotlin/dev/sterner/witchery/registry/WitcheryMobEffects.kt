@@ -72,10 +72,14 @@ object WitcheryMobEffects {
             MobEffects.HUNGER -> MobEffects.SATURATION
             MobEffects.LUCK -> MobEffects.UNLUCK
             MobEffects.UNLUCK -> MobEffects.LUCK
-            MobEffects.JUMP -> MobEffects.LEVITATION
-            MobEffects.LEVITATION -> MobEffects.JUMP
+            MobEffects.SLOW_FALLING -> MobEffects.LEVITATION
+            MobEffects.LEVITATION -> MobEffects.SLOW_FALLING
             GROW -> SHRINK
             REFLECT_ARROW -> ATTRACT_ARROW
+            SHRINK -> GROW
+            ATTRACT_ARROW -> REFLECT_ARROW
+            MobEffects.BAD_OMEN -> MobEffects.HERO_OF_THE_VILLAGE
+            MobEffects.HERO_OF_THE_VILLAGE -> MobEffects.BAD_OMEN
             else -> effect
         }
     }
