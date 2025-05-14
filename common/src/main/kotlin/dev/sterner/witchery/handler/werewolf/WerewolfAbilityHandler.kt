@@ -35,11 +35,9 @@ object WerewolfAbilityHandler : AbilityHandler<WerewolfAbility> {
     fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult {
         val player = minecraft?.player ?: return EventResult.pass()
 
-        // Get player's current abilities
         val abilities = getAbilities(player)
         if (abilities.isEmpty()) return EventResult.pass()
 
-        // Handle scrolling with modified logic
         return AbilityScrollHandler().handleScroll(player, y, this)
     }
 

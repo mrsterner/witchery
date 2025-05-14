@@ -66,7 +66,6 @@ object NecroHandler {
                 val playerPos = player.position()
                 val blockPos = Vec3.atCenterOf(pos)
 
-                // Check if player is within range
                 if (playerPos.distanceToSqr(blockPos) <= PARTICLE_DETECTION_RANGE * PARTICLE_DETECTION_RANGE) {
                     spawnNecroParticles(serverLevel, player, pos)
                 }
@@ -82,7 +81,6 @@ object NecroHandler {
     }
 
     private fun spawnNecroParticles(level: ServerLevel, player: ServerPlayer, pos: BlockPos) {
-        // Use the exact blockPos for particles
         val blockCenter = Vec3.atCenterOf(pos)
 
         for (i in 0 until PARTICLE_COUNT) {
@@ -153,35 +151,31 @@ object NecroHandler {
         var successCount = 0
 
         for ((pos, entityType) in list) {
-            try {
-                val entity = entityType.create(level) as? LivingEntity ?: continue
+            val entity = entityType.create(level) as? LivingEntity ?: continue
 
-                entity.moveTo(
-                    pos.x + 0.5,
-                    pos.y.toDouble(),
-                    pos.z + 0.5,
-                    level.random.nextFloat() * 360f,
-                    0f
+            entity.moveTo(
+                pos.x + 0.5,
+                pos.y.toDouble(),
+                pos.z + 0.5,
+                level.random.nextFloat() * 360f,
+                0f
+            )
+
+            EtherealEntityAttachment.setData(
+                entity,
+                EtherealEntityAttachment.Data(
+                    summoner.uuid,
+                    canDropLoot = false,
+                    isEthereal = true
                 )
+            )
 
-                EtherealEntityAttachment.setData(
-                    entity,
-                    EtherealEntityAttachment.Data(
-                        summoner.uuid,
-                        canDropLoot = false,
-                        isEthereal = true
-                    )
-                )
-
-                level.addFreshEntity(entity)
+            level.addFreshEntity(entity)
 
 
+            successCount++
 
-                successCount++
-
-                removeNecro(level, pos)
-            } catch (_: Exception) {
-            }
+            removeNecro(level, pos)
         }
     }
 

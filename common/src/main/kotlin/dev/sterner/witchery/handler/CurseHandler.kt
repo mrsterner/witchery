@@ -53,7 +53,6 @@ object CurseHandler {
         val existingCurse = data.find { it.curseId == curse }
         val newCurseData = PlayerCurseData(curse, duration = duration, catBoosted = catBoosted)
 
-        // Replace existing curse if found
         if (existingCurse != null) {
             data.remove(existingCurse)
         }
@@ -61,7 +60,6 @@ object CurseHandler {
 
         setData(player, Data(data))
 
-        // Notify the curse about being added
         WitcheryCurseRegistry.CURSES[newCurseData.curseId]?.onAdded(
             player.level(),
             player,
@@ -82,10 +80,8 @@ object CurseHandler {
         val curseId = WitcheryCurseRegistry.CURSES.getId(curse)
         val curseData = data.find { it.curseId == curseId } ?: return false
 
-        // Execute onRemoved effect before removing
         curse.onRemoved(player.level(), player, curseData.catBoosted)
 
-        // Remove the curse from data
         data.remove(curseData)
         setData(player, Data(data))
 
@@ -104,7 +100,6 @@ object CurseHandler {
         val count = data.size
         val level = player.level()
 
-        // Trigger onRemoved for each curse
         data.forEach { curseData ->
             WitcheryCurseRegistry.CURSES[curseData.curseId]?.onRemoved(
                 level,
@@ -113,7 +108,6 @@ object CurseHandler {
             )
         }
 
-        // Clear the data
         setData(player, Data(mutableListOf()))
 
         return count
@@ -165,27 +159,19 @@ object CurseHandler {
                 curseData.duration -= 1
                 dataModified = true
 
-                try {
-                    WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(
-                        player.level(),
-                        player,
-                        curseData.catBoosted
-                    )
-                } catch (e: Exception) {
-                    Witchery.LOGGER.error("Error ticking curse ${curseData.curseId}", e)
-                }
+                WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(
+                    player.level(),
+                    player,
+                    curseData.catBoosted
+                )
             }
 
             if (curseData.duration <= 0) {
-                try {
-                    WitcheryCurseRegistry.CURSES[curseData.curseId]?.onRemoved(
-                        player.level(),
-                        player,
-                        curseData.catBoosted
-                    )
-                } catch (e: Exception) {
-                    Witchery.LOGGER.error("Error removing curse ${curseData.curseId}", e)
-                }
+                WitcheryCurseRegistry.CURSES[curseData.curseId]?.onRemoved(
+                    player.level(),
+                    player,
+                    curseData.catBoosted
+                )
 
                 iterator.remove()
                 dataModified = true
@@ -213,17 +199,13 @@ object CurseHandler {
 
         val data = getData(livingEntity)
         for (curse in data.playerCurseList) {
-            try {
-                WitcheryCurseRegistry.CURSES[curse.curseId]?.onHurt(
-                    livingEntity.level(),
-                    livingEntity,
-                    damageSource,
-                    amount,
-                    curse.catBoosted
-                )
-            } catch (e: Exception) {
-                Witchery.LOGGER.error("Error processing onHurt for curse ${curse.curseId}", e)
-            }
+            WitcheryCurseRegistry.CURSES[curse.curseId]?.onHurt(
+                livingEntity.level(),
+                livingEntity,
+                damageSource,
+                amount,
+                curse.catBoosted
+            )
         }
 
         return EventResult.pass()
@@ -245,16 +227,12 @@ object CurseHandler {
 
         val data = getData(serverPlayer)
         for (curse in data.playerCurseList) {
-            try {
-                WitcheryCurseRegistry.CURSES[curse.curseId]?.breakBlock(
-                    level,
-                    serverPlayer,
-                    blockState,
-                    curse.catBoosted
-                )
-            } catch (e: Exception) {
-                Witchery.LOGGER.error("Error processing breakBlock for curse ${curse.curseId}", e)
-            }
+            WitcheryCurseRegistry.CURSES[curse.curseId]?.breakBlock(
+                level,
+                serverPlayer,
+                blockState,
+                curse.catBoosted
+            )
         }
 
         return EventResult.pass()
@@ -275,16 +253,12 @@ object CurseHandler {
 
         val data = getData(entity)
         for (curse in data.playerCurseList) {
-            try {
-                WitcheryCurseRegistry.CURSES[curse.curseId]?.placeBlock(
-                    level,
-                    entity,
-                    blockState,
-                    curse.catBoosted
-                )
-            } catch (e: Exception) {
-                Witchery.LOGGER.error("Error processing placeBlock for curse ${curse.curseId}", e)
-            }
+            WitcheryCurseRegistry.CURSES[curse.curseId]?.placeBlock(
+                level,
+                entity,
+                blockState,
+                curse.catBoosted
+            )
         }
 
         return EventResult.pass()
@@ -306,17 +280,13 @@ object CurseHandler {
 
         val data = getData(player)
         for (curse in data.playerCurseList) {
-            try {
-                WitcheryCurseRegistry.CURSES[curse.curseId]?.attackEntity(
-                    level,
-                    player,
-                    target,
-                    entityHitResult,
-                    curse.catBoosted
-                )
-            } catch (e: Exception) {
-                Witchery.LOGGER.error("Error processing attackEntity for curse ${curse.curseId}", e)
-            }
+            WitcheryCurseRegistry.CURSES[curse.curseId]?.attackEntity(
+                level,
+                player,
+                target,
+                entityHitResult,
+                curse.catBoosted
+            )
         }
 
         return EventResult.pass()
