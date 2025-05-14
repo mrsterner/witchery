@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" packages="net.neoforged.fml.loading.LogMarkers">
+    <Appenders>
+        <Console name="SysOut" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false">
+                <Pattern>
+                    %style{[%d{HH:mm:ss}]}{bright,cyan} [%style{%t/%level}{bright}] %style{[%logger]}{bright,blue}: %highlight{%msg%n}{
+                    FATAL=bright,red,
+                    ERROR=bright,red,
+                    WARN=bright,yellow,
+                    INFO=bright,white,
+                    DEBUG=bright,green,
+                    TRACE=cyan
+                    }
+                </Pattern>
+            </PatternLayout>
+        </Console>
+        <Queue name="ServerGuiConsole">
+            <PatternLayout disableAnsi="false">
+                <Pattern>
+                    %style{[%d{HH:mm:ss}]}{bright,cyan} [%style{%t/%level}{bright}] %style{[%logger]}{bright,blue}: %highlight{%msg%n}{
+                    FATAL=bright,red,
+                    ERROR=bright,red,
+                    WARN=bright,yellow,
+                    INFO=bright,white,
+                    DEBUG=bright,green,
+                    TRACE=cyan
+                    }
+                </Pattern>
+            </PatternLayout>
+        </Queue>
+        <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level] [%logger]: %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <OnStartupTriggeringPolicy />
+            </Policies>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="DebugFile" fileName="logs/debug.log" filePattern="logs/debug-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level] [%logger]: %msg%n" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="200MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5" fileIndex="min"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Logger level="info" name="net.minecraft" additivity="false">
+            <AppenderRef ref="SysOut" level="info"/>
+            <AppenderRef ref="File" level="info"/>
+            <AppenderRef ref="ServerGuiConsole" level="info"/>
+        </Logger>
+
+        <Logger level="info" name="net.neoforged" additivity="false">
+            <AppenderRef ref="SysOut" level="info"/>
+            <AppenderRef ref="File" level="info"/>
+            <AppenderRef ref="ServerGuiConsole" level="info"/>
+        </Logger>
+
+        <Logger level="info" name="dev.sterner.witchery" additivity="false">
+            <AppenderRef ref="SysOut" level="info"/>
+            <AppenderRef ref="File" level="info"/>
+            <AppenderRef ref="ServerGuiConsole" level="info"/>
+        </Logger>
+
+        <Root level="info">
+            <filters>
+                <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />
+                <RegexFilter regex=".*\$\{[^}]*\}.*" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </filters>
+            <AppenderRef ref="SysOut" level="info"/>
+            <AppenderRef ref="File" level="info"/>
+            <AppenderRef ref="ServerGuiConsole" level="info"/>
+            <AppenderRef ref="DebugFile" level="debug"/>
+        </Root>
+    </Loggers>
+</Configuration>

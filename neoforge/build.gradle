@@ -9,6 +9,20 @@ architectury {
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    runs {
+        client {
+            property 'log4j.configurationFile', file('src/main/resources/log4j2.xml').absolutePath
+            property 'terminal.ansi', 'true'
+            property 'log4j.skipJansi', 'false'
+        }
+        server {
+            property 'log4j.configurationFile', file('src/main/resources/log4j2.xml').absolutePath
+            property 'terminal.ansi', 'true'
+            property 'log4j.skipJansi', 'false'
+        }
+    }
+
 }
 
 configurations {

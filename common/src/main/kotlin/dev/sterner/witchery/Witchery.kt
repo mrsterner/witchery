@@ -34,47 +34,8 @@ import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.SneezeParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
-import dev.sterner.witchery.client.renderer.block.AltarBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.BearTrapBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.BloodCrucibleBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.BrazierBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.CauldronBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.CoffinBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.CritterSnareBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.DistilleryBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.DreamWeaverBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.EffigyBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.GrassperBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.MushroomLogBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.PoppetBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.SacrificialCircleBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.SoulCageBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.SpinningWheelBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.SpiritPortalBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.SuspiciousGraveyardDirtBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.WerewolfAltarBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.BabaYagaEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.BansheeEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.BroomEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.ChainEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.CovenWitchEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.DeathEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.DemonEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.ElleEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.EntEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.FloatingItemEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.ImpEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.InsanityEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.LilithEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.MandrakeEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.NightmareEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.OwlEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.ParasiticLouseEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.SleepingPlayerEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.SpectralPigRenderer
-import dev.sterner.witchery.client.renderer.entity.SpectreEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.VampireEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.WerewolfEntityRenderer
+import dev.sterner.witchery.client.renderer.block.*
+import dev.sterner.witchery.client.renderer.entity.*
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
@@ -180,46 +141,45 @@ object Witchery {
 
         WitcheryModonomiconLoaders.register()
 
-        WitcheryCommands.registerEvents()
-        VampireEventHandler.registerEvents()
-        WerewolfEventHandler.registerEvents()
-        CurseHandler.registerEvents()
-        PotionHandler.registerEvents()
-        NecroHandler.registerEvents()
-        MutandisHandler.registerEvents()
-        PoppetHandler.registerEvents()
-        FamiliarHandler.registerEvents()
-        CaneSwordItem.registerEvents()
-        EquipmentHandler.registerEvents()
+        BarkBeltHandler.registerEvents()
+        BindSpectralCreaturesRitual.registerEvents()
         BitingBeltItem.registerEvents()
         BloodPoolHandler.registerEvents()
-        DreamWeaverHandler.registerEvents()
-        BrewOfSleepingItem.registerEvents()
-        InfusionHandler.registerEvents()
-        SacrificialBlockEntity.registerEvents()
-        LecternHandler.registerEvents()
-        WineGlassItem.registerEvents()
-        EntSpawningHandler.registerEvents()
-        RitualChalkBlock.registerEvents()
-        WitcherySpecialPotionEffects.registerEvents()
-        TeleportQueueHandler.registerEvents()
-        ManifestationHandler.registerEvents()
-        VampireChildrenHuntHandler.registerEvents()
-        InfernalInfusionHandler.registerEvents()
-        BloodPoolHandler.registerEvents()
-        LightInfusionHandler.registerEvents()
-        OtherwhereInfusionHandler.registerEvents()
-        NightmareHandler.registerEvents()
-        TransformationHandler.registerEvents()
-        BarkBeltHandler.registerEvents()
-        TickTaskScheduler.registerEvents()
-        BindSpectralCreaturesRitual.registerEvents()
         BrazierBlockEntity.registerEvents()
-        SoulCageBlockEntity.registerEvents()
-        WitcheryLootInjects.registerEvents()
-        WitcheryStructureInjects.registerEvents()
+        BrewOfSleepingItem.registerEvents()
+        CaneSwordItem.registerEvents()
+        CurseHandler.registerEvents()
+        DreamWeaverHandler.registerEvents()
+        EntSpawningHandler.registerEvents()
+        EquipmentHandler.registerEvents()
+        FamiliarHandler.registerEvents()
+        InfernalInfusionHandler.registerEvents()
+        InfusionHandler.registerEvents()
+        LecternHandler.registerEvents()
+        LightInfusionHandler.registerEvents()
+        ManifestationHandler.registerEvents()
         MushroomLogBlock.registerEvents()
+        MutandisHandler.registerEvents()
+        NecroHandler.registerEvents()
+        NightmareHandler.registerEvents()
+        OtherwhereInfusionHandler.registerEvents()
+        PoppetHandler.registerEvents()
+        PotionHandler.registerEvents()
+        RitualChalkBlock.registerEvents()
+        SacrificialBlockEntity.registerEvents()
+        SoulCageBlockEntity.registerEvents()
+        TeleportQueueHandler.registerEvents()
+        TickTaskScheduler.registerEvents()
+        TransformationHandler.registerEvents()
         UnderWaterBreathPlayerAttachment.registerEvents()
+        VampireChildrenHuntHandler.registerEvents()
+        VampireEventHandler.registerEvents()
+        WerewolfEventHandler.registerEvents()
+        WineGlassItem.registerEvents()
+        WitcheryCommands.registerEvents()
+        WitcheryLootInjects.registerEvents()
+        WitcherySpecialPotionEffects.registerEvents()
+        WitcheryStructureInjects.registerEvents()
 
         InteractionEvent.RIGHT_CLICK_BLOCK.register { player, hand, pos, face ->
 
@@ -264,128 +224,9 @@ object Witchery {
     @JvmStatic
     @Environment(EnvType.CLIENT)
     fun initClient() {
-        EntityModelLayerRegistry.register(AltarClothBlockEntityModel.LAYER_LOCATION) { AltarClothBlockEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(AltarBlockEntityModel.LAYER_LOCATION) { AltarBlockEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(MushroomLogModel.LAYER_LOCATION) { MushroomLogModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(SpiritPortalBlockEntityModel.LAYER_LOCATION) { SpiritPortalBlockEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(SpiritPortalPortalModel.LAYER_LOCATION) { SpiritPortalPortalModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(WerewolfAltarModel.LAYER_LOCATION) { WerewolfAltarModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(CoffinModel.LAYER_LOCATION) { CoffinModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(BearTrapModel.LAYER_LOCATION) { BearTrapModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(ChainModel.LAYER_LOCATION) { ChainModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(ArmorPoppetModel.LAYER_LOCATION) { ArmorPoppetModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(HungerPoppetModel.LAYER_LOCATION) { HungerPoppetModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(VampiricPoppetModel.LAYER_LOCATION) { VampiricPoppetModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(VoodooPoppetModel.LAYER_LOCATION) { VoodooPoppetModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(WitchesRobesModel.LAYER_LOCATION) { WitchesRobesModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(VampireArmorModel.LAYER_LOCATION) { VampireArmorModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(HunterArmorModel.LAYER_LOCATION) { HunterArmorModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelWheelBlockEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(SpinningWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelBlockEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(BloodCrucibleModel.LAYER_LOCATION) { BloodCrucibleModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(DistilleryGemModel.LAYER_LOCATION) { DistilleryGemModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(GlassContainerModel.LAYER_LOCATION) { GlassContainerModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(BroomEntityModel.LAYER_LOCATION) { BroomEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(DreamWeaverBlockEntityModel.LAYER_LOCATION) { DreamWeaverBlockEntityModel.createBodyLayer() }
-
-        EntityRendererRegistry.register(WitcheryEntityTypes.BROOM) { BroomEntityRenderer(it) }
-        EntityRendererRegistry.register(WitcheryEntityTypes.CHAIN) { ChainEntityRenderer(it) }
-        EntityRendererRegistry.register(WitcheryEntityTypes.MANDRAKE) { MandrakeEntityRenderer(it) }
-        EntityModelLayerRegistry.register(MandrakeEntityModel.LAYER_LOCATION) { MandrakeEntityModel.createBodyLayer() }
-        EntityRendererRegistry.register(WitcheryEntityTypes.IMP) { ImpEntityRenderer(it) }
-        EntityModelLayerRegistry.register(ImpEntityModel.LAYER_LOCATION) { ImpEntityModel.createBodyLayer() }
-        EntityRendererRegistry.register(WitcheryEntityTypes.OWL) { OwlEntityRenderer(it) }
-        EntityModelLayerRegistry.register(OwlEntityModel.LAYER_LOCATION) { OwlEntityModel.createBodyLayer() }
-        EntityRendererRegistry.register(WitcheryEntityTypes.DEMON) { DemonEntityRenderer(it) }
-        EntityModelLayerRegistry.register(DemonEntityModel.LAYER_LOCATION) { DemonEntityModel.createBodyLayer() }
-        EntityRendererRegistry.register(WitcheryEntityTypes.ENT) { EntEntityRenderer(it) }
-        EntityModelLayerRegistry.register(EntEntityModel.LAYER_LOCATION) { EntEntityModel.createBodyLayer() }
-        EntityRendererRegistry.register(WitcheryEntityTypes.BANSHEE) { BansheeEntityRenderer(it) }
-        EntityRendererRegistry.register(WitcheryEntityTypes.BABA_YAGA) { BabaYagaEntityRenderer(it) }
-        EntityRendererRegistry.register(WitcheryEntityTypes.SPECTRE) { SpectreEntityRenderer(it) }
-        EntityModelLayerRegistry.register(BansheeEntityModel.LAYER_LOCATION) { BansheeEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(DeathEntityModel.LAYER_LOCATION) { DeathEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(SpectreEntityModel.LAYER_LOCATION) { SpectreEntityModel.createBodyLayer() }
-        EntityModelLayerRegistry.register(BabaYagaEntityModel.LAYER_LOCATION) { BabaYagaEntityModel.createBodyLayer() }
-
-        EntityRendererRegistry.register(WitcheryEntityTypes.COVEN_WITCH) { CovenWitchEntityRenderer(it) }
-        EntityRendererRegistry.register(WitcheryEntityTypes.PARASITIC_LOUSE) { ParasiticLouseEntityRenderer(it) }
-        EntityRendererRegistry.register(WitcheryEntityTypes.DEATH) { DeathEntityRenderer(it) }
-        EntityModelLayerRegistry.register(ParasiticLouseEntityModel.LAYER_LOCATION) { ParasiticLouseEntityModel.createBodyLayer() }
-
-        EntityRendererRegistry.register(WitcheryEntityTypes.INSANITY) { InsanityEntityRenderer(it) }
-
-        EntityRendererRegistry.register(WitcheryEntityTypes.VAMPIRE) { VampireEntityRenderer(it) }
-        EntityModelLayerRegistry.register(VampireEntityModel.LAYER_LOCATION) { VampireEntityModel.createBodyLayer() }
-        EntityRendererRegistry.register(WitcheryEntityTypes.WEREWOLF) { WerewolfEntityRenderer(it) }
-        EntityModelLayerRegistry.register(WerewolfEntityModel.LAYER_LOCATION) { WerewolfEntityModel.createBodyLayer() }
-        EntityRendererRegistry.register(WitcheryEntityTypes.NIGHTMARE) { NightmareEntityRenderer(it) }
-        EntityModelLayerRegistry.register(NightmareEntityModel.LAYER_LOCATION) { NightmareEntityModel.createBodyLayer() }
-        EntityRendererRegistry.register(WitcheryEntityTypes.LILITH) { LilithEntityRenderer(it) }
-        EntityModelLayerRegistry.register(LilithEntityModel.LAYER_LOCATION) { LilithEntityModel.createBodyLayer() }
-        EntityRendererRegistry.register(WitcheryEntityTypes.ELLE) { ElleEntityRenderer(it) }
-
-        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_BOAT) { context -> BoatRenderer(context, false) }
-        EntityModelLayerRegistry.register(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)
-        EntityModelLayerRegistry.register(BoatModels.ALDER_BOAT_LAYER, BoatModel::createBodyModel)
-        EntityModelLayerRegistry.register(BoatModels.HAWTHORN_BOAT_LAYER, BoatModel::createBodyModel)
-        EntityRendererRegistry.register(WitcheryEntityTypes.CUSTOM_CHEST_BOAT) { context ->
-            BoatRenderer(
-                context,
-                true
-            )
-        }
-        EntityModelLayerRegistry.register(BoatModels.ROWAN_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
-        EntityModelLayerRegistry.register(BoatModels.ALDER_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
-        EntityModelLayerRegistry.register(BoatModels.HAWTHORN_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
-
-        EntityRendererRegistry.register(WitcheryEntityTypes.FLOATING_ITEM, ::FloatingItemEntityRenderer)
-        EntityRendererRegistry.register(WitcheryEntityTypes.THROWN_BREW, ::ThrownItemRenderer)
-        EntityRendererRegistry.register(WitcheryEntityTypes.THROWN_POTION, ::ThrownItemRenderer)
-        EntityRendererRegistry.register(WitcheryEntityTypes.SLEEPING_PLAYER, ::SleepingPlayerEntityRenderer)
-        EntityRendererRegistry.register(WitcheryEntityTypes.SPECTRAL_PIG, ::SpectralPigRenderer)
-        EntityRendererRegistry.register(WitcheryEntityTypes.AREA_EFFECT_CLOUD, ::NoopRenderer)
-
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BLOOD_CRUCIBLE.get(),
-            ::BloodCrucibleBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DISTILLERY.get(), ::DistilleryBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRAZIER.get(), ::BrazierBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SOUL_CAGE.get(), ::SoulCageBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.COFFIN.get(), ::CoffinBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPINNING_WHEEL.get(),
-            ::SpinningWheelBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_SIGN.get(), ::SignRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get(), ::HangingSignRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.DREAM_WEAVER.get(),
-            ::DreamWeaverBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.POPPET.get(), ::PoppetBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(),
-            ::SpiritPortalBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(),
-            ::WerewolfAltarBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BEAR_TRAP.get(), ::BearTrapBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(),
-            ::SuspiciousGraveyardDirtBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(),
-            ::SacrificialCircleBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.GRASSPER.get(), ::GrassperBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CRITTER_SNARE.get(),
-            ::CritterSnareBlockEntityRenderer
-        )
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.EFFIGY.get(), ::EffigyBlockEntityRenderer)
-        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.MUSHROOM_LOG.get(),
-            ::MushroomLogBlockEntityRenderer
-        )
+        WitcheryModelLayers.register()
+        WitcheryEntityRenderers.register()
+        WitcheryBlockEntityRenderers.register()
 
         ClientTooltipComponentRegistry.register(
             BloodPoolComponent::class.java,
