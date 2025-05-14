@@ -1,3 +1,8 @@
+### Version 0.3.1
+- Added brew of the depth
+- Added brew of wasting
+- removed prints lmao
+
 ### Version 0.3.0
 - Added Coffin
 - Added Modular Potion Brewing
