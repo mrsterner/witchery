@@ -19,6 +19,7 @@ import dev.sterner.witchery.client.model.EntEntityModel
 import dev.sterner.witchery.client.model.GlassContainerModel
 import dev.sterner.witchery.client.model.HornedHuntsmanModel
 import dev.sterner.witchery.client.model.HunterArmorModel
+import dev.sterner.witchery.client.model.HuntsmanSpearModel
 import dev.sterner.witchery.client.model.ImpEntityModel
 import dev.sterner.witchery.client.model.JarModel
 import dev.sterner.witchery.client.model.LilithEntityModel
@@ -56,6 +57,7 @@ object WitcheryModelLayers {
         EntityModelLayerRegistry.register(WerewolfAltarModel.LAYER_LOCATION) { WerewolfAltarModel.createBodyLayer() }
         EntityModelLayerRegistry.register(CoffinModel.LAYER_LOCATION) { CoffinModel.createBodyLayer() }
         EntityModelLayerRegistry.register(BearTrapModel.LAYER_LOCATION) { BearTrapModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(HuntsmanSpearModel.LAYER_LOCATION) { HuntsmanSpearModel.createBodyLayer() }
         EntityModelLayerRegistry.register(ChainModel.LAYER_LOCATION) { ChainModel.createBodyLayer() }
         EntityModelLayerRegistry.register(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
         EntityModelLayerRegistry.register(ArmorPoppetModel.LAYER_LOCATION) { ArmorPoppetModel.createBodyLayer() }

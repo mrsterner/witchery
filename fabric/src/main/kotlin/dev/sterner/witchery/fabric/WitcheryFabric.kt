@@ -117,6 +117,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             SpinningWheelDynamicRenderer()
         )
         BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.BROOM.get(), BroomDynamicRenderer())
+        BuiltinItemRendererRegistry.INSTANCE.register(WitcheryItems.HUNTSMAN_SPEAR.get(), HuntsmanSpearDynamicRenderer())
         BuiltinItemRendererRegistry.INSTANCE.register(
             WitcheryItems.WEREWOLF_ALTAR.get(),
             WerewolfAltarDynamicRenderer()

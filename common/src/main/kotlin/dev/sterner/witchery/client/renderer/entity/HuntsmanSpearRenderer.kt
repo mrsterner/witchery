@@ -3,9 +3,8 @@ package dev.sterner.witchery.client.renderer.entity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.model.HuntsmanSpearModel
 import dev.sterner.witchery.entity.HuntsmanSpearEntity
-import net.minecraft.client.model.TridentModel
-import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
@@ -18,7 +17,7 @@ import java.awt.Color
 class HuntsmanSpearRenderer(context: EntityRendererProvider.Context) : 
     EntityRenderer<HuntsmanSpearEntity>(context) {
 
-    private val model = TridentModel(context.bakeLayer(ModelLayers.TRIDENT))
+    private val model = HuntsmanSpearModel(context.bakeLayer(HuntsmanSpearModel.LAYER_LOCATION))
     
     companion object {
         private val TEXTURE = Witchery.id("textures/entity/huntsman_spear.png")

@@ -24,7 +24,7 @@ class HornedHuntsmanEntityRenderer(context: EntityRendererProvider.Context) :
     }
     
     init {
-        //TODO addLayer(ItemInHandLayer(this, context.itemInHandRenderer))
+        addLayer(ItemInHandLayer(this, context.itemInHandRenderer))
         addLayer(HornedHuntsmanEmissiveLayer(this))
     }
     

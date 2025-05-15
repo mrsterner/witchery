@@ -200,6 +200,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(WerewolfAltarModel.LAYER_LOCATION, WerewolfAltarModel::createBodyLayer)
         event.registerLayerDefinition(CoffinModel.LAYER_LOCATION, CoffinModel::createBodyLayer)
         event.registerLayerDefinition(BearTrapModel.LAYER_LOCATION, BearTrapModel::createBodyLayer)
+        event.registerLayerDefinition(HuntsmanSpearModel.LAYER_LOCATION, HuntsmanSpearModel::createBodyLayer)
         event.registerLayerDefinition(ChainModel.LAYER_LOCATION, ChainModel::createBodyLayer)
         event.registerLayerDefinition(
             AltarClothBlockEntityModel.LAYER_LOCATION,
@@ -296,6 +297,10 @@ object WitcheryNeoForgeClientEvent {
         event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()),
             WitcheryItems.BROOM.get()
+        )
+        event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(HuntsmanSpearBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.HUNTSMAN_SPEAR.get()
         )
         event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(WerewolfAltarBlockEntityWithoutLevelRenderer()),
