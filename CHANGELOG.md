@@ -2,7 +2,7 @@
 - Added brew of the grotesque
 - Added missing potion effects to the witchery potion
 - Added a way to get Blood Stained wool :´)
-- Added Horned Huntsman
+- Added Horned Huntsman, WW level 4
 
 ### Version 0.3.1
 - Added brew of the depth

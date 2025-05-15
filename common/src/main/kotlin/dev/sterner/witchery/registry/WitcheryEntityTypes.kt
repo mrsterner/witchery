@@ -193,14 +193,24 @@ object WitcheryEntityTypes {
         ).sized(0.6f, 1.8f).build(Witchery.id("death").toString())
     }
 
-    var HORNED_HUNTSMAN =register("horned_huntsman") {
+    var HORNED_HUNTSMAN = register("horned_huntsman") {
         EntityType.Builder.of(
             { _: EntityType<HornedHuntsmanEntity>, level: Level ->
                 HornedHuntsmanEntity(level)
             }, MobCategory.MONSTER
-        ).sized(0.6f, 2.4f).build(Witchery.id("horned_huntsman").toString())
+        ).sized(0.6f, 2.8f).build(Witchery.id("horned_huntsman").toString())
     }
 
+    var HUNTSMAN_SPEAR = register("huntsman_spear") {
+        EntityType.Builder.of(
+            { _: EntityType<HuntsmanSpearEntity>, level: Level ->
+                HuntsmanSpearEntity(level)
+            }, MobCategory.MISC
+        ).sized(0.5f, 0.5f)
+            .clientTrackingRange(4)
+            .updateInterval(20)
+            .build(Witchery.id("huntsman_spear").toString())
+    }
 
     val SPECTRAL_PIG: RegistrySupplier<EntityType<SpectralPigEntity>> =register("spectral_pig") {
         EntityType.Builder.of(

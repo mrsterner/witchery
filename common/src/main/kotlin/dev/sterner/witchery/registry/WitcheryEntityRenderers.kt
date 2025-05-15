@@ -12,6 +12,7 @@ import dev.sterner.witchery.client.renderer.entity.ElleEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.EntEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.FloatingItemEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.HornedHuntsmanEntityRenderer
+import dev.sterner.witchery.client.renderer.entity.HuntsmanSpearRenderer
 import dev.sterner.witchery.client.renderer.entity.ImpEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.InsanityEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.LilithEntityRenderer
@@ -59,5 +60,6 @@ object WitcheryEntityRenderers {
         EntityRendererRegistry.register(WitcheryEntityTypes.SLEEPING_PLAYER, ::SleepingPlayerEntityRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.SPECTRAL_PIG, ::SpectralPigRenderer)
         EntityRendererRegistry.register(WitcheryEntityTypes.AREA_EFFECT_CLOUD, ::NoopRenderer)
+        EntityRendererRegistry.register(WitcheryEntityTypes.HUNTSMAN_SPEAR, ::HuntsmanSpearRenderer)
     }
 }

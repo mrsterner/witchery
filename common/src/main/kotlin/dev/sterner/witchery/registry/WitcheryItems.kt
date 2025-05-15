@@ -47,6 +47,11 @@ object WitcheryItems {
         DeathSickleItem(Item.Properties().stacksTo(1))
     }
 
+    val HUNTSMAN_SPEAR
+            = register("huntsman_spear") {
+        HuntsmanSpearItem(Item.Properties().stacksTo(1))
+    }
+
     val GLINTWEED: RegistrySupplier<BlockItem> = register("glintweed") {
         BlockItem(WitcheryBlocks.GLINTWEED.get(), Item.Properties())
     }

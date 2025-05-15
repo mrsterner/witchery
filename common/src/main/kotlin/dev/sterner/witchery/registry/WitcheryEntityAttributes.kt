@@ -24,6 +24,7 @@ object WitcheryEntityAttributes {
         EntityAttributeRegistry.register(WitcheryEntityTypes.INSANITY, InsanityEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.BABA_YAGA, BabaYagaEntity::createAttributes)
         EntityAttributeRegistry.register(WitcheryEntityTypes.DEATH, DeathEntity::createAttributes)
+        EntityAttributeRegistry.register(WitcheryEntityTypes.HORNED_HUNTSMAN, HornedHuntsmanEntity::createAttributes)
 
     }
 }

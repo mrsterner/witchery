@@ -22,6 +22,7 @@ import dev.sterner.witchery.client.renderer.entity.ElleEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.EntEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.FloatingItemEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.HornedHuntsmanEntityRenderer
+import dev.sterner.witchery.client.renderer.entity.HuntsmanSpearRenderer
 import dev.sterner.witchery.client.renderer.entity.ImpEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.InsanityEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.LilithEntityRenderer
@@ -174,6 +175,10 @@ object WitcheryNeoForgeClientEvent {
         event.registerEntityRenderer(
             WitcheryEntityTypes.INSANITY.get(),
             ::InsanityEntityRenderer
+        )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.HUNTSMAN_SPEAR.get(),
+            ::HuntsmanSpearRenderer
         )
     }
 
