@@ -4,6 +4,7 @@ import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
@@ -32,9 +33,9 @@ class HuntsmanSpearEntity : AbstractArrow {
     companion object {
         private val ID_LOYALTY = SynchedEntityData.defineId(HuntsmanSpearEntity::class.java, EntityDataSerializers.BYTE)
         private val ID_FOIL = SynchedEntityData.defineId(HuntsmanSpearEntity::class.java, EntityDataSerializers.BOOLEAN)
-        val ID_THROWN_BY_HUNTSMAN = SynchedEntityData.defineId(HuntsmanSpearEntity::class.java, EntityDataSerializers.BOOLEAN)
+        val ID_THROWN_BY_HUNTSMAN: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(HuntsmanSpearEntity::class.java, EntityDataSerializers.BOOLEAN)
         
-        private const val BASE_DAMAGE = 8.0f
+        private const val BASE_DAMAGE = 12.0f
         private const val HUNTSMAN_DAMAGE_BONUS = 6.0f
     }
 
@@ -52,18 +53,6 @@ class HuntsmanSpearEntity : AbstractArrow {
         this.pickup = if (owner is Player && owner.abilities.instabuild) Pickup.CREATIVE_ONLY else Pickup.DISALLOWED
         this.thrownByBoss = owner is HornedHuntsmanEntity
         entityData.set(ID_THROWN_BY_HUNTSMAN, thrownByBoss)
-        entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack))
-        entityData.set(ID_FOIL, pickupItemStack.hasFoil())
-    }
-    
-    constructor(level: Level, x: Double, y: Double, z: Double, pickupItemStack: ItemStack) : super(
-        WitcheryEntityTypes.HUNTSMAN_SPEAR.get(),
-        x, y, z,
-        level,
-        pickupItemStack,
-        pickupItemStack
-    ) {
-        this.pickup = Pickup.ALLOWED
         entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack))
         entityData.set(ID_FOIL, pickupItemStack.hasFoil())
     }
@@ -86,7 +75,7 @@ class HuntsmanSpearEntity : AbstractArrow {
         if (loyalty > 0 && (this.dealtDamage || this.isNoPhysics) && entity != null) {
             if (!this.isAcceptibleReturnOwner()) {
                 if (!this.level().isClientSide && this.pickup == Pickup.ALLOWED) {
-                    this.spawnAtLocation(this.getPickupItem(), 0.1f)
+                    this.spawnAtLocation(this.pickupItem, 0.1f)
                 }
                 
                 this.discard()
@@ -123,7 +112,7 @@ class HuntsmanSpearEntity : AbstractArrow {
             
             if (!this.isAcceptibleReturnOwner()) {
                 if (!this.level().isClientSide && this.pickup == Pickup.ALLOWED) {
-                    this.spawnAtLocation(this.getPickupItem(), 0.1f)
+                    this.spawnAtLocation(this.pickupItem, 0.1f)
                 }
                 
                 this.discard()
@@ -173,7 +162,7 @@ class HuntsmanSpearEntity : AbstractArrow {
         val level = this.level()
         if (level is ServerLevel) {
             if (target is LivingEntity) {
-                damage = EnchantmentHelper.modifyDamage(level, this.getWeaponItem(), target, damageSource, damage)
+                damage = EnchantmentHelper.modifyDamage(level, this.weaponItem, target, damageSource, damage)
             }
         }
         
@@ -268,13 +257,13 @@ class HuntsmanSpearEntity : AbstractArrow {
     private fun getLoyaltyFromItem(stack: ItemStack): Byte {
         val level = this.level()
         if (level is ServerLevel) {
-            return Mth.clamp(
-                EnchantmentHelper.getTridentReturnToOwnerAcceleration(level, stack, this),
-                0,
-                127
-            ).toByte()
+            val enchantmentLoyalty = EnchantmentHelper.getTridentReturnToOwnerAcceleration(level, stack, this)
+
+            val loyaltyValue = if (enchantmentLoyalty <= 0) 1 else enchantmentLoyalty
+            
+            return Mth.clamp(loyaltyValue, 1, 127).toByte()
         }
-        return 0
+        return 1.toByte()
     }
     
     override fun tickDespawn() {
