@@ -17,6 +17,7 @@ import dev.sterner.witchery.client.model.DistilleryGemModel
 import dev.sterner.witchery.client.model.DreamWeaverBlockEntityModel
 import dev.sterner.witchery.client.model.EntEntityModel
 import dev.sterner.witchery.client.model.GlassContainerModel
+import dev.sterner.witchery.client.model.HornedHuntsmanModel
 import dev.sterner.witchery.client.model.HunterArmorModel
 import dev.sterner.witchery.client.model.ImpEntityModel
 import dev.sterner.witchery.client.model.JarModel
@@ -77,6 +78,7 @@ object WitcheryModelLayers {
         EntityModelLayerRegistry.register(DemonEntityModel.LAYER_LOCATION) { DemonEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(EntEntityModel.LAYER_LOCATION) { EntEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(BansheeEntityModel.LAYER_LOCATION) { BansheeEntityModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(HornedHuntsmanModel.LAYER_LOCATION) { HornedHuntsmanModel.createBodyLayer() }
         EntityModelLayerRegistry.register(DeathEntityModel.LAYER_LOCATION) { DeathEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpectreEntityModel.LAYER_LOCATION) { SpectreEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(BabaYagaEntityModel.LAYER_LOCATION) { BabaYagaEntityModel.createBodyLayer() }

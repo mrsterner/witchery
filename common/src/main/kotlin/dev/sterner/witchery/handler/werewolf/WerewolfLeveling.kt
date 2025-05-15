@@ -73,6 +73,8 @@ object WerewolfLeveling {
         updateModifiers(player, data.isWolfFormActive, data.isWolfManFormActive)
     }
 
+
+
     private fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = WerewolfPlayerAttachment.getData(player)
 
@@ -92,6 +94,18 @@ object WerewolfLeveling {
 
         val data = WerewolfPlayerAttachment.getData(player)
         WerewolfPlayerAttachment.setData(player, data.copy(pigmenKilled = data.pigmenKilled + 1))
+
+        increaseWerewolfLevel(player)
+    }
+
+    //To go from Level 4 -> 5
+    fun setHasKilledHuntsman(player: ServerPlayer){
+        if (!canPerformQuest(player, 4)) {
+            return
+        }
+
+        val data = WerewolfPlayerAttachment.getData(player)
+        WerewolfPlayerAttachment.setData(player, data.copy(killHornedOne = true))
 
         increaseWerewolfLevel(player)
     }

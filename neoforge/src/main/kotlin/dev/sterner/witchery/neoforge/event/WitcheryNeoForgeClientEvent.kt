@@ -21,6 +21,7 @@ import dev.sterner.witchery.client.renderer.entity.DemonEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.ElleEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.EntEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.FloatingItemEntityRenderer
+import dev.sterner.witchery.client.renderer.entity.HornedHuntsmanEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.ImpEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.InsanityEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.LilithEntityRenderer
@@ -126,6 +127,10 @@ object WitcheryNeoForgeClientEvent {
             ::BabaYagaEntityRenderer
         )
         event.registerEntityRenderer(
+            WitcheryEntityTypes.HORNED_HUNTSMAN.get(),
+            ::HornedHuntsmanEntityRenderer
+        )
+        event.registerEntityRenderer(
             WitcheryEntityTypes.COVEN_WITCH.get(),
             ::CovenWitchEntityRenderer
         )
@@ -225,6 +230,7 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(DemonEntityModel.LAYER_LOCATION, DemonEntityModel::createBodyLayer)
         event.registerLayerDefinition(EntEntityModel.LAYER_LOCATION, EntEntityModel::createBodyLayer)
         event.registerLayerDefinition(BansheeEntityModel.LAYER_LOCATION, BansheeEntityModel::createBodyLayer)
+        event.registerLayerDefinition(HornedHuntsmanModel.LAYER_LOCATION, HornedHuntsmanModel::createBodyLayer)
         event.registerLayerDefinition(DeathEntityModel.LAYER_LOCATION, DeathEntityModel::createBodyLayer)
         event.registerLayerDefinition(SpectreEntityModel.LAYER_LOCATION, SpectreEntityModel::createBodyLayer)
         event.registerLayerDefinition(BabaYagaEntityModel.LAYER_LOCATION, BabaYagaEntityModel.Companion::createBodyLayer)

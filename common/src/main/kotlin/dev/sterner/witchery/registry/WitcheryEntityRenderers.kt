@@ -11,6 +11,7 @@ import dev.sterner.witchery.client.renderer.entity.DemonEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.ElleEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.EntEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.FloatingItemEntityRenderer
+import dev.sterner.witchery.client.renderer.entity.HornedHuntsmanEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.ImpEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.InsanityEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.LilithEntityRenderer
@@ -41,6 +42,7 @@ object WitcheryEntityRenderers {
         EntityRendererRegistry.register(WitcheryEntityTypes.COVEN_WITCH) { CovenWitchEntityRenderer(it) }
         EntityRendererRegistry.register(WitcheryEntityTypes.PARASITIC_LOUSE) { ParasiticLouseEntityRenderer(it) }
         EntityRendererRegistry.register(WitcheryEntityTypes.DEATH) { DeathEntityRenderer(it) }
+        EntityRendererRegistry.register(WitcheryEntityTypes.HORNED_HUNTSMAN) { HornedHuntsmanEntityRenderer(it) }
         EntityRendererRegistry.register(WitcheryEntityTypes.OWL) { OwlEntityRenderer(it) }
         EntityRendererRegistry.register(WitcheryEntityTypes.INSANITY) { InsanityEntityRenderer(it) }
         EntityRendererRegistry.register(WitcheryEntityTypes.IMP) { ImpEntityRenderer(it) }

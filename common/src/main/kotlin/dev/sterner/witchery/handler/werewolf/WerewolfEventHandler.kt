@@ -6,6 +6,7 @@ import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.TickEvent
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.entity.HornedHuntsmanEntity
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.handler.ability.WerewolfAbility
 import dev.sterner.witchery.handler.transformation.TransformationHandler
@@ -101,7 +102,10 @@ object WerewolfEventHandler {
     }
 
     private fun killHuntsman(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
-        //TODO add Huntsman
+        if (livingEntity is HornedHuntsmanEntity && damageSource?.entity is ServerPlayer) {
+            val player = damageSource.entity as ServerPlayer
+            WerewolfLeveling.setHasKilledHuntsman(player)
+        }
         return EventResult.pass()
     }
 
