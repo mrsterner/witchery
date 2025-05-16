@@ -3,6 +3,9 @@
 - Added missing potion effects to the witchery potion
 - Added a way to get Blood Stained wool :´)
 - Added Horned Huntsman, WW level 4
+- Removed Pehkui
+- Fixed Bat sitting on Neoforge
+- Fixed Vampire Nightvision flicker
 
 ### Version 0.3.1
 - Added brew of the depth
