@@ -19,8 +19,6 @@ dependencies {
     modCompileOnly "mcp.mobius.waila:wthit-api:fabric-${wthitVersion}"
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-
-    modApi("com.github.Virtuoel:Pehkui:${pehkui_version}") { exclude group: "net.fabricmc" exclude group: "net.fabricmc.fabric-api" }
 }
 
 sourceSets {

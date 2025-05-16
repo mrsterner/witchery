@@ -1,12 +1,12 @@
 package dev.sterner.witchery.mobeffect
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.interfaces.OnRemovedEffect
-import dev.sterner.witchery.platform.WitcheryPehkui
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
 import net.minecraft.world.entity.LivingEntity
-import virtuoel.pehkui.api.ScaleData
-import virtuoel.pehkui.api.ScaleTypes
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
+import net.minecraft.world.entity.ai.attributes.Attributes
 
 
 class ResizeMobEffect(val grow: Boolean, category: MobEffectCategory, color: Int) : MobEffect(category, color),
@@ -24,40 +24,41 @@ class ResizeMobEffect(val grow: Boolean, category: MobEffectCategory, color: Int
     override fun onEffectAdded(livingEntity: LivingEntity, amplifier: Int) {
         super.onEffectAdded(livingEntity, amplifier)
         if (!livingEntity.level().isClientSide) {
-            val data: ScaleData = if (grow) {
-                WitcheryPehkui.getGrowing().getScaleData(livingEntity)
-            } else {
-                WitcheryPehkui.getShrinking().getScaleData(livingEntity)
-            }
-            if (grow) {
-                data.scale = getGrowthScale(amplifier)
-            } else {
-                data.scale = getShrinkScale(amplifier)
+            livingEntity.attributes.getInstance(Attributes.SCALE)?.let { scaleAttribute ->
+                scaleAttribute.modifiers.filter {
+                    it.id == Witchery.id("growth") || it.id == Witchery.id("shrink")
+                }.forEach {
+                    scaleAttribute.removeModifier(it)
+                }
+
+                val scaleModification = if (grow) {
+                    0.5f * (amplifier + 1)
+                } else {
+                    -0.5f * (amplifier + 1)
+                }
+
+                val modifierName = if (grow) Witchery.id("growth") else Witchery.id("shrink")
+                val modifier = AttributeModifier(
+                    modifierName,
+                    scaleModification.toDouble(),
+                    AttributeModifier.Operation.ADD_VALUE
+                )
+
+                scaleAttribute.addPermanentModifier(modifier)
             }
 
-            ScaleTypes.BASE.getScaleData(livingEntity).markForSync(true)
-            data.markForSync(true)
         }
-    }
-
-    private fun getGrowthScale(amplifier: Int): Float {
-        return (amplifier + 2).toFloat()
-    }
-
-    private fun getShrinkScale(amplifier: Int): Float {
-        return 1f / (2f * (amplifier + 1).toFloat())
     }
 
     override fun onRemovedEffect(livingEntity: LivingEntity) {
         if (!livingEntity.level().isClientSide) {
-            val data: ScaleData = if (grow) {
-                WitcheryPehkui.getGrowing().getScaleData(livingEntity)
-            } else {
-                WitcheryPehkui.getShrinking().getScaleData(livingEntity)
+            livingEntity.attributes.getInstance(Attributes.SCALE)?.let { scaleAttribute ->
+                scaleAttribute.modifiers.filter {
+                    it.id == Witchery.id("growth") || it.id == Witchery.id("shrink")
+                }.forEach {
+                    scaleAttribute.removeModifier(it)
+                }
             }
-            data.resetScale(true)
-            ScaleTypes.BASE.getScaleData(livingEntity).markForSync(true)
-            data.markForSync(true)
         }
     }
 }

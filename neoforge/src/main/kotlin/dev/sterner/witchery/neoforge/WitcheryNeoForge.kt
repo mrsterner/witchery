@@ -11,7 +11,6 @@ import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvent
 import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
 import dev.sterner.witchery.platform.neoforge.WitcheryFluidHandlerNeoForge
-import dev.sterner.witchery.platform.neoforge.WitcheryPehkuiImpl
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
 import dev.sterner.witchery.registry.WitcheryFlammability
@@ -42,9 +41,6 @@ import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
-import virtuoel.pehkui.api.ScaleData
-import virtuoel.pehkui.api.ScaleEventCallback
-
 
 @Mod(Witchery.MODID)
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
@@ -95,21 +91,7 @@ object WitcheryNeoForge {
     }
 
     private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
-        WitcheryPehkuiImpl.getGrowing().scaleChangedEvent.add(ScaleEventCallback { ev: ScaleData ->
-            val e: Entity? = ev.entity
-            val g: Boolean = e?.onGround() ?: false
-            e?.refreshDimensions()
-            e?.setOnGround(g)
-            WitcheryPehkuiImpl.getGrowing().getScaleData(e).markForSync(true)
-        })
 
-        WitcheryPehkuiImpl.getShrinking().scaleChangedEvent.add(ScaleEventCallback { ev: ScaleData ->
-            val e: Entity? = ev.entity
-            val g: Boolean = e?.onGround() ?: false
-            e?.refreshDimensions()
-            e?.setOnGround(g)
-            WitcheryPehkuiImpl.getShrinking().getScaleData(e).markForSync(true)
-        })
     }
 
     private fun onClientSetup(event: FMLClientSetupEvent) {

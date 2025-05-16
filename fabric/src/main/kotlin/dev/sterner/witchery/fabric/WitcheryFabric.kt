@@ -8,7 +8,6 @@ import dev.sterner.witchery.fabric.client.*
 import dev.sterner.witchery.fabric.registry.WitcheryCompostables
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
 import dev.sterner.witchery.fabric.registry.WitcheryOxidizables
-import dev.sterner.witchery.platform.WitcheryPehkui
 import dev.sterner.witchery.platform.fabric.WitcheryFluidHandlerFabric
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys

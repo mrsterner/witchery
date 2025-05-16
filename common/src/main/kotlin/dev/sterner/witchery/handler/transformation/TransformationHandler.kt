@@ -27,6 +27,8 @@ import kotlin.math.max
 
 object TransformationHandler {
 
+
+
     const val MAX_COOLDOWN = 20 * 10
     var bat: Bat? = null
     var wolf: Wolf? = null

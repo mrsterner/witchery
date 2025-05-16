@@ -63,7 +63,6 @@ import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.DeathQueueLevelAttachment
 import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.UnderWaterBreathPlayerAttachment
-import dev.sterner.witchery.platform.WitcheryPehkui
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.*
 import dev.sterner.witchery.registry.*
@@ -76,11 +75,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.blockentity.HangingSignRenderer
-import net.minecraft.client.renderer.blockentity.SignRenderer
-import net.minecraft.client.renderer.entity.BoatRenderer
-import net.minecraft.client.renderer.entity.NoopRenderer
-import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.BlockTags
 import org.slf4j.Logger
@@ -112,7 +106,6 @@ object Witchery {
         WitcheryRitualRegistry.register()
         WitcheryMobEffects.register()
         WitcherySpecialPotionEffects.register()
-        WitcheryPehkui.register()
         WitcheryFluids.FLUIDS.register()
         WitcheryFluids.register()
         WitcheryArmorMaterials.MATERIALS.register()
