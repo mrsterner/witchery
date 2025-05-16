@@ -3,6 +3,7 @@ package dev.sterner.witchery.integration.modonomicon
 import com.klikli_dev.modonomicon.book.page.BookPage
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
@@ -27,6 +28,9 @@ object WitcheryPageRendererRegistry {
     val RITUAL_RECIPE: ResourceLocation =
         ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "ritual_recipe")
 
+    val BRAZIER_RECIPE: ResourceLocation =
+        ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "brazier_recipe")
+
     fun register() {
         PageRendererRegistry.registerPageRenderer(
             CAULDRON_RECIPE
@@ -34,6 +38,15 @@ object WitcheryPageRendererRegistry {
             object :
                 BookCauldronCraftingRecipePageRenderer<CauldronCraftingRecipe>(
                     p as BookCauldronCraftingRecipePage
+                ) {
+            }
+        }
+        PageRendererRegistry.registerPageRenderer(
+            BRAZIER_RECIPE
+        ) { p: BookPage ->
+            object :
+                BookBrazierSummoningRecipePageRenderer<BrazierSummoningRecipe>(
+                    p as BookBrazierSummoningRecipePage
                 ) {
             }
         }

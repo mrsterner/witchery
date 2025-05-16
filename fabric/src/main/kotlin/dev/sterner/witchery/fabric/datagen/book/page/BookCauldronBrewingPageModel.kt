@@ -9,7 +9,5 @@ class BookCauldronBrewingPageModel : BookRecipePageModel<BookCauldronBrewingPage
         fun create(): BookCauldronBrewingPageModel {
             return BookCauldronBrewingPageModel()
         }
-
-
     }
 }

@@ -1,0 +1,53 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brazier",
+  "description": "book.witchery.guidebook.brazier.summon_banshee.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:condensed_fear"
+  },
+  "name": "book.witchery.guidebook.brazier.summon_banshee.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "brazier.summon_banshee.page.1",
+      "title": "brazier.summon_banshee.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:brazier_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:brazier_summoning/summon_banshee",
+      "text": "brazier.summon_banshee.title.1",
+      "title1": "brazier.summon_banshee",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "brazier/summon",
+      "line_enabled": true,
+      "line_reversed": false
+    },
+    {
+      "draw_arrow": true,
+      "entry": "brazier/summon",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 3,
+  "x": 2,
+  "y": 0
+}

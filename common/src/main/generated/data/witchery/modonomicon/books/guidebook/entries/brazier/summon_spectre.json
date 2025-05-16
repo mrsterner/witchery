@@ -1,0 +1,39 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brazier",
+  "description": "book.witchery.guidebook.brazier.summon_spectre.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:wool_of_bat"
+  },
+  "name": "book.witchery.guidebook.brazier.summon_spectre.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "brazier.summon_spectre.page.1",
+      "title": "brazier.summon_spectre.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:brazier_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:brazier_summoning/summon_spectre",
+      "text": "brazier.summon_spectre.title.1",
+      "title1": "brazier.summon_spectre",
+      "title2": ""
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 4,
+  "x": 2,
+  "y": 2
+}

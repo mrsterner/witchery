@@ -893,5 +893,39 @@ object WitcheryBookLangProvider {
 
         builder.add("potion_effect.witches_hat", "not yet implemented")
         builder.add("potion_effect.witches_hat.title.1", "Summon Leonard")
+
+
+        builder.add("book.witchery.guidebook.brazier.name", "Brazier")
+        builder.add("book.witchery.guidebook.brazier.brazier.name", "Brazier")
+        builder.add("book.witchery.guidebook.brazier.brazier.description", "Witches Incense")
+
+        builder.add("book.witchery.guidebook.brazier.potion.name", "Potion Incense")
+        builder.add("book.witchery.guidebook.brazier.potion.description", "Smells of power")
+
+        builder.add("book.witchery.guidebook.brazier.summon.name", "Summoning Incense")
+        builder.add("book.witchery.guidebook.brazier.summon.description", "Call of the dead")
+
+        builder.add("brazier.brazier.title.1", "The Brazier")
+        builder.add("brazier.brazier.page.1", "A Witches tool to burn ingredients with flint and steel, or a fire charge.")
+
+        builder.add("brazier.potion.title.1", "Potion Incense")
+        builder.add("brazier.potion.page.1", "Burning potions with wooden ash is an easy way to make the effect linger. Not as portable as a Lingering potion, but far easier to get.")
+
+        builder.add("brazier.summon.title.1", "Summoning Incense")
+        builder.add("brazier.summon.page.1", "Burning a set of specific ingredients, we can call the dead to later bind to an effigy for unique, and maybe deadly, effects.")
+
+
+        builder.add("book.witchery.guidebook.brazier.summon_spectre.name", "Summon Spectre")
+        builder.add("book.witchery.guidebook.brazier.summon_spectre.description", "Ghost")
+        builder.add("book.witchery.guidebook.brazier.summon_banshee.name", "Summon Banshee")
+        builder.add("book.witchery.guidebook.brazier.summon_banshee.description", "Ghost")
+
+        builder.add("brazier.summon_spectre.title.1", "Summon Spectre")
+        builder.add("brazier.summon_spectre.page.1", "Summon Spectre")
+        builder.add("brazier.summon_spectre", "Summon Spectre")
+
+        builder.add("brazier.summon_banshee.title.1", "Summon Banshee")
+        builder.add("brazier.summon_banshee.page.1", "Summon Banshee")
+        builder.add("brazier.summon_banshee", "Summon Banshee")
     }
 }

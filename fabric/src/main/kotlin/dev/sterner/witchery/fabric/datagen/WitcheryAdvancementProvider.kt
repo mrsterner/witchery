@@ -25,6 +25,7 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
         cauldronAdvancement.parent(root).save(consumer, "witchery:cauldron")
         mutandisAdvancement.parent(root).save(consumer, "witchery:mutandis")
         whiffOfMagicAdvancement.parent(root).save(consumer, "witchery:whiff_of_magic")
+        brazierAdvancement.parent(root).save(consumer, "witchery:brazier")
         val gypsum = gypsumAdvancement.parent(root).save(consumer, "witchery:gypsum")
         val ritual = chalkAdvancement.parent(gypsum).save(consumer, "witchery:chalk")
         necromantic.parent(ritual).save(consumer, "witchery:necromantic")
@@ -155,6 +156,23 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
             .addCriterion(
                 "has_whiff_of_magic",
                 InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.WHIFF_OF_MAGIC.get())
+            )
+
+        val brazierAdvancement = Advancement.Builder.advancement()
+            .display(
+                WitcheryItems.BRAZIER.get(),
+                Component.translatable("advancements.witchery.brazier.title"),
+                Component.translatable("advancements.witchery.brazier.description"),
+                Witchery.id("textures/block/rowan_planks.png"),
+                AdvancementType.TASK,
+                true,
+                false,
+                false
+            )
+            .requirements(AdvancementRequirements.Strategy.OR)
+            .addCriterion(
+                "has_brazier",
+                InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.BRAZIER.get())
             )
 
         val gypsumAdvancement = Advancement.Builder.advancement()

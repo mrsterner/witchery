@@ -4,21 +4,27 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
+import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.fabric.datagen.book.page.BookBrazierSummoningPageModel
+import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronBrewingPageModel
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
 
-class SingleItemEntryProvider(parent: CategoryProviderBase?, var id: String, var itemStack: ItemStack) : EntryProvider(parent) {
+class BrazierEntryProvider(val icon: Item, val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {
 
-    constructor(parent: CategoryProviderBase?, id: String, item: Item): this(parent, id, item.defaultInstance)
 
     override fun generatePages() {
         this.page(id) {
-            BookSpotlightPageModel.create()
-                .withItem(itemStack)
+            BookTextPageModel.create()
                 .withTitle("${parent.categoryId()}.$id.title.1")
                 .withText("${parent.categoryId()}.$id.page.1")
+        }
+
+        this.page("${parent.categoryId()}.${id}") {
+            BookBrazierSummoningPageModel.create().withText("${parent.categoryId()}.$id.title.1")
+                .withRecipeId1(Witchery.id("brazier_summoning/$id"))
+                .withTitle1("${parent.categoryId()}.${id}")
         }
     }
 
@@ -35,7 +41,7 @@ class SingleItemEntryProvider(parent: CategoryProviderBase?, var id: String, var
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(itemStack)
+        return BookIconModel.create(icon)
     }
 
     override fun entryId(): String {
