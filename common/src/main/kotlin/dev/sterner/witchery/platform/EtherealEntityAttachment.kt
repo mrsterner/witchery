@@ -42,17 +42,23 @@ object EtherealEntityAttachment {
     }
 
     class Data(var ownerUUID: UUID? = null, var canDropLoot: Boolean = true, var isEthereal: Boolean = false) {
-
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    Codecs.UUID.fieldOf("ownerUUID").forGetter { it.ownerUUID },
+                    Codecs.UUID.optionalFieldOf("ownerUUID").forGetter { Optional.ofNullable(it.ownerUUID) },
                     Codec.BOOL.fieldOf("canDropLoot").forGetter { it.canDropLoot },
                     Codec.BOOL.fieldOf("isEthereal").forGetter { it.isEthereal }
-                ).apply(instance, ::Data)
+                ).apply(instance) { ownerUUIDOptional, canDropLoot, isEthereal ->
+                    Data(
+                        ownerUUIDOptional.orElse(null),
+                        canDropLoot,
+                        isEthereal
+                    )
+                }
             }
 
             val ID: ResourceLocation = Witchery.id("ethereal")
         }
     }
+
 }
