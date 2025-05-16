@@ -1,7 +1,7 @@
 ### Version 0.3.3
 - Added potion burning in brazier
 - Added more book entries
-- 
+- Fix Ethereal serializer crash
 
 ### Version 0.3.2
 - Added brew of the grotesque
