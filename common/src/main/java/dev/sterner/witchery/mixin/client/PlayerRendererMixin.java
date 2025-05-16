@@ -132,18 +132,6 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         }
     }
 
-    @ModifyArg(method = "getRenderOffset(Lnet/minecraft/client/player/AbstractClientPlayer;F)Lnet/minecraft/world/phys/Vec3;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;<init>(DDD)V"), index = 1)
-    private double witchery$applyModelScaleToPlayerOffset(double d, @Local(argsOnly = true) AbstractClientPlayer playerEntity) {
-        if (TransformationHandler.isBat(playerEntity)) {
-            return 0.85f / 16;
-        }
-        if (TransformationHandler.isWolf(playerEntity)) {
-            return 0f;
-        }
-
-        return d;
-    }
-
     @Unique
     private void witchery$copyTransforms(Mob to, AbstractClientPlayer from) {
         to.tickCount = from.tickCount;

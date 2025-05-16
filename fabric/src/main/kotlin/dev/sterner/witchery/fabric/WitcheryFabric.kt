@@ -30,8 +30,6 @@ import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.levelgen.GenerationStep
-import virtuoel.pehkui.api.ScaleData
-import virtuoel.pehkui.api.ScaleEventCallback
 import java.io.IOException
 
 
@@ -53,22 +51,6 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryBlocks.HAWTHORN_WOOD.get(),
             WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get()
         )
-
-        WitcheryPehkui.getGrowing().scaleChangedEvent.register(ScaleEventCallback { ev: ScaleData ->
-            val e: Entity? = ev.entity
-            val g: Boolean = e?.onGround() ?: false
-            e?.refreshDimensions()
-            e?.setOnGround(g)
-            WitcheryPehkui.getGrowing().getScaleData(e).markForSync(true)
-        })
-
-        WitcheryPehkui.getShrinking().scaleChangedEvent.register(ScaleEventCallback { ev: ScaleData ->
-            val e: Entity? = ev.entity
-            val g: Boolean = e?.onGround() ?: false
-            e?.refreshDimensions()
-            e?.setOnGround(g)
-            WitcheryPehkui.getShrinking().getScaleData(e).markForSync(true)
-        })
 
         WitcheryFlammability.register()
         WitcheryOxidizables.register()

@@ -33,8 +33,6 @@ import java.util.List;
 public abstract class LivingEntityMixin extends Entity implements EntityChainInterface {
 
     @Unique
-    private boolean witchery$shouldUpdateDim = true;
-    @Unique
     private final List<Pair<ChainEntity, Boolean>> witchery$restrainingChains = new ArrayList<>();
     @Unique
     private boolean witchery$restrained = false;
@@ -61,35 +59,6 @@ public abstract class LivingEntityMixin extends Entity implements EntityChainInt
         LivingEntityMixinLogic.INSTANCE.modifyBaseTick(livingEntity);
         BloodPoolHandler.INSTANCE.tickBloodRegen(livingEntity);
         NecroHandler.INSTANCE.tickLiving(livingEntity);
-    }
-
-    @ModifyReturnValue(method = "getDimensions", at = @At("RETURN"))
-    private EntityDimensions witchery$modifyDimensions(EntityDimensions original) {
-        LivingEntity livingEntity = LivingEntity.class.cast(this);
-        if (livingEntity instanceof Player player && TransformationHandler.isBat(player)) {
-            return EntityDimensions.scalable(0.5f, 0.85f);
-        }
-        if (livingEntity instanceof Player player && TransformationHandler.isWolf(player)) {
-            return EntityDimensions.scalable(0.6F, 0.85F);
-        }
-        return original;
-    }
-
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getScale()F"))
-    private void witchery$modifyScale(CallbackInfo ci) {
-        LivingEntity livingEntity = LivingEntity.class.cast(this);
-        if (livingEntity instanceof Player player && (
-                TransformationHandler.isBat(player) ||
-                        TransformationHandler.isWolf(player) ||
-                        TransformationHandler.isWerewolf(player)
-        )) {
-            if (witchery$shouldUpdateDim) {
-                livingEntity.refreshDimensions();
-                witchery$shouldUpdateDim = false;
-            }
-        } else {
-            witchery$shouldUpdateDim = true;
-        }
     }
 
     @Inject(method = "onEffectRemoved", at = @At("HEAD"))

@@ -1,6 +1,8 @@
 package dev.sterner.witchery.handler.transformation
 
 import dev.architectury.event.events.common.TickEvent
+import dev.architectury.platform.Platform
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.DemonEntity
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.handler.ability.VampireAbility
@@ -20,6 +22,8 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.StructureTags
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
+import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
@@ -27,7 +31,7 @@ import kotlin.math.max
 
 object TransformationHandler {
 
-
+    var SMALL_SIZE = AttributeModifier(Witchery.id("small_transform"), -0.6, AttributeModifier.Operation.ADD_VALUE)
 
     const val MAX_COOLDOWN = 20 * 10
     var bat: Bat? = null
@@ -89,6 +93,7 @@ object TransformationHandler {
         if (player.level() is ServerLevel) {
             PlatformUtils.tryDisableBatFlight(player)
         }
+        player.attributes.getInstance(Attributes.SCALE)?.removeModifier(SMALL_SIZE)
         WitcheryPayloads.sendToPlayers(
             player.level(),
             player.blockPosition(),
@@ -101,6 +106,9 @@ object TransformationHandler {
         val data = getData(player)
         if (data.batFormCooldown <= 0) {
             VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).getVampireLevel(), true)
+            player.attributes.getInstance(Attributes.SCALE)?.removeModifier(SMALL_SIZE)
+            player.attributes.getInstance(Attributes.SCALE)?.addPermanentModifier(SMALL_SIZE)
+
             setData(player, Data(TransformationType.BAT, 0, 0))
         }
     }
@@ -108,6 +116,7 @@ object TransformationHandler {
     @JvmStatic
     fun setWolfForm(player: Player) {
         WerewolfLeveling.updateModifiers(player, wolf = true, wolfMan = false)
+        player.attributes.getInstance(Attributes.SCALE)?.addPermanentModifier(SMALL_SIZE)
         setData(player, Data(TransformationType.WOLF))
     }
 
@@ -150,7 +159,19 @@ object TransformationHandler {
 
                 if (isBat(player)) {
                     checkForVillage(player)
-                    PlatformUtils.tryEnableBatFlight(player)
+                    if (Platform.isNeoForge()) {
+                        if (player.onGround()) {
+                            if (player.abilities.flying) {
+                                player.abilities.flying = false
+                                player.onUpdateAbilities()
+                            }
+                        } else {
+                            PlatformUtils.tryEnableBatFlight(player)
+                        }
+
+                    } else {
+                        PlatformUtils.tryEnableBatFlight(player)
+                    }
 
                     increaseBatFormTimer(player)
 

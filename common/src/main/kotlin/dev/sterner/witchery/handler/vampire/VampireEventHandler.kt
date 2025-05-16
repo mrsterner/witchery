@@ -71,8 +71,8 @@ object VampireEventHandler {
     private const val RESPAWN_FOOD_LEVEL = 10
     private const val CAGE_DETECTION_RANGE = 2.0
     private const val MIN_CAGE_BARS = 24
-    private const val NIGHT_VISION_DURATION = 20 * 2
-    private const val SPEED_BOOST_DURATION = 20 * 2
+    private const val NIGHT_VISION_DURATION = 20 * 4
+    private const val SPEED_BOOST_DURATION = 20 * 4
 
     private val overlay = Witchery.id("textures/gui/ability_hotbar_selection.png")
     private val sun = Witchery.id("textures/gui/vampire_abilities/sun_")

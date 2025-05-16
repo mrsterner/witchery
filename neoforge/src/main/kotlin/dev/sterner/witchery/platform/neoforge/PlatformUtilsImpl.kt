@@ -123,11 +123,18 @@ object PlatformUtilsImpl {
     @JvmStatic
     fun tryEnableBatFlight(player: Player) {
         if (!player.isCreative && !player.isSpectator) {
-            player.abilities.flying = true
-            player.abilities.mayfly = true
-            player.onUpdateAbilities()
+            if (!player.onGround()) {
+                player.abilities.flying = true
+                player.abilities.mayfly = true
+                player.onUpdateAbilities()
+            } else {
+                player.abilities.mayfly = true
+                player.abilities.flying = false
+                player.onUpdateAbilities()
+            }
         }
     }
+
 
     @JvmStatic
     fun tryDisableBatFlight(player: Player) {
