@@ -1,3 +1,8 @@
+### Version 0.3.3
+- Added potion burning in brazier
+- Added more book entries
+- 
+
 ### Version 0.3.2
 - Added brew of the grotesque
 - Added missing potion effects to the witchery potion
