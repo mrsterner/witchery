@@ -7,6 +7,7 @@ import dev.architectury.event.events.client.ClientRawInputEvent
 import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.*
 import dev.architectury.networking.NetworkManager
+import dev.architectury.platform.Platform
 import dev.architectury.registry.client.gui.ClientTooltipComponentRegistry
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
@@ -53,6 +54,7 @@ import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.handler.vampire.VampireEventHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfAbilityHandler
 import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
+import dev.sterner.witchery.integration.jei.WitcheryJeiPlugin
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.item.TaglockItem
@@ -211,6 +213,10 @@ object Witchery {
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
             TransformationPlayerAttachment.sync(serverPlayer, TransformationPlayerAttachment.getData(serverPlayer))
             InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getPlayerInfusion(serverPlayer))
+        }
+
+        if (Platform.isModLoaded("jei")) {
+            WitcheryJeiPlugin.register()
         }
     }
 

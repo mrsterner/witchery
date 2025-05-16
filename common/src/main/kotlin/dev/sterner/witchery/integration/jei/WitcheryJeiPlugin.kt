@@ -88,6 +88,10 @@ class WitcheryJeiPlugin : IModPlugin {
     }
 
     companion object {
+        fun register() {
+
+        }
+
         val ID: ResourceLocation = Witchery.id("main")
 
         val RITUAL: RecipeType<RitualJeiRecipe> = RecipeType(Witchery.id("ritual"), RitualJeiRecipe::class.java)

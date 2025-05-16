@@ -68,8 +68,6 @@ object WitcheryNeoForge {
         WitcheryNeoForgeAttachmentRegistry.ATTACHMENT_TYPES.register(MOD_BUS)
         Witchery.init()
 
-        kotlin.jvm.internal.Reflection.typeOf(WitcheryJeiPlugin::class.java)
-
         DATA_SERIALIZER_REGISTER.register(MOD_BUS)
         MOB_EFFECTS.register(MOD_BUS)
         WitcheryAttributesImpl.attributes.register()
