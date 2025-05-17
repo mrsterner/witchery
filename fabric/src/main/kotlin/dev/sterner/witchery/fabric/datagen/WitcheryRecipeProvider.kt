@@ -1056,6 +1056,17 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_twine", has(WitcheryItems.TORMENTED_TWINE.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.CLAY_EFFIGY.get())
+            .pattern("WPW")
+            .pattern(" T ")
+            .pattern("WHW")
+            .define('T', WitcheryItems.TORMENTED_TWINE.get())
+            .define('P', Items.CARVED_PUMPKIN)
+            .define('H', WitcheryItems.ROWAN_LOG.get())
+            .define('W', ItemTags.TERRACOTTA)
+            .unlockedBy("has_twine", has(WitcheryItems.TORMENTED_TWINE.get()))
+            .save(exporter)
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.CANE_SWORD.get())
             .pattern(" WG")
             .pattern("WSW")

@@ -55,10 +55,10 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         val blockEntity = level.getBlockEntity(pos)
         if (blockEntity is EffigyBlockEntity) {
             if (!level.isClientSide) {
-                val bl = state.`is`(WitcheryBlocks.TRENT_EFFIGY.get())
+                val bl = state.`is`(WitcheryBlocks.CLAY_EFFIGY.get())
                 val bl2 = state.`is`(WitcheryBlocks.SCARECROW.get())
                 val itemStack = if (bl) {
-                    WitcheryItems.TRENT_EFFIGY.get().defaultInstance
+                    WitcheryItems.CLAY_EFFIGY.get().defaultInstance
                 } else if (bl2) {
                     WitcheryItems.SCARECROW.get().defaultInstance
                 } else {
@@ -80,7 +80,9 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
-        return box(4.0, 0.0, 4.0, 12.0, 16.0, 12.0)
+        val clay = box(6.0, 0.0, 6.0, 10.0, 14.0, 10.0)
+        val scarecrow = box(4.0, 0.0, 4.0, 12.0, 16.0, 12.0)
+        return if (state.`is`(WitcheryBlocks.CLAY_EFFIGY.get())) clay else scarecrow
     }
 
     companion object {

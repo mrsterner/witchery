@@ -10,10 +10,7 @@ import dev.architectury.networking.NetworkManager
 import dev.architectury.platform.Platform
 import dev.architectury.registry.client.gui.ClientTooltipComponentRegistry
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.architectury.registry.client.particle.ParticleProviderRegistry
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import dev.architectury.registry.item.ItemPropertiesRegistry
@@ -27,16 +24,9 @@ import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
-import dev.sterner.witchery.client.model.*
-import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
-import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
-import dev.sterner.witchery.client.model.poppet.VampiricPoppetModel
-import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.SneezeParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
-import dev.sterner.witchery.client.renderer.block.*
-import dev.sterner.witchery.client.renderer.entity.*
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
@@ -74,8 +64,6 @@ import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
-import net.minecraft.client.model.BoatModel
-import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.BlockTags
@@ -387,8 +375,9 @@ object Witchery {
             WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get(),
             WitcheryBlocks.BRAZIER.get(),
             WitcheryBlocks.WITCHS_LADDER.get(),
-            WitcheryBlocks.TRENT_EFFIGY.get(),
+            WitcheryBlocks.CLAY_EFFIGY.get(),
             WitcheryBlocks.SCARECROW.get(),
+            WitcheryBlocks.EFFIGY_COMPONENT.get(),
             WitcheryBlocks.CRITTER_SNARE.get(),
             WitcheryBlocks.SOUL_CAGE.get(),
             WitcheryBlocks.MUSHROOM_LOG.get()

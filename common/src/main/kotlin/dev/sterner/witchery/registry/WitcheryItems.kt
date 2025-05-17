@@ -20,8 +20,6 @@ import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.platform.BoatTypeHelper
 import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.registries.Registries
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.Mob
 import net.minecraft.world.food.Foods
 import net.minecraft.world.item.*
 import java.awt.Color
@@ -1210,8 +1208,8 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.SCARECROW.get(), Item.Properties(), EffigyBlock.STRUCTURE)
     }
 
-    val TRENT_EFFIGY: RegistrySupplier<MultiBlockItem> = register("trent_effigy") {
-        MultiBlockItem(WitcheryBlocks.TRENT_EFFIGY.get(), Item.Properties(), EffigyBlock.STRUCTURE)
+    val CLAY_EFFIGY: RegistrySupplier<BlockItem> = register("clay_effigy") {
+        BlockItem(WitcheryBlocks.CLAY_EFFIGY.get(), Item.Properties())
     }
 
     val MANDRAKE_SPAWN_EGG: RegistrySupplier<SpawnEggItem> = register("mandrake_spawn_egg") {

@@ -1151,16 +1151,15 @@ object WitcheryBlocks {
         )
     }
 
-    val TRENT_EFFIGY: RegistrySupplier<EffigyBlock> = register("trent_effigy") {
+    val CLAY_EFFIGY: RegistrySupplier<EffigyBlock> = register("clay_effigy") {
         EffigyBlock(
             BlockBehaviour.Properties.of()
-                .mapColor(MapColor.WOOD)
+                .mapColor(MapColor.CLAY)
                 .instrument(NoteBlockInstrument.BASS)
                 .strength(2.0f, 3.0f)
                 .sound(
                     SoundType.WOOD
                 )
-                .ignitedByLava()
                 .noOcclusion()
         )
     }

@@ -277,7 +277,7 @@ object WitcheryBlockEntityTypes {
     val EFFIGY = BLOCK_ENTITY_TYPES.register("effigy") {
         BlockEntityType.Builder.of(
             ::EffigyBlockEntity,
-            WitcheryBlocks.TRENT_EFFIGY.get(),
+            WitcheryBlocks.CLAY_EFFIGY.get(),
             WitcheryBlocks.SCARECROW.get(),
             WitcheryBlocks.WITCHS_LADDER.get()
         ).build(null)
