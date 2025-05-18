@@ -6,8 +6,6 @@ import dev.sterner.witchery.recipe.PendantDataComponentRecipe
 import dev.sterner.witchery.recipe.PotionDataComponentTransferRecipe
 import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipeBuilder
-import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipeBuilder
 import dev.sterner.witchery.registry.*
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
@@ -607,7 +605,7 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .define('I', Items.ITEM_FRAME)
             .define('A', WitcheryItems.ATTUNED_STONE.get())
             .define('W', ItemTags.WOOL)
-            .unlockedBy("has_moss", has(WitcheryItems.SPANISH_MOSS.get()))
+            .unlockedBy("has_attuned", has(WitcheryItems.ATTUNED_STONE.get()))
             .save(exporter)
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.POPPET.get())

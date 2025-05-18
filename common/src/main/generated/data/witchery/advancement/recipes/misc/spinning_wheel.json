@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_moss": {
+    "has_attuned": {
       "conditions": {
         "items": [
           {
-            "items": "witchery:spanish_moss"
+            "items": "witchery:attuned_stone"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_moss"
+      "has_attuned"
     ]
   ],
   "rewards": {

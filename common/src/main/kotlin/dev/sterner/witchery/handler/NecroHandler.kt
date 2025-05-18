@@ -110,9 +110,11 @@ object NecroHandler {
         }
 
         if (filteredList.size != data.necroList.size) {
-            data.necroList.clear()
-            data.necroList.addAll(filteredList)
-            NecromancerLevelAttachment.setData(serverLevel, data)
+            val mutable = data.necroList
+            mutable.clear()
+            mutable.addAll(filteredList)
+
+            NecromancerLevelAttachment.setData(serverLevel, data.copy(necroList = mutable))
         }
     }
 
