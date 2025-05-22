@@ -31,7 +31,7 @@ object NecromancerLevelAttachment {
                 instance.group(
                     Data.CODEC.listOf().fieldOf("global_pos").forGetter { it.necroList },
                 ).apply(instance) { globalPos ->
-                    NecroList(globalPos)
+                    NecroList(globalPos.toMutableList())
                 }
             }
         }
