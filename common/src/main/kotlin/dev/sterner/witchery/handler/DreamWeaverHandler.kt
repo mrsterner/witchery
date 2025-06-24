@@ -5,6 +5,7 @@ import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.block.Blocks
 
 object DreamWeaverHandler {
 
@@ -35,8 +36,10 @@ object DreamWeaverHandler {
             }
 
             for (pos in dreamWeaverPositions) {
-                val dreamWeaver = player.level().getBlockEntity(pos) as DreamWeaverBlockEntity
-                dreamWeaver.applyWakeUpEffect(player, corrupt)
+                val blockEntity = player.level().getBlockEntity(pos)
+                if (blockEntity is DreamWeaverBlockEntity) {
+                    blockEntity.applyWakeUpEffect(player, corrupt)
+                }
             }
         }
     }

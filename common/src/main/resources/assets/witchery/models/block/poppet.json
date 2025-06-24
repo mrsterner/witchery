@@ -1,0 +1,6 @@
+{
+	"parent": "builtin/entity",
+	"textures": {
+		"particle": "minecraft:block/hay_block_side"
+	}
+}

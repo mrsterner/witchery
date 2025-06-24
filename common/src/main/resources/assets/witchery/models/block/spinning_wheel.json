@@ -1,5 +1,6 @@
 {
+  "parent": "builtin/entity",
   "textures": {
-    "particle": "witchery:block/hawthorne_log"
+    "particle": "witchery:block/hawthorn_log"
   }
 }
