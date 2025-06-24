@@ -110,7 +110,7 @@ object NecroHandler {
         }
 
         if (filteredList.size != data.necroList.size) {
-            val mutable = data.necroList
+            val mutable = data.necroList.toMutableList()
             mutable.clear()
             mutable.addAll(filteredList)
 
