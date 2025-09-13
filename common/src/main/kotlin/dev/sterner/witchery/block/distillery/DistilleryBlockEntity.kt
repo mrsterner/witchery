@@ -165,21 +165,27 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val extraInputStack = items[SLOT_EXTRA_INPUT]
         val jarStack = items[SLOT_JAR]
 
-
-        if (ItemStack.isSameItemSameComponents(inputStack, inputItems[0]) && ItemStack.isSameItemSameComponents(
-                extraInputStack,
-                inputItems[1]
-            )
-        ) {
-            inputStack.shrink(inputItems[0].count)
-            extraInputStack.shrink(inputItems[1].count)
-        } else if (ItemStack.isSameItemSameComponents(inputStack, inputItems[1]) && ItemStack.isSameItemSameComponents(
-                extraInputStack,
-                inputItems[0]
-            )
-        ) {
-            inputStack.shrink(inputItems[1].count)
-            extraInputStack.shrink(inputItems[0].count)
+        if (inputItems.size == 1) {
+            val firstInput = inputItems[0]
+            if (ItemStack.isSameItemSameComponents(inputStack, firstInput)) {
+                inputStack.shrink(firstInput.count)
+            }
+        } else if (inputItems.size >= 2) {
+            if (ItemStack.isSameItemSameComponents(inputStack, inputItems[0]) && ItemStack.isSameItemSameComponents(
+                    extraInputStack,
+                    inputItems[1]
+                )
+            ) {
+                inputStack.shrink(inputItems[0].count)
+                extraInputStack.shrink(inputItems[1].count)
+            } else if (ItemStack.isSameItemSameComponents(inputStack, inputItems[1]) && ItemStack.isSameItemSameComponents(
+                    extraInputStack,
+                    inputItems[0]
+                )
+            ) {
+                inputStack.shrink(inputItems[1].count)
+                extraInputStack.shrink(inputItems[0].count)
+            }
         }
 
         jarStack.shrink(recipe.jarConsumption)
@@ -215,6 +221,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return true
     }
 
+
     private fun checkInputs(
         inputItems: List<ItemStack>,
         items: NonNullList<ItemStack>,
@@ -222,15 +229,24 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     ): Boolean {
 
         val jarStack = items[SLOT_JAR]
-        val firstInput = inputItems[0]
-        val secondInput = inputItems[1]
 
         if (jarStack.count < recipe.jarConsumption) {
             return false
         }
 
+        if (inputItems.isEmpty()) {
+            return false
+        }
+
+        val firstInput = inputItems[0]
         val inputStack = items[SLOT_INPUT]
         val extraInputStack = items[SLOT_EXTRA_INPUT]
+
+        if (inputItems.size == 1) {
+            return ItemStack.isSameItemSameComponents(inputStack, firstInput) && extraInputStack.isEmpty
+        }
+
+        val secondInput = inputItems[1]
         val inputsMatch = (
                 (ItemStack.isSameItemSameComponents(inputStack, firstInput) && ItemStack.isSameItemSameComponents(
                     extraInputStack,
