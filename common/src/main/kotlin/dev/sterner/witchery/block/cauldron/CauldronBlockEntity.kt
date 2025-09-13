@@ -78,22 +78,19 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         val allRecipesOfType = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())
         val nonEmptyItems = inputItems.filter { !it.isEmpty }
 
-        // Find the possible recipe based on current input items
         val possibleRecipe =
             allRecipesOfType.firstOrNull { it.value.matches(MultipleItemRecipeInput(nonEmptyItems), level) }
 
-        // If a recipe is found and the order is correct, set cauldronCraftingRecipe
         possibleRecipe?.let { recipe ->
             val isOrderCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
 
             if (isOrderCorrect) {
-                cauldronCraftingRecipe = recipe.value // Set the recipe even if incomplete
-                complete = nonEmptyItems.size == recipe.value.inputItems.size // Only complete if all items are matched
+                cauldronCraftingRecipe = recipe.value
+                complete = nonEmptyItems.size == recipe.value.inputItems.size
             } else {
                 refreshBrewingRecipe(level)
             }
         } ?: run {
-            // If no crafting recipe matches, try the brewing recipe
             refreshBrewingRecipe(level)
         }
 
@@ -113,23 +110,20 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
 
         val nonEmptyItems = inputItems.filter { !it.isEmpty }
-        // Find the possible recipe based on current input items
         val possibleRecipe =
             allRecipesOfType.firstOrNull { it.value.matches(MultipleItemRecipeInput(nonEmptyItems), level) }
 
-        // If a recipe is found and the order is correct, set cauldronBrewingRecipe
         possibleRecipe?.let { recipe ->
             val isOrderCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
 
             if (isOrderCorrect) {
-                cauldronBrewingRecipe = recipe.value // Set the recipe even if incomplete
-                complete = nonEmptyItems.size == recipe.value.inputItems.size // Only complete if all items are matched
+                cauldronBrewingRecipe = recipe.value
+                complete = nonEmptyItems.size == recipe.value.inputItems.size
             } else {
-                cauldronBrewingRecipe = null // Reset if the order is wrong
+                cauldronBrewingRecipe = null
                 complete = false
             }
         } ?: run {
-            // If no brewing recipe matches, reset to null and incomplete
             cauldronBrewingRecipe = null
             complete = false
         }
@@ -183,9 +177,8 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             )
         }
 
-        // Handle crafting progress and execution
         if (cauldronCraftingRecipe != null || cauldronBrewingRecipe != null) {
-            // Only start ticking when the recipe is complete
+
             if (complete) {
                 if (craftingProgressTicker < PROGRESS_TICKS) {
                     craftingProgressTicker++
@@ -238,21 +231,20 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             val item = entity.item
             val cacheForColorItem = item.copy()
 
-            // Handle Wood Ash - Reset potion and recipes
             if (item.`is`(WitcheryItems.WOOD_ASH.get())) {
                 fullReset()
                 WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPayload(pos, true))
                 item.shrink(1)
                 setChanged()
-            }
-            // Handle Nether Wart - Start potion brewing process
-            else if (item.`is`(Items.NETHER_WART) && cauldronCraftingRecipe == null && cauldronBrewingRecipe == null) {
+            } else if (item.`is`(Items.NETHER_WART) &&
+                cauldronCraftingRecipe == null &&
+                cauldronBrewingRecipe == null &&
+                inputItems.all { it.isEmpty }) {
                 PotionDataReloadListener.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
                 forceColor(item)
                 level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
                 item.shrink(1)
             } else {
-                // Handle other ingredients for potion brewing
                 if (witcheryPotionItemCache.isNotEmpty()) {
                     PotionDataReloadListener.getIngredientFromItem(item)?.let { it ->
                         if (hasEnoughAltarPower(level, it) && WitcheryPotionItem.tryAddItemToPotion(
@@ -287,13 +279,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                     }
 
                 } else {
-                    // Handle normal cauldron recipe behavior (crafting or brewing)
                     val firstEmpty = getFirstEmptyIndex()
                     if (firstEmpty != -1) {
                         setItem(firstEmpty, item.split(1))
                         level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
 
-                        // Refresh recipe to match current inputItems
                         refreshCraftingAndBrewingRecipe(level)
 
                         updateColor(level, cacheForColorItem)

@@ -218,7 +218,6 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                     continue
                 }
 
-
                 val effect = if (shouldInvertNext) {
                     shouldInvertNext = false
                     WitcheryMobEffects.invertEffect(potionContent.effect)
@@ -226,23 +225,27 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                     potionContent.effect
                 }
 
-                val duration =
+                val baseDuration =
                     (potionContent.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
                 val amplifier = globalModifier.powerAddition
 
                 if (effect != WitcheryMobEffects.EMPTY) {
-                    entity.addEffect(MobEffectInstance(effect, duration, amplifier))
+                    val isInstantEffect = effect.value().isInstantenous
+                    val finalDuration = if (isInstantEffect) 0 else baseDuration
+
+                    entity.addEffect(MobEffectInstance(effect, finalDuration, amplifier))
                 }
 
                 if (potionContent.specialEffect.isPresent) {
                     val special = WitcherySpecialPotionEffects.SPECIALS.get(potionContent.specialEffect.get())
-                    special?.onDrunk(level, entity, duration, amplifier)
+                    special?.onDrunk(level, entity, baseDuration, amplifier)
                 }
             }
         }
 
         return stack
     }
+
 
     companion object {
 
