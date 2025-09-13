@@ -695,6 +695,11 @@ object WitcheryBookLangProvider {
                     "Require Two Mutandis, One Tongue of Dog, one Charged Attuned Stone and one Critter Snare with a Silverfish. Water and Lily pads."
         )
 
+        builder.add("book.witchery.guidebook.general.mushroom_log.name", "Mushroom Log")
+        builder.add("general.mushroom_log.title.1", "Mushroom Log")
+        builder.add("book.witchery.guidebook.general.mushroom_log.description", "Way to farm mushrooms")
+        builder.add("general.mushroom_log.page.1", "With a Moss block, two dark oak logs placed on the ground and a mushroom in your off-hand, create a way to easily farm any mushroom!")
+
         builder.add("book.witchery.guidebook.general.grassper.name", "Grassper")
         builder.add("book.witchery.guidebook.general.grassper.description", "Organic item pedestal")
         builder.add("general.grassper.title.1", "Grassper")

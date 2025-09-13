@@ -95,21 +95,19 @@ object EntryProviders {
     fun textWithImage(
         parent: CategoryProviderBase?,
         id: String,
-        icon: Item,
-        imagePath: String
-    ) = textWithImage(parent, id, ItemStack(icon), imagePath)
+        icon: Item
+    ) = textWithImage(parent, id, ItemStack(icon))
 
 
     fun textWithImage(
         parent: CategoryProviderBase?,
         id: String,
-        icon: ItemStack,
-        imagePath: String
+        icon: ItemStack
     ) = parent.entry {
         id(id)
         icon(icon)
         textPage()
-        imagePage("${id}_image", imagePath)
+        imagePage("${id}_image", "textures/gui/modonomicon/images/${id}.png")
     }
 
     fun spotlightWithCauldronRecipes(
@@ -117,8 +115,7 @@ object EntryProviders {
         id: String,
         icon: Item,
         vararg recipeIds: String
-    ) =
-        spotlightWithCauldronRecipes(parent, id, ItemStack(icon), *recipeIds)
+    ) = spotlightWithCauldronRecipes(parent, id, ItemStack(icon), *recipeIds)
 
 
     fun spotlightWithCauldronRecipes(

@@ -47,7 +47,7 @@ object WerewolfPlayerAttachment {
         val abilityIndex: Int = -1,
         val isWolfManFormActive: Boolean = false,
         val isWolfFormActive: Boolean = false,
-
+        val abilityCooldowns: MutableMap<String, Int> = mutableMapOf()
         ) {
 
         fun getWerewolfLevel(): Int = werewolfLevel
@@ -69,6 +69,7 @@ object WerewolfPlayerAttachment {
                     Codec.INT.fieldOf("abilityIndex").forGetter { it.abilityIndex },
                     Codec.BOOL.fieldOf("isWolfManFormActive").forGetter { it.isWolfManFormActive },
                     Codec.BOOL.fieldOf("isWolfFormActive").forGetter { it.isWolfFormActive },
+                    Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("abilityCooldowns").forGetter { it.abilityCooldowns }
                 ).apply(instance, ::Data)
             }
 

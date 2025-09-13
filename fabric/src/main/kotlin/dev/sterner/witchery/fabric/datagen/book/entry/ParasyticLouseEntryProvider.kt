@@ -29,7 +29,7 @@ class ParasyticLouseEntryProvider(parent: CategoryProviderBase?) : EntryProvider
         }
         this.page("parasitic_louse_image") {
             BookImagePageModel.create()
-                .withImages(Witchery.id("textures/gui/modonomicon/images/parasitic_louse_image.png"))
+                .withImages(Witchery.id("textures/gui/modonomicon/images/parasitic_louse.png"))
         }
     }
 

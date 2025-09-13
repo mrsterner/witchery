@@ -110,7 +110,7 @@ object VampireLeveling {
     }
 
     /**
-     * Checks if the vampire-player is the correct level and have the right amount tof Torn pages to exercise the quest
+     * Checks if the vampire-player is the correct level and have the right amount of Torn pages to exercise the quest
      */
     fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = getData(player)

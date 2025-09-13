@@ -62,5 +62,6 @@
     "texture": "witchery:textures/gui/modonomicon/top.png",
     "texture_height": 256,
     "texture_width": 256
-  }
+  },
+  "turn_page_sound": "modonomicon:turn_page"
 }

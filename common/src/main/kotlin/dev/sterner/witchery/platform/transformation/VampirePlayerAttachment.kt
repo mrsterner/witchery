@@ -45,7 +45,8 @@ object VampirePlayerAttachment {
         val isNightVisionActive: Boolean = false,
         val isSpeedBoostActive: Boolean = false,
         val isBatFormActive: Boolean = false,
-        val maxInSunTickClient: Int = 0
+        val maxInSunTickClient: Int = 0,
+        val abilityCooldowns: MutableMap<String, Int> = mutableMapOf()
     ) {
 
         fun getVampireLevel(): Int = vampireLevel
@@ -66,6 +67,7 @@ object VampirePlayerAttachment {
                     Codec.BOOL.fieldOf("isSpeedBoostActive").forGetter { it.isSpeedBoostActive },
                     Codec.BOOL.fieldOf("isBatFormActive").forGetter { it.isBatFormActive },
                     Codec.INT.fieldOf("maxInSunTickClient").forGetter { it.maxInSunTickClient },
+                    Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("abilityCooldowns").forGetter { it.abilityCooldowns }
                 ).apply(instance, ::Data)
             }
 

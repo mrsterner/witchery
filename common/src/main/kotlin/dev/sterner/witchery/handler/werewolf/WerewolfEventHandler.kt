@@ -8,6 +8,7 @@ import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.HornedHuntsmanEntity
 import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.handler.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.ability.WerewolfAbility
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.payload.WerewolfAbilityUseC2SPayload
@@ -16,9 +17,11 @@ import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.util.Mth
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
@@ -135,6 +138,11 @@ object WerewolfEventHandler {
 
     private fun tick(player: Player) {
         if (!player.level().isClientSide) {
+
+            if (WerewolfPlayerAttachment.getData(player).getWerewolfLevel() > 0) {
+                AbilityCooldownManager.tickWerewolfCooldowns(player)
+            }
+
             if (player.level().gameTime % 20 == 0L) {
                 val wereData = WerewolfPlayerAttachment.getData(player)
 
@@ -186,23 +194,36 @@ object WerewolfEventHandler {
     }
 
     fun parseAbilityFromIndex(player: Player, abilityIndex: Int): Boolean {
-        if (abilityIndex == WerewolfAbility.FREE_WOLF_TRANSFORM.ordinal) {
-            val isWolf = TransformationHandler.isWolf(player)
-            if (isWolf) {
-                TransformationHandler.removeForm(player)
-            } else {
-                TransformationHandler.setWolfForm(player)
-            }
-            return true
+        val abilities = WerewolfAbilityHandler.getAbilities(player)
+        if (abilityIndex < 0 || abilityIndex >= abilities.size) return false
+
+        val ability = abilities[abilityIndex]
+
+        if (AbilityCooldownManager.isWerewolfAbilityOnCooldown(player, ability)) {
+            return false // Don't execute if on cooldown
         }
-        if (abilityIndex == WerewolfAbility.FREE_WEREWOLF_TRANSITION.ordinal) {
-            val isWerewolf = TransformationHandler.isWerewolf(player)
-            if (isWerewolf) {
-                TransformationHandler.removeForm(player)
-            } else {
-                TransformationHandler.setWereWolfForm(player)
+
+        when (abilityIndex) {
+            WerewolfAbility.FREE_WOLF_TRANSFORM.ordinal -> {
+                val isWolf = TransformationHandler.isWolf(player)
+                if (isWolf) {
+                    TransformationHandler.removeForm(player)
+                } else {
+                    TransformationHandler.setWolfForm(player)
+                    AbilityCooldownManager.startWerewolfCooldown(player, ability)
+                }
+                return true
             }
-            return true
+            WerewolfAbility.FREE_WEREWOLF_TRANSITION.ordinal -> {
+                val isWerewolf = TransformationHandler.isWerewolf(player)
+                if (isWerewolf) {
+                    TransformationHandler.removeForm(player)
+                } else {
+                    TransformationHandler.setWereWolfForm(player)
+                    AbilityCooldownManager.startWerewolfCooldown(player, ability)
+                }
+                return true
+            }
         }
         return false
     }
@@ -212,27 +233,20 @@ object WerewolfEventHandler {
         val player = client.player ?: return
 
         val isNotWere = WerewolfPlayerAttachment.getData(player).getWerewolfLevel() <= 0
-
-        if (isNotWere) {
-            return
-        }
+        if (isNotWere) return
 
         val abilityIndex = WerewolfPlayerAttachment.getData(player).abilityIndex
-        val size = WerewolfAbilityHandler.getAbilities(player)
+        val abilities = WerewolfAbilityHandler.getAbilities(player)
 
         val hasOffhand = !player.offhandItem.isEmpty
-
         val y = guiGraphics.guiHeight() - 18 - 5
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - if (hasOffhand) 32 else 0
 
         val bl2 = client.gameMode!!.canHurtPlayer()
-        if (!bl2) {
-            return
-        }
+        if (!bl2) return
 
-        for (i in size.indices) {
-            val name = size[i].id
-
+        for (i in abilities.indices) {
+            val name = abilities[i].id
             val iconX = x - (25 * i) + 4
             val iconY = y + 4
 
@@ -243,10 +257,30 @@ object WerewolfEventHandler {
                 0f, 0f, 16, 16,
                 16, 16
             )
+
+            val cooldown = AbilityCooldownManager.getWerewolfCooldown(player, abilities[i])
+            if (cooldown > 0) {
+                drawCooldownOverlay(guiGraphics, iconX, iconY, cooldown, abilities[i].cooldown)
+            }
         }
 
         if (abilityIndex != -1) {
             guiGraphics.blit(overlay, x - (25 * abilityIndex), y, 24, 23, 0f, 0f, 24, 23, 24, 23)
         }
+    }
+
+    private fun drawCooldownOverlay(guiGraphics: GuiGraphics, iconX: Int, iconY: Int, currentCooldown: Int, maxCooldown: Int) {
+        val cooldownPercent = currentCooldown.toFloat() / maxCooldown.toFloat()
+        val fillStart = iconY + Mth.floor(16f * (1.0f - cooldownPercent))
+        val fillEnd = fillStart + Mth.ceil(16f * cooldownPercent)
+
+        guiGraphics.fill(
+            RenderType.guiOverlay(),
+            iconX,
+            fillStart,
+            iconX + 16,
+            fillEnd,
+            0xAA000000.toInt()
+        )
     }
 }

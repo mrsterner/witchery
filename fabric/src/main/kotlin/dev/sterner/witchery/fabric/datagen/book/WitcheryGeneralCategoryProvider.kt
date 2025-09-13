@@ -12,6 +12,7 @@ import dev.sterner.witchery.fabric.datagen.book.util.EntryProviders
 import dev.sterner.witchery.fabric.datagen.book.util.alsoFollows
 import dev.sterner.witchery.fabric.datagen.book.util.requiresAndFollows
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.world.item.Items
 
 
 class WitcheryGeneralCategoryProvider(
@@ -31,7 +32,7 @@ class WitcheryGeneralCategoryProvider(
             "________________c_m_y_s__z________",
             "___________________w____g_________",
             "_____________________e_u__________",
-            "________________b__o______________",
+            "____________a___b__o______________",
             "__________________x_h_____________",
             "________________d_________________",
             "__________________________________",
@@ -52,6 +53,14 @@ class WitcheryGeneralCategoryProvider(
 
         val beginning = EntryProviders.single(this, "beginning", WitcheryItems.GUIDEBOOK.get()).generate("b")
         addEntry(beginning)
+
+        val mushroomLog = EntryProviders.textWithImage(
+            this,
+            "mushroom_log",
+            Items.RED_MUSHROOM
+        ).generate("a")
+            .requiresAndFollows(beginning)
+        addEntry(mushroomLog)
 
         val oven = OvenEntryProvider(this).generate("o")
             .requiresAndFollows(beginning)
@@ -92,8 +101,7 @@ class WitcheryGeneralCategoryProvider(
         val grassper = EntryProviders.textWithImage(
             this,
             "grassper",
-            WitcheryItems.GRASSPER.get(),
-            "textures/gui/modonomicon/images/grassper_image.png"
+            WitcheryItems.GRASSPER.get()
         ).generate("g")
             .requiresAndFollows(spring)
         addEntry(grassper)
@@ -101,8 +109,7 @@ class WitcheryGeneralCategoryProvider(
         val critter = EntryProviders.textWithImage(
             this,
             "critter_snare",
-            WitcheryItems.CRITTER_SNARE.get(),
-            "textures/gui/modonomicon/images/critter_snare_image.png"
+            WitcheryItems.CRITTER_SNARE.get()
         ).generate("z")
             .requiresAndFollows(spring)
         addEntry(critter)
@@ -115,7 +122,7 @@ class WitcheryGeneralCategoryProvider(
             .requiresAndFollows(spring)
         addEntry(owl)
 
-        val wormwood = WormwoodEntryProvider(this).generate("v")
+        val wormwood = EntryProviders.textWithImage(this, "wormwood", WitcheryItems.WORMWOOD.get()).generate("v")
             .requiresAndFollows(spring)
         addEntry(wormwood)
 

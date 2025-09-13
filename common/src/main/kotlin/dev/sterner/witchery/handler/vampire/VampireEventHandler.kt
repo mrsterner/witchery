@@ -14,6 +14,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data.BloodPoolReloadListener
 import dev.sterner.witchery.handler.BloodPoolHandler
+import dev.sterner.witchery.handler.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.ability.VampireAbility
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
@@ -123,6 +124,7 @@ object VampireEventHandler {
 
         if (player.isAlive) {
             vampireTick(player, vampData)
+            AbilityCooldownManager.tickVampireCooldowns(player)
         }
     }
 
@@ -447,9 +449,8 @@ object VampireEventHandler {
      */
     private fun drawAbilityBar(guiGraphics: GuiGraphics, player: Player, x: Int, y: Int) {
         val abilityIndex = getData(player).abilityIndex
-        val abilities = VampireAbilityHandler.getAbilities(player)
+        val abilities: List<VampireAbility> = VampireAbilityHandler.getAbilities(player)
         val isShiftDown = player.isShiftKeyDown
-        val batCooldown = TransformationPlayerAttachment.getData(player).batFormCooldown
 
         for (i in abilities.indices) {
             var name = abilities[i].id
@@ -468,8 +469,10 @@ object VampireEventHandler {
                 16, 16
             )
 
-            if (abilities[i] == VampireAbility.BAT_FORM && batCooldown > 0) {
-                drawCooldownOverlay(guiGraphics, iconX, iconY, batCooldown)
+            // NEW: Draw cooldown overlay for each ability
+            val cooldown = AbilityCooldownManager.getVampireCooldown(player, abilities[i])
+            if (cooldown > 0) {
+                drawCooldownOverlay(guiGraphics, iconX, iconY, cooldown, abilities[i].cooldown)
             }
         }
 
@@ -481,8 +484,8 @@ object VampireEventHandler {
     /**
      * Draws cooldown overlay for abilities
      */
-    private fun drawCooldownOverlay(guiGraphics: GuiGraphics, iconX: Int, iconY: Int, cooldown: Int) {
-        val cooldownPercent = cooldown.toFloat() / TransformationHandler.MAX_COOLDOWN
+    private fun drawCooldownOverlay(guiGraphics: GuiGraphics, iconX: Int, iconY: Int, currentCooldown: Int, maxCooldown: Int) {
+        val cooldownPercent = currentCooldown.toFloat() / maxCooldown.toFloat()
         val fillStart = iconY + Mth.floor(16f * (1.0f - cooldownPercent))
         val fillEnd = fillStart + Mth.ceil(16f * cooldownPercent)
 
@@ -610,15 +613,25 @@ object VampireEventHandler {
      * Parses and activates abilities based on index
      */
     fun parseAbilityFromIndex(player: Player, abilityIndex: Int): Boolean {
-        return when {
+        val abilities = VampireAbilityHandler.getAbilities(player)
+        if (abilityIndex < 0 || abilityIndex >= abilities.size) return false
 
+        val ability = abilities[abilityIndex]
+
+        if (AbilityCooldownManager.isVampireAbilityOnCooldown(player, ability)) {
+            return false
+        }
+
+        return when {
             abilityIndex == VampireAbility.TRANSFIX.ordinal && player.isShiftKeyDown -> {
                 VampireAbilityHandler.toggleNightVision(player)
+                AbilityCooldownManager.startVampireCooldown(player, VampireAbility.TRANSFIX)
                 true
             }
 
             abilityIndex == VampireAbility.SPEED.ordinal -> {
                 VampireAbilityHandler.toggleSpeedBoost(player)
+                AbilityCooldownManager.startVampireCooldown(player, VampireAbility.SPEED)
                 true
             }
 
@@ -628,6 +641,7 @@ object VampireEventHandler {
                     TransformationHandler.removeForm(player)
                 } else {
                     TransformationHandler.setBatForm(player)
+                    AbilityCooldownManager.startVampireCooldown(player, VampireAbility.BAT_FORM)
                 }
                 true
             }

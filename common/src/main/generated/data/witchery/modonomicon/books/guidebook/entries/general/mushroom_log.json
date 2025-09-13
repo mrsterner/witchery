@@ -7,16 +7,16 @@
     "children": [
       {
         "type": "modonomicon:entry_read",
-        "entry_id": "general/mutating_spring"
+        "entry_id": "general/beginning"
       }
     ]
   },
-  "description": "book.witchery.guidebook.general.wormwood.description",
+  "description": "book.witchery.guidebook.general.mushroom_log.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:wormwood"
+    "item": "minecraft:red_mushroom"
   },
-  "name": "book.witchery.guidebook.general.wormwood.name",
+  "name": "book.witchery.guidebook.general.mushroom_log.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "general.wormwood.page.1",
-      "title": "general.wormwood.title.1",
+      "text": "general.mushroom_log.page.1",
+      "title": "general.mushroom_log.title.1",
       "use_markdown_in_title": false
     },
     {
@@ -37,7 +37,7 @@
         "type": "modonomicon:none"
       },
       "images": [
-        "witchery:textures/gui/modonomicon/images/wormwood.png"
+        "witchery:textures/gui/modonomicon/images/mushroom_log.png"
       ],
       "text": "",
       "title": "",
@@ -47,13 +47,13 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "general/mutating_spring",
+      "entry": "general/beginning",
       "line_enabled": true,
       "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 11,
-  "x": 7,
-  "y": -4
+  "sort_number": 1,
+  "x": -5,
+  "y": 0
 }

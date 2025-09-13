@@ -37,7 +37,6 @@ object TransformationPlayerAttachment {
 
     data class Data(
         val transformationType: TransformationType = TransformationType.NONE,
-        val batFormCooldown: Int = 0,
         val batFormTicker: Int = 0,
         val maxBatTimeClient: Int = 0,
     ) {
@@ -47,7 +46,6 @@ object TransformationPlayerAttachment {
                 instance.group(
                     TransformationType.TRANSFORMATION_CODEC.fieldOf("transformationType")
                         .forGetter { it.transformationType },
-                    Codec.INT.fieldOf("batFormCooldown").forGetter { it.batFormCooldown },
                     Codec.INT.fieldOf("batFormTicker").forGetter { it.batFormTicker },
                     Codec.INT.fieldOf("maxBatTimeClient").forGetter { it.maxBatTimeClient },
 

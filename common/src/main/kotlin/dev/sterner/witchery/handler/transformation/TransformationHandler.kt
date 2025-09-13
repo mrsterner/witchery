@@ -103,14 +103,11 @@ object TransformationHandler {
 
     @JvmStatic
     fun setBatForm(player: Player) {
-        val data = getData(player)
-        if (data.batFormCooldown <= 0) {
-            VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).getVampireLevel(), true)
-            player.attributes.getInstance(Attributes.SCALE)?.removeModifier(SMALL_SIZE)
-            player.attributes.getInstance(Attributes.SCALE)?.addPermanentModifier(SMALL_SIZE)
+        VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).getVampireLevel(), true)
+        player.attributes.getInstance(Attributes.SCALE)?.removeModifier(SMALL_SIZE)
+        player.attributes.getInstance(Attributes.SCALE)?.addPermanentModifier(SMALL_SIZE)
 
-            setData(player, Data(TransformationType.BAT, 0, 0))
-        }
+        setData(player, Data(TransformationType.BAT, 0, 0))
     }
 
     @JvmStatic
@@ -132,14 +129,6 @@ object TransformationHandler {
         setData(player, data.copy(batFormTicker = data.batFormTicker + 1))
     }
 
-    @JvmStatic
-    fun decreaseBatFormCooldown(player: Player) {
-        val data = getData(player)
-        if (data.batFormCooldown > 0) {
-            setData(player, data.copy(batFormCooldown = max(data.batFormCooldown - 1, 0)))
-        }
-    }
-
     fun tickWolf(player: Player) {
         if (player.level() is ServerLevel) {
 
@@ -154,8 +143,6 @@ object TransformationHandler {
 
         if (VampirePlayerAttachment.getData(player).getVampireLevel() >= VampireAbility.BAT_FORM.unlockLevel) {
             if (player.level() is ServerLevel) {
-
-                decreaseBatFormCooldown(player)
 
                 if (isBat(player)) {
                     checkForVillage(player)
@@ -175,8 +162,8 @@ object TransformationHandler {
 
                     increaseBatFormTimer(player)
 
-                    var maxBatTime =
-                        (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
+                    var maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
+
                     maxBatTime += if (VampirePlayerAttachment.getData(player).getVampireLevel() >= 9) 60 * 20 else 0
                     val data = getData(player)
                     setData(player, data.copy(maxBatTimeClient = maxBatTime))

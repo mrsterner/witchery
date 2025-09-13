@@ -5,6 +5,7 @@ import net.minecraft.world.entity.player.Player
 
 
 class AbilityScrollHandler {
+
     fun <T : Enum<T>> handleScroll(
         player: Player,
         y: Double,

@@ -51,7 +51,7 @@
         "type": "modonomicon:none"
       },
       "images": [
-        "witchery:textures/gui/modonomicon/images/parasitic_louse_image.png"
+        "witchery:textures/gui/modonomicon/images/parasitic_louse.png"
       ],
       "text": "",
       "title": "",
@@ -67,7 +67,7 @@
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 8,
+  "sort_number": 9,
   "x": 5,
   "y": -5
 }
