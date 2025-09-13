@@ -3,8 +3,17 @@
   "background_v_index": 0,
   "category": "vampirism",
   "condition": {
-    "type": "modonomicon:advancement",
-    "advancement_id": "witchery:vampire/5"
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "vampirism/vamp_4"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:vampire/5"
+      }
+    ]
   },
   "description": "book.witchery.guidebook.vampirism.vamp_5.description",
   "hide_while_locked": false,

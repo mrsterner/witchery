@@ -729,13 +729,13 @@ object WitcheryBookLangProvider {
         builder.add("book.witchery.guidebook.brewing.beginning_potions.name", "Custom Potions")
         builder.add("book.witchery.guidebook.brewing.beginning_potions.description", "For when you want more effects")
         builder.add("brewing.beginning_potions.title.1", "Custom Potions")
-        builder.add("brewing.beginning_potions.title.2", "")
+        builder.add("brewing.beginning_potions_2.title.2", "")
         builder.add(
             "brewing.beginning_potions.page.1",
             "Custom potions are made in a lit Cauldron access to an Altar with sufficient power depending on the resources used. The first ingredient must be a Nether Wart. Other than Altar Power, Potions require Capacity to increase the amount of ingredients the potion can hold."
         )
         builder.add(
-            "brewing.beginning_potions.page.2",
+            "brewing.beginning_potions_2.page.2",
             "Stronger ingredients require more altar power to successfully mix."
         )
 
@@ -748,7 +748,7 @@ object WitcheryBookLangProvider {
         )
 
         builder.add("book.witchery.guidebook.brewing.potion_effect.name", "Potion Effect")
-        builder.add("book.witchery.guidebook.brewing.potion_effect.description", "More room for more fun")
+        builder.add("book.witchery.guidebook.brewing.potion_effect.description", "More fun")
         builder.add("brewing.potion_effect.title.1", "Potion Effect")
         builder.add(
             "brewing.potion_effect.page.1",
@@ -756,6 +756,7 @@ object WitcheryBookLangProvider {
         )
 
         builder.add("book.witchery.guidebook.brewing.potion_effect_type.title.1", "Effect Type")
+        builder.add("book.witchery.guidebook.brewing.potion_effect_type.description", "Slurp it throw it bathe it")
         builder.add("brewing.potion_effect_type.title.1", "Effect Type")
         builder.add("brewing.potion_effect_type.page.1", "Modifies the behaviour of potions")
 

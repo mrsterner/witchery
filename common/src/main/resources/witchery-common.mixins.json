@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
+    "BookParentNodeScreenMixin",
     "client.GuiMixin",
     "client.HumanoidModelMixin",
     "client.ItemRendererMixin",
@@ -43,7 +44,6 @@
     "StructureStartMixin",
     "TargetGoalMixin",
     "TargetingConditionsMixin",
-    "VillagerHostileSensorMixin",
     "VillagerHostileSensorMixin",
     "VillagerMixin",
     "WalkAnimationStateAccessor",

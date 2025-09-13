@@ -11,8 +11,11 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionMod
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadConditionModel
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.book.entry.BrewEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.SingleItemEntryProvider
+import dev.sterner.witchery.fabric.datagen.book.util.EntryProviders
+import dev.sterner.witchery.fabric.datagen.book.util.advancement
+import dev.sterner.witchery.fabric.datagen.book.util.requiresAndFollows
 import dev.sterner.witchery.registry.WitcheryItems
+import net.minecraft.advancements.Advancement.Builder.advancement
 
 
 class WitcherySpiritWorldCategoryProvider(
@@ -53,105 +56,57 @@ class WitcherySpiritWorldCategoryProvider(
         }
 
         val disturbedCotton =
-            SingleItemEntryProvider(this, "disturbed_cotton", WitcheryItems.DISTURBED_COTTON.get()).generate("a")
-        disturbedCotton
-            .withCondition(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("spirit_world"))
-            )
-
+            EntryProviders.singleItem(this, "disturbed_cotton", WitcheryItems.DISTURBED_COTTON.get()).generate("a")
+                .withCondition(advancement(Witchery.id("spirit_world")))
         addEntry(disturbedCotton)
 
-        val hunger = SingleItemEntryProvider(this, "hunger", WitcheryItems.MELLIFLUOUS_HUNGER.get()).generate("b")
-        hunger
-            .withCondition(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("spirit_world"))
-            )
+        val hunger = EntryProviders.singleItem(this, "hunger", WitcheryItems.MELLIFLUOUS_HUNGER.get()).generate("b")
+            .withCondition(advancement(Witchery.id("spirit_world")))
         addEntry(hunger)
 
-        val wispyCotton = SingleItemEntryProvider(this, "wispy_cotton", WitcheryItems.WISPY_COTTON.get()).generate("c")
-        wispyCotton.withCondition(
-            BookAndConditionModel.create().withChildren(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("disturbed")),
-                BookEntryReadConditionModel.create()
-                    .withEntry(disturbedCotton.id)
-            )
-        )
-            .addParent(BookEntryParentModel.create(disturbedCotton.id).withDrawArrow(true))
+        val wispyCotton = EntryProviders.singleItem(this, "wispy_cotton", WitcheryItems.WISPY_COTTON.get()).generate("c")
+            .requiresAndFollows(disturbedCotton, advancement(Witchery.id("disturbed")))
 
         addEntry(wispyCotton)
 
-        val dreamWeaverNightmare = SingleItemEntryProvider(
+        val dreamWeaverNightmare = EntryProviders.singleItem(
             this,
             "dream_weaver_of_nightmares",
             WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get()
         ).generate("n")
-        dreamWeaverNightmare.withCondition(
-            BookAndConditionModel.create().withChildren(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("disturbed")),
-                BookEntryReadConditionModel.create()
-                    .withEntry(disturbedCotton.id)
-            )
-        )
-            .addParent(BookEntryParentModel.create(disturbedCotton.id).withDrawArrow(true))
+            .requiresAndFollows(disturbedCotton, advancement(Witchery.id("disturbed")))
 
         addEntry(dreamWeaverNightmare)
 
-        val dreamWeaverFleeting = SingleItemEntryProvider(
+        val dreamWeaverFleeting = EntryProviders.singleItem(
             this,
             "dream_weaver_of_fleet_foot",
             WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get()
         ).generate("f")
-        dreamWeaverFleeting.withCondition(
-            BookAndConditionModel.create().withChildren(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("disturbed")),
-                BookEntryReadConditionModel.create()
-                    .withEntry(wispyCotton.id)
-            )
-        )
-            .addParent(BookEntryParentModel.create(wispyCotton.id).withDrawArrow(true))
+            .requiresAndFollows(wispyCotton, advancement(Witchery.id("disturbed")))
 
         addEntry(dreamWeaverFleeting)
 
-        val dreamWeaverIron = SingleItemEntryProvider(
+        val dreamWeaverIron = EntryProviders.singleItem(
             this,
             "dream_weaver_of_iron_arm",
             WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get()
         ).generate("t")
-        dreamWeaverIron.withCondition(
-            BookAndConditionModel.create().withChildren(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("disturbed")),
-                BookEntryReadConditionModel.create()
-                    .withEntry(wispyCotton.id)
-            )
-        )
-            .addParent(BookEntryParentModel.create(wispyCotton.id).withDrawArrow(true))
-
+            .requiresAndFollows(wispyCotton, advancement(Witchery.id("disturbed")))
         addEntry(dreamWeaverIron)
 
-        val dreamWeaverFating = SingleItemEntryProvider(
+        val dreamWeaverFating = EntryProviders.singleItem(
             this,
             "dream_weaver_of_fasting",
             WitcheryItems.DREAM_WEAVER_OF_FASTING.get()
         ).generate("i")
-        dreamWeaverFating.withCondition(
-            BookAndConditionModel.create().withChildren(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("disturbed")),
-                BookEntryReadConditionModel.create()
-                    .withEntry(wispyCotton.id)
-            )
-        )
-            .addParent(BookEntryParentModel.create(wispyCotton.id).withDrawArrow(true))
+            .requiresAndFollows(wispyCotton, advancement(Witchery.id("disturbed")))
 
         addEntry(dreamWeaverFating)
 
 
-        val spirit =
-            BrewEntryProvider(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "brew_of_flowing_spirit", this).generate("g")
-        spirit.withCondition(
-            BookAndConditionModel.create().withChildren(
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("spirit_world"))
-            )
-        )
+        val spirit = BrewEntryProvider(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "brew_of_flowing_spirit", this).generate("g")
+            .withCondition(advancement(Witchery.id("spirit_world")))
 
         addEntry(spirit)
     }

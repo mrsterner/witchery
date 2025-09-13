@@ -2,6 +2,15 @@
   "background_u_index": 0,
   "background_v_index": 0,
   "category": "brewing",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "brewing/cauldron"
+      }
+    ]
+  },
   "description": "book.witchery.guidebook.brewing.beginning_potions.description",
   "hide_while_locked": false,
   "icon": {
@@ -27,8 +36,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "brewing.beginning_potions.page.2",
-      "title": "brewing.beginning_potions.title.2",
+      "text": "brewing.beginning_potions_2.page.2",
+      "title": "brewing.beginning_potions_2.title.2",
       "use_markdown_in_title": false
     }
   ],

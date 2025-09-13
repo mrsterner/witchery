@@ -6,12 +6,12 @@
     "type": "modonomicon:and",
     "children": [
       {
-        "type": "modonomicon:advancement",
-        "advancement_id": "witchery:disturbed"
-      },
-      {
         "type": "modonomicon:entry_read",
         "entry_id": "spirit_world/wispy_cotton"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:disturbed"
       }
     ]
   },

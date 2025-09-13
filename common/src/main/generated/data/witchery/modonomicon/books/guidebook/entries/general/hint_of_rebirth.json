@@ -19,17 +19,15 @@
   "name": "book.witchery.guidebook.general.hint_of_rebirth.name",
   "pages": [
     {
-      "type": "modonomicon:spotlight",
+      "type": "modonomicon:text",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "item": {
-        "count": 1,
-        "item": "witchery:hint_of_rebirth"
-      },
+      "show_title_separator": true,
       "text": "general.hint_of_rebirth.page.1",
-      "title": "general.hint_of_rebirth.title.1"
+      "title": "general.hint_of_rebirth.title.1",
+      "use_markdown_in_title": false
     }
   ],
   "parents": [

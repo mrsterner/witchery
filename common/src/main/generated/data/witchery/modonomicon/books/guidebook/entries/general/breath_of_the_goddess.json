@@ -19,17 +19,15 @@
   "name": "book.witchery.guidebook.general.breath_of_the_goddess.name",
   "pages": [
     {
-      "type": "modonomicon:spotlight",
+      "type": "modonomicon:text",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "item": {
-        "count": 1,
-        "item": "witchery:breath_of_the_goddess"
-      },
+      "show_title_separator": true,
       "text": "general.breath_of_the_goddess.page.1",
-      "title": "general.breath_of_the_goddess.title.1"
+      "title": "general.breath_of_the_goddess.title.1",
+      "use_markdown_in_title": false
     }
   ],
   "parents": [

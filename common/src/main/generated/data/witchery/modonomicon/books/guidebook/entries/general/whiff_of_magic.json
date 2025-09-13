@@ -23,17 +23,15 @@
   "name": "book.witchery.guidebook.general.whiff_of_magic.name",
   "pages": [
     {
-      "type": "modonomicon:spotlight",
+      "type": "modonomicon:text",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "item": {
-        "count": 1,
-        "item": "witchery:whiff_of_magic"
-      },
+      "show_title_separator": true,
       "text": "general.whiff_of_magic.page.1",
-      "title": "general.whiff_of_magic.title.1"
+      "title": "general.whiff_of_magic.title.1",
+      "use_markdown_in_title": false
     }
   ],
   "parents": [

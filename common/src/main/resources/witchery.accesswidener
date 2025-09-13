@@ -14,3 +14,6 @@ accessible field net/minecraft/world/entity/LivingEntity swimAmount F
 accessible field net/minecraft/world/entity/LivingEntity swimAmountO F
 accessible method net/minecraft/world/damagesource/DamageSources source (Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/world/damagesource/DamageSource;
 accessible method net/minecraft/client/KeyMapping release ()V
+accessible method net/minecraft/client/gui/screens/Screen addRenderableWidget (Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+extendable	method	net/minecraft/client/gui/screens/Screen	renderWithTooltip	(Lnet/minecraft/client/gui/GuiGraphics;IIF)V
+extendable	method	net/minecraft/client/gui/components/AbstractWidget	render	(Lnet/minecraft/client/gui/GuiGraphics;IIF)V

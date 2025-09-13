@@ -35,6 +35,7 @@ import net.neoforged.neoforge.capabilities.Capabilities
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.data.event.GatherDataEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister

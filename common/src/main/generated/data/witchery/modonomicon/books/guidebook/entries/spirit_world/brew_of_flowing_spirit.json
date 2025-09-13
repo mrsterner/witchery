@@ -3,13 +3,8 @@
   "background_v_index": 0,
   "category": "spirit_world",
   "condition": {
-    "type": "modonomicon:and",
-    "children": [
-      {
-        "type": "modonomicon:advancement",
-        "advancement_id": "witchery:spirit_world"
-      }
-    ]
+    "type": "modonomicon:advancement",
+    "advancement_id": "witchery:spirit_world"
   },
   "description": "book.witchery.guidebook.spirit_world.brew_of_flowing_spirit.description",
   "hide_while_locked": false,

@@ -38,12 +38,6 @@
       "entry": "brazier/summon",
       "line_enabled": true,
       "line_reversed": false
-    },
-    {
-      "draw_arrow": true,
-      "entry": "brazier/summon",
-      "line_enabled": true,
-      "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,

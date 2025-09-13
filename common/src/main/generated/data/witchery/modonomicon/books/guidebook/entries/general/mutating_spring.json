@@ -19,17 +19,15 @@
   "name": "book.witchery.guidebook.general.mutating_spring.name",
   "pages": [
     {
-      "type": "modonomicon:spotlight",
+      "type": "modonomicon:text",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "item": {
-        "count": 1,
-        "item": "witchery:mutating_spring"
-      },
+      "show_title_separator": true,
       "text": "general.mutating_spring.page.1",
-      "title": "general.mutating_spring.title.1"
+      "title": "general.mutating_spring.title.1",
+      "use_markdown_in_title": false
     },
     {
       "type": "witchery:cauldron_crafting_recipe",
@@ -38,7 +36,7 @@
         "type": "modonomicon:none"
       },
       "recipe_id_1": "witchery:cauldron_crafting/mutating_spring",
-      "text": "general.mutating_spring.title.2",
+      "text": "general.mutating_spring.title.1",
       "title1": "general.mutating_spring",
       "title2": ""
     }

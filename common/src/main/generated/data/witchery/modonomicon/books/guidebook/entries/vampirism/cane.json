@@ -3,8 +3,17 @@
   "background_v_index": 0,
   "category": "vampirism",
   "condition": {
-    "type": "modonomicon:advancement",
-    "advancement_id": "witchery:vampire/2"
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "vampirism/armor"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:vampire/2"
+      }
+    ]
   },
   "description": "book.witchery.guidebook.vampirism.cane.description",
   "hide_while_locked": false,

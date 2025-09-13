@@ -19,17 +19,15 @@
   "name": "book.witchery.guidebook.general.exhale_of_the_horned_one.name",
   "pages": [
     {
-      "type": "modonomicon:spotlight",
+      "type": "modonomicon:text",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "item": {
-        "count": 1,
-        "item": "witchery:exhale_of_the_horned_one"
-      },
+      "show_title_separator": true,
       "text": "general.exhale_of_the_horned_one.page.1",
-      "title": "general.exhale_of_the_horned_one.title.1"
+      "title": "general.exhale_of_the_horned_one.title.1",
+      "use_markdown_in_title": false
     }
   ],
   "parents": [

@@ -4,13 +4,13 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProvider
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconProviderBase
 import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel
-import com.klikli_dev.modonomicon.api.datagen.book.BookEntryParentModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementConditionModel
-import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionModel
-import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadConditionModel
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.book.entry.*
+import dev.sterner.witchery.fabric.datagen.book.util.EntryProviders
+import dev.sterner.witchery.fabric.datagen.book.util.alsoFollows
+import dev.sterner.witchery.fabric.datagen.book.util.requiresAndFollows
 import dev.sterner.witchery.registry.WitcheryItems
 
 
@@ -39,7 +39,6 @@ class WitcheryGeneralCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________"
-
         )
     }
 
@@ -51,231 +50,112 @@ class WitcheryGeneralCategoryProvider(
             index++
         }
 
-        val beginning = SingleEntryProvider(this, "beginning", WitcheryItems.GUIDEBOOK.get()).generate("b")
+        val beginning = EntryProviders.single(this, "beginning", WitcheryItems.GUIDEBOOK.get()).generate("b")
         addEntry(beginning)
 
         val oven = OvenEntryProvider(this).generate("o")
-        oven
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(beginning.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
+            .requiresAndFollows(beginning)
         addEntry(oven)
 
-        val cauldron = DoubleItemEntryProvider(
+        val cauldron = EntryProviders.doubleItem(
             this,
             "cauldron",
             WitcheryItems.CAULDRON.get(),
             WitcheryItems.COPPER_CAULDRON.get(),
             noSecondTitle = true
         ).generate("c")
-        cauldron
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(beginning.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
+            .requiresAndFollows(beginning)
         addEntry(cauldron)
 
-        val mutandis =
-            ItemRecipeEntryProvider(this, "mutandis", "cauldron_crafting", WitcheryItems.MUTANDIS.get()).generate("m")
-        mutandis
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(cauldron.id),
-                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("cauldron"))
-                )
-            )
-            .addParent(BookEntryParentModel.create(cauldron.id).withDrawArrow(true))
+        val mutandis = EntryProviders.recipe(this, "mutandis", WitcheryItems.MUTANDIS.get(), "cauldron_crafting").generate("m")
+            .requiresAndFollows(cauldron, BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("cauldron")))
         addEntry(mutandis)
 
-        val mutandisExtremis = ItemRecipeEntryProvider(
+        val mutandisExtremis = EntryProviders.recipe(
             this,
             "mutandis_extremis",
-            "cauldron_crafting",
-            WitcheryItems.MUTANDIS_EXTREMIS.get()
+            WitcheryItems.MUTANDIS_EXTREMIS.get(),
+            "cauldron_crafting"
         ).generate("y")
-        mutandisExtremis
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(mutandis.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(mutandis.id).withDrawArrow(true))
+            .requiresAndFollows(mutandis)
         addEntry(mutandisExtremis)
 
-        val spring = ItemRecipeEntryProvider(
+        val spring = EntryProviders.recipe(
             this,
             "mutating_spring",
-            "cauldron_crafting",
-            WitcheryItems.MUTATING_SPRING.get()
+            WitcheryItems.MUTATING_SPRING.get(),
+            "cauldron_crafting"
         ).generate("s")
-        spring
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(mutandisExtremis.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(mutandisExtremis.id).withDrawArrow(true))
+            .requiresAndFollows(mutandisExtremis)
         addEntry(spring)
 
-        val grassper = GrassperEntryProvider(this).generate("g")
-        grassper
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(spring.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+        val grassper = EntryProviders.textWithImage(
+            this,
+            "grassper",
+            WitcheryItems.GRASSPER.get(),
+            "textures/gui/modonomicon/images/grassper_image.png"
+        ).generate("g")
+            .requiresAndFollows(spring)
         addEntry(grassper)
 
-        val critter = CritterSnareEntryProvider(this).generate("z")
-        critter
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(spring.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+        val critter = EntryProviders.textWithImage(
+            this,
+            "critter_snare",
+            WitcheryItems.CRITTER_SNARE.get(),
+            "textures/gui/modonomicon/images/critter_snare_image.png"
+        ).generate("z")
+            .requiresAndFollows(spring)
         addEntry(critter)
 
         val louse = ParasyticLouseEntryProvider(this).generate("k")
-        louse
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(spring.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+            .requiresAndFollows(spring)
         addEntry(louse)
 
         val owl = OwlEntryProvider(this).generate("j")
-        owl
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(spring.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+            .requiresAndFollows(spring)
         addEntry(owl)
 
         val wormwood = WormwoodEntryProvider(this).generate("v")
-        wormwood
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(spring.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(spring.id).withDrawArrow(true))
+            .requiresAndFollows(spring)
         addEntry(wormwood)
 
         val distillery = DistilleryEntryProvider(this).generate("d")
-        distillery
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(beginning.id),
-                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
-                )
-            )
-            .addParent(BookEntryParentModel.create(beginning.id).withDrawArrow(true))
+            .requiresAndFollows(beginning, BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven")))
         addEntry(distillery)
 
-        val whiffOfMagic =
-            SingleItemEntryProvider(this, "whiff_of_magic", WitcheryItems.WHIFF_OF_MAGIC.get()).generate("w")
-        whiffOfMagic
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(mutandis.id),
-                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("mutandis"))
-                )
-            )
-            .addParent(BookEntryParentModel.create(mutandis.id).withDrawArrow(true))
-        whiffOfMagic.addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
+        val whiffOfMagic = EntryProviders.single(this, "whiff_of_magic", WitcheryItems.WHIFF_OF_MAGIC.get()).generate("w")
+            .requiresAndFollows(mutandis, BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("mutandis")))
+            .alsoFollows(oven)
         addEntry(whiffOfMagic)
 
-
-        val hintOfRebirth =
-            SingleItemEntryProvider(this, "hint_of_rebirth", WitcheryItems.HINT_OF_REBIRTH.get()).generate("h")
-        hintOfRebirth
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(oven.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
+        val hintOfRebirth = EntryProviders.single(this, "hint_of_rebirth", WitcheryItems.HINT_OF_REBIRTH.get()).generate("h")
+            .requiresAndFollows(oven)
         addEntry(hintOfRebirth)
 
-        val exhaleOfTheHornedOne = SingleItemEntryProvider(
+        val exhaleOfTheHornedOne = EntryProviders.single(
             this,
             "exhale_of_the_horned_one",
             WitcheryItems.EXHALE_OF_THE_HORNED_ONE.get()
         ).generate("e")
-        exhaleOfTheHornedOne
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(oven.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
+            .requiresAndFollows(oven)
         addEntry(exhaleOfTheHornedOne)
 
-        val breathOfTheGoddess = SingleItemEntryProvider(
+        val breathOfTheGoddess = EntryProviders.single(
             this,
             "breath_of_the_goddess",
             WitcheryItems.BREATH_OF_THE_GODDESS.get()
         ).generate("x")
-        breathOfTheGoddess
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(oven.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
+            .requiresAndFollows(oven)
         addEntry(breathOfTheGoddess)
 
-        val tearOfTheGoddess =
-            SingleItemEntryProvider(this, "tear_of_the_goddess", WitcheryItems.TEAR_OF_THE_GODDESS.get()).generate("t")
-        tearOfTheGoddess
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(breathOfTheGoddess.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(breathOfTheGoddess.id).withDrawArrow(true))
-        tearOfTheGoddess.addParent(BookEntryParentModel.create(distillery.id).withDrawArrow(true))
+        val tearOfTheGoddess = EntryProviders.single(this, "tear_of_the_goddess", WitcheryItems.TEAR_OF_THE_GODDESS.get()).generate("t")
+            .requiresAndFollows(breathOfTheGoddess)
+            .alsoFollows(distillery)
         addEntry(tearOfTheGoddess)
 
         val expansion = FumeExtensionEntryProvider(this).generate("u")
-        expansion
-            .withCondition(
-                BookAndConditionModel.create().withChildren(
-                    BookEntryReadConditionModel.create()
-                        .withEntry(oven.id)
-                )
-            )
-            .addParent(BookEntryParentModel.create(oven.id).withDrawArrow(true))
+            .requiresAndFollows(oven)
         addEntry(expansion)
-
-
     }
 
     override fun categoryName(): String {
