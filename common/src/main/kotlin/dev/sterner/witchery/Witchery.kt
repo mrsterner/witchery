@@ -33,17 +33,18 @@ import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.data.*
 import dev.sterner.witchery.handler.*
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.handler.affliction.AfflictionEventHandler
+import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
+import dev.sterner.witchery.handler.affliction.VampireSpecificEventHandler
+import dev.sterner.witchery.handler.affliction.WerewolfSpecificEventHandler
 import dev.sterner.witchery.handler.infusion.InfernalInfusionHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.handler.infusion.LightInfusionHandler
 import dev.sterner.witchery.handler.infusion.OtherwhereInfusionHandler
 import dev.sterner.witchery.handler.poppet.PoppetHandler
 import dev.sterner.witchery.handler.transformation.TransformationHandler
-import dev.sterner.witchery.handler.vampire.VampireAbilityHandler
 import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
-import dev.sterner.witchery.handler.vampire.VampireEventHandler
-import dev.sterner.witchery.handler.werewolf.WerewolfAbilityHandler
-import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
 import dev.sterner.witchery.integration.jei.WitcheryJeiPlugin
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.CaneSwordItem
@@ -156,8 +157,9 @@ object Witchery {
         TransformationHandler.registerEvents()
         UnderWaterBreathPlayerAttachment.registerEvents()
         VampireChildrenHuntHandler.registerEvents()
-        VampireEventHandler.registerEvents()
-        WerewolfEventHandler.registerEvents()
+        VampireSpecificEventHandler.registerEvents()
+        WerewolfSpecificEventHandler.registerEvents()
+        AfflictionEventHandler.registerEvents()
         WineGlassItem.registerEvents()
         WitcheryCommands.registerEvents()
         WitcheryLootInjects.registerEvents()
@@ -187,8 +189,7 @@ object Witchery {
         }
 
         PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
-            VampireAbilityHandler.setAbilityIndex(player, -1)
-            WerewolfAbilityHandler.setAbilityIndex(player, -1)
+            AfflictionAbilityHandler.setAbilityIndex(player, -1)
         }
 
         PlayerEvent.PLAYER_JOIN.register { serverPlayer ->
@@ -196,8 +197,7 @@ object Witchery {
             if (data.killerQueue.contains(serverPlayer.uuid)) {
                 serverPlayer.kill()
             }
-            VampirePlayerAttachment.sync(serverPlayer, VampirePlayerAttachment.getData(serverPlayer))
-            WerewolfPlayerAttachment.sync(serverPlayer, WerewolfPlayerAttachment.getData(serverPlayer))
+            AfflictionPlayerAttachment.sync(serverPlayer, AfflictionPlayerAttachment.getData(serverPlayer))
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
             TransformationPlayerAttachment.sync(serverPlayer, TransformationPlayerAttachment.getData(serverPlayer))
             InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getPlayerInfusion(serverPlayer))
@@ -233,8 +233,7 @@ object Witchery {
 
         ClientGuiEvent.RENDER_HUD.register(InfusionHandler::renderInfusionHud)
         ClientGuiEvent.RENDER_HUD.register(ManifestationHandler::renderHud)
-        ClientGuiEvent.RENDER_HUD.register { guiGraphics, _ -> VampireEventHandler.renderHud(guiGraphics) }
-        ClientGuiEvent.RENDER_HUD.register(WerewolfEventHandler::renderHud)
+        ClientGuiEvent.RENDER_HUD.register { guiGraphics, _ -> VampireClientSpecificEventHandler.renderHud(guiGraphics) }
         ClientGuiEvent.RENDER_HUD.register(BarkBeltHandler::renderHud)
 
         ItemPropertiesRegistry.register(
@@ -384,9 +383,16 @@ object Witchery {
         )
 
         KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)
-        ClientRawInputEvent.MOUSE_SCROLLED.register(VampireAbilityHandler::scroll)
-        ClientRawInputEvent.MOUSE_SCROLLED.register(WerewolfAbilityHandler::scroll)
+        KeyMappingRegistry.register(WitcheryKeyMappings.OPEN_ABILITY_SELECTION)
+        ClientRawInputEvent.MOUSE_SCROLLED.register(AfflictionAbilityHandler::scroll)
 
+        ClientTickEvent.CLIENT_POST.register(ClientTickEvent.Client { minecraft: Minecraft? ->
+            while (WitcheryKeyMappings.OPEN_ABILITY_SELECTION.consumeClick()) {
+                minecraft?.player?.let { player ->
+                    AfflictionAbilityHandler.openSelectionScreen(player)
+                }
+            }
+        })
 
         ClientTickEvent.CLIENT_POST.register(ClientTickEvent.Client { minecraft: Minecraft? ->
             while (WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING.consumeClick()) {

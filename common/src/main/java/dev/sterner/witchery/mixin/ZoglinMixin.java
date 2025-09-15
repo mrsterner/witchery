@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.platform.EtherealEntityAttachment;
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Zoglin;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +24,7 @@ public class ZoglinMixin {
         }
 
         if (target instanceof Player player) {
-            boolean bl = VampirePlayerAttachment.getData(player).getVampireLevel() > 0;
+            boolean bl = AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0;
             if (bl) {
                 ci.cancel();
             }

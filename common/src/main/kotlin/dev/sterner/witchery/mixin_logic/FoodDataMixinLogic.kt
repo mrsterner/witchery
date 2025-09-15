@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin_logic
 
 import dev.sterner.witchery.handler.BloodPoolHandler
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment.getData
 import net.minecraft.world.entity.player.Player
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 
@@ -12,7 +12,7 @@ object FoodDataMixinLogic {
         player: Player?,
         cir: CallbackInfoReturnable<Int>
     ) {
-        if (player != null && getData(player).getVampireLevel() > 0) {
+        if (player != null && AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0) {
             val bloodData = BloodPoolLivingEntityAttachment.getData(player)
             val maxBlood = bloodData.maxBlood
             if (maxBlood > 0) {
@@ -24,13 +24,13 @@ object FoodDataMixinLogic {
     }
 
     fun getSaturation(player: Player?, cir: CallbackInfoReturnable<Float>) {
-        if (player != null && getData(player).getVampireLevel() > 0) {
+        if (player != null && AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0) {
             cir.setReturnValue(0f)
         }
     }
 
     fun onAdd(instance: Player, foodLevel: Int, saturationLevel: Float) {
-        if (getData(instance).getVampireLevel() == 0) {
+        if (AfflictionPlayerAttachment.getData(instance).getVampireLevel() == 0) {
             val bloodData = BloodPoolLivingEntityAttachment.getData(instance)
             if (bloodData.bloodPool < bloodData.maxBlood) {
                 BloodPoolHandler.increaseBlood(instance, foodLevel)

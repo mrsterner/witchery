@@ -9,8 +9,8 @@ import dev.sterner.witchery.entity.LilithEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.vampire.VampireLeveling.canPerformQuest
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -49,7 +49,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
             livingEntity.awardStat(Stats.ITEM_USED[this])
 
             if (stack.has(WitcheryDataComponents.VAMPIRE_BLOOD.get()) && stack.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true) {
-                val data = VampirePlayerAttachment.getData(livingEntity)
+                val data = AfflictionPlayerAttachment.getData(livingEntity)
                 if (data.getVampireLevel() == 0) {
                     VampireLeveling.increaseVampireLevel(player = livingEntity)
                     BloodPoolHandler.increaseBlood(
@@ -87,7 +87,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
         val data = player.mainHandItem.get(WitcheryDataComponents.BLOOD.get())
         if (data == null && player.isShiftKeyDown && player.offhandItem.`is`(WitcheryItems.BONE_NEEDLE.get())) {
             player.mainHandItem.set(WitcheryDataComponents.BLOOD.get(), player.uuid)
-            if (VampirePlayerAttachment.getData(player).getVampireLevel() == 10) {
+            if (AfflictionPlayerAttachment.getData(player).getVampireLevel() == 10) {
                 player.mainHandItem.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
             }
             player.hurt(level.damageSources().playerAttack(player), 4f)
@@ -193,7 +193,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
             if (entity is Villager && player != null) {
                 val item = player.mainHandItem
                 val bl = item.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true
-                if (bl && VampirePlayerAttachment.getData(player).getVampireLevel() >= 9) {
+                if (bl && AfflictionPlayerAttachment.getData(player).getVampireLevel() >= 9) {
                     val transfix = entity as VillagerTransfix
                     val blood = BloodPoolLivingEntityAttachment.getData(entity)
                     if (blood.bloodPool <= blood.maxBlood / 2 && transfix.`witchery$isMesmerized`()) {

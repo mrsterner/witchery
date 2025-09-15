@@ -8,10 +8,11 @@ import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
@@ -182,8 +183,8 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         if (uuid != null) {
             val player = serverLevel.server.playerList.getPlayer(uuid)
             if (player != null) {
-                val vampireData = VampirePlayerAttachment.getData(player)
-                if (vampireData.getVampireLevel() >= 10) {
+                val vampireData = AfflictionPlayerAttachment.getData(player)
+                if (vampireData.getLevel(AfflictionTypes.VAMPIRE) >= 10) {
                     masterPlayer = player
                     hasMaster = true
                 } else {
@@ -200,7 +201,7 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
             val ownerUUID = getOwnerUUID()
             
             if (ownerUUID != null) {
-                VampireChildrenHuntHandler.tryStarHunt(serverLevel, this, ownerUUID)
+                VampireChildrenHuntHandler.tryStartHunt(serverLevel, this, ownerUUID)
                 huntedLastNight = true
                 lastHuntTimestamp = level().dayTime
             }
@@ -230,7 +231,7 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         if (uuid != null && level() is ServerLevel) {
             val player = (level() as ServerLevel).server.playerList.getPlayer(uuid)
             if (player != null) {
-                val vampireData = VampirePlayerAttachment.getData(player)
+                val vampireData = AfflictionPlayerAttachment.getData(player)
                 if (vampireData.getVampireLevel() >= 10) {
                     masterPlayer = player
                     hasMaster = true

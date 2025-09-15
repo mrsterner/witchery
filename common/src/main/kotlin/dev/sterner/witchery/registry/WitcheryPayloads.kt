@@ -95,13 +95,13 @@ object WitcheryPayloads {
         registerS2C(SyncCorruptPoppetS2CPayload.ID, SyncCorruptPoppetS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
-        registerS2C(SyncVampireS2CPayload.ID, SyncVampireS2CPayload.STREAM_CODEC) { payload, context ->
+        registerS2C(SyncAfflictionS2CPayload.ID, SyncAfflictionS2CPayload.STREAM_CODEC) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
+        registerS2C(SelectiveSyncAfflictionS2CPayload.ID, SelectiveSyncAfflictionS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(SyncEtherealS2CPayload.ID, SyncEtherealS2CPayload.STREAM_CODEC) { payload, context ->
-            payload.handleS2C(payload, context)
-        }
-        registerS2C(SyncWerewolfS2CPayload.ID, SyncWerewolfS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
         registerS2C(SyncCovenS2CPayload.ID, SyncCovenS2CPayload.STREAM_CODEC) { payload, context ->
@@ -157,24 +157,18 @@ object WitcheryPayloads {
             payload.handleC2S(payload, context)
         }
         registerC2S(
-            VampireAbilitySelectionC2SPayload.ID,
-            VampireAbilitySelectionC2SPayload.STREAM_CODEC
+            AfflictionAbilitySelectionC2SPayload.ID,
+            AfflictionAbilitySelectionC2SPayload.STREAM_CODEC
         ) { payload, context ->
             payload.handleC2S(payload, context)
         }
-        registerC2S(
-            WerewolfAbilitySelectionC2SPayload.ID,
-            WerewolfAbilitySelectionC2SPayload.STREAM_CODEC
-        ) { payload, context ->
-            payload.handleC2S(payload, context)
-        }
-        registerC2S(VampireAbilityUseC2SPayload.ID, VampireAbilityUseC2SPayload.STREAM_CODEC) { payload, context ->
-            payload.handleC2S(payload, context)
-        }
-        registerC2S(WerewolfAbilityUseC2SPayload.ID, WerewolfAbilityUseC2SPayload.STREAM_CODEC) { payload, context ->
+        registerC2S(AfflictionAbilityUseC2SPayload.ID, AfflictionAbilityUseC2SPayload.STREAM_CODEC) { payload, context ->
             payload.handleC2S(payload, context)
         }
         registerC2S(GrantWitcheryAdvancementsC2SPayload.ID, GrantWitcheryAdvancementsC2SPayload.STREAM_CODEC) { payload, context ->
+            payload.handleC2S(payload, context)
+        }
+        registerC2S(UpdateSelectedAbilitiesC2SPayload.ID, UpdateSelectedAbilitiesC2SPayload.STREAM_CODEC) { payload, context ->
             payload.handleC2S(payload, context)
         }
     }

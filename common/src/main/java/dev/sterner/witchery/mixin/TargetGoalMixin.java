@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.platform.EtherealEntityAttachment;
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,7 +34,7 @@ public abstract class TargetGoalMixin {
             }
         }
         if (mob.getType().is(EntityTypeTags.UNDEAD) && potentialTarget instanceof Player player) {
-            boolean bl = VampirePlayerAttachment.getData(player).getVampireLevel() > 0;
+            boolean bl = AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0;
             if (bl) {
                 cir.setReturnValue(false);
             }

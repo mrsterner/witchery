@@ -1,90 +1,34 @@
 package dev.sterner.witchery.handler.ability
 
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
-import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
+import dev.sterner.witchery.handler.affliction.AfflictionAbility
 import net.minecraft.world.entity.player.Player
+import java.util.UUID
 
 object AbilityCooldownManager {
 
-    fun startVampireCooldown(player: Player, ability: VampireAbility) {
-        val data = VampirePlayerAttachment.getData(player)
-        val newCooldowns = data.abilityCooldowns.toMutableMap()
-        newCooldowns[ability.id] = ability.cooldown
-        VampirePlayerAttachment.setData(player, data.copy(abilityCooldowns = newCooldowns))
+    private val cooldowns = mutableMapOf<UUID, MutableMap<AfflictionAbility, Int>>()
+
+    fun isOnCooldown(player: Player, ability: AfflictionAbility): Boolean {
+        return cooldowns[player.uuid]?.get(ability)?.let { it > 0 } ?: false
     }
 
-    fun startWerewolfCooldown(player: Player, ability: WerewolfAbility) {
-        val data = WerewolfPlayerAttachment.getData(player)
-        val newCooldowns = data.abilityCooldowns.toMutableMap()
-        newCooldowns[ability.id] = ability.cooldown
-        WerewolfPlayerAttachment.setData(player, data.copy(abilityCooldowns = newCooldowns))
+    fun startCooldown(player: Player, ability: AfflictionAbility) {
+        cooldowns.computeIfAbsent(player.uuid) { mutableMapOf() }[ability] = ability.cooldown
     }
 
-    fun getVampireCooldown(player: Player, ability: VampireAbility): Int {
-        return VampirePlayerAttachment.getData(player).abilityCooldowns[ability.id] ?: 0
+    fun getCooldown(player: Player, ability: AfflictionAbility): Int {
+        return cooldowns[player.uuid]?.get(ability) ?: 0
     }
 
-    fun getWerewolfCooldown(player: Player, ability: WerewolfAbility): Int {
-        return WerewolfPlayerAttachment.getData(player).abilityCooldowns[ability.id] ?: 0
-    }
-
-    fun isVampireAbilityOnCooldown(player: Player, ability: VampireAbility): Boolean {
-        return getVampireCooldown(player, ability) > 0
-    }
-
-    fun isWerewolfAbilityOnCooldown(player: Player, ability: WerewolfAbility): Boolean {
-        return getWerewolfCooldown(player, ability) > 0
-    }
-
-    fun tickVampireCooldowns(player: Player) {
-        val data = VampirePlayerAttachment.getData(player)
-        val newCooldowns = data.abilityCooldowns.toMutableMap()
-        var changed = false
-
-        val iterator = newCooldowns.iterator()
-        while (iterator.hasNext()) {
-            val entry = iterator.next()
-            if (entry.value > 0) {
-                entry.setValue(entry.value - 1)
-                changed = true
-                if (entry.value <= 0) {
-                    iterator.remove()
-                }
+    fun tick(player: Player) {
+        cooldowns[player.uuid]?.let { map ->
+            val iterator = map.iterator()
+            while (iterator.hasNext()) {
+                val entry = iterator.next()
+                val newTime = entry.value - 1
+                if (newTime <= 0) iterator.remove()
+                else map[entry.key] = newTime
             }
         }
-
-        if (changed) {
-            VampirePlayerAttachment.setData(player, data.copy(abilityCooldowns = newCooldowns))
-        }
-    }
-
-    fun tickWerewolfCooldowns(player: Player) {
-        val data = WerewolfPlayerAttachment.getData(player)
-        val newCooldowns = data.abilityCooldowns.toMutableMap()
-        var changed = false
-
-        val iterator = newCooldowns.iterator()
-        while (iterator.hasNext()) {
-            val entry = iterator.next()
-            if (entry.value > 0) {
-                entry.setValue(entry.value - 1)
-                changed = true
-                if (entry.value <= 0) {
-                    iterator.remove()
-                }
-            }
-        }
-
-        if (changed) {
-            WerewolfPlayerAttachment.setData(player, data.copy(abilityCooldowns = newCooldowns))
-        }
-    }
-
-    fun clearAllCooldowns(player: Player) {
-        val vampData = VampirePlayerAttachment.getData(player)
-        VampirePlayerAttachment.setData(player, vampData.copy(abilityCooldowns = mutableMapOf()))
-
-        val wereData = WerewolfPlayerAttachment.getData(player)
-        WerewolfPlayerAttachment.setData(player, wereData.copy(abilityCooldowns = mutableMapOf()))
     }
 }

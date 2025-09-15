@@ -2,7 +2,7 @@ package dev.sterner.witchery.payload
 
 import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
@@ -10,12 +10,12 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
 
-class WerewolfAbilityUseC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
+class AfflictionAbilitySelectionC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(buf: RegistryFriendlyByteBuf) : this(buf.readNbt()!!)
 
-    constructor(ordinal: Int) : this(CompoundTag().apply {
-        putInt("Ordinal", ordinal)
+    constructor(index: Int) : this(CompoundTag().apply {
+        putInt("Index", index)
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -26,23 +26,23 @@ class WerewolfAbilityUseC2SPayload(val nbt: CompoundTag) : CustomPacketPayload {
         buf.writeNbt(nbt)
     }
 
-    fun handleC2S(payload: WerewolfAbilityUseC2SPayload, context: NetworkManager.PacketContext?) {
+    fun handleC2S(payload: AfflictionAbilitySelectionC2SPayload, context: NetworkManager.PacketContext?) {
         val player: Player? = context?.player
-        val ordinal = payload.nbt.getInt("Ordinal")
+        val index = payload.nbt.getInt("Index")
 
         if (player != null) {
-            WerewolfEventHandler.parseAbilityFromIndex(player, ordinal)
+            AfflictionAbilityHandler.updateAbilityIndex(player, index)
         }
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<WerewolfAbilityUseC2SPayload> =
-            CustomPacketPayload.Type(Witchery.id("werewolf_use_ability"))
+        val ID: CustomPacketPayload.Type<AfflictionAbilitySelectionC2SPayload> =
+            CustomPacketPayload.Type(Witchery.id("affliction_select_ability"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, WerewolfAbilityUseC2SPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, AfflictionAbilitySelectionC2SPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> WerewolfAbilityUseC2SPayload(buf) }
+                { buf -> AfflictionAbilitySelectionC2SPayload(buf) }
             )
     }
 }

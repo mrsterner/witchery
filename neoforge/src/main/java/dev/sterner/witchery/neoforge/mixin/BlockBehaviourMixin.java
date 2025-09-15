@@ -3,7 +3,7 @@ package dev.sterner.witchery.neoforge.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +18,7 @@ public class BlockBehaviourMixin {
 
     @ModifyExpressionValue(method = "getDestroyProgress", at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/event/EventHooks;doPlayerHarvestCheck(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"))
     private boolean witchery$getDestroyProgress(boolean original, @Local(argsOnly = true) BlockState state, @Local(argsOnly = true) Player player, @Local(argsOnly = true) BlockGetter blockView, @Local(argsOnly = true) BlockPos blockPos) {
-        if (VampirePlayerAttachment.getData(player).getVampireLevel() >= 6) {
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= 6) {
             if (state.is(WitcheryTags.INSTANCE.getSMASH_STONE())) {
                 return true;
             }
@@ -28,7 +28,7 @@ public class BlockBehaviourMixin {
 
     @ModifyExpressionValue(method = "getDestroyProgress", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getDestroySpeed(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F"))
     private float witchery$getDestroyProgress3(float original, @Local(argsOnly = true) BlockState state, @Local(argsOnly = true) Player player) {
-        if (VampirePlayerAttachment.getData(player).getVampireLevel() >= 6) {
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= 6) {
             if (state.is(WitcheryTags.INSTANCE.getSMASH_STONE())) {
                 return original / 2;
             }
@@ -38,7 +38,7 @@ public class BlockBehaviourMixin {
 
     @ModifyReturnValue(method = "getDestroyProgress", at = @At("RETURN"))
     private float witchery$getDestroyProgress2(float original, @Local(argsOnly = true) BlockState state, @Local(argsOnly = true) Player player) {
-        if (VampirePlayerAttachment.getData(player).getVampireLevel() >= 6) {
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= 6) {
             if (state.is(WitcheryTags.INSTANCE.getSMASH_STONE())) {
                 return original + 0.1f;
             }

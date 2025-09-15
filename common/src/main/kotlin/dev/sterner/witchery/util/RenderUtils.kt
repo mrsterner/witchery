@@ -156,7 +156,7 @@ object RenderUtils {
             // Draw empty icon first (for all icons)
             blitWithAlpha(
                 guiGraphics.pose(),
-                id("textures/gui/vampire_abilities/bat_form_empty.png"),
+                id("textures/gui/affliction_abilities/bat_form_empty.png"),
                 xPos,
                 y - 1,
                 0f,
@@ -173,7 +173,7 @@ object RenderUtils {
             if (i < fullIcons) {
                 blitWithAlpha(
                     guiGraphics.pose(),
-                    id("textures/gui/vampire_abilities/bat_form_full.png"),
+                    id("textures/gui/affliction_abilities/bat_form_full.png"),
                     xPos,
                     y - 1,
                     0f,
@@ -193,7 +193,7 @@ object RenderUtils {
                 // Draw the full portion of the last icon (from left to right)
                 blitWithAlpha(
                     guiGraphics.pose(),
-                    id("textures/gui/vampire_abilities/bat_form_full.png"),
+                    id("textures/gui/affliction_abilities/bat_form_full.png"),
                     xPos,
                     y - 1,
                     0f,

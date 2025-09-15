@@ -5,10 +5,10 @@ import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.data.BloodPoolReloadListener
 import dev.sterner.witchery.handler.vampire.VampireLeveling
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment.getData
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment.setData
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment.sync
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
@@ -29,7 +29,7 @@ object BloodPoolHandler {
 
         if (player != null && player.level() is ServerLevel) {
 
-            val bl = VampirePlayerAttachment.getData(player).getVampireLevel() > 0
+            val bl = AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0
             if (bl) {
                 ticker++
                 if (ticker > 10) {
@@ -91,7 +91,7 @@ object BloodPoolHandler {
         setData(livingEntity, data.copy(bloodPool = newBloodPool))
 
         if (livingEntity is ServerPlayer) {
-            if (VampirePlayerAttachment.getData(livingEntity).getVampireLevel() == 1 && newBloodPool == 900) {
+            if (AfflictionPlayerAttachment.getData(livingEntity).getVampireLevel() == 1 && newBloodPool == 900) {
                 VampireLeveling.increaseVampireLevel(livingEntity)
             }
         }

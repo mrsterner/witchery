@@ -21,9 +21,8 @@ import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionType
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
-import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -246,7 +245,7 @@ object WitcheryCommands {
                     .then(Commands.argument("player", EntityArgument.player())
                         .executes { context ->
                             val player = context.source.playerOrException
-                            val level = VampirePlayerAttachment.getData(player).getVampireLevel()
+                            val level = AfflictionPlayerAttachment.getData(player).getVampireLevel()
                             context.source.sendSuccess(
                                 { Component.literal("Level: $level for ${player.name.string}") },
                                 true
@@ -338,7 +337,7 @@ object WitcheryCommands {
                     .then(Commands.argument("player", EntityArgument.player())
                         .executes { context ->
                             val player = context.source.playerOrException
-                            val currentLevel = WerewolfPlayerAttachment.getData(player).getWerewolfLevel()
+                            val currentLevel = AfflictionPlayerAttachment.getData(player).getWerewolfLevel()
                             if (currentLevel == 0) {
                                 WerewolfLeveling.increaseWerewolfLevel(player)
                             }
@@ -375,7 +374,7 @@ object WitcheryCommands {
                     .then(Commands.argument("player", EntityArgument.player())
                         .executes { context ->
                             val player = context.source.playerOrException
-                            val level = WerewolfPlayerAttachment.getData(player).getWerewolfLevel()
+                            val level = AfflictionPlayerAttachment.getData(player).getWerewolfLevel()
                             context.source.sendSuccess(
                                 { Component.literal("Level $level for ${player.name.string}") },
                                 true

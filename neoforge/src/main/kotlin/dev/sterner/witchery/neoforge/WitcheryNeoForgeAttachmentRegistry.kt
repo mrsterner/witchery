@@ -258,25 +258,14 @@ object WitcheryNeoForgeAttachmentRegistry {
             }
         )
 
-    @JvmStatic
-    val VAMPIRE_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<VampirePlayerAttachment.Data>> =
-        ATTACHMENT_TYPES.register(
-            "vampire_player_data",
-            Supplier {
-                AttachmentType.builder(Supplier { VampirePlayerAttachment.Data() })
-                    .serialize(VampirePlayerAttachment.Data.CODEC)
-                    .copyOnDeath()
-                    .build()
-            }
-        )
 
     @JvmStatic
-    val WEREWOLF_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<WerewolfPlayerAttachment.Data>> =
+    val AFFLICTION_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<AfflictionPlayerAttachment.Data>> =
         ATTACHMENT_TYPES.register(
-            "werewolf_player_data",
+            "affliction_player_data",
             Supplier {
-                AttachmentType.builder(Supplier { WerewolfPlayerAttachment.Data() })
-                    .serialize(WerewolfPlayerAttachment.Data.CODEC)
+                AttachmentType.builder(Supplier { AfflictionPlayerAttachment.Data() })
+                    .serialize(AfflictionPlayerAttachment.Data.CODEC)
                     .copyOnDeath()
                     .build()
             }

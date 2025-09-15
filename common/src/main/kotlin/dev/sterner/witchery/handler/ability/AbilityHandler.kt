@@ -1,11 +1,11 @@
 package dev.sterner.witchery.handler.ability
 
+import dev.sterner.witchery.handler.affliction.AfflictionAbility
 import net.minecraft.world.entity.player.Player
 
-interface AbilityHandler<T : Enum<T>> {
+interface AbilityHandler {
     val abilityIndex: Int
-    fun getLevel(player: Player): Int
-    fun getAbilities(player: Player): List<T>
+    fun getAbilities(player: Player): List<AfflictionAbility>
     fun setAbilityIndex(player: Player, index: Int)
     fun updateAbilityIndex(player: Player, index: Int)
 }

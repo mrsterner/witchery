@@ -9,7 +9,7 @@ class AbilityScrollHandler {
     fun <T : Enum<T>> handleScroll(
         player: Player,
         y: Double,
-        abilityHandler: AbilityHandler<T>
+        abilityHandler: AbilityHandler
     ): EventResult {
         val abilities = abilityHandler.getAbilities(player)
         val abilityCount = abilities.size
@@ -34,14 +34,14 @@ class AbilityScrollHandler {
                 if (index < abilityCount - 1) {
                     index++
                 } else {
-                    player.inventory.selected = 8
+                    player.inventory.selected = 9
                     index = -1
                 }
             } else if (y < 0.0) {
                 if (index > 0) {
                     index--
                 } else {
-                    player.inventory.selected = 0
+                    player.inventory.selected = -1
                     index = -1
                 }
             }

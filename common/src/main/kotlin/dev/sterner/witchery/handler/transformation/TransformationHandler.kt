@@ -5,17 +5,17 @@ import dev.architectury.platform.Platform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.DemonEntity
 import dev.sterner.witchery.entity.WerewolfEntity
-import dev.sterner.witchery.handler.ability.VampireAbility
+import dev.sterner.witchery.handler.affliction.VampireAbility
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.WitcheryAttributes
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment.Data
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment.TransformationType
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment.getData
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment.setData
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.server.level.ServerLevel
@@ -27,7 +27,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
-import kotlin.math.max
 
 object TransformationHandler {
 
@@ -88,7 +87,7 @@ object TransformationHandler {
     @JvmStatic
     fun removeForm(player: Player) {
         setData(player, Data(TransformationType.NONE, MAX_COOLDOWN))
-        VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).getVampireLevel(), false)
+        VampireLeveling.updateModifiers(player, AfflictionPlayerAttachment.getData(player).getVampireLevel(), false)
         WerewolfLeveling.updateModifiers(player, wolf = false, wolfMan = false)
         if (player.level() is ServerLevel) {
             PlatformUtils.tryDisableBatFlight(player)
@@ -103,7 +102,7 @@ object TransformationHandler {
 
     @JvmStatic
     fun setBatForm(player: Player) {
-        VampireLeveling.updateModifiers(player, VampirePlayerAttachment.getData(player).getVampireLevel(), true)
+        VampireLeveling.updateModifiers(player, AfflictionPlayerAttachment.getData(player).getVampireLevel(), true)
         player.attributes.getInstance(Attributes.SCALE)?.removeModifier(SMALL_SIZE)
         player.attributes.getInstance(Attributes.SCALE)?.addPermanentModifier(SMALL_SIZE)
 
@@ -141,7 +140,7 @@ object TransformationHandler {
 
     fun tickBat(player: Player) {
 
-        if (VampirePlayerAttachment.getData(player).getVampireLevel() >= VampireAbility.BAT_FORM.unlockLevel) {
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= VampireAbility.BAT_FORM.requiredLevel) {
             if (player.level() is ServerLevel) {
 
                 if (isBat(player)) {
@@ -164,7 +163,7 @@ object TransformationHandler {
 
                     var maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
 
-                    maxBatTime += if (VampirePlayerAttachment.getData(player).getVampireLevel() >= 9) 60 * 20 else 0
+                    maxBatTime += if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= 9) 60 * 20 else 0
                     val data = getData(player)
                     setData(player, data.copy(maxBatTimeClient = maxBatTime))
                     if (getData(player).batFormTicker > maxBatTime) {
@@ -172,7 +171,7 @@ object TransformationHandler {
                     }
 
                 } else {
-                    if (VampirePlayerAttachment.getData(player).getVampireLevel() == 7) {
+                    if (AfflictionPlayerAttachment.getData(player).getVampireLevel() == 7) {
                         VampireLeveling.resetVillages(player)
                     }
 
@@ -187,7 +186,7 @@ object TransformationHandler {
     }
 
     private fun checkForVillage(player: Player) {
-        if (VampirePlayerAttachment.getData(player).getVampireLevel() == 7) {
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() == 7) {
             villageCheckTicker++
             if (villageCheckTicker > 20) {
                 villageCheckTicker = 0

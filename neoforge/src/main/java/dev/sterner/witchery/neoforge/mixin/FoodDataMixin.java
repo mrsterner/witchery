@@ -1,7 +1,7 @@
 package dev.sterner.witchery.neoforge.mixin;
 
 import dev.sterner.witchery.mixin_logic.FoodDataMixinLogic;
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment;
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +19,7 @@ public class FoodDataMixin {
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void witchery$tick(Player player, CallbackInfo ci) {
-        if (VampirePlayerAttachment.getData(player).getVampireLevel() > 0) {
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0) {
             this.witchery$player = player;
             ci.cancel();
         }

@@ -2,7 +2,7 @@ package dev.sterner.witchery.block.ritual
 
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.BlockEvent
-import dev.sterner.witchery.handler.vampire.VampireEventHandler
+import dev.sterner.witchery.handler.affliction.VampireSpecificEventHandler
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -133,7 +133,7 @@ class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: P
                 .filter { it.`is`(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get()) }.count()
 
             if (allInfernalChalk >= 7) {
-                VampireEventHandler.makeSacrificialCircle(entity, skullPos)
+                VampireSpecificEventHandler.makeSacrificialCircle(entity, skullPos)
                 return EventResult.interruptFalse()
             }
 

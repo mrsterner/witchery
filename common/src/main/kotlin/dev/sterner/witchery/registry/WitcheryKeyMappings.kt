@@ -12,4 +12,12 @@ object WitcheryKeyMappings {
         InputConstants.KEY_X,  // The default keycode
         "category.witchery" // The category translation key used to categorize in the Controls screen
     )
+
+    val OPEN_ABILITY_SELECTION = KeyMapping(
+        "key.witchery.open_ability_selection",
+        InputConstants.Type.KEYSYM,
+        InputConstants.KEY_V, // V key by default
+        "key.categories.witchery"
+    )
+
 }

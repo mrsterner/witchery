@@ -2,15 +2,15 @@ package dev.sterner.witchery.mixin_logic
 
 import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.PotionHandler
+import dev.sterner.witchery.handler.affliction.AfflictionHandler
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.handler.affliction.WerewolfSpecificEventHandler
 import dev.sterner.witchery.handler.poppet.PoppetHandler
-import dev.sterner.witchery.handler.vampire.VampireEventHandler
-import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment.getData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.getPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.setPoppetData
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
-import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -29,9 +29,9 @@ object LivingEntityMixinLogic {
     fun modifyHurt(entity: LivingEntity, original: Float, damageSource: DamageSource): Float {
         var remainingDamage = original
 
-        val isVamp = entity is Player && VampirePlayerAttachment.getData(entity).getVampireLevel() > 0
-        val isWereMan = entity is Player && WerewolfPlayerAttachment.getData(entity).isWolfManFormActive
-        val isWere = entity is Player && WerewolfPlayerAttachment.getData(entity).isWolfFormActive
+        val isVamp = entity is Player && AfflictionPlayerAttachment.getData(entity).getLevel(AfflictionTypes.VAMPIRE) > 0
+        val isWereMan = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfManForm()
+        val isWere = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfForm()
         if (!isVamp && !isWere) {
             val barkMitigated = BarkBeltHandler.hurt(entity, damageSource, remainingDamage)
             remainingDamage = barkMitigated.coerceAtMost(remainingDamage)
@@ -42,15 +42,15 @@ object LivingEntityMixinLogic {
         } else if (isVamp) {
 
             if (remainingDamage > 0f) {
-                remainingDamage = VampireEventHandler.handleHurt(entity, damageSource, remainingDamage)
+                remainingDamage = AfflictionHandler.handleHurt(entity, damageSource, remainingDamage)
             }
         } else if (isWereMan) {
             if (remainingDamage > 0f) {
-                remainingDamage = WerewolfEventHandler.handleHurtWolfman(entity, damageSource, remainingDamage)
+                remainingDamage = WerewolfSpecificEventHandler.handleHurtWolfman(entity, damageSource, remainingDamage)
             }
         } else if (isWere) {
             if (remainingDamage > 0f) {
-                remainingDamage = WerewolfEventHandler.handleHurtWolf(entity, damageSource, remainingDamage)
+                remainingDamage = WerewolfSpecificEventHandler.handleHurtWolf(entity, damageSource, remainingDamage)
             }
         }
 

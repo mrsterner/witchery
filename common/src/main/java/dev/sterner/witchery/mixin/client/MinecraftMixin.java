@@ -1,8 +1,7 @@
 package dev.sterner.witchery.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.handler.vampire.VampireEventHandler;
-import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler;
+import dev.sterner.witchery.handler.affliction.AfflictionEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
@@ -29,9 +28,8 @@ public class MinecraftMixin {
     @Inject(method = "startUseItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z", ordinal = 1), cancellable = true)
     private void rightClickAir(CallbackInfo ci, @Local ItemStack itemStack, @Local InteractionHand interactionHand) {
         if (this.hitResult == null || this.hitResult.getType() == HitResult.Type.MISS) {
-            var bl = VampireEventHandler.INSTANCE.clientRightClickAbility(player, interactionHand);
-            var bl2 = WerewolfEventHandler.INSTANCE.clientRightClickAbility(player, interactionHand);
-            if (bl || bl2) {
+            var bl = AfflictionEventHandler.INSTANCE.clientRightClickAbility(player, interactionHand);
+            if (bl) {
                 ci.cancel();
             }
         }

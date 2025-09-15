@@ -71,7 +71,7 @@ object VampireChildrenHuntHandler {
 
 
     @JvmStatic
-    fun tryStarHunt(serverLevel: ServerLevel, vampireEntity: VampireEntity, playerUUID: UUID) {
+    fun tryStartHunt(serverLevel: ServerLevel, vampireEntity: VampireEntity, playerUUID: UUID) {
         if (serverLevel.isDay) {
             return
         }

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.entity
 
-import dev.sterner.witchery.handler.werewolf.WerewolfEventHandler
+import dev.sterner.witchery.handler.affliction.WerewolfSpecificEventHandler
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
@@ -67,7 +67,7 @@ class WerewolfEntity(level: Level) : Monster(WitcheryEntityTypes.WEREWOLF.get(),
     override fun doHurtTarget(target: Entity): Boolean {
         if (target is ServerPlayer && level() is ServerLevel) {
             if (entityData.get(CAN_INFECT)) {
-                WerewolfEventHandler.infectPlayer(target)
+                WerewolfSpecificEventHandler.infectPlayer(target)
             }
         }
         return super.doHurtTarget(target)

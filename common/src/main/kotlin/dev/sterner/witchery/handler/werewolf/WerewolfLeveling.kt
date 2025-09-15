@@ -1,10 +1,12 @@
 package dev.sterner.witchery.handler.werewolf
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.transformation.TransformationHandler
+import dev.sterner.witchery.handler.vampire.VampireLeveling.increaseVampireLevel
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
-import dev.sterner.witchery.platform.transformation.WerewolfPlayerAttachment
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -40,12 +42,25 @@ object WerewolfLeveling {
 
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
-        val data = WerewolfPlayerAttachment.getData(player)
-        WerewolfPlayerAttachment.setData(player, data.copy(werewolfLevel = level))
+        AfflictionPlayerAttachment.batchUpdate(player) {
+            var result = setLevel(AfflictionTypes.WEREWOLF, level)
+
+            if (level == 0) {
+                result = result
+                    .withAbilityIndex(-1)
+                    .withWolfForm(false)
+                    .withWolfManForm(false)
+                    .withWolfPack(0)
+            }
+
+            result
+        }
+
         if (level == 0) {
-            WerewolfAbilityHandler.setAbilityIndex(player, -1)
             TransformationHandler.removeForm(player)
         }
+
+
         val wolf = TransformationHandler.isWolf(player)
         val were = TransformationHandler.isWerewolf(player)
         updateModifiers(player, wolf = wolf, wolfMan = were)
@@ -62,23 +77,26 @@ object WerewolfLeveling {
      */
     @JvmStatic
     fun increaseWerewolfLevel(player: ServerPlayer) {
-        val data = WerewolfPlayerAttachment.getData(player)
-        val nextLevel = data.getWerewolfLevel() + 1
+        val currentData = AfflictionPlayerAttachment.getData(player)
+        val currentLevel = currentData.getLevel(AfflictionTypes.WEREWOLF)
+        val nextLevel = currentLevel + 1
 
-        if (!canLevelUp(player, nextLevel)) return
+        if (nextLevel > 10) return
 
-        val updatedData = data.copy(werewolfLevel = nextLevel)
-        WerewolfPlayerAttachment.setData(player, updatedData)
+        if (nextLevel > 2 && !canLevelUp(player, currentData, nextLevel)) return
+
+
+        setLevel(player, nextLevel)
+
         player.sendSystemMessage(Component.literal("Werewolf Level Up: $nextLevel"))
-        updateModifiers(player, data.isWolfFormActive, data.isWolfManFormActive)
+        updateModifiers(player, currentData.isWolfForm(), currentData.isWolfManForm())
     }
 
 
-
     private fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
-        val data = WerewolfPlayerAttachment.getData(player)
+        val data = AfflictionPlayerAttachment.getData(player)
 
-        if (data.getWerewolfLevel() != targetLevel) {
+        if (data.getLevel(AfflictionTypes.WEREWOLF) != targetLevel) {
             return false
         }
 
@@ -92,10 +110,11 @@ object WerewolfLeveling {
             return
         }
 
-        val data = WerewolfPlayerAttachment.getData(player)
-        WerewolfPlayerAttachment.setData(player, data.copy(pigmenKilled = data.pigmenKilled + 1))
+        val newData = AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+            incrementPigmenKilled()
+        }
 
-        increaseWerewolfLevel(player)
+        checkAndLevelUp(player, newData)
     }
 
     //To go from Level 4 -> 5
@@ -104,10 +123,11 @@ object WerewolfLeveling {
             return
         }
 
-        val data = WerewolfPlayerAttachment.getData(player)
-        WerewolfPlayerAttachment.setData(player, data.copy(killHornedOne = true))
+        val newData = AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+            withKilledHornedOne(true)
+        }
 
-        increaseWerewolfLevel(player)
+        checkAndLevelUp(player, newData)
     }
 
     //To go from Level 3 -> 4
@@ -116,10 +136,11 @@ object WerewolfLeveling {
             return
         }
 
-        val data = WerewolfPlayerAttachment.getData(player)
-        WerewolfPlayerAttachment.setData(player, data.copy(killedWolves = data.killedWolves + 1))
+        val newData = AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+            incrementKilledWolves()
+        }
 
-        increaseWerewolfLevel(player)
+        checkAndLevelUp(player, newData)
     }
 
     //To go from Level 2 -> 3
@@ -128,10 +149,23 @@ object WerewolfLeveling {
             return
         }
 
-        val data = WerewolfPlayerAttachment.getData(player)
-        WerewolfPlayerAttachment.setData(player, data.copy(killedSheep = data.killedSheep + 1))
+        val newData = AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+            incrementKilledSheep()
+        }
 
-        increaseWerewolfLevel(player)
+        checkAndLevelUp(player, newData)
+    }
+
+    /**
+     * Check if requirements are met and level up if so
+     */
+    private fun checkAndLevelUp(player: ServerPlayer, data: AfflictionPlayerAttachment.Data) {
+        val currentLevel = data.getLevel(AfflictionTypes.WEREWOLF)
+        val nextLevel = currentLevel + 1
+
+        if (nextLevel <= 10 && canLevelUp(player, data, nextLevel)) {
+            increaseVampireLevel(player)
+        }
     }
 
     /**
@@ -183,8 +217,7 @@ object WerewolfLeveling {
         10 to Requirement(Witchery.id("werewolf/9"), spreadLycantropy = true)
     )
 
-    private fun canLevelUp(player: ServerPlayer, targetLevel: Int): Boolean {
-        val data = WerewolfPlayerAttachment.getData(player)
+    private fun canLevelUp(player: ServerPlayer,  data: AfflictionPlayerAttachment.Data, targetLevel: Int): Boolean {
         if (targetLevel == 1) {
             return true
         }
@@ -193,15 +226,15 @@ object WerewolfLeveling {
         }
         val requirement = LEVEL_REQUIREMENTS[targetLevel] ?: return false
 
-        return ((requirement.threeGold?.let { data.hasGivenGold == it } ?: true) &&
-                (requirement.killedSheep?.let { data.killedSheep >= it } ?: true) &&
-                (requirement.killedWolves?.let { data.killedWolves >= it } ?: true) &&
-                (requirement.killHornedOne?.let { data.killHornedOne == it } ?: true) &&
-                (requirement.airSlayMonster?.let { data.airSlayMonster == it } ?: true) &&
-                (requirement.nightHowl?.let { data.nightHowl == it } ?: true) &&
-                (requirement.wolfPack?.let { data.wolfPack == it } ?: true) &&
-                (requirement.pigmenKilled?.let { data.pigmenKilled == it } ?: true) &&
-                (requirement.spreadLycantropy?.let { data.spreadLycantropy == it } ?: true)
+        return ((requirement.threeGold?.let { data.hasGivenGold() == it } ?: true) &&
+                (requirement.killedSheep?.let { data.getKilledSheep() >= it } ?: true) &&
+                (requirement.killedWolves?.let { data.getKilledWolves() >= it } ?: true) &&
+                (requirement.killHornedOne?.let { data.hasKilledHornedOne() == it } ?: true) &&
+                (requirement.airSlayMonster?.let { data.getAirSlayMonster() == it } ?: true) &&
+                (requirement.nightHowl?.let { data.getNightHowl() == it } ?: true) &&
+                (requirement.wolfPack?.let { data.getWolfPack() == it } ?: true) &&
+                (requirement.pigmenKilled?.let { data.getPigmenKilled() == it } ?: true) &&
+                (requirement.spreadLycantropy?.let { data.hasSpreadLycanthropy() == it } ?: true)
                 )
     }
 

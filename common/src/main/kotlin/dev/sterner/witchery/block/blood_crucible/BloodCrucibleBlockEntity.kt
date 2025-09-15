@@ -2,9 +2,9 @@ package dev.sterner.witchery.block.blood_crucible
 
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.item.BoneNeedleItem
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
@@ -16,13 +16,10 @@ import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
-import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.state.BlockState
 import java.util.UUID
-import kotlin.text.compareTo
 
 class BloodCrucibleBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.BLOOD_CRUCIBLE.get(), blockPos, blockState) {
@@ -75,8 +72,8 @@ class BloodCrucibleBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
         val level = pPlayer.level()
 
-        val vampData = VampirePlayerAttachment.getData(pPlayer)
-        if (vampData.getVampireLevel() <= 0) {
+        val vampData = AfflictionPlayerAttachment.getData(pPlayer).getLevel(AfflictionTypes.VAMPIRE)
+        if (vampData <= 0) {
             return InteractionResult.PASS
         }
 

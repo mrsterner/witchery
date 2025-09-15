@@ -1,8 +1,9 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
-import dev.sterner.witchery.platform.transformation.VampirePlayerAttachment
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
@@ -67,7 +68,7 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
 
     override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
         if (player is ServerPlayer && hand == InteractionHand.MAIN_HAND) {
-            if (VampirePlayerAttachment.getData(player).getVampireLevel() == 6) {
+            if (AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRE) == 6) {
                 if (player.mainHandItem.`is`(Items.POPPY)) {
                     VampireLeveling.givePoppy(player)
                     hasUsedLilith = true
