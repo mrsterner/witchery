@@ -36,7 +36,7 @@ object AfflictionEventHandler {
     fun tick(player: Player?) {
         if (player !is ServerPlayer) return
         
-        val vampLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRE)
+        val vampLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM)
         if (vampLevel < 1) {
             regenerateHumanBlood(player)
             return

@@ -184,7 +184,7 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
             val player = serverLevel.server.playerList.getPlayer(uuid)
             if (player != null) {
                 val vampireData = AfflictionPlayerAttachment.getData(player)
-                if (vampireData.getLevel(AfflictionTypes.VAMPIRE) >= 10) {
+                if (vampireData.getLevel(AfflictionTypes.VAMPIRISM) >= 10) {
                     masterPlayer = player
                     hasMaster = true
                 } else {

@@ -5,9 +5,9 @@ import net.minecraft.util.StringRepresentable
 enum class AfflictionTypes : StringRepresentable {
     NONE,
     WITCH,
-    VAMPIRE,
-    WEREWOLF,
-    LICH;
+    VAMPIRISM,
+    LYCANTHROPY,
+    LICHDOM;
 
     override fun getSerializedName(): String = name.lowercase()
 }

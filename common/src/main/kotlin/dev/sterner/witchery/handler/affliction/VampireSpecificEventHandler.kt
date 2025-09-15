@@ -8,7 +8,6 @@ import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.handler.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
@@ -33,7 +32,6 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Chicken
 import net.minecraft.world.entity.monster.Blaze
 import net.minecraft.world.entity.player.Player
-import kotlin.math.ceil
 
 object VampireSpecificEventHandler {
 
@@ -60,7 +58,7 @@ object VampireSpecificEventHandler {
     fun tick(player: Player?) {
         if (player !is ServerPlayer) return
 
-        if (player.isAlive && AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRE) > 0) {
+        if (player.isAlive && AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) > 0) {
 
             VampireLeveling.increaseNightTicker(player)
 
@@ -146,7 +144,7 @@ object VampireSpecificEventHandler {
             .invokeSource(WitcheryDamageSources.IN_SUN)
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
 
-        if (affData.getLevel(AfflictionTypes.VAMPIRE) < 5) {
+        if (affData.getLevel(AfflictionTypes.VAMPIRISM) < 5) {
             if (VampireEvent.ON_SUN_DAMAGE.invoker().invoke(player) != EventResult.interruptFalse()) {
                 player.hurt(sunDamageSource, Float.MAX_VALUE)
             }
@@ -188,7 +186,7 @@ object VampireSpecificEventHandler {
     @JvmStatic
     fun respawn(newPlayer: Player, oldPlayer: Player, alive: Boolean) {
 
-        if (AfflictionPlayerAttachment.getData(oldPlayer).getLevel(AfflictionTypes.VAMPIRE) > 0) {
+        if (AfflictionPlayerAttachment.getData(oldPlayer).getLevel(AfflictionTypes.VAMPIRISM) > 0) {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
 
             newPlayer.foodData.foodLevel = RESPAWN_FOOD_LEVEL
@@ -230,7 +228,7 @@ object VampireSpecificEventHandler {
 
     @JvmStatic
     fun resetNightCount(livingEntity: LivingEntity, damageSource: DamageSource): EventResult {
-        if (livingEntity is Player && AfflictionPlayerAttachment.getData(livingEntity).getLevel(AfflictionTypes.VAMPIRE) == 3) {
+        if (livingEntity is Player && AfflictionPlayerAttachment.getData(livingEntity).getLevel(AfflictionTypes.VAMPIRISM) == 3) {
             VampireLeveling.resetNightCounter(livingEntity)
         }
 

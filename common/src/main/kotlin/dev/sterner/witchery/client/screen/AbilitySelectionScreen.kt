@@ -175,8 +175,8 @@ class AbilitySelectionScreen(
             .withStyle(ChatFormatting.YELLOW))
 
         val typeColor = when (ability.affliction) {
-            AfflictionTypes.VAMPIRE -> ChatFormatting.RED
-            AfflictionTypes.WEREWOLF -> ChatFormatting.GOLD
+            AfflictionTypes.VAMPIRISM -> ChatFormatting.RED
+            AfflictionTypes.LYCANTHROPY -> ChatFormatting.GOLD
             else -> ChatFormatting.WHITE
         }
         tooltip.add(Component.literal("Type: ${ability.affliction.name}")

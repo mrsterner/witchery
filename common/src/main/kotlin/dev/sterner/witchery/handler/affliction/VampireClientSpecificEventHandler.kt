@@ -25,7 +25,7 @@ object VampireClientSpecificEventHandler {
         val client = Minecraft.getInstance()
         val player = client.player ?: return
 
-        val isNotVamp = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRE) <= 0
+        val isNotVamp = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) <= 0
         if (isNotVamp) return
 
         val canHurtPlayer = client.gameMode!!.canHurtPlayer()

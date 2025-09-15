@@ -29,7 +29,7 @@ object LivingEntityMixinLogic {
     fun modifyHurt(entity: LivingEntity, original: Float, damageSource: DamageSource): Float {
         var remainingDamage = original
 
-        val isVamp = entity is Player && AfflictionPlayerAttachment.getData(entity).getLevel(AfflictionTypes.VAMPIRE) > 0
+        val isVamp = entity is Player && AfflictionPlayerAttachment.getData(entity).getLevel(AfflictionTypes.VAMPIRISM) > 0
         val isWereMan = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfManForm()
         val isWere = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfForm()
         if (!isVamp && !isWere) {

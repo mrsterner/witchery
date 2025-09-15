@@ -14,7 +14,7 @@ import net.minecraft.world.entity.player.Player
 enum class VampireAbility(
     override val requiredLevel: Int,
     override val cooldown: Int,
-    override val affliction: AfflictionTypes = AfflictionTypes.VAMPIRE
+    override val affliction: AfflictionTypes = AfflictionTypes.VAMPIRISM
 ) : AfflictionAbility {
 
     DRINK_BLOOD(0, 0) {
@@ -40,7 +40,7 @@ enum class VampireAbility(
     NIGHT_VISION(1, 20 * 2) {
         override val id: String
             get() = "night_vision"
-        override val affliction = AfflictionTypes.VAMPIRE
+        override val affliction = AfflictionTypes.VAMPIRISM
 
         override fun use(player: Player): Boolean {
             if (player.isShiftKeyDown) {
@@ -62,7 +62,7 @@ enum class VampireAbility(
     TRANSFIX(1, 20 * 2) {
         override val id: String
             get() = "transfix"
-        override val affliction = AfflictionTypes.VAMPIRE
+        override val affliction = AfflictionTypes.VAMPIRISM
         override val requiresTarget: Boolean
             get() = true
 
@@ -73,7 +73,7 @@ enum class VampireAbility(
                 val transfixVillager = target as VillagerTransfix
                 transfixVillager.setTransfixedLookVector(player.eyePosition)
 
-                if (AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRE) >= 8) {
+                if (AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) >= 8) {
                     transfixVillager.`witchery$setMesmerized`(player.uuid)
                 }
 

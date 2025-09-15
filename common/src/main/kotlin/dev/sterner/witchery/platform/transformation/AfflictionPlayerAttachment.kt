@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.Level
 import java.util.Optional
 import java.util.UUID
 
@@ -171,8 +170,8 @@ object AfflictionPlayerAttachment {
 
         fun getLevel(type: AfflictionTypes): Int = afflictionLevels.getOrDefault(type, 0)
 
-        fun getWerewolfLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.WEREWOLF, 0)
-        fun getVampireLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.VAMPIRE, 0)
+        fun getWerewolfLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.LYCANTHROPY, 0)
+        fun getVampireLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.VAMPIRISM, 0)
 
         fun setLevel(type: AfflictionTypes, level: Int): Data {
             val newLevels = afflictionLevels.toMutableMap()

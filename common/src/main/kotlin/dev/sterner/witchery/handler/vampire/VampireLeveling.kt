@@ -30,7 +30,7 @@ object VampireLeveling {
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
         AfflictionPlayerAttachment.batchUpdate(player) {
-            var result = setLevel(AfflictionTypes.VAMPIRE, level)
+            var result = setLevel(AfflictionTypes.VAMPIRISM, level)
 
             if (level == 0) {
                 result = result
@@ -62,7 +62,7 @@ object VampireLeveling {
     @JvmStatic
     fun increaseVampireLevel(player: ServerPlayer) {
         val currentData = AfflictionPlayerAttachment.getData(player)
-        val currentLevel = currentData.getLevel(AfflictionTypes.VAMPIRE)
+        val currentLevel = currentData.getLevel(AfflictionTypes.VAMPIRISM)
         val nextLevel = currentLevel + 1
 
         if (nextLevel > 10) return
@@ -127,7 +127,7 @@ object VampireLeveling {
     fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = AfflictionPlayerAttachment.getData(player)
 
-        if (data.getLevel(AfflictionTypes.VAMPIRE) != targetLevel) {
+        if (data.getLevel(AfflictionTypes.VAMPIRISM) != targetLevel) {
             return false
         }
 
@@ -305,7 +305,7 @@ object VampireLeveling {
      * Check if requirements are met and level up if so
      */
     private fun checkAndLevelUp(player: ServerPlayer, data: AfflictionPlayerAttachment.Data) {
-        val currentLevel = data.getLevel(AfflictionTypes.VAMPIRE)
+        val currentLevel = data.getLevel(AfflictionTypes.VAMPIRISM)
         val nextLevel = currentLevel + 1
 
         if (nextLevel <= 10 && canLevelUp(player, data, nextLevel)) {
@@ -328,7 +328,7 @@ object VampireLeveling {
             var result = this
 
             level?.let {
-                result = result.setLevel(AfflictionTypes.VAMPIRE, it)
+                result = result.setLevel(AfflictionTypes.VAMPIRISM, it)
             }
             killedBlazes?.let {
                 result = result.withKilledBlazes(it)
@@ -353,7 +353,7 @@ object VampireLeveling {
             var result = this
 
             if (!keepLevel) {
-                result = result.setLevel(AfflictionTypes.VAMPIRE, 0)
+                result = result.setLevel(AfflictionTypes.VAMPIRISM, 0)
             }
 
             result

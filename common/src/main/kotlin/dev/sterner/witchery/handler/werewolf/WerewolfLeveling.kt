@@ -43,7 +43,7 @@ object WerewolfLeveling {
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
         AfflictionPlayerAttachment.batchUpdate(player) {
-            var result = setLevel(AfflictionTypes.WEREWOLF, level)
+            var result = setLevel(AfflictionTypes.LYCANTHROPY, level)
 
             if (level == 0) {
                 result = result
@@ -78,7 +78,7 @@ object WerewolfLeveling {
     @JvmStatic
     fun increaseWerewolfLevel(player: ServerPlayer) {
         val currentData = AfflictionPlayerAttachment.getData(player)
-        val currentLevel = currentData.getLevel(AfflictionTypes.WEREWOLF)
+        val currentLevel = currentData.getLevel(AfflictionTypes.LYCANTHROPY)
         val nextLevel = currentLevel + 1
 
         if (nextLevel > 10) return
@@ -96,7 +96,7 @@ object WerewolfLeveling {
     private fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = AfflictionPlayerAttachment.getData(player)
 
-        if (data.getLevel(AfflictionTypes.WEREWOLF) != targetLevel) {
+        if (data.getLevel(AfflictionTypes.LYCANTHROPY) != targetLevel) {
             return false
         }
 
@@ -160,7 +160,7 @@ object WerewolfLeveling {
      * Check if requirements are met and level up if so
      */
     private fun checkAndLevelUp(player: ServerPlayer, data: AfflictionPlayerAttachment.Data) {
-        val currentLevel = data.getLevel(AfflictionTypes.WEREWOLF)
+        val currentLevel = data.getLevel(AfflictionTypes.LYCANTHROPY)
         val nextLevel = currentLevel + 1
 
         if (nextLevel <= 10 && canLevelUp(player, data, nextLevel)) {
