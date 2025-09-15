@@ -17,7 +17,7 @@ enum class VampireAbility(
     override val affliction: AfflictionTypes = AfflictionTypes.VAMPIRISM
 ) : AfflictionAbility {
 
-    DRINK_BLOOD(0, 0) {
+    DRINK_BLOOD(1, 0) {
         override val id: String
             get() = "drink_blood"
         override val requiresTarget = true
@@ -37,29 +37,26 @@ enum class VampireAbility(
         }
     },
 
-    NIGHT_VISION(1, 20 * 2) {
+    NIGHT_VISION(2, 20 * 5) {
         override val id: String
             get() = "night_vision"
         override val affliction = AfflictionTypes.VAMPIRISM
 
         override fun use(player: Player): Boolean {
-            if (player.isShiftKeyDown) {
-                val hadNightVision = AfflictionPlayerAttachment.getData(player).hasNightVision()
+            val hadNightVision = AfflictionPlayerAttachment.getData(player).hasNightVision()
 
-                AfflictionPlayerAttachment.batchUpdate(player) {
-                    withNightVision(!hadNightVision)
-                }
-
-                if (hadNightVision) {
-                    AbilityCooldownManager.startCooldown(player, this)
-                }
-                return true
+            AfflictionPlayerAttachment.batchUpdate(player) {
+                withNightVision(!hadNightVision)
             }
-            return false
+
+            if (hadNightVision) {
+                AbilityCooldownManager.startCooldown(player, this)
+            }
+            return true
         }
     },
 
-    TRANSFIX(1, 20 * 2) {
+    TRANSFIX(2, 20 * 2) {
         override val id: String
             get() = "transfix"
         override val affliction = AfflictionTypes.VAMPIRISM
@@ -85,7 +82,7 @@ enum class VampireAbility(
         }
     },
 
-    SPEED(2, 20 * 5) {
+    SPEED(4, 20 * 5) {
         override val id: String
             get() = "speed"
 
@@ -104,7 +101,7 @@ enum class VampireAbility(
         }
     },
 
-    BAT_FORM(3, 20 * 10) {
+    BAT_FORM(7, 20 * 10) {
         override val id: String
             get() = "bat_form"
 

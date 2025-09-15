@@ -3,7 +3,6 @@ package dev.sterner.witchery.handler.ability
 import dev.architectury.event.EventResult
 import net.minecraft.world.entity.player.Player
 
-
 class AbilityScrollHandler {
 
     fun <T : Enum<T>> handleScroll(
@@ -26,22 +25,21 @@ class AbilityScrollHandler {
                 index = abilityCount - 1
                 abilityHandler.setAbilityIndex(player, index)
                 return EventResult.interruptTrue()
-            } else {
-                return EventResult.pass()
             }
+            return EventResult.pass()
         } else {
             if (y > 0.0) {
                 if (index < abilityCount - 1) {
                     index++
                 } else {
-                    player.inventory.selected = 9
+                    player.inventory.selected = 0
                     index = -1
                 }
             } else if (y < 0.0) {
                 if (index > 0) {
                     index--
                 } else {
-                    player.inventory.selected = -1
+                    player.inventory.selected = 8
                     index = -1
                 }
             }

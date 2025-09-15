@@ -3,6 +3,7 @@ package dev.sterner.witchery.handler.vampire
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.VampireEvent
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.transformation.TransformationHandler
 import dev.sterner.witchery.item.TornPageItem
@@ -29,6 +30,8 @@ object VampireLeveling {
 
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
+        val previousLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM)
+
         AfflictionPlayerAttachment.batchUpdate(player) {
             var result = setLevel(AfflictionTypes.VAMPIRISM, level)
 
@@ -54,6 +57,9 @@ object VampireLeveling {
             player.blockPosition(),
             RefreshDimensionsS2CPayload()
         )
+        if (level > previousLevel) {
+            AfflictionAbilityHandler.addAbilityOnLevelUp(player, level, AfflictionTypes.VAMPIRISM)
+        }
     }
 
     /**

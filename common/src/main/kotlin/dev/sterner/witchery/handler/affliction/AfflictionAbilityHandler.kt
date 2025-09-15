@@ -21,17 +21,10 @@ object AfflictionAbilityHandler : AbilityHandler {
         val data = AfflictionPlayerAttachment.getData(player)
         val selectedIds = data.getSelectedAbilities()
 
-        if (selectedIds.isEmpty()) {
-            val defaultAbilities = getAllAvailableAbilities(player).take(5)
-            return defaultAbilities
-        }
-
         val allAvailable = getAllAvailableAbilities(player)
-        val result = selectedIds.mapNotNull { id ->
+        return selectedIds.mapNotNull { id ->
             allAvailable.find { it.id == id }
         }
-
-        return result
     }
 
     fun getAllAvailableAbilities(player: Player): List<AfflictionAbility> {
@@ -47,18 +40,45 @@ object AfflictionAbilityHandler : AbilityHandler {
     }
 
     override fun setAbilityIndex(player: Player, index: Int) {
-        val abilities = getAbilities(player)
-        val clampedIndex = index.coerceIn(-1, abilities.size - 1)
-
-        updateAbilityIndex(player, clampedIndex)
+        updateAbilityIndex(player, index)
         if (player.level().isClientSide) {
-            NetworkManager.sendToServer(AfflictionAbilitySelectionC2SPayload(clampedIndex))
+            NetworkManager.sendToServer(AfflictionAbilitySelectionC2SPayload(index))
         }
     }
 
     override fun updateAbilityIndex(player: Player, index: Int) {
         AfflictionPlayerAttachment.batchUpdate(player) {
             withAbilityIndex(index)
+        }
+    }
+
+    fun addAbilityOnLevelUp(player: Player, newLevel: Int, affliction: AfflictionTypes) {
+        val currentSelectedIds = AfflictionPlayerAttachment.getData(player).getSelectedAbilities().toMutableList()
+
+        val newAbilities = when (affliction) {
+            AfflictionTypes.VAMPIRISM -> {
+                VampireAbility.entries.filter {
+                    it.requiredLevel == newLevel && it.affliction == affliction
+                }
+            }
+            AfflictionTypes.LYCANTHROPY -> {
+                WerewolfAbility.entries.filter {
+                    it.requiredLevel == newLevel && it.affliction == affliction
+                }
+            }
+            else -> emptyList()
+        }
+
+        newAbilities.forEach { newAbility ->
+            if (!currentSelectedIds.contains(newAbility.id)) {
+                if (currentSelectedIds.size < 5) {
+                    currentSelectedIds.add(newAbility.id)
+                }
+            }
+        }
+
+        if (currentSelectedIds.isNotEmpty()) {
+            updateSelectedAbilities(player, currentSelectedIds)
         }
     }
 
