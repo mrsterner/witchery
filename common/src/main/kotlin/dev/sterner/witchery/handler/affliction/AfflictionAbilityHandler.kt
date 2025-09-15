@@ -85,7 +85,7 @@ object AfflictionAbilityHandler : AbilityHandler {
     fun updateSelectedAbilities(player: Player, abilities: List<String>) {
 
         AfflictionPlayerAttachment.batchUpdate(player) {
-            withSelectedAbilities(abilities)
+            withSelectedAbilities(abilities).withAbilityIndex(-1)
         }
 
         if (!player.level().isClientSide && player is ServerPlayer) {

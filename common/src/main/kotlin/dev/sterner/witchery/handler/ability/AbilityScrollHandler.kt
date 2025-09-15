@@ -12,11 +12,23 @@ class AbilityScrollHandler {
     ): EventResult {
         val abilities = abilityHandler.getAbilities(player)
         val abilityCount = abilities.size
-        if (abilityCount == 0) return EventResult.pass()
+
+        if (abilityCount == 0) {
+            if (abilityHandler.abilityIndex != -1) {
+                abilityHandler.setAbilityIndex(player, -1)
+            }
+            return EventResult.pass()
+        }
 
         var index = abilityHandler.abilityIndex
 
+        if (index >= abilityCount) {
+            index = -1
+            abilityHandler.setAbilityIndex(player, -1)
+        }
+
         if (index == -1) {
+            // Entering ability bar from inventory
             if (player.inventory.selected == 0 && y > 0.0) {
                 index = 0
                 abilityHandler.setAbilityIndex(player, index)
@@ -28,7 +40,9 @@ class AbilityScrollHandler {
             }
             return EventResult.pass()
         } else {
+            // In ability bar
             if (y > 0.0) {
+                // Scrolling right
                 if (index < abilityCount - 1) {
                     index++
                 } else {
@@ -36,6 +50,7 @@ class AbilityScrollHandler {
                     index = -1
                 }
             } else if (y < 0.0) {
+                // Scrolling left
                 if (index > 0) {
                     index--
                 } else {

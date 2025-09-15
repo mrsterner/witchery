@@ -259,6 +259,10 @@ class AbilitySelectionScreen(
 
     private fun saveAndClose() {
         if (minecraft?.player != null) {
+            if (selectedAbilities.isEmpty()) {
+                player.inventory.selected = 0
+            }
+
             NetworkManager.sendToServer(UpdateSelectedAbilitiesC2SPayload(selectedAbilities))
         }
 
