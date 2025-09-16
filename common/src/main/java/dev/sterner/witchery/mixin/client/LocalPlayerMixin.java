@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin.client;
 
-import dev.sterner.witchery.handler.transformation.TransformationHandler;
+import dev.sterner.witchery.handler.affliction.TransformationHandler;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;

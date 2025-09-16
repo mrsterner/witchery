@@ -2,7 +2,7 @@ package dev.sterner.witchery.handler
 
 import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.transformation.TransformationHandler
+import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.platform.BarkBeltPlayerAttachment.getData
 import dev.sterner.witchery.platform.BarkBeltPlayerAttachment.setData
 import dev.sterner.witchery.registry.WitcheryTags

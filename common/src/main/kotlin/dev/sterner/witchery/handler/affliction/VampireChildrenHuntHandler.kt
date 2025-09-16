@@ -1,10 +1,9 @@
-package dev.sterner.witchery.handler.vampire
+package dev.sterner.witchery.handler.affliction
 
 import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment.Data
 import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment.HuntData
 import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment.getData

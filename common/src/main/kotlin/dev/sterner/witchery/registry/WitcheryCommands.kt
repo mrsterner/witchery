@@ -14,9 +14,9 @@ import dev.sterner.witchery.handler.CurseHandler
 import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.handler.ManifestationHandler
-import dev.sterner.witchery.handler.vampire.VampireLeveling
-import dev.sterner.witchery.handler.vampire.VampireLeveling.levelToBlood
-import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
+import dev.sterner.witchery.handler.affliction.VampireLeveling
+import dev.sterner.witchery.handler.affliction.VampireLeveling.levelToBlood
+import dev.sterner.witchery.handler.affliction.WerewolfLeveling
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment
 import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment

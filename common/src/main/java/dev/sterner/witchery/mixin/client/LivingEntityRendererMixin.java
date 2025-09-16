@@ -5,10 +5,8 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import dev.sterner.witchery.handler.transformation.TransformationHandler;
 import dev.sterner.witchery.platform.EtherealEntityAttachment;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
-import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryRenderTypes;
 import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.client.model.EntityModel;
@@ -25,8 +23,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> extends EntityRenderer<T> implements RenderLayerParent<T, M> {

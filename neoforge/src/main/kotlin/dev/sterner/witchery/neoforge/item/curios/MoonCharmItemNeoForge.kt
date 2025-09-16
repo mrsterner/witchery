@@ -1,6 +1,6 @@
 package dev.sterner.witchery.neoforge.item.curios
 
-import dev.sterner.witchery.handler.transformation.TransformationHandler
+import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.item.accessories.MoonCharmItem
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack

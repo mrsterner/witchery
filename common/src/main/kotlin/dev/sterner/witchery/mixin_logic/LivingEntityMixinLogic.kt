@@ -6,6 +6,7 @@ import dev.sterner.witchery.handler.affliction.AfflictionHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.WerewolfSpecificEventHandler
 import dev.sterner.witchery.handler.poppet.PoppetHandler
+import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment.getData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.getPoppetData
@@ -29,10 +30,24 @@ object LivingEntityMixinLogic {
     fun modifyHurt(entity: LivingEntity, original: Float, damageSource: DamageSource): Float {
         var remainingDamage = original
 
+        if (damageSource.entity is Player) {
+            val attacker = damageSource.entity as Player
+            val wereData = AfflictionPlayerAttachment.getData(attacker)
+
+            if (wereData.getLevel(AfflictionTypes.LYCANTHROPY) > 0) {
+                if (TransformationHandler.isWolf(attacker) || TransformationHandler.isWerewolf(attacker)) {
+                    remainingDamage = WerewolfSpecificEventHandler.modifyWerewolfDamage(
+                        attacker, entity, damageSource, remainingDamage
+                    )
+                }
+            }
+        }
+
         val isVamp = entity is Player && AfflictionPlayerAttachment.getData(entity).getLevel(AfflictionTypes.VAMPIRISM) > 0
         val isWereMan = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfManForm()
         val isWere = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfForm()
-        if (!isVamp && !isWere) {
+
+        if (!isVamp && !isWere && !isWereMan) {
             val barkMitigated = BarkBeltHandler.hurt(entity, damageSource, remainingDamage)
             remainingDamage = barkMitigated.coerceAtMost(remainingDamage)
 
@@ -40,7 +55,6 @@ object LivingEntityMixinLogic {
                 remainingDamage = PoppetHandler.onLivingHurt(entity, damageSource, remainingDamage)
             }
         } else if (isVamp) {
-
             if (remainingDamage > 0f) {
                 remainingDamage = AfflictionHandler.handleHurt(entity, damageSource, remainingDamage)
             }

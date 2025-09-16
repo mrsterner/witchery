@@ -1,9 +1,6 @@
-package dev.sterner.witchery.handler.werewolf
+package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.handler.transformation.TransformationHandler
-import dev.sterner.witchery.handler.vampire.VampireLeveling.increaseVampireLevel
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
@@ -11,6 +8,7 @@ import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.ai.attributes.AttributeInstance
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
@@ -101,7 +99,7 @@ object WerewolfLeveling {
         }
 
         val requiredAdvancement = LEVEL_REQUIREMENTS[targetLevel]?.advancement ?: return false
-        return TornPageItem.hasAdvancement(player, requiredAdvancement) //Nothing to do with the actual TornPage
+        return TornPageItem.Companion.hasAdvancement(player, requiredAdvancement) //Nothing to do with the actual TornPage
     }
 
     //To go from Level 8 -> 9
@@ -164,44 +162,59 @@ object WerewolfLeveling {
         val nextLevel = currentLevel + 1
 
         if (nextLevel <= 10 && canLevelUp(player, data, nextLevel)) {
-            increaseVampireLevel(player)
+            VampireLeveling.increaseVampireLevel(player)
         }
     }
 
-    /**
-     * When the player werewolf-level changes this will reset and add potential attributes
-     */
-    fun updateModifiers(player: Player, wolf: Boolean, wolfMan: Boolean) {
-        player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.removeModifier(KNOCKBACK_BONUS)
-        player.attributes.getInstance(Attributes.MOVEMENT_SPEED)?.removeModifier(SPEED_BONUS)
-        player.attributes.getInstance(Attributes.ATTACK_DAMAGE)?.removeModifier(ATTACK_BONUS)
+    fun removeAllModifiers(player: Player) {
+        player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.let {
+            it.removeModifier(KNOCKBACK_BONUS)
+            it.removeModifier(KNOCKBACK_BONUS_2)
+        }
+
+        player.attributes.getInstance(Attributes.MOVEMENT_SPEED)?.let {
+            it.removeModifier(SPEED_BONUS)
+            it.removeModifier(SPEED_BONUS_2)
+        }
+
+        player.attributes.getInstance(Attributes.ATTACK_DAMAGE)?.let {
+            it.removeModifier(ATTACK_BONUS)
+            it.removeModifier(ATTACK_BONUS_2)
+        }
+
         player.attributes.getInstance(Attributes.STEP_HEIGHT)?.removeModifier(STEP_HEIGHT_BONUS)
         player.attributes.getInstance(Attributes.SAFE_FALL_DISTANCE)?.removeModifier(SAFE_HEIGHT)
-
-        player.attributes.getInstance(Attributes.ATTACK_DAMAGE)?.removeModifier(ATTACK_BONUS_2)
-        player.attributes.getInstance(Attributes.MOVEMENT_SPEED)?.removeModifier(SPEED_BONUS_2)
-        player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.removeModifier(KNOCKBACK_BONUS_2)
         player.attributes.getInstance(Attributes.MAX_HEALTH)?.removeModifier(HEALTH_BONUS)
         player.attributes.getInstance(Attributes.ARMOR)?.removeModifier(RESIST_BONUS)
         player.attributes.getInstance(Attributes.ARMOR_TOUGHNESS)?.removeModifier(RESIST_TOUGH_BONUS)
+    }
+
+    fun updateModifiers(player: Player, wolf: Boolean, wolfMan: Boolean) {
+        removeAllModifiers(player)
 
         if (wolf) {
-            player.attributes.getInstance(Attributes.ATTACK_DAMAGE)?.addPermanentModifier(ATTACK_BONUS)
-            player.attributes.getInstance(Attributes.MOVEMENT_SPEED)?.addPermanentModifier(SPEED_BONUS)
-            player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.addPermanentModifier(KNOCKBACK_BONUS)
+            addModifierSafely(player.attributes.getInstance(Attributes.ATTACK_DAMAGE), ATTACK_BONUS)
+            addModifierSafely(player.attributes.getInstance(Attributes.MOVEMENT_SPEED), SPEED_BONUS)
+            addModifierSafely(player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK), KNOCKBACK_BONUS)
+            addModifierSafely(player.attributes.getInstance(Attributes.STEP_HEIGHT), STEP_HEIGHT_BONUS)
 
-            player.attributes.getInstance(Attributes.STEP_HEIGHT)?.addPermanentModifier(STEP_HEIGHT_BONUS)
         } else if (wolfMan) {
-            player.attributes.getInstance(Attributes.ATTACK_DAMAGE)?.addPermanentModifier(ATTACK_BONUS_2)
-            player.attributes.getInstance(Attributes.MOVEMENT_SPEED)?.addPermanentModifier(SPEED_BONUS_2)
-            player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK)?.addPermanentModifier(KNOCKBACK_BONUS_2)
+            addModifierSafely(player.attributes.getInstance(Attributes.ATTACK_DAMAGE), ATTACK_BONUS_2)
+            addModifierSafely(player.attributes.getInstance(Attributes.MOVEMENT_SPEED), SPEED_BONUS_2)
+            addModifierSafely(player.attributes.getInstance(Attributes.ATTACK_KNOCKBACK), KNOCKBACK_BONUS_2)
+            addModifierSafely(player.attributes.getInstance(Attributes.STEP_HEIGHT), STEP_HEIGHT_BONUS)
+            addModifierSafely(player.attributes.getInstance(Attributes.SAFE_FALL_DISTANCE), SAFE_HEIGHT)
+            addModifierSafely(player.attributes.getInstance(Attributes.MAX_HEALTH), HEALTH_BONUS)
+            addModifierSafely(player.attributes.getInstance(Attributes.ARMOR), RESIST_BONUS)
+            addModifierSafely(player.attributes.getInstance(Attributes.ARMOR_TOUGHNESS), RESIST_TOUGH_BONUS)
+        }
+    }
 
-            player.attributes.getInstance(Attributes.STEP_HEIGHT)?.addPermanentModifier(STEP_HEIGHT_BONUS)
-            player.attributes.getInstance(Attributes.SAFE_FALL_DISTANCE)?.addPermanentModifier(SAFE_HEIGHT)
-            player.attributes.getInstance(Attributes.MAX_HEALTH)?.addPermanentModifier(HEALTH_BONUS)
-
-            player.attributes.getInstance(Attributes.ARMOR)?.addPermanentModifier(RESIST_BONUS)
-            player.attributes.getInstance(Attributes.ARMOR_TOUGHNESS)?.addPermanentModifier(RESIST_TOUGH_BONUS)
+    private fun addModifierSafely(attributeInstance: AttributeInstance?, modifier: AttributeModifier) {
+        attributeInstance?.let { attribute ->
+            if (!attribute.hasModifier(modifier.id)) {
+                attribute.addPermanentModifier(modifier)
+            }
         }
     }
 
@@ -217,7 +230,7 @@ object WerewolfLeveling {
         10 to Requirement(Witchery.id("werewolf/9"), spreadLycantropy = true)
     )
 
-    private fun canLevelUp(player: ServerPlayer,  data: AfflictionPlayerAttachment.Data, targetLevel: Int): Boolean {
+    private fun canLevelUp(player: ServerPlayer, data: AfflictionPlayerAttachment.Data, targetLevel: Int): Boolean {
         if (targetLevel == 1) {
             return true
         }

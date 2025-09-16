@@ -47,6 +47,7 @@
     "VillagerHostileSensorMixin",
     "VillagerMixin",
     "WalkAnimationStateAccessor",
+    "WolfMixin",
     "ZoglinMixin"
   ],
   "injectors": {

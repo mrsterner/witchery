@@ -7,8 +7,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.sterner.witchery.block.coffin.CoffinBlock;
 import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer;
-import dev.sterner.witchery.client.model.DemonEntityModel;
-import dev.sterner.witchery.handler.transformation.TransformationHandler;
+import dev.sterner.witchery.handler.affliction.TransformationHandler;
 import dev.sterner.witchery.mixin.LivingEntityAccessor;
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor;
 import dev.sterner.witchery.platform.ManifestationPlayerAttachment;
@@ -33,7 +32,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;

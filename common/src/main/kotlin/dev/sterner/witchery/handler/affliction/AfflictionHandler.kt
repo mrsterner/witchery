@@ -5,7 +5,6 @@ import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.data.BloodPoolReloadListener
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment

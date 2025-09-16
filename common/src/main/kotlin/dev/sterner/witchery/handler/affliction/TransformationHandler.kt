@@ -1,21 +1,14 @@
-package dev.sterner.witchery.handler.transformation
+package dev.sterner.witchery.handler.affliction
 
 import dev.architectury.event.events.common.TickEvent
 import dev.architectury.platform.Platform
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.DemonEntity
 import dev.sterner.witchery.entity.WerewolfEntity
-import dev.sterner.witchery.handler.affliction.VampireAbility
-import dev.sterner.witchery.handler.vampire.VampireLeveling
-import dev.sterner.witchery.handler.werewolf.WerewolfLeveling
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment.Data
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment.TransformationType
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment.getData
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment.setData
+import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.server.level.ServerLevel
@@ -71,28 +64,35 @@ object TransformationHandler {
 
     @JvmStatic
     fun isBat(player: Player): Boolean {
-        return getData(player).transformationType == TransformationType.BAT
+        return TransformationPlayerAttachment.getData(player).transformationType == TransformationPlayerAttachment.TransformationType.BAT
     }
 
     @JvmStatic
     fun isWolf(player: Player): Boolean {
-        return getData(player).transformationType == TransformationType.WOLF
+        return TransformationPlayerAttachment.getData(player).transformationType == TransformationPlayerAttachment.TransformationType.WOLF
     }
 
     @JvmStatic
     fun isWerewolf(player: Player): Boolean {
-        return getData(player).transformationType == TransformationType.WEREWOLF
+        return TransformationPlayerAttachment.getData(player).transformationType == TransformationPlayerAttachment.TransformationType.WEREWOLF
     }
 
     @JvmStatic
     fun removeForm(player: Player) {
-        setData(player, Data(TransformationType.NONE, MAX_COOLDOWN))
+        TransformationPlayerAttachment.setData(
+            player,
+            TransformationPlayerAttachment.Data(TransformationPlayerAttachment.TransformationType.NONE, MAX_COOLDOWN)
+        )
+
+        removeAllTransformationModifiers(player)
+
         VampireLeveling.updateModifiers(player, AfflictionPlayerAttachment.getData(player).getVampireLevel(), false)
         WerewolfLeveling.updateModifiers(player, wolf = false, wolfMan = false)
+
         if (player.level() is ServerLevel) {
             PlatformUtils.tryDisableBatFlight(player)
         }
-        player.attributes.getInstance(Attributes.SCALE)?.removeModifier(SMALL_SIZE)
+
         WitcheryPayloads.sendToPlayers(
             player.level(),
             player.blockPosition(),
@@ -102,30 +102,66 @@ object TransformationHandler {
 
     @JvmStatic
     fun setBatForm(player: Player) {
-        VampireLeveling.updateModifiers(player, AfflictionPlayerAttachment.getData(player).getVampireLevel(), true)
-        player.attributes.getInstance(Attributes.SCALE)?.removeModifier(SMALL_SIZE)
-        player.attributes.getInstance(Attributes.SCALE)?.addPermanentModifier(SMALL_SIZE)
+        removeAllTransformationModifiers(player)
 
-        setData(player, Data(TransformationType.BAT, 0, 0))
+        VampireLeveling.updateModifiers(player, AfflictionPlayerAttachment.getData(player).getVampireLevel(), true)
+
+        player.attributes.getInstance(Attributes.SCALE)?.let { attribute ->
+            if (!attribute.hasModifier(SMALL_SIZE.id)) {
+                attribute.addPermanentModifier(SMALL_SIZE)
+            }
+        }
+
+        TransformationPlayerAttachment.setData(
+            player,
+            TransformationPlayerAttachment.Data(TransformationPlayerAttachment.TransformationType.BAT, 0, 0)
+        )
     }
 
     @JvmStatic
     fun setWolfForm(player: Player) {
+        removeAllTransformationModifiers(player)
+
         WerewolfLeveling.updateModifiers(player, wolf = true, wolfMan = false)
-        player.attributes.getInstance(Attributes.SCALE)?.addPermanentModifier(SMALL_SIZE)
-        setData(player, Data(TransformationType.WOLF))
+
+        player.attributes.getInstance(Attributes.SCALE)?.let { attribute ->
+            if (!attribute.hasModifier(SMALL_SIZE.id)) {
+                attribute.addPermanentModifier(SMALL_SIZE)
+            }
+        }
+
+        TransformationPlayerAttachment.setData(
+            player,
+            TransformationPlayerAttachment.Data(TransformationPlayerAttachment.TransformationType.WOLF)
+        )
     }
 
     @JvmStatic
     fun setWereWolfForm(player: Player) {
+        removeAllTransformationModifiers(player)
+
         WerewolfLeveling.updateModifiers(player, wolf = false, wolfMan = true)
-        setData(player, Data(TransformationType.WEREWOLF))
+
+        player.attributes.getInstance(Attributes.SCALE)?.removeModifier(SMALL_SIZE)
+
+        TransformationPlayerAttachment.setData(
+            player,
+            TransformationPlayerAttachment.Data(TransformationPlayerAttachment.TransformationType.WEREWOLF)
+        )
+    }
+
+    private fun removeAllTransformationModifiers(player: Player) {
+        player.attributes.getInstance(Attributes.SCALE)?.removeModifier(SMALL_SIZE)
+
+        WerewolfLeveling.removeAllModifiers(player)
+
+        VampireLeveling.updateModifiers(player, AfflictionPlayerAttachment.getData(player).getVampireLevel(), false)
     }
 
     @JvmStatic
     fun increaseBatFormTimer(player: Player) {
-        val data = getData(player)
-        setData(player, data.copy(batFormTicker = data.batFormTicker + 1))
+        val data = TransformationPlayerAttachment.getData(player)
+        TransformationPlayerAttachment.setData(player, data.copy(batFormTicker = data.batFormTicker + 1))
     }
 
     fun tickWolf(player: Player) {
@@ -164,9 +200,9 @@ object TransformationHandler {
                     var maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
 
                     maxBatTime += if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= 9) 60 * 20 else 0
-                    val data = getData(player)
-                    setData(player, data.copy(maxBatTimeClient = maxBatTime))
-                    if (getData(player).batFormTicker > maxBatTime) {
+                    val data = TransformationPlayerAttachment.getData(player)
+                    TransformationPlayerAttachment.setData(player, data.copy(maxBatTimeClient = maxBatTime))
+                    if (TransformationPlayerAttachment.getData(player).batFormTicker > maxBatTime) {
                         removeForm(player)
                     }
 

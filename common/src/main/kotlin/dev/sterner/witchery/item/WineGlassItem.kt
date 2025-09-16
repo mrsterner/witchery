@@ -7,15 +7,14 @@ import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.entity.LilithEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.handler.vampire.VampireLeveling
-import dev.sterner.witchery.handler.vampire.VampireLeveling.canPerformQuest
+import dev.sterner.witchery.handler.affliction.VampireLeveling
+import dev.sterner.witchery.handler.affliction.VampireLeveling.canPerformQuest
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryConstants
-import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.ChatFormatting
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.BlockPos
@@ -28,7 +27,6 @@ import net.minecraft.stats.Stats
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
-import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
@@ -38,7 +36,6 @@ import net.minecraft.world.item.*
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import java.awt.Color
-import java.util.UUID
 
 class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
 

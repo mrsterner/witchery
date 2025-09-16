@@ -4,7 +4,7 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.data.BloodPoolReloadListener
-import dev.sterner.witchery.handler.vampire.VampireLeveling
+import dev.sterner.witchery.handler.affliction.VampireLeveling
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment.getData
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment.setData

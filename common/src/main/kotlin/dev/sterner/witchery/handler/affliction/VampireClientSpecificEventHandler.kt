@@ -2,7 +2,7 @@ package dev.sterner.witchery.handler.affliction
 
 import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.transformation.TransformationHandler
+import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment

@@ -34,7 +34,14 @@ object AfflictionAbilityHandler : AbilityHandler {
         val wereLevel = data.getLevel(AfflictionTypes.LYCANTHROPY)
 
         val vampAbilities: List<VampireAbility> = VampireAbility.entries.filter { it.isAvailable(vampLevel) }
-        val wereAbilities: List<WerewolfAbility> = WerewolfAbility.entries.filter { it.isAvailable(wereLevel) }
+        val wereAbilities: List<WerewolfAbility> = WerewolfAbility.entries.filter { ability ->
+            ability.isAvailable(wereLevel) &&
+                    when (ability) {
+                        WerewolfAbility.WOLF_FORM,
+                        WerewolfAbility.WEREWOLF_FORM -> WerewolfAbility.hasMoonCharm(player)
+                        else -> true
+                    }
+        }
 
         return (vampAbilities + wereAbilities)
     }
@@ -123,3 +130,4 @@ object AfflictionAbilityHandler : AbilityHandler {
         }
     }
 }
+

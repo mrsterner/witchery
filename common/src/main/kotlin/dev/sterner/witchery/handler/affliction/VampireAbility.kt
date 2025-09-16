@@ -2,7 +2,7 @@ package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
-import dev.sterner.witchery.handler.transformation.TransformationHandler
+import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import net.minecraft.server.level.ServerPlayer

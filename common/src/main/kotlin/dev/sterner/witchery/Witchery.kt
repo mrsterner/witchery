@@ -43,8 +43,8 @@ import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.handler.infusion.LightInfusionHandler
 import dev.sterner.witchery.handler.infusion.OtherwhereInfusionHandler
 import dev.sterner.witchery.handler.poppet.PoppetHandler
-import dev.sterner.witchery.handler.transformation.TransformationHandler
-import dev.sterner.witchery.handler.vampire.VampireChildrenHuntHandler
+import dev.sterner.witchery.handler.affliction.TransformationHandler
+import dev.sterner.witchery.handler.affliction.VampireChildrenHuntHandler
 import dev.sterner.witchery.integration.jei.WitcheryJeiPlugin
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.item.CaneSwordItem

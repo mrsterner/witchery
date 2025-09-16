@@ -4,7 +4,7 @@ import dev.emi.trinkets.api.SlotReference
 import dev.emi.trinkets.api.Trinket
 import dev.emi.trinkets.api.TrinketsApi
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
-import dev.sterner.witchery.handler.transformation.TransformationHandler
+import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.item.accessories.MoonCharmItem
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player

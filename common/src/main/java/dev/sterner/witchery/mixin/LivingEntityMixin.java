@@ -8,10 +8,11 @@ import dev.sterner.witchery.api.interfaces.OnRemovedEffect;
 import dev.sterner.witchery.entity.ChainEntity;
 import dev.sterner.witchery.handler.BloodPoolHandler;
 import dev.sterner.witchery.handler.NecroHandler;
-import dev.sterner.witchery.handler.transformation.TransformationHandler;
+import dev.sterner.witchery.handler.affliction.AfflictionTypes;
+import dev.sterner.witchery.handler.affliction.TransformationHandler;
 import dev.sterner.witchery.mixin_logic.LivingEntityMixinLogic;
 import dev.sterner.witchery.platform.EtherealEntityAttachment;
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment;
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,6 +25,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -137,6 +139,26 @@ public abstract class LivingEntityMixin extends Entity implements EntityChainInt
             return original && EtherealEntityAttachment.getData(self).getCanDropLoot();
         }
         return original;
+    }
+
+    @ModifyVariable(
+            method = "getDamageAfterArmorAbsorb",
+            at = @At("HEAD"),
+            ordinal = 0,
+            argsOnly = true
+    )
+    private float witchery$bypassArmor(float damage, DamageSource source) {
+        if (source.getEntity() instanceof Player player) {
+            var data = AfflictionPlayerAttachment.getData(player);
+
+            if (data.getLevel(AfflictionTypes.LYCANTHROPY) >= 9) {
+                if (TransformationHandler.isWolf(player) ||
+                        TransformationHandler.isWerewolf(player)) {
+                    return damage;
+                }
+            }
+        }
+        return damage;
     }
 }
 

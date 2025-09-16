@@ -8,7 +8,6 @@ import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.handler.vampire.VampireLeveling
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.platform.WitcheryAttributes
@@ -46,7 +45,6 @@ object VampireSpecificEventHandler {
 
     fun registerEvents() {
         TickEvent.PLAYER_PRE.register(::tick)
-
 
         EntityEvent.LIVING_DEATH.register(::resetNightCount)
         EntityEvent.LIVING_DEATH.register(::onKillEntity)
