@@ -1,0 +1,71 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "necromancy",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "necromancy/carving_1"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:necro/3"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.necromancy.carving_2.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:gravestone"
+  },
+  "name": "book.witchery.guidebook.necromancy.carving_2.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "necromancy.carving_2.page.1",
+      "title": "",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "necromancy.carving_2.page.2",
+      "title": "",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "necromancy.carving_2.page.3",
+      "title": "",
+      "use_markdown_in_title": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "necromancy/carving_1",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 2,
+  "x": 0,
+  "y": 0
+}

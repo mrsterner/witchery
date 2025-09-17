@@ -6,13 +6,14 @@ object WitcheryShaders {
     @JvmField
     var spiritPortal: ShaderInstance? = null
 
-
     @JvmField
     var soul_chain: ShaderInstance? = null
 
     @JvmField
     var spirit_chain: ShaderInstance? = null
 
+    @JvmField
+    var soulLantern: ShaderInstance? = null
 
     @JvmField
     var ghost: ShaderInstance? = null

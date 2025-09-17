@@ -8,6 +8,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookEntryParentModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementConditionModel
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.fabric.datagen.book.entry.SoulCageEntryProvider
 import dev.sterner.witchery.fabric.datagen.book.util.EntryProviders
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Items
@@ -29,7 +30,7 @@ class WitcheryBrazierCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "__________________________________",
+            "_________________t________________",
             "_______________p__________________",
             "__________________________________",
             "_______________b_s_i______________",
@@ -69,8 +70,11 @@ class WitcheryBrazierCategoryProvider(
 
         val summon = EntryProviders.singleItem(this, "summon", WitcheryItems.WORMWOOD.get()).generate("s")
         summon.addParent(BookEntryParentModel.create(brazier.id).withDrawArrow(true))
-
         addEntry(summon)
+
+        val soulCage = SoulCageEntryProvider(this, "soul_cage").generate("t")
+        soulCage.addParent(BookEntryParentModel.create(summon.id).withDrawArrow(true))
+        addEntry(soulCage)
 
         val banshee = EntryProviders.recipe(this, "summon_banshee", WitcheryItems.CONDENSED_FEAR.get(), "brazier_summoning").generate("i")
         banshee.addParent(BookEntryParentModel.create(summon.id).withDrawArrow(true))

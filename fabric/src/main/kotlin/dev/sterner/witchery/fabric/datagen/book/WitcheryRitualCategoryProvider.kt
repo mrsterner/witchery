@@ -33,7 +33,7 @@ class WitcheryRitualCategoryProvider(
             "___________u_l__r_g_______________",
             "__________y__a_q__________________",
             "______________n__i________________",
-            "__________________________________",
+            "_____________h____________________",
             "_______________s___c______________",
             "________________mdw_______________",
             "__________________________________",
@@ -146,6 +146,10 @@ class WitcheryRitualCategoryProvider(
             .requiresAndFollows(ritualChalk)
         addEntry(necro)
 
+        val infuseNecro = EntryProviders.ritual(this, "infuse_necromancy", WitcheryItems.NECROMANTIC_SOULBIND.get())
+            .generate("h")
+            .requiresAndFollows(necro)
+        addEntry(infuseNecro)
         val chargeInfusion = EntryProviders.ritual(this, "rite_of_charging_infusion", Items.FIRE_CHARGE)
             .generate("u")
             .requiresAndFollows(ritualChalk)

@@ -34,7 +34,6 @@ import dev.sterner.witchery.client.renderer.entity.SleepingPlayerEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.SpectreEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.VampireEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.WerewolfEntityRenderer
-import dev.sterner.witchery.entity.BabaYagaEntity
 import dev.sterner.witchery.neoforge.client.*
 import dev.sterner.witchery.neoforge.item.HunterArmorItemNeoForge
 import dev.sterner.witchery.neoforge.item.VampireArmorItemNeoForge
@@ -79,6 +78,9 @@ object WitcheryNeoForgeClientEvent {
 
     @SubscribeEvent
     fun onEntityRendererRegistry(event: EntityRenderersEvent.RegisterRenderers) {
+        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.SOUL_CAGE.get(), ::NeoSoulCageRenderer)
+        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(), ::NeoWolfAltarRenderer)
+
         event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_BOAT.get()) { context -> BoatRenderer(context, false) }
         event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()) { context ->
             BoatRenderer(
@@ -365,6 +367,11 @@ object WitcheryNeoForgeClientEvent {
             ShaderInstance(event.resourceProvider, Witchery.id("spirit_portal"), DefaultVertexFormat.NEW_ENTITY)
         ) { shaderInstance ->
             WitcheryShaders.spiritPortal = shaderInstance
+        }
+        event.registerShader(
+            ShaderInstance(event.resourceProvider, Witchery.id("spirit_cage"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        ) { shaderInstance ->
+            WitcheryShaders.soulLantern = shaderInstance
         }
         event.registerShader(
             ShaderInstance(event.resourceProvider, Witchery.id("spirit_chain"), DefaultVertexFormat.NEW_ENTITY)

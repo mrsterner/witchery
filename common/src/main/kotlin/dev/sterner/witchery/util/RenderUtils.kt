@@ -1,19 +1,26 @@
 package dev.sterner.witchery.util
 
+import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.Witchery.id
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.registry.WitcheryShaders
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.GameRenderer
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.LivingEntity
 import org.joml.Matrix4f
 import org.joml.Quaternionf
 import org.joml.Vector3f
+import org.lwjgl.opengl.GL11
 import kotlin.math.atan
+import kotlin.math.cos
+import kotlin.math.sin
 
 object RenderUtils {
 
@@ -330,5 +337,137 @@ object RenderUtils {
         entityRenderDispatcher.setRenderShadow(true)
         poseStack.popPose()
         Lighting.setupFor3DItems()
+    }
+
+    val TEXTURE_FRONT = Witchery.id("textures/entity/soul_lantern_front.png")
+    val TEXTURE_BACK = Witchery.id("textures/entity/soul_lantern_front.png")
+    val TEXTURE_LEFT = Witchery.id("textures/entity/soul_lantern_right.png")
+    val TEXTURE_RIGHT = Witchery.id("textures/entity/soul_lantern_right.png")
+    val TEXTURE_TOP = Witchery.id("textures/entity/soul_lantern_top.png")
+    val TEXTURE_BOTTOM = Witchery.id("textures/entity/soul_lantern_top.png")
+    val TEXTURE_CORE = Witchery.id("textures/entity/soul_lantern_core.png")
+
+    fun renderGlowBoxEffect11(
+        fadeProgress: Float,
+        poseStack: PoseStack,
+        bufferSource: MultiBufferSource
+    ) {
+        val shader = WitcheryShaders.soulLantern ?: return
+
+        poseStack.pushPose()
+        poseStack.translate(0.5, 0.5, 0.5)
+
+        val time = System.currentTimeMillis() / 1000.0
+        val wobble = sin(time * 2.0).toFloat() * 0.025f
+        val wobble2 = cos(time * 1.5).toFloat() * 0.025f
+
+        val glowMin = -5.5f + wobble
+        val glowMax = 5.5f + wobble2
+
+        val matrix = poseStack.last().pose()
+
+        if (bufferSource is MultiBufferSource.BufferSource) {
+            bufferSource.endBatch()
+        }
+
+        val prevShader = RenderSystem.getShader()
+        val prevCull = GL11.glIsEnabled(GL11.GL_CULL_FACE)
+        val prevDepthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK)
+
+        RenderSystem.enableBlend()
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE)
+        RenderSystem.disableCull()
+        RenderSystem.depthMask(false)
+        RenderSystem.enableDepthTest()
+        RenderSystem.depthFunc(GL11.GL_LEQUAL)
+
+        shader.safeGetUniform("Alpha")?.set(fadeProgress * 0.7f)
+        RenderSystem.setShader { shader }
+
+        RenderSystem.setShaderTexture(0, TEXTURE_FRONT)
+        val builderFront = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderFront, matrix, glowMin, glowMin, glowMax, glowMax, glowMin, glowMax, glowMax, glowMax, glowMax, glowMin, glowMax, glowMax)
+        BufferUploader.drawWithShader(builderFront.buildOrThrow())
+
+        RenderSystem.setShaderTexture(0, TEXTURE_BACK)
+        val builderBack = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderBack, matrix, glowMax, glowMin, glowMin, glowMin, glowMin, glowMin, glowMin, glowMax, glowMin, glowMax, glowMax, glowMin)
+        BufferUploader.drawWithShader(builderBack.buildOrThrow())
+
+        RenderSystem.setShaderTexture(0, TEXTURE_LEFT)
+        val builderLeft = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderLeft, matrix, glowMin, glowMin, glowMin, glowMin, glowMin, glowMax, glowMin, glowMax, glowMax, glowMin, glowMax, glowMin)
+        BufferUploader.drawWithShader(builderLeft.buildOrThrow())
+
+        RenderSystem.setShaderTexture(0, TEXTURE_RIGHT)
+        val builderRight = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderRight, matrix, glowMax, glowMin, glowMax, glowMax, glowMin, glowMin, glowMax, glowMax, glowMin, glowMax, glowMax, glowMax)
+        BufferUploader.drawWithShader(builderRight.buildOrThrow())
+
+        RenderSystem.setShaderTexture(0, TEXTURE_TOP)
+        val builderTop = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderTop, matrix, glowMin, glowMax, glowMax, glowMax, glowMax, glowMax, glowMax, glowMax, glowMin, glowMin, glowMax, glowMin)
+        BufferUploader.drawWithShader(builderTop.buildOrThrow())
+
+        RenderSystem.setShaderTexture(0, TEXTURE_BOTTOM)
+        val builderBottom = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderBottom, matrix, glowMin, glowMin, glowMin, glowMax, glowMin, glowMin, glowMax, glowMin, glowMax, glowMin, glowMin, glowMax)
+        BufferUploader.drawWithShader(builderBottom.buildOrThrow())
+
+        val coreSize = 5.4f
+        RenderSystem.setShaderTexture(0, TEXTURE_CORE)
+
+        val builderCoreFront = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderCoreFront, matrix, -coreSize, -coreSize, coreSize, coreSize, -coreSize, coreSize, coreSize, coreSize, coreSize, -coreSize, coreSize, coreSize)
+        BufferUploader.drawWithShader(builderCoreFront.buildOrThrow())
+
+        val builderCoreBack = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderCoreBack, matrix, coreSize, -coreSize, -coreSize, -coreSize, -coreSize, -coreSize, -coreSize, coreSize, -coreSize, coreSize, coreSize, -coreSize)
+        BufferUploader.drawWithShader(builderCoreBack.buildOrThrow())
+
+        val builderCoreLeft = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderCoreLeft, matrix, -coreSize, -coreSize, -coreSize, -coreSize, -coreSize, coreSize, -coreSize, coreSize, coreSize, -coreSize, coreSize, -coreSize)
+        BufferUploader.drawWithShader(builderCoreLeft.buildOrThrow())
+
+        val builderCoreRight = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderCoreRight, matrix, coreSize, -coreSize, coreSize, coreSize, -coreSize, -coreSize, coreSize, coreSize, -coreSize, coreSize, coreSize, coreSize)
+        BufferUploader.drawWithShader(builderCoreRight.buildOrThrow())
+
+        val builderCoreTop = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderCoreTop, matrix, -coreSize, coreSize, coreSize, coreSize, coreSize, coreSize, coreSize, coreSize, -coreSize, -coreSize, coreSize, -coreSize)
+        BufferUploader.drawWithShader(builderCoreTop.buildOrThrow())
+
+        val builderCoreBottom = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(builderCoreBottom, matrix, -coreSize, -coreSize, -coreSize, coreSize, -coreSize, -coreSize, coreSize, -coreSize, coreSize, -coreSize, -coreSize, coreSize)
+        BufferUploader.drawWithShader(builderCoreBottom.buildOrThrow())
+
+        RenderSystem.defaultBlendFunc()
+        RenderSystem.disableBlend()
+        RenderSystem.depthMask(prevDepthMask)
+        if (prevCull) {
+            RenderSystem.enableCull()
+        }
+
+        if (prevShader != null) {
+            RenderSystem.setShader { prevShader }
+        }
+
+        poseStack.popPose()
+    }
+
+    private fun addGlowFace(
+        builder: BufferBuilder,
+        matrix: Matrix4f,
+        x1: Float, y1: Float, z1: Float,
+        x2: Float, y2: Float, z2: Float,
+        x3: Float, y3: Float, z3: Float,
+        x4: Float, y4: Float, z4: Float
+    ) {
+        val light = 240
+
+        builder.addVertex(matrix, x1, y1, z1).setColor(255, 255, 255, 255).setUv(0f, 0f).setUv2(light, light)
+        builder.addVertex(matrix, x2, y2, z2).setColor(255, 255, 255, 255).setUv(1f, 0f).setUv2(light, light)
+        builder.addVertex(matrix, x3, y3, z3).setColor(255, 255, 255, 255).setUv(1f, 1f).setUv2(light, light)
+        builder.addVertex(matrix, x4, y4, z4).setColor(255, 255, 255, 255).setUv(0f, 1f).setUv2(light, light)
     }
 }

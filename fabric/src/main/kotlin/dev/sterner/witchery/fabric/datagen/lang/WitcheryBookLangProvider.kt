@@ -167,6 +167,15 @@ object WitcheryBookLangProvider {
         builder.add("brewing.ritual_chalk.otherwhere_chalk", "Otherwhere Chalk")
 
         //GUIDEBOOK RITUALS
+        builder.add("book.witchery.guidebook.ritual.infuse_necromancy.name", "Necromantic Infusion")
+        builder.add("book.witchery.guidebook.ritual.infuse_necromancy.description", "Souls of the damned")
+        builder.add("ritual.infuse_necromancy.title.1", "Necromantic Soulbind")
+        builder.add("ritual.infuse_necromancy.page.1", "Users can raise the souls of the slayed with the Witches Hand")
+
+        builder.add("ritual.ritual_chalk.golden_chalk.title.1", "Golden Chalk")
+        builder.add("ritual.ritual_chalk.infernal_chalk.title.1", "Infernal Chalk")
+        builder.add("ritual.ritual_chalk.otherwhere_chalk.title.1", "Otherwhere Chalk")
+
         builder.add("book.witchery.guidebook.ritual.ritual_chalk.name", "Ritual Chalk")
         builder.add("book.witchery.guidebook.ritual.ritual_chalk.description", "Better than crayons")
         builder.add("ritual.ritual_chalk.title.1", "Ritual Chalk")
@@ -195,6 +204,149 @@ object WitcheryBookLangProvider {
         builder.add("ritual.ritual_chalk.infernal_chalk", "Infernal Chalk")
         builder.add("ritual.ritual_chalk.golden_chalk", "Golden Chalk")
 
+
+        builder.add("book.witchery.guidebook.necromancy.name","Necromancy")
+
+
+        builder.add("necromancy.necro_1.title.1", "Souls as a resource")
+        builder.add("necromancy.necro_1.page.1", "inspiring yet eerie words")
+        builder.add("necromancy.necro_1.page.2", "inspiring yet eerie words")
+        builder.add("necromancy.necro_1.page.3", "inspiring yet eerie words")
+
+        builder.add("book.witchery.guidebook.necromancy.necro_1.name", "Souls as a resource")
+        builder.add("book.witchery.guidebook.necromancy.necro_1.description", "First Stage")
+        builder.add("book.witchery.guidebook.necromancy.carving_1.name", "The Binding of Souls")
+        builder.add("book.witchery.guidebook.necromancy.carving_1.description", "Second Stage")
+        builder.add("book.witchery.guidebook.necromancy.carving_2.name", "The Severed Soul")
+        builder.add("book.witchery.guidebook.necromancy.carving_2.description", "Third Stage")
+        builder.add("book.witchery.guidebook.necromancy.carving_3.name", "The Phylactery's Embrace")
+        builder.add("book.witchery.guidebook.necromancy.carving_3.description", "Death Stage")
+
+        builder.add("necromancy.carving_1.title", "The Binding of Souls")
+        builder.add("necromancy.carving_1.page.1", "\n" +
+                "\\\n" +
+                "\\\n...weathered stone, older than memory, speaks of the first necromancer...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...the soul cage, a prison of iron and bone, holds the essence of the departed...")
+
+        builder.add("necromancy.carving_1.page.2", "\n" +
+                "\\\n...a single villager's spirit, torn from flesh and bound in ethereal chains...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...the dead serve the living, shambling guardians that know not rest...\n" +
+                "\\\n" +
+                "\\\n...command them to strike down the living, prove dominion over death...")
+
+        builder.add("necromancy.carving_1.page.3", "\n" +
+                "\\\n...the protectors of the living, those of iron and snow, must fall...\n" +
+                "\\\n" +
+                "\\\n...five must be destroyed by necrotic hands...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...then three souls together, bound as one within the cage's embrace...")
+
+
+        builder.add("necromancy.carving_2.title", "The Severed Soul")
+        builder.add("necromancy.carving_2.page.1", "\n" +
+                "\\\n...the stone depicts a figure standing over fallen beasts...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...five creatures of innocence, their life force drained to emptiness...\n" +
+                "\\\n" +
+                "\\\n...sustenance not of flesh but of spirit...")
+
+        builder.add("necromancy.carving_2.page.2", "\n" +
+                "\\\n...the greatest power lies in abandoning one's own flesh...\n" +
+                "\\\n" +
+                "\\\n...spirit walks free, entering the hollow shell of the risen dead...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...wearing death's form, strike down the living, a villager's blood on possessed hands...")
+
+        builder.add("necromancy.carving_2.page.3", "\n" +
+                "\\\n...the three-souled horror, born of nether stars...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...it too must fall before the master of death...\n" +
+                "\\\n" +
+                "\\\n...only then does the final secret reveal itself...")
+
+
+        builder.add("necromancy.carving_3.title", "The Phylactery's Embrace")
+        builder.add("necromancy.carving_3.page.1", "\n" +
+                "\\\n...the final carving shows a crystalline vessel, pulsing with unlife...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...bind your essence within, let death claim your body...\n" +
+                "\\\n" +
+                "\\\n...the phylactery remembers, pulls you back from oblivion...")
+
+        builder.add("necromancy.carving_3.page.2", "\n" +
+                "\\\n...but true lichdom demands the ultimate sacrifice...\n" +
+                "\\\n" +
+                "\\\n...three times must you die, three times return...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...each death within the span of a single night...")
+
+        builder.add("necromancy.carving_3.page.3", "\n" +
+                "\\\n...only then does mortality truly break...\n" +
+                "\\\n" +
+                "\\\n" +
+                "\\\n...the phylactery holds three souls in reserve...\n" +
+                "\\\n" +
+                "\\\n...death becomes but an inconvenience, the lich eternal...")
+
+        builder.add("book.witchery.guidebook.lycanthropy.name","Lycanthropy")
+
+        builder.add("book.witchery.guidebook.lycanthropy.were_1.description", "First Stage")
+        builder.add("book.witchery.guidebook.lycanthropy.were_2.description", "Second Stage")
+        builder.add("book.witchery.guidebook.lycanthropy.were_3.description", "Third Stage")
+        builder.add("book.witchery.guidebook.lycanthropy.were_4.description", "Forth Stage")
+        builder.add("book.witchery.guidebook.lycanthropy.were_5.description", "Fifth Stage")
+        builder.add("book.witchery.guidebook.lycanthropy.were_6.description", "Sixth Stage")
+        builder.add("book.witchery.guidebook.lycanthropy.were_7.description", "Seventh Stage")
+        builder.add("book.witchery.guidebook.lycanthropy.were_8.description", "Eighth Stage")
+        builder.add("book.witchery.guidebook.lycanthropy.were_9.description", "Ninth Stage")
+
+        builder.add("book.witchery.guidebook.lycanthropy.were_1.name", "The Pack's Call")
+        builder.add("lycanthropy.were_1.title.1", "The Pack's Call")
+        builder.add("book.witchery.guidebook.lycanthropy.were_2.name", "The Feast")
+        builder.add("lycanthropy.were_2.title.1", "The Feast")
+        builder.add("book.witchery.guidebook.lycanthropy.were_3.name", "The Pack's Tribute")
+        builder.add("lycanthropy.were_3.title.1", "The Pack's Tribute")
+        builder.add("book.witchery.guidebook.lycanthropy.were_4.name", "The Hunter's Challenge")
+        builder.add("lycanthropy.were_4.title.1", "The Hunter's Challenge")
+        builder.add("book.witchery.guidebook.lycanthropy.were_5.name", "Predator's Strike")
+        builder.add("lycanthropy.were_5.title.1", "Predator's Strike")
+        builder.add("book.witchery.guidebook.lycanthropy.were_6.name", "Marking Territory")
+        builder.add("lycanthropy.were_6.title.1", "Marking Territory")
+        builder.add("book.witchery.guidebook.lycanthropy.were_7.name", "Alpha's Bond")
+        builder.add("lycanthropy.were_7.title.1", "Alpha's Bond")
+        builder.add("book.witchery.guidebook.lycanthropy.were_8.name", "Nether Hunt")
+        builder.add("lycanthropy.were_8.title.1", "Nether Hunt")
+        builder.add("book.witchery.guidebook.lycanthropy.were_9.name", "Blood of the Pack")
+        builder.add("lycanthropy.were_9.title.1", "Blood of the Pack")
+
+        builder.add("lycanthropy.were_1.page.1", "The Wolf Altar recognizes those who seek the beast within. Offer three gold ingots to prove your worth to the pack. The altar will grant you a Moon Charm, marking you as one touched by lunar power.")
+
+        builder.add("lycanthropy.were_2.page.1", "The hunger of the wolf must be sated. In your wolf form, hunt and kill thirty sheep. Their meat will transform into Raw Lambchops. Return these to the Wolf Altar as proof of your first successful hunt.")
+
+        builder.add("lycanthropy.were_3.page.1", "The pack demands greater tribute. Collect ten Tongues of Dog from fallen wolves and offer them at the Wolf Altar. This sacrifice proves your dominance over lesser canines.")
+
+        builder.add("lycanthropy.were_4.page.1", "The Horned Huntsman guards the ancient ways of the hunt. Face him in combat and claim victory. His defeat marks you as a true predator worthy of greater power.")
+
+        builder.add("lycanthropy.were_5.page.1", "Perfect your killing instinct. Strike down ten hostile creatures with critical hits, showing mastery over the art of the lethal strike. Each kill must be precise and devastating.")
+
+        builder.add("lycanthropy.were_6.page.1", "Mark your territory across the land. Travel to sixteen different locations and howl to claim them as your domain. Let all creatures know that a true wolf roams these lands.")
+
+        builder.add("lycanthropy.were_7.page.1", "Build your pack through dominance and submission. In wolf form, tame six wild wolves using only your presence and empty hands. They will recognize the alpha within you.")
+
+        builder.add("lycanthropy.were_8.page.1", "The Nether calls for blood. Hunt and kill thirty Zombie Pigmen in the burning realm. Prove that even in hell itself, the wolf is apex predator.")
+
+        builder.add("lycanthropy.were_9.page.1", "The final transformation demands the ultimate choice. Spill the blood of a friend or an innocent villager. Only through this act can you fully embrace the beast and abandon your humanity.")
 
         builder.add("book.witchery.guidebook.vampirism.vamp_1.name", "Observations of an Immortal")
         builder.add("book.witchery.guidebook.vampirism.vamp_2.name", "The Hunger")
@@ -588,12 +740,12 @@ object WitcheryBookLangProvider {
         builder.add("book.witchery.guidebook.ritual.infuse_otherwhere.name", "Otherwhere Infusion")
         builder.add("book.witchery.guidebook.ritual.infuse_otherwhere.description", "Tap into the enderman")
         builder.add("ritual.infuse_otherwhere.title.1", "Spirit of Otherwhere")
-        builder.add("ritual.infuse_otherwhere.page.1", "User can teleport with a witches hand")
+        builder.add("ritual.infuse_otherwhere.page.1", "User can teleport with a Witches Hand.")
 
         builder.add("book.witchery.guidebook.ritual.infuse_light.name", "Light Infusion")
         builder.add("book.witchery.guidebook.ritual.infuse_light.description", "Now you see me-n't")
         builder.add("ritual.infuse_light.title.1", "Ghost of the Light")
-        builder.add("ritual.infuse_light.page.1", "User can become invisible")
+        builder.add("ritual.infuse_light.page.1", "User can become invisible with a Witches Hand.")
 
         builder.add("book.witchery.guidebook.ritual.apply_ointment.name", "Apply Ointment")
         builder.add("book.witchery.guidebook.ritual.apply_ointment.description", "Broom to ride")
@@ -900,6 +1052,10 @@ object WitcheryBookLangProvider {
         builder.add("potion_effect.witches_hat", "not yet implemented")
         builder.add("potion_effect.witches_hat.title.1", "Summon Leonard")
 
+        builder.add("book.witchery.guidebook.brazier.soul_cage.name", "The Soul Cage")
+        builder.add("book.witchery.guidebook.brazier.soul_cage.description", "Soul keeper")
+        builder.add("brazier.soul_cage.title.1", "Soul Cage")
+        builder.add("brazier.soul_cage.page.1", "The Brazier provides an excellent way to contain souls and spirits. To aid us in the collection we can convert it to a Soul Cage. Use a regular glass block on the brazier to convert it. With this, use a Spectral Dust to create a barrier around this for a minute.")
 
         builder.add("book.witchery.guidebook.brazier.name", "Brazier")
         builder.add("book.witchery.guidebook.brazier.brazier.name", "Brazier")

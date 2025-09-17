@@ -1,6 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.mixin_logic.SummonedWolf;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.animal.Wolf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -93,5 +94,25 @@ public class WolfMixin implements SummonedWolf {
             return Math.max(0, witchery$summonDuration - witchery$summonedTime);
         }
         return 0;
+    }
+
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    private void witchery$saveData(CompoundTag tag, CallbackInfo ci) {
+        tag.putBoolean("WitcheryIsSummoned", this.witchery$isSummoned);
+        tag.putInt("WitcherySummonedTime", this.witchery$summonedTime);
+        tag.putInt("WitcherySummonDuration", this.witchery$summonDuration);
+    }
+
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    private void witchery$loadData(CompoundTag tag, CallbackInfo ci) {
+        if (tag.contains("WitcheryIsSummoned")) {
+            this.witchery$isSummoned = tag.getBoolean("WitcheryIsSummoned");
+        }
+        if (tag.contains("WitcherySummonedTime")) {
+            this.witchery$summonedTime = tag.getInt("WitcherySummonedTime");
+        }
+        if (tag.contains("WitcherySummonDuration")) {
+            this.witchery$summonDuration = tag.getInt("WitcherySummonDuration");
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.client.model.GlassContainerModel
+import dev.sterner.witchery.util.RenderUtils
 import net.minecraft.client.model.VillagerModel
 import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.renderer.MultiBufferSource
@@ -14,8 +15,10 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.Vec3
+import kotlin.div
 
-class SoulCageBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
+open class SoulCageBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<SoulCageBlockEntity> {
 
     val model = GlassContainerModel(ctx.bakeLayer(GlassContainerModel.LAYER_LOCATION))
@@ -24,6 +27,15 @@ class SoulCageBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     private val outerTexture = Witchery.id("textures/block/glass_container.png")
     private val innerTexture = Witchery.id("textures/block/glass_container_inside.png")
     val villagerSkin = ResourceLocation.withDefaultNamespace("textures/entity/villager/villager.png")
+
+    override fun shouldRenderOffScreen(blockEntity: SoulCageBlockEntity): Boolean {
+        return true
+    }
+
+    override fun shouldRender(blockEntity: SoulCageBlockEntity, cameraPos: Vec3): Boolean {
+        return Vec3.atCenterOf(blockEntity.blockPos).multiply(1.0, 0.0, 1.0)
+            .closerThan(cameraPos.multiply(1.0, 0.0, 1.0), this.viewDistance.toDouble())
+    }
 
     override fun render(
         blockEntity: SoulCageBlockEntity,
@@ -72,6 +84,13 @@ class SoulCageBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         )
 
         poseStack.popPose()
+
+        if (blockEntity.isProcessing()) {
+            val fadeProgress = (blockEntity.getAnimationTime() / SoulCageBlockEntity.TOTAL_DURATION)
+                .coerceIn(0f, 1f)
+
+            RenderUtils.renderGlowBoxEffect11(fadeProgress, poseStack, bufferSource)
+        }
     }
 
     /**

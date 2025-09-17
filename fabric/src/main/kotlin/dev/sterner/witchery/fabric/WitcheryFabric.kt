@@ -1,9 +1,12 @@
 package dev.sterner.witchery.fabric
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.coffin.CoffinBlock
 import dev.sterner.witchery.client.particle.*
+import dev.sterner.witchery.client.renderer.block.SoulCageBlockEntityRenderer
+import dev.sterner.witchery.client.renderer.block.WerewolfAltarBlockEntityRenderer
 import dev.sterner.witchery.fabric.client.*
 import dev.sterner.witchery.fabric.registry.WitcheryCompostables
 import dev.sterner.witchery.fabric.registry.WitcheryFabricAttachmentRegistry
@@ -90,6 +93,9 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
 
     override fun onInitializeClient() {
         Witchery.initClient()
+
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(), ::WerewolfAltarBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.SOUL_CAGE.get(), ::SoulCageBlockEntityRenderer)
 
         ModelLoadingPlugin.register(WitcheryModelLoaderPlugin())
 
@@ -197,6 +203,11 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             Witchery.id("spirit_portal"), DefaultVertexFormat.NEW_ENTITY
         ) { shaderInstance: ShaderInstance ->
             WitcheryShaders.spiritPortal = shaderInstance
+        }
+        ctx.register(
+            Witchery.id("spirit_cage"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP
+        ) { shaderInstance: ShaderInstance ->
+            WitcheryShaders.soulLantern = shaderInstance
         }
         ctx.register(
             Witchery.id("spirit_chain"), DefaultVertexFormat.NEW_ENTITY

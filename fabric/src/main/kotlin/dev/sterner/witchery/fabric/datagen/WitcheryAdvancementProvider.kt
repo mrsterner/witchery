@@ -41,6 +41,21 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
         val vamp7 = makeVampTornPageAdvancement("7", vamp6, consumer)
         val vamp8 = makeVampTornPageAdvancement("8", vamp7, consumer)
         val vamp9 = makeVampTornPageAdvancement("9", vamp8, consumer)
+
+        val were1 = makeWerewolfAltarAdvancement("1", null, consumer)
+        val were2 = makeWerewolfAltarAdvancement("2", were1, consumer)
+        val were3 = makeWerewolfAltarAdvancement("3", were2, consumer)
+        val were4 = makeWerewolfAltarAdvancement("4", were3, consumer)
+        val were5 = makeWerewolfAltarAdvancement("5", were4, consumer)
+        val were6 = makeWerewolfAltarAdvancement("6", were5, consumer)
+        val were7 = makeWerewolfAltarAdvancement("7", were6, consumer)
+        val were8 = makeWerewolfAltarAdvancement("8", were7, consumer)
+        val were9 = makeWerewolfAltarAdvancement("9", were8, consumer)
+
+        val necro1 = makeNecroRuinPageAdvancement("1", null, consumer)
+        val necro2 = makeNecroRuinPageAdvancement("2", necro1, consumer)
+        val necro3 = makeNecroRuinPageAdvancement("3", necro2, consumer)
+        val necro4 = makeNecroRuinPageAdvancement("4", necro3, consumer)
     }
 
     companion object {
@@ -293,6 +308,66 @@ class WitcheryAdvancementProvider(output: FabricDataOutput, registryLookup: Comp
             }
 
             return advancement.save(consumer, "witchery:vampire/$id")
+        }
+
+        fun makeNecroRuinPageAdvancement(
+            id: String,
+            parent: AdvancementHolder?,
+            consumer: Consumer<AdvancementHolder>
+        ): AdvancementHolder {
+            val advancement = Advancement.Builder.advancement()
+                .display(
+                    WitcheryItems.TORN_PAGE.get(),
+                    Component.translatable("advancements.witchery.necro_${id}.title"),
+                    Component.translatable("advancements.witchery.necro_${id}.description"),
+                    Witchery.id("textures/block/rowan_planks.png"),
+                    AdvancementType.TASK,
+                    false,
+                    false,
+                    true
+                )
+
+                .requirements(AdvancementRequirements.Strategy.OR)
+                .addCriterion(
+                    "impossible_${id}",
+                    CriteriaTriggers.IMPOSSIBLE.createCriterion(ImpossibleTrigger.TriggerInstance())
+                )
+
+            if (parent != null) {
+                advancement.parent(parent)
+            }
+
+            return advancement.save(consumer, "witchery:necro/$id")
+        }
+
+        fun makeWerewolfAltarAdvancement(
+            id: String,
+            parent: AdvancementHolder?,
+            consumer: Consumer<AdvancementHolder>
+        ): AdvancementHolder {
+            val advancement = Advancement.Builder.advancement()
+                .display(
+                    WitcheryItems.TORN_PAGE.get(),
+                    Component.translatable("advancements.witchery.werewolf_${id}.title"),
+                    Component.translatable("advancements.witchery.werewolf_${id}.description"),
+                    Witchery.id("textures/block/rowan_planks.png"),
+                    AdvancementType.TASK,
+                    false,
+                    false,
+                    true
+                )
+
+                .requirements(AdvancementRequirements.Strategy.OR)
+                .addCriterion(
+                    "impossible_${id}",
+                    CriteriaTriggers.IMPOSSIBLE.createCriterion(ImpossibleTrigger.TriggerInstance())
+                )
+
+            if (parent != null) {
+                advancement.parent(parent)
+            }
+
+            return advancement.save(consumer, "witchery:werewolf/$id")
         }
     }
 

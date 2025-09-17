@@ -3,10 +3,12 @@ package dev.sterner.witchery.block.soul_cage
 import dev.architectury.event.EventResult
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.api.event.ChainEvent
+import dev.sterner.witchery.entity.AbstractSpectralEntity
 import dev.sterner.witchery.handler.chain.ChainManager
 import dev.sterner.witchery.handler.chain.ChainType
 import dev.sterner.witchery.platform.EtherealEntityAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.particles.ParticleTypes
@@ -30,6 +32,9 @@ import net.minecraft.world.phys.Vec3
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.HashMap
+import kotlin.compareTo
+import kotlin.inc
+import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -58,6 +63,15 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     // Tracking state
     private var isTrackingPlayer = false
     private var previousTrackingState = false
+
+    //Soul barrier
+    private var saltCount: Int = 0
+    private var fuelTime: Int = 0
+    private var maxFuelTime: Int = 0
+    private var animationTime: Int = 0
+    private var wasProcessing: Boolean = false
+
+    fun getAnimationTime(): Int = animationTime
 
     fun lookAndConsumeSoul(level: Level, pos: BlockPos, radius: Double = 8.0) {
         if (hasSoul) return
@@ -119,6 +133,12 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
         super.tick(level, pos, blockState)
+
+        tickSoulBox(level, pos)
+
+        if (!hasSoul && !isProcessing()) {
+            level.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, false))
+        }
 
         if (!hasSoul && level.gameTime % 20 == 0L) {
             lookAndConsumeSoul(level, pos)
@@ -258,14 +278,42 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (pTag.contains("HasSoul")) {
             hasSoul = pTag.getBoolean("HasSoul")
         }
+        loadSoulBarrier(tag = pTag)
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         super.saveAdditional(tag, registries)
         tag.putBoolean("HasSoul", hasSoul)
+        saveSoulBarrier(tag)
     }
 
+
+    override fun onUseWithItem(
+        player: Player,
+        stack: ItemStack,
+        hand: InteractionHand
+    ): ItemInteractionResult {
+        if (stack.`is`(WitcheryItems.SPECTRAL_DUST.get())) {
+            if (saltCount < 1) {
+                stack.shrink(1)
+                animationTime = 0
+                saltCount = 1
+                if (!isProcessing()) {
+                    startProcessing()
+                }
+                setChanged()
+                return ItemInteractionResult.SUCCESS
+            }
+            return ItemInteractionResult.FAIL
+        }
+        return super.onUseWithItem(player, stack, hand)
+    }
     companion object {
+        const val TOTAL_DURATION: Float = 20 * 1f
+        const val SALT_TIME = 20 * 60
+        private const val CONTAINMENT_RADIUS = 5.0
+        private const val PARTICLE_OFFSET = 0.1
+
         private val entityToSoulCageMap = HashMap<UUID, BlockPos>()
 
         fun registerEvents() {
@@ -341,5 +389,322 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 }
             }
         }
+    }
+
+    //Soul barrier stuff
+
+    private fun startProcessing() {
+        if (saltCount > 0) {
+            fuelTime = SALT_TIME
+            maxFuelTime = SALT_TIME
+            saltCount--
+            level?.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, true))
+            setChanged()
+        }
+    }
+
+    fun isProcessing(): Boolean = fuelTime > 0
+
+    fun tickSoulBox(level: Level, pos: BlockPos) {
+
+        if (!level.isClientSide) {
+            val isProcessingNow = isProcessing()
+
+            if (isProcessingNow && !wasProcessing) {
+                animationTime = 0
+            }
+
+            if (isProcessingNow && animationTime < TOTAL_DURATION) {
+                animationTime++
+            }
+
+            wasProcessing = isProcessingNow
+
+
+            if (fuelTime > 0) {
+                fuelTime--
+
+                if (fuelTime == 0 && saltCount > 0) {
+                    startProcessing()
+                }
+
+                val box = AABB(
+                    pos.x - CONTAINMENT_RADIUS,
+                    pos.y - CONTAINMENT_RADIUS,
+                    pos.z - CONTAINMENT_RADIUS,
+                    pos.x + CONTAINMENT_RADIUS + 1.0,
+                    pos.y + CONTAINMENT_RADIUS + 1.0,
+                    pos.z + CONTAINMENT_RADIUS + 1.0
+                )
+
+                containSpectralEntities(level, box, pos)
+
+                setChanged()
+            }
+        } else {
+            if (isProcessing() && level.random.nextFloat() < 0.3f) {
+                level.addParticle(
+                    ParticleTypes.END_ROD,
+                    pos.x + 0.5 + (level.random.nextDouble() - 0.5),
+                    pos.y + 0.8,
+                    pos.z + 0.5 + (level.random.nextDouble() - 0.5),
+                    0.0, 0.02, 0.0
+                )
+            }
+        }
+    }
+
+    private fun containSpectralEntity(entity: AbstractSpectralEntity, pos: BlockPos, level: Level) {
+        val centerX = pos.x + 0.5
+        val centerY = pos.y + 0.5
+        val centerZ = pos.z + 0.5
+
+        val entityBounds = entity.boundingBox
+        val entityCenterX = (entityBounds.minX + entityBounds.maxX) / 2.0
+        val entityCenterY = (entityBounds.minY + entityBounds.maxY) / 2.0
+        val entityCenterZ = (entityBounds.minZ + entityBounds.maxZ) / 2.0
+
+        val minX = centerX - CONTAINMENT_RADIUS
+        val maxX = centerX + CONTAINMENT_RADIUS
+        val minY = centerY - CONTAINMENT_RADIUS
+        val maxY = centerY + CONTAINMENT_RADIUS
+        val minZ = centerZ - CONTAINMENT_RADIUS
+        val maxZ = centerZ + CONTAINMENT_RADIUS
+
+        var hitBoundary = false
+        var particleX = entityCenterX
+        var particleY = entityCenterY
+        var particleZ = entityCenterZ
+
+        if (entityBounds.maxX > maxX) {
+            hitBoundary = true
+            particleX = maxX - PARTICLE_OFFSET
+            particleY = entityCenterY
+            particleZ = entityCenterZ
+        } else if (entityBounds.minX < minX) {
+            hitBoundary = true
+            particleX = minX + PARTICLE_OFFSET
+            particleY = entityCenterY
+            particleZ = entityCenterZ
+        }
+
+        if (entityBounds.maxY > maxY) {
+            hitBoundary = true
+            particleY = maxY - PARTICLE_OFFSET
+            if (entityBounds.minX >= minX && entityBounds.maxX <= maxX) {
+                particleX = entityCenterX
+            }
+            if (entityBounds.minZ >= minZ && entityBounds.maxZ <= maxZ) {
+                particleZ = entityCenterZ
+            }
+        } else if (entityBounds.minY < minY) {
+            hitBoundary = true
+            particleY = minY + PARTICLE_OFFSET
+            if (entityBounds.minX >= minX && entityBounds.maxX <= maxX) {
+                particleX = entityCenterX
+            }
+            if (entityBounds.minZ >= minZ && entityBounds.maxZ <= maxZ) {
+                particleZ = entityCenterZ
+            }
+        }
+
+        if (entityBounds.maxZ > maxZ) {
+            hitBoundary = true
+            particleZ = maxZ - PARTICLE_OFFSET
+            if (entityBounds.minX >= minX && entityBounds.maxX <= maxX) {
+                particleX = entityCenterX
+            }
+            if (entityBounds.minY >= minY && entityBounds.maxY <= maxY) {
+                particleY = entityCenterY
+            }
+        } else if (entityBounds.minZ < minZ) {
+            hitBoundary = true
+            particleZ = minZ + PARTICLE_OFFSET
+            if (entityBounds.minX >= minX && entityBounds.maxX <= maxX) {
+                particleX = entityCenterX
+            }
+            if (entityBounds.minY >= minY && entityBounds.maxY <= maxY) {
+                particleY = entityCenterY
+            }
+        }
+
+        if (hitBoundary) {
+
+            var moveX = 0.0
+            var moveY = 0.0
+            var moveZ = 0.0
+
+            if (entityBounds.maxX > maxX) moveX = maxX - entityBounds.maxX
+            else if (entityBounds.minX < minX) moveX = minX - entityBounds.minX
+
+            if (entityBounds.maxY > maxY) moveY = maxY - entityBounds.maxY
+            else if (entityBounds.minY < minY) moveY = minY - entityBounds.minY
+
+            if (entityBounds.maxZ > maxZ) moveZ = maxZ - entityBounds.maxZ
+            else if (entityBounds.minZ < minZ) moveZ = minZ - entityBounds.minZ
+
+            entity.setPos(entity.x + moveX, entity.y + moveY, entity.z + moveZ)
+
+            val dx = (centerX - entityCenterX) * 0.05
+            val dy = (centerY - entityCenterY) * 0.05
+            val dz = (centerZ - entityCenterZ) * 0.05
+
+            entity.deltaMovement = entity.deltaMovement.add(dx, dy, dz)
+            entity.hurtMarked = true
+
+            if (level is ServerLevel) {
+                createBarrierParticlesForBoundingBox(
+                    level,
+                    particleX, particleY, particleZ,
+                    centerX, centerY, centerZ,
+                    entityBounds
+                )
+            }
+        }
+    }
+
+    private fun createBarrierParticlesForBoundingBox(
+        level: ServerLevel,
+        particleX: Double,
+        particleY: Double,
+        particleZ: Double,
+        centerX: Double,
+        centerY: Double,
+        centerZ: Double,
+        entityBounds: AABB
+    ) {
+        val dirX = particleX - centerX
+        val dirY = particleY - centerY
+        val dirZ = particleZ - centerZ
+
+        val length = sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ)
+        val normalizedX = if (length > 0) dirX / length else 0.0
+        val normalizedY = if (length > 0) dirY / length else 0.0
+        val normalizedZ = if (length > 0) dirZ / length else 0.0
+
+        val entityHeight = entityBounds.maxY - entityBounds.minY
+        val particleCount = 3.coerceAtLeast((entityHeight * 2).toInt())
+
+        for (i in 0 until particleCount) {
+            val heightOffset = if (particleCount > 1) {
+                (i.toDouble() / (particleCount - 1)) * entityHeight - entityHeight / 2
+            } else {
+                0.0
+            }
+
+            val adjustedY = particleY + heightOffset
+
+            val offsetX = (level.random.nextDouble() - 0.5) * 0.2
+            val offsetZ = (level.random.nextDouble() - 0.5) * 0.2
+
+            level.sendParticles(
+                ParticleTypes.SOUL_FIRE_FLAME,
+                particleX + offsetX,
+                adjustedY,
+                particleZ + offsetZ,
+                1,
+                normalizedX * 0.05,
+                normalizedY * 0.02,
+                normalizedZ * 0.05,
+                0.01
+            )
+
+            if (i % 2 == 0) {
+                level.sendParticles(
+                    ParticleTypes.END_ROD,
+                    particleX + offsetX,
+                    adjustedY,
+                    particleZ + offsetZ,
+                    1,
+                    normalizedX * 0.02,
+                    normalizedY * 0.01,
+                    normalizedZ * 0.02,
+                    0.0
+                )
+            }
+        }
+
+        createRippleEffect(
+            level,
+            particleX,
+            particleY,
+            particleZ,
+            normalizedX,
+            normalizedY,
+            normalizedZ
+        )
+    }
+
+    private fun createRippleEffect(
+        level: ServerLevel,
+        particleX: Double,
+        particleY: Double,
+        particleZ: Double,
+        normalizedX: Double,
+        normalizedY: Double,
+        normalizedZ: Double
+    ) {
+        val rippleRadius = 0.5
+
+        for (angle in 0..360 step 60) {
+            val radians = Math.toRadians(angle.toDouble())
+
+            val perpX: Double
+            val perpY: Double
+            val perpZ: Double
+
+            if (abs(normalizedY) > 0.7) {
+                perpX = cos(radians) * rippleRadius
+                perpY = 0.0
+                perpZ = sin(radians) * rippleRadius
+            } else if (abs(normalizedX) > abs(normalizedZ)) {
+                perpX = 0.0
+                perpY = cos(radians) * rippleRadius
+                perpZ = sin(radians) * rippleRadius
+            } else {
+                perpX = cos(radians) * rippleRadius
+                perpY = sin(radians) * rippleRadius
+                perpZ = 0.0
+            }
+
+            level.sendParticles(
+                ParticleTypes.ELECTRIC_SPARK,
+                particleX + perpX,
+                particleY + perpY,
+                particleZ + perpZ,
+                1,
+                0.0, 0.0, 0.0,
+                0.0
+            )
+        }
+    }
+
+    /**
+     * Contain spectral entities within the lantern's range
+     */
+    private fun containSpectralEntities(level: Level, box: AABB, pos: BlockPos) {
+        val allEntities = level.getEntitiesOfClass(Entity::class.java, box)
+
+        for (entity in allEntities) {
+            if (entity is AbstractSpectralEntity) {
+                containSpectralEntity(entity, pos, level)
+            }
+        }
+    }
+
+    fun loadSoulBarrier(tag: CompoundTag) {
+        saltCount = tag.getInt("SaltCount")
+        fuelTime = tag.getInt("FuelTime")
+        maxFuelTime = tag.getInt("MaxFuelTime")
+        animationTime = tag.getInt("AnimationTime")
+        wasProcessing = tag.getBoolean("WasProcessing")
+    }
+
+    fun saveSoulBarrier(tag: CompoundTag) {
+        tag.putInt("SaltCount", saltCount)
+        tag.putInt("FuelTime", fuelTime)
+        tag.putInt("MaxFuelTime", maxFuelTime)
+        tag.putInt("AnimationTime", animationTime)
+        tag.putBoolean("WasProcessing", wasProcessing)
     }
 }

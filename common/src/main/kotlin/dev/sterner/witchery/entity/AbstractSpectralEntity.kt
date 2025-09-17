@@ -22,4 +22,8 @@ abstract class AbstractSpectralEntity(entityType: EntityType<out FlyingMob>, lev
         this.noPhysics = false
 
     }
+
+    override fun shouldDespawnInPeaceful(): Boolean {
+        return true
+    }
 }

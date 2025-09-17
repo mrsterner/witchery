@@ -7,6 +7,7 @@ import dev.architectury.platform.Platform
 import dev.sterner.witchery.Witchery
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap
 import net.minecraft.Util
+import net.minecraft.client.renderer.RenderStateShard
 import net.minecraft.client.renderer.RenderStateShard.*
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.RenderType.create
@@ -134,6 +135,23 @@ object WitcheryRenderTypes {
             compositeState!!
         )
     }
+
+    val SPIRIT_CAGE: RenderType = create(
+        "spirit_cage",
+        DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+        VertexFormat.Mode.QUADS,
+        256,
+        false,
+        true,
+        RenderType.CompositeState.builder()
+            .setShaderState(ShaderStateShard(WitcheryShaders::soulLantern))
+            .setTransparencyState(ADDITIVE_TRANSPARENCY)
+            .setTextureState(NO_TEXTURE)
+            .setCullState(NO_CULL)
+            .setWriteMaskState(COLOR_WRITE)
+            .setDepthTestState(LEQUAL_DEPTH_TEST)
+            .createCompositeState(true)
+    )
 
     val GLINT = Util.memoize { resourceLocation: ResourceLocation ->
         val compositeState: RenderType.CompositeState? =
