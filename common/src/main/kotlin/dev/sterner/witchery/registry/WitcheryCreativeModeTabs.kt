@@ -168,6 +168,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.SEER_STONE.get())
                 output.accept(WitcheryItems.SUN_COLLECTOR.get())
                 output.accept(WitcheryItems.BLOOD_STAINED_WOOL.get())
+                output.accept(WitcheryItems.BLOOD_STAINED_HAY.get())
                 output.accept(WitcheryItems.WOVEN_CRUOR.get())
                 output.accept(WitcheryItems.TOP_HAT.get())
                 output.accept(WitcheryItems.DRESS_COAT.get())

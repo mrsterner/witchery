@@ -3,6 +3,7 @@ package dev.sterner.witchery.handler.affliction
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.TickEvent
+import dev.sterner.witchery.entity.HornedHuntsmanEntity
 import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.handler.affliction.WerewolfLeveling
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
@@ -37,6 +38,7 @@ object WerewolfSpecificEventHandler {
             is Piglin -> WerewolfLeveling.increaseKilledPiglin(player)
             is Sheep -> WerewolfLeveling.increaseKilledSheep(player)
             is Wolf -> WerewolfLeveling.increaseKilledWolf(player)
+            is HornedHuntsmanEntity -> WerewolfLeveling.setHasKilledHuntsman(player)
         }
 
         if (wereLevel >= 4) {

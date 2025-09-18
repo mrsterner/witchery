@@ -1121,6 +1121,10 @@ object WitcheryBlocks {
         Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL))
     }
 
+    val BLOOD_STAINED_HAY: RegistrySupplier<Block> = register("blood_stained_hay") {
+        BloodHayBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.HAY_BLOCK))
+    }
+
     val GRASSPER: RegistrySupplier<GrassperBlock> = register("grassper") {
         GrassperBlock(
             BlockBehaviour.Properties.of()

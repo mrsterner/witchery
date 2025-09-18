@@ -20,6 +20,7 @@ import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.data.models.model.TexturedModel
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.properties.Property
 
 class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(output) {
@@ -89,7 +90,11 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
 
         generator.createTrivialBlock(WitcheryBlocks.ALDER_LEAVES.get(), TexturedModel.LEAVES)
         generator.createTrivialCube(WitcheryBlocks.BLOOD_STAINED_WOOL.get())
-
+        generator.createRotatedPillarWithHorizontalVariant(
+            WitcheryBlocks.BLOOD_STAINED_HAY.get(),
+            TexturedModel.COLUMN,
+            TexturedModel.COLUMN_HORIZONTAL
+        )
         generator.createCrossBlock(WitcheryBlocks.ALDER_SAPLING.get(), BlockModelGenerators.TintState.NOT_TINTED)
         generator.skipAutoItemBlock(WitcheryBlocks.ALDER_SAPLING.get())
         generator.createSimpleFlatItemModel(WitcheryBlocks.ALDER_SAPLING.get())

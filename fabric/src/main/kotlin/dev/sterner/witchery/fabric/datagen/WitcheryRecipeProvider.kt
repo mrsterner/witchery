@@ -20,6 +20,7 @@ import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.item.crafting.CraftingBookCategory
 import net.minecraft.world.item.crafting.Ingredient
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: CompletableFuture<HolderLookup.Provider>) :
@@ -55,6 +56,14 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             PendantDataComponentRecipe()
         }.save(exporter, "pendant_crafting")
         //end SPECIAL
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.BLOOD_STAINED_HAY.get(), 5)
+            .pattern("ISI")
+            .pattern("III")
+            .define('S', WitcheryItems.DEMONS_BLOOD.get())
+            .define('I', Items.HAY_BLOCK)
+            .unlockedBy("has_demon", has(WitcheryItems.DEMONS_BLOOD.get()))
+            .save(exporter)
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.BLOOD_CRUCIBLE.get())
             .pattern("IWI")

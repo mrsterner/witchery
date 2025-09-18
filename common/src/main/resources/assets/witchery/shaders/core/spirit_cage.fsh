@@ -3,7 +3,6 @@
 #moj_import <fog.glsl>
 
 uniform sampler2D Sampler0;
-uniform vec4 ColorModulator;
 uniform float GameTime;
 
 uniform float FogStart;

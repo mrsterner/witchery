@@ -1157,6 +1157,10 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.BLOOD_STAINED_WOOL.get(), Item.Properties())
     }
 
+    val BLOOD_STAINED_HAY: RegistrySupplier<BlockItem> = register("blood_stained_hay") {
+        BlockItem(WitcheryBlocks.BLOOD_STAINED_HAY.get(), Item.Properties())
+    }
+
     val CANE_SWORD: RegistrySupplier<CaneSwordItem> = register("cane_sword") {
         CaneSwordItem(
             Tiers.DIAMOND, Item.Properties()

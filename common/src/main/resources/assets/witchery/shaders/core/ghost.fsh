@@ -4,8 +4,6 @@
 
 uniform sampler2D Sampler0;
 
-uniform float GameTime;
-uniform vec4 ColorModulator;
 uniform float FogStart;
 uniform float FogEnd;
 

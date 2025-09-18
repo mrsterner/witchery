@@ -20,6 +20,7 @@ import net.minecraft.world.entity.SpawnGroupData
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.FloatGoal
+import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
@@ -31,6 +32,9 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.ServerLevelAccessor
 import java.util.EnumSet
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 
 class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, level: Level) : 
     Monster(entityType, level) {
@@ -133,7 +137,7 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
             val attacker = source.directEntity as LivingEntity
             val angleToAttacker = Mth.degreesDifferenceAbs(this.yRot, Mth.wrapDegrees(attacker.yRot))
             
-            if (angleToAttacker > 120) { // Being hit from behind
+            if (angleToAttacker > 120) {
                 return super.hurt(source, amount * 1.5f)
             }
         }
@@ -146,8 +150,7 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
             if (distanceToSqr(target) < 4.0) {
                 attackCooldown = MELEE_ATTACK_INTERVAL
                 this.doHurtTarget(target)
-                
-                // 20% chance to apply a debuff when attacking
+
                 if (random.nextFloat() < 0.2f) {
                     val effect = when (random.nextInt(3)) {
                         0 -> MobEffects.WEAKNESS
@@ -209,8 +212,7 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
         entityData.set(HAS_SPEAR, hasSpear)
     }
 
-    private class HuntsmanRangedAttackGoal(private val huntsman: HornedHuntsmanEntity) : 
-        net.minecraft.world.entity.ai.goal.Goal() {
+    private class HuntsmanRangedAttackGoal(private val huntsman: HornedHuntsmanEntity) : Goal() {
         
         private var attackTime = -1
         private var targetX = 0.0
@@ -269,10 +271,10 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
             } else if (distanceToTarget < 64.0) {
                 val dx = target.x - huntsman.x
                 val dz = target.z - huntsman.z
-                val angle = Math.atan2(dz, dx) - Math.PI / 2
+                val angle = atan2(dz, dx) - Math.PI / 2
 
-                targetX = huntsman.x - Math.cos(angle) * 10.0
-                targetZ = huntsman.z - Math.sin(angle) * 10.0
+                targetX = huntsman.x - cos(angle) * 10.0
+                targetZ = huntsman.z - sin(angle) * 10.0
                 targetY = target.y
                 
                 huntsman.navigation.moveTo(targetX, targetY, targetZ, 1.0)
