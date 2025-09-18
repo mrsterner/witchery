@@ -674,6 +674,11 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.BRAZIER.get(), Item.Properties())
     }
 
+    val PHYLACTERY: RegistrySupplier<BlockItem> = register("phylactery") {
+        BlockItem(WitcheryBlocks.PHYLACTERY.get(), Item.Properties())
+    }
+
+
     val WEREWOLF_ALTAR: RegistrySupplier<MultiBlockItem> = register("werewolf_altar") {
         MultiBlockItem(WitcheryBlocks.WEREWOLF_ALTAR.get(), Item.Properties(), WerewolfAltarBlock.STRUCTURE)
     }

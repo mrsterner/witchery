@@ -14,6 +14,8 @@ import dev.sterner.witchery.handler.CurseHandler
 import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.handler.ManifestationHandler
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.handler.affliction.LichdomLeveling
 import dev.sterner.witchery.handler.affliction.VampireLeveling
 import dev.sterner.witchery.handler.affliction.VampireLeveling.levelToBlood
 import dev.sterner.witchery.handler.affliction.WerewolfLeveling
@@ -23,6 +25,7 @@ import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionType
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.SoulPoolPlayerAttachment
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -74,6 +77,7 @@ object WitcheryCommands {
                 .then(registerCurseCommands())
                 .then(registerVampireCommands())
                 .then(registerWerewolfCommands())
+                .then(registerLichdomCommands())
         )
     }
 
@@ -234,6 +238,93 @@ object WitcheryCommands {
                                     }
                             )
                     )
+            )
+    }
+
+    private fun registerLichdomCommands(): LiteralArgumentBuilder<CommandSourceStack> {
+        return Commands.literal("lichdom")
+            .requires { it.hasPermission(2) }
+            .then(Commands.literal("level")
+                .then(Commands.literal("get")
+                    .then(Commands.argument("player", EntityArgument.player())
+                        .executes { context ->
+                            val player = context.source.playerOrException
+                            val level = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+                            context.source.sendSuccess(
+                                { Component.literal("Level: $level for ${player.name.string}") },
+                                true
+                            )
+                            1
+                        }
+                    ))
+
+                .then(Commands.literal("set")
+                    .then(Commands.argument("player", EntityArgument.player())
+                        .then(Commands.argument("level", IntegerArgumentType.integer(0))
+                            .executes { context ->
+
+                                val level = IntegerArgumentType.getInteger(context, "level")
+                                val player = context.source.playerOrException
+
+                                LichdomLeveling.setLevel(player, level)
+                                LichdomLeveling.updateModifiers(player, level)
+
+                                context.source.sendSuccess(
+                                    { Component.literal("Set lichdom level to $level for ${player.name.string}") },
+                                    true
+                                )
+                                1
+                            }
+                        )
+                    ))
+            )
+            .then(Commands.literal("soul")
+
+                .then(Commands.literal("set")
+                    .then(Commands.argument("player", EntityArgument.player())
+                        .then(Commands.argument(
+                            "level",
+                            IntegerArgumentType.integer(
+                                0,
+                                LichdomLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
+                            )
+                        )
+                            .executes { context ->
+
+                                val level = IntegerArgumentType.getInteger(context, "level")
+                                val player = context.source.playerOrException
+
+                                val data = SoulPoolPlayerAttachment.getData(player)
+
+                                SoulPoolPlayerAttachment.setData(
+                                    player,
+                                    SoulPoolPlayerAttachment.Data(
+                                        data.maxSouls,
+                                        Mth.clamp(level, 0, data.maxSouls)
+                                    )
+                                )
+
+                                context.source.sendSuccess(
+                                    { Component.literal("Set soul level to $level for ${player.name.string}") },
+                                    true
+                                )
+                                1
+                            }
+                        )
+                    ))
+
+
+                .then(
+                    Commands.literal("get")
+                        .then(Commands.argument("player", EntityArgument.player())
+                            .executes { context ->
+                                val player = context.source.playerOrException
+
+                                val data = SoulPoolPlayerAttachment.getData(player)
+                                player.sendSystemMessage(Component.literal("Soul Level: " + data.soulPool + "/" + data.maxSouls))
+                                1
+                            })
+                )
             )
     }
 

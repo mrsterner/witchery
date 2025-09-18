@@ -31,6 +31,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.SPINNING_WHEEL.get())
                 output.accept(WitcheryItems.BRAZIER.get())
                 output.accept(WitcheryItems.WEREWOLF_ALTAR.get())
+                output.accept(WitcheryItems.PHYLACTERY.get())
                 output.accept(WitcheryItems.COFFIN.get())
                 output.accept(WitcheryItems.BEAR_TRAP.get())
                 output.accept(WitcheryItems.GRASSPER.get())

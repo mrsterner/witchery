@@ -41,18 +41,28 @@ object EtherealEntityAttachment {
         }
     }
 
-    class Data(var ownerUUID: UUID? = null, var canDropLoot: Boolean = true, var isEthereal: Boolean = false) {
+    data class Data(
+        val ownerUUID: UUID? = null,
+        val canDropLoot: Boolean = true,
+        val isEthereal: Boolean = false,
+        val summonTime: Long = 0,
+        val maxLifeTime: Long = 0
+    ) {
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codecs.UUID.optionalFieldOf("ownerUUID").forGetter { Optional.ofNullable(it.ownerUUID) },
                     Codec.BOOL.fieldOf("canDropLoot").forGetter { it.canDropLoot },
-                    Codec.BOOL.fieldOf("isEthereal").forGetter { it.isEthereal }
-                ).apply(instance) { ownerUUIDOptional, canDropLoot, isEthereal ->
+                    Codec.BOOL.fieldOf("isEthereal").forGetter { it.isEthereal },
+                    Codec.LONG.fieldOf("summonTime").forGetter { it.summonTime },
+                    Codec.LONG.fieldOf("maxLifeTime").forGetter { it.maxLifeTime }
+                ).apply(instance) { ownerUUIDOptional, canDropLoot, isEthereal, summonTime, maxLifeTime ->
                     Data(
                         ownerUUIDOptional.orElse(null),
                         canDropLoot,
-                        isEthereal
+                        isEthereal,
+                        summonTime,
+                        maxLifeTime,
                     )
                 }
             }

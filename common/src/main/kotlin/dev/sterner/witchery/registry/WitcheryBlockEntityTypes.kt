@@ -6,6 +6,8 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.SuspiciousGraveyardDirtBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
+import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
 import dev.sterner.witchery.block.bear_trap.BearTrapBlockEntity
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlockEntity
@@ -29,6 +31,7 @@ import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
 import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
+import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
@@ -301,6 +304,20 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::SoulCageBlockEntity,
             WitcheryBlocks.SOUL_CAGE.get()
+        ).build(null)
+    }
+
+    val ANCIENT_SLATE = BLOCK_ENTITY_TYPES.register("ancient_slate") {
+        BlockEntityType.Builder.of(
+            ::AncientTabletBlockEntity,
+            WitcheryBlocks.ANCIENT_SLATE.get()
+        ).build(null)
+    }
+
+    val PHYLACTERY = BLOCK_ENTITY_TYPES.register("phylactery") {
+        BlockEntityType.Builder.of(
+            ::PhylacteryBlockEntity,
+            WitcheryBlocks.PHYLACTERY.get()
         ).build(null)
     }
 }

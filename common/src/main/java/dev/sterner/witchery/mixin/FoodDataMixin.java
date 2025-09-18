@@ -1,5 +1,7 @@
 package dev.sterner.witchery.mixin;
 
+import dev.sterner.witchery.handler.affliction.AfflictionTypes;
+import dev.sterner.witchery.handler.affliction.LichdomSoulPoolHandler;
 import dev.sterner.witchery.mixin_logic.FoodDataMixinLogic;
 import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment;
 import net.minecraft.world.entity.player.Player;
@@ -21,6 +23,12 @@ public class FoodDataMixin {
     public void witchery$tick(Player player, CallbackInfo ci) {
         if (AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0) {
             this.witchery$player = player;
+            ci.cancel();
+        }
+        int lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM);
+
+        if (lichLevel >= 2) {
+            LichdomSoulPoolHandler.INSTANCE.updateLichHunger(player);
             ci.cancel();
         }
     }

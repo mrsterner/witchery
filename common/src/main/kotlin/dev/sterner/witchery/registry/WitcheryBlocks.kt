@@ -8,6 +8,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.block.*
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
+import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.block.arthana.ArthanaBlock
 import dev.sterner.witchery.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlock
@@ -41,6 +42,7 @@ import dev.sterner.witchery.block.trees.StrippableLogBlock
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlock
 import dev.sterner.witchery.block.mushroom_log.MushroomLogBlock
 import dev.sterner.witchery.block.mushroom_log.MushroomLogComponent
+import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarComponent
 import dev.sterner.witchery.platform.PlatformUtils
@@ -1059,6 +1061,14 @@ object WitcheryBlocks {
 
     val SOUL_CAGE: RegistrySupplier<SoulCageBlock> = register("soul_cage") {
         SoulCageBlock(BlockBehaviour.Properties.of().noOcclusion())
+    }
+
+    val ANCIENT_SLATE: RegistrySupplier<AncientTabletBlock> = register("ancient_slate") {
+        AncientTabletBlock(BlockBehaviour.Properties.of().noOcclusion())
+    }
+
+    val PHYLACTERY: RegistrySupplier<PhylacteryBlock> = register("phylactery") {
+        PhylacteryBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 
     val FLOWING_SPIRIT_BLOCK: RegistrySupplier<LiquidBlock> = register(
