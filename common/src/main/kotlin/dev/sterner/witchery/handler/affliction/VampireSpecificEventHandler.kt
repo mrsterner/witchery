@@ -34,7 +34,7 @@ import net.minecraft.world.entity.player.Player
 
 object VampireSpecificEventHandler {
 
-    private const val RESPAWN_BLOOD_AMOUNT = 900
+    const val RESPAWN_BLOOD_AMOUNT = 900
     private const val RESPAWN_FOOD_LEVEL = 10
     private const val BLOOD_HEALING_THRESHOLD = 75
     private const val BLOOD_HEALING_AMOUNT = 1f
@@ -182,9 +182,13 @@ object VampireSpecificEventHandler {
 
 
     @JvmStatic
-    fun respawn(newPlayer: Player, oldPlayer: Player, alive: Boolean) {
+    fun respawn(oldPlayer: Player, newPlayer: Player, alive: Boolean) {
+        if (newPlayer !is ServerPlayer) return
 
-        if (AfflictionPlayerAttachment.getData(oldPlayer).getLevel(AfflictionTypes.VAMPIRISM) > 0) {
+        val oldData = AfflictionPlayerAttachment.getData(oldPlayer)
+        var updatedData = oldData
+
+        if (oldData.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
 
             newPlayer.foodData.foodLevel = RESPAWN_FOOD_LEVEL
@@ -194,10 +198,14 @@ object VampireSpecificEventHandler {
                 BloodPoolLivingEntityAttachment.Data(oldBloodData.maxBlood, RESPAWN_BLOOD_AMOUNT)
             )
 
-            AfflictionPlayerAttachment.batchUpdate(player = newPlayer) {
-                withInSunTick(0)
-            }
+            val maxInSunTicks = (newPlayer.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0).toInt()
+
+            updatedData = updatedData
+                .withInSunTick(0, maxInSunTicks)
+                .withMaxInSunTickClient(maxInSunTicks)
         }
+
+        AfflictionPlayerAttachment.setData(newPlayer, updatedData, sync = true)
     }
 
     @JvmStatic

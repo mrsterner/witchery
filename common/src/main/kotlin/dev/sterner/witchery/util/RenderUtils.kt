@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.*
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.Witchery.id
 import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.platform.transformation.SoulPoolPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryShaders
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import org.joml.Matrix4f
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -137,6 +139,49 @@ object RenderUtils {
                     emptyHeight.toFloat(),
                     iconSize,
                     filledHeight,
+                    iconSize,
+                    iconSize,
+                    1.0f,
+                    0xFFFFFF
+                )
+            }
+        }
+    }
+
+    fun innerRenderSouls(guiGraphics: GuiGraphics, player: Player, y: Int, x: Int) {
+        val data = SoulPoolPlayerAttachment.getData(player)
+        val maxSouls = data.maxSouls
+        val currentSouls = data.soulPool
+        val iconSize = 10
+
+        for (i in 0 until maxSouls) {
+            val xPos = x - i * 12 - 8
+
+            blitWithAlpha(
+                guiGraphics.pose(),
+                Witchery.id("textures/gui/soul_empty.png"),
+                xPos,
+                y - 1,
+                0f,
+                0f,
+                iconSize,
+                iconSize,
+                iconSize,
+                iconSize,
+                1.0f,
+                0xFFFFFF
+            )
+
+            if (i < currentSouls) {
+                blitWithAlpha(
+                    guiGraphics.pose(),
+                    id("textures/gui/soul_pure.png"),
+                    xPos,
+                    y - 1,
+                    0f,
+                    0f,
+                    iconSize,
+                    iconSize,
                     iconSize,
                     iconSize,
                     1.0f,

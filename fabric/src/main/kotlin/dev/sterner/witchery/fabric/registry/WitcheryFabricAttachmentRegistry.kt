@@ -4,7 +4,6 @@ import dev.sterner.witchery.platform.*
 import dev.sterner.witchery.platform.infusion.*
 import dev.sterner.witchery.platform.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
-import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
 import dev.sterner.witchery.platform.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.platform.transformation.*
@@ -26,6 +25,13 @@ object WitcheryFabricAttachmentRegistry {
             .persistent(AltarLevelAttachment.AltarDataCodec.CODEC)
             .initializer { AltarLevelAttachment.AltarDataCodec() }
             .buildAndRegister(AltarLevelAttachment.AltarDataCodec.ID)
+
+    @Suppress("UnstableApiUsage")
+    val PHYLACTERY_LEVEL_DATA_TYPE: AttachmentType<PhylacteryLevelDataAttachment.Data> =
+        AttachmentRegistry.builder<PhylacteryLevelDataAttachment.Data>()
+            .persistent(PhylacteryLevelDataAttachment.Data.CODEC)
+            .initializer { PhylacteryLevelDataAttachment.Data() }
+            .buildAndRegister(PhylacteryLevelDataAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
     val INFUSION_PLAYER_DATA_TYPE: AttachmentType<InfusionPlayerAttachment.Data> =
@@ -176,7 +182,6 @@ object WitcheryFabricAttachmentRegistry {
     val AFFLICTION_PLAYER_DATA_TYPE: AttachmentType<AfflictionPlayerAttachment.Data> =
         AttachmentRegistry.builder<AfflictionPlayerAttachment.Data>()
             .persistent(AfflictionPlayerAttachment.Data.CODEC)
-            .copyOnDeath()
             .initializer { AfflictionPlayerAttachment.Data() }
             .buildAndRegister(AfflictionPlayerAttachment.Data.ID)
 
@@ -196,6 +201,13 @@ object WitcheryFabricAttachmentRegistry {
             .persistent(BloodPoolLivingEntityAttachment.Data.CODEC)
             .initializer { BloodPoolLivingEntityAttachment.Data() }
             .buildAndRegister(BloodPoolLivingEntityAttachment.Data.ID)
+
+    @Suppress("UnstableApiUsage")
+    val SOUL_PLAYER_DATA_TYPE: AttachmentType<SoulPoolPlayerAttachment.Data> =
+        AttachmentRegistry.builder<SoulPoolPlayerAttachment.Data>()
+            .persistent(SoulPoolPlayerAttachment.Data.CODEC)
+            .initializer { SoulPoolPlayerAttachment.Data() }
+            .buildAndRegister(SoulPoolPlayerAttachment.Data.ID)
 
     @Suppress("UnstableApiUsage")
     val TRANSFORMATION_PLAYER_DATA_TYPE: AttachmentType<TransformationPlayerAttachment.Data> =

@@ -19,6 +19,7 @@ import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.mushroom_log.MushroomLogBlock
+import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
@@ -35,6 +36,7 @@ import dev.sterner.witchery.data.*
 import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionEventHandler
+import dev.sterner.witchery.handler.affliction.LichdomSpecificEventHandler
 import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
 import dev.sterner.witchery.handler.affliction.VampireSpecificEventHandler
 import dev.sterner.witchery.handler.affliction.WerewolfSpecificEventHandler
@@ -56,6 +58,7 @@ import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.platform.DeathQueueLevelAttachment
 import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.platform.UnderWaterBreathPlayerAttachment
+import dev.sterner.witchery.platform.WitcheryAttributes
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.transformation.*
 import dev.sterner.witchery.registry.*
@@ -165,7 +168,8 @@ object Witchery {
         WitcheryLootInjects.registerEvents()
         WitcherySpecialPotionEffects.registerEvents()
         WitcheryStructureInjects.registerEvents()
-
+        LichdomSpecificEventHandler.registerEvents()
+        PhylacteryBlockEntity.registerEvents()
         InteractionEvent.RIGHT_CLICK_BLOCK.register { player, hand, pos, face ->
 
             if (player.mainHandItem.item is WineGlassItem && player.level().getBlockState(pos).`is`(BlockTags.WOOL)) {
@@ -188,8 +192,20 @@ object Witchery {
             return@register EventResult.pass()
         }
 
-        PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
-            AfflictionAbilityHandler.setAbilityIndex(player, -1)
+        TickEvent.PLAYER_PRE.register {
+            val v = AfflictionPlayerAttachment.getData(it).getInSunTick()
+            val max = AfflictionPlayerAttachment.getData(it).getMaxInSunTickClient()
+            println("$v : $max : ${it.level().isClientSide}")
+        }
+
+        PlayerEvent.PLAYER_CLONE.register { old, new, _ ->
+            AfflictionAbilityHandler.setAbilityIndex(new, -1)
+        }
+
+        PlayerEvent.PLAYER_RESPAWN.register { serverPlayer, bl, d ->
+            AfflictionPlayerAttachment.sync(serverPlayer, AfflictionPlayerAttachment.getData(serverPlayer))
+            BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
+            InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getPlayerInfusion(serverPlayer))
         }
 
         PlayerEvent.PLAYER_JOIN.register { serverPlayer ->

@@ -81,9 +81,6 @@ class PhylacteryBlockEntity(
             PlayerEvent.PLAYER_CLONE.register { oldPlayer, new, _ ->
                 onPlayerLoad(new)
             }
-            PlayerEvent.PLAYER_RESPAWN.register { player, _, _ ->
-                onPlayerLoad(player)
-            }
         }
     }
 

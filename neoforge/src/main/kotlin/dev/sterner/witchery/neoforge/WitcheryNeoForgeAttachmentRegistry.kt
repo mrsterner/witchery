@@ -44,6 +44,17 @@ object WitcheryNeoForgeAttachmentRegistry {
         )
 
     @JvmStatic
+    val PHYLACTERY_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<PhylacteryLevelDataAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "phylactery_level_data",
+            Supplier {
+                AttachmentType.builder(Supplier { PhylacteryLevelDataAttachment.Data() })
+                    .serialize(PhylacteryLevelDataAttachment.Data.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
     val ETHEREAL_DATA_ATTACHMENT: Supplier<AttachmentType<EtherealEntityAttachment.Data>> = ATTACHMENT_TYPES.register(
         "ethereal",
         Supplier {
@@ -266,7 +277,6 @@ object WitcheryNeoForgeAttachmentRegistry {
             Supplier {
                 AttachmentType.builder(Supplier { AfflictionPlayerAttachment.Data() })
                     .serialize(AfflictionPlayerAttachment.Data.CODEC)
-                    .copyOnDeath()
                     .build()
             }
         )
@@ -290,6 +300,18 @@ object WitcheryNeoForgeAttachmentRegistry {
             Supplier {
                 AttachmentType.builder(Supplier { BloodPoolLivingEntityAttachment.Data() })
                     .serialize(BloodPoolLivingEntityAttachment.Data.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val SOUL_POOL_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<SoulPoolPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "soul_living_data",
+            Supplier {
+                AttachmentType.builder(Supplier { SoulPoolPlayerAttachment.Data() })
+                    .serialize(SoulPoolPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
                     .build()
             }
         )

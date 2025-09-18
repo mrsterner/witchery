@@ -110,6 +110,9 @@ object WitcheryPayloads {
         registerS2C(SyncBloodS2CPayload.ID, SyncBloodS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }
+        registerS2C(SyncSoulS2CPayload.ID, SyncSoulS2CPayload.STREAM_CODEC) { payload, context ->
+            payload.handleS2C(payload, context)
+        }
         registerS2C(SyncOtherBloodS2CPayload.ID, SyncOtherBloodS2CPayload.STREAM_CODEC) { payload, context ->
             payload.handleS2C(payload, context)
         }

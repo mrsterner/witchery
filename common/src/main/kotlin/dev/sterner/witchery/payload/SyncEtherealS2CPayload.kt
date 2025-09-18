@@ -11,9 +11,6 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.LivingEntity
 
 
-/**
- * Fixed S2C packet for ethereal entity sync
- */
 class SyncEtherealS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
@@ -54,16 +51,11 @@ class SyncEtherealS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         )
 
         client.execute {
-            try {
-                val entity = client.level?.getEntity(entityId)
-                if (entity is LivingEntity) {
-                    // Set data directly
-                    EtherealEntityAttachment.setData(entity, data)
+            val entity = client.level?.getEntity(entityId)
+            if (entity is LivingEntity) {
+                EtherealEntityAttachment.setData(entity, data)
 
-                    entity.refreshDimensions()
-                }
-            } catch (_: Exception) {
-
+                entity.refreshDimensions()
             }
         }
     }

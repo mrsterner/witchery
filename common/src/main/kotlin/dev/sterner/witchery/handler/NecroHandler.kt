@@ -3,16 +3,19 @@ package dev.sterner.witchery.handler
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.TickEvent
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.payload.SpawnNecroParticlesS2CPayload
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.platform.EtherealEntityAttachment
 import dev.sterner.witchery.platform.NecromancerLevelAttachment
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionType
+import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource
@@ -41,6 +44,25 @@ object NecroHandler {
             val etherealData = EtherealEntityAttachment.getData(livingEntity)
             if (etherealData.isEthereal) {
                 EtherealEntityAttachment.sync(livingEntity, etherealData)
+
+                if (etherealData.maxLifeTime > 0) {
+                    val timeAlive = livingEntity.level().gameTime - etherealData.summonTime
+                    if (timeAlive >= etherealData.maxLifeTime) {
+                        if (livingEntity.level() is ServerLevel) {
+                            val level = livingEntity.level() as ServerLevel
+                            level.sendParticles(
+                                ParticleTypes.SOUL,
+                                livingEntity.x,
+                                livingEntity.y + livingEntity.bbHeight / 2,
+                                livingEntity.z,
+                                10,
+                                0.3, 0.3, 0.3,
+                                0.05
+                            )
+                        }
+                        livingEntity.discard()
+                    }
+                }
             }
         }
     }
@@ -144,13 +166,28 @@ object NecroHandler {
         return EventResult.pass()
     }
 
+    private fun calculateDespawnTime(lichLevel: Int): Long {
+        return when (lichLevel) {
+            1 -> 1200L  // 1 minute
+            2 -> 2400L  // 2 minutes
+            3 -> 3600L  // 3 minutes
+            4 -> 4800L  // 4 minutes
+            5 -> 6000L  // 5 minutes
+            6 -> 9000L  // 7.5 minutes
+            7 -> 12000L // 10 minutes
+            8 -> 18000L // 15 minutes
+            9 -> 24000L // 20 minutes (full day)
+            10 -> -1L   // Permanent
+            else -> 600L // 30 seconds fallback
+        }
+    }
+
     fun summonNecroAroundPos(level: ServerLevel, summoner: Player, center: BlockPos, radius: Int) {
         val list = collectNecroLists(level, center, radius)
-        if (list.isEmpty()) {
-            return
-        }
+        if (list.isEmpty()) return
 
-        var successCount = 0
+        val lichLevel = AfflictionPlayerAttachment.getData(summoner).getLevel(AfflictionTypes.LICHDOM)
+        val despawnTime = calculateDespawnTime(lichLevel)
 
         for ((pos, entityType) in list) {
             val entity = entityType.create(level) as? LivingEntity ?: continue
@@ -168,18 +205,17 @@ object NecroHandler {
                 EtherealEntityAttachment.Data(
                     summoner.uuid,
                     canDropLoot = false,
-                    isEthereal = true
+                    isEthereal = true,
+                    summonTime = level.gameTime,
+                    maxLifeTime = despawnTime
                 )
             )
 
             level.addFreshEntity(entity)
-
-
-            successCount++
-
             removeNecro(level, pos)
         }
     }
+
 
     fun removeNecro(serverLevel: ServerLevel, pos: BlockPos) {
         val data = NecromancerLevelAttachment.getData(serverLevel)

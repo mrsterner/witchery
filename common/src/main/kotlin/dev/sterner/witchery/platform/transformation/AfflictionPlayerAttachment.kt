@@ -11,6 +11,7 @@ import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.UUIDUtil
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.player.Player
 import java.util.Optional
@@ -141,7 +142,11 @@ object AfflictionPlayerAttachment {
         VAMP_FORM_STATES,   // batForm, nightVision, speedBoost
         VAMP_VILLAGES,      // visitedVillages, villagersHalfBlood, trappedVillagers
         WERE_COMBAT_STATS,  // killedSheep, killedWolves, etc.
-        WERE_FORM_STATES    // wolfForm, wolfManForm
+        WERE_FORM_STATES,    // wolfForm, wolfManForm
+        LICH_TABLETS,
+        LICH_PROGRESSION,
+        LICH_PHYLACTERY,
+        LICH_FORM_STATES
     }
 
     // =================
@@ -154,6 +159,7 @@ object AfflictionPlayerAttachment {
         private val abilityCooldowns: MutableMap<String, Int> = mutableMapOf(),
         private val vampData: VampData = VampData(),
         private val wereData: WereData = WereData(),
+        private val lichData: LichData = LichData(),
         private val selectedAbilities: List<String> = emptyList(),
         @Transient private var dirtyFields: MutableSet<SyncField> = mutableSetOf()
     ) {
@@ -432,6 +438,79 @@ object AfflictionPlayerAttachment {
             markDirty(SyncField.WERE_COMBAT_STATS)
         }
 
+        // ----------------
+        // LichData helpers
+        // ----------------
+        fun getReadTablets(): List<UUID> = lichData.readTablets
+        fun getBoundSouls(): Int = lichData.boundSouls
+        fun hasZombieKilledMob(): Boolean = lichData.zombieKilledMob
+        fun getKilledGolems(): Int = lichData.killedGolems
+        fun getDrainedAnimals(): Int = lichData.drainedAnimals
+        fun hasPossessedKillVillager(): Boolean = lichData.possessedKillVillager
+        fun hasKilledWither(): Boolean = lichData.killedWither
+        fun isPhylacteryBound(): Boolean = lichData.phylacteryBound
+        fun getPhylacteryDeaths(): Int = lichData.phylacteryDeaths
+        fun getPhylacteryDeathTimes(): List<Long> = lichData.phylacteryDeathTimes
+        fun getPhylacterySouls(): Int = lichData.phylacterySouls
+        fun isSoulForm(): Boolean = lichData.isSoulFormActive
+
+        fun getPhylacteryDeathsInOneNight(player: ServerPlayer): Int {
+            val oneNightAgo = player.level().gameTime - 12000
+            return lichData.phylacteryDeathTimes.count { it > oneNightAgo }
+        }
+
+        // Add Lich mutators
+        fun addReadTablet(tabletId: UUID): Data = copy(lichData = lichData.copy(
+            readTablets = lichData.readTablets + tabletId
+        )).apply { markDirty(SyncField.LICH_TABLETS) }
+
+        fun withBoundSouls(count: Int): Data = copy(lichData = lichData.copy(boundSouls = count))
+            .apply { markDirty(SyncField.LICH_PROGRESSION) }
+
+        fun incrementBoundSouls(by: Int = 1): Data = copy(lichData = lichData.copy(
+            boundSouls = lichData.boundSouls + by
+        )).apply { markDirty(SyncField.LICH_PROGRESSION) }
+
+        fun withZombieKilledMob(killed: Boolean): Data = copy(lichData = lichData.copy(
+            zombieKilledMob = killed
+        )).apply { markDirty(SyncField.LICH_PROGRESSION) }
+
+        fun incrementKilledGolems(by: Int = 1): Data = copy(lichData = lichData.copy(
+            killedGolems = lichData.killedGolems + by
+        )).apply { markDirty(SyncField.LICH_PROGRESSION) }
+
+        fun incrementDrainedAnimals(by: Int = 1): Data = copy(lichData = lichData.copy(
+            drainedAnimals = lichData.drainedAnimals + by
+        )).apply { markDirty(SyncField.LICH_PROGRESSION) }
+
+        fun withPossessedKillVillager(killed: Boolean): Data = copy(lichData = lichData.copy(
+            possessedKillVillager = killed
+        )).apply { markDirty(SyncField.LICH_PROGRESSION) }
+
+        fun withKilledWither(killed: Boolean): Data = copy(lichData = lichData.copy(
+            killedWither = killed
+        )).apply { markDirty(SyncField.LICH_PROGRESSION) }
+
+        fun withPhylacteryBound(bound: Boolean): Data = copy(lichData = lichData.copy(
+            phylacteryBound = bound
+        )).apply { markDirty(SyncField.LICH_PHYLACTERY) }
+
+        fun incrementPhylacteryDeaths(player: ServerPlayer): Data {
+            val gameTime = player.level().gameTime
+            return copy(lichData = lichData.copy(
+                phylacteryDeaths = lichData.phylacteryDeaths + 1,
+                phylacteryDeathTimes = lichData.phylacteryDeathTimes + gameTime
+            )).apply { markDirty(SyncField.LICH_PHYLACTERY) }
+        }
+
+        fun withPhylacterySouls(souls: Int): Data = copy(lichData = lichData.copy(
+            phylacterySouls = souls.coerceIn(0, 3)
+        )).apply { markDirty(SyncField.LICH_PHYLACTERY) }
+
+        fun withSoulForm(active: Boolean): Data = copy(lichData = lichData.copy(
+            isSoulFormActive = active
+        )).apply { markDirty(SyncField.LICH_FORM_STATES) }
+
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
@@ -443,9 +522,10 @@ object AfflictionPlayerAttachment {
                     Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("abilityCooldowns").forGetter { it.abilityCooldowns },
                     VampData.CODEC.fieldOf("vampData").forGetter { it.vampData },
                     WereData.CODEC.fieldOf("wereData").forGetter { it.wereData },
+                    LichData.CODEC.fieldOf("lichData").forGetter { it.lichData },
                     Codec.STRING.listOf().optionalFieldOf("selectedAbilities", emptyList()).forGetter { it.selectedAbilities },
-                    ).apply(instance) { levels, index, cooldowns, vamp, were, sel ->
-                    Data(levels, index, cooldowns, vamp, were, sel)
+                    ).apply(instance) { levels, index, cooldowns, vamp, were, lich, sel ->
+                    Data(levels, index, cooldowns, vamp, were, lich, sel)
                 }
             }
 
@@ -541,6 +621,42 @@ object AfflictionPlayerAttachment {
             }
 
             val ID: ResourceLocation = Witchery.id("werewolf_player_data")
+        }
+    }
+
+    data class LichData(
+        val readTablets: List<UUID> = emptyList(),
+        val boundSouls: Int = 0,
+        val zombieKilledMob: Boolean = false,
+        val killedGolems: Int = 0,
+        val drainedAnimals: Int = 0,
+        val possessedKillVillager: Boolean = false,
+        val killedWither: Boolean = false,
+        val phylacteryBound: Boolean = false,
+        val phylacteryDeaths: Int = 0,
+        val phylacteryDeathTimes: List<Long> = emptyList(),
+        val phylacterySouls: Int = 0,
+        val isSoulFormActive: Boolean = false
+    ) {
+        companion object {
+            val CODEC: Codec<LichData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    UUIDUtil.CODEC.listOf().fieldOf("readTablets").forGetter { it.readTablets },
+                    Codec.INT.fieldOf("boundSouls").forGetter { it.boundSouls },
+                    Codec.BOOL.fieldOf("zombieKilledMob").forGetter { it.zombieKilledMob },
+                    Codec.INT.fieldOf("killedGolems").forGetter { it.killedGolems },
+                    Codec.INT.fieldOf("drainedAnimals").forGetter { it.drainedAnimals },
+                    Codec.BOOL.fieldOf("possessedKillVillager").forGetter { it.possessedKillVillager },
+                    Codec.BOOL.fieldOf("killedWither").forGetter { it.killedWither },
+                    Codec.BOOL.fieldOf("phylacteryBound").forGetter { it.phylacteryBound },
+                    Codec.INT.fieldOf("phylacteryDeaths").forGetter { it.phylacteryDeaths },
+                    Codec.LONG.listOf().fieldOf("phylacteryDeathTimes").forGetter { it.phylacteryDeathTimes },
+                    Codec.INT.fieldOf("phylacterySouls").forGetter { it.phylacterySouls },
+                    Codec.BOOL.fieldOf("isSoulFormActive").forGetter { it.isSoulFormActive }
+                ).apply(instance, ::LichData)
+            }
+
+            val ID: ResourceLocation = Witchery.id("lich_player_data")
         }
     }
 }
