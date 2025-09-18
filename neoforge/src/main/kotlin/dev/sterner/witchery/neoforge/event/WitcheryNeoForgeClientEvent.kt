@@ -193,6 +193,8 @@ object WitcheryNeoForgeClientEvent {
         event.registerLayerDefinition(BoatModels.ALDER_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
         event.registerLayerDefinition(BoatModels.HAWTHORN_CHEST_BOAT_LAYER, BoatModel::createBodyModel)
         event.registerLayerDefinition(AltarBlockEntityModel.LAYER_LOCATION, AltarBlockEntityModel::createBodyLayer)
+        event.registerLayerDefinition(PhylacteryEtherModel.LAYER_LOCATION, PhylacteryEtherModel::createBodyLayer)
+        event.registerLayerDefinition(PhylacteryEtherCoreModel.LAYER_LOCATION, PhylacteryEtherCoreModel::createBodyLayer)
         event.registerLayerDefinition(MushroomLogModel.LAYER_LOCATION, MushroomLogModel::createBodyLayer)
         event.registerLayerDefinition(
             SpiritPortalBlockEntityModel.LAYER_LOCATION,
@@ -387,6 +389,11 @@ object WitcheryNeoForgeClientEvent {
             ShaderInstance(event.resourceProvider, Witchery.id("ghost"), DefaultVertexFormat.NEW_ENTITY)
         ) { shaderInstance ->
             WitcheryShaders.ghost = shaderInstance
+        }
+        event.registerShader(
+            ShaderInstance(event.resourceProvider, Witchery.id("ether"), DefaultVertexFormat.NEW_ENTITY)
+        ) { shaderInstance ->
+            WitcheryShaders.ether = shaderInstance
         }
     }
 }

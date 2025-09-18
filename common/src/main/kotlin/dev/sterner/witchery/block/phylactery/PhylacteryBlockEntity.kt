@@ -56,6 +56,8 @@ class PhylacteryBlockEntity(
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
+
+
     companion object {
         fun onPlayerLoad(player: ServerPlayer) {
             val level = player.serverLevel()

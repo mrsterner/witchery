@@ -13,6 +13,7 @@ import dev.sterner.witchery.client.renderer.block.DreamWeaverBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.block.EffigyBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.block.GrassperBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.block.MushroomLogBlockEntityRenderer
+import dev.sterner.witchery.client.renderer.block.PhylacteryBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.block.PoppetBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.block.SacrificialCircleBlockEntityRenderer
 import dev.sterner.witchery.client.renderer.block.SoulCageBlockEntityRenderer
@@ -26,6 +27,7 @@ import net.minecraft.client.renderer.blockentity.SignRenderer
 object WitcheryBlockEntityRenderers {
 
     fun register(){
+        BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.PHYLACTERY.get(), ::PhylacteryBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
         BlockEntityRendererRegistry.register(WitcheryBlockEntityTypes.BLOOD_CRUCIBLE.get(), ::BloodCrucibleBlockEntityRenderer)

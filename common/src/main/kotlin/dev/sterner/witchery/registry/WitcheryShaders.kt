@@ -17,4 +17,7 @@ object WitcheryShaders {
 
     @JvmField
     var ghost: ShaderInstance? = null
+
+    @JvmField
+    var ether: ShaderInstance? = null
 }

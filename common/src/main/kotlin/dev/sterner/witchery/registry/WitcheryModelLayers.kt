@@ -28,6 +28,8 @@ import dev.sterner.witchery.client.model.MushroomLogModel
 import dev.sterner.witchery.client.model.NightmareEntityModel
 import dev.sterner.witchery.client.model.OwlEntityModel
 import dev.sterner.witchery.client.model.ParasiticLouseEntityModel
+import dev.sterner.witchery.client.model.PhylacteryEtherCoreModel
+import dev.sterner.witchery.client.model.PhylacteryEtherModel
 import dev.sterner.witchery.client.model.SpectreEntityModel
 import dev.sterner.witchery.client.model.SpinningWheelBlockEntityModel
 import dev.sterner.witchery.client.model.SpinningWheelWheelBlockEntityModel
@@ -51,6 +53,8 @@ object WitcheryModelLayers {
     fun register() {
         EntityModelLayerRegistry.register(AltarClothBlockEntityModel.LAYER_LOCATION) { AltarClothBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(AltarBlockEntityModel.LAYER_LOCATION) { AltarBlockEntityModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(PhylacteryEtherModel.LAYER_LOCATION) { PhylacteryEtherModel.createBodyLayer() }
+        EntityModelLayerRegistry.register(PhylacteryEtherCoreModel.LAYER_LOCATION) { PhylacteryEtherCoreModel.createBodyLayer() }
         EntityModelLayerRegistry.register(MushroomLogModel.LAYER_LOCATION) { MushroomLogModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpiritPortalBlockEntityModel.LAYER_LOCATION) { SpiritPortalBlockEntityModel.createBodyLayer() }
         EntityModelLayerRegistry.register(SpiritPortalPortalModel.LAYER_LOCATION) { SpiritPortalPortalModel.createBodyLayer() }

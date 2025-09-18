@@ -136,22 +136,28 @@ object WitcheryRenderTypes {
         )
     }
 
-    val SPIRIT_CAGE: RenderType = create(
-        "spirit_cage",
-        DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
-        VertexFormat.Mode.QUADS,
-        256,
-        false,
-        true,
-        RenderType.CompositeState.builder()
-            .setShaderState(ShaderStateShard(WitcheryShaders::soulLantern))
-            .setTransparencyState(ADDITIVE_TRANSPARENCY)
-            .setTextureState(NO_TEXTURE)
-            .setCullState(NO_CULL)
-            .setWriteMaskState(COLOR_WRITE)
-            .setDepthTestState(LEQUAL_DEPTH_TEST)
-            .createCompositeState(true)
-    )
+    val ETHER = Util.memoize { resourceLocation: ResourceLocation ->
+        val compositeState: RenderType.CompositeState? =
+            RenderType.CompositeState.builder()
+                .setShaderState(ShaderStateShard(WitcheryShaders::ether))
+                .setTextureState(TextureStateShard(resourceLocation, false, true))
+                .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                .setWriteMaskState(COLOR_WRITE)
+                .createCompositeState(true)
+        create(
+            Witchery.MODID + "spirit_portal",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            BUFFER_SIZE,
+            true,
+            false,
+            compositeState!!
+        )
+    }
 
     val GLINT = Util.memoize { resourceLocation: ResourceLocation ->
         val compositeState: RenderType.CompositeState? =
