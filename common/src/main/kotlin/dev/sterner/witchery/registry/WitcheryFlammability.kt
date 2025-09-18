@@ -10,6 +10,9 @@ object WitcheryFlammability {
     val flammableBlocks: List<Flame> = listOf(
         Flame(WitcheryBlocks.BLOOD_STAINED_HAY, 40, 60),
 
+        Flame(WitcheryBlocks.SPANISH_MOSS, 5, 5),
+        Flame(WitcheryBlocks.BLOOD_STAINED_WOOL, 5, 5),
+
         Flame(WitcheryBlocks.ROWAN_LOG, 5, 5),
         Flame(WitcheryBlocks.ROWAN_WOOD, 5, 5),
         Flame(WitcheryBlocks.STRIPPED_ROWAN_LOG, 5, 5),
