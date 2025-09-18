@@ -192,26 +192,23 @@ object Witchery {
             return@register EventResult.pass()
         }
 
-        TickEvent.PLAYER_PRE.register {
-            val v = AfflictionPlayerAttachment.getData(it).getInSunTick()
-            val max = AfflictionPlayerAttachment.getData(it).getMaxInSunTickClient()
-            println("$v : $max : ${it.level().isClientSide}")
-        }
-
         PlayerEvent.PLAYER_CLONE.register { old, new, _ ->
             AfflictionAbilityHandler.setAbilityIndex(new, -1)
+            InfusionPlayerAttachment.setPlayerInfusion(new, InfusionPlayerAttachment.getPlayerInfusion(new))
         }
 
         PlayerEvent.PLAYER_RESPAWN.register { serverPlayer, bl, d ->
             AfflictionPlayerAttachment.sync(serverPlayer, AfflictionPlayerAttachment.getData(serverPlayer))
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
             InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getPlayerInfusion(serverPlayer))
+            SoulPoolPlayerAttachment.sync(serverPlayer, SoulPoolPlayerAttachment.getData(serverPlayer))
         }
 
         PlayerEvent.PLAYER_JOIN.register { serverPlayer ->
             val data = DeathQueueLevelAttachment.getData(serverPlayer.serverLevel())
             if (data.killerQueue.contains(serverPlayer.uuid)) {
                 serverPlayer.kill()
+                DeathQueueLevelAttachment.removeFromDeathQueue(serverPlayer.serverLevel(), serverPlayer.uuid)
             }
             AfflictionPlayerAttachment.sync(serverPlayer, AfflictionPlayerAttachment.getData(serverPlayer))
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))

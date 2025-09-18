@@ -52,15 +52,6 @@ class PhylacteryBlockEntity(
                     )
                 }
             }
-
-            val d = PhylacteryLevelDataAttachment.listPhylacteries(level as ServerLevel)
-            println(d)
-
-            val e = SoulPoolPlayerAttachment.getData(pPlayer).soulPool
-            println(e)
-            val f= SoulPoolPlayerAttachment.getData(pPlayer).maxSouls
-            println(f)
-
         }
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }

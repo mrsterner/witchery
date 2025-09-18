@@ -34,7 +34,16 @@ object DeathQueueLevelAttachment {
         }
     }
 
-    data class Data(val killerQueue: MutableList<UUID> = mutableListOf()) {
+    fun removeFromDeathQueue(level: ServerLevel, uuid: UUID) {
+        val old = getData(level)
+        if (old.killerQueue.contains(uuid)) {
+            val newList = old.killerQueue.toMutableList()
+            newList.remove(uuid)
+            setData(level, old.copy(killerQueue = newList))
+        }
+    }
+
+    data class Data(val killerQueue: List<UUID> = emptyList()) {
 
         companion object {
             val ID: ResourceLocation = Witchery.id("death_queue")
