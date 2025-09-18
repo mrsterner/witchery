@@ -5,8 +5,6 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
-import dev.sterner.witchery.integration.jei.WitcheryJeiPlugin
-import dev.sterner.witchery.neoforge.asm.EnumExtension
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeClientEvent
 import dev.sterner.witchery.neoforge.event.WitcheryNeoForgeEvent
 import dev.sterner.witchery.platform.neoforge.WitcheryAttributesImpl
@@ -20,22 +18,22 @@ import net.minecraft.core.NonNullList
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.syncher.EntityDataSerializer
 import net.minecraft.world.effect.MobEffect
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.FireBlock
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.neoforged.neoforge.capabilities.Capabilities
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.common.NeoForge
-import net.neoforged.neoforge.data.event.GatherDataEvent
+import net.neoforged.neoforge.common.extensions.IBlockStateExtension
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
@@ -83,7 +81,7 @@ object WitcheryNeoForge {
             },
             serverTarget = {
                 MOD_BUS.addListener(::onServerSetup)
-                MOD_BUS.addListener(::onLoadComplete)
+                MOD_BUS.addListener(::setup)
                 "test"
             }
         )
@@ -97,8 +95,8 @@ object WitcheryNeoForge {
         Witchery.initClient()
     }
 
-    private fun onLoadComplete(event: FMLLoadCompleteEvent) {
-        WitcheryFlammability.register()
+    private fun setup(event: FMLCommonSetupEvent) {
+
     }
 
     @SubscribeEvent

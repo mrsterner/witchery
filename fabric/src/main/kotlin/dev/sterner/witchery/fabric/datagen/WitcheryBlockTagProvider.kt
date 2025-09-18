@@ -120,6 +120,7 @@ class WitcheryBlockTagProvider(output: FabricDataOutput, registriesFuture: Compl
             .addTag(WitcheryTags.ROWAN_LOGS)
             .addTag(WitcheryTags.ALDER_LOGS)
             .addTag(WitcheryTags.HAWTHORN_LOGS)
+            .add(WitcheryBlocks.BLOOD_STAINED_HAY.get())
 
         getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(
             WitcheryBlocks.ROWAN_FENCE.get(),

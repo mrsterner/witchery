@@ -1,48 +1,47 @@
 package dev.sterner.witchery.registry
 
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.FireBlock
+import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.world.level.block.Block
 
-/**
- * Flammability is weird...
- */
 object WitcheryFlammability {
 
-    fun register() {
-        val fire = Blocks.FIRE as FireBlock
-        //fire.setFlammable(block, igniteOdds, burnOdds)
-        fire.setFlammable(WitcheryBlocks.ROWAN_LOG.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.ROWAN_WOOD.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.STRIPPED_ROWAN_LOG.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.STRIPPED_ROWAN_WOOD.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.ROWAN_LEAVES.get(), 30, 60)
-        fire.setFlammable(WitcheryBlocks.ROWAN_BERRY_LEAVES.get(), 30, 60)
-        fire.setFlammable(WitcheryBlocks.ROWAN_PLANKS.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.ROWAN_STAIRS.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.ROWAN_SLAB.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.ROWAN_FENCE.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.ROWAN_FENCE_GATE.get(), 5, 20)
+    data class Flame(val block: RegistrySupplier<out Block>, val igniteOdds: Int, val burnOdds: Int)
 
-        fire.setFlammable(WitcheryBlocks.ALDER_LOG.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.ALDER_WOOD.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.STRIPPED_ALDER_LOG.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.STRIPPED_ALDER_WOOD.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.ALDER_LEAVES.get(), 30, 60)
-        fire.setFlammable(WitcheryBlocks.ALDER_PLANKS.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.ALDER_STAIRS.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.ALDER_SLAB.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.ALDER_FENCE.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.ALDER_FENCE_GATE.get(), 5, 20)
+    val flammableBlocks: List<Flame> = listOf(
+        Flame(WitcheryBlocks.BLOOD_STAINED_HAY, 40, 60),
 
-        fire.setFlammable(WitcheryBlocks.HAWTHORN_LOG.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.HAWTHORN_WOOD.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.STRIPPED_HAWTHORN_LOG.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get(), 5, 5)
-        fire.setFlammable(WitcheryBlocks.HAWTHORN_LEAVES.get(), 30, 60)
-        fire.setFlammable(WitcheryBlocks.HAWTHORN_PLANKS.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.HAWTHORN_STAIRS.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.HAWTHORN_SLAB.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.HAWTHORN_FENCE.get(), 5, 20)
-        fire.setFlammable(WitcheryBlocks.HAWTHORN_FENCE_GATE.get(), 5, 20)
-    }
+        Flame(WitcheryBlocks.ROWAN_LOG, 5, 5),
+        Flame(WitcheryBlocks.ROWAN_WOOD, 5, 5),
+        Flame(WitcheryBlocks.STRIPPED_ROWAN_LOG, 5, 5),
+        Flame(WitcheryBlocks.STRIPPED_ROWAN_WOOD, 5, 5),
+        Flame(WitcheryBlocks.ROWAN_LEAVES, 30, 60),
+        Flame(WitcheryBlocks.ROWAN_BERRY_LEAVES, 30, 60),
+        Flame(WitcheryBlocks.ROWAN_PLANKS, 5, 20),
+        Flame(WitcheryBlocks.ROWAN_STAIRS, 5, 20),
+        Flame(WitcheryBlocks.ROWAN_SLAB, 5, 20),
+        Flame(WitcheryBlocks.ROWAN_FENCE, 5, 20),
+        Flame(WitcheryBlocks.ROWAN_FENCE_GATE, 5, 20),
+
+        Flame(WitcheryBlocks.ALDER_LOG, 5, 5),
+        Flame(WitcheryBlocks.ALDER_WOOD, 5, 5),
+        Flame(WitcheryBlocks.STRIPPED_ALDER_LOG, 5, 5),
+        Flame(WitcheryBlocks.STRIPPED_ALDER_WOOD, 5, 5),
+        Flame(WitcheryBlocks.ALDER_LEAVES, 30, 60),
+        Flame(WitcheryBlocks.ALDER_PLANKS, 5, 20),
+        Flame(WitcheryBlocks.ALDER_STAIRS, 5, 20),
+        Flame(WitcheryBlocks.ALDER_SLAB, 5, 20),
+        Flame(WitcheryBlocks.ALDER_FENCE, 5, 20),
+        Flame(WitcheryBlocks.ALDER_FENCE_GATE, 5, 20),
+
+        Flame(WitcheryBlocks.HAWTHORN_LOG, 5, 5),
+        Flame(WitcheryBlocks.HAWTHORN_WOOD, 5, 5),
+        Flame(WitcheryBlocks.STRIPPED_HAWTHORN_LOG, 5, 5),
+        Flame(WitcheryBlocks.STRIPPED_HAWTHORN_WOOD, 5, 5),
+        Flame(WitcheryBlocks.HAWTHORN_LEAVES, 30, 60),
+        Flame(WitcheryBlocks.HAWTHORN_PLANKS, 5, 20),
+        Flame(WitcheryBlocks.HAWTHORN_STAIRS, 5, 20),
+        Flame(WitcheryBlocks.HAWTHORN_SLAB, 5, 20),
+        Flame(WitcheryBlocks.HAWTHORN_FENCE, 5, 20),
+        Flame(WitcheryBlocks.HAWTHORN_FENCE_GATE, 5, 20)
+    )
 }

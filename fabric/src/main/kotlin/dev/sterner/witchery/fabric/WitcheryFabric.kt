@@ -25,6 +25,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage
@@ -55,7 +56,7 @@ class WitcheryFabric : ModInitializer, ClientModInitializer {
             WitcheryBlocks.STRIPPED_HAWTHORN_WOOD.get()
         )
 
-        WitcheryFlammability.register()
+        WitcheryFlammability.flammableBlocks.forEach { FlammableBlockRegistry.getDefaultInstance().add(it.block.get(), it.burnOdds, it.igniteOdds) }
         WitcheryOxidizables.register()
         WitcheryCompostables.register()
 

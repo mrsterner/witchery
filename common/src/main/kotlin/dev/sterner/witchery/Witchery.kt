@@ -170,6 +170,7 @@ object Witchery {
         WitcheryStructureInjects.registerEvents()
         LichdomSpecificEventHandler.registerEvents()
         PhylacteryBlockEntity.registerEvents()
+
         InteractionEvent.RIGHT_CLICK_BLOCK.register { player, hand, pos, face ->
 
             if (player.mainHandItem.item is WineGlassItem && player.level().getBlockState(pos).`is`(BlockTags.WOOL)) {

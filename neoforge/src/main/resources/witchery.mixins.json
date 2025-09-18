@@ -12,6 +12,7 @@
     "ArgumentTypeInfosInvoker",
     "BlockBehaviourMixin",
     "FoodDataMixin",
+    "IBlockStateExtensionMixin",
     "ItemStackMixin",
     "LevelChunkMixin",
     "LivingEntityMixin",

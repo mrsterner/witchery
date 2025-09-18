@@ -27,6 +27,7 @@
     "DoorBlockMixin",
     "EnderManMixin",
     "EntityMixin",
+    "FireBlockMixin",
     "FoodDataMixin",
     "ItemEntityMixin",
     "LightningBoltMixin",
