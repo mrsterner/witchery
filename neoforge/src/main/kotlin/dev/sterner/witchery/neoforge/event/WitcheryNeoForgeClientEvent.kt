@@ -31,6 +31,7 @@ import dev.sterner.witchery.client.renderer.entity.NightmareEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.OwlEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.ParasiticLouseEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.SleepingPlayerEntityRenderer
+import dev.sterner.witchery.client.renderer.entity.SpectralPigRenderer
 import dev.sterner.witchery.client.renderer.entity.SpectreEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.VampireEntityRenderer
 import dev.sterner.witchery.client.renderer.entity.WerewolfEntityRenderer
@@ -181,6 +182,10 @@ object WitcheryNeoForgeClientEvent {
         event.registerEntityRenderer(
             WitcheryEntityTypes.HUNTSMAN_SPEAR.get(),
             ::HuntsmanSpearRenderer
+        )
+        event.registerEntityRenderer(
+            WitcheryEntityTypes.SPECTRAL_PIG.get(),
+            ::SpectralPigRenderer
         )
     }
 

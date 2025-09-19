@@ -30,6 +30,7 @@ import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
+import dev.sterner.witchery.block.censer.CenserBlockEntity
 import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
 import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
@@ -318,6 +319,13 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of(
             ::PhylacteryBlockEntity,
             WitcheryBlocks.PHYLACTERY.get()
+        ).build(null)
+    }
+
+    val CENSER = BLOCK_ENTITY_TYPES.register("censer") {
+        BlockEntityType.Builder.of(
+            ::CenserBlockEntity,
+            WitcheryBlocks.CENSER.get()
         ).build(null)
     }
 }

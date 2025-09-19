@@ -678,6 +678,13 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.PHYLACTERY.get(), Item.Properties())
     }
 
+    val CENSER: RegistrySupplier<CenserBlockItem> = register("censer") {
+        CenserBlockItem(WitcheryBlocks.CENSER.get(), Item.Properties(), true)
+    }
+
+    val CENSER_LONG: RegistrySupplier<CenserBlockItem> = register("censer_long") {
+        CenserBlockItem(WitcheryBlocks.CENSER.get(), Item.Properties(), false)
+    }
 
     val WEREWOLF_ALTAR: RegistrySupplier<MultiBlockItem> = register("werewolf_altar") {
         MultiBlockItem(WitcheryBlocks.WEREWOLF_ALTAR.get(), Item.Properties(), WerewolfAltarBlock.STRUCTURE)

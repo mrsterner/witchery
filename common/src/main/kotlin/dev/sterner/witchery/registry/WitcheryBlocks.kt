@@ -40,6 +40,7 @@ import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockComponent
 import dev.sterner.witchery.block.trees.StrippableLogBlock
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlock
+import dev.sterner.witchery.block.censer.CenserBlock
 import dev.sterner.witchery.block.mushroom_log.MushroomLogBlock
 import dev.sterner.witchery.block.mushroom_log.MushroomLogComponent
 import dev.sterner.witchery.block.phylactery.PhylacteryBlock
@@ -1069,6 +1070,10 @@ object WitcheryBlocks {
 
     val PHYLACTERY: RegistrySupplier<PhylacteryBlock> = register("phylactery") {
         PhylacteryBlock(BlockBehaviour.Properties.of().noOcclusion())
+    }
+
+    val CENSER: RegistrySupplier<CenserBlock> = register("censer") {
+        CenserBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 
     val FLOWING_SPIRIT_BLOCK: RegistrySupplier<LiquidBlock> = register(

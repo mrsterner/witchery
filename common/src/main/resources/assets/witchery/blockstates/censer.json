@@ -1,0 +1,29 @@
+{
+  "variants": {
+    "lit=true,hanging=true,type=true": {
+      "model": "witchery:block/censer_hanging_lit_1"
+    },
+    "lit=true,hanging=false,type=true": {
+      "model": "witchery:block/censer_lit_1"
+    },
+    "lit=true,hanging=true,type=false": {
+      "model": "witchery:block/censer_hanging_lit_2"
+    },
+    "lit=true,hanging=false,type=false": {
+      "model": "witchery:block/censer_lit_2"
+    },
+
+    "lit=false,hanging=true,type=true": {
+      "model": "witchery:block/censer_hanging_1"
+    },
+    "lit=false,hanging=false,type=true": {
+      "model": "witchery:block/censer_1"
+    },
+    "lit=false,hanging=true,type=false": {
+      "model": "witchery:block/censer_hanging_2"
+    },
+    "lit=false,hanging=false,type=false": {
+      "model": "witchery:block/censer_2"
+    }
+  }
+}

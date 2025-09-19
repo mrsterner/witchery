@@ -1,6 +1,8 @@
 package dev.sterner.witchery.fabric.datagen
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.WitcheryCropBlock
+import dev.sterner.witchery.block.censer.CenserBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
 import it.unimi.dsi.fastutil.ints.Int2ObjectFunction
@@ -15,13 +17,18 @@ import net.minecraft.data.models.blockstates.MultiVariantGenerator
 import net.minecraft.data.models.blockstates.PropertyDispatch
 import net.minecraft.data.models.blockstates.Variant
 import net.minecraft.data.models.blockstates.VariantProperties
+import net.minecraft.data.models.model.ModelLocationUtils
+import net.minecraft.data.models.model.ModelTemplate
 import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureMapping
+import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.data.models.model.TexturedModel
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.LanternBlock
 import net.minecraft.world.level.block.state.properties.Property
+import java.util.Optional
 
 class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(output) {
 
@@ -154,7 +161,6 @@ class WitcheryModelProvider(output: FabricDataOutput?) : FabricModelProvider(out
             .recipeUnlockedBy("has_planks").family
         generator.family(hawthornFamily.baseBlock).generateFor(hawthornFamily)
     }
-
 
     fun createCropPlantBlock(
         generator: BlockModelGenerators,

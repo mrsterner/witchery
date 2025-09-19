@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.Block
 
 object WitcheryTags {
 
+    val INFINITE_CENSER_TAG = TagKey.create(Registries.ITEM, Witchery.id("infinite_censer"))
+
     val WEREWOLF_ALTAR_ITEM: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("werewolf_altar_item"))
     val PLACEABLE_POPPETS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("placeable_poppets"))
     val FROM_SPIRIT_WORLD_TRANSFERABLE: TagKey<Item> =

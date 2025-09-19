@@ -110,11 +110,11 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
             updateMasterPlayerReference()
         }
     }
-    
+
     private fun handleSunlightDamage() {
-        val isInSunlight = this.level().canSeeSky(this.blockPosition()) && this.level().isDay
-        val sunDamageSource =
-            (this.level().damageSources() as DamageSourcesInvoker).invokeSource(WitcheryDamageSources.IN_SUN)
+        val canSeeSky = this.level().canSeeSky(this.blockPosition())
+        val isDay = this.level().isDay
+        val isInSunlight = canSeeSky && isDay
 
         if (isInSunlight) {
             inSunTick++
@@ -122,9 +122,13 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
 
             if (inSunTick >= 80) {
                 if (this.tickCount % 20 == 0) {
+                    val sunDamageSource = (this.level().damageSources() as DamageSourcesInvoker)
+                        .invokeSource(WitcheryDamageSources.IN_SUN)
+
                     this.hurt(sunDamageSource, 1f)
                     BloodPoolHandler.decreaseBlood(this, 10)
                     this.remainingFireTicks = 20
+
                     this.level().playSound(
                         null,
                         this.x,
@@ -139,6 +143,9 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
             }
         } else {
             inSunTick = 0
+            if (this.remainingFireTicks > 0 && !isDay) {
+                this.clearFire()
+            }
         }
     }
     

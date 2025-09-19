@@ -125,6 +125,7 @@ object Witchery {
         NaturePowerReloadListener.registerListener()
         ErosionReloadListener.registerListener()
         BloodPoolReloadListener.registerListener()
+        InfiniteCenserReloadListener.registerListener()
 
         WitcheryModonomiconLoaders.register()
 
@@ -339,6 +340,7 @@ object Witchery {
 
         RenderTypeRegistry.register(
             RenderType.cutout(),
+            WitcheryBlocks.CENSER.get(),
             WitcheryBlocks.GOLDEN_CHALK_BLOCK.get(),
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
             WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),

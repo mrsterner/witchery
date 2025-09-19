@@ -60,6 +60,9 @@ class WitcheryDatagen : DataGeneratorEntrypoint {
             WitcheryErosionProvider(out, tag)
         }
         pack.addProvider { out, tag ->
+            WitcheryInfiniteCenserProvider(out, tag)
+        }
+        pack.addProvider { out, tag ->
             WitcheryPotionProvider(out, tag)
         }
         pack.addProvider { out, tag ->
