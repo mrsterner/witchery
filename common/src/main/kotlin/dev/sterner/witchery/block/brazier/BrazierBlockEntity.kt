@@ -3,7 +3,9 @@ package dev.sterner.witchery.block.brazier
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
 import dev.sterner.witchery.api.block.AltarPowerConsumer
+import dev.sterner.witchery.api.block.PotionSpreader
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.block.censer.CenserBlockEntity
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.item.potion.WitcheryPotionItem.Companion.getMergedEffectModifier
@@ -54,7 +56,7 @@ import net.minecraft.world.phys.Vec3
 
 class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.BRAZIER.get(), blockPos, blockState),
-    Container, AltarPowerConsumer, RecipeCraftingHolder, WorldlyContainer {
+    Container, AltarPowerConsumer, RecipeCraftingHolder, WorldlyContainer, PotionSpreader {
 
     var items: NonNullList<ItemStack> = NonNullList.withSize(8, ItemStack.EMPTY)
     private val quickCheck = RecipeManager.createCheck(WitcheryRecipeTypes.BRAZIER_SUMMONING_RECIPE_TYPE.get())
@@ -64,10 +66,29 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var active = false
     private var summoningTicker = 0
 
-    private var potionContents: PotionContents = PotionContents.EMPTY
-    private var activePotionSpecialEffects: MutableList<Pair<ResourceLocation, Int>> = mutableListOf()
-    private var potionEffectRadius = 8.0
-    private var potionEffectRemainingTicks = 0
+    override var potionContents: PotionContents
+        get() = PotionContents.EMPTY
+        set(value) {
+            potionContents = value
+        }
+    override var activePotionSpecialEffects: MutableList<Pair<ResourceLocation, Int>>
+        get() = mutableListOf()
+        set(value) {
+            activePotionSpecialEffects = value
+        }
+    override var potionEffectRadius: Double
+        get() = 8.0
+        set(value) {
+            potionEffectRadius = value
+        }
+    override var potionEffectRemainingTicks: Int
+        get() = 0
+        set(value) {
+            potionEffectRemainingTicks = value
+        }
+    override var isInfinite: Boolean
+        get() = false
+        set(value) {}
 
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
         super.tick(level, pos, state)
@@ -111,7 +132,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             potionEffectRemainingTicks--
 
             if (potionEffectRemainingTicks % 20 == 0) {
-                applyPotionEffectsToNearbyEntities(level, pos)
+                CenserBlockEntity.applyPotionEffectsToNearbyEntities(level, pos, potionContents, activePotionSpecialEffects, potionEffectRadius)
             }
 
             if (level.random.nextFloat() < 0.2f) {
@@ -137,45 +158,6 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 potionContents = PotionContents.EMPTY
                 activePotionSpecialEffects.clear()
                 setChanged()
-            }
-        }
-    }
-    
-    private fun applyPotionEffectsToNearbyEntities(level: Level, pos: BlockPos) {
-        if (potionContents == PotionContents.EMPTY && activePotionSpecialEffects.isEmpty()) return
-        
-        val effectBox = AABB(
-            pos.x - potionEffectRadius, pos.y - 1.0, pos.z - potionEffectRadius,
-            pos.x + potionEffectRadius, pos.y + 3.0, pos.z + potionEffectRadius
-        )
-        
-        val entities = level.getEntitiesOfClass(LivingEntity::class.java, effectBox)
-        
-        for (entity in entities) {
-            if (potionContents != PotionContents.EMPTY) {
-                for (effect in potionContents.allEffects) {
-                    val shortenedEffect = MobEffectInstance(
-                        effect.effect,
-                        effect.duration / 10,
-                        effect.amplifier,
-                        effect.isAmbient,
-                        true
-                    )
-                    entity.addEffect(shortenedEffect)
-                }
-            }
-
-            for ((specialEffect, amplifier) in activePotionSpecialEffects) {
-                val special = WitcherySpecialPotionEffects.SPECIALS.get(specialEffect)
-                special?.onActivated(
-                    level, 
-                    entity, 
-                    EntityHitResult(entity, entity.position()),
-                    mutableListOf(), 
-                    WitcheryPotionIngredient.DispersalModifier(1, 1),
-                    300,
-                    amplifier
-                )
             }
         }
     }
@@ -378,32 +360,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         this.active = pTag.getBoolean("active")
         this.summoningTicker = pTag.getInt("summoning")
 
-        if (pTag.contains("potionEffectTicks")) {
-            this.potionEffectRemainingTicks = pTag.getInt("potionEffectTicks")
-            this.potionEffectRadius = pTag.getDouble("potionEffectRadius")
-
-            if (pTag.contains("potionContents")) {
-                val registryOps = this.level!!.registryAccess().createSerializationContext(NbtOps.INSTANCE)
-                PotionContents.CODEC.parse(registryOps, pTag.get("potionContents"))
-                    .resultOrPartial { error ->
-                    }
-                    .ifPresent { contents ->
-                        this.potionContents = contents
-                    }
-            }
-
-            if (pTag.contains("specialEffects")) {
-                val specialEffectsTag = pTag.getList("specialEffects", 10)
-                this.activePotionSpecialEffects.clear()
-                
-                for (i in 0 until specialEffectsTag.size) {
-                    val specialEffectTag = specialEffectsTag.getCompound(i)
-                    val resourceLocation = ResourceLocation.parse(specialEffectTag.getString("id"))
-                    val amplifier = specialEffectTag.getInt("amplifier")
-                    this.activePotionSpecialEffects.add(Pair(resourceLocation, amplifier))
-                }
-            }
-        }
+        this.level?.let { loadPotionHolder(pTag, it) }
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
@@ -415,32 +372,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putBoolean("active", active)
         tag.putInt("summoning", this.summoningTicker)
 
-        if (potionEffectRemainingTicks > 0) {
-            tag.putInt("potionEffectTicks", potionEffectRemainingTicks)
-            tag.putDouble("potionEffectRadius", potionEffectRadius)
-
-            if (potionContents != PotionContents.EMPTY) {
-                val registryOps = this.level!!.registryAccess().createSerializationContext(NbtOps.INSTANCE)
-                PotionContents.CODEC.encodeStart(registryOps, potionContents)
-                    .resultOrPartial { error -> }
-                    .ifPresent { encoded: Tag -> 
-                        tag.put("potionContents", encoded)
-                    }
-            }
-
-            if (activePotionSpecialEffects.isNotEmpty()) {
-                val specialEffectsTag = CompoundTag()
-                
-                for ((index, pair) in activePotionSpecialEffects.withIndex()) {
-                    val specialEffectTag = CompoundTag()
-                    specialEffectTag.putString("id", pair.first.toString())
-                    specialEffectTag.putInt("amplifier", pair.second)
-                    specialEffectsTag.put(index.toString(), specialEffectTag)
-                }
-                
-                tag.put("specialEffects", specialEffectsTag)
-            }
-        }
+        this.level?.let { savePotionHolder(tag, it) }
     }
 
     override fun isEmpty(): Boolean {
