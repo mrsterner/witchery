@@ -35,7 +35,7 @@ class WitcheryBrazierCategoryProvider(
             "__________________________________",
             "_______________b_s_i______________",
             "__________________________________",
-            "___________________j______________",
+            "_______________c___j______________",
             "__________________________________",
             "__________________________________",
             "__________________________________",
@@ -71,6 +71,10 @@ class WitcheryBrazierCategoryProvider(
         val summon = EntryProviders.singleItem(this, "summon", WitcheryItems.WORMWOOD.get()).generate("s")
         summon.addParent(BookEntryParentModel.create(brazier.id).withDrawArrow(true))
         addEntry(summon)
+
+        val censer = EntryProviders.singleItemTwoPages(this, "censer", WitcheryItems.CENSER.get().defaultInstance).generate("c")
+        censer.addParent(BookEntryParentModel.create(brazier.id).withDrawArrow(true))
+        addEntry(censer)
 
         val soulCage = SoulCageEntryProvider(this, "soul_cage").generate("t")
         soulCage.addParent(BookEntryParentModel.create(summon.id).withDrawArrow(true))

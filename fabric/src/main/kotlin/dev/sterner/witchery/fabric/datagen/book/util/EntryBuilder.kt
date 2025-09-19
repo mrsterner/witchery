@@ -37,6 +37,13 @@ class EntryBuilder(private val parent: CategoryProviderBase?) {
         })
     }
 
+    fun textPageFlat(pageId: String = id!!, titleNum: Int = 1) = apply {
+        pages.add(PageConfig(pageId) {
+            BookTextPageModel.create()
+                .withText("${parent?.categoryId()}.$pageId.page.$titleNum")
+        })
+    }
+
     fun spotlightPage(pageId: String = id!!, item: ItemStack = icon!!, titleNum: Int = 1) = apply {
         pages.add(PageConfig(pageId) {
             BookSpotlightPageModel.create()

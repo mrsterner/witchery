@@ -95,13 +95,15 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         return 0.05
     }
 
-    private fun getRangeBonus(potion: List<WitcheryPotionIngredient>): Int {
-        return potion.maxOfOrNull { it.dispersalModifier.rangeModifier } ?: 1
-    }
+    companion object {
+        fun getRangeBonus(potion: List<WitcheryPotionIngredient>): Int {
+            return potion.maxOfOrNull { it.dispersalModifier.rangeModifier } ?: 1
+        }
 
-    private fun getRangeBonus(stack: ItemStack): Int {
-        val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return 1
-        return potionContentList.maxOfOrNull { it.dispersalModifier.rangeModifier } ?: 1
+        fun getRangeBonus(stack: ItemStack): Int {
+            val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return 1
+            return potionContentList.maxOfOrNull { it.dispersalModifier.rangeModifier } ?: 1
+        }
     }
 
     /**

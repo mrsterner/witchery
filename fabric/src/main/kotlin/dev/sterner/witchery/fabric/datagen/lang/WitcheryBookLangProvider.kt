@@ -1052,6 +1052,15 @@ object WitcheryBookLangProvider {
         builder.add("potion_effect.witches_hat", "not yet implemented")
         builder.add("potion_effect.witches_hat.title.1", "Summon Leonard")
 
+        builder.add("book.witchery.guidebook.brazier.censer.name", "The Censer")
+        builder.add("brazier.censer.title.1", "The Censer")
+        builder.add("brazier.censer.page.1", "The Censer burns potions as incense, spreading their effects to all nearby. Right-click with any potion to add it to the censer. Effects continuously apply within a 16-block radius while the potion lasts.")
+        builder.add("brazier.censer.page.2",
+            "\\\n" +
+                "\\\n" +
+            "Certain ingredients burn eternally when blessed by altar power. Soul fire particles indicate an active censer, with colored wisps showing the potion's nature.")
+        builder.add("book.witchery.guidebook.brazier.censer.description", "Better diffuser")
+
         builder.add("book.witchery.guidebook.brazier.soul_cage.name", "The Soul Cage")
         builder.add("book.witchery.guidebook.brazier.soul_cage.description", "Soul keeper")
         builder.add("brazier.soul_cage.title.1", "Soul Cage")

@@ -60,11 +60,11 @@ litBlockEmission(8)
             if (bl2) {
                 SHAPE_HANGING_1
             } else {
-                SHAPE_1
+                SHAPE_HANGING_2
             }
         } else {
             if (bl2) {
-                SHAPE_HANGING_2
+                SHAPE_1
             } else {
                 SHAPE_2
             }
@@ -150,7 +150,7 @@ litBlockEmission(8)
         var SHAPE_FOOT_1: VoxelShape =  box(5.0, 0.0, 5.0, 11.0, 2.0, 11.0)
         var SHAPE_BASE_1: VoxelShape =  box(6.0, 2.0, 6.0, 10.0, 4.0, 10.0)
         var SHAPE_CORE_1: VoxelShape =  box(4.5, 4.0, 4.5, 11.5, 10.0, 11.5)
-        var SHAPE_TOP_1: VoxelShape =  box(5.5, 4.0, 5.5, 10.5, 10.0, 10.5)
+        var SHAPE_TOP_1: VoxelShape =  box(5.5, 10.0, 5.5, 10.5, 12.0, 10.5)
 
         val SHAPE_HANGING_1: VoxelShape =
             Shapes.joinUnoptimized(SHAPE_BASE_1,

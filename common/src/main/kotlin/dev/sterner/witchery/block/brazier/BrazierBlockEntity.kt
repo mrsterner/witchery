@@ -132,7 +132,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             potionEffectRemainingTicks--
 
             if (potionEffectRemainingTicks % 20 == 0) {
-                CenserBlockEntity.applyPotionEffectsToNearbyEntities(level, pos, potionContents, activePotionSpecialEffects, potionEffectRadius)
+                applyPotionEffectsToNearbyEntities(level, pos, potionContents, activePotionSpecialEffects, potionEffectRadius)
             }
 
             if (level.random.nextFloat() < 0.2f) {
@@ -158,6 +158,51 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 potionContents = PotionContents.EMPTY
                 activePotionSpecialEffects.clear()
                 setChanged()
+            }
+        }
+    }
+
+    fun applyPotionEffectsToNearbyEntities(
+        level: Level,
+        pos: BlockPos,
+        potionContents: PotionContents,
+        activePotionSpecialEffects: MutableList<Pair<ResourceLocation, Int>>,
+        potionEffectRadius: Double
+    ) {
+        if (potionContents == PotionContents.EMPTY && activePotionSpecialEffects.isEmpty()) return
+
+        val effectBox = AABB(
+            pos.x - potionEffectRadius, pos.y - 1.0, pos.z - potionEffectRadius,
+            pos.x + potionEffectRadius, pos.y + 3.0, pos.z + potionEffectRadius
+        )
+
+        val entities = level.getEntitiesOfClass(LivingEntity::class.java, effectBox)
+
+        for (entity in entities) {
+            if (potionContents != PotionContents.EMPTY) {
+                for (effect in potionContents.allEffects) {
+                    val shortenedEffect = MobEffectInstance(
+                        effect.effect,
+                        effect.duration / 10,
+                        effect.amplifier,
+                        effect.isAmbient,
+                        true
+                    )
+                    entity.addEffect(shortenedEffect)
+                }
+            }
+
+            for ((specialEffect, amplifier) in activePotionSpecialEffects) {
+                val special = WitcherySpecialPotionEffects.SPECIALS.get(specialEffect)
+                special?.onActivated(
+                    level,
+                    entity,
+                    EntityHitResult(entity, entity.position()),
+                    mutableListOf(),
+                    WitcheryPotionIngredient.DispersalModifier(1, 1),
+                    300,
+                    amplifier
+                )
             }
         }
     }

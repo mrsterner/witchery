@@ -1,711 +1,642 @@
 package dev.sterner.witchery.block.censer
 
-import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.SpecialPotion
+import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.data.InfiniteCenserReloadListener
+import dev.sterner.witchery.entity.WitcheryThrownPotion
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.item.potion.WitcheryPotionItem
-import dev.sterner.witchery.item.potion.WitcheryPotionItem.Companion.getMergedEffectModifier
-import dev.sterner.witchery.recipe.MultipleItemRecipeInput
+import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
-import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
+import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderLookup
-import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponents
-import net.minecraft.core.particles.ColorParticleOption
 import net.minecraft.core.particles.DustParticleOptions
 import net.minecraft.core.particles.ParticleTypes
-import net.minecraft.core.registries.Registries
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.nbt.Tag
-import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.sounds.SoundEvents
-import net.minecraft.sounds.SoundSource
-import net.minecraft.tags.TagKey
-import net.minecraft.world.ContainerHelper
-import net.minecraft.world.Containers
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.ItemInteractionResult
+import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectInstance
-import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.PotionItem
 import net.minecraft.world.item.alchemy.Potion
 import net.minecraft.world.item.alchemy.PotionContents
-import net.minecraft.world.item.component.CustomData
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.LanternBlock
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.BlockHitResult
-import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.Vec3
 import java.util.Optional
+import java.util.UUID
 
 class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.CENSER.get(), blockPos, blockState), PotionSpreader {
+    WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.CENSER.get(), blockPos, blockState), AltarPowerConsumer {
 
-    override var potionContents: PotionContents
-        get() = PotionContents.EMPTY
-        set(value) {
-            potionContents = value
-        }
-    override var activePotionSpecialEffects: MutableList<Pair<ResourceLocation, Int>>
-        get() = mutableListOf()
-        set(value) {
-            activePotionSpecialEffects = value
-        }
-    override var potionEffectRadius: Double
-        get() = 8.0
-        set(value) {
-            potionEffectRadius = value
-        }
-    override var potionEffectRemainingTicks: Int
-        get() = 0
-        set(value) {
-            potionEffectRemainingTicks = value
-        }
-    override var isInfinite: Boolean
-        get() = false
-        set(value) {
-            isInfinite = value
-        }
+    var potionContents: List<PotionContents> = listOf(PotionContents.EMPTY)
+    var specialPotions: List<WitcheryPotionIngredient> = listOf()
+    val activeEffects: MutableList<ActiveEffect> = mutableListOf()
+    val owner: Optional<UUID> = Optional.empty()
 
-    override fun tick(level: Level, pos: BlockPos, state: BlockState) {
-        super.tick(level, pos, state)
-
-        if (level.isClientSide) {
-            return
-        }
-
-        if (potionEffectRemainingTicks > 0 || isInfinite) {
-            potionEffectRemainingTicks--
-
-            if (potionEffectRemainingTicks % 20 == 0) {
-                applyPotionEffectsToNearbyEntities(level, pos, potionContents, activePotionSpecialEffects, potionEffectRadius)
-            }
-
-            if (level.random.nextFloat() < 0.2f) {
-                val offsetX = (level.random.nextDouble() - 0.5) * 2
-                val offsetZ = (level.random.nextDouble() - 0.5) * 2
-
-                val color = potionContents.color
-
-                if (level is ServerLevel) {
-                    level.sendParticles(
-                        ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, color),
-                        pos.x + 0.5 + offsetX,
-                        pos.y + 0.5 + level.random.nextDouble(),
-                        pos.z + 0.5 + offsetZ,
-                        1,
-                        0.0, 0.0, 0.0,
-                        1.0
-                    )
-                }
-            }
-
-            if (potionEffectRemainingTicks <= 0 && !isInfinite) {
-                potionContents = PotionContents.EMPTY
-                activePotionSpecialEffects.clear()
-            }
-            setChanged()
-        }
-    }
-
-    override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
-        if (level != null && (pStack.`is`(Items.POTION) || pStack.`is`(Items.SPLASH_POTION) || pStack.`is`(Items.LINGERING_POTION))) {
-
-            if (pStack.has(DataComponents.POTION_CONTENTS) && pStack.get(DataComponents.POTION_CONTENTS) != PotionContents.EMPTY) {
-                isInfinite = InfiniteCenserReloadListener.isPotionInfinite(pStack.get(DataComponents.POTION_CONTENTS)!!)
-                potionContents = pStack.get(DataComponents.POTION_CONTENTS)!!
-                potionEffectRemainingTicks = 20 * 300
-                potionEffectRadius = 8.0
-
-                if (pStack.`is`(Items.LINGERING_POTION)) {
-                    potionEffectRadius = 12.0
-                    potionEffectRemainingTicks = 20 * 400
-                }
-
-                level?.playSound(null, blockPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f)
-
-                val color = potionContents.color
-
-                if (level is ServerLevel) {
-                    (level as ServerLevel).sendParticles(
-                        ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, color),
-                        blockPos.x + 0.5,
-                        blockPos.y + 0.8,
-                        blockPos.z + 0.5,
-                        10,
-                        0.3, 0.3, 0.3,
-                        0.5
-                    )
-                }
-
-                if (!pPlayer.isCreative) {
-                    pPlayer.setItemInHand(pHand, ItemStack(Items.GLASS_BOTTLE))
-                }
-
-                setChanged()
-                return ItemInteractionResult.SUCCESS
-            }
-        }
-
-        if (level != null && pStack.has(WITCHERY_POTION_CONTENT.get())) {
-            val potionContentList: List<WitcheryPotionIngredient>? = pStack.get(WITCHERY_POTION_CONTENT.get())
-
-            if (potionContentList != null && potionContentList.isNotEmpty()) {
-                val globalModifier = getMergedEffectModifier(potionContentList)
-
-                potionContents = PotionContents.EMPTY
-                activePotionSpecialEffects.clear()
-
-                var shouldInvertNext = false
-
-                for (potionContent in potionContentList) {
-                    if (potionContent.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
-                        shouldInvertNext = true
-                        continue
-                    }
-
-                    val effect = if (shouldInvertNext) {
-                        shouldInvertNext = false
-                        WitcheryMobEffects.invertEffect(potionContent.effect)
-                    } else {
-                        potionContent.effect
-                    }
-
-                    val duration = ((potionContent.baseDuration + globalModifier.durationAddition) *
-                            globalModifier.durationMultiplier).coerceAtLeast(20)
-                    val amplifier = globalModifier.powerAddition
-
-                    if (effect != WitcheryMobEffects.EMPTY) {
-                        val mobEffectInstance = MobEffectInstance(effect, duration, amplifier)
-                        potionContents = potionContents.withEffectAdded(mobEffectInstance)
-                    }
-
-                    if (potionContent.specialEffect.isPresent) {
-                        activePotionSpecialEffects.add(
-                            Pair(potionContent.specialEffect.get(), amplifier)
-                        )
-                    }
-                }
-
-                val dispersalModifier = WitcheryPotionItem.getMergedDisperseModifier(potionContentList)
-                potionEffectRadius = 8.0 * dispersalModifier.rangeModifier
-                potionEffectRemainingTicks = 20 * 300 * dispersalModifier.lingeringDurationModifier
-
-                level?.playSound(null, blockPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f)
-
-                val color = potionContents.color
-                if (level is ServerLevel) {
-                    (level as ServerLevel).sendParticles(
-                        ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, color),
-                        blockPos.x + 0.5,
-                        blockPos.y + 0.8,
-                        blockPos.z + 0.5,
-                        15,
-                        0.3, 0.3, 0.3,
-                        0.5
-                    )
-                }
-
-                if (!pPlayer.isCreative) {
-                    pPlayer.setItemInHand(pHand, ItemStack(Items.GLASS_BOTTLE))
-                }
-
-                setChanged()
-                return ItemInteractionResult.SUCCESS
-            }
-        }
-
-        return super.onUseWithItem(pPlayer, pStack, pHand)
-    }
-
-    override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
-        super.loadAdditional(pTag, pRegistries)
-        this.level?.let { loadPotionHolder(pTag, it) }
-    }
-
-    override fun saveAdditional(pTag: CompoundTag, registries: HolderLookup.Provider) {
-        super.saveAdditional(pTag, registries)
-        this.level?.let { savePotionHolder(pTag, it) }
-    }
-
-    companion object {
-
-        fun applyPotionEffectsToNearbyEntities(
-            level: Level,
-            pos: BlockPos,
-            potionContents: PotionContents,
-            activePotionSpecialEffects: MutableList<Pair<ResourceLocation, Int>>,
-            potionEffectRadius: Double
-        ) {
-            if (potionContents == PotionContents.EMPTY && activePotionSpecialEffects.isEmpty()) return
-
-            val effectBox = AABB(
-                pos.x - potionEffectRadius, pos.y - 1.0, pos.z - potionEffectRadius,
-                pos.x + potionEffectRadius, pos.y + 3.0, pos.z + potionEffectRadius
-            )
-
-            val entities = level.getEntitiesOfClass(LivingEntity::class.java, effectBox)
-
-            for (entity in entities) {
-                if (potionContents != PotionContents.EMPTY) {
-                    for (effect in potionContents.allEffects) {
-                        val shortenedEffect = MobEffectInstance(
-                            effect.effect,
-                            effect.duration / 10,
-                            effect.amplifier,
-                            effect.isAmbient,
-                            true
-                        )
-                        entity.addEffect(shortenedEffect)
-                    }
-                }
-
-                for ((specialEffect, amplifier) in activePotionSpecialEffects) {
-                    val special = WitcherySpecialPotionEffects.SPECIALS.get(specialEffect)
-                    special?.onActivated(
-                        level,
-                        entity,
-                        EntityHitResult(entity, entity.position()),
-                        mutableListOf(),
-                        WitcheryPotionIngredient.DispersalModifier(1, 1),
-                        300,
-                        amplifier
-                    )
-                }
-            }
-        }
-    }
-
-        /*
-    companion object {
-        private const val EFFECT_RADIUS = 8.0
-        private const val TICK_INTERVAL = 20
-        private const val DEFAULT_DURATION = 20 * 60 * 5
-        private const val INFINITE_DURATION = -1
-    }
-
-    private var storedPotion: ItemStack = ItemStack.EMPTY
-    private var remainingTicks: Int = 0
-    private var tickCounter: Int = 0
-    private var potionContents: PotionContents = PotionContents.EMPTY
-    private var specialPotionEffect: SpecialPotion? = null
-    private var specialPotionAmplifier: Int = 0
-    private var specialPotionDuration: Int = 0
-    private var isInfinite: Boolean = false
-
-    override fun tick(
-        level: Level,
-        pos: BlockPos,
-        blockState: BlockState
-    ) {
-        super.tick(level, pos, blockState)
-
-        if (level.isClientSide) return
-
-        if (remainingTicks > 0 || isInfinite) {
-            if (!isInfinite) {
-                remainingTicks--
-            }
-            tickCounter++
-
-            if (tickCounter >= TICK_INTERVAL) {
-                tickCounter = 0
-                applyAreaEffects(level, pos)
-            }
-
-            if (level.random.nextFloat() < 0.3f) {
-                addParticles(level, pos)
-            }
-
-            if (!isInfinite && remainingTicks <= 0) {
-                clearPotion()
-            }
-
-            setChanged()
-        }
-    }
+    private var cachedAltarPos: BlockPos? = null
 
     override fun onUseWithItem(
         pPlayer: Player,
         pStack: ItemStack,
         pHand: InteractionHand
     ): ItemInteractionResult {
-        val level = level ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
-
-        if (pStack.item is PotionItem || pStack.item is WitcheryPotionItem) {
-            val contents = if (pStack.item is PotionItem) {
-                pStack.get(DataComponents.POTION_CONTENTS) ?: PotionContents.EMPTY
-            } else {
-                convertWitcheryPotionToContents(pStack)
-            }
-
-            if (!contents.hasEffects()) {
-                return ItemInteractionResult.FAIL
-            }
-
-            if (remainingTicks > 0 || isInfinite) {
-                clearPotion()
-            }
-
-            storedPotion = pStack.copy()
-            storedPotion.count = 1
-            potionContents = contents
-
-            isInfinite = InfiniteCenserReloadListener.isPotionInfinite(contents)
-            remainingTicks = if (isInfinite) INFINITE_DURATION else DEFAULT_DURATION
-
-            extractSpecialPotionEffect(pStack)
-
-            tickCounter = 0
-
-            updateLitState(true)
-
-            if (!pPlayer.isCreative) {
-                pStack.shrink(1)
-                val emptyBottle = ItemStack(Items.GLASS_BOTTLE)
-                if (!pPlayer.inventory.add(emptyBottle)) {
-                    pPlayer.drop(emptyBottle, false)
+        when {
+            pStack.`is`(Items.POTION) || pStack.`is`(Items.SPLASH_POTION) || pStack.`is`(Items.LINGERING_POTION) -> {
+                pStack.get(DataComponents.POTION_CONTENTS)?.takeIf { it != PotionContents.EMPTY }?.let {
+                    potionContents = listOf(it)
                 }
             }
-
-            level.playSound(
-                null,
-                blockPos,
-                SoundEvents.BREWING_STAND_BREW,
-                SoundSource.BLOCKS,
-                1.0f,
-                1.0f
-            )
-
-            if (!level.isClientSide) {
-                val durationText = if (isInfinite) "indefinitely" else "for 5 minutes"
-                pPlayer.displayClientMessage(
-                    Component.literal("Censer will burn $durationText"),
-                    true
-                )
+            pStack.has(WITCHERY_POTION_CONTENT.get()) -> {
+                specialPotions = pStack.get(WITCHERY_POTION_CONTENT.get())!!
             }
+        }
 
+        if (cachedAltarPos == null && level is ServerLevel) {
+
+            cachedAltarPos = getAltarPos(level as ServerLevel, blockPos)
             setChanged()
-            return ItemInteractionResult.SUCCESS
         }
 
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+        refreshActiveEffects()
+        return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
-    private fun clearPotion() {
-        storedPotion = ItemStack.EMPTY
-        potionContents = PotionContents.EMPTY
-        specialPotionEffect = null
-        specialPotionAmplifier = 0
-        specialPotionDuration = 0
-        remainingTicks = 0
-        isInfinite = false
-        tickCounter = 0
+    private fun consumeAltarPower(level: Level): Boolean {
+        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
+            cachedAltarPos = null
+            setChanged()
+            return false
+        }
 
-        updateLitState(false)
+        val requiredAltarPower = 2
+        if (cachedAltarPos != null) {
+            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
+        }
+        return false
     }
 
-    private fun updateLitState(lit: Boolean) {
-        level?.let { level ->
-            val state = level.getBlockState(blockPos)
-            if (state.block is CenserBlock) {
-                (state.block as CenserBlock).setLit(level, blockPos, lit)
+    private fun refreshActiveEffects() {
+        activeEffects.clear()
+
+        for (potion in potionContents) {
+            for (effect in potion.customEffects()) {
+                val rl = BuiltInRegistries.MOB_EFFECT.getKey(effect.effect.value()) ?: continue
+                if (rl.path == "empty" && rl.namespace == "witchery") continue
+
+                val isEffectInfinite = InfiniteCenserReloadListener.INFINITE_POTIONS.contains(effect.effect)
+                val remainingTicks = if (isEffectInfinite) -1 else effect.duration
+                val originalDuration = effect.duration
+
+                activeEffects += ActiveEffect(rl, false, effect.amplifier, remainingTicks, originalDuration)
             }
-        }
-    }
 
-    private fun extractSpecialPotionEffect(potionStack: ItemStack) {
-        val customData = potionStack.get(DataComponents.CUSTOM_DATA)
-        customData?.let { data ->
-            val tag = data.copyTag()
-            if (tag.contains("witchery_special_effect")) {
-                val effectId = ResourceLocation.tryParse(tag.getString("witchery_special_effect"))
-                effectId?.let {
-                    specialPotionEffect = WitcherySpecialPotionEffects.SPECIALS.get(it)
-                    specialPotionAmplifier = tag.getInt("witchery_amplifier")
-                    specialPotionDuration = tag.getInt("witchery_duration")
+            potion.potion.ifPresent { potionHolder ->
+                potionHolder.value().effects.forEach { effect ->
+                    val rl = BuiltInRegistries.MOB_EFFECT.getKey(effect.effect.value()) ?: return@forEach
+                    if (rl.path == "empty" && rl.namespace == "witchery") return@forEach
+
+                    val isEffectInfinite = InfiniteCenserReloadListener.INFINITE_POTIONS.contains(effect.effect)
+                    val remainingTicks = if (isEffectInfinite) -1 else effect.duration
+                    val originalDuration = effect.duration
+
+                    activeEffects += ActiveEffect(rl, false, effect.amplifier, remainingTicks, originalDuration)
                 }
             }
         }
+
+        val compoundPower: Int = specialPotions.maxOfOrNull { it.effectModifier.powerAddition } ?: 0
+        val compoundDurationAdd: Int = specialPotions.maxOfOrNull { it.effectModifier.durationAddition } ?: 0
+        val compoundDurationMult: Int = specialPotions.maxOfOrNull { it.effectModifier.durationMultiplier } ?: 1
+
+        for (special in specialPotions) {
+            special.specialEffect.ifPresent { rl ->
+                if (rl.path == "empty" && rl.namespace == "witchery") return@ifPresent
+
+                val baseDuration = (special.baseDuration + compoundDurationAdd) * compoundDurationMult
+                val isInfinite = InfiniteCenserReloadListener.INFINITE_SPECIAL_POTIONS.contains(rl)
+                val remainingTicks = if (isInfinite) -1 else baseDuration
+
+                activeEffects += ActiveEffect(rl, true, compoundPower, remainingTicks, baseDuration, special.dispersalModifier)
+            }
+
+            if (special.effect != WitcheryMobEffects.EMPTY) {
+                val rl = BuiltInRegistries.MOB_EFFECT.getKey(special.effect.value()) ?: continue
+                if (rl.path == "empty" && rl.namespace == "witchery") continue
+
+                val baseDuration = (special.baseDuration + compoundDurationAdd) * compoundDurationMult
+                val isEffectInfinite = InfiniteCenserReloadListener.INFINITE_POTIONS.contains(special.effect)
+                val remainingTicks = if (isEffectInfinite) -1 else baseDuration
+
+                activeEffects += ActiveEffect(rl, false, compoundPower, remainingTicks, baseDuration, special.dispersalModifier)
+            }
+        }
+
+        setChanged()
     }
 
-    private fun applyAreaEffects(level: Level, pos: BlockPos) {
-        val box = AABB(pos).inflate(EFFECT_RADIUS)
-        val entities = level.getEntitiesOfClass(LivingEntity::class.java, box)
+    private fun runEffect(level: Level, pos: BlockPos, effect: ActiveEffect) {
+        val hitResult = BlockHitResult(blockPos.center, Direction.UP, pos, false)
 
-        potionContents.forEachEffect { effect ->
-            for (entity in entities) {
-
-                val shortEffect = MobEffectInstance(
-                    effect.effect,
-                    TICK_INTERVAL + 20,
-                    effect.amplifier,
-                    true, // Ambient
-                    effect.isVisible,
-                    effect.showIcon()
-                )
-                entity.addEffect(shortEffect)
-            }
-        }
-
-        specialPotionEffect?.let { special ->
-            val hitResult = BlockHitResult(
-                Vec3.atCenterOf(pos),
-                Direction.UP,
-                pos,
-                false
-            )
-
-            if (tickCounter == 0) {
-                special.onActivated(
-                    level,
-                    null,
-                    hitResult,
-                    entities.toMutableList(),
-                    WitcheryPotionIngredient.DispersalModifier(), // Default dispersal modifier
-                    specialPotionDuration,
-                    specialPotionAmplifier
-                )
-            }
-
-            when (special) {
-                WitcherySpecialPotionEffects.GROW.get() -> {
-                    entities.forEach { entity ->
-                        entity.addEffect(
-                            MobEffectInstance(
-                                WitcheryMobEffects.GROW,
-                                TICK_INTERVAL + 20,
-                                specialPotionAmplifier,
-                                true,
-                                false
-                            )
-                        )
-                    }
+        val mobEffect = BuiltInRegistries.MOB_EFFECT.getHolder(effect.id).orElse(null)
+        if (mobEffect != null) {
+            val aABB = AABB.ofSize(blockPos.center, 16.0, 16.0, 16.0)
+            this.level!!.getEntitiesOfClass(LivingEntity::class.java, aABB).forEach { entity ->
+                val effectDuration = if (effect.remainingTicks == -1) {
+                    effect.originalDuration
+                } else {
+                    effect.remainingTicks
                 }
-                WitcherySpecialPotionEffects.SHRINK.get() -> {
-                    entities.forEach { entity ->
-                        entity.addEffect(
-                            MobEffectInstance(
-                                WitcheryMobEffects.SHRINK,
-                                TICK_INTERVAL + 20,
-                                specialPotionAmplifier,
-                                true,
-                                false
-                            )
-                        )
-                    }
-                }
+
+                entity.addEffect(MobEffectInstance(mobEffect, effectDuration, effect.amplifier, true, true))
             }
-        }
-    }
-
-    private fun addParticles(level: Level, pos: BlockPos) {
-        val color = potionContents.color
-        val particleType = when {
-            specialPotionEffect != null -> {
-                when (specialPotionEffect) {
-                    WitcherySpecialPotionEffects.GROW_FLOWERS.get() -> ParticleTypes.HAPPY_VILLAGER
-                    WitcherySpecialPotionEffects.FERTILE.get() -> ParticleTypes.HAPPY_VILLAGER
-                    WitcherySpecialPotionEffects.LOVE.get() -> ParticleTypes.HEART
-                    WitcherySpecialPotionEffects.EXTINGUISH.get() -> ParticleTypes.SPLASH
-                    else -> ParticleTypes.EFFECT
-                }
-            }
-            else -> ParticleTypes.EFFECT
-        }
-
-        val x = pos.x + 0.5 + level.random.nextGaussian() * 0.2
-        val y = pos.y + 0.8
-        val z = pos.z + 0.5 + level.random.nextGaussian() * 0.2
-
-        if (level is ServerLevel) {
-            if (particleType == ParticleTypes.EFFECT) {
-                level.sendParticles(
-                    DustParticleOptions(
-                        Vec3.fromRGB24(color).toVector3f(),
-                        1.0f
-                    ),
-                    x, y, z,
-                    1,
-                    0.0, 0.1, 0.0,
-                    0.02
-                )
-            } else {
-                level.sendParticles(
-                    particleType,
-                    x, y, z,
-                    1,
-                    0.0, 0.1, 0.0,
-                    0.02
-                )
-            }
-        }
-    }
-
-    override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
-        super.saveAdditional(tag, registries)
-
-        tag.putInt("RemainingTicks", remainingTicks)
-        tag.putInt("TickCounter", tickCounter)
-        tag.putBoolean("IsInfinite", isInfinite)
-
-        if (!storedPotion.isEmpty) {
-            tag.put("StoredPotion", storedPotion.save(registries))
-        }
-
-        if (potionContents != PotionContents.EMPTY) {
-            val contentsTag = CompoundTag()
-
-            potionContents.potion().ifPresent { potion ->
-                contentsTag.putString("Potion", potion.unwrapKey().get().location().toString())
-            }
-
-            potionContents.customColor().ifPresent { color ->
-                contentsTag.putInt("CustomColor", color)
-            }
-
-            if (!potionContents.customEffects().isEmpty()) {
-                val effectsList = ListTag()
-                for (effect in potionContents.customEffects()) {
-                    effectsList.add(effect.save())
-                }
-                contentsTag.put("CustomEffects", effectsList)
-            }
-
-            tag.put("PotionContents", contentsTag)
-        }
-
-        specialPotionEffect?.let {
-            tag.putString("SpecialEffect", it.id.toString())
-            tag.putInt("SpecialAmplifier", specialPotionAmplifier)
-            tag.putInt("SpecialDuration", specialPotionDuration)
-        }
-    }
-
-    override fun loadAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
-        super.loadAdditional(tag, registries)
-
-        remainingTicks = tag.getInt("RemainingTicks")
-        tickCounter = tag.getInt("TickCounter")
-        isInfinite = tag.getBoolean("IsInfinite")
-
-        if (tag.contains("StoredPotion")) {
-            storedPotion = ItemStack.parseOptional(registries, tag.getCompound("StoredPotion"))
-        }
-
-        if (tag.contains("PotionContents")) {
-            val contentsTag = tag.getCompound("PotionContents")
-
-            val potion: Optional<Holder<Potion>> = if (contentsTag.contains("Potion")) {
-                val potionId = ResourceLocation.tryParse(contentsTag.getString("Potion"))
-                potionId?.let {
-                    val key = ResourceKey.create(Registries.POTION, it)
-                    val holder = registries.lookupOrThrow(Registries.POTION).get(key)
-                    if (holder.isPresent) {
-                        Optional.of(holder.get() as Holder<Potion>)
-                    } else {
-                        Optional.empty()
-                    }
-                } ?: Optional.empty()
-            } else {
-                Optional.empty()
-            }
-
-            val customColor = if (contentsTag.contains("CustomColor")) {
-                Optional.of(contentsTag.getInt("CustomColor"))
-            } else {
-                Optional.empty()
-            }
-
-            val customEffects = mutableListOf<MobEffectInstance>()
-            if (contentsTag.contains("CustomEffects")) {
-                val effectsList = contentsTag.getList("CustomEffects", 10)
-                for (i in 0 until effectsList.size) {
-                    MobEffectInstance.load(effectsList.getCompound(i))?.let {
-                        customEffects.add(it)
-                    }
-                }
-            }
-
-            potionContents = PotionContents(potion, customColor, customEffects)
-        }
-
-        if (tag.contains("SpecialEffect")) {
-            val effectId = ResourceLocation.tryParse(tag.getString("SpecialEffect"))
-            effectId?.let {
-                specialPotionEffect = WitcherySpecialPotionEffects.SPECIALS.get(it)
-                specialPotionAmplifier = tag.getInt("SpecialAmplifier")
-                specialPotionDuration = tag.getInt("SpecialDuration")
-            }
-        }
-    }
-
-    private fun convertWitcheryPotionToContents(potionStack: ItemStack): PotionContents {
-        val witcheryContent = potionStack.get(WITCHERY_POTION_CONTENT.get())
-            ?: return PotionContents.EMPTY
-
-        val effects = mutableListOf<MobEffectInstance>()
-        val globalModifier = WitcheryPotionItem.getMergedEffectModifier(witcheryContent)
-        var shouldInvertNext = false
-
-        for (ingredient in witcheryContent) {
-            if (ingredient.generalModifier.contains(WitcheryPotionIngredient.GeneralModifier.INVERT_NEXT)) {
-                shouldInvertNext = true
-                continue
-            }
-
-            if (ingredient.effect == WitcheryMobEffects.EMPTY) continue
-
-            val effect = if (shouldInvertNext) {
-                shouldInvertNext = false
-                WitcheryMobEffects.invertEffect(ingredient.effect)
-            } else {
-                ingredient.effect
-            }
-
-            val baseDuration = (ingredient.baseDuration + globalModifier.durationAddition) * globalModifier.durationMultiplier
-            val amplifier = globalModifier.powerAddition
-
-            effects.add(MobEffectInstance(effect, baseDuration, amplifier))
-
-            ingredient.specialEffect.ifPresent { specialId ->
-                val customData = potionStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                val tag = customData.copyTag()
-                tag.putString("witchery_special_effect", specialId.toString())
-                tag.putInt("witchery_amplifier", amplifier)
-                tag.putInt("witchery_duration", baseDuration)
-                potionStack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag))
-            }
-        }
-
-        val color = if (witcheryContent.isNotEmpty()) {
-            Optional.of(witcheryContent.first().color)
         } else {
-            Optional.empty()
-        }
+            val specialEffect = WitcherySpecialPotionEffects.SPECIALS[effect.id]
+            if (specialEffect != null) {
+                val scaleBonus = WitcheryThrownPotion.getRangeBonus(specialPotions)
+                val aABB = AABB.ofSize(blockPos.center, 16.0 * scaleBonus, 16.0 * scaleBonus, 16.0 * scaleBonus)
+                val list = this.level!!.getEntitiesOfClass(Entity::class.java, aABB)
 
-        return PotionContents(Optional.empty(), color, effects)
+                val duration = if (effect.remainingTicks == -1) {
+                    effect.originalDuration
+                } else {
+                    effect.remainingTicks
+                }
+
+                specialEffect.onActivated(
+                    level,
+                    owner.flatMap { Optional.ofNullable(level.getPlayerByUUID(it)) }.orElse(null),
+                    hitResult,
+                    list,
+                    effect.disp,
+                    duration,
+                    effect.amplifier
+                )
+            }
+        }
     }
 
-         */
+    override fun saveAdditional(tag: CompoundTag, holder: HolderLookup.Provider) {
+        super.saveAdditional(tag, holder)
+
+        val potionList = ListTag()
+        for (potion in potionContents) {
+            if (potion != PotionContents.EMPTY) {
+                val potionTag = CompoundTag()
+
+                potion.potion.ifPresent { potionHolder ->
+                    val potionKey = BuiltInRegistries.POTION.getKey(potionHolder.value())
+                    potionTag.putString("Potion", potionKey.toString())
+                }
+
+                potion.customColor.ifPresent { color ->
+                    potionTag.putInt("CustomColor", color)
+                }
+
+                if (potion.customEffects.isNotEmpty()) {
+                    val effectsList = ListTag()
+                    for (effect in potion.customEffects) {
+                        effectsList.add(effect.save())
+                    }
+                    potionTag.put("CustomEffects", effectsList)
+                }
+
+                potionList.add(potionTag)
+            }
+        }
+        if (!potionList.isEmpty()) {
+            tag.put("PotionContents", potionList)
+        }
+
+        val specialList = ListTag()
+        for (special in specialPotions) {
+            val specialTag = CompoundTag()
+
+            specialTag.put("Item", special.item.save(holder))
+
+            val effectKey = BuiltInRegistries.MOB_EFFECT.getKey(special.effect.value())
+            if (effectKey != null) {
+                specialTag.putString("Effect", effectKey.toString())
+            }
+
+            special.specialEffect.ifPresent { rl ->
+                specialTag.putString("SpecialEffect", rl.toString())
+            }
+
+            specialTag.putInt("BaseDuration", special.baseDuration)
+            specialTag.putInt("AltarPower", special.altarPower)
+            specialTag.putInt("CapacityCost", special.capacityCost)
+            specialTag.putInt("Color", special.color)
+
+            specialTag.putInt("PowerAdd", special.effectModifier.powerAddition)
+            specialTag.putInt("DurationAdd", special.effectModifier.durationAddition)
+            specialTag.putInt("DurationMult", special.effectModifier.durationMultiplier)
+            specialTag.putInt("Range", special.dispersalModifier.rangeModifier)
+            specialTag.putInt("LingeringDuration", special.dispersalModifier.lingeringDurationModifier)
+
+            specialList.add(specialTag)
+        }
+        if (!specialList.isEmpty()) {
+            tag.put("SpecialPotions", specialList)
+        }
+
+        val listTag = ListTag()
+        for (effect in activeEffects) {
+            val effectTag = CompoundTag()
+            effectTag.putString("Id", effect.id.toString())
+            effectTag.putBoolean("IsSpecial", effect.isSpecial)
+            effectTag.putInt("Remaining", effect.remainingTicks)
+            effectTag.putInt("Original", effect.originalDuration)
+            effectTag.putInt("Amplifier", effect.amplifier)
+            effectTag.putInt("Range", effect.disp.rangeModifier)
+            listTag.add(effectTag)
+        }
+        tag.put("ActiveEffects", listTag)
+
+        if (owner.isPresent) {
+            tag.putUUID("Owner", owner.get())
+        }
+        if (cachedAltarPos != null) {
+            tag.put("altarPos", NbtUtils.writeBlockPos(cachedAltarPos!!))
+        }
+    }
+
+    override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
+        super.loadAdditional(pTag, pRegistries)
+        if (pTag.contains("altarPos")) {
+            cachedAltarPos = NbtUtils.readBlockPos(pTag, "altarPos").get()
+        }
+        potionContents = mutableListOf()
+        if (pTag.contains("PotionContents")) {
+            val potionList = pTag.getList("PotionContents", Tag.TAG_COMPOUND.toInt())
+            for (i in 0 until potionList.size) {
+                val potionTag = potionList.getCompound(i)
+
+                val potionHolder: Optional<Holder<Potion>> = if (potionTag.contains("Potion")) {
+                    val potionKey = ResourceLocation.parse(potionTag.getString("Potion"))
+                    BuiltInRegistries.POTION.getHolder(potionKey).map { it as Holder<Potion> }
+                } else {
+                    Optional.empty()
+                }
+
+                val customColor: Optional<Int> = if (potionTag.contains("CustomColor")) {
+                    Optional.of(potionTag.getInt("CustomColor"))
+                } else {
+                    Optional.empty()
+                }
+
+                val customEffects = mutableListOf<MobEffectInstance>()
+                if (potionTag.contains("CustomEffects")) {
+                    val effectsList = potionTag.getList("CustomEffects", Tag.TAG_COMPOUND.toInt())
+                    for (j in 0 until effectsList.size) {
+                        MobEffectInstance.load(effectsList.getCompound(j))?.let {
+                            customEffects.add(it)
+                        }
+                    }
+                }
+
+                potionContents += PotionContents(potionHolder, customColor, customEffects)
+            }
+        }
+
+        specialPotions = mutableListOf()
+        if (pTag.contains("SpecialPotions")) {
+            val specialList = pTag.getList("SpecialPotions", Tag.TAG_COMPOUND.toInt())
+            for (i in 0 until specialList.size) {
+                val specialTag = specialList.getCompound(i)
+
+                val item = ItemStack.parseOptional(pRegistries, specialTag.getCompound("Item"))
+
+                val effect: Holder<MobEffect> = if (specialTag.contains("Effect")) {
+                    val effectKey = ResourceLocation.parse(specialTag.getString("Effect"))
+                    BuiltInRegistries.MOB_EFFECT.getHolder(effectKey)
+                        .map { it as Holder<MobEffect> }
+                        .orElse(WitcheryMobEffects.EMPTY)
+                } else {
+                    WitcheryMobEffects.EMPTY
+                }
+
+                val specialEffect = if (specialTag.contains("SpecialEffect")) {
+                    Optional.of(ResourceLocation.parse(specialTag.getString("SpecialEffect")))
+                } else {
+                    Optional.empty()
+                }
+
+                val baseDuration = specialTag.getInt("BaseDuration")
+                val altarPower = specialTag.getInt("AltarPower")
+                val capacityCost = specialTag.getInt("CapacityCost")
+                val color = specialTag.getInt("Color")
+
+                val effectModifier = WitcheryPotionIngredient.EffectModifier(
+                    specialTag.getInt("PowerAdd"),
+                    specialTag.getInt("DurationAdd"),
+                    specialTag.getInt("DurationMult")
+                )
+
+                val dispersalModifier = WitcheryPotionIngredient.DispersalModifier(
+                    specialTag.getInt("Range"),
+                    specialTag.getInt("LingeringDuration")
+                )
+
+                specialPotions += WitcheryPotionIngredient(
+                    item, effect, specialEffect, baseDuration, altarPower, capacityCost,
+                    listOf(), effectModifier, dispersalModifier,
+                    WitcheryPotionIngredient.Type.CONSUMABLE, color
+                )
+            }
+        }
+
+        activeEffects.clear()
+        val listTag = pTag.getList("ActiveEffects", Tag.TAG_COMPOUND.toInt())
+        for (i in 0 until listTag.size) {
+            val effectTag = listTag.getCompound(i)
+            val rl = ResourceLocation.parse(effectTag.getString("Id"))
+            val isSpecial = effectTag.getBoolean("IsSpecial")
+            val remaining = effectTag.getInt("Remaining")
+            val original = effectTag.getInt("Original")
+            val amp = effectTag.getInt("Amplifier")
+            val range = effectTag.getInt("Range")
+            activeEffects += ActiveEffect(rl, isSpecial, amp, remaining, original,
+                WitcheryPotionIngredient.DispersalModifier(range, range))
+        }
+
+        owner.ifPresent {
+            pTag.getUUID("Owner")
+        }
+
+        if (activeEffects.isEmpty() && (potionContents.isNotEmpty() || specialPotions.isNotEmpty())) {
+            refreshActiveEffects()
+        }
+    }
+
+    override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
+        super.tick(level, pos, blockState)
+
+        if (level.gameTime % 5 == 0L) {
+            spawnParticles(level, pos, blockState)
+        }
+
+        if (level.isClientSide) return
+
+        val litProperty = blockState.properties.find { it.name == "lit" } as? BooleanProperty
+
+        if (litProperty != null) {
+            val shouldBeLit = activeEffects.isNotEmpty()
+            if (blockState.getValue(litProperty) != shouldBeLit) {
+                level.setBlockAndUpdate(pos, blockState.setValue(litProperty, shouldBeLit))
+            }
+        }
+
+        val iterator = activeEffects.iterator()
+        while (iterator.hasNext()) {
+            val effect = iterator.next()
+
+            if (effect.remainingTicks == -1) {
+                var bl = true
+                if (level.gameTime % 20 == 0L) {
+                    bl = consumeAltarPower(level)
+                }
+                if (!bl) {
+                    iterator.remove()
+                }
+                runEffect(level, pos, effect)
+            } else if (effect.remainingTicks > 0) {
+                runEffect(level, pos, effect)
+                effect.remainingTicks--
+
+                if (effect.remainingTicks <= 0) {
+                    iterator.remove()
+                }
+            } else {
+                iterator.remove()
+            }
+        }
+    }
+
+    private fun spawnParticles(level: Level, pos: BlockPos, blockState: BlockState) {
+        val random = level.random
+        val centerX = pos.x + 0.5
+        val centerY = pos.y + 0.5
+        val centerZ = pos.z + 0.5
+
+        val yOffset = 0.1
+
+        val isLit = blockState.properties.find { it.name == "lit" }?.let {
+            blockState.getValue(it as BooleanProperty)
+        } ?: false
+
+        if (isLit) {
+            if (random.nextFloat() < 0.3f) {
+                val offsetX = random.nextGaussian() * 0.2
+                val offsetZ = random.nextGaussian() * 0.2
+
+                level.addParticle(
+                    ParticleTypes.SOUL_FIRE_FLAME,
+                    centerX + offsetX,
+                    centerY + yOffset,
+                    centerZ + offsetZ,
+                    0.0,
+                    0.02 + random.nextDouble() * 0.03,
+                    0.0
+                )
+            }
+
+            if (random.nextFloat() < 0.15f) {
+                level.addParticle(
+                    ParticleTypes.SOUL,
+                    centerX + (random.nextDouble() - 0.5) * 0.3,
+                    centerY + yOffset + 0.1,
+                    centerZ + (random.nextDouble() - 0.5) * 0.3,
+                    0.0,
+                    0.01,
+                    0.0
+                )
+            }
+        }
+
+        if (activeEffects.isNotEmpty() && random.nextFloat() < 0.4f) {
+            val particleColor = calculatePotionParticleColor()
+
+            if (particleColor != null) {
+                val angle = random.nextDouble() * Math.PI * 2
+                val radius = 0.3 + random.nextDouble() * 0.2
+                val particleX = centerX + Math.cos(angle) * radius
+                val particleZ = centerZ + Math.sin(angle) * radius
+
+                level.addParticle(
+                    DustParticleOptions(
+                        Vec3.fromRGB24(particleColor).toVector3f(),
+                        0.8f
+                    ),
+                    particleX,
+                    centerY + yOffset + random.nextDouble() * 0.3,
+                    particleZ,
+                    0.0,
+                    0.01,
+                    0.0
+                )
+            }
+
+            activeEffects.forEach { effect ->
+                if (effect.isSpecial && random.nextFloat() < 0.1f) {
+                    spawnSpecialEffectParticles(level, pos, effect, centerX, centerY + yOffset, centerZ)
+                }
+            }
+        }
+
+        if (isLit && random.nextFloat() < 0.2f) {
+            level.addParticle(
+                ParticleTypes.SMOKE,
+                centerX + (random.nextDouble() - 0.5) * 0.4,
+                centerY + yOffset + 0.3,
+                centerZ + (random.nextDouble() - 0.5) * 0.4,
+                0.0,
+                0.005,
+                0.0
+            )
+        }
+    }
+
+    private fun calculatePotionParticleColor(): Int? {
+        if (potionContents.isNotEmpty() && potionContents[0] != PotionContents.EMPTY) {
+            return potionContents[0].color
+        }
+
+        if (specialPotions.isNotEmpty()) {
+            var r = 0
+            var g = 0
+            var b = 0
+            var count = 0
+
+            specialPotions.forEach { potion ->
+                if (potion.color != 0) {
+                    r += (potion.color shr 16) and 0xFF
+                    g += (potion.color shr 8) and 0xFF
+                    b += potion.color and 0xFF
+                    count++
+                }
+            }
+
+            return if (count > 0) {
+                ((r / count) shl 16) or ((g / count) shl 8) or (b / count)
+            } else {
+                0x7B2FBE
+            }
+        }
+
+        return activeEffects.firstOrNull()?.let { effect ->
+            val mobEffect = BuiltInRegistries.MOB_EFFECT.get(effect.id)
+            mobEffect?.color ?: 0x7B2FBE
+        }
+    }
+
+    private fun spawnSpecialEffectParticles(
+        level: Level,
+        pos: BlockPos,
+        effect: ActiveEffect,
+        x: Double,
+        y: Double,
+        z: Double
+    ) {
+        val random = level.random
+
+        when (effect.id.path) {
+            "grow_flowers" -> {
+                if (random.nextFloat() < 0.3f) {
+                    level.addParticle(
+                        ParticleTypes.HAPPY_VILLAGER,
+                        x + (random.nextDouble() - 0.5) * 0.5,
+                        y,
+                        z + (random.nextDouble() - 0.5) * 0.5,
+                        0.0, 0.0, 0.0
+                    )
+                }
+            }
+            "fertile" -> {
+                if (random.nextFloat() < 0.2f) {
+                    level.addParticle(
+                        ParticleTypes.COMPOSTER,
+                        x + (random.nextDouble() - 0.5) * 0.5,
+                        y + 0.2,
+                        z + (random.nextDouble() - 0.5) * 0.5,
+                        0.0, 0.0, 0.0
+                    )
+                }
+            }
+            "love" -> {
+                if (random.nextFloat() < 0.2f) {
+                    level.addParticle(
+                        ParticleTypes.HEART,
+                        x + (random.nextDouble() - 0.5) * 0.8,
+                        y + 0.5,
+                        z + (random.nextDouble() - 0.5) * 0.8,
+                        0.0, 0.0, 0.0
+                    )
+                }
+            }
+            "extinguish" -> {
+                if (random.nextFloat() < 0.15f) {
+                    level.addParticle(
+                        ParticleTypes.SPLASH,
+                        x + (random.nextDouble() - 0.5) * 0.6,
+                        y + 0.1,
+                        z + (random.nextDouble() - 0.5) * 0.6,
+                        0.0, -0.1, 0.0
+                    )
+                }
+            }
+            "grow", "shrink" -> {
+                if (random.nextFloat() < 0.2f) {
+                    level.addParticle(
+                        ParticleTypes.WITCH,
+                        x + (random.nextDouble() - 0.5) * 0.5,
+                        y + 0.3,
+                        z + (random.nextDouble() - 0.5) * 0.5,
+                        0.0, 0.02, 0.0
+                    )
+                }
+            }
+            "harvest" -> {
+                if (random.nextFloat() < 0.15f) {
+                    level.addParticle(
+                        ParticleTypes.HAPPY_VILLAGER,
+                        x + (random.nextDouble() - 0.5) * 0.6,
+                        y,
+                        z + (random.nextDouble() - 0.5) * 0.6,
+                        0.0, 0.0, 0.0
+                    )
+                }
+            }
+        }
+    }
+
+    data class ActiveEffect(
+        val id: ResourceLocation,
+        val isSpecial: Boolean,
+        val amplifier: Int = 0,
+        var remainingTicks: Int, // -1 for infinite
+        val originalDuration: Int,
+        var disp: WitcheryPotionIngredient.DispersalModifier = WitcheryPotionIngredient.DispersalModifier()
+    )
 }

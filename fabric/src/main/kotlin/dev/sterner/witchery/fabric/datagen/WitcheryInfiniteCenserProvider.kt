@@ -46,7 +46,7 @@ class WitcheryInfiniteCenserProvider(
         makePotion(provider, "invisibility", Potions.INVISIBILITY)
         makePotion(provider, "long_invisibility", Potions.LONG_INVISIBILITY)
 
-        makeCustomPotion(provider, "love", Witchery.id("love"))
+        makeCustomPotion(provider, "fertile", Witchery.id("fertile"))
     }
 
     private fun makePotion(

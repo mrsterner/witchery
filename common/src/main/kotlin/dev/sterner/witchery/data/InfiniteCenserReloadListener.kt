@@ -29,8 +29,8 @@ import java.util.concurrent.Executor
 object InfiniteCenserReloadListener {
 
     val LOADER = InfiniteCenserResourceReloadListener(Gson(), "infinite_censer")
-    val INFINITE_POTIONS = mutableSetOf<Holder<Potion>>()
-    val INFINITE_SPECIAL_POTIONS = mutableSetOf<Holder<SpecialPotion>>()
+    val INFINITE_POTIONS = mutableSetOf<Holder<MobEffect>>()
+    val INFINITE_SPECIAL_POTIONS = mutableSetOf<ResourceLocation>()
 
     fun registerListener() {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
@@ -90,11 +90,13 @@ object InfiniteCenserReloadListener {
 
             val special = WitcherySpecialPotionEffects.SPECIALS.getHolder(data.potion)
             if (special != null) {
-                INFINITE_SPECIAL_POTIONS.add(special)
+                INFINITE_SPECIAL_POTIONS.add(special.value().id)
             }
 
             potionHolder.ifPresent { holder ->
-                INFINITE_POTIONS.add(holder)
+                holder.value().effects.forEach {
+                    INFINITE_POTIONS.add(it.effect)
+                }
             }
 
             if (potionHolder.isEmpty) {
@@ -114,20 +116,5 @@ object InfiniteCenserReloadListener {
                     }
                 }
         }
-    }
-
-    fun isPotionInfinite(contents: PotionContents): Boolean {
-        return contents.potion().map { potion ->
-            INFINITE_POTIONS.contains(potion)
-        }.orElse(false)
-    }
-
-    fun isSpecialPotionInfinite(contents: WitcheryPotionIngredient): Boolean {
-        val optional = contents.specialEffect
-        if (optional.isPresent) {
-            val holder: Holder<SpecialPotion>? = WitcherySpecialPotionEffects.SPECIALS.getHolder(optional.get())
-            return holder != null && INFINITE_SPECIAL_POTIONS.contains(holder)
-        }
-        return false
     }
 }
