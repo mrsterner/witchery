@@ -188,6 +188,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.FANCIFUL_THREAD.get())
                 output.accept(WitcheryItems.NECROMANTIC_STONE.get())
                 output.accept(WitcheryItems.SPECTRAL_DUST.get())
+                output.accept(WitcheryItems.ETERNAL_CATALYST.get())
 
                 output.accept(WitcheryItems.BREW_OF_LOVE.get())
                 output.accept(WitcheryItems.BREW_OF_INK.get())

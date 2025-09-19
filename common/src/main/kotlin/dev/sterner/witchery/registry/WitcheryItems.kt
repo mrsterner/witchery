@@ -334,6 +334,14 @@ object WitcheryItems {
         }
     }
 
+    val ETERNAL_CATALYST: RegistrySupplier<Item> = register("eternal_catalyst") {
+        object : Item(Properties()) {
+            override fun isFoil(stack: ItemStack): Boolean {
+                return true
+            }
+        }
+    }
+
     //end RESOURCES
 
     //start POPPETS

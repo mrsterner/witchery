@@ -937,6 +937,20 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_wood_ash", has(WitcheryItems.WOOD_ASH.get()))
             .save(exporter, "witchery:bone_meal_4")
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.ETERNAL_CATALYST.get(), 1)
+            .requires(Items.QUARTZ, 2)
+            .requires(WitcheryItems.SPECTRAL_DUST.get(), 1)
+            .requires(Items.NETHER_STAR, 1)
+            .unlockedBy("has_star", has(Items.NETHER_STAR))
+            .save(exporter)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.ETERNAL_CATALYST.get(), 2)
+            .requires(Items.QUARTZ, 2)
+            .requires(WitcheryItems.SPECTRAL_DUST.get(), 1)
+            .requires(WitcheryItems.ETERNAL_CATALYST.get(), 1)
+            .unlockedBy("has_star", has(WitcheryItems.ETERNAL_CATALYST.get()))
+            .save(exporter, "witchery:eternal_catalyst_2")
+
         SimpleCookingRecipeBuilder.smelting(
             Ingredient.of(WitcheryItems.CLAY_JAR.get()),
             RecipeCategory.MISC, WitcheryItems.JAR.get(), 0.3f, 200
@@ -944,6 +958,24 @@ class WitcheryRecipeProvider(output: FabricDataOutput, val registriesFuture: Com
             .unlockedBy("has_clay_jar", has(WitcheryItems.CLAY_JAR.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.CENSER.get())
+            .pattern(" N ")
+            .pattern("GBG")
+            .pattern("G G")
+            .define('B', WitcheryItems.BRAZIER.get())
+            .define('N', WitcheryItems.ETERNAL_CATALYST.get())
+            .define('G', Items.GOLD_INGOT)
+            .unlockedBy("has_brazier", has(WitcheryItems.BRAZIER.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.CENSER_LONG.get())
+            .pattern("GNG")
+            .pattern("GBG")
+            .define('B', WitcheryItems.BRAZIER.get())
+            .define('N', WitcheryItems.ETERNAL_CATALYST.get())
+            .define('G', Items.GOLD_INGOT)
+            .unlockedBy("has_brazier", has(WitcheryItems.BRAZIER.get()))
+            .save(exporter)
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.DISTILLERY.get())
             .pattern("JIJ")

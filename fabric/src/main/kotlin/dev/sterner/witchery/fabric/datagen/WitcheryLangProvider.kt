@@ -41,7 +41,11 @@ class WitcheryLangProvider(dataOutput: FabricDataOutput, registryLookup: Complet
         WitcheryBookLangProvider.book(builder)
 
         for (item in WitcheryItems.LANG_HELPER) {
-            builder.add("item.witchery.$item", formatId(item))
+            if (item == "censer_long") {
+                builder.add("item.witchery.censer_long", "Censer")
+            } else {
+                builder.add("item.witchery.$item", formatId(item))
+            }
         }
 
         for (block in WitcheryBlocks.LANG_HELPER) {

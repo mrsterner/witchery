@@ -28,7 +28,7 @@ object WitcheryRenderTypes {
 
     fun checkAllBlack(): Boolean {
         val target = targetStack.get()
-        return target != null && !target.isEmpty && (target.`is`(WitcheryItems.NECROMANTIC_STONE.get()))
+        return target != null && !target.isEmpty && (target.`is`(WitcheryItems.NECROMANTIC_STONE.get()) || target.`is`(WitcheryItems.ETERNAL_CATALYST.get()))
     }
 
     @JvmStatic
