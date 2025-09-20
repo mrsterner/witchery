@@ -1,14 +1,9 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.data.BloodPoolReloadListener
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.affliction.VampireLeveling
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment.getData
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment.setData
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment.sync
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
@@ -41,9 +36,9 @@ object BloodPoolHandler {
                                 BloodPoolReloadListener.BLOOD_PAIR.contains(it.type)
                     }
                     for (entity in entities) {
-                        sync(entity as LivingEntity, getData(entity))
+                        BloodPoolLivingEntityAttachment.sync(entity as LivingEntity,  BloodPoolLivingEntityAttachment.getData(entity))
                     }
-                    sync(player, getData(player))
+                    BloodPoolLivingEntityAttachment.sync(player,  BloodPoolLivingEntityAttachment.getData(player))
                 }
             }
         }
@@ -51,7 +46,7 @@ object BloodPoolHandler {
 
     fun setBloodOnAdded(entity: Entity?, level: Level?): EventResult? {
         if (entity is LivingEntity) {
-            val data = getData(entity)
+            val data =  BloodPoolLivingEntityAttachment.getData(entity)
             val bloodJson = BloodPoolReloadListener.BLOOD_PAIR
             if (data.maxBlood == 0 && data.bloodPool == 0) {
                 val entityType = entity.type
@@ -60,7 +55,7 @@ object BloodPoolHandler {
                 if (bloodValue != null) {
                     val maxBlood = bloodValue.bloodDrops * 300
                     val initializedData = data.copy(maxBlood = maxBlood, bloodPool = maxBlood)
-                    setData(entity, initializedData)
+                    BloodPoolLivingEntityAttachment.setData(entity, initializedData)
                 }
             }
         }
@@ -73,7 +68,7 @@ object BloodPoolHandler {
             return
         }
         if (BloodPoolReloadListener.BLOOD_PAIR.contains(livingEntity.type)) {
-            val bloodData = getData(livingEntity)
+            val bloodData =  BloodPoolLivingEntityAttachment.getData(livingEntity)
             if (bloodData.bloodPool < bloodData.maxBlood && bloodData.maxBlood > 0) {
                 if (livingEntity.tickCount % 1000 == 0) {
                     val bloodPool = BloodPoolReloadListener.BLOOD_PAIR[livingEntity.type]
@@ -85,10 +80,10 @@ object BloodPoolHandler {
 
     @JvmStatic
     fun increaseBlood(livingEntity: LivingEntity, amount: Int) {
-        val data = getData(livingEntity)
+        val data =  BloodPoolLivingEntityAttachment.getData(livingEntity)
         val maxBlood = data.maxBlood
         val newBloodPool = (data.bloodPool + amount).coerceAtMost(maxBlood)
-        setData(livingEntity, data.copy(bloodPool = newBloodPool))
+        BloodPoolLivingEntityAttachment.setData(livingEntity, data.copy(bloodPool = newBloodPool))
 
         if (livingEntity is ServerPlayer) {
             if (AfflictionPlayerAttachment.getData(livingEntity).getVampireLevel() == 1 && newBloodPool == 900) {
@@ -99,8 +94,8 @@ object BloodPoolHandler {
 
     @JvmStatic
     fun decreaseBlood(livingEntity: LivingEntity, amount: Int) {
-        val data = getData(livingEntity)
+        val data =  BloodPoolLivingEntityAttachment.getData(livingEntity)
         val newBloodPool = (data.bloodPool - amount).coerceAtLeast(0)
-        setData(livingEntity, data.copy(bloodPool = newBloodPool))
+        BloodPoolLivingEntityAttachment.setData(livingEntity, data.copy(bloodPool = newBloodPool))
     }
 }

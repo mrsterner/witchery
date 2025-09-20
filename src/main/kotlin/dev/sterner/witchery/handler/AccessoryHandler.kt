@@ -1,12 +1,13 @@
 package dev.sterner.witchery.handler
 
+import dev.sterner.witchery.data_attachment.PlatformUtils
 import dev.sterner.witchery.item.PoppetItem
-import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import top.theillusivec4.curios.api.type.capability.ICurioItem
 
 /**
  * Utility class for handling accessory-related operations for living entities, particularly players.
@@ -89,7 +90,7 @@ object AccessoryHandler {
 
         if (livingEntity is Player && PlatformUtils.isModLoaded("accessories")) {
             val list: List<ItemStack> = PlatformUtils.allEquippedAccessories(livingEntity)
-                .filter { it.item is AccessoryItem }
+                .filter { it.item is ICurioItem }
                 .filter { it.`is`(item) }
 
 

@@ -4,6 +4,8 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.sterner.witchery.api.event.SleepingEvent;
 import dev.sterner.witchery.mixin_logic.PlayerMixinLogic;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.NeoForgeEventHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,7 +20,7 @@ public abstract class PlayerMixin {
     @Inject(method = "stopSleepInBed", at = @At("TAIL"))
     private void witchery$stopSleepInBed(boolean wakeImmediately, boolean updateLevelForSleepingPlayers, CallbackInfo ci) {
         Player player = Player.class.cast(this);
-        SleepingEvent.Companion.getPOST().invoker().invoke(player, this.sleepCounter, wakeImmediately);
+        NeoForge.EVENT_BUS.post(new SleepingEvent(player, this.sleepCounter, wakeImmediately));
     }
 
     @ModifyReturnValue(method = "wantsToStopRiding", at = @At("RETURN"))

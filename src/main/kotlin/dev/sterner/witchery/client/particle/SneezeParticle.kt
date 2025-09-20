@@ -1,14 +1,11 @@
 package dev.sterner.witchery.client.particle
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.particle.*
 import net.minecraft.util.Mth
 import kotlin.math.max
 
 
-@Environment(EnvType.CLIENT)
 class SneezeParticle internal constructor(
     level: ClientLevel,
     x: Double,
@@ -59,7 +56,6 @@ class SneezeParticle internal constructor(
         }
     }
 
-    @Environment(EnvType.CLIENT)
     class SneezeProvider(private val sprites: SpriteSet) :
         ParticleProvider<SneezeData> {
 

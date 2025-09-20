@@ -8,6 +8,7 @@ import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.PendantDataComponentRecipe
+import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.world.item.crafting.*
@@ -145,9 +146,11 @@ class WitcheryEmiPlugin : EmiPlugin {
 
         val manager: RecipeManager = registry.recipeManager
 
-        for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())) {
+        val recipeType = WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get() as RecipeType<CauldronBrewingRecipe>
+        for (recipe in manager.getAllRecipesFor(recipeType)) {
             registry.addRecipe(CauldronBrewingEmiRecipe(recipe.id, recipe.value))
         }
+
 
         for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())) {
             registry.addRecipe(CauldronCraftingEmiRecipe(recipe.id, recipe.value))

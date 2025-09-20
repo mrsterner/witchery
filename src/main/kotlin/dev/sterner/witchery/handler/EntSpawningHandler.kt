@@ -1,13 +1,7 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.BlockEvent
-import dev.architectury.event.events.common.TickEvent
-import dev.architectury.utils.value.IntValue
+import dev.sterner.witchery.data_attachment.EntSpawnLevelAttachment
 import dev.sterner.witchery.entity.EntEntity
-import dev.sterner.witchery.platform.EntSpawnLevelAttachment.BlockEntry
-import dev.sterner.witchery.platform.EntSpawnLevelAttachment.getData
-import dev.sterner.witchery.platform.EntSpawnLevelAttachment.setData
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
@@ -50,7 +44,7 @@ object EntSpawningHandler {
                 }
 
                 if (hasLeafAbove) {
-                    val data = getData(level)
+                    val data = EntSpawnLevelAttachment.getData(level)
                     val nearbyEntry = data.entries.find { it.blockPos.closerThan(blockPos, MAX_DISTANCE.toDouble()) }
 
                     val updatedEntries = if (nearbyEntry != null) {
@@ -66,10 +60,10 @@ object EntSpawningHandler {
                             }
                         }
                     } else {
-                        data.entries + BlockEntry(blockPos, blockState, 1, 20 * 60 * 5)
+                        data.entries + EntSpawnLevelAttachment.BlockEntry(blockPos, blockState, 1, 20 * 60 * 5)
                     }
 
-                    setData(level, data.copy(entries = updatedEntries))
+                    EntSpawnLevelAttachment.setData(level, data.copy(entries = updatedEntries))
                 }
             }
         }
@@ -85,7 +79,7 @@ object EntSpawningHandler {
     private fun serverTick(minecraftServer: MinecraftServer) {
         minecraftServer.allLevels.forEach { level ->
             if (level is ServerLevel) {
-                val data = getData(level)
+                val data = EntSpawnLevelAttachment.getData(level)
 
                 if (data.entries.isNotEmpty()) {
                     val updatedEntries = data.entries.mapNotNull { entry ->
@@ -101,7 +95,7 @@ object EntSpawningHandler {
                     }
 
                     if (updatedEntries != data.entries) {
-                        setData(level, data.copy(entries = updatedEntries))
+                        EntSpawnLevelAttachment.setData(level, data.copy(entries = updatedEntries))
                     }
                 }
             }

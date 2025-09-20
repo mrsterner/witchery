@@ -1,5 +1,6 @@
 package dev.sterner.witchery.item.accessories
 
+import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.network.chat.Component

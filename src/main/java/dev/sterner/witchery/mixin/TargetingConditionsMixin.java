@@ -24,15 +24,4 @@ public class TargetingConditionsMixin {
 
         return original;
     }
-
-    public static interface MobAccessor {
-
-        boolean witchery$canBeDisoriented();
-
-        void witchery$setDisorientedActive(boolean active);
-
-        final class Data {
-            public static EntityDataAccessor<Boolean> DISORIENTED;
-        }
-    }
 }

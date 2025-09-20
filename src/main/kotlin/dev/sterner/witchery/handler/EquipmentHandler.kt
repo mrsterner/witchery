@@ -2,10 +2,8 @@
 
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
-import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.platform.infusion.InfusionType
+import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.data_attachment.infusion.InfusionType
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

@@ -1,10 +1,7 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.events.common.TickEvent
+import dev.sterner.witchery.data_attachment.NightmarePlayerAttachment
 import dev.sterner.witchery.entity.NightmareEntity
-import dev.sterner.witchery.platform.NightmarePlayerAttachment.Data
-import dev.sterner.witchery.platform.NightmarePlayerAttachment.getData
-import dev.sterner.witchery.platform.NightmarePlayerAttachment.setData
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.server.level.ServerLevel
@@ -22,7 +19,7 @@ object NightmareHandler {
 
     fun tick(player: Player?) {
         if (player?.level()?.dimension() == WitcheryWorldgenKeys.NIGHTMARE && player.level() is ServerLevel) {
-            val data = getData(player)
+            val data = NightmarePlayerAttachment.getData(player)
             val level = player.level()
             if (!data.hasNightmare) {
                 val nightmare = WitcheryEntityTypes.NIGHTMARE.get().create(level)
@@ -41,7 +38,7 @@ object NightmareHandler {
 
 
                 level.addFreshEntity(nightmare)
-                setData(player, Data(true, Optional.of(nightmare.uuid)))
+                NightmarePlayerAttachment.setData(player, NightmarePlayerAttachment.Data(true, Optional.of(nightmare.uuid)))
             }
 
             if (level is ServerLevel) {
@@ -52,11 +49,11 @@ object NightmareHandler {
                     if (nightmare is NightmareEntity) {
                         if (nightmare.touchingUnloadedChunk()) {
                             nightmare.discard()
-                            setData(player, Data(false, Optional.empty()))
+                            NightmarePlayerAttachment.setData(player, NightmarePlayerAttachment.Data(false, Optional.empty()))
                         }
                     } else {
                         nightmare?.discard()
-                        setData(player, Data(false, Optional.empty()))
+                        NightmarePlayerAttachment.setData(player, NightmarePlayerAttachment.Data(false, Optional.empty()))
                     }
                 }
 

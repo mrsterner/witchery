@@ -4,14 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.client.model.BabaYagaEntityModel
 import dev.sterner.witchery.entity.BabaYagaEntity
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.renderer.ItemInHandRenderer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.RenderLayerParent
 import net.minecraft.client.renderer.entity.layers.CrossedArmsItemLayer
 
-@Environment(EnvType.CLIENT)
 class BabaItemLayer(
     renderer: RenderLayerParent<BabaYagaEntity, BabaYagaEntityModel<BabaYagaEntity>>,
     itemInHandRenderer: ItemInHandRenderer

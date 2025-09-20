@@ -1,14 +1,13 @@
 package dev.sterner.witchery.client.screen
 
-import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionAbility
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.VampireAbility
 import dev.sterner.witchery.handler.affliction.WerewolfAbility
 import dev.sterner.witchery.payload.UpdateSelectedAbilitiesC2SPayload
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
@@ -17,6 +16,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.network.PacketDistributor
 
 class AbilitySelectionScreen(
     private val player: Player
@@ -263,7 +263,7 @@ class AbilitySelectionScreen(
                 player.inventory.selected = 0
             }
 
-            NetworkManager.sendToServer(UpdateSelectedAbilitiesC2SPayload(selectedAbilities))
+            PacketDistributor.sendToServer(UpdateSelectedAbilitiesC2SPayload(selectedAbilities))
         }
 
         onClose()

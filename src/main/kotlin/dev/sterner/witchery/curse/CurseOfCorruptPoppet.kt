@@ -1,6 +1,10 @@
 package dev.sterner.witchery.curse
 
 import dev.sterner.witchery.api.Curse
+import dev.sterner.witchery.api.PoppetLocation
+import dev.sterner.witchery.api.PoppetType
+import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
+import dev.sterner.witchery.handler.poppet.PoppetHandler
 import dev.sterner.witchery.registry.WitcheryPoppetRegistry
 import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes

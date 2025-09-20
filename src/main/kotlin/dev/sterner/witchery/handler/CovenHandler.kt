@@ -1,7 +1,7 @@
 package dev.sterner.witchery.handler
 
+import dev.sterner.witchery.data_attachment.CovenPlayerAttachment
 import dev.sterner.witchery.entity.CovenWitchEntity
-import dev.sterner.witchery.platform.CovenPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component

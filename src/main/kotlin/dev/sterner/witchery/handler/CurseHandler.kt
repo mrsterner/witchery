@@ -1,18 +1,9 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.BlockEvent
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.PlayerEvent
-import dev.architectury.event.events.common.TickEvent
-import dev.architectury.utils.value.IntValue
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.event.CurseEvent
-import dev.sterner.witchery.platform.CursePlayerAttachment.Data
-import dev.sterner.witchery.platform.CursePlayerAttachment.PlayerCurseData
-import dev.sterner.witchery.platform.CursePlayerAttachment.getData
-import dev.sterner.witchery.platform.CursePlayerAttachment.setData
+import dev.sterner.witchery.data_attachment.CursePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryCurseRegistry
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
@@ -49,18 +40,18 @@ object CurseHandler {
             return false
         }
 
-        val data = getData(player).playerCurseList.toMutableList()
+        val data = CursePlayerAttachment.getData(player).playerCurseList.toMutableList()
         val existingCurse = data.find { it.curseId == curse }
-        val newCurseData = PlayerCurseData(curse, duration = duration, catBoosted = catBoosted)
+        val newCurseData = CursePlayerAttachment.PlayerCurseData(curse, duration = duration, catBoosted = catBoosted)
 
         if (existingCurse != null) {
             data.remove(existingCurse)
         }
         data.add(newCurseData)
 
-        setData(player, Data(data))
+        CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(data))
 
-        WitcheryCurseRegistry.CURSES[newCurseData.curseId]?.onAdded(
+        WitcheryCurseRegistry.CURSES.registry.get()[newCurseData.curseId]?.onAdded(
             player.level(),
             player,
             newCurseData.catBoosted
@@ -76,14 +67,14 @@ object CurseHandler {
      * @return Boolean indicating if the curse was found and removed
      */
     fun removeCurse(player: Player, curse: Curse): Boolean {
-        val data = getData(player).playerCurseList.toMutableList()
-        val curseId = WitcheryCurseRegistry.CURSES.getId(curse)
+        val data = CursePlayerAttachment.getData(player).playerCurseList.toMutableList()
+        val curseId = WitcheryCurseRegistry.CURSES.registry.get().getKey(curse)
         val curseData = data.find { it.curseId == curseId } ?: return false
 
         curse.onRemoved(player.level(), player, curseData.catBoosted)
 
         data.remove(curseData)
-        setData(player, Data(data))
+        CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(data))
 
         return true
     }
@@ -94,21 +85,21 @@ object CurseHandler {
      * @return The number of curses removed
      */
     fun removeAllCurses(player: Player): Int {
-        val data = getData(player).playerCurseList
+        val data = CursePlayerAttachment.getData(player).playerCurseList
         if (data.isEmpty()) return 0
 
         val count = data.size
         val level = player.level()
 
         data.forEach { curseData ->
-            WitcheryCurseRegistry.CURSES[curseData.curseId]?.onRemoved(
+            WitcheryCurseRegistry.CURSES.registry.get()[curseData.curseId]?.onRemoved(
                 level,
                 player,
                 curseData.catBoosted
             )
         }
 
-        setData(player, Data(mutableListOf()))
+        CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(mutableListOf()))
 
         return count
     }
@@ -120,8 +111,8 @@ object CurseHandler {
      * @return Boolean indicating if the player has the curse
      */
     fun hasCurse(player: Player, curse: Curse): Boolean {
-        val curseId = WitcheryCurseRegistry.CURSES.getId(curse)
-        return getData(player).playerCurseList.any { it.curseId == curseId }
+        val curseId = WitcheryCurseRegistry.CURSES.registry.get().getKey(curse)
+        return CursePlayerAttachment.getData(player).playerCurseList.any { it.curseId == curseId }
     }
 
     /**
@@ -131,8 +122,8 @@ object CurseHandler {
      * @return The remaining duration in ticks, or -1 if the player doesn't have the curse
      */
     fun getCurseDuration(player: Player, curse: Curse): Int {
-        val curseId = WitcheryCurseRegistry.CURSES.getId(curse)
-        return getData(player).playerCurseList.find { it.curseId == curseId }?.duration ?: -1
+        val curseId = WitcheryCurseRegistry.CURSES.registry.get().getKey(curse)
+        return CursePlayerAttachment.getData(player).playerCurseList.find { it.curseId == curseId }?.duration ?: -1
     }
 
     /**
@@ -179,7 +170,7 @@ object CurseHandler {
         }
 
         if (dataModified) {
-            setData(player, Data(curses))
+            CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(curses))
         }
 
         return EventResult.pass()
@@ -197,9 +188,9 @@ object CurseHandler {
             return EventResult.pass()
         }
 
-        val data = getData(livingEntity)
+        val data = CursePlayerAttachment.getData(livingEntity)
         for (curse in data.playerCurseList) {
-            WitcheryCurseRegistry.CURSES[curse.curseId]?.onHurt(
+            WitcheryCurseRegistry.CURSES.registry.get()[curse.curseId]?.onHurt(
                 livingEntity.level(),
                 livingEntity,
                 damageSource,
@@ -251,9 +242,9 @@ object CurseHandler {
             return EventResult.pass()
         }
 
-        val data = getData(entity)
+        val data = CursePlayerAttachment.getData(entity)
         for (curse in data.playerCurseList) {
-            WitcheryCurseRegistry.CURSES[curse.curseId]?.placeBlock(
+            WitcheryCurseRegistry.CURSES.registry.get()[curse.curseId]?.placeBlock(
                 level,
                 entity,
                 blockState,
@@ -298,7 +289,7 @@ object CurseHandler {
      * @return List of resource locations identifying the curses
      */
     fun getActiveCurses(player: Player): List<ResourceLocation> {
-        return getData(player).playerCurseList.map { it.curseId }
+        return CursePlayerAttachment.getData(player).playerCurseList.map { it.curseId }
     }
 
     /**

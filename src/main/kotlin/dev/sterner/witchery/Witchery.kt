@@ -1,6 +1,7 @@
 package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
+import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.datagen.WitcheryLangProvider
 import dev.sterner.witchery.entity.BabaYagaEntity
 import dev.sterner.witchery.entity.BansheeEntity
@@ -33,6 +34,7 @@ import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.data.event.GatherDataEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import net.neoforged.neoforge.event.server.ServerStartingEvent
+import net.neoforged.neoforge.event.tick.ServerTickEvent
 import org.slf4j.Logger
 
 @Mod(Witchery.MODID)
@@ -51,6 +53,11 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
     @SubscribeEvent
     fun onServerStarting(event: ServerStartingEvent) {
 
+    }
+
+    @SubscribeEvent
+    fun tick(event: ServerTickEvent) {
+        TickTaskScheduler.tick(event.server)
     }
 
     @SubscribeEvent

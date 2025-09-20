@@ -1,7 +1,6 @@
 package dev.sterner.witchery.mixin_logic
 
 import dev.sterner.witchery.handler.poppet.PoppetHandler.activatePoppet
-import dev.sterner.witchery.handler.poppet.PoppetType
 import dev.sterner.witchery.registry.WitcheryPoppetRegistry
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.player.Player

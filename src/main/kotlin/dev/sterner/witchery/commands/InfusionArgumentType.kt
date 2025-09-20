@@ -6,7 +6,7 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import dev.sterner.witchery.platform.infusion.InfusionType
+import dev.sterner.witchery.data_attachment.infusion.InfusionType
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import java.util.concurrent.CompletableFuture

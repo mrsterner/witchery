@@ -1,7 +1,5 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import net.minecraft.tags.EntityTypeTags
 import net.minecraft.world.damagesource.DamageSource

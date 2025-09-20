@@ -1,10 +1,8 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.BarkBeltPlayerAttachment
 import dev.sterner.witchery.handler.affliction.TransformationHandler
-import dev.sterner.witchery.platform.BarkBeltPlayerAttachment.getData
-import dev.sterner.witchery.platform.BarkBeltPlayerAttachment.setData
 import dev.sterner.witchery.registry.WitcheryTags
 import dev.sterner.witchery.util.RenderUtils
 import net.minecraft.client.DeltaTracker
@@ -28,12 +26,12 @@ object BarkBeltHandler {
      */
     fun hurt(livingEntity: LivingEntity?, damageSource: DamageSource, damage: Float): Float {
         if (livingEntity is Player) {
-            val data = getData(livingEntity)
+            val data = BarkBeltPlayerAttachment.getData(livingEntity)
 
             if (damageSource.entity is LivingEntity) {
                 val living = damageSource.entity as LivingEntity
                 if (living.mainHandItem.`is`(WitcheryTags.WOODEN_WEAPONS)) {
-                    setData(livingEntity, data.copy(currentBark = 0))
+                    BarkBeltPlayerAttachment.setData(livingEntity, data.copy(currentBark = 0))
                     return damage
                 }
             }
@@ -43,7 +41,7 @@ object BarkBeltHandler {
                 val newCharge = (data.currentBark - absorbedDamage).toInt()
                 val remainingDamage = damage - absorbedDamage
 
-                setData(livingEntity, data.copy(currentBark = newCharge, tickCounter = 0))
+                BarkBeltPlayerAttachment.setData(livingEntity, data.copy(currentBark = newCharge, tickCounter = 0))
 
                 return remainingDamage
             }
@@ -57,14 +55,14 @@ object BarkBeltHandler {
      */
     fun tick(player: Player?) {
         if (player is ServerPlayer) {
-            val data = getData(player)
+            val data = BarkBeltPlayerAttachment.getData(player)
             val newTickCounter = data.tickCounter + 1
 
             if (newTickCounter >= TIME_TO_RECHARGE && data.currentBark < data.maxBark) {
                 val newCharge = (data.currentBark + data.rechargeRate).coerceAtMost(data.maxBark)
-                setData(player, data.copy(currentBark = newCharge, tickCounter = 0))
+                BarkBeltPlayerAttachment.setData(player, data.copy(currentBark = newCharge, tickCounter = 0))
             } else {
-                setData(player, data.copy(tickCounter = newTickCounter))
+                BarkBeltPlayerAttachment.setData(player, data.copy(tickCounter = newTickCounter))
             }
         }
     }
@@ -86,7 +84,7 @@ object BarkBeltHandler {
         val y = guiGraphics.guiHeight() - 18 - 18 - 12 - (if (bl3) 10 else 0) - (if (bl2) 8 else 0)
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 3
 
-        val bark = getData(player)
+        val bark = BarkBeltPlayerAttachment.getData(player)
         if (bark.maxBark > 0) {
             for (i in 0 until bark.maxBark) {
                 RenderUtils.blitWithAlpha(

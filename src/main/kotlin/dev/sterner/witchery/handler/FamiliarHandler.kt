@@ -1,12 +1,7 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
+import dev.sterner.witchery.data_attachment.FamiliarLevelAttachment
 import dev.sterner.witchery.entity.OwlEntity
-import dev.sterner.witchery.platform.FamiliarLevelAttachment.Data
-import dev.sterner.witchery.platform.FamiliarLevelAttachment.FamiliarData
-import dev.sterner.witchery.platform.FamiliarLevelAttachment.getData
-import dev.sterner.witchery.platform.FamiliarLevelAttachment.setData
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
@@ -26,30 +21,30 @@ object FamiliarHandler {
      * Checks if a given entity is currently bound as a familiar in the world.
      */
     fun isBound(level: ServerLevel, entity: LivingEntity): Boolean {
-        return getData(level).familiarList.any { it.familiar == entity.uuid }
+        return FamiliarLevelAttachment.getData(level).familiarList.any { it.familiar == entity.uuid }
     }
 
     /**
      * Binds a familiar entity to a player, replacing any existing familiar the player had.
      */
     fun bindOwnerAndFamiliar(level: ServerLevel, playerUUID: UUID, familiar: LivingEntity) {
-        val oldData = getData(level)
+        val oldData = FamiliarLevelAttachment.getData(level)
         val updatedFamiliarSet = oldData.familiarList.toMutableSet()
 
         updatedFamiliarSet.removeIf { it.owner == playerUUID }
         val tag = CompoundTag()
         familiar.saveAsPassenger(tag)
 
-        updatedFamiliarSet.add(FamiliarData(playerUUID, familiar.uuid, tag, !familiar.isAlive))
+        updatedFamiliarSet.add(FamiliarLevelAttachment.FamiliarData(playerUUID, familiar.uuid, tag, !familiar.isAlive))
 
-        setData(level, Data(updatedFamiliarSet))
+        FamiliarLevelAttachment.setData(level, FamiliarLevelAttachment.Data(updatedFamiliarSet))
     }
 
     /**
      * Attempts to resurrect a dead familiar for the given player at the specified location.
      */
     fun resurrectDeadFamiliar(level: ServerLevel, playerUUID: UUID, blockPos: BlockPos): Boolean {
-        val data = getData(level)
+        val data = FamiliarLevelAttachment.getData(level)
         val familiarData = data.familiarList.find { it.owner == playerUUID && it.dead }
 
         if (familiarData != null) {
@@ -71,7 +66,7 @@ object FamiliarHandler {
                 updatedFamiliarSet.remove(familiarData)
                 updatedFamiliarSet.add(familiarData.copy(dead = false))
 
-                setData(level, Data(updatedFamiliarSet))
+                FamiliarLevelAttachment.setData(level, FamiliarLevelAttachment.Data(updatedFamiliarSet))
                 return true
             }
         }
@@ -82,7 +77,7 @@ object FamiliarHandler {
      * Retrieves the entity type of the living familiar bound to a player, if available.
      */
     fun getFamiliarEntityType(playerUUID: UUID, level: ServerLevel): EntityType<*>? {
-        val familiarData = getData(level).familiarList.find { it.owner == playerUUID }
+        val familiarData = FamiliarLevelAttachment.getData(level).familiarList.find { it.owner == playerUUID }
 
         familiarData?.let { familiar ->
             if (familiar.dead) {
@@ -106,7 +101,7 @@ object FamiliarHandler {
             val level = livingEntity.level() as? ServerLevel ?: return EventResult.pass()
 
             val familiarUUID = livingEntity.uuid
-            val data = getData(level)
+            val data = FamiliarLevelAttachment.getData(level)
 
 
             data.familiarList.find { it.familiar == familiarUUID }?.let { familiarData ->
@@ -114,7 +109,7 @@ object FamiliarHandler {
 
                 updatedFamiliarSet.remove(familiarData)
                 updatedFamiliarSet.add(familiarData.copy(dead = true))
-                setData(level, Data(updatedFamiliarSet))
+                FamiliarLevelAttachment.setData(level, FamiliarLevelAttachment.Data(updatedFamiliarSet))
             }
         }
 

@@ -1,17 +1,11 @@
 package dev.sterner.witchery.api.event
 
-import dev.architectury.event.Event
-import dev.architectury.event.EventFactory
 import net.minecraft.world.entity.player.Player
+import net.neoforged.bus.api.Event
+import net.neoforged.neoforge.event.entity.living.LivingEvent
 
-interface SleepingEvent {
-
-    companion object {
-        /**
-         * Fired when the Player is waking up from sleeping in a bed
-         */
-        val POST: Event<Post> = EventFactory.createLoop()
-    }
-}
-
-typealias Post = (Player, Int, Boolean) -> Unit
+class SleepingEvent(
+    val player: Player,
+    val sleepCounter: Int,
+    val wakeImmediately: Boolean
+) : Event()

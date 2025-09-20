@@ -1,13 +1,9 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.platform.ManifestationPlayerAttachment.getData
-import dev.sterner.witchery.platform.ManifestationPlayerAttachment.setData
-import dev.sterner.witchery.platform.teleport.TeleportRequest
+import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
+import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
 import dev.sterner.witchery.util.RenderUtils
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
@@ -26,20 +22,20 @@ object ManifestationHandler {
      * True if the player may use a Spirit Portal back to the material world as a ghost
      */
     fun setHasRiteOfManifestation(player: Player, hasRite: Boolean) {
-        val old = getData(player)
+        val old = ManifestationPlayerAttachment.getData(player)
         old.hasRiteOfManifestation = hasRite
-        setData(player, old)
+        ManifestationPlayerAttachment.setData(player, old)
     }
 
     fun setManifestationTimer(player: Player) {
-        val data = getData(player)
+        val data = ManifestationPlayerAttachment.getData(player)
         data.manifestationTimer = MAX_TIME
-        setData(player, data)
+        ManifestationPlayerAttachment.setData(player, data)
     }
 
     fun tick(server: MinecraftServer) {
         for (player in server.playerList.players) {
-            val data = getData(player)
+            val data = ManifestationPlayerAttachment.getData(player)
 
             if (data.manifestationTimer > 0) {
                 data.manifestationTimer -= 1
@@ -69,17 +65,16 @@ object ManifestationHandler {
                         )
                     }
                 }
-                setData(player, data)
+                ManifestationPlayerAttachment.setData(player, data)
             }
         }
     }
 
-    @Environment(EnvType.CLIENT)
     fun renderHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker?) {
         val minecraft = Minecraft.getInstance()
         val clientPlayer = minecraft.player ?: return
 
-        val data = getData(clientPlayer)
+        val data = ManifestationPlayerAttachment.getData(clientPlayer)
         if (data.manifestationTimer <= 0) return
 
         val scaledY = minecraft.window.guiScaledHeight

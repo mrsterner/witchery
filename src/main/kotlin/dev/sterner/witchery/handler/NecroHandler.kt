@@ -1,16 +1,13 @@
 package dev.sterner.witchery.handler
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.TickEvent
+import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.data_attachment.NecromancerLevelAttachment
+import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.data_attachment.infusion.InfusionType
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.payload.SpawnNecroParticlesS2CPayload
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
-import dev.sterner.witchery.platform.EtherealEntityAttachment
-import dev.sterner.witchery.platform.NecromancerLevelAttachment
-import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.platform.infusion.InfusionType
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryTags
@@ -23,6 +20,7 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.network.PacketDistributor
 
 object NecroHandler {
 
@@ -114,7 +112,7 @@ object NecroHandler {
             val y = blockCenter.y + offsetY
             val z = blockCenter.z + offsetZ
 
-            WitcheryPayloads.sendToPlayers(level, SpawnNecroParticlesS2CPayload(Vec3(x, y, z)))
+            PacketDistributor.sendToPlayersInDimension(level, SpawnNecroParticlesS2CPayload(Vec3(x, y, z)))
         }
     }
 
