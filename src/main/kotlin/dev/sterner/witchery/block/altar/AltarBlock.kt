@@ -1,8 +1,9 @@
 package dev.sterner.witchery.block.altar
 
-
-import dev.sterner.witchery.block.MultiBlockHorizontalDirectionStructure
-import dev.sterner.witchery.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.platform.AltarLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
@@ -16,11 +17,9 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import team.lodestar.lodestone.systems.multiblock.MultiBlockStructure
 import java.util.function.Supplier
 
 class AltarBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion()) {
