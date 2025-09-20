@@ -1,6 +1,5 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.world.level.block.Block
 
 object WitcheryFlammability {

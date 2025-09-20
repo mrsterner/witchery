@@ -1,8 +1,5 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.registry.registries.Registrar
-import dev.architectury.registry.registries.RegistrarManager
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.fetish.*

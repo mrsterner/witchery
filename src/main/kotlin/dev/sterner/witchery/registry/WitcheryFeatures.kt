@@ -1,6 +1,5 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.worldgen.patch.MushroomCircleFeature
 import net.minecraft.core.registries.Registries
