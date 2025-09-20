@@ -1,0 +1,46 @@
+package dev.sterner.witchery.data_attachment.transformation
+
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.payload.SyncSoulS2CPayload
+import dev.sterner.witchery.registry.WitcheryPayloads
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.player.Player
+
+object SoulPoolPlayerAttachment {
+
+    @JvmStatic
+    fun getData(player: Player): SoulPoolPlayerAttachment.Data {
+        return player.getData(SOUL_POOL_PLAYER_DATA_ATTACHMENT)
+    }
+
+    @JvmStatic
+    fun setData(player: Player, data: SoulPoolPlayerAttachment.Data) {
+        player.setData(SOUL_POOL_PLAYER_DATA_ATTACHMENT, data)
+        SoulPoolPlayerAttachment.sync(player, data)
+    }
+
+    fun sync(entity: Player, data: Data) {
+        if (entity.level() is ServerLevel) {
+            WitcheryPayloads.sendToPlayers(entity.level(), SyncSoulS2CPayload(entity, data))
+        }
+    }
+
+    data class Data(
+        val maxSouls: Int = 0,
+        val soulPool: Int = 0
+    ) {
+        companion object {
+            val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.INT.fieldOf("maxSouls").forGetter { it.maxSouls },
+                    Codec.INT.fieldOf("soulPool").forGetter { it.soulPool }
+                ).apply(instance, ::Data)
+            }
+
+            val ID: ResourceLocation = Witchery.id("soul_pool_data")
+        }
+    }
+}
