@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncBarkS2CPayload
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -13,12 +14,12 @@ object BarkBeltPlayerAttachment {
 
     @JvmStatic
     fun getData(player: Player): BarkBeltPlayerAttachment.Data {
-        return player.getData(BARK_PLAYER_DATA_ATTACHMENT)
+        return player.getData(WitcheryDataAttachments.BARK_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(player: Player, data: BarkBeltPlayerAttachment.Data) {
-        player.setData(BARK_PLAYER_DATA_ATTACHMENT, data)
+        player.setData(WitcheryDataAttachments.BARK_PLAYER_DATA_ATTACHMENT, data)
         BarkBeltPlayerAttachment.sync(player, data)
     }
 

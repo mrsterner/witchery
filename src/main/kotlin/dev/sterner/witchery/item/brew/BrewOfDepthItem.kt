@@ -1,6 +1,6 @@
 package dev.sterner.witchery.item.brew
 
-import dev.sterner.witchery.platform.UnderWaterBreathPlayerAttachment
+import dev.sterner.witchery.data_attachment.UnderWaterBreathPlayerAttachment
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents

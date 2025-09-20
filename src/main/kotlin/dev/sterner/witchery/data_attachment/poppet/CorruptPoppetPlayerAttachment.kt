@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncCorruptPoppetS2CPayload
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -13,12 +14,12 @@ object CorruptPoppetPlayerAttachment {
 
     @JvmStatic
     fun setData(player: Player, data: Data) {
-        player.setData(WitcheryNeoForgeAttachmentRegistry.CORRUPT_POPPET_DATA_ATTACHMENT, data)
+        player.setData(WitcheryDataAttachments.CORRUPT_POPPET_DATA_ATTACHMENT, data)
     }
 
     @JvmStatic
     fun getData(player: Player): Data {
-        return player.getData(WitcheryNeoForgeAttachmentRegistry.CORRUPT_POPPET_DATA_ATTACHMENT)
+        return player.getData(WitcheryDataAttachments.CORRUPT_POPPET_DATA_ATTACHMENT)
     }
 
     fun sync(player: Player, data: Data) {

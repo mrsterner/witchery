@@ -4,6 +4,7 @@ import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -13,12 +14,12 @@ object FamiliarLevelAttachment {
 
     @JvmStatic
     fun getData(level: ServerLevel): FamiliarLevelAttachment.Data {
-        return level.getData(FAMILIAR_LEVEL_DATA_ATTACHMENT)
+        return level.getData(WitcheryDataAttachments.FAMILIAR_LEVEL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(level: ServerLevel, data: FamiliarLevelAttachment.Data) {
-        level.setData(FAMILIAR_LEVEL_DATA_ATTACHMENT, data)
+        level.setData(WitcheryDataAttachments.FAMILIAR_LEVEL_DATA_ATTACHMENT, data)
     }
 
     data class FamiliarData(val owner: UUID, val familiar: UUID, val entityTag: CompoundTag, val dead: Boolean) {

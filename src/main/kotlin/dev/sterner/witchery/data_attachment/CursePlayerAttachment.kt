@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncCurseS2CPayload
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -13,12 +14,12 @@ object CursePlayerAttachment {
 
     @JvmStatic
     fun getData(player: Player): CursePlayerAttachment.Data {
-        return player.getData(CURSE_PLAYER_DATA_ATTACHMENT)
+        return player.getData(WitcheryDataAttachments.CURSE_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(player: Player, data: CursePlayerAttachment.Data) {
-        player.setData(CURSE_PLAYER_DATA_ATTACHMENT, data)
+        player.setData(WitcheryDataAttachments.CURSE_PLAYER_DATA_ATTACHMENT, data)
         CursePlayerAttachment.sync(player, data)
     }
 

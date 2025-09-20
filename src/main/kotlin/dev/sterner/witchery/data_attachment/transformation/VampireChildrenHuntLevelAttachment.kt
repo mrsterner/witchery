@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
@@ -22,12 +23,12 @@ object VampireChildrenHuntLevelAttachment {
 
     @JvmStatic
     fun getData(level: ServerLevel): VampireChildrenHuntLevelAttachment.Data {
-        return level.getData(VAMPIRE_HUNT_LEVEL_DATA_ATTACHMENT)
+        return level.getData(WitcheryDataAttachments.VAMPIRE_HUNT_LEVEL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(level: ServerLevel, data: VampireChildrenHuntLevelAttachment.Data) {
-        level.setData(VAMPIRE_HUNT_LEVEL_DATA_ATTACHMENT, data)
+        level.setData(WitcheryDataAttachments.VAMPIRE_HUNT_LEVEL_DATA_ATTACHMENT, data)
     }
 
     class HuntData(

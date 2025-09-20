@@ -1,9 +1,5 @@
 package dev.sterner.witchery.item.accessories
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
-import dev.sterner.witchery.api.interfaces.AccessoryItem
-import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.network.chat.Component
@@ -13,10 +9,10 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Rarity
 import net.minecraft.world.item.TooltipFlag
+import top.theillusivec4.curios.api.type.capability.ICurioItem
 import java.util.*
 
-open class BitingBeltItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)),
-    AccessoryItem {
+open class BitingBeltItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)), ICurioItem {
 
     override fun appendHoverText(
         stack: ItemStack,

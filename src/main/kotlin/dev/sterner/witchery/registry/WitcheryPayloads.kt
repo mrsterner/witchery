@@ -1,8 +1,12 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.payload.*
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.world.level.Level
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.neoforge.network.PacketDistributor
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
+import net.neoforged.neoforge.network.registration.NetworkChannel
 
 object WitcheryPayloads {
 

@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.function.Supplier
+import kotlin.collections.get
 
 object WitcheryPoppetRegistry {
 
@@ -43,6 +44,15 @@ object WitcheryPoppetRegistry {
     val VOODOO_PROTECTION: DeferredHolder<PoppetType, VoodooProtectionPoppet> =
         POPPETS.register("voodoo_protection", Supplier {  VoodooProtectionPoppet() })
 
+    @JvmStatic
+    fun getType(item: Item): PoppetType? {
+        return POPPETS.entries.find { it.get().item == item }?.get()
+    }
+
+    @JvmStatic
+    fun getType(id: ResourceLocation): PoppetType? {
+        return POPPETS.entries.find { it.id == id }?.get()
+    }
 
     fun getAllTypes(): List<PoppetType> = POPPETS.entries.map { it.get() }
 

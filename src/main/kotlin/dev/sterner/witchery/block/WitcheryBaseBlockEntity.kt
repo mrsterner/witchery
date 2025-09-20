@@ -86,15 +86,14 @@ open class WitcheryBaseBlockEntity(
         initialized = false
         super.loadAdditional(pTag, pRegistries)
     }
-/*
-    override fun onDataPacket(
-        connection: Connection?,
-        packet: ClientboundBlockEntityDataPacket?,
-        registryAccess: RegistryAccess.Frozen
-    ) {
-        val tag = packet?.tag
-        loadAdditional(tag ?: CompoundTag(), registryAccess)
-    }
 
- */
+    override fun onDataPacket(
+        net: Connection,
+        pkt: ClientboundBlockEntityDataPacket,
+        lookupProvider: HolderLookup.Provider
+    ) {
+        super.onDataPacket(net, pkt, lookupProvider)
+        val tag = pkt.tag
+        loadAdditional(tag ?: CompoundTag(), lookupProvider)
+    }
 }

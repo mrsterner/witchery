@@ -2,9 +2,9 @@ package dev.sterner.witchery.data_attachment
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncUnderWaterS2CPayload
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.resources.ResourceLocation
@@ -12,24 +12,25 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.FluidTags
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.network.PacketDistributor
 
 object UnderWaterBreathPlayerAttachment {
 
 
     @JvmStatic
     fun getData(player: Player): UnderWaterBreathPlayerAttachment.Data {
-        return player.getData(WitcheryNeoForgeAttachmentRegistry.UNDER_WATER_PLAYER_DATA_ATTACHMENT)
+        return player.getData(WitcheryDataAttachments.UNDER_WATER_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(player: Player, data: UnderWaterBreathPlayerAttachment.Data) {
-        player.setData(WitcheryNeoForgeAttachmentRegistry.UNDER_WATER_PLAYER_DATA_ATTACHMENT, data)
+        player.setData(WitcheryDataAttachments.UNDER_WATER_PLAYER_DATA_ATTACHMENT, data)
         UnderWaterBreathPlayerAttachment.sync(player, data)
     }
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncUnderWaterS2CPayload(player, data))
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncUnderWaterS2CPayload(player, data))
         }
     }
 

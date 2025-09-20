@@ -3,6 +3,7 @@ package dev.sterner.witchery.data_attachment.poppet
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
@@ -15,12 +16,12 @@ object PoppetLevelAttachment {
 
     @JvmStatic
     fun getPoppetData(level: ServerLevel): PoppetLevelAttachment.PoppetData {
-        return level.getData(WitcheryNeoForgeAttachmentRegistry.POPPET_DATA_ATTACHMENT)
+        return level.getData(WitcheryDataAttachments.POPPET_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setPoppetData(level: ServerLevel, data: PoppetLevelAttachment.PoppetData) {
-        level.setData(WitcheryNeoForgeAttachmentRegistry.POPPET_DATA_ATTACHMENT, data)
+        level.setData(WitcheryDataAttachments.POPPET_DATA_ATTACHMENT, data)
     }
 
     fun handleBlockDestruction(level: ServerLevel, pos: BlockPos) {

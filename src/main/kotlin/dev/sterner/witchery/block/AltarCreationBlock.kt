@@ -1,6 +1,5 @@
 package dev.sterner.witchery.block
 
-Entity
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.Util
@@ -17,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.BooleanProperty
+import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
 
 class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion()) {
 
@@ -172,7 +172,6 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
             }
         }
 
-        //Horizontal
 
         if (list.size == 2
             && isAltar(eastBlockState)
@@ -226,7 +225,6 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
             }
         }
 
-        //Middlehandleing
         if (list.size == 3 && isAltar(southBlockState)) {
             val e = level.getBlockState(pos.east())
             val w = level.getBlockState(pos.west())
@@ -253,8 +251,7 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
     }
 
     private fun makeAltar(level: Level, pos: BlockPos, dire: Direction) {
-        // Here, we assume that the core position should be the position of the altar
-        val corePosition = pos.relative(dire.opposite) // Adjust core position as needed
+        val corePosition = pos.relative(dire.opposite)
         AltarBlock.STRUCTURE.get().placeNoContext(level, pos, dire)
         level.setBlockAndUpdate(
             pos,
@@ -262,9 +259,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, dire.opposite)
         )
 
-        // Ensure the corePos is set correctly
-        if (level.getBlockEntity(corePosition) is MultiblockComponentBlockEntity) {
-            (level.getBlockEntity(corePosition) as MultiblockComponentBlockEntity).corePos = corePosition
+        if (level.getBlockEntity(corePosition) is MultiBlockComponentEntity) {
+            (level.getBlockEntity(corePosition) as MultiBlockComponentEntity).corePos = corePosition
         }
     }
 

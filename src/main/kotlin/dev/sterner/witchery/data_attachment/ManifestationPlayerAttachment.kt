@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncManifestationS2CPayload
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -14,12 +15,12 @@ object ManifestationPlayerAttachment {
 
     @JvmStatic
     fun getData(player: Player): ManifestationPlayerAttachment.Data {
-        return player.getData(MANIFESTATION_PLAYER_DATA_ATTACHMENT)
+        return player.getData(WitcheryDataAttachments.MANIFESTATION_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(player: Player, data: ManifestationPlayerAttachment.Data) {
-        player.setData(MANIFESTATION_PLAYER_DATA_ATTACHMENT, data)
+        player.setData(WitcheryDataAttachments.MANIFESTATION_PLAYER_DATA_ATTACHMENT, data)
         ManifestationPlayerAttachment.sync(player, data)
     }
 

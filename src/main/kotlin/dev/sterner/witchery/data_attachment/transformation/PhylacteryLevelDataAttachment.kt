@@ -14,12 +14,12 @@ object PhylacteryLevelDataAttachment {
 
     @JvmStatic
     fun getData(level: ServerLevel): PhylacteryLevelDataAttachment.Data {
-        return level.getData(WitcheryNeoForgeAttachmentRegistry.PHYLACTERY_LEVEL_DATA_ATTACHMENT)
+        return level.getData(WitcheryDataAttachments.PHYLACTERY_LEVEL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(level: ServerLevel, data: PhylacteryLevelDataAttachment.Data) {
-        level.setData(WitcheryNeoForgeAttachmentRegistry.PHYLACTERY_LEVEL_DATA_ATTACHMENT, data)
+        level.setData(WitcheryDataAttachments.PHYLACTERY_LEVEL_DATA_ATTACHMENT, data)
     }
 
     fun addPhylactery(level: ServerLevel, record: PhylacteryRecord) {

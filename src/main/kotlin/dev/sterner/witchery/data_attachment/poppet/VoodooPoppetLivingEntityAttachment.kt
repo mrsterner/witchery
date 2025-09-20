@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncVoodooDataS2CPayload
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -14,7 +15,7 @@ object VoodooPoppetLivingEntityAttachment {
 
     @JvmStatic
     fun setPoppetData(livingEntity: LivingEntity, data: VoodooPoppetLivingEntityAttachment.VoodooPoppetData) {
-        livingEntity.setData(WitcheryNeoForgeAttachmentRegistry.VOODOO_POPPET_DATA_ATTACHMENT, data)
+        livingEntity.setData(WitcheryDataAttachments.VOODOO_POPPET_DATA_ATTACHMENT, data)
         if (livingEntity is Player) {
             VoodooPoppetLivingEntityAttachment.sync(livingEntity, data)
         }
@@ -22,7 +23,7 @@ object VoodooPoppetLivingEntityAttachment {
 
     @JvmStatic
     fun getPoppetData(livingEntity: LivingEntity): VoodooPoppetLivingEntityAttachment.VoodooPoppetData {
-        return livingEntity.getData(WitcheryNeoForgeAttachmentRegistry.VOODOO_POPPET_DATA_ATTACHMENT)
+        return livingEntity.getData(WitcheryDataAttachments.VOODOO_POPPET_DATA_ATTACHMENT)
     }
 
     fun sync(player: Player, data: VoodooPoppetData) {

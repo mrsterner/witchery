@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncInfusionS2CPayload
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryDataAttachments.INFUSION_PLAYER_DATA_ATTACHMENT
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
@@ -17,24 +18,24 @@ object InfusionPlayerAttachment {
 
     @JvmStatic
     fun setPlayerInfusion(player: Player, infusionData: InfusionPlayerAttachment.Data) {
-        player.setData(INFUSION_PLAYER_DATA_ATTACHMENT, infusionData)
+        player.setData(WitcheryDataAttachments.INFUSION_PLAYER_DATA_ATTACHMENT, infusionData)
         InfusionPlayerAttachment.sync(player, infusionData)
     }
 
     @JvmStatic
     fun getPlayerInfusion(player: Player): InfusionPlayerAttachment.Data {
-        return player.getData(INFUSION_PLAYER_DATA_ATTACHMENT)
+        return player.getData(WitcheryDataAttachments.INFUSION_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setInfusionCharge(player: Player, toBe: Int) {
-        val infusion = player.getData(INFUSION_PLAYER_DATA_ATTACHMENT)
+        val infusion = player.getData(WitcheryDataAttachments.INFUSION_PLAYER_DATA_ATTACHMENT)
         setPlayerInfusion(player, Data(infusion.type, toBe))
     }
 
     @JvmStatic
     fun getInfusionCharge(player: Player): Int {
-        return player.getData(INFUSION_PLAYER_DATA_ATTACHMENT).charge
+        return player.getData(WitcheryDataAttachments.INFUSION_PLAYER_DATA_ATTACHMENT).charge
     }
 
     fun sync(player: Player, data: Data) {

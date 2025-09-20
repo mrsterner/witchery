@@ -3,6 +3,7 @@ package dev.sterner.witchery.data_attachment
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
@@ -17,12 +18,12 @@ object MutandisLevelAttachment {
 
     @JvmStatic
     fun getMap(level: ServerLevel): MutableMap<BlockPos, MutandisLevelAttachment.MutandisData> {
-        return level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT).mutandisCacheMap
+        return level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT).mutandisCacheMap
     }
 
     @JvmStatic
     fun getTagForBlockPos(level: ServerLevel, pos: BlockPos): TagKey<Block>? {
-        val levelData = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT.get())
+        val levelData = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT.get())
             ?: MutandisLevelAttachment.MutandisDataCodec()
         return levelData.mutandisCacheMap[pos]?.tag
     }
@@ -30,39 +31,39 @@ object MutandisLevelAttachment {
     @JvmStatic
     @Suppress("UnstableApiUsage")
     fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>) {
-        val data = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT)
+        val data = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
         val mutableMap = data.mutandisCacheMap.toMutableMap()
         mutableMap[pos] = MutandisLevelAttachment.MutandisData(tag, CACHE_LIFETIME)
         data.mutandisCacheMap = mutableMap.toMutableMap()
-        level.setData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
+        level.setData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
     }
 
     @JvmStatic
     fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos) {
-        val levelData = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT)
+        val levelData = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
         levelData.mutandisCacheMap.remove(pos)
-        level.setData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT, levelData)
+        level.setData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT, levelData)
     }
 
     @JvmStatic
     fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
-        val data = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT)
+        val data = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
         if (data.mutandisCacheMap[pos] != null) {
             data.mutandisCacheMap[pos] = MutandisLevelAttachment.MutandisData(
                 data.mutandisCacheMap[pos]!!.tag,
                 data.mutandisCacheMap[pos]!!.time - 1
             )
-            level.setData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
+            level.setData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
         }
     }
 
     @JvmStatic
     fun resetTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
-        val data = level.getData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT)
+        val data = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
         if (data.mutandisCacheMap[pos] != null) {
             data.mutandisCacheMap[pos] =
                 MutandisLevelAttachment.MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
-            level.setData(WitcheryNeoForgeAttachmentRegistry.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
+            level.setData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
         }
     }
 

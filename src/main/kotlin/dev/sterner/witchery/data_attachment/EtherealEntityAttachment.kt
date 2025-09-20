@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncEtherealS2CPayload
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
@@ -14,12 +15,12 @@ object EtherealEntityAttachment {
 
     @JvmStatic
     fun getData(livingEntity: LivingEntity): EtherealEntityAttachment.Data {
-        return livingEntity.getData(WitcheryNeoForgeAttachmentRegistry.ETHEREAL_DATA_ATTACHMENT)
+        return livingEntity.getData(WitcheryDataAttachments.ETHEREAL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(livingEntity: LivingEntity, data: EtherealEntityAttachment.Data) {
-        livingEntity.setData(WitcheryNeoForgeAttachmentRegistry.ETHEREAL_DATA_ATTACHMENT, data)
+        livingEntity.setData(WitcheryDataAttachments.ETHEREAL_DATA_ATTACHMENT, data)
         EtherealEntityAttachment.sync(livingEntity, data)
     }
 

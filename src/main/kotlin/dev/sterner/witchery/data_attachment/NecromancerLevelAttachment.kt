@@ -3,6 +3,7 @@ package dev.sterner.witchery.data_attachment
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
@@ -12,12 +13,12 @@ import net.minecraft.world.entity.EntityType
 object NecromancerLevelAttachment {
     @JvmStatic
     fun getData(level: ServerLevel): NecromancerLevelAttachment.NecroList {
-        return level.getData(WitcheryNeoForgeAttachmentRegistry.NECRO_DATA_ATTACHMENT)
+        return level.getData(WitcheryDataAttachments.NECRO_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(level: ServerLevel, data: NecromancerLevelAttachment.NecroList) {
-        level.setData(WitcheryNeoForgeAttachmentRegistry.NECRO_DATA_ATTACHMENT, data)
+        level.setData(WitcheryDataAttachments.NECRO_DATA_ATTACHMENT, data)
     }
 
     data class NecroList(var necroList: MutableList<Data> = mutableListOf()) {

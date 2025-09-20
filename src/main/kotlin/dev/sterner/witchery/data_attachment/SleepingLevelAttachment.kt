@@ -4,6 +4,7 @@ import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -13,12 +14,12 @@ object SleepingLevelAttachment {
 
     @JvmStatic
     fun getData(level: ServerLevel): SleepingLevelAttachment.Data {
-        return level.getData(SLEEPING_PLAYER_DATA_ATTACHMENT)
+        return level.getData(WitcheryDataAttachments.SLEEPING_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(level: ServerLevel, data: SleepingLevelAttachment.Data) {
-        level.setData(SLEEPING_PLAYER_DATA_ATTACHMENT, data)
+        level.setData(WitcheryDataAttachments.SLEEPING_PLAYER_DATA_ATTACHMENT, data)
     }
 
     data class PlayerSleepingData(val uuid: UUID, val pos: BlockPos) {

@@ -2,8 +2,6 @@ package dev.sterner.witchery.block.spirit_portal
 
 import team.lodestar.lodestone.systems.multiblock.MultiblockComponentBlock
 
-
-Entity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.EAST
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.NORTH
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.SOUTH
@@ -25,6 +23,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties.HOR
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
+import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
 
 class SpiritPortalBlockComponent(properties: Properties) : MultiblockComponentBlock(
     properties.noOcclusion().noCollission().lightLevel(
@@ -98,28 +97,24 @@ class SpiritPortalBlockComponent(properties: Properties) : MultiblockComponentBl
 
     override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
         if (entity is Player && state.getValue(BlockStateProperties.OPEN)) {
-            val componentBlockEntity = level.getBlockEntity(pos) as? MultiblockComponentBlockEntity ?: return
+            val componentBlockEntity = level.getBlockEntity(pos) as? MultiBlockComponentEntity ?: return
             val corePos = componentBlockEntity.corePos ?: return
 
-            // Check if the core is a SpiritPortalBlock
             val coreBlockState = level.getBlockState(corePos)
             if (coreBlockState.block is SpiritPortalBlock) {
                 val corePortalBlock = coreBlockState.block as SpiritPortalBlock
 
-                // Get the portal direction and the corresponding shape
                 val dir = state.getValue(HORIZONTAL_FACING)
                 val portalShape = when (dir) {
                     Direction.NORTH -> NORTH
                     Direction.EAST -> EAST
                     Direction.WEST -> WEST
                     Direction.SOUTH -> SOUTH
-                    else -> return  // Should never happen, but handle gracefully
+                    else -> return
                 }
 
-                // Get the bounding box of the portal's shape
                 val portalBoundingBox = portalShape.bounds().move(pos)
 
-                // Check if the player intersects with the portal shape's bounding box
                 if (portalBoundingBox.intersects(entity.boundingBox)) {
                     corePortalBlock.handleEntityInside(level, corePos, entity)
                 }

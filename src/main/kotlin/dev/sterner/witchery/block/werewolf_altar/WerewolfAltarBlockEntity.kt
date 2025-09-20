@@ -2,7 +2,6 @@ package dev.sterner.witchery.block.werewolf_altar
 
 import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 
-register
 import dev.sterner.witchery.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.payload.SpawnItemParticlesS2CPayload
@@ -19,11 +18,13 @@ import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.network.PacketDistributor
 
 class WerewolfAltarBlockEntity(
     blockPos: BlockPos, blockState: BlockState
@@ -53,8 +54,8 @@ class WerewolfAltarBlockEntity(
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
-    override fun tick(level: Level, pos: BlockPos, state: BlockState) {
-        super.tick(level, pos, state)
+    override fun serverTick(level: ServerLevel?) {
+        super.serverTick(level)
         if (level is ServerLevel) {
             val item = items[0]
             if (!item.isEmpty) {
@@ -84,7 +85,7 @@ class WerewolfAltarBlockEntity(
                 }
             }
 
-            lookForWerewolf(level, pos)
+            lookForWerewolf(level, blockPos)
         }
     }
 
@@ -117,7 +118,7 @@ class WerewolfAltarBlockEntity(
             }
 
             val spawnPos = blockPos.center.add(rotatedOffset)
-            WitcheryPayloads.sendToPlayers(level, blockPos, SpawnItemParticlesS2CPayload(spawnPos, itemStack))
+            PacketDistributor.sendToPlayersTrackingChunk(level, ChunkPos(blockPos), SpawnItemParticlesS2CPayload(spawnPos, itemStack))
         }
     }
 

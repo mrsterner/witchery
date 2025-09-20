@@ -1,7 +1,5 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
@@ -31,6 +29,17 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
         return true
     }
 
+    override fun isRepairable(arg: ItemStack): Boolean {
+        return false
+    }
+
+    override fun getCraftingRemainingItem(itemStack: ItemStack): ItemStack {
+        val damage = itemStack.damageValue + 1
+        val copy = itemStack.copy()
+        copy.damageValue = damage
+        return copy
+    }
+
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
         var pos = context.clickedPos
@@ -42,8 +51,6 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
             level.setBlockAndUpdate(pos, WitcheryBlocks.BLOOD_STAINED_WOOL.get().defaultBlockState())
             return InteractionResult.SUCCESS
         }
-
-        player?.let { WitcheryApi.makePlayerWitchy(it) }
 
         if (player != null && player.offhandItem.`is`(Items.GLASS_BOTTLE) && state.`is`(BlockTags.BEDS) && level.server != null) {
 
@@ -74,8 +81,6 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
         interactionTarget: LivingEntity,
         usedHand: InteractionHand
     ): InteractionResult {
-
-        WitcheryApi.makePlayerWitchy(player)
 
         val taglock = WitcheryItems.TAGLOCK.get().defaultInstance
         if (tryTaglockEntity(player.level(), player, player.mainHandItem, interactionTarget, taglock)) {

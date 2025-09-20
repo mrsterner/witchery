@@ -8,8 +8,10 @@ import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.effigy.EffigyBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
+import dev.sterner.witchery.data_attachment.BoatTypeHelper
 import dev.sterner.witchery.item.ArthanaItem
 import dev.sterner.witchery.item.AttunedStoneItem
+import dev.sterner.witchery.item.BoneNeedleItem
 import dev.sterner.witchery.item.BroomItem
 import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.item.CenserBlockItem
@@ -20,6 +22,7 @@ import dev.sterner.witchery.item.CustomBoatItem
 import dev.sterner.witchery.item.DeathSickleItem
 import dev.sterner.witchery.item.DebugWand
 import dev.sterner.witchery.item.GuideBookItem
+import dev.sterner.witchery.item.HunterArmorItem
 import dev.sterner.witchery.item.HuntsmanSpearItem
 import dev.sterner.witchery.item.IcyNeedleItem
 import dev.sterner.witchery.item.MutandisItem
@@ -30,12 +33,21 @@ import dev.sterner.witchery.item.QuartzSphereItem
 import dev.sterner.witchery.item.SeerStoneItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.TornPageItem
+import dev.sterner.witchery.item.VampireArmorItem
 import dev.sterner.witchery.item.VoodooPoppetItem
 import dev.sterner.witchery.item.WaterCropBlockItem
 import dev.sterner.witchery.item.WaystoneItem
 import dev.sterner.witchery.item.WineGlassItem
 import dev.sterner.witchery.item.WitchesHandItem
+import dev.sterner.witchery.item.WitchesRobesItem
 import dev.sterner.witchery.item.WoodenStakeItem
+import dev.sterner.witchery.item.accessories.BarkBeltItem
+import dev.sterner.witchery.item.accessories.BatwingPendantItem
+import dev.sterner.witchery.item.accessories.BitingBeltItem
+import dev.sterner.witchery.item.accessories.BloodstonePendantItem
+import dev.sterner.witchery.item.accessories.DreamweaverCharmItem
+import dev.sterner.witchery.item.accessories.MoonCharmItem
+import dev.sterner.witchery.item.accessories.SunstonePendantItem
 import dev.sterner.witchery.item.brew.BrewOfDepthItem
 import dev.sterner.witchery.item.brew.BrewOfErosionItem
 import dev.sterner.witchery.item.brew.BrewOfFlowingSpiritItem
@@ -53,6 +65,7 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.world.food.Foods
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.BucketItem
 import net.minecraft.world.item.HangingSignItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemNameBlockItem
@@ -63,6 +76,7 @@ import net.minecraft.world.item.SignItem
 import net.minecraft.world.item.SpawnEggItem
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.item.Tiers
+import net.neoforged.neoforge.common.DeferredSpawnEggItem
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import team.lodestar.lodestone.systems.multiblock.MultiBlockItem
@@ -124,7 +138,7 @@ object WitcheryItems {
     //start ARMOR
 
     val WITCHES_HAT = register("witches_hat") {
-        PlatformUtils.witchesRobes(
+        WitchesRobesItem(
             WitcheryArmorMaterials.WITCHES_ROBES,
             ArmorItem.Type.HELMET,
             Item.Properties().stacksTo(1)
@@ -132,7 +146,7 @@ object WitcheryItems {
     }
 
     val WITCHES_ROBES = register("witches_robes") {
-        PlatformUtils.witchesRobes(
+        WitchesRobesItem(
             WitcheryArmorMaterials.WITCHES_ROBES,
             ArmorItem.Type.CHESTPLATE,
             Item.Properties().stacksTo(1)
@@ -140,7 +154,7 @@ object WitcheryItems {
     }
 
     val WITCHES_SLIPPERS = register("witches_slippers") {
-        PlatformUtils.witchesRobes(
+        WitchesRobesItem(
             WitcheryArmorMaterials.WITCHES_ROBES,
             ArmorItem.Type.BOOTS,
             Item.Properties().stacksTo(1)
@@ -148,57 +162,47 @@ object WitcheryItems {
     }
 
     val BABA_YAGAS_HAT = register("baba_yagas_hat") {
-        PlatformUtils.witchesRobes(
-            WitcheryArmorMaterials.WITCHES_ROBES,
+
+        WitchesRobesItem(WitcheryArmorMaterials.WITCHES_ROBES,
             ArmorItem.Type.HELMET,
-            Item.Properties().stacksTo(1)
-        )
+            Item.Properties().stacksTo(1))
     }
 
     val HUNTER_HELMET = register("hunter_helmet") {
-        PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
+        HunterArmorItem(WitcheryArmorMaterials.HUNTER,  ArmorItem.Type.HELMET,Item.Properties().stacksTo(1))
     }
 
     val HUNTER_CHESTPLATE = register("hunter_chestplate") {
-        PlatformUtils.hunterArmor(
-            WitcheryArmorMaterials.HUNTER,
-            ArmorItem.Type.CHESTPLATE,
-            Item.Properties().stacksTo(1)
-        )
+        HunterArmorItem(WitcheryArmorMaterials.HUNTER,  ArmorItem.Type.CHESTPLATE,Item.Properties().stacksTo(1))
     }
 
     val HUNTER_LEGGINGS = register("hunter_leggings") {
-        PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.LEGGINGS, Item.Properties().stacksTo(1))
+        HunterArmorItem(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.LEGGINGS, Item.Properties().stacksTo(1))
     }
 
     val HUNTER_BOOTS = register("hunter_boots") {
-        PlatformUtils.hunterArmor(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
+        HunterArmorItem(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
     }
 
     val TOP_HAT = register("top_hat") {
-        PlatformUtils.dapper(
-            WitcheryArmorMaterials.DAPPER,
+        VampireArmorItem(WitcheryArmorMaterials.DAPPER,
             ArmorItem.Type.HELMET,
-            Item.Properties().stacksTo(1)
-        )
+            Item.Properties().stacksTo(1))
     }
 
     val DRESS_COAT = register("dress_coat") {
-        PlatformUtils.dapper(
-            WitcheryArmorMaterials.DAPPER,
+        VampireArmorItem(WitcheryArmorMaterials.DAPPER,
             ArmorItem.Type.CHESTPLATE,
-            Item.Properties().stacksTo(1)
-        )
+            Item.Properties().stacksTo(1))
     }
 
     val TROUSERS = register("trousers") {
-        PlatformUtils.dapper(WitcheryArmorMaterials.DAPPER, ArmorItem.Type.LEGGINGS, Item.Properties().stacksTo(1))
+        VampireArmorItem(WitcheryArmorMaterials.DAPPER, ArmorItem.Type.LEGGINGS, Item.Properties().stacksTo(1))
     }
 
     val OXFORD_BOOTS = register("oxford_boots") {
-        PlatformUtils.dapper(WitcheryArmorMaterials.DAPPER, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
+        VampireArmorItem(WitcheryArmorMaterials.DAPPER, ArmorItem.Type.BOOTS, Item.Properties().stacksTo(1))
     }
-
 
     //start RESOURCES
     val MUTANDIS = register("mutandis") {
@@ -270,7 +274,7 @@ object WitcheryItems {
     }
 
     val BONE_NEEDLE= register("bone_needle") {
-        PlatformUtils.boneNeedle
+        BoneNeedleItem(Item.Properties())
     }
 
     val ATTUNED_STONE= register("attuned_stone") {
@@ -1172,7 +1176,7 @@ object WitcheryItems {
     val FLOWING_SPIRIT_BUCKET= register(
         "flowing_spirit_bucket"
     ) {
-        ArchitecturyBucketItem(
+        BucketItem(
             WitcheryFluids.FLOWING_SPIRIT_STILL,
             Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)
         )
@@ -1228,31 +1232,31 @@ object WitcheryItems {
     }
 
     val MOON_CHARM = register("moon_charm") {
-        PlatformUtils.moonCharmItem
+        MoonCharmItem(Item.Properties())
     }
 
     val BATWING_PENDANT = register("batwing_pendant") {
-        PlatformUtils.batwingPendantItem
+        BatwingPendantItem(Item.Properties())
     }
 
     val SUNSTONE_PENDANT = register("sunstone_pendant") {
-        PlatformUtils.sunstonePendantItem
+        SunstonePendantItem(Item.Properties())
     }
 
     val BLOODSTONE_PENDANT = register("bloodstone_pendant") {
-        PlatformUtils.bloodstonePendantItem
+        BloodstonePendantItem(Item.Properties())
     }
 
     val DREAMWEAVER_CHARM = register("dreamweaver_charm") {
-        PlatformUtils.dreamweaverCharmItem
+        DreamweaverCharmItem(Item.Properties())
     }
 
     val BITING_BELT = register("biting_belt") {
-        PlatformUtils.bitingBeltItem
+        BitingBeltItem(Item.Properties())
     }
 
     val BARK_BELT = register("bark_belt") {
-        PlatformUtils.barkBeltItem
+        BarkBeltItem(Item.Properties())
     }
 
     val PARASITIC_LOUSE = register("parasitic_louse") {
@@ -1280,53 +1284,53 @@ object WitcheryItems {
     }
 
     val MANDRAKE_SPAWN_EGG = register("mandrake_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.MANDRAKE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.MANDRAKE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
 
     val IMP_SPAWN_EGG = register("imp_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.IMP, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.IMP, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
 
     val DEMON_SPAWN_EGG = register("demon_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.DEMON,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.DEMON,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val ENT_SPAWN_EGG = register("ent_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.ENT,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.ENT,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val OWL_SPAWN_EGG = register("owl_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.OWL,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.OWL,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val BANSHEE_SPAWN_EGG = register("banshee_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.BANSHEE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.BANSHEE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val SPECTRE_SPAWN_EGG = register("spectre_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.SPECTRE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.SPECTRE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val COVEN_WITCH_SPAWN_EGG = register("coven_witch_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.COVEN_WITCH,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.COVEN_WITCH,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val SPECTRAL_PIG_SPAWN_EGG = register("spectral_pig_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.SPECTRAL_PIG,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.SPECTRAL_PIG,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val NIGHTMARE_SPAWN_EGG = register("nightmare_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.NIGHTMARE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.NIGHTMARE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val VAMPIRE_SPAWN_EGG = register("vampire_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.VAMPIRE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.VAMPIRE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val BABA_YAGA_SPAWN_EGG = register("baba_yaga_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.BABA_YAGA,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.BABA_YAGA,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val WEREWOLF_SPAWN_EGG = register("werewolf_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.WEREWOLF,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.WEREWOLF,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val LILITH_SPAWN_EGG = register("lilith_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.LILITH,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.LILITH,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val ELLE_SPAWN_EGG = register("elle_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.ELLE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.ELLE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val PARASITIC_LOUSE_SPAWN_EGG = register("parasitic_louse_spawn_egg") {
-        ArchitecturySpawnEggItem(WitcheryEntityTypes.PARASITIC_LOUSE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.PARASITIC_LOUSE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
 }

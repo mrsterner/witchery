@@ -42,6 +42,8 @@ import dev.sterner.witchery.block.mushroom_log.MushroomLogComponent
 import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarComponent
+import dev.sterner.witchery.data_attachment.PlatformUtils
+import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
@@ -54,6 +56,7 @@ import net.minecraft.world.item.DyeColor
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument
@@ -389,7 +392,7 @@ object WitcheryBlocks {
     }
 
     val ROWAN_LOG = register(
-        "rowan_log", true, StrippableHelper.createStrippableLog(
+        "rowan_log", true, createStrippableLog(
             STRIPPED_ROWAN_LOG,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
         )
@@ -400,7 +403,7 @@ object WitcheryBlocks {
     }
 
     val ROWAN_WOOD = register(
-        "rowan_wood", true, StrippableHelper.createStrippableLog(
+        "rowan_wood", true, createStrippableLog(
             STRIPPED_ROWAN_WOOD,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)
         )
@@ -420,8 +423,8 @@ object WitcheryBlocks {
 
     val ROWAN_STAIRS = register("rowan_stairs") {
         StairBlock(
-            ROWAN_PLANKS.orElseGet { Blocks.OAK_PLANKS }.defaultBlockState(),
-            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)
+            ROWAN_PLANKS,
+            Properties.ofFullCopy(Blocks.OAK_STAIRS)
         )
     }
 
@@ -430,10 +433,10 @@ object WitcheryBlocks {
     }
 
     val ROWAN_FENCE = register("rowan_fence") {
-        FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
+        FenceBlock(Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    private val ROWAN_WOOD_TYPE: WoodType = PlatformUtils.registerWoodType(WoodType("$MODID:rowan", BlockSetType.OAK))
+    private val ROWAN_WOOD_TYPE: WoodType = PlatformUtils.registerWoodType(WoodType("${Witchery.MODID}:rowan", BlockSetType.OAK))
 
     val ROWAN_FENCE_GATE = register("rowan_fence_gate") {
         FenceGateBlock(ROWAN_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
@@ -510,13 +513,13 @@ object WitcheryBlocks {
         }
 
     val STRIPPED_ALDER_LOG = register("stripped_alder_log") {
-        RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
+        RotatedPillarBlock(Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
     }
 
     val ALDER_LOG = register(
-        "alder_log", true, StrippableHelper.createStrippableLog(
+        "alder_log", true, createStrippableLog(
             STRIPPED_ALDER_LOG,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
+            Properties.ofFullCopy(Blocks.OAK_LOG)
         )
     )
 
@@ -525,9 +528,9 @@ object WitcheryBlocks {
     }
 
     val ALDER_WOOD = register(
-        "alder_wood", true, StrippableHelper.createStrippableLog(
+        "alder_wood", true, createStrippableLog(
             STRIPPED_ALDER_WOOD,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)
+            Properties.ofFullCopy(Blocks.OAK_WOOD)
         )
     )
 
@@ -554,7 +557,7 @@ object WitcheryBlocks {
         FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    private val ALDER_WOOD_TYPE: WoodType = PlatformUtils.registerWoodType(WoodType("$MODID:alder", BlockSetType.OAK))
+    private val ALDER_WOOD_TYPE: WoodType = registerWoodType(WoodType("$MODID:alder", BlockSetType.OAK))
 
 
     val ALDER_FENCE_GATE = register("alder_fence_gate") {
@@ -636,8 +639,8 @@ object WitcheryBlocks {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
     }
 
-    val HAWTHORN_LOG = register(
-        "hawthorn_log", true, StrippableHelper.createStrippableLog(
+    val HAWTHORN_LOG: DeferredHolder<Block, Block> = register(
+        "hawthorn_log", true, createStrippableLog(
             STRIPPED_HAWTHORN_LOG,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
         )
@@ -648,11 +651,15 @@ object WitcheryBlocks {
     }
 
     val HAWTHORN_WOOD = register(
-        "hawthorn_wood", true, StrippableHelper.createStrippableLog(
+        "hawthorn_wood", true, createStrippableLog(
             STRIPPED_HAWTHORN_WOOD,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)
         )
     )
+
+    @JvmStatic
+    fun createStrippableLog(stripped: Supplier<out RotatedPillarBlock>, properties: Properties) =
+        Supplier { ForgeStrippableLogBlock(stripped, properties) }
 
     val HAWTHORN_LEAVES = register("hawthorn_leaves") {
         LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES))

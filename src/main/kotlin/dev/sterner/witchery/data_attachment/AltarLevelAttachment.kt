@@ -3,6 +3,7 @@ package dev.sterner.witchery.data_attachment
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -11,23 +12,23 @@ object AltarLevelAttachment {
 
     @JvmStatic
     fun setAltarPos(level: ServerLevel, pos: BlockPos) {
-        if (!level.getData(WitcheryNeoForgeAttachmentRegistry.ALTAR_LEVEL_DATA_ATTACHMENT).altarSet.contains(pos)) {
-            val data = level.getData(WitcheryNeoForgeAttachmentRegistry.ALTAR_LEVEL_DATA_ATTACHMENT)
+        if (!level.getData(WitcheryDataAttachments.ALTAR_LEVEL_DATA_ATTACHMENT).altarSet.contains(pos)) {
+            val data = level.getData(WitcheryDataAttachments.ALTAR_LEVEL_DATA_ATTACHMENT)
             data.altarSet.add(pos)
-            level.setData(WitcheryNeoForgeAttachmentRegistry.ALTAR_LEVEL_DATA_ATTACHMENT, data)
+            level.setData(WitcheryDataAttachments.ALTAR_LEVEL_DATA_ATTACHMENT, data)
         }
     }
 
     @JvmStatic
     fun removeAltarPos(level: ServerLevel, pos: BlockPos) {
-        val data = level.getData(WitcheryNeoForgeAttachmentRegistry.ALTAR_LEVEL_DATA_ATTACHMENT)
+        val data = level.getData(WitcheryDataAttachments.ALTAR_LEVEL_DATA_ATTACHMENT)
         data.altarSet.remove(pos)
-        level.setData(WitcheryNeoForgeAttachmentRegistry.ALTAR_LEVEL_DATA_ATTACHMENT, data)
+        level.setData(WitcheryDataAttachments.ALTAR_LEVEL_DATA_ATTACHMENT, data)
     }
 
     @JvmStatic
     fun getAltarPos(level: ServerLevel): MutableSet<BlockPos> {
-        return level.getData(WitcheryNeoForgeAttachmentRegistry.ALTAR_LEVEL_DATA_ATTACHMENT).altarSet
+        return level.getData(WitcheryDataAttachments.ALTAR_LEVEL_DATA_ATTACHMENT).altarSet
     }
 
     data class AltarDataCodec(val altarSet: MutableSet<BlockPos> = mutableSetOf()) {

@@ -3,6 +3,7 @@ package dev.sterner.witchery.data_attachment
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -12,12 +13,12 @@ object EntSpawnLevelAttachment {
 
     @JvmStatic
     fun getData(level: ServerLevel): Data {
-        return level.getData(WitcheryNeoForgeAttachmentRegistry.ENT_DATA_ATTACHMENT)
+        return level.getData(WitcheryDataAttachments.ENT_DATA_ATTACHMENT)
     }
 
     @JvmStatic
     fun setData(level: ServerLevel, data: Data) {
-        level.setData(WitcheryNeoForgeAttachmentRegistry.ENT_DATA_ATTACHMENT, data)
+        level.setData(WitcheryDataAttachments.ENT_DATA_ATTACHMENT, data)
     }
 
     data class Data(val entries: List<BlockEntry> = listOf()) {

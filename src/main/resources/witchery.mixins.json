@@ -2,11 +2,60 @@
   "required": true,
   "package": "dev.sterner.witchery.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+    "AbstractSkeletonMixin",
+    "ArgumentTypeInfosInvoker",
+    "AvoidEntityGoalMixin",
+    "BlockBehaviourMixin",
+    "BlockMixin",
+    "BookCategoryNodeScreenMixin",
+    "BrushItemMixin",
+    "CompositeEntryBaseAccessor",
+    "DamageSourcesInvoker",
+    "DoorBlockMixin",
+    "EnderManMixin",
+    "EntityMixin",
+    "FireBlockMixin",
+    "FoodDataMixin",
+    "IBlockStateExtensionMixin",
+    "ItemEntityMixin",
+    "ItemStackMixin",
+    "LevelChunkMixin",
+    "LightningBoltMixin",
+    "LivingEntityAccessor",
+    "LivingEntityMixin",
+    "LootPoolAccessor",
+    "LootPoolSingletonContainerAccessor",
+    "LootTableAccessor",
+    "MeleeAttackGoalMixin",
+    "MobMixin",
+    "NearestAttackableTargetGoalMixin",
+    "PlayerInvoker",
+    "PlayerMixin",
+    "SaplingBlockAccessor",
+    "ServerPlayerMixin",
+    "ShapelessRecipeAccessor",
+    "StructureStartMixin",
+    "StructureTemplatePoolAccessor",
+    "TargetGoalMixin",
+    "TargetingConditionsMixin",
+    "VillagerHostileSensorMixin",
+    "VillagerMixin",
+    "WalkAnimationStateAccessor",
+    "WolfMixin",
+    "ZoglinMixin",
+    "ZombieMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "client": [
+    "BookParentNodeScreenMixin",
+    "ClientPacketListenerMixin",
+    "GuiMixin",
+    "ItemRendererMixin"
+  ]
 }
