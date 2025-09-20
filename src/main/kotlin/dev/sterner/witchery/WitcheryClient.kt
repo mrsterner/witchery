@@ -1,6 +1,7 @@
 package dev.sterner.witchery
 
 import dev.sterner.witchery.Witchery.Companion.MODID
+import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
 import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
@@ -12,9 +13,17 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.handler.BarkBeltHandler
+import dev.sterner.witchery.handler.ManifestationHandler
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
+import dev.sterner.witchery.handler.infusion.InfusionHandler
+import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.registry.WitcheryKeyMappings
 import dev.sterner.witchery.registry.WitcheryMenuTypes
+import net.minecraft.client.Minecraft
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
@@ -28,10 +37,15 @@ import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import net.neoforged.neoforge.client.event.ClientTickEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
+import net.neoforged.neoforge.client.event.InputEvent
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
+import net.neoforged.neoforge.client.event.RenderGuiEvent
 import net.neoforged.neoforge.client.gui.ConfigurationScreen
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
+import net.neoforged.neoforge.network.PacketDistributor
 
 @Mod(value = MODID, dist = [Dist.CLIENT])
 @EventBusSubscriber(modid = MODID, value = [Dist.CLIENT])
@@ -49,6 +63,40 @@ class WitcheryClient(container: ModContainer) {
         @SubscribeEvent
         fun onClientSetup(event: FMLClientSetupEvent) {
 
+        }
+
+        @SubscribeEvent
+        fun onMouseScrolled(event: InputEvent.MouseScrollingEvent){
+            AfflictionAbilityHandler.scroll(event, Minecraft.getInstance(), event.mouseX, event.mouseY)
+        }
+
+        @SubscribeEvent
+        fun onRenderHud(event: RenderGuiEvent) {
+            InfusionHandler.renderInfusionHud(event.guiGraphics, event.partialTick)
+            ManifestationHandler.renderHud(event.guiGraphics, event.partialTick)
+            VampireClientSpecificEventHandler.renderHud(event.guiGraphics)
+            BarkBeltHandler.renderHud(event.guiGraphics, event.partialTick)
+        }
+
+        @SubscribeEvent
+        fun onTooltipComponentFactories(event: RegisterClientTooltipComponentFactoriesEvent) {
+            event.register(BloodPoolComponent::class.java,
+                BloodPoolComponent::getClientTooltipComponent)
+        }
+
+        @SubscribeEvent
+        fun onClientTick(event: ClientTickEvent.Post){
+            while (WitcheryKeyMappings.OPEN_ABILITY_SELECTION.consumeClick()) {
+                Minecraft.getInstance().player?.let { player ->
+                    AfflictionAbilityHandler.openSelectionScreen(player)
+                }
+            }
+            while (WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING.consumeClick()) {
+                Minecraft.getInstance().player?.stopRiding()
+                if (Minecraft.getInstance().player != null) {
+                    PacketDistributor.sendToServer(DismountBroomC2SPayload())
+                }
+            }
         }
 
         @SubscribeEvent

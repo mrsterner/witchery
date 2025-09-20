@@ -1,15 +1,16 @@
 package dev.sterner.witchery.handler.ability
 
-import dev.architectury.event.EventResult
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.client.event.InputEvent
 
 class AbilityScrollHandler {
 
     fun <T : Enum<T>> handleScroll(
+        event: InputEvent.MouseScrollingEvent,
         player: Player,
         y: Double,
         abilityHandler: AbilityHandler
-    ): EventResult {
+    ) {
         val abilities = abilityHandler.getAbilities(player)
         val abilityCount = abilities.size
 
@@ -17,7 +18,7 @@ class AbilityScrollHandler {
             if (abilityHandler.abilityIndex != -1) {
                 abilityHandler.setAbilityIndex(player, -1)
             }
-            return EventResult.pass()
+            return
         }
 
         var index = abilityHandler.abilityIndex
@@ -32,13 +33,15 @@ class AbilityScrollHandler {
             if (player.inventory.selected == 0 && y > 0.0) {
                 index = 0
                 abilityHandler.setAbilityIndex(player, index)
-                return EventResult.interruptTrue()
+                event.isCanceled = true
+                return
             } else if (player.inventory.selected == 8 && y < 0.0) {
                 index = abilityCount - 1
                 abilityHandler.setAbilityIndex(player, index)
-                return EventResult.interruptTrue()
+                event.isCanceled = true
+                return
             }
-            return EventResult.pass()
+            return
         } else {
             // In ability bar
             if (y > 0.0) {
@@ -60,7 +63,8 @@ class AbilityScrollHandler {
             }
 
             abilityHandler.setAbilityIndex(player, index)
-            return EventResult.interruptTrue()
+            event.isCanceled = true
+            return
         }
     }
 }

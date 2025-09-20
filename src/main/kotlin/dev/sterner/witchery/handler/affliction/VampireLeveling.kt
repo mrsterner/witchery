@@ -1,12 +1,11 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.architectury.event.EventResult
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.VampireEvent
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -16,6 +15,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.ChunkPos
+import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.network.PacketDistributor
 
 object VampireLeveling {
 
@@ -49,11 +50,7 @@ object VampireLeveling {
 
         updateModifiers(player, level, false)
         player.refreshDimensions()
-        WitcheryPayloads.sendToPlayers(
-            player.level(),
-            player.blockPosition(),
-            RefreshDimensionsS2CPayload()
-        )
+        PacketDistributor.sendToPlayersTrackingChunk(player.serverLevel(), player.chunkPosition(), RefreshDimensionsS2CPayload())
         if (level > previousLevel) {
             AfflictionAbilityHandler.addAbilityOnLevelUp(player, level, AfflictionTypes.VAMPIRISM)
         }
@@ -72,8 +69,11 @@ object VampireLeveling {
 
         if (nextLevel > 2 && !canLevelUp(player, currentData, nextLevel)) return
 
-        val result = VampireEvent.ON_LEVEL_UP.invoker().invoke(player, currentLevel, nextLevel)
-        if (result == EventResult.interruptFalse()) return
+        val event = VampireEvent.LevelUp(player, currentLevel, nextLevel)
+        NeoForge.EVENT_BUS.post(event)
+        if (event.isCanceled) {
+            return
+        }
 
         setLevel(player, nextLevel)
         setMaxBlood(player, nextLevel)

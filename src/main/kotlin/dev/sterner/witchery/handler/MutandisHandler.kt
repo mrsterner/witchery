@@ -6,16 +6,17 @@ import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.Level
 import net.neoforged.neoforge.network.PacketDistributor
 
 object MutandisHandler {
 
-    fun registerEvents() {
-        ServerLevelTick.SERVER_LEVEL_POST.register(MutandisHandler::tick)
-    }
 
-    fun tick(serverLevel: ServerLevel?) {
-        if (serverLevel == null) return
+
+    fun tick(level: Level) {
+        if (level.isClientSide) return
+
+        val serverLevel = level as ServerLevel
 
         val toRemove = mutableListOf<BlockPos>()
 

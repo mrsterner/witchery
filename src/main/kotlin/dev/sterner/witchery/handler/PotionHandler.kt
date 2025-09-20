@@ -9,15 +9,13 @@ import net.minecraft.world.entity.LivingEntity
 
 object PotionHandler {
 
-    fun registerEvents() {
-        EntityEvent.LIVING_HURT.register(PotionHandler::poisonWeaponAttack)
-    }
 
-    private fun poisonWeaponAttack(
+
+    fun poisonWeaponAttack(
         livingEntity: LivingEntity,
         damageSource: DamageSource?,
         amount: Float
-    ): EventResult {
+    ) {
         if (damageSource != null && damageSource.entity is LivingEntity) {
             val attacker = (damageSource.entity as LivingEntity)
             if (attacker.hasEffect(WitcheryMobEffects.POISON_WEAPON)) {
@@ -25,8 +23,6 @@ object PotionHandler {
                 livingEntity.addEffect(MobEffectInstance(MobEffects.POISON, 20 * 10, amp))
             }
         }
-
-        return EventResult.pass()
     }
 
     fun handleHurt(entity: LivingEntity, damageSource: DamageSource, remainingDamage: Float): Float {

@@ -13,9 +13,7 @@ import net.minecraft.world.entity.player.Player
 
 object LightInfusionHandler {
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(LightInfusionHandler::tick)
-    }
+
 
     fun poof(player: Player) {
         if (player.level() is ServerLevel) {

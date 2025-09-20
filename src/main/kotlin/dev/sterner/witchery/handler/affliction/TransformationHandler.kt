@@ -1,14 +1,8 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.architectury.event.events.common.TickEvent
-import dev.architectury.platform.Platform
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
-import dev.sterner.witchery.platform.PlatformUtils
-import dev.sterner.witchery.platform.WitcheryAttributes
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.server.level.ServerLevel
@@ -32,10 +26,7 @@ object TransformationHandler {
 
     private var villageCheckTicker = 0
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
-        TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)
-    }
+
 
     @JvmStatic
     fun getBatEntity(player: Player): Bat? {

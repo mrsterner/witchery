@@ -9,9 +9,7 @@ import net.minecraft.world.level.block.Blocks
 
 object DreamWeaverHandler {
 
-    fun registerEvents() {
-        SleepingEvent.POST.register(DreamWeaverHandler::onWake)
-    }
+
     /**
      * Applies dream weaver effects on a player
      *

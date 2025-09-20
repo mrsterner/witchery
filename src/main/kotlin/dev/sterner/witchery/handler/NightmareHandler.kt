@@ -13,9 +13,7 @@ import kotlin.math.sin
 
 object NightmareHandler {
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(NightmareHandler::tick)
-    }
+
 
     fun tick(player: Player?) {
         if (player?.level()?.dimension() == WitcheryWorldgenKeys.NIGHTMARE && player.level() is ServerLevel) {

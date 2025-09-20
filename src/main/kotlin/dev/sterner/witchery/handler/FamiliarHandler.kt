@@ -14,9 +14,7 @@ import java.util.*
 
 object FamiliarHandler {
 
-    fun registerEvents() {
-        EntityEvent.LIVING_DEATH.register(FamiliarHandler::familiarDeath)
-    }
+
     /**
      * Checks if a given entity is currently bound as a familiar in the world.
      */
@@ -95,10 +93,10 @@ object FamiliarHandler {
     /**
      * Handles the death of a familiar entity, marking it as dead in the stored data.
      */
-    fun familiarDeath(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+    fun familiarDeath(livingEntity: LivingEntity?, damageSource: DamageSource?) {
         if (livingEntity is OwlEntity || livingEntity is Frog || livingEntity is Cat) {
 
-            val level = livingEntity.level() as? ServerLevel ?: return EventResult.pass()
+            val level = livingEntity.level() as? ServerLevel ?: return
 
             val familiarUUID = livingEntity.uuid
             val data = FamiliarLevelAttachment.getData(level)
@@ -113,7 +111,6 @@ object FamiliarHandler {
             }
         }
 
-        return EventResult.pass()
     }
 
 

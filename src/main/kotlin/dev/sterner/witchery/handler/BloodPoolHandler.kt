@@ -15,10 +15,7 @@ object BloodPoolHandler {
 
     private var ticker = 0
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(BloodPoolHandler::tick)
-        EntityEvent.ADD.register(BloodPoolHandler::setBloodOnAdded)
-    }
+
 
     fun tick(player: Player?) {
 
@@ -44,7 +41,7 @@ object BloodPoolHandler {
         }
     }
 
-    fun setBloodOnAdded(entity: Entity?, level: Level?): EventResult? {
+    fun setBloodOnAdded(entity: Entity?, level: Level?) {
         if (entity is LivingEntity) {
             val data =  BloodPoolLivingEntityAttachment.getData(entity)
             val bloodJson = BloodPoolReloadListener.BLOOD_PAIR
@@ -59,8 +56,6 @@ object BloodPoolHandler {
                 }
             }
         }
-
-        return EventResult.pass()
     }
 
     fun tickBloodRegen(livingEntity: LivingEntity) {

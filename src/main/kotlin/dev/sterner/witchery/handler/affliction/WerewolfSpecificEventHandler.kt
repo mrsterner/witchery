@@ -22,10 +22,7 @@ import net.minecraft.world.entity.player.Player
 
 object WerewolfSpecificEventHandler {
 
-    fun registerEvents() {
-        EntityEvent.LIVING_DEATH.register(::killEntity)
-        TickEvent.PLAYER_PRE.register(::tick)
-    }
+
 
     private fun killEntity(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (damageSource?.entity !is ServerPlayer) return EventResult.pass()

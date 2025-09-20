@@ -1,10 +1,5 @@
 package dev.sterner.witchery.handler.infusion
 
-import dev.architectury.event.events.common.LightningEvent
-import dev.architectury.event.events.common.TickEvent
-import dev.sterner.witchery.platform.infusion.CreatureType
-import dev.sterner.witchery.platform.infusion.InfernalInfusionPlayerAttachment.getData
-import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
@@ -15,10 +10,7 @@ import net.minecraft.world.phys.Vec3
 
 object InfernalInfusionHandler {
 
-    fun registerEvents() {
-        LightningEvent.STRIKE.register(::strikeLightning)
-        TickEvent.PLAYER_POST.register(::tick)
-    }
+
 
     private fun strikeLightning(lightningBolt: LightningBolt?, level: Level?, vec3: Vec3?, entities: MutableList<Entity>?) {
         if (entities != null) {

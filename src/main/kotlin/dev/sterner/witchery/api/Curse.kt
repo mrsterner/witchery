@@ -18,7 +18,7 @@ open class Curse {
 
     }
 
-    open fun breakBlock(level: Level, serverPlayer: ServerPlayer, blockState: BlockState, catBoosted: Boolean) {
+    open fun breakBlock(level: Level, player: Player, blockState: BlockState, catBoosted: Boolean) {
 
     }
 
@@ -30,7 +30,6 @@ open class Curse {
         level: Level,
         player: Player,
         target: Entity,
-        entityHitResult: EntityHitResult,
         catBoosted: Boolean
     ) {
 

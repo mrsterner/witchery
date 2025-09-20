@@ -1,8 +1,8 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.PhylacteryLevelDataAttachment
-import dev.sterner.witchery.platform.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
+import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer

@@ -1,9 +1,8 @@
 package dev.sterner.witchery.handler.affliction
 
+import dev.sterner.witchery.data_attachment.PlatformUtils
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
-import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.mixin_logic.SummonedWolf
-import dev.sterner.witchery.platform.PlatformUtils
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel

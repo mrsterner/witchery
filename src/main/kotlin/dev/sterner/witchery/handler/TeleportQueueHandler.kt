@@ -18,12 +18,7 @@ object TeleportQueueHandler {
     private const val MAX_ATTEMPTS = 10
     private const val STALE_REQUEST_TIME = 6000L
 
-    fun registerEvents() {
-        TickEvent.SERVER_POST.register(::processQueue)
-        LifecycleEvent.SERVER_STOPPING.register(::clearQueue)
-    }
-
-    private fun clearQueue(server: MinecraftServer) {
+    fun clearQueue(server: MinecraftServer) {
         server.allLevels.forEach { level ->
             val data = TeleportQueueLevelAttachment.getData(level)
             data.pendingTeleports.forEach { request ->

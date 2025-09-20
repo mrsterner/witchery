@@ -1,9 +1,9 @@
 package dev.sterner.witchery.handler.affliction
 
+import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.NecroHandler
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
-import dev.sterner.witchery.platform.EtherealEntityAttachment
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel

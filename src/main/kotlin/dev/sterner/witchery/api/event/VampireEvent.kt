@@ -1,22 +1,15 @@
 package dev.sterner.witchery.api.event
 
-import dev.architectury.event.Event
-import dev.architectury.event.EventFactory
-import dev.architectury.event.EventResult
+
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.neoforged.bus.api.Event
+import net.neoforged.bus.api.ICancellableEvent
 
-interface VampireEvent {
-    companion object {
+class VampireEvent {
 
-        val ON_LEVEL_UP: Event<LevelUp> = EventFactory.createEventResult()
+    class LevelUp(var player: Player, var currentLevel: Int, var newLevel: Int) : Event(), ICancellableEvent
+    class SunDamage(var player: Player) : Event(), ICancellableEvent
+    class BloodDrink(var player: Player, var target: LivingEntity) : Event(), ICancellableEvent
 
-        val ON_SUN_DAMAGE: Event<SunDamage> = EventFactory.createEventResult()
-
-        val ON_BLOOD_DRINK: Event<BloodDrink> = EventFactory.createEventResult()
-    }
 }
-
-typealias LevelUp = (Player, Int, Int) -> EventResult
-typealias SunDamage = (Player) -> EventResult
-typealias BloodDrink = (Player, LivingEntity) -> EventResult

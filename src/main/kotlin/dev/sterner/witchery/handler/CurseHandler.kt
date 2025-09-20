@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.EntityHitResult
+import net.neoforged.neoforge.common.NeoForge
 
 object CurseHandler {
     /**
@@ -34,9 +35,9 @@ object CurseHandler {
         catBoosted: Boolean,
         duration: Int = 24000
     ): Boolean {
-        // Early check: only proceed if the curse event allows it
-        val result = CurseEvent.ON_CURSE.invoker().invoke(player, sourcePlayer, curse, catBoosted)
-        if (result != EventResult.pass()) {
+        val result = CurseEvent(player, sourcePlayer, curse, catBoosted)
+        NeoForge.EVENT_BUS.post(result)
+        if (result.isCanceled) {
             return false
         }
 
@@ -129,14 +130,14 @@ object CurseHandler {
     /**
      * Tick the curse effect and the duration of the curse. Runs the onRemoved effect when duration reaches 0.
      */
-    private fun tickCurse(player: Player?): EventResult {
+    fun tickCurse(player: Player?) {
         if (player == null) {
-            return EventResult.pass()
+            return
         }
 
-        val data = getData(player)
+        val data = CursePlayerAttachment.getData(player)
         if (data.playerCurseList.isEmpty()) {
-            return EventResult.pass()
+            return
         }
 
         var dataModified = false
@@ -150,7 +151,7 @@ object CurseHandler {
                 curseData.duration -= 1
                 dataModified = true
 
-                WitcheryCurseRegistry.CURSES[curseData.curseId]?.onTickCurse(
+                WitcheryCurseRegistry.CURSES.registry.get()[curseData.curseId]?.onTickCurse(
                     player.level(),
                     player,
                     curseData.catBoosted
@@ -158,7 +159,7 @@ object CurseHandler {
             }
 
             if (curseData.duration <= 0) {
-                WitcheryCurseRegistry.CURSES[curseData.curseId]?.onRemoved(
+                WitcheryCurseRegistry.CURSES.registry.get()[curseData.curseId]?.onRemoved(
                     player.level(),
                     player,
                     curseData.catBoosted
@@ -172,20 +173,18 @@ object CurseHandler {
         if (dataModified) {
             CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(curses))
         }
-
-        return EventResult.pass()
     }
 
     /**
      * Triggers the curses onHurt effect when the player is damaged.
      */
-    private fun onHurt(
+    fun onHurt(
         livingEntity: LivingEntity?,
         damageSource: DamageSource?,
         amount: Float
-    ): EventResult {
+    ) {
         if (livingEntity !is Player || damageSource == null) {
-            return EventResult.pass()
+            return
         }
 
         val data = CursePlayerAttachment.getData(livingEntity)
@@ -198,27 +197,24 @@ object CurseHandler {
                 curse.catBoosted
             )
         }
-
-        return EventResult.pass()
     }
 
     /**
      * Triggers the onBreak effect from cursed players who breaks blocks
      */
-    private fun breakBlock(
+    fun breakBlock(
         level: Level?,
         blockPos: BlockPos?,
         blockState: BlockState,
-        serverPlayer: ServerPlayer?,
-        intValue: IntValue?
-    ): EventResult {
+        serverPlayer: Player?,
+    ) {
         if (serverPlayer == null || level == null) {
-            return EventResult.pass()
+            return
         }
 
-        val data = getData(serverPlayer)
+        val data = CursePlayerAttachment.getData(serverPlayer)
         for (curse in data.playerCurseList) {
-            WitcheryCurseRegistry.CURSES[curse.curseId]?.breakBlock(
+            WitcheryCurseRegistry.CURSES.registry.get()[curse.curseId]?.breakBlock(
                 level,
                 serverPlayer,
                 blockState,
@@ -226,20 +222,20 @@ object CurseHandler {
             )
         }
 
-        return EventResult.pass()
+        return
     }
 
     /**
      * Triggers the placeBlock effect of the curse when a player places a block.
      */
-    private fun placeBlock(
+    fun placeBlock(
         level: Level?,
         blockPos: BlockPos?,
         blockState: BlockState?,
         entity: Entity?
-    ): EventResult {
+    ) {
         if (level == null || blockState == null || entity !is Player) {
-            return EventResult.pass()
+            return
         }
 
         val data = CursePlayerAttachment.getData(entity)
@@ -251,36 +247,29 @@ object CurseHandler {
                 curse.catBoosted
             )
         }
-
-        return EventResult.pass()
     }
 
     /**
      * Triggers the curses attackEntity when a player attacks another entity.
      */
-    private fun attackEntity(
+    fun attackEntity(
         player: Player?,
         level: Level?,
-        target: Entity?,
-        interactionHand: InteractionHand?,
-        entityHitResult: EntityHitResult?
-    ): EventResult {
-        if (player == null || level == null || target == null || entityHitResult == null) {
-            return EventResult.pass()
+        target: Entity?
+    ) {
+        if (player == null || level == null || target == null) {
+            return
         }
 
-        val data = getData(player)
+        val data = CursePlayerAttachment.getData(player)
         for (curse in data.playerCurseList) {
-            WitcheryCurseRegistry.CURSES[curse.curseId]?.attackEntity(
+            WitcheryCurseRegistry.CURSES.registry.get()[curse.curseId]?.attackEntity(
                 level,
                 player,
                 target,
-                entityHitResult,
                 curse.catBoosted
             )
         }
-
-        return EventResult.pass()
     }
 
     /**
@@ -292,14 +281,5 @@ object CurseHandler {
         return CursePlayerAttachment.getData(player).playerCurseList.map { it.curseId }
     }
 
-    /**
-     * Register all event handlers for curse functionality.
-     */
-    fun registerEvents() {
-        EntityEvent.LIVING_HURT.register(::onHurt)
-        BlockEvent.BREAK.register(::breakBlock)
-        BlockEvent.PLACE.register(::placeBlock)
-        PlayerEvent.ATTACK_ENTITY.register(::attackEntity)
-        TickEvent.PLAYER_PRE.register(::tickCurse)
-    }
+
 }

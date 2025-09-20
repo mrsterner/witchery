@@ -1,6 +1,5 @@
 package dev.sterner.witchery.ritual
 
-import dev.architectury.event.EventResult
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity

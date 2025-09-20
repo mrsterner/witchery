@@ -1,10 +1,8 @@
 package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.item.TornPageItem
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes

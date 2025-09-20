@@ -14,15 +14,13 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 
 
 object EquipmentHandler {
 
-    fun registerEvents() {
-        EntityEvent.LIVING_HURT.register(EquipmentHandler::babaYagaHit)
-    }
-
-    private fun babaYagaHit(livingEntity: LivingEntity?, damageSource: DamageSource?, fl: Float): EventResult? {
+    fun babaYagaHit(event: LivingIncomingDamageEvent, livingEntity: LivingEntity?, damageSource: DamageSource?, fl: Float) {
         if (livingEntity is Player && livingEntity.getItemBySlot(EquipmentSlot.HEAD)
                 .`is`(WitcheryItems.BABA_YAGAS_HAT.get())
         ) {
@@ -42,14 +40,11 @@ object EquipmentHandler {
                             0.5f, 1f
                         )
                         livingEntity.resetFallDistance()
-
-                        return EventResult.interruptFalse()
+                        event.isCanceled = true
                     }
                 }
             }
         }
-
-        return EventResult.pass()
     }
 
     private fun attemptTeleport(player: Player, distance: Double = 20.0): Boolean {

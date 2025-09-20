@@ -1,18 +1,13 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.PlayerEvent
-import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.api.event.VampireEvent
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
+import dev.sterner.witchery.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
-import dev.sterner.witchery.platform.WitcheryAttributes
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -31,6 +26,9 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Chicken
 import net.minecraft.world.entity.monster.Blaze
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.network.PacketDistributor
+import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
 
 object VampireSpecificEventHandler {
 
@@ -43,14 +41,7 @@ object VampireSpecificEventHandler {
     private const val BLOOD_DRAIN_TICK_RATE = 20
     private const val SUN_DAMAGE_AMOUNT = 2f
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(::tick)
 
-        EntityEvent.LIVING_DEATH.register(::resetNightCount)
-        EntityEvent.LIVING_DEATH.register(::onKillEntity)
-
-        PlayerEvent.PLAYER_CLONE.register(::respawn)
-    }
 
     @JvmStatic
     fun tick(player: Player?) {
@@ -143,18 +134,24 @@ object VampireSpecificEventHandler {
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
 
         if (affData.getLevel(AfflictionTypes.VAMPIRISM) < 5) {
-            if (VampireEvent.ON_SUN_DAMAGE.invoker().invoke(player) != EventResult.interruptFalse()) {
+            val event = VampireEvent.SunDamage(player)
+            NeoForge.EVENT_BUS.post(event)
+            if (!event.isCanceled()) {
                 player.hurt(sunDamageSource, Float.MAX_VALUE)
             }
         } else if (bloodData.bloodPool >= BLOOD_HEALING_THRESHOLD) {
             if (player.tickCount % BLOOD_DRAIN_TICK_RATE == 0) {
-                if (VampireEvent.ON_SUN_DAMAGE.invoker().invoke(player) != EventResult.interruptFalse()) {
+                val event = VampireEvent.SunDamage(player)
+                NeoForge.EVENT_BUS.post(event)
+                if (!event.isCanceled()) {
                     player.hurt(sunDamageSource, SUN_DAMAGE_AMOUNT)
                     playSunDamageEffects(player)
                 }
             }
         } else {
-            if (VampireEvent.ON_SUN_DAMAGE.invoker().invoke(player) != EventResult.interruptFalse()) {
+            val event = VampireEvent.SunDamage(player)
+            NeoForge.EVENT_BUS.post(event)
+            if (!event.isCanceled()) {
                 player.hurt(sunDamageSource, Float.MAX_VALUE)
             }
         }
@@ -174,10 +171,7 @@ object VampireSpecificEventHandler {
             0.5f,
             1.0f
         )
-        WitcheryPayloads.sendToPlayers(
-            player.level(),
-            SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5))
-        )
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
     }
 
 
@@ -209,9 +203,9 @@ object VampireSpecificEventHandler {
     }
 
     @JvmStatic
-    fun onKillEntity(livingEntity: LivingEntity, damageSource: DamageSource): EventResult {
+    fun onKillEntity(livingEntity: LivingEntity, damageSource: DamageSource) {
         if (damageSource.entity !is ServerPlayer) {
-            return EventResult.pass()
+            return
         }
 
         val player = damageSource.entity as ServerPlayer
@@ -228,17 +222,13 @@ object VampireSpecificEventHandler {
         if (livingEntity is Blaze) {
             VampireLeveling.increaseKilledBlazes(player)
         }
-
-        return EventResult.pass()
     }
 
     @JvmStatic
-    fun resetNightCount(livingEntity: LivingEntity, damageSource: DamageSource): EventResult {
+    fun resetNightCount(livingEntity: LivingEntity, damageSource: DamageSource) {
         if (livingEntity is Player && AfflictionPlayerAttachment.getData(livingEntity).getLevel(AfflictionTypes.VAMPIRISM) == 3) {
             VampireLeveling.resetNightCounter(livingEntity)
         }
-
-        return EventResult.pass()
     }
 
 
@@ -282,7 +272,7 @@ object VampireSpecificEventHandler {
     /**
      * Creates a sacrificial circle structure
      */
-    fun makeSacrificialCircle(player: Player, blockPos: BlockPos): EventResult? {
+    fun makeSacrificialCircle(player: Player, blockPos: BlockPos) {
         val pieces = SacrificialBlock.STRUCTURE.get().structurePieces
 
         pieces.forEach { piece ->
@@ -295,12 +285,10 @@ object VampireSpecificEventHandler {
         )
 
         player.level().getBlockEntity(blockPos)?.let { blockEntity ->
-            if (blockEntity is MultiBlockComponentBlockEntity) {
+            if (blockEntity is MultiBlockComponentEntity) {
                 blockEntity.corePos = blockPos
             }
         }
-
-        return EventResult.pass()
     }
 
 }

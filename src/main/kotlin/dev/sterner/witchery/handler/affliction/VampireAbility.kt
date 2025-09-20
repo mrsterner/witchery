@@ -1,10 +1,9 @@
 package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
-import dev.sterner.witchery.handler.affliction.TransformationHandler
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity

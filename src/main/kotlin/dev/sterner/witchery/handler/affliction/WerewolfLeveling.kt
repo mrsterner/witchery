@@ -1,9 +1,9 @@
 package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -12,6 +12,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.network.PacketDistributor
 
 object WerewolfLeveling {
 
@@ -63,11 +64,7 @@ object WerewolfLeveling {
         val were = TransformationHandler.isWerewolf(player)
         updateModifiers(player, wolf = wolf, wolfMan = were)
         player.refreshDimensions()
-        WitcheryPayloads.sendToPlayers(
-            player.level(),
-            player.blockPosition(),
-            RefreshDimensionsS2CPayload()
-        )
+        PacketDistributor.sendToPlayersTrackingChunk(player.serverLevel(), player.chunkPosition(), RefreshDimensionsS2CPayload())
     }
 
     /**

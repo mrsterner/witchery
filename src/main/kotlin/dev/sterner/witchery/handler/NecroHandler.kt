@@ -19,6 +19,7 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import net.neoforged.neoforge.network.PacketDistributor
 
@@ -29,11 +30,7 @@ object NecroHandler {
     private const val PARTICLE_DETECTION_RANGE = 16.0
     private const val PARTICLE_COUNT = 3
 
-    fun registerEvents() {
-        EntityEvent.LIVING_DEATH.register(::onDeath)
-        TickEvent.SERVER_LEVEL_POST.register(::processListExhaustion)
-        TickEvent.SERVER_LEVEL_POST.register(::tick)
-    }
+
 
     fun tickLiving(livingEntity: LivingEntity) {
         if (livingEntity.level().gameTime % 10 != 0L) return
@@ -65,10 +62,12 @@ object NecroHandler {
         }
     }
 
-    fun tick(serverLevel: ServerLevel?) {
-        if (serverLevel == null) {
+    fun tick(level: Level) {
+        if (level.isClientSide) {
             return
         }
+
+        val serverLevel = level as ServerLevel
         if (serverLevel.gameTime % 10 != 0L) return
 
         val necroData = NecromancerLevelAttachment.getData(serverLevel)
@@ -116,8 +115,10 @@ object NecroHandler {
         }
     }
 
-    private fun processListExhaustion(serverLevel: ServerLevel?) {
-        if (serverLevel == null) return
+    fun processListExhaustion(level: Level) {
+        if (level.isClientSide) return
+
+        val serverLevel = level as ServerLevel
 
         val currentTime = serverLevel.gameTime
         if (currentTime % MINECRAFT_DAY != 0L) return
@@ -152,7 +153,7 @@ object NecroHandler {
         NecromancerLevelAttachment.setData(serverLevel, data)
     }
 
-    private fun onDeath(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+    fun onDeath(livingEntity: LivingEntity?, damageSource: DamageSource?) {
         if (livingEntity != null) {
             if (livingEntity.type.`is`(WitcheryTags.NECROMANCER_SUMMONABLE)) {
                 val isEthereal = EtherealEntityAttachment.getData(livingEntity).isEthereal
@@ -161,7 +162,6 @@ object NecroHandler {
                 }
             }
         }
-        return EventResult.pass()
     }
 
     private fun calculateDespawnTime(lichLevel: Int): Long {

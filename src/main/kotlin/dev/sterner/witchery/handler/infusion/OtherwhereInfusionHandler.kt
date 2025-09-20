@@ -9,9 +9,7 @@ import net.minecraft.world.entity.player.Player
 
 object OtherwhereInfusionHandler {
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(OtherwhereInfusionHandler::tick)
-    }
+
 
     fun tick(player: Player?) {
         if (player != null && InfusionPlayerAttachment.getPlayerInfusion(player).type == InfusionType.OTHERWHERE) {

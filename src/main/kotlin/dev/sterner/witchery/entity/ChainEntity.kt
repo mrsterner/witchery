@@ -1,8 +1,7 @@
 package dev.sterner.witchery.entity
 
-import com.sun.net.httpserver.Filter.Chain
-import dev.sterner.witchery.api.EntityChainInterface
 import dev.sterner.witchery.api.event.ChainEvent
+import dev.sterner.witchery.api.interfaces.EntityChainInterface
 import dev.sterner.witchery.handler.chain.ChainManager
 import dev.sterner.witchery.handler.chain.ChainType
 import dev.sterner.witchery.payload.SyncChainS2CPayload
@@ -20,8 +19,11 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.network.PacketDistributor
 import java.util.*
 
 class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level) {
@@ -176,7 +178,7 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
     private fun runDiscard(targetEntity: Entity?) {
         targetEntity?.let { it.deltaMovement = Vec3.ZERO }
         targetEntity?.let { ChainManager.tryReleaseEntity(this, it) }
-        ChainEvent.ON_DISCARD.invoker().invoke(targetEntity, this)
+        NeoForge.EVENT_BUS.post(ChainEvent(targetEntity, this))
         discard()
     }
 
@@ -238,11 +240,9 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
 
     fun sync(entity: Entity) {
         if (entity.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(
-                entity.level() as ServerLevel,
-                entity.blockPosition(),
-                SyncChainS2CPayload(this, entity)
-            )
+            PacketDistributor.sendToPlayersTrackingChunk(entity.level() as ServerLevel,
+                ChunkPos(entity.blockPosition()),
+                SyncChainS2CPayload(this, entity))
         }
     }
 

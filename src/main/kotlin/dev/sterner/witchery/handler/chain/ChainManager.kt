@@ -1,6 +1,6 @@
 package dev.sterner.witchery.handler.chain
 
-import dev.sterner.witchery.api.EntityChainInterface
+import dev.sterner.witchery.api.interfaces.EntityChainInterface
 import dev.sterner.witchery.api.schedule.ServerTickTask
 import dev.sterner.witchery.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.entity.ChainEntity

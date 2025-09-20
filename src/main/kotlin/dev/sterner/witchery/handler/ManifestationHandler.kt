@@ -15,9 +15,7 @@ object ManifestationHandler {
 
     const val MAX_TIME = 2400
 
-    fun registerEvents() {
-        TickEvent.SERVER_POST.register(ManifestationHandler::tick)
-    }
+
     /**
      * True if the player may use a Spirit Portal back to the material world as a ghost
      */

@@ -1,16 +1,16 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.architectury.event.EventResult
-import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.client.screen.AbilitySelectionScreen
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.ability.AbilityHandler
 import dev.sterner.witchery.handler.ability.AbilityScrollHandler
 import dev.sterner.witchery.payload.AfflictionAbilitySelectionC2SPayload
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.client.event.InputEvent
+import net.neoforged.neoforge.network.PacketDistributor
 
 object AfflictionAbilityHandler : AbilityHandler {
 
@@ -49,7 +49,7 @@ object AfflictionAbilityHandler : AbilityHandler {
     override fun setAbilityIndex(player: Player, index: Int) {
         updateAbilityIndex(player, index)
         if (player.level().isClientSide) {
-            NetworkManager.sendToServer(AfflictionAbilitySelectionC2SPayload(index))
+            PacketDistributor.sendToServer(AfflictionAbilitySelectionC2SPayload(index))
         }
     }
 
@@ -100,13 +100,13 @@ object AfflictionAbilityHandler : AbilityHandler {
         }
     }
 
-    fun scroll(minecraft: Minecraft?, x: Double, y: Double): EventResult {
-        val player = minecraft?.player ?: return EventResult.pass()
+    fun scroll(event: InputEvent.MouseScrollingEvent, minecraft: Minecraft?, x: Double, y: Double) {
+        val player = minecraft?.player ?: return
 
         val abilities = getAbilities(player)
-        if (abilities.isEmpty()) return EventResult.pass()
+        if (abilities.isEmpty()) return
 
-        return AbilityScrollHandler().handleScroll(player, y, this)
+        return AbilityScrollHandler().handleScroll(event, player, y, this)
     }
 
     fun getSelectedAbility(player: Player): AfflictionAbility? {

@@ -21,16 +21,14 @@ import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
 import net.minecraft.world.level.Level
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 import java.util.*
 
 object PoppetHandler {
-    fun registerEvents() {
-        EntityEvent.LIVING_DEATH.register(::onLivingDeath)
-    }
+
 
     fun onLivingHurt(entity: LivingEntity, damageSource: DamageSource, remainingDamage: Float): Float {
         if (entity !is Player) return remainingDamage
@@ -102,9 +100,9 @@ object PoppetHandler {
         return 0f
     }
 
-    private fun onLivingDeath(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+    fun onLivingDeath(event: LivingDeathEvent, livingEntity: LivingEntity?, damageSource: DamageSource?) {
         if (livingEntity !is Player || WitcheryApi.isInSpiritWorld(livingEntity)) {
-            return EventResult.pass()
+            return
         }
 
         WitcheryPoppetRegistry.DEATH_PROTECTION.get()?.let { deathPoppetType ->
@@ -128,12 +126,10 @@ object PoppetHandler {
                         0.1
                     )
                 }
-
-                return EventResult.interruptFalse()
+                event.isCanceled = true
+                return
             }
         }
-
-        return EventResult.pass()
     }
 
     fun activatePoppet(

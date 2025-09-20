@@ -1,13 +1,9 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.architectury.event.events.common.TickEvent
+import dev.sterner.witchery.data_attachment.transformation.VampireChildrenHuntLevelAttachment
 import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
-import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment.Data
-import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment.HuntData
-import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment.getData
-import dev.sterner.witchery.platform.transformation.VampireChildrenHuntLevelAttachment.setData
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
@@ -16,14 +12,13 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.phys.AABB
+import net.neoforged.neoforge.network.PacketDistributor
 import java.util.*
 import java.util.stream.Stream
 
 object VampireChildrenHuntHandler {
 
-    fun registerEvents() {
-        TickEvent.SERVER_POST.register(::tickHuntAllLevels)
-    }
+
 
     private fun findSpawnPosition(serverLevel: ServerLevel, coffinPos: BlockPos): BlockPos? {
         val directions: Stream<BlockPos> = BlockPos.betweenClosedStream(AABB.ofSize(coffinPos.center, 10.0, 10.0, 10.0))
@@ -35,7 +30,7 @@ object VampireChildrenHuntHandler {
     }
 
     @JvmStatic
-    fun returnFromHunt(serverLevel: ServerLevel, huntData: HuntData): VampireEntity? {
+    fun returnFromHunt(serverLevel: ServerLevel, huntData: VampireChildrenHuntLevelAttachment.HuntData): VampireEntity? {
         val coffinPos = huntData.coffinPos
         val spawnPos = findSpawnPosition(serverLevel, coffinPos) ?: return null
 
@@ -75,7 +70,7 @@ object VampireChildrenHuntHandler {
             return
         }
 
-        val data = getData(serverLevel)
+        val data = VampireChildrenHuntLevelAttachment.getData(serverLevel)
         val mutableData = data.data.toMutableMap()
         val hunts = mutableData.getOrPut(playerUUID) { mutableListOf() }
 
@@ -85,7 +80,7 @@ object VampireChildrenHuntHandler {
 
         val savedNbt = CompoundTag()
         vampireEntity.saveAsPassenger(savedNbt)
-        val huntData = HuntData(
+        val huntData = VampireChildrenHuntLevelAttachment.HuntData(
             entityNbt = savedNbt,
             coffinPos = vampireEntity.coffinPos
                 ?: vampireEntity.creationPos
@@ -95,13 +90,10 @@ object VampireChildrenHuntHandler {
         )
         hunts.add(huntData)
 
-        setData(serverLevel, Data(mutableData))
+        VampireChildrenHuntLevelAttachment.setData(serverLevel, VampireChildrenHuntLevelAttachment.Data(mutableData))
 
-        WitcheryPayloads.sendToPlayers(
-            serverLevel,
-            vampireEntity.blockPosition(),
-            SpawnSmokeParticlesS2CPayload(vampireEntity.position())
-        )
+        PacketDistributor.sendToPlayersTrackingChunk(serverLevel, vampireEntity.chunkPosition(),
+            SpawnSmokeParticlesS2CPayload(vampireEntity.position()))
         vampireEntity.remove(Entity.RemovalReason.DISCARDED)
     }
 
@@ -111,14 +103,14 @@ object VampireChildrenHuntHandler {
         }
 
         for (serverLevel in minecraftServer.allLevels) {
-            val data = getData(serverLevel)
+            val data = VampireChildrenHuntLevelAttachment.getData(serverLevel)
             if (data.data.isNotEmpty()) {
                 tickHunt(serverLevel, data)
             }
         }
     }
 
-    private fun tickHunt(serverLevel: ServerLevel, data: Data) {
+    private fun tickHunt(serverLevel: ServerLevel, data: VampireChildrenHuntLevelAttachment.Data) {
         if (serverLevel.isDay) {
             val currentTime = serverLevel.dayTime
             val iterator = data.data.entries.iterator()
@@ -145,7 +137,7 @@ object VampireChildrenHuntHandler {
                 }
             }
 
-            setData(serverLevel, data)
+            VampireChildrenHuntLevelAttachment.setData(serverLevel, data)
         }
     }
 }

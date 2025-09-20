@@ -36,13 +36,7 @@ object LichdomSpecificEventHandler {
     private const val PHYLACTERY_SKYLIGHT_CHECK_RATE = 200
     private const val SOUL_SEPARATION_DURATION = 20 * 30
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(::tick)
-        EntityEvent.LIVING_DEATH.register(::onDeath)
-        EntityEvent.LIVING_DEATH.register(::onKillEntity)
-        InteractionEvent.RIGHT_CLICK_BLOCK.register(::onBlockInteract)
-        PlayerEvent.PLAYER_CLONE.register(::respawn)
-    }
+
 
     @JvmStatic
     fun tick(player: Player?) {

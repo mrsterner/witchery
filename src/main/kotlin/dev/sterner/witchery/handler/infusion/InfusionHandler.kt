@@ -37,10 +37,6 @@ object InfusionHandler {
     private val infusionMeterOverworld = Witchery.id("textures/gui/infusion_meter_overworld.png")
     private val infusionMeterLight = Witchery.id("textures/gui/infusion_meter_light.png")
 
-    fun registerEvents() {
-        PlayerEvent.ATTACK_ENTITY.register(::leftClickEntity)
-        InteractionEvent.LEFT_CLICK_BLOCK.register(::leftClickBlock)
-    }
 
     @JvmStatic
     fun increaseInfusionCharge(player: Player, toAdd: Int) {

@@ -17,9 +17,6 @@ object BarkBeltHandler {
 
     const val TIME_TO_RECHARGE = 20 * 5
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(BarkBeltHandler::tick)
-    }
 
     /**
      * Modifies the incoming damage if the player has a bark belt equipped and charged. Will absorb some of the damage.

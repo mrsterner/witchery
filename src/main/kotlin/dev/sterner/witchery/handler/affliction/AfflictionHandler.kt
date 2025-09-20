@@ -1,15 +1,15 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.architectury.event.EventResult
 import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.data.BloodPoolReloadListener
+import dev.sterner.witchery.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
-import dev.sterner.witchery.platform.WitcheryAttributes
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryPayloads
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -21,6 +21,9 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
+import net.neoforged.neoforge.client.event.RenderTooltipEvent.GatherComponents
+import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.network.PacketDistributor
 
 object AfflictionHandler {
 
@@ -71,7 +74,7 @@ object AfflictionHandler {
         player: ServerPlayer,
         entity: LivingEntity,
         playerBloodData: BloodPoolLivingEntityAttachment.Data
-    ): EventResult? {
+    ) {
         val targetData = BloodPoolLivingEntityAttachment.getData(entity)
         val quality = BloodPoolReloadListener.BLOOD_PAIR[entity.type] ?: 0
 
@@ -82,8 +85,9 @@ object AfflictionHandler {
             return EventResult.interruptFalse()
         }
 
-        val eventResult = VampireEvent.ON_BLOOD_DRINK.invoker().invoke(player, entity)
-        if (eventResult == EventResult.interruptFalse()) {
+        val event = VampireEvent.BloodDrink(player, entity)
+        NeoForge.EVENT_BUS.post(event)
+        if (event.isCanceled()) {
             return EventResult.interruptFalse()
         }
 
@@ -170,10 +174,7 @@ object AfflictionHandler {
         )
 
         val particlePosition = entity.position().add(0.5, 0.5, 0.5)
-        WitcheryPayloads.sendToPlayers(
-            player.level(),
-            SpawnBloodParticlesS2CPayload(player, particlePosition)
-        )
+        PacketDistributor.sendToPlayersInDimension(player.serverLevel(), SpawnBloodParticlesS2CPayload(player, particlePosition) )
     }
 
     /**

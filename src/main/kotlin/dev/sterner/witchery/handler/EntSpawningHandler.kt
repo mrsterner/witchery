@@ -9,6 +9,7 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.BlockTags
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 
@@ -16,23 +17,19 @@ object EntSpawningHandler {
 
     private const val MAX_DISTANCE = 24
 
-    fun registerEvents() {
-        BlockEvent.BREAK.register(::breakBlock)
-        TickEvent.SERVER_POST.register(::serverTick)
-    }
+
 
     /**
      * Handles breaking of special tree logs (Rowan, Hawthorn, Alder).
      * Tracks the number of nearby logs broken and prepares for Ent spawning
      * if conditions are met.
      */
-    private fun breakBlock(
+    fun breakBlock(
         level: Level?,
         blockPos: BlockPos?,
         blockState: BlockState,
-        serverPlayer: ServerPlayer?,
-        intValue: IntValue?
-    ): EventResult? {
+        player: Player?
+    ) {
         if (level is ServerLevel && blockPos != null) {
             val isRowan = blockState.`is`(WitcheryBlocks.ROWAN_LOG.get())
             val isHawthorn = blockState.`is`(WitcheryBlocks.HAWTHORN_LOG.get())
@@ -67,8 +64,6 @@ object EntSpawningHandler {
                 }
             }
         }
-
-        return EventResult.pass()
     }
 
     /**
@@ -76,7 +71,7 @@ object EntSpawningHandler {
      * Decreases timers, resets counts, and spawns Ents when enough logs
      * have been broken nearby.
      */
-    private fun serverTick(minecraftServer: MinecraftServer) {
+    fun serverTick(minecraftServer: MinecraftServer) {
         minecraftServer.allLevels.forEach { level ->
             if (level is ServerLevel) {
                 val data = EntSpawnLevelAttachment.getData(level)

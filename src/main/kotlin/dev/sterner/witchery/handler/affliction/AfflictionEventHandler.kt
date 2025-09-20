@@ -1,36 +1,28 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.InteractionEvent
-import dev.architectury.event.events.common.TickEvent
-import dev.architectury.networking.NetworkManager
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.getAbilities
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.getSelectedAbility
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.useSelectedAbility
 import dev.sterner.witchery.payload.AfflictionAbilityUseC2SPayload
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
+import net.neoforged.neoforge.network.PacketDistributor
 
 object AfflictionEventHandler {
 
     private const val HUMAN_BLOOD_REGEN_RATE = 1000
     private const val HUMAN_BLOOD_REGEN_AMOUNT = 10
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(::tick)
 
-        InteractionEvent.INTERACT_ENTITY.register(::interactEntityWithAbility)
-        InteractionEvent.RIGHT_CLICK_BLOCK.register(::rightClickBlockAbility)
-    }
 
     @JvmStatic
     fun tick(player: Player?) {
@@ -55,23 +47,34 @@ object AfflictionEventHandler {
     }
 
     @JvmStatic
-    fun rightClickBlockAbility(player: Player, interactionHand: InteractionHand, pos: BlockPos, dir: Direction): EventResult {
-        if (interactionHand == InteractionHand.OFF_HAND) return EventResult.pass()
+    fun rightClickBlockAbility(
+        event: PlayerInteractEvent.RightClickBlock,
+        player: Player,
+        interactionHand: InteractionHand,
+        pos: BlockPos
+    ) {
+        if (interactionHand == InteractionHand.OFF_HAND) return
 
         if (useSelectedAbility(player)) {
-            return EventResult.interruptTrue()
+            event.isCanceled = true
         }
-        return EventResult.pass()
     }
 
     @JvmStatic
-    fun interactEntityWithAbility(player: Player?, entity: Entity?, hand: InteractionHand): EventResult? {
+    fun interactEntityWithAbility(
+        event: PlayerInteractEvent.EntityInteract,
+        player: Player?,
+        entity: Entity?,
+        hand: InteractionHand
+    ) {
 
-        if (player !is ServerPlayer || entity !is LivingEntity) return EventResult.pass()
+        if (player !is ServerPlayer || entity !is LivingEntity) return
 
-        val ability = getSelectedAbility(player) ?: return EventResult.pass()
+        val ability = getSelectedAbility(player) ?: return
 
-        return if (ability.use(player, entity)) EventResult.interruptTrue() else EventResult.pass()
+        if (ability.use(player, entity)) {
+           event.isCanceled = true
+        }
     }
 
 
@@ -84,7 +87,7 @@ object AfflictionEventHandler {
         val ability = abilities.getOrNull(index) ?: return false
 
         if (!ability.passive) {
-            NetworkManager.sendToServer(AfflictionAbilityUseC2SPayload(index))
+            PacketDistributor.sendToServer(AfflictionAbilityUseC2SPayload(index))
             return true
         }
 
