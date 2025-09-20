@@ -1,10 +1,11 @@
 package dev.sterner.witchery.registry
 
 import net.minecraft.world.level.block.Block
+import net.neoforged.neoforge.registries.DeferredHolder
 
 object WitcheryFlammability {
 
-    data class Flame(val block: RegistrySupplier<out Block>, val igniteOdds: Int, val burnOdds: Int)
+    data class Flame(val block: DeferredHolder<Block, out Block>, val igniteOdds: Int, val burnOdds: Int)
 
     val flammableBlocks: List<Flame> = listOf(
         Flame(WitcheryBlocks.BLOOD_STAINED_HAY, 40, 60),

@@ -1,21 +1,16 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.core.fluid.ArchitecturyFlowingFluid
-import dev.architectury.core.fluid.ArchitecturyFluidAttributes
-import dev.architectury.core.fluid.SimpleArchitecturyFluidAttributes
-import dev.architectury.registry.registries.DeferredRegister
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.level.material.FlowingFluid
 import net.minecraft.world.level.material.Fluid
+import net.neoforged.neoforge.registries.DeferredRegister
 
 object WitcheryFluids {
-    val FLUIDS: DeferredRegister<Fluid> = DeferredRegister.create(Witchery.MODID, Registries.FLUID)
+    val FLUIDS: DeferredRegister<Fluid> = DeferredRegister.create(Registries.FLUID, Witchery.MODID)
     val FLUIDS_INFOS: MutableList<ArchitecturyFluidAttributes> = mutableListOf()
 
-    val FLOWING_FLOWING_SPIRIT: RegistrySupplier<FlowingFluid> = FLUIDS.register(
+    val FLOWING_FLOWING_SPIRIT = FLUIDS.register(
         "flowing_flowing_spirit"
     ) {
         ArchitecturyFlowingFluid.Flowing(
@@ -23,7 +18,7 @@ object WitcheryFluids {
         )
     }
 
-    val FLOWING_SPIRIT_STILL: RegistrySupplier<FlowingFluid> = FLUIDS.register(
+    val FLOWING_SPIRIT_STILL = FLUIDS.register(
         "flowing_spirit_still"
     ) {
         ArchitecturyFlowingFluid.Source(

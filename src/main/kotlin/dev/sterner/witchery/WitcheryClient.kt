@@ -1,8 +1,22 @@
 package dev.sterner.witchery
 
 import dev.sterner.witchery.Witchery.Companion.MODID
+import dev.sterner.witchery.client.model.*
+import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
+import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
+import dev.sterner.witchery.client.model.poppet.VampiricPoppetModel
+import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
+import dev.sterner.witchery.client.renderer.block.*
+import dev.sterner.witchery.client.renderer.entity.*
+import dev.sterner.witchery.client.screen.AltarScreen
+import dev.sterner.witchery.client.screen.DistilleryScreen
+import dev.sterner.witchery.client.screen.OvenScreen
+import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.registry.WitcheryMenuTypes
+import net.minecraft.client.model.BoatModel
+import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
@@ -15,6 +29,7 @@ import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.client.gui.ConfigurationScreen
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 
@@ -35,7 +50,69 @@ class WitcheryClient(container: ModContainer) {
         fun onClientSetup(event: FMLClientSetupEvent) {
 
         }
-        
+
+        @SubscribeEvent
+        fun bindContainerRenderers(event: RegisterMenuScreensEvent) {
+            event.register(WitcheryMenuTypes.OVEN_MENU_TYPE.get(), ::OvenScreen)
+            event.register(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
+            event.register(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get(), ::DistilleryScreen)
+            event.register(WitcheryMenuTypes.SPINNING_WHEEL_MENU_TYPE.get(), ::SpinningWheelScreen)
+        }
+
+        @JvmStatic
+        @SubscribeEvent
+        fun registerModelLayers(event: EntityRenderersEvent.RegisterLayerDefinitions) {
+
+            event.registerLayerDefinition(AltarClothBlockEntityModel.LAYER_LOCATION) { AltarClothBlockEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(AltarBlockEntityModel.LAYER_LOCATION) { AltarBlockEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(PhylacteryEtherModel.LAYER_LOCATION) { PhylacteryEtherModel.createBodyLayer() }
+            event.registerLayerDefinition(PhylacteryEtherCoreModel.LAYER_LOCATION) { PhylacteryEtherCoreModel.createBodyLayer() }
+            event.registerLayerDefinition(MushroomLogModel.LAYER_LOCATION) { MushroomLogModel.createBodyLayer() }
+            event.registerLayerDefinition(SpiritPortalBlockEntityModel.LAYER_LOCATION) { SpiritPortalBlockEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(SpiritPortalPortalModel.LAYER_LOCATION) { SpiritPortalPortalModel.createBodyLayer() }
+            event.registerLayerDefinition(WerewolfAltarModel.LAYER_LOCATION) { WerewolfAltarModel.createBodyLayer() }
+            event.registerLayerDefinition(CoffinModel.LAYER_LOCATION) { CoffinModel.createBodyLayer() }
+            event.registerLayerDefinition(BearTrapModel.LAYER_LOCATION) { BearTrapModel.createBodyLayer() }
+            event.registerLayerDefinition(HuntsmanSpearModel.LAYER_LOCATION) { HuntsmanSpearModel.createBodyLayer() }
+            event.registerLayerDefinition(ChainModel.LAYER_LOCATION) { ChainModel.createBodyLayer() }
+            event.registerLayerDefinition(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
+            event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION) { ArmorPoppetModel.createBodyLayer() }
+            event.registerLayerDefinition(HungerPoppetModel.LAYER_LOCATION) { HungerPoppetModel.createBodyLayer() }
+            event.registerLayerDefinition(VampiricPoppetModel.LAYER_LOCATION) { VampiricPoppetModel.createBodyLayer() }
+            event.registerLayerDefinition(VoodooPoppetModel.LAYER_LOCATION) { VoodooPoppetModel.createBodyLayer() }
+            event.registerLayerDefinition(WitchesRobesModel.LAYER_LOCATION) { WitchesRobesModel.createBodyLayer() }
+            event.registerLayerDefinition(VampireArmorModel.LAYER_LOCATION) { VampireArmorModel.createBodyLayer() }
+            event.registerLayerDefinition(HunterArmorModel.LAYER_LOCATION) { HunterArmorModel.createBodyLayer() }
+            event.registerLayerDefinition(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelWheelBlockEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(SpinningWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelBlockEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(BloodCrucibleModel.LAYER_LOCATION) { BloodCrucibleModel.createBodyLayer() }
+            event.registerLayerDefinition(DistilleryGemModel.LAYER_LOCATION) { DistilleryGemModel.createBodyLayer() }
+            event.registerLayerDefinition(GlassContainerModel.LAYER_LOCATION) { GlassContainerModel.createBodyLayer() }
+            event.registerLayerDefinition(BroomEntityModel.LAYER_LOCATION) { BroomEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(DreamWeaverBlockEntityModel.LAYER_LOCATION) { DreamWeaverBlockEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(MandrakeEntityModel.LAYER_LOCATION) { MandrakeEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(ImpEntityModel.LAYER_LOCATION) { ImpEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(OwlEntityModel.LAYER_LOCATION) { OwlEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(DemonEntityModel.LAYER_LOCATION) { DemonEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(EntEntityModel.LAYER_LOCATION) { EntEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(BansheeEntityModel.LAYER_LOCATION) { BansheeEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(HornedHuntsmanModel.LAYER_LOCATION) { HornedHuntsmanModel.createBodyLayer() }
+            event.registerLayerDefinition(DeathEntityModel.LAYER_LOCATION) { DeathEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(SpectreEntityModel.LAYER_LOCATION) { SpectreEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(BabaYagaEntityModel.LAYER_LOCATION) { BabaYagaEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(ParasiticLouseEntityModel.LAYER_LOCATION) { ParasiticLouseEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION) { WerewolfEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(VampireEntityModel.LAYER_LOCATION) { VampireEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(NightmareEntityModel.LAYER_LOCATION) { NightmareEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(LilithEntityModel.LAYER_LOCATION) { LilithEntityModel.createBodyLayer() }
+            event.registerLayerDefinition(BoatModels.ROWAN_BOAT_LAYER, BoatModel::createBodyModel)
+            event.registerLayerDefinition(BoatModels.ALDER_BOAT_LAYER, BoatModel::createBodyModel)
+            event.registerLayerDefinition(BoatModels.HAWTHORN_BOAT_LAYER, BoatModel::createBodyModel)
+            event.registerLayerDefinition(BoatModels.ROWAN_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
+            event.registerLayerDefinition(BoatModels.ALDER_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
+            event.registerLayerDefinition(BoatModels.HAWTHORN_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel)
+        }
+
         @JvmStatic
         @SubscribeEvent
         fun registerEntityRenderers(event: EntityRenderersEvent.RegisterRenderers) {
@@ -60,35 +137,35 @@ class WitcheryClient(container: ModContainer) {
             event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.EFFIGY.get(), ::EffigyBlockEntityRenderer)
             event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.MUSHROOM_LOG.get(), ::MushroomLogBlockEntityRenderer)
 
-            event.registerEntityRenderer(WitcheryEntityTypes.BROOM) { BroomEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.CHAIN) { ChainEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.MANDRAKE) { MandrakeEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.ENT) { EntEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.BANSHEE) { BansheeEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.BABA_YAGA) { BabaYagaEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.SPECTRE) { SpectreEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.DEMON) { DemonEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.COVEN_WITCH) { CovenWitchEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.PARASITIC_LOUSE) { ParasiticLouseEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.DEATH) { DeathEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.HORNED_HUNTSMAN) { HornedHuntsmanEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.OWL) { OwlEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.INSANITY) { InsanityEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.IMP) { ImpEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.VAMPIRE) { VampireEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.WEREWOLF) { WerewolfEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.NIGHTMARE) { NightmareEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.LILITH) { LilithEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.ELLE) { ElleEntityRenderer(it) }
-            event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_BOAT) { context -> BoatRenderer(context, false) }
-            event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT) { context -> BoatRenderer(context, true) }
-            event.registerEntityRenderer(WitcheryEntityTypes.FLOATING_ITEM, ::FloatingItemEntityRenderer)
-            event.registerEntityRenderer(WitcheryEntityTypes.THROWN_BREW, ::ThrownItemRenderer)
-            event.registerEntityRenderer(WitcheryEntityTypes.THROWN_POTION, ::ThrownItemRenderer)
-            event.registerEntityRenderer(WitcheryEntityTypes.SLEEPING_PLAYER, ::SleepingPlayerEntityRenderer)
-            event.registerEntityRenderer(WitcheryEntityTypes.SPECTRAL_PIG, ::SpectralPigRenderer)
-            event.registerEntityRenderer(WitcheryEntityTypes.AREA_EFFECT_CLOUD, ::NoopRenderer)
-            event.registerEntityRenderer(WitcheryEntityTypes.HUNTSMAN_SPEAR, ::HuntsmanSpearRenderer)
+            event.registerEntityRenderer(WitcheryEntityTypes.BROOM.get()) { BroomEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.CHAIN.get()) { ChainEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.MANDRAKE.get()) { MandrakeEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.ENT.get()) { EntEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.BANSHEE.get()) { BansheeEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.BABA_YAGA.get()) { BabaYagaEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.SPECTRE.get()) { SpectreEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.DEMON.get()) { DemonEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.COVEN_WITCH.get()) { CovenWitchEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.PARASITIC_LOUSE.get()) { ParasiticLouseEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.DEATH.get()) { DeathEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.HORNED_HUNTSMAN.get()) { HornedHuntsmanEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.OWL.get()) { OwlEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.INSANITY.get()) { InsanityEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.IMP.get()) { ImpEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.VAMPIRE.get()) { VampireEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.WEREWOLF.get()) { WerewolfEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.NIGHTMARE.get()) { NightmareEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.LILITH.get()) { LilithEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.ELLE.get()) { ElleEntityRenderer(it) }
+            event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_BOAT.get()) { context -> BoatRenderer(context, false) }
+            event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()) { context -> BoatRenderer(context, true) }
+            event.registerEntityRenderer(WitcheryEntityTypes.FLOATING_ITEM.get(), ::FloatingItemEntityRenderer)
+            event.registerEntityRenderer(WitcheryEntityTypes.THROWN_BREW.get(), ::ThrownItemRenderer)
+            event.registerEntityRenderer(WitcheryEntityTypes.THROWN_POTION.get(), ::ThrownItemRenderer)
+            event.registerEntityRenderer(WitcheryEntityTypes.SLEEPING_PLAYER.get(), ::SleepingPlayerEntityRenderer)
+            event.registerEntityRenderer(WitcheryEntityTypes.SPECTRAL_PIG.get(), ::SpectralPigRenderer)
+            event.registerEntityRenderer(WitcheryEntityTypes.AREA_EFFECT_CLOUD.get(), ::NoopRenderer)
+            event.registerEntityRenderer(WitcheryEntityTypes.HUNTSMAN_SPEAR.get(), ::HuntsmanSpearRenderer)
         }
     }
 }

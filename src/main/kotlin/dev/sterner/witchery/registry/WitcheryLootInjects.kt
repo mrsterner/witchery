@@ -1,7 +1,5 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.event.events.common.LootEvent
-import dev.architectury.event.events.common.LootEvent.LootTableModificationContext
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.block.Blocks

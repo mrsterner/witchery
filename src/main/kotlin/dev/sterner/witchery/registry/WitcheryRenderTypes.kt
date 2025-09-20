@@ -3,7 +3,6 @@ package dev.sterner.witchery.registry
 import com.mojang.blaze3d.vertex.ByteBufferBuilder
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.VertexFormat
-import dev.architectury.platform.Platform
 import dev.sterner.witchery.Witchery
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap
 import net.minecraft.Util
@@ -46,12 +45,6 @@ object WitcheryRenderTypes {
         }
     }
 
-    val BUFFER_SIZE = if (Platform.isModLoaded("sodium")) {
-        262144
-    } else {
-        256
-    }
-
     private fun makeSpectral(texture: ResourceLocation, shaderInstance: ShaderInstance): RenderType.CompositeState {
         return RenderType.CompositeState.builder()
                 .setShaderState(ShaderStateShard { shaderInstance })
@@ -71,7 +64,7 @@ object WitcheryRenderTypes {
             Witchery.MODID + "soul_chain",
             DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
-            BUFFER_SIZE,
+            262144,
             true,
             false,
             makeSpectral(texture, WitcheryShaders.soul_chain!!)
@@ -83,7 +76,7 @@ object WitcheryRenderTypes {
             Witchery.MODID + "spirit_chain",
             DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
-            BUFFER_SIZE,
+            262144,
             true,
             false,
             makeSpectral(texture, WitcheryShaders.spirit_chain!!)
@@ -106,7 +99,7 @@ object WitcheryRenderTypes {
             Witchery.MODID + "ghost",
             DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
-            BUFFER_SIZE,
+            262144,
             true,
             false,
             compositeState!!
@@ -129,7 +122,7 @@ object WitcheryRenderTypes {
             Witchery.MODID + "spirit_portal",
             DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
-            BUFFER_SIZE,
+            262144,
             true,
             false,
             compositeState!!
@@ -152,7 +145,7 @@ object WitcheryRenderTypes {
             Witchery.MODID + "spirit_portal",
             DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
-            BUFFER_SIZE,
+            262144,
             true,
             false,
             compositeState!!
@@ -175,7 +168,7 @@ object WitcheryRenderTypes {
             Witchery.MODID + "glint",
             DefaultVertexFormat.POSITION_TEX,
             VertexFormat.Mode.QUADS,
-            BUFFER_SIZE,
+            262144,
             true,
             false,
             compositeState!!
@@ -198,7 +191,7 @@ object WitcheryRenderTypes {
             Witchery.MODID + "glint_direct",
             DefaultVertexFormat.POSITION_TEX,
             VertexFormat.Mode.QUADS,
-            BUFFER_SIZE,
+            262144,
             true,
             false,
             compositeState!!

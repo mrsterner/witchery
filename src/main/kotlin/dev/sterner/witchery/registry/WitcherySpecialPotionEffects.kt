@@ -4,19 +4,17 @@ import com.google.common.collect.ImmutableMap
 import com.google.common.collect.Maps
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.event.events.common.TickEvent
-import dev.architectury.registry.registries.Registrar
-import dev.architectury.registry.registries.RegistrarManager
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.mixin.SaplingBlockAccessor
-import dev.sterner.witchery.world.WitcheryWorldState
+import mcp.mobius.waila.registry.Registrar
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Registry
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
@@ -44,6 +42,8 @@ import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.registries.DeferredRegister
+import java.util.function.Supplier
 import java.util.stream.Collectors
 import java.util.stream.Stream
 import kotlin.math.cos
@@ -55,10 +55,12 @@ object WitcherySpecialPotionEffects {
 
     val ID = Witchery.id("special_potion_effect")
 
-    val SPECIALS: Registrar<SpecialPotion> = RegistrarManager.get(Witchery.MODID).builder<SpecialPotion>(ID)
-        .syncToClients().build()
+    val SPECIAL_REGISTRY_KEY: ResourceKey<Registry<SpecialPotion>> = ResourceKey.createRegistryKey(WitcheryRitualRegistry.ID)
 
-    val HARVEST: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("harvest")) {
+    val SPECIALS: DeferredRegister<SpecialPotion> = DeferredRegister.create(SPECIAL_REGISTRY_KEY, Witchery.MODID)
+
+
+    val HARVEST = SPECIALS.register("harvest", Supplier {
         object : SpecialPotion("harvest") {
             //Harvest	Apple	1		Tool	Harvests plants
             override fun onActivated(
@@ -84,8 +86,9 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val FERTILE: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("fertile")) {
+    })
+
+    val FERTILE = SPECIALS.register("fertile", Supplier {
         object : SpecialPotion("fertile") {
             //Fertilize	Bonemeal	1	250	Tool	Makes stuff grow
             override fun onActivated(
@@ -113,8 +116,9 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val EXTINGUISH: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("extinguish")) {
+    })
+
+    val EXTINGUISH = SPECIALS.register("extinguish", Supplier {
         object : SpecialPotion("extinguish") {
             //Extinguish Fires	Coal	1	Puts out fires (3+ power required for the nether)
             override fun onActivated(
@@ -138,8 +142,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val GROW_FLOWERS: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("grow_flowers")) {
+    })
+    val GROW_FLOWERS = SPECIALS.register("grow_flowers", Supplier {
         object : SpecialPotion("grow_flowers") {
 
             fun getAllFlowers(): List<Block> {
@@ -175,8 +179,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val TILL_LAND: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("till_land")) {
+    })
+    val TILL_LAND = SPECIALS.register("till_land", Supplier {
         object : SpecialPotion("till_land") {
             //Till Land	Dirt	1		Tool	Turns dirt into farmland
             override fun onActivated(
@@ -202,8 +206,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val GROW_LILY: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("grow_lily")) {
+    })
+    val GROW_LILY = SPECIALS.register("grow_lily", Supplier {
         object : SpecialPotion("grow_lily") {
             //Grow Lily	Lilypad	1	200	Tool	Places lilypads
             override fun onActivated(
@@ -229,8 +233,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val PRUNE_LEAVES: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("prune_leaves")) {
+    })
+    val PRUNE_LEAVES = SPECIALS.register("prune_leaves", Supplier {
         object : SpecialPotion("prune_leaves") {
             //Prune Leaves	Brown Mushroom	1		Tool	Removes leaves
             override fun onActivated(
@@ -254,8 +258,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val PART_WATER: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("part_water")) {
+    })
+    val PART_WATER = SPECIALS.register("part_water", Supplier {
         object : SpecialPotion("part_water") {
             override fun onActivated(
                 level: Level,
@@ -269,8 +273,8 @@ object WitcherySpecialPotionEffects {
                 partLiquidFor(level, getBox(hitResult, mergedDispersalModifier), Fluids.WATER)
             }
         }
-    }
-    val PLANT_DROPPED_SEEDS: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("plant_dropped_seeds")) {
+    })
+    val PLANT_DROPPED_SEEDS = SPECIALS.register("plant_dropped_seeds", Supplier {
         object : SpecialPotion("plant_dropped_seeds") {
             //Plant Dropped Seeds	Seeds	1		Tool	Plants any seeds that are on the ground
             override fun onActivated(
@@ -313,8 +317,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val FELL_TREE: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("fell_tree")) {
+    })
+    val FELL_TREE = SPECIALS.register("fell_tree", Supplier {
         object : SpecialPotion("fell_tree") {
             //Fell Tree	String	1		Tool	Knocks down trees
             override fun onActivated(
@@ -356,8 +360,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val PART_LAVA: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("part_lava")) {
+    })
+    val PART_LAVA = SPECIALS.register("part_lava", Supplier {
         object : SpecialPotion("part_lava") {
 
             override fun onActivated(
@@ -372,8 +376,8 @@ object WitcherySpecialPotionEffects {
                 partLiquidFor(level, getBox(hitResult, mergedDispersalModifier), Fluids.LAVA)
             }
         }
-    }
-    val SPROUTING: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("sprouting")) {
+    })
+    val SPROUTING = SPECIALS.register("sprouting", Supplier {
         object : SpecialPotion("sprouting") {
             // Sprouting: Ent Twig, Tool, Grows a tree, Instant elevator
             override fun onActivated(
@@ -466,10 +470,10 @@ object WitcherySpecialPotionEffects {
                 return false
             }
         }
-    }
+    })
 
 
-    val PULL: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("pull")) {
+    val PULL = SPECIALS.register("pull", Supplier {
         object : SpecialPotion("pull") {
             //Pull	Slimeball	2	150	Tool	Suck creatures near
             override fun onActivated(
@@ -495,8 +499,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val PUSH: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("push")) {
+    })
+    val PUSH = SPECIALS.register("push", Supplier {
         object : SpecialPotion("push") {
             override fun onActivated(
                 level: Level,
@@ -520,8 +524,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val TELEPORT: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("teleport")) {
+    })
+    val TELEPORT = SPECIALS.register("teleport", Supplier {
         object : SpecialPotion("teleport") {
             //Random Teleport	Ender Pearl	4	1,000	Tool	Potion causes random teleport, but if cast it as a ritual you can set the destination
             override fun onActivated(
@@ -569,8 +573,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val TAME_ANIMALS: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("tame_animals")) {
+    })
+    val TAME_ANIMALS = SPECIALS.register("tame_animals", Supplier {
         object : SpecialPotion("tame_animals") {
             // Tame Animals: Heart of Gold, Tool, Attracts animals to you and tames them.
             // Inverted, it repels them and untaims those that were tamed by others
@@ -640,9 +644,9 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
+    })
 
-    val LOVE: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("love")) {
+    val LOVE = SPECIALS.register("love", Supplier {
         object : SpecialPotion("love") {
             //Love	Poppy	4	500	Tool	Mating (zombies too)
             override fun onActivated(
@@ -661,8 +665,8 @@ object WitcherySpecialPotionEffects {
                 }
             }
         }
-    }
-    val GROW: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("grow")) {
+    })
+    val GROW = SPECIALS.register("grow", Supplier {
         object : SpecialPotion("grow") {
             //Resize	Emerald	6	2,500	Tool	Make animals/players smaller or bigger.
             override fun onActivated(
@@ -688,8 +692,8 @@ object WitcherySpecialPotionEffects {
                 owner?.addEffect(MobEffectInstance(WitcheryMobEffects.GROW, duration, amplifier))
             }
         }
-    }
-    val SHRINK: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("shrink")) {
+    })
+    val SHRINK = SPECIALS.register("shrink", Supplier {
         object : SpecialPotion("shrink") {
             //Resize	Emerald	6	2,500	Tool	Make animals/players smaller or bigger.
             override fun onActivated(
@@ -715,8 +719,8 @@ object WitcherySpecialPotionEffects {
                 owner?.addEffect(MobEffectInstance(WitcheryMobEffects.SHRINK, duration, amplifier))
             }
         }
-    }
-    val SUMMON_LEONARD: RegistrySupplier<SpecialPotion> = SPECIALS.register(Witchery.id("summon_leonard")) {
+    })
+    val SUMMON_LEONARD = SPECIALS.register("summon_leonard", Supplier {
         object : SpecialPotion("summon_leonard") {
             /*
                    Summon Leonard	Witches Hat	12	10,000	Tool	This one is weird. First to get that much space in your brew you need a nether star.
@@ -724,7 +728,7 @@ object WitcherySpecialPotionEffects {
                    Third he helps you cast potions as rituals with limitless range even across dimensions
             */
         }
-    }
+    })
 
     val CODEC: Codec<SpecialPotion> =
         RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<SpecialPotion> ->

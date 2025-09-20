@@ -1,8 +1,6 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.event.events.common.LifecycleEvent
-import dev.sterner.witchery.VillageHelper
-import dev.sterner.witchery.Witchery.MODID
+import dev.sterner.witchery.Witchery.Companion.MODID
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation

@@ -1,15 +1,21 @@
 package dev.sterner.witchery.registry
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.mobeffect.*
-import dev.sterner.witchery.platform.PlatformUtils
 import net.minecraft.core.Holder
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
 import net.minecraft.world.effect.MobEffects
+import net.neoforged.neoforge.registries.DeferredRegister
 import java.awt.Color
 
 
 object WitcheryMobEffects {
+
+    val EFFECTS: DeferredRegister<MobEffect?> =
+        DeferredRegister.create<MobEffect?>(BuiltInRegistries.MOB_EFFECT, Witchery.MODID)
+
 
     val EMPTY: Holder<MobEffect> =
         register("empty", EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 255, 255).rgb))
@@ -50,8 +56,8 @@ object WitcheryMobEffects {
 
     val GROTESQUE: Holder<MobEffect> = register("grotesque", EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 100, 100).rgb))
 
-    private fun register(name: String, effect: MobEffect): Holder<MobEffect> {
-        return PlatformUtils.registerMobEffect(name, effect)
+    private fun register(name: String, effectSupplier: () -> MobEffect): DeferredHolder<MobEffect, MobEffect> {
+        return EFFECTS.register(name, Supplier { effectSupplier() })
     }
 
     fun invertEffect(effect: Holder<MobEffect>): Holder<MobEffect> {

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.registry
 
-import com.google.common.base.Supplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.BabaYagaEntity
 import dev.sterner.witchery.entity.BansheeEntity
@@ -16,6 +15,7 @@ import dev.sterner.witchery.entity.EntEntity
 import dev.sterner.witchery.entity.FloatingItemEntity
 import dev.sterner.witchery.entity.HornedHuntsmanEntity
 import dev.sterner.witchery.entity.HuntsmanSpearEntity
+import dev.sterner.witchery.entity.ImpEntity
 import dev.sterner.witchery.entity.InsanityEntity
 import dev.sterner.witchery.entity.LilithEntity
 import dev.sterner.witchery.entity.MandrakeEntity
@@ -36,6 +36,7 @@ import net.minecraft.world.entity.MobCategory
 import net.minecraft.world.level.Level
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
+import java.util.function.Supplier
 
 
 object WitcheryEntityTypes {
@@ -44,8 +45,8 @@ object WitcheryEntityTypes {
 
     val LANG_HELPER = mutableListOf<String>()
 
-    fun <T : EntityType<*>> register(name: String, addLang: Boolean = true, item: Supplier<T>): DeferredHolder<EntityType<*> ,T> {
-        if (addLang) {
+    fun <T : EntityType<*>> register(name: String, item: Supplier<T>): DeferredHolder<EntityType<*> ,T> {
+        if (true) {
             LANG_HELPER.add(name)
         }
         return ENTITY_TYPES.register(name, item)
@@ -59,13 +60,13 @@ object WitcheryEntityTypes {
         ).sized(0.5f, 0.5f).build(Witchery.id("mandrake").toString())
     })
 
-    val IMP = register("imp") {
+    val IMP = register("imp", Supplier {
         EntityType.Builder.of(
             { _: EntityType<ImpEntity>, level: Level ->
                 ImpEntity(level)
             }, MobCategory.MONSTER
         ).sized(0.35F, 0.6F).eyeHeight(0.36F).build(Witchery.id("imp").toString())
-    }
+    })
 
     val INSANITY = register("insanity", Supplier {
         EntityType.Builder.of(

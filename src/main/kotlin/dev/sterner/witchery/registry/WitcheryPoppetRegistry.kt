@@ -1,61 +1,51 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.registry.registries.Registrar
-import dev.architectury.registry.registries.RegistrarManager
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.poppet.PoppetType
-import dev.sterner.witchery.poppet.*
+import dev.sterner.witchery.api.Curse
+import dev.sterner.witchery.api.PoppetType
+import dev.sterner.witchery.poppet.ArmorProtectionPoppet
+import dev.sterner.witchery.poppet.DeathProtectionPoppet
+import dev.sterner.witchery.poppet.HungerProtectionPoppet
+import dev.sterner.witchery.poppet.VampiricPoppet
+import dev.sterner.witchery.poppet.VoodooPoppet
+import dev.sterner.witchery.poppet.VoodooProtectionPoppet
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
+import net.neoforged.neoforge.registries.DeferredHolder
+import net.neoforged.neoforge.registries.DeferredRegister
+import java.util.function.Supplier
 
 object WitcheryPoppetRegistry {
 
     val ID = Witchery.id("poppet")
 
-    val POPPETS: Registrar<PoppetType> = RegistrarManager.get(Witchery.MODID).builder<PoppetType>(ID)
-        .syncToClients().build()
+    val POPPET_REGISTRY_KEY: ResourceKey<Registry<PoppetType>> = ResourceKey.createRegistryKey(ID)
 
-    val DEATH_PROTECTION: RegistrySupplier<DeathProtectionPoppet> = POPPETS.register(Witchery.id("death_protection")) {
-        DeathProtectionPoppet()
-    }
+    val POPPETS: DeferredRegister<PoppetType> = DeferredRegister.create(POPPET_REGISTRY_KEY, Witchery.MODID)
 
-    val VAMPIRIC: RegistrySupplier<VampiricPoppet> = POPPETS.register(Witchery.id("vampiric")) {
-        VampiricPoppet()
-    }
+    val DEATH_PROTECTION: DeferredHolder<PoppetType, DeathProtectionPoppet> =
+        POPPETS.register("death_protection", Supplier { DeathProtectionPoppet() })
 
-    val VOODOO: RegistrySupplier<VoodooPoppet> = POPPETS.register(Witchery.id("voodoo")) {
-        VoodooPoppet()
-    }
+    val VAMPIRIC: DeferredHolder<PoppetType, VampiricPoppet> =
+        POPPETS.register("vampiric", Supplier {  VampiricPoppet() })
 
-    val HUNGER_PROTECTION = POPPETS.register(Witchery.id("hunger_protection")) {
-        HungerProtectionPoppet()
-    }
+    val VOODOO: DeferredHolder<PoppetType, VoodooPoppet> =
+        POPPETS.register("voodoo", Supplier {  VoodooPoppet() })
 
-    val ARMOR_PROTECTION: RegistrySupplier<ArmorProtectionPoppet> = POPPETS.register(Witchery.id("armor_protection")) {
-        ArmorProtectionPoppet()
-    }
+    val HUNGER_PROTECTION: DeferredHolder<PoppetType, HungerProtectionPoppet> =
+        POPPETS.register("hunger_protection", Supplier {  HungerProtectionPoppet() })
 
-    val VOODOO_PROTECTION: RegistrySupplier<VoodooProtectionPoppet> = POPPETS.register(Witchery.id("voodoo_protection")) {
-        VoodooProtectionPoppet()
-    }
+    val ARMOR_PROTECTION: DeferredHolder<PoppetType, ArmorProtectionPoppet> =
+        POPPETS.register("armor_protection", Supplier {  ArmorProtectionPoppet() })
 
-    @JvmStatic
-    fun getType(item: Item): PoppetType? = POPPETS.find { it.item == item }
-
-    @JvmStatic
-    fun getType(id: ResourceLocation): PoppetType? = POPPETS[id]
+    val VOODOO_PROTECTION: DeferredHolder<PoppetType, VoodooProtectionPoppet> =
+        POPPETS.register("voodoo_protection", Supplier {  VoodooProtectionPoppet() })
 
 
-    fun register() {
+    fun getAllTypes(): List<PoppetType> = POPPETS.entries.map { it.get() }
 
-    }
-
-    fun getAllTypes(): List<PoppetType>  {
-        return POPPETS.entrySet().map { it.value }
-    }
-
-    fun getIdForPoppet(poppetType: PoppetType): ResourceLocation {
-        return POPPETS.getId(poppetType)!!
-    }
+    fun getIdForPoppet(poppetType: PoppetType): ResourceLocation? =
+        POPPETS.entries.firstOrNull { it.get() == poppetType }?.id
 }

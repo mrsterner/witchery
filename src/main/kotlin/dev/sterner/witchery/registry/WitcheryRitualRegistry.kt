@@ -2,61 +2,56 @@ package dev.sterner.witchery.registry
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.registry.registries.Registrar
-import dev.architectury.registry.registries.RegistrarManager
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.Ritual
-import dev.sterner.witchery.ritual.*
-import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket.Rot
+import dev.sterner.witchery.ritual.BindFamiliarRitual
+import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
+import dev.sterner.witchery.ritual.EmptyRitual
+import dev.sterner.witchery.ritual.PushMobsRitual
+import dev.sterner.witchery.ritual.RemoveCurseRitual
+import dev.sterner.witchery.ritual.ResurrectFamiliarRitual
+import dev.sterner.witchery.ritual.RotRitual
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.neoforged.neoforge.registries.DeferredHolder
+import net.neoforged.neoforge.registries.DeferredRegister
+import java.util.function.Supplier
 
 
 object WitcheryRitualRegistry {
 
     val ID = Witchery.id("ritual")
 
-    val RITUALS: Registrar<Ritual> = RegistrarManager.get(Witchery.MODID).builder<Ritual>(ID)
-        .syncToClients().build()
+    val RITUAL_REGISTRY_KEY: ResourceKey<Registry<Ritual>> = ResourceKey.createRegistryKey(ID)
 
-    val EMPTY: RegistrySupplier<EmptyRitual> = RITUALS.register(Witchery.id("empty")) {
-        EmptyRitual()
+    val RITUALS: DeferredRegister<Ritual> = DeferredRegister.create(RITUAL_REGISTRY_KEY, Witchery.MODID)
+
+    val EMPTY: DeferredHolder<Ritual, EmptyRitual> = RITUALS.register("empty", Supplier { EmptyRitual() })
+
+    val PUSH_MOBS: DeferredHolder<Ritual, PushMobsRitual> = RITUALS.register("push_mobs", Supplier { PushMobsRitual() })
+
+    val REMOVE_CURSE: DeferredHolder<Ritual, RemoveCurseRitual> = RITUALS.register("remove_curse", Supplier { RemoveCurseRitual() })
+
+    val BIND_FAMILIAR: DeferredHolder<Ritual, BindFamiliarRitual> = RITUALS.register("bind_familiar", Supplier { BindFamiliarRitual() })
+
+    val RESURRECT_FAMILIAR: DeferredHolder<Ritual, ResurrectFamiliarRitual> = RITUALS.register("resurrect_familiar", Supplier { ResurrectFamiliarRitual() })
+
+    val BIND_SPECTRAL_CREATURES: DeferredHolder<Ritual, BindSpectralCreaturesRitual> = RITUALS.register("bind_spectral_creatures", Supplier { BindSpectralCreaturesRitual() })
+
+    val ROT: DeferredHolder<Ritual, RotRitual> = RITUALS.register("rot", Supplier { RotRitual() })
+
+    fun getById(id: ResourceLocation): Ritual? {
+        return RITUALS.entries.firstOrNull { it.id == id }?.get()
+            ?: error("Unknown ritual ID: $id")
     }
 
-    val PUSH_MOBS: RegistrySupplier<PushMobsRitual> = RITUALS.register(Witchery.id("push_mobs")) {
-        PushMobsRitual()
-    }
-
-    val REMOVE_CURSE: RegistrySupplier<RemoveCurseRitual> = RITUALS.register(Witchery.id("remove_curse")) {
-        RemoveCurseRitual()
-    }
-
-    val BIND_FAMILIAR: RegistrySupplier<BindFamiliarRitual> = RITUALS.register(Witchery.id("bind_familiar")) {
-        BindFamiliarRitual()
-    }
-
-    val RESURRECT_FAMILIAR: RegistrySupplier<ResurrectFamiliarRitual> =
-        RITUALS.register(Witchery.id("resurrect_familiar")) {
-            ResurrectFamiliarRitual()
-        }
-
-    val BIND_SPECTRAL_CREATURES = RITUALS.register(Witchery.id("bind_spectral_creatures")) {
-        BindSpectralCreaturesRitual()
-    }
-
-    val ROT = RITUALS.register(Witchery.id("rot")) {
-        RotRitual()
-    }
-
-    val CODEC: Codec<Ritual?> = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Ritual> ->
+    val CODEC: Codec<Ritual> = RecordCodecBuilder.create { instance ->
         instance.group(
-            ResourceLocation.CODEC.fieldOf("id").forGetter { ritual -> ritual.id }
+            ResourceLocation.CODEC.fieldOf("id").forGetter { it.id }
         ).apply(instance) { resourceLocation ->
-            RITUALS.get(resourceLocation)
+            getById(resourceLocation) ?: error("Unknown ritual ID: $resourceLocation")
         }
-    }
-
-    fun register() {
-
     }
 }

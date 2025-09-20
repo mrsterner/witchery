@@ -1,7 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.Witchery.MODID
+import dev.sterner.witchery.Witchery.Companion.MODID
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.TagKey

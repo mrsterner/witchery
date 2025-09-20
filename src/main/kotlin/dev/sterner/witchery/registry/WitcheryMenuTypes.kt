@@ -1,37 +1,38 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.registry.menu.MenuRegistry
-import dev.architectury.registry.registries.DeferredRegister
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.menu.AltarMenu
 import dev.sterner.witchery.menu.DistilleryMenu
 import dev.sterner.witchery.menu.OvenMenu
 import dev.sterner.witchery.menu.SpinningWheelMenu
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.inventory.MenuType
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension
+import net.neoforged.neoforge.registries.DeferredRegister
+import java.util.function.Supplier
 
 
 object WitcheryMenuTypes {
 
-    val MENU_TYPES: DeferredRegister<MenuType<*>> = DeferredRegister.create(Witchery.MODID, Registries.MENU)
+    val MENU_TYPES: DeferredRegister<MenuType<*>> = DeferredRegister.create(Registries.MENU, Witchery.MODID)
 
-    val OVEN_MENU_TYPE: RegistrySupplier<MenuType<OvenMenu>> = MENU_TYPES.register("oven_menu") {
-        MenuRegistry.ofExtended { windowId, inventory, data ->
+    val OVEN_MENU_TYPE = MENU_TYPES.register("oven_menu", Supplier {
+        IMenuTypeExtension.create { windowId, inventory, data ->
             OvenMenu(windowId, inventory, data)
         }
-    }
+    })
 
-    val ALTAR_MENU_TYPE: RegistrySupplier<MenuType<AltarMenu>> = MENU_TYPES.register("altar_menu") {
-        MenuRegistry.ofExtended(::AltarMenu)
-    }
+    val ALTAR_MENU_TYPE = MENU_TYPES.register("altar_menu", Supplier {
+        IMenuTypeExtension.create(::AltarMenu)
+    })
 
-    val DISTILLERY_MENU_TYPE: RegistrySupplier<MenuType<DistilleryMenu>> = MENU_TYPES.register("distillery_menu") {
-        MenuRegistry.ofExtended(::DistilleryMenu)
-    }
+    val DISTILLERY_MENU_TYPE = MENU_TYPES.register("distillery_menu", Supplier {
+        IMenuTypeExtension.create(::DistilleryMenu)
+    })
 
-    val SPINNING_WHEEL_MENU_TYPE: RegistrySupplier<MenuType<SpinningWheelMenu>> =
-        MENU_TYPES.register("spinning_wheel_menu") {
-            MenuRegistry.ofExtended(::SpinningWheelMenu)
-        }
+    val SPINNING_WHEEL_MENU_TYPE =
+        MENU_TYPES.register("spinning_wheel_menu", Supplier {
+            IMenuTypeExtension.create(::SpinningWheelMenu)
+        })
 }
