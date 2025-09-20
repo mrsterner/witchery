@@ -1,0 +1,25 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "legacy_landscape"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "legacy_landscape"
+    }
+  ],
+  "type": "legacy_landscape:void",
+  "group": "",
+  "ingredient": {
+    "item": "witchery:wispy_cotton"
+  },
+  "result": {
+    "count": 1,
+    "id": "witchery:disturbed_cotton"
+  }
+}

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.payload
 
-import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.BroomEntity
 import net.minecraft.client.Minecraft

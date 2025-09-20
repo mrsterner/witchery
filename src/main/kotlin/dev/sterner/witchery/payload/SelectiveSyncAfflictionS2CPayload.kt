@@ -2,7 +2,6 @@ package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import net.minecraft.core.UUIDUtil
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
@@ -15,7 +14,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.player.Player
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.networking.NetworkManager
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import java.util.*
 
 

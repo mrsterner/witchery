@@ -1,6 +1,7 @@
 package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf

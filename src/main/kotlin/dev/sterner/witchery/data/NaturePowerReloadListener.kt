@@ -8,27 +8,27 @@ import com.mojang.logging.LogUtils
 import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.event.events.common.LifecycleEvent
-import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.packs.PackType
-import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener
 import net.minecraft.tags.TagKey
 import net.minecraft.util.profiling.ProfilerFiller
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
+import net.neoforged.neoforge.event.AddReloadListenerEvent
+import net.neoforged.neoforge.event.server.ServerStartingEvent
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.Executor
 
 object NaturePowerReloadListener {
     private val LOGGER = LogUtils.getLogger()
-    private val LOADER = NaturePowerLoader()
-    private val NATURE_POWER_VALUES = mutableMapOf<Either<Block, TagKey<Block>>, Pair<Int, Int>>()
+    val LOADER = NaturePowerLoader()
+    val NATURE_POWER_VALUES = mutableMapOf<Either<Block, TagKey<Block>>, Pair<Int, Int>>()
+
+    private var pendingDataProcessed = false
 
     /**
      * Do not touch. This is simply used to handle tags AFTER they are loaded!
@@ -72,21 +72,15 @@ object NaturePowerReloadListener {
     }
 
     private fun addEitherBlockOrTag(either: Either<Block, TagKey<Block>>, power: Int, limit: Int) {
-        /*var name = ""
-        either.left().ifPresent { name = it.name.string }
-        either.right().ifPresent { name = it.location.toString() }
-        if (NATURE_POWER_VALUES.containsKey(either))
-            LOGGER.info("Overriding $name from power ${NATURE_POWER_VALUES[either]?.first} and limit ${NATURE_POWER_VALUES[either]?.second} with a power of $power and a limit of $limit")
-        else
-            LOGGER.info("Registering ${name} with a base power of $power and a limit of $limit")*/
-
         NATURE_POWER_VALUES[either] = Pair(power, limit)
     }
 
     /**
      * Only call after world (read datapacks) are loaded so we can handle tags.
      */
-    private fun addPending() {
+    fun addPending() {
+        if (pendingDataProcessed) return
+
         tagQueue.forEach {
             addEitherBlockOrTag(Either.right(TagKey.create(Registries.BLOCK, it.block)), it.power, it.limit)
         }
@@ -94,42 +88,32 @@ object NaturePowerReloadListener {
         blockQueue.forEach {
             addEitherBlockOrTag(Either.left(BuiltInRegistries.BLOCK.get(it.block)), it.power, it.limit)
         }
+
+        pendingDataProcessed = true
+        tagQueue.clear()
+        blockQueue.clear()
     }
 
-    /**
-     * This function is for registering the reload listener.
-     * Only call during initialization!!!
-     */
-    fun registerListener() {
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
-            override fun getName() = "nature"
-
-            override fun reload(
-                preparationBarrier: PreparableReloadListener.PreparationBarrier,
-                resourceManager: ResourceManager,
-                preparationsProfiler: ProfilerFiller,
-                reloadProfiler: ProfilerFiller,
-                backgroundExecutor: Executor,
-                gameExecutor: Executor
-            ): CompletableFuture<Void> {
-                return LOADER.reload(
-                    preparationBarrier,
-                    resourceManager,
-                    preparationsProfiler,
-                    reloadProfiler,
-                    backgroundExecutor,
-                    gameExecutor
-                )
-            }
-        })
+    fun registerReloadListener(event: AddReloadListenerEvent) {
+        event.addListener(LOADER)
     }
 
-    private class NaturePowerLoader : SimpleJsonResourceReloadListener(Gson(), "nature") {
+    fun onServerStarting(event: ServerStartingEvent) {
+        addPending()
+    }
+
+    class NaturePowerLoader : SimpleJsonResourceReloadListener(Gson(), "nature") {
         override fun apply(
             `object`: MutableMap<ResourceLocation, JsonElement>,
             resourceManager: ResourceManager,
             profiler: ProfilerFiller
         ) {
+            // Clear and reset on reload
+            NATURE_POWER_VALUES.clear()
+            tagQueue.clear()
+            blockQueue.clear()
+            pendingDataProcessed = false
+
             `object`.forEach { (file, element) ->
                 try {
                     if (element.isJsonArray)
@@ -143,13 +127,13 @@ object NaturePowerReloadListener {
                 }
             }
 
-            if (NATURE_POWER_VALUES.isNotEmpty()) {
-                NATURE_POWER_VALUES.clear()
+            // Try to process immediately if tags are available
+            // This happens during /reload commands
+            try {
                 addPending()
-            } else {
-                LifecycleEvent.SERVER_LEVEL_LOAD.register { level ->
-                    addPending()
-                }
+            } catch (e: Exception) {
+                // Tags might not be ready yet, will process on server start
+                LOGGER.debug("Tags not ready during reload, will process on server start")
             }
         }
 
@@ -185,9 +169,7 @@ object NaturePowerReloadListener {
     }
 
     class Data(val block: ResourceLocation, val power: Int, val limit: Int) {
-
         companion object {
-
             val CODEC: Codec<Data> =
                 RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Data> ->
                     instance.group(

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "witchery:block/gravestone",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "witchery:block/gravestone"
+    },
+    "facing=south": {
+      "model": "witchery:block/gravestone",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "witchery:block/gravestone",
+      "y": 270
+    }
+  }
+}

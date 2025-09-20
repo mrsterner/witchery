@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "has_soup=false": {
+      "model": "witchery:block/chalice"
+    },
+    "has_soup=true": {
+      "model": "witchery:block/chalice_filled"
+    }
+  }
+}

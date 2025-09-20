@@ -5,7 +5,6 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.registry.ReloadListenerRegistry
 import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.registry.WitcheryFetishEffects
 import net.minecraft.resources.ResourceLocation
@@ -19,7 +18,7 @@ import java.util.concurrent.Executor
 
 object FetishEffectReloadListener {
 
-    val loader = FetishResourceReloadListener(Gson(), "fetish")
+    val LOADER = FetishResourceReloadListener(Gson(), "fetish")
     val dataMap = mutableMapOf<ResourceLocation, Data>()
 
     fun findMatchingEffect(spirit: Int, banshee: Int, specter: Int, poltergeist: Int): ResourceLocation? {
@@ -32,31 +31,7 @@ object FetishEffectReloadListener {
     }
 
     fun getEffect(location: ResourceLocation): FetishEffect? {
-        return dataMap[location]?.effectLocation?.let { WitcheryFetishEffects.FETISH_EFFECTS.get(it) }
-    }
-
-    fun registerListener() {
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
-            override fun getName() = "fetish"
-
-            override fun reload(
-                preparationBarrier: PreparableReloadListener.PreparationBarrier,
-                resourceManager: ResourceManager,
-                preparationsProfiler: ProfilerFiller,
-                reloadProfiler: ProfilerFiller,
-                backgroundExecutor: Executor,
-                gameExecutor: Executor
-            ): CompletableFuture<Void> {
-                return loader.reload(
-                    preparationBarrier,
-                    resourceManager,
-                    preparationsProfiler,
-                    reloadProfiler,
-                    backgroundExecutor,
-                    gameExecutor
-                )
-            }
-        })
+        return dataMap[location]?.effectLocation?.let { WitcheryFetishEffects.FETISH_EFFECTS.registry.get().get(it) }
     }
 
     class FetishResourceReloadListener(gson: Gson, directory: String) :

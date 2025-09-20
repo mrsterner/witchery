@@ -1,6 +1,5 @@
 package dev.sterner.witchery.payload
 
-import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import net.minecraft.client.Minecraft
 import net.minecraft.core.particles.ParticleTypes

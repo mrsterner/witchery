@@ -20,7 +20,9 @@ import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.registry.WitcheryFluids
 import dev.sterner.witchery.registry.WitcheryKeyMappings
 import dev.sterner.witchery.registry.WitcheryMenuTypes
 import net.minecraft.client.Minecraft
@@ -31,6 +33,7 @@ import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.NoopRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
+import net.minecraft.resources.ResourceLocation
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
@@ -41,8 +44,11 @@ import net.neoforged.neoforge.client.event.ClientTickEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
 import net.neoforged.neoforge.client.event.RenderGuiEvent
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import net.neoforged.neoforge.client.gui.ConfigurationScreen
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.network.PacketDistributor
@@ -68,6 +74,34 @@ class WitcheryClient(container: ModContainer) {
         @SubscribeEvent
         fun onMouseScrolled(event: InputEvent.MouseScrollingEvent){
             AfflictionAbilityHandler.scroll(event, Minecraft.getInstance(), event.mouseX, event.mouseY)
+        }
+
+        @SubscribeEvent
+        fun onRegisterColorHandlers(event: RegisterColorHandlersEvent.Block) {
+            event.register({ state, level, pos, tintIndex ->
+                0xAAFFFF
+            }, WitcheryBlocks.FLOWING_SPIRIT_BLOCK.get())
+        }
+
+        @SubscribeEvent
+        fun onRegisterClientExtensions(event: RegisterClientExtensionsEvent) {
+            event.registerFluidType(object : IClientFluidTypeExtensions {
+                override fun getStillTexture(): ResourceLocation {
+                    return ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "block/flowing_spirit_still")
+                }
+
+                override fun getFlowingTexture(): ResourceLocation {
+                    return ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "block/flowing_spirit_flowing")
+                }
+
+                override fun getTintColor(): Int {
+                    return 0xAAFFFF
+                }
+
+                override fun getOverlayTexture(): ResourceLocation {
+                    return ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_overlay")
+                }
+            }, WitcheryFluids.FLOWING_SPIRIT_TYPE.get())
         }
 
         @SubscribeEvent

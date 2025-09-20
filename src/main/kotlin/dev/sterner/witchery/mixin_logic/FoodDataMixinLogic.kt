@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin_logic
 
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import net.minecraft.world.entity.player.Player
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 

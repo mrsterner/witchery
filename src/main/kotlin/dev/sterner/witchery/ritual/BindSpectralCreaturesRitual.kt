@@ -24,14 +24,7 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
     companion object {
         private val entityToEffigyMap = HashMap<UUID, BlockPos>()
 
-        fun registerEvents() {
-            ChainEvent.ON_DISCARD.register { entity, _ ->
-                handleChainDiscard(entity)
-                EventResult.pass()
-            }
-        }
-
-        private fun handleChainDiscard(entity: Entity?) {
+        fun handleChainDiscard(entity: Entity?) {
             val entityId = entity?.uuid ?: return
             val effigyPos = entityToEffigyMap[entityId] ?: return
 

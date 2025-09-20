@@ -6,7 +6,6 @@ import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
@@ -22,30 +21,6 @@ object ErosionReloadListener {
 
     val LOADER = ErosionResourceReloadListener(Gson(), "erosion")
     val EROSION_PAIR = mutableMapOf<Block, Block>()
-
-    fun registerListener() {
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
-            override fun getName() = "erosion"
-
-            override fun reload(
-                preparationBarrier: PreparableReloadListener.PreparationBarrier,
-                resourceManager: ResourceManager,
-                preparationsProfiler: ProfilerFiller,
-                reloadProfiler: ProfilerFiller,
-                backgroundExecutor: Executor,
-                gameExecutor: Executor
-            ): CompletableFuture<Void> {
-                return LOADER.reload(
-                    preparationBarrier,
-                    resourceManager,
-                    preparationsProfiler,
-                    reloadProfiler,
-                    backgroundExecutor,
-                    gameExecutor
-                )
-            }
-        })
-    }
 
     class ErosionResourceReloadListener(gson: Gson, directory: String) :
         SimpleJsonResourceReloadListener(gson, directory) {

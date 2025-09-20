@@ -1,6 +1,7 @@
 package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.particle.SneezeData
 import net.minecraft.client.Minecraft
 import net.minecraft.client.particle.ParticleEngine
 import net.minecraft.nbt.CompoundTag

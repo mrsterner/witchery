@@ -1,0 +1,85 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "witchery:item/witches_hand",
+		"particle": "witchery:item/witches_hand"
+	},
+	"elements": [
+		{
+			"from": [5.9, 3.9, 7.9],
+			"to": [10.1, 8.1, 12.1],
+			"rotation": {"angle": 0, "axis": "y", "origin": [6, 4, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"east": {"uv": [0, 4, 4, 8], "texture": "#0"},
+				"south": {"uv": [4, 0, 8, 4], "texture": "#0"},
+				"west": {"uv": [4, 4, 8, 8], "texture": "#0"},
+				"up": {"uv": [4, 12, 0, 8], "texture": "#0"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6, 6, 7],
+			"to": [8, 8, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [6, 6, 7]},
+			"faces": {
+				"north": {"uv": [6, 10, 8, 12], "texture": "#0"},
+				"east": {"uv": [10, 6, 12, 8], "texture": "#0"},
+				"south": {"uv": [8, 10, 10, 12], "texture": "#0"},
+				"west": {"uv": [10, 8, 12, 10], "texture": "#0"},
+				"up": {"uv": [12, 12, 10, 10], "texture": "#0"},
+				"down": {"uv": [2, 12, 0, 14], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.01, 6.01, 5.01],
+			"to": [7.99, 7.99, 6.99],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [7, 8, 7]},
+			"faces": {
+				"north": {"uv": [12, 0, 14, 2], "texture": "#0"},
+				"east": {"uv": [2, 12, 4, 14], "texture": "#0"},
+				"south": {"uv": [12, 2, 14, 4], "texture": "#0"},
+				"west": {"uv": [12, 4, 14, 6], "texture": "#0"},
+				"up": {"uv": [8, 14, 6, 12], "texture": "#0"},
+				"down": {"uv": [14, 6, 12, 8], "texture": "#0"}
+			}
+		},
+		{
+			"from": [5, 3.8, 7],
+			"to": [7, 5.8, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [5, 3.8, 7]},
+			"faces": {
+				"north": {"uv": [8, 12, 10, 14], "texture": "#0"},
+				"east": {"uv": [4, 8, 8, 10], "texture": "#0"},
+				"south": {"uv": [12, 8, 14, 10], "texture": "#0"},
+				"west": {"uv": [8, 4, 12, 6], "texture": "#0"},
+				"up": {"uv": [10, 10, 8, 6], "texture": "#0"},
+				"down": {"uv": [6, 10, 4, 14], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"gui": {
+			"rotation": [35, 138, 0],
+			"translation": [-2.5, 2.25, 0],
+			"scale": [1.8, 1.8, 1.8]
+		}
+	},
+	"groups": [
+		{
+			"name": "hand",
+			"origin": [6, 4, 8],
+			"color": 0,
+			"children": [
+				0,
+				{
+					"name": "finger",
+					"origin": [6, 4, 8],
+					"color": 0,
+					"children": [1, 2]
+				}
+			]
+		},
+		3
+	]
+}

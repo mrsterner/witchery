@@ -1,0 +1,6 @@
+{
+	"parent": "witchery:block/template_chalk",
+	"textures": {
+		"chalk": "witchery:block/chalk_0"
+	}
+}

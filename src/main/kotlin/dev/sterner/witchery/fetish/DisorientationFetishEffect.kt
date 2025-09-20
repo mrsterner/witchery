@@ -1,6 +1,5 @@
 package dev.sterner.witchery.fetish
 
-import dev.sterner.witchery.mixin.TargetingConditionsMixin.MobAccessor
 import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.item.TaglockItem

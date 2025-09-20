@@ -6,7 +6,6 @@ import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
@@ -15,6 +14,7 @@ import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener
 import net.minecraft.util.profiling.ProfilerFiller
 import net.minecraft.world.entity.EntityType
+import net.neoforged.neoforge.event.AddReloadListenerEvent
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
@@ -22,30 +22,6 @@ object BloodPoolReloadListener {
 
     val LOADER = BloodPoolResourceReloadListener(Gson(), "blood_pool")
     val BLOOD_PAIR = mutableMapOf<EntityType<*>, BloodData>()
-
-    fun registerListener() {
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
-            override fun getName() = "blood_pool"
-
-            override fun reload(
-                preparationBarrier: PreparableReloadListener.PreparationBarrier,
-                resourceManager: ResourceManager,
-                preparationsProfiler: ProfilerFiller,
-                reloadProfiler: ProfilerFiller,
-                backgroundExecutor: Executor,
-                gameExecutor: Executor
-            ): CompletableFuture<Void> {
-                return LOADER.reload(
-                    preparationBarrier,
-                    resourceManager,
-                    preparationsProfiler,
-                    reloadProfiler,
-                    backgroundExecutor,
-                    gameExecutor
-                )
-            }
-        })
-    }
 
     class BloodPoolResourceReloadListener(gson: Gson, directory: String) :
         SimpleJsonResourceReloadListener(gson, directory) {

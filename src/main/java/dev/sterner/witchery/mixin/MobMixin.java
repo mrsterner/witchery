@@ -1,5 +1,6 @@
 package dev.sterner.witchery.mixin;
 
+import dev.sterner.witchery.MobAccessor;
 import dev.sterner.witchery.data.BloodPoolReloadListener;
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.entity.goal.DisorientationGoal;
@@ -21,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
-public abstract class MobMixin extends LivingEntity implements TargetingConditionsMixin.MobAccessor {
+public abstract class MobMixin extends LivingEntity implements MobAccessor {
 
     protected MobMixin(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);

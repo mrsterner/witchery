@@ -61,6 +61,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument
 import net.minecraft.world.level.block.state.properties.WoodType
+import net.minecraft.world.level.material.FluidState
 import net.minecraft.world.level.material.MapColor
 import net.minecraft.world.level.material.PushReaction
 import net.neoforged.neoforge.registries.DeferredHolder
@@ -1074,12 +1075,13 @@ object WitcheryBlocks {
         CenserBlock(BlockBehaviour.Properties.of().noOcclusion())
     }
 
-    val FLOWING_SPIRIT_BLOCK = register(
-        "flowing_spirit_block"
-    ) {
-        object : ArchitecturyLiquidBlock(
-            WitcheryFluids.FLOWING_SPIRIT_STILL,
+    val FLOWING_SPIRIT_BLOCK = register("flowing_spirit_block") {
+        object : LiquidBlock(
+            WitcheryFluids.FLOWING_SPIRIT_STILL.get(),
             Properties.ofFullCopy(Blocks.WATER)
+                .noCollission()
+                .strength(100.0f)
+                .noLootTable()
         ) {
             override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
                 if (entity is LivingEntity) {
@@ -1087,8 +1089,13 @@ object WitcheryBlocks {
                 }
                 super.entityInside(state, level, pos, entity)
             }
+
+            override fun getFluidState(state: BlockState): FluidState {
+                return WitcheryFluids.FLOWING_SPIRIT_STILL.get().getSource(false)
+            }
         }
     }
+
 
     val GRAVESTONE = register("gravestone") {
         GravestoneBlock(BlockBehaviour.Properties.of())

@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cross",
+	"ambientocclusion": false,
+	"textures": {
+		"cross": "witchery:block/wormwood_stage4_upper"
+	}
+}

@@ -1,5 +1,8 @@
 package dev.sterner.witchery.mixin_logic
 
+import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
+import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.PotionHandler
 import dev.sterner.witchery.handler.affliction.AfflictionHandler
@@ -7,11 +10,6 @@ import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.WerewolfSpecificEventHandler
 import dev.sterner.witchery.handler.poppet.PoppetHandler
 import dev.sterner.witchery.handler.affliction.TransformationHandler
-import dev.sterner.witchery.platform.ManifestationPlayerAttachment.getData
-import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.VoodooPoppetData
-import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.getPoppetData
-import dev.sterner.witchery.platform.poppet.VoodooPoppetLivingEntityAttachment.setPoppetData
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -20,7 +18,7 @@ object LivingEntityMixinLogic {
 
     fun modifyHurtGhost(livingEntity: LivingEntity, original: Float): Float {
         if (livingEntity is Player) {
-            if (getData(livingEntity).manifestationTimer > 0) {
+            if (ManifestationPlayerAttachment.getData(livingEntity).manifestationTimer > 0) {
                 return 0f
             }
         }
@@ -76,17 +74,17 @@ object LivingEntityMixinLogic {
     }
 
     fun modifyBaseTick(livingEntity: LivingEntity) {
-        val prevData = getPoppetData(livingEntity)
+        val prevData = VoodooPoppetLivingEntityAttachment.getPoppetData(livingEntity)
 
         if (prevData.underWaterTicks > 0) {
             val newTicks = prevData.underWaterTicks - 1
 
-            setPoppetData(livingEntity, VoodooPoppetData(
+            VoodooPoppetLivingEntityAttachment.setPoppetData(livingEntity, VoodooPoppetLivingEntityAttachment.VoodooPoppetData(
                 isUnderWater = true,
                 underWaterTicks = newTicks
             ))
         } else if (prevData.isUnderWater) {
-            setPoppetData(livingEntity, VoodooPoppetData(
+            VoodooPoppetLivingEntityAttachment.setPoppetData(livingEntity, VoodooPoppetLivingEntityAttachment.VoodooPoppetData(
                 isUnderWater = false,
                 underWaterTicks = 0
             ))

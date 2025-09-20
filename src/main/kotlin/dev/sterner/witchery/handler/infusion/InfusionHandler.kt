@@ -4,6 +4,7 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.PlayerEvent
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment.MAX_CHARGE
 import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment.getInfusionCharge
@@ -103,33 +104,19 @@ object InfusionHandler {
         }
     }
 
-    /**
-     * Handles the player's left-click action on an entity while considering infusion-specific behavior.
-     * Different actions are executed if the player is sneaking.
-     *
-     * @param player the player performing the action.
-     * @param level the level in which the action is performed.
-     * @param entity the entity being clicked.
-     * @param interactionHand the hand used for the interaction.
-     * @param entityHitResult the result of the entity hit.
-     * @return an {@link EventResult} indicating the result of the action.
-     */
+
     fun leftClickEntity(
         player: Player,
-        level: Level?,
         entity: Entity?,
-        interactionHand: InteractionHand?,
-        entityHitResult: EntityHitResult?
-    ): EventResult? {
+    ) {
         if (canUse(player)) {
             val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
             if (player.isShiftKeyDown) {
-                infusionType.leftClickEntityShift(player, entity, entityHitResult)
+                infusionType.leftClickEntityShift(player, entity)
             } else {
-                infusionType.leftClickEntity(player, entity, entityHitResult)
+                infusionType.leftClickEntity(player, entity)
             }
         }
-        return EventResult.pass()
     }
 
     /**
@@ -146,17 +133,15 @@ object InfusionHandler {
         player: Player,
         interactionHand: InteractionHand?,
         blockPos: BlockPos?,
-        direction: Direction?
-    ): EventResult? {
+    ) {
         if (canUse(player)) {
             val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
             if (player.isShiftKeyDown) {
-                infusionType.leftClickBlockShift(player, blockPos, direction)
+                infusionType.leftClickBlockShift(player, blockPos)
             } else {
-                infusionType.leftClickBlock(player, blockPos, direction)
+                infusionType.leftClickBlock(player, blockPos)
             }
         }
-        return EventResult.pass()
     }
 
     @Environment(EnvType.CLIENT)

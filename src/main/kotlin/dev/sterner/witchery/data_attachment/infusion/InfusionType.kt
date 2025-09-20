@@ -1,6 +1,8 @@
 package dev.sterner.witchery.data_attachment.infusion
 
 import com.mojang.serialization.Codec
+import dev.sterner.witchery.handler.NecroHandler
+import dev.sterner.witchery.handler.infusion.InfusionHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
@@ -122,11 +124,11 @@ enum class InfusionType : StringRepresentable {
         return false
     }
 
-    open fun leftClickEntity(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Boolean {
+    open fun leftClickEntity(player: Player, entity: Entity?): Boolean {
         return false
     }
 
-    open fun leftClickBlock(player: Player, blockPos: BlockPos?, direction: Direction?): Boolean {
+    open fun leftClickBlock(player: Player, blockPos: BlockPos?): Boolean {
         return false
     }
 
@@ -134,11 +136,11 @@ enum class InfusionType : StringRepresentable {
         return false
     }
 
-    open fun leftClickEntityShift(player: Player, entity: Entity?, entityHitResult: EntityHitResult?): Boolean {
+    open fun leftClickEntityShift(player: Player, entity: Entity?): Boolean {
         return false
     }
 
-    open fun leftClickBlockShift(player: Player, blockPos: BlockPos?, direction: Direction?): Boolean {
+    open fun leftClickBlockShift(player: Player, blockPos: BlockPos?): Boolean {
         return false
     }
 

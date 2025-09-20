@@ -1,0 +1,20 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchery:item/waystone_unbound"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "witchery:is_bound": 1
+      },
+      "model": "witchery:item/waystone_bound"
+    },
+    {
+      "predicate": {
+        "witchery:is_bound": 2
+      },
+      "model": "witchery:item/waystone_bound_player"
+    }
+  ]
+}

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.payload
 
-import dev.architectury.networking.NetworkManager
 import dev.sterner.witchery.Witchery
 import net.minecraft.client.Minecraft
 import net.minecraft.core.particles.ParticleTypes
@@ -25,7 +24,7 @@ class SpawnPoofParticlesS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
     fun handleOnClient() {
         val client = Minecraft.getInstance()
 
-        val id = payload.nbt.getUUID("Id")
+        val id = nbt.getUUID("Id")
 
         val player = client.level?.getPlayerByUUID(id)
 

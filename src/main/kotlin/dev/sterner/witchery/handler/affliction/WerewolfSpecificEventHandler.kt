@@ -24,7 +24,7 @@ object WerewolfSpecificEventHandler {
 
 
 
-    private fun killEntity(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+    fun killEntity(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
         if (damageSource?.entity !is ServerPlayer) return EventResult.pass()
 
         val player = damageSource.entity as ServerPlayer

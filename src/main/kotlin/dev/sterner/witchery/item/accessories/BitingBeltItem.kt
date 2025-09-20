@@ -47,11 +47,9 @@ open class BitingBeltItem(properties: Properties) : Item(properties.stacksTo(1).
     }
 
     companion object {
-        fun registerEvents() {
-            EntityEvent.LIVING_HURT.register(BitingBeltItem::usePotion)
-        }
 
-        private fun usePotion(livingEntity: LivingEntity?, damageSource: DamageSource?, fl: Float): EventResult? {
+
+        fun usePotion(livingEntity: LivingEntity?, damageSource: DamageSource?, fl: Float) {
             if (livingEntity != null) {
                 val belt = AccessoryHandler.checkNoConsume(livingEntity, WitcheryItems.BITING_BELT.get())
                 if (belt != null) {
@@ -76,8 +74,6 @@ open class BitingBeltItem(properties: Properties) : Item(properties.stacksTo(1).
                     }
                 }
             }
-
-            return EventResult.pass()
         }
     }
 }

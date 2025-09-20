@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin_logic
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation
-import dev.sterner.witchery.Witchery.id
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryRenderTypes
 import dev.sterner.witchery.registry.WitcheryRenderTypes.GLINT
 import dev.sterner.witchery.registry.WitcheryRenderTypes.GLINT_DIRECT
@@ -17,14 +17,14 @@ object ItemRendererMixinLogic {
 
     fun getFoilBuffer(original: Operation<RenderType>): RenderType? {
         if (checkAllBlack()) {
-            return GLINT.apply(id("textures/misc/all_black.png"))
+            return GLINT.apply(Witchery.id("textures/misc/all_black.png"))
         }
         return original.call()
     }
 
     fun getFoilBufferDirect(original: Operation<RenderType>): RenderType? {
         if (checkAllBlack()) {
-            return GLINT_DIRECT.apply(id("textures/misc/all_black.png"))
+            return GLINT_DIRECT.apply(Witchery.id("textures/misc/all_black.png"))
         }
         return original.call()
     }

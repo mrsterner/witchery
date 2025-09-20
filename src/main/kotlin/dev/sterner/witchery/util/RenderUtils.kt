@@ -5,9 +5,8 @@ import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.Witchery.id
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryShaders
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
@@ -99,7 +98,7 @@ object RenderUtils {
 
             blitWithAlpha(
                 guiGraphics.pose(),
-                id("textures/gui/blood_pool_empty.png"),
+                Witchery.id("textures/gui/blood_pool_empty.png"),
                 xPos,
                 y - 1,
                 0f,
@@ -115,7 +114,7 @@ object RenderUtils {
             if (i < fullIcons) {
                 blitWithAlpha(
                     guiGraphics.pose(),
-                    id("textures/gui/blood_pool_full.png"),
+                    Witchery.id("textures/gui/blood_pool_full.png"),
                     xPos,
                     y - 1,
                     0f,
@@ -132,7 +131,7 @@ object RenderUtils {
                 val emptyHeight = iconSize - filledHeight
                 blitWithAlpha(
                     guiGraphics.pose(),
-                    id("textures/gui/blood_pool_full.png"),
+                    Witchery.id("textures/gui/blood_pool_full.png"),
                     xPos,
                     y + emptyHeight - 1,
                     0f,
@@ -175,7 +174,7 @@ object RenderUtils {
             if (i < currentSouls) {
                 blitWithAlpha(
                     guiGraphics.pose(),
-                    id("textures/gui/soul_pure.png"),
+                    Witchery.id("textures/gui/soul_pure.png"),
                     xPos,
                     y - 1,
                     0f,
@@ -208,7 +207,7 @@ object RenderUtils {
             // Draw empty icon first (for all icons)
             blitWithAlpha(
                 guiGraphics.pose(),
-                id("textures/gui/affliction_abilities/bat_form_empty.png"),
+                Witchery.id("textures/gui/affliction_abilities/bat_form_empty.png"),
                 xPos,
                 y - 1,
                 0f,
@@ -225,7 +224,7 @@ object RenderUtils {
             if (i < fullIcons) {
                 blitWithAlpha(
                     guiGraphics.pose(),
-                    id("textures/gui/affliction_abilities/bat_form_full.png"),
+                    Witchery.id("textures/gui/affliction_abilities/bat_form_full.png"),
                     xPos,
                     y - 1,
                     0f,
@@ -238,14 +237,10 @@ object RenderUtils {
                     0xFFFFFF
                 )
             } else if (i == fullIcons && partialFill > 0) {
-                // Calculate the filled width (instead of height)
                 val filledWidth = (partialFill * width) / q
-                val emptyWidth = width - filledWidth
-
-                // Draw the full portion of the last icon (from left to right)
                 blitWithAlpha(
                     guiGraphics.pose(),
-                    id("textures/gui/affliction_abilities/bat_form_full.png"),
+                    Witchery.id("textures/gui/affliction_abilities/bat_form_full.png"),
                     xPos,
                     y - 1,
                     0f,

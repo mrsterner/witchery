@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "variant=0": {
+      "model": "witchery:block/chalk_0"
+    },
+    "variant=1": {
+      "model": "witchery:block/chalk_1"
+    },
+    "variant=2": {
+      "model": "witchery:block/chalk_2"
+    },
+    "variant=3": {
+      "model": "witchery:block/chalk_3"
+    },
+    "variant=4": {
+      "model": "witchery:block/chalk_4"
+    },
+    "variant=5": {
+      "model": "witchery:block/chalk_5"
+    },
+    "variant=6": {
+      "model": "witchery:block/chalk_6"
+    },
+    "variant=7": {
+      "model": "witchery:block/chalk_7"
+    },
+    "variant=8": {
+      "model": "witchery:block/chalk_8"
+    },
+    "variant=9": {
+      "model": "witchery:block/chalk_9"
+    },
+    "variant=10": {
+      "model": "witchery:block/chalk_10"
+    },
+    "variant=11": {
+      "model": "witchery:block/chalk_11"
+    },
+    "variant=12": {
+      "model": "witchery:block/chalk_12"
+    },
+    "variant=13": {
+      "model": "witchery:block/chalk_13"
+    },
+    "variant=14": {
+      "model": "witchery:block/chalk_14"
+    },
+    "variant=15": {
+      "model": "witchery:block/chalk_15"
+    }
+  }
+}

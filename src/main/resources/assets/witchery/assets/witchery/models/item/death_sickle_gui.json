@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "witchery:item/death_sickle_gui"
+  }
+}

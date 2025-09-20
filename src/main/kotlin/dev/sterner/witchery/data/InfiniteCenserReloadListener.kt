@@ -6,55 +6,21 @@ import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.registry.ReloadListenerRegistry
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.SpecialPotion
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.packs.PackType
-import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener
 import net.minecraft.util.profiling.ProfilerFiller
 import net.minecraft.world.effect.MobEffect
-import net.minecraft.world.item.alchemy.Potion
-import net.minecraft.world.item.alchemy.PotionContents
-import java.util.Optional
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
 
 object InfiniteCenserReloadListener {
 
     val LOADER = InfiniteCenserResourceReloadListener(Gson(), "infinite_censer")
     val INFINITE_POTIONS = mutableSetOf<Holder<MobEffect>>()
     val INFINITE_SPECIAL_POTIONS = mutableSetOf<ResourceLocation>()
-
-    fun registerListener() {
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
-            override fun getName() = "infinite_censer"
-
-            override fun reload(
-                preparationBarrier: PreparableReloadListener.PreparationBarrier,
-                resourceManager: ResourceManager,
-                preparationsProfiler: ProfilerFiller,
-                reloadProfiler: ProfilerFiller,
-                backgroundExecutor: Executor,
-                gameExecutor: Executor
-            ): CompletableFuture<Void> {
-                return LOADER.reload(
-                    preparationBarrier,
-                    resourceManager,
-                    preparationsProfiler,
-                    reloadProfiler,
-                    backgroundExecutor,
-                    gameExecutor
-                )
-            }
-        })
-    }
 
     class InfiniteCenserResourceReloadListener(gson: Gson, directory: String) :
         SimpleJsonResourceReloadListener(gson, directory) {
@@ -88,9 +54,9 @@ object InfiniteCenserReloadListener {
             val potionRegistry = BuiltInRegistries.POTION
             val potionHolder = potionRegistry.getHolder(data.potion)
 
-            val special = WitcherySpecialPotionEffects.SPECIALS.getHolder(data.potion)
-            if (special != null) {
-                INFINITE_SPECIAL_POTIONS.add(special.value().id)
+            val special = WitcherySpecialPotionEffects.SPECIALS.registry.get().getHolder(data.potion)
+            if (special.isPresent) {
+                INFINITE_SPECIAL_POTIONS.add(special.get().value().id)
             }
 
             potionHolder.ifPresent { holder ->

@@ -3,7 +3,6 @@ package dev.sterner.witchery.item.brew
 import dev.sterner.witchery.api.WitcheryApi
 import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
 
-Entity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos

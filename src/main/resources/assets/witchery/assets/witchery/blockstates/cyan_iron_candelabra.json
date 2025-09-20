@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=true": {
+      "model": "witchery:block/candelabra/cyan_iron_candelabra_lit"
+    },
+    "lit=false": {
+      "model": "witchery:block/candelabra/cyan_iron_candelabra"
+    }
+  }
+}

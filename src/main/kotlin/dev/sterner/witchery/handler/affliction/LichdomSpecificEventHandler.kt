@@ -1,18 +1,12 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.InteractionEvent
-import dev.architectury.event.events.common.PlayerEvent
-import dev.architectury.event.events.common.TickEvent
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
-import dev.sterner.witchery.platform.EtherealEntityAttachment
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.PhylacteryLevelDataAttachment
-import dev.sterner.witchery.platform.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
+import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -30,6 +24,8 @@ import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.monster.Zombie
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 
 object LichdomSpecificEventHandler {
 
@@ -94,8 +90,13 @@ object LichdomSpecificEventHandler {
 
 
     @JvmStatic
-    fun onBlockInteract(player: Player, hand: InteractionHand, pos: BlockPos, face: Direction): EventResult {
-        if (player !is ServerPlayer) return EventResult.pass()
+    fun onBlockInteract(
+        event: PlayerInteractEvent.RightClickBlock,
+        player: Player,
+        hand: InteractionHand,
+        pos: BlockPos
+    ) {
+        if (player !is ServerPlayer) return
 
         val blockState = player.level().getBlockState(pos)
 
@@ -129,20 +130,18 @@ object LichdomSpecificEventHandler {
                         )
                     }
                 }
-
-                return EventResult.interruptTrue()
+                event.isCanceled = true
+                return
             }
         }
-
-        return EventResult.pass()
     }
 
     @JvmStatic
-    fun onKillEntity(livingEntity: LivingEntity, damageSource: DamageSource): EventResult {
-        val player = damageSource.entity as? ServerPlayer ?: return EventResult.pass()
+    fun onKillEntity(livingEntity: LivingEntity, damageSource: DamageSource) {
+        val player = damageSource.entity as? ServerPlayer ?: return
 
         val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
-        if (lichLevel == 0) return EventResult.pass()
+        if (lichLevel == 0) return
 
         // Check for zombie minion kills (level 2->3)
         if (damageSource.entity is Zombie && isPlayerMinion(damageSource.entity as Zombie, player)) {
@@ -166,16 +165,14 @@ object LichdomSpecificEventHandler {
         if (livingEntity is WitherBoss) {
             LichdomLeveling.recordWitherKill(player)
         }
-
-        return EventResult.pass()
     }
 
     @JvmStatic
-    fun onDeath(livingEntity: LivingEntity, damageSource: DamageSource): EventResult {
-        if (livingEntity !is ServerPlayer) return EventResult.pass()
+    fun onDeath(event: LivingDeathEvent, livingEntity: LivingEntity, damageSource: DamageSource) {
+        if (livingEntity !is ServerPlayer) return
 
         val lichLevel = AfflictionPlayerAttachment.getData(livingEntity).getLevel(AfflictionTypes.LICHDOM)
-        if (lichLevel < 2) return EventResult.pass()
+        if (lichLevel < 2) return
 
         val currentSouls = LichdomSoulPoolHandler.getCurrentSouls(livingEntity)
 
@@ -200,10 +197,9 @@ object LichdomSpecificEventHandler {
 
             LichdomLeveling.recordPhylacteryTripleDeath(livingEntity)
 
-            return EventResult.interruptFalse()
+            event.isCanceled = true
+            return
         }
-
-        return EventResult.pass()
     }
 
     @JvmStatic

@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.mojang.serialization.JsonOps
-import dev.architectury.registry.ReloadListenerRegistry
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
@@ -25,30 +24,6 @@ object PotionDataReloadListener {
 
     val LOADER = PotionResourceReloadListener(Gson(), "potion")
     val POTION_PAIR = mutableMapOf<Item, WitcheryPotionIngredient>()
-
-    fun registerListener() {
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, object : PreparableReloadListener {
-            override fun getName() = "potion"
-
-            override fun reload(
-                preparationBarrier: PreparableReloadListener.PreparationBarrier,
-                resourceManager: ResourceManager,
-                preparationsProfiler: ProfilerFiller,
-                reloadProfiler: ProfilerFiller,
-                backgroundExecutor: Executor,
-                gameExecutor: Executor
-            ): CompletableFuture<Void> {
-                return LOADER.reload(
-                    preparationBarrier,
-                    resourceManager,
-                    preparationsProfiler,
-                    reloadProfiler,
-                    backgroundExecutor,
-                    gameExecutor
-                )
-            }
-        })
-    }
 
     class PotionResourceReloadListener(gson: Gson, directory: String) :
         SimpleJsonResourceReloadListener(gson, directory) {

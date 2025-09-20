@@ -1,0 +1,48 @@
+{
+  "credit": "Made with Blockbench",
+  "textures": {
+    "0": "witchery:block/gravestone",
+    "1": "witchery:block/gravestone_2",
+    "particle": "witchery:block/gravestone"
+  },
+  "elements": [
+    {
+      "from": [2, 0, 6],
+      "to": [14, 16, 10],
+      "faces": {
+        "north": {"uv": [0, 0, 12, 16], "texture": "#0"},
+        "east": {"uv": [12, 0, 16, 16], "texture": "#0"},
+        "south": {"uv": [12, 0, 0, 16], "texture": "#1"},
+        "west": {"uv": [12, 0, 16, 16], "texture": "#0"},
+        "up": {"uv": [12, 2, 16, 14], "rotation": 90, "texture": "#1"},
+        "down": {"uv": [12, 2, 16, 14], "rotation": 90, "texture": "#1"}
+      }
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [0, -1.75, 0.75],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "thirdperson_lefthand": {
+      "translation": [0, -1.75, 0.75],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "firstperson_righthand": {
+      "translation": [0, 0, 0.75],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "firstperson_lefthand": {
+      "translation": [0, 0, 0.75],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "ground": {
+      "translation": [0, 2, 0],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "gui": {
+      "rotation": [15, 135, 0],
+      "scale": [0.75, 0.75, 0.75]
+    }
+  }
+}

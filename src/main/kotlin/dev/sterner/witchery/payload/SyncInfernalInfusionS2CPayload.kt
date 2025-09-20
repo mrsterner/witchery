@@ -1,6 +1,8 @@
 package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.infusion.CreatureType
+import dev.sterner.witchery.data_attachment.infusion.InfernalInfusionPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag
@@ -32,8 +34,8 @@ class SyncInfernalInfusionS2CPayload(val nbt: CompoundTag) : CustomPacketPayload
     fun handleOnClient() {
         val client = Minecraft.getInstance()
 
-        val id = payload.nbt.getUUID("Id")
-        val entityType = payload.nbt.getString("EntityType")
+        val id = nbt.getUUID("Id")
+        val entityType = nbt.getString("EntityType")
 
         val player = client.level?.getPlayerByUUID(id)
 

@@ -1,7 +1,12 @@
 package dev.sterner.witchery.poppet
 
+import dev.sterner.witchery.api.PoppetLocation
 import dev.sterner.witchery.api.PoppetType
 import dev.sterner.witchery.api.PoppetUsage
+import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
+import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
+import dev.sterner.witchery.handler.poppet.PoppetHandler
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes

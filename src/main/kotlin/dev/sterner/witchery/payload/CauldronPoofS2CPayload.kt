@@ -1,6 +1,7 @@
 package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.particle.ColorBubbleData
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag

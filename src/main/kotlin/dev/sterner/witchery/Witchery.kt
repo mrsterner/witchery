@@ -1,8 +1,15 @@
 package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
+import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.api.event.SleepingEvent
 import dev.sterner.witchery.api.schedule.TickTaskScheduler
+import dev.sterner.witchery.data.BloodPoolReloadListener
+import dev.sterner.witchery.data.ErosionReloadListener
+import dev.sterner.witchery.data.FetishEffectReloadListener
+import dev.sterner.witchery.data.InfiniteCenserReloadListener
+import dev.sterner.witchery.data.NaturePowerReloadListener
+import dev.sterner.witchery.data.PotionDataReloadListener
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
@@ -52,8 +59,11 @@ import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.handler.infusion.LightInfusionHandler
 import dev.sterner.witchery.handler.infusion.OtherwhereInfusionHandler
 import dev.sterner.witchery.handler.poppet.PoppetHandler
+import dev.sterner.witchery.item.accessories.BitingBeltItem
+import dev.sterner.witchery.item.accessories.BitingBeltItem.Companion.usePotion
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryKeyMappings
+import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.animal.Pig
@@ -64,8 +74,11 @@ import net.neoforged.fml.config.ModConfig
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent
+import net.neoforged.neoforge.event.AddReloadListenerEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
+import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
@@ -95,7 +108,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
 
     @SubscribeEvent
     fun onServerStarting(event: ServerStartingEvent) {
-
+        NaturePowerReloadListener.addPending()
     }
 
     @SubscribeEvent
@@ -104,6 +117,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         EntSpawningHandler.serverTick(event.server)
         ManifestationHandler.tick(event.server)
         TeleportQueueHandler.processQueue(event.server)
+        VampireChildrenHuntHandler.tickHuntAllLevels(event.server)
     }
 
     @SubscribeEvent
@@ -113,6 +127,10 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         PoppetHandler.onLivingDeath(event, event.entity, event.source)
         NecroHandler.onDeath(event.entity, event.source)
         FamiliarHandler.familiarDeath(event.entity, event.source)
+
+        WerewolfSpecificEventHandler.killEntity(event.entity, event.source)
+        LichdomSpecificEventHandler.onDeath(event, event.entity, event.source)
+        LichdomSpecificEventHandler.onKillEntity(event.entity, event.source)
     }
 
     @SubscribeEvent
@@ -124,6 +142,22 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
     fun onLivingHurt(event: LivingDamageEvent.Post){
         CurseHandler.onHurt(event.entity, event.source, event.originalDamage)
         PotionHandler.poisonWeaponAttack(event.entity, event.source, event.originalDamage)
+        BitingBeltItem.usePotion(event.entity, event.source, event.originalDamage)
+    }
+
+    @SubscribeEvent
+    fun onAddResourceListener(event: AddReloadListenerEvent){
+        event.addListener(BloodPoolReloadListener.LOADER)
+        event.addListener(ErosionReloadListener.LOADER)
+        event.addListener(FetishEffectReloadListener.LOADER)
+        event.addListener(InfiniteCenserReloadListener.LOADER)
+        event.addListener(NaturePowerReloadListener.LOADER)
+        event.addListener(PotionDataReloadListener.LOADER)
+    }
+
+    @SubscribeEvent
+    fun onAddReloadListener(event: AddReloadListenerEvent) {
+        event.addListener(NaturePowerReloadListener.LOADER)
     }
 
     @SubscribeEvent
@@ -134,6 +168,14 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         BarkBeltHandler.tick(event.entity)
         BloodPoolHandler.tick(event.entity)
         NightmareHandler.tick(event.entity)
+        InfernalInfusionHandler.tick(event.entity)
+
+        LightInfusionHandler.tick(event.entity)
+        WerewolfSpecificEventHandler.tick(event.entity)
+        OtherwhereInfusionHandler.tick(event.entity)
+        TransformationHandler.tickBat(event.entity)
+        TransformationHandler.tickWolf(event.entity)
+        LichdomSpecificEventHandler.tick(event.entity)
     }
 
     @SubscribeEvent
@@ -141,6 +183,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         VampireSpecificEventHandler.respawn(event.original, event.entity, event.isWasDeath)
         AfflictionAbilityHandler.setAbilityIndex(event.entity, -1)
         InfusionPlayerAttachment.setPlayerInfusion(event.entity, InfusionPlayerAttachment.getPlayerInfusion(event.entity))
+        LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
     }
 
     @SubscribeEvent
@@ -152,6 +195,12 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
     fun onRightClickBlock(event: PlayerInteractEvent.RightClickBlock) {
         AfflictionEventHandler.rightClickBlockAbility(event, event.entity, event.hand, event.pos)
         LecternHandler.tryAccessGuidebook(event, event.entity, event.hand, event.pos)
+        LichdomSpecificEventHandler.onBlockInteract(event, event.entity, event.hand, event.pos)
+    }
+
+    @SubscribeEvent
+    fun onLeftClickBlock(event: PlayerInteractEvent.LeftClickBlock) {
+        InfusionHandler.leftClickBlock(event.entity, event.hand, event.pos)
     }
 
     @SubscribeEvent
@@ -168,6 +217,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
     @SubscribeEvent
     fun onAttack(event: AttackEntityEvent){
         CurseHandler.attackEntity(event.entity, event.entity.level(), event.target)
+        InfusionHandler.leftClickEntity(event.entity, event.target)
     }
 
     @SubscribeEvent
@@ -208,42 +258,20 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         TeleportQueueHandler.clearQueue(event.server)
     }
 
-
-    fun registerEvents() {
-        LightningEvent.STRIKE.register(InfernalInfusionHandler::strikeLightning)
-        TickEvent.PLAYER_POST.register(InfernalInfusionHandler::tick)
-        KeyMappingRegistry.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)
-        KeyMappingRegistry.register(WitcheryKeyMappings.OPEN_ABILITY_SELECTION)
+    @SubscribeEvent
+    fun onLightningStruck(event: EntityStruckByLightningEvent){
+        InfernalInfusionHandler.strikeLightning(event.entity)
     }
 
-    fun registerEvents() {
-        PlayerEvent.ATTACK_ENTITY.register(InfusionHandler::leftClickEntity)
-        InteractionEvent.LEFT_CLICK_BLOCK.register(InfusionHandler::leftClickBlock)
+    @SubscribeEvent
+    fun onRegisterKey(event: RegisterKeyMappingsEvent){
+        event.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)
+        event.register(WitcheryKeyMappings.OPEN_ABILITY_SELECTION)
     }
 
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(LightInfusionHandler::tick)
-    }
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(OtherwhereInfusionHandler::tick)
-    }
-    fun registerEvents() {
-        EntityEvent.LIVING_DEATH.register(WerewolfSpecificEventHandler::killEntity)
-        TickEvent.PLAYER_PRE.register(WerewolfSpecificEventHandler::tick)
-    }
-    fun registerEvents() {
-        TickEvent.SERVER_POST.register(VampireChildrenHuntHandler::tickHuntAllLevels)
-    }
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(TransformationHandler::tickBat)
-        TickEvent.PLAYER_PRE.register(TransformationHandler::tickWolf)
-    }
-    fun registerEvents() {
-        TickEvent.PLAYER_PRE.register(LichdomSpecificEventHandler::tick)
-        EntityEvent.LIVING_DEATH.register(LichdomSpecificEventHandler::onDeath)
-        EntityEvent.LIVING_DEATH.register(LichdomSpecificEventHandler::onKillEntity)
-        InteractionEvent.RIGHT_CLICK_BLOCK.register(LichdomSpecificEventHandler::onBlockInteract)
-        PlayerEvent.PLAYER_CLONE.register(LichdomSpecificEventHandler::respawn)
+    @SubscribeEvent
+    fun onChain(event: ChainEvent) {
+        BindSpectralCreaturesRitual.handleChainDiscard(event.entity)
     }
 
     @SubscribeEvent

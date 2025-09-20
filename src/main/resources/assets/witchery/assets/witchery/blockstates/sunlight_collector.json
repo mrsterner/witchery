@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "sphere_state=0": {
+      "model": "witchery:block/sunlight_collector_empty"
+    },
+    "sphere_state=1": {
+      "model": "witchery:block/sunlight_collector_sphere"
+    },
+    "sphere_state=2": {
+      "model": "witchery:block/sunlight_collector_sun"
+    }
+  }
+}

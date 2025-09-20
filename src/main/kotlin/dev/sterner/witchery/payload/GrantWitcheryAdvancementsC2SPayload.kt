@@ -1,7 +1,5 @@
 package dev.sterner.witchery.payload
 
-
-import dev.architectury.networking.NetworkManager
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.Component
