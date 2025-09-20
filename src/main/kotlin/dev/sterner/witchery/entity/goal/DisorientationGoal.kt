@@ -1,6 +1,6 @@
 package dev.sterner.witchery.entity.goal
 
-import dev.sterner.witchery.mixin.TargetingConditionsMixin.MobAccessor
+import dev.sterner.witchery.MobAccessor
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.goal.Goal
 

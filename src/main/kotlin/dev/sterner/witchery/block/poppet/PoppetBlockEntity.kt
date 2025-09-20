@@ -2,8 +2,8 @@ package dev.sterner.witchery.block.poppet
 
 
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.item.PoppetItem
-import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

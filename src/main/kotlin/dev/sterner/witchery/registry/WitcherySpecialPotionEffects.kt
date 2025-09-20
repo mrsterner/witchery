@@ -8,6 +8,8 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.mixin.SaplingBlockAccessor
+import dev.sterner.witchery.world.WitcheryWorldState
 import mcp.mobius.waila.registry.Registrar
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Registry
@@ -735,16 +737,14 @@ object WitcherySpecialPotionEffects {
             instance.group(
                 ResourceLocation.CODEC.fieldOf("id").forGetter { special -> special.id }
             ).apply(instance) { resourceLocation ->
-                SPECIALS.get(resourceLocation)
+                SPECIALS.registry.get().get(resourceLocation)
             }
         }
 
     fun register() {
     }
 
-    fun registerEvents() {
-        TickEvent.SERVER_POST.register(WitcherySpecialPotionEffects::serverTick)
-    }
+
 
     fun changeIntoState(state: BlockState, level: Level, pos: BlockPos, entity: Entity?) {
         level.setBlock(pos, state, 11)

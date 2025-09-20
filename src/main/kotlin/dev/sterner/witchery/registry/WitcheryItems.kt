@@ -1177,7 +1177,7 @@ object WitcheryItems {
         "flowing_spirit_bucket"
     ) {
         BucketItem(
-            WitcheryFluids.FLOWING_SPIRIT_STILL,
+            WitcheryFluids.FLOWING_SPIRIT_STILL.get(),
             Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)
         )
     }

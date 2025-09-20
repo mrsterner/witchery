@@ -1,6 +1,6 @@
 package dev.sterner.witchery.entity
 
-import dev.sterner.witchery.platform.NightmarePlayerAttachment
+import dev.sterner.witchery.data_attachment.NightmarePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.nbt.CompoundTag

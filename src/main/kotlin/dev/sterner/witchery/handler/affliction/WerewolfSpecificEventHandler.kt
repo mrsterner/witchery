@@ -1,13 +1,8 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.TickEvent
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.entity.HornedHuntsmanEntity
-import dev.sterner.witchery.handler.affliction.TransformationHandler
-import dev.sterner.witchery.handler.affliction.WerewolfLeveling
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.TransformationPlayerAttachment
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -22,10 +17,8 @@ import net.minecraft.world.entity.player.Player
 
 object WerewolfSpecificEventHandler {
 
-
-
-    fun killEntity(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
-        if (damageSource?.entity !is ServerPlayer) return EventResult.pass()
+    fun killEntity(livingEntity: LivingEntity?, damageSource: DamageSource?) {
+        if (damageSource?.entity !is ServerPlayer) return
 
         val player = damageSource.entity as ServerPlayer
         val wereData = AfflictionPlayerAttachment.getData(player)
@@ -65,8 +58,6 @@ object WerewolfSpecificEventHandler {
                 incrementAirSlayMonster()
             }
         }
-
-        return EventResult.pass()
     }
 
     @JvmStatic

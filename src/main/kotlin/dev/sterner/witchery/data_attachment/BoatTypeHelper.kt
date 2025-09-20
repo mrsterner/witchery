@@ -1,5 +1,6 @@
 package dev.sterner.witchery.data_attachment
 
+import dev.sterner.witchery.asm.EnumExtension
 import net.minecraft.world.entity.vehicle.Boat
 
 object BoatTypeHelper {

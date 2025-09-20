@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin_logic
 
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.util.RenderUtils
 import dev.sterner.witchery.util.RenderUtils.innerRenderBlood
 import net.minecraft.client.gui.GuiGraphics

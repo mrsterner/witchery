@@ -1,16 +1,12 @@
 package dev.sterner.witchery.item
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.EntityEvent
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.data.BloodPoolReloadListener
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryConstants
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.component.DataComponents
 import net.minecraft.server.level.ServerPlayer
@@ -117,7 +113,6 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
         return super.use(level, player, usedHand)
     }
 
-    @Environment(EnvType.CLIENT)
     override fun getTooltipImage(stack: ItemStack): Optional<TooltipComponent> {
         return Optional.of(BloodPoolComponent(stack))
     }
@@ -126,11 +121,9 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
 
         const val MAX_STORED_BLOOD = WitcheryConstants.BLOOD_DROP * 2
 
-        fun registerEvents() {
-            EntityEvent.LIVING_DEATH.register(CaneSwordItem::harvestBlood)
-        }
 
-        private fun harvestBlood(livingEntity: LivingEntity?, damageSource: DamageSource?): EventResult? {
+
+        private fun harvestBlood(livingEntity: LivingEntity?, damageSource: DamageSource?) {
             if (livingEntity != null && BloodPoolReloadListener.BLOOD_PAIR.contains(livingEntity.type)) {
                 if (damageSource?.entity is Player) {
                     val player = damageSource.entity as Player
@@ -145,8 +138,6 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
                     }
                 }
             }
-
-            return EventResult.pass()
         }
     }
 }

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin;
+package dev.sterner.witchery.mixin.client;
 
 import com.klikli_dev.modonomicon.client.gui.book.node.BookParentNodeScreen;
 import dev.sterner.witchery.client.WitcheryAdvancementButton;

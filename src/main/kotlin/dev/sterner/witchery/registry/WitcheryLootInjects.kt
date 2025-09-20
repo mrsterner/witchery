@@ -10,11 +10,6 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 
 object WitcheryLootInjects {
 
-    fun registerEvents(){
-        LootEvent.MODIFY_LOOT_TABLE.register(::addSeeds)
-        LootEvent.MODIFY_LOOT_TABLE.register(::addWitchesHand)
-        LootEvent.MODIFY_LOOT_TABLE.register(::addLootInjects)
-    }
 
     /**
      * Adds the item Witches Hand to The witches loot table at a 50% chance drop

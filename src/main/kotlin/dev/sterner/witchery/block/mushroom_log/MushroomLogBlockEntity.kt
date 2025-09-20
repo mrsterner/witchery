@@ -161,19 +161,16 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     /**
      * Handle growth tick
      */
-    override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
-        super.tick(level, pos, blockState)
-        
-        if (level.isClientSide) return
+    override fun serverTick(level: ServerLevel) {
 
         if (level.gameTime % 20 == 0L && level.random.nextFloat() < 0.33f) {
             if (!currentMushroom.isEmpty && growthStage < maxGrowthStage) {
-                if (canGrow(level, pos)) {
+                if (canGrow(level, blockPos)) {
                     growthStage = min(maxGrowthStage, growthStage + growthRate)
 
                     if ((growthStage * 100).toInt() % 10 == 0) {
                         setChanged()
-                        level.sendBlockUpdated(pos, blockState, blockState, 3)
+                        level.sendBlockUpdated(blockPos, blockState, blockState, 3)
                     }
                 }
             }

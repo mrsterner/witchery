@@ -9,9 +9,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList
 
 object WitcheryStructureInjects {
-    fun registerEvents() {
-        LifecycleEvent.SERVER_STARTED.register(::addStructure)
-    }
+
 
     /**
      * Adds Graveyards to Plains and Taiga Villages.

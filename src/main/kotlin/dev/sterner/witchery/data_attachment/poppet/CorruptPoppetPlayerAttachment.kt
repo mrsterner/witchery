@@ -9,6 +9,7 @@ import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.network.PacketDistributor
 
 object CorruptPoppetPlayerAttachment {
 
@@ -24,8 +25,7 @@ object CorruptPoppetPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(
-                player.level(),
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player,
                 SyncCorruptPoppetS2CPayload(player, data)
             )
         }

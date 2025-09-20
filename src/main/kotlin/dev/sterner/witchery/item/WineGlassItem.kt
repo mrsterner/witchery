@@ -1,16 +1,14 @@
 package dev.sterner.witchery.item
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.InteractionEvent
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.entity.LilithEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.affliction.VampireLeveling
 import dev.sterner.witchery.handler.affliction.VampireLeveling.canPerformQuest
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -182,11 +180,8 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
     }
 
     companion object {
-        fun registerEvents() {
-            InteractionEvent.INTERACT_ENTITY.register(WineGlassItem::applyWineOnVillager)
-        }
 
-        private fun applyWineOnVillager(player: Player?, entity: Entity?, interactionHand: InteractionHand?): EventResult? {
+        private fun applyWineOnVillager(player: Player?, entity: Entity?, interactionHand: InteractionHand?) {
             if (entity is Villager && player != null) {
                 val item = player.mainHandItem
                 val bl = item.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true
@@ -206,12 +201,11 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
                                 VampireLeveling.increaseVampireLevel(player)
                             }
                         }
-                        return EventResult.interruptTrue()
+                        event.isCanceled = true
                     }
                 }
             }
 
-            return EventResult.pass()
         }
     }
 }

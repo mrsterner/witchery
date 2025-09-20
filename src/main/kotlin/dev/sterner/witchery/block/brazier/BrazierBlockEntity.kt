@@ -1,8 +1,8 @@
 package dev.sterner.witchery.block.brazier
 
+import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 
-import dev.sterner.witchery.block.censer.CenserBlockEntity
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.item.potion.WitcheryPotionItem.Companion.getMergedEffectModifier
@@ -50,10 +50,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 
 class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.BRAZIER.get(), blockPos, blockState),
-    Container, AltarPowerConsumer, RecipeCraftingHolder, WorldlyContainer, PotionSpreader {
+    Container, AltarPowerConsumer, RecipeCraftingHolder, WorldlyContainer {
 
     var items: NonNullList<ItemStack> = NonNullList.withSize(8, ItemStack.EMPTY)
     private val quickCheck = RecipeManager.createCheck(WitcheryRecipeTypes.BRAZIER_SUMMONING_RECIPE_TYPE.get())
@@ -63,29 +64,12 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var active = false
     private var summoningTicker = 0
 
-    override var potionContents: PotionContents
-        get() = PotionContents.EMPTY
-        set(value) {
-            potionContents = value
-        }
-    override var activePotionSpecialEffects: MutableList<Pair<ResourceLocation, Int>>
-        get() = mutableListOf()
-        set(value) {
-            activePotionSpecialEffects = value
-        }
-    override var potionEffectRadius: Double
-        get() = 8.0
-        set(value) {
-            potionEffectRadius = value
-        }
-    override var potionEffectRemainingTicks: Int
-        get() = 0
-        set(value) {
-            potionEffectRemainingTicks = value
-        }
-    override var isInfinite: Boolean
-        get() = false
-        set(value) {}
+    var potionContents: PotionContents = PotionContents.EMPTY
+    var activePotionSpecialEffects: MutableList<Pair<ResourceLocation, Int>> = mutableListOf()
+    var potionEffectRadius: Double = 8.0
+    var potionEffectRemainingTicks: Int = 0
+    var isInfinite: Boolean = false
+
 
     override fun tick(level: Level, pos: BlockPos, state: BlockState) {
         super.tick(level, pos, state)
@@ -190,7 +174,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
 
             for ((specialEffect, amplifier) in activePotionSpecialEffects) {
-                val special = WitcherySpecialPotionEffects.SPECIALS.get(specialEffect)
+                val special = WitcherySpecialPotionEffects.SPECIALS.registry.get().get(specialEffect)
                 special?.onActivated(
                     level,
                     entity,
@@ -484,12 +468,69 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return null
     }
 
-    companion object {
-        fun registerEvents() {
-            InteractionEvent.RIGHT_CLICK_BLOCK.register(::makeSoulCage)
-        }
+    fun savePotionHolder(pTag: CompoundTag, level: Level) {
+        pTag.putBoolean("isInfinite", isInfinite)
+        if (potionEffectRemainingTicks > 0) {
+            pTag.putInt("potionEffectTicks", potionEffectRemainingTicks)
+            pTag.putDouble("potionEffectRadius", potionEffectRadius)
 
-        private fun makeSoulCage(player: Player, interactionHand: InteractionHand?, blockPos: BlockPos, direction: Direction?): EventResult? {
+            if (potionContents != PotionContents.EMPTY) {
+                val registryOps = level.registryAccess().createSerializationContext(NbtOps.INSTANCE)
+                PotionContents.CODEC.encodeStart(registryOps, potionContents)
+                    .resultOrPartial { error -> }
+                    .ifPresent { encoded: Tag ->
+                        pTag.put("potionContents", encoded)
+                    }
+            }
+
+            if (activePotionSpecialEffects.isNotEmpty()) {
+                val specialEffectsTag = CompoundTag()
+
+                for ((index, pair) in activePotionSpecialEffects.withIndex()) {
+                    val specialEffectTag = CompoundTag()
+                    specialEffectTag.putString("id", pair.first.toString())
+                    specialEffectTag.putInt("amplifier", pair.second)
+                    specialEffectsTag.put(index.toString(), specialEffectTag)
+                }
+
+                pTag.put("specialEffects", specialEffectsTag)
+            }
+        }
+    }
+
+    fun loadPotionHolder(pTag: CompoundTag, level: Level){
+        this.isInfinite = pTag.getBoolean("isInfinite")
+        if (pTag.contains("potionEffectTicks")) {
+            this.potionEffectRemainingTicks = pTag.getInt("potionEffectTicks")
+            this.potionEffectRadius = pTag.getDouble("potionEffectRadius")
+
+            if (pTag.contains("potionContents")) {
+                val registryOps = level.registryAccess().createSerializationContext(NbtOps.INSTANCE)
+                PotionContents.CODEC.parse(registryOps, pTag.get("potionContents"))
+                    .resultOrPartial { error ->
+                    }
+                    .ifPresent { contents ->
+                        this.potionContents = contents
+                    }
+            }
+
+            if (pTag.contains("specialEffects")) {
+                val specialEffectsTag = pTag.getList("specialEffects", 10)
+                this.activePotionSpecialEffects.clear()
+
+                for (i in 0 until specialEffectsTag.size) {
+                    val specialEffectTag = specialEffectsTag.getCompound(i)
+                    val resourceLocation = ResourceLocation.parse(specialEffectTag.getString("id"))
+                    val amplifier = specialEffectTag.getInt("amplifier")
+                    this.activePotionSpecialEffects.add(Pair(resourceLocation, amplifier))
+                }
+            }
+        }
+    }
+
+    companion object {
+
+        fun makeSoulCage(event: PlayerInteractEvent.RightClickBlock, player: Player, interactionHand: InteractionHand?, blockPos: BlockPos) {
             val level = player.level()
             if (level.getBlockState(blockPos).`is`(WitcheryBlocks.BRAZIER.get())) {
                 val item = player.mainHandItem.item
@@ -502,11 +543,10 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                         player.mainHandItem.shrink(1)
                     }
                     level.setBlockAndUpdate(blockPos, WitcheryBlocks.SOUL_CAGE.get().defaultBlockState())
-                    return EventResult.interruptTrue()
+                    event.isCanceled = true
+                    return
                 }
             }
-
-            return EventResult.pass()
         }
     }
 }

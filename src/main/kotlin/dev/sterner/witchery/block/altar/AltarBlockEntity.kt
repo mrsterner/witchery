@@ -1,6 +1,9 @@
 package dev.sterner.witchery.block.altar
 
 import dev.sterner.witchery.block.ChaliceBlock
+import dev.sterner.witchery.data.NaturePowerReloadListener
+import dev.sterner.witchery.menu.AltarMenu
+import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPayload
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryTags
@@ -16,6 +19,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.BlockTags
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.MenuProvider
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
@@ -25,6 +29,8 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
+import net.neoforged.neoforge.event.level.BlockEvent
+import net.neoforged.neoforge.network.PacketDistributor
 import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 import kotlin.math.floor
 import kotlin.math.min
@@ -68,31 +74,10 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     init {
         powerUpdateQueued = true
         augmentUpdateQueued = true
-
-        BlockEvent.PLACE.register { level, pos, state, entity ->
-            if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
-                powerUpdateQueued = true
-
-                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center)) {
-                    augmentUpdateQueued = true
-                }
-            }
-
-            EventResult.pass()
-        }
-
-        BlockEvent.BREAK.register { level, pos, state, player, xp ->
-            if (!level.isClientSide && getLocalAABB().contains(pos.center)) {
-                powerUpdateQueued = true
-
-                if (getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).contains(pos.center)) {
-                    augmentUpdateQueued = true
-                }
-            }
-
-            EventResult.pass()
-        }
     }
+
+
+
 
     private fun getLocalAABB() = AABB.ofSize(blockPos.center, range.toDouble(), range.toDouble(), range.toDouble())
 
@@ -254,27 +239,24 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     }
 
     private fun openMenu(player: ServerPlayer) {
-        NetworkManager.sendToPlayer(player, AltarMultiplierSyncS2CPayload(blockPos, powerMultiplier))
+        PacketDistributor.sendToPlayer(player, AltarMultiplierSyncS2CPayload(blockPos, powerMultiplier))
 
-        MenuRegistry.openExtendedMenu(player, object : ExtendedMenuProvider {
-            override fun createMenu(i: Int, inventory: Inventory, player: Player): AbstractContainerMenu {
+        player.openMenu(object : MenuProvider {
+            override fun createMenu(containerId: Int, inventory: Inventory, player: Player): AbstractContainerMenu? {
                 val buf = FriendlyByteBuf(Unpooled.buffer())
-                saveExtraData(buf)
-                return AltarMenu(i, inventory, buf)
-            }
-
-            override fun getDisplayName() = Component.translatable("container.witchery.altar_menu")
-
-            override fun saveExtraData(buf: FriendlyByteBuf) {
                 buf.writeBlockPos(blockPos)
+                buf.writeDouble(powerMultiplier)
+
+                return AltarMenu(containerId, inventory, buf)
             }
-        })
+
+            override fun getDisplayName(): Component {
+                return Component.translatable("container.witchery.altar_menu")
+            }
+        }, blockPos)
     }
 
-    override fun tick(level: Level, pos: BlockPos, state: BlockState) {
-        super.tick(level, pos, state)
-
-        if (level !is ServerLevel) return
+    override fun serverTick(level: ServerLevel) {
 
         if (powerUpdateQueued) {
             collectAllLocalNaturePower(level)
@@ -327,5 +309,68 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         currentPower -= amount
         return true
+    }
+
+    companion object {
+        private fun findNearbyAltars(level: Level, pos: BlockPos): List<BlockPos> {
+            val radius = 32
+            val altars = mutableListOf<BlockPos>()
+
+            for (x in -radius..radius) {
+                for (y in -radius..radius) {
+                    for (z in -radius..radius) {
+                        val checkPos = pos.offset(x, y, z)
+                        val be = level.getBlockEntity(checkPos)
+                        if (be is AltarBlockEntity) {
+                            altars.add(checkPos)
+                        }
+                    }
+                }
+            }
+
+            return altars
+        }
+
+        fun onBlockBreak(event: BlockEvent.BreakEvent) {
+            val level = event.level
+            if (level is Level && !level.isClientSide) {
+                // Find nearby altar block entities
+                val altarPos = findNearbyAltars(level, event.pos)
+                altarPos.forEach { pos ->
+                    val be = level.getBlockEntity(pos)
+                    if (be is AltarBlockEntity) {
+                        if (be.getLocalAABB().contains(event.pos.center)) {
+                            be.powerUpdateQueued = true
+
+                            if (be.getLocalAugmentAABB(be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+                                    .contains(event.pos.center)) {
+                                be.augmentUpdateQueued = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        fun onBlockPlace(event: BlockEvent.EntityPlaceEvent) {
+            val level = event.level
+            if (level is Level && !level.isClientSide) {
+                // Find nearby altar block entities
+                val altarPos = findNearbyAltars(level, event.pos)
+                altarPos.forEach { pos ->
+                    val be = level.getBlockEntity(pos)
+                    if (be is AltarBlockEntity) {
+                        if (be.getLocalAABB().contains(event.pos.center)) {
+                            be.powerUpdateQueued = true
+
+                            if (be.getLocalAugmentAABB(be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+                                    .contains(event.pos.center)) {
+                                be.augmentUpdateQueued = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

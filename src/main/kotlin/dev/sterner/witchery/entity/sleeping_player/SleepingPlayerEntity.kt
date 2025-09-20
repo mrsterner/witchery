@@ -1,15 +1,15 @@
 package dev.sterner.witchery.entity.sleeping_player
 
 import com.mojang.authlib.GameProfile
+import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
+import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
+import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.handler.TeleportQueueHandler
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.mixin.PlayerInvoker
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
-import dev.sterner.witchery.platform.DeathQueueLevelAttachment
-import dev.sterner.witchery.platform.ManifestationPlayerAttachment
-import dev.sterner.witchery.platform.teleport.TeleportRequest
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.core.BlockPos
@@ -37,6 +37,7 @@ import net.minecraft.world.item.component.ResolvableProfile
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.network.PacketDistributor
 import java.util.*
 import kotlin.math.max
 
@@ -108,13 +109,11 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 SleepingPlayerHandler.removeBySleepingUUID(uuid, level() as ServerLevel)
 
                 // Spawn death particles
-                WitcheryPayloads.sendToPlayers(
-                    level(), SpawnSleepingDeathParticleS2CPayload(
-                        this.getRandomX(1.5),
-                        this.randomY,
-                        this.getRandomZ(1.5)
-                    )
-                )
+                PacketDistributor.sendToPlayersTrackingEntity(this, SpawnSleepingDeathParticleS2CPayload(
+                    this.getRandomX(1.5),
+                    this.randomY,
+                    this.getRandomZ(1.5)
+                ))
 
                 // Remove entity
                 this.remove(RemovalReason.KILLED)

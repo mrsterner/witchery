@@ -13,6 +13,10 @@ import net.minecraft.tags.FluidTags
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
+import kotlin.compareTo
+import kotlin.rem
+import kotlin.text.compareTo
+import kotlin.times
 
 object UnderWaterBreathPlayerAttachment {
 
@@ -34,56 +38,54 @@ object UnderWaterBreathPlayerAttachment {
         }
     }
 
-    fun registerEvents() {
-        TickEvent.PLAYER_POST.register { player ->
-            val data = getData(player)
+    fun tick(player: Player) {
+        val data = getData(player)
 
-            if (data.duration > 0) {
-                val newDuration = data.duration - 1
+        if (data.duration > 0) {
+            val newDuration = data.duration - 1
 
-                val newData = Data(
-                    duration = newDuration,
-                    maxDuration = data.maxDuration
+            val newData = Data(
+                duration = newDuration,
+                maxDuration = data.maxDuration
+            )
+
+            setData(player, newData)
+
+            if (newDuration % 20 == 0) {
+                sync(player, newData)
+            }
+
+            if (newDuration <= 0) {
+                val clearedData = Data(
+                    duration = 0,
+                    maxDuration = 0
                 )
+                setData(player, clearedData)
+                sync(player, clearedData)
+            }
 
-                setData(player, newData)
+            val isInWater = player.isEyeInFluid(FluidTags.WATER)
 
-                if (newDuration % 20 == 0) {
-                    sync(player, newData)
-                }
+            if (isInWater) {
+                player.airSupply = player.maxAirSupply
+            } else {
+                player.airSupply = player.airSupply - 5
+                if (player.tickCount % 5 == 0) {
 
-                if (newDuration <= 0) {
-                    val clearedData = Data(
-                        duration = 0,
-                        maxDuration = 0
-                    )
-                    setData(player, clearedData)
-                    sync(player, clearedData)
-                }
+                    if (player.airSupply <= -20) {
+                        player.airSupply = 0
+                        player.hurt(player.damageSources().drown(), 2.0f)
+                    }
 
-                val isInWater = player.isEyeInFluid(FluidTags.WATER)
-                
-                if (isInWater) {
-                    player.airSupply = player.maxAirSupply
-                } else {
-                    player.airSupply = player.airSupply - 5
-                    if (player.tickCount % 5 == 0) {
-
-                        if (player.airSupply <= -20) {
-                            player.airSupply = 0
-                            player.hurt(player.damageSources().drown(), 2.0f)
-                        }
-
-                        if (player.airSupply < player.maxAirSupply * 0.3 && player.level() is ServerLevel) {
-                            val level = player.level() as ServerLevel
-                            level.sendParticles(
-                                ParticleTypes.BUBBLE,
-                                player.x,
-                                player.y + player.eyeHeight,
-                                player.z,
-                                1, 0.1, 0.1, 0.1, 0.05
-                            )
-                        }
+                    if (player.airSupply < player.maxAirSupply * 0.3 && player.level() is ServerLevel) {
+                        val level = player.level() as ServerLevel
+                        level.sendParticles(
+                            ParticleTypes.BUBBLE,
+                            player.x,
+                            player.y + player.eyeHeight,
+                            player.z,
+                            1, 0.1, 0.1, 0.1, 0.05
+                        )
                     }
                 }
             }

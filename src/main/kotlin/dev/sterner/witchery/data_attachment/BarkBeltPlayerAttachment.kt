@@ -9,6 +9,7 @@ import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.network.PacketDistributor
 
 object BarkBeltPlayerAttachment {
 
@@ -25,7 +26,7 @@ object BarkBeltPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncBarkS2CPayload(player, data))
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncBarkS2CPayload(player, data))
         }
     }
 

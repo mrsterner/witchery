@@ -1,11 +1,15 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
+import dev.sterner.witchery.data_attachment.CovenPlayerAttachment
 import dev.sterner.witchery.entity.CovenWitchEntity
+import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.item.SeerStoneItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
@@ -147,7 +151,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
 
             val ritualType = ritualRecipe?.ritualType?.id ?: return
-            WitcheryRitualRegistry.RITUALS.get(ritualType)?.onStartRitual(level, blockPos, this)
+            WitcheryRitualRegistry.RITUALS.registry.get().get(ritualType)?.onStartRitual(level, blockPos, this)
 
             RitualHelper.runCommand(level, blockPos, this, CommandType.START)
             isRitualActive = true
@@ -162,7 +166,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      */
     private fun onTickRitual(level: Level) {
         val ritualType = ritualRecipe?.ritualType?.id ?: return
-        WitcheryRitualRegistry.RITUALS.get(ritualType)?.onTickRitual(level, blockPos, this)
+        WitcheryRitualRegistry.RITUALS.registry.get().get(ritualType)?.onTickRitual(level, blockPos, this)
         RitualHelper.runCommand(level, blockPos, this, CommandType.TICK)
     }
 
@@ -171,7 +175,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      */
     private fun onEndRitual(level: Level) {
         val ritualType = ritualRecipe?.ritualType?.id ?: return
-        WitcheryRitualRegistry.RITUALS.get(ritualType)?.onEndRitual(level, blockPos, this)
+        WitcheryRitualRegistry.RITUALS.registry.get().get(ritualType)?.onEndRitual(level, blockPos, this)
 
         level.playSound(null, blockPos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0f, 1.0f)
         RitualHelper.runCommand(level, blockPos, this, CommandType.END)

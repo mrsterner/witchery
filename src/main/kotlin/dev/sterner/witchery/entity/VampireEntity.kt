@@ -7,12 +7,12 @@ import dev.sterner.witchery.entity.goal.VampireHurtByTargetGoal
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.affliction.VampireChildrenHuntHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils

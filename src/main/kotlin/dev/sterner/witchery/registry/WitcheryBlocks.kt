@@ -1,6 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.block.*
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
@@ -43,6 +44,7 @@ import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarComponent
 import dev.sterner.witchery.data_attachment.PlatformUtils
+import dev.sterner.witchery.data_attachment.PlatformUtils.registerWoodType
 import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
@@ -424,7 +426,7 @@ object WitcheryBlocks {
 
     val ROWAN_STAIRS = register("rowan_stairs") {
         StairBlock(
-            ROWAN_PLANKS,
+            ROWAN_PLANKS.get().defaultBlockState(),
             Properties.ofFullCopy(Blocks.OAK_STAIRS)
         )
     }
@@ -545,7 +547,7 @@ object WitcheryBlocks {
 
     val ALDER_STAIRS = register("alder_stairs") {
         StairBlock(
-            ALDER_PLANKS.orElseGet { Blocks.OAK_PLANKS }.defaultBlockState(),
+            ALDER_PLANKS.get().defaultBlockState(),
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)
         )
     }
@@ -640,7 +642,7 @@ object WitcheryBlocks {
         RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG))
     }
 
-    val HAWTHORN_LOG: DeferredHolder<Block, Block> = register(
+    val HAWTHORN_LOG = register(
         "hawthorn_log", true, createStrippableLog(
             STRIPPED_HAWTHORN_LOG,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
@@ -672,7 +674,7 @@ object WitcheryBlocks {
 
     val HAWTHORN_STAIRS = register("hawthorn_stairs") {
         StairBlock(
-            HAWTHORN_PLANKS.orElseGet { Blocks.OAK_PLANKS }.defaultBlockState(),
+            HAWTHORN_PLANKS.get().defaultBlockState(),
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)
         )
     }

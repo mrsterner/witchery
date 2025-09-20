@@ -6,6 +6,24 @@ import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.commands.CurseArgumentType
+import dev.sterner.witchery.commands.InfusionArgumentType
+import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
+import dev.sterner.witchery.data_attachment.PlatformUtils
+import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.data_attachment.infusion.InfusionType
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.handler.CurseHandler
+import dev.sterner.witchery.handler.FamiliarHandler
+import dev.sterner.witchery.handler.ManifestationHandler
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.handler.affliction.LichdomLeveling
+import dev.sterner.witchery.handler.affliction.VampireLeveling
+import dev.sterner.witchery.handler.affliction.VampireLeveling.levelToBlood
+import dev.sterner.witchery.handler.affliction.WerewolfLeveling
+import dev.sterner.witchery.handler.infusion.InfusionHandler
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -17,6 +35,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.registries.DeferredRegister
+import java.util.function.Supplier
 
 
 object WitcheryCommands {
@@ -24,13 +43,13 @@ object WitcheryCommands {
     val COMMAND_ARGUMENTS: DeferredRegister<ArgumentTypeInfo<*, *>> =
         DeferredRegister.create(Registries.COMMAND_ARGUMENT_TYPE, Witchery.MODID)
 
-    val INFUSION_TYPE = COMMAND_ARGUMENTS.register("infusion_type") {
+    val INFUSION_TYPE = COMMAND_ARGUMENTS.register("infusion_type", Supplier {
         registerByClass(InfusionArgumentType::class.java, SingletonArgumentInfo.contextFree(::InfusionArgumentType))
-    }
+    })
 
-    val CURSE_TYPE = COMMAND_ARGUMENTS.register("curse_type") {
+    val CURSE_TYPE = COMMAND_ARGUMENTS.register("curse_type", Supplier {
         registerByClass(CurseArgumentType::class.java, SingletonArgumentInfo.contextFree(::CurseArgumentType))
-    }
+    })
 
     private fun <A : ArgumentType<*>?, T : ArgumentTypeInfo.Template<A>?, I : ArgumentTypeInfo<A, T>?> registerByClass(
         infoClass: Class<A>?,
@@ -42,9 +61,7 @@ object WitcheryCommands {
         return argumentTypeInfo
     }
 
-    fun registerEvents() {
-        CommandRegistrationEvent.EVENT.register(::register)
-    }
+
 
     fun register(
         dispatcher: CommandDispatcher<CommandSourceStack>,
@@ -197,7 +214,7 @@ object WitcheryCommands {
                                         CurseHandler.addCurse(
                                             player,
                                             commandSender,
-                                            WitcheryCurseRegistry.CURSES.getId(curseType)!!,
+                                            WitcheryCurseRegistry.CURSES.registry.get().getKey(curseType)!!,
                                             cat
                                         )
                                         1

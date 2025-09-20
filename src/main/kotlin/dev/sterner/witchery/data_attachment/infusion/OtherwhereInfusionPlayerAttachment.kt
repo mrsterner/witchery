@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.network.PacketDistributor
 
 object OtherwhereInfusionPlayerAttachment {
 
@@ -27,7 +28,7 @@ object OtherwhereInfusionPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncOtherwhereInfusionS2CPayload(
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player,SyncOtherwhereInfusionS2CPayload(
                 CompoundTag().apply {
                     putUUID("Id", player.uuid)
                     putInt("teleportHoldTicks", data.teleportHoldTicks)

@@ -2,8 +2,8 @@ package dev.sterner.witchery.ritual
 
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
+import dev.sterner.witchery.data_attachment.CursePlayerAttachment
 import dev.sterner.witchery.handler.CurseHandler
-import dev.sterner.witchery.platform.CursePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryCurseRegistry
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
@@ -18,7 +18,7 @@ class RemoveCurseRitual : Ritual("remove_curse") {
                 val curses: MutableList<CursePlayerAttachment.PlayerCurseData> = CursePlayerAttachment.getData(player).playerCurseList
                 val oldestCurse = curses.minByOrNull { it.duration }
                 if (oldestCurse != null) {
-                    val curse = WitcheryCurseRegistry.CURSES.get(oldestCurse.curseId)
+                    val curse = WitcheryCurseRegistry.CURSES.registry.get().get(oldestCurse.curseId)
                     if (curse != null) {
                         CurseHandler.removeCurse(player, curse)
                     }

@@ -4,7 +4,6 @@ import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
@@ -16,6 +15,7 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.CandleBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 
 class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     MultiBlockCoreEntity(
@@ -134,27 +134,21 @@ class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     companion object {
 
-        fun registerEvents() {
-            InteractionEvent.RIGHT_CLICK_BLOCK.register(SacrificialBlockEntity::rightClick)
-        }
-
-        private fun rightClick(
+        fun rightClick(
+            event: PlayerInteractEvent.RightClickBlock,
             player: Player?,
             interactionHand: InteractionHand?,
             blockPos: BlockPos,
-            direction: Direction?
-        ): EventResult? {
+        ){
             if (player != null && player.mainHandItem.`is`(Items.SKELETON_SKULL)) {
                 if (player.level().getBlockEntity(blockPos) is SacrificialBlockEntity) {
                     val be = player.level().getBlockEntity(blockPos) as SacrificialBlockEntity
                     be.hasSkull = true
                     be.setChanged()
                     player.mainHandItem.shrink(1)
-                    return EventResult.interruptTrue()
+                    event.isCanceled = true
                 }
             }
-
-            return EventResult.pass()
         }
     }
 }

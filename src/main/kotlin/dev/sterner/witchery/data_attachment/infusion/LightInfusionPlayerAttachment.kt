@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.network.PacketDistributor
 
 object LightInfusionPlayerAttachment {
 
@@ -27,7 +28,7 @@ object LightInfusionPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), player.blockPosition(), SyncLightInfusionS2CPayload(
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncLightInfusionS2CPayload(
                 CompoundTag().apply {
                     putUUID("Id", player.uuid)
                     putBoolean("Invisible", data.isInvisible)

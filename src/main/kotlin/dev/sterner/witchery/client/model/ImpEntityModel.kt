@@ -4,8 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.ImpEntity
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.model.ArmedModel
 import net.minecraft.client.model.HierarchicalModel
 import net.minecraft.client.model.geom.ModelLayerLocation
@@ -24,7 +22,6 @@ import kotlin.math.cos
 import kotlin.math.min
 
 
-@Environment(EnvType.CLIENT)
 class ImpEntityModel(modelPart: ModelPart) :
     HierarchicalModel<ImpEntity>(Function { location: ResourceLocation ->
         RenderType.entityTranslucent(

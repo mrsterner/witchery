@@ -29,7 +29,7 @@ interface PoppetType {
         return true
     }
 
-    fun getRegistryId(): ResourceLocation {
+    fun getRegistryId(): ResourceLocation? {
         return WitcheryPoppetRegistry.getIdForPoppet(this)
     }
 }

@@ -1,9 +1,9 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.VampireLeveling
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerBossEvent
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.BossEvent
 import net.minecraft.world.InteractionHand
@@ -33,6 +34,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import net.neoforged.neoforge.network.PacketDistributor
 
 class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), level) {
 
@@ -106,7 +108,9 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
         if (hasUsedLilith) {
             despawnTicks++
             if (despawnTicks > 20 * 5) {
-                WitcheryPayloads.sendToPlayers(level(), SpawnSmokeParticlesS2CPayload(position()))
+                if (level() is ServerLevel) {
+                    PacketDistributor.sendToPlayersInDimension(level() as ServerLevel, SpawnSmokeParticlesS2CPayload(position()))
+                }
                 discard()
             }
         }
@@ -122,7 +126,9 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
         } else {
             if (onceOnDefeat) {
                 onceOnDefeat = false
-                WitcheryPayloads.sendToPlayers(level(), SpawnSmokeParticlesS2CPayload(position()))
+                if (level() is ServerLevel) {
+                    PacketDistributor.sendToPlayersInDimension(level() as ServerLevel, SpawnSmokeParticlesS2CPayload(position()))
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.network.PacketDistributor
 import java.util.Optional
 import java.util.UUID
 
@@ -34,14 +35,13 @@ object AfflictionPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            WitcheryPayloads.sendToPlayers(player.level(), SyncAfflictionS2CPayload(player, data))
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncAfflictionS2CPayload(player, data))
         }
     }
 
     fun selectiveSync(player: Player, data: Data, fields: Set<SyncField>) {
         if (player.level() is ServerLevel && fields.isNotEmpty()) {
-            WitcheryPayloads.sendToPlayers(
-                player.level(),
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player,
                 SelectiveSyncAfflictionS2CPayload(player, data, fields)
             )
         }

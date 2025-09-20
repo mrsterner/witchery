@@ -1,5 +1,6 @@
 package dev.sterner.witchery
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.client.model.*
@@ -7,8 +8,21 @@ import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
 import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
 import dev.sterner.witchery.client.model.poppet.VampiricPoppetModel
 import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
+import dev.sterner.witchery.client.particle.BloodSplashParticle
+import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.client.particle.SneezeParticle
+import dev.sterner.witchery.client.particle.ZzzParticle
 import dev.sterner.witchery.client.renderer.block.*
 import dev.sterner.witchery.client.renderer.entity.*
+import dev.sterner.witchery.client.renderer.without_level.BearTrapBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.client.renderer.without_level.BloodCrucibleBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.client.renderer.without_level.BroomBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.client.renderer.without_level.CoffinBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.client.renderer.without_level.DreamWeaverBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.client.renderer.without_level.HuntsmanSpearBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.client.renderer.without_level.SpinningWheelBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.client.renderer.without_level.WerewolfAltarBlockEntityWithoutLevelRenderer
+import dev.sterner.witchery.client.renderer.without_level.WitcheryBlockEntityWithoutLevelRendererInstance
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
@@ -18,16 +32,33 @@ import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
+import dev.sterner.witchery.item.WitchesRobesItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryFluids
+import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
+import dev.sterner.witchery.registry.WitcheryItems.DRESS_COAT
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_BOOTS
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_CHESTPLATE
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_HELMET
+import dev.sterner.witchery.registry.WitcheryItems.HUNTER_LEGGINGS
+import dev.sterner.witchery.registry.WitcheryItems.OXFORD_BOOTS
+import dev.sterner.witchery.registry.WitcheryItems.TOP_HAT
+import dev.sterner.witchery.registry.WitcheryItems.TROUSERS
+import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
+import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
+import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import dev.sterner.witchery.registry.WitcheryKeyMappings
 import dev.sterner.witchery.registry.WitcheryMenuTypes
+import dev.sterner.witchery.registry.WitcheryParticleTypes
+import dev.sterner.witchery.registry.WitcheryShaders
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
+import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
@@ -46,6 +77,8 @@ import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.neoforged.neoforge.client.event.RegisterShadersEvent
 import net.neoforged.neoforge.client.event.RenderGuiEvent
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
@@ -139,6 +172,133 @@ class WitcheryClient(container: ModContainer) {
             event.register(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
             event.register(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get(), ::DistilleryScreen)
             event.register(WitcheryMenuTypes.SPINNING_WHEEL_MENU_TYPE.get(), ::SpinningWheelScreen)
+        }
+
+        @SubscribeEvent
+        fun registerParticle(event: RegisterParticleProvidersEvent) {
+            event.registerSpriteSet(WitcheryParticleTypes.COLOR_BUBBLE.get()) { o ->
+                ColorBubbleParticle.Provider(o)
+            }
+            event.registerSpriteSet(WitcheryParticleTypes.ZZZ.get()) { o ->
+                ZzzParticle.Provider(o)
+            }
+            event.registerSpriteSet(WitcheryParticleTypes.SNEEZE.get()) { o ->
+                SneezeParticle.SneezeProvider(o)
+            }
+            event.registerSpriteSet(WitcheryParticleTypes.SPLASHING_BLOOD.get()) { o ->
+                BloodSplashParticle.ParticleFactory(o)
+            }
+        }
+
+        @SubscribeEvent
+        fun registerShader(event: RegisterShadersEvent) {
+            event.registerShader(
+                ShaderInstance(event.resourceProvider, Witchery.id("spirit_portal"), DefaultVertexFormat.NEW_ENTITY)
+            ) { shaderInstance ->
+                WitcheryShaders.spiritPortal = shaderInstance
+            }
+            event.registerShader(
+                ShaderInstance(event.resourceProvider, Witchery.id("spirit_cage"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+            ) { shaderInstance ->
+                WitcheryShaders.soulLantern = shaderInstance
+            }
+            event.registerShader(
+                ShaderInstance(event.resourceProvider, Witchery.id("spirit_chain"), DefaultVertexFormat.NEW_ENTITY)
+            ) { shaderInstance ->
+                WitcheryShaders.spirit_chain = shaderInstance
+            }
+            event.registerShader(
+                ShaderInstance(event.resourceProvider, Witchery.id("soul_chain"), DefaultVertexFormat.NEW_ENTITY)
+            ) { shaderInstance ->
+                WitcheryShaders.soul_chain = shaderInstance
+            }
+            event.registerShader(
+                ShaderInstance(event.resourceProvider, Witchery.id("ghost"), DefaultVertexFormat.NEW_ENTITY)
+            ) { shaderInstance ->
+                WitcheryShaders.ghost = shaderInstance
+            }
+            event.registerShader(
+                ShaderInstance(event.resourceProvider, Witchery.id("ether"), DefaultVertexFormat.NEW_ENTITY)
+            ) { shaderInstance ->
+                WitcheryShaders.ether = shaderInstance
+            }
+        }
+
+        @SubscribeEvent
+        fun registerClientExtensions(event: RegisterClientExtensionsEvent) {
+            event.registerItem(
+                WitchesRobesItem.ArmorRender.INSTANCE,
+                WITCHES_ROBES.get(),
+                WITCHES_HAT.get(),
+                WITCHES_SLIPPERS.get(),
+                BABA_YAGAS_HAT.get()
+            )
+            event.registerItem(
+                WitchesRobesItem.ArmorRender.INSTANCE,
+                HUNTER_HELMET.get(),
+                HUNTER_CHESTPLATE.get(),
+                HUNTER_LEGGINGS.get(),
+                HUNTER_BOOTS.get()
+            )
+            event.registerItem(
+                WitchesRobesItem.ArmorRender.INSTANCE,
+                TOP_HAT.get(),
+                DRESS_COAT.get(),
+                OXFORD_BOOTS.get(),
+                TROUSERS.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(SpinningWheelBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.SPINNING_WHEEL.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.BROOM.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(HuntsmanSpearBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.HUNTSMAN_SPEAR.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(WerewolfAltarBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.WEREWOLF_ALTAR.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(BloodCrucibleBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.BLOOD_CRUCIBLE.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(BearTrapBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.BEAR_TRAP.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(CoffinBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.COFFIN.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.DREAM_WEAVER_OF_FLEET_FOOT.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.DREAM_WEAVER_OF_FASTING.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.DREAM_WEAVER_OF_INTENSITY.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.DREAM_WEAVER_OF_NIGHTMARES.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.DREAM_WEAVER_OF_IRON_ARM.get()
+            )
+            event.registerItem(
+                WitcheryBlockEntityWithoutLevelRendererInstance(DreamWeaverBlockEntityWithoutLevelRenderer()),
+                WitcheryItems.DREAM_WEAVER.get()
+            )
         }
 
         @JvmStatic

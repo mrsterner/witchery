@@ -52,8 +52,16 @@
     "requireAnnotations": true
   },
   "client": [
-    "BookParentNodeScreenMixin",
-    "GuiMixin",
-    "ItemRendererMixin"
+    "client.BookParentNodeScreenMixin",
+    "client.GuiMixin",
+    "client.HumanoidModelMixin",
+    "client.ItemRendererMixin",
+    "client.LivingEntityRendererMixin",
+    "client.LocalPlayerMixin",
+    "client.MinecraftMixin",
+    "client.PlayerItemInHandLayerMixin",
+    "client.PlayerRendererMixin",
+    "client.RenderBuffersMixin",
+    "client.WorldOpenFlowsMixin"
   ]
 }

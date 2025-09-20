@@ -11,6 +11,9 @@ displayName="${mod_name}"
 authors="${mod_authors}"
 description='''${mod_description}'''
 
+# Extending Enums
+enumExtensions="META-INF/enumextensions.json"
+
 [[mixins]]
 config="${mod_id}.mixins.json"
 

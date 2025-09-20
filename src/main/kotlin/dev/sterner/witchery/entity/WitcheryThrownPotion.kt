@@ -137,7 +137,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                     val amplifier = globalModifier.powerAddition
 
                     if (potionContent.specialEffect.isPresent) {
-                        val special = WitcherySpecialPotionEffects.SPECIALS.get(potionContent.specialEffect.get())
+                        val special = WitcherySpecialPotionEffects.SPECIALS.registry.get().get(potionContent.specialEffect.get())
                         special?.onActivated(
                             level(),
                             owner,

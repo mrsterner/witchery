@@ -29,6 +29,7 @@ import net.minecraft.world.level.GameRules
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.network.PacketDistributor
 
 
 class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level) {
@@ -220,7 +221,11 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
         if (!level().isClientSide && entityPassenger is LivingEntity) {
             hasFamiliar =
                 FamiliarHandler.getFamiliarEntityType(entityPassenger.uuid, level() as ServerLevel) != null
-            WitcheryPayloads.sendToPlayers(level(), SyncOwlAbilityS2CPayload(entityPassenger as Player, hasFamiliar))
+
+            if (level() is ServerLevel && entityPassenger is Player) {
+                val serverLevel = level() as ServerLevel
+                PacketDistributor.sendToPlayersInDimension(serverLevel, SyncOwlAbilityS2CPayload(entityPassenger, hasFamiliar))
+            }
 
         }
 

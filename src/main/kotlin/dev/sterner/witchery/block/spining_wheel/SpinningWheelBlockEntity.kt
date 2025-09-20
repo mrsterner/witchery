@@ -1,8 +1,10 @@
 package dev.sterner.witchery.block.spining_wheel
 
+import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 
 import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.menu.SpinningWheelMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
@@ -24,6 +26,7 @@ import net.minecraft.util.Mth
 import net.minecraft.world.Container
 import net.minecraft.world.ContainerHelper
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.MenuProvider
 import net.minecraft.world.WorldlyContainer
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
@@ -178,8 +181,8 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             items[SLOT_EXTRA_INPUT_3]
         ).filter { !it.isEmpty }
 
-        val sortedInputItems = inputItems.sortedBy { it.item.`arch$registryName`().toString() }
-        val sortedInputStacks = inputStacks.sortedBy { it.item.`arch$registryName`().toString() }
+        val sortedInputItems = inputItems.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
+        val sortedInputStacks = inputStacks.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
 
         sortedInputItems.zip(sortedInputStacks).forEach { (inputItem, inputStack) ->
             inputStack.shrink(inputItem.count)
@@ -223,8 +226,8 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             items[SLOT_EXTRA_INPUT_3]
         ).filter { !it.isEmpty }
 
-        val sortedInputItems = inputItems.sortedBy { it.item.`arch$registryName`().toString() }
-        val sortedInputStacks = inputStacks.sortedBy { it.item.`arch$registryName`().toString() }
+        val sortedInputItems = inputItems.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
+        val sortedInputStacks = inputStacks.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
 
         return sortedInputItems.zip(sortedInputStacks).all { (inputItem, inputStack) ->
             ItemStack.isSameItem(inputItem, inputStack)
@@ -310,21 +313,18 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun openMenu(player: ServerPlayer) {
-        MenuRegistry.openExtendedMenu(player, object : ExtendedMenuProvider {
-            override fun createMenu(id: Int, inventory: Inventory, player: Player): AbstractContainerMenu {
+
+        player.openMenu(object : MenuProvider {
+            override fun createMenu(containerId: Int, inventory: Inventory, player: Player): AbstractContainerMenu? {
                 val buf = FriendlyByteBuf(Unpooled.buffer())
-                saveExtraData(buf)
-                return SpinningWheelMenu(id, inventory, buf)
+                buf.writeBlockPos(blockPos)
+                return SpinningWheelMenu(containerId, inventory, buf)
             }
 
             override fun getDisplayName(): Component {
                 return Component.translatable("container.witchery.spinning_wheel")
             }
-
-            override fun saveExtraData(buf: FriendlyByteBuf) {
-                buf.writeBlockPos(blockPos)
-            }
-        })
+        }, blockPos)
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {

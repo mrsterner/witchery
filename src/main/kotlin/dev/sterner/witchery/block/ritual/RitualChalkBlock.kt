@@ -1,5 +1,6 @@
 package dev.sterner.witchery.block.ritual
 
+import dev.sterner.witchery.handler.affliction.VampireSpecificEventHandler
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -23,6 +24,7 @@ import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
+import net.neoforged.neoforge.event.level.BlockEvent
 
 
 class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: Properties) :
@@ -90,13 +92,17 @@ class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: P
         const val VARIANTS = 15
         val VARIANT: IntegerProperty = IntegerProperty.create("variant", 0, VARIANTS)
 
-        fun registerEvents() {
-            BlockEvent.PLACE.register(RitualChalkBlock::placeInfernal)
-        }
 
-        private fun placeInfernal(level: Level, blockPos: BlockPos, blockState: BlockState, entity: Entity?): EventResult? {
+
+        fun placeInfernal(
+            event: BlockEvent.EntityPlaceEvent,
+            level: Level,
+            blockPos: BlockPos,
+            blockState: BlockState,
+            entity: Entity?
+        ) {
             if (entity !is Player) {
-                return EventResult.pass()
+                return
             }
 
             if (blockState.`is`(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())) {
@@ -116,25 +122,26 @@ class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: P
                     val testPos = blockPos.offset(offset)
                     if (level.getBlockState(testPos).`is`(Blocks.SKELETON_SKULL)) {
 
-                        return tryMakeSacrificialCircle(level, testPos.immutable(), entity)
+                        return tryMakeSacrificialCircle(event,level, testPos.immutable(), entity)
                     }
                 }
             }
-
-            return EventResult.pass()
         }
 
-        private fun tryMakeSacrificialCircle(level: Level, skullPos: BlockPos, entity: Player): EventResult? {
+        private fun tryMakeSacrificialCircle(
+            event: BlockEvent.EntityPlaceEvent,
+            level: Level,
+            skullPos: BlockPos,
+            entity: Player
+        ) {
 
             val allInfernalChalk = level.getBlockStates(AABB.ofSize(skullPos.center, 2.0, 2.0, 2.0))
                 .filter { it.`is`(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get()) }.count()
 
             if (allInfernalChalk >= 7) {
                 VampireSpecificEventHandler.makeSacrificialCircle(entity, skullPos)
-                return EventResult.interruptFalse()
+                event.isCanceled = true
             }
-
-            return EventResult.pass()
         }
     }
 }

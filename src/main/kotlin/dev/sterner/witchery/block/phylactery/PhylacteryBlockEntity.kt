@@ -1,6 +1,10 @@
 package dev.sterner.witchery.block.phylactery
 
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
+import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
 
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -55,20 +59,13 @@ class PhylacteryBlockEntity(
 
 
     companion object {
-        fun onPlayerLoad(player: ServerPlayer) {
-            val level = player.serverLevel()
-            val deltas = PhylacteryLevelDataAttachment.popPendingPlayerDeltas(level)
-            val delta = deltas[player.uuid] ?: 0
-            val pool = SoulPoolPlayerAttachment.getData(player)
-            SoulPoolPlayerAttachment.setData(player, pool.copy(soulPool = (pool.soulPool + delta).coerceAtLeast(0), maxSouls = pool.maxSouls))
-        }
-
-        fun registerEvents() {
-            PlayerEvent.PLAYER_JOIN.register {
-                onPlayerLoad(it)
-            }
-            PlayerEvent.PLAYER_CLONE.register { oldPlayer, new, _ ->
-                onPlayerLoad(new)
+        fun onPlayerLoad(player: Player) {
+            if (player is ServerPlayer) {
+                val level = player.serverLevel()
+                val deltas = PhylacteryLevelDataAttachment.popPendingPlayerDeltas(level)
+                val delta = deltas[player.uuid] ?: 0
+                val pool = SoulPoolPlayerAttachment.getData(player)
+                SoulPoolPlayerAttachment.setData(player, pool.copy(soulPool = (pool.soulPool + delta).coerceAtLeast(0), maxSouls = pool.maxSouls))
             }
         }
     }

@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.sterner.witchery.platform.infusion.LightInfusionPlayerAttachment;
+import dev.sterner.witchery.data_attachment.infusion.LightInfusionPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryItems;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.PlayerItemInHandLayer;

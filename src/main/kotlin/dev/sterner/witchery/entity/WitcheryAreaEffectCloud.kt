@@ -207,7 +207,7 @@ class WitcheryAreaEffectCloud(
 
                     if (ingredient.specialEffect.isPresent) {
                         hitResult?.let { hitResult1 ->
-                            WitcherySpecialPotionEffects.SPECIALS.get(ingredient.specialEffect.get())?.onActivated(
+                            WitcherySpecialPotionEffects.SPECIALS.registry.get().get(ingredient.specialEffect.get())?.onActivated(
                                 level(),
                                 owner,
                                 hitResult = hitResult1,

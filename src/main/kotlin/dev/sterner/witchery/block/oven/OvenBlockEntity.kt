@@ -1,7 +1,5 @@
 package dev.sterner.witchery.block.oven
 
-import dev.architectury.registry.menu.ExtendedMenuProvider
-import dev.architectury.registry.menu.MenuRegistry
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 
 import dev.sterner.witchery.menu.OvenMenu
@@ -179,21 +177,17 @@ class OvenBlockEntity(
     }
 
     private fun openMenu(player: ServerPlayer) {
-        MenuRegistry.openExtendedMenu(player, object : ExtendedMenuProvider {
-            override fun createMenu(id: Int, inventory: Inventory, player: Player): AbstractContainerMenu {
+        player.openMenu(object : MenuProvider {
+            override fun createMenu(containerId: Int, inventory: Inventory, player: Player): AbstractContainerMenu? {
                 val buf = FriendlyByteBuf(Unpooled.buffer())
-                saveExtraData(buf)
-                return OvenMenu(id, inventory, buf)
+                buf.writeBlockPos(blockPos)
+                return OvenMenu(containerId, inventory, buf)
             }
 
             override fun getDisplayName(): Component {
                 return Component.translatable("container.witchery.oven_menu")
             }
-
-            override fun saveExtraData(buf: FriendlyByteBuf) {
-                buf.writeBlockPos(blockPos)
-            }
-        })
+        }, blockPos)
     }
 
     private fun canBurn(

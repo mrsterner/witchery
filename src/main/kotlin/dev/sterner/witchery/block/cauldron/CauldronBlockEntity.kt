@@ -1,8 +1,16 @@
 package dev.sterner.witchery.block.cauldron
 
+import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.data.PotionDataReloadListener
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
+import dev.sterner.witchery.payload.CauldronEffectParticleS2CPayload
+import dev.sterner.witchery.payload.CauldronPoofS2CPayload
+import dev.sterner.witchery.payload.CauldronPotionBrewParticleS2CPayload
+import dev.sterner.witchery.payload.SpawnSmokePoofParticlesS2CPayload
+import dev.sterner.witchery.payload.SyncCauldronS2CPayload
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
@@ -34,6 +42,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.Potions
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.PointedDripstoneBlock
 import net.minecraft.world.level.block.state.BlockState
@@ -41,9 +50,16 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.AABB
+import net.neoforged.neoforge.capabilities.Capabilities
+import net.neoforged.neoforge.fluids.FluidStack
+import net.neoforged.neoforge.fluids.FluidType
+import net.neoforged.neoforge.fluids.FluidUtil
+import net.neoforged.neoforge.fluids.capability.IFluidHandler
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank
+import net.neoforged.neoforge.network.PacketDistributor
 import org.joml.Vector3d
 import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
-
+import kotlin.collections.forEach
 
 class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.CAULDRON.get(), CauldronBlock.STRUCTURE.get(),
@@ -59,12 +75,18 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     private var cachedAltarPos: BlockPos? = null
 
     var color = WATER_COLOR
-    var fluidTank = WitcheryFluidTank(this)
-    private var complete = false
 
-    override fun init(level: Level, pos: BlockPos, state: BlockState) {
-        refreshCraftingAndBrewingRecipe(level)
+    var fluidTank: FluidTank = object : FluidTank(FluidType.BUCKET_VOLUME) {
+        override fun onContentsChanged() {
+            setChanged()
+        }
+
+        override fun isFluidValid(stack: FluidStack): Boolean {
+            return stack.fluid == Fluids.WATER
+        }
     }
+
+    private var complete = false
 
     private fun refreshCraftingAndBrewingRecipe(level: Level) {
         val allRecipesOfType = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())
@@ -93,7 +115,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         val allRecipesOfType = level.recipeManager
             .getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
             .filter { recipe ->
-                //Fix 29
                 val dimensions = recipe.value.dimensionKey
                 val noRequirement = dimensions.isEmpty() || (dimensions.size == 1 && dimensions.contains(""))
                 val currentDimension = level.dimension().location().toString()
@@ -129,55 +150,52 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         val fluid = PointedDripstoneBlock.getCauldronFillFluidType(level, dripstone)
         if (fluid == Fluids.EMPTY) return
 
-        val amount = 10L * if (Platform.isFabric()) 81 else 1
-        this.fluidTank.fill(FluidStack.create(fluid, amount), false)
+        // Add 10mB of fluid
+        this.fluidTank.fill(FluidStack(fluid, 10), IFluidHandler.FluidAction.EXECUTE)
     }
 
-    override fun tick(level: Level, pos: BlockPos, state: BlockState) {
-        super.tick(level, pos, state)
-
-        if (level.random.nextFloat() < 0.005)
-            handleDripstone(level, pos)
-
-        if (level.isClientSide || !state.getValue(BlockStateProperties.LIT)) {
+    override fun tick() {
+        if (level == null) {
             return
         }
 
-        if (level.gameTime % 4 == 0L && !complete && !fluidTank.isEmpty()) {
-            consumeItem(level, pos)
+        if (level!!.random.nextFloat() < 0.005)
+            handleDripstone(level!!, blockPos)
+
+        if (level!!.isClientSide || !blockState.getValue(BlockStateProperties.LIT)) {
+            return
+        }
+
+        if (level!!.gameTime % 4 == 0L && !complete && !fluidTank.isEmpty) {
+            consumeItem(level!!, blockPos)
         }
 
         if (witcheryPotionItemCache.isNotEmpty()) {
-            val randX = pos.x + 0.5 + Mth.nextDouble(level.random, -0.1, 0.1)
-            val randY = (pos.y + 1.0)
-            val randZ = pos.z + 0.5 + Mth.nextDouble(level.random, -0.1, 0.1)
-            WitcheryPayloads.sendToPlayers(
-                level,
-                blockPos,
-                CauldronPotionBrewParticleS2CPayload(Vector3d(randX, randY, randZ), color)
-            )
+            val randX = blockPos.x + 0.5 + Mth.nextDouble(level!!.random, -0.1, 0.1)
+            val randY = (blockPos.y + 1.0)
+            val randZ = blockPos.z + 0.5 + Mth.nextDouble(level!!.random, -0.1, 0.1)
+            if (level is ServerLevel) {
+                PacketDistributor.sendToPlayersTrackingChunk(level as ServerLevel, ChunkPos(blockPos), CauldronPotionBrewParticleS2CPayload(Vector3d(randX, randY, randZ), color))
+            }
         }
 
         if (!brewItemOutput.isEmpty) {
-            val randX = pos.x + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
-            val randY = (pos.y + 1.0)
-            val randZ = pos.z + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
-            WitcheryPayloads.sendToPlayers(
-                level,
-                blockPos,
-                CauldronEffectParticleS2CPayload(Vector3d(randX, randY, randZ), color)
-            )
+            val randX = blockPos.x + 0.5 + Mth.nextDouble(level!!.random, -0.25, 0.25)
+            val randY = (blockPos.y + 1.0)
+            val randZ = blockPos.z + 0.5 + Mth.nextDouble(level!!.random, -0.25, 0.25)
+            if (level is ServerLevel) {
+                PacketDistributor.sendToPlayersTrackingChunk(level as ServerLevel, ChunkPos(blockPos), CauldronEffectParticleS2CPayload(Vector3d(randX, randY, randZ), color))
+            }
         }
 
         if (cauldronCraftingRecipe != null || cauldronBrewingRecipe != null) {
-
             if (complete) {
                 if (craftingProgressTicker < PROGRESS_TICKS) {
                     craftingProgressTicker++
                     setChanged()
                 } else {
                     craftingProgressTicker = 0
-                    craft(level, pos)
+                    craft(level!!, blockPos)
                 }
             }
         }
@@ -210,10 +228,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         return requiredAltarPower == 0
     }
 
-    /**
-     * Checks within the cauldron if there's any item entities, adds them to the inventory,
-     * check for recipes and applies appropriate color
-     */
     private fun consumeItem(level: Level, pos: BlockPos) {
         if (cachedAltarPos == null && level is ServerLevel) {
             cachedAltarPos = getAltarPos(level, blockPos)
@@ -225,13 +239,16 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
             if (item.`is`(WitcheryItems.WOOD_ASH.get())) {
                 fullReset()
-                WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPayload(pos, true))
+                if (level is ServerLevel) {
+                    PacketDistributor.sendToPlayersTrackingChunk(level, ChunkPos(pos), SyncCauldronS2CPayload(pos, true))
+                }
                 item.shrink(1)
                 setChanged()
             } else if (item.`is`(Items.NETHER_WART) &&
                 cauldronCraftingRecipe == null &&
                 cauldronBrewingRecipe == null &&
-                inputItems.all { it.isEmpty }) {
+                inputItems.all { it.isEmpty }
+            ) {
                 PotionDataReloadListener.getIngredientFromItem(item)?.let { witcheryPotionItemCache.add(it) }
                 forceColor(item)
                 level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
@@ -266,18 +283,14 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                             val dx = randomSmallOffset()
                             val dz = randomSmallOffset()
                             entity.deltaMovement = entity.deltaMovement.add(dx, 0.75, dz)
-
                         }
                     }
-
                 } else {
                     val firstEmpty = getFirstEmptyIndex()
                     if (firstEmpty != -1) {
                         setItem(firstEmpty, item.split(1))
                         level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.35f, 1f)
-
                         refreshCraftingAndBrewingRecipe(level)
-
                         updateColor(level, cacheForColorItem)
                     }
                 }
@@ -292,45 +305,37 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     }
 
     private fun updateColor(level: Level, cacheForColorItem: ItemStack) {
-        // Default color to brown (indicating no correct order match)
         var colorSet = false
 
-        // Get all recipes for crafting and brewing
         val allCraftingRecipes = level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get())
         val allBrewingRecipes =
             level.recipeManager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get())
         val nonEmptyItems = inputItems.filter { !it.isEmpty }
 
-        // Check crafting recipes
         allCraftingRecipes.forEach { recipe ->
             recipe.value.inputItems.forEach { ingredientWithColor ->
-                // Check if the ingredient matches and the order is correct
                 val orderIsCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
                 if (ItemStack.isSameItem(ingredientWithColor.itemStack, cacheForColorItem) && orderIsCorrect) {
-                    color = ingredientWithColor.color // Set color based on the matched ingredient
-                    colorSet = true // Flag that a color was successfully set
+                    color = ingredientWithColor.color
+                    colorSet = true
                 }
             }
         }
 
-        // Check brewing recipes if no crafting match was found
         if (!colorSet) {
             allBrewingRecipes.forEach { recipe ->
                 recipe.value.inputItems.forEach { ingredientWithColor ->
-
-                    // Check if the ingredient matches and the order is correct
                     val orderIsCorrect = isOrderRight(nonEmptyItems, recipe.value.inputItems)
                     if (ItemStack.isSameItem(ingredientWithColor.itemStack, cacheForColorItem) && orderIsCorrect) {
-                        color = ingredientWithColor.color // Set color based on the matched ingredient
-                        colorSet = true // Flag that a color was successfully set
+                        color = ingredientWithColor.color
+                        colorSet = true
                     }
                 }
             }
         }
 
-        // If no recipe fully or partially matches, set the color to brown
         if (!colorSet) {
-            color = 0x5a2d0d // Set color to brown if no matching order is found
+            color = 0x5a2d0d
         }
     }
 
@@ -339,7 +344,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
         for (item in itemsToCraft ?: emptyList()) {
             val list = NonNullList.create<ItemStack>()
-
             list.add(item.copy())
 
             for (drop in list) {
@@ -347,7 +351,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
         }
 
-        WitcheryPayloads.sendToPlayers(level, pos, SyncCauldronS2CPayload(pos, false))
+        if (level is ServerLevel) {
+            PacketDistributor.sendToPlayersTrackingChunk(level, ChunkPos(pos), SyncCauldronS2CPayload(pos, false))
+        }
 
         if (cauldronCraftingRecipe != null) {
             level.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.5f, 1.0f)
@@ -359,7 +365,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
     fun resetCauldronPartial() {
         if (cauldronCraftingRecipe != null) {
-            fluidTank = WitcheryFluidTank(this)
+            fluidTank.setFluid(FluidStack.EMPTY)
             brewItemOutput = ItemStack.EMPTY
         }
 
@@ -384,14 +390,15 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         cauldronCraftingRecipe = null
         cauldronBrewingRecipe = null
         complete = false
-        fluidTank = WitcheryFluidTank(this)
-        fluidTank.fluid = FluidStack.empty()
+        fluidTank.setFluid(FluidStack.EMPTY)
         brewItemOutput = ItemStack.EMPTY
         setChanged()
     }
 
     override fun getUpdateTag(registries: HolderLookup.Provider): CompoundTag {
-        return fluidTank.getUpdateTag(super.getUpdateTag(registries), registries)
+        val tag = super.getUpdateTag(registries)
+        tag.put("FluidTank", fluidTank.writeToNBT(registries, CompoundTag()))
+        return tag
     }
 
     override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
@@ -418,12 +425,24 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         pStack: ItemStack,
         pHand: InteractionHand
     ): ItemInteractionResult? {
-        if (fluidTank.getFluidAmount() == fluidTank.capacity) return null
+        if (fluidTank.fluidAmount == fluidTank.capacity) return null
+
+        val fluidHandler = level?.getCapability(Capabilities.FluidHandler.BLOCK, blockPos, blockState, this, null)
+        if (fluidHandler != null) {
+            val result = FluidUtil.interactWithFluidHandler(pPlayer, pHand, fluidHandler)
+            if (result) {
+                setChanged()
+                return ItemInteractionResult.SUCCESS
+            }
+        }
 
         when {
             pStack.`is`(Items.WATER_BUCKET) -> {
                 playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_FILL)
-                fluidTank.fill(FluidStack.create(Fluids.WATER, FluidStack.bucketAmount()), false)
+                fluidTank.fill(FluidStack(Fluids.WATER, FluidType.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE)
+                if (!pPlayer.isCreative) {
+                    pPlayer.setItemInHand(pHand, Items.BUCKET.defaultInstance)
+                }
                 setChanged()
                 return ItemInteractionResult.SUCCESS
             }
@@ -435,11 +454,10 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                     if (!pPlayer.isCreative) {
                         pPlayer.setItemInHand(pHand, Items.GLASS_BOTTLE.defaultInstance)
                     }
+
                     fluidTank.fill(
-                        FluidStack.create(
-                            Fluids.WATER,
-                            fluidTank.getFluidAmount() + FluidStack.bucketAmount() / 3
-                        ), false
+                        FluidStack(Fluids.WATER, FluidType.BUCKET_VOLUME / 3),
+                        IFluidHandler.FluidAction.EXECUTE
                     )
                     setChanged()
                     return ItemInteractionResult.SUCCESS
@@ -450,10 +468,10 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         return null
     }
 
-
     private fun handleGlassBottleInteraction(pPlayer: Player, pStack: ItemStack): ItemInteractionResult {
+        val potionAmount = FluidType.BUCKET_VOLUME / 3
 
-        if (witcheryPotionItemCache.isNotEmpty() && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
+        if (witcheryPotionItemCache.isNotEmpty() && fluidTank.fluidAmount >= potionAmount) {
             pStack.shrink(1)
             WitcheryApi.makePlayerWitchy(pPlayer)
             val potion = WITCHERY_POTION.get().defaultInstance.apply {
@@ -469,13 +487,13 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
             Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, witchesPotion.second)
 
-            fluidTank.drain(FluidStackHooks.bucketAmount() / 3, false)
+            fluidTank.drain(potionAmount, IFluidHandler.FluidAction.EXECUTE)
             playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
             playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)
-            if (fluidTank.getFluidAmount() < (FluidStackHooks.bucketAmount() / 3)) fullReset()
+            if (fluidTank.fluidAmount < potionAmount) fullReset()
             return ItemInteractionResult.SUCCESS
         }
-        if (!brewItemOutput.isEmpty && fluidTank.getFluidAmount() >= (FluidStackHooks.bucketAmount() / 3)) {
+        if (!brewItemOutput.isEmpty && fluidTank.fluidAmount >= potionAmount) {
             WitcheryApi.makePlayerWitchy(pPlayer)
             pStack.shrink(1)
             val brewOutput = createOutput(pPlayer, brewItemOutput.copy())
@@ -490,10 +508,10 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, brewOutput.second)
             }
 
-            fluidTank.drain(FluidStackHooks.bucketAmount() / 3, false)
+            fluidTank.drain(potionAmount, IFluidHandler.FluidAction.EXECUTE)
             playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
             playSound(level, pPlayer, blockPos, SoundEvents.BUCKET_EMPTY)
-            if (fluidTank.getFluidAmount() < (FluidStackHooks.bucketAmount() / 3)) fullReset()
+            if (fluidTank.fluidAmount < potionAmount) fullReset()
             setChanged()
             return ItemInteractionResult.SUCCESS
         }
@@ -513,7 +531,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         return Triple(bonus, itemStack, thirdBonus)
     }
 
-
     private fun playSound(level: Level?, player: Player, blockPos: BlockPos, sound: SoundEvent, volume: Float = 1.0f) {
         level!!.playSound(
             player,
@@ -526,11 +543,19 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     }
 
     private fun spawnSmokeParticle(level: Level, pos: BlockPos) {
-        WitcheryPayloads.sendToPlayers(level, pos, CauldronPoofS2CPayload(pos, color))
+        if (level is ServerLevel) {
+            PacketDistributor.sendToPlayersTrackingChunk(level, ChunkPos(pos), CauldronPoofS2CPayload(pos, color))
+        }
     }
 
     private fun spawnFailParticle(level: Level, pos: BlockPos) {
-        WitcheryPayloads.sendToPlayers(level, pos, SpawnSmokePoofParticlesS2CPayload(pos.center))
+        if (level is ServerLevel) {
+            PacketDistributor.sendToPlayersTrackingChunk(
+                level,
+                ChunkPos(pos),
+                SpawnSmokePoofParticlesS2CPayload(pos.center)
+            )
+        }
     }
 
     private fun getFirstEmptyIndex(): Int {
@@ -544,16 +569,22 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
         super.loadAdditional(pTag, pRegistries)
-        fluidTank.loadFluidAdditional(pTag, pRegistries)
+
+        if (pTag.contains("FluidTank")) {
+            fluidTank.readFromNBT(pRegistries, pTag.getCompound("FluidTank"))
+        }
+
         craftingProgressTicker = pTag.getInt("craftingProgressTicker")
         color = pTag.getInt("color")
         complete = pTag.getBoolean("complete")
+
         if (pTag.contains("Item", 10)) {
             val compoundTag: CompoundTag = pTag.getCompound("Item")
             brewItemOutput = ItemStack.parse(pRegistries, compoundTag).orElse(ItemStack.EMPTY) as ItemStack
         } else {
             brewItemOutput = ItemStack.EMPTY
         }
+
         this.inputItems = NonNullList.withSize(this.containerSize, ItemStack.EMPTY)
         ContainerHelper.loadAllItems(pTag, inputItems, pRegistries)
 
@@ -566,6 +597,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 witcheryPotionItemCache = it.get().toMutableList()
             }
         }
+
         if (pTag.contains("altarPos")) {
             cachedAltarPos = NbtUtils.readBlockPos(pTag, "altarPos").get()
         }
@@ -573,21 +605,27 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         super.saveAdditional(tag, registries)
-        fluidTank.saveFluidAdditional(tag, registries)
+
+        tag.put("FluidTank", fluidTank.writeToNBT(registries, CompoundTag()))
+
         tag.putInt("craftingProgressTicker", craftingProgressTicker)
         tag.putInt("color", color)
         tag.putBoolean("complete", complete)
+
         if (!brewItemOutput.isEmpty) {
             tag.put("Item", brewItemOutput.save(registries))
         }
+
         ContainerHelper.saveAllItems(tag, inputItems, registries)
 
         val listResult = WitcheryPotionIngredient.CODEC.listOf().encodeStart(NbtOps.INSTANCE, witcheryPotionItemCache)
         listResult.resultOrPartial { _ -> }?.let { tag.put("witcheryPotionItemCache", it.get()) }
+
         if (cachedAltarPos != null) {
             tag.put("altarPos", NbtUtils.writeBlockPos(cachedAltarPos!!))
         }
     }
+
 
     //INVENTORY IMPL
     override fun clearContent() {
@@ -636,23 +674,18 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         private fun isOrderRight(inputItems: List<ItemStack>, recipeItems: List<ItemStackWithColor>?): Boolean {
             if (recipeItems == null) return false
 
-            // Check if the number of input items is larger than the recipe items
             if (inputItems.size > recipeItems.size) return false
 
-            // Iterate through the input items
             for (index in inputItems.indices) {
                 val inputItem = inputItems[index]
 
-                // Check if the corresponding recipe item order matches the index
                 val recipeItem = recipeItems.find { it.order == index }
 
-                // If there's no recipe item at this order or the input item doesn't match the ingredient, return false
                 if (recipeItem == null || !ItemStack.isSameItem(recipeItem.itemStack, inputItem)) {
                     return false
                 }
             }
 
-            // If all items match, return true
             return true
         }
     }

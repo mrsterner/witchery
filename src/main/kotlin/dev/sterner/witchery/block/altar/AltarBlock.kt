@@ -2,6 +2,7 @@ package dev.sterner.witchery.block.altar
 
 import dev.sterner.witchery.block.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.data_attachment.AltarLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems

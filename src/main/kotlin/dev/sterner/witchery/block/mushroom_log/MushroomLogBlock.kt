@@ -1,5 +1,6 @@
 package dev.sterner.witchery.block.mushroom_log
 
+import dev.sterner.witchery.block.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryTags
@@ -17,6 +18,9 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
+import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
+import team.lodestar.lodestone.systems.multiblock.MultiBlockStructure
 import java.util.function.Supplier
 
 class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) {
@@ -55,12 +59,8 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
     }
 
     companion object {
-        
-        fun registerEvents() {
-            InteractionEvent.RIGHT_CLICK_BLOCK.register(::makeMushroomLog)
-        }
 
-        fun makeMushroomLog(player: Player, hand: InteractionHand, pos: BlockPos, face: Direction): EventResult {
+        fun makeMushroomLog(event: PlayerInteractEvent.RightClickBlock, player: Player, hand: InteractionHand, pos: BlockPos) {
             val level = player.level()
 
             val state = level.getBlockState(pos)
@@ -89,7 +89,7 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
                         }
 
                         if (!canCreate) {
-                            return EventResult.pass()
+                            return
                         }
 
                         val coreDirection = checkDir
@@ -107,21 +107,19 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
                             (level.getBlockEntity(pos) as MushroomLogBlockEntity).setMushroom(player.offhandItem.copy())
                         }
 
-                        if (level.getBlockEntity(checkPos) is MultiblockComponentBlockEntity) {
-                            (level.getBlockEntity(checkPos) as MultiblockComponentBlockEntity).corePos = pos
+                        if (level.getBlockEntity(checkPos) is MultiBlockComponentEntity) {
+                            (level.getBlockEntity(checkPos) as MultiBlockComponentEntity).corePos = pos
                         }
 
                         if (!player.isCreative) {
                             player.mainHandItem.shrink(1)
                             player.offhandItem.shrink(1)
                         }
-
-                        return EventResult.interruptTrue()
+                        event.isCanceled = true
+                        return
                     }
                 }
             }
-
-            return EventResult.pass()
         }
 
         val STRUCTURE: Supplier<MultiBlockHorizontalDirectionStructure> =

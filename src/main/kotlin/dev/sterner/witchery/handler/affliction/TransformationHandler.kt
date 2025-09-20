@@ -1,6 +1,10 @@
 package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.PlatformUtils
+import dev.sterner.witchery.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
@@ -14,6 +18,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.network.PacketDistributor
 
 object TransformationHandler {
 
@@ -83,12 +88,7 @@ object TransformationHandler {
         if (player.level() is ServerLevel) {
             PlatformUtils.tryDisableBatFlight(player)
         }
-
-        WitcheryPayloads.sendToPlayers(
-            player.level(),
-            player.blockPosition(),
-            RefreshDimensionsS2CPayload()
-        )
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, RefreshDimensionsS2CPayload())
     }
 
     @JvmStatic
@@ -172,16 +172,11 @@ object TransformationHandler {
 
                 if (isBat(player)) {
                     checkForVillage(player)
-                    if (Platform.isNeoForge()) {
-                        if (player.onGround()) {
-                            if (player.abilities.flying) {
-                                player.abilities.flying = false
-                                player.onUpdateAbilities()
-                            }
-                        } else {
-                            PlatformUtils.tryEnableBatFlight(player)
+                    if (player.onGround()) {
+                        if (player.abilities.flying) {
+                            player.abilities.flying = false
+                            player.onUpdateAbilities()
                         }
-
                     } else {
                         PlatformUtils.tryEnableBatFlight(player)
                     }

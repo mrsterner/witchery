@@ -1,7 +1,9 @@
 package dev.sterner.witchery.block.distillery
 
+import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
+import dev.sterner.witchery.menu.DistilleryMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
@@ -24,6 +26,7 @@ import net.minecraft.util.Mth
 import net.minecraft.world.Container
 import net.minecraft.world.ContainerHelper
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.MenuProvider
 import net.minecraft.world.WorldlyContainer
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
@@ -76,12 +79,8 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
-    override fun tick(level: Level, pos: BlockPos, state: BlockState) {
-        super.tick(level, pos, state)
+    override fun serverTick(level: ServerLevel?) {
 
-        if (level.isClientSide) {
-            return
-        }
         var shouldUpdateBlock = false
         var isProcessing = false
 
@@ -100,12 +99,12 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 isProcessing = true // Mark that the oven is processing a recipe
 
                 if (cookingProgress % 20 == 0) {
-                    consumeAltarPower(level, distillingRecipe.value)
+                    consumeAltarPower(level!!, distillingRecipe.value)
                 }
 
                 if (cookingProgress == cookingTotalTime) {
                     cookingProgress = 0
-                    cookingTotalTime = getTotalCookTime(level)
+                    cookingTotalTime = getTotalCookTime(level!!)
 
                     if (distill(distillingRecipe, items, maxStackSize)) {
                         recipeUsed = distillingRecipe
@@ -120,14 +119,14 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             cookingProgress = Mth.clamp(cookingProgress - OvenBlockEntity.BURN_COOL_SPEED, 0, cookingTotalTime)
         }
 
-        if (isProcessing && !state.getValue(BlockStateProperties.LIT)) {
-            level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LIT, true))
-        } else if (!isProcessing && state.getValue(BlockStateProperties.LIT)) {
-            level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LIT, false))
+        if (isProcessing && !blockState.getValue(BlockStateProperties.LIT)) {
+            level!!.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, true))
+        } else if (!isProcessing && blockState.getValue(BlockStateProperties.LIT)) {
+            level!!.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, false))
         }
 
         if (shouldUpdateBlock) {
-            setChanged(level, pos, state)
+            setChanged(level, blockPos, blockState)
         }
     }
 
@@ -367,21 +366,17 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     private fun openMenu(player: ServerPlayer) {
-        MenuRegistry.openExtendedMenu(player, object : ExtendedMenuProvider {
-            override fun createMenu(id: Int, inventory: Inventory, player: Player): AbstractContainerMenu {
+        player.openMenu(object : MenuProvider {
+            override fun createMenu(containerId: Int, inventory: Inventory, player: Player): AbstractContainerMenu? {
                 val buf = FriendlyByteBuf(Unpooled.buffer())
-                saveExtraData(buf)
-                return DistilleryMenu(id, inventory, buf)
+                buf.writeBlockPos(blockPos)
+                return DistilleryMenu(containerId, inventory, buf)
             }
 
             override fun getDisplayName(): Component {
-                return Component.translatable("container.witchery.distillery")
+                return Component.translatable("container.witchery.distillery_menu")
             }
-
-            override fun saveExtraData(buf: FriendlyByteBuf) {
-                buf.writeBlockPos(blockPos)
-            }
-        })
+        }, blockPos)
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {

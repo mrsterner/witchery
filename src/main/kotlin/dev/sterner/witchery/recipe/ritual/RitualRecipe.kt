@@ -149,7 +149,7 @@ class RitualRecipe(
             { obj: Char? -> java.lang.String.valueOf(obj) })
 
         fun fromNbt(tag: CompoundTag, registries: HolderLookup.Provider): RitualRecipe {
-            val ritualType = WitcheryRitualRegistry.RITUALS.get(ResourceLocation.tryParse(tag.getString("id")))
+            val ritualType = WitcheryRitualRegistry.RITUALS.registry.get().get(ResourceLocation.tryParse(tag.getString("id")))
 
             val inputItems = if (tag.contains("inputItems")) {
                 tag.getList("inputItems", 10).map { ItemStack.parse(registries, it as CompoundTag).get() }
@@ -316,7 +316,7 @@ class RitualRecipe(
         blockMapping.let {
             val blockMappingTag = CompoundTag()
             it.forEach { (key, block) ->
-                blockMappingTag.putString(key.toString(), block.`arch$registryName`().toString())
+                blockMappingTag.putString(key.toString(), block.builtInRegistryHolder().unwrapKey().get().toString())
             }
             tag.put("blockMapping", blockMappingTag)
         }

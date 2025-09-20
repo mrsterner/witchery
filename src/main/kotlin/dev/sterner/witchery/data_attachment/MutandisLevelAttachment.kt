@@ -24,7 +24,7 @@ object MutandisLevelAttachment {
     @JvmStatic
     fun getTagForBlockPos(level: ServerLevel, pos: BlockPos): TagKey<Block>? {
         val levelData = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT.get())
-            ?: MutandisLevelAttachment.MutandisDataCodec()
+            ?: MutandisLevelAttachment.Data()
         return levelData.mutandisCacheMap[pos]?.tag
     }
 

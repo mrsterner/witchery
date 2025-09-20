@@ -1,19 +1,10 @@
 package dev.sterner.witchery.handler.infusion
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.InteractionEvent
-import dev.architectury.event.events.common.PlayerEvent
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment.MAX_CHARGE
-import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment.getInfusionCharge
-import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment.setInfusionCharge
-import dev.sterner.witchery.platform.infusion.InfusionType
+import dev.sterner.witchery.data_attachment.infusion.InfusionType
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.RenderUtils
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
@@ -41,16 +32,16 @@ object InfusionHandler {
 
     @JvmStatic
     fun increaseInfusionCharge(player: Player, toAdd: Int) {
-        val currentCharge = getInfusionCharge(player)
-        val newCharge = (currentCharge + toAdd).coerceAtMost(MAX_CHARGE)
-        setInfusionCharge(player, newCharge)
+        val currentCharge = InfusionPlayerAttachment.getInfusionCharge(player)
+        val newCharge = (currentCharge + toAdd).coerceAtMost(InfusionPlayerAttachment.MAX_CHARGE)
+        InfusionPlayerAttachment.setInfusionCharge(player, newCharge)
     }
 
     @JvmStatic
     fun decreaseInfusionCharge(player: Player, toRemove: Int) {
-        val currentCharge = getInfusionCharge(player)
+        val currentCharge = InfusionPlayerAttachment.getInfusionCharge(player)
         if (currentCharge > 0) {
-            setInfusionCharge(player, currentCharge - toRemove)
+            InfusionPlayerAttachment.setInfusionCharge(player, currentCharge - toRemove)
         }
     }
 
@@ -144,7 +135,6 @@ object InfusionHandler {
         }
     }
 
-    @Environment(EnvType.CLIENT)
     fun renderInfusionHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker?) {
         val minecraft = Minecraft.getInstance()
         val clientPlayer = minecraft.player ?: return
@@ -153,7 +143,7 @@ object InfusionHandler {
         if (data.type == InfusionType.NONE) return
 
         val scaledY = minecraft.window.guiScaledHeight
-        val chargePercentage = data.charge.toFloat() / MAX_CHARGE
+        val chargePercentage = data.charge.toFloat() / InfusionPlayerAttachment.MAX_CHARGE
 
         val texture = when (data.type) {
             InfusionType.LIGHT -> {

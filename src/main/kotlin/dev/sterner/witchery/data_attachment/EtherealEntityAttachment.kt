@@ -9,6 +9,7 @@ import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
+import net.neoforged.neoforge.network.PacketDistributor
 import java.util.*
 
 object EtherealEntityAttachment {
@@ -26,16 +27,8 @@ object EtherealEntityAttachment {
 
     fun sync(living: LivingEntity, data: Data) {
         if (living.level() is ServerLevel) {
-            val serverLevel = living.level() as ServerLevel
-
             val packet = SyncEtherealS2CPayload(living.id, data)
-
-            val players = serverLevel.server.playerList.players
-            for (player in players) {
-                if (player.level() == serverLevel) {
-                    NetworkManager.sendToPlayer(player, packet)
-                }
-            }
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(living, packet)
         }
     }
 

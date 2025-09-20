@@ -1,5 +1,7 @@
 package dev.sterner.witchery.block.effigy
 
+import dev.sterner.witchery.api.FetishEffect
+import dev.sterner.witchery.data.FetishEffectReloadListener
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -9,6 +11,7 @@ import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.ContainerHelper
 import net.minecraft.world.Containers
 import net.minecraft.world.InteractionHand
@@ -36,9 +39,9 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     var state: EffigyState? = EffigyState.IDLE
 
-    override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
-        super.tick(level, pos, blockState)
-        if (!level.isClientSide) {
+    override fun serverTick(level: ServerLevel?) {
+        super.serverTick(level)
+        if (level != null) {
 
             if (state != EffigyState.IDLE) {
                 val newMatch =
@@ -49,7 +52,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     setChanged()
                 }
 
-                effect?.onTickEffect(level, this, state, pos, taglocks)
+                effect?.onTickEffect(level, this, state, blockPos, taglocks)
             }
         }
     }
