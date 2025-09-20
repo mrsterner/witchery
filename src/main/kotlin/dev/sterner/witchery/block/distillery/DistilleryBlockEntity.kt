@@ -1,12 +1,7 @@
 package dev.sterner.witchery.block.distillery
 
-import dev.architectury.registry.menu.ExtendedMenuProvider
-import dev.architectury.registry.menu.MenuRegistry
-import dev.sterner.witchery.api.block.AltarPowerConsumer
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
-import dev.sterner.witchery.menu.DistilleryMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
@@ -41,6 +36,7 @@ import net.minecraft.world.item.crafting.RecipeManager
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 import kotlin.math.min
 
 class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :

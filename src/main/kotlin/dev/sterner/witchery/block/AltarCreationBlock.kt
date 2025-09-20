@@ -1,6 +1,6 @@
 package dev.sterner.witchery.block
 
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
+Entity
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.Util
@@ -263,8 +263,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
         )
 
         // Ensure the corePos is set correctly
-        if (level.getBlockEntity(corePosition) is MultiBlockComponentBlockEntity) {
-            (level.getBlockEntity(corePosition) as MultiBlockComponentBlockEntity).corePos = corePosition
+        if (level.getBlockEntity(corePosition) is MultiblockComponentBlockEntity) {
+            (level.getBlockEntity(corePosition) as MultiblockComponentBlockEntity).corePos = corePosition
         }
     }
 

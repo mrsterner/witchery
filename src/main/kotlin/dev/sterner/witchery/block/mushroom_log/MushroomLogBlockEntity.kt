@@ -2,7 +2,6 @@ package dev.sterner.witchery.block.mushroom_log
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
@@ -23,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState
 import java.util.*
 import kotlin.math.min
 import net.minecraft.nbt.NbtOps
+import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 
 class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     MultiBlockCoreEntity(WitcheryBlockEntityTypes.MUSHROOM_LOG.get(), MushroomLogBlock.STRUCTURE.get(), blockPos, blockState) {

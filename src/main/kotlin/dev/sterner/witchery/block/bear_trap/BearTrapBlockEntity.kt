@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.bear_trap
 
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup

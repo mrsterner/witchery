@@ -1,6 +1,6 @@
 package dev.sterner.witchery.block.mushroom_log
 
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
+
 import net.minecraft.core.Direction
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.block.Block
@@ -8,8 +8,9 @@ import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import team.lodestar.lodestone.systems.multiblock.MultiblockComponentBlock
 
-class MushroomLogComponent(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
+class MushroomLogComponent(properties: Properties) : MultiblockComponentBlock(properties.noOcclusion()) {
 
     init {
         this.registerDefaultState(

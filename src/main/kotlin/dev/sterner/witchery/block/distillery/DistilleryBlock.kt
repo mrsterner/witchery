@@ -1,7 +1,8 @@
 package dev.sterner.witchery.block.distillery
 
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
+
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmission
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks

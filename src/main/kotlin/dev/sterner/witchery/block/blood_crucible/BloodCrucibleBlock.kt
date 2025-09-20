@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.blood_crucible
 
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
+
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.entity.BlockEntity

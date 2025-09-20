@@ -2,8 +2,6 @@ package dev.sterner.witchery.registry
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.architectury.registry.registries.DeferredRegister
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
@@ -14,112 +12,110 @@ import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.item.alchemy.PotionContents
+import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.*
+import java.util.function.Supplier
 
 
 object WitcheryDataComponents {
 
     val DATA: DeferredRegister<DataComponentType<*>> =
-        DeferredRegister.create(Witchery.MODID, Registries.DATA_COMPONENT_TYPE)
+        DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Witchery.MODID)
 
-    val GLOBAL_POS_COMPONENT: RegistrySupplier<DataComponentType<GlobalPos>> = DATA.register("global_pos") {
+    val GLOBAL_POS_COMPONENT = DATA.register("global_pos", Supplier {
         DataComponentType.builder<GlobalPos>().persistent(GlobalPos.CODEC).build()
-    }
+    })
 
-    val ENTITY_ID_COMPONENT: RegistrySupplier<DataComponentType<String>> = DATA.register("entity_uuid") {
+    val ENTITY_ID_COMPONENT = DATA.register("entity_uuid", Supplier {
         DataComponentType.builder<String>().persistent(Codec.STRING).build()
-    }
+    })
 
-    val ENTITY_NAME_COMPONENT: RegistrySupplier<DataComponentType<String>> = DATA.register("entity_name") {
+    val ENTITY_NAME_COMPONENT = DATA.register("entity_name", Supplier {
         DataComponentType.builder<String>().persistent(Codec.STRING).build()
-    }
+    })
 
-    val EXPIRED_TAGLOCK: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("expired_taglock") {
+    val EXPIRED_TAGLOCK = DATA.register("expired_taglock", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
-    }
+    })
 
-    val TIMESTAMP: RegistrySupplier<DataComponentType<Long>> = DATA.register("timestamp") {
+    val TIMESTAMP = DATA.register("timestamp", Supplier {
         DataComponentType.builder<Long>().persistent(Codec.LONG).build()
-    }
+    })
 
-    val ATTUNED: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("attuned") {
+    val ATTUNED = DATA.register("attuned", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
-    }
+    })
 
-    val HAS_SOUP: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("has_soup") {
+    val HAS_SOUP = DATA.register("has_soup", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
-    }
+    })
 
-    val HAS_OINTMENT: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("has_ointment") {
+    val HAS_OINTMENT = DATA.register("has_ointment", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
-    }
+    })
 
-    val PLAYER_UUID: RegistrySupplier<DataComponentType<UUID>> = DATA.register("player_uuid") {
+    val PLAYER_UUID = DATA.register("player_uuid", Supplier {
         DataComponentType.builder<UUID>().persistent(UUIDUtil.CODEC).build()
-    }
+    })
 
-    val BLOOD: RegistrySupplier<DataComponentType<UUID>> = DATA.register("blood") {
+    val BLOOD = DATA.register("blood", Supplier {
         DataComponentType.builder<UUID>().persistent(UUIDUtil.CODEC).build()
-    }
+    })
 
-    val VAMPIRE_BLOOD: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("vampire_blood") {
+    val VAMPIRE_BLOOD = DATA.register("vampire_blood", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
-    }
+    })
 
-    val CHICKEN_BLOOD: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("chicken_blood") {
+    val CHICKEN_BLOOD = DATA.register("chicken_blood", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
-    }
+    })
 
-    val HAS_SUN: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("has_sun") {
+    val HAS_SUN = DATA.register("has_sun", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
-    }
+    })
 
-    val CANE_BLOOD_AMOUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("cane_blood_amount") {
+    val CANE_BLOOD_AMOUNT = DATA.register("cane_blood_amount", Supplier {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
-    }
+    })
 
-    val UNSHEETED: RegistrySupplier<DataComponentType<Boolean>> = DATA.register("unsheeted") {
+    val UNSHEETED = DATA.register("unsheeted", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
-    }
+    })
 
-    val DUAL_POTION_CONTENT = DATA.register("dual_potion_content") {
+    val DUAL_POTION_CONTENT = DATA.register("dual_potion_content", Supplier {
         DataComponentType.builder<DualPotionContents>().persistent(DualPotionContents.CODEC).build()
-    }
+    })
 
-    val LEECH_EFFECT = DATA.register("leech_effect") {
+    val LEECH_EFFECT = DATA.register("leech_effect", Supplier {
         DataComponentType.builder<MobEffectInstance>().persistent(MobEffectInstance.CODEC).build()
-    }
+    })
 
-    val BANSHEE_COUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("banshee_count") {
+    val BANSHEE_COUNT = DATA.register("banshee_count", Supplier {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
-    }
+    })
 
-    val SPECTRE_COUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("spectre_count") {
+    val SPECTRE_COUNT = DATA.register("spectre_count", Supplier {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
-    }
+    })
 
-    val POLTERGEIST_COUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("poltergeist_count") {
+    val POLTERGEIST_COUNT = DATA.register("poltergeist_count", Supplier {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
-    }
+    })
 
-    val SPIRIT_COUNT: RegistrySupplier<DataComponentType<Int>> = DATA.register("spirit_count") {
+    val SPIRIT_COUNT = DATA.register("spirit_count", Supplier {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
-    }
+    })
 
-    val CAPTURED_ENTITY = DATA.register("captured_entity") {
+    val CAPTURED_ENTITY = DATA.register("captured_entity", Supplier {
         DataComponentType.builder<CritterSnareBlock.CapturedEntity>().persistent(CritterSnareBlock.CapturedEntity.CODEC)
             .build()
-    }
+    })
 
-    val WITCHERY_POTION_CONTENT = DATA.register("witchery_potion_content") {
+    val WITCHERY_POTION_CONTENT = DATA.register("witchery_potion_content", Supplier {
         DataComponentType.builder<List<WitcheryPotionIngredient>>()
             .persistent(WitcheryPotionIngredient.CODEC.listOf())
             .build()
-    }
-
-    val CHAIN_POS: RegistrySupplier<DataComponentType<BlockPos>> = DATA.register("chain_pos") {
-        DataComponentType.builder<BlockPos>().persistent(BlockPos.CODEC).build()
-    }
+    })
 
     data class DualPotionContents(
         val positive: Optional<PotionContents>,

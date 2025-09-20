@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.ancient_tablet
 
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
+
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState

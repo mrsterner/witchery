@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.critter_snare
 
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
+
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems

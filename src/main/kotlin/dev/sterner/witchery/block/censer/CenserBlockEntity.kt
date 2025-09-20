@@ -1,9 +1,8 @@
 package dev.sterner.witchery.block.censer
 
-import dev.sterner.witchery.api.block.AltarPowerConsumer
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+
 import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.data.InfiniteCenserReloadListener
 import dev.sterner.witchery.entity.WitcheryThrownPotion
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe

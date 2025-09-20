@@ -1,7 +1,5 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.registry.registries.DeferredRegister
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import net.minecraft.core.registries.Registries
 import net.minecraft.sounds.SoundEvents
@@ -9,33 +7,38 @@ import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
+import net.neoforged.neoforge.registries.DeferredHolder
+import net.neoforged.neoforge.registries.DeferredRegister
+import java.util.Map
+import java.util.function.Supplier
 
 object WitcheryArmorMaterials {
 
-    val MATERIALS: DeferredRegister<ArmorMaterial> = DeferredRegister.create(Witchery.MODID, Registries.ARMOR_MATERIAL)
+    val MATERIALS: DeferredRegister<ArmorMaterial> = DeferredRegister.create(Registries.ARMOR_MATERIAL, Witchery.MODID)
 
-    val WITCHES_ROBES: RegistrySupplier<ArmorMaterial> = MATERIALS.register("witches_robes") {
-        ArmorMaterial(
-            java.util.Map.of(
-                ArmorItem.Type.HELMET, 1,
-                ArmorItem.Type.CHESTPLATE, 3,
-                ArmorItem.Type.LEGGINGS, 2,
-                ArmorItem.Type.BOOTS, 1
-            ),
-            15,
-            SoundEvents.ARMOR_EQUIP_LEATHER,
-            { Ingredient.of(WitcheryItems.GOLDEN_THREAD.get()) },
-            listOf(
-                ArmorMaterial.Layer(Witchery.id("witches_robes"))
-            ),
-            1f,
-            0f
-        )
-    }
+    val WITCHES_ROBES: DeferredHolder<ArmorMaterial, ArmorMaterial> =
+        MATERIALS.register("witches_robes", Supplier {
+            ArmorMaterial(
+                Map.of(
+                    ArmorItem.Type.HELMET, 1,
+                    ArmorItem.Type.CHESTPLATE, 3,
+                    ArmorItem.Type.LEGGINGS, 2,
+                    ArmorItem.Type.BOOTS, 1
+                ),
+                15,
+                SoundEvents.ARMOR_EQUIP_LEATHER,
+                { Ingredient.of(WitcheryItems.GOLDEN_THREAD.get()) },
+                listOf(
+                    ArmorMaterial.Layer(Witchery.id("witches_robes"))
+                ),
+                1f,
+                0f
+            )
+        })
 
-    val HUNTER: RegistrySupplier<ArmorMaterial> = MATERIALS.register("hunter") {
+    val HUNTER: DeferredHolder<ArmorMaterial, ArmorMaterial> = MATERIALS.register("hunter", Supplier {
         ArmorMaterial(
-            java.util.Map.of(
+            Map.of(
                 ArmorItem.Type.HELMET, 2,
                 ArmorItem.Type.CHESTPLATE, 4,
                 ArmorItem.Type.LEGGINGS, 3,
@@ -51,11 +54,11 @@ object WitcheryArmorMaterials {
             3f,
             0f
         )
-    }
+    })
 
-    val DAPPER: RegistrySupplier<ArmorMaterial> = MATERIALS.register("dapper") {
+    val DAPPER: DeferredHolder<ArmorMaterial, ArmorMaterial> = MATERIALS.register("dapper", Supplier {
         ArmorMaterial(
-            java.util.Map.of(
+            Map.of(
                 ArmorItem.Type.HELMET, 1,
                 ArmorItem.Type.CHESTPLATE, 3,
                 ArmorItem.Type.LEGGINGS, 2,
@@ -70,5 +73,6 @@ object WitcheryArmorMaterials {
             1f,
             0f
         )
-    }
+    })
+
 }

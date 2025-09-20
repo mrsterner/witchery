@@ -1,18 +1,14 @@
 package dev.sterner.witchery.block.ritual
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.api.block.AltarPowerConsumer
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.entity.CovenWitchEntity
-import dev.sterner.witchery.handler.CovenHandler
-import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.item.SeerStoneItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem
-import dev.sterner.witchery.platform.CovenPlayerAttachment
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos

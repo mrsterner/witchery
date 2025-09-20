@@ -36,7 +36,7 @@ class MultiBlockHorizontalDirectionStructure(structurePieces: ArrayList<Structur
             val stateWithDirection = s.state.setValue(BlockStateProperties.HORIZONTAL_FACING, direction)
             level.setBlock(componentPos, stateWithDirection, 3)
 
-            // Check if the block entity is a MultiBlockComponentBlockEntity
+            // Check if the block entity is a MultiblockComponentBlockEntity
             val component = level.getBlockEntity(componentPos)
             if (component is MultiBlockComponentEntity) {
                 component.corePos = pos // Set corePos to the main altar position

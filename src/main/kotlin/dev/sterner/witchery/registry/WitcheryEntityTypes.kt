@@ -2,6 +2,34 @@ package dev.sterner.witchery.registry
 
 import com.google.common.base.Supplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.entity.BabaYagaEntity
+import dev.sterner.witchery.entity.BansheeEntity
+import dev.sterner.witchery.entity.BroomEntity
+import dev.sterner.witchery.entity.ChainEntity
+import dev.sterner.witchery.entity.CovenWitchEntity
+import dev.sterner.witchery.entity.CustomBoat
+import dev.sterner.witchery.entity.CustomChestBoat
+import dev.sterner.witchery.entity.DeathEntity
+import dev.sterner.witchery.entity.DemonEntity
+import dev.sterner.witchery.entity.ElleEntity
+import dev.sterner.witchery.entity.EntEntity
+import dev.sterner.witchery.entity.FloatingItemEntity
+import dev.sterner.witchery.entity.HornedHuntsmanEntity
+import dev.sterner.witchery.entity.HuntsmanSpearEntity
+import dev.sterner.witchery.entity.InsanityEntity
+import dev.sterner.witchery.entity.LilithEntity
+import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.entity.NightmareEntity
+import dev.sterner.witchery.entity.OwlEntity
+import dev.sterner.witchery.entity.ParasiticLouseEntity
+import dev.sterner.witchery.entity.SpectralPigEntity
+import dev.sterner.witchery.entity.SpectreEntity
+import dev.sterner.witchery.entity.ThrownBrewEntity
+import dev.sterner.witchery.entity.VampireEntity
+import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.entity.WitcheryAreaEffectCloud
+import dev.sterner.witchery.entity.WitcheryThrownPotion
+import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobCategory
@@ -23,15 +51,15 @@ object WitcheryEntityTypes {
         return ENTITY_TYPES.register(name, item)
     }
 
-    val MANDRAKE =register("mandrake") {
+    val MANDRAKE = register("mandrake", Supplier {
         EntityType.Builder.of(
             { _: EntityType<MandrakeEntity>, level: Level ->
                 MandrakeEntity(level)
             }, MobCategory.CREATURE
         ).sized(0.5f, 0.5f).build(Witchery.id("mandrake").toString())
-    }
+    })
 
-    val IMP =register("imp") {
+    val IMP = register("imp") {
         EntityType.Builder.of(
             { _: EntityType<ImpEntity>, level: Level ->
                 ImpEntity(level)

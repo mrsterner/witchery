@@ -1,10 +1,6 @@
 package dev.sterner.witchery.block.cauldron
 
-import dev.architectury.fluid.FluidStack
-import dev.architectury.platform.Platform
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
-import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos

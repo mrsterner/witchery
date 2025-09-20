@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.poppet
 
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.registry.*

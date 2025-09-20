@@ -1,6 +1,8 @@
 package dev.sterner.witchery.block.werewolf_altar
 
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
+
+register
 import dev.sterner.witchery.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.payload.SpawnItemParticlesS2CPayload

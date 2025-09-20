@@ -1,22 +1,26 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.registry.CreativeTabRegistry
-import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.CreativeModeTabs
+import net.neoforged.neoforge.registries.DeferredHolder
+import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.*
+import java.util.function.Supplier
+
 
 object WitcheryCreativeModeTabs {
 
-    val TABS: DeferredRegister<CreativeModeTab> = DeferredRegister.create(Witchery.MODID, Registries.CREATIVE_MODE_TAB)
+    val TABS: DeferredRegister<CreativeModeTab> = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Witchery.MODID)
 
-    val MAIN = TABS.register("main") {
-        CreativeTabRegistry.create {
-            it.title(Component.translatable("witchery.main"))
-            it.icon { WitcheryItems.BROOM.get().defaultInstance }
-            it.displayItems { _, output ->
+    val MAIN: DeferredHolder<CreativeModeTab, CreativeModeTab> = TABS.register(
+        "main", Supplier {
+        CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.witchery.main"))
+            .icon { WitcheryItems.BROOM.get().defaultInstance }
+            .displayItems { _, output ->
                 output.accept(WitcheryItems.GUIDEBOOK.get())
                 output.accept(WitcheryItems.MUTANDIS.get())
                 output.accept(WitcheryItems.MUTANDIS_EXTREMIS.get())
@@ -312,8 +316,7 @@ object WitcheryCreativeModeTabs {
                 output.accept(WitcheryItems.LILITH_SPAWN_EGG.get())
                 output.accept(WitcheryItems.ELLE_SPAWN_EGG.get())
                 output.accept(WitcheryItems.PARASITIC_LOUSE_SPAWN_EGG.get())
-
             }
-        }
-    }
+            .build()
+    })
 }

@@ -60,7 +60,7 @@ class SpectreEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.S
             return spectre
         }
 
-        fun createAttributes(): AttributeSupplier.Builder? {
+        fun createAttributes(): AttributeSupplier.Builder {
 
             return createMobAttributes()
                 .add(Attributes.FLYING_SPEED, 0.35)

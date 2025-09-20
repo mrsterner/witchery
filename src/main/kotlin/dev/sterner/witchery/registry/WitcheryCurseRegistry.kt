@@ -1,46 +1,34 @@
 package dev.sterner.witchery.registry
 
-import dev.architectury.registry.registries.Registrar
-import dev.architectury.registry.registries.RegistrarManager
-import dev.architectury.registry.registries.RegistrySupplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Curse
-import dev.sterner.witchery.curse.*
+import dev.sterner.witchery.curse.CurseOfCorruptPoppet
+import dev.sterner.witchery.curse.CurseOfInsanity
+import dev.sterner.witchery.curse.CurseOfMisfortune
+import dev.sterner.witchery.curse.CurseOfOverheating
+import dev.sterner.witchery.curse.CurseOfSinking
+import dev.sterner.witchery.curse.CurseOfWalkingNightmare
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.item.CreativeModeTab
+import net.neoforged.neoforge.registries.DeferredRegister
+import java.util.function.Supplier
 
 
 object WitcheryCurseRegistry {
 
     val ID = Witchery.id("curse")
 
-    val CURSES: Registrar<Curse> = RegistrarManager.get(Witchery.MODID).builder<Curse>(ID)
-        .syncToClients().build()
+    val CURSE_REGISTRY_KEY: ResourceKey<Registry<Curse>> = ResourceKey.createRegistryKey(ID)
 
-    val CORRUPT_POPPET: RegistrySupplier<CurseOfCorruptPoppet> = CURSES.register(Witchery.id("corrupt_poppet")) {
-        CurseOfCorruptPoppet()
-    }
+    val CURSES: DeferredRegister<Curse> = DeferredRegister.create(CURSE_REGISTRY_KEY, Witchery.MODID)
 
-    val INSANITY: RegistrySupplier<CurseOfInsanity> = CURSES.register(Witchery.id("insanity")) {
-        CurseOfInsanity()
-    }
+    val CORRUPT_POPPET = CURSES.register("corrupt_poppet", Supplier { CurseOfCorruptPoppet() })
+    val INSANITY = CURSES.register("insanity", Supplier { CurseOfInsanity() })
+    val MISFORTUNE = CURSES.register("misfortune", Supplier { CurseOfMisfortune() })
+    val OVERHEATING = CURSES.register("overheating", Supplier { CurseOfOverheating() })
+    val SINKING = CURSES.register("sinking", Supplier { CurseOfSinking() })
+    val WALKING_NIGHTMARE = CURSES.register("walking_nightmare", Supplier { CurseOfWalkingNightmare() })
 
-    val MISFORTUNE: RegistrySupplier<CurseOfMisfortune> = CURSES.register(Witchery.id("misfortune")) {
-        CurseOfMisfortune()
-    }
-
-    val OVERHEATING: RegistrySupplier<CurseOfOverheating> = CURSES.register(Witchery.id("overheating")) {
-        CurseOfOverheating()
-    }
-
-    val SINKING: RegistrySupplier<CurseOfSinking> = CURSES.register(Witchery.id("sinking")) {
-        CurseOfSinking()
-    }
-
-    val WALKING_NIGHTMARE: RegistrySupplier<CurseOfWalkingNightmare> =
-        CURSES.register(Witchery.id("walking_nightmare")) {
-            CurseOfWalkingNightmare()
-        }
-
-    fun register() {
-
-    }
 }

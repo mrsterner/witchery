@@ -1,6 +1,6 @@
 package dev.sterner.witchery.block.oven
 
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
+
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.item.context.BlockPlaceContext
@@ -14,8 +14,9 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.material.Fluid
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
+import team.lodestar.lodestone.systems.multiblock.MultiblockComponentBlock
 
-class OvenFumeExtensionBlockComponent(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
+class OvenFumeExtensionBlockComponent(properties: Properties) : MultiblockComponentBlock(properties.noOcclusion()) {
 
     init {
         this.registerDefaultState(

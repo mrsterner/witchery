@@ -27,7 +27,7 @@ class BansheeEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.B
     }
 
     companion object {
-        fun createAttributes(): AttributeSupplier.Builder? {
+        fun createAttributes(): AttributeSupplier.Builder {
 
             return createMobAttributes()
                 .add(Attributes.FLYING_SPEED, 0.35)

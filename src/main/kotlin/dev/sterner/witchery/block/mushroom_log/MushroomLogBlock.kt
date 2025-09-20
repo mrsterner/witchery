@@ -1,11 +1,6 @@
 package dev.sterner.witchery.block.mushroom_log
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.InteractionEvent
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
-import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
-import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
@@ -112,8 +107,8 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
                             (level.getBlockEntity(pos) as MushroomLogBlockEntity).setMushroom(player.offhandItem.copy())
                         }
 
-                        if (level.getBlockEntity(checkPos) is MultiBlockComponentBlockEntity) {
-                            (level.getBlockEntity(checkPos) as MultiBlockComponentBlockEntity).corePos = pos
+                        if (level.getBlockEntity(checkPos) is MultiblockComponentBlockEntity) {
+                            (level.getBlockEntity(checkPos) as MultiblockComponentBlockEntity).corePos = pos
                         }
 
                         if (!player.isCreative) {

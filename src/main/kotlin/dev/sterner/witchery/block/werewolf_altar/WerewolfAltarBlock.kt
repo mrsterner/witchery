@@ -1,7 +1,7 @@
 package dev.sterner.witchery.block.werewolf_altar
 
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.api.multiblock.MultiBlockStructure
+
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import team.lodestar.lodestone.systems.multiblock.MultiBlockStructure
 import java.util.function.Supplier
 
 class WerewolfAltarBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion()) {

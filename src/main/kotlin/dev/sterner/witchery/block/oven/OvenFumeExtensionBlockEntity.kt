@@ -1,11 +1,12 @@
 package dev.sterner.witchery.block.oven
 
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.level.block.state.BlockState
+import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 
 class OvenFumeExtensionBlockEntity(
     pos: BlockPos,

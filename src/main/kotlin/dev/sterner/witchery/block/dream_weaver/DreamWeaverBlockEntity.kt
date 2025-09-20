@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.dream_weaver
 
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos

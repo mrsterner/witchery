@@ -1,10 +1,7 @@
 package dev.sterner.witchery.block.brazier
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.InteractionEvent
-import dev.sterner.witchery.api.block.AltarPowerConsumer
-import dev.sterner.witchery.api.block.PotionSpreader
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+
 import dev.sterner.witchery.block.censer.CenserBlockEntity
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem

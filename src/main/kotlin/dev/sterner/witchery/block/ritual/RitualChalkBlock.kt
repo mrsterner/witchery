@@ -1,8 +1,5 @@
 package dev.sterner.witchery.block.ritual
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.BlockEvent
-import dev.sterner.witchery.handler.affliction.VampireSpecificEventHandler
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

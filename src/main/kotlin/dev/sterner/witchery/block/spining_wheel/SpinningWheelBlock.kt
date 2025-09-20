@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.spining_wheel
 
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
+
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.world.Containers

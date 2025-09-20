@@ -1,11 +1,8 @@
 package dev.sterner.witchery.block.spining_wheel
 
-import dev.architectury.registry.menu.ExtendedMenuProvider
-import dev.architectury.registry.menu.MenuRegistry
-import dev.sterner.witchery.api.block.AltarPowerConsumer
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+
 import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.menu.SpinningWheelMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes

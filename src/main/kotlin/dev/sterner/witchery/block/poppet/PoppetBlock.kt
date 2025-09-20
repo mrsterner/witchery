@@ -1,10 +1,9 @@
 package dev.sterner.witchery.block.poppet
 
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.platform.poppet.PoppetLevelAttachment
+
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel

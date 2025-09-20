@@ -5,27 +5,7 @@ import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import dev.architectury.event.events.common.CommandRegistrationEvent
-import dev.architectury.registry.registries.DeferredRegister
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.commands.CurseArgumentType
-import dev.sterner.witchery.commands.InfusionArgumentType
-import dev.sterner.witchery.handler.CurseHandler
-import dev.sterner.witchery.handler.FamiliarHandler
-import dev.sterner.witchery.handler.infusion.InfusionHandler
-import dev.sterner.witchery.handler.ManifestationHandler
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.handler.affliction.LichdomLeveling
-import dev.sterner.witchery.handler.affliction.VampireLeveling
-import dev.sterner.witchery.handler.affliction.VampireLeveling.levelToBlood
-import dev.sterner.witchery.handler.affliction.WerewolfLeveling
-import dev.sterner.witchery.platform.ManifestationPlayerAttachment
-import dev.sterner.witchery.platform.PlatformUtils
-import dev.sterner.witchery.platform.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.platform.infusion.InfusionType
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.platform.transformation.SoulPoolPlayerAttachment
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -36,12 +16,13 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.EntityType
+import net.neoforged.neoforge.registries.DeferredRegister
 
 
 object WitcheryCommands {
 
     val COMMAND_ARGUMENTS: DeferredRegister<ArgumentTypeInfo<*, *>> =
-        DeferredRegister.create(Witchery.MODID, Registries.COMMAND_ARGUMENT_TYPE)
+        DeferredRegister.create(Registries.COMMAND_ARGUMENT_TYPE, Witchery.MODID)
 
     val INFUSION_TYPE = COMMAND_ARGUMENTS.register("infusion_type") {
         registerByClass(InfusionArgumentType::class.java, SingletonArgumentInfo.contextFree(::InfusionArgumentType))

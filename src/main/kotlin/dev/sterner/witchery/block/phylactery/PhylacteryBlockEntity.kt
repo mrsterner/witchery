@@ -1,11 +1,7 @@
 package dev.sterner.witchery.block.phylactery
 
-import dev.architectury.event.events.common.PlayerEvent
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.platform.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.platform.transformation.PhylacteryLevelDataAttachment
-import dev.sterner.witchery.platform.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos

@@ -2,7 +2,9 @@ package dev.sterner.witchery.block.sacrificial_circle
 
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
+
+register
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

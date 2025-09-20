@@ -1,12 +1,7 @@
 package dev.sterner.witchery.block.soul_cage
 
-import dev.architectury.event.EventResult
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.api.event.ChainEvent
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.entity.AbstractSpectralEntity
-import dev.sterner.witchery.handler.chain.ChainManager
-import dev.sterner.witchery.handler.chain.ChainType
-import dev.sterner.witchery.platform.EtherealEntityAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos

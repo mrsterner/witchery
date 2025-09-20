@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.arthana
 
-import dev.sterner.witchery.api.block.WitcheryBaseBlockEntity
+
+import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos

@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.bear_trap
 
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
+
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import net.minecraft.core.BlockPos
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
