@@ -1,0 +1,168 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.107'
+    id 'idea'
+    id 'org.jetbrains.kotlin.jvm' version '2.2.20'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '2.0.0'
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+version = mod_version
+group = mod_group_id
+
+repositories {
+    maven {
+        name = 'Kotlin for Forge'
+        url = 'https://thedarkcolour.github.io/KotlinForForge/'
+        content { includeGroup "thedarkcolour" }
+    }
+    maven {
+        name = "BlameJared maven"
+        url = uri("https://maven.blamejared.com/")
+    }
+    maven {
+        name = "Curios maven"
+        url = uri("https://maven.theillusivec4.top/")
+    }
+    maven {
+        url = "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
+    }
+    maven {
+        url = "https://maven2.bai.lol"
+    }
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
+}
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neo_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    runs {
+        client {
+            client()
+
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            data()
+
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+dependencies {
+    implementation 'thedarkcolour:kotlinforforge-neoforge:5.10.0'
+
+    compileOnlyApi "team.lodestar.lodestone:lodestone:${property('minecraft_version')}-${property('lodestone_version')}"
+    runtimeOnly "team.lodestar.lodestone:lodestone:${property('minecraft_version')}-${property('lodestone_version')}"
+
+    compileOnlyApi"top.theillusivec4.curios:curios-neoforge:${property("curios_version")}"
+    runtimeOnly"top.theillusivec4.curios:curios-neoforge:${property("curios_version")}"
+
+    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
+    implementation ("com.klikli_dev:modonomicon-${minecraft_version}-neoforge:${modonomicon_version}"){
+        transitive = false
+    }
+    compileOnly "mcp.mobius.waila:wthit:neo-${wthitVersion}"
+
+    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+}
+
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+tasks.named("createMinecraftArtifacts") {
+    dependsOn(generateModMetadata)
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/repo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
