@@ -19,7 +19,7 @@ import net.minecraft.world.entity.HumanoidArm
 
 class HornedHuntsmanModel(val root: ModelPart) :
     HumanoidModel<HornedHuntsmanEntity>(root), ArmedModel {
-        
+
     private val body: ModelPart = root.getChild("body")
     private val head: ModelPart = root.getChild("head")
     private val leftLeg: ModelPart = root.getChild("left_leg")
@@ -49,7 +49,8 @@ class HornedHuntsmanModel(val root: ModelPart) :
         leftArm.zRot -= 2.5f * (Mth.PI / 180f)
 
         this.rightLeg.xRot = Mth.cos(limbSwing * 0.6f) * 0.6f * limbSwingAmount / 1 - 10.0f * (Mth.PI / 180f)
-        this.leftLeg.xRot = Mth.cos(limbSwing *0.6f + 3.1415927f) * 0.6f * limbSwingAmount / 1 - 10.0f * (Mth.PI / 180f)
+        this.leftLeg.xRot =
+            Mth.cos(limbSwing * 0.6f + 3.1415927f) * 0.6f * limbSwingAmount / 1 - 10.0f * (Mth.PI / 180f)
     }
 
     override fun renderToBuffer(
@@ -80,7 +81,7 @@ class HornedHuntsmanModel(val root: ModelPart) :
     companion object {
 
         val LAYER_LOCATION: ModelLayerLocation =
-            ModelLayerLocation(Witchery.id( "horned_huntsman"), "main")
+            ModelLayerLocation(Witchery.id("horned_huntsman"), "main")
 
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()

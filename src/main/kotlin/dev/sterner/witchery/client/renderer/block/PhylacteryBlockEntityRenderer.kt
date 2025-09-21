@@ -1,21 +1,15 @@
 package dev.sterner.witchery.client.renderer.block
 
 import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
-import dev.sterner.witchery.client.model.AltarBlockEntityModel
-import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import dev.sterner.witchery.client.model.PhylacteryEtherCoreModel
 import dev.sterner.witchery.client.model.PhylacteryEtherModel
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryRenderTypes
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
-import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class PhylacteryBlockEntityRenderer(var ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<PhylacteryBlockEntity> {

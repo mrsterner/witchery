@@ -207,15 +207,16 @@ class WitcheryAreaEffectCloud(
 
                     if (ingredient.specialEffect.isPresent) {
                         hitResult?.let { hitResult1 ->
-                            WitcherySpecialPotionEffects.SPECIALS.registry.get().get(ingredient.specialEffect.get())?.onActivated(
-                                level(),
-                                owner,
-                                hitResult = hitResult1,
-                                victims.map { it.key }.toMutableList(),
-                                WitcheryPotionItem.getMergedDisperseModifier(potionContents),
-                                duration,
-                                amplifier
-                            )
+                            WitcherySpecialPotionEffects.SPECIALS.registry.get().get(ingredient.specialEffect.get())
+                                ?.onActivated(
+                                    level(),
+                                    owner,
+                                    hitResult = hitResult1,
+                                    victims.map { it.key }.toMutableList(),
+                                    WitcheryPotionItem.getMergedDisperseModifier(potionContents),
+                                    duration,
+                                    amplifier
+                                )
                         }
                     }
 

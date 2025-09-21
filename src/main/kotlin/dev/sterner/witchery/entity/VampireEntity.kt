@@ -1,18 +1,18 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.entity.goal.DrinkBloodTargetingGoal
 import dev.sterner.witchery.entity.goal.NightHuntGoal
 import dev.sterner.witchery.entity.goal.VampireEscapeSunGoal
 import dev.sterner.witchery.entity.goal.VampireHurtByTargetGoal
 import dev.sterner.witchery.handler.BloodPoolHandler
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.VampireChildrenHuntHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
@@ -148,7 +148,7 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
             }
         }
     }
-    
+
     private fun handleBloodHealing() {
         val bloodData = BloodPoolLivingEntityAttachment.getData(this)
         if (bloodData.bloodPool >= 75 && this.level().random.nextBoolean()) {
@@ -158,18 +158,23 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
             }
         }
     }
-    
+
     private fun updateHuntStatus() {
         val currentTime = level().dayTime
         if (currentTime - lastHuntTimestamp >= nightDuration()) {
             huntedLastNight = false
         }
     }
-    
+
     private fun tryDepositBloodAtAltar() {
         if (level() is ServerLevel && collectedBlood > 0 && altarPos != null) {
             val blockEntity = level().getBlockEntity(altarPos!!)
-            if (blockEntity is BloodCrucibleBlockEntity && this.distanceToSqr(altarPos!!.x.toDouble(), altarPos!!.y.toDouble(), altarPos!!.z.toDouble()) < 4.0) {
+            if (blockEntity is BloodCrucibleBlockEntity && this.distanceToSqr(
+                    altarPos!!.x.toDouble(),
+                    altarPos!!.y.toDouble(),
+                    altarPos!!.z.toDouble()
+                ) < 4.0
+            ) {
                 if (!level().canSeeSky(altarPos!!) || !level().isDay) {
                     blockEntity.addBlood(collectedBlood)
                     if (hasMaster && masterPlayer != null) {
@@ -206,7 +211,7 @@ class VampireEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.VAMPIRE.ge
         if (level() is ServerLevel && !huntedLastNight && !level().isDay) {
             val serverLevel = level() as ServerLevel
             val ownerUUID = getOwnerUUID()
-            
+
             if (ownerUUID != null) {
                 VampireChildrenHuntHandler.tryStartHunt(serverLevel, this, ownerUUID)
                 huntedLastNight = true

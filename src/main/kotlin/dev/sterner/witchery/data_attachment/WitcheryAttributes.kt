@@ -11,7 +11,7 @@ import java.util.function.Supplier
 
 object WitcheryAttributes {
 
-    val attributes = DeferredRegister.create(Registries.ATTRIBUTE,Witchery.MODID)
+    val attributes = DeferredRegister.create(Registries.ATTRIBUTE, Witchery.MODID)
 
     @JvmStatic
     fun getVAMPIRE_DRINK_SPEED(): Holder<Attribute> {

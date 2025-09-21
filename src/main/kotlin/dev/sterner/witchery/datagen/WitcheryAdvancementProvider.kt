@@ -13,7 +13,6 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.level.block.Blocks
 import net.neoforged.neoforge.common.data.AdvancementProvider
 import net.neoforged.neoforge.common.data.ExistingFileHelper
-import net.neoforged.neoforge.common.data.internal.NeoForgeAdvancementProvider
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -56,7 +55,7 @@ class WitcheryAdvancementProvider(
             val vamp6 = Companion.makeVampTornPageAdvancement("6", vamp5, consumer)
             val vamp7 = Companion.makeVampTornPageAdvancement("7", vamp6, consumer)
             val vamp8 = Companion.makeVampTornPageAdvancement("8", vamp7, consumer)
-            val vamp9 = Companion.makeVampTornPageAdvancement("9", vamp8, consumer)
+            Companion.makeVampTornPageAdvancement("9", vamp8, consumer)
 
             val were1 = makeWerewolfAltarAdvancement("1", null, consumer)
             val were2 = makeWerewolfAltarAdvancement("2", were1, consumer)
@@ -66,12 +65,12 @@ class WitcheryAdvancementProvider(
             val were6 = makeWerewolfAltarAdvancement("6", were5, consumer)
             val were7 = makeWerewolfAltarAdvancement("7", were6, consumer)
             val were8 = makeWerewolfAltarAdvancement("8", were7, consumer)
-            val were9 = makeWerewolfAltarAdvancement("9", were8, consumer)
+            makeWerewolfAltarAdvancement("9", were8, consumer)
 
             val necro1 = makeNecroRuinPageAdvancement("1", null, consumer)
             val necro2 = makeNecroRuinPageAdvancement("2", necro1, consumer)
             val necro3 = makeNecroRuinPageAdvancement("3", necro2, consumer)
-            val necro4 = makeNecroRuinPageAdvancement("4", necro3, consumer)
+            makeNecroRuinPageAdvancement("4", necro3, consumer)
         }
 
         private fun makeVampTornPageAdvancement(

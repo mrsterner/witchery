@@ -1,7 +1,6 @@
 package dev.sterner.witchery.ritual
 
 import dev.sterner.witchery.api.Ritual
-import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.entity.BansheeEntity

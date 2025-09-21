@@ -10,7 +10,10 @@ import dev.sterner.witchery.handler.TeleportQueueHandler
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.mixin.PlayerInvoker
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
+import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryTags
 import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
@@ -109,11 +112,13 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
                 SleepingPlayerHandler.removeBySleepingUUID(uuid, level() as ServerLevel)
 
                 // Spawn death particles
-                PacketDistributor.sendToPlayersTrackingEntity(this, SpawnSleepingDeathParticleS2CPayload(
-                    this.getRandomX(1.5),
-                    this.randomY,
-                    this.getRandomZ(1.5)
-                ))
+                PacketDistributor.sendToPlayersTrackingEntity(
+                    this, SpawnSleepingDeathParticleS2CPayload(
+                        this.getRandomX(1.5),
+                        this.randomY,
+                        this.getRandomZ(1.5)
+                    )
+                )
 
                 // Remove entity
                 this.remove(RemovalReason.KILLED)

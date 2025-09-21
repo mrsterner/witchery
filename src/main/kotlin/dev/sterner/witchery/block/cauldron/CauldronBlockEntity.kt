@@ -7,11 +7,7 @@ import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.data.PotionDataReloadListener
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
-import dev.sterner.witchery.payload.CauldronEffectParticleS2CPayload
-import dev.sterner.witchery.payload.CauldronPoofS2CPayload
-import dev.sterner.witchery.payload.CauldronPotionBrewParticleS2CPayload
-import dev.sterner.witchery.payload.SpawnSmokePoofParticlesS2CPayload
-import dev.sterner.witchery.payload.SyncCauldronS2CPayload
+import dev.sterner.witchery.payload.*
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
@@ -20,7 +16,6 @@ import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryItems.WITCHERY_POTION
-import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -59,7 +54,6 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank
 import net.neoforged.neoforge.network.PacketDistributor
 import org.joml.Vector3d
-import kotlin.collections.forEach
 
 class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.CAULDRON.get(), CauldronBlock.STRUCTURE.get(),
@@ -172,7 +166,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             val randY = (blockPos.y + 1.0)
             val randZ = blockPos.z + 0.5 + Mth.nextDouble(level.random, -0.1, 0.1)
             if (level is ServerLevel) {
-                PacketDistributor.sendToPlayersTrackingChunk(level as ServerLevel, ChunkPos(blockPos), CauldronPotionBrewParticleS2CPayload(Vector3d(randX, randY, randZ), color))
+                PacketDistributor.sendToPlayersTrackingChunk(
+                    level as ServerLevel,
+                    ChunkPos(blockPos),
+                    CauldronPotionBrewParticleS2CPayload(Vector3d(randX, randY, randZ), color)
+                )
             }
         }
 
@@ -181,7 +179,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             val randY = (blockPos.y + 1.0)
             val randZ = blockPos.z + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
             if (level is ServerLevel) {
-                PacketDistributor.sendToPlayersTrackingChunk(level as ServerLevel, ChunkPos(blockPos), CauldronEffectParticleS2CPayload(Vector3d(randX, randY, randZ), color))
+                PacketDistributor.sendToPlayersTrackingChunk(
+                    level as ServerLevel,
+                    ChunkPos(blockPos),
+                    CauldronEffectParticleS2CPayload(Vector3d(randX, randY, randZ), color)
+                )
             }
         }
 
@@ -237,7 +239,11 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             if (item.`is`(WitcheryItems.WOOD_ASH.get())) {
                 fullReset()
                 if (level is ServerLevel) {
-                    PacketDistributor.sendToPlayersTrackingChunk(level, ChunkPos(pos), SyncCauldronS2CPayload(pos, true))
+                    PacketDistributor.sendToPlayersTrackingChunk(
+                        level,
+                        ChunkPos(pos),
+                        SyncCauldronS2CPayload(pos, true)
+                    )
                 }
                 item.shrink(1)
                 setChanged()

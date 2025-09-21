@@ -3,7 +3,6 @@ package dev.sterner.witchery.client.model
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
-import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.Model
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -44,7 +43,7 @@ class MushroomLogModel(var root: ModelPart) :
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
 
-            val bone = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "bone",
                 CubeListBuilder.create().texOffs(0, 50)
                     .addBox(-16.0f, -16.0f, -8.0f, 16.0f, 16.0f, 16.0f, CubeDeformation(0.0f))

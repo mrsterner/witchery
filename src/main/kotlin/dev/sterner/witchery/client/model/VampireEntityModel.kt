@@ -104,21 +104,21 @@ class VampireEntityModel(val root: ModelPart) :
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val nose = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "nose",
                 CubeListBuilder.create().texOffs(24, 0)
                     .addBox(-1.0f, -1.0f, -6.0f, 2.0f, 4.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offset(0.0f, -2.0f, 0.0f)
             )
 
-            val cape = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "cape",
                 CubeListBuilder.create().texOffs(36, 0)
                     .addBox(-5.0f, 0.0f, -0.5f, 10.0f, 16.0f, 1.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 3.5f, 0.1309f, 0.0f, 0.0f)
             )
 
-            val body = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "body",
                 CubeListBuilder.create().texOffs(16, 20)
                     .addBox(-4.0f, 0.0f, -3.0f, 8.0f, 12.0f, 6.0f, CubeDeformation(0.0f))
@@ -137,35 +137,35 @@ class VampireEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, -2.0f, 0.05f, -0.7505f, 0.0f, 0.0f)
             )
 
-            val arms_flipped = arms_rotation.addOrReplaceChild(
+            arms_rotation.addOrReplaceChild(
                 "arms_flipped",
                 CubeListBuilder.create().texOffs(44, 22).mirror()
                     .addBox(4.0f, -24.0f, -2.05f, 4.0f, 8.0f, 4.0f, CubeDeformation(0.0f)).mirror(false),
                 PartPose.offset(0.0f, 24.0f, 0.0f)
             )
 
-            val left_arm = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "left_arm",
                 CubeListBuilder.create().texOffs(40, 46).mirror()
                     .addBox(-2.0f, -2.0f, -2.0f, 4.0f, 12.0f, 4.0f, CubeDeformation(0.0f)).mirror(false),
                 PartPose.offsetAndRotation(6.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f)
             )
 
-            val right_arm = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "right_arm",
                 CubeListBuilder.create().texOffs(40, 46)
                     .addBox(-2.0f, -2.0f, -2.0f, 4.0f, 12.0f, 4.0f, CubeDeformation(0.0f)),
                 PartPose.offset(-6.0f, 2.0f, 0.0f)
             )
 
-            val left_leg = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "left_leg",
                 CubeListBuilder.create().texOffs(0, 22).mirror()
                     .addBox(2.0f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, CubeDeformation(0.0f)).mirror(false),
                 PartPose.offset(-2.0f, 12.0f, 0.0f)
             )
 
-            val right_leg = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "right_leg",
                 CubeListBuilder.create().texOffs(0, 22)
                     .addBox(-6.0f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, CubeDeformation(0.0f)),

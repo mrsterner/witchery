@@ -1,7 +1,6 @@
 package dev.sterner.witchery.recipe
 
 import dev.sterner.witchery.mixin.ShapelessRecipeAccessor
-import net.minecraft.advancements.Advancement
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
@@ -16,7 +15,6 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.ShapelessRecipe
 import net.minecraft.world.level.ItemLike
-import java.util.*
 
 class ShapelessRecipeWithComponentsBuilder(
     category: RecipeCategory,

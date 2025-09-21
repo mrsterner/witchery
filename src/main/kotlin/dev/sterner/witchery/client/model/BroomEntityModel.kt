@@ -104,70 +104,70 @@ class BroomEntityModel(root: ModelPart) :
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val cube_r1 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(12, 15)
                     .addBox(0.0f, -2.0f, 0.0f, 0.0f, 4.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-3.0f, -1.0f, 2.0f, 0.0f, -0.1745f, 0.0f)
             )
 
-            val cube_r2 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r2",
                 CubeListBuilder.create().texOffs(12, 15)
                     .addBox(0.0f, -2.0f, 0.0f, 0.0f, 4.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-3.0f, -1.0f, 0.0f, 0.0f, -0.3054f, 0.0f)
             )
 
-            val cube_r3 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r3",
                 CubeListBuilder.create().texOffs(16, 9)
                     .addBox(-3.0f, 0.0f, 0.0f, 4.0f, 0.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, -3.0f, 3.0f, 0.1745f, 0.0f, 0.0f)
             )
 
-            val cube_r4 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r4",
                 CubeListBuilder.create().texOffs(16, 9)
                     .addBox(-3.0f, 0.0f, 0.0f, 4.0f, 0.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, -3.0f, 0.0f, 0.3054f, 0.0f, 0.0f)
             )
 
-            val cube_r5 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r5",
                 CubeListBuilder.create().texOffs(48, 9)
                     .addBox(0.0f, -4.0f, -4.0f, 0.0f, 8.0f, 8.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-1.0f, -1.0f, 5.0f, 0.0f, 0.0f, 0.7854f)
             )
 
-            val cube_r6 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r6",
                 CubeListBuilder.create().texOffs(48, 9)
                     .addBox(0.0f, -4.0f, -4.0f, 0.0f, 8.0f, 8.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-1.0f, -1.0f, 5.0f, 0.0f, 0.0f, -0.7854f)
             )
 
-            val cube_r7 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r7",
                 CubeListBuilder.create().texOffs(0, 15)
                     .addBox(0.0f, -3.0f, 0.0f, 0.0f, 4.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(1.0f, 0.0f, 2.0f, 0.0f, 0.1745f, 0.0f)
             )
 
-            val cube_r8 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r8",
                 CubeListBuilder.create().texOffs(0, 15)
                     .addBox(0.0f, -3.0f, 0.0f, 0.0f, 4.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(1.0f, 0.0f, 0.0f, 0.0f, 0.3054f, 0.0f)
             )
 
-            val cube_r9 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r9",
                 CubeListBuilder.create().texOffs(8, 11)
                     .addBox(-3.0f, 0.0f, 0.0f, 4.0f, 0.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 1.0f, 2.0f, -0.1745f, 0.0f, 0.0f)
             )
 
-            val cube_r10 = bone6.addOrReplaceChild(
+            bone6.addOrReplaceChild(
                 "cube_r10",
                 CubeListBuilder.create().texOffs(8, 11)
                     .addBox(-3.0f, 0.0f, 0.0f, 4.0f, 0.0f, 6.0f, CubeDeformation(0.0f)),

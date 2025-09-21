@@ -71,8 +71,11 @@ class CurseOfCorruptPoppet : Curse() {
                 )
             }
 
-            player.displayClientMessage(Component.translatable("curse.witchery.corrupt_poppet.cleansed").withStyle(
-                ChatFormatting.GREEN), true)
+            player.displayClientMessage(
+                Component.translatable("curse.witchery.corrupt_poppet.cleansed").withStyle(
+                    ChatFormatting.GREEN
+                ), true
+            )
         }
     }
 
@@ -82,7 +85,9 @@ class CurseOfCorruptPoppet : Curse() {
         CorruptPoppetPlayerAttachment.setData(player, CorruptPoppetPlayerAttachment.Data())
         CorruptPoppetPlayerAttachment.sync(player, CorruptPoppetPlayerAttachment.Data())
 
-        player.displayClientMessage(Component.translatable("curse.witchery.corrupt_poppet.applied").withStyle(ChatFormatting.DARK_PURPLE), true)
+        player.displayClientMessage(
+            Component.translatable("curse.witchery.corrupt_poppet.applied").withStyle(ChatFormatting.DARK_PURPLE), true
+        )
 
         if (level is ServerLevel) {
             level.sendParticles(
@@ -153,7 +158,8 @@ class CurseOfCorruptPoppet : Curse() {
         )
 
         player.displayClientMessage(
-            Component.translatable("curse.witchery.corrupt_poppet.corrupted",
+            Component.translatable(
+                "curse.witchery.corrupt_poppet.corrupted",
                 Component.translatable(selectedPoppet.item.descriptionId)
             ).withStyle(ChatFormatting.DARK_PURPLE),
             true
@@ -180,6 +186,7 @@ class CurseOfCorruptPoppet : Curse() {
                                 0.0, 0.0, 0.0
                             )
                         }
+
                         PoppetLocation.INVENTORY -> {
                             if (level.random.nextFloat() < 0.3f) {
                                 level.addParticle(
@@ -191,8 +198,10 @@ class CurseOfCorruptPoppet : Curse() {
                                 )
                             }
                         }
+
                         PoppetLocation.WORLD -> {
                         }
+
                         else -> {}
                     }
                 }

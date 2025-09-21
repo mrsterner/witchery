@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncOtherwhereInfusionS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -16,19 +15,20 @@ object OtherwhereInfusionPlayerAttachment {
 
     @JvmStatic
     fun setInfusion(player: Player, teleportHoldTicks: Int, teleportCooldown: Int) {
-        val data = OtherwhereInfusionPlayerAttachment.Data(teleportHoldTicks, teleportCooldown)
+        val data = Data(teleportHoldTicks, teleportCooldown)
         player.setData(WitcheryDataAttachments.OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT, data)
-        OtherwhereInfusionPlayerAttachment.sync(player, data)
+        sync(player, data)
     }
 
     @JvmStatic
-    fun getInfusion(player: Player): OtherwhereInfusionPlayerAttachment.Data {
+    fun getInfusion(player: Player): Data {
         return player.getData(WitcheryDataAttachments.OTHERWHERE_INFUSION_PLAYER_DATA_ATTACHMENT)
     }
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player,SyncOtherwhereInfusionS2CPayload(
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                player, SyncOtherwhereInfusionS2CPayload(
                 CompoundTag().apply {
                     putUUID("Id", player.uuid)
                     putInt("teleportHoldTicks", data.teleportHoldTicks)

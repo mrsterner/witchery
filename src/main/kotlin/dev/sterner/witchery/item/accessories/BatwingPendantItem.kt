@@ -13,7 +13,8 @@ import net.minecraft.world.item.Rarity
 import top.theillusivec4.curios.api.SlotContext
 import top.theillusivec4.curios.api.type.capability.ICurioItem
 
-open class BatwingPendantItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)), ICurioItem {
+open class BatwingPendantItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)),
+    ICurioItem {
 
     val modifier = AttributeModifier(
         Witchery.id("batwing_modifier"), 60.0 * 20,

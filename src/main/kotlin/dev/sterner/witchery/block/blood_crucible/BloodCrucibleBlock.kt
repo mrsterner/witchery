@@ -37,10 +37,14 @@ class BloodCrucibleBlock(properties: Properties) : WitcheryBaseEntityBlock(prope
 
         val SHAPE: VoxelShape = Shapes.join(
             SHAPE_BASE,
-            Shapes.join(SHAPE_PILLAR,
-                Shapes.join(SHAPE_BOTTOM_CRUCIBLE, SHAPE_BOTTOM_TOP,
-                    BooleanOp.OR),
-                BooleanOp.OR),
+            Shapes.join(
+                SHAPE_PILLAR,
+                Shapes.join(
+                    SHAPE_BOTTOM_CRUCIBLE, SHAPE_BOTTOM_TOP,
+                    BooleanOp.OR
+                ),
+                BooleanOp.OR
+            ),
             BooleanOp.OR
         )
     }

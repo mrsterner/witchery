@@ -59,7 +59,7 @@ class ImpEntityModel(modelPart: ModelPart) :
         root().allParts.forEach { obj: ModelPart -> obj.resetPose() }
         val f = ageInTicks * 20.0f * 0.017453292f + limbSwing
         val g = Mth.cos(f) * 3.1415927f * 0.15f + limbSwingAmount
-        val h = ageInTicks - entity.tickCount.toFloat()
+        ageInTicks - entity.tickCount.toFloat()
         val i = ageInTicks * 9.0f * 0.017453292f
         val j = min((limbSwingAmount / 0.3f).toDouble(), 1.0).toFloat()
         val k = 1.0f - j
@@ -118,7 +118,7 @@ class ImpEntityModel(modelPart: ModelPart) :
             val bone2 =
                 right_horn2.addOrReplaceChild("bone2", CubeListBuilder.create(), PartPose.offset(0.0f, 0.0f, 0.0f))
 
-            val cube_r1 = bone2.addOrReplaceChild(
+            bone2.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(10, 23)
                     .addBox(-1.0f, 0.0f, -1.0f, 2.0f, 2.0f, 2.0f, CubeDeformation(-0.1f)),
@@ -134,7 +134,7 @@ class ImpEntityModel(modelPart: ModelPart) :
 
             val bone = right_horn.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.offset(0.0f, 0.0f, 0.0f))
 
-            val cube_r2 = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "cube_r2",
                 CubeListBuilder.create().texOffs(10, 23)
                     .addBox(-1.0f, 0.0f, -1.0f, 2.0f, 2.0f, 2.0f, CubeDeformation(-0.1f)),
@@ -149,35 +149,35 @@ class ImpEntityModel(modelPart: ModelPart) :
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val right_arm = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "right_arm",
                 CubeListBuilder.create().texOffs(20, 0)
                     .addBox(0.0f, -3.0f, -1.0f, 1.0f, 4.0f, 2.0f, CubeDeformation(-0.01f)),
                 PartPose.offset(1.45f, -0.5f, 0.0f)
             )
 
-            val left_arm = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "left_arm",
                 CubeListBuilder.create().texOffs(0, 20)
                     .addBox(-1.0f, -3.0f, -1.0f, 1.0f, 4.0f, 2.0f, CubeDeformation(-0.01f)),
                 PartPose.offset(-1.5f, -0.5f, 0.0f)
             )
 
-            val right_wing = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "right_wing",
                 CubeListBuilder.create().texOffs(0, 7)
                     .addBox(-0.5f, -6.0f, -0.6f, 0.0f, 5.0f, 8.0f, CubeDeformation(0.0f)),
                 PartPose.offset(0.5f, 0.0f, 0.6f)
             )
 
-            val left_wing = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "left_wing",
                 CubeListBuilder.create().texOffs(0, 2)
                     .addBox(-0.5f, -6.0f, -0.6f, 0.0f, 5.0f, 8.0f, CubeDeformation(0.0f)),
                 PartPose.offset(0.5f, 0.0f, 0.6f)
             )
 
-            val tail = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "tail",
                 CubeListBuilder.create().texOffs(0, 22)
                     .addBox(1.0f, -1.0f, 0.0f, 0.0f, 4.0f, 6.0f, CubeDeformation(0.0f)),

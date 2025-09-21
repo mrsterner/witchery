@@ -162,7 +162,7 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
 
     override fun handleEntityEvent(id: Byte) {
         if (id.toInt() == 15) {
-            (0..< this.random.nextInt(35) + 10).forEach { i ->
+            (0..<this.random.nextInt(35) + 10).forEach { i ->
                 this.level()
                     .addParticle(
                         ParticleTypes.WITCH,
@@ -241,7 +241,8 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
 
     companion object {
         private val SPEED_MODIFIER_DRINKING_ID: ResourceLocation = ResourceLocation.withDefaultNamespace("drinking")
-        private val SPEED_MODIFIER_DRINKING = AttributeModifier(SPEED_MODIFIER_DRINKING_ID, -0.25, AttributeModifier.Operation.ADD_VALUE
+        private val SPEED_MODIFIER_DRINKING = AttributeModifier(
+            SPEED_MODIFIER_DRINKING_ID, -0.25, AttributeModifier.Operation.ADD_VALUE
         )
         private val DATA_USING_ITEM: EntityDataAccessor<Boolean?> =
             SynchedEntityData.defineId<Boolean?>(BabaYagaEntity::class.java, EntityDataSerializers.BOOLEAN)

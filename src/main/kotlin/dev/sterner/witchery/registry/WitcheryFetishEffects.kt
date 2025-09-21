@@ -2,8 +2,6 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.FetishEffect
-import dev.sterner.witchery.api.PoppetType
-import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.fetish.*
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey

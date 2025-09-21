@@ -100,7 +100,7 @@ class SpinningWheelWheelBlockEntityModel(root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, 0.0f, 6.0f, 0.7854f, 0.0f, 0.0f)
             )
 
-            val bone8 = bone7.addOrReplaceChild(
+            bone7.addOrReplaceChild(
                 "bone8",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-1.0f, -2.0f, 0.0f, 2.0f, 2.0f, 6.0f, CubeDeformation(-0.01f))

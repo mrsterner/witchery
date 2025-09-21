@@ -8,9 +8,6 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookImagePageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronBrewingPageModel
-import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.world.item.Item
 
 class SoulCageEntryProvider(parent: CategoryProviderBase?, var id: String) : EntryProvider(parent) {
 

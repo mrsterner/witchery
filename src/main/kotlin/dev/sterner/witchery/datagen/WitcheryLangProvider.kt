@@ -4,11 +4,7 @@ import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.datagen.lang.WitcheryAdvancementLangProvider
 import dev.sterner.witchery.datagen.lang.WitcheryBookLangProvider
 import dev.sterner.witchery.datagen.lang.WitcheryRitualLangProvider
-import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.registry.*
 import net.minecraft.data.PackOutput
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
@@ -36,7 +32,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
                 }
             }
     }
-        
+
     override fun addTranslations() {
         add("witchery.main", "Witchery")
 

@@ -3,7 +3,6 @@ package dev.sterner.witchery.client.model
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
-import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.Model
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -42,7 +41,8 @@ class PhylacteryEtherModel(root: ModelPart) :
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
 
-            val ether = partdefinition.addOrReplaceChild("ether", CubeListBuilder.create(), PartPose.offset(0.0f, 24.0f, 0.0f))
+            val ether =
+                partdefinition.addOrReplaceChild("ether", CubeListBuilder.create(), PartPose.offset(0.0f, 24.0f, 0.0f))
 
             ether.addOrReplaceChild(
                 "shell",

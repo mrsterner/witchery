@@ -1,7 +1,6 @@
 package dev.sterner.witchery.data_attachment
 
 import dev.sterner.witchery.block.ForgeStrippableLogBlock
-import dev.sterner.witchery.block.trees.StrippableLogBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import java.util.function.Supplier

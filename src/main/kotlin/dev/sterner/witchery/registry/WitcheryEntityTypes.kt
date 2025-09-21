@@ -1,34 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.BabaYagaEntity
-import dev.sterner.witchery.entity.BansheeEntity
-import dev.sterner.witchery.entity.BroomEntity
-import dev.sterner.witchery.entity.ChainEntity
-import dev.sterner.witchery.entity.CovenWitchEntity
-import dev.sterner.witchery.entity.CustomBoat
-import dev.sterner.witchery.entity.CustomChestBoat
-import dev.sterner.witchery.entity.DeathEntity
-import dev.sterner.witchery.entity.DemonEntity
-import dev.sterner.witchery.entity.ElleEntity
-import dev.sterner.witchery.entity.EntEntity
-import dev.sterner.witchery.entity.FloatingItemEntity
-import dev.sterner.witchery.entity.HornedHuntsmanEntity
-import dev.sterner.witchery.entity.HuntsmanSpearEntity
-import dev.sterner.witchery.entity.ImpEntity
-import dev.sterner.witchery.entity.InsanityEntity
-import dev.sterner.witchery.entity.LilithEntity
-import dev.sterner.witchery.entity.MandrakeEntity
-import dev.sterner.witchery.entity.NightmareEntity
-import dev.sterner.witchery.entity.OwlEntity
-import dev.sterner.witchery.entity.ParasiticLouseEntity
-import dev.sterner.witchery.entity.SpectralPigEntity
-import dev.sterner.witchery.entity.SpectreEntity
-import dev.sterner.witchery.entity.ThrownBrewEntity
-import dev.sterner.witchery.entity.VampireEntity
-import dev.sterner.witchery.entity.WerewolfEntity
-import dev.sterner.witchery.entity.WitcheryAreaEffectCloud
-import dev.sterner.witchery.entity.WitcheryThrownPotion
+import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.entity.EntityType
@@ -45,7 +18,7 @@ object WitcheryEntityTypes {
 
     val LANG_HELPER = mutableListOf<String>()
 
-    fun <T : EntityType<*>> register(name: String, item: Supplier<T>): DeferredHolder<EntityType<*> ,T> {
+    fun <T : EntityType<*>> register(name: String, item: Supplier<T>): DeferredHolder<EntityType<*>, T> {
         if (true) {
             LANG_HELPER.add(name)
         }
@@ -139,17 +112,16 @@ object WitcheryEntityTypes {
 
     val FLOATING_ITEM =
         register(
-            "floating_item"
-            , Supplier {
-            EntityType.Builder.of(
-                { _: EntityType<FloatingItemEntity>, w: Level ->
-                    FloatingItemEntity(
-                        w
-                    )
-                }, MobCategory.MISC
-            ).sized(0.5f, 0.75f).clientTrackingRange(10)
-                .build(Witchery.id("floating_item").toString())
-        })
+            "floating_item", Supplier {
+                EntityType.Builder.of(
+                    { _: EntityType<FloatingItemEntity>, w: Level ->
+                        FloatingItemEntity(
+                            w
+                        )
+                    }, MobCategory.MISC
+                ).sized(0.5f, 0.75f).clientTrackingRange(10)
+                    .build(Witchery.id("floating_item").toString())
+            })
 
     val CUSTOM_BOAT = register("custom_boat") {
         EntityType.Builder.of(::CustomBoat, MobCategory.MISC)
@@ -177,17 +149,16 @@ object WitcheryEntityTypes {
 
     val THROWN_POTION =
         register(
-            "thrown_potion"
-            , Supplier {
-            EntityType.Builder.of(
-                { _: EntityType<WitcheryThrownPotion>, w: Level ->
-                    WitcheryThrownPotion(
-                        w
-                    )
-                }, MobCategory.MISC
-            ).sized(0.25f, 0.25f).clientTrackingRange(4).updateInterval(10)
-                .build(Witchery.id("thrown_potion").toString())
-        })
+            "thrown_potion", Supplier {
+                EntityType.Builder.of(
+                    { _: EntityType<WitcheryThrownPotion>, w: Level ->
+                        WitcheryThrownPotion(
+                            w
+                        )
+                    }, MobCategory.MISC
+                ).sized(0.25f, 0.25f).clientTrackingRange(4).updateInterval(10)
+                    .build(Witchery.id("thrown_potion").toString())
+            })
 
     val BANSHEE = register("banshee") {
         EntityType.Builder.of(
@@ -256,7 +227,7 @@ object WitcheryEntityTypes {
         ).sized(0.85F, 2.2F).build(Witchery.id("nightmare").toString())
     })
 
-    val VAMPIRE =register("vampire") {
+    val VAMPIRE = register("vampire") {
         EntityType.Builder.of(
             { _: EntityType<VampireEntity>, level: Level ->
                 VampireEntity(level)

@@ -13,14 +13,7 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.item.ArmorItem
-import net.minecraft.world.item.ArmorItem.Type
-import net.minecraft.world.item.ArmorMaterial
-import net.minecraft.world.item.DyeColor
-import net.minecraft.world.item.Item.Properties
-import net.minecraft.world.item.Item.TooltipContext
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.item.*
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import org.jetbrains.annotations.NotNull
 import java.awt.Color

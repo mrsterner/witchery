@@ -14,15 +14,15 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import java.awt.Color
 
-class HuntsmanSpearRenderer(context: EntityRendererProvider.Context) : 
+class HuntsmanSpearRenderer(context: EntityRendererProvider.Context) :
     EntityRenderer<HuntsmanSpearEntity>(context) {
 
     private val model = HuntsmanSpearModel(context.bakeLayer(HuntsmanSpearModel.LAYER_LOCATION))
-    
+
     companion object {
         private val TEXTURE = Witchery.id("textures/entity/huntsman_spear.png")
     }
-    
+
     override fun render(
         entity: HuntsmanSpearEntity,
         entityYaw: Float,
@@ -37,27 +37,27 @@ class HuntsmanSpearRenderer(context: EntityRendererProvider.Context) :
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.xRot) + 90.0f))
 
         val vertexConsumer = ItemRenderer.getFoilBufferDirect(
-            buffer, 
-            model.renderType(this.getTextureLocation(entity)), 
-            false, 
+            buffer,
+            model.renderType(this.getTextureLocation(entity)),
+            false,
             false
         )
 
         model.renderToBuffer(
-            poseStack, 
-            vertexConsumer, 
-            packedLight, 
-            OverlayTexture.NO_OVERLAY, 
-           -1
+            poseStack,
+            vertexConsumer,
+            packedLight,
+            OverlayTexture.NO_OVERLAY,
+            -1
         )
 
         if (entity.entityData.get(HuntsmanSpearEntity.Companion.ID_THROWN_BY_HUNTSMAN)) {
             val renderType = net.minecraft.client.renderer.RenderType.energySwirl(
-                TEXTURE, 
-                entity.tickCount * 0.01f % 1.0f, 
+                TEXTURE,
+                entity.tickCount * 0.01f % 1.0f,
                 entity.tickCount * 0.01f % 1.0f
             )
-            
+
             val energyVertexConsumer = buffer.getBuffer(renderType)
 
             poseStack.scale(1.1f, 1.1f, 1.1f)
@@ -67,14 +67,14 @@ class HuntsmanSpearRenderer(context: EntityRendererProvider.Context) :
                 energyVertexConsumer,
                 15728640,
                 OverlayTexture.NO_OVERLAY,
-                Color(255,255,60,100).rgb
+                Color(255, 255, 60, 100).rgb
             )
         }
-        
+
         poseStack.popPose()
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight)
     }
-    
+
     override fun getTextureLocation(entity: HuntsmanSpearEntity): ResourceLocation {
         return TEXTURE
     }

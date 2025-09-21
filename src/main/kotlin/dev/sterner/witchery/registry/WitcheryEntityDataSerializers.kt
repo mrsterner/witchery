@@ -5,7 +5,6 @@ import net.minecraft.core.NonNullList
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.syncher.EntityDataSerializer
-import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
 import net.neoforged.neoforge.registries.DeferredHolder

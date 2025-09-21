@@ -1,7 +1,6 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.FetishEffectReloadListener
 import dev.sterner.witchery.data.InfiniteCenserReloadListener
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderLookup
@@ -13,7 +12,6 @@ import net.minecraft.world.item.alchemy.Potions
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import net.neoforged.neoforge.common.data.JsonCodecProvider
 import java.util.concurrent.CompletableFuture
-import java.util.function.BiConsumer
 
 class WitcheryInfiniteCenserProvider(
     output: PackOutput,
@@ -46,7 +44,7 @@ class WitcheryInfiniteCenserProvider(
 
         makeCustomPotion("fertile", Witchery.id("fertile"))
     }
-    
+
 
     private fun makePotion(
         name: String,

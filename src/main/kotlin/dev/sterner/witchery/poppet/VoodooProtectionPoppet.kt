@@ -20,7 +20,7 @@ class VoodooProtectionPoppet : PoppetType {
 
     override fun isValidFor(owner: LivingEntity, source: DamageSource?): Boolean = true
 
-    override fun getDurabilityDamage(usage: PoppetUsage): Int = when(usage) {
+    override fun getDurabilityDamage(usage: PoppetUsage): Int = when (usage) {
         PoppetUsage.EFFECT -> 1
         PoppetUsage.PROTECTION -> 1
         else -> 0

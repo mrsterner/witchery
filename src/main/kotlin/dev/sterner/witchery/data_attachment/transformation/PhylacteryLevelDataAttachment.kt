@@ -8,18 +8,17 @@ import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 
 object PhylacteryLevelDataAttachment {
 
     @JvmStatic
-    fun getData(level: ServerLevel): PhylacteryLevelDataAttachment.Data {
+    fun getData(level: ServerLevel): Data {
         return level.getData(WitcheryDataAttachments.PHYLACTERY_LEVEL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(level: ServerLevel, data: PhylacteryLevelDataAttachment.Data) {
+    fun setData(level: ServerLevel, data: Data) {
         level.setData(WitcheryDataAttachments.PHYLACTERY_LEVEL_DATA_ATTACHMENT, data)
     }
 
@@ -126,6 +125,7 @@ object PhylacteryLevelDataAttachment {
                         data.phylacteries.add(PhylacteryRecord(pos, change.owner.get(), change.hasSoul))
                     }
                 }
+
                 "setOwner" -> {
                     val current = data.phylacteries.find { it.pos == pos }
                     if (current != null) {
@@ -133,6 +133,7 @@ object PhylacteryLevelDataAttachment {
                         data.phylacteries.add(current.copy(owner = change.owner.get()))
                     }
                 }
+
                 "set" -> {
                     data.phylacteries.removeIf { it.pos == pos }
                     data.phylacteries.add(PhylacteryRecord(pos, change.owner.get(), change.hasSoul))

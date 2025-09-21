@@ -97,14 +97,14 @@ class LilithEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, -15.5f, -1.0f, 0.0436f, 0.0f, 0.0f)
             )
 
-            val clothFront = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "clothFront",
                 CubeListBuilder.create().texOffs(84, 24)
                     .addBox(-3.0f, 0.25f, 0.0f, 6.0f, 7.0f, 1.0f, CubeDeformation(0.25f)),
                 PartPose.offsetAndRotation(0.0f, 19.25f, -2.0f, -0.3927f, 0.0f, 0.0f)
             )
 
-            val clothBack = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "clothBack",
                 CubeListBuilder.create().texOffs(98, 24)
                     .addBox(-4.0f, 0.25f, -1.0f, 8.0f, 7.0f, 1.0f, CubeDeformation(0.25f)),
@@ -121,14 +121,14 @@ class LilithEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(-5.0f, 2.0f, 0.0f, -0.0436f, 0.0f, 0.0f)
             )
 
-            val right_spike_2_r1 = rightArm.addOrReplaceChild(
+            rightArm.addOrReplaceChild(
                 "right_spike_2_r1",
                 CubeListBuilder.create().texOffs(84, 44)
                     .addBox(-3.0f, 13.7179f, 7.5356f, 1.0f, 2.0f, 15.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.6981f, 0.0f, 0.0f)
             )
 
-            val right_spike_1_r1 = rightArm.addOrReplaceChild(
+            rightArm.addOrReplaceChild(
                 "right_spike_1_r1",
                 CubeListBuilder.create().texOffs(66, 45)
                     .addBox(-3.0f, 11.1874f, -4.6548f, 1.0f, 3.0f, 16.0f, CubeDeformation(0.0f)),
@@ -148,14 +148,14 @@ class LilithEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(5.0f, 2.0f, 0.0f, -0.0436f, 0.0f, 0.0f)
             )
 
-            val left_spike_2_r1 = leftArm.addOrReplaceChild(
+            leftArm.addOrReplaceChild(
                 "left_spike_2_r1",
                 CubeListBuilder.create().texOffs(84, 44)
                     .addBox(2.0f, 13.7179f, 7.5356f, 1.0f, 2.0f, 15.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.6981f, 0.0f, 0.0f)
             )
 
-            val left_spike_1_r1 = leftArm.addOrReplaceChild(
+            leftArm.addOrReplaceChild(
                 "left_spike_1_r1",
                 CubeListBuilder.create().texOffs(66, 45)
                     .addBox(2.0f, 11.1874f, -4.6548f, 1.0f, 3.0f, 16.0f, CubeDeformation(0.0f)),
@@ -170,21 +170,21 @@ class LilithEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, -0.0436f, 0.0f, 0.0f)
             )
 
-            val right_antlers_r1 = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "right_antlers_r1",
                 CubeListBuilder.create().texOffs(72, 9).mirror()
                     .addBox(3.5f, -15.0f, -3.0f, 4.0f, 9.0f, 0.0f, CubeDeformation(0.0f)).mirror(false),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.0f, -0.2618f, 0.0f)
             )
 
-            val left_antlers_r1 = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "left_antlers_r1",
                 CubeListBuilder.create().texOffs(72, 9)
                     .addBox(-7.5f, -15.0f, -3.0f, 4.0f, 9.0f, 0.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.0f, 0.2618f, 0.0f)
             )
 
-            val leftLeg = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "leftLeg",
                 CubeListBuilder.create().texOffs(21, 46).mirror()
                     .addBox(0.0f, -2.0f, -3.0f, 5.0f, 13.0f, 5.0f, CubeDeformation(0.0f)).mirror(false)
@@ -193,7 +193,7 @@ class LilithEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, 20.0f, 1.0f, -0.3491f, 0.0f, 0.0f)
             )
 
-            val rightLeg = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "rightLeg",
                 CubeListBuilder.create().texOffs(21, 46)
                     .addBox(-5.0f, -2.0f, -3.0f, 5.0f, 13.0f, 5.0f, CubeDeformation(0.0f))

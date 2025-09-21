@@ -539,7 +539,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun collectNearbyItems(level: Level): List<ItemStack> {
         val result = mutableListOf<ItemStack>()
 
-        result.addAll(level.getEntities(
+        result.addAll(
+            level.getEntities(
             EntityType.ITEM,
             AABB(blockPos).inflate(ITEM_SEARCH_RADIUS, 0.0, ITEM_SEARCH_RADIUS)
         ) { true }.map { it.item })
@@ -630,7 +631,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (player.level() is ServerLevel) {
-            return FamiliarHandler.getFamiliarEntityType(playerUUID = player.uuid, player.level() as ServerLevel) == EntityType.CAT
+            return FamiliarHandler.getFamiliarEntityType(
+                playerUUID = player.uuid,
+                player.level() as ServerLevel
+            ) == EntityType.CAT
         }
 
         return false
@@ -646,8 +650,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return when {
             recipe.weather.contains(RitualRecipe.Weather.CLEAR) ->
                 clear
+
             recipe.weather.contains(RitualRecipe.Weather.STORM) ->
                 thunder
+
             recipe.weather.contains(RitualRecipe.Weather.RAIN) ->
                 rain || thunder
 

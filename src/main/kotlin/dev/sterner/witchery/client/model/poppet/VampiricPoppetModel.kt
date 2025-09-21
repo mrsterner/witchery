@@ -49,28 +49,28 @@ class VampiricPoppetModel(root: ModelPart) :
             val base =
                 partdefinition.addOrReplaceChild("base", CubeListBuilder.create(), PartPose.offset(2.3f, 21.0f, 6.8f))
 
-            val rArm = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "rArm",
                 CubeListBuilder.create().texOffs(14, 14)
                     .addBox(-0.8f, -1.2f, -1.5f, 2.0f, 4.0f, 2.0f, CubeDeformation(-0.2f)),
                 PartPose.offsetAndRotation(-5.0f, -4.0f, 0.5f, -0.0436f, 0.0f, 0.0873f)
             )
 
-            val lArm = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "lArm",
                 CubeListBuilder.create().texOffs(8, 10)
                     .addBox(-0.2f, -1.2f, -1.5f, 2.0f, 4.0f, 2.0f, CubeDeformation(-0.2f)),
                 PartPose.offsetAndRotation(-1.0f, -4.0f, 0.5f, -0.0436f, 0.0f, -0.0873f)
             )
 
-            val body = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "body",
                 CubeListBuilder.create().texOffs(0, 6)
                     .addBox(-2.0f, -6.0f, -1.0f, 3.0f, 4.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offset(-2.0f, 1.0f, 0.0f)
             )
 
-            val head = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "head",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-1.5f, -3.0f, -1.5f, 3.0f, 3.0f, 3.0f, CubeDeformation(0.01f))
@@ -78,28 +78,28 @@ class VampiricPoppetModel(root: ModelPart) :
                 PartPose.offsetAndRotation(-2.5f, -5.0f, 0.0f, 0.1745f, 0.0f, 0.0f)
             )
 
-            val lLeg = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "lLeg",
                 CubeListBuilder.create().texOffs(10, 4)
                     .addBox(-0.8f, -0.2f, -1.0f, 2.0f, 4.0f, 2.0f, CubeDeformation(-0.201f)),
                 PartPose.offsetAndRotation(-2.0f, -1.0f, 0.0f, 0.0f, 0.0f, -0.1309f)
             )
 
-            val rLeg = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "rLeg",
                 CubeListBuilder.create().texOffs(0, 12)
                     .addBox(-1.2f, -0.2f, -1.0f, 2.0f, 4.0f, 2.0f, CubeDeformation(-0.2f)),
                 PartPose.offsetAndRotation(-3.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.1309f)
             )
 
-            val nail = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "nail",
                 CubeListBuilder.create().texOffs(2, 19)
                     .addBox(0.4f, -5.7f, -4.0f, 1.0f, 1.0f, 3.0f, CubeDeformation(0.0f)),
                 PartPose.offset(-0.5f, 22.5f, 7.0f)
             )
 
-            val bb_main = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "bb_main",
                 CubeListBuilder.create().texOffs(19, 0)
                     .addBox(-3.0f, -8.0f, 7.9f, 6.0f, 7.0f, 0.0f, CubeDeformation(0.0f)),

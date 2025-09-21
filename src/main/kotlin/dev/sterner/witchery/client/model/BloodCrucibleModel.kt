@@ -31,11 +31,11 @@ class BloodCrucibleModel(var root: ModelPart) :
         packedOverlay: Int,
         color: Int
     ) {
-        bone.render(poseStack, vertexConsumer, packedLight, packedOverlay,color)
+        bone.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
     }
 
     companion object {
-       val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("blood_crucible"), "main")
+        val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("blood_crucible"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
@@ -51,42 +51,42 @@ class BloodCrucibleModel(var root: ModelPart) :
                 PartPose.offset(5.0f, 24.0f, -5.0f)
             )
 
-            val cube_r1 = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-1.0f, -2.5f, -1.0f, 2.0f, 5.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-10.0f, -11.5f, 0.0f, 0.0f, 1.5708f, 0.0f)
             )
 
-            val cube_r2 = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "cube_r2",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-1.0f, -5.0f, -1.0f, 2.0f, 5.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-10.0f, -9.0f, 10.0f, 0.0f, 3.1416f, 0.0f)
             )
 
-            val cube_r3 = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "cube_r3",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-1.0f, -2.5f, -1.0f, 2.0f, 5.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, -11.5f, 10.0f, 0.0f, -1.5708f, 0.0f)
             )
 
-            val cube_r4 = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "cube_r4",
                 CubeListBuilder.create().texOffs(36, 0)
                     .addBox(-7.0f, -5.0f, -1.0f, 8.0f, 5.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-10.0f, -9.0f, 2.0f, 0.0f, 1.5708f, 0.0f)
             )
 
-            val cube_r5 = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "cube_r5",
                 CubeListBuilder.create().texOffs(36, 0)
                     .addBox(-4.0f, -2.5f, -1.0f, 8.0f, 5.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, -11.5f, 5.0f, 0.0f, -1.5708f, 0.0f)
             )
 
-            val cube_r6 = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "cube_r6",
                 CubeListBuilder.create().texOffs(36, 0)
                     .addBox(-4.0f, -2.5f, -1.0f, 8.0f, 5.0f, 2.0f, CubeDeformation(0.0f)),

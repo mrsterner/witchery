@@ -67,6 +67,7 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
                 .add(Attributes.ATTACK_DAMAGE, 0.0)
         }
+
         val DATA_SWELL_DIR: EntityDataAccessor<Int> = SynchedEntityData.defineId(
             InsanityEntity::class.java, EntityDataSerializers.INT
         )
@@ -194,7 +195,9 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
         override fun canUse(): Boolean {
             val bl = creeper.entityData.get(DATA_MIMIC) == InsanityMobType.CREEPER.name.lowercase()
             val livingEntity = creeper.target
-            return bl && (creeper.entityData.get(DATA_SWELL_DIR) > 0 || livingEntity != null && creeper.distanceToSqr(livingEntity) < 9.0)
+            return bl && (creeper.entityData.get(DATA_SWELL_DIR) > 0 || livingEntity != null && creeper.distanceToSqr(
+                livingEntity
+            ) < 9.0)
         }
 
         override fun start() {

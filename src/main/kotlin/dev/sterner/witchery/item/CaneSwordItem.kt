@@ -122,7 +122,6 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
         const val MAX_STORED_BLOOD = WitcheryConstants.BLOOD_DROP * 2
 
 
-
         fun harvestBlood(livingEntity: LivingEntity?, damageSource: DamageSource?) {
             if (livingEntity != null && BloodPoolReloadListener.BLOOD_PAIR.contains(livingEntity.type)) {
                 if (damageSource?.entity is Player) {

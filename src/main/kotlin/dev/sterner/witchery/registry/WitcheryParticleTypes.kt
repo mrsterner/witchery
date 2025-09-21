@@ -17,8 +17,8 @@ object WitcheryParticleTypes {
 
     var COLOR_BUBBLE = PARTICLES.register(
         "color_bubble", Supplier {
-        ColorBubbleParticleType()
-    })
+            ColorBubbleParticleType()
+        })
 
     var ZZZ = PARTICLES.register("zzz", Supplier {
         ZzzParticleType()

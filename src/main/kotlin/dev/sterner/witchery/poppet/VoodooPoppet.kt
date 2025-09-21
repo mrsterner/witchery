@@ -85,7 +85,7 @@ class VoodooPoppet : PoppetType {
         }
     }
 
-    override fun getDurabilityDamage(usage: PoppetUsage): Int = when(usage) {
+    override fun getDurabilityDamage(usage: PoppetUsage): Int = when (usage) {
         PoppetUsage.VOODOO -> 1
         else -> 0
     }

@@ -5,8 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncInfusionS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryDataAttachments.INFUSION_PLAYER_DATA_ATTACHMENT
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -18,13 +16,13 @@ object InfusionPlayerAttachment {
     const val MAX_CHARGE = 6000
 
     @JvmStatic
-    fun setPlayerInfusion(player: Player, infusionData: InfusionPlayerAttachment.Data) {
+    fun setPlayerInfusion(player: Player, infusionData: Data) {
         player.setData(WitcheryDataAttachments.INFUSION_PLAYER_DATA_ATTACHMENT, infusionData)
-        InfusionPlayerAttachment.sync(player, infusionData)
+        sync(player, infusionData)
     }
 
     @JvmStatic
-    fun getPlayerInfusion(player: Player): InfusionPlayerAttachment.Data {
+    fun getPlayerInfusion(player: Player): Data {
         return player.getData(WitcheryDataAttachments.INFUSION_PLAYER_DATA_ATTACHMENT)
     }
 
@@ -41,7 +39,8 @@ object InfusionPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncInfusionS2CPayload(
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                player, SyncInfusionS2CPayload(
                 CompoundTag().apply {
                     putUUID("Id", player.uuid)
                     putInt("Charge", data.charge)

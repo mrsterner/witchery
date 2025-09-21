@@ -5,12 +5,10 @@ import com.google.common.collect.Maps
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.mixin.SaplingBlockAccessor
 import dev.sterner.witchery.world.WitcheryWorldState
-import mcp.mobius.waila.registry.Registrar
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Registry
 import net.minecraft.core.particles.ParticleOptions
@@ -615,7 +613,7 @@ object WitcherySpecialPotionEffects {
                                     entity.level().addParticle(
                                         particleOptions,
                                         entity.getRandomX(1.0),
-                                        entity.getRandomY() + 0.5,
+                                        entity.randomY + 0.5,
                                         entity.getRandomZ(1.0), d, e, f
                                     )
                                 }
@@ -643,7 +641,7 @@ object WitcherySpecialPotionEffects {
                                     entity.level().addParticle(
                                         particleOptions,
                                         entity.getRandomX(1.0),
-                                        entity.getRandomY() + 0.5,
+                                        entity.randomY + 0.5,
                                         entity.getRandomZ(1.0), d, e, f
                                     )
                                 }

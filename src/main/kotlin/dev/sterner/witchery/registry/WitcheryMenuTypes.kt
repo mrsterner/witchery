@@ -1,7 +1,6 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.menu.AltarMenu
 import dev.sterner.witchery.menu.DistilleryMenu
 import dev.sterner.witchery.menu.OvenMenu

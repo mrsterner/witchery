@@ -14,7 +14,6 @@ import kotlin.math.sin
 object NightmareHandler {
 
 
-
     fun tick(player: Player?) {
         if (player?.level()?.dimension() == WitcheryWorldgenKeys.NIGHTMARE && player.level() is ServerLevel) {
             val data = NightmarePlayerAttachment.getData(player)
@@ -36,7 +35,10 @@ object NightmareHandler {
 
 
                 level.addFreshEntity(nightmare)
-                NightmarePlayerAttachment.setData(player, NightmarePlayerAttachment.Data(true, Optional.of(nightmare.uuid)))
+                NightmarePlayerAttachment.setData(
+                    player,
+                    NightmarePlayerAttachment.Data(true, Optional.of(nightmare.uuid))
+                )
             }
 
             if (level is ServerLevel) {
@@ -47,11 +49,17 @@ object NightmareHandler {
                     if (nightmare is NightmareEntity) {
                         if (nightmare.touchingUnloadedChunk()) {
                             nightmare.discard()
-                            NightmarePlayerAttachment.setData(player, NightmarePlayerAttachment.Data(false, Optional.empty()))
+                            NightmarePlayerAttachment.setData(
+                                player,
+                                NightmarePlayerAttachment.Data(false, Optional.empty())
+                            )
                         }
                     } else {
                         nightmare?.discard()
-                        NightmarePlayerAttachment.setData(player, NightmarePlayerAttachment.Data(false, Optional.empty()))
+                        NightmarePlayerAttachment.setData(
+                            player,
+                            NightmarePlayerAttachment.Data(false, Optional.empty())
+                        )
                     }
                 }
 

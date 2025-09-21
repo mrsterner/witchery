@@ -121,10 +121,6 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
         return source.`is`(DamageTypeTags.IS_PROJECTILE) || super.isInvulnerableTo(source)
     }
 
-    override fun isWithinMeleeAttackRange(entity: LivingEntity): Boolean {
-        return super.isWithinMeleeAttackRange(entity)
-    }
-
     override fun registerGoals() {
         goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, true))
         goalSelector.addGoal(1, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))

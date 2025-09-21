@@ -43,7 +43,7 @@ class JarModel(modelPart: ModelPart) :
             val meshDefinition = MeshDefinition()
             val partDefinition = meshDefinition.root
 
-            val group = partDefinition.addOrReplaceChild(
+            partDefinition.addOrReplaceChild(
                 "group",
                 CubeListBuilder.create().texOffs(0, 2)
                     .addBox(-2.0f, 2.0f, -2.0f, 4.0f, 6.0f, 4.0f, CubeDeformation(0.0f))

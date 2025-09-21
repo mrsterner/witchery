@@ -87,14 +87,14 @@ class ParasiticLouseEntityModel(val root: ModelPart) :
                 PartPose.offset(0.0f, -2.0f, 2.0f)
             )
 
-            val bone4 = bone3.addOrReplaceChild(
+            bone3.addOrReplaceChild(
                 "bone4",
                 CubeListBuilder.create().texOffs(0, 16)
                     .addBox(-1.0f, -1.0f, 1.0f, 2.0f, 2.0f, 3.0f, CubeDeformation(0.0f)),
                 PartPose.offset(0.0f, 1.0f, 4.0f)
             )
 
-            val bone2 = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "bone2",
                 CubeListBuilder.create().texOffs(15, 14)
                     .addBox(-1.5f, -1.0f, -2.0f, 3.0f, 3.0f, 2.0f, CubeDeformation(0.0f)),

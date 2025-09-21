@@ -41,7 +41,13 @@ object AfflictionClientEventHandler {
         }
     }
 
-    private fun drawCooldownOverlay(guiGraphics: GuiGraphics, iconX: Int, iconY: Int, currentCooldown: Int, maxCooldown: Int) {
+    private fun drawCooldownOverlay(
+        guiGraphics: GuiGraphics,
+        iconX: Int,
+        iconY: Int,
+        currentCooldown: Int,
+        maxCooldown: Int
+    ) {
         val cooldownPercent = currentCooldown.toFloat() / maxCooldown.toFloat()
         val fillStart = iconY + Mth.floor(16f * (1.0f - cooldownPercent))
         val fillEnd = fillStart + Mth.ceil(16f * cooldownPercent)

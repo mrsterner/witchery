@@ -1,10 +1,8 @@
 package dev.sterner.witchery.registry
 
-import net.minecraft.resources.ResourceKey
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.LootPool
-import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
 import net.neoforged.neoforge.event.LootTableLoadEvent

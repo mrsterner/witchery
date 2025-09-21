@@ -6,13 +6,11 @@ import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.PackOutput
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import net.neoforged.neoforge.common.data.JsonCodecProvider
 import java.util.concurrent.CompletableFuture
-import java.util.function.BiConsumer
 
 class WitcheryBloodProvider(
     output: PackOutput,

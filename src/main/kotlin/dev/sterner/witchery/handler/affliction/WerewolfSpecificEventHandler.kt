@@ -51,7 +51,8 @@ object WerewolfSpecificEventHandler {
             }
         }
 
-        val bl3 = player.fallDistance > 0.0f && !player.onGround() && !player.onClimbable() && !player.isInWater && !player.isPassenger
+        val bl3 =
+            player.fallDistance > 0.0f && !player.onGround() && !player.onClimbable() && !player.isInWater && !player.isPassenger
 
         if (wereLevel >= 6 && player.isSprinting && bl3) {
             AfflictionPlayerAttachment.batchUpdate(player) {
@@ -92,7 +93,12 @@ object WerewolfSpecificEventHandler {
         }
     }
 
-    fun modifyWerewolfDamage(attacker: Player, target: LivingEntity, damageSource: DamageSource, originalDamage: Float): Float {
+    fun modifyWerewolfDamage(
+        attacker: Player,
+        target: LivingEntity,
+        damageSource: DamageSource,
+        originalDamage: Float
+    ): Float {
         val wereData = AfflictionPlayerAttachment.getData(attacker)
         val wereLevel = wereData.getLevel(AfflictionTypes.LYCANTHROPY)
 
@@ -106,7 +112,8 @@ object WerewolfSpecificEventHandler {
             damage *= 1.5f
 
             if (attacker.fallDistance > 0.0f && !attacker.onGround() &&
-                !attacker.isPassenger && !attacker.hasEffect(MobEffects.BLINDNESS)) {
+                !attacker.isPassenger && !attacker.hasEffect(MobEffects.BLINDNESS)
+            ) {
                 damage *= 1.5f
 
                 if (attacker.level() is ServerLevel) {

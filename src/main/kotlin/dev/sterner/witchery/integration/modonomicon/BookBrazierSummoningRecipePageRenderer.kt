@@ -3,14 +3,10 @@ package dev.sterner.witchery.integration.modonomicon
 import com.klikli_dev.modonomicon.book.page.BookRecipePage
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.util.RenderUtils.blitWithAlpha
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Style
-import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeHolder
 

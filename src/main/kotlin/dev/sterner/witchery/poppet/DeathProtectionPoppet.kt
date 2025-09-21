@@ -20,7 +20,7 @@ class DeathProtectionPoppet : PoppetType {
         return source == null || !source.`is`(DamageTypeTags.BYPASSES_INVULNERABILITY)
     }
 
-    override fun getDurabilityDamage(usage: PoppetUsage): Int = when(usage) {
+    override fun getDurabilityDamage(usage: PoppetUsage): Int = when (usage) {
         PoppetUsage.PROTECTION -> 1
         else -> 0
     }

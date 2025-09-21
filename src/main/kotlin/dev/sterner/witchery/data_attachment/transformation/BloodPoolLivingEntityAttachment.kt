@@ -6,7 +6,6 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncBloodS2CPayload
 import dev.sterner.witchery.payload.SyncOtherBloodS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
@@ -16,22 +15,28 @@ import net.neoforged.neoforge.network.PacketDistributor
 object BloodPoolLivingEntityAttachment {
 
     @JvmStatic
-    fun getData(livingEntity: LivingEntity): BloodPoolLivingEntityAttachment.Data {
+    fun getData(livingEntity: LivingEntity): Data {
         return livingEntity.getData(WitcheryDataAttachments.BLOOD_LIVING_ENTITY_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(livingEntity: LivingEntity, data: BloodPoolLivingEntityAttachment.Data) {
+    fun setData(livingEntity: LivingEntity, data: Data) {
         livingEntity.setData(WitcheryDataAttachments.BLOOD_LIVING_ENTITY_DATA_ATTACHMENT, data)
-        BloodPoolLivingEntityAttachment.sync(livingEntity, data)
+        sync(livingEntity, data)
     }
 
     fun sync(livingEntity: LivingEntity, data: Data) {
         if (livingEntity.level() is ServerLevel) {
             if (livingEntity is Player) {
-                PacketDistributor.sendToPlayersTrackingEntityAndSelf(livingEntity, SyncBloodS2CPayload(livingEntity, data))
+                PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                    livingEntity,
+                    SyncBloodS2CPayload(livingEntity, data)
+                )
             } else {
-                PacketDistributor.sendToPlayersTrackingEntityAndSelf(livingEntity, SyncOtherBloodS2CPayload(livingEntity, data))
+                PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                    livingEntity,
+                    SyncOtherBloodS2CPayload(livingEntity, data)
+                )
             }
         }
     }

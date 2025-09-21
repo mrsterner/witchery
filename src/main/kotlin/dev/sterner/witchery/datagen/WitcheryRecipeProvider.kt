@@ -1,17 +1,14 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.datagen.recipe.WitcheryBrazierRecipeProvider
-import dev.sterner.witchery.datagen.recipe.WitcheryCauldronRecipeProvider
-import dev.sterner.witchery.datagen.recipe.WitcheryDistillingRecipeProvider
-import dev.sterner.witchery.datagen.recipe.WitcheryOvenRecipeProvider
-import dev.sterner.witchery.datagen.recipe.WitcheryRitualRecipeProvider
-import dev.sterner.witchery.datagen.recipe.WitcherySpinningRecipeProvider
+import dev.sterner.witchery.datagen.recipe.*
 import dev.sterner.witchery.recipe.PendantDataComponentRecipe
 import dev.sterner.witchery.recipe.PotionDataComponentTransferRecipe
 import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponentMap
@@ -19,14 +16,9 @@ import net.minecraft.data.PackOutput
 import net.minecraft.data.recipes.*
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider
 import net.minecraft.tags.ItemTags
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.alchemy.PotionContents
-import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.item.crafting.CraftingBookCategory
 import net.minecraft.world.item.crafting.Ingredient
-import net.neoforged.neoforge.common.data.internal.NeoForgeRecipeProvider
-import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 class WitcheryRecipeProvider(output: PackOutput, val registriesFuture: CompletableFuture<HolderLookup.Provider>) :

@@ -39,7 +39,7 @@ class AltarBlockEntityModel(modelPart: ModelPart) :
             val meshDefinition: MeshDefinition = MeshDefinition()
             val partDefinition: PartDefinition = meshDefinition.root
 
-            val main: PartDefinition = partDefinition.addOrReplaceChild(
+            partDefinition.addOrReplaceChild(
                 "main",
                 CubeListBuilder.create().texOffs(0, 35)
                     .addBox(-24.0f, -3.0f, -8.0f, 48.0f, 3.0f, 32.0f, CubeDeformation(0.0f))

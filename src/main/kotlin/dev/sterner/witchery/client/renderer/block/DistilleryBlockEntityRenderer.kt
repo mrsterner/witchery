@@ -3,7 +3,6 @@ package dev.sterner.witchery.client.renderer.block
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
-import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.client.model.DistilleryGemModel
 import dev.sterner.witchery.client.model.JarModel
 import net.minecraft.client.renderer.MultiBufferSource

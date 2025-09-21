@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
-import java.util.UUID
+import java.util.*
 
 object LichdomLeveling {
 
@@ -255,7 +255,7 @@ object LichdomLeveling {
                 (requirement.killedWither?.let { data.hasKilledWither() } ?: true) &&
                 (requirement.phylacteryBound?.let { data.isPhylacteryBound() } ?: true) &&
                 (requirement.phylacteryDeaths?.let { data.getPhylacteryDeaths() >= it } ?: true) &&
-                (requirement.phylacteryDeathsInHour?.let { data.getPhylacteryDeaths()>= it } ?: true)
+                (requirement.phylacteryDeathsInHour?.let { data.getPhylacteryDeaths() >= it } ?: true)
     }
 
     data class Requirement(
@@ -284,7 +284,6 @@ object LichdomLeveling {
     //Everything below is locked behind a stone carving about the phylactery.
     //level 9 bind your soul to a phylactery and let it save you
     //level 10
-
 
 
     //abilities?

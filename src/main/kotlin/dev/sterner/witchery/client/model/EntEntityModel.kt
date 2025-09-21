@@ -119,7 +119,7 @@ class EntEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(1.0f, -3.0f, -3.0f, 0.0f, 1.5708f, 0.0f)
             )
 
-            val Crown_r2 = leftArm.addOrReplaceChild(
+            leftArm.addOrReplaceChild(
                 "Crown_r2",
                 CubeListBuilder.create().texOffs(64, 125)
                     .addBox(-7.0f, -2.0f, -1.0f, 8.0f, 2.0f, 0.0f, CubeDeformation(0.0f)),

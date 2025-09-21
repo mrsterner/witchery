@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncTransformationS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.StringRepresentable
@@ -15,14 +14,14 @@ import net.neoforged.neoforge.network.PacketDistributor
 object TransformationPlayerAttachment {
 
     @JvmStatic
-    fun getData(player: Player): TransformationPlayerAttachment.Data {
+    fun getData(player: Player): Data {
         return player.getData(WitcheryDataAttachments.TRANSFORMATION_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(player: Player, data: TransformationPlayerAttachment.Data) {
+    fun setData(player: Player, data: Data) {
         player.setData(WitcheryDataAttachments.TRANSFORMATION_PLAYER_DATA_ATTACHMENT, data)
-        TransformationPlayerAttachment.sync(player, data)
+        sync(player, data)
     }
 
     fun sync(player: Player, data: Data) {

@@ -96,7 +96,7 @@ class DeathEntityModel(val root: ModelPart) :
                 PartPose.offset(0.0f, 5.0f, 0.0f)
             )
 
-            val hood = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "hood",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-4.5f, -4.5f, -4.5f, 9.0f, 9.0f, 9.0f, CubeDeformation(0.0f)),
@@ -110,21 +110,21 @@ class DeathEntityModel(val root: ModelPart) :
                 PartPose.offset(0.0f, 11.2348f, 1.1736f)
             )
 
-            val cube_r1 = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(3, 2)
                     .addBox(-0.5f, 0.0f, 0.0f, 1.0f, 4.0f, 0.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 0.7652f, 0.8264f, 0.1745f, 0.0f, 0.0f)
             )
 
-            val robe = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "robe",
                 CubeListBuilder.create().texOffs(27, 29)
                     .addBox(-4.5f, -1.0f, -5.0f, 9.0f, 13.0f, 5.0f, CubeDeformation(-0.01f)),
                 PartPose.offsetAndRotation(0.0f, -5.7348f, 1.3264f, 0.0873f, 0.0f, 0.0f)
             )
 
-            val lArm = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "lArm",
                 CubeListBuilder.create().texOffs(56, 0)
                     .addBox(0.0f, -0.5f, -1.0f, 2.0f, 9.0f, 2.0f, CubeDeformation(0.0f))
@@ -132,7 +132,7 @@ class DeathEntityModel(val root: ModelPart) :
                 PartPose.offset(4.0f, -5.2348f, -1.1736f)
             )
 
-            val rArm = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "rArm",
                 CubeListBuilder.create().texOffs(56, 0).mirror()
                     .addBox(-2.0f, -0.5f, -1.0f, 2.0f, 9.0f, 2.0f, CubeDeformation(0.0f)).mirror(false)

@@ -8,13 +8,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.registry.WitcheryFetishEffects
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.packs.PackType
-import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener
 import net.minecraft.util.profiling.ProfilerFiller
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
 
 object FetishEffectReloadListener {
 

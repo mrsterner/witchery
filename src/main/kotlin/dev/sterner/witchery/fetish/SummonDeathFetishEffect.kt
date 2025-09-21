@@ -10,14 +10,11 @@ import net.minecraft.core.NonNullList
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
-import net.minecraft.world.entity.boss.wither.WitherBoss
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.Vec3
-import java.util.UUID
 
 class SummonDeathFetishEffect : FetishEffect() {
 
@@ -45,11 +42,13 @@ class SummonDeathFetishEffect : FetishEffect() {
         } else {
             val deathEntity = DeathEntity(level)
 
-            deathEntity.moveTo(Vec3(
-                pos.x + 0.5,
-                pos.y + 1.0,
-                pos.z + 0.5
-            ))
+            deathEntity.moveTo(
+                Vec3(
+                    pos.x + 0.5,
+                    pos.y + 1.0,
+                    pos.z + 0.5
+                )
+            )
 
             level.addFreshEntity(deathEntity)
         }
@@ -67,7 +66,7 @@ class SummonDeathFetishEffect : FetishEffect() {
             val d0 = pos.x + 0.5 + (level.random.nextDouble() - 0.5) * 2.0
             val d1 = pos.y + 0.5 + (level.random.nextDouble() - 0.5) * 2.0
             val d2 = pos.z + 0.5 + (level.random.nextDouble() - 0.5) * 2.0
-            
+
             level.addParticle(
                 ParticleTypes.SMOKE,
                 d0,

@@ -8,30 +8,29 @@ import dev.sterner.witchery.entity.HornedHuntsmanEntity
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer
-import net.minecraft.client.renderer.entity.player.PlayerRenderer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 
 class HornedHuntsmanEntityRenderer(context: EntityRendererProvider.Context) :
     MobRenderer<HornedHuntsmanEntity, HornedHuntsmanModel>(
-        context, 
-        HornedHuntsmanModel(context.bakeLayer(HornedHuntsmanModel.LAYER_LOCATION)), 
+        context,
+        HornedHuntsmanModel(context.bakeLayer(HornedHuntsmanModel.LAYER_LOCATION)),
         0.7f
     ) {
-    
+
     companion object {
         private val TEXTURE = Witchery.id("textures/entity/horned_huntsman.png")
     }
-    
+
     init {
         addLayer(ItemInHandLayer(this, context.itemInHandRenderer))
         addLayer(HornedHuntsmanEmissiveLayer(this))
     }
-    
+
     override fun getTextureLocation(entity: HornedHuntsmanEntity): ResourceLocation {
         return TEXTURE
     }
-    
+
     override fun scale(
         entity: HornedHuntsmanEntity,
         poseStack: PoseStack,
@@ -41,7 +40,7 @@ class HornedHuntsmanEntityRenderer(context: EntityRendererProvider.Context) :
         poseStack.scale(scale, scale, scale)
         super.scale(entity, poseStack, partialTick)
     }
-    
+
     override fun setupRotations(
         entity: HornedHuntsmanEntity,
         poseStack: PoseStack,

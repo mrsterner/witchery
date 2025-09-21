@@ -8,8 +8,6 @@ import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttac
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
-import dev.sterner.witchery.registry.WitcheryPayloads
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -21,7 +19,6 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
-import net.neoforged.neoforge.client.event.RenderTooltipEvent.GatherComponents
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.network.PacketDistributor
 
@@ -131,7 +128,9 @@ object AfflictionHandler {
         }
 
         if (shouldHurt) {
-            if (entity is Villager && AfflictionPlayerAttachment.getData(player).getVillagersHalfBlood().contains(entity.uuid)) {
+            if (entity is Villager && AfflictionPlayerAttachment.getData(player).getVillagersHalfBlood()
+                    .contains(entity.uuid)
+            ) {
                 VampireLeveling.removeVillagerHalfBlood(player, entity)
                 VampireLeveling.removeTrappedVillager(player, entity)
             }
@@ -172,7 +171,10 @@ object AfflictionHandler {
         )
 
         val particlePosition = entity.position().add(0.5, 0.5, 0.5)
-        PacketDistributor.sendToPlayersInDimension(player.serverLevel(), SpawnBloodParticlesS2CPayload(player, particlePosition) )
+        PacketDistributor.sendToPlayersInDimension(
+            player.serverLevel(),
+            SpawnBloodParticlesS2CPayload(player, particlePosition)
+        )
     }
 
     /**

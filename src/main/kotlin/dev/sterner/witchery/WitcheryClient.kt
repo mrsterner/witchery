@@ -1,104 +1,33 @@
 package dev.sterner.witchery
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
-import dev.sterner.witchery.client.model.AltarBlockEntityModel
-import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
-import dev.sterner.witchery.client.model.BabaYagaEntityModel
-import dev.sterner.witchery.client.model.BansheeEntityModel
-import dev.sterner.witchery.client.model.BearTrapModel
-import dev.sterner.witchery.client.model.BloodCrucibleModel
-import dev.sterner.witchery.client.model.BoatModels
-import dev.sterner.witchery.client.model.BroomEntityModel
-import dev.sterner.witchery.client.model.ChainModel
-import dev.sterner.witchery.client.model.CoffinModel
-import dev.sterner.witchery.client.model.DeathEntityModel
-import dev.sterner.witchery.client.model.DemonEntityModel
-import dev.sterner.witchery.client.model.DistilleryGemModel
-import dev.sterner.witchery.client.model.DreamWeaverBlockEntityModel
-import dev.sterner.witchery.client.model.EntEntityModel
-import dev.sterner.witchery.client.model.GlassContainerModel
-import dev.sterner.witchery.client.model.HornedHuntsmanModel
-import dev.sterner.witchery.client.model.HunterArmorModel
-import dev.sterner.witchery.client.model.HuntsmanSpearModel
-import dev.sterner.witchery.client.model.ImpEntityModel
-import dev.sterner.witchery.client.model.JarModel
-import dev.sterner.witchery.client.model.LilithEntityModel
-import dev.sterner.witchery.client.model.MandrakeEntityModel
-import dev.sterner.witchery.client.model.MushroomLogModel
-import dev.sterner.witchery.client.model.NightmareEntityModel
-import dev.sterner.witchery.client.model.OwlEntityModel
-import dev.sterner.witchery.client.model.ParasiticLouseEntityModel
-import dev.sterner.witchery.client.model.PhylacteryEtherCoreModel
-import dev.sterner.witchery.client.model.PhylacteryEtherModel
-import dev.sterner.witchery.client.model.SpectreEntityModel
-import dev.sterner.witchery.client.model.SpinningWheelBlockEntityModel
-import dev.sterner.witchery.client.model.SpinningWheelWheelBlockEntityModel
-import dev.sterner.witchery.client.model.SpiritPortalBlockEntityModel
-import dev.sterner.witchery.client.model.SpiritPortalPortalModel
-import dev.sterner.witchery.client.model.VampireArmorModel
-import dev.sterner.witchery.client.model.VampireEntityModel
-import dev.sterner.witchery.client.model.WerewolfAltarModel
-import dev.sterner.witchery.client.model.WerewolfEntityModel
-import dev.sterner.witchery.client.model.WitchesRobesModel
+import dev.sterner.witchery.api.client.BloodPoolComponent
+import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer
+import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
 import dev.sterner.witchery.client.model.poppet.HungerPoppetModel
 import dev.sterner.witchery.client.model.poppet.VampiricPoppetModel
 import dev.sterner.witchery.client.model.poppet.VoodooPoppetModel
-import dev.sterner.witchery.client.renderer.block.AltarBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.BearTrapBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.BloodCrucibleBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.BrazierBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.CauldronBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.CoffinBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.CritterSnareBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.DistilleryBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.DreamWeaverBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.EffigyBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.GrassperBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.MushroomLogBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.PhylacteryBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.PoppetBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.SacrificialCircleBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.SpinningWheelBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.SpiritPortalBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.SuspiciousGraveyardDirtBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.BabaYagaEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.BansheeEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.BroomEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.ChainEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.CovenWitchEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.DeathEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.DemonEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.ElleEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.EntEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.FloatingItemEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.HornedHuntsmanEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.HuntsmanSpearRenderer
-import dev.sterner.witchery.client.renderer.entity.ImpEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.InsanityEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.LilithEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.MandrakeEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.NightmareEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.OwlEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.ParasiticLouseEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.SleepingPlayerEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.SpectralPigRenderer
-import dev.sterner.witchery.client.renderer.entity.SpectreEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.VampireEntityRenderer
-import dev.sterner.witchery.client.renderer.entity.WerewolfEntityRenderer
-import dev.sterner.witchery.client.renderer.without_level.BearTrapBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.client.renderer.without_level.BloodCrucibleBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.client.renderer.without_level.BroomBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.client.renderer.without_level.CoffinBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.client.renderer.without_level.DreamWeaverBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.client.renderer.without_level.HuntsmanSpearBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.client.renderer.without_level.SpinningWheelBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.client.renderer.without_level.WerewolfAltarBlockEntityWithoutLevelRenderer
-import dev.sterner.witchery.client.renderer.without_level.WitcheryBlockEntityWithoutLevelRendererInstance
+import dev.sterner.witchery.client.particle.BloodSplashParticle
+import dev.sterner.witchery.client.particle.ColorBubbleParticle
+import dev.sterner.witchery.client.particle.SneezeParticle
+import dev.sterner.witchery.client.particle.ZzzParticle
+import dev.sterner.witchery.client.renderer.block.*
+import dev.sterner.witchery.client.renderer.entity.*
+import dev.sterner.witchery.client.renderer.without_level.*
+import dev.sterner.witchery.client.screen.AltarScreen
+import dev.sterner.witchery.client.screen.DistilleryScreen
+import dev.sterner.witchery.client.screen.OvenScreen
+import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.handler.BarkBeltHandler
+import dev.sterner.witchery.handler.ManifestationHandler
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
+import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.item.WitchesRobesItem
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.payload.DismountBroomC2SPayload
+import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
 import dev.sterner.witchery.registry.WitcheryItems.DRESS_COAT
 import dev.sterner.witchery.registry.WitcheryItems.HUNTER_BOOTS
@@ -111,55 +40,31 @@ import dev.sterner.witchery.registry.WitcheryItems.TROUSERS
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_HAT
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
-import net.minecraft.client.model.BoatModel
-import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import dev.sterner.witchery.api.client.BloodPoolComponent
-import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer
-import dev.sterner.witchery.client.particle.BloodSplashParticle
-import dev.sterner.witchery.client.particle.ColorBubbleParticle
-import dev.sterner.witchery.client.particle.SneezeParticle
-import dev.sterner.witchery.client.particle.ZzzParticle
-import dev.sterner.witchery.client.renderer.block.SoulCageBlockEntityRenderer
-import dev.sterner.witchery.client.renderer.block.WerewolfAltarBlockEntityRenderer
-import dev.sterner.witchery.client.screen.AltarScreen
-import dev.sterner.witchery.client.screen.DistilleryScreen
-import dev.sterner.witchery.client.screen.OvenScreen
-import dev.sterner.witchery.client.screen.SpinningWheelScreen
-import dev.sterner.witchery.handler.BarkBeltHandler
-import dev.sterner.witchery.handler.ManifestationHandler
-import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
-import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
-import dev.sterner.witchery.handler.infusion.InfusionHandler
-import dev.sterner.witchery.payload.DismountBroomC2SPayload
-import dev.sterner.witchery.registry.*
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.ShaderInstance
-import net.minecraft.client.renderer.entity.player.PlayerRenderer
-import net.minecraft.client.resources.PlayerSkin
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.entity.EntityType
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
-import net.neoforged.neoforge.client.event.*
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
-import net.neoforged.neoforge.network.PacketDistributor
-
+import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
+import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.NoopRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
+import net.minecraft.client.renderer.entity.player.PlayerRenderer
+import net.minecraft.client.resources.PlayerSkin
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.EntityType
 import net.neoforged.api.distmarker.Dist
-import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.IEventBus
-import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.Mod
-import net.neoforged.neoforge.client.event.EntityRenderersEvent
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import net.neoforged.neoforge.client.event.*
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import net.neoforged.neoforge.client.gui.ConfigurationScreen
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.network.PacketDistributor
 
 @Mod(value = MODID, dist = [Dist.CLIENT])
 class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
@@ -187,7 +92,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         NeoForge.EVENT_BUS.addListener(::onClientTick)
     }
 
-    private fun onClientSetup(event: FMLClientSetupEvent) { }
+    private fun onClientSetup(event: FMLClientSetupEvent) {}
 
     private fun onAddLayer(event: EntityRenderersEvent.AddLayers) {
         val skins = event.skins
@@ -218,10 +123,10 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
     private fun onRegisterFluidExtensions(event: RegisterClientExtensionsEvent) {
         event.registerFluidType(object : IClientFluidTypeExtensions {
             override fun getStillTexture() =
-                ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "block/flowing_spirit_still")
+                ResourceLocation.fromNamespaceAndPath(MODID, "block/flowing_spirit_still")
 
             override fun getFlowingTexture() =
-                ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "block/flowing_spirit_flowing")
+                ResourceLocation.fromNamespaceAndPath(MODID, "block/flowing_spirit_flowing")
 
             override fun getTintColor() = 0xAAFFFF
 
@@ -274,7 +179,11 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             ShaderInstance(event.resourceProvider, Witchery.id("spirit_portal"), DefaultVertexFormat.NEW_ENTITY)
         ) { WitcheryShaders.spiritPortal = it }
         event.registerShader(
-            ShaderInstance(event.resourceProvider, Witchery.id("spirit_cage"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+            ShaderInstance(
+                event.resourceProvider,
+                Witchery.id("spirit_cage"),
+                DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP
+            )
         ) { WitcheryShaders.soulLantern = it }
         event.registerShader(
             ShaderInstance(event.resourceProvider, Witchery.id("spirit_chain"), DefaultVertexFormat.NEW_ENTITY)
@@ -423,25 +332,46 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
 
     fun registerEntityRenderers(event: EntityRenderersEvent.RegisterRenderers) {
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.SOUL_CAGE.get(), ::SoulCageBlockEntityRenderer)
-        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(), ::WerewolfAltarBlockEntityRenderer)
+        event.registerBlockEntityRenderer(
+            WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(),
+            ::WerewolfAltarBlockEntityRenderer
+        )
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.PHYLACTERY.get(), ::PhylacteryBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
-        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.BLOOD_CRUCIBLE.get(), ::BloodCrucibleBlockEntityRenderer)
+        event.registerBlockEntityRenderer(
+            WitcheryBlockEntityTypes.BLOOD_CRUCIBLE.get(),
+            ::BloodCrucibleBlockEntityRenderer
+        )
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.DISTILLERY.get(), ::DistilleryBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.BRAZIER.get(), ::BrazierBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.COFFIN.get(), ::CoffinBlockEntityRenderer)
-        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.SPINNING_WHEEL.get(), ::SpinningWheelBlockEntityRenderer)
+        event.registerBlockEntityRenderer(
+            WitcheryBlockEntityTypes.SPINNING_WHEEL.get(),
+            ::SpinningWheelBlockEntityRenderer
+        )
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.CUSTOM_SIGN.get(), ::SignRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.CUSTOM_HANGING_SIGN.get(), ::HangingSignRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.DREAM_WEAVER.get(), ::DreamWeaverBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.POPPET.get(), ::PoppetBlockEntityRenderer)
-        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(), ::SpiritPortalBlockEntityRenderer)
+        event.registerBlockEntityRenderer(
+            WitcheryBlockEntityTypes.SPIRIT_PORTAL.get(),
+            ::SpiritPortalBlockEntityRenderer
+        )
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.BEAR_TRAP.get(), ::BearTrapBlockEntityRenderer)
-        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(), ::SuspiciousGraveyardDirtBlockEntityRenderer)
-        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(), ::SacrificialCircleBlockEntityRenderer)
+        event.registerBlockEntityRenderer(
+            WitcheryBlockEntityTypes.BRUSHABLE_BLOCK.get(),
+            ::SuspiciousGraveyardDirtBlockEntityRenderer
+        )
+        event.registerBlockEntityRenderer(
+            WitcheryBlockEntityTypes.SACRIFICIAL_CIRCLE.get(),
+            ::SacrificialCircleBlockEntityRenderer
+        )
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.GRASSPER.get(), ::GrassperBlockEntityRenderer)
-        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.CRITTER_SNARE.get(), ::CritterSnareBlockEntityRenderer)
+        event.registerBlockEntityRenderer(
+            WitcheryBlockEntityTypes.CRITTER_SNARE.get(),
+            ::CritterSnareBlockEntityRenderer
+        )
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.EFFIGY.get(), ::EffigyBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.MUSHROOM_LOG.get(), ::MushroomLogBlockEntityRenderer)
 
@@ -466,7 +396,12 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerEntityRenderer(WitcheryEntityTypes.LILITH.get()) { LilithEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.ELLE.get()) { ElleEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_BOAT.get()) { context -> BoatRenderer(context, false) }
-        event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()) { context -> BoatRenderer(context, true) }
+        event.registerEntityRenderer(WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()) { context ->
+            BoatRenderer(
+                context,
+                true
+            )
+        }
         event.registerEntityRenderer(WitcheryEntityTypes.FLOATING_ITEM.get(), ::FloatingItemEntityRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.THROWN_BREW.get(), ::ThrownItemRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.THROWN_POTION.get(), ::ThrownItemRenderer)

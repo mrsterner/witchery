@@ -23,11 +23,10 @@ object AfflictionEventHandler {
     private const val HUMAN_BLOOD_REGEN_AMOUNT = 10
 
 
-
     @JvmStatic
     fun tick(player: Player?) {
         if (player !is ServerPlayer) return
-        
+
         val vampLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM)
         if (vampLevel < 1) {
             regenerateHumanBlood(player)
@@ -73,7 +72,7 @@ object AfflictionEventHandler {
         val ability = getSelectedAbility(player) ?: return
 
         if (ability.use(player, entity)) {
-           event.isCanceled = true
+            event.isCanceled = true
         }
     }
 

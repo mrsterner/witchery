@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BooleanProperty
-import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.material.FluidState
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.pathfinder.PathComputationType
@@ -27,9 +26,11 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.ToIntFunction
 
-class CenserBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.lightLevel(
-litBlockEmission(8)
-)) {
+class CenserBlock(properties: Properties) : WitcheryBaseEntityBlock(
+    properties.lightLevel(
+        litBlockEmission(8)
+    )
+) {
 
     override fun newBlockEntity(
         pos: BlockPos,
@@ -148,26 +149,30 @@ litBlockEmission(8)
 
         val TYPE: BooleanProperty = BooleanProperty.create("type")
 
-        var SHAPE_FOOT_1: VoxelShape =  box(5.0, 0.0, 5.0, 11.0, 2.0, 11.0)
-        var SHAPE_BASE_1: VoxelShape =  box(6.0, 2.0, 6.0, 10.0, 4.0, 10.0)
-        var SHAPE_CORE_1: VoxelShape =  box(4.5, 4.0, 4.5, 11.5, 10.0, 11.5)
-        var SHAPE_TOP_1: VoxelShape =  box(5.5, 10.0, 5.5, 10.5, 12.0, 10.5)
+        var SHAPE_FOOT_1: VoxelShape = box(5.0, 0.0, 5.0, 11.0, 2.0, 11.0)
+        var SHAPE_BASE_1: VoxelShape = box(6.0, 2.0, 6.0, 10.0, 4.0, 10.0)
+        var SHAPE_CORE_1: VoxelShape = box(4.5, 4.0, 4.5, 11.5, 10.0, 11.5)
+        var SHAPE_TOP_1: VoxelShape = box(5.5, 10.0, 5.5, 10.5, 12.0, 10.5)
 
         val SHAPE_HANGING_1: VoxelShape =
-            Shapes.joinUnoptimized(SHAPE_BASE_1,
-                Shapes.joinUnoptimized(SHAPE_TOP_1, SHAPE_CORE_1, BooleanOp.OR), BooleanOp.OR)
+            Shapes.joinUnoptimized(
+                SHAPE_BASE_1,
+                Shapes.joinUnoptimized(SHAPE_TOP_1, SHAPE_CORE_1, BooleanOp.OR), BooleanOp.OR
+            )
 
         val SHAPE_1: VoxelShape = Shapes.joinUnoptimized(SHAPE_FOOT_1, SHAPE_HANGING_1, BooleanOp.OR)
 
 
-        var SHAPE_FOOT_2: VoxelShape =  box(6.0, 0.0, 6.0, 10.0, 2.0, 10.0)
-        var SHAPE_BASE_2: VoxelShape =  box(7.0, 2.0, 7.0, 9.0, 4.0, 9.0)
-        var SHAPE_CORE_2: VoxelShape =  box(5.5, 4.0, 5.5, 10.5, 14.0, 10.5)
-        var SHAPE_TOP_2: VoxelShape =  box(7.0, 14.0, 7.0, 9.0, 16.0, 9.0)
+        var SHAPE_FOOT_2: VoxelShape = box(6.0, 0.0, 6.0, 10.0, 2.0, 10.0)
+        var SHAPE_BASE_2: VoxelShape = box(7.0, 2.0, 7.0, 9.0, 4.0, 9.0)
+        var SHAPE_CORE_2: VoxelShape = box(5.5, 4.0, 5.5, 10.5, 14.0, 10.5)
+        var SHAPE_TOP_2: VoxelShape = box(7.0, 14.0, 7.0, 9.0, 16.0, 9.0)
 
         val SHAPE_HANGING_2: VoxelShape =
-            Shapes.joinUnoptimized(SHAPE_BASE_2,
-                Shapes.joinUnoptimized(SHAPE_TOP_2, SHAPE_CORE_2, BooleanOp.OR), BooleanOp.OR)
+            Shapes.joinUnoptimized(
+                SHAPE_BASE_2,
+                Shapes.joinUnoptimized(SHAPE_TOP_2, SHAPE_CORE_2, BooleanOp.OR), BooleanOp.OR
+            )
 
         val SHAPE_2: VoxelShape = Shapes.joinUnoptimized(SHAPE_FOOT_2, SHAPE_HANGING_2, BooleanOp.OR)
     }

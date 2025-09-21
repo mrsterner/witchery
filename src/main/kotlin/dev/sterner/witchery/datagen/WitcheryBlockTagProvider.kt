@@ -14,7 +14,11 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import java.util.concurrent.CompletableFuture
 
-class WitcheryBlockTagProvider(output: PackOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>, existingFileHelper: ExistingFileHelper) :
+class WitcheryBlockTagProvider(
+    output: PackOutput,
+    registriesFuture: CompletableFuture<HolderLookup.Provider>,
+    existingFileHelper: ExistingFileHelper
+) :
     BlockTagsProvider(output, registriesFuture, Witchery.MODID, existingFileHelper) {
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {

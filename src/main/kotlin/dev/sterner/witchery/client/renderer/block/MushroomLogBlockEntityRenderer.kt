@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
-import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.client.model.MushroomLogModel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
@@ -46,7 +45,7 @@ class MushroomLogBlockEntityRenderer(private val ctx: BlockEntityRendererProvide
             renderMushrooms(blockEntity, poseStack, bufferSource, packedLight, packedOverlay)
         }
     }
-    
+
     private fun renderLog(
         blockEntity: MushroomLogBlockEntity,
         poseStack: PoseStack,
@@ -63,18 +62,22 @@ class MushroomLogBlockEntityRenderer(private val ctx: BlockEntityRendererProvide
                 poseStack.translate(0.0, 0.5, -0.5)
                 poseStack.mulPose(Axis.YP.rotationDegrees(180f))
             }
+
             Direction.SOUTH -> {
                 poseStack.translate(1.0, 0.5, 1.5)
                 poseStack.mulPose(Axis.YP.rotationDegrees(0f))
             }
+
             Direction.EAST -> {
                 poseStack.translate(1.5, 0.5, 0.0)
                 poseStack.mulPose(Axis.YP.rotationDegrees(90f))
             }
+
             Direction.WEST -> {
                 poseStack.translate(-0.5, 0.5, 1.0)
                 poseStack.mulPose(Axis.YP.rotationDegrees(270f))
             }
+
             else -> {
                 poseStack.translate(0.5, 0.5, 0.5)
             }
@@ -90,10 +93,10 @@ class MushroomLogBlockEntityRenderer(private val ctx: BlockEntityRendererProvide
             packedOverlay,
             -1
         )
-        
+
         poseStack.popPose()
     }
-    
+
     private fun renderMushrooms(
         blockEntity: MushroomLogBlockEntity,
         poseStack: PoseStack,
@@ -103,11 +106,11 @@ class MushroomLogBlockEntityRenderer(private val ctx: BlockEntityRendererProvide
     ) {
         val item = blockEntity.currentMushroom.item
         if (item !is BlockItem) return
-        
+
         val mushroomState = item.block.defaultBlockState()
         val direction = blockEntity.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
         val mushroomData = blockEntity.getMushroomData()
-        
+
         for (data in mushroomData) {
             poseStack.pushPose()
 
@@ -120,18 +123,22 @@ class MushroomLogBlockEntityRenderer(private val ctx: BlockEntityRendererProvide
                     val adjustedZ = 1.0 - data.zOffset - 1.5
                     poseStack.translate(baseX + data.xOffset, baseY, adjustedZ)
                 }
+
                 Direction.SOUTH -> {
                     val adjustedZ = baseZ - data.zOffset
                     poseStack.translate(baseX - data.xOffset, baseY, adjustedZ)
                 }
+
                 Direction.EAST -> {
                     val adjustedX = 1.0 - data.zOffset - 0.5
                     poseStack.translate(adjustedX, baseY, baseZ + data.xOffset)
                 }
+
                 Direction.WEST -> {
                     val adjustedX = baseX - data.zOffset - 1.0
                     poseStack.translate(adjustedX, baseY, baseZ - data.xOffset)
                 }
+
                 else -> {
                     poseStack.translate(baseX + data.xOffset, baseY, baseZ + data.zOffset)
                 }
@@ -145,13 +152,13 @@ class MushroomLogBlockEntityRenderer(private val ctx: BlockEntityRendererProvide
             poseStack.scale(scale, scale, scale)
 
             ctx.blockRenderDispatcher.renderSingleBlock(
-                mushroomState, 
-                poseStack, 
-                bufferSource, 
-                packedLight, 
+                mushroomState,
+                poseStack,
+                bufferSource,
+                packedLight,
                 packedOverlay
             )
-            
+
             poseStack.popPose()
         }
     }

@@ -4,7 +4,6 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProvider
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconProviderBase
 import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel
-import com.klikli_dev.modonomicon.api.datagen.book.BookEntryParentModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementConditionModel
 import dev.sterner.witchery.Witchery

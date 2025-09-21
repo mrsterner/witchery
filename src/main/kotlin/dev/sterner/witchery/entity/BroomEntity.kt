@@ -5,7 +5,6 @@ import dev.sterner.witchery.payload.SyncOwlAbilityS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.client.Minecraft
 import net.minecraft.core.Direction
 import net.minecraft.core.component.DataComponents
@@ -224,7 +223,10 @@ class BroomEntity(level: Level) : Entity(WitcheryEntityTypes.BROOM.get(), level)
 
             if (level() is ServerLevel && entityPassenger is Player) {
                 val serverLevel = level() as ServerLevel
-                PacketDistributor.sendToPlayersInDimension(serverLevel, SyncOwlAbilityS2CPayload(entityPassenger, hasFamiliar))
+                PacketDistributor.sendToPlayersInDimension(
+                    serverLevel,
+                    SyncOwlAbilityS2CPayload(entityPassenger, hasFamiliar)
+                )
             }
 
         }

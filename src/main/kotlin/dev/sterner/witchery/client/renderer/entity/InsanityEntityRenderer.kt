@@ -30,10 +30,23 @@ class InsanityEntityRenderer(ctx: EntityRendererProvider.Context) :
     private val endermanTexture = ResourceLocation.withDefaultNamespace("textures/entity/enderman/enderman.png")
 
     private class DummyModel : EntityModel<InsanityEntity>() {
-        override fun setupAnim(entity: InsanityEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
+        override fun setupAnim(
+            entity: InsanityEntity,
+            limbSwing: Float,
+            limbSwingAmount: Float,
+            ageInTicks: Float,
+            netHeadYaw: Float,
+            headPitch: Float
+        ) {
         }
 
-        override fun renderToBuffer(poseStack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int) {
+        override fun renderToBuffer(
+            poseStack: PoseStack,
+            buffer: VertexConsumer,
+            packedLight: Int,
+            packedOverlay: Int,
+            color: Int
+        ) {
         }
     }
 
@@ -75,8 +88,10 @@ class InsanityEntityRenderer(ctx: EntityRendererProvider.Context) :
             private val rightLeg = modelPart.getChild("right_leg")
             private val leftLeg = modelPart.getChild("left_leg")
 
-            override fun setupAnim(entity: InsanityEntity, limbSwing: Float, limbSwingAmount: Float,
-                                   ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
+            override fun setupAnim(
+                entity: InsanityEntity, limbSwing: Float, limbSwingAmount: Float,
+                ageInTicks: Float, netHeadYaw: Float, headPitch: Float
+            ) {
                 head.yRot = netHeadYaw * (Math.PI.toFloat() / 180f)
                 head.xRot = headPitch * (Math.PI.toFloat() / 180f)
 
@@ -86,8 +101,10 @@ class InsanityEntityRenderer(ctx: EntityRendererProvider.Context) :
                 leftLeg.xRot = Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
             }
 
-            override fun renderToBuffer(poseStack: PoseStack, buffer: VertexConsumer, packedLight: Int,
-                                        packedOverlay: Int, color: Int) {
+            override fun renderToBuffer(
+                poseStack: PoseStack, buffer: VertexConsumer, packedLight: Int,
+                packedOverlay: Int, color: Int
+            ) {
                 root.render(poseStack, buffer, packedLight, packedOverlay, color)
             }
         }

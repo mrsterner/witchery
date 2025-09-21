@@ -4,7 +4,6 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProvider
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconProviderBase
 import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel
-import com.klikli_dev.modonomicon.api.datagen.book.BookEntryParentModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementConditionModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionModel
@@ -12,7 +11,6 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadCondit
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.book.entry.necro.NecroLevelOneEntryProvider
 import dev.sterner.witchery.fabric.datagen.book.entry.necro.NecroLevelTwoEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.vampire.*
 import dev.sterner.witchery.fabric.datagen.book.util.advancement
 import dev.sterner.witchery.fabric.datagen.book.util.requiresAndFollows
 import dev.sterner.witchery.registry.WitcheryItems
@@ -56,10 +54,13 @@ class WitcheryNecromancerCategoryProvider(
         }
 
         val necro1 = NecroLevelOneEntryProvider("necro_1", this).generate("a")
-            .withCondition(BookAndConditionModel.create().withChildren(
-                BookEntryReadConditionModel.create()
-                .withEntry("witchery:ritual/infuse_necromancy"),
-                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("necro/1"))), )
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookEntryReadConditionModel.create()
+                        .withEntry("witchery:ritual/infuse_necromancy"),
+                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("necro/1"))
+                ),
+            )
 
         addEntry(necro1)
 

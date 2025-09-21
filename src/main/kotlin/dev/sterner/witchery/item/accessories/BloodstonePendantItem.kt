@@ -13,7 +13,8 @@ import net.minecraft.world.item.Rarity
 import top.theillusivec4.curios.api.SlotContext
 import top.theillusivec4.curios.api.type.capability.ICurioItem
 
-open class BloodstonePendantItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)), ICurioItem {
+open class BloodstonePendantItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)),
+    ICurioItem {
 
     val modifier = AttributeModifier(
         Witchery.id("drink_speed_modifier"), 10.0,

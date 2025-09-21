@@ -15,7 +15,12 @@ import net.minecraft.world.level.block.Block
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import java.util.concurrent.CompletableFuture
 
-class WitcheryItemTagProvider(output: PackOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>, blockTags:  CompletableFuture<TagLookup<Block>> , existingFileHelper: ExistingFileHelper) :
+class WitcheryItemTagProvider(
+    output: PackOutput,
+    registriesFuture: CompletableFuture<HolderLookup.Provider>,
+    blockTags: CompletableFuture<TagLookup<Block>>,
+    existingFileHelper: ExistingFileHelper
+) :
     ItemTagsProvider(output, registriesFuture, blockTags, Witchery.MODID, existingFileHelper) {
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {

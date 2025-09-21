@@ -57,7 +57,6 @@ class PhylacteryBlockEntity(
     }
 
 
-
     companion object {
         fun onPlayerLoad(player: Player) {
             if (player is ServerPlayer) {
@@ -65,7 +64,10 @@ class PhylacteryBlockEntity(
                 val deltas = PhylacteryLevelDataAttachment.popPendingPlayerDeltas(level)
                 val delta = deltas[player.uuid] ?: 0
                 val pool = SoulPoolPlayerAttachment.getData(player)
-                SoulPoolPlayerAttachment.setData(player, pool.copy(soulPool = (pool.soulPool + delta).coerceAtLeast(0), maxSouls = pool.maxSouls))
+                SoulPoolPlayerAttachment.setData(
+                    player,
+                    pool.copy(soulPool = (pool.soulPool + delta).coerceAtLeast(0), maxSouls = pool.maxSouls)
+                )
             }
         }
     }

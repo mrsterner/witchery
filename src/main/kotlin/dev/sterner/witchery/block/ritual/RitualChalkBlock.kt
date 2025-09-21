@@ -93,7 +93,6 @@ class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: P
         val VARIANT: IntegerProperty = IntegerProperty.create("variant", 0, VARIANTS)
 
 
-
         fun placeInfernal(
             event: BlockEvent.EntityPlaceEvent,
             level: Level,
@@ -122,7 +121,7 @@ class RitualChalkBlock(val type: ParticleType<*>?, val color: Int, properties: P
                     val testPos = blockPos.offset(offset)
                     if (level.getBlockState(testPos).`is`(Blocks.SKELETON_SKULL)) {
 
-                        return tryMakeSacrificialCircle(event,level, testPos.immutable(), entity)
+                        return tryMakeSacrificialCircle(event, level, testPos.immutable(), entity)
                     }
                 }
             }

@@ -1,19 +1,16 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.BloodPoolReloadListener
 import dev.sterner.witchery.data.ErosionReloadListener
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.PackOutput
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import net.neoforged.neoforge.common.data.JsonCodecProvider
 import java.util.concurrent.CompletableFuture
-import java.util.function.BiConsumer
 
 class WitcheryErosionProvider(
     output: PackOutput,

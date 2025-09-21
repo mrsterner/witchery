@@ -68,12 +68,14 @@ object PoppetHandler {
                         AccessoryHandler.checkPoppet(attacker, voodooPoppet.item)
                     }
                 }
+
                 PoppetLocation.INVENTORY -> {
                     voodooPoppet.damageValue += voodooPoppet.maxDamage / 10
                     if (voodooPoppet.damageValue >= voodooPoppet.maxDamage) {
                         voodooPoppet.shrink(1)
                     }
                 }
+
                 PoppetLocation.WORLD -> {
                     if (attacker.level() is ServerLevel) {
                         val level = attacker.level() as ServerLevel
@@ -87,7 +89,11 @@ object PoppetHandler {
                             voodooPoppet.damageValue += voodooPoppet.maxDamage / 10
                             if (voodooPoppet.damageValue >= voodooPoppet.maxDamage) {
                                 blockPoppet.poppetItemStack.shrink(1)
-                                PoppetLevelAttachment.updatePoppetItem(level, blockPoppet.blockPos, blockPoppet.poppetItemStack)
+                                PoppetLevelAttachment.updatePoppetItem(
+                                    level,
+                                    blockPoppet.blockPos,
+                                    blockPoppet.poppetItemStack
+                                )
                             }
                         }
                     }
@@ -142,7 +148,7 @@ object PoppetHandler {
         if (owner is Player) {
             val corruptData = CorruptPoppetPlayerAttachment.getData(owner)
             if (corruptData.corruptedPoppets.contains(poppetType.getRegistryId())) {
-                val poppet = findAndHurtPoppet(
+                findAndHurtPoppet(
                     owner,
                     poppetType,
                     source,

@@ -1,18 +1,10 @@
 package dev.sterner.witchery.data_attachment
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.item.BoneNeedleItem
-import dev.sterner.witchery.item.HunterArmorItem
-import dev.sterner.witchery.item.VampireArmorItem
-import dev.sterner.witchery.item.WitchesRobesItem
-import dev.sterner.witchery.item.accessories.*
 import dev.sterner.witchery.mixin.ArgumentTypeInfosInvoker
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ArmorItem
-import net.minecraft.world.item.ArmorMaterial
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.neoforged.fml.ModList
@@ -31,7 +23,6 @@ object PlatformUtils {
     fun isModLoaded(modId: String?): Boolean {
         return ModList.get().isLoaded(modId)
     }
-
 
 
     @JvmStatic
@@ -71,7 +62,6 @@ object PlatformUtils {
             }
         }
     }
-
 
 
     @JvmStatic

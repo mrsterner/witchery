@@ -49,9 +49,11 @@ class WitcheryBrewingCategoryProvider(
         }
 
         // Core entries
-        val cauldron = EntryProviders.doubleItem(this, "cauldron",WitcheryItems.CAULDRON.get(),
+        val cauldron = EntryProviders.doubleItem(
+            this, "cauldron", WitcheryItems.CAULDRON.get(),
             WitcheryItems.COPPER_CAULDRON.get(),
-            noSecondTitle = true)
+            noSecondTitle = true
+        )
             .generate("c")
             .withCondition(advancement(Witchery.id("cauldron")))
 
@@ -90,9 +92,10 @@ class WitcheryBrewingCategoryProvider(
             .requiresAndFollows(redstoneSoup)
         addEntry(flyingOintment)
 
-        val spiritOfOtherwhere = InfusionEntryProvider(this, "spirit_of_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
-            .generate("o")
-            .requiresAndFollows(redstoneSoup)
+        val spiritOfOtherwhere =
+            InfusionEntryProvider(this, "spirit_of_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
+                .generate("o")
+                .requiresAndFollows(redstoneSoup)
         addEntry(spiritOfOtherwhere)
 
         val ghostOfLight = InfusionEntryProvider(this, "ghost_of_the_light", WitcheryItems.GHOST_OF_THE_LIGHT.get())

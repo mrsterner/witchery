@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
-import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
 import dev.sterner.witchery.client.model.BansheeEntityModel
 import dev.sterner.witchery.client.model.SpectreEntityModel
 import net.minecraft.client.renderer.MultiBufferSource

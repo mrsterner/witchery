@@ -76,15 +76,6 @@ open class BrewItem(
         return ItemUtils.startUsingInstantly(level, player, usedHand)
     }
 
-    override fun appendHoverText(
-        stack: ItemStack,
-        context: TooltipContext,
-        tooltipComponents: MutableList<Component>,
-        tooltipFlag: TooltipFlag
-    ) {
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
-    }
-
     open fun applyEffectOnSelf(player: Player, hasFrog: Boolean) {
 
     }

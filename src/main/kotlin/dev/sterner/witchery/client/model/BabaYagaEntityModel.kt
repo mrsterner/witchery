@@ -95,14 +95,14 @@ class BabaYagaEntityModel<T : Mob>(val root: ModelPart) :
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val nose = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "nose",
                 CubeListBuilder.create().texOffs(24, 0)
                     .addBox(-1.0f, -1.0f, -6.0f, 2.0f, 4.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offset(0.0f, -2.0f, 0.0f)
             )
 
-            val body = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "body",
                 CubeListBuilder.create().texOffs(16, 20)
                     .addBox(-4.0f, 0.0f, -3.0f, 8.0f, 12.0f, 6.0f, CubeDeformation(0.0f))
@@ -110,7 +110,7 @@ class BabaYagaEntityModel<T : Mob>(val root: ModelPart) :
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val arms = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "arms",
                 CubeListBuilder.create().texOffs(40, 38)
                     .addBox(-4.0f, 2.0f, -2.0f, 8.0f, 4.0f, 4.0f, CubeDeformation(0.0f))

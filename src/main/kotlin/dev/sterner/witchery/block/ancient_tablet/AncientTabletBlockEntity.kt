@@ -7,8 +7,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.level.block.state.BlockState
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 
 class AncientTabletBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.ANCIENT_SLATE.get(), blockPos, blockState) {
@@ -16,7 +15,7 @@ class AncientTabletBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private var tabletId: UUID = UUID.randomUUID()
 
     fun getTabletId(): UUID {
-        return tabletId;
+        return tabletId
     }
 
     override fun saveAdditional(

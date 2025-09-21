@@ -38,7 +38,10 @@ class SyncUnderWaterS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
         client.execute {
             if (player != null) {
-                UnderWaterBreathPlayerAttachment.setData(player, UnderWaterBreathPlayerAttachment.Data(duration = duration, maxDuration = maxDuration))
+                UnderWaterBreathPlayerAttachment.setData(
+                    player,
+                    UnderWaterBreathPlayerAttachment.Data(duration = duration, maxDuration = maxDuration)
+                )
             }
         }
     }

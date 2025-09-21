@@ -3,7 +3,6 @@ package dev.sterner.witchery.block
 import dev.sterner.witchery.block.trees.StrippableLogBlock
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.neoforged.neoforge.common.ItemAbilities

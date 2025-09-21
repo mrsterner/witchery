@@ -4,10 +4,8 @@ package dev.sterner.witchery.block.coffin
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
-import net.minecraft.core.HolderLookup
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
 import kotlin.math.abs
 import kotlin.math.pow
 
@@ -24,7 +22,7 @@ class CoffinBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
         super.tick(level, pos, blockState)
-        
+
         if (!level.isClientSide) return
 
         val isOpen = blockState.getValue(CoffinBlock.OPEN)
@@ -37,7 +35,7 @@ class CoffinBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             setChanged()
         }
     }
-    
+
     fun getEasedOpenProgress(): Float = easeInOut(openProgress)
 
     private fun lerpAngle(current: Float, target: Float, factor: Float): Float {

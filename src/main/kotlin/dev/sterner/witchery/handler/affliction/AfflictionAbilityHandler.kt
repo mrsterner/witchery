@@ -9,7 +9,6 @@ import dev.sterner.witchery.payload.AfflictionAbilitySelectionC2SPayload
 import net.minecraft.client.Minecraft
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
-import net.neoforged.neoforge.client.event.InputEvent
 import net.neoforged.neoforge.network.PacketDistributor
 
 object AfflictionAbilityHandler : AbilityHandler {
@@ -39,6 +38,7 @@ object AfflictionAbilityHandler : AbilityHandler {
                     when (ability) {
                         WerewolfAbility.WOLF_FORM,
                         WerewolfAbility.WEREWOLF_FORM -> WerewolfAbility.hasMoonCharm(player)
+
                         else -> true
                     }
         }
@@ -68,11 +68,13 @@ object AfflictionAbilityHandler : AbilityHandler {
                     it.requiredLevel == newLevel && it.affliction == affliction
                 }
             }
+
             AfflictionTypes.LYCANTHROPY -> {
                 WerewolfAbility.entries.filter {
                     it.requiredLevel == newLevel && it.affliction == affliction
                 }
             }
+
             else -> emptyList()
         }
 

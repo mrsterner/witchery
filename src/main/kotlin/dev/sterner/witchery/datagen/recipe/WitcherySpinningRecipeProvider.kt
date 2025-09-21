@@ -11,7 +11,7 @@ import net.minecraft.world.item.alchemy.Potions
 
 object WitcherySpinningRecipeProvider {
 
-    fun spin(exporter: RecipeOutput){
+    fun spin(exporter: RecipeOutput) {
 
         SpinningWheelRecipeBuilder.create()
             .addInput(WitcheryItems.DREAM_WEAVER.get())

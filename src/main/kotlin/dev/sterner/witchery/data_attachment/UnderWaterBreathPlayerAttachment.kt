@@ -5,31 +5,25 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncUnderWaterS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.FluidTags
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
-import kotlin.compareTo
-import kotlin.rem
-import kotlin.text.compareTo
-import kotlin.times
 
 object UnderWaterBreathPlayerAttachment {
 
 
     @JvmStatic
-    fun getData(player: Player): UnderWaterBreathPlayerAttachment.Data {
+    fun getData(player: Player): Data {
         return player.getData(WitcheryDataAttachments.UNDER_WATER_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(player: Player, data: UnderWaterBreathPlayerAttachment.Data) {
+    fun setData(player: Player, data: Data) {
         player.setData(WitcheryDataAttachments.UNDER_WATER_PLAYER_DATA_ATTACHMENT, data)
-        UnderWaterBreathPlayerAttachment.sync(player, data)
+        sync(player, data)
     }
 
     fun sync(player: Player, data: Data) {

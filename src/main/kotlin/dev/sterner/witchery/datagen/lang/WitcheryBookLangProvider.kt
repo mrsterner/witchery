@@ -2,7 +2,7 @@ package dev.sterner.witchery.datagen.lang
 
 object WitcheryBookLangProvider {
 
-    fun book(add: (key: String, value: String) -> Unit){
+    fun book(add: (key: String, value: String) -> Unit) {
         add("brewing.potion_capacity.title", "Brew Capacity")
         add("book.witchery.guidebook.brewing.potion_effect_type.name", "Effect Type")
 
@@ -203,7 +203,7 @@ object WitcheryBookLangProvider {
         add("ritual.ritual_chalk.golden_chalk", "Golden Chalk")
 
 
-        add("book.witchery.guidebook.necromancy.name","Necromancy")
+        add("book.witchery.guidebook.necromancy.name", "Necromancy")
 
 
         add("necromancy.necro_1.title.1", "Souls as a resource")
@@ -221,83 +221,101 @@ object WitcheryBookLangProvider {
         add("book.witchery.guidebook.necromancy.carving_3.description", "Death Stage")
 
         add("necromancy.carving_1.title", "The Binding of Souls")
-        add("necromancy.carving_1.page.1", "\n" +
-                "\\\n" +
-                "\\\n...weathered stone, older than memory, speaks of the first necromancer...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...the soul cage, a prison of iron and bone, holds the essence of the departed...")
+        add(
+            "necromancy.carving_1.page.1", "\n" +
+                    "\\\n" +
+                    "\\\n...weathered stone, older than memory, speaks of the first necromancer...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...the soul cage, a prison of iron and bone, holds the essence of the departed..."
+        )
 
-        add("necromancy.carving_1.page.2", "\n" +
-                "\\\n...a single villager's spirit, torn from flesh and bound in ethereal chains...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...the dead serve the living, shambling guardians that know not rest...\n" +
-                "\\\n" +
-                "\\\n...command them to strike down the living, prove dominion over death...")
+        add(
+            "necromancy.carving_1.page.2", "\n" +
+                    "\\\n...a single villager's spirit, torn from flesh and bound in ethereal chains...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...the dead serve the living, shambling guardians that know not rest...\n" +
+                    "\\\n" +
+                    "\\\n...command them to strike down the living, prove dominion over death..."
+        )
 
-        add("necromancy.carving_1.page.3", "\n" +
-                "\\\n...the protectors of the living, those of iron and snow, must fall...\n" +
-                "\\\n" +
-                "\\\n...five must be destroyed by necrotic hands...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...then three souls together, bound as one within the cage's embrace...")
+        add(
+            "necromancy.carving_1.page.3", "\n" +
+                    "\\\n...the protectors of the living, those of iron and snow, must fall...\n" +
+                    "\\\n" +
+                    "\\\n...five must be destroyed by necrotic hands...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...then three souls together, bound as one within the cage's embrace..."
+        )
 
 
         add("necromancy.carving_2.title", "The Severed Soul")
-        add("necromancy.carving_2.page.1", "\n" +
-                "\\\n...the stone depicts a figure standing over fallen beasts...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...five creatures of innocence, their life force drained to emptiness...\n" +
-                "\\\n" +
-                "\\\n...sustenance not of flesh but of spirit...")
+        add(
+            "necromancy.carving_2.page.1", "\n" +
+                    "\\\n...the stone depicts a figure standing over fallen beasts...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...five creatures of innocence, their life force drained to emptiness...\n" +
+                    "\\\n" +
+                    "\\\n...sustenance not of flesh but of spirit..."
+        )
 
-        add("necromancy.carving_2.page.2", "\n" +
-                "\\\n...the greatest power lies in abandoning one's own flesh...\n" +
-                "\\\n" +
-                "\\\n...spirit walks free, entering the hollow shell of the risen dead...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...wearing death's form, strike down the living, a villager's blood on possessed hands...")
+        add(
+            "necromancy.carving_2.page.2", "\n" +
+                    "\\\n...the greatest power lies in abandoning one's own flesh...\n" +
+                    "\\\n" +
+                    "\\\n...spirit walks free, entering the hollow shell of the risen dead...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...wearing death's form, strike down the living, a villager's blood on possessed hands..."
+        )
 
-        add("necromancy.carving_2.page.3", "\n" +
-                "\\\n...the three-souled horror, born of nether stars...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...it too must fall before the master of death...\n" +
-                "\\\n" +
-                "\\\n...only then does the final secret reveal itself...")
+        add(
+            "necromancy.carving_2.page.3", "\n" +
+                    "\\\n...the three-souled horror, born of nether stars...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...it too must fall before the master of death...\n" +
+                    "\\\n" +
+                    "\\\n...only then does the final secret reveal itself..."
+        )
 
 
         add("necromancy.carving_3.title", "The Phylactery's Embrace")
-        add("necromancy.carving_3.page.1", "\n" +
-                "\\\n...the final carving shows a crystalline vessel, pulsing with unlife...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...bind your essence within, let death claim your body...\n" +
-                "\\\n" +
-                "\\\n...the phylactery remembers, pulls you back from oblivion...")
+        add(
+            "necromancy.carving_3.page.1", "\n" +
+                    "\\\n...the final carving shows a crystalline vessel, pulsing with unlife...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...bind your essence within, let death claim your body...\n" +
+                    "\\\n" +
+                    "\\\n...the phylactery remembers, pulls you back from oblivion..."
+        )
 
-        add("necromancy.carving_3.page.2", "\n" +
-                "\\\n...but true lichdom demands the ultimate sacrifice...\n" +
-                "\\\n" +
-                "\\\n...three times must you die, three times return...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...each death within the span of a single night...")
+        add(
+            "necromancy.carving_3.page.2", "\n" +
+                    "\\\n...but true lichdom demands the ultimate sacrifice...\n" +
+                    "\\\n" +
+                    "\\\n...three times must you die, three times return...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...each death within the span of a single night..."
+        )
 
-        add("necromancy.carving_3.page.3", "\n" +
-                "\\\n...only then does mortality truly break...\n" +
-                "\\\n" +
-                "\\\n" +
-                "\\\n...the phylactery holds three souls in reserve...\n" +
-                "\\\n" +
-                "\\\n...death becomes but an inconvenience, the lich eternal...")
+        add(
+            "necromancy.carving_3.page.3", "\n" +
+                    "\\\n...only then does mortality truly break...\n" +
+                    "\\\n" +
+                    "\\\n" +
+                    "\\\n...the phylactery holds three souls in reserve...\n" +
+                    "\\\n" +
+                    "\\\n...death becomes but an inconvenience, the lich eternal..."
+        )
 
-        add("book.witchery.guidebook.lycanthropy.name","Lycanthropy")
+        add("book.witchery.guidebook.lycanthropy.name", "Lycanthropy")
 
         add("book.witchery.guidebook.lycanthropy.were_1.description", "First Stage")
         add("book.witchery.guidebook.lycanthropy.were_2.description", "Second Stage")
@@ -328,23 +346,50 @@ object WitcheryBookLangProvider {
         add("book.witchery.guidebook.lycanthropy.were_9.name", "Blood of the Pack")
         add("lycanthropy.were_9.title.1", "Blood of the Pack")
 
-        add("lycanthropy.were_1.page.1", "The Wolf Altar recognizes those who seek the beast within. Offer three gold ingots to prove your worth to the pack. The altar will grant you a Moon Charm, marking you as one touched by lunar power.")
+        add(
+            "lycanthropy.were_1.page.1",
+            "The Wolf Altar recognizes those who seek the beast within. Offer three gold ingots to prove your worth to the pack. The altar will grant you a Moon Charm, marking you as one touched by lunar power."
+        )
 
-        add("lycanthropy.were_2.page.1", "The hunger of the wolf must be sated. In your wolf form, hunt and kill thirty sheep. Their meat will transform into Raw Lambchops. Return these to the Wolf Altar as proof of your first successful hunt.")
+        add(
+            "lycanthropy.were_2.page.1",
+            "The hunger of the wolf must be sated. In your wolf form, hunt and kill thirty sheep. Their meat will transform into Raw Lambchops. Return these to the Wolf Altar as proof of your first successful hunt."
+        )
 
-        add("lycanthropy.were_3.page.1", "The pack demands greater tribute. Collect ten Tongues of Dog from fallen wolves and offer them at the Wolf Altar. This sacrifice proves your dominance over lesser canines.")
+        add(
+            "lycanthropy.were_3.page.1",
+            "The pack demands greater tribute. Collect ten Tongues of Dog from fallen wolves and offer them at the Wolf Altar. This sacrifice proves your dominance over lesser canines."
+        )
 
-        add("lycanthropy.were_4.page.1", "The Horned Huntsman guards the ancient ways of the hunt. Face him in combat and claim victory. His defeat marks you as a true predator worthy of greater power.")
+        add(
+            "lycanthropy.were_4.page.1",
+            "The Horned Huntsman guards the ancient ways of the hunt. Face him in combat and claim victory. His defeat marks you as a true predator worthy of greater power."
+        )
 
-        add("lycanthropy.were_5.page.1", "Perfect your killing instinct. Strike down ten hostile creatures with critical hits, showing mastery over the art of the lethal strike. Each kill must be precise and devastating.")
+        add(
+            "lycanthropy.were_5.page.1",
+            "Perfect your killing instinct. Strike down ten hostile creatures with critical hits, showing mastery over the art of the lethal strike. Each kill must be precise and devastating."
+        )
 
-        add("lycanthropy.were_6.page.1", "Mark your territory across the land. Travel to sixteen different locations and howl to claim them as your domain. Let all creatures know that a true wolf roams these lands.")
+        add(
+            "lycanthropy.were_6.page.1",
+            "Mark your territory across the land. Travel to sixteen different locations and howl to claim them as your domain. Let all creatures know that a true wolf roams these lands."
+        )
 
-        add("lycanthropy.were_7.page.1", "Build your pack through dominance and submission. In wolf form, tame six wild wolves using only your presence and empty hands. They will recognize the alpha within you.")
+        add(
+            "lycanthropy.were_7.page.1",
+            "Build your pack through dominance and submission. In wolf form, tame six wild wolves using only your presence and empty hands. They will recognize the alpha within you."
+        )
 
-        add("lycanthropy.were_8.page.1", "The Nether calls for blood. Hunt and kill thirty Zombie Pigmen in the burning realm. Prove that even in hell itself, the wolf is apex predator.")
+        add(
+            "lycanthropy.were_8.page.1",
+            "The Nether calls for blood. Hunt and kill thirty Zombie Pigmen in the burning realm. Prove that even in hell itself, the wolf is apex predator."
+        )
 
-        add("lycanthropy.were_9.page.1", "The final transformation demands the ultimate choice. Spill the blood of a friend or an innocent villager. Only through this act can you fully embrace the beast and abandon your humanity.")
+        add(
+            "lycanthropy.were_9.page.1",
+            "The final transformation demands the ultimate choice. Spill the blood of a friend or an innocent villager. Only through this act can you fully embrace the beast and abandon your humanity."
+        )
 
         add("book.witchery.guidebook.vampirism.vamp_1.name", "Observations of an Immortal")
         add("book.witchery.guidebook.vampirism.vamp_2.name", "The Hunger")
@@ -848,7 +893,10 @@ object WitcheryBookLangProvider {
         add("book.witchery.guidebook.general.mushroom_log.name", "Mushroom Log")
         add("general.mushroom_log.title.1", "Mushroom Log")
         add("book.witchery.guidebook.general.mushroom_log.description", "Way to farm mushrooms")
-        add("general.mushroom_log.page.1", "With a Moss block, two dark oak logs placed on the ground and a mushroom in your off-hand, create a way to easily farm any mushroom!")
+        add(
+            "general.mushroom_log.page.1",
+            "With a Moss block, two dark oak logs placed on the ground and a mushroom in your off-hand, create a way to easily farm any mushroom!"
+        )
 
         add("book.witchery.guidebook.general.grassper.name", "Grassper")
         add("book.witchery.guidebook.general.grassper.description", "Organic item pedestal")
@@ -1052,17 +1100,25 @@ object WitcheryBookLangProvider {
 
         add("book.witchery.guidebook.brazier.censer.name", "The Censer")
         add("brazier.censer.title.1", "The Censer")
-        add("brazier.censer.page.1", "The Censer burns potions as incense, spreading their effects to all nearby. Right-click with any potion to add it to the censer. Effects continuously apply within a 16-block radius while the potion lasts.")
-        add("brazier.censer.page.2",
+        add(
+            "brazier.censer.page.1",
+            "The Censer burns potions as incense, spreading their effects to all nearby. Right-click with any potion to add it to the censer. Effects continuously apply within a 16-block radius while the potion lasts."
+        )
+        add(
+            "brazier.censer.page.2",
             "\\\n" +
-                "\\\n" +
-            "Certain ingredients burn eternally when blessed by altar power. Soul fire particles indicate an active censer, with colored wisps showing the potion's nature.")
+                    "\\\n" +
+                    "Certain ingredients burn eternally when blessed by altar power. Soul fire particles indicate an active censer, with colored wisps showing the potion's nature."
+        )
         add("book.witchery.guidebook.brazier.censer.description", "Better diffuser")
 
         add("book.witchery.guidebook.brazier.soul_cage.name", "The Soul Cage")
         add("book.witchery.guidebook.brazier.soul_cage.description", "Soul keeper")
         add("brazier.soul_cage.title.1", "Soul Cage")
-        add("brazier.soul_cage.page.1", "The Brazier provides an excellent way to contain souls and spirits. To aid us in the collection we can convert it to a Soul Cage. Use a regular glass block on the brazier to convert it. With this, use a Spectral Dust to create a barrier around this for a minute.")
+        add(
+            "brazier.soul_cage.page.1",
+            "The Brazier provides an excellent way to contain souls and spirits. To aid us in the collection we can convert it to a Soul Cage. Use a regular glass block on the brazier to convert it. With this, use a Spectral Dust to create a barrier around this for a minute."
+        )
 
         add("book.witchery.guidebook.brazier.name", "Brazier")
         add("book.witchery.guidebook.brazier.brazier.name", "Brazier")
@@ -1078,10 +1134,16 @@ object WitcheryBookLangProvider {
         add("brazier.brazier.page.1", "A Witches tool to burn ingredients with flint and steel, or a fire charge.")
 
         add("brazier.potion.title.1", "Potion Incense")
-        add("brazier.potion.page.1", "Burning potions with wooden ash is an easy way to make the effect linger. Not as portable as a Lingering potion, but far easier to get.")
+        add(
+            "brazier.potion.page.1",
+            "Burning potions with wooden ash is an easy way to make the effect linger. Not as portable as a Lingering potion, but far easier to get."
+        )
 
         add("brazier.summon.title.1", "Summoning Incense")
-        add("brazier.summon.page.1", "Burning a set of specific ingredients, we can call the dead to later bind to an effigy for unique, and maybe deadly, effects.")
+        add(
+            "brazier.summon.page.1",
+            "Burning a set of specific ingredients, we can call the dead to later bind to an effigy for unique, and maybe deadly, effects."
+        )
 
 
         add("book.witchery.guidebook.brazier.summon_spectre.name", "Summon Spectre")

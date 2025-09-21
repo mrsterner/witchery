@@ -13,7 +13,7 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class EffigyCompanionBlock(properties: BlockBehaviour.Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
+class EffigyCompanionBlock(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
 
     override fun canBeReplaced(state: BlockState, fluid: Fluid): Boolean {
         return false

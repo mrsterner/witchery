@@ -10,7 +10,6 @@ import net.minecraft.tags.EntityTypeTags
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import java.util.concurrent.CompletableFuture
-import kotlin.math.E
 
 class WitcheryEntityTypeTagProvider(
     output: PackOutput?,

@@ -17,7 +17,7 @@ object ItemStackMixinLogic {
      * @return True if the armor protection poppet was successfully activated for the player,
      *         otherwise false.
      */
-    fun armorProtection(player: Player?) : Boolean {
+    fun armorProtection(player: Player?): Boolean {
         if (player != null) {
             val armorPoppetType: PoppetType = WitcheryPoppetRegistry.ARMOR_PROTECTION.get()
 

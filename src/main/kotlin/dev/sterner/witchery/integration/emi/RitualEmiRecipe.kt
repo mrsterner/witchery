@@ -1,6 +1,5 @@
 package dev.sterner.witchery.integration.emi
 
-import com.mojang.blaze3d.vertex.PoseStack
 import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
@@ -12,14 +11,12 @@ import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.RenderUtils
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.screens.inventory.InventoryScreen
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.FormattedCharSequence
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
@@ -121,7 +118,16 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                 Witchery.id("textures/gui/weather/rain.png"),
                 20 + 11, 4 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
             )
-                .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Requires Rain", Style.EMPTY))))
+                .tooltip(
+                    listOf(
+                        ClientTooltipComponent.create(
+                            FormattedCharSequence.forward(
+                                "Requires Rain",
+                                Style.EMPTY
+                            )
+                        )
+                    )
+                )
 
         }
         if (thunder) {
@@ -129,7 +135,16 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                 Witchery.id("textures/gui/weather/storm.png"),
                 20 - 11, 4 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
             )
-                .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Requires Storm", Style.EMPTY))))
+                .tooltip(
+                    listOf(
+                        ClientTooltipComponent.create(
+                            FormattedCharSequence.forward(
+                                "Requires Storm",
+                                Style.EMPTY
+                            )
+                        )
+                    )
+                )
 
         }
 
@@ -139,7 +154,16 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                 Witchery.id("textures/gui/cat.png"),
                 20, 4 + 20 + 20 - 11, 10, 10, 0, 0, 10, 10, 10, 10
             )
-                .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Requires Cat Familiar", Style.EMPTY))))
+                .tooltip(
+                    listOf(
+                        ClientTooltipComponent.create(
+                            FormattedCharSequence.forward(
+                                "Requires Cat Familiar",
+                                Style.EMPTY
+                            )
+                        )
+                    )
+                )
 
         }
 
@@ -202,7 +226,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             val entityX = displayWidth / 2
             val entityY = displayHeight / 2
 
-            for ((k, entityType) in recipe.inputEntities.withIndex()) {
+            for ((_, entityType) in recipe.inputEntities.withIndex()) {
                 val entity = entityType.create(minecraft.level) as? LivingEntity ?: return
 
                 val entityHeight = entity.boundingBox.ysize * 4
@@ -218,7 +242,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                 val scale = baseScale * widthAdjustment
                 val yOffset = if (entityHeight <= 1.0) 0f else -8f
 
-                widgets.addDrawable(0,0, 128, 128) { graphics, mouseX, mouseY, _ ->
+                widgets.addDrawable(0, 0, 128, 128) { graphics, mouseX, mouseY, _ ->
                     RenderUtils.renderEntityInInventoryFollowsMouse(
                         graphics,
                         entityX - 20,

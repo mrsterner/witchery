@@ -2,11 +2,7 @@ package dev.sterner.witchery.client.screen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.handler.affliction.AfflictionAbility
-import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.handler.affliction.VampireAbility
-import dev.sterner.witchery.handler.affliction.WerewolfAbility
+import dev.sterner.witchery.handler.affliction.*
 import dev.sterner.witchery.payload.UpdateSelectedAbilitiesC2SPayload
 import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.GuiGraphics
@@ -39,13 +35,13 @@ class AbilitySelectionScreen(
 
         addRenderableWidget(
             Button.builder(
-            Component.literal("Confirm"),
-            { button ->
-                saveAndClose()
-            }
-        ).pos(width / 2 - 50, height - 30)
-            .size(100, 20)
-            .build())
+                Component.literal("Confirm"),
+                { button ->
+                    saveAndClose()
+                }
+            ).pos(width / 2 - 50, height - 30)
+                .size(100, 20)
+                .build())
     }
 
     override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float) {
@@ -171,36 +167,50 @@ class AbilitySelectionScreen(
     private fun renderTooltip(guiGraphics: GuiGraphics, ability: AfflictionAbility, mouseX: Int, mouseY: Int) {
         val tooltip = mutableListOf<Component>()
 
-        tooltip.add(Component.literal(ability.id.replace('_', ' ').capitalize())
-            .withStyle(ChatFormatting.YELLOW))
+        tooltip.add(
+            Component.literal(ability.id.replace('_', ' ').capitalize())
+                .withStyle(ChatFormatting.YELLOW)
+        )
 
         val typeColor = when (ability.affliction) {
             AfflictionTypes.VAMPIRISM -> ChatFormatting.RED
             AfflictionTypes.LYCANTHROPY -> ChatFormatting.GOLD
             else -> ChatFormatting.WHITE
         }
-        tooltip.add(Component.literal("Type: ${ability.affliction.name}")
-            .withStyle(typeColor))
+        tooltip.add(
+            Component.literal("Type: ${ability.affliction.name}")
+                .withStyle(typeColor)
+        )
 
-        tooltip.add(Component.literal("Required Level: ${ability.requiredLevel}")
-            .withStyle(ChatFormatting.GRAY))
+        tooltip.add(
+            Component.literal("Required Level: ${ability.requiredLevel}")
+                .withStyle(ChatFormatting.GRAY)
+        )
 
         if (ability.cooldown > 0) {
             val seconds = ability.cooldown / 20
-            tooltip.add(Component.literal("Cooldown: ${seconds}s")
-                .withStyle(ChatFormatting.AQUA))
+            tooltip.add(
+                Component.literal("Cooldown: ${seconds}s")
+                    .withStyle(ChatFormatting.AQUA)
+            )
         }
 
         val isSelected = selectedAbilities.contains(ability.id)
         if (isSelected) {
-            tooltip.add(Component.literal("✓ Selected")
-                .withStyle(ChatFormatting.GREEN))
+            tooltip.add(
+                Component.literal("✓ Selected")
+                    .withStyle(ChatFormatting.GREEN)
+            )
         } else if (selectedAbilities.size >= MAX_SELECTED) {
-            tooltip.add(Component.literal("✗ Max abilities selected")
-                .withStyle(ChatFormatting.RED))
+            tooltip.add(
+                Component.literal("✗ Max abilities selected")
+                    .withStyle(ChatFormatting.RED)
+            )
         } else {
-            tooltip.add(Component.literal("Click to select")
-                .withStyle(ChatFormatting.GREEN))
+            tooltip.add(
+                Component.literal("Click to select")
+                    .withStyle(ChatFormatting.GREEN)
+            )
         }
 
         guiGraphics.renderComponentTooltip(font, tooltip, mouseX, mouseY)

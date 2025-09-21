@@ -1,20 +1,19 @@
 package dev.sterner.witchery.payload
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import net.minecraft.client.Minecraft
 import net.minecraft.core.UUIDUtil
-import net.minecraft.network.codec.StreamCodec
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.util.StringRepresentable
-import java.util.UUID
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.client.Minecraft
+import net.minecraft.network.codec.StreamCodec
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.player.Player
-import com.mojang.serialization.Codec
-import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import java.util.*
 
 
@@ -135,44 +134,52 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
                 } else Optional.empty(),
 
                 vampFormStates = if (AfflictionPlayerAttachment.SyncField.VAMP_FORM_STATES in changedFields) {
-                    Optional.of(VampFormStates(
-                        data.hasNightVision(),
-                        data.hasSpeedBoost(),
-                        data.isBatForm(),
-                        data.getNightTicker(),
-                        data.getInSunTick(),
-                        data.getMaxInSunTickClient()
-                    ))
+                    Optional.of(
+                        VampFormStates(
+                            data.hasNightVision(),
+                            data.hasSpeedBoost(),
+                            data.isBatForm(),
+                            data.getNightTicker(),
+                            data.getInSunTick(),
+                            data.getMaxInSunTickClient()
+                        )
+                    )
                 } else Optional.empty(),
 
                 vampVillageData = if (AfflictionPlayerAttachment.SyncField.VAMP_VILLAGES in changedFields) {
-                    Optional.of(VampVillageData(
-                        data.getVisitedVillages(),
-                        data.getVillagersHalfBlood(),
-                        data.getTrappedVillagers()
-                    ))
+                    Optional.of(
+                        VampVillageData(
+                            data.getVisitedVillages(),
+                            data.getVillagersHalfBlood(),
+                            data.getTrappedVillagers()
+                        )
+                    )
                 } else Optional.empty(),
 
                 wereCombatStats = if (AfflictionPlayerAttachment.SyncField.WERE_COMBAT_STATS in changedFields) {
-                    Optional.of(WereCombatStats(
-                        data.getKilledSheep(),
-                        data.getKilledWolves(),
-                        data.hasKilledHornedOne(),
-                        data.getAirSlayMonster(),
-                        data.getNightHowl(),
-                        data.getWolfPack(),
-                        data.getPigmenKilled(),
-                        data.hasSpreadLycanthropy()
-                    ))
+                    Optional.of(
+                        WereCombatStats(
+                            data.getKilledSheep(),
+                            data.getKilledWolves(),
+                            data.hasKilledHornedOne(),
+                            data.getAirSlayMonster(),
+                            data.getNightHowl(),
+                            data.getWolfPack(),
+                            data.getPigmenKilled(),
+                            data.hasSpreadLycanthropy()
+                        )
+                    )
                 } else Optional.empty(),
 
                 wereFormStates = if (AfflictionPlayerAttachment.SyncField.WERE_FORM_STATES in changedFields) {
-                    Optional.of(WereFormStates(
-                        data.isWolfManForm(),
-                        data.isWolfForm(),
-                        data.getLycanSource(),
-                        data.hasGivenGold()
-                    ))
+                    Optional.of(
+                        WereFormStates(
+                            data.isWolfManForm(),
+                            data.isWolfForm(),
+                            data.getLycanSource(),
+                            data.hasGivenGold()
+                        )
+                    )
                 } else Optional.empty()
             )
         }
@@ -295,7 +302,8 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
                         Codec.INT
                     ).optionalFieldOf("afflictionLevels").forGetter { it.afflictionLevels },
                     Codec.INT.optionalFieldOf("abilityIndex").forGetter { it.abilityIndex },
-                    Codec.unboundedMap(Codec.STRING, Codec.INT).optionalFieldOf("abilityCooldowns").forGetter { it.abilityCooldowns },
+                    Codec.unboundedMap(Codec.STRING, Codec.INT).optionalFieldOf("abilityCooldowns")
+                        .forGetter { it.abilityCooldowns },
                     VampCombatStats.CODEC.optionalFieldOf("vampCombatStats").forGetter { it.vampCombatStats },
                     VampFormStates.CODEC.optionalFieldOf("vampFormStates").forGetter { it.vampFormStates },
                     VampVillageData.CODEC.optionalFieldOf("vampVillageData").forGetter { it.vampVillageData },

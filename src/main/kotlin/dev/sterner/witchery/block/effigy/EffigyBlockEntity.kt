@@ -20,7 +20,6 @@ import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 
 
@@ -45,7 +44,12 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             if (state != EffigyState.IDLE) {
                 val newMatch =
-                    FetishEffectReloadListener.findMatchingEffect(spiritCount, bansheeCount, specterCount, poltergeistCount)
+                    FetishEffectReloadListener.findMatchingEffect(
+                        spiritCount,
+                        bansheeCount,
+                        specterCount,
+                        poltergeistCount
+                    )
                 if (newMatch != matchedEffect) {
                     matchedEffect = newMatch
                     effect = matchedEffect?.let { FetishEffectReloadListener.getEffect(it) }

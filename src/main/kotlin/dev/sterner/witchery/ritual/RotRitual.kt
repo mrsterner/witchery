@@ -17,12 +17,7 @@ import net.minecraft.world.entity.animal.Pig
 import net.minecraft.world.entity.animal.horse.Horse
 import net.minecraft.world.entity.animal.horse.ZombieHorse
 import net.minecraft.world.entity.item.ItemEntity
-import net.minecraft.world.entity.monster.Skeleton
-import net.minecraft.world.entity.monster.WitherSkeleton
-import net.minecraft.world.entity.monster.Zoglin
-import net.minecraft.world.entity.monster.Zombie
-import net.minecraft.world.entity.monster.ZombieVillager
-import net.minecraft.world.entity.monster.ZombifiedPiglin
+import net.minecraft.world.entity.monster.*
 import net.minecraft.world.entity.monster.hoglin.Hoglin
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.item.ItemStack
@@ -144,7 +139,8 @@ class RotRitual : Ritual("rot") {
             is Horse,
             is Zoglin,
             is Skeleton
-            -> true
+                -> true
+
             else -> false
         }
     }
@@ -167,29 +163,54 @@ class RotRitual : Ritual("rot") {
                 zombieVillager.villagerXp = entity.villagerXp
                 zombieVillager
             }
+
             is Pig -> {
                 val zombiePig = ZombifiedPiglin(EntityType.ZOMBIFIED_PIGLIN, level)
-                zombiePig.finalizeSpawn(level as ServerLevel, level.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.CONVERSION, null)
+                zombiePig.finalizeSpawn(
+                    level as ServerLevel,
+                    level.getCurrentDifficultyAt(entity.blockPosition()),
+                    MobSpawnType.CONVERSION,
+                    null
+                )
                 zombiePig
             }
+
             is Horse -> {
                 val zombieHorse = ZombieHorse(EntityType.ZOMBIE_HORSE, level)
-                zombieHorse.finalizeSpawn(level as ServerLevel, level.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.CONVERSION, null)
+                zombieHorse.finalizeSpawn(
+                    level as ServerLevel,
+                    level.getCurrentDifficultyAt(entity.blockPosition()),
+                    MobSpawnType.CONVERSION,
+                    null
+                )
 
                 zombieHorse.yRot = entity.yRot
                 zombieHorse.xRot = entity.xRot
                 zombieHorse
             }
+
             is Hoglin -> {
                 val zoglin = Zoglin(EntityType.ZOGLIN, level)
-                zoglin.finalizeSpawn(level as ServerLevel, level.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.CONVERSION, null)
+                zoglin.finalizeSpawn(
+                    level as ServerLevel,
+                    level.getCurrentDifficultyAt(entity.blockPosition()),
+                    MobSpawnType.CONVERSION,
+                    null
+                )
                 zoglin
             }
+
             is Skeleton -> {
                 val witherSkeleton = WitherSkeleton(EntityType.WITHER_SKELETON, level)
-                witherSkeleton.finalizeSpawn(level as ServerLevel, level.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.CONVERSION, null)
+                witherSkeleton.finalizeSpawn(
+                    level as ServerLevel,
+                    level.getCurrentDifficultyAt(entity.blockPosition()),
+                    MobSpawnType.CONVERSION,
+                    null
+                )
                 witherSkeleton
             }
+
             else -> null
         }
 
@@ -235,7 +256,14 @@ class RotRitual : Ritual("rot") {
             itemEntity.remove(Entity.RemovalReason.DISCARDED)
             level.addFreshEntity(newItemEntity)
 
-            level.playSound(null, itemEntity.blockPosition(), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.BLOCKS, 0.5f, 0.8f)
+            level.playSound(
+                null,
+                itemEntity.blockPosition(),
+                SoundEvents.CHORUS_FRUIT_TELEPORT,
+                SoundSource.BLOCKS,
+                0.5f,
+                0.8f
+            )
             spawnCompletionParticles(level, newItemEntity)
         }
     }
@@ -298,7 +326,7 @@ class RotRitual : Ritual("rot") {
             val z = box.minZ + random.nextDouble() * (box.maxZ - box.minZ)
 
             level.addParticle(
-                ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, Color(145,80,40).rgb),
+                ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, Color(145, 80, 40).rgb),
                 x, y, z,
                 0.3, 0.1, 0.1
             )
@@ -312,7 +340,7 @@ class RotRitual : Ritual("rot") {
 
         for (i in 0 until 5) {
             level.addParticle(
-                ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, Color(145,80,40).rgb),
+                ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, Color(145, 80, 40).rgb),
                 pos.x + random.nextDouble(),
                 pos.y + random.nextDouble(),
                 pos.z + random.nextDouble(),

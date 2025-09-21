@@ -5,7 +5,6 @@ import dev.sterner.witchery.data_attachment.AltarLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.Level
-import kotlin.collections.minByOrNull
 import kotlin.math.pow
 import kotlin.math.sqrt
 

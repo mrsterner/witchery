@@ -37,7 +37,7 @@ class CoffinModel(root: ModelPart) :
             val bone =
                 partdefinition.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.offset(1.0f, 14.0f, -22.0f))
 
-            val top = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "top",
                 CubeListBuilder.create().texOffs(0, 35)
                     .addBox(0.0f, -1.0f, -15.0f, 14.0f, 1.0f, 30.0f, CubeDeformation(0.0f))
@@ -66,7 +66,7 @@ class CoffinModel(root: ModelPart) :
                 PartPose.offset(7.0f, 2.0f, -2.0f)
             )
 
-            val detailsNorth = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "detailsNorth",
                 CubeListBuilder.create().texOffs(0, 15).mirror()
                     .addBox(-14.5f, -3.0f, 6.5f, 13.0f, 2.0f, 1.0f, CubeDeformation(0.0f)).mirror(false)
@@ -81,7 +81,7 @@ class CoffinModel(root: ModelPart) :
                 PartPose.offset(0.0f, 5.0f, -6.0f)
             )
 
-            val detailsSouth = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "detailsSouth",
                 CubeListBuilder.create().texOffs(0, 15)
                     .addBox(-14.5f, -3.0f, 6.5f, 13.0f, 2.0f, 1.0f, CubeDeformation(0.0f))
@@ -95,7 +95,7 @@ class CoffinModel(root: ModelPart) :
                 PartPose.offset(0.0f, 5.0f, 24.0f)
             )
 
-            val detailWest = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "detailWest",
                 CubeListBuilder.create().texOffs(16, 36)
                     .addBox(-1.5f, -7.0f, 7.5f, 1.0f, 1.0f, 29.0f, CubeDeformation(0.0f))
@@ -109,7 +109,7 @@ class CoffinModel(root: ModelPart) :
                 PartPose.offset(0.0f, 5.0f, -6.0f)
             )
 
-            val detailEast = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "detailEast",
                 CubeListBuilder.create().texOffs(16, 36)
                     .addBox(-1.5f, -7.0f, 7.5f, 1.0f, 1.0f, 29.0f, CubeDeformation(0.0f))

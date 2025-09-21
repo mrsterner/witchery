@@ -19,6 +19,7 @@ class DeathEntityRenderer(var context: EntityRendererProvider.Context) :
     init {
         this.addLayer(ItemInHandLayer<DeathEntity, DeathEntityModel>(this, context.itemInHandRenderer))
     }
+
     override fun render(
         entity: DeathEntity,
         entityYaw: Float,

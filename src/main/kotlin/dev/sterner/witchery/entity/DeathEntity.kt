@@ -2,7 +2,6 @@ package dev.sterner.witchery.entity
 
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.client.model.PiglinModel
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -20,10 +19,8 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.monster.Monster
-import net.minecraft.world.entity.monster.piglin.PiglinBruteAi
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.ServerLevelAccessor
 import kotlin.math.cos
@@ -88,7 +85,7 @@ class DeathEntity(level: Level) : Monster(WitcheryEntityTypes.DEATH.get(), level
             val z = target.z + sin(angle) * distance
 
             val y = target.y + random.nextDouble() * 2.0 - 1.0
-            
+
             if (teleportDeathTo(x, y, z)) {
                 level().playSound(null, xo, yo, zo, SoundEvents.ENDERMAN_TELEPORT, SoundSource.HOSTILE, 1.0f, 1.0f)
                 level().playSound(null, x, y, z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.HOSTILE, 1.0f, 1.0f)

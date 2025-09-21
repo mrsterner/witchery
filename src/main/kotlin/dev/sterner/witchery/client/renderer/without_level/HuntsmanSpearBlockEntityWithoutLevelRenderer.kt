@@ -2,7 +2,6 @@ package dev.sterner.witchery.client.renderer.without_level
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.BroomEntityModel
 import dev.sterner.witchery.client.model.HuntsmanSpearModel
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer

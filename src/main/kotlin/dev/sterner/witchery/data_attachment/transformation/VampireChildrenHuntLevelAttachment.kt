@@ -4,30 +4,22 @@ import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.VampireEntity
-import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.phys.AABB
 import java.util.*
-import java.util.stream.Stream
 
 object VampireChildrenHuntLevelAttachment {
 
     @JvmStatic
-    fun getData(level: ServerLevel): VampireChildrenHuntLevelAttachment.Data {
+    fun getData(level: ServerLevel): Data {
         return level.getData(WitcheryDataAttachments.VAMPIRE_HUNT_LEVEL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(level: ServerLevel, data: VampireChildrenHuntLevelAttachment.Data) {
+    fun setData(level: ServerLevel, data: Data) {
         level.setData(WitcheryDataAttachments.VAMPIRE_HUNT_LEVEL_DATA_ATTACHMENT, data)
     }
 

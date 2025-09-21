@@ -56,7 +56,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                         result
                     )
                 }
-                
+
                 potionContentList?.let {
                     val color = potionContentList.last().color
                     color.let { level().levelEvent(2002, this.blockPosition(), it) }
@@ -76,7 +76,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         val baseDuration = areaEffectCloud.duration
         val lingeringModifier = potionContentList.maxOfOrNull { it.dispersalModifier.lingeringDurationModifier } ?: 1
         areaEffectCloud.duration = baseDuration * lingeringModifier
-        
+
         areaEffectCloud.radiusPerTick = -areaEffectCloud.radius / areaEffectCloud.duration.toFloat()
         areaEffectCloud.setPotionContents(potionContentList)
         level().addFreshEntity(areaEffectCloud)
@@ -137,7 +137,8 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                     val amplifier = globalModifier.powerAddition
 
                     if (potionContent.specialEffect.isPresent) {
-                        val special = WitcherySpecialPotionEffects.SPECIALS.registry.get().get(potionContent.specialEffect.get())
+                        val special =
+                            WitcherySpecialPotionEffects.SPECIALS.registry.get().get(potionContent.specialEffect.get())
                         special?.onActivated(
                             level(),
                             owner,

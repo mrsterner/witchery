@@ -33,7 +33,7 @@ class HunterArmorModel(val root: ModelPart) : HumanoidArmorModel<LivingEntity>(r
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val Plume_r1 = Head.addOrReplaceChild(
+            Head.addOrReplaceChild(
                 "Plume_r1",
                 CubeListBuilder.create().texOffs(46, 39)
                     .addBox(-5.5f, -14.0f, 0.0f, 1.0f, 10.0f, 12.0f, CubeDeformation(0.0f)),
@@ -48,7 +48,7 @@ class HunterArmorModel(val root: ModelPart) : HumanoidArmorModel<LivingEntity>(r
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val Stakes_r1 = Body.addOrReplaceChild(
+            Body.addOrReplaceChild(
                 "Stakes_r1",
                 CubeListBuilder.create().texOffs(40, 8)
                     .addBox(-8.5f, 2.0f, -3.5f, 3.0f, 4.0f, 1.0f, CubeDeformation(0.0f))
@@ -66,14 +66,14 @@ class HunterArmorModel(val root: ModelPart) : HumanoidArmorModel<LivingEntity>(r
                 CubeListBuilder.create(), PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f)
             )
 
-            val CoatTail = Body.addOrReplaceChild(
+            Body.addOrReplaceChild(
                 "CoatTail",
                 CubeListBuilder.create().texOffs(0, 32)
                     .addBox(-4.0f, 0.0f, 0.5f, 8.0f, 10.0f, 4.0f, CubeDeformation(0.4f)),
                 PartPose.offset(0.0f, 12.5f, -2.5f)
             )
 
-            val RightArm = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "right_arm",
                 CubeListBuilder.create().texOffs(24, 16)
                     .addBox(-3.0f, -2.0f, -2.0f, 4.0f, 12.0f, 4.0f, CubeDeformation(0.3f))
@@ -82,14 +82,14 @@ class HunterArmorModel(val root: ModelPart) : HumanoidArmorModel<LivingEntity>(r
                 PartPose.offset(-5.0f, 2.0f, 0.0f)
             )
 
-            val LeftArm = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "left_arm",
                 CubeListBuilder.create().texOffs(24, 16).mirror()
                     .addBox(-1.0f, -2.0f, -2.0f, 4.0f, 12.0f, 4.0f, CubeDeformation(0.3f)).mirror(false),
                 PartPose.offset(5.0f, 2.0f, 0.0f)
             )
 
-            val RightLeg = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "right_leg",
                 CubeListBuilder.create().texOffs(40, 16)
                     .addBox(-2.0f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, CubeDeformation(0.255f))
@@ -97,7 +97,7 @@ class HunterArmorModel(val root: ModelPart) : HumanoidArmorModel<LivingEntity>(r
                 PartPose.offset(-1.9f, 12.0f, 0.0f)
             )
 
-            val LeftLeg = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "left_leg",
                 CubeListBuilder.create().texOffs(40, 16).mirror()
                     .addBox(-2.0f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, CubeDeformation(0.255f)).mirror(false)

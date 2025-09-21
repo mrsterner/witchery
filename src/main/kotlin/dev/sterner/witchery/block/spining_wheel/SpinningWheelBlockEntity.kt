@@ -2,7 +2,6 @@ package dev.sterner.witchery.block.spining_wheel
 
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
-
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.menu.SpinningWheelMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
@@ -23,11 +22,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Mth
-import net.minecraft.world.Container
-import net.minecraft.world.ContainerHelper
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.MenuProvider
-import net.minecraft.world.WorldlyContainer
+import net.minecraft.world.*
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
@@ -181,8 +176,10 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             items[SLOT_EXTRA_INPUT_3]
         ).filter { !it.isEmpty }
 
-        val sortedInputItems = inputItems.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
-        val sortedInputStacks = inputStacks.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
+        val sortedInputItems =
+            inputItems.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
+        val sortedInputStacks =
+            inputStacks.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
 
         sortedInputItems.zip(sortedInputStacks).forEach { (inputItem, inputStack) ->
             inputStack.shrink(inputItem.count)
@@ -226,8 +223,10 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             items[SLOT_EXTRA_INPUT_3]
         ).filter { !it.isEmpty }
 
-        val sortedInputItems = inputItems.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
-        val sortedInputStacks = inputStacks.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
+        val sortedInputItems =
+            inputItems.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
+        val sortedInputStacks =
+            inputStacks.sortedBy { it.item.builtInRegistryHolder().unwrapKey().map { l -> l.location() }.toString() }
 
         return sortedInputItems.zip(sortedInputStacks).all { (inputItem, inputStack) ->
             ItemStack.isSameItem(inputItem, inputStack)

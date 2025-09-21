@@ -149,7 +149,8 @@ class RitualRecipe(
             { obj: Char? -> java.lang.String.valueOf(obj) })
 
         fun fromNbt(tag: CompoundTag, registries: HolderLookup.Provider): RitualRecipe {
-            val ritualType = WitcheryRitualRegistry.RITUALS.registry.get().get(ResourceLocation.tryParse(tag.getString("id")))
+            val ritualType =
+                WitcheryRitualRegistry.RITUALS.registry.get().get(ResourceLocation.tryParse(tag.getString("id")))
 
             val inputItems = if (tag.contains("inputItems")) {
                 tag.getList("inputItems", 10).map { ItemStack.parse(registries, it as CompoundTag).get() }

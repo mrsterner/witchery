@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.Block
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import net.neoforged.neoforge.common.data.JsonCodecProvider
 import java.util.concurrent.CompletableFuture
-import java.util.function.BiConsumer
 
 class WitcheryNatureBlockTagProvider(
     output: PackOutput,

@@ -16,7 +16,6 @@ object BloodPoolHandler {
     private var ticker = 0
 
 
-
     fun tick(player: Player?) {
 
         if (player != null && player.level() is ServerLevel) {
@@ -33,9 +32,12 @@ object BloodPoolHandler {
                                 BloodPoolReloadListener.BLOOD_PAIR.contains(it.type)
                     }
                     for (entity in entities) {
-                        BloodPoolLivingEntityAttachment.sync(entity as LivingEntity,  BloodPoolLivingEntityAttachment.getData(entity))
+                        BloodPoolLivingEntityAttachment.sync(
+                            entity as LivingEntity,
+                            BloodPoolLivingEntityAttachment.getData(entity)
+                        )
                     }
-                    BloodPoolLivingEntityAttachment.sync(player,  BloodPoolLivingEntityAttachment.getData(player))
+                    BloodPoolLivingEntityAttachment.sync(player, BloodPoolLivingEntityAttachment.getData(player))
                 }
             }
         }
@@ -43,7 +45,7 @@ object BloodPoolHandler {
 
     fun setBloodOnAdded(entity: Entity?, level: Level?) {
         if (entity is LivingEntity) {
-            val data =  BloodPoolLivingEntityAttachment.getData(entity)
+            val data = BloodPoolLivingEntityAttachment.getData(entity)
             val bloodJson = BloodPoolReloadListener.BLOOD_PAIR
             if (data.maxBlood == 0 && data.bloodPool == 0) {
                 val entityType = entity.type
@@ -63,7 +65,7 @@ object BloodPoolHandler {
             return
         }
         if (BloodPoolReloadListener.BLOOD_PAIR.contains(livingEntity.type)) {
-            val bloodData =  BloodPoolLivingEntityAttachment.getData(livingEntity)
+            val bloodData = BloodPoolLivingEntityAttachment.getData(livingEntity)
             if (bloodData.bloodPool < bloodData.maxBlood && bloodData.maxBlood > 0) {
                 if (livingEntity.tickCount % 1000 == 0) {
                     val bloodPool = BloodPoolReloadListener.BLOOD_PAIR[livingEntity.type]
@@ -75,7 +77,7 @@ object BloodPoolHandler {
 
     @JvmStatic
     fun increaseBlood(livingEntity: LivingEntity, amount: Int) {
-        val data =  BloodPoolLivingEntityAttachment.getData(livingEntity)
+        val data = BloodPoolLivingEntityAttachment.getData(livingEntity)
         val maxBlood = data.maxBlood
         val newBloodPool = (data.bloodPool + amount).coerceAtMost(maxBlood)
         BloodPoolLivingEntityAttachment.setData(livingEntity, data.copy(bloodPool = newBloodPool))
@@ -89,7 +91,7 @@ object BloodPoolHandler {
 
     @JvmStatic
     fun decreaseBlood(livingEntity: LivingEntity, amount: Int) {
-        val data =  BloodPoolLivingEntityAttachment.getData(livingEntity)
+        val data = BloodPoolLivingEntityAttachment.getData(livingEntity)
         val newBloodPool = (data.bloodPool - amount).coerceAtLeast(0)
         BloodPoolLivingEntityAttachment.setData(livingEntity, data.copy(bloodPool = newBloodPool))
     }

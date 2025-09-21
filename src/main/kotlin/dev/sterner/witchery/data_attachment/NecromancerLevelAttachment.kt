@@ -12,12 +12,12 @@ import net.minecraft.world.entity.EntityType
 
 object NecromancerLevelAttachment {
     @JvmStatic
-    fun getData(level: ServerLevel): NecromancerLevelAttachment.NecroList {
+    fun getData(level: ServerLevel): NecroList {
         return level.getData(WitcheryDataAttachments.NECRO_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(level: ServerLevel, data: NecromancerLevelAttachment.NecroList) {
+    fun setData(level: ServerLevel, data: NecroList) {
         level.setData(WitcheryDataAttachments.NECRO_DATA_ATTACHMENT, data)
     }
 

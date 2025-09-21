@@ -33,7 +33,6 @@ object LichdomSpecificEventHandler {
     private const val SOUL_SEPARATION_DURATION = 20 * 30
 
 
-
     @JvmStatic
     fun tick(player: Player?) {
         if (player !is ServerPlayer) return
@@ -56,14 +55,21 @@ object LichdomSpecificEventHandler {
             val data = AfflictionPlayerAttachment.getData(player)
 
             if (data.isPhylacteryBound()) {
-                val phylacteryPos = PhylacteryLevelDataAttachment.listPhylacteriesForPlayer(player.level() as ServerLevel, player.uuid)
+                val phylacteryPos =
+                    PhylacteryLevelDataAttachment.listPhylacteriesForPlayer(player.level() as ServerLevel, player.uuid)
                 for (phy in phylacteryPos) {
 
                     val canSeeSky = player.level().canSeeSky(phy.pos)
 
                     if (!canSeeSky) {
                         player.addEffect(MobEffectInstance(MobEffects.DIG_SLOWDOWN, PHYLACTERY_SKYLIGHT_CHECK_RATE, 1))
-                        player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, PHYLACTERY_SKYLIGHT_CHECK_RATE, 0))
+                        player.addEffect(
+                            MobEffectInstance(
+                                MobEffects.MOVEMENT_SLOWDOWN,
+                                PHYLACTERY_SKYLIGHT_CHECK_RATE,
+                                0
+                            )
+                        )
                     }
                 }
 

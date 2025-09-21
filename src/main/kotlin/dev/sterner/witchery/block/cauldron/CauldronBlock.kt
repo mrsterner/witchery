@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import net.minecraft.world.level.material.Fluid
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
@@ -66,7 +65,7 @@ open class CauldronBlock(properties: Properties) :
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         val be = level.getBlockEntity(pos)
         if (be is CauldronBlockEntity) {
-            if (be.fluidTank.isEmpty()) {
+            if (be.fluidTank.isEmpty) {
                 return Shapes.block()
             }
         }
@@ -93,7 +92,7 @@ open class CauldronBlock(properties: Properties) :
     ) {
         if (shouldHandlePrecipitation(level, precipitation) && !level.isClientSide) {
             level.getBlockEntity(pos, WitcheryBlockEntityTypes.CAULDRON.get()).ifPresent { cauldron ->
-                giveFluid( cauldron)
+                giveFluid(cauldron)
             }
         }
     }

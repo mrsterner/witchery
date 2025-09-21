@@ -43,7 +43,7 @@ class CoffinBlockEntityRenderer(private val ctx: BlockEntityRendererProvider.Con
 
             val vertexConsumer =
                 bufferSource.getBuffer(RenderType.entityCutout(Witchery.id("textures/block/coffin.png")))
-            
+
             renderCoffin(poseStack, vertexConsumer, blockEntity, packedLight, packedOverlay, state)
 
             poseStack.popPose()

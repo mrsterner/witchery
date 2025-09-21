@@ -85,7 +85,7 @@ class BansheeEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, -3.0f, -4.0f, 0.1745f, 0.0f, 0.0f)
             )
 
-            val cube_r1 = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(70, 43)
                     .addBox(-5.0f, 0.0f, 0.0f, 10.0f, 13.0f, 8.0f, CubeDeformation(0.01f)),
@@ -108,7 +108,7 @@ class BansheeEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, 0.0f, -3.0f, -0.2618f, 0.0f, 0.0f)
             )
 
-            val jaw = headMain.addOrReplaceChild(
+            headMain.addOrReplaceChild(
                 "jaw",
                 CubeListBuilder.create().texOffs(24, 10)
                     .addBox(-4.0f, 0.0f, -8.0f, 8.0f, 2.0f, 8.0f, CubeDeformation(0.0f))
@@ -116,14 +116,14 @@ class BansheeEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, 1.0f, 0.0f, 1.1781f, 0.0f, 0.0f)
             )
 
-            val rArm = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "rArm",
                 CubeListBuilder.create().texOffs(64, 30)
                     .addBox(-3.0f, -2.0f, -2.0f, 3.0f, 17.0f, 4.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-4.0f, 5.0f, 3.0f, -0.6981f, 0.8727f, 0.0f)
             )
 
-            val lArm = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "lArm",
                 CubeListBuilder.create().texOffs(64, 30)
                     .addBox(0.0f, -2.0f, -2.0f, 3.0f, 17.0f, 4.0f, CubeDeformation(0.0f)),

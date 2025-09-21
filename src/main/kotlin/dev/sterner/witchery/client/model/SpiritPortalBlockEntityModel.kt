@@ -47,7 +47,7 @@ class SpiritPortalBlockEntityModel(root: ModelPart) :
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
 
-            val lDoor = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "lDoor",
                 CubeListBuilder.create().texOffs(70, 39)
                     .addBox(0.0f, -32.0f, -1.0f, 16.0f, 32.0f, 3.0f, CubeDeformation(0.0f))
@@ -62,14 +62,14 @@ class SpiritPortalBlockEntityModel(root: ModelPart) :
                 PartPose.offset(16.0f, 24.0f, 0.0f)
             )
 
-            val cube_r1 = rDoor.addOrReplaceChild(
+            rDoor.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(40, 56)
                     .addBox(-8.0f, -9.0f, -1.0f, 9.0f, 9.0f, 3.0f, CubeDeformation(0.2f)),
                 PartPose.offsetAndRotation(-7.5f, -23.5f, 1.0f, 0.0f, 3.1416f, 0.0f)
             )
 
-            val frame = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "frame",
                 CubeListBuilder.create().texOffs(0, 75)
                     .addBox(-14.0f, -38.0f, 0.0f, 28.0f, 5.0f, 1.0f, CubeDeformation(0.2f))

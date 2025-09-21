@@ -1,7 +1,5 @@
 package dev.sterner.witchery.integration.jei
 
-import com.mojang.blaze3d.platform.Lighting
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
@@ -20,15 +18,10 @@ import mezz.jei.api.recipe.RecipeType
 import mezz.jei.api.recipe.category.IRecipeCategory
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.screens.inventory.InventoryScreen
-import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.block.Block
-import org.joml.Quaternionf
-import org.joml.Vector3f
 import java.awt.Color
-import kotlin.math.atan
 
 class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<RitualJeiRecipe> {
 
@@ -205,7 +198,7 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
             val entityX = background.width / 2
             val entityY = background.height / 2
 
-            for ((k, entityType) in recipe.recipe.inputEntities.withIndex()) {
+            for ((_, entityType) in recipe.recipe.inputEntities.withIndex()) {
                 val entity = entityType.create(minecraft.level) as? LivingEntity ?: return
 
                 val entityHeight = entity.boundingBox.ysize * 4

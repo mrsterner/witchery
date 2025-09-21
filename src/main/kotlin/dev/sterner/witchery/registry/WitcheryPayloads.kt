@@ -1,13 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.payload.*
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.world.level.Level
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
-import net.neoforged.neoforge.network.PacketDistributor
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
-import net.neoforged.neoforge.network.registration.NetworkChannel
 
 object WitcheryPayloads {
 
@@ -24,19 +18,31 @@ object WitcheryPayloads {
         registrar.playToClient(CauldronPoofS2CPayload.ID, CauldronPoofS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(AltarMultiplierSyncS2CPayload.ID, AltarMultiplierSyncS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            AltarMultiplierSyncS2CPayload.ID,
+            AltarMultiplierSyncS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(MutandisRemenantParticleS2CPayload.ID, MutandisRemenantParticleS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            MutandisRemenantParticleS2CPayload.ID,
+            MutandisRemenantParticleS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
         registrar.playToClient(SyncInfusionS2CPayload.ID, SyncInfusionS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(CauldronEffectParticleS2CPayload.ID, CauldronEffectParticleS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            CauldronEffectParticleS2CPayload.ID,
+            CauldronEffectParticleS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(CauldronPotionBrewParticleS2CPayload.ID, CauldronPotionBrewParticleS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            CauldronPotionBrewParticleS2CPayload.ID,
+            CauldronPotionBrewParticleS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
         registrar.playToClient(SyncLightInfusionS2CPayload.ID, SyncLightInfusionS2CPayload.STREAM_CODEC) { payload, _ ->
@@ -45,19 +51,28 @@ object WitcheryPayloads {
         registrar.playToClient(SyncNightmareS2CPayload.ID, SyncNightmareS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SyncOtherwhereInfusionS2CPayload.ID, SyncOtherwhereInfusionS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SyncOtherwhereInfusionS2CPayload.ID,
+            SyncOtherwhereInfusionS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
         registrar.playToClient(SyncUnderWaterS2CPayload.ID, SyncUnderWaterS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SpawnPoofParticlesS2CPayload.ID, SpawnPoofParticlesS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SpawnPoofParticlesS2CPayload.ID,
+            SpawnPoofParticlesS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
         registrar.playToClient(SyncVoodooDataS2CPayload.ID, SyncVoodooDataS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(OpenLecternGuidebookS2CPayload.ID, OpenLecternGuidebookS2CPayload.STREAM_CODEC) { payload, ctx ->
+        registrar.playToClient(
+            OpenLecternGuidebookS2CPayload.ID,
+            OpenLecternGuidebookS2CPayload.STREAM_CODEC
+        ) { payload, ctx ->
             payload.handleOnClient(ctx)
         }
         registrar.playToClient(SyncMiscS2CPayload.ID, SyncMiscS2CPayload.STREAM_CODEC) { payload, _ ->
@@ -66,7 +81,10 @@ object WitcheryPayloads {
         registrar.playToClient(SyncManifestationS2CPayload.ID, SyncManifestationS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SyncInfernalInfusionS2CPayload.ID, SyncInfernalInfusionS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SyncInfernalInfusionS2CPayload.ID,
+            SyncInfernalInfusionS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
         registrar.playToClient(SyncOwlAbilityS2CPayload.ID, SyncOwlAbilityS2CPayload.STREAM_CODEC) { payload, _ ->
@@ -81,7 +99,10 @@ object WitcheryPayloads {
         registrar.playToClient(SyncAfflictionS2CPayload.ID, SyncAfflictionS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SelectiveSyncAfflictionS2CPayload.ID, SelectiveSyncAfflictionS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SelectiveSyncAfflictionS2CPayload.ID,
+            SelectiveSyncAfflictionS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient(payload)
         }
         registrar.playToClient(SyncEtherealS2CPayload.ID, SyncEtherealS2CPayload.STREAM_CODEC) { payload, _ ->
@@ -99,34 +120,61 @@ object WitcheryPayloads {
         registrar.playToClient(SyncOtherBloodS2CPayload.ID, SyncOtherBloodS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SpawnBloodParticlesS2CPayload.ID, SpawnBloodParticlesS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SpawnBloodParticlesS2CPayload.ID,
+            SpawnBloodParticlesS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SpawnItemParticlesS2CPayload.ID, SpawnItemParticlesS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SpawnItemParticlesS2CPayload.ID,
+            SpawnItemParticlesS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SpawnTransfixParticlesS2CPayload.ID, SpawnTransfixParticlesS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SpawnTransfixParticlesS2CPayload.ID,
+            SpawnTransfixParticlesS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SpawnSmokeParticlesS2CPayload.ID, SpawnSmokeParticlesS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SpawnSmokeParticlesS2CPayload.ID,
+            SpawnSmokeParticlesS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SpawnNecroParticlesS2CPayload.ID, SpawnNecroParticlesS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SpawnNecroParticlesS2CPayload.ID,
+            SpawnNecroParticlesS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(RefreshDimensionsS2CPayload.ID, RefreshDimensionsS2CPayload.STREAM_CODEC) { payload, ctx ->
+        registrar.playToClient(
+            RefreshDimensionsS2CPayload.ID,
+            RefreshDimensionsS2CPayload.STREAM_CODEC
+        ) { payload, ctx ->
             payload.handleOnClient(ctx)
         }
-        registrar.playToClient(SpawnSmokePoofParticlesS2CPayload.ID, SpawnSmokePoofParticlesS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SpawnSmokePoofParticlesS2CPayload.ID,
+            SpawnSmokePoofParticlesS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SyncTransformationS2CPayload.ID, SyncTransformationS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SyncTransformationS2CPayload.ID,
+            SyncTransformationS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
         registrar.playToClient(SyncBarkS2CPayload.ID, SyncBarkS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SpawnSleepingDeathParticleS2CPayload.ID, SpawnSleepingDeathParticleS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SpawnSleepingDeathParticleS2CPayload.ID,
+            SpawnSleepingDeathParticleS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
             payload.handleOnClient()
         }
 
@@ -134,16 +182,28 @@ object WitcheryPayloads {
         registrar.playToServer(DismountBroomC2SPayload.ID, DismountBroomC2SPayload.STREAM_CODEC) { payload, ctx ->
             payload.handleOnServer(ctx)
         }
-        registrar.playToServer(AfflictionAbilitySelectionC2SPayload.ID, AfflictionAbilitySelectionC2SPayload.STREAM_CODEC) { payload, ctx ->
+        registrar.playToServer(
+            AfflictionAbilitySelectionC2SPayload.ID,
+            AfflictionAbilitySelectionC2SPayload.STREAM_CODEC
+        ) { payload, ctx ->
             payload.handleOnServer(ctx)
         }
-        registrar.playToServer(AfflictionAbilityUseC2SPayload.ID, AfflictionAbilityUseC2SPayload.STREAM_CODEC) { payload, ctx ->
+        registrar.playToServer(
+            AfflictionAbilityUseC2SPayload.ID,
+            AfflictionAbilityUseC2SPayload.STREAM_CODEC
+        ) { payload, ctx ->
             payload.handleOnServer(ctx)
         }
-        registrar.playToServer(GrantWitcheryAdvancementsC2SPayload.ID, GrantWitcheryAdvancementsC2SPayload.STREAM_CODEC) { payload, ctx ->
+        registrar.playToServer(
+            GrantWitcheryAdvancementsC2SPayload.ID,
+            GrantWitcheryAdvancementsC2SPayload.STREAM_CODEC
+        ) { payload, ctx ->
             payload.handleOnServer(ctx)
         }
-        registrar.playToServer(UpdateSelectedAbilitiesC2SPayload.ID, UpdateSelectedAbilitiesC2SPayload.STREAM_CODEC) { payload, ctx ->
+        registrar.playToServer(
+            UpdateSelectedAbilitiesC2SPayload.ID,
+            UpdateSelectedAbilitiesC2SPayload.STREAM_CODEC
+        ) { payload, ctx ->
             payload.handleOnServer(ctx)
         }
     }

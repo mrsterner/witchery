@@ -67,7 +67,7 @@ class NightmareEntityModel(root: ModelPart) : EntityModel<NightmareEntity>() {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
 
-            val head = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "head",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-4.0f, -8.0f, -4.0f, 8.0f, 8.0f, 8.0f, CubeDeformation(0.0f))
@@ -76,21 +76,21 @@ class NightmareEntityModel(root: ModelPart) : EntityModel<NightmareEntity>() {
                 PartPose.offset(0.0f, 4.0f, 0.0f)
             )
 
-            val rightArm = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "rightArm",
                 CubeListBuilder.create().texOffs(28, 16)
                     .addBox(-2.0f, -1.0f, -1.0f, 2.0f, 15.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offset(-4.0f, 5.0f, 0.0f)
             )
 
-            val leftArm = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "leftArm",
                 CubeListBuilder.create().texOffs(20, 16)
                     .addBox(0.0f, -1.0f, -1.0f, 2.0f, 15.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offset(4.0f, 5.0f, 0.0f)
             )
 
-            val body = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "body",
                 CubeListBuilder.create().texOffs(0, 30)
                     .addBox(-4.0f, 12.0f, 0.0f, 8.0f, 7.0f, 0.0f, CubeDeformation(0.0f))

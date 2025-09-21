@@ -14,13 +14,17 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 
 
 object EquipmentHandler {
 
-    fun babaYagaHit(event: LivingIncomingDamageEvent, livingEntity: LivingEntity?, damageSource: DamageSource?, fl: Float) {
+    fun babaYagaHit(
+        event: LivingIncomingDamageEvent,
+        livingEntity: LivingEntity?,
+        damageSource: DamageSource?,
+        fl: Float
+    ) {
         if (livingEntity is Player && livingEntity.getItemBySlot(EquipmentSlot.HEAD)
                 .`is`(WitcheryItems.BABA_YAGAS_HAT.get())
         ) {
@@ -32,9 +36,9 @@ object EquipmentHandler {
 
                         level.playSound(
                             null,
-                            livingEntity.getX(),
-                            livingEntity.getY(),
-                            livingEntity.getZ(),
+                            livingEntity.x,
+                            livingEntity.y,
+                            livingEntity.z,
                             SoundEvents.CHORUS_FRUIT_TELEPORT,
                             SoundSource.PLAYERS,
                             0.5f, 1f

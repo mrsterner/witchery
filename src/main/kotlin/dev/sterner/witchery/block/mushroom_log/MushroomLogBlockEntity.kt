@@ -8,6 +8,7 @@ import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtOps
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -22,10 +23,14 @@ import net.minecraft.world.level.LightLayer
 import net.minecraft.world.level.block.state.BlockState
 import java.util.*
 import kotlin.math.min
-import net.minecraft.nbt.NbtOps
 
 class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    MultiBlockCoreEntity(WitcheryBlockEntityTypes.MUSHROOM_LOG.get(), MushroomLogBlock.STRUCTURE.get(), blockPos, blockState) {
+    MultiBlockCoreEntity(
+        WitcheryBlockEntityTypes.MUSHROOM_LOG.get(),
+        MushroomLogBlock.STRUCTURE.get(),
+        blockPos,
+        blockState
+    ) {
 
     var currentMushroom: ItemStack = ItemStack.EMPTY
 
@@ -39,7 +44,7 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private val harvestAmount = 1
 
     data class MushroomData(
-        val xOffset: Float, 
+        val xOffset: Float,
         val zOffset: Float,
         val rotation: Float,
         var scale: Float,
@@ -59,24 +64,24 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
         }
     }
-    
+
     /**
      * Set the mushroom type and reset growth
      */
     fun setMushroom(mushroom: ItemStack) {
-        val shouldGeneratePositions = currentMushroom.isEmpty || 
+        val shouldGeneratePositions = currentMushroom.isEmpty ||
                 currentMushroom.item != mushroom.item ||
                 mushroomPositions.isEmpty()
-                
+
         currentMushroom = mushroom.copy()
         growthStage = 0.0f
-        
+
         if (shouldGeneratePositions) {
             generateMushroomPositions()
         } else {
             mushroomPositions.forEach { it.scale = 0f }
         }
-        
+
         setChanged()
     }
 
@@ -88,10 +93,22 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (level != null) {
             if (pPlayer.mainHandItem.isEmpty) {
                 harvest(level!!, blockPos)?.let {
-                    Containers.dropItemStack(level!!, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), it)
+                    Containers.dropItemStack(
+                        level!!,
+                        blockPos.x.toDouble(),
+                        blockPos.y.toDouble(),
+                        blockPos.z.toDouble(),
+                        it
+                    )
                 }
             } else if (pStack.`is`(WitcheryTags.MUSHROOMS)) {
-                Containers.dropItemStack(level!!, blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), currentMushroom.copy())
+                Containers.dropItemStack(
+                    level!!,
+                    blockPos.x.toDouble(),
+                    blockPos.y.toDouble(),
+                    blockPos.z.toDouble(),
+                    currentMushroom.copy()
+                )
                 setMushroom(pStack)
                 pPlayer.mainHandItem.shrink(1)
                 pPlayer.swing(pHand)
@@ -107,7 +124,7 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      */
     private fun generateMushroomPositions() {
         val seed = blockPos.asLong() +
-                if(currentMushroom.isEmpty) 0 else currentMushroom.item.descriptionId.hashCode().toLong()
+                if (currentMushroom.isEmpty) 0 else currentMushroom.item.descriptionId.hashCode().toLong()
         random.setSeed(seed)
 
         mushroomPositions.clear()
@@ -176,7 +193,7 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
         }
     }
-    
+
     /**
      * Check if the mushroom can grow based on environmental conditions
      */
@@ -188,7 +205,7 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         return random.nextFloat() < (1.0f - lightLevel / 15.0f) * (if (isRaining) 1.5f else 1.0f)
     }
-    
+
     /**
      * Harvest mushrooms when player right-clicks
      */
@@ -210,10 +227,10 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             0.8f,
             0.8f + level.random.nextFloat() * 0.4f
         )
-        
+
         return harvestedMushroom
     }
-    
+
     /**
      * Get mushroom positions with current scales based on growth
      */
@@ -221,15 +238,15 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (!currentMushroom.isEmpty && mushroomPositions.isEmpty()) {
             generateMushroomPositions()
         }
-        
+
         mushroomPositions.forEach { data ->
             val actualGrowth = maxOf(0f, growthStage - data.growthOffset)
             data.scale = actualGrowth * data.targetScale
         }
-        
+
         return mushroomPositions
     }
-    
+
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         super.saveAdditional(tag, registries)
         if (!currentMushroom.isEmpty) {
@@ -241,29 +258,29 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val mushroomPositionsNbt = MushroomData.CODEC.listOf()
             .encodeStart(NbtOps.INSTANCE, mushroomPositions)
             .getOrThrow()
-    
+
         tag.put("mushroomPositions", mushroomPositionsNbt)
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
         super.loadAdditional(pTag, pRegistries)
-    
+
         if (pTag.contains("currentMushroom", 10)) {
             val itemTag = pTag.getCompound("currentMushroom")
             currentMushroom = ItemStack.parse(pRegistries, itemTag).orElse(ItemStack.EMPTY)
         }
-    
+
         growthStage = pTag.getFloat("growthStage")
 
         if (pTag.contains("mushroomPositions")) {
             val result = MushroomData.CODEC.listOf()
                 .parse(NbtOps.INSTANCE, pTag.get("mushroomPositions"))
                 .getOrThrow()
-        
+
             mushroomPositions.clear()
             mushroomPositions.addAll(result)
         }
-    
+
         if (mushroomPositions.isEmpty() && !currentMushroom.isEmpty) {
             generateMushroomPositions()
         }

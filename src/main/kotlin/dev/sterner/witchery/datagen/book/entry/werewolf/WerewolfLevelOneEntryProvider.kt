@@ -4,11 +4,8 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookImagePageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
-import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.world.item.Items
 
 class WerewolfLevelOneEntryProvider(val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {

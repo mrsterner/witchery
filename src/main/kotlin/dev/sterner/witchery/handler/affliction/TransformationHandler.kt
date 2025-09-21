@@ -8,7 +8,6 @@ import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerA
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.StructureTags
@@ -30,7 +29,6 @@ object TransformationHandler {
     var werewolf: WerewolfEntity? = null
 
     private var villageCheckTicker = 0
-
 
 
     @JvmStatic
@@ -183,14 +181,16 @@ object TransformationHandler {
 
                     increaseBatFormTimer(player)
 
-                    var maxBatTime = (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
+                    var maxBatTime =
+                        (player.getAttribute(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION)?.value ?: 0).toInt()
 
                     maxBatTime += if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= 9) 60 * 20 else 0
                     val data = TransformationPlayerAttachment.getData(player)
                     TransformationPlayerAttachment.setData(player, data.copy(maxBatTimeClient = maxBatTime))
 
                     if (TransformationPlayerAttachment.getData(player).batFormTicker > maxBatTime &&
-                        !player.isCreative && !player.isSpectator) {
+                        !player.isCreative && !player.isSpectator
+                    ) {
                         removeForm(player)
                     }
 

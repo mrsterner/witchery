@@ -15,14 +15,14 @@ import java.util.*
 object EtherealEntityAttachment {
 
     @JvmStatic
-    fun getData(livingEntity: LivingEntity): EtherealEntityAttachment.Data {
+    fun getData(livingEntity: LivingEntity): Data {
         return livingEntity.getData(WitcheryDataAttachments.ETHEREAL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(livingEntity: LivingEntity, data: EtherealEntityAttachment.Data) {
+    fun setData(livingEntity: LivingEntity, data: Data) {
         livingEntity.setData(WitcheryDataAttachments.ETHEREAL_DATA_ATTACHMENT, data)
-        EtherealEntityAttachment.sync(livingEntity, data)
+        sync(livingEntity, data)
     }
 
     fun sync(living: LivingEntity, data: Data) {

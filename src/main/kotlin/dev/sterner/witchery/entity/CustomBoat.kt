@@ -20,7 +20,7 @@ class CustomBoat(type: EntityType<out Boat>, level: Level) : Boat(type, level) {
     }
 
     override fun getDisplayName(): MutableComponent =
-        Component.translatable("entity.witchery.${this.variant.getName()}_boat")
+        Component.translatable("entity.witchery.${this.variant.name}_boat")
 
     override fun getDropItem(): Item {
         return when (this.variant) {

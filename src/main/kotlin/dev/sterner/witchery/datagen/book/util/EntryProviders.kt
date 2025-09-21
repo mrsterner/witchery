@@ -3,7 +3,6 @@ package dev.sterner.witchery.fabric.datagen.book.util
 import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.book.page.BookRitualPageModel
 import net.minecraft.world.item.Item
@@ -35,7 +34,7 @@ object EntryProviders {
     fun singleItem(parent: CategoryProviderBase?, id: String, icon: Item) =
         singleItem(parent, id, ItemStack(icon))
 
-    fun singleItem(parent: CategoryProviderBase?, id: String, icon: ItemStack) : EntryProvider {
+    fun singleItem(parent: CategoryProviderBase?, id: String, icon: ItemStack): EntryProvider {
         return EntryBuilder(parent)
             .id(id)
             .icon(icon)
@@ -43,7 +42,7 @@ object EntryProviders {
             .build()
     }
 
-    fun singleItemTwoPages(parent: CategoryProviderBase?, id: String, icon: ItemStack) : EntryProvider {
+    fun singleItemTwoPages(parent: CategoryProviderBase?, id: String, icon: ItemStack): EntryProvider {
         return EntryBuilder(parent)
             .id(id)
             .icon(icon)
@@ -52,11 +51,13 @@ object EntryProviders {
             .build()
     }
 
-    fun doubleItem(parent: CategoryProviderBase?,
-                   id: String,
-                   item1: Item,
-                   item2: Item,
-                   noSecondTitle: Boolean = false) =
+    fun doubleItem(
+        parent: CategoryProviderBase?,
+        id: String,
+        item1: Item,
+        item2: Item,
+        noSecondTitle: Boolean = false
+    ) =
         doubleItem(parent, id, ItemStack(item1), ItemStack(item2), noSecondTitle)
 
 

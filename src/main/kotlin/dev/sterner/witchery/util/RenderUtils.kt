@@ -280,14 +280,15 @@ object RenderUtils {
     fun renderEntityOnScreen(
         guiGraphics: GuiGraphics,
         x1: Int,
-                             y1: Int,
-                             x2: Int,
-                             y2: Int,
-                             scale: Int,
-                             yOffset: Float,
-                             mouseX: Float,
-                             mouseY: Float,
-                             entity: LivingEntity){
+        y1: Int,
+        x2: Int,
+        y2: Int,
+        scale: Int,
+        yOffset: Float,
+        mouseX: Float,
+        mouseY: Float,
+        entity: LivingEntity
+    ) {
         guiGraphics.enableScissor(x1, y1, x2, y2)
         renderEntityInInventoryFollowsMouse(guiGraphics, x1, y1, x2, y2, scale, yOffset, mouseX, mouseY, entity)
         guiGraphics.disableScissor()
@@ -425,60 +426,252 @@ object RenderUtils {
         RenderSystem.setShader { shader }
 
         RenderSystem.setShaderTexture(0, TEXTURE_FRONT)
-        val builderFront = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderFront, matrix, glowMin, glowMin, glowMax, glowMax, glowMin, glowMax, glowMax, glowMax, glowMax, glowMin, glowMax, glowMax)
+        val builderFront =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderFront,
+            matrix,
+            glowMin,
+            glowMin,
+            glowMax,
+            glowMax,
+            glowMin,
+            glowMax,
+            glowMax,
+            glowMax,
+            glowMax,
+            glowMin,
+            glowMax,
+            glowMax
+        )
         BufferUploader.drawWithShader(builderFront.buildOrThrow())
 
         RenderSystem.setShaderTexture(0, TEXTURE_BACK)
-        val builderBack = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderBack, matrix, glowMax, glowMin, glowMin, glowMin, glowMin, glowMin, glowMin, glowMax, glowMin, glowMax, glowMax, glowMin)
+        val builderBack =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderBack,
+            matrix,
+            glowMax,
+            glowMin,
+            glowMin,
+            glowMin,
+            glowMin,
+            glowMin,
+            glowMin,
+            glowMax,
+            glowMin,
+            glowMax,
+            glowMax,
+            glowMin
+        )
         BufferUploader.drawWithShader(builderBack.buildOrThrow())
 
         RenderSystem.setShaderTexture(0, TEXTURE_LEFT)
-        val builderLeft = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderLeft, matrix, glowMin, glowMin, glowMin, glowMin, glowMin, glowMax, glowMin, glowMax, glowMax, glowMin, glowMax, glowMin)
+        val builderLeft =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderLeft,
+            matrix,
+            glowMin,
+            glowMin,
+            glowMin,
+            glowMin,
+            glowMin,
+            glowMax,
+            glowMin,
+            glowMax,
+            glowMax,
+            glowMin,
+            glowMax,
+            glowMin
+        )
         BufferUploader.drawWithShader(builderLeft.buildOrThrow())
 
         RenderSystem.setShaderTexture(0, TEXTURE_RIGHT)
-        val builderRight = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderRight, matrix, glowMax, glowMin, glowMax, glowMax, glowMin, glowMin, glowMax, glowMax, glowMin, glowMax, glowMax, glowMax)
+        val builderRight =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderRight,
+            matrix,
+            glowMax,
+            glowMin,
+            glowMax,
+            glowMax,
+            glowMin,
+            glowMin,
+            glowMax,
+            glowMax,
+            glowMin,
+            glowMax,
+            glowMax,
+            glowMax
+        )
         BufferUploader.drawWithShader(builderRight.buildOrThrow())
 
         RenderSystem.setShaderTexture(0, TEXTURE_TOP)
-        val builderTop = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderTop, matrix, glowMin, glowMax, glowMax, glowMax, glowMax, glowMax, glowMax, glowMax, glowMin, glowMin, glowMax, glowMin)
+        val builderTop =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderTop,
+            matrix,
+            glowMin,
+            glowMax,
+            glowMax,
+            glowMax,
+            glowMax,
+            glowMax,
+            glowMax,
+            glowMax,
+            glowMin,
+            glowMin,
+            glowMax,
+            glowMin
+        )
         BufferUploader.drawWithShader(builderTop.buildOrThrow())
 
         RenderSystem.setShaderTexture(0, TEXTURE_BOTTOM)
-        val builderBottom = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderBottom, matrix, glowMin, glowMin, glowMin, glowMax, glowMin, glowMin, glowMax, glowMin, glowMax, glowMin, glowMin, glowMax)
+        val builderBottom =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderBottom,
+            matrix,
+            glowMin,
+            glowMin,
+            glowMin,
+            glowMax,
+            glowMin,
+            glowMin,
+            glowMax,
+            glowMin,
+            glowMax,
+            glowMin,
+            glowMin,
+            glowMax
+        )
         BufferUploader.drawWithShader(builderBottom.buildOrThrow())
 
         val coreSize = 5.4f
         RenderSystem.setShaderTexture(0, TEXTURE_CORE)
 
-        val builderCoreFront = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderCoreFront, matrix, -coreSize, -coreSize, coreSize, coreSize, -coreSize, coreSize, coreSize, coreSize, coreSize, -coreSize, coreSize, coreSize)
+        val builderCoreFront =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderCoreFront,
+            matrix,
+            -coreSize,
+            -coreSize,
+            coreSize,
+            coreSize,
+            -coreSize,
+            coreSize,
+            coreSize,
+            coreSize,
+            coreSize,
+            -coreSize,
+            coreSize,
+            coreSize
+        )
         BufferUploader.drawWithShader(builderCoreFront.buildOrThrow())
 
-        val builderCoreBack = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderCoreBack, matrix, coreSize, -coreSize, -coreSize, -coreSize, -coreSize, -coreSize, -coreSize, coreSize, -coreSize, coreSize, coreSize, -coreSize)
+        val builderCoreBack =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderCoreBack,
+            matrix,
+            coreSize,
+            -coreSize,
+            -coreSize,
+            -coreSize,
+            -coreSize,
+            -coreSize,
+            -coreSize,
+            coreSize,
+            -coreSize,
+            coreSize,
+            coreSize,
+            -coreSize
+        )
         BufferUploader.drawWithShader(builderCoreBack.buildOrThrow())
 
-        val builderCoreLeft = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderCoreLeft, matrix, -coreSize, -coreSize, -coreSize, -coreSize, -coreSize, coreSize, -coreSize, coreSize, coreSize, -coreSize, coreSize, -coreSize)
+        val builderCoreLeft =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderCoreLeft,
+            matrix,
+            -coreSize,
+            -coreSize,
+            -coreSize,
+            -coreSize,
+            -coreSize,
+            coreSize,
+            -coreSize,
+            coreSize,
+            coreSize,
+            -coreSize,
+            coreSize,
+            -coreSize
+        )
         BufferUploader.drawWithShader(builderCoreLeft.buildOrThrow())
 
-        val builderCoreRight = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderCoreRight, matrix, coreSize, -coreSize, coreSize, coreSize, -coreSize, -coreSize, coreSize, coreSize, -coreSize, coreSize, coreSize, coreSize)
+        val builderCoreRight =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderCoreRight,
+            matrix,
+            coreSize,
+            -coreSize,
+            coreSize,
+            coreSize,
+            -coreSize,
+            -coreSize,
+            coreSize,
+            coreSize,
+            -coreSize,
+            coreSize,
+            coreSize,
+            coreSize
+        )
         BufferUploader.drawWithShader(builderCoreRight.buildOrThrow())
 
-        val builderCoreTop = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderCoreTop, matrix, -coreSize, coreSize, coreSize, coreSize, coreSize, coreSize, coreSize, coreSize, -coreSize, -coreSize, coreSize, -coreSize)
+        val builderCoreTop =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderCoreTop,
+            matrix,
+            -coreSize,
+            coreSize,
+            coreSize,
+            coreSize,
+            coreSize,
+            coreSize,
+            coreSize,
+            coreSize,
+            -coreSize,
+            -coreSize,
+            coreSize,
+            -coreSize
+        )
         BufferUploader.drawWithShader(builderCoreTop.buildOrThrow())
 
-        val builderCoreBottom = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
-        addGlowFace(builderCoreBottom, matrix, -coreSize, -coreSize, -coreSize, coreSize, -coreSize, -coreSize, coreSize, -coreSize, coreSize, -coreSize, -coreSize, coreSize)
+        val builderCoreBottom =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
+        addGlowFace(
+            builderCoreBottom,
+            matrix,
+            -coreSize,
+            -coreSize,
+            -coreSize,
+            coreSize,
+            -coreSize,
+            -coreSize,
+            coreSize,
+            -coreSize,
+            coreSize,
+            -coreSize,
+            -coreSize,
+            coreSize
+        )
         BufferUploader.drawWithShader(builderCoreBottom.buildOrThrow())
 
         RenderSystem.defaultBlendFunc()

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.api.event
 
-import net.minecraft.world.InteractionResult
 import org.apache.commons.lang3.BooleanUtils
 
 class EventResult internal constructor(private val interruptsFurtherEvaluation: Boolean, private val value: Boolean?) {

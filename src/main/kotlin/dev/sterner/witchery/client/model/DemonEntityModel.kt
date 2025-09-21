@@ -160,7 +160,7 @@ class DemonEntityModel(root: ModelPart) :
                 PartPose.offsetAndRotation(-3.5f, -0.7f, 0.5f, 0.0f, 0.2182f, 0.2618f)
             )
 
-            val bone21 = bone14.addOrReplaceChild(
+            bone14.addOrReplaceChild(
                 "bone21",
                 CubeListBuilder.create().texOffs(0, 6).mirror()
                     .addBox(-4.0f, 0.0f, -0.4f, 4.0f, 1.0f, 1.0f, CubeDeformation(0.0f)).mirror(false),
@@ -195,7 +195,7 @@ class DemonEntityModel(root: ModelPart) :
                 PartPose.offsetAndRotation(3.5f, -0.7f, 0.5f, 0.0f, -0.2182f, -0.2618f)
             )
 
-            val bone26 = bone25.addOrReplaceChild(
+            bone25.addOrReplaceChild(
                 "bone26",
                 CubeListBuilder.create().texOffs(0, 6)
                     .addBox(0.0f, 0.0f, -0.4f, 4.0f, 1.0f, 1.0f, CubeDeformation(0.0f)),
@@ -225,7 +225,7 @@ class DemonEntityModel(root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, 8.0f, 0.0f, -0.9163f, 0.0f, 0.0f)
             )
 
-            val leftHand = lowerLeftArm.addOrReplaceChild(
+            lowerLeftArm.addOrReplaceChild(
                 "leftHand",
                 CubeListBuilder.create().texOffs(40, 23).mirror()
                     .addBox(-2.0f, -1.0f, -2.5f, 4.0f, 5.0f, 5.0f, CubeDeformation(0.0f)).mirror(false),
@@ -255,7 +255,7 @@ class DemonEntityModel(root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, 8.0f, 0.0f, -0.9163f, 0.0f, 0.0f)
             )
 
-            val rightHand = lowerLeftArm2.addOrReplaceChild(
+            lowerLeftArm2.addOrReplaceChild(
                 "rightHand",
                 CubeListBuilder.create().texOffs(40, 23)
                     .addBox(-2.0f, -1.0f, -2.5f, 4.0f, 5.0f, 5.0f, CubeDeformation(0.0f)),
@@ -290,7 +290,7 @@ class DemonEntityModel(root: ModelPart) :
                 PartPose.offsetAndRotation(0.5f, 1.0f, -10.0f, -0.7418f, 0.0f, 0.0f)
             )
 
-            val rightToes = lowerLeftFoot2.addOrReplaceChild(
+            lowerLeftFoot2.addOrReplaceChild(
                 "rightToes",
                 CubeListBuilder.create(),
                 PartPose.offset(-1.5f, -0.5f, -5.5f)
@@ -324,7 +324,7 @@ class DemonEntityModel(root: ModelPart) :
                 PartPose.offsetAndRotation(-0.5f, 1.0f, -10.0f, -0.7418f, 0.0f, 0.0f)
             )
 
-            val leftToes = lowerLeftFoot3.addOrReplaceChild(
+            lowerLeftFoot3.addOrReplaceChild(
                 "leftToes",
                 CubeListBuilder.create(),
                 PartPose.offset(1.5f, -0.5f, -5.5f)
@@ -361,7 +361,7 @@ class DemonEntityModel(root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, -3.0f, 8.0f, -1.7453f, 0.0f, 0.0f)
             )
 
-            val bone34 = bone33.addOrReplaceChild(
+            bone33.addOrReplaceChild(
                 "bone34",
                 CubeListBuilder.create().texOffs(66, 23)
                     .addBox(-2.0f, 0.0f, 0.0f, 3.0f, 4.0f, 18.0f, CubeDeformation(-0.02f)),
@@ -397,7 +397,7 @@ class DemonEntityModel(root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, -3.0f, 8.0f, -1.7453f, 0.0f, 0.0f)
             )
 
-            val bone30 = bone29.addOrReplaceChild(
+            bone29.addOrReplaceChild(
                 "bone30",
                 CubeListBuilder.create().texOffs(66, 67)
                     .addBox(-2.0f, 0.0f, 0.0f, 3.0f, 4.0f, 18.0f, CubeDeformation(-0.02f)),
@@ -414,7 +414,7 @@ class DemonEntityModel(root: ModelPart) :
                 PartPose.offset(0.0f, -9.5f, -2.5f)
             )
 
-            val becken = core.addOrReplaceChild(
+            core.addOrReplaceChild(
                 "becken",
                 CubeListBuilder.create().texOffs(89, 0)
                     .addBox(-4.5f, 0.0f, -3.0f, 9.0f, 5.0f, 6.0f, CubeDeformation(0.0f)),
@@ -442,7 +442,7 @@ class DemonEntityModel(root: ModelPart) :
             val chest =
                 chestUpper.addOrReplaceChild("chest", CubeListBuilder.create(), PartPose.offset(0.0f, 0.0f, -5.0f))
 
-            val chestBone = chest.addOrReplaceChild(
+            chest.addOrReplaceChild(
                 "chestBone",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-7.0f, -8.0f, -2.5f, 14.0f, 12.0f, 11.0f, CubeDeformation(0.5f)),

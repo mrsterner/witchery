@@ -7,9 +7,7 @@ import dev.sterner.witchery.data_attachment.infusion.InfusionType
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.payload.SpawnNecroParticlesS2CPayload
-import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryPayloads
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
@@ -29,7 +27,6 @@ object NecroHandler {
     private const val PARTICLE_SPAWN_RADIUS = 0.5
     private const val PARTICLE_DETECTION_RANGE = 16.0
     private const val PARTICLE_COUNT = 3
-
 
 
     fun tickLiving(livingEntity: LivingEntity) {

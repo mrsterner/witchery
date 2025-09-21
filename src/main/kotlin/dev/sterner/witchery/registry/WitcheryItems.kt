@@ -10,73 +10,13 @@ import dev.sterner.witchery.block.effigy.EffigyBlock
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.data_attachment.BoatTypeHelper
-import dev.sterner.witchery.item.ArthanaItem
-import dev.sterner.witchery.item.AttunedStoneItem
-import dev.sterner.witchery.item.BoneNeedleItem
-import dev.sterner.witchery.item.BroomItem
-import dev.sterner.witchery.item.CaneSwordItem
-import dev.sterner.witchery.item.CenserBlockItem
-import dev.sterner.witchery.item.ChaliceBlockItem
-import dev.sterner.witchery.item.ChalkItem
-import dev.sterner.witchery.item.CritterSnareBlockItem
-import dev.sterner.witchery.item.CustomBoatItem
-import dev.sterner.witchery.item.DeathSickleItem
-import dev.sterner.witchery.item.DebugWand
-import dev.sterner.witchery.item.GuideBookItem
-import dev.sterner.witchery.item.HunterArmorItem
-import dev.sterner.witchery.item.HuntsmanSpearItem
-import dev.sterner.witchery.item.IcyNeedleItem
-import dev.sterner.witchery.item.MutandisItem
-import dev.sterner.witchery.item.MutatingSpringItem
-import dev.sterner.witchery.item.ParasiticLouseItem
-import dev.sterner.witchery.item.PoppetItem
-import dev.sterner.witchery.item.QuartzSphereItem
-import dev.sterner.witchery.item.SeerStoneItem
-import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.item.TornPageItem
-import dev.sterner.witchery.item.VampireArmorItem
-import dev.sterner.witchery.item.VoodooPoppetItem
-import dev.sterner.witchery.item.WaterCropBlockItem
-import dev.sterner.witchery.item.WaystoneItem
-import dev.sterner.witchery.item.WineGlassItem
-import dev.sterner.witchery.item.WitchesHandItem
-import dev.sterner.witchery.item.WitchesRobesItem
-import dev.sterner.witchery.item.WoodenStakeItem
-import dev.sterner.witchery.item.accessories.BarkBeltItem
-import dev.sterner.witchery.item.accessories.BatwingPendantItem
-import dev.sterner.witchery.item.accessories.BitingBeltItem
-import dev.sterner.witchery.item.accessories.BloodstonePendantItem
-import dev.sterner.witchery.item.accessories.DreamweaverCharmItem
-import dev.sterner.witchery.item.accessories.MoonCharmItem
-import dev.sterner.witchery.item.accessories.SunstonePendantItem
-import dev.sterner.witchery.item.brew.BrewOfDepthItem
-import dev.sterner.witchery.item.brew.BrewOfErosionItem
-import dev.sterner.witchery.item.brew.BrewOfFlowingSpiritItem
-import dev.sterner.witchery.item.brew.BrewOfFrostItem
-import dev.sterner.witchery.item.brew.BrewOfInkItem
-import dev.sterner.witchery.item.brew.BrewOfLoveItem
-import dev.sterner.witchery.item.brew.BrewOfRaisingItem
-import dev.sterner.witchery.item.brew.BrewOfRevealingItem
-import dev.sterner.witchery.item.brew.BrewOfSleepingItem
-import dev.sterner.witchery.item.brew.BrewOfTheGrotesqueItem
-import dev.sterner.witchery.item.brew.BrewOfWastingItem
-import dev.sterner.witchery.item.brew.BrewOfWebsItem
+import dev.sterner.witchery.item.*
+import dev.sterner.witchery.item.accessories.*
+import dev.sterner.witchery.item.brew.*
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.food.Foods
-import net.minecraft.world.item.ArmorItem
-import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.BucketItem
-import net.minecraft.world.item.HangingSignItem
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemNameBlockItem
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
-import net.minecraft.world.item.Rarity
-import net.minecraft.world.item.SignItem
-import net.minecraft.world.item.SpawnEggItem
-import net.minecraft.world.item.SwordItem
-import net.minecraft.world.item.Tiers
+import net.minecraft.world.item.*
 import net.neoforged.neoforge.common.DeferredSpawnEggItem
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
@@ -102,8 +42,7 @@ object WitcheryItems {
         DeathSickleItem(Item.Properties().stacksTo(1))
     }
 
-    val HUNTSMAN_SPEAR
-            = register("huntsman_spear") {
+    val HUNTSMAN_SPEAR = register("huntsman_spear") {
         HuntsmanSpearItem(Item.Properties().stacksTo(1))
     }
 
@@ -163,17 +102,19 @@ object WitcheryItems {
 
     val BABA_YAGAS_HAT = register("baba_yagas_hat") {
 
-        WitchesRobesItem(WitcheryArmorMaterials.WITCHES_ROBES,
+        WitchesRobesItem(
+            WitcheryArmorMaterials.WITCHES_ROBES,
             ArmorItem.Type.HELMET,
-            Item.Properties().stacksTo(1))
+            Item.Properties().stacksTo(1)
+        )
     }
 
     val HUNTER_HELMET = register("hunter_helmet") {
-        HunterArmorItem(WitcheryArmorMaterials.HUNTER,  ArmorItem.Type.HELMET,Item.Properties().stacksTo(1))
+        HunterArmorItem(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.HELMET, Item.Properties().stacksTo(1))
     }
 
     val HUNTER_CHESTPLATE = register("hunter_chestplate") {
-        HunterArmorItem(WitcheryArmorMaterials.HUNTER,  ArmorItem.Type.CHESTPLATE,Item.Properties().stacksTo(1))
+        HunterArmorItem(WitcheryArmorMaterials.HUNTER, ArmorItem.Type.CHESTPLATE, Item.Properties().stacksTo(1))
     }
 
     val HUNTER_LEGGINGS = register("hunter_leggings") {
@@ -185,15 +126,19 @@ object WitcheryItems {
     }
 
     val TOP_HAT = register("top_hat") {
-        VampireArmorItem(WitcheryArmorMaterials.DAPPER,
+        VampireArmorItem(
+            WitcheryArmorMaterials.DAPPER,
             ArmorItem.Type.HELMET,
-            Item.Properties().stacksTo(1))
+            Item.Properties().stacksTo(1)
+        )
     }
 
     val DRESS_COAT = register("dress_coat") {
-        VampireArmorItem(WitcheryArmorMaterials.DAPPER,
+        VampireArmorItem(
+            WitcheryArmorMaterials.DAPPER,
             ArmorItem.Type.CHESTPLATE,
-            Item.Properties().stacksTo(1))
+            Item.Properties().stacksTo(1)
+        )
     }
 
     val TROUSERS = register("trousers") {
@@ -221,11 +166,11 @@ object WitcheryItems {
         ItemNameBlockItem(WitcheryBlocks.SNOWBELL_CROP.get(), Item.Properties())
     }
 
-    val ICY_NEEDLE= register("icy_needle") {
+    val ICY_NEEDLE = register("icy_needle") {
         IcyNeedleItem(Item.Properties())
     }
 
-    val MANDRAKE_ROOT= register("mandrake_root") {
+    val MANDRAKE_ROOT = register("mandrake_root") {
         Item(Item.Properties())
     }
 
@@ -233,7 +178,7 @@ object WitcheryItems {
         ItemNameBlockItem(WitcheryBlocks.BELLADONNA_CROP.get(), Item.Properties())
     }
 
-    val BELLADONNA_FLOWER= register("belladonna_flower") {
+    val BELLADONNA_FLOWER = register("belladonna_flower") {
         Item(Item.Properties())
     }
 
@@ -241,7 +186,7 @@ object WitcheryItems {
         WaterCropBlockItem(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), Item.Properties())
     }
 
-    val WATER_ARTICHOKE_GLOBE= register("water_artichoke_globe") {
+    val WATER_ARTICHOKE_GLOBE = register("water_artichoke_globe") {
         Item(Item.Properties())
     }
 
@@ -253,7 +198,7 @@ object WitcheryItems {
         ItemNameBlockItem(WitcheryBlocks.WORMWOOD_CROP.get(), Item.Properties())
     }
 
-    val WORMWOOD= register("wormwood") {
+    val WORMWOOD = register("wormwood") {
         Item(Item.Properties())
     }
 
@@ -261,119 +206,119 @@ object WitcheryItems {
         ItemNameBlockItem(WitcheryBlocks.WOLFSFBANE_CROP.get(), Item.Properties())
     }
 
-    val WOLFSBANE= register("wolfsbane") {
+    val WOLFSBANE = register("wolfsbane") {
         Item(Item.Properties())
     }
 
-    val WOOD_ASH= register("wood_ash") {
+    val WOOD_ASH = register("wood_ash") {
         Item(Item.Properties())
     }
 
-    val ROWAN_BERRIES= register("rowan_berries") {
+    val ROWAN_BERRIES = register("rowan_berries") {
         Item(Item.Properties().food(Foods.SWEET_BERRIES))
     }
 
-    val BONE_NEEDLE= register("bone_needle") {
+    val BONE_NEEDLE = register("bone_needle") {
         BoneNeedleItem(Item.Properties())
     }
 
-    val ATTUNED_STONE= register("attuned_stone") {
+    val ATTUNED_STONE = register("attuned_stone") {
         AttunedStoneItem(Item.Properties())
     }
 
-    val DEMON_HEART= register("demon_heart") {
+    val DEMON_HEART = register("demon_heart") {
         ItemNameBlockItem(WitcheryBlocks.DEMON_HEART.get(), Item.Properties())
     }
 
-    val GYPSUM= register("gypsum") {
+    val GYPSUM = register("gypsum") {
         Item(Item.Properties())
     }
 
-    val REFINED_EVIL= register("refined_evil") {
+    val REFINED_EVIL = register("refined_evil") {
         Item(Item.Properties())
     }
 
-    val WOOL_OF_BAT= register("wool_of_bat") {
+    val WOOL_OF_BAT = register("wool_of_bat") {
         Item(Item.Properties())
     }
 
-    val TONGUE_OF_DOG= register("tongue_of_dog") {
+    val TONGUE_OF_DOG = register("tongue_of_dog") {
         Item(Item.Properties())
     }
 
-    val TOE_OF_FROG= register("toe_of_frog") {
+    val TOE_OF_FROG = register("toe_of_frog") {
         Item(Item.Properties())
     }
 
-    val OWLETS_WING= register("owlets_wing") {
+    val OWLETS_WING = register("owlets_wing") {
         Item(Item.Properties())
     }
 
-    val ENT_TWIG= register("ent_twig") {
+    val ENT_TWIG = register("ent_twig") {
         Item(Item.Properties())
     }
 
-    val SPECTRAL_DUST= register("spectral_dust") {
+    val SPECTRAL_DUST = register("spectral_dust") {
         Item(Item.Properties())
     }
 
-    val REDSTONE_SOUP= register("redstone_soup") {
+    val REDSTONE_SOUP = register("redstone_soup") {
         Item(Item.Properties())
     }
 
-    val HAPPENSTANCE_OIL= register("happenstance_oil") {
+    val HAPPENSTANCE_OIL = register("happenstance_oil") {
         Item(Item.Properties())
     }
 
-    val FLYING_OINTMENT= register("flying_ointment") {
+    val FLYING_OINTMENT = register("flying_ointment") {
         Item(Item.Properties())
     }
 
-    val INFERNAL_ANIMUS= register("infernal_animus") {
+    val INFERNAL_ANIMUS = register("infernal_animus") {
         Item(Item.Properties())
     }
 
-    val GHOST_OF_THE_LIGHT= register("ghost_of_the_light") {
+    val GHOST_OF_THE_LIGHT = register("ghost_of_the_light") {
         Item(Item.Properties())
     }
 
-    val SOUL_OF_THE_WORLD= register("soul_of_the_world") {
+    val SOUL_OF_THE_WORLD = register("soul_of_the_world") {
         Item(Item.Properties())
     }
 
-    val SPIRIT_OF_OTHERWHERE= register("spirit_of_otherwhere") {
+    val SPIRIT_OF_OTHERWHERE = register("spirit_of_otherwhere") {
         Item(Item.Properties())
     }
 
-    val NECROMANTIC_SOULBIND= register("necromantic_soulbind") {
+    val NECROMANTIC_SOULBIND = register("necromantic_soulbind") {
         Item(Item.Properties())
     }
 
-    val GOLDEN_THREAD= register("golden_thread") {
+    val GOLDEN_THREAD = register("golden_thread") {
         Item(Item.Properties())
     }
 
-    val IMPREGNATED_FABRIC= register("impregnated_fabric") {
+    val IMPREGNATED_FABRIC = register("impregnated_fabric") {
         Item(Item.Properties())
     }
 
-    val MUTATING_SPRING= register("mutating_spring") {
+    val MUTATING_SPRING = register("mutating_spring") {
         MutatingSpringItem(Item.Properties())
     }
 
-    val TORMENTED_TWINE= register("tormented_twine") {
+    val TORMENTED_TWINE = register("tormented_twine") {
         Item(Item.Properties())
     }
 
-    val FANCIFUL_THREAD= register("fanciful_thread") {
+    val FANCIFUL_THREAD = register("fanciful_thread") {
         Item(Item.Properties())
     }
 
-    val WINE_GLASS= register("wine_glass") {
+    val WINE_GLASS = register("wine_glass") {
         WineGlassItem(Item.Properties())
     }
 
-    val NECROMANTIC_STONE= register("necromantic_stone") {
+    val NECROMANTIC_STONE = register("necromantic_stone") {
         object : Item(Properties()) {
             override fun isFoil(stack: ItemStack): Boolean {
                 return true
@@ -381,7 +326,7 @@ object WitcheryItems {
         }
     }
 
-    val ETERNAL_CATALYST= register("eternal_catalyst") {
+    val ETERNAL_CATALYST = register("eternal_catalyst") {
         object : Item(Properties()) {
             override fun isFoil(stack: ItemStack): Boolean {
                 return true
@@ -393,31 +338,31 @@ object WitcheryItems {
 
     //start POPPETS
 
-    val POPPET= register("poppet") {
+    val POPPET = register("poppet") {
         PoppetItem(Item.Properties())
     }
 
-    val ARMOR_PROTECTION_POPPET= register("armor_protection_poppet") {
+    val ARMOR_PROTECTION_POPPET = register("armor_protection_poppet") {
         PoppetItem(Item.Properties().durability(4))
     }
 
-    val DEATH_PROTECTION_POPPET= register("death_protection_poppet") {
+    val DEATH_PROTECTION_POPPET = register("death_protection_poppet") {
         PoppetItem(Item.Properties().durability(1))
     }
 
-    val HUNGER_PROTECTION_POPPET= register("hunger_protection_poppet") {
+    val HUNGER_PROTECTION_POPPET = register("hunger_protection_poppet") {
         PoppetItem(Item.Properties().durability(4))
     }
 
-    val VAMPIRIC_POPPET= register("vampiric_poppet") {
+    val VAMPIRIC_POPPET = register("vampiric_poppet") {
         PoppetItem(Item.Properties().durability(128))
     }
 
-    val VOODOO_POPPET= register("voodoo_poppet") {
+    val VOODOO_POPPET = register("voodoo_poppet") {
         VoodooPoppetItem(Item.Properties().durability(1024))
     }
 
-    val VOODOO_PROTECTION_POPPET= register("voodoo_protection_poppet") {
+    val VOODOO_PROTECTION_POPPET = register("voodoo_protection_poppet") {
         PoppetItem(Item.Properties().durability(1))
     }
 
@@ -425,75 +370,75 @@ object WitcheryItems {
 
     //start JARS
 
-    val CLAY_JAR= register("clay_jar") {
+    val CLAY_JAR = register("clay_jar") {
         Item(Item.Properties())
     }
 
-    val JAR= register("jar") {
+    val JAR = register("jar") {
         Item(Item.Properties())
     }
 
-    val BREATH_OF_THE_GODDESS= register("breath_of_the_goddess") {
+    val BREATH_OF_THE_GODDESS = register("breath_of_the_goddess") {
         Item(Item.Properties())
     }
 
-    val WHIFF_OF_MAGIC= register("whiff_of_magic") {
+    val WHIFF_OF_MAGIC = register("whiff_of_magic") {
         Item(Item.Properties())
     }
 
-    val FOUL_FUME= register("foul_fume") {
+    val FOUL_FUME = register("foul_fume") {
         Item(Item.Properties())
     }
 
-    val TEAR_OF_THE_GODDESS= register("tear_of_the_goddess") {
+    val TEAR_OF_THE_GODDESS = register("tear_of_the_goddess") {
         Item(Item.Properties())
     }
 
-    val OIL_OF_VITRIOL= register("oil_of_vitriol") {
+    val OIL_OF_VITRIOL = register("oil_of_vitriol") {
         Item(Item.Properties())
     }
 
-    val PHANTOM_VAPOR= register("phantom_vapor") {
+    val PHANTOM_VAPOR = register("phantom_vapor") {
         Item(Item.Properties())
     }
 
-    val EXHALE_OF_THE_HORNED_ONE= register("exhale_of_the_horned_one") {
+    val EXHALE_OF_THE_HORNED_ONE = register("exhale_of_the_horned_one") {
         Item(Item.Properties())
     }
 
-    val HINT_OF_REBIRTH= register("hint_of_rebirth") {
+    val HINT_OF_REBIRTH = register("hint_of_rebirth") {
         Item(Item.Properties())
     }
 
-    val REEK_OF_MISFORTUNE= register("reek_of_misfortune") {
+    val REEK_OF_MISFORTUNE = register("reek_of_misfortune") {
         Item(Item.Properties())
     }
 
-    val ODOR_OF_PURITY= register("odor_of_purity") {
+    val ODOR_OF_PURITY = register("odor_of_purity") {
         Item(Item.Properties())
     }
 
-    val DROP_OF_LUCK= register("drop_of_luck") {
+    val DROP_OF_LUCK = register("drop_of_luck") {
         Item(Item.Properties())
     }
 
-    val ENDER_DEW= register("ender_dew") {
+    val ENDER_DEW = register("ender_dew") {
         Item(Item.Properties())
     }
 
-    val DEMONS_BLOOD= register("demons_blood") {
+    val DEMONS_BLOOD = register("demons_blood") {
         Item(Item.Properties())
     }
 
-    val MELLIFLUOUS_HUNGER= register("mellifluous_hunger") {
+    val MELLIFLUOUS_HUNGER = register("mellifluous_hunger") {
         Item(Item.Properties())
     }
 
-    val CONDENSED_FEAR= register("condensed_fear") {
+    val CONDENSED_FEAR = register("condensed_fear") {
         Item(Item.Properties())
     }
 
-    val FOCUSED_WILL= register("focused_will") {
+    val FOCUSED_WILL = register("focused_will") {
         Item(Item.Properties())
     }
 
@@ -1173,7 +1118,7 @@ object WitcheryItems {
         BrewOfFlowingSpiritItem(Color(125, 170, 230).rgb, Item.Properties().stacksTo(16))
     }
 
-    val FLOWING_SPIRIT_BUCKET= register(
+    val FLOWING_SPIRIT_BUCKET = register(
         "flowing_spirit_bucket"
     ) {
         BucketItem(
@@ -1190,7 +1135,7 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.SUSPICIOUS_GRAVEYARD_DIRT.get(), Item.Properties())
     }
 
-    val TORN_PAGE= register("torn_page") {
+    val TORN_PAGE = register("torn_page") {
         TornPageItem(Item.Properties())
     }
 
@@ -1211,7 +1156,7 @@ object WitcheryItems {
         WoodenStakeItem(Item.Properties().stacksTo(1))
     }
 
-    val WOVEN_CRUOR= register("woven_cruor") {
+    val WOVEN_CRUOR = register("woven_cruor") {
         Item(Item.Properties())
     }
 
@@ -1284,7 +1229,7 @@ object WitcheryItems {
     }
 
     val MANDRAKE_SPAWN_EGG = register("mandrake_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.MANDRAKE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.MANDRAKE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
 
     val IMP_SPAWN_EGG = register("imp_spawn_egg") {
@@ -1292,45 +1237,45 @@ object WitcheryItems {
     }
 
     val DEMON_SPAWN_EGG = register("demon_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.DEMON,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.DEMON, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val ENT_SPAWN_EGG = register("ent_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.ENT,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.ENT, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val OWL_SPAWN_EGG = register("owl_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.OWL,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.OWL, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val BANSHEE_SPAWN_EGG = register("banshee_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.BANSHEE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.BANSHEE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val SPECTRE_SPAWN_EGG = register("spectre_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.SPECTRE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.SPECTRE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val COVEN_WITCH_SPAWN_EGG = register("coven_witch_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.COVEN_WITCH,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.COVEN_WITCH, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val SPECTRAL_PIG_SPAWN_EGG = register("spectral_pig_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.SPECTRAL_PIG,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.SPECTRAL_PIG, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val NIGHTMARE_SPAWN_EGG = register("nightmare_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.NIGHTMARE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.NIGHTMARE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val VAMPIRE_SPAWN_EGG = register("vampire_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.VAMPIRE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.VAMPIRE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val BABA_YAGA_SPAWN_EGG = register("baba_yaga_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.BABA_YAGA,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.BABA_YAGA, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val WEREWOLF_SPAWN_EGG = register("werewolf_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.WEREWOLF,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.WEREWOLF, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val LILITH_SPAWN_EGG = register("lilith_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.LILITH,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.LILITH, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val ELLE_SPAWN_EGG = register("elle_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.ELLE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.ELLE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val PARASITIC_LOUSE_SPAWN_EGG = register("parasitic_louse_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.PARASITIC_LOUSE,Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.PARASITIC_LOUSE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
 }

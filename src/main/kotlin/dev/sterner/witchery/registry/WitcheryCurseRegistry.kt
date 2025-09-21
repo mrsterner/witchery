@@ -2,17 +2,9 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Curse
-import dev.sterner.witchery.api.SpecialPotion
-import dev.sterner.witchery.curse.CurseOfCorruptPoppet
-import dev.sterner.witchery.curse.CurseOfInsanity
-import dev.sterner.witchery.curse.CurseOfMisfortune
-import dev.sterner.witchery.curse.CurseOfOverheating
-import dev.sterner.witchery.curse.CurseOfSinking
-import dev.sterner.witchery.curse.CurseOfWalkingNightmare
+import dev.sterner.witchery.curse.*
 import net.minecraft.core.Registry
-import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.world.item.CreativeModeTab
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.RegistryBuilder
 import java.util.function.Supplier

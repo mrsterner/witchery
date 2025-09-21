@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture
 class WitcheryRegistryDataGen(
     output: PackOutput,
     registries: CompletableFuture<HolderLookup.Provider>,
-) : DatapackBuiltinEntriesProvider (
+) : DatapackBuiltinEntriesProvider(
     output,
     registries,
     RegistrySetBuilder().apply {

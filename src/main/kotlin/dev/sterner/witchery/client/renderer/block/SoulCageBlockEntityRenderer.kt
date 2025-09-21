@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.Vec3
-import kotlin.div
 
 open class SoulCageBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<SoulCageBlockEntity> {
@@ -50,7 +49,8 @@ open class SoulCageBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
         poseStack.translate(0.5, -0.25, 0.5)
         poseStack.scale(0.85f, 0.85f, 0.85f)
 
-        val renderTypeOuter = if (lit) RenderType.entityTranslucentEmissive(outerTexture) else RenderType.entityTranslucent(outerTexture)
+        val renderTypeOuter =
+            if (lit) RenderType.entityTranslucentEmissive(outerTexture) else RenderType.entityTranslucent(outerTexture)
         val renderTypeInner = if (lit) RenderType.eyes(innerTexture) else RenderType.entityTranslucent(innerTexture)
 
         if (blockEntity.hasSoul) {

@@ -4,18 +4,14 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProvider
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconProviderBase
 import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel
-import com.klikli_dev.modonomicon.api.datagen.book.BookEntryParentModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementConditionModel
-import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionModel
-import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadConditionModel
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.fabric.datagen.book.entry.BrewEntryProvider
 import dev.sterner.witchery.fabric.datagen.book.util.EntryProviders
 import dev.sterner.witchery.fabric.datagen.book.util.advancement
 import dev.sterner.witchery.fabric.datagen.book.util.requiresAndFollows
 import dev.sterner.witchery.registry.WitcheryItems
-import net.minecraft.advancements.Advancement.Builder.advancement
 
 
 class WitcherySpiritWorldCategoryProvider(
@@ -64,8 +60,9 @@ class WitcherySpiritWorldCategoryProvider(
             .withCondition(advancement(Witchery.id("spirit_world")))
         addEntry(hunger)
 
-        val wispyCotton = EntryProviders.singleItem(this, "wispy_cotton", WitcheryItems.WISPY_COTTON.get()).generate("c")
-            .requiresAndFollows(disturbedCotton, advancement(Witchery.id("disturbed")))
+        val wispyCotton =
+            EntryProviders.singleItem(this, "wispy_cotton", WitcheryItems.WISPY_COTTON.get()).generate("c")
+                .requiresAndFollows(disturbedCotton, advancement(Witchery.id("disturbed")))
 
         addEntry(wispyCotton)
 
@@ -105,8 +102,9 @@ class WitcherySpiritWorldCategoryProvider(
         addEntry(dreamWeaverFating)
 
 
-        val spirit = BrewEntryProvider(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "brew_of_flowing_spirit", this).generate("g")
-            .withCondition(advancement(Witchery.id("spirit_world")))
+        val spirit =
+            BrewEntryProvider(WitcheryItems.BREW_FLOWING_SPIRIT.get(), "brew_of_flowing_spirit", this).generate("g")
+                .withCondition(advancement(Witchery.id("spirit_world")))
 
         addEntry(spirit)
     }

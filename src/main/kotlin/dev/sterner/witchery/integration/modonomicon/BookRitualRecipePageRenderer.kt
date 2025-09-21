@@ -120,13 +120,13 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         var y = 0
 
         if (recipe.requireCat) {
-            blitWithAlpha(pose,Witchery.id("textures/gui/cat.png"), 31 - 11, 64 - 20 + 10, 0f, 0f, 10, 10, 10, 10)
+            blitWithAlpha(pose, Witchery.id("textures/gui/cat.png"), 31 - 11, 64 - 20 + 10, 0f, 0f, 10, 10, 10, 10)
         }
         if (recipe.weather.contains(RitualRecipe.Weather.RAIN)) {
-            blitWithAlpha(pose,Witchery.id("textures/gui/weather/rain.png"), 20 + 11, 64 + 3, 0f, 0f, 10, 10, 10, 10)
+            blitWithAlpha(pose, Witchery.id("textures/gui/weather/rain.png"), 20 + 11, 64 + 3, 0f, 0f, 10, 10, 10, 10)
         }
         if (recipe.weather.contains(RitualRecipe.Weather.STORM)) {
-            blitWithAlpha(pose,Witchery.id("textures/gui/weather/storm.png"), 20 - 11, 64 + 3, 0f, 0f, 10, 10, 10, 10)
+            blitWithAlpha(pose, Witchery.id("textures/gui/weather/storm.png"), 20 - 11, 64 + 3, 0f, 0f, 10, 10, 10, 10)
         }
 
         val showSun = day || all
@@ -192,7 +192,7 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
             val entityX = startX - 60
             val entityY = startY + 50
 
-            for ((k, entityType) in recipe.inputEntities.withIndex()) {
+            for ((_, entityType) in recipe.inputEntities.withIndex()) {
                 val entity = entityType.create(minecraft.level) as? LivingEntity ?: return
 
                 val entityHeight = entity.boundingBox.ysize * 4

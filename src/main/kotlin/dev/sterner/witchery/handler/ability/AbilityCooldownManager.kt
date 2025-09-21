@@ -2,7 +2,7 @@ package dev.sterner.witchery.handler.ability
 
 import dev.sterner.witchery.handler.affliction.AfflictionAbility
 import net.minecraft.world.entity.player.Player
-import java.util.UUID
+import java.util.*
 
 object AbilityCooldownManager {
 

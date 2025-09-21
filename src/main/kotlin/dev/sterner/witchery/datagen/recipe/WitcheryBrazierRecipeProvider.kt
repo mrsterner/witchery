@@ -8,7 +8,7 @@ import net.minecraft.data.recipes.RecipeOutput
 
 object WitcheryBrazierRecipeProvider {
 
-    fun braze(exporter: RecipeOutput){
+    fun braze(exporter: RecipeOutput) {
 
         BrazierSummoningRecipeBuilder.create()
             .addInput(WitcheryItems.WORMWOOD.get())

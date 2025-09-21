@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncNightmareS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
@@ -15,17 +14,19 @@ import java.util.*
 
 object NightmarePlayerAttachment {
     @JvmStatic
-    fun getData(player: Player): NightmarePlayerAttachment.Data {
+    fun getData(player: Player): Data {
         return player.getData(WitcheryDataAttachments.NIGHTMARE_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(player: Player, data: NightmarePlayerAttachment.Data) {
+    fun setData(player: Player, data: Data) {
         player.setData(WitcheryDataAttachments.NIGHTMARE_PLAYER_DATA_ATTACHMENT, data)
     }
+
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player,
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                player,
                 SyncNightmareS2CPayload(player, data)
             )
         }

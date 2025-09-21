@@ -3,10 +3,8 @@ package dev.sterner.witchery.entity
 import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.api.interfaces.EntityChainInterface
 import dev.sterner.witchery.handler.chain.ChainManager
-import dev.sterner.witchery.handler.chain.ChainType
 import dev.sterner.witchery.payload.SyncChainS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.ClientGamePacketListener
@@ -240,9 +238,11 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
 
     fun sync(entity: Entity) {
         if (entity.level() is ServerLevel) {
-            PacketDistributor.sendToPlayersTrackingChunk(entity.level() as ServerLevel,
+            PacketDistributor.sendToPlayersTrackingChunk(
+                entity.level() as ServerLevel,
                 ChunkPos(entity.blockPosition()),
-                SyncChainS2CPayload(this, entity))
+                SyncChainS2CPayload(this, entity)
+            )
         }
     }
 

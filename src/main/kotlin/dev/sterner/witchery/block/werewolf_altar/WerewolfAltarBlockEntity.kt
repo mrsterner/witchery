@@ -5,7 +5,10 @@ import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.payload.SpawnItemParticlesS2CPayload
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
@@ -19,7 +22,6 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.ChunkPos
-import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
@@ -118,7 +120,11 @@ class WerewolfAltarBlockEntity(
             }
 
             val spawnPos = blockPos.center.add(rotatedOffset)
-            PacketDistributor.sendToPlayersTrackingChunk(level, ChunkPos(blockPos), SpawnItemParticlesS2CPayload(spawnPos, itemStack))
+            PacketDistributor.sendToPlayersTrackingChunk(
+                level,
+                ChunkPos(blockPos),
+                SpawnItemParticlesS2CPayload(spawnPos, itemStack)
+            )
         }
     }
 

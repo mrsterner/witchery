@@ -7,13 +7,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookPageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.page.BookBrazierSummoningPageModel
-import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronBrewingPageModel
-import dev.sterner.witchery.fabric.datagen.book.page.BookCauldronCraftingPageModel
-import dev.sterner.witchery.fabric.datagen.book.page.BookDistillingPageModel
-import dev.sterner.witchery.fabric.datagen.book.page.BookOvenFumingPageModel
-import dev.sterner.witchery.fabric.datagen.book.page.BookPotionPageModel
-import net.minecraft.world.item.Item
+import dev.sterner.witchery.fabric.datagen.book.page.*
 import net.minecraft.world.item.ItemStack
 
 class EntryBuilder(private val parent: CategoryProviderBase?) {

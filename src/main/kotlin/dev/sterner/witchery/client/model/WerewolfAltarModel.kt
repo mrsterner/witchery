@@ -50,21 +50,21 @@ class WerewolfAltarModel(root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, -0.5f, 0.0f, 0.6109f, 0.0f, 0.0f)
             )
 
-            val cube_r1 = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(64, 23)
                     .addBox(-4.0f, 1.0f, 0.0f, 8.0f, 10.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.0873f, 0.0f, 0.0f)
             )
 
-            val cube_r2 = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "cube_r2",
                 CubeListBuilder.create().texOffs(92, 23)
                     .addBox(-4.5f, -3.0f, 0.0f, 9.0f, 10.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.3927f, 0.0f, 0.0f)
             )
 
-            val tail = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "tail",
                 CubeListBuilder.create().texOffs(56, 39)
                     .addBox(-1.5f, -1.0f, -1.5f, 3.0f, 13.0f, 3.0f, CubeDeformation(0.0f)),
@@ -85,28 +85,28 @@ class WerewolfAltarModel(root: ModelPart) :
                 PartPose.offset(0.0f, 0.0f, 0.0f)
             )
 
-            val cube_r3 = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "cube_r3",
                 CubeListBuilder.create().texOffs(82, 0)
                     .addBox(-3.5f, 0.25f, 0.9f, 7.0f, 7.0f, 4.0f, CubeDeformation(0.1f)),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 1.0036f, 0.0f, 0.0f)
             )
 
-            val cube_r4 = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "cube_r4",
                 CubeListBuilder.create().texOffs(21, 0).mirror()
                     .addBox(-5.25f, -2.0f, -4.0f, 4.0f, 7.0f, 0.0f, CubeDeformation(0.0f)).mirror(false),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.0f, 0.6545f, 0.0f)
             )
 
-            val cube_r5 = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "cube_r5",
                 CubeListBuilder.create().texOffs(21, 0)
                     .addBox(1.25f, -2.0f, -4.0f, 4.0f, 7.0f, 0.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.0f, -0.6545f, 0.0f)
             )
 
-            val cube_r6 = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "cube_r6",
                 CubeListBuilder.create().texOffs(41, 0).mirror()
                     .addBox(-3.5f, -4.75f, -3.25f, 2.0f, 2.0f, 3.0f, CubeDeformation(0.2f)).mirror(false)
@@ -114,7 +114,7 @@ class WerewolfAltarModel(root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0.3054f, 0.0f, 0.0f)
             )
 
-            val top_snout = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "top_snout",
                 CubeListBuilder.create().texOffs(28, 2)
                     .addBox(-1.5f, -2.0f, -5.0f, 3.0f, 2.0f, 5.0f, CubeDeformation(0.0f))
@@ -122,7 +122,7 @@ class WerewolfAltarModel(root: ModelPart) :
                 PartPose.offset(0.0f, 0.0f, -4.0f)
             )
 
-            val bottom_snout = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "bottom_snout",
                 CubeListBuilder.create().texOffs(23, 9)
                     .addBox(-2.0f, 0.0f, -5.0f, 3.0f, 2.0f, 5.0f, CubeDeformation(0.0f))
@@ -134,7 +134,7 @@ class WerewolfAltarModel(root: ModelPart) :
             val right_ear =
                 head.addOrReplaceChild("right_ear", CubeListBuilder.create(), PartPose.offset(-3.5f, -1.0f, -1.0f))
 
-            val cube_r7 = right_ear.addOrReplaceChild(
+            right_ear.addOrReplaceChild(
                 "cube_r7",
                 CubeListBuilder.create().texOffs(54, 4)
                     .addBox(0.0f, -2.0f, 0.0f, 0.0f, 4.0f, 6.0f, CubeDeformation(0.0f)),
@@ -144,7 +144,7 @@ class WerewolfAltarModel(root: ModelPart) :
             val left_ear =
                 head.addOrReplaceChild("left_ear", CubeListBuilder.create(), PartPose.offset(3.5f, -1.0f, -1.0f))
 
-            val cube_r8 = left_ear.addOrReplaceChild(
+            left_ear.addOrReplaceChild(
                 "cube_r8",
                 CubeListBuilder.create().texOffs(54, 4)
                     .addBox(0.0f, -2.0f, 0.0f, 0.0f, 4.0f, 6.0f, CubeDeformation(0.0f)),
@@ -159,7 +159,7 @@ class WerewolfAltarModel(root: ModelPart) :
                 PartPose.offsetAndRotation(-4.5f, -1.0f, 0.0f, -1.5708f, 0.3054f, -0.4363f)
             )
 
-            val right_arm_2 = right_arm.addOrReplaceChild(
+            right_arm.addOrReplaceChild(
                 "right_arm_2",
                 CubeListBuilder.create().texOffs(18, 57)
                     .addBox(-0.5f, -3.0f, -3.0f, 5.0f, 14.0f, 5.0f, CubeDeformation(0.0f)),
@@ -175,7 +175,7 @@ class WerewolfAltarModel(root: ModelPart) :
                 PartPose.offsetAndRotation(4.5f, -1.0f, 0.0f, -0.5672f, -0.1745f, 0.0f)
             )
 
-            val left_arm_2 = left_arm.addOrReplaceChild(
+            left_arm.addOrReplaceChild(
                 "left_arm_2",
                 CubeListBuilder.create().texOffs(18, 57).mirror()
                     .addBox(-4.5f, -3.0f, -3.0f, 5.0f, 14.0f, 5.0f, CubeDeformation(0.0f)).mirror(false),
@@ -188,14 +188,14 @@ class WerewolfAltarModel(root: ModelPart) :
                 PartPose.offsetAndRotation(-2.0f, 11.75f, 1.0f, -1.2654f, 0.1745f, 0.0f)
             )
 
-            val cube_r9 = right_leg.addOrReplaceChild(
+            right_leg.addOrReplaceChild(
                 "cube_r9",
                 CubeListBuilder.create().texOffs(0, 54)
                     .addBox(-3.0f, 2.0f, -2.0f, 4.0f, 8.0f, 5.0f, CubeDeformation(0.1f)),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, -0.2618f, 0.0f, 0.0f)
             )
 
-            val right_leg_2 = right_leg.addOrReplaceChild(
+            right_leg.addOrReplaceChild(
                 "right_leg_2",
                 CubeListBuilder.create().texOffs(0, 71)
                     .addBox(-3.0f, -2.0f, -2.0f, 4.0f, 14.0f, 4.0f, CubeDeformation(0.0f)),
@@ -208,21 +208,21 @@ class WerewolfAltarModel(root: ModelPart) :
                 PartPose.offsetAndRotation(2.0f, 11.75f, 1.0f, -1.1781f, -0.2182f, 0.0f)
             )
 
-            val cube_r10 = left_leg.addOrReplaceChild(
+            left_leg.addOrReplaceChild(
                 "cube_r10",
                 CubeListBuilder.create().texOffs(0, 54).mirror()
                     .addBox(-1.0f, 2.0f, -2.0f, 4.0f, 8.0f, 5.0f, CubeDeformation(0.1f)).mirror(false),
                 PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, -0.2618f, 0.0f, 0.0f)
             )
 
-            val left_leg_2 = left_leg.addOrReplaceChild(
+            left_leg.addOrReplaceChild(
                 "left_leg_2",
                 CubeListBuilder.create().texOffs(0, 71).mirror()
                     .addBox(-1.0f, -4.0f, -2.0f, 4.0f, 14.0f, 4.0f, CubeDeformation(0.0f)).mirror(false),
                 PartPose.offsetAndRotation(0.0f, 8.0f, 1.0f, -0.48f, 0.0f, 0.0f)
             )
 
-            val bb_main = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "bb_main",
                 CubeListBuilder.create().texOffs(0, 90)
                     .addBox(-8.0f, -6.0f, -8.0f, 16.0f, 6.0f, 16.0f, CubeDeformation(0.0f)),

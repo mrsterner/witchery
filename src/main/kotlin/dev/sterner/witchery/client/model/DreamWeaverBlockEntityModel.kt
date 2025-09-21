@@ -49,7 +49,7 @@ class DreamWeaverBlockEntityModel(modelPart: ModelPart) :
                 PartPose.offset(5.0f, 16.0f, -8.0f)
             )
 
-            val dreads = weaver.addOrReplaceChild(
+            weaver.addOrReplaceChild(
                 "dreads",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-8.8f, -6.0f, 0.5f, 8.0f, 8.0f, 0.0f, CubeDeformation(0.0f))
@@ -99,7 +99,7 @@ class DreamWeaverBlockEntityModel(modelPart: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, -4.0f, 0.0f, 0.0f, 0.0f, -0.7854f)
             )
 
-            val group8 = group7.addOrReplaceChild(
+            group7.addOrReplaceChild(
                 "group8",
                 CubeListBuilder.create().texOffs(23, 16)
                     .addBox(-1.0f, -4.0f, 0.0f, 1.0f, 4.0f, 1.0f, CubeDeformation(-0.01f)),

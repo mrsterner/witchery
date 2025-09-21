@@ -4,7 +4,6 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -64,7 +63,11 @@ object WerewolfLeveling {
         val were = TransformationHandler.isWerewolf(player)
         updateModifiers(player, wolf = wolf, wolfMan = were)
         player.refreshDimensions()
-        PacketDistributor.sendToPlayersTrackingChunk(player.serverLevel(), player.chunkPosition(), RefreshDimensionsS2CPayload())
+        PacketDistributor.sendToPlayersTrackingChunk(
+            player.serverLevel(),
+            player.chunkPosition(),
+            RefreshDimensionsS2CPayload()
+        )
     }
 
     /**
@@ -96,7 +99,10 @@ object WerewolfLeveling {
         }
 
         val requiredAdvancement = LEVEL_REQUIREMENTS[targetLevel]?.advancement ?: return false
-        return TornPageItem.Companion.hasAdvancement(player, requiredAdvancement) //Nothing to do with the actual TornPage
+        return TornPageItem.Companion.hasAdvancement(
+            player,
+            requiredAdvancement
+        ) //Nothing to do with the actual TornPage
     }
 
     //To go from Level 8 -> 9
@@ -113,7 +119,7 @@ object WerewolfLeveling {
     }
 
     //To go from Level 4 -> 5
-    fun setHasKilledHuntsman(player: ServerPlayer){
+    fun setHasKilledHuntsman(player: ServerPlayer) {
         if (!canPerformQuest(player, 4)) {
             return
         }

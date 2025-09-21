@@ -13,7 +13,6 @@ import net.minecraft.data.PackOutput
 import net.minecraft.data.loot.BlockLootSubProvider
 import net.minecraft.data.loot.EntityLootSubProvider
 import net.minecraft.data.loot.LootTableProvider
-import net.minecraft.resources.ResourceKey
 import net.minecraft.util.ProblemReporter
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.flag.FeatureFlags
@@ -36,16 +35,18 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 import java.util.concurrent.CompletableFuture
-import java.util.function.BiConsumer
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
 
-class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<HolderLookup.Provider>) : LootTableProvider(packOutput, mutableSetOf(),
-    listOf(
-        SubProviderEntry({ BlocksLoot(it) }, LootContextParamSets.BLOCK),
-        SubProviderEntry({ EntityLoot(it) }, LootContextParamSets.ENTITY)
-    ), provider) {
+class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<HolderLookup.Provider>) :
+    LootTableProvider(
+        packOutput, mutableSetOf(),
+        listOf(
+            SubProviderEntry({ BlocksLoot(it) }, LootContextParamSets.BLOCK),
+            SubProviderEntry({ EntityLoot(it) }, LootContextParamSets.ENTITY)
+        ), provider
+    ) {
 
     override fun validate(
         writableregistry: WritableRegistry<LootTable?>,
@@ -60,33 +61,35 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
 
         override fun getKnownEntityTypes(): Stream<EntityType<*>?> {
             return WitcheryEntityTypes.ENTITY_TYPES.entries.stream().map { it.value() }.filter {
-                        it != WitcheryEntityTypes.MANDRAKE.get() &&
+                it != WitcheryEntityTypes.MANDRAKE.get() &&
                         it != WitcheryEntityTypes.INSANITY.get() &&
-                                it != WitcheryEntityTypes.DEATH.get() &&
-                                it != WitcheryEntityTypes.HORNED_HUNTSMAN.get() &&
-                                it != WitcheryEntityTypes.WEREWOLF.get() &&
-                                it != WitcheryEntityTypes.AREA_EFFECT_CLOUD.get() &&
-                                it != WitcheryEntityTypes.ELLE .get() &&
-                                it != WitcheryEntityTypes.THROWN_BREW.get() &&
-                                it != WitcheryEntityTypes.BROOM.get() &&
-                                it != WitcheryEntityTypes.VAMPIRE.get() &&
-                                it != WitcheryEntityTypes.BABA_YAGA.get() &&
-                                it != WitcheryEntityTypes.LILITH.get() &&
-                                it != WitcheryEntityTypes.PARASITIC_LOUSE.get() &&
+                        it != WitcheryEntityTypes.DEATH.get() &&
+                        it != WitcheryEntityTypes.HORNED_HUNTSMAN.get() &&
+                        it != WitcheryEntityTypes.WEREWOLF.get() &&
+                        it != WitcheryEntityTypes.AREA_EFFECT_CLOUD.get() &&
+                        it != WitcheryEntityTypes.ELLE.get() &&
+                        it != WitcheryEntityTypes.THROWN_BREW.get() &&
+                        it != WitcheryEntityTypes.BROOM.get() &&
+                        it != WitcheryEntityTypes.VAMPIRE.get() &&
+                        it != WitcheryEntityTypes.BABA_YAGA.get() &&
+                        it != WitcheryEntityTypes.LILITH.get() &&
+                        it != WitcheryEntityTypes.PARASITIC_LOUSE.get() &&
                         it != WitcheryEntityTypes.IMP.get()
             }.collect(Collectors.toList()).stream()
         }
 
         override fun generate() {
-            this.add(WitcheryEntityTypes.OWL.get(), LootTable.lootTable()
-                .withPool(
-                    LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
-                        .add(
-                            LootItem.lootTableItem(WitcheryItems.OWLETS_WING.get())
-                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
-                        )
-                ))
+            this.add(
+                WitcheryEntityTypes.OWL.get(), LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1.0F))
+                            .add(
+                                LootItem.lootTableItem(WitcheryItems.OWLETS_WING.get())
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                            )
+                    )
+            )
 
 
             this.add(
@@ -166,7 +169,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
 
         override fun getKnownBlocks(): Iterable<Block?> {
             return WitcheryBlocks.BLOCKS.entries.stream().map { it.value() }.filter {
-                        it != WitcheryBlocks.ALTAR.get() &&
+                it != WitcheryBlocks.ALTAR.get() &&
                         it != WitcheryBlocks.ALTAR_COMPONENT.get() &&
                         it != WitcheryBlocks.CAULDRON_COMPONENT.get() &&
                         it != WitcheryBlocks.EFFIGY_COMPONENT.get() &&

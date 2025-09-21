@@ -6,14 +6,12 @@ import net.minecraft.core.Direction
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
-import net.minecraft.world.InteractionResult
 import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.BaseFireBlock
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.HayBlock
@@ -28,13 +26,13 @@ class BloodHayBlock(properties: Properties) : HayBlock(properties) {
     data class Coord(val x: Int, val y: Int)
 
     private val structure: List<Coord> = buildList {
-        addAll(listOf(Coord(1,0), Coord(2,0)))
-        addAll(listOf(Coord(1,1), Coord(2,1)))
-        addAll(listOf(Coord(1,2), Coord(2,2)))
-        addAll(listOf(Coord(0,3), Coord(1,3), Coord(2,3), Coord(3,3)))
-        addAll(listOf(Coord(0,4), Coord(1,4), Coord(2,4), Coord(3,4)))
-        addAll(listOf(Coord(1,5), Coord(2,5)))
-        addAll(listOf(Coord(1,6), Coord(2,6)))
+        addAll(listOf(Coord(1, 0), Coord(2, 0)))
+        addAll(listOf(Coord(1, 1), Coord(2, 1)))
+        addAll(listOf(Coord(1, 2), Coord(2, 2)))
+        addAll(listOf(Coord(0, 3), Coord(1, 3), Coord(2, 3), Coord(3, 3)))
+        addAll(listOf(Coord(0, 4), Coord(1, 4), Coord(2, 4), Coord(3, 4)))
+        addAll(listOf(Coord(1, 5), Coord(2, 5)))
+        addAll(listOf(Coord(1, 6), Coord(2, 6)))
     }
 
     public override fun useItemOn(

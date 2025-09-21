@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
-import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
 import dev.sterner.witchery.client.model.SpiritPortalBlockEntityModel
 import dev.sterner.witchery.client.model.SpiritPortalPortalModel
 import dev.sterner.witchery.registry.WitcheryRenderTypes

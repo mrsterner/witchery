@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncCovenS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
@@ -17,15 +16,15 @@ import java.util.*
 
 object CovenPlayerAttachment {
     @JvmStatic
-    fun getData(player: Player): CovenPlayerAttachment.CovenData {
+    fun getData(player: Player): CovenData {
         return player.getData(WitcheryDataAttachments.COVEN_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(player: Player, data: CovenPlayerAttachment.CovenData, sync: Boolean = true) {
+    fun setData(player: Player, data: CovenData, sync: Boolean = true) {
         player.setData(WitcheryDataAttachments.COVEN_PLAYER_DATA_ATTACHMENT, data)
         if (sync) {
-            CovenPlayerAttachment.sync(player, data)
+            sync(player, data)
         }
     }
 

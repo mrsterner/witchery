@@ -83,7 +83,7 @@ object VillageWallHandler {
         )
 
         for ((index, corner) in corners.withIndex()) {
-            val (cornerPos, cornerRotation, dir) = corner
+            val (cornerPos, cornerRotation, _) = corner
             segments.add(WallSegment(wallCornerStructure, cornerPos, cornerRotation))
 
             val next = corners[(index + 1) % 4]

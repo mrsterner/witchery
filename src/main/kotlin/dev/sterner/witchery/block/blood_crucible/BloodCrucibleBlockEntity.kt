@@ -20,7 +20,7 @@ import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.state.BlockState
-import java.util.UUID
+import java.util.*
 
 class BloodCrucibleBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.BLOOD_CRUCIBLE.get(), blockPos, blockState) {
@@ -29,7 +29,7 @@ class BloodCrucibleBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private var bloodAmount: Int = 0
     private val maxBloodStorage: Int = BLOOD_TRANSFER_AMOUNT * 16
-    
+
     fun addBlood(amount: Int) {
         bloodAmount = (bloodAmount + amount).coerceAtMost(maxBloodStorage)
         setChanged()
@@ -56,7 +56,8 @@ class BloodCrucibleBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (bl) {
             if (getBloodAmount() <= maxBloodStorage - BLOOD_TRANSFER_AMOUNT) {
                 addBlood(BLOOD_TRANSFER_AMOUNT)
-                WitcheryUtil.addItemToInventoryAndConsume(pPlayer, InteractionHand.MAIN_HAND,
+                WitcheryUtil.addItemToInventoryAndConsume(
+                    pPlayer, InteractionHand.MAIN_HAND,
                     WitcheryItems.WINE_GLASS.get().defaultInstance
                 )
             }

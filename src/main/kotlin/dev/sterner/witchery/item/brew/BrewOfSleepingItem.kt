@@ -29,7 +29,6 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         private const val SEARCH_RADIUS = 6
 
 
-
         /**
          * Handles player respawn after death or returning from the dream world
          */

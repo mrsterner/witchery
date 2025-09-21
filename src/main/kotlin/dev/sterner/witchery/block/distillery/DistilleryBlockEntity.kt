@@ -24,11 +24,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Mth
-import net.minecraft.world.Container
-import net.minecraft.world.ContainerHelper
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.MenuProvider
-import net.minecraft.world.WorldlyContainer
+import net.minecraft.world.*
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
@@ -173,7 +169,10 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             ) {
                 inputStack.shrink(inputItems[0].count)
                 extraInputStack.shrink(inputItems[1].count)
-            } else if (ItemStack.isSameItemSameComponents(inputStack, inputItems[1]) && ItemStack.isSameItemSameComponents(
+            } else if (ItemStack.isSameItemSameComponents(
+                    inputStack,
+                    inputItems[1]
+                ) && ItemStack.isSameItemSameComponents(
                     extraInputStack,
                     inputItems[0]
                 )

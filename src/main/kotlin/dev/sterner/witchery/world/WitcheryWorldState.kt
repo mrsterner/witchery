@@ -29,17 +29,19 @@ class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
 
         for ((globalOrigin, stateMap) in cacheMap) {
             val cacheTag = CompoundTag()
-            cacheTag.put("origin", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, globalOrigin)
-                .result()
-                .orElseThrow { IllegalStateException("Failed to encode GlobalPos $globalOrigin") })
+            cacheTag.put(
+                "origin", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, globalOrigin)
+                    .result()
+                    .orElseThrow { IllegalStateException("Failed to encode GlobalPos $globalOrigin") })
 
             val stateList = ListTag()
             for ((pos, state) in stateMap) {
                 val entry = CompoundTag()
                 entry.put("pos", NbtUtils.writeBlockPos(pos))
-                entry.put("state", BlockState.CODEC.encodeStart(NbtOps.INSTANCE, state)
-                    .result()
-                    .orElseThrow { IllegalStateException("Failed to encode BlockState at $pos") })
+                entry.put(
+                    "state", BlockState.CODEC.encodeStart(NbtOps.INSTANCE, state)
+                        .result()
+                        .orElseThrow { IllegalStateException("Failed to encode BlockState at $pos") })
                 stateList.add(entry)
             }
 

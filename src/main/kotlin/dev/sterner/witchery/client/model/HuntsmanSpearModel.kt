@@ -3,7 +3,6 @@ package dev.sterner.witchery.client.model
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
-import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.Model
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -37,12 +36,12 @@ class HuntsmanSpearModel(root: ModelPart) :
     }
 
     companion object {
-        val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id( "spear"), "main")
+        val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("spear"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
-            val partdefinition = meshdefinition.getRoot()
+            val partdefinition = meshdefinition.root
 
-            val bone = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "bone",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(1.0f, 0.0f, -1.0f, 2.0f, 28.0f, 1.0f, CubeDeformation(0.0f))

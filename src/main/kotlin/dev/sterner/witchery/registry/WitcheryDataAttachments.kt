@@ -1,21 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.AltarLevelAttachment
-import dev.sterner.witchery.data_attachment.BarkBeltPlayerAttachment
-import dev.sterner.witchery.data_attachment.CovenPlayerAttachment
-import dev.sterner.witchery.data_attachment.CursePlayerAttachment
-import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
-import dev.sterner.witchery.data_attachment.EntSpawnLevelAttachment
-import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
-import dev.sterner.witchery.data_attachment.FamiliarLevelAttachment
-import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
-import dev.sterner.witchery.data_attachment.MiscPlayerAttachment
-import dev.sterner.witchery.data_attachment.MutandisLevelAttachment
-import dev.sterner.witchery.data_attachment.NecromancerLevelAttachment
-import dev.sterner.witchery.data_attachment.NightmarePlayerAttachment
-import dev.sterner.witchery.data_attachment.SleepingLevelAttachment
-import dev.sterner.witchery.data_attachment.UnderWaterBreathPlayerAttachment
+import dev.sterner.witchery.data_attachment.*
 import dev.sterner.witchery.data_attachment.infusion.InfernalInfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.LightInfusionPlayerAttachment
@@ -24,12 +10,7 @@ import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.teleport.TeleportQueueLevelAttachment
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
-import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
-import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
-import dev.sterner.witchery.data_attachment.transformation.VampireChildrenHuntLevelAttachment
+import dev.sterner.witchery.data_attachment.transformation.*
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
@@ -300,15 +281,16 @@ object WitcheryDataAttachments {
         )
 
     @JvmStatic
-    val COVEN_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CovenPlayerAttachment.CovenData>> = ATTACHMENT_TYPES.register(
-        "coven_player_data",
-        Supplier {
-            AttachmentType.builder(Supplier { CovenPlayerAttachment.CovenData() })
-                .serialize(CovenPlayerAttachment.CovenData.CODEC)
-                .copyOnDeath()
-                .build()
-        }
-    )
+    val COVEN_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CovenPlayerAttachment.CovenData>> =
+        ATTACHMENT_TYPES.register(
+            "coven_player_data",
+            Supplier {
+                AttachmentType.builder(Supplier { CovenPlayerAttachment.CovenData() })
+                    .serialize(CovenPlayerAttachment.CovenData.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
 
 
     @JvmStatic

@@ -13,7 +13,7 @@ class BabaItemLayer(
     renderer: RenderLayerParent<BabaYagaEntity, BabaYagaEntityModel<BabaYagaEntity>>,
     itemInHandRenderer: ItemInHandRenderer
 ) : CrossedArmsItemLayer<BabaYagaEntity, BabaYagaEntityModel<BabaYagaEntity>>(renderer, itemInHandRenderer) {
-    
+
     override fun render(
         poseStack: PoseStack,
         buffer: MultiBufferSource,
@@ -26,7 +26,7 @@ class BabaItemLayer(
         netHeadYaw: Float,
         headPitch: Float
     ) {
-        
+
         poseStack.pushPose()
         this.parentModel!!.head.translateAndRotate(poseStack)
         this.parentModel!!.nose.translateAndRotate(poseStack)

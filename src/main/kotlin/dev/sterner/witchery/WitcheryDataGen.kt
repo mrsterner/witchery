@@ -1,21 +1,6 @@
 package dev.sterner.witchery
 
-import dev.sterner.witchery.datagen.WitcheryAdvancementProvider
-import dev.sterner.witchery.datagen.WitcheryLootProvider
-import dev.sterner.witchery.datagen.WitcheryBlockTagProvider
-import dev.sterner.witchery.datagen.WitcheryBloodProvider
-import dev.sterner.witchery.datagen.WitcheryBookProvider
-import dev.sterner.witchery.datagen.WitcheryDamageTypeTagProvider
-import dev.sterner.witchery.datagen.WitcheryEntityTypeTagProvider
-import dev.sterner.witchery.datagen.WitcheryErosionProvider
-import dev.sterner.witchery.datagen.WitcheryFetishProvider
-import dev.sterner.witchery.datagen.WitcheryInfiniteCenserProvider
-import dev.sterner.witchery.datagen.WitcheryItemTagProvider
-import dev.sterner.witchery.datagen.WitcheryLangProvider
-import dev.sterner.witchery.datagen.WitcheryNatureBlockProvider
-import dev.sterner.witchery.datagen.WitcheryNatureBlockTagProvider
-import dev.sterner.witchery.datagen.WitcheryPotionProvider
-import dev.sterner.witchery.datagen.WitcheryRecipeProvider
+import dev.sterner.witchery.datagen.*
 import dev.sterner.witchery.datagen.bootstrap.WitcheryRegistryDataGen
 import net.minecraft.data.PackOutput
 import net.neoforged.bus.api.SubscribeEvent
@@ -31,27 +16,53 @@ object WitcheryDataGen {
         val generator = event.generator
         val packOutput: PackOutput = generator.packOutput
 
-        generator.addProvider(true, WitcheryAdvancementProvider(packOutput, event.lookupProvider, event.existingFileHelper))
+        generator.addProvider(
+            true,
+            WitcheryAdvancementProvider(packOutput, event.lookupProvider, event.existingFileHelper)
+        )
 
         generator.addProvider(true, WitcheryLootProvider(packOutput, event.lookupProvider))
         val blockTag = WitcheryBlockTagProvider(packOutput, event.lookupProvider, event.existingFileHelper)
         generator.addProvider(true, blockTag)
         generator.addProvider(true, WitcheryBloodProvider(packOutput, event.lookupProvider, event.existingFileHelper))
-        
+
         val v = WitcheryBookProvider(packOutput, event.lookupProvider) { a, s ->
             WitcheryLangProvider(packOutput, Witchery.MODID, "en_us")
         }
         generator.addProvider(true, v)
-        generator.addProvider(true, WitcheryDamageTypeTagProvider(packOutput, event.lookupProvider, event.existingFileHelper))
-        generator.addProvider(true, WitcheryEntityTypeTagProvider(packOutput, event.lookupProvider, event.existingFileHelper))
+        generator.addProvider(
+            true,
+            WitcheryDamageTypeTagProvider(packOutput, event.lookupProvider, event.existingFileHelper)
+        )
+        generator.addProvider(
+            true,
+            WitcheryEntityTypeTagProvider(packOutput, event.lookupProvider, event.existingFileHelper)
+        )
         generator.addProvider(true, WitcheryErosionProvider(packOutput, event.lookupProvider, event.existingFileHelper))
         generator.addProvider(true, WitcheryFetishProvider(packOutput, event.lookupProvider, event.existingFileHelper))
-        generator.addProvider(true, WitcheryInfiniteCenserProvider(packOutput, event.lookupProvider, event.existingFileHelper))
-        generator.addProvider(true, WitcheryItemTagProvider(packOutput, event.lookupProvider, blockTag.contentsGetter(), event.existingFileHelper))
+        generator.addProvider(
+            true,
+            WitcheryInfiniteCenserProvider(packOutput, event.lookupProvider, event.existingFileHelper)
+        )
+        generator.addProvider(
+            true,
+            WitcheryItemTagProvider(
+                packOutput,
+                event.lookupProvider,
+                blockTag.contentsGetter(),
+                event.existingFileHelper
+            )
+        )
         generator.addProvider(true, WitcheryLangProvider(packOutput, Witchery.MODID, "en_us"))
 
-        generator.addProvider(true, WitcheryNatureBlockProvider(packOutput, event.lookupProvider, event.existingFileHelper))
-        generator.addProvider(true, WitcheryNatureBlockTagProvider(packOutput, event.lookupProvider, event.existingFileHelper))
+        generator.addProvider(
+            true,
+            WitcheryNatureBlockProvider(packOutput, event.lookupProvider, event.existingFileHelper)
+        )
+        generator.addProvider(
+            true,
+            WitcheryNatureBlockTagProvider(packOutput, event.lookupProvider, event.existingFileHelper)
+        )
         generator.addProvider(true, WitcheryPotionProvider(packOutput, event.lookupProvider, event.existingFileHelper))
         generator.addProvider(true, WitcheryRecipeProvider(packOutput, event.lookupProvider))
 

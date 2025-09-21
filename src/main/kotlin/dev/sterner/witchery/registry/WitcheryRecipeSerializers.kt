@@ -14,6 +14,7 @@ import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer
+import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.function.Supplier
 
@@ -23,7 +24,7 @@ object WitcheryRecipeSerializers {
     val RECIPE_SERIALIZERS: DeferredRegister<RecipeSerializer<*>> =
         DeferredRegister.create(Registries.RECIPE_SERIALIZER, Witchery.MODID)
 
-    val CAULDRON_RECIPE_SERIALIZER =
+    val CAULDRON_RECIPE_SERIALIZER: DeferredHolder<RecipeSerializer<*>?, CauldronCraftingRecipe.Serializer?> =
         RECIPE_SERIALIZERS.register(CauldronCraftingRecipe.NAME, Supplier { CauldronCraftingRecipe.Serializer() })
 
     val CAULDRON_BREWING_RECIPE_SERIALIZER =

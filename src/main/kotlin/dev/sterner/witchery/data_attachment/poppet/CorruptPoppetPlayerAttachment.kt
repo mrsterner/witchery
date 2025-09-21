@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncCorruptPoppetS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
@@ -25,7 +24,8 @@ object CorruptPoppetPlayerAttachment {
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player,
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                player,
                 SyncCorruptPoppetS2CPayload(player, data)
             )
         }

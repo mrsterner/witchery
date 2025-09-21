@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncVoodooDataS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
@@ -15,21 +14,22 @@ import net.neoforged.neoforge.network.PacketDistributor
 object VoodooPoppetLivingEntityAttachment {
 
     @JvmStatic
-    fun setPoppetData(livingEntity: LivingEntity, data: VoodooPoppetLivingEntityAttachment.VoodooPoppetData) {
+    fun setPoppetData(livingEntity: LivingEntity, data: VoodooPoppetData) {
         livingEntity.setData(WitcheryDataAttachments.VOODOO_POPPET_DATA_ATTACHMENT, data)
         if (livingEntity is Player) {
-            VoodooPoppetLivingEntityAttachment.sync(livingEntity, data)
+            sync(livingEntity, data)
         }
     }
 
     @JvmStatic
-    fun getPoppetData(livingEntity: LivingEntity): VoodooPoppetLivingEntityAttachment.VoodooPoppetData {
+    fun getPoppetData(livingEntity: LivingEntity): VoodooPoppetData {
         return livingEntity.getData(WitcheryDataAttachments.VOODOO_POPPET_DATA_ATTACHMENT)
     }
 
     fun sync(player: Player, data: VoodooPoppetData) {
         if (player.level() is ServerLevel) {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player,
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                player,
                 SyncVoodooDataS2CPayload(player, data)
             )
         }

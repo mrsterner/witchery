@@ -5,7 +5,6 @@ import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.VampireLeveling
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
@@ -109,7 +108,10 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
             despawnTicks++
             if (despawnTicks > 20 * 5) {
                 if (level() is ServerLevel) {
-                    PacketDistributor.sendToPlayersInDimension(level() as ServerLevel, SpawnSmokeParticlesS2CPayload(position()))
+                    PacketDistributor.sendToPlayersInDimension(
+                        level() as ServerLevel,
+                        SpawnSmokeParticlesS2CPayload(position())
+                    )
                 }
                 discard()
             }
@@ -127,7 +129,10 @@ class LilithEntity(level: Level) : Monster(WitcheryEntityTypes.LILITH.get(), lev
             if (onceOnDefeat) {
                 onceOnDefeat = false
                 if (level() is ServerLevel) {
-                    PacketDistributor.sendToPlayersInDimension(level() as ServerLevel, SpawnSmokeParticlesS2CPayload(position()))
+                    PacketDistributor.sendToPlayersInDimension(
+                        level() as ServerLevel,
+                        SpawnSmokeParticlesS2CPayload(position())
+                    )
                 }
             }
         }

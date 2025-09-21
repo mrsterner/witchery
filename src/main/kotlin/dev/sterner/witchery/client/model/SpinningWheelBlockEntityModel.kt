@@ -54,21 +54,21 @@ class SpinningWheelBlockEntityModel(root: ModelPart) :
                 PartPose.offset(0.0f, 24.0f, 0.0f)
             )
 
-            val cube_r1 = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(0.0f, 0.0f, -1.0f, 5.0f, 0.0f, 12.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(2.0f, -4.0f, -5.0f, 0.0f, 0.0f, 1.0472f)
             )
 
-            val cube_r2 = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "cube_r2",
                 CubeListBuilder.create().texOffs(10, 0)
                     .addBox(-5.0f, 0.0f, -1.0f, 5.0f, 0.0f, 12.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-2.0f, -4.0f, -5.0f, 0.0f, 0.0f, -1.0472f)
             )
 
-            val pillar = base.addOrReplaceChild(
+            base.addOrReplaceChild(
                 "pillar",
                 CubeListBuilder.create().texOffs(16, 15)
                     .addBox(-3.0f, -13.0f, -1.0f, 4.0f, 13.0f, 4.0f, CubeDeformation(0.0f)),
@@ -81,7 +81,7 @@ class SpinningWheelBlockEntityModel(root: ModelPart) :
                 PartPose.offset(0.0f, 11.0f, -5.0f)
             )
 
-            val cube_r3 = string.addOrReplaceChild(
+            string.addOrReplaceChild(
                 "cube_r3",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-1.0f, -6.0f, 0.0f, 2.0f, 6.0f, 0.0f, CubeDeformation(0.0f)),

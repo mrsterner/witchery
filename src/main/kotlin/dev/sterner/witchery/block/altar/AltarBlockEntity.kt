@@ -77,8 +77,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     }
 
 
-
-
     private fun getLocalAABB() = AABB.ofSize(blockPos.center, range.toDouble(), range.toDouble(), range.toDouble())
 
     // Based on speed and potential lag, lets call this every 5 or so seconds
@@ -343,7 +341,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                             be.powerUpdateQueued = true
 
                             if (be.getLocalAugmentAABB(be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-                                    .contains(event.pos.center)) {
+                                    .contains(event.pos.center)
+                            ) {
                                 be.augmentUpdateQueued = true
                             }
                         }
@@ -364,7 +363,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                             be.powerUpdateQueued = true
 
                             if (be.getLocalAugmentAABB(be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-                                    .contains(event.pos.center)) {
+                                    .contains(event.pos.center)
+                            ) {
                                 be.augmentUpdateQueued = true
                             }
                         }

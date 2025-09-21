@@ -62,7 +62,6 @@ object WitcheryCommands {
     }
 
 
-
     fun register(
         dispatcher: CommandDispatcher<CommandSourceStack>,
         context: CommandBuildContext,
@@ -242,236 +241,267 @@ object WitcheryCommands {
     private fun registerLichdomCommands(): LiteralArgumentBuilder<CommandSourceStack> {
         return Commands.literal("lichdom")
             .requires { it.hasPermission(2) }
-            .then(Commands.literal("level")
-                .then(Commands.literal("get")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .executes { context ->
-                            val player = context.source.playerOrException
-                            val level = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
-                            context.source.sendSuccess(
-                                { Component.literal("Level: $level for ${player.name.string}") },
-                                true
+            .then(
+                Commands.literal("level")
+                    .then(
+                        Commands.literal("get")
+                        .then(
+                            Commands.argument("player", EntityArgument.player())
+                                .executes { context ->
+                                    val player = context.source.playerOrException
+                                    val level =
+                                        AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+                                    context.source.sendSuccess(
+                                        { Component.literal("Level: $level for ${player.name.string}") },
+                                        true
+                                    )
+                                    1
+                                }
+                        ))
+
+                    .then(
+                        Commands.literal("set")
+                        .then(
+                            Commands.argument("player", EntityArgument.player())
+                            .then(
+                                Commands.argument("level", IntegerArgumentType.integer(0))
+                                    .executes { context ->
+
+                                        val level = IntegerArgumentType.getInteger(context, "level")
+                                        val player = context.source.playerOrException
+
+                                        LichdomLeveling.setLevel(player, level)
+                                        LichdomLeveling.updateModifiers(player, level)
+
+                                        context.source.sendSuccess(
+                                            { Component.literal("Set lichdom level to $level for ${player.name.string}") },
+                                            true
+                                        )
+                                        1
+                                    }
                             )
-                            1
-                        }
-                    ))
-
-                .then(Commands.literal("set")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.argument("level", IntegerArgumentType.integer(0))
-                            .executes { context ->
-
-                                val level = IntegerArgumentType.getInteger(context, "level")
-                                val player = context.source.playerOrException
-
-                                LichdomLeveling.setLevel(player, level)
-                                LichdomLeveling.updateModifiers(player, level)
-
-                                context.source.sendSuccess(
-                                    { Component.literal("Set lichdom level to $level for ${player.name.string}") },
-                                    true
-                                )
-                                1
-                            }
-                        )
-                    ))
+                        ))
             )
-            .then(Commands.literal("soul")
+            .then(
+                Commands.literal("soul")
 
-                .then(Commands.literal("set")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.argument(
-                            "level",
-                            IntegerArgumentType.integer(
-                                0,
-                                LichdomLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
-                            )
-                        )
-                            .executes { context ->
-
-                                val level = IntegerArgumentType.getInteger(context, "level")
-                                val player = context.source.playerOrException
-
-                                val data = SoulPoolPlayerAttachment.getData(player)
-
-                                SoulPoolPlayerAttachment.setData(
-                                    player,
-                                    SoulPoolPlayerAttachment.Data(
-                                        data.maxSouls,
-                                        Mth.clamp(level, 0, data.maxSouls)
+                    .then(
+                        Commands.literal("set")
+                        .then(
+                            Commands.argument("player", EntityArgument.player())
+                            .then(
+                                Commands.argument(
+                                    "level",
+                                    IntegerArgumentType.integer(
+                                        0,
+                                        LichdomLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
                                     )
                                 )
+                                    .executes { context ->
 
-                                context.source.sendSuccess(
-                                    { Component.literal("Set soul level to $level for ${player.name.string}") },
-                                    true
-                                )
-                                1
-                            }
-                        )
-                    ))
+                                        val level = IntegerArgumentType.getInteger(context, "level")
+                                        val player = context.source.playerOrException
+
+                                        val data = SoulPoolPlayerAttachment.getData(player)
+
+                                        SoulPoolPlayerAttachment.setData(
+                                            player,
+                                            SoulPoolPlayerAttachment.Data(
+                                                data.maxSouls,
+                                                Mth.clamp(level, 0, data.maxSouls)
+                                            )
+                                        )
+
+                                        context.source.sendSuccess(
+                                            { Component.literal("Set soul level to $level for ${player.name.string}") },
+                                            true
+                                        )
+                                        1
+                                    }
+                            )
+                        ))
 
 
-                .then(
-                    Commands.literal("get")
-                        .then(Commands.argument("player", EntityArgument.player())
-                            .executes { context ->
-                                val player = context.source.playerOrException
+                    .then(
+                        Commands.literal("get")
+                            .then(
+                                Commands.argument("player", EntityArgument.player())
+                                    .executes { context ->
+                                        val player = context.source.playerOrException
 
-                                val data = SoulPoolPlayerAttachment.getData(player)
-                                player.sendSystemMessage(Component.literal("Soul Level: " + data.soulPool + "/" + data.maxSouls))
-                                1
-                            })
-                )
+                                        val data = SoulPoolPlayerAttachment.getData(player)
+                                        player.sendSystemMessage(Component.literal("Soul Level: " + data.soulPool + "/" + data.maxSouls))
+                                        1
+                                    })
+                    )
             )
     }
 
     private fun registerVampireCommands(): LiteralArgumentBuilder<CommandSourceStack> {
         return Commands.literal("vampire")
             .requires { it.hasPermission(2) }
-            .then(Commands.literal("level")
-                .then(Commands.literal("get")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .executes { context ->
-                            val player = context.source.playerOrException
-                            val level = AfflictionPlayerAttachment.getData(player).getVampireLevel()
-                            context.source.sendSuccess(
-                                { Component.literal("Level: $level for ${player.name.string}") },
-                                true
+            .then(
+                Commands.literal("level")
+                    .then(
+                        Commands.literal("get")
+                        .then(
+                            Commands.argument("player", EntityArgument.player())
+                                .executes { context ->
+                                    val player = context.source.playerOrException
+                                    val level = AfflictionPlayerAttachment.getData(player).getVampireLevel()
+                                    context.source.sendSuccess(
+                                        { Component.literal("Level: $level for ${player.name.string}") },
+                                        true
+                                    )
+                                    1
+                                }
+                        ))
+
+                    .then(
+                        Commands.literal("set")
+                        .then(
+                            Commands.argument("player", EntityArgument.player())
+                            .then(
+                                Commands.argument("level", IntegerArgumentType.integer(0))
+                                    .executes { context ->
+
+                                        val level = IntegerArgumentType.getInteger(context, "level")
+                                        val player = context.source.playerOrException
+
+                                        VampireLeveling.setLevel(player, level)
+                                        VampireLeveling.updateModifiers(player, level, false)
+                                        val maxBlood = levelToBlood(level)
+                                        BloodPoolLivingEntityAttachment.setData(
+                                            player,
+                                            BloodPoolLivingEntityAttachment.Data(maxBlood, maxBlood)
+                                        )
+
+                                        context.source.sendSuccess(
+                                            { Component.literal("Set vampire level to $level for ${player.name.string}") },
+                                            true
+                                        )
+                                        1
+                                    }
                             )
-                            1
-                        }
-                    ))
-
-                .then(Commands.literal("set")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.argument("level", IntegerArgumentType.integer(0))
-                            .executes { context ->
-
-                                val level = IntegerArgumentType.getInteger(context, "level")
-                                val player = context.source.playerOrException
-
-                                VampireLeveling.setLevel(player, level)
-                                VampireLeveling.updateModifiers(player, level, false)
-                                val maxBlood = levelToBlood(level)
-                                BloodPoolLivingEntityAttachment.setData(
-                                    player,
-                                    BloodPoolLivingEntityAttachment.Data(maxBlood, maxBlood)
-                                )
-
-                                context.source.sendSuccess(
-                                    { Component.literal("Set vampire level to $level for ${player.name.string}") },
-                                    true
-                                )
-                                1
-                            }
-                        )
-                    ))
+                        ))
             )
-            .then(Commands.literal("blood")
+            .then(
+                Commands.literal("blood")
 
-                .then(Commands.literal("set")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.argument(
-                            "level",
-                            IntegerArgumentType.integer(
-                                0,
-                                VampireLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
-                            )
-                        )
-                            .executes { context ->
-
-                                val level = IntegerArgumentType.getInteger(context, "level")
-                                val player = context.source.playerOrException
-
-                                val data = BloodPoolLivingEntityAttachment.getData(player)
-
-                                BloodPoolLivingEntityAttachment.setData(
-                                    player,
-                                    BloodPoolLivingEntityAttachment.Data(
-                                        data.maxBlood,
-                                        Mth.clamp(level, 0, data.maxBlood)
+                    .then(
+                        Commands.literal("set")
+                        .then(
+                            Commands.argument("player", EntityArgument.player())
+                            .then(
+                                Commands.argument(
+                                    "level",
+                                    IntegerArgumentType.integer(
+                                        0,
+                                        VampireLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
                                     )
                                 )
+                                    .executes { context ->
 
-                                context.source.sendSuccess(
-                                    { Component.literal("Set blood level to $level for ${player.name.string}") },
-                                    true
-                                )
-                                1
-                            }
-                        )
-                    ))
+                                        val level = IntegerArgumentType.getInteger(context, "level")
+                                        val player = context.source.playerOrException
+
+                                        val data = BloodPoolLivingEntityAttachment.getData(player)
+
+                                        BloodPoolLivingEntityAttachment.setData(
+                                            player,
+                                            BloodPoolLivingEntityAttachment.Data(
+                                                data.maxBlood,
+                                                Mth.clamp(level, 0, data.maxBlood)
+                                            )
+                                        )
+
+                                        context.source.sendSuccess(
+                                            { Component.literal("Set blood level to $level for ${player.name.string}") },
+                                            true
+                                        )
+                                        1
+                                    }
+                            )
+                        ))
 
 
-                .then(
-                    Commands.literal("get")
-                        .then(Commands.argument("player", EntityArgument.player())
-                            .executes { context ->
-                                val player = context.source.playerOrException
+                    .then(
+                        Commands.literal("get")
+                            .then(
+                                Commands.argument("player", EntityArgument.player())
+                                    .executes { context ->
+                                        val player = context.source.playerOrException
 
-                                val data = BloodPoolLivingEntityAttachment.getData(player)
-                                player.sendSystemMessage(Component.literal("Blood Level: " + data.bloodPool + "/" + data.maxBlood))
-                                1
-                            })
-                )
+                                        val data = BloodPoolLivingEntityAttachment.getData(player)
+                                        player.sendSystemMessage(Component.literal("Blood Level: " + data.bloodPool + "/" + data.maxBlood))
+                                        1
+                                    })
+                    )
             )
     }
 
     private fun registerWerewolfCommands(): LiteralArgumentBuilder<CommandSourceStack> {
         return Commands.literal("werewolf")
             .requires { it.hasPermission(2) }
-            .then(Commands.literal("level")
-                .then(Commands.literal("try_curse")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .executes { context ->
-                            val player = context.source.playerOrException
-                            val currentLevel = AfflictionPlayerAttachment.getData(player).getWerewolfLevel()
-                            if (currentLevel == 0) {
-                                WerewolfLeveling.increaseWerewolfLevel(player)
-                            }
-                            1
-                        }
-                    )
-                )
-                .then(Commands.literal("set")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .then(Commands.argument(
-                            "level",
-                            IntegerArgumentType.integer(
-                                0,
-                                WerewolfLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
-                            )
+            .then(
+                Commands.literal("level")
+                    .then(
+                        Commands.literal("try_curse")
+                        .then(
+                            Commands.argument("player", EntityArgument.player())
+                                .executes { context ->
+                                    val player = context.source.playerOrException
+                                    val currentLevel = AfflictionPlayerAttachment.getData(player).getWerewolfLevel()
+                                    if (currentLevel == 0) {
+                                        WerewolfLeveling.increaseWerewolfLevel(player)
+                                    }
+                                    1
+                                }
                         )
-                            .executes { context ->
-
-                                val level = IntegerArgumentType.getInteger(context, "level")
-                                val player = context.source.playerOrException
-
-                                WerewolfLeveling.setLevel(player, level)
-
-                                context.source.sendSuccess(
-                                    { Component.literal("Set werewolf level to $level for ${player.name.string}") },
-                                    true
+                    )
+                    .then(
+                        Commands.literal("set")
+                        .then(
+                            Commands.argument("player", EntityArgument.player())
+                            .then(
+                                Commands.argument(
+                                    "level",
+                                    IntegerArgumentType.integer(
+                                        0,
+                                        WerewolfLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
+                                    )
                                 )
-                                1
-                            }
-                        )
-                    ))
+                                    .executes { context ->
 
-                .then(Commands.literal("get")
-                    .then(Commands.argument("player", EntityArgument.player())
-                        .executes { context ->
-                            val player = context.source.playerOrException
-                            val level = AfflictionPlayerAttachment.getData(player).getWerewolfLevel()
-                            context.source.sendSuccess(
-                                { Component.literal("Level $level for ${player.name.string}") },
-                                true
+                                        val level = IntegerArgumentType.getInteger(context, "level")
+                                        val player = context.source.playerOrException
+
+                                        WerewolfLeveling.setLevel(player, level)
+
+                                        context.source.sendSuccess(
+                                            { Component.literal("Set werewolf level to $level for ${player.name.string}") },
+                                            true
+                                        )
+                                        1
+                                    }
                             )
-                            1
-                        }
+                        ))
+
+                    .then(
+                        Commands.literal("get")
+                        .then(
+                            Commands.argument("player", EntityArgument.player())
+                                .executes { context ->
+                                    val player = context.source.playerOrException
+                                    val level = AfflictionPlayerAttachment.getData(player).getWerewolfLevel()
+                                    context.source.sendSuccess(
+                                        { Component.literal("Level $level for ${player.name.string}") },
+                                        true
+                                    )
+                                    1
+                                }
+                        )
                     )
-                )
             )
 
     }

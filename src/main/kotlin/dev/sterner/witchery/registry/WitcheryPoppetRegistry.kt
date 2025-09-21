@@ -27,22 +27,23 @@ object WitcheryPoppetRegistry {
 
     val POPPETS: DeferredRegister<PoppetType> = DeferredRegister.create(POPPET_REGISTRY, Witchery.MODID)
 
-    val DEATH_PROTECTION: DeferredHolder<PoppetType, DeathProtectionPoppet> = POPPETS.register("death_protection", Supplier { DeathProtectionPoppet() })
+    val DEATH_PROTECTION: DeferredHolder<PoppetType, DeathProtectionPoppet> =
+        POPPETS.register("death_protection", Supplier { DeathProtectionPoppet() })
 
     val VAMPIRIC: DeferredHolder<PoppetType, VampiricPoppet> =
-        POPPETS.register("vampiric", Supplier {  VampiricPoppet() })
+        POPPETS.register("vampiric", Supplier { VampiricPoppet() })
 
     val VOODOO: DeferredHolder<PoppetType, VoodooPoppet> =
-        POPPETS.register("voodoo", Supplier {  VoodooPoppet() })
+        POPPETS.register("voodoo", Supplier { VoodooPoppet() })
 
     val HUNGER_PROTECTION: DeferredHolder<PoppetType, HungerProtectionPoppet> =
-        POPPETS.register("hunger_protection", Supplier {  HungerProtectionPoppet() })
+        POPPETS.register("hunger_protection", Supplier { HungerProtectionPoppet() })
 
     val ARMOR_PROTECTION: DeferredHolder<PoppetType, ArmorProtectionPoppet> =
-        POPPETS.register("armor_protection", Supplier {  ArmorProtectionPoppet() })
+        POPPETS.register("armor_protection", Supplier { ArmorProtectionPoppet() })
 
     val VOODOO_PROTECTION: DeferredHolder<PoppetType, VoodooProtectionPoppet> =
-        POPPETS.register("voodoo_protection", Supplier {  VoodooProtectionPoppet() })
+        POPPETS.register("voodoo_protection", Supplier { VoodooProtectionPoppet() })
 
     @JvmStatic
     fun getType(item: Item): PoppetType? {
@@ -51,6 +52,6 @@ object WitcheryPoppetRegistry {
 
     @JvmStatic
     fun getType(id: ResourceLocation): PoppetType? {
-        return POPPET_REGISTRY.firstOrNull { it.getRegistryId() == id}
+        return POPPET_REGISTRY.firstOrNull { it.getRegistryId() == id }
     }
 }

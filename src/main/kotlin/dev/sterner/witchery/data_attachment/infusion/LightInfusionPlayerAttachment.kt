@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncLightInfusionS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -16,19 +15,20 @@ object LightInfusionPlayerAttachment {
 
     @JvmStatic
     fun setInvisible(player: Player, invisible: Boolean, invisibleTicks: Int) {
-        val data = LightInfusionPlayerAttachment.Data(invisible, invisibleTicks)
+        val data = Data(invisible, invisibleTicks)
         player.setData(WitcheryDataAttachments.LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT, data)
-        LightInfusionPlayerAttachment.sync(player, data)
+        sync(player, data)
     }
 
     @JvmStatic
-    fun isInvisible(player: Player): LightInfusionPlayerAttachment.Data {
+    fun isInvisible(player: Player): Data {
         return player.getData(WitcheryDataAttachments.LIGHT_INFUSION_PLAYER_DATA_ATTACHMENT)
     }
 
     fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncLightInfusionS2CPayload(
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                player, SyncLightInfusionS2CPayload(
                 CompoundTag().apply {
                     putUUID("Id", player.uuid)
                     putBoolean("Invisible", data.isInvisible)

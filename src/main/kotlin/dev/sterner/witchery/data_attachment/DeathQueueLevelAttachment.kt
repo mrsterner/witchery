@@ -12,12 +12,12 @@ import java.util.*
 object DeathQueueLevelAttachment {
 
     @JvmStatic
-    fun getData(level: ServerLevel): DeathQueueLevelAttachment.Data {
+    fun getData(level: ServerLevel): Data {
         return level.getData(WitcheryDataAttachments.DEATH_QUEUE_LEVEL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(level: ServerLevel, data: DeathQueueLevelAttachment.Data) {
+    fun setData(level: ServerLevel, data: Data) {
         level.setData(WitcheryDataAttachments.DEATH_QUEUE_LEVEL_DATA_ATTACHMENT, data)
     }
 

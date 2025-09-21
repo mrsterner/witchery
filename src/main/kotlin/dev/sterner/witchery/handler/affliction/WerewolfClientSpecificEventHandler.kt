@@ -1,6 +1,4 @@
 package dev.sterner.witchery.handler.affliction
 
 
-class WerewolfClientSpecificEventHandler {
-
-}
+class WerewolfClientSpecificEventHandler

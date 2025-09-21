@@ -44,7 +44,7 @@ class DistilleryGemModel(modelPart: ModelPart) :
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
 
-            val group = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "group",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-6.0f, -1.0f, -6.0f, 12.0f, 5.0f, 12.0f, CubeDeformation(0.02f)),

@@ -16,7 +16,6 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.UseAnim
-import net.minecraft.world.level.GameType
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
@@ -49,7 +48,7 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
                     )
 
                     if (!livingEntity.isCreative) {
-                        stack.hurtAndBreak(1, level as ServerLevel,  livingEntity) { }
+                        stack.hurtAndBreak(1, level as ServerLevel, livingEntity) { }
                     }
                 } else {
                     livingEntity.displayClientMessage(

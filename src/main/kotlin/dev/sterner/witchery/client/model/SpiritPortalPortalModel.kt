@@ -43,7 +43,7 @@ class SpiritPortalPortalModel(root: ModelPart) :
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
 
-            val bb_main = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "bb_main",
                 CubeListBuilder.create().texOffs(0, 36)
                     .addBox(-15.0f, -31.0f, -0.5f, 30.0f, 31.0f, 1.0f, CubeDeformation(0.0f)),

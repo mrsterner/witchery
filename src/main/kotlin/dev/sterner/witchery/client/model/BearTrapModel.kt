@@ -56,14 +56,14 @@ class BearTrapModel(root: ModelPart) :
                 PartPose.offset(6.0f, 22.0f, -8.0f)
             )
 
-            val leftClaw = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "leftClaw",
                 CubeListBuilder.create().texOffs(28, 55)
                     .addBox(-5.5f, -1.001f, -6.0f, 11.0f, 3.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-6.0f, -1.0f, 8.0f, -1.3963f, 0.0f, 0.0f)
             )
 
-            val rightClaw = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "rightClaw",
                 CubeListBuilder.create().texOffs(0, 29)
                     .addBox(-5.5f, -1.001f, 0.0f, 11.0f, 3.0f, 6.0f, CubeDeformation(0.05f)),
@@ -72,14 +72,14 @@ class BearTrapModel(root: ModelPart) :
 
             val crank = bone.addOrReplaceChild("crank", CubeListBuilder.create(), PartPose.offset(-12.0f, 1.5f, 8.0f))
 
-            val cube_r1 = crank.addOrReplaceChild(
+            crank.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(20, 19)
                     .addBox(-1.1f, -5.0f, -1.0f, 2.0f, 6.0f, 2.0f, CubeDeformation(-0.1f)),
                 PartPose.offsetAndRotation(0.0f, -0.5f, 0.0f, 0.0f, 0.0f, -0.2182f)
             )
 
-            val plate = bone.addOrReplaceChild(
+            bone.addOrReplaceChild(
                 "plate",
                 CubeListBuilder.create().texOffs(0, 19)
                     .addBox(-8.5f, -0.5f, 5.5f, 5.0f, 1.0f, 5.0f, CubeDeformation(0.0f))

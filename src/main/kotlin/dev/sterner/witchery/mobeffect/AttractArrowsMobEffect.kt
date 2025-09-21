@@ -39,7 +39,7 @@ class AttractArrowsMobEffect(category: MobEffectCategory, color: Int) :
 
                     val speedMultiplier = 1.0f + (amplifier * 0.2f)
                     val speed = (arrow.deltaMovement.length().toFloat() * speedMultiplier).coerceAtMost(3.0f)
-                    
+
                     arrow.shootFromRotation(entity, pitch, yaw, 0.0f, speed, 0.1f)
                     arrow.hasImpulse = true
 

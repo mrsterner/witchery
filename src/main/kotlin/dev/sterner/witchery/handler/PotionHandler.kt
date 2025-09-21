@@ -10,7 +10,6 @@ import net.minecraft.world.entity.LivingEntity
 object PotionHandler {
 
 
-
     fun poisonWeaponAttack(
         livingEntity: LivingEntity,
         damageSource: DamageSource?,

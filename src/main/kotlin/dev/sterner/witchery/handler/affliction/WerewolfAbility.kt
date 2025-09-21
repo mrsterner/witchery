@@ -250,6 +250,7 @@ enum class WerewolfAbility(
             return level >= requiredLevel
         }
     };
+
     companion object {
         @JvmStatic
         fun hasMoonCharm(player: Player): Boolean {

@@ -4,21 +4,24 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.SuspiciousGraveyardDirtBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
 import dev.sterner.witchery.block.bear_trap.BearTrapBlockEntity
+import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlockEntity
 import dev.sterner.witchery.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
+import dev.sterner.witchery.block.censer.CenserBlockEntity
 import dev.sterner.witchery.block.coffin.CoffinBlockEntity
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlockEntity
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
+import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.block.oven.OvenFumeExtensionBlockEntity
+import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.block.poppet.PoppetBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
@@ -27,17 +30,11 @@ import dev.sterner.witchery.block.signs.CustomSignBE
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
-import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
-import dev.sterner.witchery.block.censer.CenserBlockEntity
-import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
-import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
-import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.entity.SignBlockEntity
-import net.minecraft.world.level.block.state.BlockState
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.function.Supplier
@@ -55,21 +52,21 @@ object WitcheryBlockEntityTypes {
     }
 
     val MULTI_BLOCK_COMPONENT = reg("multi_block_component") {
-            BlockEntityType.Builder.of(
-                { pos, state -> MultiBlockComponentBlockEntity(pos, state) },
-                WitcheryBlocks.COMPONENT.get(),
-                WitcheryBlocks.ALTAR_COMPONENT.get(),
-                WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(),
-                WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get(),
-                WitcheryBlocks.CAULDRON_COMPONENT.get(),
-                WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(),
-                WitcheryBlocks.DISTILLERY_COMPONENT.get(),
-                WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get(),
-                WitcheryBlocks.EFFIGY_COMPONENT.get(),
-                WitcheryBlocks.MUSHROOM_LOG_COMPONENT.get()
-            )
-                .build(null)
-        }
+        BlockEntityType.Builder.of(
+            { pos, state -> MultiBlockComponentBlockEntity(pos, state) },
+            WitcheryBlocks.COMPONENT.get(),
+            WitcheryBlocks.ALTAR_COMPONENT.get(),
+            WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(),
+            WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get(),
+            WitcheryBlocks.CAULDRON_COMPONENT.get(),
+            WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(),
+            WitcheryBlocks.DISTILLERY_COMPONENT.get(),
+            WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get(),
+            WitcheryBlocks.EFFIGY_COMPONENT.get(),
+            WitcheryBlocks.MUSHROOM_LOG_COMPONENT.get()
+        )
+            .build(null)
+    }
 
     val ALTAR = reg("altar") {
         BlockEntityType.Builder.of({ pos, state -> AltarBlockEntity(pos, state) }, WitcheryBlocks.ALTAR.get())
@@ -77,7 +74,10 @@ object WitcheryBlockEntityTypes {
     }
 
     val MUSHROOM_LOG = reg("mushroom_log") {
-        BlockEntityType.Builder.of({ pos, state -> MushroomLogBlockEntity(pos, state) }, WitcheryBlocks.MUSHROOM_LOG.get())
+        BlockEntityType.Builder.of(
+            { pos, state -> MushroomLogBlockEntity(pos, state) },
+            WitcheryBlocks.MUSHROOM_LOG.get()
+        )
             .build(null)
     }
 
@@ -87,7 +87,10 @@ object WitcheryBlockEntityTypes {
     }
 
     val BLOOD_CRUCIBLE = reg("blood_crucible") {
-        BlockEntityType.Builder.of({ pos, state -> BloodCrucibleBlockEntity(pos, state) }, WitcheryBlocks.BLOOD_CRUCIBLE.get())
+        BlockEntityType.Builder.of(
+            { pos, state -> BloodCrucibleBlockEntity(pos, state) },
+            WitcheryBlocks.BLOOD_CRUCIBLE.get()
+        )
             .build(null)
     }
 
@@ -137,7 +140,10 @@ object WitcheryBlockEntityTypes {
     }
 
     val GOLDEN_CHALK = reg("golden_chalk") {
-        BlockEntityType.Builder.of({ pos, state -> GoldenChalkBlockEntity(pos, state) }, WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
+        BlockEntityType.Builder.of(
+            { pos, state -> GoldenChalkBlockEntity(pos, state) },
+            WitcheryBlocks.GOLDEN_CHALK_BLOCK.get()
+        )
             .build(null)
     }
 
@@ -171,7 +177,10 @@ object WitcheryBlockEntityTypes {
     }
 
     val WEREWOLF_ALTAR = reg("werewolf_altar") {
-        BlockEntityType.Builder.of({ pos, state -> WerewolfAltarBlockEntity(pos, state) }, WitcheryBlocks.WEREWOLF_ALTAR.get())
+        BlockEntityType.Builder.of(
+            { pos, state -> WerewolfAltarBlockEntity(pos, state) },
+            WitcheryBlocks.WEREWOLF_ALTAR.get()
+        )
             .build(null)
     }
 

@@ -1,13 +1,7 @@
 package dev.sterner.witchery
 
 import dev.sterner.witchery.data_attachment.WitcheryAttributes
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryCurseRegistry
-import dev.sterner.witchery.registry.WitcheryFetishEffects
-import dev.sterner.witchery.registry.WitcheryKeyMappings
-import dev.sterner.witchery.registry.WitcheryPoppetRegistry
-import dev.sterner.witchery.registry.WitcheryRitualRegistry
-import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
+import dev.sterner.witchery.registry.*
 import net.minecraft.world.entity.EntityType
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber

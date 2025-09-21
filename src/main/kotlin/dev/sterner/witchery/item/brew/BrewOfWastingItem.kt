@@ -12,7 +12,6 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.*
-import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec3
@@ -25,27 +24,27 @@ class BrewOfWastingItem(color: Int, properties: Properties) : ThrowableBrewItem(
         if (livingEntity is Player) {
             val hungerDuration = if (hasFrog) 600 else 300
             val hungerAmplifier = if (hasFrog) 2 else 1
-            
+
             livingEntity.addEffect(MobEffectInstance(MobEffects.HUNGER, hungerDuration, hungerAmplifier))
 
             level.playSound(
-                null, 
-                livingEntity.x, livingEntity.y, livingEntity.z, 
-                SoundEvents.WITCH_DRINK, 
-                SoundSource.PLAYERS, 
-                1.0f, 
+                null,
+                livingEntity.x, livingEntity.y, livingEntity.z,
+                SoundEvents.WITCH_DRINK,
+                SoundSource.PLAYERS,
+                1.0f,
                 0.8f + level.random.nextFloat() * 0.4f
             )
         } else {
             val witherDuration = if (hasFrog) 200 else 100
             val witherAmplifier = if (hasFrog) 1 else 0
-            
+
             livingEntity.addEffect(MobEffectInstance(MobEffects.WITHER, witherDuration, witherAmplifier))
 
             level.addParticle(
                 ParticleTypes.SMOKE,
-                livingEntity.x, 
-                livingEntity.y + livingEntity.bbHeight / 2, 
+                livingEntity.x,
+                livingEntity.y + livingEntity.bbHeight / 2,
                 livingEntity.z,
                 0.0, 0.0, 0.0
             )
@@ -53,26 +52,26 @@ class BrewOfWastingItem(color: Int, properties: Properties) : ThrowableBrewItem(
     }
 
     override fun applyEffectOnBlock(
-        level: Level, 
-        blockHit: BlockHitResult, 
+        level: Level,
+        blockHit: BlockHitResult,
         hasFrog: Boolean
     ) {
         val pos = blockHit.blockPos
         val state = level.getBlockState(pos)
 
-        val isPlant = state.block is CropBlock || 
-                      state.block is FlowerBlock || 
-                      state.block is BushBlock || 
-                      state.block is LeavesBlock ||
-                      state.block is SaplingBlock
-        
+        val isPlant = state.block is CropBlock ||
+                state.block is FlowerBlock ||
+                state.block is BushBlock ||
+                state.block is LeavesBlock ||
+                state.block is SaplingBlock
+
         if (isPlant) {
             level.destroyBlock(pos, false)
 
             level.addParticle(
                 ParticleTypes.LARGE_SMOKE,
-                pos.x + 0.5, 
-                pos.y + 0.5, 
+                pos.x + 0.5,
+                pos.y + 0.5,
                 pos.z + 0.5,
                 0.0, 0.0, 0.0
             )
@@ -82,15 +81,15 @@ class BrewOfWastingItem(color: Int, properties: Properties) : ThrowableBrewItem(
                     for (dy in -1..1) {
                         for (dz in -1..1) {
                             if (dx == 0 && dy == 0 && dz == 0) continue
-                            
+
                             val nearbyPos = pos.offset(dx, dy, dz)
                             val nearbyState = level.getBlockState(nearbyPos)
-                            
+
                             val isNearbyPlant = nearbyState.block is CropBlock ||
-                                              nearbyState.block is FlowerBlock || 
-                                              nearbyState.block is BushBlock || 
-                                              nearbyState.block is LeavesBlock ||
-                                              nearbyState.block is SaplingBlock
+                                    nearbyState.block is FlowerBlock ||
+                                    nearbyState.block is BushBlock ||
+                                    nearbyState.block is LeavesBlock ||
+                                    nearbyState.block is SaplingBlock
 
                             if (isNearbyPlant) {
                                 level.destroyBlock(nearbyPos, true)
@@ -101,11 +100,11 @@ class BrewOfWastingItem(color: Int, properties: Properties) : ThrowableBrewItem(
             }
 
             level.playSound(
-                null, 
-                pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, 
-                SoundEvents.WITHER_AMBIENT, 
-                SoundSource.BLOCKS, 
-                0.5f, 
+                null,
+                pos.x + 0.5, pos.y + 0.5, pos.z + 0.5,
+                SoundEvents.WITHER_AMBIENT,
+                SoundSource.BLOCKS,
+                0.5f,
                 0.8f + level.random.nextFloat() * 0.4f
             )
         }
@@ -144,10 +143,10 @@ class BrewOfWastingItem(color: Int, properties: Properties) : ThrowableBrewItem(
                     if (level.random.nextDouble() < chance) {
                         val state = level.getBlockState(pos)
                         val isPlant = state.block is CropBlock ||
-                                    state.block is FlowerBlock ||
-                                    state.block is BushBlock ||
-                                    state.block is LeavesBlock ||
-                                    state.block is SaplingBlock
+                                state.block is FlowerBlock ||
+                                state.block is BushBlock ||
+                                state.block is LeavesBlock ||
+                                state.block is SaplingBlock
 
                         if (isPlant) {
                             val fakeHit = BlockHitResult(
@@ -165,7 +164,7 @@ class BrewOfWastingItem(color: Int, properties: Properties) : ThrowableBrewItem(
         }
 
         level.addParticle(
-            ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, Color(145,80,40).rgb),
+            ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, Color(145, 80, 40).rgb),
             location.x, location.y, location.z,
             0.3, 0.3, 0.0 // Yellow-green color
         )

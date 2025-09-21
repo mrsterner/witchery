@@ -72,7 +72,8 @@ class WitcheryBrazierCategoryProvider(
         summon.addParent(BookEntryParentModel.create(brazier.id).withDrawArrow(true))
         addEntry(summon)
 
-        val censer = EntryProviders.singleItemTwoPages(this, "censer", WitcheryItems.CENSER.get().defaultInstance).generate("c")
+        val censer =
+            EntryProviders.singleItemTwoPages(this, "censer", WitcheryItems.CENSER.get().defaultInstance).generate("c")
         censer.addParent(BookEntryParentModel.create(brazier.id).withDrawArrow(true))
         addEntry(censer)
 
@@ -80,12 +81,16 @@ class WitcheryBrazierCategoryProvider(
         soulCage.addParent(BookEntryParentModel.create(summon.id).withDrawArrow(true))
         addEntry(soulCage)
 
-        val banshee = EntryProviders.recipe(this, "summon_banshee", WitcheryItems.CONDENSED_FEAR.get(), "brazier_summoning").generate("i")
+        val banshee =
+            EntryProviders.recipe(this, "summon_banshee", WitcheryItems.CONDENSED_FEAR.get(), "brazier_summoning")
+                .generate("i")
         banshee.addParent(BookEntryParentModel.create(summon.id).withDrawArrow(true))
 
         addEntry(banshee)
 
-        val spectre = EntryProviders.recipe(this, "summon_spectre", WitcheryItems.WOOL_OF_BAT.get(), "brazier_summoning").generate("j")
+        val spectre =
+            EntryProviders.recipe(this, "summon_spectre", WitcheryItems.WOOL_OF_BAT.get(), "brazier_summoning")
+                .generate("j")
         spectre.addParent(BookEntryParentModel.create(summon.id).withDrawArrow(true))
 
         addEntry(spectre)

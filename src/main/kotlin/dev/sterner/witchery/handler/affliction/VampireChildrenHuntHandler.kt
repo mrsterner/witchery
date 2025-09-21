@@ -4,7 +4,6 @@ import dev.sterner.witchery.data_attachment.transformation.VampireChildrenHuntLe
 import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.MinecraftServer
@@ -19,7 +18,6 @@ import java.util.stream.Stream
 object VampireChildrenHuntHandler {
 
 
-
     private fun findSpawnPosition(serverLevel: ServerLevel, coffinPos: BlockPos): BlockPos? {
         val directions: Stream<BlockPos> = BlockPos.betweenClosedStream(AABB.ofSize(coffinPos.center, 10.0, 10.0, 10.0))
 
@@ -30,7 +28,10 @@ object VampireChildrenHuntHandler {
     }
 
     @JvmStatic
-    fun returnFromHunt(serverLevel: ServerLevel, huntData: VampireChildrenHuntLevelAttachment.HuntData): VampireEntity? {
+    fun returnFromHunt(
+        serverLevel: ServerLevel,
+        huntData: VampireChildrenHuntLevelAttachment.HuntData
+    ): VampireEntity? {
         val coffinPos = huntData.coffinPos
         val spawnPos = findSpawnPosition(serverLevel, coffinPos) ?: return null
 
@@ -92,8 +93,10 @@ object VampireChildrenHuntHandler {
 
         VampireChildrenHuntLevelAttachment.setData(serverLevel, VampireChildrenHuntLevelAttachment.Data(mutableData))
 
-        PacketDistributor.sendToPlayersTrackingChunk(serverLevel, vampireEntity.chunkPosition(),
-            SpawnSmokeParticlesS2CPayload(vampireEntity.position()))
+        PacketDistributor.sendToPlayersTrackingChunk(
+            serverLevel, vampireEntity.chunkPosition(),
+            SpawnSmokeParticlesS2CPayload(vampireEntity.position())
+        )
         vampireEntity.remove(Entity.RemovalReason.DISCARDED)
     }
 

@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncMiscS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
@@ -14,14 +13,14 @@ import net.neoforged.neoforge.network.PacketDistributor
 object MiscPlayerAttachment {
 
     @JvmStatic
-    fun getData(player: Player): MiscPlayerAttachment.Data {
+    fun getData(player: Player): Data {
         return player.getData(WitcheryDataAttachments.MISC_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(player: Player, data: MiscPlayerAttachment.Data) {
+    fun setData(player: Player, data: Data) {
         player.setData(WitcheryDataAttachments.MISC_PLAYER_DATA_ATTACHMENT, data)
-        MiscPlayerAttachment.sync(player, data)
+        sync(player, data)
     }
 
     /**

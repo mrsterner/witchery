@@ -1,16 +1,10 @@
 package dev.sterner.witchery.client
 
-import com.klikli_dev.modonomicon.platform.ClientServices
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.Util
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.Tooltip
-import net.minecraft.client.gui.screens.Screen
-import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner
 import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
 
@@ -49,6 +43,7 @@ class WitcheryAdvancementButton(
         const val HEIGHT: Int = 16
 
 
-        private val BUTTON_TEXTURE = ResourceLocation.fromNamespaceAndPath("witchery", "textures/gui/advancement_button.png")
+        private val BUTTON_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath("witchery", "textures/gui/advancement_button.png")
     }
 }

@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player
 class BrewOfTheGrotesqueItem(color: Int, properties: Properties) : BrewItem(color, properties) {
 
     override fun applyEffectOnSelf(player: Player, hasFrog: Boolean) {
-        val dur = if(hasFrog) 20 * 60 * 2 else 20 * 60
+        val dur = if (hasFrog) 20 * 60 * 2 else 20 * 60
         player.addEffect(MobEffectInstance(WitcheryMobEffects.GROTESQUE, dur))
     }
 }

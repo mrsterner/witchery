@@ -13,12 +13,12 @@ import java.util.*
 object SleepingLevelAttachment {
 
     @JvmStatic
-    fun getData(level: ServerLevel): SleepingLevelAttachment.Data {
+    fun getData(level: ServerLevel): Data {
         return level.getData(WitcheryDataAttachments.SLEEPING_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(level: ServerLevel, data: SleepingLevelAttachment.Data) {
+    fun setData(level: ServerLevel, data: Data) {
         level.setData(WitcheryDataAttachments.SLEEPING_PLAYER_DATA_ATTACHMENT, data)
     }
 

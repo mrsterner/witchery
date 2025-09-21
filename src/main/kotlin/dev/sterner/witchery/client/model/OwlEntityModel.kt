@@ -96,7 +96,7 @@ class OwlEntityModel(val root: ModelPart) :
                 PartPose.offset(0.0f, 17.0f, -2.0f)
             )
 
-            val cube_r1 = head.addOrReplaceChild(
+            head.addOrReplaceChild(
                 "cube_r1",
                 CubeListBuilder.create().texOffs(0, 9)
                     .addBox(-0.5f, 0.0f, 0.5f, 1.0f, 2.0f, 1.0f, CubeDeformation(0.0f)),
@@ -112,7 +112,7 @@ class OwlEntityModel(val root: ModelPart) :
                 PartPose.offset(1.0f, -4.0f, -3.0f)
             )
 
-            val cube_r2 = ears.addOrReplaceChild(
+            ears.addOrReplaceChild(
                 "cube_r2",
                 CubeListBuilder.create().texOffs(0, 19).mirror()
                     .addBox(-2.0f, -3.0f, 0.0f, 2.0f, 3.0f, 2.0f, CubeDeformation(-0.02f)).mirror(false)
@@ -127,7 +127,7 @@ class OwlEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, 22.0f, -1.0f, -0.8727f, 0.0f, 0.0f)
             )
 
-            val folded = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "folded",
                 CubeListBuilder.create().texOffs(14, 15).mirror()
                     .addBox(-3.0f, -1.0f, -1.0f, 1.0f, 3.0f, 6.0f, CubeDeformation(0.0f)).mirror(false)
@@ -135,7 +135,7 @@ class OwlEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(0.0f, -3.0f, -3.0f, 0.1309f, 0.0f, 0.0f)
             )
 
-            val tail = body.addOrReplaceChild(
+            body.addOrReplaceChild(
                 "tail",
                 CubeListBuilder.create().texOffs(14, 9)
                     .addBox(-3.0f, 0.0f, -1.0f, 4.0f, 1.0f, 5.0f, CubeDeformation(0.0f)),
@@ -149,7 +149,7 @@ class OwlEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(2.0f, -3.0f, -4.0f, 1.5708f, 0.0f, 0.0f)
             )
 
-            val leftWing1 = leftWing.addOrReplaceChild(
+            leftWing.addOrReplaceChild(
                 "leftWing1",
                 CubeListBuilder.create().texOffs(20, 26)
                     .addBox(0.0f, -1.0f, -1.0f, 5.0f, 5.0f, 1.0f, CubeDeformation(0.0f)),
@@ -163,7 +163,7 @@ class OwlEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(-2.0f, -3.0f, -4.0f, 1.5708f, 0.0f, 0.0f)
             )
 
-            val rightWing1 = rightWing.addOrReplaceChild(
+            rightWing.addOrReplaceChild(
                 "rightWing1",
                 CubeListBuilder.create().texOffs(20, 26).mirror()
                     .addBox(-5.0f, -1.0f, -1.0f, 5.0f, 5.0f, 1.0f, CubeDeformation(0.0f)).mirror(false),
@@ -178,7 +178,7 @@ class OwlEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(2.0f, 0.0f, 0.0f, 0.8727f, 0.0f, 0.0f)
             )
 
-            val leftFoot = leftLeg.addOrReplaceChild(
+            leftLeg.addOrReplaceChild(
                 "leftFoot",
                 CubeListBuilder.create().texOffs(17, 0)
                     .addBox(0.5f, -0.8f, -1.81f, 2.0f, 1.0f, 3.0f, CubeDeformation(-0.2f)),
@@ -193,7 +193,7 @@ class OwlEntityModel(val root: ModelPart) :
                 PartPose.offsetAndRotation(-2.0f, 0.0f, 0.0f, 0.8727f, 0.0f, 0.0f)
             )
 
-            val rightFoot = rightLeg.addOrReplaceChild(
+            rightLeg.addOrReplaceChild(
                 "rightFoot",
                 CubeListBuilder.create().texOffs(17, 0)
                     .addBox(0.5f, -0.8f, -1.81f, 2.0f, 1.0f, 3.0f, CubeDeformation(-0.2f)),

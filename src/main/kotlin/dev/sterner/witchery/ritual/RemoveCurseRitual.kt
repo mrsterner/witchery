@@ -11,11 +11,12 @@ import net.minecraft.world.level.Level
 class RemoveCurseRitual : Ritual("remove_curse") {
 
     override fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
-        if (goldenChalkBlockEntity.targetPlayer != null){
+        if (goldenChalkBlockEntity.targetPlayer != null) {
             val playerUUID = goldenChalkBlockEntity.targetPlayer
             if (playerUUID?.let { level.getPlayerByUUID(it) } != null) {
                 val player = level.getPlayerByUUID(playerUUID)!!
-                val curses: MutableList<CursePlayerAttachment.PlayerCurseData> = CursePlayerAttachment.getData(player).playerCurseList
+                val curses: MutableList<CursePlayerAttachment.PlayerCurseData> =
+                    CursePlayerAttachment.getData(player).playerCurseList
                 val oldestCurse = curses.minByOrNull { it.duration }
                 if (oldestCurse != null) {
                     val curse = WitcheryCurseRegistry.CURSES.registry.get().get(oldestCurse.curseId)

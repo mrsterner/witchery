@@ -41,7 +41,7 @@ class CurseOfInsanity : Curse() {
                     val space3 = level.getBlockState(pos.above(3))
 
                     if (
-                        floor.isSolid() &&
+                        floor.isSolid &&
                         space1.isAir && space2.isAir && space3.isAir
                     ) {
                         positions.add(pos.above())

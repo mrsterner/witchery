@@ -2,17 +2,14 @@ package dev.sterner.witchery.block.censer
 
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
-
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.data.InfiniteCenserReloadListener
 import dev.sterner.witchery.entity.WitcheryThrownPotion
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
-import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.Holder
@@ -39,14 +36,12 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.Potion
 import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.LanternBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec3
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 
 class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.CENSER.get(), blockPos, blockState), AltarPowerConsumer {
@@ -69,6 +64,7 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     potionContents = listOf(it)
                 }
             }
+
             pStack.has(WITCHERY_POTION_CONTENT.get()) -> {
                 specialPotions = pStack.get(WITCHERY_POTION_CONTENT.get())!!
             }
@@ -139,7 +135,14 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 val isInfinite = InfiniteCenserReloadListener.INFINITE_SPECIAL_POTIONS.contains(rl)
                 val remainingTicks = if (isInfinite) -1 else baseDuration
 
-                activeEffects += ActiveEffect(rl, true, compoundPower, remainingTicks, baseDuration, special.dispersalModifier)
+                activeEffects += ActiveEffect(
+                    rl,
+                    true,
+                    compoundPower,
+                    remainingTicks,
+                    baseDuration,
+                    special.dispersalModifier
+                )
             }
 
             if (special.effect != WitcheryMobEffects.EMPTY) {
@@ -150,7 +153,14 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 val isEffectInfinite = InfiniteCenserReloadListener.INFINITE_POTIONS.contains(special.effect)
                 val remainingTicks = if (isEffectInfinite) -1 else baseDuration
 
-                activeEffects += ActiveEffect(rl, false, compoundPower, remainingTicks, baseDuration, special.dispersalModifier)
+                activeEffects += ActiveEffect(
+                    rl,
+                    false,
+                    compoundPower,
+                    remainingTicks,
+                    baseDuration,
+                    special.dispersalModifier
+                )
             }
         }
 
@@ -378,8 +388,10 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             val original = effectTag.getInt("Original")
             val amp = effectTag.getInt("Amplifier")
             val range = effectTag.getInt("Range")
-            activeEffects += ActiveEffect(rl, isSpecial, amp, remaining, original,
-                WitcheryPotionIngredient.DispersalModifier(range, range))
+            activeEffects += ActiveEffect(
+                rl, isSpecial, amp, remaining, original,
+                WitcheryPotionIngredient.DispersalModifier(range, range)
+            )
         }
 
         owner.ifPresent {
@@ -574,6 +586,7 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     )
                 }
             }
+
             "fertile" -> {
                 if (random.nextFloat() < 0.2f) {
                     level.addParticle(
@@ -585,6 +598,7 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     )
                 }
             }
+
             "love" -> {
                 if (random.nextFloat() < 0.2f) {
                     level.addParticle(
@@ -596,6 +610,7 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     )
                 }
             }
+
             "extinguish" -> {
                 if (random.nextFloat() < 0.15f) {
                     level.addParticle(
@@ -607,6 +622,7 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     )
                 }
             }
+
             "grow", "shrink" -> {
                 if (random.nextFloat() < 0.2f) {
                     level.addParticle(
@@ -618,6 +634,7 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     )
                 }
             }
+
             "harvest" -> {
                 if (random.nextFloat() < 0.15f) {
                     level.addParticle(

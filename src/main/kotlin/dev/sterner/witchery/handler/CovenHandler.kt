@@ -64,7 +64,8 @@ object CovenHandler {
         val data = CovenPlayerAttachment.getData(leader)
 
         if (getTotalCovenSize(leader) >= MAX_COVEN_SIZE ||
-            data.playerMembers.size >= MAX_PLAYER_MEMBERS) {
+            data.playerMembers.size >= MAX_PLAYER_MEMBERS
+        ) {
             leader.displayClientMessage(Component.translatable("witchery.coven.too_large"), true)
             return
         }
@@ -175,7 +176,8 @@ object CovenHandler {
 
         val level = player.level()
 
-        val mob = EntityType.loadEntityRecursive(witchData.entityData.copy(), level) { it } as? CovenWitchEntity ?: return null
+        val mob = EntityType.loadEntityRecursive(witchData.entityData.copy(), level) { it } as? CovenWitchEntity
+            ?: return null
 
         mob.health = witchData.health
         mob.moveTo(summonTo.x, summonTo.y, summonTo.z)

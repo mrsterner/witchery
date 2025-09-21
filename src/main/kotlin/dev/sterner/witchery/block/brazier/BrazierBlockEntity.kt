@@ -2,18 +2,12 @@ package dev.sterner.witchery.block.brazier
 
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
-
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.item.potion.WitcheryPotionItem.Companion.getMergedEffectModifier
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryMobEffects
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
-import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -113,13 +107,19 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             potionEffectRemainingTicks--
 
             if (potionEffectRemainingTicks % 20 == 0) {
-                applyPotionEffectsToNearbyEntities(level, pos, potionContents, activePotionSpecialEffects, potionEffectRadius)
+                applyPotionEffectsToNearbyEntities(
+                    level,
+                    pos,
+                    potionContents,
+                    activePotionSpecialEffects,
+                    potionEffectRadius
+                )
             }
 
             if (level.random.nextFloat() < 0.2f) {
                 val offsetX = (level.random.nextDouble() - 0.5) * 2
                 val offsetZ = (level.random.nextDouble() - 0.5) * 2
-                
+
                 val color = potionContents.color
 
                 if (level is ServerLevel) {
@@ -498,7 +498,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
-    fun loadPotionHolder(pTag: CompoundTag, level: Level){
+    fun loadPotionHolder(pTag: CompoundTag, level: Level) {
         this.isInfinite = pTag.getBoolean("isInfinite")
         if (pTag.contains("potionEffectTicks")) {
             this.potionEffectRemainingTicks = pTag.getInt("potionEffectTicks")
@@ -530,7 +530,12 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     companion object {
 
-        fun makeSoulCage(event: PlayerInteractEvent.RightClickBlock, player: Player, interactionHand: InteractionHand?, blockPos: BlockPos) {
+        fun makeSoulCage(
+            event: PlayerInteractEvent.RightClickBlock,
+            player: Player,
+            interactionHand: InteractionHand?,
+            blockPos: BlockPos
+        ) {
             val level = player.level()
             if (level.getBlockState(blockPos).`is`(WitcheryBlocks.BRAZIER.get())) {
                 val item = player.mainHandItem.item

@@ -4,8 +4,6 @@ import dev.sterner.witchery.Witchery
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.BlockGetter
@@ -29,7 +27,8 @@ import java.util.function.Supplier
 
 object WitcheryFluids {
     val FLUIDS: DeferredRegister<Fluid> = DeferredRegister.create(BuiltInRegistries.FLUID, Witchery.MODID)
-    val FLUID_TYPES: DeferredRegister<FluidType> = DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, Witchery.MODID)
+    val FLUID_TYPES: DeferredRegister<FluidType> =
+        DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, Witchery.MODID)
 
     val FLOWING_SPIRIT_TYPE: DeferredHolder<FluidType, FluidType> = FLUID_TYPES.register("flowing_spirit", Supplier {
         FluidType(
@@ -49,9 +48,10 @@ object WitcheryFluids {
         FlowingSpirit.Source()
     })
 
-    val FLOWING_SPIRIT_FLOWING: DeferredHolder<Fluid, FlowingFluid> = FLUIDS.register("flowing_spirit_flowing", Supplier {
-        FlowingSpirit.Flowing()
-    })
+    val FLOWING_SPIRIT_FLOWING: DeferredHolder<Fluid, FlowingFluid> =
+        FLUIDS.register("flowing_spirit_flowing", Supplier {
+            FlowingSpirit.Flowing()
+        })
 
     fun register(eventBus: IEventBus) {
         FLUIDS.register(eventBus)

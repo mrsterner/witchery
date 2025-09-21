@@ -110,9 +110,10 @@ class WitcheryRitualCategoryProvider(
             .requiresAndFollows(otherwhereChalk)
         addEntry(teleportOtW)
 
-        val infuseOtherwhere = EntryProviders.ritual(this, "infuse_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
-            .generate("p")
-            .requiresAndFollows(otherwhereChalk)
+        val infuseOtherwhere =
+            EntryProviders.ritual(this, "infuse_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
+                .generate("p")
+                .requiresAndFollows(otherwhereChalk)
         addEntry(infuseOtherwhere)
 
         val manifestation = EntryProviders.ritual(this, "manifestation", Items.WIND_CHARGE)

@@ -13,12 +13,15 @@ import net.minecraft.client.renderer.entity.RenderLayerParent
 import net.minecraft.client.renderer.entity.layers.RenderLayer
 import net.minecraft.client.renderer.texture.OverlayTexture
 
-class DemonHeadFeatureRenderer(renderer: RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>, var ctx: EntityRendererProvider.Context) : RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>(
+class DemonHeadFeatureRenderer(
+    renderer: RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>,
+    var ctx: EntityRendererProvider.Context
+) : RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>(
     renderer
 ) {
-    
+
     val demonModel = DemonEntityModel(ctx.bakeLayer(DemonEntityModel.LAYER_LOCATION))
-    
+
     override fun render(
         poseStack: PoseStack,
         bufferSource: MultiBufferSource,
@@ -51,7 +54,7 @@ class DemonHeadFeatureRenderer(renderer: RenderLayerParent<AbstractClientPlayer,
             poseStack.translate(0.0, 0.25, -0.5)
             poseStack.scale(0.9f, 0.9f, 0.9f)
             demonModel.renderToBuffer(
-                poseStack, 
+                poseStack,
                 bufferSource.getBuffer(RenderType.entityTranslucent(Witchery.id("textures/entity/demon.png"))),
                 packedLight,
                 OverlayTexture.NO_OVERLAY,

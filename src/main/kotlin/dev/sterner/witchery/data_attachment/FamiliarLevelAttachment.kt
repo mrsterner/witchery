@@ -13,12 +13,12 @@ import java.util.*
 object FamiliarLevelAttachment {
 
     @JvmStatic
-    fun getData(level: ServerLevel): FamiliarLevelAttachment.Data {
+    fun getData(level: ServerLevel): Data {
         return level.getData(WitcheryDataAttachments.FAMILIAR_LEVEL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(level: ServerLevel, data: FamiliarLevelAttachment.Data) {
+    fun setData(level: ServerLevel, data: Data) {
         level.setData(WitcheryDataAttachments.FAMILIAR_LEVEL_DATA_ATTACHMENT, data)
     }
 

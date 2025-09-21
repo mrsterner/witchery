@@ -4,7 +4,6 @@ import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionType
 import dev.sterner.witchery.data_attachment.infusion.LightInfusionPlayerAttachment
 import dev.sterner.witchery.payload.SpawnPoofParticlesS2CPayload
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
@@ -14,7 +13,8 @@ object LightInfusionHandler {
 
     fun poof(player: Player) {
         if (player.level() is ServerLevel) {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player,SpawnPoofParticlesS2CPayload(
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                player, SpawnPoofParticlesS2CPayload(
                 CompoundTag().apply {
                     putUUID("Id", player.uuid)
                 }

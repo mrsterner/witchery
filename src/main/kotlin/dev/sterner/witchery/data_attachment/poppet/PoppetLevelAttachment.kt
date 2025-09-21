@@ -15,12 +15,12 @@ import java.util.*
 object PoppetLevelAttachment {
 
     @JvmStatic
-    fun getPoppetData(level: ServerLevel): PoppetLevelAttachment.PoppetData {
+    fun getPoppetData(level: ServerLevel): PoppetData {
         return level.getData(WitcheryDataAttachments.POPPET_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setPoppetData(level: ServerLevel, data: PoppetLevelAttachment.PoppetData) {
+    fun setPoppetData(level: ServerLevel, data: PoppetData) {
         level.setData(WitcheryDataAttachments.POPPET_DATA_ATTACHMENT, data)
     }
 

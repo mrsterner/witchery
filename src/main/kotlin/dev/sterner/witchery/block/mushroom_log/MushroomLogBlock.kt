@@ -8,7 +8,6 @@ import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.tags.ItemTags
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
@@ -60,12 +59,20 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
 
     companion object {
 
-        fun makeMushroomLog(event: PlayerInteractEvent.RightClickBlock, player: Player, hand: InteractionHand, pos: BlockPos) {
+        fun makeMushroomLog(
+            event: PlayerInteractEvent.RightClickBlock,
+            player: Player,
+            hand: InteractionHand,
+            pos: BlockPos
+        ) {
             val level = player.level()
 
             val state = level.getBlockState(pos)
 
-            if (player.mainHandItem.`is`(Items.MOSS_BLOCK) && player.offhandItem.`is`(WitcheryTags.MUSHROOMS) && state.`is`(Blocks.DARK_OAK_LOG)) {
+            if (player.mainHandItem.`is`(Items.MOSS_BLOCK) && player.offhandItem.`is`(WitcheryTags.MUSHROOMS) && state.`is`(
+                    Blocks.DARK_OAK_LOG
+                )
+            ) {
                 val horizontalDirections = listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
 
                 for (checkDir in horizontalDirections) {
@@ -80,11 +87,13 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
                                 val bl2 = checkState.getValue(BlockStateProperties.AXIS) == Direction.Axis.Z
                                 bl && bl2
                             }
+
                             Direction.EAST, Direction.WEST -> {
                                 val bl = state.getValue(BlockStateProperties.AXIS) == Direction.Axis.X
                                 val bl2 = checkState.getValue(BlockStateProperties.AXIS) == Direction.Axis.X
                                 bl && bl2
                             }
+
                             else -> false
                         }
 

@@ -77,14 +77,14 @@ class SpectreEntityModel(val root: ModelPart) :
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
 
-            val head = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "head",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-4.0f, -8.0f, -4.0f, 8.0f, 8.0f, 8.0f, CubeDeformation(0.0f)),
                 PartPose.offset(0.0f, 1.0f, 0.0f)
             )
 
-            val rightArm = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "rArm",
                 CubeListBuilder.create().texOffs(0, 32)
                     .addBox(-3.0f, -3.0f, -10.0f, 4.0f, 4.0f, 12.0f, CubeDeformation(0.0f))
@@ -94,7 +94,7 @@ class SpectreEntityModel(val root: ModelPart) :
                 PartPose.offset(-5.0f, 4.0f, 0.0f)
             )
 
-            val leftArm = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "lArm",
                 CubeListBuilder.create().texOffs(32, 32)
                     .addBox(-1.0f, -3.0f, -10.0f, 4.0f, 4.0f, 12.0f, CubeDeformation(0.0f))
@@ -104,7 +104,7 @@ class SpectreEntityModel(val root: ModelPart) :
                 PartPose.offset(5.0f, 4.0f, 0.0f)
             )
 
-            val body = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "body",
                 CubeListBuilder.create().texOffs(32, 0)
                     .addBox(-4.0f, -14.0f, -2.0f, 8.0f, 12.0f, 4.0f, CubeDeformation(0.0f))

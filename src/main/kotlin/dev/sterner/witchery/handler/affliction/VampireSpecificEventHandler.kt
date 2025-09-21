@@ -1,6 +1,5 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
@@ -14,7 +13,6 @@ import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
@@ -41,7 +39,6 @@ object VampireSpecificEventHandler {
     private const val SPEED_BOOST_DURATION = 20 * 4
     private const val BLOOD_DRAIN_TICK_RATE = 20
     private const val SUN_DAMAGE_AMOUNT = 2f
-
 
 
     @JvmStatic
@@ -184,9 +181,11 @@ object VampireSpecificEventHandler {
             0.5f,
             1.0f
         )
-        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5)))
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+            player,
+            SpawnBloodParticlesS2CPayload(player, player.position().add(0.5, 0.5, 0.5))
+        )
     }
-
 
 
     @JvmStatic
@@ -204,7 +203,8 @@ object VampireSpecificEventHandler {
                 BloodPoolLivingEntityAttachment.Data(oldBloodData.maxBlood, RESPAWN_BLOOD_AMOUNT)
             )
 
-            val maxInSunTicks = (newPlayer.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0).toInt()
+            val maxInSunTicks =
+                (newPlayer.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0).toInt()
 
             updatedData = updatedData
                 .withInSunTick(0, maxInSunTicks)
@@ -258,7 +258,9 @@ object VampireSpecificEventHandler {
 
     @JvmStatic
     fun resetNightCount(livingEntity: LivingEntity, damageSource: DamageSource) {
-        if (livingEntity is Player && AfflictionPlayerAttachment.getData(livingEntity).getLevel(AfflictionTypes.VAMPIRISM) == 3) {
+        if (livingEntity is Player && AfflictionPlayerAttachment.getData(livingEntity)
+                .getLevel(AfflictionTypes.VAMPIRISM) == 3
+        ) {
             VampireLeveling.resetNightCounter(livingEntity)
         }
     }

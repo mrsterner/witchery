@@ -90,6 +90,7 @@ class VampiricPoppet : PoppetType {
                                 poppet.shrink(1)
                             }
                         }
+
                         PoppetLocation.WORLD -> {
                             if (level is ServerLevel) {
                                 val poppetData = PoppetLevelAttachment.getPoppetData(level)
@@ -110,6 +111,7 @@ class VampiricPoppet : PoppetType {
                                 }
                             }
                         }
+
                         null -> {}
                     }
 
@@ -144,6 +146,7 @@ class VampiricPoppet : PoppetType {
                             poppet.shrink(1)
                         }
                     }
+
                     PoppetLocation.WORLD -> {
                         if (level is ServerLevel) {
                             val poppetData = PoppetLevelAttachment.getPoppetData(level)
@@ -164,6 +167,7 @@ class VampiricPoppet : PoppetType {
                             }
                         }
                     }
+
                     null -> {}
                 }
 
@@ -174,7 +178,7 @@ class VampiricPoppet : PoppetType {
         return damage
     }
 
-    override fun getDurabilityDamage(usage: PoppetUsage): Int = when(usage) {
+    override fun getDurabilityDamage(usage: PoppetUsage): Int = when (usage) {
         PoppetUsage.DAMAGE -> 1
         PoppetUsage.PROTECTION -> 1
         else -> 0

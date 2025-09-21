@@ -6,7 +6,6 @@ import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttac
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
-import dev.sterner.witchery.registry.WitcheryPayloads
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -50,7 +49,11 @@ object VampireLeveling {
 
         updateModifiers(player, level, false)
         player.refreshDimensions()
-        PacketDistributor.sendToPlayersTrackingChunk(player.serverLevel(), player.chunkPosition(), RefreshDimensionsS2CPayload())
+        PacketDistributor.sendToPlayersTrackingChunk(
+            player.serverLevel(),
+            player.chunkPosition(),
+            RefreshDimensionsS2CPayload()
+        )
         if (level > previousLevel) {
             AfflictionAbilityHandler.addAbilityOnLevelUp(player, level, AfflictionTypes.VAMPIRISM)
         }

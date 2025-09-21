@@ -76,8 +76,12 @@ class WitcheryGeneralCategoryProvider(
             .requiresAndFollows(beginning)
         addEntry(cauldron)
 
-        val mutandis = EntryProviders.recipe(this, "mutandis", WitcheryItems.MUTANDIS.get(), "cauldron_crafting").generate("m")
-            .requiresAndFollows(cauldron, BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("cauldron")))
+        val mutandis =
+            EntryProviders.recipe(this, "mutandis", WitcheryItems.MUTANDIS.get(), "cauldron_crafting").generate("m")
+                .requiresAndFollows(
+                    cauldron,
+                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("cauldron"))
+                )
         addEntry(mutandis)
 
         val mutandisExtremis = EntryProviders.recipe(
@@ -127,16 +131,24 @@ class WitcheryGeneralCategoryProvider(
         addEntry(wormwood)
 
         val distillery = DistilleryEntryProvider(this).generate("d")
-            .requiresAndFollows(beginning, BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven")))
+            .requiresAndFollows(
+                beginning,
+                BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("oven"))
+            )
         addEntry(distillery)
 
-        val whiffOfMagic = EntryProviders.single(this, "whiff_of_magic", WitcheryItems.WHIFF_OF_MAGIC.get()).generate("w")
-            .requiresAndFollows(mutandis, BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("mutandis")))
-            .alsoFollows(oven)
+        val whiffOfMagic =
+            EntryProviders.single(this, "whiff_of_magic", WitcheryItems.WHIFF_OF_MAGIC.get()).generate("w")
+                .requiresAndFollows(
+                    mutandis,
+                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("mutandis"))
+                )
+                .alsoFollows(oven)
         addEntry(whiffOfMagic)
 
-        val hintOfRebirth = EntryProviders.single(this, "hint_of_rebirth", WitcheryItems.HINT_OF_REBIRTH.get()).generate("h")
-            .requiresAndFollows(oven)
+        val hintOfRebirth =
+            EntryProviders.single(this, "hint_of_rebirth", WitcheryItems.HINT_OF_REBIRTH.get()).generate("h")
+                .requiresAndFollows(oven)
         addEntry(hintOfRebirth)
 
         val exhaleOfTheHornedOne = EntryProviders.single(
@@ -155,9 +167,10 @@ class WitcheryGeneralCategoryProvider(
             .requiresAndFollows(oven)
         addEntry(breathOfTheGoddess)
 
-        val tearOfTheGoddess = EntryProviders.single(this, "tear_of_the_goddess", WitcheryItems.TEAR_OF_THE_GODDESS.get()).generate("t")
-            .requiresAndFollows(breathOfTheGoddess)
-            .alsoFollows(distillery)
+        val tearOfTheGoddess =
+            EntryProviders.single(this, "tear_of_the_goddess", WitcheryItems.TEAR_OF_THE_GODDESS.get()).generate("t")
+                .requiresAndFollows(breathOfTheGoddess)
+                .alsoFollows(distillery)
         addEntry(tearOfTheGoddess)
 
         val expansion = FumeExtensionEntryProvider(this).generate("u")

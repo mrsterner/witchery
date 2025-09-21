@@ -139,7 +139,7 @@ class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             player: Player?,
             interactionHand: InteractionHand?,
             blockPos: BlockPos,
-        ){
+        ) {
             if (player != null && player.mainHandItem.`is`(Items.SKELETON_SKULL)) {
                 if (player.level().getBlockEntity(blockPos) is SacrificialBlockEntity) {
                     val be = player.level().getBlockEntity(blockPos) as SacrificialBlockEntity

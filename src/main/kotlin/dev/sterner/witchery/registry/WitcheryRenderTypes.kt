@@ -6,15 +6,12 @@ import com.mojang.blaze3d.vertex.VertexFormat
 import dev.sterner.witchery.Witchery
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap
 import net.minecraft.Util
-import net.minecraft.client.renderer.RenderStateShard
 import net.minecraft.client.renderer.RenderStateShard.*
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.RenderType.create
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
-import org.joml.Vector3f
-import java.util.function.Supplier
 
 
 object WitcheryRenderTypes {
@@ -27,7 +24,9 @@ object WitcheryRenderTypes {
 
     fun checkAllBlack(): Boolean {
         val target = targetStack.get()
-        return target != null && !target.isEmpty && (target.`is`(WitcheryItems.NECROMANTIC_STONE.get()) || target.`is`(WitcheryItems.ETERNAL_CATALYST.get()))
+        return target != null && !target.isEmpty && (target.`is`(WitcheryItems.NECROMANTIC_STONE.get()) || target.`is`(
+            WitcheryItems.ETERNAL_CATALYST.get()
+        ))
     }
 
     @JvmStatic
@@ -47,16 +46,16 @@ object WitcheryRenderTypes {
 
     private fun makeSpectral(texture: ResourceLocation, shaderInstance: ShaderInstance): RenderType.CompositeState {
         return RenderType.CompositeState.builder()
-                .setShaderState(ShaderStateShard { shaderInstance })
-                .setTextureState(TextureStateShard(texture, false, true))
-                .setTransparencyState(ADDITIVE_TRANSPARENCY)
-                .setDepthTestState(LEQUAL_DEPTH_TEST)
-                .setCullState(CULL)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                .setWriteMaskState(COLOR_DEPTH_WRITE)
-                .createCompositeState(true)
+            .setShaderState(ShaderStateShard { shaderInstance })
+            .setTextureState(TextureStateShard(texture, false, true))
+            .setTransparencyState(ADDITIVE_TRANSPARENCY)
+            .setDepthTestState(LEQUAL_DEPTH_TEST)
+            .setCullState(CULL)
+            .setLightmapState(LIGHTMAP)
+            .setOverlayState(OVERLAY)
+            .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+            .setWriteMaskState(COLOR_DEPTH_WRITE)
+            .createCompositeState(true)
     }
 
     val SOUL_CHAIN = Util.memoize { texture: ResourceLocation ->

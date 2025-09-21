@@ -59,14 +59,14 @@ class MandrakeEntityModel(root: ModelPart) : EntityModel<MandrakeEntity>() {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
 
-            val head = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "head",
                 CubeListBuilder.create().texOffs(16, 12)
                     .addBox(-2.0f, -1.0f, -2.0f, 4.0f, 2.0f, 4.0f, CubeDeformation(0.0f)),
                 PartPose.offset(0.0f, 15.0f, 0.0f)
             )
 
-            val arms = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "arms",
                 CubeListBuilder.create().texOffs(16, 22)
                     .addBox(-5.0f, -1.0f, -1.0f, 2.0f, 2.0f, 2.0f, CubeDeformation(0.0f))
@@ -77,21 +77,21 @@ class MandrakeEntityModel(root: ModelPart) : EntityModel<MandrakeEntity>() {
             val legs =
                 partdefinition.addOrReplaceChild("legs", CubeListBuilder.create(), PartPose.offset(0.0f, 24.0f, 0.0f))
 
-            val rightLeg = legs.addOrReplaceChild(
+            legs.addOrReplaceChild(
                 "rightLeg",
                 CubeListBuilder.create().texOffs(16, 18)
                     .addBox(-1.0f, 0.0f, -1.0f, 2.0f, 2.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offset(-2.0f, -2.0f, 0.0f)
             )
 
-            val leftLeg = legs.addOrReplaceChild(
+            legs.addOrReplaceChild(
                 "leftLeg",
                 CubeListBuilder.create().texOffs(0, 20)
                     .addBox(-1.0f, 0.0f, -1.0f, 2.0f, 2.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offset(2.0f, -2.0f, 0.0f)
             )
 
-            val bb_main = partdefinition.addOrReplaceChild(
+            partdefinition.addOrReplaceChild(
                 "bb_main",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-3.0f, -8.0f, -3.0f, 6.0f, 6.0f, 6.0f, CubeDeformation(0.0f))
