@@ -1,0 +1,67 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "ritual",
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "witchery:chalk"
+  },
+  "description": "book.witchery.guidebook.ritual.ritual_chalk.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:ritual_chalk"
+  },
+  "name": "book.witchery.guidebook.ritual.ritual_chalk.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:ritual_chalk"
+      },
+      "text": "ritual.ritual_chalk.page.1",
+      "title": "ritual.ritual_chalk.title.1"
+    },
+    {
+      "type": "witchery:cauldron_crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_crafting/golden_chalk",
+      "text": "ritual.ritual.ritual_chalk.golden_chalk.title.1",
+      "title1": "ritual.ritual_chalk.golden_chalk.title.1",
+      "title2": ""
+    },
+    {
+      "type": "witchery:cauldron_crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_crafting/infernal_chalk",
+      "text": "ritual.ritual.ritual_chalk.infernal_chalk.title.1",
+      "title1": "ritual.ritual_chalk.infernal_chalk.title.1",
+      "title2": ""
+    },
+    {
+      "type": "witchery:cauldron_crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_crafting/otherwhere_chalk",
+      "text": "ritual.ritual.ritual_chalk.otherwhere_chalk.title.1",
+      "title1": "ritual.ritual_chalk.otherwhere_chalk.title.1",
+      "title2": ""
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 0,
+  "x": -1,
+  "y": 0
+}

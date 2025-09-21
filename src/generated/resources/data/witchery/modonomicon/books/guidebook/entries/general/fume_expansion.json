@@ -1,0 +1,69 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "general",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "general/oven"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.general.fume_expansion.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:iron_witches_oven_fume_extension"
+  },
+  "name": "book.witchery.guidebook.general.fume_expansion.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:iron_witches_oven_fume_extension"
+      },
+      "text": "general.fume_expansion.page.1",
+      "title": "general.fume_expansion.title.1"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:iron_witches_oven_fume_extension",
+      "text": "general.fume_expansion.title.1",
+      "title1": "general.fume_expansion",
+      "title2": ""
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:copper_witches_oven_fume_extension",
+      "text": "general.fume_expansion.title.1",
+      "title1": "general.fume_expansion",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "general/oven",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 18,
+  "x": 6,
+  "y": -1
+}

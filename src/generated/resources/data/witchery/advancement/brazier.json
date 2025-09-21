@@ -1,0 +1,35 @@
+{
+  "parent": "witchery:root",
+  "criteria": {
+    "has_brazier": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:brazier"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.brazier.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "witchery:brazier"
+    },
+    "title": {
+      "translate": "advancements.witchery.brazier.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_brazier"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

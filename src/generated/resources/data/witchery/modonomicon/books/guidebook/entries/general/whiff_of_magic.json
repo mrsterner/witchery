@@ -1,0 +1,55 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "general",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "general/mutandis"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:mutandis"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.general.whiff_of_magic.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:whiff_of_magic"
+  },
+  "name": "book.witchery.guidebook.general.whiff_of_magic.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "general.whiff_of_magic.page.1",
+      "title": "general.whiff_of_magic.title.1",
+      "use_markdown_in_title": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "general/mutandis",
+      "line_enabled": true,
+      "line_reversed": false
+    },
+    {
+      "draw_arrow": true,
+      "entry": "general/oven",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 13,
+  "x": 2,
+  "y": -2
+}

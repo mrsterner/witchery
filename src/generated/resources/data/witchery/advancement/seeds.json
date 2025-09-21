@@ -1,0 +1,61 @@
+{
+  "parent": "witchery:root",
+  "criteria": {
+    "has_belladonna": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:belladonna_seeds"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_mandrake": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:mandrake_seeds"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_water_artichoke": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:water_artichoke_seeds"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.seeds.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "witchery:mandrake_seeds"
+    },
+    "title": {
+      "translate": "advancements.witchery.seeds.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_mandrake"
+    ],
+    [
+      "has_belladonna"
+    ],
+    [
+      "has_water_artichoke"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,80 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brewing",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "brewing/cauldron"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.brewing.ritual_chalk.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:ritual_chalk"
+  },
+  "name": "book.witchery.guidebook.brewing.ritual_chalk.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:ritual_chalk"
+      },
+      "text": "brewing.ritual_chalk.page.1",
+      "title": "brewing.ritual_chalk.title.1"
+    },
+    {
+      "type": "witchery:cauldron_crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_crafting/golden_chalk",
+      "text": "brewing.ritual_chalk.golden_chalk.title.1",
+      "title1": "brewing.ritual_chalk.golden_chalk",
+      "title2": ""
+    },
+    {
+      "type": "witchery:cauldron_crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_crafting/infernal_chalk",
+      "text": "brewing.ritual_chalk.infernal_chalk.title.1",
+      "title1": "brewing.ritual_chalk.infernal_chalk",
+      "title2": ""
+    },
+    {
+      "type": "witchery:cauldron_crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_crafting/otherwhere_chalk",
+      "text": "brewing.ritual_chalk.otherwhere_chalk.title.1",
+      "title1": "brewing.ritual_chalk.otherwhere_chalk",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "brewing/cauldron",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 6,
+  "x": -4,
+  "y": -2
+}

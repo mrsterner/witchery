@@ -1,0 +1,56 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brewing",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "brewing/cauldron"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.brewing.brew_of_the_depths.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:brew_of_the_depths"
+  },
+  "name": "book.witchery.guidebook.brewing.brew_of_the_depths.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "brewing.brew_of_the_depths.page.1",
+      "title": "brewing.brew_of_the_depths.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:cauldron_brewing_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_brewing/brew_of_the_depths",
+      "text": "brewing.brew_of_the_depths.title.1",
+      "title1": "brewing.brew_of_the_depths",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "brewing/cauldron",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 13,
+  "x": -3,
+  "y": 3
+}

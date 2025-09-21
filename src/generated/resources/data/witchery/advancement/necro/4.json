@@ -1,0 +1,30 @@
+{
+  "parent": "witchery:necro/3",
+  "criteria": {
+    "impossible_4": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.necro_4.description"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "witchery:torn_page"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.witchery.necro_4.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible_4"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

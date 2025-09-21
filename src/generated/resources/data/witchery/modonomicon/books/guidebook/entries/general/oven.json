@@ -1,0 +1,157 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "general",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "general/beginning"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.general.oven.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:iron_witches_oven"
+  },
+  "name": "book.witchery.guidebook.general.oven.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:iron_witches_oven"
+      },
+      "text": "general.oven.page.1",
+      "title": "general.oven.title.1"
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/breath_of_the_goddess",
+      "text": "general.oven.breath_of_the_goddess.title.1",
+      "title1": "general.oven.breath_of_the_goddess",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/breath_of_the_goddess2",
+      "text": "general.oven.breath_of_the_goddess.title.1",
+      "title1": "general.oven.breath_of_the_goddess",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/hint_of_rebirth",
+      "text": "general.oven.hint_of_rebirth.title.1",
+      "title1": "general.oven.hint_of_rebirth",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/hint_of_rebirth2",
+      "text": "general.oven.hint_of_rebirth.title.1",
+      "title1": "general.oven.hint_of_rebirth",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/exhale_of_the_horned_one",
+      "text": "general.oven.exhale_of_the_horned_one.title.1",
+      "title1": "general.oven.exhale_of_the_horned_one",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/exhale_of_the_horned_one2",
+      "text": "general.oven.exhale_of_the_horned_one.title.1",
+      "title1": "general.oven.exhale_of_the_horned_one",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/foul_fume_logs",
+      "text": "general.oven.foul_fume_logs.title.1",
+      "title1": "general.oven.foul_fume_logs",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/whiff_of_magic",
+      "text": "general.oven.whiff_of_magic.title.1",
+      "title1": "general.oven.whiff_of_magic",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/odor_of_purity",
+      "text": "general.oven.odor_of_purity.title.1",
+      "title1": "general.oven.odor_of_purity",
+      "title2": ""
+    },
+    {
+      "type": "witchery:oven_fuming_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oven/reek_of_misfortune",
+      "text": "general.oven.reek_of_misfortune.title.1",
+      "title1": "general.oven.reek_of_misfortune",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "general/beginning",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 2,
+  "x": 2,
+  "y": 0
+}

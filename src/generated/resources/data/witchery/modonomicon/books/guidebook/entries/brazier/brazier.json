@@ -1,0 +1,34 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brazier",
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "witchery:brazier"
+  },
+  "description": "book.witchery.guidebook.brazier.brazier.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:brazier"
+  },
+  "name": "book.witchery.guidebook.brazier.brazier.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:brazier"
+      },
+      "text": "brazier.brazier.page.1",
+      "title": "brazier.brazier.title.1"
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 0,
+  "x": -2,
+  "y": 0
+}

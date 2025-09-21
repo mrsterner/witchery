@@ -1,0 +1,51 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brazier",
+  "description": "book.witchery.guidebook.brazier.soul_cage.description",
+  "hide_while_locked": false,
+  "icon": {
+    "height": 16,
+    "texture": "witchery:textures/item/soul_cage.png",
+    "width": 16
+  },
+  "name": "book.witchery.guidebook.brazier.soul_cage.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": [],
+      "text": "brazier.soul_cage.page.1",
+      "title": "brazier.soul_cage.title.1"
+    },
+    {
+      "type": "modonomicon:image",
+      "anchor": "",
+      "border": true,
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "images": [
+        "witchery:textures/gui/modonomicon/images/soul_cage.png"
+      ],
+      "text": "",
+      "title": "",
+      "use_legacy_rendering": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "brazier/summon",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 4,
+  "x": 0,
+  "y": -3
+}

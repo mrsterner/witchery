@@ -1,0 +1,35 @@
+{
+  "parent": "witchery:gypsum",
+  "criteria": {
+    "has_chalk": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:ritual_chalk"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.chalk.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "witchery:ritual_chalk"
+    },
+    "title": {
+      "translate": "advancements.witchery.chalk.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_chalk"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

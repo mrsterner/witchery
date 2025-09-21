@@ -1,0 +1,30 @@
+{
+  "parent": "witchery:werewolf/4",
+  "criteria": {
+    "impossible_5": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.werewolf_5.description"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "witchery:torn_page"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.witchery.werewolf_5.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible_5"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

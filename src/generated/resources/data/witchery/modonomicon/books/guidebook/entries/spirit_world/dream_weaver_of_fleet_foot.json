@@ -1,0 +1,51 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "spirit_world",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "spirit_world/wispy_cotton"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:disturbed"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.spirit_world.dream_weaver_of_fleet_foot.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:dream_weaver_of_fleet_foot"
+  },
+  "name": "book.witchery.guidebook.spirit_world.dream_weaver_of_fleet_foot.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:dream_weaver_of_fleet_foot"
+      },
+      "text": "spirit_world.dream_weaver_of_fleet_foot.page.1",
+      "title": "spirit_world.dream_weaver_of_fleet_foot.title.1"
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "spirit_world/wispy_cotton",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 4,
+  "x": -6,
+  "y": -2
+}

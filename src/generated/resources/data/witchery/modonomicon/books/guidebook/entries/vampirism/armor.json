@@ -1,0 +1,104 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "vampirism",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "vampirism/vamp_1"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:vampire/2"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.vampirism.armor.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:woven_cruor"
+  },
+  "name": "book.witchery.guidebook.vampirism.armor.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "vampirism.armor.page.1",
+      "title": "vampirism.armor.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:smelting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:woven_cruor",
+      "text": "",
+      "title1": "vampirism.armor.woven_cruor",
+      "title2": ""
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:top_hat",
+      "text": "vampirism.armor.top_hat.text",
+      "title1": "vampirism.armor.top_hat",
+      "title2": ""
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:dress_coat",
+      "text": "vampirism.armor.dress_coat.text",
+      "title1": "vampirism.armor.dress_coat",
+      "title2": ""
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:trousers",
+      "text": "vampirism.armor.trousers.text",
+      "title1": "vampirism.armor.trousers",
+      "title2": ""
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:oxford_boots",
+      "text": "vampirism.armor.oxford_boots.text",
+      "title1": "vampirism.armor.oxford_boots",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "vampirism/vamp_1",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 9,
+  "x": -2,
+  "y": -2
+}

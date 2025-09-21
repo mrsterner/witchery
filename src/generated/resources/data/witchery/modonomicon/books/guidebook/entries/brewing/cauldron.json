@@ -1,0 +1,47 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brewing",
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "witchery:cauldron"
+  },
+  "description": "book.witchery.guidebook.brewing.cauldron.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:cauldron"
+  },
+  "name": "book.witchery.guidebook.brewing.cauldron.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:cauldron"
+      },
+      "text": "brewing.cauldron.page.1",
+      "title": "brewing.cauldron.title.1"
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:copper_cauldron"
+      },
+      "text": "",
+      "title": ""
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 0,
+  "x": -1,
+  "y": 0
+}
