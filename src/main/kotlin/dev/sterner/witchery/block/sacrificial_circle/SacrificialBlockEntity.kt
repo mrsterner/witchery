@@ -1,7 +1,7 @@
 package dev.sterner.witchery.block.sacrificial_circle
 
-import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 
+import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
@@ -52,10 +52,10 @@ class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
-    override fun onBreak(player: Player?) {
+    override fun onBreak(player: Player) {
         super.onBreak(player)
 
-        player?.isCreative?.let {
+        player.isCreative.let {
             if (!(it)) {
                 level?.let { Containers.dropContents(it, blockPos, candles) }
                 if (hasSkull) {

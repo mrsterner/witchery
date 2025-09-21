@@ -1,7 +1,8 @@
 package dev.sterner.witchery.block.oven
 
 
-import dev.sterner.witchery.block.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmission
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
@@ -22,7 +23,6 @@ import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import team.lodestar.lodestone.systems.multiblock.MultiBlockStructure
 import java.util.function.Supplier
 
 open class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBlock(

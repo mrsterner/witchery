@@ -1,7 +1,7 @@
 package dev.sterner.witchery.block.werewolf_altar
 
-import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 
+import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.payload.SpawnItemParticlesS2CPayload
@@ -54,8 +54,8 @@ class WerewolfAltarBlockEntity(
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
-    override fun serverTick(level: ServerLevel?) {
-        super.serverTick(level)
+    override fun tickServer(level: ServerLevel) {
+        super.tickServer(level)
         if (level is ServerLevel) {
             val item = items[0]
             if (!item.isEmpty) {

@@ -1,22 +1,16 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.PoppetType
-import dev.sterner.witchery.poppet.ArmorProtectionPoppet
-import dev.sterner.witchery.poppet.DeathProtectionPoppet
-import dev.sterner.witchery.poppet.HungerProtectionPoppet
-import dev.sterner.witchery.poppet.VampiricPoppet
-import dev.sterner.witchery.poppet.VoodooPoppet
-import dev.sterner.witchery.poppet.VoodooProtectionPoppet
+import dev.sterner.witchery.poppet.*
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
+import net.neoforged.neoforge.registries.RegistryBuilder
 import java.util.function.Supplier
-import kotlin.collections.get
 
 object WitcheryPoppetRegistry {
 
@@ -24,10 +18,16 @@ object WitcheryPoppetRegistry {
 
     val POPPET_REGISTRY_KEY: ResourceKey<Registry<PoppetType>> = ResourceKey.createRegistryKey(ID)
 
-    val POPPETS: DeferredRegister<PoppetType> = DeferredRegister.create(POPPET_REGISTRY_KEY, Witchery.MODID)
+    val POPPET_REGISTRY: Registry<PoppetType> =
+        RegistryBuilder(POPPET_REGISTRY_KEY)
+            .sync(true)
+            .defaultKey(ID)
+            .maxId(256)
+            .create()
 
-    val DEATH_PROTECTION: DeferredHolder<PoppetType, DeathProtectionPoppet> =
-        POPPETS.register("death_protection", Supplier { DeathProtectionPoppet() })
+    val POPPETS: DeferredRegister<PoppetType> = DeferredRegister.create(POPPET_REGISTRY, Witchery.MODID)
+
+    val DEATH_PROTECTION: DeferredHolder<PoppetType, DeathProtectionPoppet> = POPPETS.register("death_protection", Supplier { DeathProtectionPoppet() })
 
     val VAMPIRIC: DeferredHolder<PoppetType, VampiricPoppet> =
         POPPETS.register("vampiric", Supplier {  VampiricPoppet() })
@@ -46,16 +46,11 @@ object WitcheryPoppetRegistry {
 
     @JvmStatic
     fun getType(item: Item): PoppetType? {
-        return POPPETS.entries.find { it.get().item == item }?.get()
+        return POPPET_REGISTRY.firstOrNull { it.item == item }
     }
 
     @JvmStatic
     fun getType(id: ResourceLocation): PoppetType? {
-        return POPPETS.entries.find { it.id == id }?.get()
+        return POPPET_REGISTRY.firstOrNull { it.getRegistryId() == id}
     }
-
-    fun getAllTypes(): List<PoppetType> = POPPETS.entries.map { it.get() }
-
-    fun getIdForPoppet(poppetType: PoppetType): ResourceLocation? =
-        POPPETS.entries.firstOrNull { it.get() == poppetType }?.id
 }

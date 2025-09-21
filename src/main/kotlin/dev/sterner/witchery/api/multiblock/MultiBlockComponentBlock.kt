@@ -1,6 +1,6 @@
 package dev.sterner.witchery.api.multiblock
 
-import dev.sterner.witchery.api.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.block.entity.BlockEntity

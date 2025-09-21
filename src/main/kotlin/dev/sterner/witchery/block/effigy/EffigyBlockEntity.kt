@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.effigy
 
 import dev.sterner.witchery.api.FetishEffect
+import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.data.FetishEffectReloadListener
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
@@ -21,7 +22,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
-import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
+
 
 class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     MultiBlockCoreEntity(WitcheryBlockEntityTypes.EFFIGY.get(), EffigyBlock.STRUCTURE.get(), blockPos, blockState) {
@@ -39,8 +40,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     var state: EffigyState? = EffigyState.IDLE
 
-    override fun serverTick(level: ServerLevel?) {
-        super.serverTick(level)
+    override fun tickServer(level: ServerLevel) {
         if (level != null) {
 
             if (state != EffigyState.IDLE) {

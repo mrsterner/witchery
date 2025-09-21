@@ -2,6 +2,7 @@ package dev.sterner.witchery.registry
 
 import com.google.common.base.Supplier
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.multiblock.MultiBlockItem
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
@@ -79,7 +80,6 @@ import net.minecraft.world.item.Tiers
 import net.neoforged.neoforge.common.DeferredSpawnEggItem
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
-import team.lodestar.lodestone.systems.multiblock.MultiBlockItem
 import java.awt.Color
 
 object WitcheryItems {

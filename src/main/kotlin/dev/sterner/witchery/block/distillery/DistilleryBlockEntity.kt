@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.distillery
 
 import dev.sterner.witchery.api.block.AltarPowerConsumer
+import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
 import dev.sterner.witchery.menu.DistilleryMenu
@@ -39,7 +40,6 @@ import net.minecraft.world.item.crafting.RecipeManager
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 import kotlin.math.min
 
 class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
@@ -79,7 +79,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
-    override fun serverTick(level: ServerLevel?) {
+    override fun tickServer(level: ServerLevel) {
 
         var shouldUpdateBlock = false
         var isProcessing = false

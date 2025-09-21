@@ -1,7 +1,8 @@
 package dev.sterner.witchery.block.spirit_portal
 
 
-import dev.sterner.witchery.block.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.handler.ManifestationHandler
@@ -26,7 +27,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties.HOR
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import team.lodestar.lodestone.systems.multiblock.MultiBlockStructure
 import java.util.function.Supplier
 import java.util.function.ToIntFunction
 

@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.spirit_portal
 
-import team.lodestar.lodestone.systems.multiblock.MultiblockComponentBlock
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.EAST
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.NORTH
@@ -23,9 +24,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties.HOR
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
 
-class SpiritPortalBlockComponent(properties: Properties) : MultiblockComponentBlock(
+class SpiritPortalBlockComponent(properties: Properties) : MultiBlockComponentBlock(
     properties.noOcclusion().noCollission().lightLevel(
         litBlockEmission(8)
     )
@@ -97,7 +97,7 @@ class SpiritPortalBlockComponent(properties: Properties) : MultiblockComponentBl
 
     override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
         if (entity is Player && state.getValue(BlockStateProperties.OPEN)) {
-            val componentBlockEntity = level.getBlockEntity(pos) as? MultiBlockComponentEntity ?: return
+            val componentBlockEntity = level.getBlockEntity(pos) as? MultiBlockComponentBlockEntity ?: return
             val corePos = componentBlockEntity.corePos ?: return
 
             val coreBlockState = level.getBlockState(corePos)

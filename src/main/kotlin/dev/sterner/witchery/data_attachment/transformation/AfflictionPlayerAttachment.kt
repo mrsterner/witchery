@@ -311,7 +311,9 @@ object AfflictionPlayerAttachment {
         fun withBatForm(active: Boolean): Data = copy(vampData = vampData.copy(isBatFormActive = active)).apply {
             markDirty(SyncField.VAMP_FORM_STATES)
         }
-        fun withMaxInSunTickClient(value: Int): Data = copy(vampData = vampData.copy(maxInSunTickClient = value))
+        fun withMaxInSunTickClient(value: Int): Data = copy(vampData = vampData.copy(maxInSunTickClient = value)).apply {
+            markDirty(SyncField.VAMP_FORM_STATES)
+        }
 
         // --- List Mutators ---
         fun addVisitedVillage(pos: Long): Data = copy(vampData = vampData.copy(

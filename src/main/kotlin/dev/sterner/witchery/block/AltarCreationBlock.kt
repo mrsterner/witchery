@@ -1,5 +1,6 @@
 package dev.sterner.witchery.block
 
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.Util
@@ -16,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.BooleanProperty
-import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
 
 class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion()) {
 
@@ -259,8 +259,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, dire.opposite)
         )
 
-        if (level.getBlockEntity(corePosition) is MultiBlockComponentEntity) {
-            (level.getBlockEntity(corePosition) as MultiBlockComponentEntity).corePos = corePosition
+        if (level.getBlockEntity(corePosition) is MultiBlockComponentBlockEntity) {
+            (level.getBlockEntity(corePosition) as MultiBlockComponentBlockEntity).corePos = corePosition
         }
     }
 

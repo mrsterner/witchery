@@ -3,7 +3,6 @@ package dev.sterner.witchery.block
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
-import net.minecraft.core.RegistryAccess
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.Connection
 import net.minecraft.network.protocol.Packet
@@ -35,6 +34,13 @@ open class WitcheryBaseBlockEntity(
             initialized = true
             init(level, pos, blockState)
         }
+        if (level is ServerLevel) {
+            tickServer(level)
+        }
+    }
+
+    open fun tickServer(serverLevel: ServerLevel) {
+
     }
 
     open fun init(level: Level, pos: BlockPos, state: BlockState) {

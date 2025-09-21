@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Curse
+import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.ritual.BindFamiliarRitual
 import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
@@ -17,6 +18,7 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
+import net.neoforged.neoforge.registries.RegistryBuilder
 import java.util.function.Supplier
 
 
@@ -26,7 +28,15 @@ object WitcheryRitualRegistry {
 
     val RITUAL_REGISTRY_KEY: ResourceKey<Registry<Ritual>> = ResourceKey.createRegistryKey(ID)
 
-    val RITUALS: DeferredRegister<Ritual> = DeferredRegister.create(RITUAL_REGISTRY_KEY, Witchery.MODID)
+    val RITUAL_REGISTRY: Registry<Ritual> =
+        RegistryBuilder(RITUAL_REGISTRY_KEY)
+            .sync(true)
+            .defaultKey(ID)
+            .maxId(256)
+            .create()
+
+    val RITUALS: DeferredRegister<Ritual> = DeferredRegister.create(RITUAL_REGISTRY, Witchery.MODID)
+
 
     val EMPTY: DeferredHolder<Ritual, EmptyRitual> = RITUALS.register("empty", Supplier { EmptyRitual() })
     val PUSH_MOBS: DeferredHolder<Ritual, PushMobsRitual> = RITUALS.register("push_mobs", Supplier { PushMobsRitual() })

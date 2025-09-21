@@ -2,6 +2,7 @@ package dev.sterner.witchery.block.cauldron
 
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.block.AltarPowerConsumer
+import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.data.PotionDataReloadListener
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
@@ -58,7 +59,6 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank
 import net.neoforged.neoforge.network.PacketDistributor
 import org.joml.Vector3d
-import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 import kotlin.collections.forEach
 
 class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
@@ -154,35 +154,32 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         this.fluidTank.fill(FluidStack(fluid, 10), IFluidHandler.FluidAction.EXECUTE)
     }
 
-    override fun tick() {
-        if (level == null) {
+    override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
+
+        if (level.random.nextFloat() < 0.005)
+            handleDripstone(level, blockPos)
+
+        if (level.isClientSide || !blockState.getValue(BlockStateProperties.LIT)) {
             return
         }
 
-        if (level!!.random.nextFloat() < 0.005)
-            handleDripstone(level!!, blockPos)
-
-        if (level!!.isClientSide || !blockState.getValue(BlockStateProperties.LIT)) {
-            return
-        }
-
-        if (level!!.gameTime % 4 == 0L && !complete && !fluidTank.isEmpty) {
-            consumeItem(level!!, blockPos)
+        if (level.gameTime % 4 == 0L && !complete && !fluidTank.isEmpty) {
+            consumeItem(level, blockPos)
         }
 
         if (witcheryPotionItemCache.isNotEmpty()) {
-            val randX = blockPos.x + 0.5 + Mth.nextDouble(level!!.random, -0.1, 0.1)
+            val randX = blockPos.x + 0.5 + Mth.nextDouble(level.random, -0.1, 0.1)
             val randY = (blockPos.y + 1.0)
-            val randZ = blockPos.z + 0.5 + Mth.nextDouble(level!!.random, -0.1, 0.1)
+            val randZ = blockPos.z + 0.5 + Mth.nextDouble(level.random, -0.1, 0.1)
             if (level is ServerLevel) {
                 PacketDistributor.sendToPlayersTrackingChunk(level as ServerLevel, ChunkPos(blockPos), CauldronPotionBrewParticleS2CPayload(Vector3d(randX, randY, randZ), color))
             }
         }
 
         if (!brewItemOutput.isEmpty) {
-            val randX = blockPos.x + 0.5 + Mth.nextDouble(level!!.random, -0.25, 0.25)
+            val randX = blockPos.x + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
             val randY = (blockPos.y + 1.0)
-            val randZ = blockPos.z + 0.5 + Mth.nextDouble(level!!.random, -0.25, 0.25)
+            val randZ = blockPos.z + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
             if (level is ServerLevel) {
                 PacketDistributor.sendToPlayersTrackingChunk(level as ServerLevel, ChunkPos(blockPos), CauldronEffectParticleS2CPayload(Vector3d(randX, randY, randZ), color))
             }
@@ -195,7 +192,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                     setChanged()
                 } else {
                     craftingProgressTicker = 0
-                    craft(level!!, blockPos)
+                    craft(level, blockPos)
                 }
             }
         }

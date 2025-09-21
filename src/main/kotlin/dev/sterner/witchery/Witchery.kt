@@ -2,69 +2,22 @@ package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
 import dev.sterner.witchery.data_attachment.PlatformUtils
-import dev.sterner.witchery.entity.BabaYagaEntity
-import dev.sterner.witchery.entity.BansheeEntity
-import dev.sterner.witchery.entity.CovenWitchEntity
-import dev.sterner.witchery.entity.DeathEntity
-import dev.sterner.witchery.entity.DemonEntity
-import dev.sterner.witchery.entity.ElleEntity
-import dev.sterner.witchery.entity.EntEntity
-import dev.sterner.witchery.entity.HornedHuntsmanEntity
-import dev.sterner.witchery.entity.ImpEntity
-import dev.sterner.witchery.entity.InsanityEntity
-import dev.sterner.witchery.entity.LilithEntity
-import dev.sterner.witchery.entity.MandrakeEntity
-import dev.sterner.witchery.entity.NightmareEntity
-import dev.sterner.witchery.entity.OwlEntity
-import dev.sterner.witchery.entity.ParasiticLouseEntity
-import dev.sterner.witchery.entity.SpectreEntity
-import dev.sterner.witchery.entity.VampireEntity
-import dev.sterner.witchery.entity.WerewolfEntity
-import dev.sterner.witchery.registry.WitcheryArmorMaterials
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryCommands
-import dev.sterner.witchery.registry.WitcheryCreativeModeTabs
-import dev.sterner.witchery.registry.WitcheryCurseRegistry
-import dev.sterner.witchery.registry.WitcheryDamageSources
-import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryFeatures
-import dev.sterner.witchery.registry.WitcheryFetishEffects
-import dev.sterner.witchery.registry.WitcheryFlammability
-import dev.sterner.witchery.registry.WitcheryFluids
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryKeyMappings
-import dev.sterner.witchery.registry.WitcheryLootInjects
-import dev.sterner.witchery.registry.WitcheryMenuTypes
-import dev.sterner.witchery.registry.WitcheryMobEffects
-import dev.sterner.witchery.registry.WitcheryModonomiconLoaders
-import dev.sterner.witchery.registry.WitcheryParticleTypes
-import dev.sterner.witchery.registry.WitcheryPayloads
-import dev.sterner.witchery.registry.WitcheryPoppetRegistry
-import dev.sterner.witchery.registry.WitcheryRecipeSerializers
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
-import dev.sterner.witchery.registry.WitcheryRenderTypes
-import dev.sterner.witchery.registry.WitcheryRitualRegistry
-import dev.sterner.witchery.registry.WitcherySounds
-import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
-import net.minecraft.core.NonNullList
-import net.minecraft.network.syncher.EntityDataSerializer
+import dev.sterner.witchery.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.entity.*
+import dev.sterner.witchery.registry.*
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.animal.Pig
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.component.ResolvableProfile
 import net.neoforged.bus.api.IEventBus
+import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.config.ModConfig
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.neoforge.common.NeoForge
-import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
+import net.neoforged.neoforge.registries.NewRegistryEvent
 import org.slf4j.Logger
+
 
 @Mod(Witchery.MODID)
 class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
@@ -84,6 +37,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         WitcheryEntityDataSerializers.SERIALIZERS.register(modEventBus)
         WitcheryEntityTypes.ENTITY_TYPES.register(modEventBus)
         WitcheryFeatures.FEATURES.register(modEventBus)
+        WitcheryAttributes.attributes.register(modEventBus)
         WitcheryFetishEffects.FETISH_EFFECTS.register(modEventBus)
         WitcheryFluids.register(modEventBus)
         WitcheryItems.ITEMS.register(modEventBus)

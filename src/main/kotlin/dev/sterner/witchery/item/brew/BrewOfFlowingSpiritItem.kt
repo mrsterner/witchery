@@ -1,7 +1,7 @@
 package dev.sterner.witchery.item.brew
 
 import dev.sterner.witchery.api.WitcheryApi
-import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
@@ -40,8 +40,8 @@ class BrewOfFlowingSpiritItem(color: Int, properties: Properties) : ThrowableBre
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, direction.opposite)
         )
 
-        if (level.getBlockEntity(pos) is MultiBlockComponentEntity) {
-            (level.getBlockEntity(pos) as MultiBlockComponentEntity).corePos = pos
+        if (level.getBlockEntity(pos) is MultiBlockComponentBlockEntity) {
+            (level.getBlockEntity(pos) as MultiBlockComponentBlockEntity).corePos = pos
         }
     }
 

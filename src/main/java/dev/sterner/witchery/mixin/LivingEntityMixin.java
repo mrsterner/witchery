@@ -41,23 +41,9 @@ public class LivingEntityMixin implements EntityChainInterface {
     @Unique
     private boolean witchery$restrained = false;
 
-
-    @ModifyReturnValue(method = "getDamageAfterArmorAbsorb", at = @At("RETURN"))
-    private float witchery$modifyHurt(float original, @Local(argsOnly = true) DamageSource damageSource) {
-        var entity = LivingEntity.class.cast(this);
-        return LivingEntityMixinLogic.INSTANCE.modifyHurt(entity, original, damageSource);
-    }
-
-    @ModifyReturnValue(method = "getDamageAfterArmorAbsorb", at = @At("RETURN"))
-    private float witchery$modifyHurtGhost(float original, @Local(argsOnly = true) DamageSource damageSource) {
-        LivingEntity livingEntity = LivingEntity.class.cast(this);
-        return LivingEntityMixinLogic.INSTANCE.modifyHurtGhost(livingEntity, original);
-    }
-
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void witchery$modifyBaseTick(CallbackInfo ci) {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
-        LivingEntityMixinLogic.INSTANCE.modifyBaseTick(livingEntity);
         BloodPoolHandler.INSTANCE.tickBloodRegen(livingEntity);
         NecroHandler.INSTANCE.tickLiving(livingEntity);
     }

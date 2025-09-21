@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.cauldron
 
-import dev.sterner.witchery.block.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
@@ -29,7 +30,6 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import net.neoforged.neoforge.fluids.FluidStack
 import net.neoforged.neoforge.fluids.capability.IFluidHandler
-import team.lodestar.lodestone.systems.multiblock.MultiBlockStructure
 import java.util.function.Supplier
 import java.util.function.ToIntFunction
 

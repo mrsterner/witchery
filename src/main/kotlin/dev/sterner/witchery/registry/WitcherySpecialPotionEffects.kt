@@ -45,6 +45,7 @@ import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec3
 import net.neoforged.neoforge.registries.DeferredRegister
+import net.neoforged.neoforge.registries.RegistryBuilder
 import java.util.function.Supplier
 import java.util.stream.Collectors
 import java.util.stream.Stream
@@ -59,8 +60,14 @@ object WitcherySpecialPotionEffects {
 
     val SPECIAL_REGISTRY_KEY: ResourceKey<Registry<SpecialPotion>> = ResourceKey.createRegistryKey(ID)
 
-    val SPECIALS: DeferredRegister<SpecialPotion> = DeferredRegister.create(SPECIAL_REGISTRY_KEY, Witchery.MODID)
+    val SPECIAL_REGISTRY: Registry<SpecialPotion> =
+        RegistryBuilder(SPECIAL_REGISTRY_KEY)
+            .sync(true)
+            .defaultKey(ID)
+            .maxId(256)
+            .create()
 
+    val SPECIALS: DeferredRegister<SpecialPotion> = DeferredRegister.create(SPECIAL_REGISTRY, Witchery.MODID)
 
     val HARVEST = SPECIALS.register("harvest", Supplier {
         object : SpecialPotion("harvest") {

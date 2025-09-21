@@ -16,79 +16,7 @@ import net.minecraft.world.entity.player.Player
 
 object LivingEntityMixinLogic {
 
-    fun modifyHurtGhost(livingEntity: LivingEntity, original: Float): Float {
-        if (livingEntity is Player) {
-            if (ManifestationPlayerAttachment.getData(livingEntity).manifestationTimer > 0) {
-                return 0f
-            }
-        }
-        return original
-    }
 
-    fun modifyHurt(entity: LivingEntity, original: Float, damageSource: DamageSource): Float {
-        var remainingDamage = original
 
-        if (damageSource.entity is Player) {
-            val attacker = damageSource.entity as Player
-            val wereData = AfflictionPlayerAttachment.getData(attacker)
-
-            if (wereData.getLevel(AfflictionTypes.LYCANTHROPY) > 0) {
-                if (TransformationHandler.isWolf(attacker) || TransformationHandler.isWerewolf(attacker)) {
-                    remainingDamage = WerewolfSpecificEventHandler.modifyWerewolfDamage(
-                        attacker, entity, damageSource, remainingDamage
-                    )
-                }
-            }
-        }
-
-        val isVamp = entity is Player && AfflictionPlayerAttachment.getData(entity).getLevel(AfflictionTypes.VAMPIRISM) > 0
-        val isWereMan = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfManForm()
-        val isWere = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfForm()
-
-        if (!isVamp && !isWere && !isWereMan) {
-            val barkMitigated = BarkBeltHandler.hurt(entity, damageSource, remainingDamage)
-            remainingDamage = barkMitigated.coerceAtMost(remainingDamage)
-
-            if (remainingDamage > 0f) {
-                remainingDamage = PoppetHandler.onLivingHurt(entity, damageSource, remainingDamage)
-            }
-        } else if (isVamp) {
-            if (remainingDamage > 0f) {
-                remainingDamage = AfflictionHandler.handleHurt(entity, damageSource, remainingDamage)
-            }
-        } else if (isWereMan) {
-            if (remainingDamage > 0f) {
-                remainingDamage = WerewolfSpecificEventHandler.handleHurtWolfman(entity, damageSource, remainingDamage)
-            }
-        } else if (isWere) {
-            if (remainingDamage > 0f) {
-                remainingDamage = WerewolfSpecificEventHandler.handleHurtWolf(entity, damageSource, remainingDamage)
-            }
-        }
-
-        if (remainingDamage > 0f) {
-            remainingDamage = PotionHandler.handleHurt(entity, damageSource, remainingDamage)
-        }
-
-        return remainingDamage
-    }
-
-    fun modifyBaseTick(livingEntity: LivingEntity) {
-        val prevData = VoodooPoppetLivingEntityAttachment.getPoppetData(livingEntity)
-
-        if (prevData.underWaterTicks > 0) {
-            val newTicks = prevData.underWaterTicks - 1
-
-            VoodooPoppetLivingEntityAttachment.setPoppetData(livingEntity, VoodooPoppetLivingEntityAttachment.VoodooPoppetData(
-                isUnderWater = true,
-                underWaterTicks = newTicks
-            ))
-        } else if (prevData.isUnderWater) {
-            VoodooPoppetLivingEntityAttachment.setPoppetData(livingEntity, VoodooPoppetLivingEntityAttachment.VoodooPoppetData(
-                isUnderWater = false,
-                underWaterTicks = 0
-            ))
-        }
-    }
 
 }

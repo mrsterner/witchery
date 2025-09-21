@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.werewolf_altar
 
 
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import net.minecraft.core.BlockPos
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
@@ -10,9 +11,8 @@ import net.minecraft.world.level.material.Fluid
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import team.lodestar.lodestone.systems.multiblock.MultiblockComponentBlock
 
-class WerewolfAltarComponent(properties: Properties) : MultiblockComponentBlock(properties.noOcclusion()) {
+class WerewolfAltarComponent(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
     override fun canBeReplaced(state: BlockState, fluid: Fluid): Boolean {
         return false
     }

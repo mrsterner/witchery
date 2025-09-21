@@ -1,5 +1,6 @@
 package dev.sterner.witchery.block.altar
 
+import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.ChaliceBlock
 import dev.sterner.witchery.data.NaturePowerReloadListener
 import dev.sterner.witchery.menu.AltarMenu
@@ -31,7 +32,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
 import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.network.PacketDistributor
-import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 import kotlin.math.floor
 import kotlin.math.min
 
@@ -256,15 +256,15 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         }, blockPos)
     }
 
-    override fun serverTick(level: ServerLevel) {
+    override fun tickServer(serverLevel: ServerLevel) {
 
         if (powerUpdateQueued) {
-            collectAllLocalNaturePower(level)
+            collectAllLocalNaturePower(serverLevel)
             powerUpdateQueued = false
         }
 
         if (augmentUpdateQueued) {
-            augmentAltar(level)
+            augmentAltar(serverLevel)
             augmentUpdateQueued = false
         }
 
@@ -273,7 +273,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         }
 
         if (ticks % 20 == 5) {
-            augmentAltar(level)
+            augmentAltar(serverLevel)
         }
 
         if (ticks % 20 > 5) {

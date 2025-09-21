@@ -113,17 +113,12 @@ import dev.sterner.witchery.registry.WitcheryItems.WITCHES_ROBES
 import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.client.model.BoatModel
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer
-import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.SneezeParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
-import dev.sterner.witchery.client.renderer.block.*
-import dev.sterner.witchery.client.renderer.entity.*
-import dev.sterner.witchery.client.renderer.without_level.*
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
@@ -147,14 +142,15 @@ import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtension
 import net.neoforged.neoforge.network.PacketDistributor
 
 import net.minecraft.client.model.ChestBoatModel
-import net.minecraft.client.model.ChestBoatModel.createBodyModel
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.NoopRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.neoforged.api.distmarker.Dist
+import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.IEventBus
+import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
@@ -163,7 +159,7 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.common.NeoForge
 
-@Mod(value = Witchery.MODID, dist = [Dist.CLIENT])
+@Mod(value = MODID, dist = [Dist.CLIENT])
 class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
 
     init {
@@ -207,7 +203,10 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
     }
 
     private fun onMouseScrolled(event: InputEvent.MouseScrollingEvent) {
-        AfflictionAbilityHandler.scroll(event, Minecraft.getInstance(), event.mouseX, event.mouseY)
+        val bl = AfflictionAbilityHandler.scroll(Minecraft.getInstance(), event.scrollDeltaX, event.scrollDeltaY)
+        if (bl) {
+            event.isCanceled = true
+        }
     }
 
     private fun onRegisterColorHandlers(event: RegisterColorHandlersEvent.Block) {

@@ -1,7 +1,7 @@
 package dev.sterner.witchery.block.spirit_portal
 
-import team.lodestar.lodestone.systems.multiblock.MultiBlockCoreEntity
 
+import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
@@ -59,7 +59,7 @@ class SpiritPortalBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return InteractionResult.SUCCESS
     }
 
-    override fun serverTick(level: ServerLevel?) {
+    override fun tickServer(level: ServerLevel) {
         val deltaTime = Minecraft.getInstance().timer.gameTimeDeltaTicks
         val progressChangeSpeed = 0.2f
 

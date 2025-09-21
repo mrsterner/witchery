@@ -100,13 +100,12 @@ object AfflictionAbilityHandler : AbilityHandler {
         }
     }
 
-    fun scroll(event: InputEvent.MouseScrollingEvent, minecraft: Minecraft?, x: Double, y: Double) {
-        val player = minecraft?.player ?: return
-
+    fun scroll(minecraft: Minecraft?, scrollDeltaX: Double, scrollDeltaY: Double): Boolean {
+        val player = minecraft?.player ?: return false
         val abilities = getAbilities(player)
-        if (abilities.isEmpty()) return
+        if (abilities.isEmpty()) return false
 
-        return AbilityScrollHandler().handleScroll(event, player, y, this)
+        return AbilityScrollHandler().handleScroll(player, scrollDeltaX, scrollDeltaY, this)
     }
 
     fun getSelectedAbility(player: Player): AfflictionAbility? {

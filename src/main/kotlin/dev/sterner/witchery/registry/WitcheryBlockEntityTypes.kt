@@ -1,6 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.SuspiciousGraveyardDirtBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
@@ -39,7 +40,6 @@ import net.minecraft.world.level.block.entity.SignBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
-import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
 import java.util.function.Supplier
 
 object WitcheryBlockEntityTypes {
@@ -54,6 +54,22 @@ object WitcheryBlockEntityTypes {
         return BLOCK_ENTITY_TYPES.register(name, Supplier<BlockEntityType<T>> { supplier() })
     }
 
+    val MULTI_BLOCK_COMPONENT = reg("multi_block_component") {
+            BlockEntityType.Builder.of(
+                { pos, state -> MultiBlockComponentBlockEntity(pos, state) },
+                WitcheryBlocks.COMPONENT.get(),
+                WitcheryBlocks.ALTAR_COMPONENT.get(),
+                WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(),
+                WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get(),
+                WitcheryBlocks.CAULDRON_COMPONENT.get(),
+                WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(),
+                WitcheryBlocks.DISTILLERY_COMPONENT.get(),
+                WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get(),
+                WitcheryBlocks.EFFIGY_COMPONENT.get(),
+                WitcheryBlocks.MUSHROOM_LOG_COMPONENT.get()
+            )
+                .build(null)
+        }
 
     val ALTAR = reg("altar") {
         BlockEntityType.Builder.of({ pos, state -> AltarBlockEntity(pos, state) }, WitcheryBlocks.ALTAR.get())

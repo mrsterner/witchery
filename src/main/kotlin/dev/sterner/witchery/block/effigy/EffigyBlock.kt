@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.effigy
 
 
+import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
@@ -19,7 +20,6 @@ import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
-import team.lodestar.lodestone.systems.multiblock.MultiBlockStructure
 import java.util.function.Supplier
 
 class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) {

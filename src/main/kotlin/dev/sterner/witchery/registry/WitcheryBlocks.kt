@@ -2,6 +2,7 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.Witchery.Companion.MODID
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.block.*
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
@@ -83,6 +84,10 @@ object WitcheryBlocks {
             LANG_HELPER.add(name)
         }
         return BLOCKS.register(name, item)
+    }
+
+    val COMPONENT = register("component") {
+        MultiBlockComponentBlock(Properties.of())
     }
 
     val DEEPLSTAE_ALTAR_BLOCK = register("deepslate_altar_block") {

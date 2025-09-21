@@ -105,7 +105,7 @@ object PoppetHandler {
             return
         }
 
-        WitcheryPoppetRegistry.DEATH_PROTECTION.get()?.let { deathPoppetType ->
+        WitcheryPoppetRegistry.DEATH_PROTECTION.get().let { deathPoppetType ->
             if (activatePoppet(livingEntity, deathPoppetType, damageSource)) {
                 livingEntity.health = livingEntity.maxHealth * 0.5f
                 livingEntity.invulnerableTime = 60

@@ -1,16 +1,15 @@
 package dev.sterner.witchery.handler.ability
 
 import net.minecraft.world.entity.player.Player
-import net.neoforged.neoforge.client.event.InputEvent
 
 class AbilityScrollHandler {
 
     fun <T : Enum<T>> handleScroll(
-        event: InputEvent.MouseScrollingEvent,
         player: Player,
+        x: Double,
         y: Double,
         abilityHandler: AbilityHandler
-    ) {
+    ): Boolean {
         val abilities = abilityHandler.getAbilities(player)
         val abilityCount = abilities.size
 
@@ -18,7 +17,7 @@ class AbilityScrollHandler {
             if (abilityHandler.abilityIndex != -1) {
                 abilityHandler.setAbilityIndex(player, -1)
             }
-            return
+            return false
         }
 
         var index = abilityHandler.abilityIndex
@@ -33,15 +32,13 @@ class AbilityScrollHandler {
             if (player.inventory.selected == 0 && y > 0.0) {
                 index = 0
                 abilityHandler.setAbilityIndex(player, index)
-                event.isCanceled = true
-                return
+                return true
             } else if (player.inventory.selected == 8 && y < 0.0) {
                 index = abilityCount - 1
                 abilityHandler.setAbilityIndex(player, index)
-                event.isCanceled = true
-                return
+                return true
             }
-            return
+            return false
         } else {
             // In ability bar
             if (y > 0.0) {
@@ -49,7 +46,7 @@ class AbilityScrollHandler {
                 if (index < abilityCount - 1) {
                     index++
                 } else {
-                    player.inventory.selected = 0
+                    player.inventory.selected = 8
                     index = -1
                 }
             } else if (y < 0.0) {
@@ -57,14 +54,13 @@ class AbilityScrollHandler {
                 if (index > 0) {
                     index--
                 } else {
-                    player.inventory.selected = 8
+                    player.inventory.selected = 0
                     index = -1
                 }
             }
 
             abilityHandler.setAbilityIndex(player, index)
-            event.isCanceled = true
-            return
+            return true
         }
     }
 }

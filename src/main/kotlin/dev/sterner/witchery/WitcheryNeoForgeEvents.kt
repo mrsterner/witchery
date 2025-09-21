@@ -18,8 +18,10 @@ import dev.sterner.witchery.data.InfiniteCenserReloadListener
 import dev.sterner.witchery.data.NaturePowerReloadListener
 import dev.sterner.witchery.data.PotionDataReloadListener
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
+import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.data_attachment.UnderWaterBreathPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
@@ -39,6 +41,8 @@ import dev.sterner.witchery.handler.PotionHandler
 import dev.sterner.witchery.handler.TeleportQueueHandler
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionEventHandler
+import dev.sterner.witchery.handler.affliction.AfflictionHandler
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.LichdomSpecificEventHandler
 import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.handler.affliction.VampireChildrenHuntHandler
@@ -60,9 +64,12 @@ import dev.sterner.witchery.registry.WitcheryStructureInjects
 import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
+import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.AddReloadListenerEvent
 import net.neoforged.neoforge.event.LootTableLoadEvent
 import net.neoforged.neoforge.event.RegisterCommandsEvent
@@ -70,6 +77,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
+import net.neoforged.neoforge.event.entity.living.LivingEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent
 import net.neoforged.neoforge.event.entity.player.CanContinueSleepingEvent
@@ -81,18 +89,18 @@ import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent
 import net.neoforged.neoforge.event.server.ServerStartedEvent
 import net.neoforged.neoforge.event.server.ServerStartingEvent
 import net.neoforged.neoforge.event.server.ServerStoppingEvent
+import net.neoforged.neoforge.event.tick.EntityTickEvent
 import net.neoforged.neoforge.event.tick.LevelTickEvent
 import net.neoforged.neoforge.event.tick.PlayerTickEvent
 import net.neoforged.neoforge.event.tick.ServerTickEvent
 
-@EventBusSubscriber(modid = Witchery.MODID, bus = EventBusSubscriber.Bus.GAME)
 object WitcheryNeoForgeEvents {
-
+    
     @SubscribeEvent
     fun onServerStarting(event: ServerStartingEvent) {
         NaturePowerReloadListener.addPending()
     }
-
+    
     @SubscribeEvent
     fun onServerTick(event: ServerTickEvent.Pre) {
         TickTaskScheduler.tick(event.server)
@@ -102,7 +110,7 @@ object WitcheryNeoForgeEvents {
         VampireChildrenHuntHandler.tickHuntAllLevels(event.server)
         WitcherySpecialPotionEffects.serverTick(event.server)
     }
-
+    
     @SubscribeEvent
     fun onLivingDeath(event: LivingDeathEvent) {
         VampireSpecificEventHandler.resetNightCount(event.entity, event.source)
@@ -117,17 +125,104 @@ object WitcheryNeoForgeEvents {
     }
 
     @SubscribeEvent
-    fun onLivingHurt(event: LivingIncomingDamageEvent) {
-        EquipmentHandler.babaYagaHit(event, event.entity, event.source, event.amount)
+    fun onLivingTick(event: EntityTickEvent.Post) {
+        val entity = event.entity
+        if (entity !is LivingEntity) return
+
+        val prevData = VoodooPoppetLivingEntityAttachment.getPoppetData(entity)
+
+        if (prevData.underWaterTicks > 0) {
+            val newTicks = prevData.underWaterTicks - 1
+
+            VoodooPoppetLivingEntityAttachment.setPoppetData(
+                entity,
+                VoodooPoppetLivingEntityAttachment.VoodooPoppetData(
+                    isUnderWater = true,
+                    underWaterTicks = newTicks
+                )
+            )
+        } else if (prevData.isUnderWater) {
+            VoodooPoppetLivingEntityAttachment.setPoppetData(
+                entity,
+                VoodooPoppetLivingEntityAttachment.VoodooPoppetData(
+                    isUnderWater = false,
+                    underWaterTicks = 0
+                )
+            )
+        }
+
+        BloodPoolHandler.tickBloodRegen(entity)
+        NecroHandler.tickLiving(entity)
     }
 
+
+    @SubscribeEvent
+    fun onLivingHurt(event: LivingIncomingDamageEvent) {
+        EquipmentHandler.babaYagaHit(event, event.entity, event.source, event.amount)
+
+        val entity = event.entity
+        val damageSource = event.source
+        var damage = event.amount
+
+        if (entity is Player) {
+            if (ManifestationPlayerAttachment.getData(entity).manifestationTimer > 0) {
+                event.amount = 0f
+                return
+            }
+        }
+
+        if (damageSource.entity is Player) {
+            val attacker = damageSource.entity as Player
+            val wereData = AfflictionPlayerAttachment.getData(attacker)
+
+            if (wereData.getLevel(AfflictionTypes.LYCANTHROPY) > 0) {
+                if (TransformationHandler.isWolf(attacker) || TransformationHandler.isWerewolf(attacker)) {
+                    damage = WerewolfSpecificEventHandler.modifyWerewolfDamage(
+                        attacker, entity, damageSource, damage
+                    )
+                }
+            }
+        }
+
+        val isVamp = entity is Player && AfflictionPlayerAttachment.getData(entity).getLevel(AfflictionTypes.VAMPIRISM) > 0
+        val isWereMan = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfManForm()
+        val isWere = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfForm()
+
+        if (!isVamp && !isWere && !isWereMan) {
+            val barkMitigated = BarkBeltHandler.hurt(entity, damageSource, damage)
+            damage = barkMitigated.coerceAtMost(damage)
+
+            if (damage > 0f) {
+                damage = PoppetHandler.onLivingHurt(entity, damageSource, damage)
+            }
+        } else if (isVamp) {
+            if (damage > 0f) {
+                damage = AfflictionHandler.handleHurt(entity, damageSource, damage)
+            }
+        } else if (isWereMan) {
+            if (damage > 0f) {
+                damage = WerewolfSpecificEventHandler.handleHurtWolfman(entity, damageSource, damage)
+            }
+        } else if (isWere) {
+            if (damage > 0f) {
+                damage = WerewolfSpecificEventHandler.handleHurtWolf(entity, damageSource, damage)
+            }
+        }
+
+        if (damage > 0f) {
+            damage = PotionHandler.handleHurt(entity, damageSource, damage)
+        }
+
+        event.amount = damage
+    }
+    
     @SubscribeEvent
     fun onLivingHurt(event: LivingDamageEvent.Post) {
         CurseHandler.onHurt(event.entity, event.source, event.originalDamage)
         PotionHandler.poisonWeaponAttack(event.entity, event.source, event.originalDamage)
         BitingBeltItem.usePotion(event.entity, event.source, event.originalDamage)
     }
-
+    
     @SubscribeEvent
     fun onAddReloadListener(event: AddReloadListenerEvent) {
         event.addListener(BloodPoolReloadListener.LOADER)
@@ -137,7 +232,7 @@ object WitcheryNeoForgeEvents {
         event.addListener(NaturePowerReloadListener.LOADER)
         event.addListener(PotionDataReloadListener.LOADER)
     }
-
+    
     @SubscribeEvent
     fun onPlayerTick(event: PlayerTickEvent.Post) {
         VampireSpecificEventHandler.tick(event.entity)
@@ -159,19 +254,36 @@ object WitcheryNeoForgeEvents {
     @SubscribeEvent
     fun onPlayerClone(event: PlayerEvent.Clone) {
         VampireSpecificEventHandler.respawn(event.original, event.entity, event.isWasDeath)
+
         AfflictionAbilityHandler.setAbilityIndex(event.entity, -1)
+
         InfusionPlayerAttachment.setPlayerInfusion(event.entity, InfusionPlayerAttachment.getPlayerInfusion(event.entity))
         LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
         PhylacteryBlockEntity.onPlayerLoad(event.entity)
         BrewOfSleepingItem.respawnPlayer(event.original, event.entity, event.isWasDeath)
     }
 
+    @SubscribeEvent(priority = EventPriority.LOW)
+    fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent) {
+        if (event.entity is ServerPlayer) {
+            val player = event.entity
+            val afflictionData = AfflictionPlayerAttachment.getData(player)
+            AfflictionPlayerAttachment.setData(player, afflictionData, sync = true)
+
+            if (afflictionData.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
+                val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+                BloodPoolLivingEntityAttachment.setData(player, bloodData)
+            }
+        }
+    }
+
+
     @SubscribeEvent
     fun onInteractEntity(event: PlayerInteractEvent.EntityInteract) {
         AfflictionEventHandler.interactEntityWithAbility(event, event.entity, event.target, event.hand)
         WineGlassItem.applyWineOnVillager(event, event.entity, event.target, event.hand)
     }
-
+    
     @SubscribeEvent
     fun onRightClickBlock(event: PlayerInteractEvent.RightClickBlock) {
         AfflictionEventHandler.rightClickBlockAbility(event, event.entity, event.hand, event.pos)
@@ -181,54 +293,54 @@ object WitcheryNeoForgeEvents {
         SacrificialBlockEntity.rightClick(event, event.entity, event.hand, event.pos)
         MushroomLogBlock.makeMushroomLog(event, event.entity, event.hand, event.pos)
     }
-
+    
     @SubscribeEvent
     fun onLeftClickBlock(event: PlayerInteractEvent.LeftClickBlock) {
         InfusionHandler.leftClickBlock(event.entity, event.hand, event.pos)
     }
-
+    
     @SubscribeEvent
     fun onBlockBreak(event: BlockEvent.BreakEvent) {
         CurseHandler.breakBlock(event.player.level(), event.pos, event.state, event.player)
         EntSpawningHandler.breakBlock(event.player.level(), event.pos, event.state, event.player)
         AltarBlockEntity.onBlockBreak(event)
     }
-
+    
     @SubscribeEvent
     fun onBlockPlace(event: BlockEvent.EntityPlaceEvent) {
         CurseHandler.placeBlock(event.entity!!.level(), event.pos, event.state, event.entity)
         AltarBlockEntity.onBlockPlace(event)
         RitualChalkBlock.placeInfernal(event, event.entity!!.level(), event.pos, event.state, event.entity)
     }
-
+    
     @SubscribeEvent
     fun onServerStarted(event: ServerStartedEvent) {
         WitcheryStructureInjects.addStructure(event.server)
     }
-
+    
     @SubscribeEvent
     fun onLootTableLoad(event: LootTableLoadEvent) {
         WitcheryLootInjects.onLootTableLoad(event)
     }
-
+    
     @SubscribeEvent
     fun registerEvents(event: RegisterCommandsEvent) {
         WitcheryCommands.register(event.dispatcher, event.buildContext, event.commandSelection)
     }
-
+    
     @SubscribeEvent
     fun onAttack(event: AttackEntityEvent) {
         CurseHandler.attackEntity(event.entity, event.entity.level(), event.target)
         InfusionHandler.leftClickEntity(event.entity, event.target)
     }
-
+    
     @SubscribeEvent
     fun onJoin(event: EntityJoinLevelEvent) {
         BloodPoolHandler.setBloodOnAdded(event.entity, event.entity.level())
     }
-
+    
     @SubscribeEvent
-    fun onEntityJoinLevel(event: EntityJoinLevelEvent) {
+    fun onEntityJoinLevel(event: PlayerEvent.PlayerLoggedInEvent) {
         if (event.entity is ServerPlayer) {
             val serverPlayer = event.entity as ServerPlayer
             val data = DeathQueueLevelAttachment.getData(serverPlayer.serverLevel())
@@ -243,35 +355,35 @@ object WitcheryNeoForgeEvents {
             PhylacteryBlockEntity.onPlayerLoad(serverPlayer)
         }
     }
-
+    
     @SubscribeEvent
     fun onSleep(event: SleepingEvent) {
         DreamWeaverHandler.onWake(event.player, event.sleepCounter, event.wakeImmediately)
     }
-
+    
     @SubscribeEvent
     fun onLevelTick(event: LevelTickEvent.Pre) {
         MutandisHandler.tick(event.level)
         NecroHandler.processListExhaustion(event.level)
         NecroHandler.tick(event.level)
     }
-
+    
     @SubscribeEvent
     fun onServerStop(event: ServerStoppingEvent) {
         TeleportQueueHandler.clearQueue(event.server)
     }
-
+    
     @SubscribeEvent
     fun onLightningStruck(event: EntityStruckByLightningEvent) {
         InfernalInfusionHandler.strikeLightning(event.entity)
     }
-
+    
     @SubscribeEvent
     fun onChain(event: ChainEvent) {
         BindSpectralCreaturesRitual.handleChainDiscard(event.entity)
         SoulCageBlockEntity.handleChainDiscard(event.entity)
     }
-
+    
     @SubscribeEvent
     fun canPlayerSleepEvent(event: CanPlayerSleepEvent) {
         if (event.state.block is CoffinBlock) {
@@ -283,7 +395,7 @@ object WitcheryNeoForgeEvents {
             }
         }
     }
-
+    
     @SubscribeEvent
     fun canContinueSleepingEvent(event: CanContinueSleepingEvent) {
         val blockState = event.entity.sleepingPos
@@ -298,7 +410,7 @@ object WitcheryNeoForgeEvents {
             }
         }
     }
-
+    
     @SubscribeEvent
     fun sleepFinishedTimeEvent(event: SleepFinishedTimeEvent) {
         val level = event.level
@@ -316,4 +428,6 @@ object WitcheryNeoForgeEvents {
             }
         }
     }
+
+
 }

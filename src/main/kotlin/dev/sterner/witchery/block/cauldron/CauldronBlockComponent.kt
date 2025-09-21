@@ -1,5 +1,6 @@
 package dev.sterner.witchery.block.cauldron
 
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.item.context.BlockPlaceContext
@@ -14,9 +15,8 @@ import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import team.lodestar.lodestone.systems.multiblock.MultiblockComponentBlock
 
-class CauldronBlockComponent(properties: Properties) : MultiblockComponentBlock(properties.noOcclusion()) {
+class CauldronBlockComponent(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
 
     init {
         this.registerDefaultState(

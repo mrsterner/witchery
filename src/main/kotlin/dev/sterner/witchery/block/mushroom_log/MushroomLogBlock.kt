@@ -1,6 +1,8 @@
 package dev.sterner.witchery.block.mushroom_log
 
-import dev.sterner.witchery.block.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
+import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryTags
@@ -19,8 +21,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
-import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
-import team.lodestar.lodestone.systems.multiblock.MultiBlockStructure
 import java.util.function.Supplier
 
 class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) {
@@ -107,8 +107,8 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
                             (level.getBlockEntity(pos) as MushroomLogBlockEntity).setMushroom(player.offhandItem.copy())
                         }
 
-                        if (level.getBlockEntity(checkPos) is MultiBlockComponentEntity) {
-                            (level.getBlockEntity(checkPos) as MultiBlockComponentEntity).corePos = pos
+                        if (level.getBlockEntity(checkPos) is MultiBlockComponentBlockEntity) {
+                            (level.getBlockEntity(checkPos) as MultiBlockComponentBlockEntity).corePos = pos
                         }
 
                         if (!player.isCreative) {

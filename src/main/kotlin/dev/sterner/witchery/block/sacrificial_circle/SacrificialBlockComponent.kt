@@ -1,6 +1,7 @@
 package dev.sterner.witchery.block.sacrificial_circle
 
 
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.RenderShape
@@ -8,9 +9,8 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
-import team.lodestar.lodestone.systems.multiblock.MultiblockComponentBlock
 
-class SacrificialBlockComponent(properties: Properties) : MultiblockComponentBlock(properties.noOcclusion()) {
+class SacrificialBlockComponent(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
 
     override fun getRenderShape(state: BlockState): RenderShape {
         return RenderShape.INVISIBLE

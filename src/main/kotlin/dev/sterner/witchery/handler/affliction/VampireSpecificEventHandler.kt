@@ -1,6 +1,8 @@
 package dev.sterner.witchery.handler.affliction
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.VampireEvent
+import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
@@ -28,7 +30,6 @@ import net.minecraft.world.entity.monster.Blaze
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.network.PacketDistributor
-import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity
 
 object VampireSpecificEventHandler {
 
@@ -95,22 +96,31 @@ object VampireSpecificEventHandler {
 
     private fun handleSunExposure(player: ServerPlayer) {
         val isInSunlight = player.level().canSeeSky(player.blockPosition()) && player.level().isDay
+        val currentData = AfflictionPlayerAttachment.getData(player)
+        val currentSunTick = currentData.getInSunTick()
+        val maxInSunTicks = (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0).toInt()
+
 
         if (isInSunlight && !player.isCreative && !player.isSpectator) {
-            val maxInSunTicks = (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0).toInt()
+            if (currentSunTick < maxInSunTicks) {
+                val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+                    incrementInSunTick(1, maxInSunTicks)
+                        .withMaxInSunTickClient(maxInSunTicks)
+                }
 
-            val newData = AfflictionPlayerAttachment.batchUpdate(player) {
-                incrementInSunTick(1, maxInSunTicks)
-                    .withMaxInSunTickClient(maxInSunTicks)
-            }
+                val newSunTick = newData.getInSunTick()
 
-            if (newData.getInSunTick() >= maxInSunTicks) {
-                handleSunDamage(player, newData)
+                if (newSunTick >= maxInSunTicks && currentSunTick < maxInSunTicks) {
+                    handleSunDamage(player, newData)
+                }
+            } else {
+                handleSunDamage(player, currentData)
             }
         } else {
             decreaseSunTick(player)
         }
     }
+
 
     /**
      * Decreases sun tick counter when not in sunlight
@@ -132,30 +142,33 @@ object VampireSpecificEventHandler {
         val sunDamageSource = (player.level().damageSources() as DamageSourcesInvoker)
             .invokeSource(WitcheryDamageSources.IN_SUN)
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+        val vampireLevel = affData.getLevel(AfflictionTypes.VAMPIRISM)
 
-        if (affData.getLevel(AfflictionTypes.VAMPIRISM) < 5) {
-            val event = VampireEvent.SunDamage(player)
-            NeoForge.EVENT_BUS.post(event)
-            if (!event.isCanceled()) {
+        val event = VampireEvent.SunDamage(player)
+        NeoForge.EVENT_BUS.post(event)
+
+        if (event.isCanceled()) {
+            return
+        }
+
+        when {
+            vampireLevel < 5 -> {
                 player.hurt(sunDamageSource, Float.MAX_VALUE)
             }
-        } else if (bloodData.bloodPool >= BLOOD_HEALING_THRESHOLD) {
-            if (player.tickCount % BLOOD_DRAIN_TICK_RATE == 0) {
-                val event = VampireEvent.SunDamage(player)
-                NeoForge.EVENT_BUS.post(event)
-                if (!event.isCanceled()) {
+
+            bloodData.bloodPool >= BLOOD_HEALING_THRESHOLD -> {
+                if (player.tickCount % BLOOD_DRAIN_TICK_RATE == 0) {
                     player.hurt(sunDamageSource, SUN_DAMAGE_AMOUNT)
                     playSunDamageEffects(player)
                 }
             }
-        } else {
-            val event = VampireEvent.SunDamage(player)
-            NeoForge.EVENT_BUS.post(event)
-            if (!event.isCanceled()) {
+
+            else -> {
                 player.hurt(sunDamageSource, Float.MAX_VALUE)
             }
         }
     }
+
 
     /**
      * Plays sun damage visual and sound effects
@@ -175,10 +188,9 @@ object VampireSpecificEventHandler {
     }
 
 
+
     @JvmStatic
     fun respawn(oldPlayer: Player, newPlayer: Player, alive: Boolean) {
-        if (newPlayer !is ServerPlayer) return
-
         val oldData = AfflictionPlayerAttachment.getData(oldPlayer)
         var updatedData = oldData
 
@@ -199,7 +211,27 @@ object VampireSpecificEventHandler {
                 .withMaxInSunTickClient(maxInSunTicks)
         }
 
-        AfflictionPlayerAttachment.setData(newPlayer, updatedData, sync = true)
+        AfflictionPlayerAttachment.setData(newPlayer, updatedData, sync = false)
+
+        if (newPlayer is ServerPlayer) {
+            newPlayer.server.execute {
+
+                AfflictionPlayerAttachment.selectiveSync(
+                    newPlayer,
+                    updatedData,
+                    setOf(
+                        AfflictionPlayerAttachment.SyncField.AFFLICTION_LEVELS,
+                        AfflictionPlayerAttachment.SyncField.VAMP_FORM_STATES,
+                        AfflictionPlayerAttachment.SyncField.ABILITY_INDEX
+                    )
+                )
+
+                if (updatedData.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
+                    val bloodData = BloodPoolLivingEntityAttachment.getData(newPlayer)
+                    BloodPoolLivingEntityAttachment.setData(newPlayer, bloodData)
+                }
+            }
+        }
     }
 
     @JvmStatic
@@ -285,7 +317,7 @@ object VampireSpecificEventHandler {
         )
 
         player.level().getBlockEntity(blockPos)?.let { blockEntity ->
-            if (blockEntity is MultiBlockComponentEntity) {
+            if (blockEntity is MultiBlockComponentBlockEntity) {
                 blockEntity.corePos = blockPos
             }
         }
