@@ -119,6 +119,8 @@ import dev.sterner.witchery.client.particle.BloodSplashParticle
 import dev.sterner.witchery.client.particle.ColorBubbleParticle
 import dev.sterner.witchery.client.particle.SneezeParticle
 import dev.sterner.witchery.client.particle.ZzzParticle
+import dev.sterner.witchery.client.renderer.block.SoulCageBlockEntityRenderer
+import dev.sterner.witchery.client.renderer.block.WerewolfAltarBlockEntityRenderer
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
@@ -420,6 +422,8 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
     }
 
     fun registerEntityRenderers(event: EntityRenderersEvent.RegisterRenderers) {
+        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.SOUL_CAGE.get(), ::SoulCageBlockEntityRenderer)
+        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.WEREWOLF_ALTAR.get(), ::WerewolfAltarBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.PHYLACTERY.get(), ::PhylacteryBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)

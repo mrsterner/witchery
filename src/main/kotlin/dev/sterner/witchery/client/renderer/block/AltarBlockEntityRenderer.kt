@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import net.minecraft.client.renderer.MultiBufferSource
@@ -11,12 +12,25 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.AABB
 
 class AltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<AltarBlockEntity> {
 
     private val altarModel = AltarBlockEntityModel(ctx.bakeLayer(AltarBlockEntityModel.LAYER_LOCATION))
     private val altarClothModel = AltarClothBlockEntityModel(ctx.bakeLayer(AltarClothBlockEntityModel.LAYER_LOCATION))
+
+    override fun getRenderBoundingBox(blockEntity: AltarBlockEntity): AABB {
+        val pos = blockEntity.blockPos
+        return AABB(
+            pos.x - 1.5,
+            pos.y - 0.0,
+            pos.z - 1.5,
+            pos.x + 1.5,
+            pos.y + 1.0,
+            pos.z + 1.5
+        )
+    }
 
     override fun render(
         blockEntity: AltarBlockEntity,

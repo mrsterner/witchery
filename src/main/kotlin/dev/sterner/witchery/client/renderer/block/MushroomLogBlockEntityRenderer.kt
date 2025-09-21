@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
+import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.client.model.MushroomLogModel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
@@ -12,11 +13,24 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.core.Direction
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.AABB
 
 class MushroomLogBlockEntityRenderer(private val ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<MushroomLogBlockEntity> {
 
     var model = MushroomLogModel(ctx.bakeLayer(MushroomLogModel.LAYER_LOCATION))
+
+    override fun getRenderBoundingBox(blockEntity: MushroomLogBlockEntity): AABB {
+        val pos = blockEntity.blockPos
+        return AABB(
+            pos.x - 1.0,
+            pos.y - 0.0,
+            pos.z - 1.0,
+            pos.x + 1.0,
+            pos.y + 0.0,
+            pos.z + 1.0
+        )
+    }
 
     override fun render(
         blockEntity: MushroomLogBlockEntity,

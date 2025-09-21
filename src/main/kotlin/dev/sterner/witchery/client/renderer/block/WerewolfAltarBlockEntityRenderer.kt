@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.world.item.ItemDisplayContext
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 
 open class WerewolfAltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
@@ -19,13 +20,16 @@ open class WerewolfAltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Con
 
     private val model = WerewolfAltarModel(ctx.bakeLayer(WerewolfAltarModel.LAYER_LOCATION))
 
-    override fun shouldRenderOffScreen(blockEntity: WerewolfAltarBlockEntity): Boolean {
-        return true
-    }
-
-    override fun shouldRender(blockEntity: WerewolfAltarBlockEntity, cameraPos: Vec3): Boolean {
-        return Vec3.atCenterOf(blockEntity.blockPos).multiply(1.0, 0.0, 1.0)
-            .closerThan(cameraPos.multiply(1.0, 0.0, 1.0), this.viewDistance.toDouble())
+    override fun getRenderBoundingBox(blockEntity: WerewolfAltarBlockEntity): AABB {
+        val pos = blockEntity.blockPos
+        return AABB(
+            pos.x - 0.0,
+            pos.y - 0.0,
+            pos.z - 0.0,
+            pos.x + 0.0,
+            pos.y + 2.0,
+            pos.z + 0.0
+        )
     }
 
     override fun render(

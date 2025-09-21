@@ -2,6 +2,7 @@ package dev.sterner.witchery.client.renderer.block
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
+import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
@@ -11,12 +12,25 @@ import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.SkullBlockEntity
+import net.minecraft.world.phys.AABB
 import kotlin.math.cos
 import kotlin.math.sin
 
 
 class SacrificialCircleBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<SacrificialBlockEntity> {
+
+    override fun getRenderBoundingBox(blockEntity: SacrificialBlockEntity): AABB {
+        val pos = blockEntity.blockPos
+        return AABB(
+            pos.x - 1.0,
+            pos.y - 0.0,
+            pos.z - 1.0,
+            pos.x + 1.0,
+            pos.y + 0.0,
+            pos.z + 1.0
+        )
+    }
 
     override fun render(
         blockEntity: SacrificialBlockEntity,

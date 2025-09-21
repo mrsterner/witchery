@@ -188,7 +188,9 @@ object TransformationHandler {
                     maxBatTime += if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= 9) 60 * 20 else 0
                     val data = TransformationPlayerAttachment.getData(player)
                     TransformationPlayerAttachment.setData(player, data.copy(maxBatTimeClient = maxBatTime))
-                    if (TransformationPlayerAttachment.getData(player).batFormTicker > maxBatTime) {
+
+                    if (TransformationPlayerAttachment.getData(player).batFormTicker > maxBatTime &&
+                        !player.isCreative && !player.isSpectator) {
                         removeForm(player)
                     }
 

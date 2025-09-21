@@ -4,12 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
+import dev.sterner.witchery.block.mushroom_log.MushroomLogBlockEntity
 import dev.sterner.witchery.client.model.BansheeEntityModel
 import dev.sterner.witchery.client.model.SpectreEntityModel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.world.phys.AABB
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -19,6 +21,17 @@ class EffigyBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     var spectreHeadModel = SpectreEntityModel(ctx.bakeLayer(SpectreEntityModel.LAYER_LOCATION))
     var bansheeHeadModel = BansheeEntityModel(ctx.bakeLayer(BansheeEntityModel.LAYER_LOCATION))
 
+    override fun getRenderBoundingBox(blockEntity: EffigyBlockEntity): AABB {
+        val pos = blockEntity.blockPos
+        return AABB(
+            pos.x - 1.0,
+            pos.y - 0.0,
+            pos.z - 1.0,
+            pos.x + 1.0,
+            pos.y + 1.0,
+            pos.z + 1.0
+        )
+    }
 
     override fun render(
         blockEntity: EffigyBlockEntity,

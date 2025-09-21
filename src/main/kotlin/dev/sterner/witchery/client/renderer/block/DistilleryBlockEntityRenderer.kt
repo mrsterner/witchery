@@ -3,6 +3,7 @@ package dev.sterner.witchery.client.renderer.block
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
+import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.client.model.DistilleryGemModel
 import dev.sterner.witchery.client.model.JarModel
 import net.minecraft.client.renderer.MultiBufferSource
@@ -10,6 +11,7 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.AABB
 
 
 class DistilleryBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
@@ -17,6 +19,18 @@ class DistilleryBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
 
     private var jarModel = JarModel(ctx.bakeLayer(JarModel.LAYER_LOCATION))
     private var gemModel = DistilleryGemModel(ctx.bakeLayer(DistilleryGemModel.LAYER_LOCATION))
+
+    override fun getRenderBoundingBox(blockEntity: DistilleryBlockEntity): AABB {
+        val pos = blockEntity.blockPos
+        return AABB(
+            pos.x - 0.0,
+            pos.y - 0.0,
+            pos.z - 0.0,
+            pos.x + 0.0,
+            pos.y + 1.0,
+            pos.z + 0.0
+        )
+    }
 
     override fun render(
         blockEntity: DistilleryBlockEntity,

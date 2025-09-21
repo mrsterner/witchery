@@ -19,6 +19,7 @@ object VampireClientSpecificEventHandler {
     /**
      * Renders the vampire HUD elements
      */
+
     @JvmStatic
     fun renderHud(guiGraphics: GuiGraphics) {
         val client = Minecraft.getInstance()
@@ -27,19 +28,19 @@ object VampireClientSpecificEventHandler {
         val isNotVamp = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) <= 0
         if (isNotVamp) return
 
-        val canHurtPlayer = client.gameMode!!.canHurtPlayer()
-        if (!canHurtPlayer) return
-
         val hasOffhand = !player.offhandItem.isEmpty
         val y = guiGraphics.guiHeight() - 18 - 5
         val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - if (hasOffhand) 32 else 0
 
-        drawBloodSense(guiGraphics)
-        drawSun(guiGraphics, player)
-        drawBatFormHud(guiGraphics, player)
         AfflictionClientEventHandler.drawAbilityBar(guiGraphics, player, x, y)
-    }
 
+        val canHurtPlayer = client.gameMode!!.canHurtPlayer()
+        if (canHurtPlayer) {
+            drawBloodSense(guiGraphics)
+            drawSun(guiGraphics, player)
+            drawBatFormHud(guiGraphics, player)
+        }
+    }
 
     /**
      * Draws the bat form HUD when player is transformed

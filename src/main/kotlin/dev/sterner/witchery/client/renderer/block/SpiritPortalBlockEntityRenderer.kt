@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockEntity
+import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
 import dev.sterner.witchery.client.model.SpiritPortalBlockEntityModel
 import dev.sterner.witchery.client.model.SpiritPortalPortalModel
 import dev.sterner.witchery.registry.WitcheryRenderTypes
@@ -13,12 +14,25 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.core.Direction
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.AABB
 
 class SpiritPortalBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<SpiritPortalBlockEntity> {
 
     private val model = SpiritPortalBlockEntityModel(ctx.bakeLayer(SpiritPortalBlockEntityModel.LAYER_LOCATION))
     private val modelShaderModel = SpiritPortalPortalModel(ctx.bakeLayer(SpiritPortalPortalModel.LAYER_LOCATION))
+
+    override fun getRenderBoundingBox(blockEntity: SpiritPortalBlockEntity): AABB {
+        val pos = blockEntity.blockPos
+        return AABB(
+            pos.x - 1.0,
+            pos.y - 0.0,
+            pos.z - 1.0,
+            pos.x + 1.0,
+            pos.y + 2.0,
+            pos.z + 1.0
+        )
+    }
 
     override fun render(
         blockEntity: SpiritPortalBlockEntity,
