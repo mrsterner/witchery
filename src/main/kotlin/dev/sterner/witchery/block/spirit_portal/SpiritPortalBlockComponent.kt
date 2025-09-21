@@ -116,7 +116,7 @@ class SpiritPortalBlockComponent(properties: Properties) : MultiBlockComponentBl
                 val portalBoundingBox = portalShape.bounds().move(pos)
 
                 if (portalBoundingBox.intersects(entity.boundingBox)) {
-                    corePortalBlock.handleEntityInside(level, corePos, entity)
+                    corePortalBlock.handleEntityInside(level, entity)
                 }
             }
         }

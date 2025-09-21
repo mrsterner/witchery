@@ -24,7 +24,7 @@ object WitcheryRecipeSerializers {
     val RECIPE_SERIALIZERS: DeferredRegister<RecipeSerializer<*>> =
         DeferredRegister.create(Registries.RECIPE_SERIALIZER, Witchery.MODID)
 
-    val CAULDRON_RECIPE_SERIALIZER: DeferredHolder<RecipeSerializer<*>?, CauldronCraftingRecipe.Serializer?> =
+    val CAULDRON_RECIPE_SERIALIZER =
         RECIPE_SERIALIZERS.register(CauldronCraftingRecipe.NAME, Supplier { CauldronCraftingRecipe.Serializer() })
 
     val CAULDRON_BREWING_RECIPE_SERIALIZER =

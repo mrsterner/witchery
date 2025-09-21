@@ -11,7 +11,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent
 import net.neoforged.neoforge.registries.NewRegistryEvent
 
-@EventBusSubscriber(modid = Witchery.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Witchery.MODID)
 object WitcheryModEvents {
 
     @SubscribeEvent
