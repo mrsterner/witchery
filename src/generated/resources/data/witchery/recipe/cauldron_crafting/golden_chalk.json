@@ -1,0 +1,36 @@
+{
+  "type": "witchery:cauldron_crafting",
+  "altarPower": 100,
+  "inputItems": [
+    {
+      "color": -10210766,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:mandrake_root"
+      },
+      "order": 0
+    },
+    {
+      "color": -206,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:gold_nugget"
+      },
+      "order": 1
+    },
+    {
+      "color": -1,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:ritual_chalk"
+      },
+      "order": 2
+    }
+  ],
+  "outputItems": [
+    {
+      "count": 1,
+      "id": "witchery:golden_chalk"
+    }
+  ]
+}

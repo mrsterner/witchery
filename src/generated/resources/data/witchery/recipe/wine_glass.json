@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:glass"
+    },
+    "S": {
+      "item": "minecraft:glass_bottle"
+    }
+  },
+  "pattern": [
+    "I",
+    "S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:wine_glass"
+  }
+}

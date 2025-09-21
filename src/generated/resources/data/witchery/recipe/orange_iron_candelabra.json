@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "witchery:attuned_stone"
+    },
+    "C": {
+      "item": "minecraft:orange_candle"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "IAI",
+    " I "
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:orange_iron_candelabra"
+  }
+}

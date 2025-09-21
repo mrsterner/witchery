@@ -1,0 +1,5 @@
+{
+  "block": "minecraft:sculk_sensor",
+  "limit": 30,
+  "power": 3
+}

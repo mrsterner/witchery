@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "witchery:fanciful_thread"
+    },
+    "I": {
+      "item": "witchery:impregnated_fabric"
+    },
+    "L": {
+      "item": "witchery:parasitic_louse"
+    },
+    "M": {
+      "item": "witchery:mellifluous_hunger"
+    }
+  },
+  "pattern": [
+    "LIM",
+    "IFI",
+    "I I"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:biting_belt"
+  }
+}

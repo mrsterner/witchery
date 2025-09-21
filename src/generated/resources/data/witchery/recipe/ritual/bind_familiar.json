@@ -1,0 +1,52 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 8000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "M": "witchery:ritual_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [],
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:tear_of_the_goddess"
+    },
+    {
+      "id": "witchery:odor_of_purity"
+    },
+    {
+      "id": "witchery:whiff_of_magic"
+    },
+    {
+      "id": "minecraft:diamond"
+    },
+    {
+      "id": "witchery:demons_blood"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "___MMMMM___",
+    "__M_____M__",
+    "_M_______M_",
+    "M_________M",
+    "M_________M",
+    "M____G____M",
+    "M_________M",
+    "M_________M",
+    "_M_______M_",
+    "__M_____M__",
+    "___MMMMM___"
+  ],
+  "requireCat": false,
+  "ritual": {
+    "id": "witchery:bind_familiar"
+  },
+  "ticks": 20,
+  "weather": []
+}

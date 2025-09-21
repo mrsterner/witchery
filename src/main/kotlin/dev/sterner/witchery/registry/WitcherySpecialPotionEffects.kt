@@ -57,7 +57,7 @@ object WitcherySpecialPotionEffects {
 
     val ID = Witchery.id("special_potion_effect")
 
-    val SPECIAL_REGISTRY_KEY: ResourceKey<Registry<SpecialPotion>> = ResourceKey.createRegistryKey(WitcheryRitualRegistry.ID)
+    val SPECIAL_REGISTRY_KEY: ResourceKey<Registry<SpecialPotion>> = ResourceKey.createRegistryKey(ID)
 
     val SPECIALS: DeferredRegister<SpecialPotion> = DeferredRegister.create(SPECIAL_REGISTRY_KEY, Witchery.MODID)
 

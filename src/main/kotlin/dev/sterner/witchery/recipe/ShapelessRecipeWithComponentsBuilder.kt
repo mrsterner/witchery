@@ -19,55 +19,39 @@ import net.minecraft.world.level.ItemLike
 import java.util.*
 
 class ShapelessRecipeWithComponentsBuilder(
-    category: RecipeCategory, output: ItemLike,
-    private val components: DataComponentMap, count: Int
-) :
-    ShapelessRecipeBuilder(category, output, count) {
+    category: RecipeCategory,
+    output: ItemLike,
+    private val components: DataComponentMap,
+    count: Int = 1
+) : ShapelessRecipeBuilder(category, output, count) {
 
     fun offerTo(exporter: RecipeOutput, recipeId: ResourceLocation, list: NonNullList<Ingredient>) {
-
-        val builder: Advancement.Builder = exporter.advancement()
+        val builder = exporter.advancement()
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId))
             .rewards(AdvancementRewards.Builder.recipe(recipeId))
             .requirements(AdvancementRequirements.Strategy.OR)
 
-        (this as ShapelessRecipeAccessor).getCriteria().forEach(builder::addCriterion)
+        (this as ShapelessRecipeAccessor).criteria.forEach(builder::addCriterion)
 
-        val outputtedItemStack = ItemStack(
-            (this as ShapelessRecipeAccessor).result,
-            (this as ShapelessRecipeAccessor).getCount()
-        )
-        outputtedItemStack.applyComponents(this.components)
+        val outputStack = ItemStack(this.result, this.count)
+        outputStack.applyComponents(this.components)
 
-        val shapedRecipe = ShapelessRecipe(
-            Objects.requireNonNullElse((this as ShapelessRecipeAccessor).getGroup(), ""),
-            RecipeBuilder.determineBookCategory((this as ShapelessRecipeAccessor).getCategory()),
-            outputtedItemStack,
+        val shapelessRecipe = ShapelessRecipe(
+            this.group ?: "",
+            RecipeBuilder.determineBookCategory(this.category),
+            outputStack,
             list
         )
 
         exporter.accept(
-            recipeId, shapedRecipe, builder.build(
-                recipeId.withPrefix(
-                    ("recipes/" + (this as ShapelessRecipeAccessor).getCategory().name.lowercase()) + "/"
-                )
-            )
+            recipeId,
+            shapelessRecipe,
+            builder.build(recipeId.withPrefix("recipes/${this.category.name.lowercase()}/"))
         )
     }
 
     companion object {
-        fun create(
-            category: RecipeCategory, output: ItemLike,
-            components: DataComponentMap
-        ): ShapelessRecipeWithComponentsBuilder {
-            return create(category, output, components, 1)
-        }
-
-        fun create(
-            category: RecipeCategory, output: ItemLike,
-            components: DataComponentMap, count: Int
-        ): ShapelessRecipeWithComponentsBuilder {
-            return ShapelessRecipeWithComponentsBuilder(category, output, components, count)
-        }
+        fun create(category: RecipeCategory, output: ItemLike, components: DataComponentMap, count: Int = 1) =
+            ShapelessRecipeWithComponentsBuilder(category, output, components, count)
     }
 }

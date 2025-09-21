@@ -72,6 +72,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
     init {
         modEventBus.addListener(::commonSetup)
         modEventBus.addListener(::onEntityAttributeCreation)
+        modEventBus.addListener(WitcheryPayloads::onRegisterPayloadHandlers)
 
         WitcheryArmorMaterials.MATERIALS.register(modEventBus)
         WitcheryBlocks.BLOCKS.register(modEventBus)
@@ -87,6 +88,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         WitcheryFluids.register(modEventBus)
         WitcheryItems.ITEMS.register(modEventBus)
         WitcheryMenuTypes.MENU_TYPES.register(modEventBus)
+        WitcheryDataAttachments.ATTACHMENT_TYPES.register(modEventBus)
         WitcheryMobEffects.EFFECTS.register(modEventBus)
         WitcheryModonomiconLoaders.register()
         WitcheryParticleTypes.PARTICLES.register(modEventBus)

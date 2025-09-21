@@ -1,0 +1,11 @@
+{
+  "type": "lingering",
+  "altar_power": 150,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -29441,
+  "item": {
+    "count": 1,
+    "id": "minecraft:dragon_breath"
+  }
+}

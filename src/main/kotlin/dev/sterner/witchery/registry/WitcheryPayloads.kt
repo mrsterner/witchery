@@ -4,13 +4,13 @@ import dev.sterner.witchery.payload.*
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.level.Level
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.network.PacketDistributor
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 import net.neoforged.neoforge.network.registration.NetworkChannel
 
 object WitcheryPayloads {
 
-    @SubscribeEvent
     fun onRegisterPayloadHandlers(event: RegisterPayloadHandlersEvent) {
         val registrar = event.registrar("1")
 
@@ -121,9 +121,6 @@ object WitcheryPayloads {
             payload.handleOnClient()
         }
         registrar.playToClient(SyncTransformationS2CPayload.ID, SyncTransformationS2CPayload.STREAM_CODEC) { payload, _ ->
-            payload.handleOnClient()
-        }
-        registrar.playToClient(SyncChainS2CPayload.ID, SyncChainS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
         registrar.playToClient(SyncBarkS2CPayload.ID, SyncBarkS2CPayload.STREAM_CODEC) { payload, _ ->

@@ -1,0 +1,18 @@
+{
+  "type": "witchery:oven_cooking",
+  "cookingTime": 85,
+  "experience": 0.5,
+  "extraIngredient": {
+    "item": "witchery:jar"
+  },
+  "extraOutput": {
+    "id": "witchery:whiff_of_magic"
+  },
+  "extraOutputChance": 0.5,
+  "ingredient": {
+    "item": "witchery:rowan_sapling"
+  },
+  "result": {
+    "id": "witchery:wood_ash"
+  }
+}

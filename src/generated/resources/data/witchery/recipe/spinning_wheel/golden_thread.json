@@ -1,0 +1,19 @@
+{
+  "type": "witchery:spinning_wheel",
+  "altarPower": 5,
+  "cookingTime": 100,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "minecraft:hay_block"
+    },
+    {
+      "count": 1,
+      "id": "witchery:whiff_of_magic"
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:golden_thread"
+  }
+}

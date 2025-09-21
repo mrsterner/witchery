@@ -34,7 +34,7 @@ object AfflictionPlayerAttachment {
     }
 
     fun sync(player: Player, data: Data) {
-        if (player.level() is ServerLevel) {
+        if (player is ServerPlayer) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncAfflictionS2CPayload(player, data))
         }
     }

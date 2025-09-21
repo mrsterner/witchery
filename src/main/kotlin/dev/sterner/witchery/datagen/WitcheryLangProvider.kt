@@ -1,5 +1,6 @@
 package dev.sterner.witchery.datagen
 
+import dev.sterner.witchery.api.SpecialPotion
 import dev.sterner.witchery.datagen.lang.WitcheryAdvancementLangProvider
 import dev.sterner.witchery.datagen.lang.WitcheryBookLangProvider
 import dev.sterner.witchery.datagen.lang.WitcheryRitualLangProvider
@@ -9,6 +10,7 @@ import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.data.PackOutput
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.neoforged.neoforge.common.data.LanguageProvider
 
@@ -58,8 +60,10 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
             add("entity.witchery.$entity", formatId(entity))
         }
 
-        for (special in WitcherySpecialPotionEffects.SPECIALS.registry.get().entrySet()) {
-            add("witchery:${special.value.id.path}", formatId(special.value.id))
+        for (entry in WitcherySpecialPotionEffects.SPECIALS.getEntries()) {
+            val key: ResourceKey<SpecialPotion>? = entry.key
+            val id = key?.location()
+            id?.let { add("witchery:${it.path}", formatId(id)) }
         }
 
         add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")

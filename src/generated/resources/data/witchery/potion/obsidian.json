@@ -1,0 +1,13 @@
+{
+  "altar_power": 100,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -13495196,
+  "effect_modifier": {
+    "duration_multiplier": 4
+  },
+  "item": {
+    "count": 1,
+    "id": "minecraft:obsidian"
+  }
+}

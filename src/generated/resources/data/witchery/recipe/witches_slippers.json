@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "witchery:impregnated_fabric"
+    },
+    "S": {
+      "item": "witchery:golden_thread"
+    }
+  },
+  "pattern": [
+    "S S",
+    "I I"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:witches_slippers"
+  }
+}

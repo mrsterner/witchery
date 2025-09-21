@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:glass_bottle"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "S": {
+      "item": "minecraft:diamond_sword"
+    },
+    "W": {
+      "item": "witchery:woven_cruor"
+    }
+  },
+  "pattern": [
+    " WG",
+    "WSW",
+    "BW "
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:cane_sword"
+  }
+}

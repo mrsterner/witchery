@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "witchery:attuned_stone"
+    },
+    "H": {
+      "item": "witchery:hawthorn_log"
+    },
+    "I": {
+      "item": "minecraft:item_frame"
+    },
+    "P": {
+      "item": "witchery:hawthorn_planks"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    "IIW",
+    "IIH",
+    "PAH"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:spinning_wheel"
+  }
+}

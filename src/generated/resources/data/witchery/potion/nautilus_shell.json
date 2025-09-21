@@ -1,0 +1,11 @@
+{
+  "altar_power": 200,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -12798766,
+  "effect": "minecraft:conduit_power",
+  "item": {
+    "count": 1,
+    "id": "minecraft:nautilus_shell"
+  }
+}

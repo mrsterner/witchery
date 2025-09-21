@@ -1,0 +1,54 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 3000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "L": "witchery:infernal_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [],
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [
+    "minecraft:villager"
+  ],
+  "inputItems": [
+    {
+      "id": "witchery:refined_evil"
+    },
+    {
+      "id": "minecraft:blaze_powder"
+    },
+    {
+      "id": "minecraft:ender_pearl"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [
+    "witchery:demon"
+  ],
+  "outputItems": [],
+  "pattern": [
+    "_____LLLLL_____",
+    "___LL_____LL___",
+    "__L_________L__",
+    "_L___________L_",
+    "_L___________L_",
+    "L_____________L",
+    "L_____________L",
+    "L______G______L",
+    "L_____________L",
+    "L_____________L",
+    "_L___________L_",
+    "_L___________L_",
+    "__L_________L__",
+    "___LL_____LL___",
+    "_____LLLLL_____"
+  ],
+  "requireCat": false,
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 0,
+  "weather": []
+}

@@ -8,20 +8,20 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface WalkAnimationStateAccessor {
 
     @Accessor("position")
-    float getPosition();
+    float getWalkPosition();
 
     @Accessor("position")
-    void setPosition(float position);
+    void setWalkPosition(float position);
 
     @Accessor("speed")
-    float getSpeed();
+    float getWalkSpeed();
 
     @Accessor("speed")
-    void setSpeed(float speed);
+    void setWalkSpeed(float speed);
 
     @Accessor("speedOld")
-    float getSpeedOld();
+    float getWalkSpeedOld();
 
     @Accessor("speedOld")
-    void setSpeedOld(float speedOld);
+    void setWalkSpeedOld(float speedOld);
 }

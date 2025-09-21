@@ -167,9 +167,14 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         to.swingingArm = from.getMainArm() == HumanoidArm.RIGHT ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         to.deathTime = from.deathTime;
 
-        ((WalkAnimationStateAccessor) to.walkAnimation).setSpeed(((WalkAnimationStateAccessor) from.walkAnimation).getSpeed());
-        ((WalkAnimationStateAccessor) to.walkAnimation).setSpeedOld(((WalkAnimationStateAccessor) from.walkAnimation).getSpeedOld());
-        ((WalkAnimationStateAccessor) to.walkAnimation).setPosition(((WalkAnimationStateAccessor) from.walkAnimation).getPosition());
+        WalkAnimationStateAccessor toAccessor = (WalkAnimationStateAccessor) to.walkAnimation;
+        WalkAnimationStateAccessor fromAccessor = (WalkAnimationStateAccessor) from.walkAnimation;
+
+        toAccessor.setWalkSpeed(fromAccessor.getWalkSpeed());
+        toAccessor.setWalkSpeedOld(fromAccessor.getWalkSpeedOld());
+        toAccessor.setWalkPosition(fromAccessor.getWalkPosition());
+
+
 
         float swimAmt = ((LivingEntityAccessor) from).getSwimAmount();
         ((LivingEntityAccessor) to).setSwimAmount(swimAmt);

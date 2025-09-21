@@ -139,7 +139,7 @@ object WitcheryNeoForgeEvents {
     }
 
     @SubscribeEvent
-    fun onPlayerTick(event: PlayerTickEvent.Pre) {
+    fun onPlayerTick(event: PlayerTickEvent.Post) {
         VampireSpecificEventHandler.tick(event.entity)
         AfflictionEventHandler.tick(event.entity)
         CurseHandler.tickCurse(event.entity)
@@ -228,7 +228,7 @@ object WitcheryNeoForgeEvents {
     }
 
     @SubscribeEvent
-    fun onPlayerJoin(event: PlayerEvent.PlayerLoggedInEvent) {
+    fun onEntityJoinLevel(event: EntityJoinLevelEvent) {
         if (event.entity is ServerPlayer) {
             val serverPlayer = event.entity as ServerPlayer
             val data = DeathQueueLevelAttachment.getData(serverPlayer.serverLevel())

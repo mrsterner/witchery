@@ -1,0 +1,30 @@
+{
+  "type": "witchery:distillery_crafting",
+  "altarPower": 5,
+  "cookingTime": 100,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "witchery:demon_heart"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:netherrack"
+    }
+  ],
+  "jarConsumption": 2,
+  "outputItems": [
+    {
+      "count": 1,
+      "id": "witchery:demons_blood"
+    },
+    {
+      "count": 1,
+      "id": "witchery:demons_blood"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:soul_sand"
+    }
+  ]
+}

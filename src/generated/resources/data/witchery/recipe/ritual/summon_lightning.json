@@ -1,0 +1,44 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 1000,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "S": "witchery:ritual_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [
+    {
+      "type": "end",
+      "command": "summon lightning_bolt {chalkPos}"
+    }
+  ],
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "minecraft:copper_ingot"
+    },
+    {
+      "id": "witchery:wood_ash"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "__SSS__",
+    "_S___S_",
+    "S_____S",
+    "S__G__S",
+    "S_____S",
+    "_S___S_",
+    "__SSS__"
+  ],
+  "requireCat": false,
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 20,
+  "weather": []
+}
