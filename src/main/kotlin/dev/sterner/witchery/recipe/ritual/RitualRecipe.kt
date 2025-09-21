@@ -214,11 +214,7 @@ class RitualRecipe(
 
             val celestialConditions = if (tag.contains("celestialConditions")) {
                 tag.getList("celestialConditions", 8).mapNotNull {
-                    try {
-                        Celestial.valueOf(it.asString.uppercase())
-                    } catch (e: IllegalArgumentException) {
-                        null
-                    }
+                    Celestial.valueOf(it.asString.uppercase())
                 }.toSet()
             } else {
                 emptySet()
@@ -226,11 +222,7 @@ class RitualRecipe(
 
             val weather = if (tag.contains("weather")) {
                 tag.getList("weather", 8).mapNotNull {
-                    try {
-                        Weather.valueOf(it.asString.uppercase())
-                    } catch (e: IllegalArgumentException) {
-                        null
-                    }
+                    Weather.valueOf(it.asString.uppercase())
                 }.toSet()
             } else {
                 emptySet()

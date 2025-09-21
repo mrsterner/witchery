@@ -49,8 +49,7 @@ object AfflictionEventHandler {
     fun rightClickBlockAbility(
         event: PlayerInteractEvent.RightClickBlock,
         player: Player,
-        interactionHand: InteractionHand,
-        pos: BlockPos
+        interactionHand: InteractionHand
     ) {
         if (interactionHand == InteractionHand.OFF_HAND) return
 
@@ -63,8 +62,7 @@ object AfflictionEventHandler {
     fun interactEntityWithAbility(
         event: PlayerInteractEvent.EntityInteract,
         player: Player?,
-        entity: Entity?,
-        hand: InteractionHand
+        entity: Entity?
     ) {
 
         if (player !is ServerPlayer || entity !is LivingEntity) return

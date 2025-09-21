@@ -45,8 +45,8 @@ class RotRitual : Ritual("rot") {
             pos.x + EFFECT_RADIUS, pos.y + EFFECT_RADIUS, pos.z + EFFECT_RADIUS
         )
 
-        processLivingEntities(level, pos, box)
-        processItemEntities(level, pos, box)
+        processLivingEntities(level, box)
+        processItemEntities(level, box)
         processBlocks(level, pos)
 
         if (level.isClientSide) {
@@ -54,7 +54,7 @@ class RotRitual : Ritual("rot") {
         }
     }
 
-    private fun processLivingEntities(level: Level, pos: BlockPos, box: AABB) {
+    private fun processLivingEntities(level: Level, box: AABB) {
         val entities = level.getEntitiesOfClass(LivingEntity::class.java, box) { entity ->
             entity != null && canBeZombified(entity)
         }
@@ -80,7 +80,7 @@ class RotRitual : Ritual("rot") {
         }
     }
 
-    private fun processItemEntities(level: Level, pos: BlockPos, box: AABB) {
+    private fun processItemEntities(level: Level, box: AABB) {
         val itemEntities = level.getEntitiesOfClass(ItemEntity::class.java, box) { entity ->
             entity != null && canRotItem(entity.item)
         }
@@ -320,7 +320,7 @@ class RotRitual : Ritual("rot") {
         val random = level.random
         val box = entity.boundingBox
 
-        for (i in 0 until 5) {
+        (0 until 5).forEach { i ->
             val x = box.minX + random.nextDouble() * (box.maxX - box.minX)
             val y = box.minY + random.nextDouble() * (box.maxY - box.minY)
             val z = box.minZ + random.nextDouble() * (box.maxZ - box.minZ)
@@ -338,7 +338,7 @@ class RotRitual : Ritual("rot") {
 
         val random = level.random
 
-        for (i in 0 until 5) {
+        (0 until 5).forEach { i ->
             level.addParticle(
                 ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, Color(145, 80, 40).rgb),
                 pos.x + random.nextDouble(),
@@ -356,7 +356,7 @@ class RotRitual : Ritual("rot") {
     private fun spawnCompletionParticles(level: Level, pos: Vec3) {
         if (!level.isClientSide) return
 
-        for (i in 0 until 15) {
+        (0 until 15).forEach { i ->
             level.addParticle(
                 ParticleTypes.LARGE_SMOKE,
                 pos.x(), pos.y(), pos.z(),

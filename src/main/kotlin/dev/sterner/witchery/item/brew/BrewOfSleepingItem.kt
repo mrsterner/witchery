@@ -32,7 +32,7 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         /**
          * Handles player respawn after death or returning from the dream world
          */
-        fun respawnPlayer(oldPlayer: Player?, newServerPlayer: Player?, wonGame: Boolean) {
+        fun respawnPlayer(newServerPlayer: Player?) {
             if (newServerPlayer?.level() !is ServerLevel) return
 
             val serverLevel = newServerPlayer.level() as ServerLevel

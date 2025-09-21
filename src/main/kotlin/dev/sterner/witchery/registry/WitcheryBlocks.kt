@@ -1,6 +1,5 @@
 package dev.sterner.witchery.registry
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.block.*

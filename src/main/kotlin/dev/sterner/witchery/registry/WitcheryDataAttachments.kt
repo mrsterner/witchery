@@ -32,12 +32,12 @@ object WitcheryDataAttachments {
         )
 
     @JvmStatic
-    val ALTAR_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<AltarLevelAttachment.AltarDataCodec>> =
+    val ALTAR_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<AltarLevelAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "altar_level_data",
             Supplier {
-                AttachmentType.builder(Supplier { AltarLevelAttachment.AltarDataCodec() })
-                    .serialize(AltarLevelAttachment.AltarDataCodec.CODEC)
+                AttachmentType.builder(Supplier { AltarLevelAttachment.Data() })
+                    .serialize(AltarLevelAttachment.Data.CODEC)
                     .build()
             }
         )
@@ -114,12 +114,12 @@ object WitcheryDataAttachments {
         )
 
     @JvmStatic
-    val VOODOO_POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<VoodooPoppetLivingEntityAttachment.VoodooPoppetData>> =
+    val VOODOO_POPPET_DATA_ATTACHMENT: Supplier<AttachmentType<VoodooPoppetLivingEntityAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "voodoo_poppet_data",
             Supplier {
-                AttachmentType.builder(Supplier { VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false) })
-                    .serialize(VoodooPoppetLivingEntityAttachment.VoodooPoppetData.CODEC)
+                AttachmentType.builder(Supplier { VoodooPoppetLivingEntityAttachment.Data(false) })
+                    .serialize(VoodooPoppetLivingEntityAttachment.Data.CODEC)
                     .build()
             }
         )
@@ -179,12 +179,12 @@ object WitcheryDataAttachments {
         )
 
     @JvmStatic
-    val NECRO_DATA_ATTACHMENT: Supplier<AttachmentType<NecromancerLevelAttachment.NecroList>> =
+    val NECRO_DATA_ATTACHMENT: Supplier<AttachmentType<NecromancerLevelAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "necro",
             Supplier {
-                AttachmentType.builder(Supplier { NecromancerLevelAttachment.NecroList() })
-                    .serialize(NecromancerLevelAttachment.NecroList.CODEC)
+                AttachmentType.builder(Supplier { NecromancerLevelAttachment.Data() })
+                    .serialize(NecromancerLevelAttachment.Data.CODEC)
                     .build()
             }
         )
@@ -281,12 +281,12 @@ object WitcheryDataAttachments {
         )
 
     @JvmStatic
-    val COVEN_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CovenPlayerAttachment.CovenData>> =
+    val COVEN_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<CovenPlayerAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "coven_player_data",
             Supplier {
-                AttachmentType.builder(Supplier { CovenPlayerAttachment.CovenData() })
-                    .serialize(CovenPlayerAttachment.CovenData.CODEC)
+                AttachmentType.builder(Supplier { CovenPlayerAttachment.Data() })
+                    .serialize(CovenPlayerAttachment.Data.CODEC)
                     .copyOnDeath()
                     .build()
             }

@@ -64,7 +64,7 @@ class VampiricPoppet : PoppetType {
     }
 
     fun handleDamage(target: LivingEntity, damageSource: DamageSource, damage: Float): Float {
-        val (poppet, location) = PoppetHandler.findPoppet(target, this) ?: return damage
+        val (poppet, location) = PoppetHandler.findPoppet(target, this)
 
         if (poppet != null) {
             val level = target.level()

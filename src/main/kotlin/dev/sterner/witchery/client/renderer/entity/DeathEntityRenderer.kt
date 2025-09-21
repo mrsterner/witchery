@@ -31,7 +31,7 @@ class DeathEntityRenderer(var context: EntityRendererProvider.Context) :
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight)
     }
 
-    override fun getTextureLocation(entity: DeathEntity): ResourceLocation? {
+    override fun getTextureLocation(entity: DeathEntity): ResourceLocation {
         return Witchery.id("textures/entity/death.png")
     }
 

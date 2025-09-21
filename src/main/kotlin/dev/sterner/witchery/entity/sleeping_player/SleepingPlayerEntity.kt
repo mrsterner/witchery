@@ -40,6 +40,7 @@ import net.minecraft.world.item.component.ResolvableProfile
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.common.NeoForgeMod
 import net.neoforged.neoforge.network.PacketDistributor
 import java.util.*
 import kotlin.math.max
@@ -170,7 +171,7 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         if (!isNoGravity) {
             var motionY = deltaMovement.y - 0.0625
 
-            if (isEyeInFluid(FluidTags.WATER)) {
+            if (isEyeInFluidType(NeoForgeMod.WATER_TYPE.value())) {
                 motionY = if (deltaMovement.y < 0.0) {
                     deltaMovement.y + 0.015
                 } else {

@@ -12,7 +12,7 @@ open class Curse {
 
     }
 
-    open fun onHurt(level: Level, livingEntity: Player, damageSource: DamageSource?, fl: Float, catBoosted: Boolean) {
+    open fun onHurt(level: Level, player: Player, damageSource: DamageSource?, fl: Float, catBoosted: Boolean) {
 
     }
 

@@ -55,7 +55,7 @@ class AttractArrowsMobEffect(category: MobEffectCategory, color: Int) :
                     )
 
                     if (level.isClientSide) {
-                        for (i in 0..3) {
+                        (0..3).forEach { i ->
                             level.addParticle(
                                 net.minecraft.core.particles.ParticleTypes.CRIT,
                                 arrow.x, arrow.y, arrow.z,

@@ -134,7 +134,7 @@ class WitcheryAreaEffectCloud(
                 g = f
             }
 
-            for (j in 0 until i) {
+            (0 until i).forEach { j ->
                 val h = random.nextFloat() * (Math.PI * 2).toFloat()
                 val k = Mth.sqrt(random.nextFloat()) * g
                 val d = this.x + (Mth.cos(h) * k).toDouble()
@@ -299,7 +299,7 @@ class WitcheryAreaEffectCloud(
 
     override fun getOwner(): LivingEntity? {
         if (this.owner == null && (this.ownerUUID != null) && level() is ServerLevel) {
-            val entity = (level() as ServerLevel).getEntity(this.ownerUUID)
+            val entity = (level() as ServerLevel).getEntity(this.ownerUUID!!)
             if (entity is LivingEntity) {
                 this.owner = entity
             }
@@ -365,7 +365,7 @@ class WitcheryAreaEffectCloud(
             ).getOrThrow()
         )
         if (this.ownerUUID != null) {
-            compound.putUUID("Owner", this.ownerUUID)
+            compound.putUUID("Owner", this.ownerUUID!!)
         }
 
         val listResult = WitcheryPotionIngredient.CODEC.listOf().encodeStart(NbtOps.INSTANCE, potionContents)

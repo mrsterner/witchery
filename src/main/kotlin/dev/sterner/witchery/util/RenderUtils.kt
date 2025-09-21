@@ -351,7 +351,9 @@ object RenderUtils {
         poseStack.translate(x.toDouble(), y.toDouble(), 950.0)
         poseStack.scale(scale, scale, -scale)
         poseStack.translate(translate.x, translate.y, translate.z)
-        poseStack.mulPose(pose)
+        if (pose != null) {
+            poseStack.mulPose(pose)
+        }
         Lighting.setupForEntityInInventory()
         val entityRenderDispatcher = Minecraft.getInstance().entityRenderDispatcher
         if (cameraOrientation != null) {
@@ -422,7 +424,7 @@ object RenderUtils {
         RenderSystem.enableDepthTest()
         RenderSystem.depthFunc(GL11.GL_LEQUAL)
 
-        shader.safeGetUniform("Alpha")?.set(fadeProgress * 0.7f)
+        shader.safeGetUniform("Alpha").set(fadeProgress * 0.7f)
         RenderSystem.setShader { shader }
 
         RenderSystem.setShaderTexture(0, TEXTURE_FRONT)

@@ -39,25 +39,22 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     var state: EffigyState? = EffigyState.IDLE
 
-    override fun tickServer(level: ServerLevel) {
-        if (level != null) {
-
-            if (state != EffigyState.IDLE) {
-                val newMatch =
-                    FetishEffectReloadListener.findMatchingEffect(
-                        spiritCount,
-                        bansheeCount,
-                        specterCount,
-                        poltergeistCount
-                    )
-                if (newMatch != matchedEffect) {
-                    matchedEffect = newMatch
-                    effect = matchedEffect?.let { FetishEffectReloadListener.getEffect(it) }
-                    setChanged()
-                }
-
-                effect?.onTickEffect(level, this, state, blockPos, taglocks)
+    override fun tickServer(serverLevel: ServerLevel) {
+        if (state != EffigyState.IDLE) {
+            val newMatch =
+                FetishEffectReloadListener.findMatchingEffect(
+                    spiritCount,
+                    bansheeCount,
+                    specterCount,
+                    poltergeistCount
+                )
+            if (newMatch != matchedEffect) {
+                matchedEffect = newMatch
+                effect = matchedEffect?.let { FetishEffectReloadListener.getEffect(it) }
+                setChanged()
             }
+
+            effect?.onTickEffect(serverLevel, this, state, blockPos, taglocks)
         }
     }
 

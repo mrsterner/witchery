@@ -39,10 +39,10 @@ class CurseOfCorruptPoppet : Curse() {
         level: Level,
         player: Player,
         damageSource: DamageSource?,
-        damage: Float,
+        fl: Float,
         catBoosted: Boolean
     ) {
-        super.onHurt(level, player, damageSource, damage, catBoosted)
+        super.onHurt(level, player, damageSource, fl, catBoosted)
 
         if (level.random.nextFloat() < 0.2f) {
             attemptToCorruptPoppet(level, player)

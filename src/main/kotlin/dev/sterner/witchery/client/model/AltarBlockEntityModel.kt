@@ -36,7 +36,7 @@ class AltarBlockEntityModel(modelPart: ModelPart) :
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("altar"), "main")
 
         fun createBodyLayer(): LayerDefinition {
-            val meshDefinition: MeshDefinition = MeshDefinition()
+            val meshDefinition = MeshDefinition()
             val partDefinition: PartDefinition = meshDefinition.root
 
             partDefinition.addOrReplaceChild(

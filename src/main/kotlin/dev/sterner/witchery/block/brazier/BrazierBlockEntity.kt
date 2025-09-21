@@ -65,8 +65,8 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var isInfinite: Boolean = false
 
 
-    override fun tick(level: Level, pos: BlockPos, state: BlockState) {
-        super.tick(level, pos, state)
+    override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
+        super.tick(level, pos, blockState)
 
         if (level.isClientSide) {
             return
@@ -94,7 +94,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                         }
                     }
                     level.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS)
-                    level.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, false))
+                    level.setBlockAndUpdate(blockPos, this@BrazierBlockEntity.blockState.setValue(BlockStateProperties.LIT, false))
                     items.clear()
                     summoningTicker = 0
                     active = false
@@ -192,7 +192,7 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val radiusRange = (3..5)
         val random = level.random
 
-        for (attempt in 1..10) {
+        (1..10).forEach { attempt ->
             val offsetX = (random.nextDouble() * 2 - 1) * radiusRange.random()
             val offsetZ = (random.nextDouble() * 2 - 1) * radiusRange.random()
 
@@ -533,7 +533,6 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         fun makeSoulCage(
             event: PlayerInteractEvent.RightClickBlock,
             player: Player,
-            interactionHand: InteractionHand?,
             blockPos: BlockPos
         ) {
             val level = player.level()

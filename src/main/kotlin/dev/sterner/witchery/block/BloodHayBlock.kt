@@ -43,7 +43,7 @@ class BloodHayBlock(properties: Properties) : HayBlock(properties) {
         player: Player,
         hand: InteractionHand,
         hitResult: BlockHitResult
-    ): ItemInteractionResult? {
+    ): ItemInteractionResult {
 
         val stack: ItemStack = player.getItemInHand(hand)
         if (stack.`is`(Items.FLINT_AND_STEEL)) {
@@ -140,7 +140,7 @@ class BloodHayBlock(properties: Properties) : HayBlock(properties) {
                 val hayPos = BlockPos(basePos.x + dx, basePos.y + coord.y, basePos.z + dz)
 
                 if (level.getBlockState(hayPos).block is BloodHayBlock) {
-                    for (dir in Direction.values()) {
+                    for (dir in Direction.entries) {
                         val firePos = hayPos.relative(dir)
                         if (level.getBlockState(firePos).isAir) {
                             level.setBlock(firePos, Blocks.FIRE.defaultBlockState(), 3)

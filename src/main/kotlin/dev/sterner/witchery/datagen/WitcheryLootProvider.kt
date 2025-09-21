@@ -443,8 +443,6 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
             add(
                 WitcheryBlocks.MANDRAKE_CROP.get(),
                 createMandrakeCropDrops(
-                    WitcheryBlocks.MANDRAKE_CROP.get(),
-                    WitcheryItems.MANDRAKE_ROOT.get(),
                     WitcheryItems.MANDRAKE_SEEDS.get(),
                     builder,
                     otherBuilder
@@ -533,8 +531,6 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
         }
 
         fun createMandrakeCropDrops(
-            cropBlock: Block,
-            cropItem: Item,
             seedsItem: Item,
             sleepBuilder: LootItemCondition.Builder,
             awakeBuilder: LootItemCondition.Builder

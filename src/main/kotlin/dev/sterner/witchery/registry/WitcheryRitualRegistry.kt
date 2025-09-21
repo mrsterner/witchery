@@ -44,11 +44,7 @@ object WitcheryRitualRegistry {
 
     fun getById(id: ResourceLocation): Ritual? {
         val holder = RITUALS.entries.firstOrNull { it.id == id }
-        return try {
-            holder?.get()
-        } catch (ignored: IllegalStateException) {
-            null
-        }
+        return holder?.get()
     }
 
     /** Codec for serialization, safe for data gen */

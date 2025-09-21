@@ -92,14 +92,6 @@ object NaturePowerReloadListener {
         blockQueue.clear()
     }
 
-    fun registerReloadListener(event: AddReloadListenerEvent) {
-        event.addListener(LOADER)
-    }
-
-    fun onServerStarting(event: ServerStartingEvent) {
-        addPending()
-    }
-
     class NaturePowerLoader : SimpleJsonResourceReloadListener(Gson(), "nature") {
         override fun apply(
             `object`: MutableMap<ResourceLocation, JsonElement>,

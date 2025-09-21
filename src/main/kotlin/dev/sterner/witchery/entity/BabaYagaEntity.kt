@@ -37,6 +37,7 @@ import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.alchemy.Potions
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
+import net.neoforged.neoforge.common.NeoForgeMod
 import java.util.function.Predicate
 import kotlin.math.sqrt
 
@@ -113,7 +114,7 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
                 }
             } else {
                 var holder: Holder<Potion?>? = null
-                if (this.random.nextFloat() < 0.15f && this.isEyeInFluid(FluidTags.WATER) && !this.hasEffect(MobEffects.WATER_BREATHING)) {
+                if (this.random.nextFloat() < 0.15f && this.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value()) && !this.hasEffect(MobEffects.WATER_BREATHING)) {
                     holder = Potions.WATER_BREATHING
                 } else if (this.random.nextFloat() < 0.15f && (this.isOnFire() || this.getLastDamageSource() != null && this.getLastDamageSource()!!
                         .`is`(DamageTypeTags.IS_FIRE))

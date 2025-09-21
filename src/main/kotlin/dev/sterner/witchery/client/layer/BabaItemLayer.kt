@@ -28,8 +28,8 @@ class BabaItemLayer(
     ) {
 
         poseStack.pushPose()
-        this.parentModel!!.head.translateAndRotate(poseStack)
-        this.parentModel!!.nose.translateAndRotate(poseStack)
+        this.parentModel.head.translateAndRotate(poseStack)
+        this.parentModel.nose.translateAndRotate(poseStack)
         poseStack.translate(0.0625f, 0.25f, -0.1f)
         poseStack.mulPose(Axis.ZP.rotationDegrees(180.0f))
         poseStack.mulPose(Axis.XP.rotationDegrees(140.0f))

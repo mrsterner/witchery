@@ -6,7 +6,6 @@ class AbilityScrollHandler {
 
     fun <T : Enum<T>> handleScroll(
         player: Player,
-        x: Double,
         y: Double,
         abilityHandler: AbilityHandler
     ): Boolean {

@@ -107,7 +107,7 @@ object VampireSpecificEventHandler {
 
                 val newSunTick = newData.getInSunTick()
 
-                if (newSunTick >= maxInSunTicks && currentSunTick < maxInSunTicks) {
+                if (newSunTick >= maxInSunTicks) {
                     handleSunDamage(player, newData)
                 }
             } else {
@@ -257,7 +257,7 @@ object VampireSpecificEventHandler {
     }
 
     @JvmStatic
-    fun resetNightCount(livingEntity: LivingEntity, damageSource: DamageSource) {
+    fun resetNightCount(livingEntity: LivingEntity) {
         if (livingEntity is Player && AfflictionPlayerAttachment.getData(livingEntity)
                 .getLevel(AfflictionTypes.VAMPIRISM) == 3
         ) {

@@ -17,7 +17,7 @@ public class EntityMixin {
         if (!info.getReturnValue()) {
             Entity entity = Entity.class.cast(this);
             if (entity instanceof LivingEntity living) {
-                VoodooPoppetLivingEntityAttachment.VoodooPoppetData data = VoodooPoppetLivingEntityAttachment.getPoppetData(living);
+                VoodooPoppetLivingEntityAttachment.Data data = VoodooPoppetLivingEntityAttachment.getPoppetData(living);
                 if (data.isUnderWater()) {
                     info.setReturnValue(true);
                 }

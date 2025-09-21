@@ -16,36 +16,36 @@ import java.util.*
 
 object CovenPlayerAttachment {
     @JvmStatic
-    fun getData(player: Player): CovenData {
+    fun getData(player: Player): Data {
         return player.getData(WitcheryDataAttachments.COVEN_PLAYER_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun setData(player: Player, data: CovenData, sync: Boolean = true) {
+    fun setData(player: Player, data: Data, sync: Boolean = true) {
         player.setData(WitcheryDataAttachments.COVEN_PLAYER_DATA_ATTACHMENT, data)
         if (sync) {
             sync(player, data)
         }
     }
 
-    fun sync(player: Player, data: CovenData) {
+    fun sync(player: Player, data: Data) {
         if (player.level() is ServerLevel) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncCovenS2CPayload(player, data))
         }
     }
 
-    data class CovenData(
+    data class Data(
         val covenWitches: List<WitchData> = listOf(),
         val playerMembers: List<UUID> = listOf(),
         val lastRitualTime: Long = 0L
     ) {
         companion object {
-            val CODEC: Codec<CovenData> = RecordCodecBuilder.create { instance ->
+            val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     WitchData.CODEC.listOf().fieldOf("covenWitches").forGetter { it.covenWitches },
                     UUIDUtil.CODEC.listOf().fieldOf("playerMembers").forGetter { it.playerMembers },
                     Codec.LONG.fieldOf("lastRitualTime").forGetter { it.lastRitualTime }
-                ).apply(instance, ::CovenData)
+                ).apply(instance, ::Data)
             }
 
             val ID: ResourceLocation = Witchery.id("coven_data")

@@ -185,8 +185,7 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
         fun applyWineOnVillager(
             event: PlayerInteractEvent.EntityInteract,
             player: Player?,
-            entity: Entity?,
-            interactionHand: InteractionHand?
+            entity: Entity?
         ) {
             if (entity is Villager && player != null) {
                 val item = player.mainHandItem

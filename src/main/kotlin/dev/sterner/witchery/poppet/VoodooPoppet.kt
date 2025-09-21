@@ -54,26 +54,26 @@ class VoodooPoppet : PoppetType {
                 boundPlayer?.let {
                     VoodooPoppetLivingEntityAttachment.setPoppetData(
                         it,
-                        VoodooPoppetLivingEntityAttachment.VoodooPoppetData(true, 20)
+                        VoodooPoppetLivingEntityAttachment.Data(true, 20)
                     )
                 }
                 boundEntity?.let {
                     VoodooPoppetLivingEntityAttachment.setPoppetData(
                         it,
-                        VoodooPoppetLivingEntityAttachment.VoodooPoppetData(true, 20)
+                        VoodooPoppetLivingEntityAttachment.Data(true, 20)
                     )
                 }
             } else {
                 boundPlayer?.let {
                     VoodooPoppetLivingEntityAttachment.setPoppetData(
                         it,
-                        VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false, 0)
+                        VoodooPoppetLivingEntityAttachment.Data(false, 0)
                     )
                 }
                 boundEntity?.let {
                     VoodooPoppetLivingEntityAttachment.setPoppetData(
                         it,
-                        VoodooPoppetLivingEntityAttachment.VoodooPoppetData(false, 0)
+                        VoodooPoppetLivingEntityAttachment.Data(false, 0)
                     )
                 }
             }
@@ -95,7 +95,6 @@ class VoodooPoppet : PoppetType {
             level: Level,
             pos: BlockPos,
             item: ItemStack,
-            player: Player?,
             blockHitResult: BlockHitResult
         ): InteractionResult {
             if (level.getBlockState(blockHitResult.blockPos).`is`(Blocks.LAVA)) {

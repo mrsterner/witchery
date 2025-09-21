@@ -28,7 +28,6 @@ object MutandisLevelAttachment {
     }
 
     @JvmStatic
-    @Suppress("UnstableApiUsage")
     fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>) {
         val data = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
         val mutableMap = data.mutandisCacheMap.toMutableMap()

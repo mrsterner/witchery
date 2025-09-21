@@ -96,7 +96,6 @@ object WerewolfSpecificEventHandler {
     fun modifyWerewolfDamage(
         attacker: Player,
         target: LivingEntity,
-        damageSource: DamageSource,
         originalDamage: Float
     ): Float {
         val wereData = AfflictionPlayerAttachment.getData(attacker)
@@ -135,7 +134,7 @@ object WerewolfSpecificEventHandler {
         return damage
     }
 
-    fun handleHurtWolfman(entity: LivingEntity, damageSource: DamageSource, remainingDamage: Float): Float {
+    fun handleHurtWolfman(damageSource: DamageSource, remainingDamage: Float): Float {
         var damage = remainingDamage
 
         damage *= 0.75f
@@ -147,7 +146,7 @@ object WerewolfSpecificEventHandler {
         return damage
     }
 
-    fun handleHurtWolf(entity: LivingEntity, damageSource: DamageSource, remainingDamage: Float): Float {
+    fun handleHurtWolf(damageSource: DamageSource, remainingDamage: Float): Float {
         var damage = remainingDamage
 
         damage *= 0.85f

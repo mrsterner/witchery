@@ -107,8 +107,6 @@ object VillageWallHandler {
                 val rotation = when (stepDir) {
                     Direction.EAST -> Rotation.NONE
                     Direction.SOUTH -> Rotation.CLOCKWISE_90
-                    Direction.WEST -> Rotation.CLOCKWISE_180
-                    Direction.NORTH -> Rotation.COUNTERCLOCKWISE_90
                     else -> Rotation.NONE
                 }
 

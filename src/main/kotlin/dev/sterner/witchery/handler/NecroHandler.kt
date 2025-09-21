@@ -141,7 +141,7 @@ object NecroHandler {
         val data = NecromancerLevelAttachment.getData(serverLevel)
 
         val exactPos = entity.blockPosition()
-        val newData = NecromancerLevelAttachment.Data(exactPos, entity.type, entity.level().gameTime)
+        val newData = NecromancerLevelAttachment.Necro(exactPos, entity.type, entity.level().gameTime)
 
         val newList = data.necroList.toMutableList()
         newList.add(newData)

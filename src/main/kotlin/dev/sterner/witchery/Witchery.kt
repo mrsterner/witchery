@@ -22,7 +22,6 @@ import org.slf4j.Logger
 class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
 
     init {
-        modEventBus.addListener(::commonSetup)
         modEventBus.addListener(::onEntityAttributeCreation)
         modEventBus.addListener(WitcheryPayloads::onRegisterPayloadHandlers)
 
@@ -54,10 +53,6 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
 
         NeoForge.EVENT_BUS.register(WitcheryNeoForgeEvents)
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC)
-    }
-
-    private fun commonSetup(event: FMLCommonSetupEvent) {
-
     }
 
     @SubscribeEvent

@@ -513,7 +513,7 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
             activeEffects.forEach { effect ->
                 if (effect.isSpecial && random.nextFloat() < 0.1f) {
-                    spawnSpecialEffectParticles(level, pos, effect, centerX, centerY + yOffset, centerZ)
+                    spawnSpecialEffectParticles(level, effect, centerX, centerY + yOffset, centerZ)
                 }
             }
         }
@@ -566,7 +566,6 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun spawnSpecialEffectParticles(
         level: Level,
-        pos: BlockPos,
         effect: ActiveEffect,
         x: Double,
         y: Double,

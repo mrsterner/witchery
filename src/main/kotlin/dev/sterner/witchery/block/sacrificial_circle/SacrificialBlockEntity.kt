@@ -137,7 +137,6 @@ class SacrificialBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         fun rightClick(
             event: PlayerInteractEvent.RightClickBlock,
             player: Player?,
-            interactionHand: InteractionHand?,
             blockPos: BlockPos,
         ) {
             if (player != null && player.mainHandItem.`is`(Items.SKELETON_SKULL)) {

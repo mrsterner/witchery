@@ -47,15 +47,15 @@ class WitcheryAdvancementProvider(
             disturbed.parent(spirit).save(consumer, "witchery:disturbed")
 
             // Example for repetitive advancements
-            val vamp1 = Companion.makeVampTornPageAdvancement("1", null, consumer)
-            val vamp2 = Companion.makeVampTornPageAdvancement("2", vamp1, consumer)
-            val vamp3 = Companion.makeVampTornPageAdvancement("3", vamp2, consumer)
-            val vamp4 = Companion.makeVampTornPageAdvancement("4", vamp3, consumer)
-            val vamp5 = Companion.makeVampTornPageAdvancement("5", vamp4, consumer)
-            val vamp6 = Companion.makeVampTornPageAdvancement("6", vamp5, consumer)
-            val vamp7 = Companion.makeVampTornPageAdvancement("7", vamp6, consumer)
-            val vamp8 = Companion.makeVampTornPageAdvancement("8", vamp7, consumer)
-            Companion.makeVampTornPageAdvancement("9", vamp8, consumer)
+            val vamp1 = makeVampTornPageAdvancement("1", null, consumer)
+            val vamp2 = makeVampTornPageAdvancement("2", vamp1, consumer)
+            val vamp3 = makeVampTornPageAdvancement("3", vamp2, consumer)
+            val vamp4 = makeVampTornPageAdvancement("4", vamp3, consumer)
+            val vamp5 = makeVampTornPageAdvancement("5", vamp4, consumer)
+            val vamp6 = makeVampTornPageAdvancement("6", vamp5, consumer)
+            val vamp7 = makeVampTornPageAdvancement("7", vamp6, consumer)
+            val vamp8 = makeVampTornPageAdvancement("8", vamp7, consumer)
+            makeVampTornPageAdvancement("9", vamp8, consumer)
 
             val were1 = makeWerewolfAltarAdvancement("1", null, consumer)
             val were2 = makeWerewolfAltarAdvancement("2", were1, consumer)
@@ -71,33 +71,6 @@ class WitcheryAdvancementProvider(
             val necro2 = makeNecroRuinPageAdvancement("2", necro1, consumer)
             val necro3 = makeNecroRuinPageAdvancement("3", necro2, consumer)
             makeNecroRuinPageAdvancement("4", necro3, consumer)
-        }
-
-        private fun makeVampTornPageAdvancement(
-            id: String,
-            parent: AdvancementHolder?,
-            consumer: Consumer<AdvancementHolder>
-        ): AdvancementHolder {
-            val advancement = Advancement.Builder.advancement()
-                .display(
-                    WitcheryItems.TORN_PAGE.get(),
-                    Component.translatable("advancements.witchery.vampire_${id}.title"),
-                    Component.translatable("advancements.witchery.vampire_${id}.description"),
-                    Witchery.id("textures/block/rowan_planks.png"),
-                    AdvancementType.TASK,
-                    false,
-                    false,
-                    true
-                )
-                .requirements(AdvancementRequirements.Strategy.OR)
-                .addCriterion(
-                    "impossible_$id",
-                    CriteriaTriggers.IMPOSSIBLE.createCriterion(ImpossibleTrigger.TriggerInstance())
-                )
-
-            parent?.let { advancement.parent(it) }
-
-            return advancement.save(consumer, "witchery:vampire/$id")
         }
     }
 

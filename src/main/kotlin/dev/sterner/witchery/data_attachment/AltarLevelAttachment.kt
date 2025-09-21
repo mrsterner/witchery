@@ -31,13 +31,13 @@ object AltarLevelAttachment {
         return level.getData(WitcheryDataAttachments.ALTAR_LEVEL_DATA_ATTACHMENT).altarSet
     }
 
-    data class AltarDataCodec(val altarSet: MutableSet<BlockPos> = mutableSetOf()) {
+    data class Data(val altarSet: MutableSet<BlockPos> = mutableSetOf()) {
         companion object {
-            val CODEC: Codec<AltarDataCodec> = RecordCodecBuilder.create { instance ->
+            val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.list(BlockPos.CODEC).xmap({ it.toMutableSet() }, { it.toList() })
                         .fieldOf("altarSet").forGetter { it.altarSet }
-                ).apply(instance, ::AltarDataCodec)
+                ).apply(instance, ::Data)
             }
             val ID: ResourceLocation = Witchery.id("altar_level_data")
         }

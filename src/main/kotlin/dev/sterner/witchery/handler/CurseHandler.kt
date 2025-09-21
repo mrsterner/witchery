@@ -201,7 +201,6 @@ object CurseHandler {
      */
     fun breakBlock(
         level: Level?,
-        blockPos: BlockPos?,
         blockState: BlockState,
         serverPlayer: Player?,
     ) {
@@ -227,7 +226,6 @@ object CurseHandler {
      */
     fun placeBlock(
         level: Level?,
-        blockPos: BlockPos?,
         blockState: BlockState?,
         entity: Entity?
     ) {

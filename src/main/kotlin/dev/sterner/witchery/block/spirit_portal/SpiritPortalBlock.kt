@@ -127,14 +127,14 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(
             val portalBoundingBox = portalShape.bounds().move(pos)
 
             if (portalBoundingBox.move(pos).intersects(entity.boundingBox)) {
-                handleEntityInside(level, pos, entity)
+                handleEntityInside(level, entity)
             }
         }
 
         super.entityInside(state, level, pos, entity)
     }
 
-    fun handleEntityInside(level: Level, pos: BlockPos, entity: Player) {
+    fun handleEntityInside(level: Level, entity: Player) {
         if (ManifestationPlayerAttachment.getData(entity).hasRiteOfManifestation) {
             val overworld = level.server?.overworld()
             if (overworld != null) {

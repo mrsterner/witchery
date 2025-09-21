@@ -76,7 +76,7 @@ class BabaYagaEntityModel<T : Mob>(val root: ModelPart) :
         leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
     }
 
-    override fun root(): ModelPart? {
+    override fun root(): ModelPart {
         return root
     }
 

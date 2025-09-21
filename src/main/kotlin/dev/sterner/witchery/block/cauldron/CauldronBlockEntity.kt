@@ -167,7 +167,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             val randZ = blockPos.z + 0.5 + Mth.nextDouble(level.random, -0.1, 0.1)
             if (level is ServerLevel) {
                 PacketDistributor.sendToPlayersTrackingChunk(
-                    level as ServerLevel,
+                    level,
                     ChunkPos(blockPos),
                     CauldronPotionBrewParticleS2CPayload(Vector3d(randX, randY, randZ), color)
                 )
@@ -180,7 +180,7 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             val randZ = blockPos.z + 0.5 + Mth.nextDouble(level.random, -0.25, 0.25)
             if (level is ServerLevel) {
                 PacketDistributor.sendToPlayersTrackingChunk(
-                    level as ServerLevel,
+                    level,
                     ChunkPos(blockPos),
                     CauldronEffectParticleS2CPayload(Vector3d(randX, randY, randZ), color)
                 )

@@ -67,8 +67,8 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
-    override fun tick(level: Level, pos: BlockPos, state: BlockState) {
-        super.tick(level, pos, state)
+    override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
+        super.tick(level, pos, blockState)
         if (level.isClientSide) {
             return
         }
@@ -115,7 +115,7 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (shouldUpdateBlock) {
-            setChanged(level, pos, state)
+            setChanged(level, pos, blockState)
         }
     }
 

@@ -31,7 +31,7 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
         )
     }
 
-    override fun getRenderShape(state: BlockState): RenderShape? {
+    override fun getRenderShape(state: BlockState): RenderShape {
         return RenderShape.INVISIBLE
     }
 
@@ -62,7 +62,6 @@ class MushroomLogBlock(properties: Properties) : WitcheryBaseEntityBlock(propert
         fun makeMushroomLog(
             event: PlayerInteractEvent.RightClickBlock,
             player: Player,
-            hand: InteractionHand,
             pos: BlockPos
         ) {
             val level = player.level()

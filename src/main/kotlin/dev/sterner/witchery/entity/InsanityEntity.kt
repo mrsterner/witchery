@@ -156,7 +156,7 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         if (source.entity is Player) {
-            for (i in 0 until 20) {
+            (0 until 20).forEach { i ->
                 this.level().addParticle(
                     ParticleTypes.POOF,
                     this.x + (Random.nextDouble() - 0.5) * this.bbWidth,
@@ -216,9 +216,9 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
         override fun tick() {
             if (this.target == null) {
                 creeper.entityData.set(DATA_SWELL_DIR, -1)
-            } else if (creeper.distanceToSqr(this.target) > 49.0) {
+            } else if (creeper.distanceToSqr(this.target!!) > 49.0) {
                 creeper.entityData.set(DATA_SWELL_DIR, -1)
-            } else if (!creeper.sensing.hasLineOfSight(this.target)) {
+            } else if (!creeper.sensing.hasLineOfSight(this.target!!)) {
                 creeper.entityData.set(DATA_SWELL_DIR, -1)
             } else {
                 creeper.entityData.set(DATA_SWELL_DIR, 1)

@@ -89,7 +89,7 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
         }
     }
 
-    override fun onEndRitual(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
+    override fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
         if (level is ServerLevel) {
             val area = AABB.ofSize(blockPos.center, 16.0, 16.0, 16.0)
 
@@ -116,7 +116,7 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
                     )
                 }
             } else {
-                Containers.dropContents(level, blockPos, blockEntity)
+                Containers.dropContents(level, blockPos, goldenChalkBlockEntity)
             }
         }
     }
@@ -125,7 +125,7 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
         if (level is ServerLevel) {
             val particleCount = 15
 
-            for (i in 0 until particleCount) {
+            (0 until particleCount).forEach { i ->
                 level.sendParticles(
                     ParticleTypes.WITCH,
                     entity.x + level.random.nextDouble() - 0.5,

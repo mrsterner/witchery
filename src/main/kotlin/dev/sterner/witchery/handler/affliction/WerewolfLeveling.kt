@@ -81,7 +81,7 @@ object WerewolfLeveling {
 
         if (nextLevel > 10) return
 
-        if (nextLevel > 2 && !canLevelUp(player, currentData, nextLevel)) return
+        if (nextLevel > 2 && !canLevelUp(currentData, nextLevel)) return
 
 
         setLevel(player, nextLevel)
@@ -164,7 +164,7 @@ object WerewolfLeveling {
         val currentLevel = data.getLevel(AfflictionTypes.LYCANTHROPY)
         val nextLevel = currentLevel + 1
 
-        if (nextLevel <= 10 && canLevelUp(player, data, nextLevel)) {
+        if (nextLevel <= 10 && canLevelUp(data, nextLevel)) {
             VampireLeveling.increaseVampireLevel(player)
         }
     }
@@ -233,7 +233,7 @@ object WerewolfLeveling {
         10 to Requirement(Witchery.id("werewolf/9"), spreadLycantropy = true)
     )
 
-    private fun canLevelUp(player: ServerPlayer, data: AfflictionPlayerAttachment.Data, targetLevel: Int): Boolean {
+    private fun canLevelUp(data: AfflictionPlayerAttachment.Data, targetLevel: Int): Boolean {
         if (targetLevel == 1) {
             return true
         }

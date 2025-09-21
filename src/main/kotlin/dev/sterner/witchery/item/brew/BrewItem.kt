@@ -5,7 +5,6 @@ import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.handler.FamiliarHandler
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.Direction
-import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stats

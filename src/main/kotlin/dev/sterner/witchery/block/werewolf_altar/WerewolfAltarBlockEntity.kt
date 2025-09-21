@@ -56,39 +56,37 @@ class WerewolfAltarBlockEntity(
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
-    override fun tickServer(level: ServerLevel) {
-        super.tickServer(level)
-        if (level is ServerLevel) {
-            val item = items[0]
-            if (!item.isEmpty) {
+    override fun tickServer(serverLevel: ServerLevel) {
+        super.tickServer(serverLevel)
+        val item = items[0]
+        if (!item.isEmpty) {
 
-                if (item.`is`(Items.GOLD_INGOT)) {
-                    conversionTicks++
+            if (item.`is`(Items.GOLD_INGOT)) {
+                conversionTicks++
 
-                    spawnConsumeParticles(level, item)
+                spawnConsumeParticles(serverLevel, item)
 
-                    if (conversionTicks >= 20 * 2) {
-                        conversionTicks = 0
-                        items.clear()
-                        items[0] = WitcheryItems.MOON_CHARM.get().defaultInstance
-                        setChanged()
-                    }
-                } else if (item.`is`(Items.MUTTON)) {
-                    conversionTicks++
+                if (conversionTicks >= 20 * 2) {
+                    conversionTicks = 0
+                    items.clear()
+                    items[0] = WitcheryItems.MOON_CHARM.get().defaultInstance
+                    setChanged()
+                }
+            } else if (item.`is`(Items.MUTTON)) {
+                conversionTicks++
 
-                    spawnConsumeParticles(level, item)
+                spawnConsumeParticles(serverLevel, item)
 
-                    if (conversionTicks >= 20 * 2) {
-                        conversionTicks = 0
-                        muttonCounter++
-                        items.clear()
-                        setChanged()
-                    }
+                if (conversionTicks >= 20 * 2) {
+                    conversionTicks = 0
+                    muttonCounter++
+                    items.clear()
+                    setChanged()
                 }
             }
-
-            lookForWerewolf(level, blockPos)
         }
+
+        lookForWerewolf(serverLevel, blockPos)
     }
 
     private fun lookForWerewolf(level: ServerLevel, pos: BlockPos) {

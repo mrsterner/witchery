@@ -19,7 +19,7 @@ class VoodooPoppetItem(properties: Properties) : PoppetItem(properties) {
                 player,
                 ClipContext.Fluid.SOURCE_ONLY
             )
-            return VoodooPoppet.handleInteraction(level, pos, item, player, blockHitResult)
+            return VoodooPoppet.handleInteraction(level, pos, item, blockHitResult)
         }
 
         return InteractionResult.PASS

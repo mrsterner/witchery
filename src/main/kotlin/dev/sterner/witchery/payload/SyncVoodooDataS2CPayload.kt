@@ -13,7 +13,7 @@ class SyncVoodooDataS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: VoodooPoppetLivingEntityAttachment.VoodooPoppetData) : this(CompoundTag().apply {
+    constructor(player: Player, data: VoodooPoppetLivingEntityAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putBoolean("isUnderWater", data.isUnderWater)
         putInt("ticks", data.underWaterTicks)
@@ -40,7 +40,7 @@ class SyncVoodooDataS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
             if (player != null) {
                 VoodooPoppetLivingEntityAttachment.setPoppetData(
                     player,
-                    VoodooPoppetLivingEntityAttachment.VoodooPoppetData(isUnderWater, ticks)
+                    VoodooPoppetLivingEntityAttachment.Data(isUnderWater, ticks)
                 )
             }
         }

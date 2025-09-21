@@ -293,13 +293,13 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
 
     override fun onUseWithItem(
-        player: Player,
-        stack: ItemStack,
-        hand: InteractionHand
+        pPlayer: Player,
+        pStack: ItemStack,
+        pHand: InteractionHand
     ): ItemInteractionResult {
-        if (stack.`is`(WitcheryItems.SPECTRAL_DUST.get())) {
+        if (pStack.`is`(WitcheryItems.SPECTRAL_DUST.get())) {
             if (saltCount < 1) {
-                stack.shrink(1)
+                pStack.shrink(1)
                 animationTime = 0
                 saltCount = 1
                 if (!isProcessing()) {
@@ -310,7 +310,7 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
             return ItemInteractionResult.FAIL
         }
-        return super.onUseWithItem(player, stack, hand)
+        return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
     companion object {
@@ -380,7 +380,7 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     )
                 }
 
-                for (i in 0 until 10) {
+                (0 until 10).forEach { i ->
                     level.sendParticles(
                         ParticleTypes.SOUL_FIRE_FLAME,
                         soulCagePos.x + (level.random.nextDouble() - 0.5) * 0.75,

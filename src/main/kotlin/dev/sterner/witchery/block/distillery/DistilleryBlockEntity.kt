@@ -75,7 +75,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
-    override fun tickServer(level: ServerLevel) {
+    override fun tickServer(serverLevel: ServerLevel) {
 
         var shouldUpdateBlock = false
         var isProcessing = false
@@ -88,19 +88,19 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         if (hasInput && hasJar) {
             val distillingRecipe =
-                quickCheck.getRecipeFor(MultipleItemRecipeInput(listOf(inputStack, inputStack2)), level).orElse(null)
+                quickCheck.getRecipeFor(MultipleItemRecipeInput(listOf(inputStack, inputStack2)), serverLevel).orElse(null)
 
             if (canDistill(distillingRecipe, items, maxStackSize)) {
                 cookingProgress++
-                isProcessing = true // Mark that the oven is processing a recipe
+                isProcessing = true
 
                 if (cookingProgress % 20 == 0) {
-                    consumeAltarPower(level!!, distillingRecipe.value)
+                    consumeAltarPower(serverLevel, distillingRecipe.value)
                 }
 
                 if (cookingProgress == cookingTotalTime) {
                     cookingProgress = 0
-                    cookingTotalTime = getTotalCookTime(level!!)
+                    cookingTotalTime = getTotalCookTime(serverLevel)
 
                     if (distill(distillingRecipe, items, maxStackSize)) {
                         recipeUsed = distillingRecipe
@@ -116,13 +116,13 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (isProcessing && !blockState.getValue(BlockStateProperties.LIT)) {
-            level!!.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, true))
+            serverLevel.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, true))
         } else if (!isProcessing && blockState.getValue(BlockStateProperties.LIT)) {
-            level!!.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, false))
+            serverLevel.setBlockAndUpdate(blockPos, blockState.setValue(BlockStateProperties.LIT, false))
         }
 
         if (shouldUpdateBlock) {
-            setChanged(level, blockPos, blockState)
+            setChanged(serverLevel, blockPos, blockState)
         }
     }
 
@@ -356,12 +356,12 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return null
     }
 
-    override fun onUseWithoutItem(player: Player): InteractionResult {
-        if (player is ServerPlayer) {
-            openMenu(player)
+    override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
+        if (pPlayer is ServerPlayer) {
+            openMenu(pPlayer)
             return InteractionResult.SUCCESS
         }
-        return super.onUseWithoutItem(player)
+        return super.onUseWithoutItem(pPlayer)
     }
 
     private fun openMenu(player: ServerPlayer) {
@@ -469,7 +469,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             .map { recipeHolder: RecipeHolder<DistilleryCraftingRecipe?> -> (recipeHolder.value() as DistilleryCraftingRecipe).cookingTime }
             .orElse(BURN_TIME_STANDARD)
 
-        return cookQuickTime.coerceAtLeast(1) // Ensure the cooking time is at least 1 tick
+        return cookQuickTime.coerceAtLeast(1)
     }
 
     companion object {
@@ -482,9 +482,6 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         const val SLOT_RESULT_3: Int = 5
         const val SLOT_RESULT_4: Int = 6
 
-        val SLOTS_FOR_UP: IntArray = intArrayOf(0)
-        val SLOTS_FOR_DOWN: IntArray = intArrayOf(2, 1)
-        val SLOTS_FOR_SIDES: IntArray = intArrayOf(1)
         const val DATA_COOKING_PROGRESS: Int = 0
         const val DATA_COOKING_TOTAL_TIME: Int = 1
         const val NUM_DATA_VALUES: Int = 2

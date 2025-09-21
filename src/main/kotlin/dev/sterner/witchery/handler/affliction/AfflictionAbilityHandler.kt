@@ -107,7 +107,7 @@ object AfflictionAbilityHandler : AbilityHandler {
         val abilities = getAbilities(player)
         if (abilities.isEmpty()) return false
 
-        return AbilityScrollHandler().handleScroll(player, scrollDeltaX, scrollDeltaY, this)
+        return AbilityScrollHandler().handleScroll(player, scrollDeltaY, this)
     }
 
     fun getSelectedAbility(player: Player): AfflictionAbility? {

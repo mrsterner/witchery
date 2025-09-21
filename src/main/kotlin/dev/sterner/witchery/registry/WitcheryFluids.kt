@@ -66,6 +66,7 @@ object WitcheryFluids {
 
         override fun getFlowing(): Fluid = FLOWING_SPIRIT_FLOWING.get()
 
+        @Deprecated("Deprecated in Java")
         override fun canConvertToSource(level: Level): Boolean = false
 
         override fun getDropOff(level: LevelReader): Int = 1

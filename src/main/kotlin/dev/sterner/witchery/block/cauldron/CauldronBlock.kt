@@ -115,7 +115,7 @@ open class CauldronBlock(properties: Properties) :
                     false
                 )
             }
-            for (i in 0 until random.nextInt(1) + 1) {
+            (0 until random.nextInt(1) + 1).forEach { i ->
                 val d = pos.x.toDouble() + 0.5
                 val e = pos.y.toDouble()
                 val f = pos.z.toDouble() + 0.5
@@ -141,7 +141,6 @@ open class CauldronBlock(properties: Properties) :
                     level.addParticle(ParticleTypes.SMOKE, d + i, e + j, f + k, 0.0, 0.0, 0.0)
                     level.addParticle(ParticleTypes.FLAME, d + i, e + j, f + k, 0.0, 0.0, 0.0)
                 }
-
             }
         }
     }

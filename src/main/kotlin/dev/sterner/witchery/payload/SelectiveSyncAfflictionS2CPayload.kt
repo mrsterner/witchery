@@ -73,7 +73,7 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
         val changedFieldsBits = payload.nbt.getInt("ChangedFields")
         val changedFields = mutableSetOf<AfflictionPlayerAttachment.SyncField>()
 
-        AfflictionPlayerAttachment.SyncField.values().forEach { field ->
+        AfflictionPlayerAttachment.SyncField.entries.forEach { field ->
             if ((changedFieldsBits and (1 shl field.ordinal)) != 0) {
                 changedFields.add(field)
             }
@@ -115,7 +115,7 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
         ): PartialData {
             return PartialData(
                 afflictionLevels = if (AfflictionPlayerAttachment.SyncField.AFFLICTION_LEVELS in changedFields) {
-                    Optional.of(AfflictionTypes.values().mapNotNull { type ->
+                    Optional.of(AfflictionTypes.entries.mapNotNull { type ->
                         val level = data.getLevel(type)
                         if (level > 0) type to level else null
                     }.toMap())
@@ -197,7 +197,7 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
 
             if (AfflictionPlayerAttachment.SyncField.AFFLICTION_LEVELS in changedFields) {
                 partialData.afflictionLevels.ifPresent { levels ->
-                    AfflictionTypes.values().forEach { type ->
+                    AfflictionTypes.entries.forEach { type ->
                         mergedData = mergedData.setLevel(type, levels[type] ?: 0)
                     }
                 }

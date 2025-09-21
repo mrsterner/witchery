@@ -133,7 +133,7 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         val positions = mutableListOf<Pair<Float, Float>>()
 
-        for (i in 0 until 30) {
+        (0 until 30).forEach { i ->
             val x = -0.4f + random.nextFloat() * 0.8f
 
             val z = -1.5f + random.nextFloat() * 2.0f
@@ -178,16 +178,16 @@ class MushroomLogBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     /**
      * Handle growth tick
      */
-    override fun tickServer(level: ServerLevel) {
+    override fun tickServer(serverLevel: ServerLevel) {
 
-        if (level.gameTime % 20 == 0L && level.random.nextFloat() < 0.33f) {
+        if (serverLevel.gameTime % 20 == 0L && serverLevel.random.nextFloat() < 0.33f) {
             if (!currentMushroom.isEmpty && growthStage < maxGrowthStage) {
-                if (canGrow(level, blockPos)) {
+                if (canGrow(serverLevel, blockPos)) {
                     growthStage = min(maxGrowthStage, growthStage + growthRate)
 
                     if ((growthStage * 100).toInt() % 10 == 0) {
                         setChanged()
-                        level.sendBlockUpdated(blockPos, blockState, blockState, 3)
+                        serverLevel.sendBlockUpdated(blockPos, blockState, blockState, 3)
                     }
                 }
             }

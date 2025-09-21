@@ -34,7 +34,7 @@ object CovenHandler {
 
         val tag = CompoundTag()
         if (witch.saveAsPassenger(tag)) {
-            val witchData = CovenPlayerAttachment.CovenData.WitchData(
+            val witchData = CovenPlayerAttachment.Data.WitchData(
                 entityData = tag,
                 health = witch.health,
                 name = witch.customName ?: Component.literal("Coven Witch #${witches.size + 1}")
@@ -374,7 +374,7 @@ object CovenHandler {
     /**
      * Find index of witch in coven data
      */
-    private fun findWitchIndex(witch: CovenWitchEntity, witches: List<CovenPlayerAttachment.CovenData.WitchData>): Int {
+    private fun findWitchIndex(witch: CovenWitchEntity, witches: List<CovenPlayerAttachment.Data.WitchData>): Int {
         for (i in witches.indices) {
             val tag = witches[i].entityData
             if (tag.hasUUID("UUID") && tag.getUUID("UUID") == witch.uuid) {

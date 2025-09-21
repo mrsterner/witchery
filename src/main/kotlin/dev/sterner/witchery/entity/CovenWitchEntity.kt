@@ -74,7 +74,7 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
 
     override fun die(damageSource: DamageSource) {
         if (getIsCoven() && ownerUuid != null) {
-            val owner = level().getPlayerByUUID(ownerUuid)
+            val owner = level().getPlayerByUUID(ownerUuid!!)
             if (owner is ServerPlayer) {
                 CovenHandler.handleWitchDeath(owner, this)
             }
@@ -87,7 +87,7 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         val result = super.hurt(source, amount)
 
         if (result && getIsCoven() && ownerUuid != null && !level().isClientSide) {
-            val owner = level().getPlayerByUUID(ownerUuid)
+            val owner = level().getPlayerByUUID(ownerUuid!!)
             if (owner is ServerPlayer) {
                 CovenHandler.updateWitchHealth(owner, this)
             }

@@ -105,8 +105,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     /**
      * Main tick method that handles the ritual lifecycle based on current state
      */
-    override fun tick(level: Level, pos: BlockPos, state: BlockState) {
-        super.tick(level, pos, state)
+    override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
+        super.tick(level, pos, blockState)
 
         if (level.isClientSide || currentState == RitualState.IDLE) {
             return
@@ -443,25 +443,25 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     /**
      * Handle when a player uses the block without an item
      */
-    override fun onUseWithoutItem(player: Player): InteractionResult {
-        if (WitcheryApi.isInSpiritWorld(player)) {
+    override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
+        if (WitcheryApi.isInSpiritWorld(pPlayer)) {
             return InteractionResult.PASS
         }
 
-        if (ritualRecipe != null && player.isShiftKeyDown) {
+        if (ritualRecipe != null && pPlayer.isShiftKeyDown) {
             items.clear()
             resetRitual()
-            Witchery.logDebugRitual("Ritual reset by player ${player.name.string}.")
+            Witchery.logDebugRitual("Ritual reset by player ${pPlayer.name.string}.")
             return InteractionResult.SUCCESS
         }
 
-        updateAltarCache(player.level())
+        updateAltarCache(pPlayer.level())
 
         if (ritualRecipe == null && level is ServerLevel) {
-            tryStartRitual(player)
+            tryStartRitual(pPlayer)
         }
 
-        return super.onUseWithoutItem(player)
+        return super.onUseWithoutItem(pPlayer)
     }
 
     /**

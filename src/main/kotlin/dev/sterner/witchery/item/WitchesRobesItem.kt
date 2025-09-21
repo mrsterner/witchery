@@ -83,7 +83,7 @@ open class WitchesRobesItem(material: Holder<ArmorMaterial>, type: Type, propert
             living: LivingEntity,
             stack: ItemStack,
             slot: EquipmentSlot,
-            model: HumanoidModel<*>?
+            model: HumanoidModel<*>
         ): HumanoidModel<*> {
             val models = Minecraft.getInstance().entityModels
             val root = models.bakeLayer(WitchesRobesModel.LAYER_LOCATION)

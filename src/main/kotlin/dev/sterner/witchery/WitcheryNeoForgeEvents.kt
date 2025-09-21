@@ -80,7 +80,7 @@ object WitcheryNeoForgeEvents {
 
     @SubscribeEvent
     fun onLivingDeath(event: LivingDeathEvent) {
-        VampireSpecificEventHandler.resetNightCount(event.entity, event.source)
+        VampireSpecificEventHandler.resetNightCount(event.entity)
         VampireSpecificEventHandler.onKillEntity(event.entity, event.source)
         PoppetHandler.onLivingDeath(event, event.entity, event.source)
         NecroHandler.onDeath(event.entity, event.source)
@@ -103,7 +103,7 @@ object WitcheryNeoForgeEvents {
 
             VoodooPoppetLivingEntityAttachment.setPoppetData(
                 entity,
-                VoodooPoppetLivingEntityAttachment.VoodooPoppetData(
+                VoodooPoppetLivingEntityAttachment.Data(
                     isUnderWater = true,
                     underWaterTicks = newTicks
                 )
@@ -111,7 +111,7 @@ object WitcheryNeoForgeEvents {
         } else if (prevData.isUnderWater) {
             VoodooPoppetLivingEntityAttachment.setPoppetData(
                 entity,
-                VoodooPoppetLivingEntityAttachment.VoodooPoppetData(
+                VoodooPoppetLivingEntityAttachment.Data(
                     isUnderWater = false,
                     underWaterTicks = 0
                 )
@@ -145,7 +145,7 @@ object WitcheryNeoForgeEvents {
             if (wereData.getLevel(AfflictionTypes.LYCANTHROPY) > 0) {
                 if (TransformationHandler.isWolf(attacker) || TransformationHandler.isWerewolf(attacker)) {
                     damage = WerewolfSpecificEventHandler.modifyWerewolfDamage(
-                        attacker, entity, damageSource, damage
+                        attacker, entity, damage
                     )
                 }
             }
@@ -169,11 +169,11 @@ object WitcheryNeoForgeEvents {
             }
         } else if (isWereMan) {
             if (damage > 0f) {
-                damage = WerewolfSpecificEventHandler.handleHurtWolfman(entity, damageSource, damage)
+                damage = WerewolfSpecificEventHandler.handleHurtWolfman(damageSource, damage)
             }
         } else if (isWere) {
             if (damage > 0f) {
-                damage = WerewolfSpecificEventHandler.handleHurtWolf(entity, damageSource, damage)
+                damage = WerewolfSpecificEventHandler.handleHurtWolf(damageSource, damage)
             }
         }
 
@@ -231,7 +231,7 @@ object WitcheryNeoForgeEvents {
         )
         LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
         PhylacteryBlockEntity.onPlayerLoad(event.entity)
-        BrewOfSleepingItem.respawnPlayer(event.original, event.entity, event.isWasDeath)
+        BrewOfSleepingItem.respawnPlayer(event.entity)
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -251,18 +251,18 @@ object WitcheryNeoForgeEvents {
 
     @SubscribeEvent
     fun onInteractEntity(event: PlayerInteractEvent.EntityInteract) {
-        AfflictionEventHandler.interactEntityWithAbility(event, event.entity, event.target, event.hand)
-        WineGlassItem.applyWineOnVillager(event, event.entity, event.target, event.hand)
+        AfflictionEventHandler.interactEntityWithAbility(event, event.entity, event.target)
+        WineGlassItem.applyWineOnVillager(event, event.entity, event.target)
     }
 
     @SubscribeEvent
     fun onRightClickBlock(event: PlayerInteractEvent.RightClickBlock) {
-        AfflictionEventHandler.rightClickBlockAbility(event, event.entity, event.hand, event.pos)
+        AfflictionEventHandler.rightClickBlockAbility(event, event.entity, event.hand)
         LecternHandler.tryAccessGuidebook(event, event.entity, event.hand, event.pos)
         LichdomSpecificEventHandler.onBlockInteract(event, event.entity, event.hand, event.pos)
-        BrazierBlockEntity.makeSoulCage(event, event.entity, event.hand, event.pos)
-        SacrificialBlockEntity.rightClick(event, event.entity, event.hand, event.pos)
-        MushroomLogBlock.makeMushroomLog(event, event.entity, event.hand, event.pos)
+        BrazierBlockEntity.makeSoulCage(event, event.entity, event.pos)
+        SacrificialBlockEntity.rightClick(event, event.entity, event.pos)
+        MushroomLogBlock.makeMushroomLog(event, event.entity, event.pos)
     }
 
     @SubscribeEvent
@@ -272,14 +272,14 @@ object WitcheryNeoForgeEvents {
 
     @SubscribeEvent
     fun onBlockBreak(event: BlockEvent.BreakEvent) {
-        CurseHandler.breakBlock(event.player.level(), event.pos, event.state, event.player)
+        CurseHandler.breakBlock(event.player.level(), event.state, event.player)
         EntSpawningHandler.breakBlock(event.player.level(), event.pos, event.state, event.player)
         AltarBlockEntity.onBlockBreak(event)
     }
 
     @SubscribeEvent
     fun onBlockPlace(event: BlockEvent.EntityPlaceEvent) {
-        CurseHandler.placeBlock(event.entity!!.level(), event.pos, event.state, event.entity)
+        CurseHandler.placeBlock(event.entity!!.level(), event.state, event.entity)
         AltarBlockEntity.onBlockPlace(event)
         RitualChalkBlock.placeInfernal(event, event.entity!!.level(), event.pos, event.state, event.entity)
     }

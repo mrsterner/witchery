@@ -182,19 +182,17 @@ enum class WerewolfAbility(
                     0.5f
                 )
 
-                if (player is ServerPlayer) {
-                    (player.level() as ServerLevel).sendParticles(
-                        ParticleTypes.SMOKE,
-                        player.x,
-                        player.y + 1,
-                        player.z,
-                        20,
-                        0.5,
-                        0.5,
-                        0.5,
-                        0.05
-                    )
-                }
+                (player.level() as ServerLevel).sendParticles(
+                    ParticleTypes.SMOKE,
+                    player.x,
+                    player.y + 1,
+                    player.z,
+                    20,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.05
+                )
             }
 
             return true

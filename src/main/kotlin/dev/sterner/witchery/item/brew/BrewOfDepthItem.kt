@@ -32,7 +32,7 @@ class BrewOfDepthItem(color: Int, properties: Properties) : BrewItem(color, prop
                 0.8f + player.level().random.nextFloat() * 0.4f
             )
 
-            for (i in 0 until 15) {
+            (0 until 15).forEach { i ->
                 val d0 = player.x + (player.level().random.nextDouble() - 0.5) * 1.0
                 val d1 = player.y + player.level().random.nextDouble() * player.bbHeight
                 val d2 = player.z + (player.level().random.nextDouble() - 0.5) * 1.0
