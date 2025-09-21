@@ -1,5 +1,6 @@
 package dev.sterner.witchery.registry
 
+import dev.sterner.witchery.VillageHelper
 import dev.sterner.witchery.Witchery.Companion.MODID
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
@@ -14,7 +15,7 @@ object WitcheryStructureInjects {
     /**
      * Adds Graveyards to Plains and Taiga Villages.
      */
-    private fun addStructure(server: MinecraftServer) {
+    fun addStructure(server: MinecraftServer) {
         val builtinTemplate: Registry<StructureTemplatePool> =
             server.registryAccess().registry(Registries.TEMPLATE_POOL).get()
         val builtinProcessor: Registry<StructureProcessorList> =

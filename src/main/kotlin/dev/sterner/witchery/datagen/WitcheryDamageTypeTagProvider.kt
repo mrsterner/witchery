@@ -1,0 +1,24 @@
+package dev.sterner.witchery.datagen
+
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryDamageSources
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.Registries
+import net.minecraft.data.PackOutput
+import net.minecraft.data.tags.DamageTypeTagsProvider
+import net.minecraft.tags.DamageTypeTags
+import net.minecraft.world.damagesource.DamageType
+import net.neoforged.neoforge.common.data.ExistingFileHelper
+import java.util.concurrent.CompletableFuture
+
+class WitcheryDamageTypeTagProvider(
+    output: PackOutput?,
+    completableFuture: CompletableFuture<HolderLookup.Provider>?,
+    existingFileHelper: ExistingFileHelper
+) : DamageTypeTagsProvider(output, completableFuture, Witchery.MODID, existingFileHelper) {
+
+    override fun addTags(wrapperLookup: HolderLookup.Provider) {
+        tag(DamageTypeTags.NO_KNOCKBACK)
+            .add(WitcheryDamageSources.IN_SUN)
+    }
+}

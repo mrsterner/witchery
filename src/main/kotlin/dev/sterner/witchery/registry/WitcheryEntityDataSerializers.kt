@@ -1,5 +1,6 @@
 package dev.sterner.witchery.registry
 
+import dev.sterner.witchery.Witchery
 import net.minecraft.core.NonNullList
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
@@ -7,38 +8,46 @@ import net.minecraft.network.syncher.EntityDataSerializer
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
+import net.neoforged.neoforge.registries.DeferredHolder
+import net.neoforged.neoforge.registries.DeferredRegister
+import net.neoforged.neoforge.registries.NeoForgeRegistries
+import java.util.function.Supplier
 
 object WitcheryEntityDataSerializers {
 
-    fun register() {
-        EntityDataSerializers.registerSerializer(INVENTORY)
-        EntityDataSerializers.registerSerializer(RESOLVABLE)
-    }
+    val SERIALIZERS: DeferredRegister<EntityDataSerializer<*>> =
+        DeferredRegister.create(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, Witchery.MODID)
 
-    val RESOLVABLE = object : EntityDataSerializer<ResolvableProfile> {
-        override fun codec(): StreamCodec<in RegistryFriendlyByteBuf, ResolvableProfile> {
-            return ResolvableProfile.STREAM_CODEC
-        }
+    val INVENTORY: DeferredHolder<EntityDataSerializer<*>, EntityDataSerializer<NonNullList<ItemStack>>> =
+        SERIALIZERS.register("inventory", Supplier {
+            object : EntityDataSerializer<NonNullList<ItemStack>> {
+                override fun codec(): StreamCodec<in RegistryFriendlyByteBuf, NonNullList<ItemStack>> {
+                    return CODEC
+                }
 
-        override fun copy(value: ResolvableProfile): ResolvableProfile {
-            return ResolvableProfile(value.gameProfile)
-        }
-
-    }
-
-    val INVENTORY = object : EntityDataSerializer<NonNullList<ItemStack>> {
-        override fun codec(): StreamCodec<in RegistryFriendlyByteBuf, NonNullList<ItemStack>> {
-            return CODEC
-        }
-
-        override fun copy(itemStacks: NonNullList<ItemStack>): NonNullList<ItemStack> {
-            val list = NonNullList.withSize(itemStacks.size, ItemStack.EMPTY)
-            for (i in itemStacks.indices) {
-                list[i] = itemStacks[i].copy()
+                override fun copy(itemStacks: NonNullList<ItemStack>): NonNullList<ItemStack> {
+                    val list = NonNullList.withSize(itemStacks.size, ItemStack.EMPTY)
+                    for (i in itemStacks.indices) {
+                        list[i] = itemStacks[i].copy()
+                    }
+                    return list
+                }
             }
-            return list
-        }
-    }
+        })
+
+    val RESOLVABLE: DeferredHolder<EntityDataSerializer<*>, EntityDataSerializer<ResolvableProfile>> =
+        SERIALIZERS.register("resolvable", Supplier {
+            object : EntityDataSerializer<ResolvableProfile> {
+                override fun codec(): StreamCodec<in RegistryFriendlyByteBuf, ResolvableProfile> {
+                    return ResolvableProfile.STREAM_CODEC
+                }
+
+                override fun copy(value: ResolvableProfile): ResolvableProfile {
+                    return ResolvableProfile(value.gameProfile)
+                }
+
+            }
+        })
 
     val CODEC: StreamCodec<RegistryFriendlyByteBuf, NonNullList<ItemStack>> =
         object : StreamCodec<RegistryFriendlyByteBuf, NonNullList<ItemStack>> {

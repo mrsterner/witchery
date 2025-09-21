@@ -13,6 +13,7 @@ import net.minecraft.client.resources.model.Material
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.neoforged.neoforge.fluids.FluidType
 import org.joml.Matrix4f
 
 
@@ -28,9 +29,9 @@ class CauldronBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         packedLight: Int,
         packedOverlay: Int
     ) {
-        if (blockEntity.fluidTank.getFluidAmount() > 0) {
+        if (blockEntity.fluidTank.fluidAmount > 0) {
             val le: Double =
-                blockEntity.fluidTank.getFluidAmount().toDouble() / FluidStack.bucketAmount().toDouble() * 3
+                blockEntity.fluidTank.fluidAmount.toDouble() / FluidType.BUCKET_VOLUME * 3
             renderWater(poseStack, bufferSource, le.toInt(), blockEntity.color, packedLight, packedOverlay)
 
             if (blockEntity.blockState.getValue(BlockStateProperties.LIT)) {

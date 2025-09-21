@@ -119,7 +119,6 @@ object WitcheryFluids {
         class Flowing : FlowingSpirit() {
             override fun createFluidStateDefinition(builder: StateDefinition.Builder<Fluid, FluidState>) {
                 super.createFluidStateDefinition(builder)
-                builder.add(FALLING)
             }
 
             override fun getAmount(state: FluidState): Int {

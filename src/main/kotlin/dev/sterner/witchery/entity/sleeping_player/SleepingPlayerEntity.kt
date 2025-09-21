@@ -346,11 +346,11 @@ class SleepingPlayerEntity(level: Level) : Entity(WitcheryEntityTypes.SLEEPING_P
         }
 
         val RESOLVEABLE =
-            SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.RESOLVABLE)
+            SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.RESOLVABLE.get())
         val UUID = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.OPTIONAL_UUID)
         val NAME = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.STRING)
         val EQUIPMENT =
-            SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.INVENTORY)
+            SynchedEntityData.defineId(SleepingPlayerEntity::class.java, WitcheryEntityDataSerializers.INVENTORY.get())
         val MODEL = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.BYTE)
         val FACEPLANT = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.BOOLEAN)
         val HURT_TIME = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.INT)

@@ -741,10 +741,6 @@ object WitcherySpecialPotionEffects {
             }
         }
 
-    fun register() {
-    }
-
-
 
     fun changeIntoState(state: BlockState, level: Level, pos: BlockPos, entity: Entity?) {
         level.setBlock(pos, state, 11)

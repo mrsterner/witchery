@@ -7,57 +7,79 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
 import net.minecraft.world.effect.MobEffects
+import net.neoforged.bus.api.IEventBus
+import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.awt.Color
-
+import java.util.function.Supplier
 
 object WitcheryMobEffects {
 
-    val EFFECTS: DeferredRegister<MobEffect?> =
-        DeferredRegister.create<MobEffect?>(BuiltInRegistries.MOB_EFFECT, Witchery.MODID)
+    val EFFECTS: DeferredRegister<MobEffect> = // Remove the nullable type
+        DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, Witchery.MODID)
 
+    val EMPTY: DeferredHolder<MobEffect, MobEffect> =
+        EFFECTS.register("empty", Supplier {
+            EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 255, 255).rgb)
+        })
 
-    val EMPTY: Holder<MobEffect> =
-        register("empty", EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 255, 255).rgb))
+    val POISON_WEAPON: DeferredHolder<MobEffect, MobEffect> =
+        EFFECTS.register("poison_weapon", Supplier {
+            PoisonWeaponMobEffect(MobEffectCategory.BENEFICIAL, Color(70, 255, 110).rgb)
+        })
 
-    val POISON_WEAPON: Holder<MobEffect> =
-        register("poison_weapon", PoisonWeaponMobEffect(MobEffectCategory.BENEFICIAL, Color(70, 255, 110).rgb))
-
-    val BANE_OF_ARTHROPODS_WEAPON: Holder<MobEffect> =
-        register(
-            "bane_of_arthropods_weapon",
+    val BANE_OF_ARTHROPODS_WEAPON: DeferredHolder<MobEffect, MobEffect> =
+        register("bane_of_arthropods_weapon") {
             BaneOfArthropodsWeaponMobEffect(MobEffectCategory.HARMFUL, Color(180, 10, 20).rgb)
-        )
+        }
 
-    val REFLECT_ARROW: Holder<MobEffect> =
-        register("reflect_arrow", ReflectArrowsMobEffect(MobEffectCategory.BENEFICIAL, Color(220, 255, 110).rgb))
+    val REFLECT_ARROW: DeferredHolder<MobEffect, MobEffect> =
+        register("reflect_arrow") {
+            ReflectArrowsMobEffect(MobEffectCategory.BENEFICIAL, Color(220, 255, 110).rgb)
+        }
 
-    val ATTRACT_ARROW: Holder<MobEffect> =
-        register("attract_arrow", AttractArrowsMobEffect(MobEffectCategory.BENEFICIAL, Color(220, 255, 110).rgb))
+    val ATTRACT_ARROW: DeferredHolder<MobEffect, MobEffect> =
+        register("attract_arrow") {
+            AttractArrowsMobEffect(MobEffectCategory.BENEFICIAL, Color(220, 255, 110).rgb)
+        }
 
-    val DISEASE: Holder<MobEffect> =
-        register("disease", DiseaseMobEffect(MobEffectCategory.HARMFUL, Color(220, 100, 110).rgb))
+    val DISEASE: DeferredHolder<MobEffect, MobEffect> =
+        register("disease") {
+            DiseaseMobEffect(MobEffectCategory.HARMFUL, Color(220, 100, 110).rgb)
+        }
 
+    val FORTUNE_TOOL: DeferredHolder<MobEffect, MobEffect> =
+        register("fortune_tool") {
+            FortuneToolMobEffect(MobEffectCategory.BENEFICIAL, Color(100, 170, 210).rgb)
+        }
 
-    val FORTUNE_TOOL: Holder<MobEffect> =
-        register("fortune_tool", FortuneToolMobEffect(MobEffectCategory.BENEFICIAL, Color(100, 170, 210).rgb))
+    val ENDER_BOUND: DeferredHolder<MobEffect, MobEffect> =
+        register("ender_bound") {
+            EmptyMobEffect(MobEffectCategory.HARMFUL, Color(255, 60, 210).rgb)
+        }
 
-    val ENDER_BOUND: Holder<MobEffect> =
-        register("ender_bound", EmptyMobEffect(MobEffectCategory.HARMFUL, Color(255, 60, 210).rgb))
+    val WEREWOLF_BOUND: DeferredHolder<MobEffect, MobEffect> =
+        register("werewolf_bound") {
+            EmptyMobEffect(MobEffectCategory.HARMFUL, Color(255, 255, 100).rgb)
+        }
 
-    val WEREWOLF_BOUND: Holder<MobEffect> =
-        register("werewolf_bound", EmptyMobEffect(MobEffectCategory.HARMFUL, Color(255, 255, 100).rgb))
+    val GROW: DeferredHolder<MobEffect, MobEffect> =
+        register("grow") {
+            ResizeMobEffect(true, MobEffectCategory.NEUTRAL, Color(255, 255, 100).rgb)
+        }
 
-    val GROW: Holder<MobEffect> =
-        register("grow", ResizeMobEffect(true, MobEffectCategory.NEUTRAL, Color(255, 255, 100).rgb))
+    val SHRINK: DeferredHolder<MobEffect, MobEffect> =
+        register("shrink") {
+            ResizeMobEffect(false, MobEffectCategory.NEUTRAL, Color(255, 255, 100).rgb)
+        }
 
-    val SHRINK: Holder<MobEffect> =
-        register("shrink", ResizeMobEffect(false, MobEffectCategory.NEUTRAL, Color(255, 255, 100).rgb))
-
-    val GROTESQUE: Holder<MobEffect> = register("grotesque", EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 100, 100).rgb))
+    val GROTESQUE: DeferredHolder<MobEffect, MobEffect> =
+        register("grotesque") {
+            EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 100, 100).rgb)
+        }
 
     private fun register(name: String, effectSupplier: () -> MobEffect): DeferredHolder<MobEffect, MobEffect> {
-        return EFFECTS.register(name, Supplier { effectSupplier() })
+        return EFFECTS.register(name, Supplier(effectSupplier)) // Pass the supplier, don't call it
     }
 
     fun invertEffect(effect: Holder<MobEffect>): Holder<MobEffect> {
@@ -88,9 +110,5 @@ object WitcheryMobEffects {
             MobEffects.HERO_OF_THE_VILLAGE -> MobEffects.BAD_OMEN
             else -> effect
         }
-    }
-
-    fun register() {
-
     }
 }

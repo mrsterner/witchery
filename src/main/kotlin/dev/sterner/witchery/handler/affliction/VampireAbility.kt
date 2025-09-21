@@ -31,8 +31,7 @@ enum class VampireAbility(
                 targetData.bloodPool <= 0
             ) return false
 
-            AfflictionHandler.vampireDrinkBloodAbility(player, target, playerBloodData)
-            return true
+            return AfflictionHandler.vampireDrinkBloodAbility(player, target, playerBloodData)
         }
     },
 

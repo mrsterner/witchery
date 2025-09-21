@@ -72,7 +72,7 @@ object AfflictionEventHandler {
 
         val ability = getSelectedAbility(player) ?: return
 
-        if (ability.use(player, entity)) {
+        if (!ability.use(player, entity)) {
            event.isCanceled = true
         }
     }

@@ -27,6 +27,8 @@ import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
+import net.neoforged.neoforge.fluids.FluidStack
+import net.neoforged.neoforge.fluids.capability.IFluidHandler
 import team.lodestar.lodestone.systems.multiblock.MultiBlockStructure
 import java.util.function.Supplier
 import java.util.function.ToIntFunction
@@ -79,9 +81,8 @@ open class CauldronBlock(properties: Properties) :
         }
     }
 
-    private fun giveFluid(fluid: Fluid, amountWithoutConversion: Long, cauldron: CauldronBlockEntity) {
-        val amount = amountWithoutConversion * if (Platform.isFabric()) 81 else 1
-        cauldron.fluidTank.fill(FluidStack.create(fluid, amount), false)
+    private fun giveFluid(cauldron: CauldronBlockEntity) {
+        cauldron.fluidTank.fill(FluidStack(Fluids.WATER, 10), IFluidHandler.FluidAction.EXECUTE)
     }
 
     override fun handlePrecipitation(
@@ -92,7 +93,7 @@ open class CauldronBlock(properties: Properties) :
     ) {
         if (shouldHandlePrecipitation(level, precipitation) && !level.isClientSide) {
             level.getBlockEntity(pos, WitcheryBlockEntityTypes.CAULDRON.get()).ifPresent { cauldron ->
-                giveFluid(Fluids.WATER, 10, cauldron)
+                giveFluid( cauldron)
             }
         }
     }

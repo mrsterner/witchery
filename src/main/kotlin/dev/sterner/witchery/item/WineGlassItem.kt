@@ -33,6 +33,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.*
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 import java.awt.Color
 
 class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
@@ -181,7 +182,12 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
 
     companion object {
 
-        private fun applyWineOnVillager(player: Player?, entity: Entity?, interactionHand: InteractionHand?) {
+        fun applyWineOnVillager(
+            event: PlayerInteractEvent.EntityInteract,
+            player: Player?,
+            entity: Entity?,
+            interactionHand: InteractionHand?
+        ) {
             if (entity is Villager && player != null) {
                 val item = player.mainHandItem
                 val bl = item.get(WitcheryDataComponents.VAMPIRE_BLOOD.get()) == true

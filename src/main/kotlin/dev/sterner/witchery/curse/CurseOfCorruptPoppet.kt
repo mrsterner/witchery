@@ -124,7 +124,7 @@ class CurseOfCorruptPoppet : Curse() {
         val updatedData = corruptData.copy(
             corruptedPoppetCount = corruptData.corruptedPoppetCount + 1,
             corruptedPoppets = corruptData.corruptedPoppets.apply {
-                add(selectedPoppet.getRegistryId())
+                add(selectedPoppet.getRegistryId()!!)
             }
         )
 

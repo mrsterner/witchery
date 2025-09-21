@@ -74,7 +74,7 @@ object AfflictionHandler {
         player: ServerPlayer,
         entity: LivingEntity,
         playerBloodData: BloodPoolLivingEntityAttachment.Data
-    ) {
+    ): Boolean {
         val targetData = BloodPoolLivingEntityAttachment.getData(entity)
         val quality = BloodPoolReloadListener.BLOOD_PAIR[entity.type] ?: 0
 
@@ -82,13 +82,13 @@ object AfflictionHandler {
             targetData.bloodPool < 0 ||
             targetData.maxBlood <= 0
         ) {
-            return EventResult.interruptFalse()
+            return false
         }
 
         val event = VampireEvent.BloodDrink(player, entity)
         NeoForge.EVENT_BUS.post(event)
         if (event.isCanceled()) {
-            return EventResult.interruptFalse()
+            return false
         }
 
         if (quality == 0 && player.level().random.nextFloat() < POISON_CHANCE_BAD_BLOOD) {
@@ -102,16 +102,14 @@ object AfflictionHandler {
         }
 
         if (targetData.bloodPool <= targetHalfBlood && !player.isShiftKeyDown) {
-            return EventResult.pass()
+            return true
         }
 
         playBloodDrinkingEffects(player, entity)
-
         transferBlood(player, entity)
-
         handleTargetDamage(player, entity, targetData)
 
-        return EventResult.interruptFalse()
+        return true
     }
 
     /**

@@ -43,11 +43,6 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         super(context, model, shadowRadius);
     }
 
-    @Inject(method = "<init>", at = @At("TAIL"))
-    private void witchery$initModel(EntityRendererProvider.Context context, boolean slim, CallbackInfo ci) {
-        addLayer(new DemonHeadFeatureRenderer(this, context));
-    }
-
     @Inject(method = "setModelProperties", at = @At("TAIL"))
     private void witchery$lightInfusionInvisibility(AbstractClientPlayer clientPlayer, CallbackInfo ci) {
         if (LightInfusionPlayerAttachment.isInvisible(clientPlayer).isInvisible()) {

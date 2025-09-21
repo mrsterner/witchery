@@ -47,8 +47,13 @@ object WitcheryBlockEntityTypes {
     val BLOCK_ENTITY_TYPES: DeferredRegister<BlockEntityType<*>> =
         DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Witchery.MODID)
 
-    private fun <T : BlockEntity> reg(name: String, supplier: () -> BlockEntityType<T>): DeferredHolder<BlockEntityType<*>, BlockEntityType<T>> =
-        BLOCK_ENTITY_TYPES.register(name, Supplier(supplier))
+    private fun <T : BlockEntity> reg(
+        name: String,
+        supplier: () -> BlockEntityType<T>
+    ): DeferredHolder<BlockEntityType<*>, BlockEntityType<T>> {
+        return BLOCK_ENTITY_TYPES.register(name, Supplier<BlockEntityType<T>> { supplier() })
+    }
+
 
     val ALTAR = reg("altar") {
         BlockEntityType.Builder.of({ pos, state -> AltarBlockEntity(pos, state) }, WitcheryBlocks.ALTAR.get())

@@ -48,7 +48,7 @@ public class BookParentNodeScreenMixin {
                 Tooltip.create(Component.literal("Grant all Witchery advancements"))
         );
 
-        self.addRenderableWidget(witcheryAdvancementButton);
+        ((ScreenAccessor) self).witchery$addRenderableWidget(witcheryAdvancementButton);
     }
 
     @Unique

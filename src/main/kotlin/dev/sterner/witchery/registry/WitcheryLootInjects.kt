@@ -7,105 +7,90 @@ import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition
+import net.neoforged.neoforge.event.LootTableLoadEvent
 
 object WitcheryLootInjects {
 
+    fun onLootTableLoad(event: LootTableLoadEvent) {
+        val name = event.name
 
-    /**
-     * Adds the item Witches Hand to The witches loot table at a 50% chance drop
-     */
-    private fun addWitchesHand(
-        resourceKey: ResourceKey<LootTable>?,
-        context: LootTableModificationContext,
-        isBuiltin: Boolean
-    ) {
-        if (isBuiltin && EntityType.WITCH.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
+        // Add Witches Hand to witch loot table
+        if (name == EntityType.WITCH.defaultLootTable) {
+            val pool = LootPool.lootPool()
                 .add(
                     LootItem.lootTableItem(WitcheryItems.WITCHES_HAND.get())
                         .`when`(LootItemRandomChanceCondition.randomChance(0.5f))
                 )
-            context.addPool(pool)
+                .build()
+            event.table.addPool(pool)
         }
-    }
 
-    /**
-     * Adds Witchery drops to vanilla creatures. Wolf, Frog and Bat
-     */
-    private fun addLootInjects(
-        resourceKey: ResourceKey<LootTable>?,
-        context: LootTableModificationContext,
-        isBuiltin: Boolean
-    ) {
-
-        if (isBuiltin && EntityType.WOLF.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
+        // Add Tongue of Dog to wolf loot table
+        if (name == EntityType.WOLF.defaultLootTable) {
+            val pool = LootPool.lootPool()
                 .add(
                     LootItem.lootTableItem(WitcheryItems.TONGUE_OF_DOG.get())
                         .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
                 )
-            context.addPool(pool)
+                .build()
+            event.table.addPool(pool)
         }
 
-        if (isBuiltin && EntityType.FROG.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
+        // Add Toe of Frog to frog loot table
+        if (name == EntityType.FROG.defaultLootTable) {
+            val pool = LootPool.lootPool()
                 .add(
                     LootItem.lootTableItem(WitcheryItems.TOE_OF_FROG.get())
                         .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
                 )
-            context.addPool(pool)
+                .build()
+            event.table.addPool(pool)
         }
 
-        if (isBuiltin && EntityType.BAT.defaultLootTable.equals(resourceKey)) {
-            val pool = LootPool
-                .lootPool()
+        // Add Wool of Bat to bat loot table
+        if (name == EntityType.BAT.defaultLootTable) {
+            val pool = LootPool.lootPool()
                 .add(
                     LootItem.lootTableItem(WitcheryItems.WOOL_OF_BAT.get())
                         .`when`(LootItemRandomChanceCondition.randomChance(0.25f))
                 )
-            context.addPool(pool)
+                .build()
+            event.table.addPool(pool)
         }
-    }
 
-    /**
-     * Adds Witchery Seeds to Vanilla short grass and long grass loot table. 5% chance
-     */
-    private fun addSeeds(key: ResourceKey<LootTable>?, context: LootTableModificationContext, builtin: Boolean) {
-        if (builtin && Blocks.SHORT_GRASS.lootTable.equals(key) || Blocks.TALL_GRASS.lootTable.equals(key)) {
-            val pool: LootPool.Builder = LootPool
-                .lootPool()
+        // Add seeds to grass loot tables
+        if (name == Blocks.SHORT_GRASS.lootTable || name == Blocks.TALL_GRASS.lootTable) {
+            val belladonnaPool = LootPool.lootPool()
                 .add(
                     LootItem.lootTableItem(WitcheryItems.BELLADONNA_SEEDS.get())
                         .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
                 )
-            context.addPool(pool)
+                .build()
+            event.table.addPool(belladonnaPool)
 
-            val pool2: LootPool.Builder = LootPool
-                .lootPool()
+            val waterArtichokePool = LootPool.lootPool()
                 .add(
                     LootItem.lootTableItem(WitcheryItems.WATER_ARTICHOKE_SEEDS.get())
                         .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
                 )
-            context.addPool(pool2)
+                .build()
+            event.table.addPool(waterArtichokePool)
 
-            val pool3: LootPool.Builder = LootPool
-                .lootPool()
+            val mandrakePool = LootPool.lootPool()
                 .add(
                     LootItem.lootTableItem(WitcheryItems.MANDRAKE_SEEDS.get())
                         .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
                 )
-            context.addPool(pool3)
+                .build()
+            event.table.addPool(mandrakePool)
 
-            val pool4: LootPool.Builder = LootPool
-                .lootPool()
+            val snowbellPool = LootPool.lootPool()
                 .add(
                     LootItem.lootTableItem(WitcheryItems.SNOWBELL_SEEDS.get())
                         .`when`(LootItemRandomChanceCondition.randomChance(0.05f))
                 )
-            context.addPool(pool4)
+                .build()
+            event.table.addPool(snowbellPool)
         }
     }
 }

@@ -123,7 +123,7 @@ class CaneSwordItem(tier: Tier, properties: Properties) : SwordItem(tier, proper
 
 
 
-        private fun harvestBlood(livingEntity: LivingEntity?, damageSource: DamageSource?) {
+        fun harvestBlood(livingEntity: LivingEntity?, damageSource: DamageSource?) {
             if (livingEntity != null && BloodPoolReloadListener.BLOOD_PAIR.contains(livingEntity.type)) {
                 if (damageSource?.entity is Player) {
                     val player = damageSource.entity as Player

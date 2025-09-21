@@ -62,6 +62,7 @@
     "client.PlayerItemInHandLayerMixin",
     "client.PlayerRendererMixin",
     "client.RenderBuffersMixin",
+    "client.ScreenAccessor",
     "client.WorldOpenFlowsMixin"
   ]
 }
