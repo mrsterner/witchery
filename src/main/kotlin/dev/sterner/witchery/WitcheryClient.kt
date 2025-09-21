@@ -3,6 +3,8 @@ package dev.sterner.witchery
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.api.client.BloodPoolComponent
+import dev.sterner.witchery.client.colors.PotionColor
+import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
@@ -25,6 +27,7 @@ import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
+import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WitchesRobesItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.registry.*
@@ -43,6 +46,8 @@ import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
+import net.minecraft.client.renderer.ItemBlockRenderTypes
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
@@ -50,6 +55,9 @@ import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.NoopRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.client.renderer.entity.player.PlayerRenderer
+import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
+import net.minecraft.client.renderer.item.ItemProperties
+import net.minecraft.client.renderer.item.ItemPropertyFunction
 import net.minecraft.client.resources.PlayerSkin
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
@@ -86,13 +94,37 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         modEventBus.addListener(::registerClientExtensions)
         modEventBus.addListener(::registerModelLayers)
         modEventBus.addListener(::registerEntityRenderers)
+        modEventBus.addListener(::onRegisterBlockColors)
+        modEventBus.addListener(::onRegisterItemColors)
 
         NeoForge.EVENT_BUS.addListener(::onMouseScrolled)
         NeoForge.EVENT_BUS.addListener(::onRenderHud)
         NeoForge.EVENT_BUS.addListener(::onClientTick)
     }
 
-    private fun onClientSetup(event: FMLClientSetupEvent) {}
+    fun onRegisterItemColors(event: RegisterColorHandlersEvent.Item) {
+        event.register(
+            PotionColor,
+            WitcheryItems.WITCHERY_POTION.get()
+        )
+    }
+
+    private fun onClientSetup(event: FMLClientSetupEvent) {
+        event.enqueueWork {
+            registerItemProperties()
+            registerRenderLayers()
+        }
+    }
+
+    fun onRegisterBlockColors(event: RegisterColorHandlersEvent.Block) {
+        event.register(
+            RitualChalkColors,
+            WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
+            WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
+            WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(),
+            WitcheryBlocks.SACRIFICIAL_CIRCLE.get()
+        )
+    }
 
     private fun onAddLayer(event: EntityRenderersEvent.AddLayers) {
         val skins = event.skins
@@ -409,5 +441,128 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerEntityRenderer(WitcheryEntityTypes.SPECTRAL_PIG.get(), ::SpectralPigRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.AREA_EFFECT_CLOUD.get(), ::NoopRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.HUNTSMAN_SPEAR.get(), ::HuntsmanSpearRenderer)
+    }
+
+    private fun registerItemProperties() {
+        ItemProperties.register(
+            WitcheryItems.WAYSTONE.get(),
+            Witchery.id("is_bound")
+        ) { itemStack, client, entity, i ->
+            val customData = itemStack.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())
+            val customData2 = itemStack.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+            when {
+                TaglockItem.getPlayerProfile(itemStack) != null || customData2 != null -> 2.0f
+                customData != null -> 1.0f
+                else -> 0f
+            }
+        }
+
+        ItemProperties.register(
+            WitcheryItems.TAGLOCK.get(),
+            Witchery.id("expired")
+        ) { itemStack, _, _, _, ->
+            val expired = itemStack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())
+            if (expired == true) 1.0f else 0f
+        }
+
+        ItemProperties.register(
+            WitcheryItems.CHALICE.get(),
+            Witchery.id("has_soup")
+        ) { stack, _, _, _ ->
+            val hasSoup = stack.get(WitcheryDataComponents.HAS_SOUP.get()) ?: false
+            if (hasSoup) 1.0f else 0f
+        }
+
+        ItemProperties.register(
+            WitcheryItems.WINE_GLASS.get(),
+            Witchery.id("blood")
+        ) { stack, _, _, _ ->
+            val hasBlood = stack.get(WitcheryDataComponents.BLOOD.get())
+            if (hasBlood != null) 1.0f else 0f
+        }
+
+        ItemProperties.register(
+            WitcheryItems.QUARTZ_SPHERE.get(),
+            Witchery.id("has_sun")
+        ) { stack, _, _, _ ->
+            val hasSun = stack.get(WitcheryDataComponents.HAS_SUN.get())
+            if (hasSun != null) 1.0f else 0f
+        }
+
+        ItemProperties.register(
+            WitcheryItems.CANE_SWORD.get(),
+            Witchery.id("unsheeted")
+        ) { stack, _, _, _ ->
+            val isUnsheathed = stack.get(WitcheryDataComponents.UNSHEETED.get()) ?: false
+            if (isUnsheathed) 1.0f else 0f
+        }
+    }
+
+    private fun registerRenderLayers() {
+        ItemBlockRenderTypes.setRenderLayer(WitcheryFluids.FLOWING_SPIRIT_FLOWING.get(), RenderType.translucent())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryFluids.FLOWING_SPIRIT_STILL.get(), RenderType.translucent())
+
+        val cutoutBlocks = listOf(
+            WitcheryBlocks.CENSER,
+            WitcheryBlocks.GOLDEN_CHALK_BLOCK,
+            WitcheryBlocks.RITUAL_CHALK_BLOCK,
+            WitcheryBlocks.INFERNAL_CHALK_BLOCK,
+            WitcheryBlocks.OTHERWHERE_CHALK_BLOCK,
+            WitcheryBlocks.CAULDRON,
+            WitcheryBlocks.GLINTWEED,
+            WitcheryBlocks.EMBER_MOSS,
+            WitcheryBlocks.SPANISH_MOSS,
+            WitcheryBlocks.MANDRAKE_CROP,
+            WitcheryBlocks.BELLADONNA_CROP,
+            WitcheryBlocks.COPPER_WITCHES_OVEN,
+            WitcheryBlocks.IRON_WITCHES_OVEN,
+            WitcheryBlocks.SNOWBELL_CROP,
+            WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION,
+            WitcheryBlocks.COPPER_WITCHES_OVEN_FUME_EXTENSION,
+            WitcheryBlocks.GARLIC_CROP,
+            WitcheryBlocks.WORMWOOD_CROP,
+            WitcheryBlocks.WOLFSFBANE_CROP,
+            WitcheryBlocks.WATER_ARTICHOKE_CROP,
+            WitcheryBlocks.ROWAN_LEAVES,
+            WitcheryBlocks.ROWAN_BERRY_LEAVES,
+            WitcheryBlocks.ROWAN_DOOR,
+            WitcheryBlocks.ROWAN_TRAPDOOR,
+            WitcheryBlocks.ROWAN_SAPLING,
+            WitcheryBlocks.POTTED_ROWAN_SAPLING,
+            WitcheryBlocks.ALDER_LEAVES,
+            WitcheryBlocks.ALDER_DOOR,
+            WitcheryBlocks.ALDER_TRAPDOOR,
+            WitcheryBlocks.ALDER_SAPLING,
+            WitcheryBlocks.POTTED_ALDER_SAPLING,
+            WitcheryBlocks.HAWTHORN_LEAVES,
+            WitcheryBlocks.HAWTHORN_DOOR,
+            WitcheryBlocks.HAWTHORN_TRAPDOOR,
+            WitcheryBlocks.HAWTHORN_SAPLING,
+            WitcheryBlocks.POTTED_HAWTHORN_SAPLING,
+            WitcheryBlocks.DISTILLERY,
+            WitcheryBlocks.DEMON_HEART,
+            WitcheryBlocks.BLOOD_POPPY,
+            WitcheryBlocks.ARTHANA,
+            WitcheryBlocks.CHALICE,
+            WitcheryBlocks.DISTURBED_COTTON,
+            WitcheryBlocks.WISPY_COTTON,
+            WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT,
+            WitcheryBlocks.SACRIFICIAL_CIRCLE,
+            WitcheryBlocks.SUNLIGHT_COLLECTOR,
+            WitcheryBlocks.GRASSPER,
+            WitcheryBlocks.FLOWING_SPIRIT_BLOCK,
+            WitcheryBlocks.BRAZIER,
+            WitcheryBlocks.WITCHS_LADDER,
+            WitcheryBlocks.CLAY_EFFIGY,
+            WitcheryBlocks.SCARECROW,
+            WitcheryBlocks.EFFIGY_COMPONENT,
+            WitcheryBlocks.CRITTER_SNARE,
+            WitcheryBlocks.SOUL_CAGE,
+            WitcheryBlocks.MUSHROOM_LOG
+        )
+
+        cutoutBlocks.forEach { block ->
+            ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.cutout())
+        }
     }
 }
