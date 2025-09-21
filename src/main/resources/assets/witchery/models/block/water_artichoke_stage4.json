@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "witchery:block/water_artichoke_stage4"
+  }
+}

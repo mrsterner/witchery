@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left_open",
+  "textures": {
+    "bottom": "witchery:block/hawthorn_door_bottom",
+    "top": "witchery:block/hawthorn_door_top"
+  }
+}

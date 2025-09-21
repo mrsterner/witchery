@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "witchery:block/alder_planks",
+    "side": "witchery:block/alder_planks",
+    "top": "witchery:block/alder_planks"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "witchery:block/rowan_planks",
+    "side": "witchery:block/rowan_planks",
+    "top": "witchery:block/rowan_planks"
+  }
+}
