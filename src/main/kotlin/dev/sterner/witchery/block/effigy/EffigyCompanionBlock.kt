@@ -22,6 +22,24 @@ class EffigyCompanionBlock(properties: Properties) : MultiBlockComponentBlock(pr
         return false
     }
 
+    override fun useShapeForLightOcclusion(state: BlockState): Boolean {
+        return true
+    }
+
+    override fun propagatesSkylightDown(state: BlockState, level: BlockGetter, pos: BlockPos): Boolean {
+        return true
+    }
+
+    override fun getShadeBrightness(state: BlockState, level: BlockGetter, pos: BlockPos): Float {
+        return 1.0f // Force full brightness
+    }
+
+    override fun getLightBlock(state: BlockState, level: BlockGetter, pos: BlockPos): Int {
+        return 0 // No light blocking
+    }
+
+
+
     override fun getRenderShape(state: BlockState): RenderShape {
         return RenderShape.INVISIBLE
     }

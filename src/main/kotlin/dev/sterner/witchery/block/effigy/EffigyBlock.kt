@@ -14,11 +14,14 @@ import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 
@@ -36,6 +39,10 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
             BlockStateProperties.HORIZONTAL_FACING,
             blockPlaceContext.horizontalDirection.opposite
         )
+    }
+
+    override fun getRenderShape(state: BlockState): RenderShape {
+        return RenderShape.INVISIBLE
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
@@ -81,7 +88,8 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
-        val clay = box(6.0, 0.0, 6.0, 10.0, 14.0, 10.0)
+        val foot = box(4.0, 0.0, 4.0, 12.0, 2.0, 12.0)
+        val clay = Shapes.joinUnoptimized(foot, box(5.0, 0.0, 5.0, 11.0, 14.0, 11.0), BooleanOp.OR)
         val scarecrow = box(4.0, 0.0, 4.0, 12.0, 16.0, 12.0)
         return if (state.`is`(WitcheryBlocks.CLAY_EFFIGY.get())) clay else scarecrow
     }

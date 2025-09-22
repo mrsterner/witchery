@@ -212,8 +212,6 @@ object PotionDisperserHelper {
     }
 
     fun savePotionData(tag: CompoundTag, disperser: PotionDisperser, level: Level) {
-        println("DEBUG SAVE HELPER: Starting save")
-
         val potionList = ListTag()
         for (potion in disperser.getPotionContents()) {
             if (potion != PotionContents.EMPTY) {
@@ -225,20 +223,15 @@ object PotionDisperserHelper {
         }
         if (!potionList.isEmpty()) {
             tag.put("PotionContents", potionList)
-            println("DEBUG SAVE HELPER: Saved ${potionList.size} potion contents")
         }
 
-        // Use the proper codec for special potions instead of manual serialization
         val specialPotions = disperser.getSpecialPotions()
         if (specialPotions.isNotEmpty()) {
-            println("DEBUG SAVE HELPER: Attempting to save ${specialPotions.size} special potions")
             val encodeResult = WitcheryPotionIngredient.CODEC.listOf()
                 .encodeStart(NbtOps.INSTANCE, specialPotions)
             encodeResult.resultOrPartial { error ->
-                println("DEBUG SAVE HELPER ERROR: Failed to encode special potions: $error")
             }.ifPresent {
                 tag.put("SpecialPotions", it)
-                println("DEBUG SAVE HELPER: Successfully saved special potions")
             }
         }
 
@@ -253,20 +246,12 @@ object PotionDisperserHelper {
             effectsList.add(effectTag)
         }
         tag.put("ActiveEffects", effectsList)
-        println("DEBUG SAVE HELPER: Saved ${effectsList.size} active effects")
 
         disperser.getOwner().ifPresent { tag.putUUID("Owner", it) }
         tag.putBoolean("InfiniteMode", disperser.isInfiniteMode())
-
-        println("DEBUG SAVE HELPER: Save completed")
     }
 
     fun loadPotionData(tag: CompoundTag, disperser: PotionDisperser, level: Level) {
-        println("DEBUG LOAD HELPER: Starting load")
-        println("DEBUG LOAD HELPER: Tag contains PotionContents: ${tag.contains("PotionContents")}")
-        println("DEBUG LOAD HELPER: Tag contains SpecialPotions: ${tag.contains("SpecialPotions")}")
-        println("DEBUG LOAD HELPER: Tag contains ActiveEffects: ${tag.contains("ActiveEffects")}")
-
         val potionContents = mutableListOf<PotionContents>()
         if (tag.contains("PotionContents")) {
             val potionList = tag.getList("PotionContents", Tag.TAG_COMPOUND.toInt())
@@ -276,20 +261,15 @@ object PotionDisperserHelper {
                     .resultOrPartial { }
                     .ifPresent { potionContents.add(it) }
             }
-            println("DEBUG LOAD HELPER: Loaded ${potionContents.size} potion contents")
         }
         disperser.setPotionContents(potionContents)
 
-        // Use the proper codec for special potions instead of manual deserialization
         if (tag.contains("SpecialPotions")) {
-            println("DEBUG LOAD HELPER: Attempting to load special potions")
             val decodeResult = WitcheryPotionIngredient.CODEC.listOf()
                 .parse(NbtOps.INSTANCE, tag.get("SpecialPotions")!!)
             decodeResult.resultOrPartial { error ->
-                println("DEBUG LOAD HELPER ERROR: Failed to decode special potions: $error")
             }.ifPresent {
                 disperser.setSpecialPotions(it)
-                println("DEBUG LOAD HELPER: Successfully loaded ${it.size} special potions")
             }
         }
 
@@ -308,7 +288,6 @@ object PotionDisperserHelper {
                     rl, isSpecial, amplifier, remaining, original
                 )
             }
-            println("DEBUG LOAD HELPER: Loaded ${disperser.getActiveEffects().size} active effects")
         }
 
         if (tag.contains("Owner")) {
@@ -316,23 +295,14 @@ object PotionDisperserHelper {
         }
         disperser.setInfiniteMode(tag.getBoolean("InfiniteMode"))
 
-        println("DEBUG LOAD HELPER: Load completed")
     }
 
     fun refreshActiveEffects(disperser: PotionDisperser) {
-        println("DEBUG REFRESH: Starting refresh")
-        println("DEBUG REFRESH: Before clear - ActiveEffects size: ${disperser.getActiveEffects().size}")
-
         disperser.getActiveEffects().clear()
-
-        println("DEBUG REFRESH: Processing ${disperser.getPotionContents().size} potion contents")
         for (potion in disperser.getPotionContents()) {
             processRegularPotion(disperser, potion)
         }
 
-        println("DEBUG REFRESH: Processing ${disperser.getSpecialPotions().size} special potions")
         processSpecialPotions(disperser)
-
-        println("DEBUG REFRESH: After refresh - ActiveEffects size: ${disperser.getActiveEffects().size}")
     }
 }

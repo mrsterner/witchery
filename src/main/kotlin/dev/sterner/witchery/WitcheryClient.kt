@@ -508,11 +508,13 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         ItemBlockRenderTypes.setRenderLayer(WitcheryFluids.FLOWING_SPIRIT_STILL.get(), RenderType.translucent())
 
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.PHYLACTERY.get(), RenderType.translucent())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.SCARECROW.get(), RenderType.translucent())
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.EFFIGY_COMPONENT.get(), RenderType.translucent())
+
 
         val cutoutBlocks = listOf(
             WitcheryBlocks.CENSER,
             WitcheryBlocks.GOLDEN_CHALK_BLOCK,
-            WitcheryBlocks.SCARECROW,
             WitcheryBlocks.RITUAL_CHALK_BLOCK,
             WitcheryBlocks.INFERNAL_CHALK_BLOCK,
             WitcheryBlocks.OTHERWHERE_CHALK_BLOCK,

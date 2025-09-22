@@ -6,15 +6,19 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.client.model.BansheeEntityModel
 import dev.sterner.witchery.client.model.SpectreEntityModel
+import dev.sterner.witchery.registry.WitcheryBlocks
+import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.client.resources.model.ModelResourceLocation
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
 import kotlin.math.cos
 import kotlin.math.sin
 
-class EffigyBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
+class EffigyBlockEntityRenderer(var ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<EffigyBlockEntity> {
 
     var spectreHeadModel = SpectreEntityModel(ctx.bakeLayer(SpectreEntityModel.LAYER_LOCATION))
@@ -40,6 +44,36 @@ class EffigyBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         packedLight: Int,
         packedOverlay: Int
     ) {
+
+
+        poseStack.pushPose()
+        val dir = blockEntity.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
+
+        val renderState = if (blockEntity.blockState.`is`(WitcheryBlocks.SCARECROW.get())) {
+            WitcheryBlocks.SCARECROW.get().defaultBlockState()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, dir)
+        } else {
+            WitcheryBlocks.CLAY_EFFIGY.get().defaultBlockState()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, dir)
+        }
+
+        val model = ctx.blockRenderDispatcher.blockModelShaper.getBlockModel(renderState)
+
+        ctx.blockRenderDispatcher.modelRenderer.renderModel(
+            poseStack.last(),
+            bufferSource.getBuffer(RenderType.cutout()),
+            renderState,
+            model,
+            1.0f, 1.0f, 1.0f,
+            packedLight,
+            packedOverlay
+        )
+
+        poseStack.popPose()
+
+
+
+
         val spectreCount = blockEntity.specterCount.coerceAtMost(5)
         val bansheeCount = blockEntity.bansheeCount.coerceAtMost(5)
 
