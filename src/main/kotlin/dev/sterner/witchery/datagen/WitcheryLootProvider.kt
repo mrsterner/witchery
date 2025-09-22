@@ -170,6 +170,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
         override fun getKnownBlocks(): Iterable<Block?> {
             return WitcheryBlocks.BLOCKS.entries.stream().map { it.value() }.filter {
                 it != WitcheryBlocks.ALTAR.get() &&
+                        it != WitcheryBlocks.COMPONENT.get() &&
                         it != WitcheryBlocks.ALTAR_COMPONENT.get() &&
                         it != WitcheryBlocks.CAULDRON_COMPONENT.get() &&
                         it != WitcheryBlocks.EFFIGY_COMPONENT.get() &&

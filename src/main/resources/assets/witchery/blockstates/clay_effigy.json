@@ -2,18 +2,18 @@
   "variants": {
     "facing=east": {
       "model": "witchery:block/clay_effigy",
-      "y": 270
+      "y": 90
     },
     "facing=north": {
+      "model": "witchery:block/clay_effigy"
+    },
+    "facing=south": {
       "model": "witchery:block/clay_effigy",
       "y": 180
     },
-    "facing=south": {
-      "model": "witchery:block/clay_effigy"
-    },
     "facing=west": {
       "model": "witchery:block/clay_effigy",
-      "y": 90
+      "y": 270
     }
   }
 }

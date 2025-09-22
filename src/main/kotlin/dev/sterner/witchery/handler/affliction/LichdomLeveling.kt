@@ -1,12 +1,15 @@
 package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.event.LichEvent
+import dev.sterner.witchery.api.event.WerewolfEvent
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.common.NeoForge
 import java.util.*
 
 object LichdomLeveling {
@@ -54,6 +57,12 @@ object LichdomLeveling {
         if (nextLevel > 10) return
 
         if (nextLevel > 1 && !canLevelUp(player, currentData, nextLevel)) return
+
+        val event = LichEvent.LevelUp(player, currentLevel, nextLevel)
+        NeoForge.EVENT_BUS.post(event)
+        if (event.isCanceled) {
+            return
+        }
 
         setLevel(player, nextLevel)
         player.sendSystemMessage(Component.literal("Necromancer Level Up: $nextLevel"))

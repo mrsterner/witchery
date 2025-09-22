@@ -34,7 +34,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
     }
 
     override fun addTranslations() {
-        add("witchery.main", "Witchery")
+        add("itemGroup.witchery.main", "Witchery")
 
         WitcheryRitualLangProvider.ritual(::add)
         WitcheryAdvancementLangProvider.advancement(::add)

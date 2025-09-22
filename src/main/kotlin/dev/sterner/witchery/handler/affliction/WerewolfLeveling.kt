@@ -1,6 +1,8 @@
 package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.event.VampireEvent
+import dev.sterner.witchery.api.event.WerewolfEvent
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
@@ -11,6 +13,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
+import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.network.PacketDistributor
 
 object WerewolfLeveling {
@@ -81,8 +84,13 @@ object WerewolfLeveling {
 
         if (nextLevel > 10) return
 
-        if (nextLevel > 2 && !canLevelUp(currentData, nextLevel)) return
+        if (nextLevel > 1 && !canLevelUp(currentData, nextLevel)) return
 
+        val event = WerewolfEvent.LevelUp(player, currentLevel, nextLevel)
+        NeoForge.EVENT_BUS.post(event)
+        if (event.isCanceled) {
+            return
+        }
 
         setLevel(player, nextLevel)
 

@@ -233,7 +233,7 @@ object WitcheryBookLangProvider {
 
         add(
             "necromancy.carving_1.page.2", "\n" +
-                    "\\\n...a single villager's spirit, torn from flesh and bound in ethereal chains...\n" +
+                    "\\\n...a single undead villager's spirit, torn from flesh and bound in ethereal chains...\n" +
                     "\\\n" +
                     "\\\n" +
                     "\\\n...the dead serve the living, shambling guardians that know not rest...\n" +
@@ -243,7 +243,7 @@ object WitcheryBookLangProvider {
 
         add(
             "necromancy.carving_1.page.3", "\n" +
-                    "\\\n...the protectors of the living, those of iron and snow, must fall...\n" +
+                    "\\\n...the protectors of the living, those of golem, must fall...\n" +
                     "\\\n" +
                     "\\\n...five must be destroyed by necrotic hands...\n" +
                     "\\\n" +
@@ -257,9 +257,9 @@ object WitcheryBookLangProvider {
             "necromancy.carving_2.page.1", "\n" +
                     "\\\n...the stone depicts a figure standing over fallen beasts...\n" +
                     "\\\n" +
-                    "\\\n" +
                     "\\\n...five creatures of innocence, their life force drained to emptiness...\n" +
                     "\\\n" +
+                    "\\\n...souls of the still living...work if slayed cold...\n" +
                     "\\\n...sustenance not of flesh but of spirit..."
         )
 

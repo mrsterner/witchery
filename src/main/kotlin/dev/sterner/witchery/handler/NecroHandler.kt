@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
@@ -37,25 +38,35 @@ object NecroHandler {
             if (etherealData.isEthereal) {
                 EtherealEntityAttachment.sync(livingEntity, etherealData)
 
-                if (etherealData.maxLifeTime > 0) {
-                    val timeAlive = livingEntity.level().gameTime - etherealData.summonTime
-                    if (timeAlive >= etherealData.maxLifeTime) {
-                        if (livingEntity.level() is ServerLevel) {
-                            val level = livingEntity.level() as ServerLevel
-                            level.sendParticles(
-                                ParticleTypes.SOUL,
-                                livingEntity.x,
-                                livingEntity.y + livingEntity.bbHeight / 2,
-                                livingEntity.z,
-                                10,
-                                0.3, 0.3, 0.3,
-                                0.05
-                            )
-                        }
-                        livingEntity.discard()
+                if (livingEntity is Mob) {
+                    if (livingEntity.isSunBurnTick()) {
+                        discardNecro(livingEntity, etherealData)
                     }
                 }
+
+                if (etherealData.maxLifeTime > 0) {
+                    discardNecro(livingEntity, etherealData)
+                }
             }
+        }
+    }
+
+    fun discardNecro(livingEntity: LivingEntity, etherealData: EtherealEntityAttachment.Data) {
+        val timeAlive = livingEntity.level().gameTime - etherealData.summonTime
+        if (timeAlive >= etherealData.maxLifeTime) {
+            if (livingEntity.level() is ServerLevel) {
+                val level = livingEntity.level() as ServerLevel
+                level.sendParticles(
+                    ParticleTypes.SOUL,
+                    livingEntity.x,
+                    livingEntity.y + livingEntity.bbHeight / 2,
+                    livingEntity.z,
+                    10,
+                    0.3, 0.3, 0.3,
+                    0.05
+                )
+            }
+            livingEntity.discard()
         }
     }
 
@@ -156,6 +167,30 @@ object NecroHandler {
                 val isEthereal = EtherealEntityAttachment.getData(livingEntity).isEthereal
                 if (!isEthereal) {
                     addNecro(livingEntity)
+                }
+            }
+
+            if (livingEntity.type == EntityType.VILLAGER) {
+                val attacker = damageSource?.entity as? Player
+                if (attacker != null) {
+                    val lichLevel = AfflictionPlayerAttachment.getData(attacker).getLevel(AfflictionTypes.LICHDOM)
+                    if (lichLevel >= 6) {
+                        val serverLevel = livingEntity.level() as? ServerLevel ?: return
+                        val data = NecromancerLevelAttachment.getData(serverLevel)
+
+                        val exactPos = livingEntity.blockPosition()
+                        val newData = NecromancerLevelAttachment.Necro(
+                            exactPos,
+                            EntityType.ZOMBIE_VILLAGER,
+                            livingEntity.level().gameTime
+                        )
+
+                        val newList = data.necroList.toMutableList()
+                        newList.add(newData)
+                        data.necroList = newList
+
+                        NecromancerLevelAttachment.setData(serverLevel, data)
+                    }
                 }
             }
         }
