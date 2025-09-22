@@ -9,7 +9,11 @@ import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
+import net.minecraft.core.HolderLookup
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.Connection
 import net.minecraft.network.chat.Component
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
@@ -19,11 +23,18 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
-
+import java.util.UUID
 class PhylacteryBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState
 ) : WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.PHYLACTERY.get(), blockPos, blockState) {
+
+    var ownerUUID: UUID? = null
+        private set
+    var ownerName: String? = null
+        private set
+    var hasSoul: Boolean = false
+        private set
 
     override fun onUseWithItem(
         pPlayer: Player,
@@ -39,6 +50,10 @@ class PhylacteryBlockEntity(
 
                 if (current != null && !current.hasSoul) {
                     PhylacteryLevelDataAttachment.setPhylacteryHasSoul(serverLevel, blockPos, true)
+                    this.hasSoul = true
+                    setChanged()
+
+                    serverLevel.sendBlockUpdated(blockPos, blockState, blockState, 3)
 
                     val pool = SoulPoolPlayerAttachment.getData(pPlayer)
                     SoulPoolPlayerAttachment.setData(
@@ -56,22 +71,6 @@ class PhylacteryBlockEntity(
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
 
-
-    companion object {
-        fun onPlayerLoad(player: Player) {
-            if (player is ServerPlayer) {
-                val level = player.serverLevel()
-                val deltas = PhylacteryLevelDataAttachment.popPendingPlayerDeltas(level)
-                val delta = deltas[player.uuid] ?: 0
-                val pool = SoulPoolPlayerAttachment.getData(player)
-                SoulPoolPlayerAttachment.setData(
-                    player,
-                    pool.copy(soulPool = (pool.soulPool + delta).coerceAtLeast(0), maxSouls = pool.maxSouls)
-                )
-            }
-        }
-    }
-
     override fun setLevel(level: Level) {
         super.setLevel(level)
         if (level is ServerLevel) {
@@ -79,6 +78,13 @@ class PhylacteryBlockEntity(
                 level,
                 blockPos
             )
+
+            val record = PhylacteryLevelDataAttachment.listPhylacteries(level)
+                .find { it.pos == blockPos }
+            if (record != null) {
+                this.hasSoul = record.hasSoul
+                this.ownerUUID = record.owner
+            }
         }
     }
 
@@ -106,6 +112,11 @@ class PhylacteryBlockEntity(
                 )
                 return
             }
+
+            this.ownerUUID = pPlacer.uuid
+            this.ownerName = pPlacer.name.string
+            this.hasSoul = false
+            setChanged()
 
             PhylacteryLevelDataAttachment.addPhylactery(
                 level,
@@ -140,4 +151,58 @@ class PhylacteryBlockEntity(
         }
     }
 
+    override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
+        super.saveAdditional(tag, registries)
+        ownerUUID?.let {
+            tag.putUUID("OwnerUUID", it)
+        }
+        ownerName?.let {
+            tag.putString("OwnerName", it)
+        }
+        tag.putBoolean("HasSoul", hasSoul)
+    }
+
+    override fun loadAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
+        super.loadAdditional(tag, registries)
+        if (tag.hasUUID("OwnerUUID")) {
+            ownerUUID = tag.getUUID("OwnerUUID")
+        }
+        if (tag.contains("OwnerName")) {
+            ownerName = tag.getString("OwnerName")
+        }
+        hasSoul = tag.getBoolean("HasSoul")
+    }
+
+    override fun getUpdateTag(registries: HolderLookup.Provider): CompoundTag {
+        val tag = super.getUpdateTag(registries)
+        saveAdditional(tag, registries)
+        return tag
+    }
+
+    override fun getUpdatePacket(): ClientboundBlockEntityDataPacket? {
+        return ClientboundBlockEntityDataPacket.create(this)
+    }
+
+    override fun onDataPacket(net: Connection, packet: ClientboundBlockEntityDataPacket, registries: HolderLookup.Provider) {
+        super.onDataPacket(net, packet, registries)
+        val tag = packet.tag
+        if (tag != null) {
+            loadAdditional(tag, registries)
+        }
+    }
+
+    companion object {
+        fun onPlayerLoad(player: Player) {
+            if (player is ServerPlayer) {
+                val level = player.serverLevel()
+                val deltas = PhylacteryLevelDataAttachment.popPendingPlayerDeltas(level)
+                val delta = deltas[player.uuid] ?: 0
+                val pool = SoulPoolPlayerAttachment.getData(player)
+                SoulPoolPlayerAttachment.setData(
+                    player,
+                    pool.copy(soulPool = (pool.soulPool + delta).coerceAtLeast(0), maxSouls = pool.maxSouls)
+                )
+            }
+        }
+    }
 }

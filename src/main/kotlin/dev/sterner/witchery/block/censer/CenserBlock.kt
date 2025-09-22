@@ -2,8 +2,10 @@ package dev.sterner.witchery.block.censer
 
 
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
@@ -20,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.material.FluidState
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.level.storage.loot.LootParams
 import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
@@ -50,12 +53,27 @@ class CenserBlock(properties: Properties) : WitcheryBaseEntityBlock(
         builder.add(LanternBlock.HANGING, LanternBlock.WATERLOGGED, TYPE, LIT)
     }
 
+    override fun getDrops(
+        state: BlockState,
+        params: LootParams.Builder
+    ): List<ItemStack?> {
+        val list = mutableListOf<ItemStack>()
+        val stack = if (state.getValue(TYPE)) {
+            WitcheryItems.CENSER.get().defaultInstance
+        } else {
+            WitcheryItems.CENSER_LONG.get().defaultInstance
+        }
+        list.add(stack)
+
+        return list
+    }
+
     override fun getShape(
         state: BlockState,
         level: BlockGetter,
         pos: BlockPos,
         context: CollisionContext
-    ): VoxelShape? {
+    ): VoxelShape {
         val bl = state.getValue(LanternBlock.HANGING)
         val bl2 = state.getValue(TYPE)
         return if (bl) {
@@ -99,13 +117,6 @@ class CenserBlock(properties: Properties) : WitcheryBaseEntityBlock(
 
     fun getConnectedDirection(state: BlockState): Direction {
         return if (state.getValue(LanternBlock.HANGING)) Direction.DOWN else Direction.UP
-    }
-
-    fun setLit(level: Level, pos: BlockPos, lit: Boolean) {
-        val state = level.getBlockState(pos)
-        if (state.block == this && state.getValue(LIT) != lit) {
-            level.setBlock(pos, state.setValue(LIT, lit), 3)
-        }
     }
 
     override fun updateShape(

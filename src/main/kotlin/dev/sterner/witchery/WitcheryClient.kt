@@ -229,6 +229,9 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             ShaderInstance(event.resourceProvider, Witchery.id("ghost"), DefaultVertexFormat.NEW_ENTITY)
         ) { WitcheryShaders.ghost = it }
         event.registerShader(
+            ShaderInstance(event.resourceProvider, Witchery.id("ghost_additive"), DefaultVertexFormat.NEW_ENTITY)
+        ) { WitcheryShaders.additive_ghost = it }
+        event.registerShader(
             ShaderInstance(event.resourceProvider, Witchery.id("ether"), DefaultVertexFormat.NEW_ENTITY)
         ) { WitcheryShaders.ether = it }
     }

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexFormat
 import dev.sterner.witchery.Witchery
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap
 import net.minecraft.Util
+import net.minecraft.client.renderer.RenderStateShard
 import net.minecraft.client.renderer.RenderStateShard.*
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.RenderType.create
@@ -82,28 +83,32 @@ object WitcheryRenderTypes {
         )
     }
 
-
-    val GHOST = Util.memoize { resourceLocation: ResourceLocation ->
-        val compositeState: RenderType.CompositeState? =
-            RenderType.CompositeState.builder()
-                .setShaderState(ShaderStateShard(WitcheryShaders::ghost))
-                .setTextureState(TextureStateShard(resourceLocation, false, true))
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setCullState(CULL)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .setWriteMaskState(COLOR_DEPTH_WRITE)
-                .createCompositeState(true)
+    private fun createGhostRenderType(
+        transparency: TransparencyStateShard,
+        shader: ShaderStateShard,
+        name: String = "ghost"
+    ) = Util.memoize { resourceLocation: ResourceLocation ->
         create(
-            Witchery.MODID + "ghost",
+            Witchery.MODID + name,
             DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
             262144,
             true,
             false,
-            compositeState!!
+            RenderType.CompositeState.builder()
+                .setShaderState(shader)
+                .setTextureState(TextureStateShard(resourceLocation, false, true))
+                .setTransparencyState(transparency)
+                .setCullState(CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
+                .createCompositeState(true)
         )
     }
+
+    val GHOST_ADDITIVE = createGhostRenderType(ADDITIVE_TRANSPARENCY, ShaderStateShard(WitcheryShaders::additive_ghost), "ghost_additive")
+    val GHOST = createGhostRenderType(TRANSLUCENT_TRANSPARENCY, ShaderStateShard(WitcheryShaders::ghost))
 
     val SPIRIT_PORTAL = Util.memoize { resourceLocation: ResourceLocation ->
         val compositeState: RenderType.CompositeState? =

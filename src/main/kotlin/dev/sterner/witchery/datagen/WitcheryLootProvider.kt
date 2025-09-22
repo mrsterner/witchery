@@ -172,6 +172,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
                 it != WitcheryBlocks.ALTAR.get() &&
                         it != WitcheryBlocks.COMPONENT.get() &&
                         it != WitcheryBlocks.ALTAR_COMPONENT.get() &&
+                        it != WitcheryBlocks.CENSER.get() &&
                         it != WitcheryBlocks.CAULDRON_COMPONENT.get() &&
                         it != WitcheryBlocks.EFFIGY_COMPONENT.get() &&
                         it != WitcheryBlocks.MUSHROOM_LOG_COMPONENT.get() &&

@@ -1,0 +1,16 @@
+package dev.sterner.witchery.api.block
+
+import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import net.minecraft.resources.ResourceLocation
+
+/**
+ * Data class for active potion effects
+ */
+data class ActiveEffect(
+    val id: ResourceLocation,
+    val isSpecial: Boolean,
+    val amplifier: Int = 0,
+    var remainingTicks: Int, // -1 for infinite
+    val originalDuration: Int,
+    var dispersal: WitcheryPotionIngredient.DispersalModifier = WitcheryPotionIngredient.DispersalModifier()
+)
