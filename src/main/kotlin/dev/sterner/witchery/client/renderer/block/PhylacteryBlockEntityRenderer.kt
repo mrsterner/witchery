@@ -110,7 +110,7 @@ class PhylacteryBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         val rotation = (time + partialTick) * 2f
         poseStack.mulPose(Axis.YP.rotationDegrees(rotation))
 
-        poseStack.scale(0.75f, 0.75f, 0.75f)
+        poseStack.scale(0.5f, 0.5f, 0.5f)
         poseStack.scale(-1.0f, -1.0f, 1.0f)
 
         val renderType =  WitcheryRenderTypes.GHOST_ADDITIVE.apply(skinTexture)

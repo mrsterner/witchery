@@ -22,6 +22,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.AbstractCandleBlock
 import net.minecraft.world.level.block.state.BlockState
 import java.util.UUID
 class PhylacteryBlockEntity(
@@ -53,6 +54,7 @@ class PhylacteryBlockEntity(
                     this.hasSoul = true
                     setChanged()
 
+                    level?.setBlockAndUpdate(blockPos, blockState.setValue(AbstractCandleBlock.LIT, true))
                     serverLevel.sendBlockUpdated(blockPos, blockState, blockState, 3)
 
                     val pool = SoulPoolPlayerAttachment.getData(pPlayer)
