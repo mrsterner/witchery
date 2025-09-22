@@ -3,6 +3,7 @@ package dev.sterner.witchery
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.api.client.BloodPoolComponent
+import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer
@@ -468,6 +469,14 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         ) { itemStack, _, _, _, ->
             val expired = itemStack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())
             if (expired == true) 1.0f else 0f
+        }
+
+        ItemProperties.register(
+            WitcheryItems.PHYLACTERY.get(),
+            Witchery.id("phylactery_variant")
+        ) { stack, _, _, _ ->
+            val variant = stack.get(WitcheryDataComponents.PHYLACTERY_VARIANT.get()) == PhylacteryBlock.Variant.SOUL
+            if (variant) 0.0f else 1f
         }
 
         ItemProperties.register(

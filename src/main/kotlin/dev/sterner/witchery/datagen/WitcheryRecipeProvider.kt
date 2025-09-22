@@ -1,24 +1,29 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.datagen.recipe.*
 import dev.sterner.witchery.recipe.PendantDataComponentRecipe
 import dev.sterner.witchery.recipe.PotionDataComponentTransferRecipe
+import dev.sterner.witchery.recipe.ShapedRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
 import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
+import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.core.component.DataComponentMap
 import net.minecraft.data.PackOutput
 import net.minecraft.data.recipes.*
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider
+import net.minecraft.tags.BlockTags
 import net.minecraft.tags.ItemTags
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.CraftingBookCategory
 import net.minecraft.world.item.crafting.Ingredient
+import net.neoforged.neoforge.common.Tags
 import java.util.concurrent.CompletableFuture
 
 class WitcheryRecipeProvider(output: PackOutput, val registriesFuture: CompletableFuture<HolderLookup.Provider>) :
@@ -40,6 +45,36 @@ class WitcheryRecipeProvider(output: PackOutput, val registriesFuture: Completab
 
         ShapelessRecipeWithComponentsBuilder.create(RecipeCategory.MISC, WitcheryItems.CHALICE.get(), map)
             .offerTo(exporter, Witchery.id("fill_chalice"), list)
+
+        val map2 = DataComponentMap.builder()
+            .set(WitcheryDataComponents.PHYLACTERY_VARIANT.get(), PhylacteryBlock.Variant.GOLD)
+            .build()
+
+        ShapedRecipeWithComponentsBuilder.create(RecipeCategory.MISC, WitcheryItems.PHYLACTERY.get(), map2)
+            .pattern("I I")
+            .pattern("GLG")
+            .pattern("INI")
+            .define('I', Items.IRON_INGOT)
+            .define('G', Items.GOLD_INGOT)
+            .define('L', Tags.Items.GLASS_BLOCKS)
+            .define('N', WitcheryItems.ETERNAL_CATALYST.get())
+            .unlockedBy("has_gold", inventoryTrigger(ItemPredicate.Builder.item().of(Items.GOLD_INGOT).build()))
+            .save(exporter, Witchery.id("phylactery_gold"))
+
+        val map3 = DataComponentMap.builder()
+            .set(WitcheryDataComponents.PHYLACTERY_VARIANT.get(), PhylacteryBlock.Variant.SOUL)
+            .build()
+
+        ShapedRecipeWithComponentsBuilder.create(RecipeCategory.MISC, WitcheryItems.PHYLACTERY.get(), map3)
+            .pattern("I I")
+            .pattern("SLS")
+            .pattern("INI")
+            .define('I', Items.IRON_INGOT)
+            .define('S', Items.SOUL_SOIL)
+            .define('L', Tags.Items.GLASS_BLOCKS)
+            .define('N', WitcheryItems.ETERNAL_CATALYST.get())
+            .unlockedBy("has_soul", inventoryTrigger(ItemPredicate.Builder.item().of(Items.SOUL_SOIL).build()))
+            .save(exporter, Witchery.id("phylactery_soul"))
 
         //start SPECIAL
         SpecialRecipeBuilder.special { _: CraftingBookCategory? ->

@@ -2,19 +2,18 @@ package dev.sterner.witchery.block.phylactery
 
 
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.block.censer.CenserBlock
-import dev.sterner.witchery.block.censer.CenserBlock.Companion.TYPE
 import net.minecraft.core.BlockPos
+import net.minecraft.util.StringRepresentable
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.AbstractCandleBlock.LIT
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.LanternBlock
 import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.SimpleWaterloggedBlock
-import net.minecraft.world.level.block.WaterloggedTransparentBlock
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.EnumProperty
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.ToIntFunction
@@ -26,12 +25,14 @@ class PhylacteryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
     init {
         this.registerDefaultState(
             this.stateDefinition.any()
-                .setValue(LanternBlock.WATERLOGGED, false).setValue(LIT, false)
+                .setValue(LanternBlock.WATERLOGGED, false)
+                .setValue(LIT, false)
+                .setValue(VARIANT, Variant.GOLD)
         )
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
-        builder.add(LanternBlock.WATERLOGGED, TYPE, LIT)
+        builder.add(LanternBlock.WATERLOGGED, LIT, VARIANT)
     }
 
     override fun newBlockEntity(
@@ -54,7 +55,19 @@ class PhylacteryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
         return box(4.0, 0.0, 4.0, 12.0, 16.0, 12.0)
     }
 
+    enum class Variant: StringRepresentable {
+        GOLD,
+        SOUL;
+
+        override fun getSerializedName(): String {
+            return name.lowercase()
+        }
+    }
+
     companion object {
+
+        var VARIANT = EnumProperty.create("variant", Variant::class.java)
+
         fun litBlockEmission(lightValue: Int): ToIntFunction<BlockState> {
             return ToIntFunction { blockState: BlockState ->
                 if (blockState.getValue(

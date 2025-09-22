@@ -1,3 +1,11 @@
 {
-  "parent": "witchery:block/phylactery"
+  "parent": "witchery:item/phylactery_soul",
+  "overrides": [
+    {
+      "predicate": {
+        "witchery:phylactery_variant": 1.0
+      },
+      "model": "witchery:item/phylactery_gold"
+    }
+  ]
 }

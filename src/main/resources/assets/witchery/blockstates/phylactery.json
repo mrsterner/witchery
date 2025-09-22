@@ -1,7 +1,29 @@
+
 {
   "variants": {
-    "": {
-      "model": "witchery:block/phylactery"
+    "lit=false,variant=gold,waterlogged=false": {
+      "model": "witchery:block/phylactery_gold"
+    },
+    "lit=false,variant=gold,waterlogged=true": {
+      "model": "witchery:block/phylactery_gold"
+    },
+    "lit=false,variant=soul,waterlogged=false": {
+      "model": "witchery:block/phylactery_soul"
+    },
+    "lit=false,variant=soul,waterlogged=true": {
+      "model": "witchery:block/phylactery_soul"
+    },
+    "lit=true,variant=gold,waterlogged=false": {
+      "model": "witchery:block/phylactery_gold"
+    },
+    "lit=true,variant=gold,waterlogged=true": {
+      "model": "witchery:block/phylactery_gold"
+    },
+    "lit=true,variant=soul,waterlogged=false": {
+      "model": "witchery:block/phylactery_soul"
+    },
+    "lit=true,variant=soul,waterlogged=true": {
+      "model": "witchery:block/phylactery_soul"
     }
   }
 }

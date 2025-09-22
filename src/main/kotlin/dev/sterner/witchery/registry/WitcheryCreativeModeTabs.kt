@@ -1,6 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.CreativeModeTab
@@ -36,7 +37,16 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.WEREWOLF_ALTAR.get())
                     output.accept(WitcheryItems.CENSER.get())
                     output.accept(WitcheryItems.CENSER_LONG.get())
-                    output.accept(WitcheryItems.PHYLACTERY.get())
+
+
+                    val phylactery = WitcheryItems.PHYLACTERY.get().defaultInstance
+                    phylactery.set(WitcheryDataComponents.PHYLACTERY_VARIANT.get(), PhylacteryBlock.Variant.GOLD)
+                    output.accept(phylactery)
+
+                    val phylactery2 = WitcheryItems.PHYLACTERY.get().defaultInstance
+                    phylactery2.set(WitcheryDataComponents.PHYLACTERY_VARIANT.get(), PhylacteryBlock.Variant.SOUL)
+                    output.accept(phylactery2)
+
                     output.accept(WitcheryItems.COFFIN.get())
                     output.accept(WitcheryItems.BEAR_TRAP.get())
                     output.accept(WitcheryItems.GRASSPER.get())

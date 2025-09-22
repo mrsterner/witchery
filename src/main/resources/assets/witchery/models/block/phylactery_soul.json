@@ -1,0 +1,8 @@
+{
+	"parent": "witchery:block/phylactery",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "witchery:block/phylactery_1",
+		"particle": "witchery:block/phylactery_1"
+	}
+}

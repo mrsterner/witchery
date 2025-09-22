@@ -675,7 +675,7 @@ object WitcheryItems {
     }
 
     val PHYLACTERY = register("phylactery") {
-        BlockItem(WitcheryBlocks.PHYLACTERY.get(), Item.Properties())
+        PhylacteryBlockItem(WitcheryBlocks.PHYLACTERY.get(), Item.Properties())
     }
 
     val CENSER = register("censer") {

@@ -33,6 +33,7 @@
     "PlayerMixin",
     "SaplingBlockAccessor",
     "ServerPlayerMixin",
+    "ShapedRecipeBuilderMixin",
     "ShapelessRecipeAccessor",
     "StructureStartMixin",
     "StructureTemplatePoolAccessor",

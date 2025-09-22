@@ -4,11 +4,13 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
+import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
+import net.minecraft.util.StringRepresentable
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.item.alchemy.PotionContents
 import net.neoforged.neoforge.registries.DeferredRegister
@@ -107,6 +109,12 @@ object WitcheryDataComponents {
 
     val CAPTURED_ENTITY = DATA.register("captured_entity", Supplier {
         DataComponentType.builder<CritterSnareBlock.CapturedEntity>().persistent(CritterSnareBlock.CapturedEntity.CODEC)
+            .build()
+    })
+
+    val PHYLACTERY_VARIANT = DATA.register("phylactery_variant", Supplier {
+        DataComponentType.builder<PhylacteryBlock.Variant>()
+            .persistent(StringRepresentable.fromEnum(PhylacteryBlock.Variant::values))
             .build()
     })
 
