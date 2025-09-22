@@ -512,6 +512,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun registerRenderLayers() {
         ItemBlockRenderTypes.setRenderLayer(WitcheryFluids.FLOWING_SPIRIT_FLOWING.get(), RenderType.translucent())
         ItemBlockRenderTypes.setRenderLayer(WitcheryFluids.FLOWING_SPIRIT_STILL.get(), RenderType.translucent())
