@@ -178,16 +178,34 @@ object AfflictionPlayerAttachment {
 
         fun getWerewolfLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.LYCANTHROPY, 0)
         fun getVampireLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.VAMPIRISM, 0)
+        fun getLichLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.LICHDOM, 0)
+        fun getAnyLevel(): Boolean = afflictionLevels.any { it.value > 0 }
 
         fun setLevel(type: AfflictionTypes, level: Int): Data {
             val newLevels = afflictionLevels.toMutableMap()
+            val hadAffliction = newLevels.getOrDefault(type, 0) > 0
+
             if (level <= 0) {
                 newLevels.remove(type)
             } else {
                 newLevels[type] = level
             }
-            return copy(afflictionLevels = newLevels).apply {
-                markDirty(SyncField.AFFLICTION_LEVELS)
+
+            val shouldClearAbilities = (hadAffliction && level <= 0) || (level > 0 && !hadAffliction)
+
+            return if (shouldClearAbilities) {
+                copy(
+                    afflictionLevels = newLevels,
+                    selectedAbilities = emptyList(),
+                    abilityIndex = -1
+                ).apply {
+                    markDirty(SyncField.AFFLICTION_LEVELS)
+                    markDirty(SyncField.ABILITY_INDEX)
+                }
+            } else {
+                copy(afflictionLevels = newLevels).apply {
+                    markDirty(SyncField.AFFLICTION_LEVELS)
+                }
             }
         }
 

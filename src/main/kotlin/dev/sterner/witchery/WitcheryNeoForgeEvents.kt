@@ -221,17 +221,34 @@ object WitcheryNeoForgeEvents {
 
     @SubscribeEvent
     fun onPlayerClone(event: PlayerEvent.Clone) {
-        VampireSpecificEventHandler.respawn(event.original, event.entity, event.isWasDeath)
+        val oldData = AfflictionPlayerAttachment.getData(event.original)
 
-        AfflictionAbilityHandler.setAbilityIndex(event.entity, -1)
+        val newData = oldData.withAbilityIndex(-1)
+        AfflictionPlayerAttachment.setData(event.entity, newData, sync = false)
+
+        VampireSpecificEventHandler.respawn(event.original, event.entity, event.isWasDeath)
 
         InfusionPlayerAttachment.setPlayerInfusion(
             event.entity,
-            InfusionPlayerAttachment.getPlayerInfusion(event.entity)
+            InfusionPlayerAttachment.getPlayerInfusion(event.original)
         )
+
         LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
         PhylacteryBlockEntity.onPlayerLoad(event.entity)
         BrewOfSleepingItem.respawnPlayer(event.entity)
+
+        if (event.entity is ServerPlayer) {
+            val serverPlayer = event.entity as ServerPlayer
+            serverPlayer.server.execute {
+                val currentData = AfflictionPlayerAttachment.getData(serverPlayer)
+                AfflictionPlayerAttachment.sync(serverPlayer, currentData)
+
+                if (currentData.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
+                    val bloodData = BloodPoolLivingEntityAttachment.getData(serverPlayer)
+                    BloodPoolLivingEntityAttachment.setData(serverPlayer, bloodData)
+                }
+            }
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)

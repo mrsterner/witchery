@@ -25,7 +25,9 @@ import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.handler.affliction.LichdomClientSpecificEventHandler
 import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
+import dev.sterner.witchery.handler.affliction.WerewolfClientSpecificEventHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WitchesRobesItem
@@ -55,9 +57,7 @@ import net.minecraft.client.renderer.entity.BoatRenderer
 import net.minecraft.client.renderer.entity.NoopRenderer
 import net.minecraft.client.renderer.entity.ThrownItemRenderer
 import net.minecraft.client.renderer.entity.player.PlayerRenderer
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
 import net.minecraft.client.renderer.item.ItemProperties
-import net.minecraft.client.renderer.item.ItemPropertyFunction
 import net.minecraft.client.resources.PlayerSkin
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
@@ -171,6 +171,8 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         InfusionHandler.renderInfusionHud(event.guiGraphics, event.partialTick)
         ManifestationHandler.renderHud(event.guiGraphics, event.partialTick)
         VampireClientSpecificEventHandler.renderHud(event.guiGraphics)
+        WerewolfClientSpecificEventHandler.renderHud(event.guiGraphics)
+        LichdomClientSpecificEventHandler.renderHud(event.guiGraphics)
         BarkBeltHandler.renderHud(event.guiGraphics, event.partialTick)
     }
 

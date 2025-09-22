@@ -109,6 +109,7 @@ class AbilitySelectionScreen(
             val iconPath = when (ability) {
                 is VampireAbility -> "textures/gui/affliction_abilities/${ability.id}.png"
                 is WerewolfAbility -> "textures/gui/affliction_abilities/${ability.id}.png"
+                is LichdomAbility -> "textures/gui/affliction_abilities/${ability.id}.png"
                 else -> "textures/gui/affliction_abilities/unknown.png"
             }
 

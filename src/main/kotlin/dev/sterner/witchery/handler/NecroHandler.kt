@@ -38,12 +38,6 @@ object NecroHandler {
             if (etherealData.isEthereal) {
                 EtherealEntityAttachment.sync(livingEntity, etherealData)
 
-                if (livingEntity is Mob) {
-                    if (livingEntity.isSunBurnTick()) {
-                        discardNecro(livingEntity)
-                    }
-                }
-
                 if (etherealData.maxLifeTime > 0) {
                     val timeAlive = livingEntity.level().gameTime - etherealData.summonTime
                     if (timeAlive >= etherealData.maxLifeTime) {

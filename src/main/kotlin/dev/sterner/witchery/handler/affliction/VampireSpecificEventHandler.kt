@@ -190,10 +190,9 @@ object VampireSpecificEventHandler {
 
     @JvmStatic
     fun respawn(oldPlayer: Player, newPlayer: Player, alive: Boolean) {
-        val oldData = AfflictionPlayerAttachment.getData(oldPlayer)
-        var updatedData = oldData
+        val data = AfflictionPlayerAttachment.getData(newPlayer) // Get from NEW player now
 
-        if (oldData.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
+        if (data.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
 
             newPlayer.foodData.foodLevel = RESPAWN_FOOD_LEVEL
@@ -206,30 +205,9 @@ object VampireSpecificEventHandler {
             val maxInSunTicks =
                 (newPlayer.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0).toInt()
 
-            updatedData = updatedData
-                .withInSunTick(0, maxInSunTicks)
-                .withMaxInSunTickClient(maxInSunTicks)
-        }
-
-        AfflictionPlayerAttachment.setData(newPlayer, updatedData, sync = false)
-
-        if (newPlayer is ServerPlayer) {
-            newPlayer.server.execute {
-
-                AfflictionPlayerAttachment.selectiveSync(
-                    newPlayer,
-                    updatedData,
-                    setOf(
-                        AfflictionPlayerAttachment.SyncField.AFFLICTION_LEVELS,
-                        AfflictionPlayerAttachment.SyncField.VAMP_FORM_STATES,
-                        AfflictionPlayerAttachment.SyncField.ABILITY_INDEX
-                    )
-                )
-
-                if (updatedData.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
-                    val bloodData = BloodPoolLivingEntityAttachment.getData(newPlayer)
-                    BloodPoolLivingEntityAttachment.setData(newPlayer, bloodData)
-                }
+            AfflictionPlayerAttachment.batchUpdate(newPlayer) {
+                withInSunTick(0, maxInSunTicks)
+                    .withMaxInSunTickClient(maxInSunTicks)
             }
         }
     }

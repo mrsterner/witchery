@@ -30,10 +30,12 @@ object AfflictionEventHandler {
         val vampLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM)
         if (vampLevel < 1) {
             regenerateHumanBlood(player)
-            return
         }
 
-        AbilityCooldownManager.tick(player)
+        val any = AfflictionPlayerAttachment.getData(player).getAnyLevel()
+        if (any) {
+            AbilityCooldownManager.tick(player)
+        }
     }
 
     private fun regenerateHumanBlood(player: ServerPlayer) {
@@ -68,6 +70,8 @@ object AfflictionEventHandler {
         if (player !is ServerPlayer || entity !is LivingEntity) return
 
         val ability = getSelectedAbility(player) ?: return
+
+        if (AbilityCooldownManager.isOnCooldown(player, ability)) return
 
         if (ability.use(player, entity)) {
             event.isCanceled = true

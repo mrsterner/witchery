@@ -31,6 +31,7 @@ object AfflictionAbilityHandler : AbilityHandler {
 
         val vampLevel = data.getLevel(AfflictionTypes.VAMPIRISM)
         val wereLevel = data.getLevel(AfflictionTypes.LYCANTHROPY)
+        val lichLevel = data.getLevel(AfflictionTypes.LICHDOM)
 
         val vampAbilities: List<VampireAbility> = VampireAbility.entries.filter { it.isAvailable(vampLevel) }
         val wereAbilities: List<WerewolfAbility> = WerewolfAbility.entries.filter { ability ->
@@ -42,8 +43,9 @@ object AfflictionAbilityHandler : AbilityHandler {
                         else -> true
                     }
         }
+        val lichAbilities: List<LichdomAbility> = LichdomAbility.entries.filter { it.isAvailable(lichLevel) }
 
-        return (vampAbilities + wereAbilities)
+        return (vampAbilities + wereAbilities + lichAbilities)
     }
 
     override fun setAbilityIndex(player: Player, index: Int) {
@@ -74,6 +76,13 @@ object AfflictionAbilityHandler : AbilityHandler {
                     it.requiredLevel == newLevel && it.affliction == affliction
                 }
             }
+
+            AfflictionTypes.LICHDOM -> {
+                LichdomAbility.entries.filter {
+                    it.requiredLevel == newLevel && it.affliction == affliction
+                }
+            }
+
 
             else -> emptyList()
         }

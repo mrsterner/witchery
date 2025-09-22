@@ -37,23 +37,24 @@ object VampireClientSpecificEventHandler {
         val canHurtPlayer = client.gameMode!!.canHurtPlayer()
         if (canHurtPlayer) {
             drawBloodSense(guiGraphics)
-            drawSun(guiGraphics, player)
             drawBatFormHud(guiGraphics, player)
         }
     }
 
     /**
-     * Draws the bat form HUD when player is transformed
+     * Called from mixin to render sun overlay on top of chat
      */
-    private fun drawBatFormHud(guiGraphics: GuiGraphics, player: LocalPlayer) {
-        if (TransformationHandler.isBat(player)) {
-            val maxTicks = TransformationPlayerAttachment.getData(player).maxBatTimeClient
-            val currentTicks = maxTicks - TransformationPlayerAttachment.getData(player).batFormTicker
-            val hasArmor = player.armorValue > 0
-            val y = guiGraphics.guiHeight() - 36 - 10 - if (hasArmor) 10 else 0
-            val x = guiGraphics.guiWidth() / 2 - 18 * 4 - 11
-            RenderUtils.innerRenderBat(guiGraphics, maxTicks, currentTicks, y, x)
-        }
+    @JvmStatic
+    fun renderSunOverlay(guiGraphics: GuiGraphics, minecraft: Minecraft) {
+        val player = minecraft.player ?: return
+
+        val isNotVamp = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) <= 0
+        if (isNotVamp) return
+
+        val canHurtPlayer = minecraft.gameMode?.canHurtPlayer() ?: false
+        if (!canHurtPlayer) return
+
+        drawSun(guiGraphics, player)
     }
 
     /**
@@ -72,6 +73,9 @@ object VampireClientSpecificEventHandler {
         }
 
         if (raw > 1) {
+            guiGraphics.pose().pushPose()
+            guiGraphics.pose().translate(0.0, 0.0, 200.0)
+
             RenderUtils.blitWithAlpha(
                 guiGraphics.pose(),
                 sun.withSuffix("${sunTick}.png"),
@@ -84,8 +88,25 @@ object VampireClientSpecificEventHandler {
                 16,
                 16
             )
+
+            guiGraphics.pose().popPose()
         }
     }
+
+    /**
+     * Draws the bat form HUD when player is transformed
+     */
+    private fun drawBatFormHud(guiGraphics: GuiGraphics, player: LocalPlayer) {
+        if (TransformationHandler.isBat(player)) {
+            val maxTicks = TransformationPlayerAttachment.getData(player).maxBatTimeClient
+            val currentTicks = maxTicks - TransformationPlayerAttachment.getData(player).batFormTicker
+            val hasArmor = player.armorValue > 0
+            val y = guiGraphics.guiHeight() - 36 - 10 - if (hasArmor) 10 else 0
+            val x = guiGraphics.guiWidth() / 2 - 18 * 4 - 11
+            RenderUtils.innerRenderBat(guiGraphics, maxTicks, currentTicks, y, x)
+        }
+    }
+
 
     /**
      * Draws the crosshair entity's blood pool indicator
