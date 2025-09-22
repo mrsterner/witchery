@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "witchery:block/rowan_slab"
+    },
+    "type=double": {
+      "model": "witchery:block/rowan_planks"
+    },
+    "type=top": {
+      "model": "witchery:block/rowan_slab_top"
+    }
+  }
+}

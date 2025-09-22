@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "witchery:block/stripped_hawthorn_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "witchery:block/stripped_hawthorn_wood"
+    },
+    "axis=z": {
+      "model": "witchery:block/stripped_hawthorn_wood",
+      "x": 90
+    }
+  }
+}

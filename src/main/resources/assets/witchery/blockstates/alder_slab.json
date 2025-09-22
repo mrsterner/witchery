@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "witchery:block/alder_slab"
+    },
+    "type=double": {
+      "model": "witchery:block/alder_planks"
+    },
+    "type=top": {
+      "model": "witchery:block/alder_slab_top"
+    }
+  }
+}
