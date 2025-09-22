@@ -40,34 +40,34 @@ object NecroHandler {
 
                 if (livingEntity is Mob) {
                     if (livingEntity.isSunBurnTick()) {
-                        discardNecro(livingEntity, etherealData)
+                        discardNecro(livingEntity)
                     }
                 }
 
                 if (etherealData.maxLifeTime > 0) {
-                    discardNecro(livingEntity, etherealData)
+                    val timeAlive = livingEntity.level().gameTime - etherealData.summonTime
+                    if (timeAlive >= etherealData.maxLifeTime) {
+                        discardNecro(livingEntity)
+                    }
                 }
             }
         }
     }
 
-    fun discardNecro(livingEntity: LivingEntity, etherealData: EtherealEntityAttachment.Data) {
-        val timeAlive = livingEntity.level().gameTime - etherealData.summonTime
-        if (timeAlive >= etherealData.maxLifeTime) {
-            if (livingEntity.level() is ServerLevel) {
-                val level = livingEntity.level() as ServerLevel
-                level.sendParticles(
-                    ParticleTypes.SOUL,
-                    livingEntity.x,
-                    livingEntity.y + livingEntity.bbHeight / 2,
-                    livingEntity.z,
-                    10,
-                    0.3, 0.3, 0.3,
-                    0.05
-                )
-            }
-            livingEntity.discard()
+    fun discardNecro(livingEntity: LivingEntity) {
+        if (livingEntity.level() is ServerLevel) {
+            val level = livingEntity.level() as ServerLevel
+            level.sendParticles(
+                ParticleTypes.SOUL,
+                livingEntity.x,
+                livingEntity.y + livingEntity.bbHeight / 2,
+                livingEntity.z,
+                10,
+                0.3, 0.3, 0.3,
+                0.05
+            )
         }
+        livingEntity.discard()
     }
 
     fun tick(level: Level) {

@@ -1,9 +1,12 @@
 package dev.sterner.witchery.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.sterner.witchery.MobAccessor;
 import dev.sterner.witchery.data.BloodPoolReloadListener;
+import dev.sterner.witchery.data_attachment.EtherealEntityAttachment;
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.entity.goal.DisorientationGoal;
+import dev.sterner.witchery.handler.NecroHandler;
 import dev.sterner.witchery.util.WitcheryConstants;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -43,6 +46,18 @@ public abstract class MobMixin extends LivingEntity implements MobAccessor {
                 BloodPoolLivingEntityAttachment.setData(mob, new BloodPoolLivingEntityAttachment.Data(maxBlood, maxBlood));
             }
         }
+    }
+
+    @ModifyReturnValue(method = "isSunBurnTick", at = @At("RETURN"))
+    private boolean witchery$modifySunBurnTick(boolean original) {
+        var self = (Mob) (Object) this;
+
+        if (EtherealEntityAttachment.getData(self).isEthereal()) {
+            return false;
+        }
+
+
+        return original;
     }
 
     @Shadow
