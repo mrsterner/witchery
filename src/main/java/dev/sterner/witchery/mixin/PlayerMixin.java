@@ -2,6 +2,7 @@ package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.sterner.witchery.api.event.SleepingEvent;
+import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment;
 import dev.sterner.witchery.mixin_logic.PlayerMixinLogic;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin {
@@ -26,5 +28,13 @@ public abstract class PlayerMixin {
     private boolean witchery$neoStopDismount(boolean original) {
         var player = Player.class.cast(this);
         return PlayerMixinLogic.INSTANCE.wantsStopRiding(original, player);
+    }
+
+    @Inject(method = "canUseGameMasterBlocks", at = @At("HEAD"), cancellable = true)
+    private void witchery$preventBlockPlacementFromLockedSlot(CallbackInfoReturnable<Boolean> cir) {
+        Player self = (Player)(Object)this;
+        if (InventoryLockPlayerAttachment.INSTANCE.isSlotLocked(self, self.getInventory().selected)) {
+            cir.setReturnValue(false);
+        }
     }
 }

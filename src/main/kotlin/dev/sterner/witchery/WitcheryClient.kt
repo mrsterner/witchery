@@ -23,6 +23,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment
 import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler

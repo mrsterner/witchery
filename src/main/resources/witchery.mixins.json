@@ -3,6 +3,7 @@
   "package": "dev.sterner.witchery.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractContainerMenuMixin",
     "AbstractSkeletonMixin",
     "ArgumentTypeInfosInvoker",
     "AvoidEntityGoalMixin",
@@ -18,6 +19,7 @@
     "FireBlockMixin",
     "FoodDataMixin",
     "IBlockStateExtensionMixin",
+    "InventoryMixin",
     "ItemEntityMixin",
     "ItemStackMixin",
     "LightningBoltMixin",
@@ -35,6 +37,7 @@
     "ServerPlayerMixin",
     "ShapedRecipeBuilderMixin",
     "ShapelessRecipeAccessor",
+    "SlotMixin",
     "StructureStartMixin",
     "StructureTemplatePoolAccessor",
     "TargetGoalMixin",
@@ -53,6 +56,7 @@
     "requireAnnotations": true
   },
   "client": [
+    "InventoryScreenMixin",
     "client.BookParentNodeScreenMixin",
     "client.GuiMixin",
     "client.HumanoidModelMixin",

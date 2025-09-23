@@ -348,4 +348,15 @@ object WitcheryDataAttachments {
                     .build()
             }
         )
+
+    @JvmStatic
+    val INVENTORY_KEEPER_DATA_ATTACHMENT: Supplier<AttachmentType<InventoryLockPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "inverntory_keeper",
+            Supplier {
+                AttachmentType.builder(Supplier { InventoryLockPlayerAttachment.Data() })
+                    .serialize(InventoryLockPlayerAttachment.Data.CODEC)
+                    .build()
+            }
+        )
 }

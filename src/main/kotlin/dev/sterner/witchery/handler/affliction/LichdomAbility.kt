@@ -1,11 +1,10 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
-import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity.Companion.disableFlight
 import dev.sterner.witchery.handler.NecroHandler
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
 import dev.sterner.witchery.registry.WitcheryTags
@@ -18,13 +17,10 @@ import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.animal.Animal
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
-import net.neoforged.neoforge.common.NeoForgeMod
-import java.util.UUID
 
 enum class LichdomAbility(
     override val requiredLevel: Int,
@@ -93,6 +89,7 @@ enum class LichdomAbility(
             player.inventory.clearContent()
 
             SoulShellPlayerEntity.enableFlight(player)
+            InventorySlots.lockAll(player)
             player.onUpdateAbilities()
 
             player.addEffect(MobEffectInstance(MobEffects.GLOWING, -1, 0, false, false))

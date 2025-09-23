@@ -1,8 +1,11 @@
 package dev.sterner.witchery.mixin;
 
+import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryItems;
 import dev.sterner.witchery.registry.WitcheryPoppetRegistry;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,6 +23,21 @@ public class ItemEntityMixin {
             if (voodooPoppetType != null) {
                 voodooPoppetType.handleItemEntityTick(entity);
             }
+        }
+    }
+
+    @Inject(method = "playerTouch", at = @At("HEAD"), cancellable = true)
+    private void witchery$preventPickupToLockedSlot(Player player, CallbackInfo ci) {
+        ItemEntity self = (ItemEntity)(Object)this;
+        ItemStack itemStack = self.getItem();
+
+        int targetSlot = player.getInventory().getSlotWithRemainingSpace(itemStack);
+        if (targetSlot == -1) {
+            targetSlot = player.getInventory().getFreeSlot();
+        }
+
+        if (targetSlot != -1 && InventoryLockPlayerAttachment.INSTANCE.isSlotLocked(player, targetSlot)) {
+            ci.cancel();
         }
     }
 }

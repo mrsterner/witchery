@@ -33,6 +33,9 @@ object WitcheryPayloads {
         registrar.playToClient(SyncInfusionS2CPayload.ID, SyncInfusionS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
+        registrar.playToClient(SyncInventoryLockS2CPayload.ID, SyncInventoryLockS2CPayload.STREAM_CODEC) { payload, _ ->
+            payload.handleOnClient()
+        }
         registrar.playToClient(
             CauldronEffectParticleS2CPayload.ID,
             CauldronEffectParticleS2CPayload.STREAM_CODEC

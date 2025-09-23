@@ -31,6 +31,7 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.MoverType
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
@@ -38,6 +39,7 @@ import net.minecraft.world.item.component.ResolvableProfile
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.common.NeoForgeMod
 import net.neoforged.neoforge.network.PacketDistributor
 import java.util.*
 import kotlin.math.max
@@ -68,41 +70,38 @@ abstract class PlayerShellEntity(
         return super.hurt(source, amount)
     }
 
-    private fun handleSleepingDamage(source: DamageSource, amount: Float): Boolean {
-        hurtCounter++
-        entityData.set(HURT_TIME, 10)
-        playSound(SoundEvents.PLAYER_HURT)
+    override fun tick() {
+        super.tick()
+        if (!isNoGravity) {
+            var motionY = deltaMovement.y - 0.0625
 
-        if (data.resolvableProfile != null) {
-            for (serverLevel in level().server!!.allLevels) {
-                val playerUuid = SleepingPlayerHandler.getPlayerFromSleepingUUID(uuid, serverLevel)
-                val player = playerUuid?.let { level().server!!.playerList.getPlayer(it) }
+            if (isEyeInFluidType(NeoForgeMod.WATER_TYPE.value())) {
+                motionY = if (deltaMovement.y < 0.0) {
+                    deltaMovement.y + 0.015
+                } else {
+                    deltaMovement.y + if (deltaMovement.y < 0.03) 0.0005 else 0.0
+                }
+            }
 
-                if (player != null) {
-                    val teleportRequest = TeleportRequest(
-                        player = playerUuid,
-                        pos = blockPosition(),
-                        chunkPos = ChunkPos(blockPosition()),
-                        createdGameTime = level().gameTime,
-                        attempts = 0,
-                        sourceDimension = player.level().dimension()
-                    )
-
-                    TeleportQueueHandler.addRequest(level() as ServerLevel, teleportRequest)
-
-                    val manifestationData = ManifestationPlayerAttachment.getData(player)
-                    if (manifestationData.manifestationTimer > 0) {
-                        ManifestationPlayerAttachment.setData(
-                            player,
-                            ManifestationPlayerAttachment.Data(manifestationData.hasRiteOfManifestation, 0)
-                        )
-                    }
-
-                    player.sendSystemMessage(Component.translatable("witchery.message.body_hurt"))
-                    break
+            setDeltaMovement(deltaMovement.x * 0.75, motionY.coerceAtLeast(-2.0), deltaMovement.z * 0.75)
+            move(MoverType.SELF, deltaMovement)
+        }
+        if (this.entityData.get(HURT_TIME) > 0) {
+            entityData.set(HURT_TIME, entityData.get(HURT_TIME) - 1)
+        }
+        if (!level().isClientSide) {
+            if (hurtCounter > 0) {
+                if (level().gameTime % 100 == 0L) {
+                    hurtCounter--
                 }
             }
         }
+    }
+
+    open fun handleSleepingDamage(source: DamageSource, amount: Float): Boolean {
+        hurtCounter++
+        entityData.set(HURT_TIME, 10)
+        playSound(SoundEvents.PLAYER_HURT)
 
         if (hurtCounter > 8) {
             handleShellDeath()
@@ -111,15 +110,15 @@ abstract class PlayerShellEntity(
         return true
     }
 
-    protected open fun handleShellDeath() {
+    open fun handleShellDeath() {
         dropInventory()
 
         if (shellType == ShellType.SLEEPING) {
             SleepingPlayerHandler.removeBySleepingUUID(uuid, level() as ServerLevel)
-        }
 
-        if (data.resolvableProfile?.id != null && data.resolvableProfile!!.id.isPresent) {
-            DeathQueueLevelAttachment.addDeathToQueue(level() as ServerLevel, data.resolvableProfile!!.id.get())
+            if (data.resolvableProfile?.id != null && data.resolvableProfile!!.id.isPresent) {
+                DeathQueueLevelAttachment.addDeathToQueue(level() as ServerLevel, data.resolvableProfile!!.id.get())
+            }
         }
 
         PacketDistributor.sendToPlayersTrackingEntity(

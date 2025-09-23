@@ -13,6 +13,7 @@ import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.data.*
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
+import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.data_attachment.UnderWaterBreathPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
@@ -233,6 +234,8 @@ object WitcheryNeoForgeEvents {
             InfusionPlayerAttachment.getPlayerInfusion(event.original)
         )
 
+        InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.original))
+
         LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
         PhylacteryBlockEntity.onPlayerLoad(event.entity)
         BrewOfSleepingItem.respawnPlayer(event.entity)
@@ -262,6 +265,8 @@ object WitcheryNeoForgeEvents {
                 val bloodData = BloodPoolLivingEntityAttachment.getData(player)
                 BloodPoolLivingEntityAttachment.setData(player, bloodData)
             }
+
+            InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.entity))
         }
     }
 
@@ -292,6 +297,7 @@ object WitcheryNeoForgeEvents {
         CurseHandler.breakBlock(event.player.level(), event.state, event.player)
         EntSpawningHandler.breakBlock(event.player.level(), event.pos, event.state, event.player)
         AltarBlockEntity.onBlockBreak(event)
+        InventoryLockPlayerAttachment.blockBreakEvent(event)
     }
 
     @SubscribeEvent
@@ -299,6 +305,7 @@ object WitcheryNeoForgeEvents {
         CurseHandler.placeBlock(event.entity!!.level(), event.state, event.entity)
         AltarBlockEntity.onBlockPlace(event)
         RitualChalkBlock.placeInfernal(event, event.entity!!.level(), event.pos, event.state, event.entity)
+        InventoryLockPlayerAttachment.blockPlaceEvent(event)
     }
 
     @SubscribeEvent

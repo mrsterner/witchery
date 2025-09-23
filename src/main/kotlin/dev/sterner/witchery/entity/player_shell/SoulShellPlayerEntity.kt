@@ -1,15 +1,19 @@
 package dev.sterner.witchery.entity.player_shell
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.NonNullList
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.Containers
 import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.MoverType
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -27,13 +31,13 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
     }
 
 
-
     override fun mergeSoulWithShell(player: Player) {
         if (player is ServerPlayer) {
             replaceWithPlayer(player, this)
 
 
             disableFlight(player)
+            InventorySlots.unlockAll(player)
             player.abilities.flying = false
             player.onUpdateAbilities()
 

@@ -1,6 +1,8 @@
 package dev.sterner.witchery.mixin.client;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import dev.sterner.witchery.Witchery;
+import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment;
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler;
 import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler;
 import dev.sterner.witchery.mixin_logic.GuiMixinLogic;
@@ -44,4 +46,35 @@ public abstract class GuiMixin {
     private void witchery$renderSunAfterChat(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         VampireClientSpecificEventHandler.renderSunOverlay(guiGraphics, minecraft);
     }
+
+    /**
+     * Render locked hotbar slots over the existing hotbar.
+     */
+    @Inject(method = "renderItemHotbar", at = @At("TAIL"))
+    private void witchery$renderLockedHotbar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        if (minecraft.player == null) return;
+
+        InventoryLockPlayerAttachment.Data data = InventoryLockPlayerAttachment.getData(minecraft.player);
+
+        int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+        int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+        int hotbarXStart = (screenWidth / 2) - 91 + 3;
+        int hotbarY = screenHeight - 20 + 1;
+
+        for (int lockedSlot : data.getLockedSlots()) {
+            if (lockedSlot >= 0 && lockedSlot <= 8) {
+                int x = hotbarXStart + lockedSlot * 20;
+                int y = hotbarY;
+
+                guiGraphics.blit(
+                        Witchery.Companion.id("textures/gui/locked_slot.png"),
+                        x, y,
+                        0, 0,
+                        16, 16,
+                        16, 16
+                );
+            }
+        }
+
+}
 }
