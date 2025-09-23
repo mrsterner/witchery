@@ -181,12 +181,22 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun tickPotionEffects(level: Level, pos: BlockPos) {
         val iterator = activeEffects.iterator()
+        val currentTime = level.gameTime
 
         while (iterator.hasNext()) {
             val effect = iterator.next()
 
-            if (level.gameTime % 20 == 0L) {
+            val shouldApply = if (effect.isSpecial) {
+                currentTime - effect.lastSpecialActivation >= 40
+            } else {
+                currentTime % 20 == 0L
+            }
+
+            if (shouldApply) {
                 PotionDisperserHelper.applyEffects(this, level, pos, effect)
+                if (effect.isSpecial) {
+                    effect.lastSpecialActivation = currentTime
+                }
             }
 
             if (effect.remainingTicks > 0) {

@@ -36,7 +36,7 @@ object PotionDisperserHelper {
             val remainingTicks = if (isInfinite) -1 else effect.duration
 
             disperser.getActiveEffects() += ActiveEffect(
-                rl, false, effect.amplifier, remainingTicks, effect.duration
+                rl, false, effect.amplifier, remainingTicks, effect.duration, WitcheryPotionIngredient.DispersalModifier(), 0L
             )
         }
 
@@ -74,7 +74,7 @@ object PotionDisperserHelper {
                 val remainingTicks = if (isInfinite) -1 else baseDuration
 
                 disperser.getActiveEffects() += ActiveEffect(
-                    rl, true, compoundPower, remainingTicks, baseDuration, special.dispersalModifier
+                    rl, true, compoundPower, remainingTicks, baseDuration, special.dispersalModifier, 0L
                 )
             }
 
@@ -243,6 +243,7 @@ object PotionDisperserHelper {
             effectTag.putInt("Remaining", effect.remainingTicks)
             effectTag.putInt("Original", effect.originalDuration)
             effectTag.putInt("Amplifier", effect.amplifier)
+            effectTag.putLong("LastActivation", effect.lastSpecialActivation)
             effectsList.add(effectTag)
         }
         tag.put("ActiveEffects", effectsList)
@@ -283,9 +284,10 @@ object PotionDisperserHelper {
                 val remaining = effectTag.getInt("Remaining")
                 val original = effectTag.getInt("Original")
                 val amplifier = effectTag.getInt("Amplifier")
+                val lastActivation = effectTag.getLong("LastActivation")
 
                 disperser.getActiveEffects() += ActiveEffect(
-                    rl, isSpecial, amplifier, remaining, original
+                    rl, isSpecial, amplifier, remaining, original, WitcheryPotionIngredient.DispersalModifier(),lastActivation
                 )
             }
         }

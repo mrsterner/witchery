@@ -34,6 +34,8 @@ class WitcheryInfiniteCenserProvider(
 
     override fun gather() {
         makePotion("night_vision", Potions.NIGHT_VISION)
+        makePotion("luck", Potions.LUCK)
+        makePotion("slow_falling", Potions.SLOW_FALLING)
         makePotion("long_night_vision", Potions.LONG_NIGHT_VISION)
         makePotion("fire_resistance", Potions.FIRE_RESISTANCE)
         makePotion("long_fire_resistance", Potions.LONG_FIRE_RESISTANCE)
@@ -41,8 +43,25 @@ class WitcheryInfiniteCenserProvider(
         makePotion("long_water_breathing", Potions.LONG_WATER_BREATHING)
         makePotion("invisibility", Potions.INVISIBILITY)
         makePotion("long_invisibility", Potions.LONG_INVISIBILITY)
+        makePotion("long_speed", Potions.LONG_SWIFTNESS)
+        makePotion("speed", Potions.SWIFTNESS)
+        makePotion("strong_speed", Potions.STRONG_SWIFTNESS)
+        makePotion("leaping", Potions.LONG_LEAPING)
+        makePotion("long_leaping", Potions.LEAPING)
+        makePotion("strong_leaping", Potions.STRONG_LEAPING)
+
 
         makeCustomPotion("fertile", Witchery.id("fertile"))
+        makeCustomPotion("extinguish", Witchery.id("extinguish"))
+        makeCustomPotion("harvest", Witchery.id("harvest"))
+        makeCustomPotion("grow_flowers", Witchery.id("grow_flowers"))
+        makeCustomPotion("till_land", Witchery.id("till_land"))
+        makeCustomPotion("ender_bound", Witchery.id("ender_bound"))
+        makeCustomPotion("grow_lily", Witchery.id("grow_lily"))
+        makeCustomPotion("prune_leaves", Witchery.id("prune_leaves"))
+        makeCustomPotion("plant_dropped_seeds", Witchery.id("plant_dropped_seeds"))
+        makeCustomPotion("fell_tree", Witchery.id("fell_tree"))
+        makeCustomPotion("love", Witchery.id("love"))
     }
 
 

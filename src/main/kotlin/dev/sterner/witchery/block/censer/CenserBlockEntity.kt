@@ -78,15 +78,16 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun shouldConsumePower() = true
 
-    private fun tickPotionEffects(level: Level, pos: BlockPos) {
+    fun tickPotionEffects(level: Level, pos: BlockPos) {
         val iterator = activeEffects.iterator()
+        val currentTime = level.gameTime
 
         while (iterator.hasNext()) {
             val effect = iterator.next()
 
             if (effect.remainingTicks == -1) {
                 var hasAltarPower = true
-                if (level.gameTime % 20 == 0L) {
+                if (currentTime % 20 == 0L) {
                     hasAltarPower = consumeAltarPower(level)
                 }
 
@@ -95,10 +96,25 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     continue
                 }
 
-                PotionDisperserHelper.applyEffects(this, level, pos, effect)
+                if (effect.isSpecial) {
+                    if (currentTime - effect.lastSpecialActivation >= 40) {
+                        PotionDisperserHelper.applyEffects(this, level, pos, effect)
+                        effect.lastSpecialActivation = currentTime
+                    }
+                } else {
+                    PotionDisperserHelper.applyEffects(this, level, pos, effect)
+                }
             }
             else if (effect.remainingTicks > 0) {
-                PotionDisperserHelper.applyEffects(this, level, pos, effect)
+                if (effect.isSpecial) {
+                    if (currentTime - effect.lastSpecialActivation >= 40) {
+                        PotionDisperserHelper.applyEffects(this, level, pos, effect)
+                        effect.lastSpecialActivation = currentTime
+                    }
+                } else {
+                    PotionDisperserHelper.applyEffects(this, level, pos, effect)
+                }
+
                 effect.remainingTicks--
 
                 if (effect.remainingTicks <= 0) {
@@ -126,52 +142,84 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun spawnClientParticles(level: Level, pos: BlockPos, blockState: BlockState) {
         val random = level.random
-        val centerX = pos.x + 0.5
-        val centerY = pos.y + 0.5
-        val centerZ = pos.z + 0.5
-        val yOffset = 0.1
+        val blockX = pos.x.toDouble()
+        val blockY = pos.y.toDouble()
+        val blockZ = pos.z.toDouble()
+
+        val minBound = 4.5 / 16.0
+        val maxBound = 11.5 / 16.0
+        val bottomY = 6.0 / 16.0
 
         val isLit = blockState.properties.find { it.name == "lit" }?.let {
             blockState.getValue(it as BooleanProperty)
         } ?: false
 
-        if (isLit && random.nextFloat() < 0.3f) {
-            val offsetX = random.nextGaussian() * 0.2
-            val offsetZ = random.nextGaussian() * 0.2
+        val face = random.nextInt(4)
 
+        val (particleX, particleZ) = when (face) {
+            0 -> {
+                val x = blockX + minBound + random.nextDouble() * (maxBound - minBound)
+                val z = blockZ + minBound - 0.02
+                x to z
+            }
+            1 -> {
+                val x = blockX + minBound + random.nextDouble() * (maxBound - minBound)
+                val z = blockZ + maxBound + 0.02
+                x to z
+            }
+            2 -> {
+                val x = blockX + maxBound + 0.02
+                val z = blockZ + minBound + random.nextDouble() * (maxBound - minBound)
+                x to z
+            }
+            else -> {
+                val x = blockX + minBound - 0.02
+                val z = blockZ + minBound + random.nextDouble() * (maxBound - minBound)
+                x to z
+            }
+        }
+
+        val particleY = blockY + bottomY
+
+        if (isLit && random.nextFloat() < 0.3f) {
             level.addParticle(
                 ParticleTypes.SOUL_FIRE_FLAME,
-                centerX + offsetX,
-                centerY + yOffset,
-                centerZ + offsetZ,
+                particleX,
+                particleY,
+                particleZ,
                 0.0,
-                0.02 + random.nextDouble() * 0.03,
+                0.01 - random.nextDouble() * 0.01,
                 0.0
             )
         }
 
         if (isLit && random.nextFloat() < 0.15f) {
+
             level.addParticle(
                 ParticleTypes.SOUL,
-                centerX + (random.nextDouble() - 0.5) * 0.3,
-                centerY + yOffset + 0.1,
-                centerZ + (random.nextDouble() - 0.5) * 0.3,
-                0.0, 0.01, 0.0
+                particleX + (random.nextDouble() - 0.5) * 0.05,
+                particleY,
+                particleZ + (random.nextDouble() - 0.5) * 0.05,
+                0.0,
+                0.01 + random.nextDouble() * 0.01,
+                0.0
             )
         }
 
         if (activeEffects.isNotEmpty()) {
             PotionDisperserHelper.spawnPotionParticles(level, pos, this, 0.4f)
-            spawnSpecialEffectParticles(level, centerX, centerY + yOffset, centerZ)
+            spawnSpecialEffectParticles(level, blockX + 0.5, particleY, blockZ + 0.5)
         }
 
         if (isLit && random.nextFloat() < 0.2f) {
             level.addParticle(
                 ParticleTypes.SMOKE,
-                centerX + (random.nextDouble() - 0.5) * 0.4,
-                centerY + yOffset + 0.3,
-                centerZ + (random.nextDouble() - 0.5) * 0.4,
-                0.0, 0.005, 0.0
+                particleX,
+                particleY + 0.05,
+                particleZ,
+                0.0,
+                0.01,
+                0.0
             )
         }
     }

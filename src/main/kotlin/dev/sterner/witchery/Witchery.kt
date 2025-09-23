@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils
 import dev.sterner.witchery.data_attachment.PlatformUtils
 import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.entity.*
+import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.registry.*
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.animal.Pig
@@ -50,6 +51,8 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         WitcheryRitualRegistry.RITUALS.register(modEventBus)
         WitcherySounds.SOUNDS.register(modEventBus)
         WitcherySpecialPotionEffects.SPECIALS.register(modEventBus)
+
+        WitcheryPageRendererRegistry.register()
 
         NeoForge.EVENT_BUS.register(WitcheryNeoForgeEvents)
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC)

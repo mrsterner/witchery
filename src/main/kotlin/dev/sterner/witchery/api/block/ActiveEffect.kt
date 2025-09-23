@@ -12,5 +12,6 @@ data class ActiveEffect(
     val amplifier: Int = 0,
     var remainingTicks: Int, // -1 for infinite
     val originalDuration: Int,
-    var dispersal: WitcheryPotionIngredient.DispersalModifier = WitcheryPotionIngredient.DispersalModifier()
+    var dispersal: WitcheryPotionIngredient.DispersalModifier = WitcheryPotionIngredient.DispersalModifier(),
+    var lastSpecialActivation: Long = 0L
 )
