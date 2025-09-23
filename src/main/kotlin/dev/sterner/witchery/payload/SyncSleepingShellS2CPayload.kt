@@ -1,21 +1,14 @@
 package dev.sterner.witchery.payload
 
-import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.entity.PlayerShellEntity
-import dev.sterner.witchery.client.SleepingClientPlayerEntity
 import net.minecraft.client.Minecraft
-import net.minecraft.client.multiplayer.ClientLevel
-import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.world.entity.EquipmentSlot
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
-import java.util.UUID
 
 class SyncSleepingShellS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 

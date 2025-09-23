@@ -8,7 +8,6 @@ import dev.sterner.witchery.handler.NecroHandler
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.particles.ParticleTypes
-import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents

@@ -17,8 +17,6 @@ import net.minecraft.tags.TagKey
 import net.minecraft.util.profiling.ProfilerFiller
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
-import net.neoforged.neoforge.event.AddReloadListenerEvent
-import net.neoforged.neoforge.event.server.ServerStartingEvent
 import java.util.concurrent.ConcurrentLinkedQueue
 
 object NaturePowerReloadListener {

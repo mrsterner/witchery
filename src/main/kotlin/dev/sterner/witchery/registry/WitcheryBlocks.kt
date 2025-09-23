@@ -42,7 +42,6 @@ import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockComponent
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarComponent
-import dev.sterner.witchery.data_attachment.PlatformUtils
 import dev.sterner.witchery.data_attachment.PlatformUtils.registerWoodType
 import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.BlockPos

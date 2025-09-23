@@ -1,6 +1,5 @@
 package dev.sterner.witchery.handler.poppet
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.PoppetLocation
 import dev.sterner.witchery.api.PoppetType
 import dev.sterner.witchery.api.PoppetUsage
@@ -240,7 +239,7 @@ object PoppetHandler {
         if (owner is Player) {
             for (hand in InteractionHand.entries) {
                 val handItem = owner.getItemInHand(hand)
-               if (handItem.`is`(poppetType.item)) {
+                if (handItem.`is`(poppetType.item)) {
                     val isBound = isPoppetBoundToLiving(handItem, owner)
                     if (isBound) {
                         val result = handItem.copy()

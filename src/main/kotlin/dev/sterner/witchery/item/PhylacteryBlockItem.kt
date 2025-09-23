@@ -2,7 +2,6 @@ package dev.sterner.witchery.item
 
 import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.registry.WitcheryDataComponents
-import net.minecraft.network.chat.Component
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.block.Block

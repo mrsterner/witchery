@@ -3,18 +3,12 @@ package dev.sterner.witchery.client.renderer.block
 import com.mojang.authlib.GameProfile
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
-import dev.sterner.witchery.client.model.PhylacteryEtherCoreModel
-import dev.sterner.witchery.client.model.PhylacteryEtherModel
-import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
-import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryRenderTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.SkullModel
 import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
@@ -24,10 +18,8 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
 import java.awt.Color
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-
-
 
 
 class PhylacteryBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
@@ -113,7 +105,7 @@ class PhylacteryBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         poseStack.scale(0.5f, 0.5f, 0.5f)
         poseStack.scale(-1.0f, -1.0f, 1.0f)
 
-        val renderType =  WitcheryRenderTypes.GHOST_ADDITIVE.apply(skinTexture)
+        val renderType = WitcheryRenderTypes.GHOST_ADDITIVE.apply(skinTexture)
 
         val buffer = bufferSource.getBuffer(renderType)
 

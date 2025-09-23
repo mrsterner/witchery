@@ -1,7 +1,6 @@
 package dev.sterner.witchery.client
 
 import com.mojang.authlib.GameProfile
-import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.player.RemotePlayer
 import net.minecraft.core.NonNullList

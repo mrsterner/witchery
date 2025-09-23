@@ -15,7 +15,9 @@ object NightmareHandler {
 
 
     fun tick(player: Player?) {
-        if (player?.level()?.dimension() == WitcheryWorldgenKeys.NIGHTMARE && player.level() is ServerLevel && (!player.isCreative && !player.isSpectator)) {
+        if (player?.level()
+                ?.dimension() == WitcheryWorldgenKeys.NIGHTMARE && player.level() is ServerLevel && (!player.isCreative && !player.isSpectator)
+        ) {
             val data = NightmarePlayerAttachment.getData(player)
             val level = player.level()
             if (!data.hasNightmare) {

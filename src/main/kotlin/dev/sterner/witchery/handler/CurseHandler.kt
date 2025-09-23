@@ -4,7 +4,6 @@ import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.event.CurseEvent
 import dev.sterner.witchery.data_attachment.CursePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryCurseRegistry
-import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource

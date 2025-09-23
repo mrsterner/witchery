@@ -5,7 +5,6 @@ import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttac
 import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
 import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
-
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
@@ -24,7 +23,8 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.AbstractCandleBlock
 import net.minecraft.world.level.block.state.BlockState
-import java.util.UUID
+import java.util.*
+
 class PhylacteryBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState
@@ -185,7 +185,11 @@ class PhylacteryBlockEntity(
         return ClientboundBlockEntityDataPacket.create(this)
     }
 
-    override fun onDataPacket(net: Connection, packet: ClientboundBlockEntityDataPacket, registries: HolderLookup.Provider) {
+    override fun onDataPacket(
+        net: Connection,
+        packet: ClientboundBlockEntityDataPacket,
+        registries: HolderLookup.Provider
+    ) {
         super.onDataPacket(net, packet, registries)
         val tag = packet.tag
         if (tag != null) {

@@ -29,12 +29,12 @@ object OtherwhereInfusionPlayerAttachment {
         if (player.level() is ServerLevel) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                 player, SyncOtherwhereInfusionS2CPayload(
-                CompoundTag().apply {
-                    putUUID("Id", player.uuid)
-                    putInt("teleportHoldTicks", data.teleportHoldTicks)
-                    putInt("teleportCooldown", data.teleportCooldown)
-                }
-            ))
+                    CompoundTag().apply {
+                        putUUID("Id", player.uuid)
+                        putInt("teleportHoldTicks", data.teleportHoldTicks)
+                        putInt("teleportCooldown", data.teleportCooldown)
+                    }
+                ))
         }
     }
 

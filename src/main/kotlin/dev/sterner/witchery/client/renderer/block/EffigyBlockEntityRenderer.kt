@@ -7,12 +7,10 @@ import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.client.model.BansheeEntityModel
 import dev.sterner.witchery.client.model.SpectreEntityModel
 import dev.sterner.witchery.registry.WitcheryBlocks
-import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
-import net.minecraft.client.resources.model.ModelResourceLocation
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
 import kotlin.math.cos
@@ -70,8 +68,6 @@ class EffigyBlockEntityRenderer(var ctx: BlockEntityRendererProvider.Context) :
         )
 
         poseStack.popPose()
-
-
 
 
         val spectreCount = blockEntity.specterCount.coerceAtMost(5)

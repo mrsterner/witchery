@@ -1,7 +1,6 @@
 package dev.sterner.witchery.item.brew
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.entity.PlayerShellData
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.entity.player_shell.SleepingPlayerEntity
 import dev.sterner.witchery.handler.AccessoryHandler

@@ -541,9 +541,9 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         result.addAll(
             level.getEntities(
-            EntityType.ITEM,
-            AABB(blockPos).inflate(ITEM_SEARCH_RADIUS, 0.0, ITEM_SEARCH_RADIUS)
-        ) { true }.map { it.item })
+                EntityType.ITEM,
+                AABB(blockPos).inflate(ITEM_SEARCH_RADIUS, 0.0, ITEM_SEARCH_RADIUS)
+            ) { true }.map { it.item })
 
         BlockPos.betweenClosedStream(
             AABB.ofSize(

@@ -1,7 +1,6 @@
 package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.event.WerewolfEvent
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.item.TornPageItem

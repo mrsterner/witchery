@@ -15,10 +15,10 @@ object LightInfusionHandler {
         if (player.level() is ServerLevel) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                 player, SpawnPoofParticlesS2CPayload(
-                CompoundTag().apply {
-                    putUUID("Id", player.uuid)
-                }
-            ))
+                    CompoundTag().apply {
+                        putUUID("Id", player.uuid)
+                    }
+                ))
         }
     }
 

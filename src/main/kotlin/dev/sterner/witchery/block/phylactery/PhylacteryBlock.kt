@@ -2,7 +2,6 @@ package dev.sterner.witchery.block.phylactery
 
 
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.block.censer.CenserBlock.Companion.TYPE
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
@@ -25,9 +24,11 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.ToIntFunction
 
-class PhylacteryBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.lightLevel(
-    litBlockEmission(8)
-)), SimpleWaterloggedBlock {
+class PhylacteryBlock(properties: Properties) : WitcheryBaseEntityBlock(
+    properties.lightLevel(
+        litBlockEmission(8)
+    )
+), SimpleWaterloggedBlock {
 
     init {
         this.registerDefaultState(
@@ -74,7 +75,7 @@ class PhylacteryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
         return box(4.0, 0.0, 4.0, 12.0, 16.0, 12.0)
     }
 
-    enum class Variant: StringRepresentable {
+    enum class Variant : StringRepresentable {
         GOLD,
         SOUL;
 

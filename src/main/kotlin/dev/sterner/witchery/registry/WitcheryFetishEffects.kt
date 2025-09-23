@@ -23,7 +23,8 @@ object WitcheryFetishEffects {
             .maxId(256)
             .create()
 
-    private val FETISH_EFFECTS: DeferredRegister<FetishEffect> = DeferredRegister.create(FETISH_REGISTRY, Witchery.MODID)
+    private val FETISH_EFFECTS: DeferredRegister<FetishEffect> =
+        DeferredRegister.create(FETISH_REGISTRY, Witchery.MODID)
 
     val VOODOO_PROTECTION = FETISH_EFFECTS.register("voodoo_protection", Supplier {
         EmptyFetishEffect()

@@ -1,6 +1,5 @@
 package dev.sterner.witchery
 
-import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.api.event.SleepingEvent
 import dev.sterner.witchery.api.schedule.TickTaskScheduler
@@ -12,7 +11,6 @@ import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
-import dev.sterner.witchery.client.SleepingClientPlayerEntity
 import dev.sterner.witchery.data.*
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
@@ -38,8 +36,6 @@ import dev.sterner.witchery.registry.WitcheryLootInjects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import dev.sterner.witchery.registry.WitcheryStructureInjects
 import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
-import net.minecraft.client.Minecraft
-import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity

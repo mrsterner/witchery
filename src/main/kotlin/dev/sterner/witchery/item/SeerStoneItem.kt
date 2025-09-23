@@ -18,11 +18,11 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.UseAnim
 import net.minecraft.world.level.Level
-import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
+
 class SeerStoneItem(properties: Properties) : Item(properties) {
 
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
@@ -194,7 +194,8 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
                     for (dz in -radius..radius) {
                         val checkPos = origin.offset(dx, dy, dz)
                         if (level.getBlockState(checkPos).canBeReplaced() &&
-                            level.getBlockState(checkPos.above()).canBeReplaced()) {
+                            level.getBlockState(checkPos.above()).canBeReplaced()
+                        ) {
                             return checkPos
                         }
                     }

@@ -3,11 +3,7 @@ package dev.sterner.witchery.datagen
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.datagen.recipe.*
-import dev.sterner.witchery.recipe.PendantDataComponentRecipe
-import dev.sterner.witchery.recipe.PotionDataComponentTransferRecipe
-import dev.sterner.witchery.recipe.ShapedRecipeWithComponentsBuilder
-import dev.sterner.witchery.recipe.ShapelessRecipeWithComponentsBuilder
-import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
+import dev.sterner.witchery.recipe.*
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
@@ -18,7 +14,6 @@ import net.minecraft.core.component.DataComponentMap
 import net.minecraft.data.PackOutput
 import net.minecraft.data.recipes.*
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider
-import net.minecraft.tags.BlockTags
 import net.minecraft.tags.ItemTags
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.CraftingBookCategory

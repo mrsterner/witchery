@@ -39,7 +39,6 @@ class EffigyCompanionBlock(properties: Properties) : MultiBlockComponentBlock(pr
     }
 
 
-
     override fun getRenderShape(state: BlockState): RenderShape {
         return RenderShape.INVISIBLE
     }

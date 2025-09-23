@@ -29,12 +29,12 @@ object LightInfusionPlayerAttachment {
         if (player.level() is ServerLevel) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                 player, SyncLightInfusionS2CPayload(
-                CompoundTag().apply {
-                    putUUID("Id", player.uuid)
-                    putBoolean("Invisible", data.isInvisible)
-                    putInt("InvisibleTimer", data.invisibleTimer)
-                }
-            ))
+                    CompoundTag().apply {
+                        putUUID("Id", player.uuid)
+                        putBoolean("Invisible", data.isInvisible)
+                        putInt("InvisibleTimer", data.invisibleTimer)
+                    }
+                ))
         }
     }
 

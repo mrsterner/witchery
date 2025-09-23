@@ -7,7 +7,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.state.properties.WoodType
-import net.neoforged.fml.ModList
 import net.neoforged.fml.loading.FMLEnvironment
 import net.neoforged.neoforge.common.NeoForgeMod
 import top.theillusivec4.curios.api.CuriosApi

@@ -88,7 +88,8 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         if (hasInput && hasJar) {
             val distillingRecipe =
-                quickCheck.getRecipeFor(MultipleItemRecipeInput(listOf(inputStack, inputStack2)), serverLevel).orElse(null)
+                quickCheck.getRecipeFor(MultipleItemRecipeInput(listOf(inputStack, inputStack2)), serverLevel)
+                    .orElse(null)
 
             if (canDistill(distillingRecipe, items, maxStackSize)) {
                 cookingProgress++

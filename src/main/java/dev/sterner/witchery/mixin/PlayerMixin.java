@@ -5,7 +5,6 @@ import dev.sterner.witchery.api.event.SleepingEvent;
 import dev.sterner.witchery.mixin_logic.PlayerMixinLogic;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.NeoForgeEventHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

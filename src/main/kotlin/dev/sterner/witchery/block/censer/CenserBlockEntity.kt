@@ -104,8 +104,7 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 } else {
                     PotionDisperserHelper.applyEffects(this, level, pos, effect)
                 }
-            }
-            else if (effect.remainingTicks > 0) {
+            } else if (effect.remainingTicks > 0) {
                 if (effect.isSpecial) {
                     if (currentTime - effect.lastSpecialActivation >= 40) {
                         PotionDisperserHelper.applyEffects(this, level, pos, effect)
@@ -162,16 +161,19 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 val z = blockZ + minBound - 0.02
                 x to z
             }
+
             1 -> {
                 val x = blockX + minBound + random.nextDouble() * (maxBound - minBound)
                 val z = blockZ + maxBound + 0.02
                 x to z
             }
+
             2 -> {
                 val x = blockX + maxBound + 0.02
                 val z = blockZ + minBound + random.nextDouble() * (maxBound - minBound)
                 x to z
             }
+
             else -> {
                 val x = blockX + minBound - 0.02
                 val z = blockZ + minBound + random.nextDouble() * (maxBound - minBound)
@@ -230,24 +232,41 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         activeEffects.forEach { effect ->
             if (effect.isSpecial && random.nextFloat() < 0.1f) {
                 when (effect.id.path) {
-                    "grow_flowers" -> level.addParticle(ParticleTypes.HAPPY_VILLAGER,
+                    "grow_flowers" -> level.addParticle(
+                        ParticleTypes.HAPPY_VILLAGER,
                         x + (random.nextDouble() - 0.5) * 0.5, y, z + (random.nextDouble() - 0.5) * 0.5,
-                        0.0, 0.0, 0.0)
-                    "fertile" -> level.addParticle(ParticleTypes.COMPOSTER,
+                        0.0, 0.0, 0.0
+                    )
+
+                    "fertile" -> level.addParticle(
+                        ParticleTypes.COMPOSTER,
                         x + (random.nextDouble() - 0.5) * 0.5, y + 0.2, z + (random.nextDouble() - 0.5) * 0.5,
-                        0.0, 0.0, 0.0)
-                    "love" -> level.addParticle(ParticleTypes.HEART,
+                        0.0, 0.0, 0.0
+                    )
+
+                    "love" -> level.addParticle(
+                        ParticleTypes.HEART,
                         x + (random.nextDouble() - 0.5) * 0.8, y + 0.5, z + (random.nextDouble() - 0.5) * 0.8,
-                        0.0, 0.0, 0.0)
-                    "extinguish" -> level.addParticle(ParticleTypes.SPLASH,
+                        0.0, 0.0, 0.0
+                    )
+
+                    "extinguish" -> level.addParticle(
+                        ParticleTypes.SPLASH,
                         x + (random.nextDouble() - 0.5) * 0.6, y + 0.1, z + (random.nextDouble() - 0.5) * 0.6,
-                        0.0, -0.1, 0.0)
-                    "grow", "shrink" -> level.addParticle(ParticleTypes.WITCH,
+                        0.0, -0.1, 0.0
+                    )
+
+                    "grow", "shrink" -> level.addParticle(
+                        ParticleTypes.WITCH,
                         x + (random.nextDouble() - 0.5) * 0.5, y + 0.3, z + (random.nextDouble() - 0.5) * 0.5,
-                        0.0, 0.02, 0.0)
-                    "harvest" -> level.addParticle(ParticleTypes.HAPPY_VILLAGER,
+                        0.0, 0.02, 0.0
+                    )
+
+                    "harvest" -> level.addParticle(
+                        ParticleTypes.HAPPY_VILLAGER,
                         x + (random.nextDouble() - 0.5) * 0.6, y, z + (random.nextDouble() - 0.5) * 0.6,
-                        0.0, 0.0, 0.0)
+                        0.0, 0.0, 0.0
+                    )
                 }
             }
         }
@@ -255,7 +274,8 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
         if (pStack.`is`(Items.POTION) || pStack.`is`(Items.SPLASH_POTION) || pStack.`is`(Items.LINGERING_POTION)) {
-            val contents = pStack.get(DataComponents.POTION_CONTENTS) ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+            val contents = pStack.get(DataComponents.POTION_CONTENTS)
+                ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
             if (contents == PotionContents.EMPTY) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
 
             setPotionContents(listOf(contents))
@@ -271,7 +291,8 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (pStack.has(WITCHERY_POTION_CONTENT.get())) {
-            val potionList = pStack.get(WITCHERY_POTION_CONTENT.get()) ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+            val potionList = pStack.get(WITCHERY_POTION_CONTENT.get())
+                ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
 
             setSpecialPotions(potionList)
             configureSpecialDispersalRadius(potionList)

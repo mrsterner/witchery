@@ -1,6 +1,5 @@
 package dev.sterner.witchery.entity.player_shell
 
-import dev.sterner.witchery.api.entity.PlayerShellData
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
@@ -8,16 +7,13 @@ import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.handler.TeleportQueueHandler
-import dev.sterner.witchery.mixin.PlayerInvoker
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
-import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
-import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
@@ -31,7 +27,6 @@ import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.neoforged.neoforge.common.NeoForgeMod
 import net.neoforged.neoforge.network.PacketDistributor
-import kotlin.math.max
 
 
 class SleepingPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityTypes.SLEEPING_PLAYER.get(), level) {
@@ -241,6 +236,7 @@ class SleepingPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityTypes
 
             sleepingPlayerEntity.discard()
         }
+
         val FACEPLANT = SynchedEntityData.defineId(SleepingPlayerEntity::class.java, EntityDataSerializers.BOOLEAN)
     }
 }

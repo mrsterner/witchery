@@ -8,7 +8,6 @@ import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.getAbili
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.getSelectedAbility
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.useSelectedAbility
 import dev.sterner.witchery.payload.AfflictionAbilityUseC2SPayload
-import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity

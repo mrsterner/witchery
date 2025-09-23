@@ -9,7 +9,6 @@ import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.handler.TeleportQueueHandler
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.mixin.PlayerInvoker
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.payload.SyncSleepingShellS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
@@ -20,12 +19,9 @@ import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.chat.Component
-import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.Containers
@@ -43,8 +39,7 @@ import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import net.neoforged.neoforge.network.PacketDistributor
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 import kotlin.math.max
 
 abstract class PlayerShellEntity(
@@ -229,7 +224,10 @@ abstract class PlayerShellEntity(
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
         compound.put("Data", data.writeNbt(this.registryAccess()))
-        compound.put("d", ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE,entityData.get(RESOLVEABLE)).resultOrPartial().get())
+        compound.put(
+            "d",
+            ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE, entityData.get(RESOLVEABLE)).resultOrPartial().get()
+        )
         compound.putInt("HurtCounter", hurtCounter)
         compound.putShort("HurtTime", entityData.get(HURT_TIME).toShort())
         compound.putByte("Model", getModel())
@@ -290,10 +288,12 @@ abstract class PlayerShellEntity(
             createPlayerShell(player, { SoulShellPlayerEntity(it) })
 
 
-        val RESOLVEABLE = SynchedEntityData.defineId(PlayerShellEntity::class.java, WitcheryEntityDataSerializers.RESOLVABLE.get())
+        val RESOLVEABLE =
+            SynchedEntityData.defineId(PlayerShellEntity::class.java, WitcheryEntityDataSerializers.RESOLVABLE.get())
         val UUID = SynchedEntityData.defineId(PlayerShellEntity::class.java, EntityDataSerializers.OPTIONAL_UUID)
         val NAME = SynchedEntityData.defineId(PlayerShellEntity::class.java, EntityDataSerializers.STRING)
-        val EQUIPMENT = SynchedEntityData.defineId(PlayerShellEntity::class.java, WitcheryEntityDataSerializers.INVENTORY.get())
+        val EQUIPMENT =
+            SynchedEntityData.defineId(PlayerShellEntity::class.java, WitcheryEntityDataSerializers.INVENTORY.get())
         val MODEL = SynchedEntityData.defineId(PlayerShellEntity::class.java, EntityDataSerializers.BYTE)
         val FACEPLANT = SynchedEntityData.defineId(PlayerShellEntity::class.java, EntityDataSerializers.BOOLEAN)
         val HURT_TIME = SynchedEntityData.defineId(PlayerShellEntity::class.java, EntityDataSerializers.INT)

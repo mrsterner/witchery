@@ -1,13 +1,9 @@
 package dev.sterner.witchery.entity.player_shell
 
-import dev.sterner.witchery.api.entity.PlayerShellData
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.mixin.PlayerInvoker
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.NonNullList
-import net.minecraft.network.syncher.EntityDataAccessor
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource

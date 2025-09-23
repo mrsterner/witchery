@@ -8,7 +8,6 @@ import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level

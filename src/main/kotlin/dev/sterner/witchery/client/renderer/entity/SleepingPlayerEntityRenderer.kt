@@ -2,7 +2,6 @@ package dev.sterner.witchery.client.renderer.entity
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.client.SleepingClientPlayerEntity
 import dev.sterner.witchery.client.particle.ZzzData
@@ -12,8 +11,6 @@ import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.resources.PlayerSkin
-import net.minecraft.client.resources.SkinManager
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import kotlin.math.cos
@@ -23,7 +20,7 @@ import kotlin.math.sin
 class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
     EntityRenderer<PlayerShellEntity>(context) {
 
-        var sleepPlayer: SleepingClientPlayerEntity? = null
+    var sleepPlayer: SleepingClientPlayerEntity? = null
 
     override fun getTextureLocation(entity: PlayerShellEntity): ResourceLocation? = null
 

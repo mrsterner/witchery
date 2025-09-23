@@ -9,8 +9,11 @@ import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
+import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -278,7 +281,8 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun handlePotionAddition(player: Player, stack: ItemStack, hand: InteractionHand): ItemInteractionResult {
         if (stack.`is`(Items.POTION) || stack.`is`(Items.SPLASH_POTION) || stack.`is`(Items.LINGERING_POTION)) {
-            val contents = stack.get(DataComponents.POTION_CONTENTS) ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+            val contents = stack.get(DataComponents.POTION_CONTENTS)
+                ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
             if (contents == PotionContents.EMPTY) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
 
             setPotionContents(listOf(contents))
@@ -291,7 +295,8 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (stack.has(WITCHERY_POTION_CONTENT.get())) {
-            val potionList = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+            val potionList = stack.get(WITCHERY_POTION_CONTENT.get())
+                ?: return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
 
             setSpecialPotions(potionList)
             configureSpecialPotionEffect(potionList)

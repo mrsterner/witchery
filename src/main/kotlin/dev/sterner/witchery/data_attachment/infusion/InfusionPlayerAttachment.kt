@@ -41,12 +41,12 @@ object InfusionPlayerAttachment {
         if (player.level() is ServerLevel) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                 player, SyncInfusionS2CPayload(
-                CompoundTag().apply {
-                    putUUID("Id", player.uuid)
-                    putInt("Charge", data.charge)
-                    putString("Type", data.type.serializedName)
-                }
-            ))
+                    CompoundTag().apply {
+                        putUUID("Id", player.uuid)
+                        putInt("Charge", data.charge)
+                        putString("Type", data.type.serializedName)
+                    }
+                ))
         }
     }
 

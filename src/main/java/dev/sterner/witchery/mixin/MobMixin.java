@@ -6,7 +6,6 @@ import dev.sterner.witchery.data.BloodPoolReloadListener;
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment;
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.entity.goal.DisorientationGoal;
-import dev.sterner.witchery.handler.NecroHandler;
 import dev.sterner.witchery.util.WitcheryConstants;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;

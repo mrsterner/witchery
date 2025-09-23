@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.tags.DamageTypeTags
-import net.minecraft.tags.FluidTags
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
@@ -114,7 +113,10 @@ class BabaYagaEntity(level: Level) : Monster(WitcheryEntityTypes.BABA_YAGA.get()
                 }
             } else {
                 var holder: Holder<Potion?>? = null
-                if (this.random.nextFloat() < 0.15f && this.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value()) && !this.hasEffect(MobEffects.WATER_BREATHING)) {
+                if (this.random.nextFloat() < 0.15f && this.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value()) && !this.hasEffect(
+                        MobEffects.WATER_BREATHING
+                    )
+                ) {
                     holder = Potions.WATER_BREATHING
                 } else if (this.random.nextFloat() < 0.15f && (this.isOnFire() || this.getLastDamageSource() != null && this.getLastDamageSource()!!
                         .`is`(DamageTypeTags.IS_FIRE))

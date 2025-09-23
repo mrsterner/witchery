@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.coffin.CoffinBlock
 import dev.sterner.witchery.block.coffin.CoffinBlockEntity
 import dev.sterner.witchery.client.model.CoffinModel

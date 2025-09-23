@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.VertexFormat
 import dev.sterner.witchery.Witchery
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap
 import net.minecraft.Util
-import net.minecraft.client.renderer.RenderStateShard
 import net.minecraft.client.renderer.RenderStateShard.*
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.RenderType.create
@@ -107,7 +106,11 @@ object WitcheryRenderTypes {
         )
     }
 
-    val GHOST_ADDITIVE = createGhostRenderType(ADDITIVE_TRANSPARENCY, ShaderStateShard(WitcheryShaders::additive_ghost), "ghost_additive")
+    val GHOST_ADDITIVE = createGhostRenderType(
+        ADDITIVE_TRANSPARENCY,
+        ShaderStateShard(WitcheryShaders::additive_ghost),
+        "ghost_additive"
+    )
     val GHOST = createGhostRenderType(TRANSLUCENT_TRANSPARENCY, ShaderStateShard(WitcheryShaders::ghost))
 
     val SPIRIT_PORTAL = Util.memoize { resourceLocation: ResourceLocation ->

@@ -2,7 +2,6 @@ package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.LichEvent
-import dev.sterner.witchery.api.event.WerewolfEvent
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
