@@ -5,6 +5,7 @@ import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.curse.*
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
+import net.neoforged.bus.api.IEventBus
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.RegistryBuilder
 import java.util.function.Supplier
@@ -23,7 +24,7 @@ object WitcheryCurseRegistry {
             .maxId(256)
             .create()
 
-    val CURSES: DeferredRegister<Curse> = DeferredRegister.create(CURSES_REGISTRY, Witchery.MODID)
+    private val CURSES: DeferredRegister<Curse> = DeferredRegister.create(CURSES_REGISTRY, Witchery.MODID)
 
     val CORRUPT_POPPET = CURSES.register("corrupt_poppet", Supplier { CurseOfCorruptPoppet() })
     val INSANITY = CURSES.register("insanity", Supplier { CurseOfInsanity() })
@@ -32,4 +33,7 @@ object WitcheryCurseRegistry {
     val SINKING = CURSES.register("sinking", Supplier { CurseOfSinking() })
     val WALKING_NIGHTMARE = CURSES.register("walking_nightmare", Supplier { CurseOfWalkingNightmare() })
 
+    fun register(modEventBus: IEventBus) {
+        CURSES.register(modEventBus)
+    }
 }

@@ -27,7 +27,7 @@ object FetishEffectReloadListener {
     }
 
     fun getEffect(location: ResourceLocation): FetishEffect? {
-        return dataMap[location]?.effectLocation?.let { WitcheryFetishEffects.FETISH_EFFECTS.registry.get().get(it) }
+        return dataMap[location]?.effectLocation?.let { WitcheryFetishEffects.FETISH_REGISTRY.get(it) }
     }
 
     class FetishResourceReloadListener(gson: Gson, directory: String) :

@@ -18,7 +18,7 @@ class CurseArgumentType : ArgumentType<Curse> {
     override fun parse(reader: StringReader): Curse {
         val input = ResourceLocation.read(reader)
 
-        return WitcheryCurseRegistry.CURSES.registry.get().get(input)
+        return WitcheryCurseRegistry.CURSES_REGISTRY.get(input)
             ?: throw CommandSyntaxException(
                 CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument(),
                 Component.literal("Curse with ID $input does not exist.")
@@ -26,7 +26,7 @@ class CurseArgumentType : ArgumentType<Curse> {
     }
 
     override fun getExamples(): Collection<String> {
-        return WitcheryCurseRegistry.CURSES.entries.map { it.key!!.location().toString().lowercase() }
+        return WitcheryCurseRegistry.CURSES_REGISTRY.entrySet().map { it.key!!.location().toString().lowercase() }
     }
 
 
@@ -36,8 +36,8 @@ class CurseArgumentType : ArgumentType<Curse> {
     ): CompletableFuture<Suggestions> {
         val input = builder.remaining
 
-        WitcheryCurseRegistry.CURSES.entries.forEach { curse ->
-            val curseId = curse.get().toString()
+        WitcheryCurseRegistry.CURSES_REGISTRY.entrySet().forEach { curse ->
+            val curseId = curse.key.toString()
             if (curseId.startsWith(input)) {
                 builder.suggest(curseId)
             }

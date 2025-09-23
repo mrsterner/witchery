@@ -56,7 +56,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
             add("entity.witchery.$entity", formatId(entity))
         }
 
-        for (entry in WitcherySpecialPotionEffects.SPECIALS.getEntries()) {
+        for (entry in WitcherySpecialPotionEffects.SPECIAL_REGISTRY.entrySet()) {
             val key: ResourceKey<SpecialPotion>? = entry.key
             val id = key?.location()
             id?.let { add("witchery:${it.path}", formatId(id)) }

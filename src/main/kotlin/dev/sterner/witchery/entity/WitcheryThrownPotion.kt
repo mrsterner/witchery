@@ -138,7 +138,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
 
                     if (potionContent.specialEffect.isPresent) {
                         val special =
-                            WitcherySpecialPotionEffects.SPECIALS.registry.get().get(potionContent.specialEffect.get())
+                            WitcherySpecialPotionEffects.SPECIAL_REGISTRY.get(potionContent.specialEffect.get())
                         special?.onActivated(
                             level(),
                             owner,

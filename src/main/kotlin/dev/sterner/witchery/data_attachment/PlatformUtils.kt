@@ -20,12 +20,6 @@ object PlatformUtils {
     }
 
     @JvmStatic
-    fun isModLoaded(modId: String?): Boolean {
-        return ModList.get().isLoaded(modId)
-    }
-
-
-    @JvmStatic
     fun allEquippedAccessories(livingEntity: Player): List<ItemStack> {
         val curioInventory = CuriosApi.getCuriosInventory(livingEntity).orElse(null) ?: return emptyList()
 

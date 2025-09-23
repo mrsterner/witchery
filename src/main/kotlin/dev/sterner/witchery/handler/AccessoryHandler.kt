@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import top.theillusivec4.curios.api.CuriosApi
 import top.theillusivec4.curios.api.type.capability.ICurioItem
 
 /**
@@ -25,57 +26,58 @@ object AccessoryHandler {
      *         and an optional {@link ItemStack} copy of the matched item (null if not found).
      */
     fun checkPoppet(livingEntity: LivingEntity, item: Item): Pair<Boolean, ItemStack?> {
-        var consume = false
+        var found = false
         var itemStack: ItemStack? = null
 
-        if (livingEntity is Player && PlatformUtils.isModLoaded("accessories")) {
+        if (livingEntity is Player) {
+
             val list: List<ItemStack> = PlatformUtils.allEquippedAccessories(livingEntity)
                 .filter { it.item is PoppetItem }
                 .filter { it.`is`(item) }
 
             for (accessory in list) {
                 val profile = accessory.get(DataComponents.PROFILE)
-                if (profile?.gameProfile == livingEntity.gameProfile) {
-                    consume = true
-                }
+                val profileMatches = profile?.gameProfile == livingEntity.gameProfile
 
-                if (consume) {
+                if (profileMatches) {
+                    found = true
                     itemStack = accessory.copy()
-                    accessory.shrink(1)
                     break
                 }
             }
         }
 
-        return Pair(consume, itemStack)
+        return Pair(found, itemStack)
     }
 
     /**
-     * Checks if a specified item exists in the accessory slots of a living entity without consuming it.
-     * The item must also match the entity's profile.
-     *
-     * @param livingEntity the living entity to check, expected to be a player.
-     * @param item the item to check for in the accessory slots.
-     * @return a copy of the matched {@link ItemStack}, or null if no matching item is found.
+     * Damages a poppet in the curio slots and removes it if it breaks
      */
-    fun checkPoppetNoConsume(livingEntity: LivingEntity, item: Item): ItemStack? {
-        var itemStack: ItemStack? = null
+    fun damageCurioPoppet(livingEntity: LivingEntity, item: Item, damageAmount: Int): Boolean {
+        if (livingEntity !is Player) {
+            return false
+        }
 
-        if (livingEntity is Player && PlatformUtils.isModLoaded("accessories")) {
-            val list: List<ItemStack> = PlatformUtils.allEquippedAccessories(livingEntity)
-                .filter { it.item is PoppetItem }
-                .filter { it.`is`(item) }
+        val curioInventory = CuriosApi.getCuriosInventory(livingEntity).orElse(null) ?: return false
+        val equippedCurios = curioInventory.equippedCurios
 
-            for (accessory in list) {
-                val profile = accessory.get(DataComponents.PROFILE)
+        for (slotIndex in 0 until equippedCurios.slots) {
+            val itemStack = equippedCurios.getStackInSlot(slotIndex)
+            if (!itemStack.isEmpty && itemStack.`is`(item)) {
+                val profile = itemStack.get(DataComponents.PROFILE)
                 if (profile?.gameProfile == livingEntity.gameProfile) {
-                    itemStack = accessory.copy()
-                    break
+                    itemStack.damageValue += damageAmount
+
+                    if (itemStack.damageValue >= itemStack.maxDamage) {
+                        equippedCurios.setStackInSlot(slotIndex, ItemStack.EMPTY)
+                    }
+
+                    return true
                 }
             }
         }
 
-        return itemStack
+        return false
     }
 
     /**
@@ -88,7 +90,7 @@ object AccessoryHandler {
     fun checkNoConsume(livingEntity: LivingEntity, item: Item): ItemStack? {
         var itemStack: ItemStack? = null
 
-        if (livingEntity is Player && PlatformUtils.isModLoaded("accessories")) {
+        if (livingEntity is Player) {
             val list: List<ItemStack> = PlatformUtils.allEquippedAccessories(livingEntity)
                 .filter { it.item is ICurioItem }
                 .filter { it.`is`(item) }

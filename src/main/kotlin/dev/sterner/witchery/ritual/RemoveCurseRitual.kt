@@ -19,7 +19,7 @@ class RemoveCurseRitual : Ritual("remove_curse") {
                     CursePlayerAttachment.getData(player).playerCurseList
                 val oldestCurse = curses.minByOrNull { it.duration }
                 if (oldestCurse != null) {
-                    val curse = WitcheryCurseRegistry.CURSES.registry.get().get(oldestCurse.curseId)
+                    val curse = WitcheryCurseRegistry.CURSES_REGISTRY.get(oldestCurse.curseId)
                     if (curse != null) {
                         CurseHandler.removeCurse(player, curse)
                     }

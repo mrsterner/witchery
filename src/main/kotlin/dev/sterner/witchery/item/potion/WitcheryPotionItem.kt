@@ -238,7 +238,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
                 if (potionContent.specialEffect.isPresent) {
                     val special =
-                        WitcherySpecialPotionEffects.SPECIALS.registry.get().get(potionContent.specialEffect.get())
+                        WitcherySpecialPotionEffects.SPECIAL_REGISTRY.get(potionContent.specialEffect.get())
                     special?.onDrunk(level, entity, baseDuration, amplifier)
                 }
             }

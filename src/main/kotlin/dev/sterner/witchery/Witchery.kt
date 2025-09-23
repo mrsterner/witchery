@@ -13,7 +13,6 @@ import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.config.ModConfig
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import org.slf4j.Logger
@@ -31,13 +30,13 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         WitcheryBlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus)
         WitcheryCommands.COMMAND_ARGUMENTS.register(modEventBus)
         WitcheryCreativeModeTabs.TABS.register(modEventBus)
-        WitcheryCurseRegistry.CURSES.register(modEventBus)
+        WitcheryCurseRegistry.register(modEventBus)
         WitcheryDataComponents.DATA.register(modEventBus)
         WitcheryEntityDataSerializers.SERIALIZERS.register(modEventBus)
         WitcheryEntityTypes.ENTITY_TYPES.register(modEventBus)
         WitcheryFeatures.FEATURES.register(modEventBus)
         WitcheryAttributes.attributes.register(modEventBus)
-        WitcheryFetishEffects.FETISH_EFFECTS.register(modEventBus)
+        WitcheryFetishEffects.register(modEventBus)
         WitcheryFluids.register(modEventBus)
         WitcheryItems.ITEMS.register(modEventBus)
         WitcheryMenuTypes.MENU_TYPES.register(modEventBus)
@@ -45,12 +44,12 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         WitcheryMobEffects.EFFECTS.register(modEventBus)
         WitcheryModonomiconLoaders.register()
         WitcheryParticleTypes.PARTICLES.register(modEventBus)
-        WitcheryPoppetRegistry.POPPETS.register(modEventBus)
+        WitcheryPoppetRegistry.register(modEventBus)
         WitcheryRecipeTypes.RECIPE_TYPES.register(modEventBus)
         WitcheryRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus)
-        WitcheryRitualRegistry.RITUALS.register(modEventBus)
+        WitcheryRitualRegistry.register(modEventBus)
         WitcherySounds.SOUNDS.register(modEventBus)
-        WitcherySpecialPotionEffects.SPECIALS.register(modEventBus)
+        WitcherySpecialPotionEffects.register(modEventBus)
 
         WitcheryPageRendererRegistry.register()
 

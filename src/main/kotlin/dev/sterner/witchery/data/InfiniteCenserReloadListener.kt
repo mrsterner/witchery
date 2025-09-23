@@ -54,7 +54,7 @@ object InfiniteCenserReloadListener {
             val potionRegistry = BuiltInRegistries.POTION
             val potionHolder = potionRegistry.getHolder(data.potion)
 
-            val special = WitcherySpecialPotionEffects.SPECIALS.registry.get().getHolder(data.potion)
+            val special = WitcherySpecialPotionEffects.SPECIAL_REGISTRY.getHolder(data.potion)
             if (special.isPresent) {
                 INFINITE_SPECIAL_POTIONS.add(special.get().value().id)
             }

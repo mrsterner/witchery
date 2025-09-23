@@ -8,6 +8,7 @@ import dev.sterner.witchery.ritual.*
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.neoforged.bus.api.IEventBus
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.RegistryBuilder
@@ -27,7 +28,7 @@ object WitcheryRitualRegistry {
             .maxId(256)
             .create()
 
-    val RITUALS: DeferredRegister<Ritual> = DeferredRegister.create(RITUAL_REGISTRY, Witchery.MODID)
+    private val RITUALS: DeferredRegister<Ritual> = DeferredRegister.create(RITUAL_REGISTRY, Witchery.MODID)
 
 
     val EMPTY: DeferredHolder<Ritual, EmptyRitual> = RITUALS.register("empty", Supplier { EmptyRitual() })
@@ -54,5 +55,9 @@ object WitcheryRitualRegistry {
         ).apply(instance) { resourceLocation ->
             getById(resourceLocation) ?: EmptyRitual() // fallback during data gen
         }
+    }
+
+    fun register(modEventBus: IEventBus) {
+        RITUALS.register(modEventBus)
     }
 }

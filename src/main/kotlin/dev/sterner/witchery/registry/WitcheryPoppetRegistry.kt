@@ -7,6 +7,7 @@ import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
+import net.neoforged.bus.api.IEventBus
 import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.RegistryBuilder
@@ -25,7 +26,7 @@ object WitcheryPoppetRegistry {
             .maxId(256)
             .create()
 
-    val POPPETS: DeferredRegister<PoppetType> = DeferredRegister.create(POPPET_REGISTRY, Witchery.MODID)
+    private val POPPETS: DeferredRegister<PoppetType> = DeferredRegister.create(POPPET_REGISTRY, Witchery.MODID)
 
     val DEATH_PROTECTION: DeferredHolder<PoppetType, DeathProtectionPoppet> =
         POPPETS.register("death_protection", Supplier { DeathProtectionPoppet() })
@@ -53,5 +54,9 @@ object WitcheryPoppetRegistry {
     @JvmStatic
     fun getType(id: ResourceLocation): PoppetType? {
         return POPPET_REGISTRY.firstOrNull { it.getRegistryId() == id }
+    }
+
+    fun register(modEventBus: IEventBus) {
+        POPPETS.register(modEventBus)
     }
 }

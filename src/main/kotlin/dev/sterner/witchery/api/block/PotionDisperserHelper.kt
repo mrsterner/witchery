@@ -120,7 +120,7 @@ object PotionDisperserHelper {
         }
 
         if (effect.isSpecial) {
-            val specialEffect = WitcherySpecialPotionEffects.SPECIALS.registry.get()[effect.id]
+            val specialEffect = WitcherySpecialPotionEffects.SPECIAL_REGISTRY[effect.id]
             if (specialEffect != null) {
                 val entities = level.getEntitiesOfClass(Entity::class.java, aabb)
                 val owner = disperser.getOwner()

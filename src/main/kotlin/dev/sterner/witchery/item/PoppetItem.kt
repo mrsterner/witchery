@@ -33,6 +33,10 @@ open class PoppetItem(properties: Properties) : Item(properties.stacksTo(1)) {
         return InteractionResult.CONSUME
     }
 
+    override fun isDamageable(stack: ItemStack): Boolean {
+        return true
+    }
+
     private fun calculateHitResult(player: Player): HitResult {
         return ProjectileUtil.getHitResultOnViewVector(
             player,

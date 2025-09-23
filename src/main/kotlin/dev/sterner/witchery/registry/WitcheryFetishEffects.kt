@@ -5,6 +5,7 @@ import dev.sterner.witchery.api.FetishEffect
 import dev.sterner.witchery.fetish.*
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
+import net.neoforged.bus.api.IEventBus
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.RegistryBuilder
 import java.util.function.Supplier
@@ -22,7 +23,7 @@ object WitcheryFetishEffects {
             .maxId(256)
             .create()
 
-    val FETISH_EFFECTS: DeferredRegister<FetishEffect> = DeferredRegister.create(FETISH_REGISTRY, Witchery.MODID)
+    private val FETISH_EFFECTS: DeferredRegister<FetishEffect> = DeferredRegister.create(FETISH_REGISTRY, Witchery.MODID)
 
     val VOODOO_PROTECTION = FETISH_EFFECTS.register("voodoo_protection", Supplier {
         EmptyFetishEffect()
@@ -50,7 +51,7 @@ object WitcheryFetishEffects {
         SummonDeathFetishEffect()
     })
 
-    fun register() {
-
+    fun register(modEventBus: IEventBus) {
+        FETISH_EFFECTS.register(modEventBus)
     }
 }

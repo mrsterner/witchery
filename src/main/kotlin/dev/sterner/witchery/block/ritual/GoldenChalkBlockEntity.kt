@@ -151,7 +151,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
 
             val ritualType = ritualRecipe?.ritualType?.id ?: return
-            WitcheryRitualRegistry.RITUALS.registry.get().get(ritualType)?.onStartRitual(level, blockPos, this)
+            WitcheryRitualRegistry.RITUAL_REGISTRY.get(ritualType)?.onStartRitual(level, blockPos, this)
 
             RitualHelper.runCommand(level, blockPos, this, CommandType.START)
             isRitualActive = true
@@ -166,7 +166,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      */
     private fun onTickRitual(level: Level) {
         val ritualType = ritualRecipe?.ritualType?.id ?: return
-        WitcheryRitualRegistry.RITUALS.registry.get().get(ritualType)?.onTickRitual(level, blockPos, this)
+        WitcheryRitualRegistry.RITUAL_REGISTRY.get(ritualType)?.onTickRitual(level, blockPos, this)
         RitualHelper.runCommand(level, blockPos, this, CommandType.TICK)
     }
 
@@ -175,7 +175,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      */
     private fun onEndRitual(level: Level) {
         val ritualType = ritualRecipe?.ritualType?.id ?: return
-        WitcheryRitualRegistry.RITUALS.registry.get().get(ritualType)?.onEndRitual(level, blockPos, this)
+        WitcheryRitualRegistry.RITUAL_REGISTRY.get(ritualType)?.onEndRitual(level, blockPos, this)
 
         level.playSound(null, blockPos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0f, 1.0f)
         RitualHelper.runCommand(level, blockPos, this, CommandType.END)

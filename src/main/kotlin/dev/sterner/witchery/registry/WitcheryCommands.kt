@@ -213,7 +213,7 @@ object WitcheryCommands {
                                         CurseHandler.addCurse(
                                             player,
                                             commandSender,
-                                            WitcheryCurseRegistry.CURSES.registry.get().getKey(curseType)!!,
+                                            WitcheryCurseRegistry.CURSES_REGISTRY.getKey(curseType)!!,
                                             cat
                                         )
                                         1

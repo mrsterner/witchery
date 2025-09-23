@@ -49,7 +49,7 @@ object CurseHandler {
 
         CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(data))
 
-        WitcheryCurseRegistry.CURSES.registry.get()[newCurseData.curseId]?.onAdded(
+        WitcheryCurseRegistry.CURSES_REGISTRY[newCurseData.curseId]?.onAdded(
             player.level(),
             player,
             newCurseData.catBoosted
@@ -66,7 +66,7 @@ object CurseHandler {
      */
     fun removeCurse(player: Player, curse: Curse): Boolean {
         val data = CursePlayerAttachment.getData(player).playerCurseList.toMutableList()
-        val curseId = WitcheryCurseRegistry.CURSES.registry.get().getKey(curse)
+        val curseId = WitcheryCurseRegistry.CURSES_REGISTRY.getKey(curse)
         val curseData = data.find { it.curseId == curseId } ?: return false
 
         curse.onRemoved(player.level(), player, curseData.catBoosted)
@@ -90,7 +90,7 @@ object CurseHandler {
         val level = player.level()
 
         data.forEach { curseData ->
-            WitcheryCurseRegistry.CURSES.registry.get()[curseData.curseId]?.onRemoved(
+            WitcheryCurseRegistry.CURSES_REGISTRY[curseData.curseId]?.onRemoved(
                 level,
                 player,
                 curseData.catBoosted
@@ -109,7 +109,7 @@ object CurseHandler {
      * @return Boolean indicating if the player has the curse
      */
     fun hasCurse(player: Player, curse: Curse): Boolean {
-        val curseId = WitcheryCurseRegistry.CURSES.registry.get().getKey(curse)
+        val curseId = WitcheryCurseRegistry.CURSES_REGISTRY.getKey(curse)
         return CursePlayerAttachment.getData(player).playerCurseList.any { it.curseId == curseId }
     }
 
@@ -120,7 +120,7 @@ object CurseHandler {
      * @return The remaining duration in ticks, or -1 if the player doesn't have the curse
      */
     fun getCurseDuration(player: Player, curse: Curse): Int {
-        val curseId = WitcheryCurseRegistry.CURSES.registry.get().getKey(curse)
+        val curseId = WitcheryCurseRegistry.CURSES_REGISTRY.getKey(curse)
         return CursePlayerAttachment.getData(player).playerCurseList.find { it.curseId == curseId }?.duration ?: -1
     }
 
@@ -148,7 +148,7 @@ object CurseHandler {
                 curseData.duration -= 1
                 dataModified = true
 
-                WitcheryCurseRegistry.CURSES.registry.get()[curseData.curseId]?.onTickCurse(
+                WitcheryCurseRegistry.CURSES_REGISTRY[curseData.curseId]?.onTickCurse(
                     player.level(),
                     player,
                     curseData.catBoosted
@@ -156,7 +156,7 @@ object CurseHandler {
             }
 
             if (curseData.duration <= 0) {
-                WitcheryCurseRegistry.CURSES.registry.get()[curseData.curseId]?.onRemoved(
+                WitcheryCurseRegistry.CURSES_REGISTRY[curseData.curseId]?.onRemoved(
                     player.level(),
                     player,
                     curseData.catBoosted
@@ -186,7 +186,7 @@ object CurseHandler {
 
         val data = CursePlayerAttachment.getData(livingEntity)
         for (curse in data.playerCurseList) {
-            WitcheryCurseRegistry.CURSES.registry.get()[curse.curseId]?.onHurt(
+            WitcheryCurseRegistry.CURSES_REGISTRY[curse.curseId]?.onHurt(
                 livingEntity.level(),
                 livingEntity,
                 damageSource,
@@ -210,7 +210,7 @@ object CurseHandler {
 
         val data = CursePlayerAttachment.getData(serverPlayer)
         for (curse in data.playerCurseList) {
-            WitcheryCurseRegistry.CURSES.registry.get()[curse.curseId]?.breakBlock(
+            WitcheryCurseRegistry.CURSES_REGISTRY[curse.curseId]?.breakBlock(
                 level,
                 serverPlayer,
                 blockState,
@@ -235,7 +235,7 @@ object CurseHandler {
 
         val data = CursePlayerAttachment.getData(entity)
         for (curse in data.playerCurseList) {
-            WitcheryCurseRegistry.CURSES.registry.get()[curse.curseId]?.placeBlock(
+            WitcheryCurseRegistry.CURSES_REGISTRY[curse.curseId]?.placeBlock(
                 level,
                 entity,
                 blockState,
@@ -258,7 +258,7 @@ object CurseHandler {
 
         val data = CursePlayerAttachment.getData(player)
         for (curse in data.playerCurseList) {
-            WitcheryCurseRegistry.CURSES.registry.get()[curse.curseId]?.attackEntity(
+            WitcheryCurseRegistry.CURSES_REGISTRY[curse.curseId]?.attackEntity(
                 level,
                 player,
                 target,

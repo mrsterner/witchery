@@ -42,6 +42,7 @@ import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec3
+import net.neoforged.bus.api.IEventBus
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.RegistryBuilder
 import java.util.function.Supplier
@@ -65,7 +66,11 @@ object WitcherySpecialPotionEffects {
             .maxId(256)
             .create()
 
-    val SPECIALS: DeferredRegister<SpecialPotion> = DeferredRegister.create(SPECIAL_REGISTRY, Witchery.MODID)
+    private val SPECIALS: DeferredRegister<SpecialPotion> = DeferredRegister.create(SPECIAL_REGISTRY, Witchery.MODID)
+
+    fun register(modEventBus: IEventBus) {
+        SPECIALS.register(modEventBus)
+    }
 
     val HARVEST = SPECIALS.register("harvest", Supplier {
         object : SpecialPotion("harvest") {
