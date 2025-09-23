@@ -3,7 +3,9 @@ package dev.sterner.witchery
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.api.client.BloodPoolComponent
+import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.block.phylactery.PhylacteryBlock
+import dev.sterner.witchery.client.SleepingClientPlayerEntity
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer
@@ -49,6 +51,7 @@ import dev.sterner.witchery.registry.WitcheryItems.WITCHES_SLIPPERS
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.ItemBlockRenderTypes
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.ShaderInstance
@@ -73,6 +76,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.ConfigurationScreen
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.network.PacketDistributor
 
 @Mod(value = MODID, dist = [Dist.CLIENT])

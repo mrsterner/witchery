@@ -90,6 +90,9 @@ object WitcheryPayloads {
         registrar.playToClient(SyncOwlAbilityS2CPayload.ID, SyncOwlAbilityS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
+        registrar.playToClient(SyncSleepingShellS2CPayload.ID, SyncSleepingShellS2CPayload.STREAM_CODEC) { payload, _ ->
+            payload.handleOnClient()
+        }
         registrar.playToClient(SyncCurseS2CPayload.ID, SyncCurseS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }

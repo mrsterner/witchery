@@ -1,7 +1,9 @@
 package dev.sterner.witchery.api.entity
 
+import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.mixin.PlayerInvoker
+import net.minecraft.Util
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
@@ -54,27 +56,16 @@ class PlayerShellData(
             builder.id = UUID.randomUUID()
             builder.resolvableProfile = ResolvableProfile(player.gameProfile)
 
-            for (i in 0 until builder.mainInventory.size) {
-                builder.mainInventory[i] = player.inventory.items[i]
-            }
-
-            for (i in 0 until builder.armorInventory.size) {
-                builder.armorInventory[i] = player.inventory.armor[i]
-            }
-
-            for (i in 0 until builder.offHandInventory.size) {
-                builder.offHandInventory[i] = player.inventory.offhand[i]
-            }
-
-            for (i in 0 until EquipmentSlot.entries.size) {
-                builder.equipment[i] = player.getItemBySlot(EquipmentSlot.entries[i]).copy()
-            }
+            for (i in builder.mainInventory.indices) builder.mainInventory[i] = player.inventory.items[i]
+            for (i in builder.armorInventory.indices) builder.armorInventory[i] = player.inventory.armor[i]
+            for (i in builder.offHandInventory.indices) builder.offHandInventory[i] = player.inventory.offhand[i]
+            for (i in EquipmentSlot.entries.indices) builder.equipment[i] = player.getItemBySlot(EquipmentSlot.entries[i]).copy()
 
             val playerModeCustomisation: EntityDataAccessor<Byte> = PlayerInvoker.getPlayerModeCustomisationAccessor()
             builder.model = player.entityData.get(playerModeCustomisation)
+
             return builder
         }
-
 
         fun readNbt(nbt: CompoundTag, lookup: HolderLookup.Provider): PlayerShellData {
             val builder = PlayerShellData()

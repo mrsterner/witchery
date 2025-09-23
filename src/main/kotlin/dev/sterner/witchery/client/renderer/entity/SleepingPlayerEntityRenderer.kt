@@ -2,6 +2,7 @@ package dev.sterner.witchery.client.renderer.entity
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.client.SleepingClientPlayerEntity
 import dev.sterner.witchery.client.particle.ZzzData
@@ -11,6 +12,8 @@ import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.client.resources.PlayerSkin
+import net.minecraft.client.resources.SkinManager
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import kotlin.math.cos
@@ -20,11 +23,9 @@ import kotlin.math.sin
 class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
     EntityRenderer<PlayerShellEntity>(context) {
 
-    private var sleepPlayer: SleepingClientPlayerEntity? = null
+        var sleepPlayer: SleepingClientPlayerEntity? = null
 
-    override fun getTextureLocation(entity: PlayerShellEntity): ResourceLocation? {
-        return null
-    }
+    override fun getTextureLocation(entity: PlayerShellEntity): ResourceLocation? = null
 
     override fun render(
         entity: PlayerShellEntity,
@@ -34,34 +35,42 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
         bufferSource: MultiBufferSource,
         packedLight: Int
     ) {
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight)
         poseStack.pushPose()
         poseStack.mulPose(Axis.YP.rotationDegrees(-entity.yRot))
 
-        if (entity is SleepingPlayerEntity && entity.isFaceplanted()) {
-            poseStack.mulPose(Axis.XP.rotationDegrees(90f))
-            poseStack.translate(0.0, -1.0, -2.01 / 16.0)
-        } else {
-            poseStack.mulPose(Axis.XP.rotationDegrees(-90f))
-            poseStack.translate(0.0, -1.0, 2.01 / 16.0)
+        if (entity is SleepingPlayerEntity) {
+            if (entity.isFaceplanted()) {
+                poseStack.mulPose(Axis.XP.rotationDegrees(90f))
+                poseStack.translate(0.0, -1.0, -2.01 / 16.0)
+            } else {
+                poseStack.mulPose(Axis.XP.rotationDegrees(-90f))
+                poseStack.translate(0.0, -1.0, 2.01 / 16.0)
+            }
         }
 
-        val equipmentList = entity.getEquipment()
         if (sleepPlayer == null) {
+            val resolvable = entity.entityData.get(PlayerShellEntity.RESOLVEABLE)
+            val gameProfile = resolvable.gameProfile
             sleepPlayer = SleepingClientPlayerEntity(
                 entity.level() as ClientLevel,
-                entity.entityData.get(PlayerShellEntity.RESOLVEABLE).gameProfile,
-                equipmentList,
+                gameProfile,
+                entity.getEquipment(),
                 entity.getModel()
             )
         }
 
         sleepPlayer?.hurtTime = entity.entityData.get(PlayerShellEntity.HURT_TIME)
-        sleepPlayer?.yHeadRotO = 0f
-        sleepPlayer?.yHeadRot = 0f
+        if (entity is SleepingPlayerEntity) {
+            sleepPlayer?.yHeadRotO = 0f
+            sleepPlayer?.yHeadRot = 0f
+        } else {
+            sleepPlayer?.yHeadRotO = entity.yHeadRot
+            sleepPlayer?.yHeadRot = entity.yHeadRot
+        }
+
         sleepPlayer?.let {
-            val renderer = Minecraft.getInstance().entityRenderDispatcher.getRenderer(it)
-            renderer.render(sleepPlayer, 0f, partialTick, poseStack, bufferSource, packedLight)
+            Minecraft.getInstance().entityRenderDispatcher.getRenderer(it)
+                .render(it, 0f, partialTick, poseStack, bufferSource, packedLight)
         }
 
         if (entity is SleepingPlayerEntity && entity.level().random.nextDouble() < 0.05) {
@@ -71,19 +80,13 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
         poseStack.popPose()
     }
 
-
     private fun addZ(player: PlayerShellEntity) {
         val pos = player.position()
-
         val headHeightOffset = 0.5
-
         val horizontalOffset = 0.6
-
         val yawRad = Math.toRadians(player.yRot.toDouble() - 90)
-
         val xOffset = horizontalOffset * cos(yawRad)
         val zOffset = horizontalOffset * sin(yawRad)
-
         player.level().addAlwaysVisibleParticle(
             ZzzData(1f),
             true,

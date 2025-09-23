@@ -31,9 +31,4 @@ class SleepingClientPlayerEntity(
     override fun isModelPartShown(part: PlayerModelPart): Boolean {
         return (model and part.mask.toByte()) == part.mask.toByte()
     }
-
-    fun refreshTextures() {
-        val skinManager = Minecraft.getInstance().skinManager
-        skinManager.getOrLoad(gameProfile)
-    }
 }

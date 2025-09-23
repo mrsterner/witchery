@@ -11,12 +11,14 @@ import dev.sterner.witchery.handler.TeleportQueueHandler
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.mixin.PlayerInvoker
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
+import dev.sterner.witchery.payload.SyncSleepingShellS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtOps
 import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
@@ -65,10 +67,9 @@ abstract class PlayerShellEntity(
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         if (level() is ServerLevel && shellType == ShellType.SLEEPING) {
-            // Original sleeping player behavior - pulls player back
             return handleSleepingDamage(source, amount)
         }
-        // Soul form shells don't force merge on damage
+
         return super.hurt(source, amount)
     }
 
@@ -228,6 +229,7 @@ abstract class PlayerShellEntity(
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
         compound.put("Data", data.writeNbt(this.registryAccess()))
+        compound.put("d", ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE,entityData.get(RESOLVEABLE)).resultOrPartial().get())
         compound.putInt("HurtCounter", hurtCounter)
         compound.putShort("HurtTime", entityData.get(HURT_TIME).toShort())
         compound.putByte("Model", getModel())
@@ -235,6 +237,7 @@ abstract class PlayerShellEntity(
 
     companion object {
 
+        @JvmStatic
         private fun <T : PlayerShellEntity> createPlayerShell(
             player: Player,
             factory: (Level) -> T,
@@ -244,7 +247,6 @@ abstract class PlayerShellEntity(
             val data = PlayerShellData.fromPlayer(player)
 
             entity.data = data
-            entity.data.resolvableProfile = data.resolvableProfile
             entity.setEquipment(data.equipment)
             entity.setOriginalUUID(player.uuid)
             entity.setPos(
@@ -253,24 +255,38 @@ abstract class PlayerShellEntity(
                 player.z
             )
             entity.yRot = player.yRot
-
-            val playerModeCustomisation: EntityDataAccessor<Byte> =
-                PlayerInvoker.getPlayerModeCustomisationAccessor()
-            entity.setModel(player.entityData.get(playerModeCustomisation))
+            entity.setModel(data.model)
 
             extraInit?.invoke(entity)
+
+            PacketDistributor.sendToAllPlayers(SyncSleepingShellS2CPayload(entity))
+
+            if (!data.resolvableProfile!!.isResolved) {
+                data.resolvableProfile!!.resolve().thenAccept { resolved ->
+                    entity.data.resolvableProfile = resolved
+                    PacketDistributor.sendToAllPlayers(SyncSleepingShellS2CPayload(entity))
+                }
+            }
 
             return entity
         }
 
+        @JvmStatic
         fun createSleepFromPlayer(player: Player): SleepingPlayerEntity =
             createPlayerShell(player, { SleepingPlayerEntity(it) }) { entity ->
                 if (player.level() is ServerLevel) {
-                    SleepingPlayerHandler.add(player.uuid, entity.uuid, player.blockPosition(), player.level() as ServerLevel)
+                    SleepingPlayerHandler.add(
+                        player.uuid,
+                        entity.getOriginalUUID().orElse(player.uuid),
+                        player.blockPosition(),
+                        player.level() as ServerLevel
+                    )
                 }
             }
 
-        fun createShellFromPlayer(player: ServerPlayer): SoulShellPlayerEntity =
+
+        @JvmStatic
+        fun createShellFromPlayer(player: Player): SoulShellPlayerEntity =
             createPlayerShell(player, { SoulShellPlayerEntity(it) })
 
 
