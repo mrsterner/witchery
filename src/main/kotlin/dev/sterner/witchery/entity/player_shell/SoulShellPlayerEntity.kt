@@ -1,5 +1,6 @@
 package dev.sterner.witchery.entity.player_shell
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
@@ -9,9 +10,11 @@ import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.Containers
 import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.neoforged.neoforge.common.NeoForgeMod
 
 class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityTypes.SOUL_SHELL_PLAYER.get(), level) {
 
@@ -23,11 +26,14 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
         return true
     }
 
+
+
     override fun mergeSoulWithShell(player: Player) {
         if (player is ServerPlayer) {
             replaceWithPlayer(player, this)
 
-            player.abilities.mayfly = false
+
+            disableFlight(player)
             player.abilities.flying = false
             player.onUpdateAbilities()
 
@@ -54,6 +60,31 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
     }
 
     companion object {
+
+        private val LICH_FLIGHT_MODIFIER_ID = Witchery.id("lich_flight")
+
+        fun enableFlight(player: ServerPlayer) {
+            val flightAttribute = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT) ?: return
+
+            if (flightAttribute.getModifier(LICH_FLIGHT_MODIFIER_ID) == null) {
+                flightAttribute.addPermanentModifier(
+                    AttributeModifier(
+                        LICH_FLIGHT_MODIFIER_ID,
+                        1.0,
+                        AttributeModifier.Operation.ADD_VALUE
+                    )
+                )
+            }
+        }
+
+        fun disableFlight(player: ServerPlayer) {
+            val flightAttribute = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT) ?: return
+
+            flightAttribute.getModifier(LICH_FLIGHT_MODIFIER_ID)?.let {
+                flightAttribute.removeModifier(it)
+            }
+        }
+
 
         fun replaceWithPlayer(player: Player, shellEntity: SoulShellPlayerEntity) {
             player.inventory.clearContent()
