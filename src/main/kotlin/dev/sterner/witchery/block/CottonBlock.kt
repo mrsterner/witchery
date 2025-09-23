@@ -2,6 +2,7 @@ package dev.sterner.witchery.block
 
 import com.mojang.serialization.MapCodec
 import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.core.BlockPos
 import net.minecraft.world.Containers
 import net.minecraft.world.entity.player.Player
@@ -35,9 +36,9 @@ class CottonBlock(properties: Properties) : BushBlock(properties) {
         blockEntity: BlockEntity?,
         tool: ItemStack
     ) {
-        val drop = if (level.dimension().location().path.equals("dream_world")) {
+        val drop = if (level.dimension() == WitcheryWorldgenKeys.DREAM) {
             WitcheryItems.WISPY_COTTON.get().defaultInstance
-        } else if (level.dimension().location().path.equals("nightmare_world")) {
+        } else if (level.dimension() == WitcheryWorldgenKeys.NIGHTMARE) {
             WitcheryItems.DISTURBED_COTTON.get().defaultInstance
         } else {
             null

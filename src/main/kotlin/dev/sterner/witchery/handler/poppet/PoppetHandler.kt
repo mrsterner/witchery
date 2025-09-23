@@ -34,9 +34,11 @@ object PoppetHandler {
     fun onLivingHurt(entity: LivingEntity, damageSource: DamageSource, remainingDamage: Float): Float {
         if (entity !is Player) return remainingDamage
 
+        var modifiedDamage = remainingDamage
+
         when {
             damageSource.`is`(DamageTypes.STARVE) -> {
-                WitcheryPoppetRegistry.HUNGER_PROTECTION?.get()?.let { hungerPoppetType ->
+                WitcheryPoppetRegistry.HUNGER_PROTECTION.get().let { hungerPoppetType ->
                     if (activatePoppet(entity, hungerPoppetType, damageSource)) {
                         return 0f
                     }
@@ -44,16 +46,17 @@ object PoppetHandler {
             }
         }
 
-        WitcheryPoppetRegistry.VAMPIRIC.get()?.let { vampiricPoppet ->
-            return vampiricPoppet.handleDamage(entity, damageSource, remainingDamage)
+        WitcheryPoppetRegistry.VAMPIRIC.get().let { vampiricPoppet ->
+            modifiedDamage = vampiricPoppet.handleDamage(entity, damageSource, modifiedDamage)
         }
 
         if (damageSource.entity is Player) {
             val attacker = damageSource.entity as Player
-            handleVoodooPoppet(attacker, entity, remainingDamage)
+            val voodooBonusDamage = handleVoodooPoppet(attacker, entity, modifiedDamage)
+            modifiedDamage += voodooBonusDamage
         }
 
-        return remainingDamage
+        return modifiedDamage
     }
 
     private fun handleVoodooPoppet(attacker: Player, victim: LivingEntity, damage: Float): Float {

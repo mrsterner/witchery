@@ -2,9 +2,11 @@ package dev.sterner.witchery.block.censer
 
 
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
@@ -24,6 +26,7 @@ import net.minecraft.world.level.material.FluidState
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.pathfinder.PathComputationType
 import net.minecraft.world.level.storage.loot.LootParams
+import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
@@ -48,6 +51,20 @@ class CenserBlock(properties: Properties) : WitcheryBaseEntityBlock(
             this.stateDefinition.any().setValue(LanternBlock.HANGING, false)
                 .setValue(LanternBlock.WATERLOGGED, false).setValue(TYPE, true).setValue(LIT, false)
         )
+    }
+
+    override fun getCloneItemStack(
+        state: BlockState,
+        target: HitResult,
+        level: LevelReader,
+        pos: BlockPos,
+        player: Player
+    ): ItemStack {
+        if (state.getValue(TYPE)) {
+            return WitcheryItems.CENSER.get().defaultInstance
+        } else {
+            return WitcheryItems.CENSER_LONG.get().defaultInstance
+        }
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {

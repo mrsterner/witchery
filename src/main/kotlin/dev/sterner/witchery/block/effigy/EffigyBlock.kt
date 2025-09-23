@@ -10,15 +10,20 @@ import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.material.FluidState
+import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
@@ -53,39 +58,60 @@ class EffigyBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         return WitcheryBlockEntityTypes.EFFIGY.get().create(pos, state)
     }
 
-    override fun onRemove(
+    override fun getCloneItemStack(
         state: BlockState,
-        level: Level,
+        target: HitResult,
+        level: LevelReader,
         pos: BlockPos,
-        newState: BlockState,
-        movedByPiston: Boolean
-    ) {
+        player: Player
+    ): ItemStack {
         val blockEntity = level.getBlockEntity(pos)
-        if (blockEntity is EffigyBlockEntity) {
-            if (!level.isClientSide) {
-                val bl = state.`is`(WitcheryBlocks.CLAY_EFFIGY.get())
-                val bl2 = state.`is`(WitcheryBlocks.SCARECROW.get())
-                val itemStack = if (bl) {
-                    WitcheryItems.CLAY_EFFIGY.get().defaultInstance
-                } else if (bl2) {
-                    WitcheryItems.SCARECROW.get().defaultInstance
-                } else {
-                    WitcheryItems.WITCHES_LADDER.get().defaultInstance
-                }
-                itemStack.set(WitcheryDataComponents.SPIRIT_COUNT.get(), blockEntity.spiritCount)
-                itemStack.set(WitcheryDataComponents.BANSHEE_COUNT.get(), blockEntity.bansheeCount)
-                itemStack.set(WitcheryDataComponents.SPECTRE_COUNT.get(), blockEntity.specterCount)
-                itemStack.set(WitcheryDataComponents.POLTERGEIST_COUNT.get(), blockEntity.poltergeistCount)
+        if (blockEntity is EffigyBlockEntity && !level.isClientSide) {
+            return makeEffigyItem(state, blockEntity)
+        }
+        return super.getCloneItemStack(state, target, level, pos, player)
+    }
 
-                val itemEntity =
-                    ItemEntity(level, pos.x.toDouble() + 0.5, pos.y.toDouble() + 0.5, pos.z.toDouble() + 0.5, itemStack)
-                itemEntity.setDefaultPickUpDelay()
-                level.addFreshEntity(itemEntity)
-            }
+    override fun playerDestroy(
+        level: Level,
+        player: Player,
+        pos: BlockPos,
+        state: BlockState,
+        blockEntity: BlockEntity?,
+        tool: ItemStack
+    ) {
+        val be = level.getBlockEntity(pos)
+        if (be is EffigyBlockEntity && !level.isClientSide && !player.isCreative && !player.isSpectator) {
+            val itemStack = makeEffigyItem(state, be)
+            val itemEntity = ItemEntity(
+                level,
+                pos.x + 0.5,
+                pos.y + 0.5,
+                pos.z + 0.5,
+                itemStack
+            )
+            itemEntity.setDefaultPickUpDelay()
+            level.addFreshEntity(itemEntity)
+        }
+        super.playerDestroy(level, player, pos, state, blockEntity, tool)
+    }
+
+
+    private fun makeEffigyItem(state: BlockState, blockEntity: EffigyBlockEntity): ItemStack {
+        val baseItem = when {
+            state.`is`(WitcheryBlocks.CLAY_EFFIGY.get()) -> WitcheryItems.CLAY_EFFIGY.get().defaultInstance
+            state.`is`(WitcheryBlocks.SCARECROW.get()) -> WitcheryItems.SCARECROW.get().defaultInstance
+            else -> WitcheryItems.WITCHES_LADDER.get().defaultInstance
         }
 
-        super.onRemove(state, level, pos, newState, movedByPiston)
+        baseItem.set(WitcheryDataComponents.SPIRIT_COUNT.get(), blockEntity.spiritCount)
+        baseItem.set(WitcheryDataComponents.BANSHEE_COUNT.get(), blockEntity.bansheeCount)
+        baseItem.set(WitcheryDataComponents.SPECTRE_COUNT.get(), blockEntity.specterCount)
+        baseItem.set(WitcheryDataComponents.POLTERGEIST_COUNT.get(), blockEntity.poltergeistCount)
+
+        return baseItem
     }
+
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         val foot = box(4.0, 0.0, 4.0, 12.0, 2.0, 12.0)

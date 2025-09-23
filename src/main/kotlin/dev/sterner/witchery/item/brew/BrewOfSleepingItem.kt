@@ -8,6 +8,7 @@ import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
@@ -39,23 +40,16 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             val hasSleeping = SleepingPlayerHandler.getPlayerFromSleeping(newServerPlayer.uuid, serverLevel)
 
             if (hasSleeping != null) {
-                try {
-                    // Force load chunk with sleeping body
-                    val chunk = ChunkPos(hasSleeping.pos)
-                    serverLevel.setChunkForced(chunk.x, chunk.z, true)
+                val chunk = ChunkPos(hasSleeping.pos)
+                serverLevel.setChunkForced(chunk.x, chunk.z, true)
 
-                    // Find the sleeping entity
-                    val sleepEntity: SleepingPlayerEntity? =
-                        serverLevel.getEntity(hasSleeping.uuid) as SleepingPlayerEntity?
+                val sleepEntity: SleepingPlayerEntity? =
+                    serverLevel.getEntity(hasSleeping.uuid) as SleepingPlayerEntity?
 
-                    if (sleepEntity != null) {
-                        // Replace player with sleeping entity
-                        SleepingPlayerEntity.replaceWithPlayer(newServerPlayer, sleepEntity)
-                    } else {
-                        Witchery.LOGGER.warn("Could not find sleeping entity for player ${newServerPlayer.uuid}")
-                    }
-                } catch (e: Exception) {
-                    Witchery.LOGGER.error("Error during player respawn", e)
+                if (sleepEntity != null) {
+                    SleepingPlayerEntity.replaceWithPlayer(newServerPlayer, sleepEntity)
+                } else {
+                    Witchery.LOGGER.warn("Could not find sleeping entity for player ${newServerPlayer.uuid}")
                 }
             }
         }
@@ -85,35 +79,26 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
     }
 
     override fun applyEffectOnSelf(player: Player, hasFrog: Boolean) {
-        try {
-            // Don't allow sleeping in dimensions other than the overworld
-            if (player.level().dimension() != Level.OVERWORLD) {
-                player.sendSystemMessage(Component.translatable("witchery.message.cant_sleep_here"))
-                return
-            }
-
-            // Handle inventory - carefully save items that should be kept
-            val (itemsToKeep, armorToKeep) = savePlayerItems(player, hasFrog)
-
-            val sleepingPlayer = createSleepingEntity(player)
-            player.inventory.clearContent()
-            restoreKeptItems(player, itemsToKeep, armorToKeep)
-
-            player.level().addFreshEntity(sleepingPlayer)
-
-            forceLoadPlayerChunk(player)
-
-            val destinationKey = calculateDreamDestination(player, hasFrog)
-
-            // Teleport player to dream dimension
-            teleportToDreamDimension(player, destinationKey)
-
-            // Apply potion effects
-            super.applyEffectOnSelf(player, hasFrog)
-        } catch (e: Exception) {
-            Witchery.LOGGER.error("Error in Brew of Sleeping effect application", e)
-            player.sendSystemMessage(Component.translatable("witchery.message.sleep_error"))
+        if (player.level().dimension() != Level.OVERWORLD) {
+            player.sendSystemMessage(Component.translatable("witchery.message.cant_sleep_here"))
+            return
         }
+
+        val (itemsToKeep, armorToKeep) = savePlayerItems(player, hasFrog)
+
+        val sleepingPlayer = createSleepingEntity(player)
+        player.inventory.clearContent()
+        restoreKeptItems(player, itemsToKeep, armorToKeep)
+
+        player.level().addFreshEntity(sleepingPlayer)
+
+        forceLoadPlayerChunk(player)
+
+        val destinationKey = calculateDreamDestination(player, hasFrog)
+
+        teleportToDreamDimension(player, destinationKey)
+
+        super.applyEffectOnSelf(player, hasFrog)
     }
 
     /**
@@ -126,10 +111,8 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         val itemsToKeep = mutableListOf<ItemStack>()
         val armorToKeep = mutableListOf<ItemStack>()
 
-        // Check if player has a dreamweaver charm that allows keeping armor
         val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
 
-        // If player has charm, save armor items to restore after inventory clearing
         if (charmStack != null) {
             for (armor in player.armorSlots) {
                 if (!armor.isEmpty) {
@@ -139,7 +122,6 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             }
         }
 
-        // Keep items that match the tag
         for (i in 0 until player.inventory.containerSize) {
             val itemStack = player.inventory.getItem(i)
             if (!itemStack.isEmpty && itemStack.item.builtInRegistryHolder()
@@ -164,12 +146,10 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
      * Restore items that were kept during sleep
      */
     private fun restoreKeptItems(player: Player, itemsToKeep: List<ItemStack>, armorToKeep: List<ItemStack>) {
-        // Return kept items to inventory
         for (keep in itemsToKeep) {
             player.inventory.add(keep.copy())
         }
 
-        // Return kept armor items
         for (armor in armorToKeep) {
             val slot = player.getEquipmentSlotForItem(armor)
             player.setItemSlot(slot, armor.copy())
@@ -191,7 +171,6 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
      * Calculate dream quality and determine destination dimension
      */
     private fun calculateDreamDestination(player: Player, hasFrog: Boolean): ResourceKey<Level> {
-        // Calculate dream quality based on nearby blocks
         val maxDreamweavers = if (hasFrog) 3 else 4
         val maxFlowingSpirits = 4
         val maxWispyCotton = if (hasFrog) 3 else 4
@@ -207,21 +186,15 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
                         wispyCount.coerceAtMost(maxWispyCotton)
                 ).toDouble()
 
-        // Scale up to 90% with max blocks
         val goodDreamChance = 0.05 + 0.85 * (effectiveCount / maxEffectCount)
 
-        // Determine which dream dimension to send to based on chance calculation
-        val dreamKey = ResourceKey.create(Registries.DIMENSION, Witchery.id("dream_world"))
-        val nightmareKey = ResourceKey.create(Registries.DIMENSION, Witchery.id("nightmare_world"))
-
-        return if (player.level().random.nextDouble() < goodDreamChance) dreamKey else nightmareKey
+        return if (player.level().random.nextDouble() < goodDreamChance) WitcheryWorldgenKeys.DREAM else WitcheryWorldgenKeys.NIGHTMARE
     }
 
     /**
      * Teleport player to dream dimension
      */
     private fun teleportToDreamDimension(player: Player, destinationKey: ResourceKey<Level>) {
-        // Get the dimension
         val destination = player.level().server?.getLevel(destinationKey) ?: return
 
         val targetX = player.x
@@ -240,5 +213,3 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         }
     }
 }
-
-// 3. Improved IcyNeedleItem with better code organization and error handling

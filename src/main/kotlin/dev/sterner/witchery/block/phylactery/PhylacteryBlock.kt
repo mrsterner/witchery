@@ -2,9 +2,15 @@ package dev.sterner.witchery.block.phylactery
 
 
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.block.censer.CenserBlock.Companion.TYPE
+import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.util.StringRepresentable
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.AbstractCandleBlock.LIT
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.LanternBlock
@@ -14,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.EnumProperty
+import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.ToIntFunction
@@ -33,6 +40,18 @@ class PhylacteryBlock(properties: Properties) : WitcheryBaseEntityBlock(properti
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
         builder.add(LanternBlock.WATERLOGGED, LIT, VARIANT)
+    }
+
+    override fun getCloneItemStack(
+        state: BlockState,
+        target: HitResult,
+        level: LevelReader,
+        pos: BlockPos,
+        player: Player
+    ): ItemStack {
+        val item = WitcheryItems.PHYLACTERY.get().defaultInstance
+        item.set(WitcheryDataComponents.PHYLACTERY_VARIANT.get(), state.getValue(VARIANT))
+        return item
     }
 
     override fun newBlockEntity(
