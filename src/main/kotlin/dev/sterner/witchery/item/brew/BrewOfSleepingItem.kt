@@ -1,8 +1,9 @@
 package dev.sterner.witchery.item.brew
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerData
-import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
+import dev.sterner.witchery.api.entity.PlayerShellData
+import dev.sterner.witchery.api.entity.PlayerShellEntity
+import dev.sterner.witchery.entity.player_shell.SleepingPlayerEntity
 import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.registry.WitcheryBlocks
@@ -10,7 +11,6 @@ import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.core.BlockPos
-import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerLevel
@@ -139,7 +139,7 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
      * Create sleeping entity from player
      */
     private fun createSleepingEntity(player: Player): SleepingPlayerEntity {
-        return SleepingPlayerEntity.createFromPlayer(player, SleepingPlayerData.fromPlayer(player))
+        return PlayerShellEntity.createSleepFromPlayer(player)
     }
 
     /**

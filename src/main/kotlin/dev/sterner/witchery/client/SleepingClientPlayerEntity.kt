@@ -1,6 +1,7 @@
 package dev.sterner.witchery.client
 
 import com.mojang.authlib.GameProfile
+import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.player.RemotePlayer
 import net.minecraft.core.NonNullList
@@ -29,5 +30,10 @@ class SleepingClientPlayerEntity(
 
     override fun isModelPartShown(part: PlayerModelPart): Boolean {
         return (model and part.mask.toByte()) == part.mask.toByte()
+    }
+
+    fun refreshTextures() {
+        val skinManager = Minecraft.getInstance().skinManager
+        skinManager.getOrLoad(gameProfile)
     }
 }

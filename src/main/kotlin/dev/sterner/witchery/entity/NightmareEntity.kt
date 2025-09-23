@@ -68,7 +68,7 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
                 if (nightmareWorld != null) {
                     var foundMatchingUUID = false
 
-                    for (player in nightmareWorld.getPlayers { !(it.isCreative || it.isSpectator) }) {
+                    for (player in nightmareWorld.getPlayers { !it.isCreative && !it.isSpectator }) {
                         val data = NightmarePlayerAttachment.getData(player)
 
                         if (data.nightmareUUID.isPresent && data.nightmareUUID.get() == uuid) {
@@ -155,7 +155,7 @@ class NightmareEntity(level: Level) : Monster(WitcheryEntityTypes.NIGHTMARE.get(
         fun createAttributes(): AttributeSupplier.Builder {
             return createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 100.0)
-                .add(Attributes.MOVEMENT_SPEED, 0.29)
+                .add(Attributes.MOVEMENT_SPEED, 0.28)
                 .add(Attributes.ATTACK_DAMAGE, 6.0)
                 .add(Attributes.FOLLOW_RANGE, 128.0)
                 .add(Attributes.STEP_HEIGHT, 2.0)

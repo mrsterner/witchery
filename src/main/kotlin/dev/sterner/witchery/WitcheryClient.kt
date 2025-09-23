@@ -444,6 +444,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerEntityRenderer(WitcheryEntityTypes.THROWN_BREW.get(), ::ThrownItemRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.THROWN_POTION.get(), ::ThrownItemRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.SLEEPING_PLAYER.get(), ::SleepingPlayerEntityRenderer)
+        event.registerEntityRenderer(WitcheryEntityTypes.SOUL_SHELL_PLAYER.get(), ::SleepingPlayerEntityRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.SPECTRAL_PIG.get(), ::SpectralPigRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.AREA_EFFECT_CLOUD.get(), ::NoopRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.HUNTSMAN_SPEAR.get(), ::HuntsmanSpearRenderer)

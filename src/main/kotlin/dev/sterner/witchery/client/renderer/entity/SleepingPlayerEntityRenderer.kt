@@ -2,9 +2,10 @@ package dev.sterner.witchery.client.renderer.entity
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
+import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.client.SleepingClientPlayerEntity
 import dev.sterner.witchery.client.particle.ZzzData
-import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
+import dev.sterner.witchery.entity.player_shell.SleepingPlayerEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.MultiBufferSource
@@ -17,17 +18,16 @@ import kotlin.math.sin
 
 
 class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
-    EntityRenderer<SleepingPlayerEntity>(context) {
+    EntityRenderer<PlayerShellEntity>(context) {
 
     private var sleepPlayer: SleepingClientPlayerEntity? = null
 
-    override fun getTextureLocation(entity: SleepingPlayerEntity): ResourceLocation? {
+    override fun getTextureLocation(entity: PlayerShellEntity): ResourceLocation? {
         return null
     }
 
-
     override fun render(
-        entity: SleepingPlayerEntity,
+        entity: PlayerShellEntity,
         entityYaw: Float,
         partialTick: Float,
         poseStack: PoseStack,
@@ -38,7 +38,7 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
         poseStack.pushPose()
         poseStack.mulPose(Axis.YP.rotationDegrees(-entity.yRot))
 
-        if (entity.isFaceplanted()) {
+        if (entity is SleepingPlayerEntity && entity.isFaceplanted()) {
             poseStack.mulPose(Axis.XP.rotationDegrees(90f))
             poseStack.translate(0.0, -1.0, -2.01 / 16.0)
         } else {
@@ -47,13 +47,16 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
         }
 
         val equipmentList = entity.getEquipment()
-        sleepPlayer = SleepingClientPlayerEntity(
-            entity.level() as ClientLevel,
-            entity.entityData.get(SleepingPlayerEntity.RESOLVEABLE).gameProfile,
-            equipmentList,
-            entity.getSleepingModel()
-        )
-        sleepPlayer?.hurtTime = entity.entityData.get(SleepingPlayerEntity.HURT_TIME)
+        if (sleepPlayer == null) {
+            sleepPlayer = SleepingClientPlayerEntity(
+                entity.level() as ClientLevel,
+                entity.entityData.get(PlayerShellEntity.RESOLVEABLE).gameProfile,
+                equipmentList,
+                entity.getModel()
+            )
+        }
+
+        sleepPlayer?.hurtTime = entity.entityData.get(PlayerShellEntity.HURT_TIME)
         sleepPlayer?.yHeadRotO = 0f
         sleepPlayer?.yHeadRot = 0f
         sleepPlayer?.let {
@@ -61,7 +64,7 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
             renderer.render(sleepPlayer, 0f, partialTick, poseStack, bufferSource, packedLight)
         }
 
-        if (entity.level().random.nextDouble() < 0.05) {
+        if (entity is SleepingPlayerEntity && entity.level().random.nextDouble() < 0.05) {
             addZ(entity)
         }
 
@@ -69,7 +72,7 @@ class SleepingPlayerEntityRenderer(context: EntityRendererProvider.Context) :
     }
 
 
-    private fun addZ(player: SleepingPlayerEntity) {
+    private fun addZ(player: PlayerShellEntity) {
         val pos = player.position()
 
         val headHeightOffset = 0.5

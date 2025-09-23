@@ -2,7 +2,8 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.entity.*
-import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
+import dev.sterner.witchery.entity.player_shell.SleepingPlayerEntity
+import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobCategory
@@ -108,6 +109,17 @@ object WitcheryEntityTypes {
             .clientTrackingRange(64)
             .updateInterval(1)
             .build(Witchery.id("sleeping_player").toString())
+    }
+
+    val SOUL_SHELL_PLAYER = register("soul_shell_player") {
+        EntityType.Builder.of(
+            { _: EntityType<SoulShellPlayerEntity>, level: Level ->
+                SoulShellPlayerEntity(level)
+            }, MobCategory.MISC
+        ).sized(1.05F, 1.85F)
+            .clientTrackingRange(64)
+            .updateInterval(1)
+            .build(Witchery.id("soul_shell_player").toString())
     }
 
     val FLOATING_ITEM =

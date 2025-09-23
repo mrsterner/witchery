@@ -46,14 +46,6 @@ object AfflictionPlayerAttachment {
         }
     }
 
-    /**
-     * Smart batch updater that automatically tracks and syncs only changed fields
-     *
-     * @param player The player to update
-     * @param sync Whether to sync at all (default true)
-     * @param forceFullSync Force full sync instead of selective (default false)
-     * @param operations The operations to perform on the data
-     */
     inline fun batchUpdate(
         player: Player,
         sync: Boolean = true,
@@ -85,53 +77,6 @@ object AfflictionPlayerAttachment {
         newData.clearDirtyFields()
 
         return newData
-    }
-
-    /**
-     * Batch update with manual field specification (for special cases)
-     */
-    inline fun batchUpdateWithFields(
-        player: Player,
-        syncFields: Set<SyncField>? = null,
-        crossinline operations: Data.() -> Data
-    ): Data {
-        val currentData = getData(player)
-        val newData = currentData.operations()
-        setData(player, newData, sync = false)
-
-        val fieldsToSync = syncFields ?: newData.getDirtyFields()
-        if (fieldsToSync.isNotEmpty()) {
-            selectiveSync(player, newData, fieldsToSync)
-        }
-
-        newData.clearDirtyFields()
-        return newData
-    }
-
-    /**
-     * Update without any sync (for batching multiple players)
-     */
-    inline fun updateNoSync(
-        player: Player,
-        crossinline operations: Data.() -> Data
-    ): Data {
-        val currentData = getData(player)
-        val newData = currentData.operations()
-        setData(player, newData, sync = false)
-        return newData
-    }
-
-    /**
-     * Sync only the dirty fields from existing data
-     */
-    fun syncDirtyFields(player: Player) {
-        val data = getData(player)
-        val dirtyFields = data.getDirtyFields()
-
-        if (dirtyFields.isNotEmpty()) {
-            selectiveSync(player, data, dirtyFields)
-            data.clearDirtyFields()
-        }
     }
 
     enum class SyncField {
@@ -225,12 +170,6 @@ object AfflictionPlayerAttachment {
             return copy(abilityCooldowns = newCooldowns).apply {
                 markDirty(SyncField.ABILITY_COOLDOWNS)
             }
-        }
-
-        fun withoutAbilityCooldown(ability: String): Data = copy(
-            abilityCooldowns = abilityCooldowns.toMutableMap().apply { remove(ability) }
-        ).apply {
-            markDirty(SyncField.ABILITY_COOLDOWNS)
         }
 
         fun getSelectedAbilities(): List<String> = selectedAbilities.take(5)

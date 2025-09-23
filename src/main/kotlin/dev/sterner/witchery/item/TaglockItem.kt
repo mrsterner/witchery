@@ -1,6 +1,6 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.entity.sleeping_player.SleepingPlayerEntity
+import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
@@ -127,7 +127,7 @@ class TaglockItem(properties: Properties) : Item(properties) {
             return null
         }
 
-        fun bindSleepingPlayer(sleepingPlayerEntity: SleepingPlayerEntity, stack: ItemStack) {
+        fun bindSleepingPlayer(sleepingPlayerEntity: PlayerShellEntity, stack: ItemStack) {
             if (stack.has(WitcheryDataComponents.EXPIRED_TAGLOCK.get()) && stack.get(WitcheryDataComponents.EXPIRED_TAGLOCK.get())!!) {
                 return
             }
@@ -140,7 +140,7 @@ class TaglockItem(properties: Properties) : Item(properties) {
 
             stack.set(
                 WitcheryDataComponents.ENTITY_ID_COMPONENT.get(),
-                sleepingPlayerEntity.getSleepingUUID().toString()
+                sleepingPlayerEntity.getOriginalUUID().toString()
             )
         }
     }

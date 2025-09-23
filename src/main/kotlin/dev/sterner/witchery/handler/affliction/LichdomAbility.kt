@@ -1,15 +1,20 @@
 package dev.sterner.witchery.handler.affliction
 
+import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.handler.NecroHandler
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Animal
@@ -43,7 +48,80 @@ enum class LichdomAbility(
             return true
         }
     },
+    SOUL_FORM(6, 20 * 5) {  // Level 6 ability, 2 minute cooldown
+        override val id: String = "soul_form"
+        override val requiresTarget = false
 
+        override fun use(player: Player): Boolean {
+            if (player !is ServerPlayer) return false
+
+            val afflictionData = AfflictionPlayerAttachment.getData(player)
+            if (!afflictionData.isSoulForm()) {
+                activateSoulForm(player)
+            }
+            return true
+        }
+
+        override fun use(player: Player, target: Entity): Boolean {
+            if (player !is ServerPlayer) return false
+
+            val afflictionData = AfflictionPlayerAttachment.getData(player)
+
+            if (afflictionData.isSoulForm()) {
+                if (target is SoulShellPlayerEntity) {
+                    val shellUUID = target.getOriginalUUID().orElse(null)
+
+                    if (shellUUID == player.uuid) {
+                        target.mergeSoulWithShell(player)
+                        AbilityCooldownManager.startCooldown(player, this)
+                        return true
+                    }
+                }
+                return false
+            }
+            return true
+        }
+
+        private fun activateSoulForm(player: ServerPlayer) {
+            val shell = PlayerShellEntity.createShellFromPlayer(player)
+            player.level().addFreshEntity(shell)
+
+            player.inventory.clearContent()
+
+            player.abilities.mayfly = true
+            player.abilities.flying = true
+            player.onUpdateAbilities()
+
+            player.addEffect(MobEffectInstance(MobEffects.GLOWING, -1, 0, false, false))
+            player.addEffect(MobEffectInstance(MobEffects.INVISIBILITY, -1, 0, false, false))
+
+            AfflictionPlayerAttachment.batchUpdate(player) {
+                withSoulForm(true)
+            }
+
+            player.level().playSound(
+                null,
+                player.x,
+                player.y,
+                player.z,
+                SoundEvents.SOUL_ESCAPE,
+                SoundSource.PLAYERS,
+                1.0f,
+                0.5f
+            )
+
+            val serverLevel = player.level() as ServerLevel
+            serverLevel.sendParticles(
+                ParticleTypes.SOUL,
+                player.x,
+                player.y + 1,
+                player.z,
+                20,
+                0.5, 0.5, 0.5,
+                0.1
+            )
+        }
+    },
     CORPSE_EXPLOSION(3, 20 * 10) {
         override val id: String = "corpse_explosion"
         override val requiresTarget = false
