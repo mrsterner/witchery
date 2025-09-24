@@ -6,18 +6,25 @@ import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.mixin.LivingEntityAccessor
+import dev.sterner.witchery.mixin.WalkAnimationStateAccessor
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
+import net.minecraft.client.player.AbstractClientPlayer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.StructureTags
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.HumanoidArm
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
+import org.spongepowered.asm.mixin.Unique
 
 object TransformationHandler {
 
@@ -230,5 +237,63 @@ object TransformationHandler {
                 }
             }
         }
+    }
+
+    fun copyTransforms(to: Mob, from: AbstractClientPlayer) {
+        to.tickCount = from.tickCount
+        to.hurtTime = from.hurtTime
+        to.hurtDuration = from.hurtDuration
+        to.yHeadRot = from.yHeadRot
+        to.yBodyRot = from.yBodyRot
+        to.yHeadRotO = from.yHeadRotO
+        to.yBodyRotO = from.yBodyRotO
+        to.swinging = from.swinging
+        to.swingTime = from.swingTime
+        to.attackAnim = from.attackAnim
+        to.oAttackAnim = from.oAttackAnim
+        to.setXRot(from.getXRot())
+        to.xRotO = from.xRotO
+
+        to.setShiftKeyDown(from.isShiftKeyDown())
+        to.setSprinting(from.isSprinting())
+        to.setSwimming(from.isSwimming())
+        to.setInvisible(from.isInvisible())
+        to.setGlowingTag(from.hasGlowingTag())
+        to.setAirSupply(from.getAirSupply())
+        to.setCustomName(from.getCustomName())
+        to.setCustomNameVisible(from.isCustomNameVisible())
+        to.setPose(from.getPose())
+        to.setTicksFrozen(from.getTicksFrozen())
+
+        to.setOnGround(from.onGround())
+        to.horizontalCollision = from.horizontalCollision
+        to.verticalCollision = from.verticalCollision
+        to.verticalCollisionBelow = from.verticalCollisionBelow
+        to.minorHorizontalCollision = from.minorHorizontalCollision
+        to.setSharedFlagOnFire(from.isOnFire())
+        to.invulnerableTime = from.invulnerableTime
+        to.noCulling = from.noCulling
+        to.isInPowderSnow = from.isInPowderSnow
+        to.wasInPowderSnow = from.wasInPowderSnow
+        to.wasOnFire = from.wasOnFire
+
+        to.swingingArm =
+            if (from.getMainArm() == HumanoidArm.RIGHT) InteractionHand.MAIN_HAND else InteractionHand.OFF_HAND
+        to.deathTime = from.deathTime
+
+        val toAccessor = to.walkAnimation as WalkAnimationStateAccessor
+        val fromAccessor = from.walkAnimation as WalkAnimationStateAccessor
+
+        toAccessor.setWalkSpeed(fromAccessor.getWalkSpeed())
+        toAccessor.setWalkSpeedOld(fromAccessor.getWalkSpeedOld())
+        toAccessor.setWalkPosition(fromAccessor.getWalkPosition())
+
+
+        val swimAmt = (from as LivingEntityAccessor).getSwimAmount()
+        (to as LivingEntityAccessor).setSwimAmount(swimAmt)
+
+        val swimAmtO = (from as LivingEntityAccessor).getSwimAmountO()
+        (to as LivingEntityAccessor).setSwimAmountO(swimAmtO)
+        to.startUsingItem(from.usedItemHand)
     }
 }

@@ -7,8 +7,11 @@ import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttac
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.handler.NecroHandler
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
+import dev.sterner.witchery.handler.possession.PossessionHandler
 import dev.sterner.witchery.registry.WitcheryTags
+import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
@@ -48,8 +51,8 @@ enum class LichdomAbility(
             return true
         }
     },
-    SOUL_FORM(6, 20 * 5) {  // Level 6 ability, 2 minute cooldown
-        override val id: String = "soul_form"
+    SOUL_FORM(6, 20 * 10) { // 2 minute cooldown
+        override val id = "soul_form"
         override val requiresTarget = false
 
         override fun use(player: Player): Boolean {
@@ -58,47 +61,82 @@ enum class LichdomAbility(
             val afflictionData = AfflictionPlayerAttachment.getData(player)
             if (!afflictionData.isSoulForm()) {
                 activateSoulForm(player)
+                //AbilityCooldownManager.startCooldown(player, this)
+                return true
             }
-            return true
+            return false
         }
 
         override fun use(player: Player, target: Entity): Boolean {
             if (player !is ServerPlayer) return false
 
             val afflictionData = AfflictionPlayerAttachment.getData(player)
-
-            if (afflictionData.isSoulForm()) {
-                if (target is SoulShellPlayerEntity) {
-                    val shellUUID = target.getOriginalUUID().orElse(null)
-
-                    if (shellUUID == player.uuid) {
-                        target.mergeSoulWithShell(player)
-                        AbilityCooldownManager.startCooldown(player, this)
-                        return true
-                    }
-                }
+            if (!afflictionData.isSoulForm()) {
                 return false
             }
-            return true
+            if (target is SoulShellPlayerEntity) {
+                val shellUUID = target.getOriginalUUID().orElse(null)
+                if (shellUUID == player.uuid) {
+                    target.mergeSoulWithShell(player)
+                    AbilityCooldownManager.startCooldown(player, this)
+                    return true
+                }
+            }
+
+            if (target is LivingEntity) {
+                val handler = PossessionHandler.get(player)
+
+                if (handler.getPossessedEntity() != null) {
+                    handler.stopPossessing()
+                }
+
+                if (handler.startPossessing(target)) {
+                    AbilityCooldownManager.startCooldown(player, this)
+                    return true
+                } else {
+                    player.displayClientMessage(
+                        Component.literal("Cannot possess this entity")
+                            .withStyle(ChatFormatting.RED),
+                        true
+                    )
+                }
+            }
+
+            return false
         }
 
         private fun activateSoulForm(player: ServerPlayer) {
+            // Create shell at player's location
             val shell = PlayerShellEntity.createShellFromPlayer(player)
             player.level().addFreshEntity(shell)
 
+            // Clear inventory (stored in shell)
             player.inventory.clearContent()
 
+            // Enable soul flight
             SoulShellPlayerEntity.enableFlight(player)
+            player.abilities.flying = true
+
+            // Add upward velocity
+            val random = player.random
+            val upwardVelocity = 0.1 + random.nextDouble() * 0.1
+            player.deltaMovement = player.deltaMovement.add(
+                (random.nextDouble() - 0.5) * 0.05,
+                upwardVelocity,
+                (random.nextDouble() - 0.5) * 0.05
+            )
+            player.hurtMarked = true
+
+            // Lock inventory slots
             InventorySlots.lockAll(player)
             player.onUpdateAbilities()
 
-            player.addEffect(MobEffectInstance(MobEffects.GLOWING, -1, 0, false, false))
-            player.addEffect(MobEffectInstance(MobEffects.INVISIBILITY, -1, 0, false, false))
-
+            // Update affliction data
             AfflictionPlayerAttachment.batchUpdate(player) {
                 withSoulForm(true)
             }
 
+            // Effects
             player.level().playSound(
                 null,
                 player.x,

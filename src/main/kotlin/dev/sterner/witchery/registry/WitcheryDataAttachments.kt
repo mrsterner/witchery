@@ -9,6 +9,10 @@ import dev.sterner.witchery.data_attachment.infusion.OtherwhereInfusionPlayerAtt
 import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.possession.PlayerPossessionData
+import dev.sterner.witchery.data_attachment.possession.PossessableData
+import dev.sterner.witchery.data_attachment.possession.PossessedEntityData
+import dev.sterner.witchery.data_attachment.possession.PossessionAttachment
 import dev.sterner.witchery.data_attachment.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.transformation.*
 import net.neoforged.neoforge.attachment.AttachmentType
@@ -303,6 +307,40 @@ object WitcheryDataAttachments {
                     .build()
             }
         )
+
+    @JvmStatic
+    val PLAYER_POSSESSION: Supplier<AttachmentType<PossessionAttachment.PlayerPossessionData>> =
+        ATTACHMENT_TYPES.register(
+            "player_possession",
+            Supplier {
+                AttachmentType.builder(Supplier { PossessionAttachment.PlayerPossessionData() })
+                    .serialize(PossessionAttachment.PlayerPossessionData.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val POSSESSABLE: Supplier<AttachmentType<PossessionAttachment.PossessableData>> =
+        ATTACHMENT_TYPES.register(
+            "possessable",
+            Supplier {
+                AttachmentType.builder(Supplier { PossessionAttachment.PossessableData() })
+                    .serialize(PossessionAttachment.PossessableData.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val POSSESSED_DATA: Supplier<AttachmentType<PossessionAttachment.PossessedEntityData>> =
+        ATTACHMENT_TYPES.register(
+            "possessed_data",
+            Supplier {
+                AttachmentType.builder(Supplier { PossessionAttachment.PossessedEntityData() })
+                    .serialize(PossessionAttachment.PossessedEntityData.CODEC)
+                    .build()
+            }
+        )
+
 
     @JvmStatic
     val SOUL_POOL_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<SoulPoolPlayerAttachment.Data>> =

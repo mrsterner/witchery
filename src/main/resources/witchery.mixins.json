@@ -47,7 +47,14 @@
     "WalkAnimationStateAccessor",
     "WolfMixin",
     "ZoglinMixin",
-    "ZombieMixin"
+    "ZombieMixin",
+    "possession.EntityAccessor",
+    "possession.EntityMixin",
+    "possession.LivingEntityAccessor",
+    "possession.LivingEntityMixin",
+    "possession.MobMixin",
+    "possession.PlayerMixin",
+    "possession.ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

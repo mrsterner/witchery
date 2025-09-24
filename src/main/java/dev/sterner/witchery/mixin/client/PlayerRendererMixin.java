@@ -91,7 +91,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         if (TransformationHandler.isBat(entity)) {
             var bat = TransformationHandler.getBatEntity(entity);
             if (bat != null) {
-                witchery$copyTransforms(bat, entity);
+                TransformationHandler.INSTANCE.copyTransforms(bat, entity);
                 var bl = entity.onGround() && !entity.getAbilities().flying;
                 bat.setResting(bl);
                 poseStack.pushPose();
@@ -107,7 +107,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         } else if (TransformationHandler.isWolf(entity)) {
             var wolf = TransformationHandler.getWolfEntity(entity);
             if (wolf != null) {
-                witchery$copyTransforms(wolf, entity);
+                TransformationHandler.INSTANCE.copyTransforms(wolf, entity);
                 wolf.setInSittingPose(entity.isShiftKeyDown());
                 Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(wolf)
                         .render(wolf, entityYaw, partialTicks, poseStack, buffer, packedLight);
@@ -116,7 +116,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         } else if (TransformationHandler.isWerewolf(entity)) {
             var werewolf = TransformationHandler.getWerewolf(entity);
             if (werewolf != null) {
-                witchery$copyTransforms(werewolf, entity);
+                TransformationHandler.INSTANCE.copyTransforms(werewolf, entity);
                 Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(werewolf)
                         .render(werewolf, entityYaw, partialTicks, poseStack, buffer, packedLight);
                 ci.cancel();
@@ -124,62 +124,5 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         }
     }
 
-    @Unique
-    private void witchery$copyTransforms(Mob to, AbstractClientPlayer from) {
-        to.tickCount = from.tickCount;
-        to.hurtTime = from.hurtTime;
-        to.hurtDuration = from.hurtDuration;
-        to.yHeadRot = from.yHeadRot;
-        to.yBodyRot = from.yBodyRot;
-        to.yHeadRotO = from.yHeadRotO;
-        to.yBodyRotO = from.yBodyRotO;
-        to.swinging = from.swinging;
-        to.swingTime = from.swingTime;
-        to.attackAnim = from.attackAnim;
-        to.oAttackAnim = from.oAttackAnim;
-        to.setXRot(from.getXRot());
-        to.xRotO = from.xRotO;
 
-        to.setShiftKeyDown(from.isShiftKeyDown());
-        to.setSprinting(from.isSprinting());
-        to.setSwimming(from.isSwimming());
-        to.setInvisible(from.isInvisible());
-        to.setGlowingTag(from.hasGlowingTag());
-        to.setAirSupply(from.getAirSupply());
-        to.setCustomName(from.getCustomName());
-        to.setCustomNameVisible(from.isCustomNameVisible());
-        to.setPose(from.getPose());
-        to.setTicksFrozen(from.getTicksFrozen());
-
-        to.setOnGround(from.onGround());
-        to.horizontalCollision = from.horizontalCollision;
-        to.verticalCollision = from.verticalCollision;
-        to.verticalCollisionBelow = from.verticalCollisionBelow;
-        to.minorHorizontalCollision = from.minorHorizontalCollision;
-        to.setSharedFlagOnFire(from.isOnFire());
-        to.invulnerableTime = from.invulnerableTime;
-        to.noCulling = from.noCulling;
-        to.isInPowderSnow = from.isInPowderSnow;
-        to.wasInPowderSnow = from.wasInPowderSnow;
-        to.wasOnFire = from.wasOnFire;
-
-        to.swingingArm = from.getMainArm() == HumanoidArm.RIGHT ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-        to.deathTime = from.deathTime;
-
-        WalkAnimationStateAccessor toAccessor = (WalkAnimationStateAccessor) to.walkAnimation;
-        WalkAnimationStateAccessor fromAccessor = (WalkAnimationStateAccessor) from.walkAnimation;
-
-        toAccessor.setWalkSpeed(fromAccessor.getWalkSpeed());
-        toAccessor.setWalkSpeedOld(fromAccessor.getWalkSpeedOld());
-        toAccessor.setWalkPosition(fromAccessor.getWalkPosition());
-
-
-
-        float swimAmt = ((LivingEntityAccessor) from).getSwimAmount();
-        ((LivingEntityAccessor) to).setSwimAmount(swimAmt);
-
-        float swimAmtO = ((LivingEntityAccessor) from).getSwimAmountO();
-        ((LivingEntityAccessor) to).setSwimAmountO(swimAmtO);
-        to.startUsingItem(from.getUsedItemHand());
-    }
 }

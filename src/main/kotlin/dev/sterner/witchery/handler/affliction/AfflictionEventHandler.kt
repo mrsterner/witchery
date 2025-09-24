@@ -65,8 +65,7 @@ object AfflictionEventHandler {
         player: Player?,
         entity: Entity?
     ) {
-
-        if (player !is ServerPlayer || entity !is LivingEntity) return
+        if (player !is ServerPlayer || entity !is Entity) return
 
         val ability = getSelectedAbility(player) ?: return
 

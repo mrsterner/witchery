@@ -18,6 +18,10 @@ class WitcheryEntityTypeTagProvider(
 ) : EntityTypeTagsProvider(output, completableFuture, Witchery.MODID, existingFileHelper) {
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {
+        tag(WitcheryTags.POSSESSABLE)
+            .add(EntityType.ZOMBIE)
+            .add(EntityType.SKELETON)
+
         tag(EntityTypeTags.DISMOUNTS_UNDERWATER).add(
             WitcheryEntityTypes.CUSTOM_BOAT.get(),
             WitcheryEntityTypes.CUSTOM_CHEST_BOAT.get()

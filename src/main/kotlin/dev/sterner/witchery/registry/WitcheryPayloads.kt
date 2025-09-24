@@ -2,6 +2,7 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.payload.*
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
+import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler
 
 object WitcheryPayloads {
 
@@ -33,6 +34,12 @@ object WitcheryPayloads {
         registrar.playToClient(SyncInfusionS2CPayload.ID, SyncInfusionS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
+        registrar.playToClient(PossessionEndS2CPayload.ID, PossessionEndS2CPayload.STREAM_CODEC) { payload, _ ->
+            payload.handleOnClient()
+        }
+        registrar.playToClient(PossessionStartS2CPayload.ID, PossessionStartS2CPayload.STREAM_CODEC) { payload, _ ->
+            payload.handleOnClient()
+        }
         registrar.playToClient(SyncInventoryLockS2CPayload.ID, SyncInventoryLockS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
@@ -60,6 +67,56 @@ object WitcheryPayloads {
         ) { payload, _ ->
             payload.handleOnClient()
         }
+
+        registrar.playToClient(
+            SyncPossessableS2CPayload.TYPE,
+            SyncPossessableS2CPayload.STREAM_CODEC,
+            DirectionalPayloadHandler(
+                { payload, _ -> payload.handleOnClient() },
+                { _, _ -> } // No server handling for S2C
+            )
+        )
+
+        // Register Player Possession sync payload
+        registrar.playToClient(
+            SyncPlayerPossessionS2CPayload.TYPE,
+            SyncPlayerPossessionS2CPayload.STREAM_CODEC,
+            DirectionalPayloadHandler(
+                { payload, _ -> payload.handleOnClient() },
+                { _, _ -> }
+            )
+        )
+
+        // Register Possessed Data sync payload
+        registrar.playToClient(
+            SyncPossessedDataS2CPayload.TYPE,
+            SyncPossessedDataS2CPayload.STREAM_CODEC,
+            DirectionalPayloadHandler(
+                { payload, _ -> payload.handleOnClient() },
+                { _, _ -> }
+            )
+        )
+
+        // Register client-to-server payloads if needed
+        // For example, possession request from client
+        registrar.playToServer(
+            PossessionRequestC2SPayload.TYPE,
+            PossessionRequestC2SPayload.STREAM_CODEC,
+            DirectionalPayloadHandler(
+                { _, _ -> }, // No client handling for C2S
+                { payload, context -> payload.handleOnServer(context) }
+            )
+        )
+
+        registrar.playToServer(
+            StopPossessionC2SPayload.TYPE,
+            StopPossessionC2SPayload.STREAM_CODEC,
+            DirectionalPayloadHandler(
+                { _, _ -> },
+                { payload, context -> payload.handleOnServer(context) }
+            )
+        )
+
         registrar.playToClient(SyncUnderWaterS2CPayload.ID, SyncUnderWaterS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }

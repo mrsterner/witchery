@@ -16,6 +16,7 @@ import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.chat.Component
@@ -52,6 +53,7 @@ abstract class PlayerShellEntity(
     var data = PlayerShellData()
     var hurtCounter = 0
     protected var shellType: ShellType = ShellType.SLEEPING
+
 
     init {
         blocksBuilding = true
@@ -161,10 +163,7 @@ abstract class PlayerShellEntity(
                 }
             }
 
-            if (shellType == ShellType.SOUL && player.uuid == data.resolvableProfile?.id?.orElse(null)) {
-                mergeSoulWithShell(player)
-                return InteractionResult.SUCCESS
-            }
+
         }
 
         return super.interactAt(player, vec, hand)

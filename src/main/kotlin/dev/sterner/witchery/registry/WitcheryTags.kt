@@ -2,15 +2,17 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.Witchery.Companion.MODID
+import net.minecraft.core.HolderSet
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.TagKey
+import net.minecraft.world.effect.MobEffect
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 
 
 object WitcheryTags {
-
 
     val WEREWOLF_ALTAR_ITEM: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("werewolf_altar_item"))
     val PLACEABLE_POPPETS: TagKey<Item> = TagKey.create(Registries.ITEM, Witchery.id("placeable_poppets"))
@@ -64,4 +66,14 @@ object WitcheryTags {
 
     val NECROMANCER_SUMMONABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("necromancer_summonable"))
     val SCARED_BY_GROTESQUE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("scared_by_grotesque"))
+
+
+    val SOULBOUND: TagKey<MobEffect> = TagKey.create(Registries.MOB_EFFECT, Witchery.id("soul_bound"))
+    val INVENTORY_CARRIERS  = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("inventory_carriers"))
+    val ITEM_USERS  = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("item_users"))
+    val POSSESSABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("possessable"))
+    val REGULAR_EATER = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("regular_eater"))
+    fun getRegular(): TagKey<EntityType<*>?> {
+        return REGULAR_EATER
+    }
 }

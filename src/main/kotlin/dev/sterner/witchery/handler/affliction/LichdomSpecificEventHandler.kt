@@ -80,18 +80,7 @@ object LichdomSpecificEventHandler {
     private fun applySoulFormEffects(player: ServerPlayer, level: Int) {
         val data = AfflictionPlayerAttachment.getData(player)
 
-        if (data.isSoulForm()) {
-            player.addEffect(MobEffectInstance(MobEffects.INVISIBILITY, 40))
-            player.addEffect(MobEffectInstance(MobEffects.SLOW_FALLING, 40))
-            player.isInvulnerable = true
 
-            if (player.tickCount % SOUL_SEPARATION_DURATION == 0) {
-                AfflictionPlayerAttachment.batchUpdate(player) {
-                    withSoulForm(false)
-                }
-                player.isInvulnerable = false
-            }
-        }
     }
 
 
