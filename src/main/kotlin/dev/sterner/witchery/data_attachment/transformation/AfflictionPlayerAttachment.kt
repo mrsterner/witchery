@@ -31,6 +31,7 @@ object AfflictionPlayerAttachment {
         }
     }
 
+    @JvmStatic
     fun sync(player: Player, data: Data) {
         if (player is ServerPlayer) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncAfflictionS2CPayload(player, data))

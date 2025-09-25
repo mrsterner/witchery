@@ -3,11 +3,12 @@ package dev.sterner.witchery.handler.affliction
 import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.data_attachment.possession.LichPossessionHelper
+import dev.sterner.witchery.data_attachment.possession.PossessionManager
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.handler.NecroHandler
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
-import dev.sterner.witchery.handler.possession.PossessionHandler
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
@@ -51,7 +52,7 @@ enum class LichdomAbility(
             return true
         }
     },
-    SOUL_FORM(6, 20 * 10) { // 2 minute cooldown
+    SOUL_FORM(6, 20 * 5) {
         override val id = "soul_form"
         override val requiresTarget = false
 
@@ -59,65 +60,34 @@ enum class LichdomAbility(
             if (player !is ServerPlayer) return false
 
             val afflictionData = AfflictionPlayerAttachment.getData(player)
-            if (!afflictionData.isSoulForm()) {
+
+            if (afflictionData.isSoulForm()) {
+                val host = PossessionManager.getHost(player)
+                if (host != null) {
+                    LichPossessionHelper.exitPossession(player)
+                    return true
+                }
+                return false
+            } else {
                 activateSoulForm(player)
-                //AbilityCooldownManager.startCooldown(player, this)
                 return true
             }
-            return false
         }
 
         override fun use(player: Player, target: Entity): Boolean {
             if (player !is ServerPlayer) return false
-
-            val afflictionData = AfflictionPlayerAttachment.getData(player)
-            if (!afflictionData.isSoulForm()) {
-                return false
-            }
-            if (target is SoulShellPlayerEntity) {
-                val shellUUID = target.getOriginalUUID().orElse(null)
-                if (shellUUID == player.uuid) {
-                    target.mergeSoulWithShell(player)
-                    AbilityCooldownManager.startCooldown(player, this)
-                    return true
-                }
-            }
-
-            if (target is LivingEntity) {
-                val handler = PossessionHandler.get(player)
-
-                if (handler.getPossessedEntity() != null) {
-                    handler.stopPossessing()
-                }
-
-                if (handler.startPossessing(target)) {
-                    AbilityCooldownManager.startCooldown(player, this)
-                    return true
-                } else {
-                    player.displayClientMessage(
-                        Component.literal("Cannot possess this entity")
-                            .withStyle(ChatFormatting.RED),
-                        true
-                    )
-                }
-            }
-
-            return false
+            return LichPossessionHelper.attemptPossession(player, target)
         }
 
         private fun activateSoulForm(player: ServerPlayer) {
-            // Create shell at player's location
             val shell = PlayerShellEntity.createShellFromPlayer(player)
             player.level().addFreshEntity(shell)
 
-            // Clear inventory (stored in shell)
             player.inventory.clearContent()
 
-            // Enable soul flight
             SoulShellPlayerEntity.enableFlight(player)
             player.abilities.flying = true
 
-            // Add upward velocity
             val random = player.random
             val upwardVelocity = 0.1 + random.nextDouble() * 0.1
             player.deltaMovement = player.deltaMovement.add(
@@ -127,16 +97,13 @@ enum class LichdomAbility(
             )
             player.hurtMarked = true
 
-            // Lock inventory slots
             InventorySlots.lockAll(player)
             player.onUpdateAbilities()
 
-            // Update affliction data
             AfflictionPlayerAttachment.batchUpdate(player) {
                 withSoulForm(true)
             }
 
-            // Effects
             player.level().playSound(
                 null,
                 player.x,

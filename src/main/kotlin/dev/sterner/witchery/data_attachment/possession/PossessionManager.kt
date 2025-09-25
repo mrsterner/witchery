@@ -1,11 +1,17 @@
 package dev.sterner.witchery.data_attachment.possession
 
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.registry.WitcheryTags
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -13,7 +19,15 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 import net.neoforged.neoforge.event.tick.EntityTickEvent
 
+
 object PossessionManager {
+
+    val INHERENT_MOB_SLOWNESS_UUID = Witchery.id("inherent_mob_slowness")
+    val INHERENT_MOB_SLOWNESS = AttributeModifier(
+        INHERENT_MOB_SLOWNESS_UUID,
+        -0.66,
+        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+    )
 
     fun startPossessing(player: Player, host: Mob, simulate: Boolean = false): Boolean {
         if (player.level().isClientSide) return false
@@ -73,7 +87,7 @@ object PossessionManager {
 
         // Set possession state
         playerData.possessedEntityId = host.uuid
-        playerData.possessedEntityNetworkId = host.id
+        playerData.possessedEntityNetworkId = host.id // Store network ID for client
         possessableData.possessorId = player.uuid
 
         // Sync position
@@ -100,31 +114,34 @@ object PossessionManager {
         // PossessionStateChangeEvent.fire(player, host)
     }
 
-
     fun stopPossessing(player: Player, transfer: Boolean = !player.isCreative) {
         val playerData = PossessionAttachment.get(player)
         val hostId = playerData.possessedEntityId ?: return
 
-        val entity: Entity? = if (!player.level().isClientSide) {
-            (player.level() as? ServerLevel)?.getEntity(hostId)
+        // Get host entity - handle differently for server vs client
+        val host: Mob? = if (!player.level().isClientSide) {
+            // Server side - use UUID
+            (player.level() as? net.minecraft.server.level.ServerLevel)?.getEntity(hostId) as? Mob
         } else {
+            // Client side - use network ID
             if (playerData.possessedEntityNetworkId != -1) {
-                player.level().getEntity(playerData.possessedEntityNetworkId)
+                player.level().getEntity(playerData.possessedEntityNetworkId) as? Mob
             } else {
-                return
+                null
             }
         }
-        val host = entity as? Mob ?: return
+
+        host ?: return
 
         val possessableData = PossessionAttachment.getPossessable(host)
         val possessedData = PossessionAttachment.getPossessedData(host)
 
         // Clear possession state
         playerData.possessedEntityId = null
+        playerData.possessedEntityNetworkId = -1 // Clear network ID
         playerData.previousPossessedUuid = hostId
         possessableData.possessorId = null
         possessableData.previousPossessorId = player.uuid
-        playerData.possessedEntityNetworkId = -1
 
         if (player is ServerPlayer && !player.level().isClientSide) {
             // Handle vehicle transfer
@@ -177,10 +194,23 @@ object PossessionManager {
         val data = PossessionAttachment.get(player)
         val hostId = data.possessedEntityId ?: return null
 
-        val entity = player.level().getEntity(hostId)
+        // Get entity differently based on side
+        val entity: Entity? = if (!player.level().isClientSide) {
+            // Server side - use UUID
+            (player.level() as? net.minecraft.server.level.ServerLevel)?.getEntity(hostId)
+        } else {
+            // Client side - use network ID
+            if (data.possessedEntityNetworkId != -1) {
+                player.level().getEntity(data.possessedEntityNetworkId)
+            } else {
+                null
+            }
+        }
+
         if (entity == null || entity.isRemoved || entity !is Mob) {
             // Host disappeared, clean up
             data.possessedEntityId = null
+            data.possessedEntityNetworkId = -1
             if (player is ServerPlayer) {
                 PossessionAttachment.syncPlayerPossession(player)
             }
@@ -304,8 +334,6 @@ object PossessionManager {
         return false
     }
 
-    // Event handlers
-    @SubscribeEvent
     fun onEntityTick(event: EntityTickEvent.Post) {
         val entity = event.entity
 
@@ -344,7 +372,6 @@ object PossessionManager {
         }
     }
 
-    @SubscribeEvent
     fun onLivingDeath(event: LivingDeathEvent) {
         val entity = event.entity
 
@@ -358,7 +385,6 @@ object PossessionManager {
         }
     }
 
-    @SubscribeEvent
     fun onEntityJoinLevel(event: EntityJoinLevelEvent) {
         val entity = event.entity
 
@@ -393,11 +419,7 @@ object PossessionManager {
         host.yHeadRot = possessor.yHeadRot
     }
 
-    private fun handleHostDeath(
-        possessor: ServerPlayer,
-        host: Mob,
-        source: net.minecraft.world.damagesource.DamageSource
-    ) {
+    fun handleHostDeath(possessor: ServerPlayer, host: Mob, source: DamageSource) {
         // Fire event
         // PossessionEvents.HOST_DEATH.fire(possessor, host, source)
 

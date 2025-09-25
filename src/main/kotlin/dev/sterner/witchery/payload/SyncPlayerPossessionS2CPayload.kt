@@ -76,13 +76,13 @@ class SyncPlayerPossessionS2CPayload(val nbt: CompoundTag) : CustomPacketPayload
     }
 
     companion object {
-        val TYPE: CustomPacketPayload.Type<SyncPossessableS2CPayload> =
-            CustomPacketPayload.Type(Witchery.id("sync_possessable"))
+        val TYPE: CustomPacketPayload.Type<SyncPlayerPossessionS2CPayload> =
+            CustomPacketPayload.Type(Witchery.id("sync_player_possessable"))
 
-        val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, SyncPossessableS2CPayload> =
+        val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, SyncPlayerPossessionS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncPossessableS2CPayload(buf) }
+                { buf -> SyncPlayerPossessionS2CPayload(buf) }
             )
     }
 }

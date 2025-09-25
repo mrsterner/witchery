@@ -9,6 +9,7 @@ import dev.sterner.witchery.registry.WitcheryDataAttachments.POSSESSABLE
 import dev.sterner.witchery.registry.WitcheryDataAttachments.POSSESSED_DATA
 import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
@@ -37,7 +38,7 @@ object PossessionAttachment {
         val hostId = data.possessedEntityId ?: return null
 
         return if (!possessor.level().isClientSide) {
-            (possessor.level() as? net.minecraft.server.level.ServerLevel)?.getEntity(hostId) as? Mob
+            (possessor.level() as? ServerLevel)?.getEntity(hostId) as? Mob
         } else {
             if (data.possessedEntityNetworkId != -1) {
                 possessor.level().getEntity(data.possessedEntityNetworkId) as? Mob
@@ -47,14 +48,12 @@ object PossessionAttachment {
         }
     }
 
-    // Sync methods
     fun syncToClient(entity: LivingEntity) {
         if (entity.level().isClientSide) return
 
         val possessableData = entity.getExistingData(POSSESSABLE).orElse(null) ?: return
         val packet = SyncPossessableS2CPayload(entity, possessableData)
 
-        // Send to tracking players
         entity.level().players().forEach { player ->
             if (player is ServerPlayer && player.hasLineOfSight(entity)) {
                 player.connection.send(packet)
@@ -119,7 +118,7 @@ object PossessionAttachment {
     }
 
     data class PossessedEntityData(
-        var hungerData: CompoundTag? = null,
+        var hungerDatai: CompoundTag? = null,
         var inventory: OrderedInventory? = null,
         var selectedSlot: Int = 0,
         var convertedUnderPossession: Boolean = false
@@ -127,7 +126,7 @@ object PossessionAttachment {
         companion object {
             val CODEC: Codec<PossessedEntityData> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    CompoundTag.CODEC.optionalFieldOf("hunger_data").forGetter { Optional.ofNullable(it.hungerData) },
+                    CompoundTag.CODEC.optionalFieldOf("hunger_data").forGetter { Optional.ofNullable(it.hungerDatai) },
                     Codec.INT.fieldOf("selected_slot").forGetter { it.selectedSlot },
                     Codec.BOOL.fieldOf("converted_under_possession").forGetter { it.convertedUnderPossession }
                     // Note: Inventory needs custom serialization
@@ -143,12 +142,12 @@ object PossessionAttachment {
         }
 
         fun getHungerData(): CompoundTag {
-            if (hungerData == null) {
-                hungerData = CompoundTag().apply {
+            if (hungerDatai == null) {
+                hungerDatai = CompoundTag().apply {
                     putInt("foodLevel", 20)
                 }
             }
-            return hungerData!!
+            return hungerDatai!!
         }
 
         fun dropItems(entity: Entity) {

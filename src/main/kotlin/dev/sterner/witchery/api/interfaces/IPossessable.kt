@@ -4,8 +4,6 @@ import net.minecraft.world.entity.player.Player
 import javax.annotation.Nullable
 
 interface IPossessable {
-    @Nullable
-    fun getPossessor(): Player?
-
-    fun isBeingPossessed(): Boolean
+    val possessor: Player?
+    val isBeingPossessed: Boolean
 }

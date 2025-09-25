@@ -9,9 +9,7 @@ import dev.sterner.witchery.data_attachment.infusion.OtherwhereInfusionPlayerAtt
 import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.possession.PlayerPossessionData
-import dev.sterner.witchery.data_attachment.possession.PossessableData
-import dev.sterner.witchery.data_attachment.possession.PossessedEntityData
+import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
 import dev.sterner.witchery.data_attachment.possession.PossessionAttachment
 import dev.sterner.witchery.data_attachment.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.transformation.*
@@ -315,6 +313,17 @@ object WitcheryDataAttachments {
             Supplier {
                 AttachmentType.builder(Supplier { PossessionAttachment.PlayerPossessionData() })
                     .serialize(PossessionAttachment.PlayerPossessionData.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val ENTITY_TOGGLE_DATA_ATTACHMENT: Supplier<AttachmentType<EntityAiToggle.Data>> =
+        ATTACHMENT_TYPES.register(
+            "ai_toggle",
+            Supplier {
+                AttachmentType.builder(Supplier { EntityAiToggle.Data() })
+                    .serialize(EntityAiToggle.Data.CODEC)
                     .build()
             }
         )

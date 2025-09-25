@@ -18,6 +18,7 @@ import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.data_attachment.UnderWaterBreathPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.possession.PossessionManager
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
@@ -90,6 +91,7 @@ object WitcheryNeoForgeEvents {
         LichdomSpecificEventHandler.onDeath(event, event.entity, event.source)
         LichdomSpecificEventHandler.onKillEntity(event.entity, event.source)
         CaneSwordItem.harvestBlood(event.entity, event.source)
+        PossessionManager.onLivingDeath(event)
     }
 
     @SubscribeEvent
@@ -121,6 +123,7 @@ object WitcheryNeoForgeEvents {
 
         BloodPoolHandler.tickBloodRegen(entity)
         NecroHandler.tickLiving(entity)
+        PossessionManager.onEntityTick(event)
     }
 
 
@@ -332,6 +335,7 @@ object WitcheryNeoForgeEvents {
     @SubscribeEvent
     fun onJoin(event: EntityJoinLevelEvent) {
         BloodPoolHandler.setBloodOnAdded(event.entity, event.entity.level())
+        PossessionManager.onEntityJoinLevel(event)
     }
 
     @SubscribeEvent

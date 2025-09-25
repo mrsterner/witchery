@@ -34,12 +34,6 @@ object WitcheryPayloads {
         registrar.playToClient(SyncInfusionS2CPayload.ID, SyncInfusionS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(PossessionEndS2CPayload.ID, PossessionEndS2CPayload.STREAM_CODEC) { payload, _ ->
-            payload.handleOnClient()
-        }
-        registrar.playToClient(PossessionStartS2CPayload.ID, PossessionStartS2CPayload.STREAM_CODEC) { payload, _ ->
-            payload.handleOnClient()
-        }
         registrar.playToClient(SyncInventoryLockS2CPayload.ID, SyncInventoryLockS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
@@ -232,6 +226,9 @@ object WitcheryPayloads {
             payload.handleOnClient()
         }
         registrar.playToClient(SyncBarkS2CPayload.ID, SyncBarkS2CPayload.STREAM_CODEC) { payload, _ ->
+            payload.handleOnClient()
+        }
+        registrar.playToClient(SyncAIEntityToggleS2CPayload.ID, SyncAIEntityToggleS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
         registrar.playToClient(

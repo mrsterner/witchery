@@ -48,13 +48,19 @@
     "WolfMixin",
     "ZoglinMixin",
     "ZombieMixin",
-    "possession.EntityAccessor",
-    "possession.EntityMixin",
-    "possession.LivingEntityAccessor",
-    "possession.LivingEntityMixin",
-    "possession.MobMixin",
-    "possession.PlayerMixin",
-    "possession.ServerPlayerMixin"
+    "possession.EntityLikeMixin",
+    "possession.GoalSelectorMixin",
+    "possession.HungerManagerMixin",
+    "possession.MobEntityAccessor",
+    "possession.PossessableEntityMixin",
+    "possession.PossessableLivingEntityMixin",
+    "possession.PossessableMobEntityMixin",
+    "possession.PossessorEntityMixin",
+    "possession.PossessorLivingEntityMixin",
+    "possession.PossessorPlayerMixin",
+    "possession.PossessorServerPlayerMixin",
+    "possession.ServerWorldMixin",
+    "possession.WorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -75,6 +81,8 @@
     "client.PlayerRendererMixin",
     "client.RenderBuffersMixin",
     "client.ScreenAccessor",
-    "client.WorldOpenFlowsMixin"
+    "client.WorldOpenFlowsMixin",
+    "possession.client.EntityRenderDispatcherMixin",
+    "possession.client.PlayerEntityRendererMixin"
   ]
 }

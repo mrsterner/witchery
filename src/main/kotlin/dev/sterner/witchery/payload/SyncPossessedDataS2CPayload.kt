@@ -1,5 +1,6 @@
 package dev.sterner.witchery.payload
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.possession.OrderedInventory
 import dev.sterner.witchery.data_attachment.possession.PossessionAttachment
 import dev.sterner.witchery.registry.WitcheryDataAttachments
@@ -20,7 +21,7 @@ class SyncPossessedDataS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
         // Manually encode the possessed data including inventory
         val dataTag = CompoundTag()
-        data.hungerData?.let { dataTag.put("hunger_data", it) }
+        data.hungerDatai?.let { dataTag.put("hunger_data", it) }
         dataTag.putInt("selected_slot", data.selectedSlot)
         dataTag.putBoolean("converted_under_possession", data.convertedUnderPossession)
 
@@ -52,7 +53,7 @@ class SyncPossessedDataS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
                     val data = PossessionAttachment.PossessedEntityData()
 
                     if (dataTag.contains("hunger_data")) {
-                        data.hungerData = dataTag.getCompound("hunger_data")
+                        data.hungerDatai = dataTag.getCompound("hunger_data")
                     }
 
                     data.selectedSlot = dataTag.getInt("selected_slot")
@@ -73,7 +74,7 @@ class SyncPossessedDataS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     companion object {
         val TYPE: CustomPacketPayload.Type<SyncPossessedDataS2CPayload> =
-            CustomPacketPayload.Type(ResourceLocation.fromNamespaceAndPath("yourmod", "sync_possessed_data"))
+            CustomPacketPayload.Type(Witchery.id("sync_possessed_data"))
 
         val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, SyncPossessedDataS2CPayload> =
             CustomPacketPayload.codec(

@@ -5,10 +5,9 @@ import org.jetbrains.annotations.ApiStatus
 
 
 interface Possessable : IPossessable {
-    val possessor: Player?
-        get() = null
+    override val possessor: Player?
 
-    val isBeingPossessed: Boolean
+    override val isBeingPossessed: Boolean
         get() = false
 
     fun canBePossessedBy(player: Player?): Boolean {
