@@ -1,4 +1,4 @@
-package dev.sterner.witchery.fabric.datagen.book
+package dev.sterner.witchery.datagen.book
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconProviderBase
@@ -9,19 +9,19 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementCond
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookEntryReadConditionModel
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.entry.necro.NecroLevelOneEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.necro.NecroLevelTwoEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.util.advancement
-import dev.sterner.witchery.fabric.datagen.book.util.requiresAndFollows
+import dev.sterner.witchery.datagen.book.entry.necro.NecroLevelOneEntryProvider
+import dev.sterner.witchery.datagen.book.entry.necro.NecroLevelTwoEntryProvider
+import dev.sterner.witchery.datagen.book.util.advancement
+import dev.sterner.witchery.datagen.book.util.requiresAndFollows
 import dev.sterner.witchery.registry.WitcheryItems
 
 
-class WitcheryNecromancerCategoryProvider(
+class WitcheryLichdomCategoryProvider(
     parent: ModonomiconProviderBase?
 ) : CategoryProvider(parent) {
 
     override fun categoryId(): String {
-        return "necromancy"
+        return "lichdom"
     }
 
     override fun generateEntryMap(): Array<String> {
@@ -31,7 +31,7 @@ class WitcheryNecromancerCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "__________________________________",
+            "_________________e________________",
             "__________________________________",
             "_____________a_b_c_d______________",
             "__________________________________",
@@ -72,6 +72,10 @@ class WitcheryNecromancerCategoryProvider(
             .requiresAndFollows(necro2, advancement(Witchery.id("necro/3")))
         addEntry(necro3)
 
+        val necro3b = NecroLevelTwoEntryProvider("soul_severance", this).generate("e")
+            .requiresAndFollows(necro3, advancement(Witchery.id("necro/3")))
+        addEntry(necro3b)
+
         val necro4 = NecroLevelTwoEntryProvider("carving_3", this).generate("d")
             .requiresAndFollows(necro3, advancement(Witchery.id("necro/4")))
         addEntry(necro4)
@@ -80,7 +84,7 @@ class WitcheryNecromancerCategoryProvider(
     }
 
     override fun categoryName(): String {
-        return "necromancy"
+        return "lichdom"
     }
 
     override fun categoryIcon(): BookIconModel {

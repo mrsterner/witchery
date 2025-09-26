@@ -152,8 +152,7 @@ enum class LichdomAbility(
             val canPossess = when {
                 target.type.`is`(EntityTypeTags.UNDEAD) -> lichLevel >= 6
                 target.type.`is`(EntityTypeTags.ILLAGER) -> lichLevel >= 8
-                target.type.`is`(EntityTypeTags.RAIDERS) -> lichLevel >= 10
-                else -> lichLevel >= 12 && target.maxHealth <= player.maxHealth * 2
+                else -> false
             }
 
             if (!canPossess || target.health <= 0 || target.isRemoved) {
@@ -161,7 +160,7 @@ enum class LichdomAbility(
             }
 
             val possessionComponent = PossessionComponentAttachment.get(player)
-            val success = possessionComponent.startPossessing(target, false)
+            val success = possessionComponent.startPossessing(target)
 
             if (success) {
                 AfflictionPlayerAttachment.batchUpdate(player) {
@@ -187,12 +186,8 @@ enum class LichdomAbility(
 
                 EntityAiToggle.toggleAi(host, EntityAiToggle.POSSESSION_MECHANISM_ID, false, false)
 
-                val hasShell = player.level().getEntities(null, player.boundingBox.inflate(100.0))
-                    .filterIsInstance<SoulShellPlayerEntity>()
-                    .any { it.getOriginalUUID().orElse(null) == player.uuid }
-
                 AfflictionPlayerAttachment.batchUpdate(player) {
-                    withSoulForm(true).withVagrant(!hasShell)
+                    withSoulForm(true).withVagrant(false)
                 }
 
                 SoulShellPlayerEntity.enableFlight(player)

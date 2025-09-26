@@ -1,4 +1,4 @@
-package dev.sterner.witchery.fabric.datagen.book.page
+package dev.sterner.witchery.datagen.book.page
 
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookRecipePageModel
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry.CAULDRON_BREWING_RECIPE

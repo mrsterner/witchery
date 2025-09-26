@@ -60,11 +60,11 @@ public abstract class PlayerManagerMixin {
     @Unique
     private void witchery$resumePossession(PossessionComponentAttachment.PossessionComponent player, Entity possessedEntityMount, UUID possessedEntityUuid) {
         if (possessedEntityMount instanceof Mob && possessedEntityMount.getUUID().equals(possessedEntityUuid)) {
-            player.startPossessing((Mob) possessedEntityMount, false);
+            player.startPossessing((Mob) possessedEntityMount);
         } else {
             for (Entity entity : possessedEntityMount.getIndirectPassengers()) {
                 if (entity instanceof Mob && entity.getUUID().equals(possessedEntityUuid)) {
-                    player.startPossessing((Mob) entity, false);
+                    player.startPossessing((Mob) entity);
                     break;
                 }
             }

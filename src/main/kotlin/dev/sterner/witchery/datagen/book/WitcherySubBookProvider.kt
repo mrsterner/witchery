@@ -1,4 +1,4 @@
-package dev.sterner.witchery.fabric.datagen.book
+package dev.sterner.witchery.datagen.book
 
 import com.klikli_dev.modonomicon.api.datagen.SingleBookSubProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookModel
@@ -16,9 +16,9 @@ class WitcherySubBookProvider(defaultLang: BiConsumer<String, String>?) :
         this.add(WitcheryGeneralCategoryProvider(this).generate())
         this.add(WitcheryBrewingCategoryProvider(this).generate())
         this.add(WitcheryRitualCategoryProvider(this).generate())
-        this.add(WitcheryVampireCategoryProvider(this).generate())
-        this.add(WitcheryWerewolfCategoryProvider(this).generate())
-        this.add(WitcheryNecromancerCategoryProvider(this).generate())
+        this.add(WitcheryVampirismCategoryProvider(this).generate())
+        this.add(WitcheryLycanthropyCategoryProvider(this).generate())
+        this.add(WitcheryLichdomCategoryProvider(this).generate())
         this.add(WitcheryBrazierCategoryProvider(this).generate())
         this.add(WitcherySpiritWorldCategoryProvider(this).generate())
     }

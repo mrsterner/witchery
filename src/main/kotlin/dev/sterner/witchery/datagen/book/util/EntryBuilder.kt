@@ -1,4 +1,4 @@
-package dev.sterner.witchery.fabric.datagen.book.util
+package dev.sterner.witchery.datagen.book.util
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
@@ -7,7 +7,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookPageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.page.*
+import dev.sterner.witchery.datagen.book.page.*
 import net.minecraft.world.item.ItemStack
 
 class EntryBuilder(private val parent: CategoryProviderBase?) {

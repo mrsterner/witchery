@@ -27,7 +27,7 @@ import java.util.*
 
 object PossessionComponentAttachment {
 
-    val INHERENT_MOB_SLOWNESS_UUID: ResourceLocation = Witchery.id("mobSlownessModifier")
+    val INHERENT_MOB_SLOWNESS_UUID: ResourceLocation = Witchery.id("mob_slowness_modifier")
 
     val INHERENT_MOB_SLOWNESS: AttributeModifier = AttributeModifier(
         INHERENT_MOB_SLOWNESS_UUID,
@@ -87,13 +87,13 @@ object PossessionComponentAttachment {
                     (!player.isSpectator && AfflictionPlayerAttachment.getData(player).isSoulForm())
         }
 
-        fun startPossessing(host: Mob, simulate: Boolean = false): Boolean {
+        fun startPossessing(host: Mob): Boolean {
             if (!isReadyForPossession()) {
                 return false
             }
 
 
-            val result = PossessionEvents.PossessionAttempted(host, player, simulate)
+            val result = PossessionEvents.PossessionAttempted(host, player)
             NeoForge.EVENT_BUS.post(result)
             if (result.isCanceled) {
                 return false
@@ -105,9 +105,7 @@ object PossessionComponentAttachment {
                 return false
             }
 
-            if (!simulate) {
-                startPossessing0(host, possessable)
-            }
+            startPossessing0(host, possessable)
             return true
         }
 

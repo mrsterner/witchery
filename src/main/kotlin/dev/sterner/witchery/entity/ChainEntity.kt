@@ -176,7 +176,7 @@ class ChainEntity(level: Level) : Entity(WitcheryEntityTypes.CHAIN.get(), level)
     private fun runDiscard(targetEntity: Entity?) {
         targetEntity?.let { it.deltaMovement = Vec3.ZERO }
         targetEntity?.let { ChainManager.tryReleaseEntity(this, it) }
-        NeoForge.EVENT_BUS.post(ChainEvent(targetEntity, this))
+        NeoForge.EVENT_BUS.post(ChainEvent.Discard(targetEntity, this))
         discard()
     }
 

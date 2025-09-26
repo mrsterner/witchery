@@ -9,7 +9,7 @@ import net.neoforged.bus.api.ICancellableEvent
 
 object PossessionEvents {
 
-    class PossessionAttempted(host: Mob, player: Player, simulate: Boolean): Event(), ICancellableEvent
+    class PossessionAttempted(host: Mob, player: Player): Event(), ICancellableEvent
 
     class PossessionStateChange(player: Player, host: Mob?): Event()
 

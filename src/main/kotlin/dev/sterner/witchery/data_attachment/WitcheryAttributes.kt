@@ -14,19 +14,9 @@ object WitcheryAttributes {
     val attributes = DeferredRegister.create(Registries.ATTRIBUTE, Witchery.MODID)
 
     @JvmStatic
-    fun getVAMPIRE_DRINK_SPEED(): Holder<Attribute> {
-        return VAMPIRE_DRINK_SPEED
-    }
-
-    @JvmStatic
     val VAMPIRE_DRINK_SPEED = attributes.register("vampire_drink_speed", Supplier {
         RangedAttribute("attribute.name.witchery.vampire_drink_speed", 0.0, 0.0, 255.0).setSyncable(false)
     })
-
-    @JvmStatic
-    fun getVAMPIRE_BAT_FORM_DURATION(): Holder<Attribute> {
-        return VAMPIRE_BAT_FORM_DURATION
-    }
 
     @JvmStatic
     val VAMPIRE_BAT_FORM_DURATION = attributes.register("vampire_bat_form_duration", Supplier {
@@ -34,11 +24,6 @@ object WitcheryAttributes {
             false
         )
     })
-
-    @JvmStatic
-    fun getVAMPIRE_SUN_RESISTANCE(): Holder<Attribute> {
-        return VAMPIRE_SUN_RESISTANCE
-    }
 
     @JvmStatic
     val VAMPIRE_SUN_RESISTANCE = attributes.register("vampire_sun_resistance", Supplier {

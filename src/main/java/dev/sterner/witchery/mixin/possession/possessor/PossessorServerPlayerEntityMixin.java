@@ -59,7 +59,7 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
             if (formerPossessed instanceof Mob host) {
                 host.copyPosition(this);
                 if (level().addFreshEntity(host)) {
-                    if (PossessionComponentAttachment.INSTANCE.get(this).startPossessing(host, false)) {
+                    if (PossessionComponentAttachment.INSTANCE.get(this).startPossessing(host)) {
 
                     }
                 }

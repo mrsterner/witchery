@@ -1,4 +1,4 @@
-package dev.sterner.witchery.fabric.datagen.book
+package dev.sterner.witchery.datagen.book
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconProviderBase
@@ -7,15 +7,15 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementConditionModel
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.entry.werewolf.WerewolfLevelOneEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.werewolf.WerewolfLevelTenEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.entry.werewolf.WerewolfLevelTwoEntryProvider
-import dev.sterner.witchery.fabric.datagen.book.util.advancement
-import dev.sterner.witchery.fabric.datagen.book.util.requiresAndFollows
+import dev.sterner.witchery.datagen.book.entry.werewolf.WerewolfLevelOneEntryProvider
+import dev.sterner.witchery.datagen.book.entry.werewolf.WerewolfLevelTenEntryProvider
+import dev.sterner.witchery.datagen.book.entry.werewolf.WerewolfLevelTwoEntryProvider
+import dev.sterner.witchery.datagen.book.util.advancement
+import dev.sterner.witchery.datagen.book.util.requiresAndFollows
 import net.minecraft.world.item.Items
 
 
-class WitcheryWerewolfCategoryProvider(
+class WitcheryLycanthropyCategoryProvider(
     parent: ModonomiconProviderBase?
 ) : CategoryProvider(parent) {
 

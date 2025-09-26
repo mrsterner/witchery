@@ -1,4 +1,4 @@
-package dev.sterner.witchery.fabric.datagen.book.util
+package dev.sterner.witchery.datagen.book.util
 
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryParentModel

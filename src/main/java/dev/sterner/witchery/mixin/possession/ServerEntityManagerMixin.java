@@ -15,15 +15,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PersistentEntitySectionManager.class)
 public abstract class ServerEntityManagerMixin<T extends EntityAccess> {
 
-    @Inject(method = "addNewEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/entity/PersistentEntitySectionManager;addEntity(Lnet/minecraft/world/level/entity/EntityAccess;Z)Z"))
-    private void possessLoadedEntities(T entity, CallbackInfoReturnable<Boolean> cir) {
-        Player possessor = ((ProtoPossessable) entity).getPossessor();
 
-        if (possessor != null && entity instanceof Mob) {
-            PossessionComponentAttachment.PossessionComponent possessionComponent = PossessionComponentAttachment.INSTANCE.get(possessor);
-            if (possessionComponent.getHost() != entity) {
-                ((Possessable) entity).setPossessor(null);
-                possessionComponent.startPossessing((Mob) entity, false);
+    @Inject(
+            method = "addNewEntity",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/entity/PersistentEntitySectionManager;addEntity(Lnet/minecraft/world/level/entity/EntityAccess;Z)Z")
+    )
+    private void possessLoadedEntities(T entity, CallbackInfoReturnable<Boolean> cir) {
+        if (entity instanceof ProtoPossessable && entity instanceof Mob) {
+            Player possessor = ((ProtoPossessable) entity).getPossessor();
+            if (possessor != null) {
+                PossessionComponentAttachment.PossessionComponent possessionComponent = PossessionComponentAttachment.INSTANCE.get(possessor);
+                if (possessionComponent.getHost() != entity) {
+                    ((Possessable) entity).setPossessor(null);
+                    possessionComponent.startPossessing((Mob) entity);
+                }
             }
         }
     }

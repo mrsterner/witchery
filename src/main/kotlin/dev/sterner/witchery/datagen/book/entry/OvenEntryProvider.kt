@@ -1,4 +1,4 @@
-package dev.sterner.witchery.fabric.datagen.book.entry
+package dev.sterner.witchery.datagen.book.entry
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground
@@ -7,7 +7,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.fabric.datagen.book.page.BookOvenFumingPageModel
+import dev.sterner.witchery.datagen.book.page.BookOvenFumingPageModel
 import dev.sterner.witchery.registry.WitcheryItems
 
 class OvenEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {

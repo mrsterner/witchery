@@ -1,4 +1,4 @@
-package dev.sterner.witchery.fabric.datagen.book.entry.vampire
+package dev.sterner.witchery.datagen.book.entry.vampire
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground

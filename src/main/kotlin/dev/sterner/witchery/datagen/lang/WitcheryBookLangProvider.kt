@@ -203,26 +203,26 @@ object WitcheryBookLangProvider {
         add("ritual.ritual_chalk.golden_chalk", "Golden Chalk")
 
 
-        add("book.witchery.guidebook.necromancy.name", "Necromancy")
+        add("book.witchery.guidebook.lichdom.name", "Lichdom")
 
 
-        add("necromancy.necro_1.title.1", "Souls as a resource")
-        add("necromancy.necro_1.page.1", "inspiring yet eerie words")
-        add("necromancy.necro_1.page.2", "inspiring yet eerie words")
-        add("necromancy.necro_1.page.3", "inspiring yet eerie words")
+        add("lichdom.necro_1.title.1", "Souls as a resource")
+        add("lichdom.necro_1.page.1", "inspiring yet eerie words")
+        add("lichdom.necro_1.page.2", "inspiring yet eerie words")
+        add("lichdom.necro_1.page.3", "inspiring yet eerie words")
 
-        add("book.witchery.guidebook.necromancy.necro_1.name", "Souls as a resource")
-        add("book.witchery.guidebook.necromancy.necro_1.description", "First Stage")
-        add("book.witchery.guidebook.necromancy.carving_1.name", "The Binding of Souls")
-        add("book.witchery.guidebook.necromancy.carving_1.description", "Second Stage")
-        add("book.witchery.guidebook.necromancy.carving_2.name", "The Severed Soul")
-        add("book.witchery.guidebook.necromancy.carving_2.description", "Third Stage")
-        add("book.witchery.guidebook.necromancy.carving_3.name", "The Phylactery's Embrace")
-        add("book.witchery.guidebook.necromancy.carving_3.description", "Death Stage")
+        add("book.witchery.guidebook.lichdom.necro_1.name", "Souls as a resource")
+        add("book.witchery.guidebook.lichdom.necro_1.description", "First Stage")
+        add("book.witchery.guidebook.lichdom.carving_1.name", "The Binding of Souls")
+        add("book.witchery.guidebook.lichdom.carving_1.description", "Second Stage")
+        add("book.witchery.guidebook.lichdom.carving_2.name", "The Severed Soul")
+        add("book.witchery.guidebook.lichdom.carving_2.description", "Third Stage")
+        add("book.witchery.guidebook.lichdom.carving_3.name", "The Phylactery's Embrace")
+        add("book.witchery.guidebook.lichdom.carving_3.description", "Death Stage")
 
-        add("necromancy.carving_1.title", "The Binding of Souls")
+        add("lichdom.carving_1.title", "The Binding of Souls")
         add(
-            "necromancy.carving_1.page.1", "\n" +
+            "lichdom.carving_1.page.1", "\n" +
                     "\\\n" +
                     "\\\n...weathered stone, older than memory, speaks of the first necromancer...\n" +
                     "\\\n" +
@@ -232,7 +232,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "necromancy.carving_1.page.2", "\n" +
+            "lichdom.carving_1.page.2", "\n" +
                     "\\\n...a single undead villager's spirit, torn from flesh and bound in ethereal chains...\n" +
                     "\\\n" +
                     "\\\n" +
@@ -242,7 +242,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "necromancy.carving_1.page.3", "\n" +
+            "lichdom.carving_1.page.3", "\n" +
                     "\\\n...the protectors of the living, those of golem, must fall...\n" +
                     "\\\n" +
                     "\\\n...five must be destroyed by necrotic hands...\n" +
@@ -252,9 +252,9 @@ object WitcheryBookLangProvider {
         )
 
 
-        add("necromancy.carving_2.title", "The Severed Soul")
+        add("lichdom.carving_2.title", "The Severed Soul")
         add(
-            "necromancy.carving_2.page.1", "\n" +
+            "lichdom.carving_2.page.1", "\n" +
                     "\\\n...the stone depicts a figure standing over fallen beasts...\n" +
                     "\\\n" +
                     "\\\n...five creatures of innocence, their life force drained to emptiness...\n" +
@@ -264,7 +264,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "necromancy.carving_2.page.2", "\n" +
+            "lichdom.carving_2.page.2", "\n" +
                     "\\\n...the greatest power lies in abandoning one's own flesh...\n" +
                     "\\\n" +
                     "\\\n...spirit walks free, entering the hollow shell of the risen dead...\n" +
@@ -274,7 +274,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "necromancy.carving_2.page.3", "\n" +
+            "lichdom.carving_2.page.3", "\n" +
                     "\\\n...the three-souled horror, born of nether stars...\n" +
                     "\\\n" +
                     "\\\n" +
@@ -284,9 +284,9 @@ object WitcheryBookLangProvider {
         )
 
 
-        add("necromancy.carving_3.title", "The Phylactery's Embrace")
+        add("lichdom.carving_3.title", "The Phylactery's Embrace")
         add(
-            "necromancy.carving_3.page.1", "\n" +
+            "lichdom.carving_3.page.1", "\n" +
                     "\\\n...the final carving shows a crystalline vessel, pulsing with unlife...\n" +
                     "\\\n" +
                     "\\\n" +
@@ -296,7 +296,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "necromancy.carving_3.page.2", "\n" +
+            "lichdom.carving_3.page.2", "\n" +
                     "\\\n...but true lichdom demands the ultimate sacrifice...\n" +
                     "\\\n" +
                     "\\\n...three times must you die, three times return...\n" +
@@ -306,7 +306,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "necromancy.carving_3.page.3", "\n" +
+            "lichdom.carving_3.page.3", "\n" +
                     "\\\n...only then does mortality truly break...\n" +
                     "\\\n" +
                     "\\\n" +
