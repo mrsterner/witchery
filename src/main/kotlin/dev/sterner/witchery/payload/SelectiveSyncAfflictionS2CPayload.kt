@@ -182,7 +182,39 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
                     )
                 } else Optional.empty(),
 
-                lich
+                lichFormData = if (AfflictionPlayerAttachment.SyncField.LICH_FORM_STATES in changedFields) {
+                    Optional.of(
+                        LichFormData(
+                            data.isSoulForm(),
+                            data.isVagrant()
+                        )
+                    )
+                } else Optional.empty(),
+
+                lichSoulData = if (AfflictionPlayerAttachment.SyncField.LICH_SOUL in changedFields) {
+                    Optional.of(
+                        LichSoulData(
+                            data.getBoundSouls(),
+                            data.isPhylacteryBound(),
+                            data.getPhylacteryDeaths(),
+                            data.getPhylacteryDeathTimes(),
+                            data.getPhylacterySouls()
+                        )
+                    )
+                } else Optional.empty(),
+
+                lichProgressionData = if (AfflictionPlayerAttachment.SyncField.LICH_PROGRESS in changedFields) {
+                    Optional.of(
+                        LichProgressionData(
+                            data.getReadTablets(),
+                            data.hasZombieKilledMob(),
+                            data.getKilledGolems(),
+                            data.getDrainedAnimals(),
+                            data.hasPossessedKillVillager(),
+                            data.hasKilledWither()
+                        )
+                    )
+                } else Optional.empty()
             )
         }
 
@@ -278,6 +310,37 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
                 }
             }
 
+            if (AfflictionPlayerAttachment.SyncField.LICH_PROGRESS in changedFields) {
+                partialData.lichProgressionData.ifPresent { states ->
+                    mergedData = mergedData
+                        .withReadTablets(states.readTablets)
+                        .withZombieKilledMob(states.zombieKilledMob)
+                        .withGolemKills(states.killedGolems)
+                        .withDrainedAnimals(states.drainedAnimals)
+                        .withPossessedKillVillager(states.possessedKillVillager)
+                        .withKilledWither(states.killedWither)
+                }
+            }
+
+            if (AfflictionPlayerAttachment.SyncField.LICH_FORM_STATES in changedFields) {
+                partialData.lichFormData.ifPresent { states ->
+                    mergedData = mergedData
+                        .withSoulForm(states.isSoulFormActive)
+                        .withVagrant(states.isVagrant)
+                }
+            }
+
+            if (AfflictionPlayerAttachment.SyncField.LICH_SOUL in changedFields) {
+                partialData.lichSoulData.ifPresent { states ->
+                    mergedData = mergedData
+                        .withBoundSouls(states.boundSouls)
+                        .withPhylacteryBound(states.phylacteryBound)
+                        .withPhylacteryDeaths(states.phylacteryDeaths)
+                        .withPhylacteryDeathTimes(states.phylacteryDeathTimes)
+                        .withPhylacterySouls(states.phylacterySouls)
+                }
+            }
+
             return mergedData
         }
     }
@@ -294,7 +357,10 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
         val vampFormStates: Optional<VampFormStates>,
         val vampVillageData: Optional<VampVillageData>,
         val wereCombatStats: Optional<WereCombatStats>,
-        val wereFormStates: Optional<WereFormStates>
+        val wereFormStates: Optional<WereFormStates>,
+        val lichProgressionData: Optional<LichProgressionData>,
+        val lichFormData: Optional<LichFormData>,
+        val lichSoulData: Optional<LichSoulData>
     ) {
         companion object {
             val CODEC: Codec<PartialData> = RecordCodecBuilder.create { instance ->
@@ -310,7 +376,10 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
                     VampFormStates.CODEC.optionalFieldOf("vampFormStates").forGetter { it.vampFormStates },
                     VampVillageData.CODEC.optionalFieldOf("vampVillageData").forGetter { it.vampVillageData },
                     WereCombatStats.CODEC.optionalFieldOf("wereCombatStats").forGetter { it.wereCombatStats },
-                    WereFormStates.CODEC.optionalFieldOf("wereFormStates").forGetter { it.wereFormStates }
+                    WereFormStates.CODEC.optionalFieldOf("wereFormStates").forGetter { it.wereFormStates },
+                    LichProgressionData.CODEC.optionalFieldOf("lichProgressionData").forGetter { it.lichProgressionData },
+                    LichFormData.CODEC.optionalFieldOf("lichFormData").forGetter { it.lichFormData },
+                    LichSoulData.CODEC.optionalFieldOf("lichSoulData").forGetter { it.lichSoulData },
                 ).apply(instance, ::PartialData)
             }
         }
@@ -412,39 +481,59 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
         }
     }
 
-    data class LichProgression(
+    data class LichProgressionData(
         val readTablets: List<UUID> = emptyList(),
-    )
-
-    /*
-    data class LichData(
-        val readTablets: List<UUID> = emptyList(),
-        val boundSouls: Int = 0,
         val zombieKilledMob: Boolean = false,
         val killedGolems: Int = 0,
         val drainedAnimals: Int = 0,
         val possessedKillVillager: Boolean = false,
         val killedWither: Boolean = false,
-        val phylacteryBound: Boolean = false,
-        val phylacteryDeaths: Int = 0,
-        val phylacteryDeathTimes: List<Long> = emptyList(),
-        val phylacterySouls: Int = 0,
+    ) {
+        companion object {
+            val CODEC: Codec<LichProgressionData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    UUIDUtil.CODEC.listOf().fieldOf("readTablets").forGetter { it.readTablets },
+                    Codec.BOOL.fieldOf("zombieKilledMob").forGetter { it.zombieKilledMob },
+                    Codec.INT.fieldOf("killedGolems").forGetter { it.killedGolems },
+                    Codec.INT.fieldOf("drainedAnimals").forGetter { it.drainedAnimals },
+                    Codec.BOOL.fieldOf("possessedKillVillager").forGetter { it.possessedKillVillager },
+                    Codec.BOOL.fieldOf("killedWither").forGetter { it.killedWither },
+                ).apply(instance, ::LichProgressionData)
+            }
+        }
+    }
+
+    data class LichFormData(
         val isSoulFormActive: Boolean = false,
         val isVagrant: Boolean = false
     ) {
-    enum class SyncField {
-        AFFLICTION_LEVELS,
-        ABILITY_INDEX,
-        ABILITY_COOLDOWNS,
-        VAMP_COMBAT_STATS,  // killedBlazes, usedSunGrenades
-        VAMP_FORM_STATES,   // batForm, nightVision, speedBoost
-        VAMP_VILLAGES,      // visitedVillages, villagersHalfBlood, trappedVillagers
-        WERE_COMBAT_STATS,  // killedSheep, killedWolves, etc.
-        WERE_FORM_STATES,    // wolfForm, wolfManForm
-        LICH_TABLETS,
-        LICH_PROGRESSION,
-        LICH_PHYLACTERY,
-        LICH_FORM_STATES
+        companion object {
+            val CODEC: Codec<LichFormData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.BOOL.fieldOf("isSoulFormActive").forGetter { it.isSoulFormActive },
+                    Codec.BOOL.fieldOf("isVagrant").forGetter { it.isVagrant }
+                ).apply(instance, ::LichFormData)
+            }
+        }
     }
-     */
+
+    data class LichSoulData(
+        val boundSouls: Int = 0,
+        val phylacteryBound: Boolean = false,
+        val phylacteryDeaths: Int = 0,
+        val phylacteryDeathTimes: List<Long> = emptyList(),
+        val phylacterySouls: Int = 0
+    ) {
+        companion object {
+            val CODEC: Codec<LichSoulData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.INT.fieldOf("boundSouls").forGetter { it.boundSouls },
+                    Codec.BOOL.fieldOf("phylacteryBound").forGetter { it.phylacteryBound },
+                    Codec.INT.fieldOf("phylacteryDeaths").forGetter { it.phylacteryDeaths },
+                    Codec.LONG.listOf().fieldOf("phylacteryDeathTimes").forGetter { it.phylacteryDeathTimes },
+                    Codec.INT.fieldOf("phylacterySouls").forGetter { it.phylacterySouls },
+                ).apply(instance, ::LichSoulData)
+            }
+        }
+    }
 }

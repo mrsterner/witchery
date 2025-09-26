@@ -176,6 +176,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
             // TODO: Handle death events and resurrection
             PossessionComponentAttachment.PossessionComponent component = PossessionComponentAttachment.INSTANCE.get(possessor);
             component.stopPossessing(!possessor.isCreative());
+
         }
     }
 

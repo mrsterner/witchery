@@ -70,7 +70,7 @@ public abstract class InGameHudMixin {
     @ModifyVariable(
             method = "renderAirLevel",
             at = @At(value = "CONSTANT", args = "stringValue=air"),
-            index = 18
+            index = 3
     )
     private int fixAirRender(int mountHeartCount) {
         if (skippedFood) return 0;
