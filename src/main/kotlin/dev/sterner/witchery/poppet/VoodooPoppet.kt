@@ -4,7 +4,7 @@ import dev.sterner.witchery.api.interfaces.PoppetType
 import dev.sterner.witchery.api.PoppetUsage
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
-import dev.sterner.witchery.handler.poppet.PoppetHandler
+import dev.sterner.witchery.handler.PoppetHandler
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.world.InteractionResult

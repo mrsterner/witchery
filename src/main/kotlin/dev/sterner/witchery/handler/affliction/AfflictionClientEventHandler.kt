@@ -2,7 +2,7 @@ package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
-import dev.sterner.witchery.handler.ability.AbilityCooldownManager
+import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.util.Mth

@@ -3,7 +3,7 @@ package dev.sterner.witchery.handler.affliction
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.handler.ability.AbilityCooldownManager
+import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.getAbilities
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.getSelectedAbility
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.useSelectedAbility
@@ -11,7 +11,6 @@ import dev.sterner.witchery.payload.AfflictionAbilityUseC2SPayload
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 import net.neoforged.neoforge.network.PacketDistributor

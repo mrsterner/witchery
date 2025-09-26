@@ -1,7 +1,7 @@
 package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.ability.AbilityCooldownManager
+import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec

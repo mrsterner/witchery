@@ -1,12 +1,11 @@
-package dev.sterner.witchery.handler.poppet
+package dev.sterner.witchery.handler
 
 import dev.sterner.witchery.api.PoppetLocation
-import dev.sterner.witchery.api.interfaces.PoppetType
 import dev.sterner.witchery.api.PoppetUsage
 import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.api.interfaces.PoppetType
 import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
-import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryPoppetRegistry
@@ -25,7 +24,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ResolvableProfile
 import net.minecraft.world.level.Level
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
-import java.util.*
+import java.util.UUID
 
 object PoppetHandler {
 
