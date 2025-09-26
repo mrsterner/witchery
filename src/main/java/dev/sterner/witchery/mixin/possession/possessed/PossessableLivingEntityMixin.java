@@ -173,7 +173,6 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     private void onDeath(DamageSource damageSource, CallbackInfo ci) {
         ServerPlayer possessor = (ServerPlayer) this.getPossessor();
         if (possessor != null) {
-            // TODO: Handle death events and resurrection
             PossessionComponentAttachment.PossessionComponent component = PossessionComponentAttachment.INSTANCE.get(possessor);
             component.stopPossessing(!possessor.isCreative());
 

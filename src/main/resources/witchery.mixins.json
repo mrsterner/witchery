@@ -63,6 +63,7 @@
     "possession.client.ClientEntityMixin",
     "possession.possessed.EntityLikeMixin",
     "possession.possessed.HurtByTargetGoalMixin",
+    "possession.possessed.PossessableEntityMixin",
     "possession.possessed.PossessableLivingEntityMixin",
     "possession.possessor.EntityAccessor",
     "possession.possessor.HungerManagerMixin",
@@ -96,6 +97,7 @@
     "possession.client.EntityRenderDispatcherMixin",
     "possession.client.InGameHudMixin",
     "possession.client.LivingEntityRendererMixin",
-    "possession.client.PlayerEntityRendererMixin"
+    "possession.client.PlayerEntityRendererMixin",
+    "possession.client.PlayerRendererMixin"
   ]
 }

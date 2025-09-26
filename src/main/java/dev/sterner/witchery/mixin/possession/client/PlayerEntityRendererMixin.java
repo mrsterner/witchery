@@ -33,6 +33,7 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         super(ctx, model, shadowRadius);
     }
 
+    @Unique
     private static void setupRenderDelegate(LivingEntity rendered, LivingEntity delegate) {
         delegate.yBodyRot = rendered.yBodyRot;
         delegate.yBodyRotO = rendered.yBodyRotO;
