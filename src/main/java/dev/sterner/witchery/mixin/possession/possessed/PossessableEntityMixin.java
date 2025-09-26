@@ -24,7 +24,7 @@ public abstract class PossessableEntityMixin implements ProtoPossessable {
     public boolean hasImpulse;
 
     @Inject(method = "markHurt", at = @At("RETURN"))
-    private void markHurt(CallbackInfo ci) {
+    private void witchery$markHurt(CallbackInfo ci) {
         Player player = this.getPossessor();
         if (player != null && !level.isClientSide && this.hasImpulse) {
             player.hasImpulse = true;
@@ -32,14 +32,14 @@ public abstract class PossessableEntityMixin implements ProtoPossessable {
     }
 
     @Inject(method = "isControlledByLocalInstance", at = @At("HEAD"), cancellable = true)
-    private void isControlledByLocalInstance(CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$isControlledByLocalInstance(CallbackInfoReturnable<Boolean> cir) {
         if (this.isBeingPossessed()) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
-    private void isInvulnerableTo(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$isInvulnerableTo(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
         Player player = this.getPossessor();
         if (player != null && player.isCreative()) {
             cir.setReturnValue(!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
@@ -47,14 +47,14 @@ public abstract class PossessableEntityMixin implements ProtoPossessable {
     }
 
     @Inject(method = "canUsePortal", at = @At("HEAD"), cancellable = true)
-    private void canUsePortal(boolean allowPassengers, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$canUsePortal(boolean allowPassengers, CallbackInfoReturnable<Boolean> cir) {
         if (this.isBeingPossessed()) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z", at = @At("HEAD"), cancellable = true)
-    private void startRiding(Entity vehicle, boolean force, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$startRiding(Entity vehicle, boolean force, CallbackInfoReturnable<Boolean> cir) {
         Player player = this.getPossessor();
         if (player != null) {
             cir.setReturnValue(player.startRiding(vehicle, force));
@@ -62,13 +62,13 @@ public abstract class PossessableEntityMixin implements ProtoPossessable {
     }
 
     @Inject(method = "refreshDimensions", at = @At("RETURN"))
-    private void refreshPossessorDimensions(CallbackInfo ci) {
+    private void witchery$refreshDimensions(CallbackInfo ci) {
         Player possessor = this.getPossessor();
         if (possessor != null) possessor.refreshDimensions();
     }
 
     @Inject(method = "saveAsPassenger", at = @At("HEAD"), cancellable = true)
-    private void cancelPossessableSave(CompoundTag tag, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$saveAsPassenger(CompoundTag tag, CallbackInfoReturnable<Boolean> cir) {
         if (this.isBeingPossessed()) {
             cir.setReturnValue(false);
         }

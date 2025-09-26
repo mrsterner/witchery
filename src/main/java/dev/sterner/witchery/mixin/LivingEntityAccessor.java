@@ -20,10 +20,4 @@ public interface LivingEntityAccessor {
 
     @Accessor("swimAmountO")
     void setSwimAmountO(float value);
-
-    @Accessor
-    void setNoJumpDelay(int cooldown);
-
-    @Invoker("jumpFromGround")
-    void requiem$invokeJump();
 }

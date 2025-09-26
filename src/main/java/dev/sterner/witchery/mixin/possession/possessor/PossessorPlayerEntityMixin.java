@@ -27,10 +27,9 @@ public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMi
 
     @Shadow
     public abstract FoodData getFoodData();
-    @Shadow public abstract ItemCooldowns getCooldowns();
 
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
-    private void travel(Vec3 travelVector, CallbackInfo info) {
+    private void witchery$travel(Vec3 travelVector, CallbackInfo info) {
         Entity possessed = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
         if (possessed != null && ((Possessable) possessed).isRegularEater()) {
             if (!this.witchery$getWorld().isClientSide && (this.witchery$getX() != possessed.getX() || this.witchery$getY() != possessed.getY() || this.witchery$getZ() != possessed.getZ())) {
@@ -42,8 +41,24 @@ public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMi
         }
     }
 
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void witchery$tick(CallbackInfo ci) {
+        Player self = (Player)(Object)this;
+        Entity possessed = PossessionComponentAttachment.INSTANCE.get(self).getHost();
+
+        if (possessed != null) {
+            EntityDimensions possessedDims = possessed.getDimensions(self.getPose());
+            EntityDimensions currentDims = self.getDimensions(self.getPose());
+
+            if (Math.abs(possessedDims.height() - currentDims.height()) > 0.01f ||
+                    Math.abs(possessedDims.width() - currentDims.width()) > 0.01f) {
+                self.refreshDimensions();
+            }
+        }
+    }
+
     @Inject(method = "jumpFromGround", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;jumpFromGround()V"))
-    private void makeHostJump(CallbackInfo ci) {
+    private void witchery$jumpFromGround(CallbackInfo ci) {
         LivingEntity possessed = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
         if (possessed != null) {
             possessed.jumpFromGround();
@@ -51,7 +66,7 @@ public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMi
     }
 
     @Inject(method = "getDefaultDimensions", at = @At("HEAD"), cancellable = true)
-    private void adjustSize(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
+    private void witchery$getDefaultDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         Entity possessedEntity = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
         if (possessedEntity != null) {
             cir.setReturnValue(possessedEntity.getDimensions(pose));
@@ -59,7 +74,7 @@ public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMi
     }
 
     @Inject(method = "canEat", at = @At("RETURN"), cancellable = true)
-    private void canSoulConsume(boolean ignoreHunger, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$canEat(boolean ignoreHunger, CallbackInfoReturnable<Boolean> cir) {
         Possessable possessed = (Possessable) PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
         if (possessed != null) {
             cir.setReturnValue(ignoreHunger || possessed.isRegularEater() && this.getFoodData().needsFood());
@@ -67,7 +82,7 @@ public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMi
     }
 
     @Inject(method = "isHurt", at = @At("RETURN"), cancellable = true)
-    private void canFoodHealPossessed(CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$isHurt(CallbackInfoReturnable<Boolean> cir) {
         LivingEntity possessed = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
         if (possessed != null) {
             cir.setReturnValue(((Possessable) possessed).isRegularEater() && possessed.getHealth() > 0 && possessed.getHealth() < possessed.getMaxHealth());
@@ -75,7 +90,7 @@ public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMi
     }
 
     @WrapWithCondition(method = "causeFoodExhaustion", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/food/FoodData;addExhaustion(F)V"))
-    private boolean addExhaustion(FoodData instance, float exhaustion) {
+    private boolean witchery$causeFoodExhaustion(FoodData instance, float exhaustion) {
         Possessable possessed = (Possessable) PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
         if (possessed != null && possessed.isRegularEater()) {
             if (!this.witchery$getWorld().isClientSide) {
@@ -157,13 +172,13 @@ public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMi
     }
 
     @Inject(method = "makeStuckInBlock", at = @At("HEAD"), cancellable = true)
-    private void makeStuckInBlock(BlockState state, Vec3 motionMultiplier, CallbackInfo ci) {
+    private void witchery$makeStuckInBlock(BlockState state, Vec3 motionMultiplier, CallbackInfo ci) {
         Mob possessedEntity = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
         if (possessedEntity != null) {
             possessedEntity.fallDistance = this.witchery$getFallDistance();
             possessedEntity.makeStuckInBlock(state, motionMultiplier);
             this.witchery$setFallDistance(possessedEntity.fallDistance);
-            this.witchery$setMovementMultiplier(((EntityAccessor) possessedEntity).requiem$getMovementMultiplier());
+            this.witchery$setMovementMultiplier(((EntityAccessor) possessedEntity).witchery$getMovementMultiplier());
             ci.cancel();
         }
     }

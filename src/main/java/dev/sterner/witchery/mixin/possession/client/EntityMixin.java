@@ -9,9 +9,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class ClientEntityMixin {
+public abstract class EntityMixin {
+
     @Inject(method = "isVisuallyCrawling", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"), cancellable = true)
-    private void isCrawling(CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$isVisuallyCrawling(CallbackInfoReturnable<Boolean> cir) {
         Entity self = (Entity) (Object) this;
         if (self instanceof Player player && AfflictionPlayerAttachment.getData(player).isSoulForm()) {
             cir.setReturnValue(false);

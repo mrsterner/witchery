@@ -23,7 +23,7 @@ public abstract class HungerManagerMixin {
     @Shadow private int foodLevel;
 
     @Inject(method = "tick", at = @At(value = "HEAD", ordinal = 0))
-    private void updateSoulHunger(Player player, CallbackInfo ci) {
+    private void witchery$tick(Player player, CallbackInfo ci) {
         Possessable possessed = (Possessable) PossessionComponentAttachment.INSTANCE.get(player).getHost();
         if (possessed != null && !possessed.isRegularEater()) {
             this.exhaustionLevel = 0;
@@ -33,7 +33,7 @@ public abstract class HungerManagerMixin {
     }
 
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;heal(F)V"))
-    private float healPossessedEntity(float amount) {
+    private float witchery$tick(float amount) {
         LivingEntity possessedEntity = PossessionComponentAttachment.INSTANCE.get(PLAYER_ENTITY_THREAD_LOCAL.get()).getHost();
         if (possessedEntity != null && ((Possessable) possessedEntity).isRegularEater()) {
             possessedEntity.heal(amount);
@@ -42,7 +42,7 @@ public abstract class HungerManagerMixin {
     }
 
     @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
-    private float damagePossessedEntity(float amount) {
+    private float witchery$tick2(float amount) {
         LivingEntity possessedEntity = PossessionComponentAttachment.INSTANCE.get(PLAYER_ENTITY_THREAD_LOCAL.get()).getHost();
         if (possessedEntity != null && ((Possessable) possessedEntity).isRegularEater()) {
             possessedEntity.hurt(possessedEntity.damageSources().starve(), amount);

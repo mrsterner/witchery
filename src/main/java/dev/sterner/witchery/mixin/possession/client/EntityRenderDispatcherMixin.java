@@ -18,6 +18,7 @@ import net.minecraft.world.level.LevelReader;
 import net.neoforged.neoforge.common.NeoForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,27 +30,22 @@ import javax.annotation.Nullable;
 public abstract class EntityRenderDispatcherMixin {
     @Shadow
     public Camera camera;
+    @Unique
     @Nullable
-    private Entity requiem_camerasPossessed;
+    private Entity witchery$camerasPossessed;
 
-    /**
-     * Called once per frame, used to update the entity
-     */
     @Inject(method = "prepare", at = @At("HEAD"))
-    private void updateCamerasPossessedEntity(Level level, Camera activeRenderInfo, Entity entity, CallbackInfo ci) {
+    private void witchery$prepare(Level level, Camera activeRenderInfo, Entity entity, CallbackInfo ci) {
         Minecraft client = Minecraft.getInstance();
         Entity camera = client.getCameraEntity();
         if (camera instanceof Player player) {
-            requiem_camerasPossessed = PossessionComponentAttachment.INSTANCE.get(player).getHost();
+            witchery$camerasPossessed = PossessionComponentAttachment.INSTANCE.get(player).getHost();
         }
     }
 
-    /**
-     * Prevents the camera's possessed entity from rendering
-     */
     @Inject(method = "shouldRender", at = @At("HEAD"), cancellable = true)
-    private void preventPossessedRender(Entity entity, Frustum visibleRegion, double x, double y, double z, CallbackInfoReturnable<Boolean> info) {
-        if (requiem_camerasPossessed == entity) {
+    private void witchery$shouldRender(Entity entity, Frustum visibleRegion, double x, double y, double z, CallbackInfoReturnable<Boolean> info) {
+        if (witchery$camerasPossessed == entity) {
             var event = new PossessionEvents.AllowRender(entity);
             NeoForge.EVENT_BUS.post(event);
             if (camera.isDetached() || !event.isCanceled()) {
@@ -59,7 +55,7 @@ public abstract class EntityRenderDispatcherMixin {
     }
 
     @Inject(method = "renderShadow", at = @At("HEAD"), cancellable = true)
-    private static void preventShadowRender(PoseStack matrices, MultiBufferSource vertices, Entity rendered, float distance, float tickDelta, LevelReader world, float radius, CallbackInfo ci) {
+    private static void witchery$renderShadow(PoseStack matrices, MultiBufferSource vertices, Entity rendered, float distance, float tickDelta, LevelReader world, float radius, CallbackInfo ci) {
         if (rendered instanceof Player player && AfflictionPlayerAttachment.getData(player).isVagrant()) {
             ci.cancel();
         }

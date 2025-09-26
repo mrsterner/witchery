@@ -3,6 +3,8 @@ package dev.sterner.witchery.mixin.possession.possessed;
 import dev.sterner.witchery.api.interfaces.Possessable;
 import dev.sterner.witchery.data_attachment.possession.EntityAiToggle;
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity;
 import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -103,7 +106,13 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
         }
 
         AttributeInstance speedAttribute = this.getAttribute(Attributes.MOVEMENT_SPEED);
-        // TODO: Add speed modifier constants and logic
+
+        if (speedAttribute != null && speedAttribute.hasModifier(PossessionComponentAttachment.INSTANCE.getINHERENT_MOB_SLOWNESS_UUID())) {
+            speedAttribute.removeModifier(PossessionComponentAttachment.INSTANCE.getINHERENT_MOB_SLOWNESS_UUID());
+            if (possessor != null) {
+                speedAttribute.addTransientModifier(PossessionComponentAttachment.INSTANCE.getINHERENT_MOB_SLOWNESS());
+            }
+        }
 
         this.onPossessorSet(possessor);
     }
@@ -114,25 +123,22 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isImmobile()Z", ordinal = 0))
-    private void witchery$mobTick(CallbackInfo ci) {
+    private void witchery$aiStep(CallbackInfo ci) {
         if (this.isBeingPossessed() && !this.level().isClientSide) {
-            this.witchery$mobTick();
+            this.witchery$aiStep();
         }
     }
 
-    protected void witchery$mobTick() {
-        // NO-OP
+    @Unique
+    protected void witchery$aiStep() {
+
     }
 
     @Inject(method = "tick", at = @At("RETURN"))
-    private void tick(CallbackInfo ci) {
+    private void witchery$tick(CallbackInfo ci) {
         Player player = this.getPossessor();
-        LivingEntity self = (LivingEntity) (Object) this;
         if (player != null) {
             if (!this.level().isClientSide) {
-                if (self instanceof Monster && this.level().getDifficulty() == Difficulty.PEACEFUL) {
-                    // TODO: Send message about peaceful despawn
-                }
                 player.setAbsorptionAmount(this.getAbsorptionAmount());
             }
             this.setOnGround(player.onGround());
@@ -141,7 +147,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;travel(Lnet/minecraft/world/phys/Vec3;)V", shift = At.Shift.AFTER))
-    private void afterTravel(CallbackInfo ci) {
+    private void witchery$aiStep2(CallbackInfo ci) {
         Player player = this.getPossessor();
         if (player != null) {
             this.setYRot(player.getYRot());
@@ -163,31 +169,54 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = {"doPush", "push"}, at = @At("HEAD"), cancellable = true)
-    private void doPush(Entity entity, CallbackInfo ci) {
+    private void witchery$doPush(Entity entity, CallbackInfo ci) {
         if (entity == this.getPossessor()) {
+            ci.cancel();
+            return;
+        }
+
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (entity instanceof Possessable && ((Possessable) entity).getPossessor() == self) {
             ci.cancel();
         }
     }
 
     @Inject(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;dropAllDeathLoot(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;)V"))
-    private void onDeath(DamageSource damageSource, CallbackInfo ci) {
+    private void witchery$die(DamageSource damageSource, CallbackInfo ci) {
         ServerPlayer possessor = (ServerPlayer) this.getPossessor();
         if (possessor != null) {
             PossessionComponentAttachment.PossessionComponent component = PossessionComponentAttachment.INSTANCE.get(possessor);
             component.stopPossessing(!possessor.isCreative());
 
+            AfflictionPlayerAttachment.Data data = AfflictionPlayerAttachment.getData(possessor);
+            if (data.getLichLevel() > 0) {
+                AfflictionPlayerAttachment.INSTANCE.batchUpdate(
+                        possessor,
+                        true,
+                        true,
+                        (currentData) -> currentData.withSoulForm(true).withVagrant(false)
+                );
+
+                SoulShellPlayerEntity.Companion.enableFlight(possessor);
+                possessor.getAbilities().flying = true;
+                possessor.onUpdateAbilities();
+
+                Vec3 velocity = possessor.getDeltaMovement();
+                possessor.setDeltaMovement(velocity.x, velocity.y + 0.3, velocity.z);
+                possessor.hurtMarked = true;
+            }
         }
     }
 
     @Inject(method = "updatingUsingItem", at = @At("HEAD"), cancellable = true)
-    private void updateUsingItem(CallbackInfo ci) {
+    private void witchery$updateUsingItem(CallbackInfo ci) {
         if (this.isBeingPossessed()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "onEffectAdded", at = @At("RETURN"))
-    private void onEffectAdded(MobEffectInstance effectInstance, Entity entity, CallbackInfo ci) {
+    private void witchery$onEffectAdded(MobEffectInstance effectInstance, Entity entity, CallbackInfo ci) {
         Player possessor = this.getPossessor();
         if (possessor instanceof ServerPlayer) {
             possessor.addEffect(new MobEffectInstance(effectInstance));
@@ -195,7 +224,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "onEffectUpdated", at = @At("RETURN"))
-    private void onEffectUpdated(MobEffectInstance effectInstance, boolean reapplyEffect, Entity entity, CallbackInfo ci) {
+    private void witchery$onEffectUpdated(MobEffectInstance effectInstance, boolean reapplyEffect, Entity entity, CallbackInfo ci) {
         if (reapplyEffect) {
             Player possessor = this.getPossessor();
             if (possessor instanceof ServerPlayer) {
@@ -205,7 +234,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "onEffectRemoved", at = @At("RETURN"))
-    private void onEffectRemoved(MobEffectInstance effectInstance, CallbackInfo ci) {
+    private void witchery$onEffectRemoved(MobEffectInstance effectInstance, CallbackInfo ci) {
         Player possessor = this.getPossessor();
         if (possessor instanceof ServerPlayer) {
             possessor.removeEffect(effectInstance.getEffect());
@@ -213,7 +242,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "knockback", at = @At("HEAD"), cancellable = true)
-    private void knockback(double strength, double x, double z, CallbackInfo ci) {
+    private void witchery$knockback(double strength, double x, double z, CallbackInfo ci) {
         Player possessing = getPossessor();
         if (possessing != null) {
             possessing.knockback(strength, x, z);
@@ -222,7 +251,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "randomTeleport", at = @At("HEAD"), cancellable = true)
-    private void teleportPossessor(double x, double y, double z, boolean particleEffects, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$randomTeleport(double x, double y, double z, boolean particleEffects, CallbackInfoReturnable<Boolean> cir) {
         Player player = this.getPossessor();
         if (player != null) {
             cir.setReturnValue(player.randomTeleport(x, y, z, particleEffects));
@@ -230,7 +259,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "isFallFlying", at = @At("HEAD"), cancellable = true)
-    private void isFallFlying(CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$isFallFlying(CallbackInfoReturnable<Boolean> cir) {
         Player player = this.getPossessor();
         if (player != null) {
             cir.setReturnValue(player.isFallFlying());
@@ -238,7 +267,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "isBlocking", at = @At("HEAD"), cancellable = true)
-    private void isBlocking(CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$isBlocking(CallbackInfoReturnable<Boolean> cir) {
         Player possessor = this.getPossessor();
         if (possessor != null) {
             cir.setReturnValue(possessor.isBlocking());
@@ -246,10 +275,9 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "hurtCurrentlyUsedShield", at = @At("HEAD"), cancellable = true)
-    private void hurtCurrentlyUsedShield(float damage, CallbackInfo ci) {
+    private void witchery$hurtCurrentlyUsedShield(float damage, CallbackInfo ci) {
         Player possessor = this.getPossessor();
         if (possessor != null && !this.level().isClientSide) {
-            // TODO: Need accessor for protected method
             possessor.hurtCurrentlyUsedShield(damage);
             this.level().broadcastEntityEvent(possessor, (byte)29);
             ci.cancel();
@@ -257,7 +285,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "getUseItem", at = @At("HEAD"), cancellable = true)
-    private void getUseItem(CallbackInfoReturnable<ItemStack> cir) {
+    private void witchery$getUseItem(CallbackInfoReturnable<ItemStack> cir) {
         Player possessor = this.getPossessor();
         if (possessor != null) {
             cir.setReturnValue(possessor.getUseItem());
@@ -265,7 +293,7 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     }
 
     @Inject(method = "isUsingItem", at = @At("HEAD"), cancellable = true)
-    private void isUsingItem(CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$isUsingItem(CallbackInfoReturnable<Boolean> cir) {
         Player possessor = this.getPossessor();
         if (possessor != null) {
             cir.setReturnValue(possessor.isUsingItem());

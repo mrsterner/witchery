@@ -5,6 +5,7 @@ import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.SleepingPlayerHandler
+import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.NonNullList
 import net.minecraft.core.particles.ParticleTypes
@@ -21,8 +22,12 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
+import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.common.NeoForgeMod
+import net.neoforged.neoforge.event.tick.ServerTickEvent
+import net.neoforged.neoforge.network.PacketDistributor
 import java.util.UUID
 
 class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityTypes.SOUL_SHELL_PLAYER.get(), level) {
@@ -33,6 +38,53 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
 
     override fun isPickable(): Boolean {
         return true
+    }
+
+    override fun tick() {
+        super.tick()
+
+        if (level() is ServerLevel) {
+            val server = level() as ServerLevel
+
+            if (server.gameTime % 100 == 0L) { // Check every 5 seconds
+                val uuid = getOriginalUUID().orElse(null)
+                if (uuid == null) {
+                    dropInventory()
+                    discard()
+                }
+            }
+        }
+    }
+
+
+    override fun handleShellDeath() {
+        dropInventory()
+
+        val originalUuid = getOriginalUUID().orElse(null)
+        if (originalUuid != null && level() is ServerLevel) {
+            val player = (level() as ServerLevel).getPlayerByUUID(originalUuid)
+            if (player != null) {
+                AfflictionPlayerAttachment.batchUpdate(player) {
+                    withSoulForm(true).withVagrant(false)
+                }
+
+                if (player is ServerPlayer) {
+                    enableFlight(player)
+                }
+                player.abilities.flying = true
+                player.onUpdateAbilities()
+            }
+        }
+
+        PacketDistributor.sendToPlayersTrackingEntity(
+            this, SpawnSleepingDeathParticleS2CPayload(
+                this.getRandomX(1.5),
+                this.randomY,
+                this.getRandomZ(1.5)
+            )
+        )
+
+        this.remove(RemovalReason.KILLED)
     }
 
     override fun mergeSoulWithShell(player: Player) {

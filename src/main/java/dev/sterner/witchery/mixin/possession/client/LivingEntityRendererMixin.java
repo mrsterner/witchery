@@ -21,7 +21,7 @@ import java.util.Iterator;
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> {
 
     @ModifyVariable(method = "render", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
-    private Iterator<RenderLayer<T, M>> emptyFeatures(Iterator<RenderLayer<T, M>> iterator, T entity, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light) {
+    private Iterator<RenderLayer<T, M>> witchery$emptyFeatures(Iterator<RenderLayer<T, M>> iterator, T entity, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light) {
         if (entity instanceof Player player && AfflictionPlayerAttachment.getData(player).isVagrant()) {
             return Collections.emptyIterator();
         }

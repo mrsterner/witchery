@@ -8,15 +8,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import javax.annotation.Nullable;
 
 @Mixin(EntityAccess.class)
-public interface EntityLikeMixin extends ProtoPossessable {
-    @Nullable
-    @Override
-    default Player getPossessor() {
-        return null;
-    }
+public interface EntityAccessMixin extends ProtoPossessable {
 
     @Override
-    default boolean isBeingPossessed() {
-        return false;
-    }
+    @Nullable Player getPossessor();
+
+    @Override
+    boolean isBeingPossessed();
 }

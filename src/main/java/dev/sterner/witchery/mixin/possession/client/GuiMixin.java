@@ -14,7 +14,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -26,18 +25,18 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import javax.annotation.Nullable;
 
 @Mixin(Gui.class)
-public abstract class InGameHudMixin {
+public abstract class GuiMixin {
 
     @Shadow @Nullable protected abstract Player getCameraPlayer();
 
     @Unique
-    private boolean skippedFood;
+    private boolean witchery$skippedFood;
 
     @WrapWithCondition(
             method = "renderPlayerHealth",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderArmorLevel(Lnet/minecraft/client/gui/GuiGraphics;)V")
     )
-    private boolean preventArmorRender(Gui instance, GuiGraphics guiGraphics) {
+    private boolean witchery$renderPlayerHealth(Gui instance, GuiGraphics guiGraphics) {
         return Minecraft.getInstance().player == null || !AfflictionPlayerAttachment.getData(Minecraft.getInstance().player).isSoulForm();
     }
 
@@ -45,7 +44,7 @@ public abstract class InGameHudMixin {
             method = "renderPlayerHealth",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderHealthLevel(Lnet/minecraft/client/gui/GuiGraphics;)V")
     )
-    private boolean preventHealthRender(Gui instance, GuiGraphics flag) {
+    private boolean witchery$renderPlayerHealth2(Gui instance, GuiGraphics flag) {
         return Minecraft.getInstance().player == null || !AfflictionPlayerAttachment.getData(Minecraft.getInstance().player).isSoulForm();
     }
 
@@ -53,17 +52,17 @@ public abstract class InGameHudMixin {
             method = "renderPlayerHealth",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderFoodLevel(Lnet/minecraft/client/gui/GuiGraphics;)V")
     )
-    private boolean preventFoodRender(Gui instance, GuiGraphics j1) {
+    private boolean witchery$renderPlayerHealth3(Gui instance, GuiGraphics j1) {
         var player= Minecraft.getInstance().player;
         if (player != null && AfflictionPlayerAttachment.getData(player).isVagrant()) {
             Possessable possessed = (Possessable) PossessionComponentAttachment.INSTANCE.get(player).getHost();
             if (possessed == null || !possessed.isRegularEater()) {
-                skippedFood = true;
+                witchery$skippedFood = true;
                 return false;
             }
         }
 
-        skippedFood = false;
+        witchery$skippedFood = false;
         return true;
     }
 
@@ -72,8 +71,8 @@ public abstract class InGameHudMixin {
             at = @At(value = "CONSTANT", args = "stringValue=air"),
             index = 3
     )
-    private int fixAirRender(int mountHeartCount) {
-        if (skippedFood) return 0;
+    private int witchery$renderAirLevel(int mountHeartCount) {
+        if (witchery$skippedFood) return 0;
         return mountHeartCount;
     }
 
@@ -82,15 +81,15 @@ public abstract class InGameHudMixin {
             slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=air")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/TagKey;)Z")
     )
-    private TagKey<Fluid> preventAirRender(TagKey<Fluid> fluid) {
+    private TagKey<Fluid> witchery$renderAirLevel(TagKey<Fluid> fluid) {
         Player playerEntity = this.getCameraPlayer();
 
         if (playerEntity != null && AfflictionPlayerAttachment.getData(playerEntity).isVagrant()) {
             LivingEntity possessed = PossessionComponentAttachment.INSTANCE.get(playerEntity).getHost();
             if (possessed == null) {
-                return WitcheryTags.INSTANCE.getEMPTY_FLUID();  // will cause isSubmergedIn to return false
+                return WitcheryTags.INSTANCE.getEMPTY_FLUID();
             } else if (possessed.canBreatheUnderwater()) {
-                return WitcheryTags.INSTANCE.getEMPTY_FLUID();   // same as above
+                return WitcheryTags.INSTANCE.getEMPTY_FLUID();
             }
         }
 
@@ -98,7 +97,7 @@ public abstract class InGameHudMixin {
     }
 
     @ModifyVariable(method = "renderHealthLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/Util;getMillis()J"), ordinal = 0)
-    private int substituteHealth(int health) {
+    private int witchery$renderHealthLevel(int health) {
         Minecraft client = Minecraft.getInstance();
         LivingEntity entity = null;
         if (client.player != null) {

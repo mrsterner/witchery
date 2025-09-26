@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,27 +30,35 @@ public abstract class PlayerManagerMixin {
                     target = "Lnet/minecraft/nbt/CompoundTag;contains(Ljava/lang/String;I)Z")
     )
     @Nullable
-    private CompoundTag logInPossessedEntity(
+    private CompoundTag witchery$placeNewPlayer(
             CompoundTag serializedPlayer, String key, int type, @Local(argsOnly = true) ServerPlayer player
     ) {
-        if (serializedPlayer != null && serializedPlayer.contains("PossessedRoot", 10)) {
-            AfflictionPlayerAttachment.setData(player, AfflictionPlayerAttachment.getData(player), true);
-            ServerLevel world = player.serverLevel();
-            CompoundTag serializedPossessedInfo = serializedPlayer.getCompound("PossessedRoot");
-            Entity possessedEntityMount = EntityType.loadEntityRecursive(
-                    serializedPossessedInfo.getCompound("PossessedEntity"),
-                    world,
-                    (entity_1x) -> !world.addWithUUID(entity_1x) ? null : entity_1x
-            );
-            if (possessedEntityMount != null) {
-                UUID possessedEntityUuid = serializedPossessedInfo.getUUID("PossessedUUID");
-                resumePossession(PossessionComponentAttachment.INSTANCE.get(player), possessedEntityMount, possessedEntityUuid);
+        if (serializedPlayer != null) {
+            if (serializedPlayer.contains("PossessedRoot", 10)) {
+                ServerLevel world = player.serverLevel();
+                CompoundTag serializedPossessedInfo = serializedPlayer.getCompound("PossessedRoot");
+                Entity possessedEntityMount = EntityType.loadEntityRecursive(
+                        serializedPossessedInfo.getCompound("PossessedEntity"),
+                        world,
+                        (entity_1x) -> !world.addWithUUID(entity_1x) ? null : entity_1x
+                );
+                if (possessedEntityMount != null) {
+                    UUID possessedEntityUuid = serializedPossessedInfo.getUUID("PossessedUUID");
+                    witchery$resumePossession(PossessionComponentAttachment.INSTANCE.get(player), possessedEntityMount, possessedEntityUuid);
+                }
+            }
+
+            AfflictionPlayerAttachment.Data data = AfflictionPlayerAttachment.getData(player);
+            if (data.isSoulForm()) {
+                SoulShellPlayerEntity.Companion.enableFlight(player);
+                player.onUpdateAbilities();
             }
         }
         return serializedPlayer;
     }
 
-    private void resumePossession(PossessionComponentAttachment.PossessionComponent player, Entity possessedEntityMount, UUID possessedEntityUuid) {
+    @Unique
+    private void witchery$resumePossession(PossessionComponentAttachment.PossessionComponent player, Entity possessedEntityMount, UUID possessedEntityUuid) {
         if (possessedEntityMount instanceof Mob && possessedEntityMount.getUUID().equals(possessedEntityUuid)) {
             player.startPossessing((Mob) possessedEntityMount, false);
         } else {
@@ -74,7 +84,7 @@ public abstract class PlayerManagerMixin {
             ),
             allow = 1
     )
-    private void logOutPossessedEntity(ServerPlayer player, CallbackInfo info) {
+    private void witchery$remove(ServerPlayer player, CallbackInfo info) {
         Entity possessedEntity = PossessionComponentAttachment.INSTANCE.get(player).getHost();
         if (possessedEntity != null) {
             possessedEntity.getSelfAndPassengers().forEach(e -> e.setRemoved(Entity.RemovalReason.UNLOADED_WITH_PLAYER));

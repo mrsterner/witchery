@@ -33,21 +33,21 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Override
-    protected void witchery$mobTick() {
+    protected void witchery$aiStep() {
         this.level().getProfiler().push("mob tick");
         this.serverAiStep();
         this.level().getProfiler().pop();
     }
 
     @Inject(method = "setAggressive", at = @At("RETURN"))
-    private void resetAttackMode(boolean attacking, CallbackInfo ci) {
+    private void witchery$setAggressive(boolean attacking, CallbackInfo ci) {
         if (attacking && this.isBeingPossessed()) {
             attackingCountdown = 100;
         }
     }
 
     @Inject(method = "aiStep", at = @At("RETURN"))
-    private void resetAttackMode(CallbackInfo ci) {
+    private void witchery$aiStep(CallbackInfo ci) {
         if (this.isAggressive() && !this.isUsingItem() && this.isBeingPossessed()) {
             this.attackingCountdown--;
             if (this.attackingCountdown == 0) {
@@ -57,7 +57,7 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Inject(method = "getArmorSlots", at = @At("HEAD"), cancellable = true)
-    private void getArmorSlots(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
+    private void witchery$getArmorSlots(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
         Player possessor = this.getPossessor();
         if (possessor != null) {
             cir.setReturnValue(possessor.getArmorSlots());
@@ -65,7 +65,7 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Inject(method = "getHandSlots", at = @At("HEAD"), cancellable = true)
-    private void getHandSlots(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
+    private void witchery$getHandSlots(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
         Player possessor = this.getPossessor();
         if (possessor != null) {
             cir.setReturnValue(possessor.getHandSlots());
@@ -73,7 +73,7 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Inject(method = "getItemBySlot", at = @At("HEAD"), cancellable = true)
-    private void getItemBySlot(EquipmentSlot slot, CallbackInfoReturnable<ItemStack> cir) {
+    private void witchery$getItemBySlot(EquipmentSlot slot, CallbackInfoReturnable<ItemStack> cir) {
         Player possessor = this.getPossessor();
         if (possessor != null) {
             cir.setReturnValue(possessor.getItemBySlot(slot));
@@ -81,7 +81,7 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Inject(method = "setItemSlot", at = @At("HEAD"), cancellable = true)
-    private void setItemSlot(EquipmentSlot slot, ItemStack item, CallbackInfo ci) {
+    private void witchery$setItemSlot(EquipmentSlot slot, ItemStack item, CallbackInfo ci) {
         Player possessor = this.getPossessor();
         if (possessor != null && !level().isClientSide) {
             possessor.setItemSlot(slot, item);
@@ -90,21 +90,21 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Inject(method = "canPickUpLoot", at = @At("HEAD"), cancellable = true)
-    private void cannotPickupItem(CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$canPickupLoot(CallbackInfoReturnable<Boolean> cir) {
         if (this.isBeingPossessed()) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "wantsToPickUp", at = @At("HEAD"), cancellable = true)
-    private void cannotGather(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$wantsToPickUp(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (this.isBeingPossessed()) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "convertTo", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private <T extends Mob> void possessConvertedMob(EntityType<T> type, boolean transferInventory, CallbackInfoReturnable<T> ci, T converted) {
+    private <T extends Mob> void witchery$convertTo(EntityType<T> type, boolean transferInventory, CallbackInfoReturnable<T> ci, T converted) {
         Mob self = (Mob) (Object) this;
         PossessedDataAttachment.INSTANCE.onMobConverted(self, converted);
     }

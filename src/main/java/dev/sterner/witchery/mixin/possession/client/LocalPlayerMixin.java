@@ -19,17 +19,16 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
-public abstract class ClientPlayerEntityMixin extends Player {
+public abstract class LocalPlayerMixin extends Player {
     @Shadow
     public Input input;
 
-    public ClientPlayerEntityMixin(Level world, BlockPos pos, float yaw, GameProfile profile) {
+    public LocalPlayerMixin(Level world, BlockPos pos, float yaw, GameProfile profile) {
         super(world, pos, yaw, profile);
     }
 
-
     @Inject(method = "suffocatesAt", at = @At(value = "RETURN"), cancellable = true)
-    private void stopPushingOutOfBlocks(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$suffocatesAt(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue()) {
             Entity possessed = PossessionComponentAttachment.INSTANCE.get(this).getHost();
             if (possessed != null && possessed.getBbHeight() < 1F) {
@@ -43,7 +42,7 @@ public abstract class ClientPlayerEntityMixin extends Player {
             slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isSwimming()Z", ordinal = 1)),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;setSprinting(Z)V", ordinal = 0)
     )
-    private boolean continueFlyingLikeSuperman(boolean value) {
+    private boolean witchery$aiStep(boolean value) {
         LocalPlayer self = (LocalPlayer)(Object)this;
         if (this.getAbilities().flying && this.input.forwardImpulse > 0F && this.isSprinting() && AfflictionPlayerAttachment.getData(self).isSoulForm()) {
             return true;

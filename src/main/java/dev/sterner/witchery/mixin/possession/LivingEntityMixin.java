@@ -32,7 +32,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @ModifyArg(method = "checkFallDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;sendParticles(Lnet/minecraft/core/particles/ParticleOptions;DDDIDDDD)I"))
-    private int spawnFewerFallParticles(int amount) {
+    private int witchery$checkFallDamage(int amount) {
         LivingEntity self = (LivingEntity)(Object)this;
         if (self instanceof Player player && AfflictionPlayerAttachment.getData(player).isVagrant()) {
             return amount / 4;
@@ -41,7 +41,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "isPickable", at = @At("RETURN"), cancellable = true)
-    private void requiem$preventTargetingSouls(CallbackInfoReturnable<Boolean> info) {
+    private void witchery$isPickable(CallbackInfoReturnable<Boolean> info) {
         LivingEntity self = (LivingEntity)(Object)this;
         if (self instanceof Player player && AfflictionPlayerAttachment.getData(player).isVagrant()) {
             info.setReturnValue(false);
@@ -49,7 +49,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = {"doPush", "push"}, at = @At("HEAD"), cancellable = true)
-    private void stopPushingAway(Entity entity, CallbackInfo ci) {
+    private void witchery$doPush(Entity entity, CallbackInfo ci) {
         LivingEntity self = (LivingEntity)(Object)this;
         if (self instanceof Player player && AfflictionPlayerAttachment.getData(player).isVagrant()) {
             ci.cancel();
@@ -57,7 +57,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @ModifyVariable(method = "dropAllDeathLoot", at = @At(value = "HEAD"), argsOnly = true)
-    private DamageSource enableHumanity(DamageSource deathCause) {
+    private DamageSource witchery$dropAllDeathLoot(DamageSource deathCause) {
         Player possessor = null;
         if (deathCause.getEntity() != null) {
             possessor = ((Possessable) deathCause.getEntity()).getPossessor();

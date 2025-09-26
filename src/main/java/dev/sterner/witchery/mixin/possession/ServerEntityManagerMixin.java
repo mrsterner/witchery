@@ -3,8 +3,6 @@ package dev.sterner.witchery.mixin.possession;
 import dev.sterner.witchery.api.interfaces.Possessable;
 import dev.sterner.witchery.api.interfaces.ProtoPossessable;
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.entity.EntityAccess;

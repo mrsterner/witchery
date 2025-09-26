@@ -27,22 +27,22 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
 
     @Inject(method = "isFallFlying", at = @At("RETURN"), cancellable = true)
     protected void witchery$canFly(CallbackInfoReturnable<Boolean> cir) {
-        // Overridden
+
     }
 
     @Inject(method = "setSprinting", at = @At("RETURN"))
     protected void witchery$setSprinting(boolean sprinting, CallbackInfo ci) {
-        // overridden by PossessorPlayerEntityMixin
+
     }
 
     @Inject(method = "onClimbable", at = @At("RETURN"), cancellable = true)
     protected void witchery$canClimb(CallbackInfoReturnable<Boolean> cir) {
-        // overridden by PossessorPlayerEntityMixin
+
     }
 
     @Inject(method = "canStandOnFluid", at = @At("HEAD"), cancellable = true)
     protected void witchery$canWalkOnFluid(FluidState fluid, CallbackInfoReturnable<Boolean> cir) {
-        // overridden by PossessorPlayerEntityMixin
+
     }
 
     @Inject(
@@ -50,7 +50,7 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
             at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/world/entity/LivingEntity;fallDistance:F", ordinal = 0),
             cancellable = true
     )
-    private void onFall(double fallY, boolean onGround, BlockState floorBlock, BlockPos floorPos, CallbackInfo info) {
+    private void witchery$checkFallDamage(double fallY, boolean onGround, BlockState floorBlock, BlockPos floorPos, CallbackInfo info) {
         if (this.witchery$getWorld().isClientSide) return;
 
         LivingEntity self = (LivingEntity)(Object)this;
@@ -67,7 +67,7 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
     }
 
     @ModifyVariable(method = "hurt", at = @At("HEAD"), argsOnly = true)
-    private DamageSource proxyDamage(DamageSource source, DamageSource s, float amount) {
+    private DamageSource witchery$hurt(DamageSource source, DamageSource s, float amount) {
         Entity attacker = source.getEntity();
         if (attacker instanceof LivingEntity) {
             DamageSource newSource = DamageHelper.INSTANCE.tryProxyDamage(source, (LivingEntity) attacker);
@@ -81,7 +81,7 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
     private boolean witchery$wasSprinting;
 
     @Inject(method = "getFluidFallingAdjustedMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isSprinting()Z"))
-    private void preventWaterHovering(double gravity, boolean isFalling, Vec3 deltaMovement, CallbackInfoReturnable<Vec3> cir) {
+    private void witchery$getFluidFallingAdjustedMovement(double gravity, boolean isFalling, Vec3 deltaMovement, CallbackInfoReturnable<Vec3> cir) {
         LivingEntity self = (LivingEntity)(Object)this;
         if (self instanceof Player player) {
             this.witchery$isSprinting();
@@ -89,7 +89,7 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
     }
 
     @Inject(method = "getFluidFallingAdjustedMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isSprinting()Z", shift = At.Shift.AFTER))
-    private void restoreSprint(double gravity, boolean isFalling, Vec3 deltaMovement, CallbackInfoReturnable<Vec3> cir) {
+    private void witchery$getFluidFallingAdjustedMovement2(double gravity, boolean isFalling, Vec3 deltaMovement, CallbackInfoReturnable<Vec3> cir) {
         if (witchery$wasSprinting) {
             witchery$wasSprinting = false;
             this.setSprinting(true);
@@ -97,7 +97,7 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
     }
 
     @Inject(method = "startSleeping", at = @At("RETURN"))
-    private void makeHostSleep(BlockPos pos, CallbackInfo ci) {
+    private void witchery$startSleeping(BlockPos pos, CallbackInfo ci) {
         LivingEntity host = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
         if (host != null && host.getType().is(WitcheryTags.INSTANCE.getSLEEPERS())) {
             host.startSleeping(pos);
@@ -105,7 +105,7 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
     }
 
     @Inject(method = "stopSleeping", at = @At("RETURN"))
-    private void makeHostWakeUp(CallbackInfo ci) {
+    private void witchery$stopSleeping(CallbackInfo ci) {
         LivingEntity host = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
         if (host != null && host.getType().is(WitcheryTags.INSTANCE.getSLEEPERS())) {
             host.stopSleeping();

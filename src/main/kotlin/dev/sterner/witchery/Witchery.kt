@@ -85,7 +85,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         val LOGGER: Logger = LogUtils.getLogger()
 
         fun id(path: String) = ResourceLocation.fromNamespaceAndPath(MODID, path)
-        val debugRitualLog: Boolean = PlatformUtils.isDevEnv() || true
+        val debugRitualLog: Boolean = PlatformUtils.isDevEnv()
 
 
         fun logDebugRitual(message: String) {

@@ -1,7 +1,12 @@
 package dev.sterner.witchery.mixin.possession.possessor;
 
+import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -33,9 +38,6 @@ public abstract class PossessorEntityMixin {
     @Accessor("xRot")
     public abstract float witchery$getPitch();
 
-    @Accessor("horizontalCollision")
-    protected abstract boolean witchery$isCollidingHorizontally();
-
     @Accessor("fallDistance")
     protected abstract float witchery$getFallDistance();
 
@@ -53,21 +55,29 @@ public abstract class PossessorEntityMixin {
 
     @Inject(method = "getAirSupply", at = @At("HEAD"), cancellable = true)
     protected void witchery$delegateBreath(CallbackInfoReturnable<Integer> cir) {
-        // overridden by PossessorPlayerEntityMixin
+
     }
 
     @Inject(method = "getMaxAirSupply", at = @At("HEAD"), cancellable = true)
     protected void witchery$delegateMaxBreath(CallbackInfoReturnable<Integer> cir) {
-        // overridden by PossessorPlayerEntityMixin
+
     }
 
     @Inject(method = "isIgnoringBlockTriggers", at = @At("RETURN"), cancellable = true)
     protected void witchery$soulsAvoidTraps(CallbackInfoReturnable<Boolean> cir) {
-        // overridden by PossessorPlayerEntityMixin
+
     }
 
     @Inject(method = "isOnFire", at = @At("HEAD"), cancellable = true)
     protected void witchery$isOnFire(CallbackInfoReturnable<Boolean> cir) {
-        // overridden by PossessorPlayerEntityMixin
+
+    }
+
+    @Inject(method = "getEyeHeight(Lnet/minecraft/world/entity/Pose;)F", at = @At("HEAD"), cancellable = true)
+    private void witchery$adjustEyeHeight(Pose pose, CallbackInfoReturnable<Float> cir) {
+        Entity possessedEntity = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
+        if (possessedEntity instanceof LivingEntity livingEntity) {
+            cir.setReturnValue((livingEntity).getEyeHeight(pose));
+        }
     }
 }

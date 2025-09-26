@@ -12,7 +12,7 @@ public abstract class GoalSelectorMixin implements DisableableAiController {
     private boolean witchery$disabled;
 
     @Override
-    public void requiem$setDisabled(boolean disabled) {
+    public void witchery$setDisabled(boolean disabled) {
         this.witchery$disabled = disabled;
     }
 

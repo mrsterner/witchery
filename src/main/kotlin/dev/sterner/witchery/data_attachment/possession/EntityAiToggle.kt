@@ -69,11 +69,11 @@ object EntityAiToggle {
     private fun refresh(entity: LivingEntity, nowDisabled: Boolean) {
         val toggle = getEntityToggle(entity)
         toggle.isAiDisabled = nowDisabled
-        (entity.getBrain() as DisableableAiController).`requiem$setDisabled`(nowDisabled)
+        (entity.getBrain() as DisableableAiController).`witchery$setDisabled`(nowDisabled)
         if (entity is MobEntityAccessor) {
-            (entity.getGoalSelector() as DisableableAiController).`requiem$setDisabled`(nowDisabled)
-            (entity.getTargetSelector() as DisableableAiController).`requiem$setDisabled`(nowDisabled)
-            (entity.`requiem$getNavigation`() as DisableableAiController).`requiem$setDisabled`(nowDisabled)
+            (entity.getGoalSelector() as DisableableAiController).`witchery$setDisabled`(nowDisabled)
+            (entity.getTargetSelector() as DisableableAiController).`witchery$setDisabled`(nowDisabled)
+            (entity.`witchery$getNavigation`() as DisableableAiController).`witchery$setDisabled`(nowDisabled)
         }
     }
 }

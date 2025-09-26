@@ -23,6 +23,7 @@ import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttach
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.affliction.*
 import dev.sterner.witchery.handler.infusion.InfernalInfusionHandler
@@ -43,6 +44,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.phys.AABB
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.event.AddReloadListenerEvent
@@ -137,6 +139,8 @@ object WitcheryNeoForgeEvents {
             PossessionComponentAttachment.get(entity).serverTick()
         }
     }
+
+
 
 
     @SubscribeEvent

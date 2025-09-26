@@ -15,5 +15,5 @@ public interface MobEntityAccessor {
     GoalSelector getTargetSelector();
 
     @Accessor("navigation")
-    PathNavigation requiem$getNavigation();
+    PathNavigation witchery$getNavigation();
 }

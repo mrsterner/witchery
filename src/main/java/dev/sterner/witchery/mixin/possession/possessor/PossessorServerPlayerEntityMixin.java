@@ -34,20 +34,21 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
         super(world, pos, yaw, profile);
     }
 
-    public void setResurrectionEntity(Mob secondLife) {
+    @Unique
+    public void witchery$setResurrectionEntity(Mob secondLife) {
         CompoundTag tag = new CompoundTag();
         if (secondLife.saveAsPassenger(tag)) {
-            setResurrectionEntity(tag);
-        } else {
-            // TODO: Add logging
+            witchery$setResurrectionEntity(tag);
         }
     }
 
-    public boolean hasResurrectionEntity() {
+    @Unique
+    public boolean witchery$hasResurrectionEntity() {
         return this.witchery$possessedEntityTag != null;
     }
 
-    public void spawnResurrectionEntity() {
+    @Unique
+    public void witchery$spawnResurrectionEntity() {
         if (this.witchery$possessedEntityTag != null) {
             Entity formerPossessed = EntityType.loadEntityRecursive(
                     this.witchery$possessedEntityTag,
@@ -59,13 +60,9 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
                 host.copyPosition(this);
                 if (level().addFreshEntity(host)) {
                     if (PossessionComponentAttachment.INSTANCE.get(this).startPossessing(host, false)) {
-                        // TODO: Fire post resurrection event
+
                     }
-                } else {
-                    // TODO: Add logging
                 }
-            } else {
-                // TODO: Add logging
             }
 
             this.witchery$possessedEntityTag = null;
@@ -73,41 +70,41 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
     }
 
     @Unique
-    private void setResurrectionEntity(@Nullable CompoundTag serializedSecondLife) {
+    private void witchery$setResurrectionEntity(@Nullable CompoundTag serializedSecondLife) {
         this.witchery$possessedEntityTag = serializedSecondLife;
     }
 
     @Inject(method = "changeDimension", at = @At(value = "HEAD", shift = At.Shift.AFTER))
     private void changePossessedDimension(DimensionTransition teleportTarget, CallbackInfoReturnable<Entity> cir) {
-        prepareDimensionChange();
+        witchery$prepareDimensionChange();
     }
 
     @Inject(method = "teleportTo(Lnet/minecraft/server/level/ServerLevel;DDDFF)V", at = @At(value = "HEAD", shift = At.Shift.AFTER))
     private void changePossessedDimension(ServerLevel targetWorld, double x, double y, double z, float yaw, float pitch, CallbackInfo ci) {
-        prepareDimensionChange();
+        witchery$prepareDimensionChange();
     }
 
     @Unique
-    private void prepareDimensionChange() {
+    private void witchery$prepareDimensionChange() {
         Mob currentHost = PossessionComponentAttachment.INSTANCE.get(this).getHost();
         if (currentHost != null && !currentHost.isRemoved()) {
-            this.setResurrectionEntity(currentHost);
+            this.witchery$setResurrectionEntity(currentHost);
             currentHost.remove(Entity.RemovalReason.UNLOADED_WITH_PLAYER);
         }
     }
 
     @Inject(method = "changeDimension", at = @At(value = "RETURN"))
-    private void onTeleportDone(DimensionTransition teleportTarget, CallbackInfoReturnable<Entity> cir) {
-        spawnResurrectionEntity();
+    private void witchery$changeDimension(DimensionTransition teleportTarget, CallbackInfoReturnable<Entity> cir) {
+        witchery$spawnResurrectionEntity();
     }
 
     @Inject(method = "teleportTo(Lnet/minecraft/server/level/ServerLevel;DDDFF)V", at = @At(value = "RETURN"))
-    private void onTeleportDone(ServerLevel targetWorld, double x, double y, double z, float yaw, float pitch, CallbackInfo ci) {
-        spawnResurrectionEntity();
+    private void witchery$teleportTo(ServerLevel targetWorld, double x, double y, double z, float yaw, float pitch, CallbackInfo ci) {
+        witchery$spawnResurrectionEntity();
     }
 
     @Inject(method = "restoreFrom", at = @At("RETURN"))
-    private void clonePlayer(ServerPlayer original, boolean fromEnd, CallbackInfo ci) {
+    private void witchery$restoreFrom(ServerPlayer original, boolean fromEnd, CallbackInfo ci) {
         this.witchery$possessedEntityTag = ((PossessorServerPlayerEntityMixin) (Object) original).witchery$possessedEntityTag;
 
         if (this.witchery$possessedEntityTag != null) {
@@ -116,7 +113,7 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
     }
 
     @Inject(method = "swing", at = @At("HEAD"))
-    private void swingHand(InteractionHand hand, CallbackInfo ci) {
+    private void witchery$swing(InteractionHand hand, CallbackInfo ci) {
         LivingEntity possessed = PossessionComponentAttachment.INSTANCE.get(this).getHost();
 
         if (possessed != null) {
@@ -125,7 +122,7 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
     }
 
     @Inject(method = "onEffectAdded", at = @At("RETURN"))
-    private void onStatusEffectAdded(MobEffectInstance effect, Entity entity, CallbackInfo ci) {
+    private void witchery$onEffectAdded(MobEffectInstance effect, Entity entity, CallbackInfo ci) {
         Mob possessed = PossessionComponentAttachment.INSTANCE.get(this).getHost();
 
         if (possessed != null) {
@@ -134,7 +131,7 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
     }
 
     @Inject(method = "onEffectUpdated", at = @At("RETURN"))
-    private void onStatusEffectUpdated(MobEffectInstance effect, boolean upgrade, @Nullable Entity entity, CallbackInfo ci) {
+    private void witchery$onEffectUpdated(MobEffectInstance effect, boolean upgrade, @Nullable Entity entity, CallbackInfo ci) {
         if (upgrade) {
             Mob possessed = PossessionComponentAttachment.INSTANCE.get(this).getHost();
 
@@ -145,7 +142,7 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
     }
 
     @Inject(method = "onEffectRemoved", at = @At("RETURN"))
-    private void onStatusEffectRemoved(MobEffectInstance effect, CallbackInfo ci) {
+    private void witchery$onEffectRemoved(MobEffectInstance effect, CallbackInfo ci) {
         Mob possessed = PossessionComponentAttachment.INSTANCE.get(this).getHost();
 
         if (possessed != null) {
@@ -154,7 +151,7 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
-    private void writePossessedMobToTag(CompoundTag tag, CallbackInfo info) {
+    private void witchery$addAdditionalSaveData(CompoundTag tag, CallbackInfo info) {
         Entity possessedEntity = PossessionComponentAttachment.INSTANCE.get(this).getHost();
 
         if (possessedEntity != null) {

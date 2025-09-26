@@ -19,7 +19,7 @@ public abstract class HurtByTargetGoalMixin extends TargetGoal {
     }
 
     @ModifyArg(method = "alertOthers", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;"))
-    private Predicate<Entity> stopCallingPossessedMobs(Predicate<Entity> basePredicate) {
+    private Predicate<Entity> witchery$alertOthers(Predicate<Entity> basePredicate) {
         return basePredicate.and(e -> this.mob.getLastHurtByMob() != e || !((Possessable)e).isBeingPossessed() || this.mob instanceof ZombifiedPiglin);
     }
 }

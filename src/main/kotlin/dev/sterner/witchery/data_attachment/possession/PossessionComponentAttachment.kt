@@ -3,18 +3,21 @@ package dev.sterner.witchery.data_attachment.possession
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.interfaces.Possessable
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.payload.SyncPossessionComponentS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.neoforged.neoforge.common.NeoForge
@@ -22,6 +25,14 @@ import net.neoforged.neoforge.network.PacketDistributor
 import java.util.*
 
 object PossessionComponentAttachment {
+
+    val INHERENT_MOB_SLOWNESS_UUID: ResourceLocation = Witchery.id("mobSlownessModifier")
+
+    val INHERENT_MOB_SLOWNESS: AttributeModifier = AttributeModifier(
+        INHERENT_MOB_SLOWNESS_UUID,
+        -0.66,
+        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+    )
 
     fun getPossessionData(player: Player): PossessionData {
         return player.getData(WitcheryDataAttachments.PLAYER_POSSESSION)

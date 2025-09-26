@@ -1,8 +1,10 @@
 package dev.sterner.witchery.handler.affliction
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
@@ -64,15 +66,18 @@ enum class LichdomAbility(
 
             val afflictionData = AfflictionPlayerAttachment.getData(player)
             val possessionComponent = PossessionComponentAttachment.get(player)
+            val possessionData = PossessionComponentAttachment.getPossessionData(player)
+
+            val isPossessing = possessionData.isPossessing()
+            val host = possessionComponent.getHost()
 
             return when {
-                afflictionData.isSoulForm() -> {
-                    if (possessionComponent.isPossessionOngoing()) {
-                        exitPossessionToSoulForm(player)
-                        true
-                    } else {
-                        false
-                    }
+                isPossessing && host != null -> {
+                    exitPossessionToSoulForm(player)
+                    true
+                }
+                afflictionData.isSoulForm() || afflictionData.isVagrant() -> {
+                    false
                 }
                 else -> {
                     activateSoulForm(player)
@@ -83,21 +88,42 @@ enum class LichdomAbility(
 
         override fun use(player: Player, target: Entity): Boolean {
             if (player !is ServerPlayer) return false
+
             val afflictionData = AfflictionPlayerAttachment.getData(player)
-            if (!afflictionData.isSoulForm()) return false
+            val possessionData = PossessionComponentAttachment.getPossessionData(player)
+
+            if (possessionData.isPossessing()) {
+                return false
+            }
+
+            if (!afflictionData.isSoulForm()) {
+                return false
+            }
+
             return when (target) {
                 is SoulShellPlayerEntity -> {
+                    if (afflictionData.isVagrant()) {
+                        return false
+                    }
+
                     if (target.getOriginalUUID().orElse(null) == player.uuid) {
                         returnToShell(player, target)
                         AbilityCooldownManager.startCooldown(player, this)
                         true
-                    } else false
+                    } else {
+                        false
+                    }
                 }
                 is Mob -> {
-                    AbilityCooldownManager.startCooldown(player, this)
-                    attemptPossession(player, target)
+                    val result = attemptPossession(player, target)
+                    if (result) {
+                        AbilityCooldownManager.startCooldown(player, this)
+                    }
+                    result
                 }
-                else -> false
+                else -> {
+                    false
+                }
             }
         }
 
@@ -105,10 +131,8 @@ enum class LichdomAbility(
             val shell = PlayerShellEntity.createShellFromPlayer(player)
             player.level().addFreshEntity(shell)
 
-            // TODO: Transfer inventory to shell entity
-
             AfflictionPlayerAttachment.batchUpdate(player) {
-                withSoulForm(true)
+                withSoulForm(true).withVagrant(false)
             }
 
             SoulShellPlayerEntity.enableFlight(player)
@@ -136,10 +160,14 @@ enum class LichdomAbility(
                 else -> lichLevel >= 12 && target.maxHealth <= player.maxHealth * 2
             }
 
-            if (!canPossess || target.health <= 0 || target.isRemoved) return false
+            if (!canPossess || target.health <= 0 || target.isRemoved) {
+                return false
+            }
 
             val possessionComponent = PossessionComponentAttachment.get(player)
-            if (possessionComponent.startPossessing(target, false)) {
+            val success = possessionComponent.startPossessing(target, false)
+
+            if (success) {
                 AfflictionPlayerAttachment.batchUpdate(player) {
                     withSoulForm(false).withVagrant(true)
                 }
@@ -148,11 +176,9 @@ enum class LichdomAbility(
                 player.onUpdateAbilities()
 
                 playEffects(target, SoundEvents.ENDERMAN_TELEPORT, ParticleTypes.PORTAL)
-
-                return true
             }
 
-            return false
+            return success
         }
 
         private fun exitPossessionToSoulForm(player: ServerPlayer) {
@@ -161,11 +187,16 @@ enum class LichdomAbility(
 
             if (host != null) {
                 possessionComponent.stopPossessing(false)
-
                 host.hurt(host.damageSources().magic(), host.maxHealth * 0.5f)
 
+                EntityAiToggle.toggleAi(host, EntityAiToggle.POSSESSION_MECHANISM_ID, false, false)
+
+                val hasShell = player.level().getEntities(null, player.boundingBox.inflate(100.0))
+                    .filterIsInstance<SoulShellPlayerEntity>()
+                    .any { it.getOriginalUUID().orElse(null) == player.uuid }
+
                 AfflictionPlayerAttachment.batchUpdate(player) {
-                    withSoulForm(true).withVagrant(false)
+                    withSoulForm(true).withVagrant(!hasShell)
                 }
 
                 SoulShellPlayerEntity.enableFlight(player)
@@ -184,13 +215,14 @@ enum class LichdomAbility(
             }
         }
 
+
         private fun returnToShell(player: ServerPlayer, shell: SoulShellPlayerEntity) {
             SoulShellPlayerEntity.replaceWithPlayer(player, shell)
 
             player.teleportTo(shell.x, shell.y, shell.z)
 
             AfflictionPlayerAttachment.batchUpdate(player) {
-                withSoulForm(false)
+                withSoulForm(false).withVagrant(false)
             }
 
             SoulShellPlayerEntity.disableFlight(player)
