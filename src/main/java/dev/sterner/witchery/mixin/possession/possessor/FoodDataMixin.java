@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FoodData.class)
-public abstract class HungerManagerMixin {
+public abstract class FoodDataMixin {
     @Unique
     private static final ThreadLocal<Player> PLAYER_ENTITY_THREAD_LOCAL = new ThreadLocal<>();
 

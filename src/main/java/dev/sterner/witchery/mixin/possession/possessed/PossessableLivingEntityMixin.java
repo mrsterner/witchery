@@ -41,17 +41,12 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
     private final boolean witchery$immovable = this.getType().is(WitcheryTags.INSTANCE.getIMMOVABLE());
     @Unique
     private final boolean witchery$regularEater = this.getType().is(WitcheryTags.INSTANCE.getREGULAR_EATER());
-    @Nullable
-    private UUID witchery$previousPossessorUuid;
 
     @Shadow public abstract float getHealth();
     @Shadow public abstract float getAbsorptionAmount();
     @Shadow public float yHeadRot;
     @Shadow public float yBodyRot;
-    @Shadow @Nullable public abstract LivingEntity getLastHurtByMob();
-    @Shadow
-    public abstract boolean isUsingItem();
-    @Shadow public abstract Brain<?> getBrain();
+    @Shadow public abstract boolean isUsingItem();
     @Shadow @Nullable public abstract AttributeInstance getAttribute(Holder<Attribute> attribute);
 
     @Nullable
@@ -94,7 +89,6 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
 
         if (possessor == null) {
             assert this.possessor != null;
-            this.witchery$previousPossessorUuid = this.possessor.getUUID();
             this.fallDistance = this.possessor.fallDistance;
             this.setShiftKeyDown(false);
         }

@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(Mob.class)
-public abstract class PossessableMobEntityMixin extends PossessableLivingEntityMixin implements Possessable {
+public abstract class PossessableMobMixin extends PossessableLivingEntityMixin implements Possessable {
 
     @Shadow public abstract void setAggressive(boolean aggressive);
     @Shadow public abstract boolean isAggressive();
@@ -28,7 +28,7 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     @Unique
     private int attackingCountdown;
 
-    public PossessableMobEntityMixin(EntityType<? extends Mob> type, Level world) {
+    public PossessableMobMixin(EntityType<? extends Mob> type, Level world) {
         super(type, world);
     }
 

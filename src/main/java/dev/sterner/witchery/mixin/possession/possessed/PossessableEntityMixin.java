@@ -28,16 +28,10 @@ public abstract class PossessableEntityMixin implements ProtoPossessable {
     @Shadow
     public boolean hasImpulse;
 
-    /**
-     * Nullable possessor, only present if this entity is actually possessed.
-     */
     @Unique
     @Nullable
     private Player witchery$possessor;
 
-    /**
-     * Implement ProtoPossessable
-     */
     @Override
     public boolean isBeingPossessed() {
         return this instanceof Possessable && this.witchery$possessor != null;
@@ -48,7 +42,6 @@ public abstract class PossessableEntityMixin implements ProtoPossessable {
     public Player getPossessor() {
         if (!isBeingPossessed()) return null;
 
-        // Remove possessor if they were removed from the world
         if (this.witchery$possessor != null && this.witchery$possessor.isRemoved()) {
             this.witchery$possessor = null;
         }
@@ -59,8 +52,6 @@ public abstract class PossessableEntityMixin implements ProtoPossessable {
     public void setPossessor(@Nullable Player possessor) {
         this.witchery$possessor = possessor;
     }
-
-    // --- Mixin injections ---
 
     @Inject(method = "markHurt", at = @At("RETURN"))
     private void witchery$markHurt(CallbackInfo ci) {

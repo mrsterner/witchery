@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 @Mixin(Level.class)
-public abstract class WorldMixin {
+public abstract class LevelMixin {
 
     @ModifyVariable(method = "getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;", at = @At(value = "HEAD"), argsOnly = true)
     private @Nullable Predicate<Entity> ignorePossessed(@Nullable Predicate<Entity> predicate, @Nullable Entity ignored) {

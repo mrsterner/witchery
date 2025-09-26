@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.interfaces.DisableableAiController
-import dev.sterner.witchery.mixin.possession.MobEntityAccessor
+import dev.sterner.witchery.mixin.possession.MobAccessor
 import dev.sterner.witchery.payload.SyncAIEntityToggleS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap
@@ -71,7 +71,7 @@ object EntityAiToggle {
         val toggle = getEntityToggle(entity)
         toggle.isAiDisabled = nowDisabled
         (entity.getBrain() as DisableableAiController).`witchery$setDisabled`(nowDisabled)
-        if (entity is MobEntityAccessor) {
+        if (entity is MobAccessor) {
             (entity.getGoalSelector() as DisableableAiController).`witchery$setDisabled`(nowDisabled)
             (entity.getTargetSelector() as DisableableAiController).`witchery$setDisabled`(nowDisabled)
             (entity.`witchery$getNavigation`() as DisableableAiController).`witchery$setDisabled`(nowDisabled)

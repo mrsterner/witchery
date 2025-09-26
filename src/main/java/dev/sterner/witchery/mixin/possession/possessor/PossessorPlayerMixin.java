@@ -9,7 +9,6 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
-import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
@@ -23,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.EnumSet;
 
 @Mixin(Player.class)
-public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMixin {
+public abstract class PossessorPlayerMixin extends PossessorLivingEntityMixin {
 
     @Shadow
     public abstract FoodData getFoodData();

@@ -26,11 +26,11 @@ import javax.annotation.Nullable;
 import java.util.function.Function;
 
 @Mixin(ServerPlayer.class)
-public abstract class PossessorServerPlayerEntityMixin extends Player {
+public abstract class PossessorServerPlayerMixin extends Player {
     @Nullable
     private CompoundTag witchery$possessedEntityTag;
 
-    public PossessorServerPlayerEntityMixin(Level world, BlockPos pos, float yaw, GameProfile profile) {
+    public PossessorServerPlayerMixin(Level world, BlockPos pos, float yaw, GameProfile profile) {
         super(world, pos, yaw, profile);
     }
 
@@ -105,7 +105,7 @@ public abstract class PossessorServerPlayerEntityMixin extends Player {
 
     @Inject(method = "restoreFrom", at = @At("RETURN"))
     private void witchery$restoreFrom(ServerPlayer original, boolean fromEnd, CallbackInfo ci) {
-        this.witchery$possessedEntityTag = ((PossessorServerPlayerEntityMixin) (Object) original).witchery$possessedEntityTag;
+        this.witchery$possessedEntityTag = ((PossessorServerPlayerMixin) (Object) original).witchery$possessedEntityTag;
 
         if (this.witchery$possessedEntityTag != null) {
             this.getInventory().replaceWith(original.getInventory());

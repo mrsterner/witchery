@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 @Mixin(PlayerList.class)
-public abstract class PlayerManagerMixin {
+public abstract class PlayerListMixin {
 
     @ModifyReceiver(
             method = "placeNewPlayer",

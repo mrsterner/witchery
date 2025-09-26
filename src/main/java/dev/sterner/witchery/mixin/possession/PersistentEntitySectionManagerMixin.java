@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PersistentEntitySectionManager.class)
-public abstract class ServerEntityManagerMixin<T extends EntityAccess> {
+public abstract class PersistentEntitySectionManagerMixin<T extends EntityAccess> {
 
 
     @Inject(
