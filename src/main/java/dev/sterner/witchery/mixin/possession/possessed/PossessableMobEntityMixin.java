@@ -1,18 +1,15 @@
-package dev.sterner.witchery.mixin.possession;
-
+package dev.sterner.witchery.mixin.possession.possessed;
 
 import dev.sterner.witchery.api.interfaces.Possessable;
-import dev.sterner.witchery.data_attachment.possession.PossessionManager;
+import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,14 +20,10 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(Mob.class)
 public abstract class PossessableMobEntityMixin extends PossessableLivingEntityMixin implements Possessable {
 
+    @Shadow public abstract void setAggressive(boolean aggressive);
+    @Shadow public abstract boolean isAggressive();
     @Shadow
-    public abstract void setAggressive(boolean aggressive);
-
-    @Shadow
-    public abstract boolean isAggressive();
-
-    @Shadow
-    protected abstract void customServerAiStep();
+    protected abstract void serverAiStep();
 
     @Unique
     private int attackingCountdown;
@@ -40,9 +33,9 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Override
-    protected void requiem$mobTick() {
+    protected void witchery$mobTick() {
         this.level().getProfiler().push("mob tick");
-        this.customServerAiStep();
+        this.serverAiStep();
         this.level().getProfiler().pop();
     }
 
@@ -64,7 +57,7 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Inject(method = "getArmorSlots", at = @At("HEAD"), cancellable = true)
-    private void getArmorItems(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
+    private void getArmorSlots(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
         Player possessor = this.getPossessor();
         if (possessor != null) {
             cir.setReturnValue(possessor.getArmorSlots());
@@ -72,7 +65,7 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Inject(method = "getHandSlots", at = @At("HEAD"), cancellable = true)
-    private void getItemsHand(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
+    private void getHandSlots(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
         Player possessor = this.getPossessor();
         if (possessor != null) {
             cir.setReturnValue(possessor.getHandSlots());
@@ -80,7 +73,7 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Inject(method = "getItemBySlot", at = @At("HEAD"), cancellable = true)
-    private void getEquippedStack(EquipmentSlot slot, CallbackInfoReturnable<ItemStack> cir) {
+    private void getItemBySlot(EquipmentSlot slot, CallbackInfoReturnable<ItemStack> cir) {
         Player possessor = this.getPossessor();
         if (possessor != null) {
             cir.setReturnValue(possessor.getItemBySlot(slot));
@@ -88,7 +81,7 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
     }
 
     @Inject(method = "setItemSlot", at = @At("HEAD"), cancellable = true)
-    private void setEquippedStack(EquipmentSlot slot, ItemStack item, CallbackInfo ci) {
+    private void setItemSlot(EquipmentSlot slot, ItemStack item, CallbackInfo ci) {
         Player possessor = this.getPossessor();
         if (possessor != null && !level().isClientSide) {
             possessor.setItemSlot(slot, item);
@@ -110,20 +103,9 @@ public abstract class PossessableMobEntityMixin extends PossessableLivingEntityM
         }
     }
 
-    @Inject(
-            method = "convertTo",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"),
-            locals = LocalCapture.CAPTURE_FAILSOFT
-    )
-    private <T extends Mob> void possessConvertedMob(EntityType<T> type, boolean bl, CallbackInfoReturnable<T> cir, T converted) {
-        Mob original = (Mob) (Object) this;
-        Player possessor = this.getPossessor();
-
-        if (possessor != null) {
-            PossessionManager.INSTANCE.stopPossessing(possessor, false);
-
-            converted.setPersistenceRequired();
-            PossessionManager.INSTANCE.startPossessing(possessor, converted, false);
-        }
+    @Inject(method = "convertTo", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
+    private <T extends Mob> void possessConvertedMob(EntityType<T> type, boolean transferInventory, CallbackInfoReturnable<T> ci, T converted) {
+        Mob self = (Mob) (Object) this;
+        PossessedDataAttachment.INSTANCE.onMobConverted(self, converted);
     }
 }

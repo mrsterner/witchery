@@ -1,38 +1,34 @@
 package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.NightmarePlayerAttachment
+import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.data_attachment.possession.OrderedInventory
-import dev.sterner.witchery.data_attachment.possession.PossessionAttachment
+import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.client.Minecraft
+import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtOps
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.LivingEntity
 
 class SyncPossessedDataS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(buf: RegistryFriendlyByteBuf) : this(buf.readNbt()!!)
 
-    constructor(entity: LivingEntity, data: PossessionAttachment.PossessedEntityData) : this(CompoundTag().apply {
-        putUUID("EntityId", entity.uuid)
+    constructor(entityId: Int, data: PossessedDataAttachment.Data, registry: HolderLookup.Provider) : this(
+        CompoundTag().apply {
+            putInt("EntityId", entityId)
 
-        // Manually encode the possessed data including inventory
-        val dataTag = CompoundTag()
-        data.hungerDatai?.let { dataTag.put("hunger_data", it) }
-        dataTag.putInt("selected_slot", data.selectedSlot)
-        dataTag.putBoolean("converted_under_possession", data.convertedUnderPossession)
-
-        // Handle inventory separately
-        data.inventory?.let { inv ->
-            dataTag.putInt("inventory_size", inv.containerSize)
-            dataTag.put("inventory", inv.createTag(entity.registryAccess()))
+            PossessedDataAttachment.Data.codec(registry).encodeStart(NbtOps.INSTANCE, data)
+                .resultOrPartial()?.let {
+                    put("PossessedData", it.get())
+                }
         }
-
-        put("PossessedData", dataTag)
-    })
+    )
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> = TYPE
 
@@ -43,30 +39,18 @@ class SyncPossessedDataS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
     fun handleOnClient() {
         val client = Minecraft.getInstance()
         val level = client.level ?: return
-        val entityId = nbt.getUUID("EntityId")
+        val entityId = nbt.getInt("EntityId")
 
-        level.entities.get(entityId)?.let { entity ->
+        level.getEntity(entityId)?.let { entity ->
             if (entity is LivingEntity) {
                 val dataTag = nbt.getCompound("PossessedData")
+                val possessedData = PossessedDataAttachment.Data.codec(level.registryAccess())
+                    .parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
-                client.execute {
-                    val data = PossessionAttachment.PossessedEntityData()
-
-                    if (dataTag.contains("hunger_data")) {
-                        data.hungerDatai = dataTag.getCompound("hunger_data")
+                possessedData?.let { data ->
+                    client.execute {
+                        PossessedDataAttachment.set(entity, data.get())
                     }
-
-                    data.selectedSlot = dataTag.getInt("selected_slot")
-                    data.convertedUnderPossession = dataTag.getBoolean("converted_under_possession")
-
-                    if (dataTag.contains("inventory_size")) {
-                        val size = dataTag.getInt("inventory_size")
-                        val inv = OrderedInventory(size)
-                        inv.fromTag(dataTag.getList("inventory", 10), entity.registryAccess())
-                        data.inventory = inv
-                    }
-
-                    entity.setData(WitcheryDataAttachments.POSSESSED_DATA, data)
                 }
             }
         }

@@ -68,12 +68,11 @@ object WitcheryTags {
     val SCARED_BY_GROTESQUE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("scared_by_grotesque"))
 
 
-    val SOULBOUND: TagKey<MobEffect> = TagKey.create(Registries.MOB_EFFECT, Witchery.id("soul_bound"))
     val INVENTORY_CARRIERS  = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("inventory_carriers"))
+    val SLEEPERS  = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("sleepers"))
     val ITEM_USERS  = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("item_users"))
     val POSSESSABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("possessable"))
     val REGULAR_EATER = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("regular_eater"))
-    fun getRegular(): TagKey<EntityType<*>?> {
-        return REGULAR_EATER
-    }
+    val IMMOVABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("immovable"))
+
 }

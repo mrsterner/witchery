@@ -4,7 +4,7 @@ import net.minecraft.world.entity.player.Player
 import org.jetbrains.annotations.ApiStatus
 
 
-interface Possessable : IPossessable {
+interface Possessable : ProtoPossessable {
     override val possessor: Player?
 
     override val isBeingPossessed: Boolean

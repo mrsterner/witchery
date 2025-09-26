@@ -1,7 +1,9 @@
 package dev.sterner.witchery.mixin.possession.client;
 
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.sterner.witchery.data_attachment.possession.PossessionManager;
+import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
@@ -31,9 +33,31 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         super(ctx, model, shadowRadius);
     }
 
+    private static void setupRenderDelegate(LivingEntity rendered, LivingEntity delegate) {
+        delegate.yBodyRot = rendered.yBodyRot;
+        delegate.yBodyRotO = rendered.yBodyRotO;
+        delegate.setYRot(rendered.getYRot());
+        delegate.yRotO = rendered.yRotO;
+
+        delegate.setXRot(rendered.getXRot());
+        delegate.xRotO = rendered.xRotO;
+
+        delegate.yHeadRot = rendered.yHeadRot;
+        delegate.yHeadRotO = rendered.yHeadRotO;
+    }
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * Player rendering hijack part 1
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    /**
+     * Prevents players possessing something from being rendered, and renders their possessed entity
+     * instead. This both prevents visual stuttering from position desync and lets mods render the player
+     * correctly.
+     */
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void cancelRender(AbstractClientPlayer renderedPlayer, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int lightmap, CallbackInfo ci) {
-        LivingEntity possessedEntity = PossessionManager.INSTANCE.getHost(renderedPlayer);
+        LivingEntity possessedEntity = PossessionComponentAttachment.INSTANCE.get(renderedPlayer).getHost();
         if (possessedEntity != null) {
             if (renderedPlayer == Minecraft.getInstance().player) {
                 setupRenderDelegate(renderedPlayer, possessedEntity);
@@ -43,17 +67,10 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         }
     }
 
-    @Unique
-    private static void setupRenderDelegate(LivingEntity rendered, LivingEntity delegate) {
-        delegate.yBodyRot = rendered.yBodyRot;
-        delegate.yBodyRotO = rendered.yBodyRotO;
-        delegate.setYRot(rendered.getYRot());
-        delegate.yRotO = rendered.yRotO;
-        delegate.setXRot(rendered.getXRot());
-        delegate.xRotO = rendered.xRotO;
-        delegate.yHeadRot = rendered.yHeadRot;
-        delegate.yHeadRotO = rendered.yHeadRotO;
-    }
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * Hand rendering hijack
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 
     @Inject(method = "renderRightHand", at = @At("HEAD"), cancellable = true)
     private void renderRightArm(PoseStack matrices, MultiBufferSource vertices, int lightmap, AbstractClientPlayer renderedPlayer, CallbackInfo ci) {
@@ -71,8 +88,8 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
 
     @Unique
     private boolean requiem_renderPossessedArm(PoseStack matrices, MultiBufferSource vertices, AbstractClientPlayer renderedPlayer, int lightmapCoordinates, boolean rightArm) {
-        if (PossessionManager.INSTANCE.getHost(renderedPlayer) != null) {
-            LivingEntity possessed = PossessionManager.INSTANCE.getHost(renderedPlayer);
+        if (AfflictionPlayerAttachment.getData(renderedPlayer).isVagrant()) {
+            LivingEntity possessed = PossessionComponentAttachment.INSTANCE.get(renderedPlayer).getHost();
             if (possessed != null) {
                 EntityRenderer<? super LivingEntity> possessedRenderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(possessed);
                 // If the mob has an arm, render it instead of the player's
@@ -99,4 +116,3 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         return false;
     }
 }
-

@@ -1,60 +1,46 @@
-/*
-package com.example.mod.attachment
+package dev.sterner.witchery.data_attachment.possession.movement
 
-import com.example.mod.Witchery
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.phys.Vec3
-import net.neoforged.neoforge.attachment.AttachmentType
-import java.util.function.Supplier
 
 object MovementAltererAttachment {
 
-    @JvmStatic
-    val MOVEMENT_ALTERER: Supplier<AttachmentType<MovementAlterer>> =
-        Witchery.ATTACHMENT_TYPES.register("movement_alterer") {
-            AttachmentType.builder { MovementAlterer() }
-                .serialize(MovementAlterer.CODEC)
-                .build()
-        }
-
     fun get(player: Player): MovementAlterer {
-        return player.getData(MOVEMENT_ALTERER)
+        return player.getData(WitcheryDataAttachments.MOVEMENT_ALTERER)
     }
 
     fun set(player: Player, alterer: MovementAlterer) {
-        player.setData(MOVEMENT_ALTERER, alterer)
+        player.setData(WitcheryDataAttachments.MOVEMENT_ALTERER, alterer)
     }
 
     data class MovementAlterer(
-        var config: SerializableMovementConfig? = null,
+        var configi: SerializableMovementConfig? = null,
         var huggingWall: Boolean = false
     ) {
         fun setConfig(newConfig: SerializableMovementConfig?) {
-            config = newConfig
+            configi = newConfig
             applyConfig()
         }
 
         fun applyConfig() {
-            // Apply movement configuration changes
-            // This would involve mixins to actually modify player movement
         }
 
         fun alterControls() {
-            // Called during player tick to alter controls
         }
 
         fun getSwimmingAcceleration(baseAcceleration: Float): Float {
-            return config?.let {
+            return configi?.let {
                 baseAcceleration * it.waterSpeedModifier
             } ?: baseAcceleration
         }
 
         fun getSwimmingUpwardsVelocity(baseUpwardsVelocity: Double): Double {
-            return config?.let {
+            return configi?.let {
                 when (it.swimMode) {
                     SwimMode.SINKING -> 0.0
                     else -> baseUpwardsVelocity
@@ -62,16 +48,15 @@ object MovementAltererAttachment {
             } ?: baseUpwardsVelocity
         }
 
-        fun canClimbWalls(): Boolean = config?.climbsWalls ?: false
+        fun canClimbWalls(): Boolean = configi?.climbsWalls ?: false
 
-        fun isNoClipping(): Boolean = config?.phasesThroughWalls ?: false
+        fun isNoClipping(): Boolean = configi?.phasesThroughWalls ?: false
 
         fun updateSwimming() {
-            // Update swimming state based on config
         }
 
         fun disablesSwimming(): Boolean {
-            return config?.swimMode == SwimMode.DISABLED
+            return configi?.swimMode == SwimMode.DISABLED
         }
 
         fun hugWall(hugging: Boolean) {
@@ -81,7 +66,7 @@ object MovementAltererAttachment {
         companion object {
             val CODEC: Codec<MovementAlterer> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    SerializableMovementConfig.CODEC.optionalFieldOf("config", null).forGetter { it.config },
+                    SerializableMovementConfig.CODEC.optionalFieldOf("config", null).forGetter { it.configi },
                     Codec.BOOL.fieldOf("huggingWall").forGetter { it.huggingWall }
                 ).apply(instance, ::MovementAlterer)
             }
@@ -120,7 +105,8 @@ object MovementAltererAttachment {
 
             val CODEC: Codec<SerializableMovementConfig> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    MovementMode.CODEC.optionalFieldOf("flight_mode", MovementMode.UNSPECIFIED).forGetter { it.flightMode },
+                    MovementMode.CODEC.optionalFieldOf("flight_mode", MovementMode.UNSPECIFIED)
+                        .forGetter { it.flightMode },
                     SwimMode.CODEC.optionalFieldOf("swim_mode", SwimMode.UNSPECIFIED).forGetter { it.swimMode },
                     WalkMode.CODEC.optionalFieldOf("walk_mode", WalkMode.UNSPECIFIED).forGetter { it.walkMode },
                     TriState.CODEC.optionalFieldOf("sinks_in_water", TriState.DEFAULT).forGetter { it.sinksInWater },
@@ -136,49 +122,4 @@ object MovementAltererAttachment {
             }
         }
     }
-
-    enum class MovementMode(private val serializedName: String) : StringRepresentable {
-        DISABLED("disabled"),
-        ENABLED("enabled"),
-        FORCED("forced"),
-        UNSPECIFIED("unspecified");
-
-        override fun getSerializedName(): String = serializedName
-
-        companion object {
-            val CODEC: Codec<MovementMode> = StringRepresentable.fromEnum { values() }
-        }
-    }
-
-    enum class SwimMode(private val serializedName: String) : StringRepresentable {
-        DISABLED("disabled"),
-        ENABLED("enabled"),
-        SINKING("sinking"),
-        UNSPECIFIED("unspecified");
-
-        override fun getSerializedName(): String = serializedName
-
-        companion object {
-            val CODEC: Codec<SwimMode> = StringRepresentable.fromEnum { values() }
-        }
-    }
-
-    enum class WalkMode(private val serializedName: String) : StringRepresentable {
-        DISABLED("disabled"),
-        NORMAL("normal"),
-        UNSPECIFIED("unspecified");
-
-        override fun getSerializedName(): String = serializedName
-
-        companion object {
-            val CODEC: Codec<WalkMode> = StringRepresentable.fromEnum { values() }
-        }
-    }
-
-    enum class TriState(private val serializedName: String) : StringRepresentable {
-        TRUE("true"),
-        FALSE("false"),
-        DEFAULT("default");
-
-        override fun getSerializedName(): String = serialize
- */
+}

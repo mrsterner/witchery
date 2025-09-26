@@ -473,6 +473,7 @@ object AfflictionPlayerAttachment {
         fun getPhylacteryDeathTimes(): List<Long> = lichData.phylacteryDeathTimes
         fun getPhylacterySouls(): Int = lichData.phylacterySouls
         fun isSoulForm(): Boolean = lichData.isSoulFormActive
+        fun isVagrant(): Boolean = lichData.isVagrant
 
         fun getPhylacteryDeathsInOneNight(player: ServerPlayer): Int {
             val oneNightAgo = player.level().gameTime - 12000
@@ -680,7 +681,8 @@ object AfflictionPlayerAttachment {
         val phylacteryDeaths: Int = 0,
         val phylacteryDeathTimes: List<Long> = emptyList(),
         val phylacterySouls: Int = 0,
-        val isSoulFormActive: Boolean = false
+        val isSoulFormActive: Boolean = false,
+        val isVagrant: Boolean = false
     ) {
         companion object {
             val CODEC: Codec<LichData> = RecordCodecBuilder.create { instance ->
@@ -696,7 +698,8 @@ object AfflictionPlayerAttachment {
                     Codec.INT.fieldOf("phylacteryDeaths").forGetter { it.phylacteryDeaths },
                     Codec.LONG.listOf().fieldOf("phylacteryDeathTimes").forGetter { it.phylacteryDeathTimes },
                     Codec.INT.fieldOf("phylacterySouls").forGetter { it.phylacterySouls },
-                    Codec.BOOL.fieldOf("isSoulFormActive").forGetter { it.isSoulFormActive }
+                    Codec.BOOL.fieldOf("isSoulFormActive").forGetter { it.isSoulFormActive },
+                    Codec.BOOL.fieldOf("isVagrant").forGetter { it.isVagrant }
                 ).apply(instance, ::LichData)
             }
 

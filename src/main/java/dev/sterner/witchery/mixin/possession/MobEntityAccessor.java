@@ -8,11 +8,11 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(Mob.class)
 public interface MobEntityAccessor {
-    @Accessor
-    GoalSelector getTargetSelector();
-
-    @Accessor
+    @Accessor("goalSelector")
     GoalSelector getGoalSelector();
+
+    @Accessor("targetSelector")
+    GoalSelector getTargetSelector();
 
     @Accessor("navigation")
     PathNavigation requiem$getNavigation();

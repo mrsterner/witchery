@@ -10,7 +10,9 @@ import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
-import dev.sterner.witchery.data_attachment.possession.PossessionAttachment
+import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
+import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment.PossessionData
+import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment.MovementAlterer
 import dev.sterner.witchery.data_attachment.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.transformation.*
 import net.neoforged.neoforge.attachment.AttachmentType
@@ -21,6 +23,40 @@ import java.util.function.Supplier
 object WitcheryDataAttachments {
     val ATTACHMENT_TYPES: DeferredRegister<AttachmentType<*>> =
         DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Witchery.MODID)
+
+
+    @JvmStatic
+    val POSSESSED_DATA: Supplier<AttachmentType<PossessedDataAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "possessed_data",
+            Supplier {
+                AttachmentType.builder(Supplier { PossessedDataAttachment.Data() })
+                    .serialize(PossessedDataAttachment.Data.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val MOVEMENT_ALTERER: Supplier<AttachmentType<MovementAlterer>> =
+        ATTACHMENT_TYPES.register(
+            "movement_alterer",
+            Supplier {
+                AttachmentType.builder(Supplier { MovementAlterer() })
+                    .serialize(MovementAlterer.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val PLAYER_POSSESSION: Supplier<AttachmentType<PossessionData>> =
+        ATTACHMENT_TYPES.register(
+            "player_possession",
+            Supplier {
+                AttachmentType.builder(Supplier { PossessionData() })
+                    .serialize(PossessionData.CODEC)
+                    .build()
+            }
+        )
 
     @JvmStatic
     val MUTANDIS_LEVEL_DATA_ATTACHMENT: Supplier<AttachmentType<MutandisLevelAttachment.Data>> =
@@ -306,16 +342,7 @@ object WitcheryDataAttachments {
             }
         )
 
-    @JvmStatic
-    val PLAYER_POSSESSION: Supplier<AttachmentType<PossessionAttachment.PlayerPossessionData>> =
-        ATTACHMENT_TYPES.register(
-            "player_possession",
-            Supplier {
-                AttachmentType.builder(Supplier { PossessionAttachment.PlayerPossessionData() })
-                    .serialize(PossessionAttachment.PlayerPossessionData.CODEC)
-                    .build()
-            }
-        )
+
 
     @JvmStatic
     val ENTITY_TOGGLE_DATA_ATTACHMENT: Supplier<AttachmentType<EntityAiToggle.Data>> =
@@ -327,29 +354,6 @@ object WitcheryDataAttachments {
                     .build()
             }
         )
-
-    @JvmStatic
-    val POSSESSABLE: Supplier<AttachmentType<PossessionAttachment.PossessableData>> =
-        ATTACHMENT_TYPES.register(
-            "possessable",
-            Supplier {
-                AttachmentType.builder(Supplier { PossessionAttachment.PossessableData() })
-                    .serialize(PossessionAttachment.PossessableData.CODEC)
-                    .build()
-            }
-        )
-
-    @JvmStatic
-    val POSSESSED_DATA: Supplier<AttachmentType<PossessionAttachment.PossessedEntityData>> =
-        ATTACHMENT_TYPES.register(
-            "possessed_data",
-            Supplier {
-                AttachmentType.builder(Supplier { PossessionAttachment.PossessedEntityData() })
-                    .serialize(PossessionAttachment.PossessedEntityData.CODEC)
-                    .build()
-            }
-        )
-
 
     @JvmStatic
     val SOUL_POOL_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<SoulPoolPlayerAttachment.Data>> =

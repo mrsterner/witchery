@@ -3,31 +3,20 @@ package dev.sterner.witchery.data_attachment.possession
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.possession.PossessionAttachment.PlayerPossessionData
-import dev.sterner.witchery.data_attachment.possession.PossessionAttachment.PossessedEntityData
 import dev.sterner.witchery.mixin.possession.MobEntityAccessor
+import dev.sterner.witchery.payload.SyncAIEntityToggleS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryDataAttachments.PLAYER_POSSESSION
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap
-import net.minecraft.core.HolderLookup
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.StringTag
-import net.minecraft.nbt.Tag
-import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.player.Player
-import java.util.Map
-import java.util.Objects
-import java.util.Optional
-import java.util.function.Supplier
-import java.util.stream.Collectors
+import net.neoforged.neoforge.network.PacketDistributor
 
 
 object EntityAiToggle {
+
+    val POSSESSION_MECHANISM_ID: ResourceLocation = Witchery.id("possession")
 
     fun getEntityToggle(livingEntity: LivingEntity): Data {
         return livingEntity.getData(WitcheryDataAttachments.ENTITY_TOGGLE_DATA_ATTACHMENT)
@@ -35,6 +24,9 @@ object EntityAiToggle {
 
     fun setEntityToggle(livingEntity: LivingEntity, data: Data) {
         livingEntity.setData(WitcheryDataAttachments.ENTITY_TOGGLE_DATA_ATTACHMENT, data)
+        if (livingEntity.level() is ServerLevel) {
+            PacketDistributor.sendToPlayersTrackingEntity(livingEntity, SyncAIEntityToggleS2CPayload(livingEntity.id, data))
+        }
     }
 
     data class Data(
@@ -57,14 +49,7 @@ object EntityAiToggle {
         }
     }
 
-
-    /**
-     * Toggles an AI inhibitor on this entity.
-     *
-     * @param inhibitorId the unique identifier for the mechanic inhibiting this entity's AI
-     * @param inhibit if `true`, the entity's AI will be disabled, otherwise the inhibitor will stop affecting the entity
-     * @param persistent if `true`, the inhibition will be saved with the entity
-     */
+    @JvmStatic
     fun toggleAi(entity: LivingEntity,inhibitorId: ResourceLocation?, inhibit: Boolean, persistent: Boolean) {
         val toggle = getEntityToggle(entity)
 
@@ -90,35 +75,5 @@ object EntityAiToggle {
             (entity.getTargetSelector() as DisableableAiController).`requiem$setDisabled`(nowDisabled)
             (entity.`requiem$getNavigation`() as DisableableAiController).`requiem$setDisabled`(nowDisabled)
         }
-        KEY.sync(this.owner)
-    }
-
-    public fun writeSyncPacket(buf: FriendlyByteBuf, recipient: ServerPlayer?) {
-        buf.writeBoolean(this.isAiDisabled)
-    }
-
-    public fun applySyncPacket(buf: FriendlyByteBuf) {
-        this.isAiDisabled = buf.readBoolean()
-    }
-
-    public fun readFromNbt(tag: CompoundTag, wrapperLookup: HolderLookup.Provider?) {
-        tag.getList("inhibitors", Tag.TAG_STRING.toInt())
-            .stream()
-            .map(Tag::asString)
-            .map(ResourceLocation::tryParse)
-            .filter(Objects::nonNull)
-            .forEach({ id -> this.aiInhibitors.put(id, true) })
-        this.refresh(!this.aiInhibitors.isEmpty())
-    }
-
-    public fun writeToNbt(tag: CompoundTag, wrapperLookup: HolderLookup.Provider?) {
-        tag.put(
-            "inhibitors", this.aiInhibitors.object2BooleanEntrySet().stream()
-                .filter { Object2BooleanMap.Entry.getBooleanValue() }
-                .map<ResourceLocation?> { Map.Entry.key }
-                .map<Any?>(ResourceLocation::toString)
-                .map<Any?>(StringTag::valueOf)
-                .collect(Collectors.toCollection(Supplier { ListTag() }))
-        )
     }
 }

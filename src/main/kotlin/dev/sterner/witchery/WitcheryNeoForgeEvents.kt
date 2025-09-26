@@ -18,7 +18,9 @@ import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.data_attachment.UnderWaterBreathPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.possession.PossessionManager
+import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
+import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
+import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
@@ -49,6 +51,7 @@ import net.neoforged.neoforge.event.LootTableLoadEvent
 import net.neoforged.neoforge.event.RegisterCommandsEvent
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent
+import net.neoforged.neoforge.event.entity.living.LivingConversionEvent
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
@@ -91,7 +94,6 @@ object WitcheryNeoForgeEvents {
         LichdomSpecificEventHandler.onDeath(event, event.entity, event.source)
         LichdomSpecificEventHandler.onKillEntity(event.entity, event.source)
         CaneSwordItem.harvestBlood(event.entity, event.source)
-        PossessionManager.onLivingDeath(event)
     }
 
     @SubscribeEvent
@@ -123,7 +125,21 @@ object WitcheryNeoForgeEvents {
 
         BloodPoolHandler.tickBloodRegen(entity)
         NecroHandler.tickLiving(entity)
-        PossessionManager.onEntityTick(event)
+
+    }
+
+
+    @SubscribeEvent
+    fun onLivingTick2(event: EntityTickEvent.Post) {
+        val entity = event.entity
+        if (entity !is LivingEntity) return
+        if (entity is Player) {
+
+            PossessionComponentAttachment.get(entity).serverTick()
+
+            val alterer = MovementAltererAttachment.get(entity)
+            alterer.applyConfig()
+        }
     }
 
 
@@ -255,6 +271,23 @@ object WitcheryNeoForgeEvents {
                 }
             }
         }
+
+        val original = event.original
+        val player = event.entity
+
+        if (event.isWasDeath) {
+            // Copy data on death if needed
+            val originalData = PossessionComponentAttachment.getPossessionData(original)
+            val newData = PossessionComponentAttachment.getPossessionData(player)
+
+            // Copy relevant data
+            // You might want to reset possession state on death
+        }
+    }
+
+    @SubscribeEvent
+    private fun onLivingConversion(event: LivingConversionEvent.Post) {
+        PossessedDataAttachment.onMobConverted(event.entity, event.outcome)
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -335,7 +368,6 @@ object WitcheryNeoForgeEvents {
     @SubscribeEvent
     fun onJoin(event: EntityJoinLevelEvent) {
         BloodPoolHandler.setBloodOnAdded(event.entity, event.entity.level())
-        PossessionManager.onEntityJoinLevel(event)
     }
 
     @SubscribeEvent

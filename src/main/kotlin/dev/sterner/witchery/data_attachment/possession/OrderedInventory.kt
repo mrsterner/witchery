@@ -1,5 +1,6 @@
 package dev.sterner.witchery.data_attachment.possession
 
+import com.mojang.serialization.Codec
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
@@ -31,7 +32,7 @@ class OrderedInventory(size: Int) : SimpleContainer(size) {
             if (!itemStack.isEmpty) {
                 val compoundTag: CompoundTag = CompoundTag()
                 compoundTag.putByte("Slot", slot.toByte())
-                itemStack.save(registries)
+                itemStack.save(registries, compoundTag)
                 listTag.add(compoundTag)
             }
         }

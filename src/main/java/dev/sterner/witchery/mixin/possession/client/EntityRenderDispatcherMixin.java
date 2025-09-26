@@ -1,11 +1,21 @@
 package dev.sterner.witchery.mixin.possession.client;
 
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
+import com.mojang.blaze3d.vertex.PoseStack;
+import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
+import dev.sterner.witchery.data_attachment.possession.PossessionEvents;
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.neoforged.neoforge.common.NeoForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,11 +35,13 @@ public abstract class EntityRenderDispatcherMixin {
     /**
      * Called once per frame, used to update the entity
      */
-    @Inject(method = "configure", at = @At("HEAD"))
-    private void updateCamerasPossessedEntity(World w, Camera c, Entity e, CallbackInfo ci) {
-        MinecraftClient client = MinecraftClient.getInstance();
+    @Inject(method = "prepare", at = @At("HEAD"))
+    private void updateCamerasPossessedEntity(Level level, Camera activeRenderInfo, Entity entity, CallbackInfo ci) {
+        Minecraft client = Minecraft.getInstance();
         Entity camera = client.getCameraEntity();
-        requiem_camerasPossessed = camera == null ? null : PossessionComponent.getHost(camera);
+        if (camera instanceof Player player) {
+            requiem_camerasPossessed = PossessionComponentAttachment.INSTANCE.get(player).getHost();
+        }
     }
 
     /**
@@ -38,15 +50,17 @@ public abstract class EntityRenderDispatcherMixin {
     @Inject(method = "shouldRender", at = @At("HEAD"), cancellable = true)
     private void preventPossessedRender(Entity entity, Frustum visibleRegion, double x, double y, double z, CallbackInfoReturnable<Boolean> info) {
         if (requiem_camerasPossessed == entity) {
-            if (camera.isThirdPerson() || !RenderSelfPossessedEntityCallback.EVENT.invoker().allowRender(entity)) {
+            var event = new PossessionEvents.AllowRender(entity);
+            NeoForge.EVENT_BUS.post(event);
+            if (camera.isDetached() || !event.isCanceled()) {
                 info.setReturnValue(false);
             }
         }
     }
 
     @Inject(method = "renderShadow", at = @At("HEAD"), cancellable = true)
-    private static void preventShadowRender(MatrixStack matrices, VertexConsumerProvider vertices, Entity rendered, float distance, float tickDelta, WorldView world, float radius, CallbackInfo ci) {
-        if (RemnantComponent.isVagrant(rendered)) {
+    private static void preventShadowRender(PoseStack matrices, MultiBufferSource vertices, Entity rendered, float distance, float tickDelta, LevelReader world, float radius, CallbackInfo ci) {
+        if (rendered instanceof Player player && AfflictionPlayerAttachment.getData(player).isVagrant()) {
             ci.cancel();
         }
     }

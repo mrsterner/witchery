@@ -1,7 +1,6 @@
-package dev.sterner.witchery.mixin.possession;
+package dev.sterner.witchery.mixin.possession.possessed;
 
-
-import dev.sterner.witchery.api.interfaces.IPossessable;
+import dev.sterner.witchery.api.interfaces.ProtoPossessable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.entity.EntityAccess;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import javax.annotation.Nullable;
 
 @Mixin(EntityAccess.class)
-interface EntityLikeMixin extends IPossessable {
+public interface EntityLikeMixin extends ProtoPossessable {
     @Nullable
     @Override
     default Player getPossessor() {

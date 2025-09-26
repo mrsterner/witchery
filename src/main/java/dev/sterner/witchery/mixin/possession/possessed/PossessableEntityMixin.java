@@ -1,11 +1,9 @@
-package dev.sterner.witchery.mixin.possession;
+package dev.sterner.witchery.mixin.possession.possessed;
 
-
-import dev.sterner.witchery.api.interfaces.IPossessable;
+import dev.sterner.witchery.api.interfaces.ProtoPossessable;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -17,13 +15,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-abstract class PossessableEntityMixin implements IPossessable {
+public abstract class PossessableEntityMixin implements ProtoPossessable {
+
     @Shadow
     private Level level;
-    @Shadow public boolean hasImpulse;
+
+    @Shadow
+    public boolean hasImpulse;
 
     @Inject(method = "markHurt", at = @At("RETURN"))
-    private void scheduleVelocityUpdate(CallbackInfo ci) {
+    private void markHurt(CallbackInfo ci) {
         Player player = this.getPossessor();
         if (player != null && !level.isClientSide && this.hasImpulse) {
             player.hasImpulse = true;
@@ -31,7 +32,7 @@ abstract class PossessableEntityMixin implements IPossessable {
     }
 
     @Inject(method = "isControlledByLocalInstance", at = @At("HEAD"), cancellable = true)
-    private void canMoveVoluntarily(CallbackInfoReturnable<Boolean> cir) {
+    private void isControlledByLocalInstance(CallbackInfoReturnable<Boolean> cir) {
         if (this.isBeingPossessed()) {
             cir.setReturnValue(false);
         }
@@ -41,37 +42,35 @@ abstract class PossessableEntityMixin implements IPossessable {
     private void isInvulnerableTo(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
         Player player = this.getPossessor();
         if (player != null && player.isCreative()) {
-            cir.setReturnValue(!source.is(DamageTypes.FELL_OUT_OF_WORLD));
+            cir.setReturnValue(!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
         }
     }
 
     @Inject(method = "canUsePortal", at = @At("HEAD"), cancellable = true)
-    private void canUsePortals(CallbackInfoReturnable<Boolean> cir) {
+    private void canUsePortal(boolean allowPassengers, CallbackInfoReturnable<Boolean> cir) {
         if (this.isBeingPossessed()) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z", at = @At("HEAD"), cancellable = true)
-    private void startRiding(Entity mount, boolean force, CallbackInfoReturnable<Boolean> cir) {
+    private void startRiding(Entity vehicle, boolean force, CallbackInfoReturnable<Boolean> cir) {
         Player player = this.getPossessor();
         if (player != null) {
-            cir.setReturnValue(player.startRiding(mount, force));
+            cir.setReturnValue(player.startRiding(vehicle, force));
         }
     }
 
     @Inject(method = "refreshDimensions", at = @At("RETURN"))
-    private void calculatePossessorDimensions(CallbackInfo ci) {
+    private void refreshPossessorDimensions(CallbackInfo ci) {
         Player possessor = this.getPossessor();
-        if (possessor != null) {
-            possessor.refreshDimensions();
-        }
+        if (possessor != null) possessor.refreshDimensions();
     }
 
-    @Inject(method = "saveWithoutId", at = @At("HEAD"), cancellable = true)
-    private void cancelPossessableSave(CompoundTag tag, CallbackInfoReturnable<CompoundTag> cir) {
+    @Inject(method = "saveAsPassenger", at = @At("HEAD"), cancellable = true)
+    private void cancelPossessableSave(CompoundTag tag, CallbackInfoReturnable<Boolean> cir) {
         if (this.isBeingPossessed()) {
-            cir.setReturnValue(tag);
+            cir.setReturnValue(false);
         }
     }
 }
