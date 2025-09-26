@@ -50,8 +50,10 @@
     "ZombieMixin",
     "possession.BrainMixin",
     "possession.GoalSelectorMixin",
+    "possession.LivingEntityMixin",
     "possession.MobEntityAccessor",
     "possession.PathNavigationMixin",
+    "possession.PlayerMixin",
     "possession.ServerEntityManagerMixin",
     "possession.ServerWorldMixin",
     "possession.WorldMixin",
@@ -87,6 +89,7 @@
     "client.ScreenAccessor",
     "client.WorldOpenFlowsMixin",
     "possession.client.EntityRenderDispatcherMixin",
+    "possession.client.InGameHudMixin",
     "possession.client.PlayerEntityRendererMixin"
   ]
 }

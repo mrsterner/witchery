@@ -1,0 +1,87 @@
+package dev.sterner.witchery.mixin.possession;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment;
+import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Abilities;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@Mixin(Player.class)
+public abstract class PlayerMixin extends LivingEntity  {
+    @Shadow @Final private Abilities abilities;
+
+    @Unique
+    private static final EntityDimensions SOUL_SNEAKING_SIZE = EntityDimensions.scalable(0.6f, 0.6f);
+
+    protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level level) {
+        super(entityType, level);
+    }
+
+    @Inject(method = "isSwimming", at = @At("HEAD"), cancellable = true)
+    private void flyLikeSuperman(CallbackInfoReturnable<Boolean> cir) {
+        Player self = (Player)(Object)this;
+        if (this.abilities.flying && this.isSprinting() && AfflictionPlayerAttachment.getData(self).isSoulForm()) {
+            cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "getMovementEmission", at = @At("RETURN"), cancellable = true)
+    private void preventMoveEffects(CallbackInfoReturnable<MovementEmission> cir) {
+        Player self = (Player)(Object)this;
+        if (cir.getReturnValue() != MovementEmission.NONE && AfflictionPlayerAttachment.getData(self).isSoulForm()) {
+            cir.setReturnValue(MovementEmission.NONE);
+        }
+    }
+
+    @ModifyReturnValue(method = "getFlyingSpeed", at = @At("RETURN"))
+    private float slowGhosts(float airSpeed) {
+        Player self = (Player)(Object)this;
+        if (MovementAltererAttachment.INSTANCE.get(self).isNoClipping()) {
+            return airSpeed * 0.1f;
+        }
+        return airSpeed;
+    }
+
+    @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getLookAngle()Lnet/minecraft/world/phys/Vec3;"))
+    private void flySwimVertically(Vec3 motion, CallbackInfo ci) {
+        double yMotion = this.getRotationVector().y;
+        double modifier = yMotion < -0.2D ? 0.085D : 0.06D;
+        Player self = (Player)(Object)this;
+        // If the motion change would not be applied, apply it ourselves
+        if (yMotion > 0.0D && !this.jumping && this.level().getBlockState(BlockPos.containing(
+                this.getX(),
+                this.getY() + 1.0D - 0.1D,
+                this.getZ()
+        )).getFluidState().isEmpty() && AfflictionPlayerAttachment.getData(self).isSoulForm()) {
+            Vec3 velocity = this.getDeltaMovement();
+            this.setDeltaMovement(velocity.add(0.0D, (yMotion - velocity.y) * modifier, 0.0D));
+        }
+    }
+
+    /**
+     * Players' sizes are hardcoded in an immutable enum map.
+     * This injection makes souls smaller when sneaking.
+     */
+    @Inject(method = "getDefaultDimensions", at = @At("HEAD"), cancellable = true)
+    private void adjustSize(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
+        Player self = (Player)(Object)this;
+        if (AfflictionPlayerAttachment.getData(self).isSoulForm() && pose == Pose.CROUCHING) {
+            cir.setReturnValue(SOUL_SNEAKING_SIZE);
+        }
+    }
+}

@@ -2,14 +2,12 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.Witchery.Companion.MODID
-import net.minecraft.core.HolderSet
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.TagKey
-import net.minecraft.world.effect.MobEffect
-import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.material.Fluid
 
 
 object WitcheryTags {
@@ -74,5 +72,8 @@ object WitcheryTags {
     val POSSESSABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("possessable"))
     val REGULAR_EATER = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("regular_eater"))
     val IMMOVABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("immovable"))
+
+    val EMPTY_FLUID = TagKey.create(Registries.FLUID, Witchery.id("empty"))
+
 
 }

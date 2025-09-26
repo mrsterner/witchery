@@ -180,7 +180,9 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
                             data.hasGivenGold()
                         )
                     )
-                } else Optional.empty()
+                } else Optional.empty(),
+
+                lich
             )
         }
 
@@ -409,4 +411,40 @@ class SelectiveSyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayl
             }
         }
     }
+
+    data class LichProgression(
+        val readTablets: List<UUID> = emptyList(),
+    )
+
+    /*
+    data class LichData(
+        val readTablets: List<UUID> = emptyList(),
+        val boundSouls: Int = 0,
+        val zombieKilledMob: Boolean = false,
+        val killedGolems: Int = 0,
+        val drainedAnimals: Int = 0,
+        val possessedKillVillager: Boolean = false,
+        val killedWither: Boolean = false,
+        val phylacteryBound: Boolean = false,
+        val phylacteryDeaths: Int = 0,
+        val phylacteryDeathTimes: List<Long> = emptyList(),
+        val phylacterySouls: Int = 0,
+        val isSoulFormActive: Boolean = false,
+        val isVagrant: Boolean = false
+    ) {
+    enum class SyncField {
+        AFFLICTION_LEVELS,
+        ABILITY_INDEX,
+        ABILITY_COOLDOWNS,
+        VAMP_COMBAT_STATS,  // killedBlazes, usedSunGrenades
+        VAMP_FORM_STATES,   // batForm, nightVision, speedBoost
+        VAMP_VILLAGES,      // visitedVillages, villagersHalfBlood, trappedVillagers
+        WERE_COMBAT_STATS,  // killedSheep, killedWolves, etc.
+        WERE_FORM_STATES,    // wolfForm, wolfManForm
+        LICH_TABLETS,
+        LICH_PROGRESSION,
+        LICH_PHYLACTERY,
+        LICH_FORM_STATES
+    }
+     */
 }

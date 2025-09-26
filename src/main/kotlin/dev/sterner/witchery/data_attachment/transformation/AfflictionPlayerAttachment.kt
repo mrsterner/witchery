@@ -103,9 +103,11 @@ object AfflictionPlayerAttachment {
         private val afflictionLevels: MutableMap<AfflictionTypes, Int> = mutableMapOf(),
         private val abilityIndex: Int = -1,
         private val abilityCooldowns: MutableMap<String, Int> = mutableMapOf(),
-        private val vampData: VampData = VampData(),
-        private val wereData: WereData = WereData(),
-        private val lichData: LichData = LichData(),
+        val vampCombatStats: Optional<VampCombatStats>,
+        val vampFormStates: Optional<VampFormStates>,
+        val vampVillageData: Optional<VampVillageData>,
+        val wereCombatStats: Optional<WereCombatStats>,
+        val wereFormStates: Optional<WereFormStates>,
         private val selectedAbilities: List<String> = emptyList(),
         @Transient private var dirtyFields: MutableSet<SyncField> = mutableSetOf()
     ) {
@@ -203,28 +205,28 @@ object AfflictionPlayerAttachment {
         // VampData helpers
         // ----------------
 
-        fun getKilledBlazes(): Int = vampData.killedBlazes
-        fun getUsedSunGrenades(): Int = vampData.usedSunGrenades
-        fun getNightTicker(): Int = vampData.getNightTicker()
-        fun getInSunTick(): Int = vampData.getInSunTick()
-        fun hasNightVision(): Boolean = vampData.isNightVisionActive
-        fun hasSpeedBoost(): Boolean = vampData.isSpeedBoostActive
-        fun isBatForm(): Boolean = vampData.isBatFormActive
-        fun getMaxInSunTickClient(): Int = vampData.getMaxInSunTickClient()
-        fun getVisitedVillages(): List<Long> = vampData.visitedVillages
-        fun getVillagersHalfBlood(): List<UUID> = vampData.villagersHalfBlood
-        fun getTrappedVillagers(): List<UUID> = vampData.trappedVillagers
+        fun getKilledBlazes(): Int = vampCombatStats.get().killedBlazes
+        fun getUsedSunGrenades(): Int = vampCombatStats.get().usedSunGrenades
+        fun getNightTicker(): Int = vampFormStates.get().nightTicker
+        fun getInSunTick(): Int = vampFormStates.get().inSunTick
+        fun hasNightVision(): Boolean = vampFormStates.get().isNightVisionActive
+        fun hasSpeedBoost(): Boolean = vampFormStates.get().isSpeedBoostActive
+        fun isBatForm(): Boolean = vampFormStates.get().isBatFormActive
+        fun getMaxInSunTickClient(): Int = vampFormStates.get().maxInSunTickClient
+        fun getVisitedVillages(): List<Long> = vampVillageData.get().visitedVillages
+        fun getVillagersHalfBlood(): List<UUID> = vampVillageData.get().villagersHalfBlood
+        fun getTrappedVillagers(): List<UUID> = vampVillageData.get().trappedVillagers
 
         // --- VampData Mutators (copy) ---
-        fun withKilledBlazes(killed: Int): Data = copy(vampData = vampData.copy(killedBlazes = killed)).apply {
+        fun withKilledBlazes(killed: Int): Data = copy(vampData = vampCombatStats.get().copy(killedBlazes = killed)).apply {
             markDirty(SyncField.VAMP_COMBAT_STATS)
         }
 
-        fun withUsedSunGrenades(used: Int): Data = copy(vampData = vampData.copy(usedSunGrenades = used)).apply {
+        fun withUsedSunGrenades(used: Int): Data = copy(vampData = vampCombatStats.get().copy(usedSunGrenades = used)).apply {
             markDirty(SyncField.VAMP_COMBAT_STATS)
         }
 
-        fun withNightTicker(ticks: Int): Data = copy(vampData = vampData.setNightTicker(ticks))
+        fun withNightTicker(ticks: Int): Data = copy(vampData = vampFormStates.get().nightTicker = ticks)
 
         fun withInSunTick(ticks: Int, maxTicks: Int? = null): Data {
             val clamped = if (maxTicks != null) {
@@ -232,73 +234,73 @@ object AfflictionPlayerAttachment {
             } else {
                 ticks.coerceAtLeast(0)
             }
-            return copy(vampData = vampData.setInSunTick(clamped)).apply {
+            return copy(vampData = vampFormStates.get().inSunTick = clamped).apply {
                 markDirty(SyncField.VAMP_FORM_STATES)
             }
         }
 
         fun incrementInSunTick(by: Int = 1, maxTicks: Int? = null): Data {
-            val newValue = vampData.getInSunTick() + by
+            val newValue = vampFormStates.get().inSunTick + by
             val clamped = if (maxTicks != null) {
                 newValue.coerceIn(0, maxTicks)
             } else {
                 newValue.coerceAtLeast(0)
             }
-            return copy(vampData = vampData.setInSunTick(clamped)).apply {
+            return copy(vampData = vampFormStates.get().inSunTick = clamped).apply {
                 markDirty(SyncField.VAMP_FORM_STATES)
             }
         }
 
         fun decrementInSunTick(by: Int = 1): Data {
-            val newValue = (vampData.getInSunTick() - by).coerceAtLeast(0)
-            return copy(vampData = vampData.setInSunTick(newValue)).apply {
+            val newValue = (vampFormStates.get().inSunTick - by).coerceAtLeast(0)
+            return copy(vampData = vampFormStates.get().inSunTick = newValue).apply {
                 markDirty(SyncField.VAMP_FORM_STATES)
             }
         }
 
         fun incrementNightTicker(): Data = copy(
-            vampData = vampData.setNightTicker(vampData.getNightTicker() + 1)
+            vampData = vampFormStates.get().nightTicker = vampFormStates.get().nightTicker + 1
         ).apply {
             markDirty(SyncField.VAMP_FORM_STATES)
         }
 
         fun withNightVision(active: Boolean): Data =
-            copy(vampData = vampData.copy(isNightVisionActive = active)).apply {
+            copy(vampData = vampFormStates.get().copy(isNightVisionActive = active)).apply {
                 markDirty(SyncField.VAMP_FORM_STATES)
             }
 
-        fun withSpeedBoost(active: Boolean): Data = copy(vampData = vampData.copy(isSpeedBoostActive = active)).apply {
+        fun withSpeedBoost(active: Boolean): Data = copy(vampData = vampFormStates.get().copy(isSpeedBoostActive = active)).apply {
             markDirty(SyncField.VAMP_FORM_STATES)
         }
 
-        fun withBatForm(active: Boolean): Data = copy(vampData = vampData.copy(isBatFormActive = active)).apply {
+        fun withBatForm(active: Boolean): Data = copy(vampData = vampFormStates.get().copy(isBatFormActive = active)).apply {
             markDirty(SyncField.VAMP_FORM_STATES)
         }
 
         fun withMaxInSunTickClient(value: Int): Data =
-            copy(vampData = vampData.copy(maxInSunTickClient = value)).apply {
+            copy(vampData = vampFormStates.get().copy(maxInSunTickClient = value)).apply {
                 markDirty(SyncField.VAMP_FORM_STATES)
             }
 
         // --- List Mutators ---
         fun addVisitedVillage(pos: Long): Data = copy(
-            vampData = vampData.copy(
-                visitedVillages = vampData.visitedVillages + pos
+            vampData = vampVillageData.get().copy(
+                visitedVillages = vampVillageData.get().visitedVillages + pos
             )
         ).apply {
             markDirty(SyncField.VAMP_VILLAGES)
         }
 
         fun removeVisitedVillage(pos: Long): Data = copy(
-            vampData = vampData.copy(
-                visitedVillages = vampData.visitedVillages - pos
+            vampData = vampVillageData.get().copy(
+                visitedVillages = vampVillageData.get().visitedVillages - pos
             )
         ).apply {
             markDirty(SyncField.VAMP_VILLAGES)
         }
 
         fun clearVisitedVillages(): Data = copy(
-            vampData = vampData.copy(
+            vampData = vampVillageData.get().copy(
                 visitedVillages = emptyList()
             )
         ).apply {
@@ -306,23 +308,23 @@ object AfflictionPlayerAttachment {
         }
 
         fun addVillagerHalfBlood(uuid: UUID): Data = copy(
-            vampData = vampData.copy(
-                villagersHalfBlood = vampData.villagersHalfBlood + uuid
+            vampData = vampVillageData.get().copy(
+                villagersHalfBlood = vampVillageData.get().villagersHalfBlood + uuid
             )
         ).apply {
             markDirty(SyncField.VAMP_VILLAGES)
         }
 
         fun removeVillagerHalfBlood(uuid: UUID): Data = copy(
-            vampData = vampData.copy(
-                villagersHalfBlood = vampData.villagersHalfBlood - uuid
+            vampData = vampVillageData.get().copy(
+                villagersHalfBlood = vampVillageData.get().villagersHalfBlood - uuid
             )
         ).apply {
             markDirty(SyncField.VAMP_VILLAGES)
         }
 
         fun clearVillagerHalfBlood(): Data = copy(
-            vampData = vampData.copy(
+            vampData = vampVillageData.get().copy(
                 villagersHalfBlood = emptyList()
             )
         ).apply {
@@ -331,22 +333,22 @@ object AfflictionPlayerAttachment {
 
         fun addTrappedVillager(uuid: UUID): Data = copy(
             vampData = vampData.copy(
-                trappedVillagers = vampData.trappedVillagers + uuid
+                trappedVillagers = vampVillageData.get().trappedVillagers + uuid
             )
         ).apply {
             markDirty(SyncField.VAMP_VILLAGES)
         }
 
         fun removeTrappedVillager(uuid: UUID): Data = copy(
-            vampData = vampData.copy(
-                trappedVillagers = vampData.trappedVillagers - uuid
+            vampData = vampVillageData.get().copy(
+                trappedVillagers = vampVillageData.get().trappedVillagers - uuid
             )
         ).apply {
             markDirty(SyncField.VAMP_VILLAGES)
         }
 
         fun clearTrappedVillager(): Data = copy(
-            vampData = vampData.copy(
+            vampData = vampVillageData.get().copy(
                 trappedVillagers = emptyList()
             )
         ).apply {
@@ -354,20 +356,20 @@ object AfflictionPlayerAttachment {
         }
 
         fun incrementKilledBlazes(by: Int = 1): Data =
-            copy(vampData = vampData.copy(killedBlazes = vampData.killedBlazes + by)).apply {
+            copy(vampData = vampCombatStats.get().copy(killedBlazes = vampCombatStats.get().killedBlazes + by)).apply {
                 markDirty(SyncField.VAMP_COMBAT_STATS)
             }
 
-        fun clearKilledBlazes(): Data = copy(vampData = vampData.copy(killedBlazes = 0)).apply {
+        fun clearKilledBlazes(): Data = copy(vampData = vampCombatStats.get().copy(killedBlazes = 0)).apply {
             markDirty(SyncField.VAMP_COMBAT_STATS)
         }
 
         fun incrementUsedSunGrenades(by: Int = 1): Data =
-            copy(vampData = vampData.copy(usedSunGrenades = vampData.usedSunGrenades + by)).apply {
+            copy(vampData = vampCombatStats.get().copy(usedSunGrenades = vampCombatStats.get().usedSunGrenades + by)).apply {
                 markDirty(SyncField.VAMP_COMBAT_STATS)
             }
 
-        fun clearUsedSunGrenades(): Data = copy(vampData = vampData.copy(usedSunGrenades = 0)).apply {
+        fun clearUsedSunGrenades(): Data = copy(vampData = vampCombatStats.get().copy(usedSunGrenades = 0)).apply {
             markDirty(SyncField.VAMP_COMBAT_STATS)
         }
 
@@ -554,6 +556,13 @@ object AfflictionPlayerAttachment {
             )
         ).apply { markDirty(SyncField.LICH_FORM_STATES) }
 
+
+        fun withVagrant(active: Boolean): Data = copy(
+            lichData = lichData.copy(
+                isVagrant = active
+            )
+        ).apply { markDirty(SyncField.LICH_FORM_STATES) }
+
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
@@ -575,97 +584,6 @@ object AfflictionPlayerAttachment {
             }
 
             val ID: ResourceLocation = Witchery.id("affliction_player_data")
-        }
-    }
-
-    // ----------------
-    // Vampire data
-    // ----------------
-    data class VampData(
-        val killedBlazes: Int = 0,
-        val usedSunGrenades: Int = 0,
-        val villagersHalfBlood: List<UUID> = emptyList(),
-        private val nightTicker: Int = 0,
-        val visitedVillages: List<Long> = emptyList(),
-        val trappedVillagers: List<UUID> = emptyList(),
-        private val inSunTick: Int = 0,
-        val isNightVisionActive: Boolean = false,
-        val isSpeedBoostActive: Boolean = false,
-        val isBatFormActive: Boolean = false,
-        private val maxInSunTickClient: Int = 0
-    ) {
-
-        fun getInSunTick(): Int = inSunTick.coerceAtLeast(0)
-        fun getNightTicker(): Int = nightTicker.coerceAtLeast(0)
-        fun getMaxInSunTickClient(): Int = maxInSunTickClient.coerceAtLeast(0)
-
-        fun setInSunTick(value: Int): VampData {
-            val clamped = value.coerceAtLeast(0)
-            return copy(inSunTick = clamped)
-        }
-
-        fun setNightTicker(value: Int): VampData {
-            val clamped = value.coerceAtLeast(0)
-            return copy(nightTicker = clamped)
-        }
-
-        companion object {
-            val CODEC: Codec<VampData> = RecordCodecBuilder.create { instance ->
-                instance.group(
-                    Codec.INT.fieldOf("killedBlazes").forGetter { it.killedBlazes },
-                    Codec.INT.fieldOf("usedSunGrenades").forGetter { it.usedSunGrenades },
-                    UUIDUtil.CODEC.listOf().fieldOf("villagersHalfBlood").forGetter { it.villagersHalfBlood },
-                    Codec.INT.fieldOf("nightTicker").forGetter { it.nightTicker },
-                    Codec.LONG.listOf().fieldOf("visitedVillages").forGetter { it.visitedVillages },
-                    UUIDUtil.CODEC.listOf().fieldOf("trappedVillagers").forGetter { it.trappedVillagers },
-                    Codec.INT.fieldOf("inSunTick").forGetter { it.inSunTick },
-                    Codec.BOOL.fieldOf("isNightVisionActive").forGetter { it.isNightVisionActive },
-                    Codec.BOOL.fieldOf("isSpeedBoostActive").forGetter { it.isSpeedBoostActive },
-                    Codec.BOOL.fieldOf("isBatFormActive").forGetter { it.isBatFormActive },
-                    Codec.INT.fieldOf("maxInSunTickClient").forGetter { it.maxInSunTickClient }
-                ).apply(instance, ::VampData)
-            }
-
-            val ID: ResourceLocation = Witchery.id("vampire_player_data")
-        }
-    }
-
-    // ----------------
-    // Werewolf data
-    // ----------------
-    data class WereData(
-        val lycanSourceUUID: Optional<UUID> = Optional.empty(),
-        val hasGivenGold: Boolean = false,
-        val killedSheep: Int = 0,
-        val killedWolves: Int = 0,
-        val killHornedOne: Boolean = false,
-        val airSlayMonster: Int = 0,
-        val nightHowl: Int = 0,
-        val wolfPack: Int = 0,
-        val pigmenKilled: Int = 0,
-        val spreadLycanthropy: Boolean = false,
-        val isWolfManFormActive: Boolean = false,
-        val isWolfFormActive: Boolean = false
-    ) {
-        companion object {
-            val CODEC: Codec<WereData> = RecordCodecBuilder.create { instance ->
-                instance.group(
-                    UUIDUtil.CODEC.optionalFieldOf("lycanSourceUUID").forGetter { it.lycanSourceUUID },
-                    Codec.BOOL.fieldOf("hasGivenGold").forGetter { it.hasGivenGold },
-                    Codec.INT.fieldOf("killedSheep").forGetter { it.killedSheep },
-                    Codec.INT.fieldOf("killedWolves").forGetter { it.killedWolves },
-                    Codec.BOOL.fieldOf("killHornedOne").forGetter { it.killHornedOne },
-                    Codec.INT.fieldOf("airSlayMonster").forGetter { it.airSlayMonster },
-                    Codec.INT.fieldOf("nightHowl").forGetter { it.nightHowl },
-                    Codec.INT.fieldOf("wolfPack").forGetter { it.wolfPack },
-                    Codec.INT.fieldOf("pigmenKilled").forGetter { it.pigmenKilled },
-                    Codec.BOOL.fieldOf("spreadLycanthropy").forGetter { it.spreadLycanthropy },
-                    Codec.BOOL.fieldOf("isWolfManFormActive").forGetter { it.isWolfManFormActive },
-                    Codec.BOOL.fieldOf("isWolfFormActive").forGetter { it.isWolfFormActive }
-                ).apply(instance, ::WereData)
-            }
-
-            val ID: ResourceLocation = Witchery.id("werewolf_player_data")
         }
     }
 
@@ -704,6 +622,103 @@ object AfflictionPlayerAttachment {
             }
 
             val ID: ResourceLocation = Witchery.id("lich_player_data")
+        }
+    }
+
+
+    data class VampCombatStats(
+        val killedBlazes: Int,
+        val usedSunGrenades: Int
+    ) {
+        companion object {
+            val CODEC: Codec<VampCombatStats> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.INT.fieldOf("killedBlazes").forGetter { it.killedBlazes },
+                    Codec.INT.fieldOf("usedSunGrenades").forGetter { it.usedSunGrenades }
+                ).apply(instance, ::VampCombatStats)
+            }
+        }
+    }
+
+    data class VampFormStates(
+        val isNightVisionActive: Boolean = false,
+        val isSpeedBoostActive: Boolean = false,
+        val isBatFormActive: Boolean = false,
+        val nightTicker: Int = 0,
+        val inSunTick: Int = 0,
+        val maxInSunTickClient: Int = 0
+    ) {
+        companion object {
+            val CODEC: Codec<VampFormStates> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.BOOL.optionalFieldOf("isNightVisionActive", false).forGetter { it.isNightVisionActive },
+                    Codec.BOOL.optionalFieldOf("isSpeedBoostActive", false).forGetter { it.isSpeedBoostActive },
+                    Codec.BOOL.optionalFieldOf("isBatFormActive", false).forGetter { it.isBatFormActive },
+                    Codec.INT.optionalFieldOf("nightTicker", 0).forGetter { it.nightTicker },
+                    Codec.INT.optionalFieldOf("inSunTick", 0).forGetter { it.inSunTick },
+                    Codec.INT.optionalFieldOf("maxInSunTickClient", 0).forGetter { it.maxInSunTickClient }
+                ).apply(instance, ::VampFormStates)
+            }
+        }
+    }
+
+    data class VampVillageData(
+        val visitedVillages: List<Long>,
+        val villagersHalfBlood: List<UUID>,
+        val trappedVillagers: List<UUID>
+    ) {
+        companion object {
+            val CODEC: Codec<VampVillageData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.LONG.listOf().fieldOf("visitedVillages").forGetter { it.visitedVillages },
+                    UUIDUtil.CODEC.listOf().fieldOf("villagersHalfBlood").forGetter { it.villagersHalfBlood },
+                    UUIDUtil.CODEC.listOf().fieldOf("trappedVillagers").forGetter { it.trappedVillagers }
+                ).apply(instance, ::VampVillageData)
+            }
+        }
+    }
+
+    data class WereCombatStats(
+        val killedSheep: Int,
+        val killedWolves: Int,
+        val killHornedOne: Boolean,
+        val airSlayMonster: Int,
+        val nightHowl: Int,
+        val wolfPack: Int,
+        val pigmenKilled: Int,
+        val spreadLycanthropy: Boolean
+    ) {
+        companion object {
+            val CODEC: Codec<WereCombatStats> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.INT.fieldOf("killedSheep").forGetter { it.killedSheep },
+                    Codec.INT.fieldOf("killedWolves").forGetter { it.killedWolves },
+                    Codec.BOOL.fieldOf("killHornedOne").forGetter { it.killHornedOne },
+                    Codec.INT.fieldOf("airSlayMonster").forGetter { it.airSlayMonster },
+                    Codec.INT.fieldOf("nightHowl").forGetter { it.nightHowl },
+                    Codec.INT.fieldOf("wolfPack").forGetter { it.wolfPack },
+                    Codec.INT.fieldOf("pigmenKilled").forGetter { it.pigmenKilled },
+                    Codec.BOOL.fieldOf("spreadLycanthropy").forGetter { it.spreadLycanthropy }
+                ).apply(instance, ::WereCombatStats)
+            }
+        }
+    }
+
+    data class WereFormStates(
+        val isWolfManFormActive: Boolean,
+        val isWolfFormActive: Boolean,
+        val lycanSourceUUID: Optional<UUID>,
+        val hasGivenGold: Boolean
+    ) {
+        companion object {
+            val CODEC: Codec<WereFormStates> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.BOOL.fieldOf("isWolfManFormActive").forGetter { it.isWolfManFormActive },
+                    Codec.BOOL.fieldOf("isWolfFormActive").forGetter { it.isWolfFormActive },
+                    UUIDUtil.CODEC.optionalFieldOf("lycanSourceUUID").forGetter { it.lycanSourceUUID },
+                    Codec.BOOL.fieldOf("hasGivenGold").forGetter { it.hasGivenGold }
+                ).apply(instance, ::WereFormStates)
+            }
         }
     }
 }

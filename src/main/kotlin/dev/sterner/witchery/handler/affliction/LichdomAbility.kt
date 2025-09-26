@@ -72,7 +72,6 @@ enum class LichdomAbility(
                         exitPossessionToSoulForm(player)
                         true
                     } else {
-                        // TODO: Return to player shell if it exists
                         false
                     }
                 }
@@ -84,25 +83,18 @@ enum class LichdomAbility(
         }
 
         override fun use(player: Player, target: Entity): Boolean {
-            println("1")
             if (player !is ServerPlayer) return false
-            println("2")
             val afflictionData = AfflictionPlayerAttachment.getData(player)
-            println(afflictionData.isSoulForm())
             if (!afflictionData.isSoulForm()) return false
-            println("3")
             return when (target) {
                 is SoulShellPlayerEntity -> {
-                    println("4")
                     if (target.getOriginalUUID().orElse(null) == player.uuid) {
-                        println("5")
                         returnToShell(player, target)
                         AbilityCooldownManager.startCooldown(player, this)
                         true
                     } else false
                 }
                 is Mob -> {
-                    println("6")
                     AbilityCooldownManager.startCooldown(player, this)
                     attemptPossession(player, target)
                 }
@@ -116,7 +108,6 @@ enum class LichdomAbility(
 
             // TODO: Transfer inventory to shell entity
 
-            println("withSoulForm")
             AfflictionPlayerAttachment.batchUpdate(player) {
                 withSoulForm(true)
             }
@@ -155,9 +146,7 @@ enum class LichdomAbility(
             val possessionComponent = PossessionComponentAttachment.get(player)
             if (possessionComponent.startPossessing(target, false)) {
                 AfflictionPlayerAttachment.batchUpdate(player) {
-                    withSoulForm(false)
-                    markDirty(AfflictionPlayerAttachment.SyncField.LICH_FORM_STATES)
-                    this
+                    withSoulForm(false).withVagrant(true)
                 }
 
                 MovementAltererAttachment.get(player).setConfig(null)
@@ -183,9 +172,7 @@ enum class LichdomAbility(
                 host.hurt(host.damageSources().magic(), host.maxHealth * 0.5f)
 
                 AfflictionPlayerAttachment.batchUpdate(player) {
-                    withSoulForm(true)
-                    markDirty(AfflictionPlayerAttachment.SyncField.LICH_FORM_STATES)
-                    this
+                    withSoulForm(true).withVagrant(false)
                 }
 
                 MovementAltererAttachment.get(player).setConfig(
