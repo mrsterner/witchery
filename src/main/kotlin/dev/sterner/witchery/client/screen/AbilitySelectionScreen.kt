@@ -3,6 +3,9 @@ package dev.sterner.witchery.client.screen
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.affliction.*
+import dev.sterner.witchery.handler.affliction.lich.LichdomAbility
+import dev.sterner.witchery.handler.affliction.vampire.VampireAbility
+import dev.sterner.witchery.handler.affliction.werewolf.WerewolfAbility
 import dev.sterner.witchery.payload.UpdateSelectedAbilitiesC2SPayload
 import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.GuiGraphics

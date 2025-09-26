@@ -1,6 +1,6 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.handler.affliction.VampireLeveling
+import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style

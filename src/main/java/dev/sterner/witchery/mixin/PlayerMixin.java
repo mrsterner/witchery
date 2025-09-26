@@ -21,7 +21,7 @@ public abstract class PlayerMixin {
     @Inject(method = "stopSleepInBed", at = @At("TAIL"))
     private void witchery$stopSleepInBed(boolean wakeImmediately, boolean updateLevelForSleepingPlayers, CallbackInfo ci) {
         Player player = Player.class.cast(this);
-        NeoForge.EVENT_BUS.post(new SleepingEvent(player, this.sleepCounter, wakeImmediately));
+        NeoForge.EVENT_BUS.post(new SleepingEvent.Stop(player, this.sleepCounter, wakeImmediately));
     }
 
     @ModifyReturnValue(method = "wantsToStopRiding", at = @At("RETURN"))

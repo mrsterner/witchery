@@ -1,7 +1,7 @@
 package dev.sterner.witchery.poppet
 
 import dev.sterner.witchery.api.PoppetLocation
-import dev.sterner.witchery.api.PoppetType
+import dev.sterner.witchery.api.interfaces.PoppetType
 import dev.sterner.witchery.api.PoppetUsage
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment

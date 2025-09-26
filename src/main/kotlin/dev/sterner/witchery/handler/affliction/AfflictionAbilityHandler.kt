@@ -5,6 +5,9 @@ import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttac
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.ability.AbilityHandler
 import dev.sterner.witchery.handler.ability.AbilityScrollHandler
+import dev.sterner.witchery.handler.affliction.lich.LichdomAbility
+import dev.sterner.witchery.handler.affliction.vampire.VampireAbility
+import dev.sterner.witchery.handler.affliction.werewolf.WerewolfAbility
 import dev.sterner.witchery.payload.AfflictionAbilitySelectionC2SPayload
 import net.minecraft.client.Minecraft
 import net.minecraft.server.level.ServerPlayer

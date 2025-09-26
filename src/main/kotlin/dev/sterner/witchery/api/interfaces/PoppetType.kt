@@ -1,5 +1,6 @@
-package dev.sterner.witchery.api
+package dev.sterner.witchery.api.interfaces
 
+import dev.sterner.witchery.api.PoppetUsage
 import dev.sterner.witchery.registry.WitcheryPoppetRegistry
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.damagesource.DamageSource

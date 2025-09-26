@@ -1,8 +1,11 @@
-package dev.sterner.witchery.handler.affliction
+package dev.sterner.witchery.handler.affliction.werewolf
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.WerewolfEvent
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.handler.affliction.TransformationHandler
+import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import net.minecraft.network.chat.Component

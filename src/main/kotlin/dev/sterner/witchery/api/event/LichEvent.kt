@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player
 import net.neoforged.bus.api.Event
 import net.neoforged.bus.api.ICancellableEvent
 
-class LichEvent {
+object LichEvent {
 
     class LevelUp(var player: Player, var currentLevel: Int, var newLevel: Int) : Event(), ICancellableEvent
 

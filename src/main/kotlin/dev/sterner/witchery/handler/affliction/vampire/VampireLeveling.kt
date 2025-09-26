@@ -1,9 +1,12 @@
-package dev.sterner.witchery.handler.affliction
+package dev.sterner.witchery.handler.affliction.vampire
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import net.minecraft.network.chat.Component

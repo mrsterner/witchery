@@ -4,4 +4,6 @@ import dev.sterner.witchery.entity.ChainEntity
 import net.minecraft.world.entity.Entity
 import net.neoforged.bus.api.Event
 
-class ChainEvent(var entity: Entity?, var chain: ChainEntity) : Event()
+object ChainEvent {
+    class Discard(var entity: Entity?, var chain: ChainEntity) : Event()
+}

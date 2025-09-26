@@ -1,18 +1,21 @@
-package dev.sterner.witchery.handler.affliction
+package dev.sterner.witchery.handler.affliction.werewolf
 
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.handler.affliction.AfflictionClientEventHandler
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 
-object LichdomClientSpecificEventHandler {
+
+object WerewolfClientSpecificEventHandler {
 
     @JvmStatic
     fun renderHud(guiGraphics: GuiGraphics) {
         val client = Minecraft.getInstance()
         val player = client.player ?: return
 
-        val isNotLich = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM) <= 0
-        if (isNotLich) return
+        val isNotWere = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LYCANTHROPY) <= 0
+        if (isNotWere) return
 
         val hasOffhand = !player.offhandItem.isEmpty
         val y = guiGraphics.guiHeight() - 18 - 5

@@ -7,6 +7,7 @@ import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
+import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents

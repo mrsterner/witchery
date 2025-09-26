@@ -23,13 +23,12 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
-import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment
 import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
-import dev.sterner.witchery.handler.affliction.LichdomClientSpecificEventHandler
-import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler
-import dev.sterner.witchery.handler.affliction.WerewolfClientSpecificEventHandler
+import dev.sterner.witchery.handler.affliction.lich.LichdomClientSpecificEventHandler
+import dev.sterner.witchery.handler.affliction.vampire.VampireClientSpecificEventHandler
+import dev.sterner.witchery.handler.affliction.werewolf.WerewolfClientSpecificEventHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WitchesRobesItem

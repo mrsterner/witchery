@@ -1,6 +1,6 @@
 package dev.sterner.witchery.poppet
 
-import dev.sterner.witchery.api.PoppetType
+import dev.sterner.witchery.api.interfaces.PoppetType
 import dev.sterner.witchery.api.PoppetUsage
 import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.registry.WitcheryItems

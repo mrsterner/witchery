@@ -1,7 +1,10 @@
-package dev.sterner.witchery.handler.affliction
+package dev.sterner.witchery.handler.affliction.werewolf
 
 import dev.sterner.witchery.data_attachment.PlatformUtils
 import dev.sterner.witchery.handler.ability.AbilityCooldownManager
+import dev.sterner.witchery.handler.affliction.AfflictionAbility
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.mixin_logic.SummonedWolf
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.particles.ParticleTypes

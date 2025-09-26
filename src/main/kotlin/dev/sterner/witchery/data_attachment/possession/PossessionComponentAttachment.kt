@@ -4,6 +4,7 @@ package dev.sterner.witchery.data_attachment.possession
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.event.PossessionEvents
 import dev.sterner.witchery.api.interfaces.Possessable
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.payload.SyncPossessionComponentS2CPayload

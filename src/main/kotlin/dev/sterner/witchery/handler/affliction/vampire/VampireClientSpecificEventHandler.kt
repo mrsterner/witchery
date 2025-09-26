@@ -1,10 +1,13 @@
-package dev.sterner.witchery.handler.affliction
+package dev.sterner.witchery.handler.affliction.vampire
 
 import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.handler.affliction.AfflictionClientEventHandler
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.util.RenderUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics

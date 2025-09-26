@@ -1,7 +1,7 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.PoppetType
+import dev.sterner.witchery.api.interfaces.PoppetType
 import dev.sterner.witchery.poppet.*
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey

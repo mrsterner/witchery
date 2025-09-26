@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.sterner.witchery.Witchery;
 import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment;
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler;
-import dev.sterner.witchery.handler.affliction.VampireClientSpecificEventHandler;
+import dev.sterner.witchery.handler.affliction.vampire.VampireClientSpecificEventHandler;
 import dev.sterner.witchery.mixin_logic.GuiMixinLogic;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;

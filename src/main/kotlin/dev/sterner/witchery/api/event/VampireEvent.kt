@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player
 import net.neoforged.bus.api.Event
 import net.neoforged.bus.api.ICancellableEvent
 
-class VampireEvent {
+object VampireEvent {
 
     class LevelUp(var player: Player, var currentLevel: Int, var newLevel: Int) : Event(), ICancellableEvent
     class SunDamage(var player: Player) : Event(), ICancellableEvent

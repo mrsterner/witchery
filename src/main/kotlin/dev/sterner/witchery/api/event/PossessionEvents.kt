@@ -1,6 +1,5 @@
-package dev.sterner.witchery.data_attachment.possession
+package dev.sterner.witchery.api.event
 
-import dev.sterner.witchery.entity.ChainEntity
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob

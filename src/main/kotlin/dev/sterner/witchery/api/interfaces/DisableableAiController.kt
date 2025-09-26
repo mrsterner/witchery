@@ -1,4 +1,4 @@
-package dev.sterner.witchery.data_attachment.possession
+package dev.sterner.witchery.api.interfaces
 
 interface DisableableAiController {
     fun `witchery$setDisabled`(disable: Boolean)

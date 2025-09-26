@@ -6,6 +6,9 @@ import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.handler.affliction.vampire.VampireAbility
+import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
+import dev.sterner.witchery.handler.affliction.werewolf.WerewolfLeveling
 import dev.sterner.witchery.mixin.LivingEntityAccessor
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
@@ -24,7 +27,6 @@ import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
-import org.spongepowered.asm.mixin.Unique
 
 object TransformationHandler {
 

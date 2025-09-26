@@ -9,7 +9,7 @@ import dev.sterner.witchery.entity.goal.VampireEscapeSunGoal
 import dev.sterner.witchery.entity.goal.VampireHurtByTargetGoal
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.handler.affliction.VampireChildrenHuntHandler
+import dev.sterner.witchery.handler.affliction.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryEntityTypes

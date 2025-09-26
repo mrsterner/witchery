@@ -3,7 +3,6 @@ package dev.sterner.witchery.payload
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.NightmarePlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
-import dev.sterner.witchery.data_attachment.possession.OrderedInventory
 import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.client.Minecraft

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin.possession;
 
-import dev.sterner.witchery.data_attachment.possession.DisableableAiController;
+import dev.sterner.witchery.api.interfaces.DisableableAiController;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

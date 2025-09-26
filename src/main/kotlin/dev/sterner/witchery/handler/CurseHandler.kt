@@ -31,7 +31,7 @@ object CurseHandler {
         catBoosted: Boolean,
         duration: Int = 24000
     ): Boolean {
-        val result = CurseEvent(player, sourcePlayer, curse, catBoosted)
+        val result = CurseEvent.Added(player, sourcePlayer, curse, catBoosted)
         NeoForge.EVENT_BUS.post(result)
         if (result.isCanceled) {
             return false

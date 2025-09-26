@@ -3,6 +3,7 @@ package dev.sterner.witchery.data_attachment.possession
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.interfaces.DisableableAiController
 import dev.sterner.witchery.mixin.possession.MobEntityAccessor
 import dev.sterner.witchery.payload.SyncAIEntityToggleS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
