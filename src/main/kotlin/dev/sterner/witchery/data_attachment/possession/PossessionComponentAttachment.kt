@@ -4,8 +4,6 @@ package dev.sterner.witchery.data_attachment.possession
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.api.interfaces.Possessable
-import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment
-import dev.sterner.witchery.data_attachment.possession.movement.MovementRegistry
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.payload.SyncPossessionComponentS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
@@ -145,9 +143,6 @@ object PossessionComponentAttachment {
             player.copyPosition(host)
             player.refreshDimensions()
 
-            val movementConfig = MovementRegistry.get(player.level()).getEntityMovementConfig(host.type)
-            MovementAltererAttachment.get(player).setConfig(movementConfig)
-
             host.playAmbientSound()
 
             host.setPersistenceRequired()
@@ -218,8 +213,6 @@ object PossessionComponentAttachment {
             setPossessionData(player, data)
 
             val remnant = AfflictionPlayerAttachment.getData(player).isVagrant()
-            val config = if (remnant) MovementAltererAttachment.SerializableMovementConfig.SOUL else null
-            MovementAltererAttachment.get(player).setConfig(config)
 
             player.refreshDimensions()
             player.airSupply = player.maxAirSupply

@@ -1,7 +1,6 @@
 package dev.sterner.witchery.mixin.possession.possessor;
 
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
-import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment;
 import dev.sterner.witchery.registry.WitcheryTags;
 import dev.sterner.witchery.util.DamageHelper;
 import net.minecraft.core.BlockPos;
@@ -25,38 +24,6 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
 
     @Shadow
     public abstract void setSprinting(boolean sprinting);
-
-    @ModifyArg(method = "jumpInLiquid", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;add(DDD)Lnet/minecraft/world/phys/Vec3;"), index = 1)
-    private double updateSwimVelocity(double upwardsVelocity) {
-        MovementAltererAttachment.MovementAlterer alterer = MovementAltererAttachment.INSTANCE.get((Player)(Object)this);
-        if (alterer != null) {
-            return alterer.getSwimmingUpwardsVelocity(upwardsVelocity);
-        }
-        return upwardsVelocity;
-    }
-
-    @ModifyVariable(
-            method = "travel",
-            slice = @Slice(
-                    from = @At(
-                            value = "INVOKE",
-                            target = "Lnet/minecraft/world/entity/LivingEntity;getAttributeValue(Lnet/minecraft/core/Holder;)D"
-                    )
-            ),
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/LivingEntity;move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
-                    ordinal = 0
-            ),
-            ordinal = 0
-    )
-    private float fixUnderwaterVelocity(float speedAmount) {
-        MovementAltererAttachment.MovementAlterer alterer = MovementAltererAttachment.INSTANCE.get((Player)(Object)this);
-        if (alterer != null) {
-            return alterer.getSwimmingAcceleration(speedAmount);
-        }
-        return speedAmount;
-    }
 
     @Inject(method = "isFallFlying", at = @At("RETURN"), cancellable = true)
     protected void witchery$canFly(CallbackInfoReturnable<Boolean> cir) {
@@ -116,9 +83,8 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
     @Inject(method = "getFluidFallingAdjustedMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isSprinting()Z"))
     private void preventWaterHovering(double gravity, boolean isFalling, Vec3 deltaMovement, CallbackInfoReturnable<Vec3> cir) {
         LivingEntity self = (LivingEntity)(Object)this;
-        if (self instanceof Player player && this.witchery$isSprinting() && MovementAltererAttachment.INSTANCE.get(player).disablesSwimming()) {
-            witchery$wasSprinting = true;
-            this.setSprinting(false);
+        if (self instanceof Player player) {
+            this.witchery$isSprinting();
         }
     }
 

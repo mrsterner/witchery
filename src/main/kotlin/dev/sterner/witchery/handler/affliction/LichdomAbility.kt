@@ -4,7 +4,6 @@ import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
-import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.handler.NecroHandler
@@ -112,10 +111,6 @@ enum class LichdomAbility(
                 withSoulForm(true)
             }
 
-            MovementAltererAttachment.get(player).setConfig(
-                MovementAltererAttachment.SerializableMovementConfig.SOUL
-            )
-
             SoulShellPlayerEntity.enableFlight(player)
             player.abilities.flying = true
             player.onUpdateAbilities()
@@ -149,8 +144,6 @@ enum class LichdomAbility(
                     withSoulForm(false).withVagrant(true)
                 }
 
-                MovementAltererAttachment.get(player).setConfig(null)
-
                 SoulShellPlayerEntity.disableFlight(player)
                 player.onUpdateAbilities()
 
@@ -174,10 +167,6 @@ enum class LichdomAbility(
                 AfflictionPlayerAttachment.batchUpdate(player) {
                     withSoulForm(true).withVagrant(false)
                 }
-
-                MovementAltererAttachment.get(player).setConfig(
-                    MovementAltererAttachment.SerializableMovementConfig.SOUL
-                )
 
                 SoulShellPlayerEntity.enableFlight(player)
                 player.abilities.flying = true
@@ -203,8 +192,6 @@ enum class LichdomAbility(
             AfflictionPlayerAttachment.batchUpdate(player) {
                 withSoulForm(false)
             }
-
-            MovementAltererAttachment.get(player).setConfig(null)
 
             SoulShellPlayerEntity.disableFlight(player)
             player.abilities.flying = false

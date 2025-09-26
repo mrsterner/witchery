@@ -50,7 +50,6 @@
     "ZombieMixin",
     "possession.BrainMixin",
     "possession.EntityMixin",
-    "possession.EntityPredicatesMixin",
     "possession.EntitySelectorMixin",
     "possession.GoalSelectorMixin",
     "possession.HungerManagerMixin",
@@ -61,6 +60,7 @@
     "possession.ServerEntityManagerMixin",
     "possession.ServerWorldMixin",
     "possession.WorldMixin",
+    "possession.client.ClientEntityMixin",
     "possession.possessed.EntityLikeMixin",
     "possession.possessed.HurtByTargetGoalMixin",
     "possession.possessed.PossessableLivingEntityMixin",
@@ -92,8 +92,10 @@
     "client.RenderBuffersMixin",
     "client.ScreenAccessor",
     "client.WorldOpenFlowsMixin",
+    "possession.client.ClientPlayerEntityMixin",
     "possession.client.EntityRenderDispatcherMixin",
     "possession.client.InGameHudMixin",
+    "possession.client.LivingEntityRendererMixin",
     "possession.client.PlayerEntityRendererMixin"
   ]
 }

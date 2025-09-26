@@ -20,7 +20,6 @@ import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
-import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
@@ -136,9 +135,6 @@ object WitcheryNeoForgeEvents {
         if (entity is Player) {
 
             PossessionComponentAttachment.get(entity).serverTick()
-
-            val alterer = MovementAltererAttachment.get(entity)
-            alterer.applyConfig()
         }
     }
 

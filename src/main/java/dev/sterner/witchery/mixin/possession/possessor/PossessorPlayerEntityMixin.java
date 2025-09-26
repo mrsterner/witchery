@@ -3,7 +3,6 @@ package dev.sterner.witchery.mixin.possession.possessor;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.sterner.witchery.api.interfaces.Possessable;
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
-import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment;
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -49,11 +48,6 @@ public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMi
         if (possessed != null) {
             possessed.jumpFromGround();
         }
-    }
-
-    @Inject(method = "updateSwimming", at = @At("RETURN"))
-    private void cancelSwimming(CallbackInfo ci) {
-        MovementAltererAttachment.INSTANCE.get((Player)(Object)this).updateSwimming();
     }
 
     @Inject(method = "getDefaultDimensions", at = @At("HEAD"), cancellable = true)
@@ -126,10 +120,7 @@ public abstract class PossessorPlayerEntityMixin extends PossessorLivingEntityMi
 
     @Override
     protected void witchery$canClimb(CallbackInfoReturnable<Boolean> cir) {
-        Player self = (Player)(Object)this;
-        if (!cir.getReturnValueZ() && this.witchery$isCollidingHorizontally() && MovementAltererAttachment.INSTANCE.get(self).canClimbWalls()) {
-            cir.setReturnValue(true);
-        }
+
     }
 
     @Override

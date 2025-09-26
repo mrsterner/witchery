@@ -202,12 +202,6 @@ object WitcheryPayloads {
         ) { payload, context ->
             payload.handleOnClient()
         }
-        registrar.playToClient(
-            DataSyncS2CPayload.TYPE,
-            DataSyncS2CPayload.STREAM_CODEC
-        ) { payload, context ->
-            payload.handleOnClient()
-        }
 
         // --- C2S Payloads ---
         registrar.playToServer(DismountBroomC2SPayload.ID, DismountBroomC2SPayload.STREAM_CODEC) { payload, ctx ->

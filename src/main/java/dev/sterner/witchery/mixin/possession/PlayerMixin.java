@@ -1,7 +1,6 @@
 package dev.sterner.witchery.mixin.possession;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment;
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityDimensions;
@@ -48,21 +47,12 @@ public abstract class PlayerMixin extends LivingEntity  {
         }
     }
 
-    @ModifyReturnValue(method = "getFlyingSpeed", at = @At("RETURN"))
-    private float slowGhosts(float airSpeed) {
-        Player self = (Player)(Object)this;
-        if (MovementAltererAttachment.INSTANCE.get(self).isNoClipping()) {
-            return airSpeed * 0.1f;
-        }
-        return airSpeed;
-    }
 
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getLookAngle()Lnet/minecraft/world/phys/Vec3;"))
     private void flySwimVertically(Vec3 motion, CallbackInfo ci) {
         double yMotion = this.getRotationVector().y;
         double modifier = yMotion < -0.2D ? 0.085D : 0.06D;
         Player self = (Player)(Object)this;
-        // If the motion change would not be applied, apply it ourselves
         if (yMotion > 0.0D && !this.jumping && this.level().getBlockState(BlockPos.containing(
                 this.getX(),
                 this.getY() + 1.0D - 0.1D,

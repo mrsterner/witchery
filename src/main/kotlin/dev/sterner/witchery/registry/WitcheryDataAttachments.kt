@@ -12,7 +12,6 @@ import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttac
 import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
 import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment.PossessionData
-import dev.sterner.witchery.data_attachment.possession.movement.MovementAltererAttachment.MovementAlterer
 import dev.sterner.witchery.data_attachment.teleport.TeleportQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.transformation.*
 import net.neoforged.neoforge.attachment.AttachmentType
@@ -32,17 +31,6 @@ object WitcheryDataAttachments {
             Supplier {
                 AttachmentType.builder(Supplier { PossessedDataAttachment.Data() })
                     .serialize(PossessedDataAttachment.Data.CODEC)
-                    .build()
-            }
-        )
-
-    @JvmStatic
-    val MOVEMENT_ALTERER: Supplier<AttachmentType<MovementAlterer>> =
-        ATTACHMENT_TYPES.register(
-            "movement_alterer",
-            Supplier {
-                AttachmentType.builder(Supplier { MovementAlterer() })
-                    .serialize(MovementAlterer.CODEC)
                     .build()
             }
         )
