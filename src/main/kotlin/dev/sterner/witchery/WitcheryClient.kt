@@ -30,7 +30,9 @@ import dev.sterner.witchery.handler.affliction.lich.LichdomClientSpecificEventHa
 import dev.sterner.witchery.handler.affliction.vampire.VampireClientSpecificEventHandler
 import dev.sterner.witchery.handler.affliction.werewolf.WerewolfClientSpecificEventHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
+import dev.sterner.witchery.item.HunterArmorItem
 import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.item.VampireArmorItem
 import dev.sterner.witchery.item.WitchesRobesItem
 import dev.sterner.witchery.payload.DismountBroomC2SPayload
 import dev.sterner.witchery.registry.*
@@ -246,14 +248,14 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             BABA_YAGAS_HAT.get()
         )
         event.registerItem(
-            WitchesRobesItem.ArmorRender.INSTANCE,
+            HunterArmorItem.ArmorRender.INSTANCE,
             HUNTER_HELMET.get(),
             HUNTER_CHESTPLATE.get(),
             HUNTER_LEGGINGS.get(),
             HUNTER_BOOTS.get()
         )
         event.registerItem(
-            WitchesRobesItem.ArmorRender.INSTANCE,
+            VampireArmorItem.ArmorRender.INSTANCE,
             TOP_HAT.get(),
             DRESS_COAT.get(),
             OXFORD_BOOTS.get(),
