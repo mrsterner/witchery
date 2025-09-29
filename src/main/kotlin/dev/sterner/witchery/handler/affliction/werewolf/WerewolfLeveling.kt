@@ -3,6 +3,7 @@ package dev.sterner.witchery.handler.affliction.werewolf
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.WerewolfEvent
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
@@ -45,6 +46,8 @@ object WerewolfLeveling {
 
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
+        val previousLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LYCANTHROPY)
+
         AfflictionPlayerAttachment.batchUpdate(player) {
             var result = setLevel(AfflictionTypes.LYCANTHROPY, level)
 
@@ -73,6 +76,10 @@ object WerewolfLeveling {
             player.chunkPosition(),
             RefreshDimensionsS2CPayload()
         )
+
+        if (level > previousLevel) {
+            AfflictionAbilityHandler.addAbilityOnLevelUp(player, level, AfflictionTypes.LYCANTHROPY)
+        }
     }
 
     /**

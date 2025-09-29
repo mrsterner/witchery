@@ -36,9 +36,9 @@ object AfflictionAbilityHandler : AbilityHandler {
         val wereLevel = data.getLevel(AfflictionTypes.LYCANTHROPY)
         val lichLevel = data.getLevel(AfflictionTypes.LICHDOM)
 
-        val vampAbilities: List<VampireAbility> = VampireAbility.entries.filter { it.isAvailable(vampLevel) }
+        val vampAbilities: List<VampireAbility> = VampireAbility.entries.filter { it.isAvailable(player, vampLevel) }
         val wereAbilities: List<WerewolfAbility> = WerewolfAbility.entries.filter { ability ->
-            ability.isAvailable(wereLevel) &&
+            ability.isAvailable(player, wereLevel) &&
                     when (ability) {
                         WerewolfAbility.WOLF_FORM,
                         WerewolfAbility.WEREWOLF_FORM -> WerewolfAbility.hasMoonCharm(player)
@@ -46,7 +46,7 @@ object AfflictionAbilityHandler : AbilityHandler {
                         else -> true
                     }
         }
-        val lichAbilities: List<LichdomAbility> = LichdomAbility.entries.filter { it.isAvailable(lichLevel) }
+        val lichAbilities: List<LichdomAbility> = LichdomAbility.entries.filter { it.isAvailable(player, lichLevel) }
 
         return (vampAbilities + wereAbilities + lichAbilities)
     }
@@ -64,30 +64,29 @@ object AfflictionAbilityHandler : AbilityHandler {
         }
     }
 
-    fun addAbilityOnLevelUp(player: Player, newLevel: Int, affliction: AfflictionTypes) {
+    fun addAbilityOnLevelUp(player: Player, newLevel: Int, affliction: AfflictionTypes, force: Boolean  = false) {
         val currentSelectedIds = AfflictionPlayerAttachment.getData(player).getSelectedAbilities().toMutableList()
 
         val newAbilities = when (affliction) {
             AfflictionTypes.VAMPIRISM -> {
                 VampireAbility.entries.filter {
-                    it.requiredLevel == newLevel && it.affliction == affliction
+                    (it.requiredLevel == newLevel && it.affliction == affliction) || force
                 }
             }
 
             AfflictionTypes.LYCANTHROPY -> {
                 WerewolfAbility.entries.filter {
-                    it.requiredLevel == newLevel && it.affliction == affliction
+                    (it.requiredLevel == newLevel && it.affliction == affliction) || force
                 }
             }
 
             AfflictionTypes.LICHDOM -> {
                 LichdomAbility.entries.filter {
-                    it.requiredLevel == newLevel && it.affliction == affliction
+                    (it.requiredLevel == newLevel && it.affliction == affliction) || force
                 }
             }
 
 
-            else -> emptyList()
         }
 
         newAbilities.forEach { newAbility ->
@@ -107,10 +106,6 @@ object AfflictionAbilityHandler : AbilityHandler {
 
         AfflictionPlayerAttachment.batchUpdate(player) {
             withSelectedAbilities(abilities).withAbilityIndex(-1)
-        }
-
-        if (!player.level().isClientSide && player is ServerPlayer) {
-            AfflictionPlayerAttachment.sync(player, AfflictionPlayerAttachment.getData(player))
         }
     }
 

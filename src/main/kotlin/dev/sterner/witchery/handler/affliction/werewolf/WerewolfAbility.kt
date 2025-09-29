@@ -200,10 +200,6 @@ enum class WerewolfAbility(
 
             return true
         }
-
-        override fun isAvailable(level: Int): Boolean {
-            return level >= requiredLevel
-        }
     },
 
     WEREWOLF_FORM(3, 20 * 2) {
@@ -245,10 +241,6 @@ enum class WerewolfAbility(
             }
 
             return true
-        }
-
-        override fun isAvailable(level: Int): Boolean {
-            return level >= requiredLevel
         }
     };
 

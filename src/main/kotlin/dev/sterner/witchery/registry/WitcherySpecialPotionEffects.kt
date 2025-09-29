@@ -6,6 +6,10 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.SpecialPotion
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.handler.affliction.lich.LichdomAbility
+import dev.sterner.witchery.handler.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.mixin.SaplingBlockAccessor
 import dev.sterner.witchery.world.WitcheryWorldState
@@ -18,6 +22,7 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -729,6 +734,39 @@ object WitcherySpecialPotionEffects {
                 amplifier: Int
             ) {
                 owner?.addEffect(MobEffectInstance(WitcheryMobEffects.SHRINK, duration, amplifier))
+            }
+        }
+    })
+    val SOUL_SEVERANCE = SPECIALS.register("soul_severance", Supplier {
+        object : SpecialPotion("soul_severance") {
+            override fun onDrunk(
+                level: Level,
+                owner: LivingEntity?,
+                duration: Int,
+                amplifier: Int
+            ) {
+                println("Drink0")
+                if (owner is ServerPlayer) {
+                    println("Drink")
+                    AfflictionAbilityHandler.addAbilityOnLevelUp(owner, LichdomAbility.SOUL_FORM.requiredLevel, AfflictionTypes.LICHDOM, force = true)
+                    LichdomSpecificEventHandler.activateSoulForm(owner)
+                }
+            }
+
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
+            ) {
+                list.filterIsInstance<ServerPlayer>().forEach { serverPlayer ->
+                    println("Drink2")
+                    AfflictionAbilityHandler.addAbilityOnLevelUp(serverPlayer, LichdomAbility.SOUL_FORM.requiredLevel, AfflictionTypes.LICHDOM, force = true)
+                    LichdomSpecificEventHandler.activateSoulForm(serverPlayer)
+                }
             }
         }
     })

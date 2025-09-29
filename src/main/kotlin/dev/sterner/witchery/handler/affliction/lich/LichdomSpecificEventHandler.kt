@@ -1,23 +1,33 @@
 package dev.sterner.witchery.handler.affliction.lich
 
+import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
+import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
 import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import net.minecraft.core.BlockPos
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.tags.EntityTypeTags
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.animal.IronGolem
 import net.minecraft.world.entity.animal.SnowGolem
 import net.minecraft.world.entity.boss.wither.WitherBoss
@@ -224,5 +234,133 @@ object LichdomSpecificEventHandler {
 
     private fun isPlayerMinion(entity: LivingEntity, player: ServerPlayer): Boolean {
         return EtherealEntityAttachment.getData(entity).ownerUUID == player.uuid
+    }
+
+    fun activateSoulForm(player: ServerPlayer) {
+        val shell = PlayerShellEntity.createShellFromPlayer(player)
+        player.level().addFreshEntity(shell)
+
+        AfflictionPlayerAttachment.batchUpdate(player) {
+            withSoulForm(true).withVagrant(false)
+        }
+
+        SoulShellPlayerEntity.enableFlight(player)
+        player.abilities.flying = true
+
+        val random = player.random
+        player.deltaMovement = player.deltaMovement.add(
+            (random.nextDouble() - 0.5) * 0.1,
+            0.2 + random.nextDouble() * 0.1,
+            (random.nextDouble() - 0.5) * 0.1
+        )
+        player.hurtMarked = true
+        player.onUpdateAbilities()
+
+        playEffects(player, SoundEvents.SOUL_ESCAPE.value(), ParticleTypes.SOUL)
+    }
+
+    fun attemptPossession(player: ServerPlayer, target: Mob): Boolean {
+        val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+
+        val canPossess = when {
+            target.type.`is`(EntityTypeTags.UNDEAD) -> lichLevel >= 6
+            target.type.`is`(EntityTypeTags.ILLAGER) -> lichLevel >= 8
+            else -> false
+        }
+
+        if (!canPossess || target.health <= 0 || target.isRemoved) {
+            return false
+        }
+
+        val possessionComponent = PossessionComponentAttachment.get(player)
+        val success = possessionComponent.startPossessing(target)
+
+        if (success) {
+            AfflictionPlayerAttachment.batchUpdate(player) {
+                withSoulForm(false).withVagrant(true)
+            }
+
+            SoulShellPlayerEntity.disableFlight(player)
+            player.onUpdateAbilities()
+
+            playEffects(target, SoundEvents.ENDERMAN_TELEPORT, ParticleTypes.PORTAL)
+        }
+
+        return success
+    }
+
+    fun exitPossessionToSoulForm(player: ServerPlayer) {
+        val possessionComponent = PossessionComponentAttachment.get(player)
+        val host = possessionComponent.getHost()
+
+        if (host != null) {
+            possessionComponent.stopPossessing(false)
+            host.hurt(host.damageSources().magic(), host.maxHealth * 0.5f)
+
+            EntityAiToggle.toggleAi(host, EntityAiToggle.POSSESSION_MECHANISM_ID, false, false)
+
+            AfflictionPlayerAttachment.batchUpdate(player) {
+                withSoulForm(true).withVagrant(false)
+            }
+
+            SoulShellPlayerEntity.enableFlight(player)
+            player.abilities.flying = true
+
+            val random = player.random
+            player.deltaMovement = player.deltaMovement.add(
+                (random.nextDouble() - 0.5) * 0.1,
+                0.2 + random.nextDouble() * 0.1,
+                (random.nextDouble() - 0.5) * 0.1
+            )
+            player.hurtMarked = true
+            player.onUpdateAbilities()
+
+            playEffects(player, SoundEvents.SCULK_SHRIEKER_SHRIEK, ParticleTypes.SOUL_FIRE_FLAME)
+        }
+    }
+
+
+    fun returnToShell(player: ServerPlayer, shell: SoulShellPlayerEntity) {
+        SoulShellPlayerEntity.replaceWithPlayer(player, shell)
+
+        player.teleportTo(shell.x, shell.y, shell.z)
+
+        AfflictionPlayerAttachment.batchUpdate(player) {
+            withSoulForm(false).withVagrant(false)
+        }
+
+        SoulShellPlayerEntity.disableFlight(player)
+        player.abilities.flying = false
+        player.onUpdateAbilities()
+
+        shell.discard()
+
+        if (AfflictionAbilityHandler.abilityIndex != -1) {
+            AfflictionAbilityHandler.setAbilityIndex(player, -1)
+            player.inventory.selected = 0
+        }
+
+        playEffects(player, SoundEvents.SOUL_ESCAPE.value(), ParticleTypes.SOUL)
+    }
+
+    private fun playEffects(entity: Entity, sound: SoundEvent, particle: ParticleOptions) {
+        entity.level().playSound(
+            null,
+            entity.x, entity.y, entity.z,
+            sound,
+            SoundSource.PLAYERS,
+            1.0f, 0.5f
+        )
+
+        if (entity.level() is ServerLevel) {
+            val serverLevel = entity.level() as ServerLevel
+            serverLevel.sendParticles(
+                particle,
+                entity.x, entity.y + 1, entity.z,
+                20,
+                0.5, 0.5, 0.5,
+                0.1
+            )
+        }
     }
 }

@@ -3,14 +3,17 @@ package dev.sterner.witchery.handler.affliction.lich
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.LichEvent
 import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.TransformationHandler
+import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.network.PacketDistributor
 import java.util.*
 
 object LichdomLeveling {
@@ -67,6 +70,17 @@ object LichdomLeveling {
 
         setLevel(player, nextLevel)
         player.sendSystemMessage(Component.literal("Necromancer Level Up: $nextLevel"))
+
+        player.refreshDimensions()
+        PacketDistributor.sendToPlayersTrackingChunk(
+            player.serverLevel(),
+            player.chunkPosition(),
+            RefreshDimensionsS2CPayload()
+        )
+
+        if (nextLevel > currentLevel) {
+            AfflictionAbilityHandler.addAbilityOnLevelUp(player, nextLevel, AfflictionTypes.LICHDOM)
+        }
     }
 
     private fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {

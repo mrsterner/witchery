@@ -26,7 +26,6 @@ public abstract class GuiMixin {
             target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 1))
     private boolean onRenderHotbar(GuiGraphics instance, ResourceLocation sprite, int x, int y, int width, int height) {
         int index = AfflictionAbilityHandler.INSTANCE.getAbilityIndex();
-
         return index == -1;
     }
 

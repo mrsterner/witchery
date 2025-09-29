@@ -4,6 +4,7 @@ import dev.sterner.witchery.entity.WitcheryThrownPotion
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
+import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.util.Mth
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.UseAnim
 import net.minecraft.world.level.Level
@@ -202,7 +204,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
 
     override fun finishUsingItem(stack: ItemStack, level: Level, entity: LivingEntity): ItemStack {
         if (entity is Player && !entity.abilities.instabuild) {
-            stack.shrink(1)
+            WitcheryUtil.addItemToInventoryAndConsume(entity, entity.usedItemHand, Items.GLASS_BOTTLE.defaultInstance)
         }
 
         val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return stack
@@ -236,6 +238,7 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                     entity.addEffect(MobEffectInstance(effect, finalDuration, amplifier))
                 }
 
+                println(potionContent.specialEffect.isPresent)
                 if (potionContent.specialEffect.isPresent) {
                     val special =
                         WitcherySpecialPotionEffects.SPECIAL_REGISTRY.get(potionContent.specialEffect.get())

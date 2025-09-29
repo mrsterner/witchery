@@ -73,7 +73,6 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
     @Unique
     private boolean witchery$renderPossessedArm(PoseStack matrices, MultiBufferSource vertices, AbstractClientPlayer renderedPlayer, int lightmapCoordinates, boolean rightArm) {
         var vag = AfflictionPlayerAttachment.getData(renderedPlayer).isVagrant();
-        Witchery.Companion.logDebugRitual("IsVag: " + vag);
         if (vag) {
             LivingEntity possessed = PossessionComponentAttachment.INSTANCE.get(renderedPlayer).getHost();
             if (possessed != null) {

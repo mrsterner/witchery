@@ -144,7 +144,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
         val fluid = PointedDripstoneBlock.getCauldronFillFluidType(level, dripstone)
         if (fluid == Fluids.EMPTY) return
 
-        // Add 10mB of fluid
         this.fluidTank.fill(FluidStack(fluid, 10), IFluidHandler.FluidAction.EXECUTE)
     }
 

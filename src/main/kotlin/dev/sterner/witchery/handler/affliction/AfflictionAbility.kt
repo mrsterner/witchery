@@ -17,7 +17,7 @@ interface AfflictionAbility {
 
     fun use(player: Player, target: Entity): Boolean = false
 
-    fun isAvailable(level: Int): Boolean {
+    fun isAvailable(player: Player, level: Int): Boolean {
         return level >= requiredLevel
     }
 

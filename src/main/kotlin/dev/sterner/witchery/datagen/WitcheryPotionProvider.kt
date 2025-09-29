@@ -575,6 +575,14 @@ class WitcheryPotionProvider(
         )
         makeIngredient(
 
+            WitcheryItems.SPECTRAL_DUST.get(),
+            capacity = -3,
+            altarPower = 3000,
+            color = Color(50, 190, 210).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.SOUL_SEVERANCE.id)
+        )
+        makeIngredient(
+
             WitcheryItems.WITCHES_HAT.get(),
             capacity = -8,
             altarPower = 10000,
