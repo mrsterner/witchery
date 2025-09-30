@@ -5,6 +5,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.block.*
 import dev.sterner.witchery.block.altar.AltarBlock
 import dev.sterner.witchery.block.altar.AltarBlockComponent
+import dev.sterner.witchery.block.ancient_tablet.AncientTableCompanionBlock
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.block.arthana.ArthanaBlock
 import dev.sterner.witchery.block.bear_trap.BearTrapBlock
@@ -204,6 +205,13 @@ object WitcheryBlocks {
         DistilleryCompanionBlock(
             Properties.ofFullCopy(Blocks.COPPER_BLOCK)
                 .sound(SoundType.METAL)
+        )
+    }
+
+    val ANCIENT_TABLET_COMPONENT = register("ancient_tablet_component") {
+        AncientTableCompanionBlock(
+            Properties.ofFullCopy(Blocks.STONE)
+                .sound(SoundType.STONE)
         )
     }
 

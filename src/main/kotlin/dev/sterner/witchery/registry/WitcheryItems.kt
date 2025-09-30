@@ -4,6 +4,7 @@ import com.google.common.base.Supplier
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.multiblock.MultiBlockItem
 import dev.sterner.witchery.block.altar.AltarBlock
+import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.effigy.EffigyBlock
@@ -477,6 +478,10 @@ object WitcheryItems {
 
     val ALTAR = register("altar") {
         MultiBlockItem(WitcheryBlocks.ALTAR.get(), Item.Properties(), AltarBlock.STRUCTURE)
+    }
+
+    val STONE_TABLET = register("ancient_tablet") {
+        MultiBlockItem(WitcheryBlocks.ANCIENT_SLATE.get(), Item.Properties(), AncientTabletBlock.STRUCTURE)
     }
 
     val CAULDRON = register("cauldron") {

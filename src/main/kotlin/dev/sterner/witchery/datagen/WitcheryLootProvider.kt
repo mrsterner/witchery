@@ -192,6 +192,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
                         it != WitcheryBlocks.POPPET.get() &&
                         it != WitcheryBlocks.MUSHROOM_LOG.get() &&
                         it != WitcheryBlocks.SUSPICIOUS_GRAVEYARD_DIRT.get() &&
+                        it != WitcheryBlocks.ANCIENT_TABLET_COMPONENT.get() &&
                         it != WitcheryBlocks.DISTILLERY_COMPONENT.get()
             }.collect(Collectors.toList())
         }

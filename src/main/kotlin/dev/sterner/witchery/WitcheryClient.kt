@@ -378,6 +378,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         )
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.PHYLACTERY.get(), ::PhylacteryBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
+        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.ANCIENT_SLATE.get(), ::AncientTabletBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
         event.registerBlockEntityRenderer(
             WitcheryBlockEntityTypes.BLOOD_CRUCIBLE.get(),
@@ -580,6 +581,8 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryBlocks.EFFIGY_COMPONENT,
             WitcheryBlocks.CRITTER_SNARE,
             WitcheryBlocks.SOUL_CAGE,
+            WitcheryBlocks.ANCIENT_SLATE,
+            WitcheryBlocks.ANCIENT_TABLET_COMPONENT,
             WitcheryBlocks.MUSHROOM_LOG
         )
 

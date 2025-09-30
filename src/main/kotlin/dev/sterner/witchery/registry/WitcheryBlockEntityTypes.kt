@@ -61,6 +61,7 @@ object WitcheryBlockEntityTypes {
             WitcheryBlocks.CAULDRON_COMPONENT.get(),
             WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(),
             WitcheryBlocks.DISTILLERY_COMPONENT.get(),
+            WitcheryBlocks.ANCIENT_TABLET_COMPONENT.get(),
             WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get(),
             WitcheryBlocks.EFFIGY_COMPONENT.get(),
             WitcheryBlocks.MUSHROOM_LOG_COMPONENT.get()
