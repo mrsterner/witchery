@@ -1,4 +1,4 @@
-package dev.sterner.witchery.data_attachment.transformation
+package dev.sterner.witchery.data_attachment.affliction
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -47,7 +47,7 @@ object TransformationPlayerAttachment {
                     ).apply(instance, ::Data)
             }
 
-            val ID: ResourceLocation = Witchery.id("transformation_player_data")
+            val ID: ResourceLocation = Witchery.Companion.id("transformation_player_data")
         }
     }
 

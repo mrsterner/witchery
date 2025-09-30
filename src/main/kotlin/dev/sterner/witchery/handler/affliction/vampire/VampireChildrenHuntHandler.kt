@@ -1,6 +1,6 @@
 package dev.sterner.witchery.handler.affliction.vampire
 
-import dev.sterner.witchery.data_attachment.transformation.VampireChildrenHuntLevelAttachment
+import dev.sterner.witchery.data_attachment.affliction.VampireChildrenHuntLevelAttachment
 import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload

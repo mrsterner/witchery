@@ -1,4 +1,4 @@
-package dev.sterner.witchery.data_attachment.transformation
+package dev.sterner.witchery.data_attachment
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -41,7 +41,7 @@ object SoulPoolPlayerAttachment {
                 ).apply(instance, ::Data)
             }
 
-            val ID: ResourceLocation = Witchery.id("soul_pool_data")
+            val ID: ResourceLocation = Witchery.Companion.id("soul_pool_data")
         }
     }
 }

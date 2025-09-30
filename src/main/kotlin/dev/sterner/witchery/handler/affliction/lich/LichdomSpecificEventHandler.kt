@@ -1,5 +1,6 @@
 package dev.sterner.witchery.handler.affliction.lich
 
+import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
@@ -8,8 +9,8 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 
-import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
-import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.data_attachment.PhylacteryLevelDataAttachment
+import dev.sterner.witchery.data_attachment.SoulPoolPlayerAttachment
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
@@ -34,6 +35,7 @@ import net.minecraft.world.entity.animal.SnowGolem
 import net.minecraft.world.entity.boss.wither.WitherBoss
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.monster.Zombie
+import net.minecraft.world.entity.monster.ZombieVillager
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
@@ -237,6 +239,24 @@ object LichdomSpecificEventHandler {
         return EtherealEntityAttachment.getData(entity).ownerUUID == player.uuid
     }
 
+    fun returnToShell(player: ServerPlayer, shell: SoulShellPlayerEntity) {
+        if (shell.isRemoved || shell.getOriginalUUID().orElse(null) != player.uuid) {
+            return
+        }
+
+        shell.mergeSoulWithShell(player)
+
+        player.teleportTo(shell.x, shell.y, shell.z)
+
+        InventorySlots.unlockAll(player)
+        if (AfflictionAbilityHandler.abilityIndex != -1) {
+            AfflictionAbilityHandler.setAbilityIndex(player, -1)
+            player.inventory.selected = 0
+        }
+
+        playEffects(player, SoundEvents.SOUL_ESCAPE.value(), ParticleTypes.SOUL)
+    }
+
     fun activateSoulForm(player: ServerPlayer) {
         val shell = PlayerShellEntity.createShellFromPlayer(player)
         player.level().addFreshEntity(shell)
@@ -247,6 +267,8 @@ object LichdomSpecificEventHandler {
 
         SoulShellPlayerEntity.enableFlight(player)
         player.abilities.flying = true
+
+        InventorySlots.lockAll(player)
 
         val random = player.random
         player.deltaMovement = player.deltaMovement.add(
@@ -264,7 +286,8 @@ object LichdomSpecificEventHandler {
         val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
 
         val canPossess = when {
-            target.type.`is`(EntityTypeTags.UNDEAD) -> lichLevel >= 6
+            target is ZombieVillager -> lichLevel >= 6
+            target.type.`is`(EntityTypeTags.UNDEAD) -> true
             target.type.`is`(EntityTypeTags.ILLAGER) -> lichLevel >= 8
             else -> false
         }
@@ -283,7 +306,7 @@ object LichdomSpecificEventHandler {
 
             SoulShellPlayerEntity.disableFlight(player)
             player.onUpdateAbilities()
-
+            InventorySlots.unlockAll(player)
             playEffects(target, SoundEvents.ENDERMAN_TELEPORT, ParticleTypes.PORTAL)
         }
 
@@ -304,6 +327,7 @@ object LichdomSpecificEventHandler {
                 withSoulForm(true).withVagrant(false)
             }
 
+            InventorySlots.lockAll(player)
             SoulShellPlayerEntity.enableFlight(player)
             player.abilities.flying = true
 
@@ -318,30 +342,6 @@ object LichdomSpecificEventHandler {
 
             playEffects(player, SoundEvents.SCULK_SHRIEKER_SHRIEK, ParticleTypes.SOUL_FIRE_FLAME)
         }
-    }
-
-
-    fun returnToShell(player: ServerPlayer, shell: SoulShellPlayerEntity) {
-        SoulShellPlayerEntity.replaceWithPlayer(player, shell)
-
-        player.teleportTo(shell.x, shell.y, shell.z)
-
-        AfflictionPlayerAttachment.smartUpdate(player) {
-            withSoulForm(false).withVagrant(false)
-        }
-
-        SoulShellPlayerEntity.disableFlight(player)
-        player.abilities.flying = false
-        player.onUpdateAbilities()
-
-        shell.discard()
-
-        if (AfflictionAbilityHandler.abilityIndex != -1) {
-            AfflictionAbilityHandler.setAbilityIndex(player, -1)
-            player.inventory.selected = 0
-        }
-
-        playEffects(player, SoundEvents.SOUL_ESCAPE.value(), ParticleTypes.SOUL)
     }
 
     private fun playEffects(entity: Entity, sound: SoundEvent, particle: ParticleOptions) {

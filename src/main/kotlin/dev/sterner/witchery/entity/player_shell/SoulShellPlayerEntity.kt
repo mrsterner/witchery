@@ -5,33 +5,25 @@ import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
-import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.NonNullList
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.Containers
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.InteractionResult
 import net.minecraft.world.effect.MobEffects
-import net.minecraft.world.entity.MoverType
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
-import net.minecraft.world.phys.AABB
-import net.minecraft.world.phys.Vec3
-import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.common.NeoForgeMod
-import net.neoforged.neoforge.event.tick.ServerTickEvent
 import net.neoforged.neoforge.network.PacketDistributor
-import java.util.UUID
 
 class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityTypes.SOUL_SHELL_PLAYER.get(), level) {
+
+    private var inventoryDropped = false
 
     init {
         shellType = ShellType.SOUL
@@ -47,33 +39,34 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
         if (level() is ServerLevel) {
             val server = level() as ServerLevel
 
-            if (server.gameTime % 100 == 0L) { // Check every 5 seconds
+            if (server.gameTime % 100 == 0L) {
                 val uuid = getOriginalUUID().orElse(null)
                 if (uuid == null) {
-                    dropInventory()
-                    discard()
+                    handleShellDeath()
                 }
             }
         }
     }
 
-
     override fun handleShellDeath() {
-        dropInventory()
+        if (!inventoryDropped) {
+            dropInventory()
+            inventoryDropped = true
+        }
 
         val originalUuid = getOriginalUUID().orElse(null)
         if (originalUuid != null && level() is ServerLevel) {
             val player = (level() as ServerLevel).getPlayerByUUID(originalUuid)
             if (player != null) {
-                AfflictionPlayerAttachment.smartUpdate(player) { ->
+                AfflictionPlayerAttachment.smartUpdate(player) {
                     withSoulForm(true).withVagrant(false)
                 }
 
                 if (player is ServerPlayer) {
                     enableFlight(player)
+                    player.abilities.flying = true
+                    player.onUpdateAbilities()
                 }
-                player.abilities.flying = true
-                player.onUpdateAbilities()
             }
         }
 
@@ -92,14 +85,13 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
         if (player is ServerPlayer) {
             replaceWithPlayer(player, this)
 
-
             disableFlight(player)
             InventorySlots.unlockAll(player)
             player.abilities.flying = false
             player.onUpdateAbilities()
 
             AfflictionPlayerAttachment.smartUpdate(player) {
-                withSoulForm(false)
+                withSoulForm(false).withVagrant(false)
             }
 
             player.level().playSound(
@@ -116,8 +108,17 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
             player.removeEffect(MobEffects.GLOWING)
             player.removeEffect(MobEffects.INVISIBILITY)
 
+            inventoryDropped = true
             this.discard()
         }
+    }
+
+    override fun remove(reason: RemovalReason) {
+        if (!inventoryDropped && reason != RemovalReason.DISCARDED) {
+            dropInventory()
+            inventoryDropped = true
+        }
+        super.remove(reason)
     }
 
     companion object {
@@ -146,7 +147,6 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
             }
         }
 
-
         fun replaceWithPlayer(player: Player, shellEntity: SoulShellPlayerEntity) {
             player.inventory.clearContent()
 
@@ -154,7 +154,10 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
             insertOrDrop(player, shellEntity.data.armorInventory, player.inventory.armor)
             insertOrDrop(player, shellEntity.data.offHandInventory, player.inventory.offhand)
 
-            shellEntity.discard()
+            shellEntity.data.mainInventory.clear()
+            shellEntity.data.armorInventory.clear()
+            shellEntity.data.offHandInventory.clear()
+            shellEntity.data.extraInventory.clear()
         }
 
         private fun insertOrDrop(
@@ -162,18 +165,17 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
             inventory: NonNullList<ItemStack>,
             playerInv: NonNullList<ItemStack>
         ) {
-            for (i in 0 until inventory.size) {
+            for (i in 0 until inventory.size.coerceAtMost(playerInv.size)) {
                 val stack = inventory[i]
                 if (stack.isEmpty) continue
 
                 val playerStack = playerInv[i]
                 if (playerStack.isEmpty) {
                     playerInv[i] = stack.copy()
-                    inventory[i] = ItemStack.EMPTY
                 } else {
                     Containers.dropItemStack(player.level(), player.x, player.y, player.z, stack.copy())
-                    inventory[i] = ItemStack.EMPTY
                 }
+                inventory[i] = ItemStack.EMPTY
             }
         }
     }

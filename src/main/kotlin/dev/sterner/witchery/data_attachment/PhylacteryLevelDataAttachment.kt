@@ -1,4 +1,4 @@
-package dev.sterner.witchery.data_attachment.transformation
+package dev.sterner.witchery.data_attachment
 
 import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
@@ -8,7 +8,8 @@ import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import java.util.*
+import java.util.Optional
+import java.util.UUID
 
 object PhylacteryLevelDataAttachment {
 
@@ -193,7 +194,7 @@ object PhylacteryLevelDataAttachment {
                 ).apply(instance, ::Data)
             }
 
-            val ID: ResourceLocation = Witchery.id("phylactery_level_data")
+            val ID: ResourceLocation = Witchery.Companion.id("phylactery_level_data")
         }
     }
 

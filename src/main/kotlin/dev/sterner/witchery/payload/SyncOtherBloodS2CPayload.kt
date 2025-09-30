@@ -1,7 +1,7 @@
 package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf

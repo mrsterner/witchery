@@ -1,4 +1,4 @@
-package dev.sterner.witchery.data_attachment.transformation
+package dev.sterner.witchery.data_attachment
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -56,7 +56,7 @@ object BloodPoolLivingEntityAttachment {
                 ).apply(instance, ::Data)
             }
 
-            val ID: ResourceLocation = Witchery.id("blood_pool_entity_data")
+            val ID: ResourceLocation = Witchery.Companion.id("blood_pool_entity_data")
         }
     }
 }

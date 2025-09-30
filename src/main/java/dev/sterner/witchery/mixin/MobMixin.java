@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.sterner.witchery.MobAccessor;
 import dev.sterner.witchery.data.BloodPoolReloadListener;
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment;
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment;
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment;
 import dev.sterner.witchery.entity.goal.DisorientationGoal;
 import dev.sterner.witchery.util.WitcheryConstants;
 import net.minecraft.network.syncher.EntityDataSerializers;

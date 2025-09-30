@@ -11,18 +11,25 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 import dev.sterner.witchery.payload.SyncPossessionComponentS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryTags
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
+import net.minecraft.tags.EntityTypeTags
 import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent
 import net.neoforged.neoforge.network.PacketDistributor
 import java.util.*
 
@@ -56,9 +63,11 @@ object PossessionComponentAttachment {
 
     data class PossessionData(
         var possessedEntityId: Int = -1,
-        var possessedEntityUUID: UUID? = null
+        var possessedEntityUUID: UUID? = null,
+        var curingTimer: Int = -1
     ) {
         fun isPossessing(): Boolean = possessedEntityId != -1
+        fun isCuring(): Boolean = curingTimer >= 0
 
         companion object {
             val CODEC: Codec<PossessionData> = RecordCodecBuilder.create { instance ->
@@ -68,9 +77,10 @@ object PossessionComponentAttachment {
                         .xmap(
                             { if (it.isEmpty()) null else UUID.fromString(it) },
                             { it?.toString() ?: "" }
-                        ).forGetter { it.possessedEntityUUID }
-                ).apply(instance) { entityId, uuid ->
-                    PossessionData(entityId, uuid)
+                        ).forGetter { it.possessedEntityUUID },
+                    Codec.INT.optionalFieldOf("curingTimer", -1).forGetter { it.curingTimer }
+                ).apply(instance) { entityId, uuid, curing ->
+                    PossessionData(entityId, uuid, curing)
                 }
             }
         }
@@ -147,8 +157,8 @@ object PossessionComponentAttachment {
             val data = getPossessionData(player)
             data.possessedEntityId = host.id
             data.possessedEntityUUID = host.uuid
+            data.curingTimer = -1
             setPossessionData(player, data)
-
             possessable.setPossessor(player)
 
             player.copyPosition(host)
@@ -221,6 +231,7 @@ object PossessionComponentAttachment {
             val data = getPossessionData(player)
             data.possessedEntityId = -1
             data.possessedEntityUUID = null
+            data.curingTimer = -1
             setPossessionData(player, data)
 
             player.refreshDimensions()
@@ -240,9 +251,100 @@ object PossessionComponentAttachment {
             if (player.isSpectator) {
                 stopPossessing()
             }
+            val data = getPossessionData(player)
+            if (data.isCuring() && player is ServerPlayer) {
+                if (data.curingTimer > 0) {
+                    data.curingTimer--
+                    setPossessionData(player, data)
+
+                    if (data.curingTimer % 80 == 0) {
+                        val serverLevel = player.level() as ServerLevel
+                        serverLevel.sendParticles(
+                            ParticleTypes.HAPPY_VILLAGER,
+                            player.x, player.y + 1, player.z,
+                            5,
+                            0.5, 0.5, 0.5,
+                            0.05
+                        )
+                    }
+                } else {
+                    completeCuring(player)
+                }
+            }
+        }
+
+        private fun completeCuring(player: ServerPlayer) {
+            val host = getHost()
+
+            stopPossessing(true)
+
+            host?.discard()
+
+            AfflictionPlayerAttachment.smartUpdate(player) {
+                withSoulForm(false).withVagrant(false)
+            }
+
+            player.level().playSound(
+                null,
+                player.x, player.y, player.z,
+                SoundEvents.ZOMBIE_VILLAGER_CONVERTED,
+                SoundSource.PLAYERS,
+                1.0f, 1.0f
+            )
+
+            val serverLevel = player.level() as ServerLevel
+            serverLevel.sendParticles(
+                ParticleTypes.HEART,
+                player.x, player.y + 1, player.z,
+                20,
+                0.5, 0.5, 0.5,
+                0.1
+            )
+
+            player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 20 * 2, 1))
+        }
+
+        fun startCuring() {
+            val data = getPossessionData(player)
+            if (data.isPossessing() && !data.isCuring()) {
+                data.curingTimer = CURING_DURATION
+                setPossessionData(player, data)
+
+                player.level().playSound(
+                    null,
+                    player.x, player.y, player.z,
+                    SoundEvents.ZOMBIE_VILLAGER_CURE,
+                    SoundSource.PLAYERS,
+                    1.0f, 0.7f
+                )
+            }
         }
 
         companion object {
+            private const val CURING_DURATION = 20 * 100
+
+            fun cure(event: LivingEntityUseItemEvent.Finish) {
+                val entity = event.entity
+                if (entity !is ServerPlayer) return
+
+                val data = getPossessionData(entity)
+                if (!data.isPossessing()) return
+
+                val component = get(entity)
+                val host = component.getHost() ?: return
+
+                if (!host.type.`is`(EntityTypeTags.UNDEAD)) return
+
+                val item = event.item
+                if (!item.`is`(Items.GOLDEN_APPLE) && !item.`is`(Items.ENCHANTED_GOLDEN_APPLE)) return
+
+                if (!entity.hasEffect(MobEffects.WEAKNESS)) return
+
+                component.startCuring()
+
+                entity.removeEffect(MobEffects.WEAKNESS)
+            }
+
             fun dropEquipment(possessed: LivingEntity, player: ServerPlayer) {
                 val event = PossessionEvents.ShouldTransferInventory(player, possessed)
 

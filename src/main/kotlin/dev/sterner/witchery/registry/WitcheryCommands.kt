@@ -14,8 +14,8 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionType
 
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.SoulPoolPlayerAttachment
 import dev.sterner.witchery.handler.CurseHandler
 import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.handler.ManifestationHandler

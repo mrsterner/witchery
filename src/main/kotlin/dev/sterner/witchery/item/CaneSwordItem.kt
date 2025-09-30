@@ -2,7 +2,7 @@ package dev.sterner.witchery.item
 
 import dev.sterner.witchery.api.client.BloodPoolComponent
 import dev.sterner.witchery.data.BloodPoolReloadListener
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems

@@ -2,7 +2,7 @@ package dev.sterner.witchery.handler.affliction.werewolf
 
 
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.entity.HornedHuntsmanEntity
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.TransformationHandler

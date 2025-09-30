@@ -745,9 +745,7 @@ object WitcherySpecialPotionEffects {
                 duration: Int,
                 amplifier: Int
             ) {
-                println("Drink0")
                 if (owner is ServerPlayer) {
-                    println("Drink")
                     AfflictionAbilityHandler.addAbilityOnLevelUp(owner, LichdomAbility.SOUL_FORM.requiredLevel, AfflictionTypes.LICHDOM, force = true)
                     LichdomSpecificEventHandler.activateSoulForm(owner)
                 }
@@ -763,7 +761,6 @@ object WitcherySpecialPotionEffects {
                 amplifier: Int
             ) {
                 list.filterIsInstance<ServerPlayer>().forEach { serverPlayer ->
-                    println("Drink2")
                     AfflictionAbilityHandler.addAbilityOnLevelUp(serverPlayer, LichdomAbility.SOUL_FORM.requiredLevel, AfflictionTypes.LICHDOM, force = true)
                     LichdomSpecificEventHandler.activateSoulForm(serverPlayer)
                 }

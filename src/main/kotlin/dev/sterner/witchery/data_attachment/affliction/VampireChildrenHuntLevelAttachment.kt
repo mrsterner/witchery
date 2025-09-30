@@ -1,4 +1,4 @@
-package dev.sterner.witchery.data_attachment.transformation
+package dev.sterner.witchery.data_attachment.affliction
 
 import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
@@ -9,7 +9,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import java.util.*
+import java.util.UUID
 
 object VampireChildrenHuntLevelAttachment {
 
@@ -43,7 +43,7 @@ object VampireChildrenHuntLevelAttachment {
     data class Data(val data: MutableMap<UUID, MutableList<HuntData>> = mutableMapOf()) {
 
         companion object {
-            val ID: ResourceLocation = Witchery.id("vampire_hunt_level_data")
+            val ID: ResourceLocation = Witchery.Companion.id("vampire_hunt_level_data")
 
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(

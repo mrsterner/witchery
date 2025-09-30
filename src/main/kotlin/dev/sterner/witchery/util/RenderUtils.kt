@@ -5,8 +5,8 @@ import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.SoulPoolPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryShaders
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics

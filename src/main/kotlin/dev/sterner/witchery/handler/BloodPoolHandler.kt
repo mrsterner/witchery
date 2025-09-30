@@ -3,7 +3,7 @@ package dev.sterner.witchery.handler
 import dev.sterner.witchery.data.BloodPoolReloadListener
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer

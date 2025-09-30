@@ -3,7 +3,7 @@ package dev.sterner.witchery.entity
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.entity.goal.DrinkBloodTargetingGoal
 import dev.sterner.witchery.entity.goal.NightHuntGoal
 import dev.sterner.witchery.entity.goal.VampireEscapeSunGoal

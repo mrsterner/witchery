@@ -21,8 +21,8 @@ import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.affliction.*
 import dev.sterner.witchery.handler.affliction.lich.LichdomSpecificEventHandler
@@ -57,6 +57,7 @@ import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent
 import net.neoforged.neoforge.event.entity.living.LivingConversionEvent
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 import net.neoforged.neoforge.event.entity.player.*
 import net.neoforged.neoforge.event.level.BlockEvent
@@ -143,6 +144,10 @@ object WitcheryNeoForgeEvents {
     }
 
 
+    @SubscribeEvent
+    fun onItemUsedFinish(event: LivingEntityUseItemEvent.Finish) {
+        PossessionComponentAttachment.PossessionComponent.cure(event)
+    }
 
 
     @SubscribeEvent

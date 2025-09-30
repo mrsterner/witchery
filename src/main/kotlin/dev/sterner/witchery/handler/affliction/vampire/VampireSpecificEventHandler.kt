@@ -6,7 +6,7 @@ import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.mixin.DamageSourcesInvoker

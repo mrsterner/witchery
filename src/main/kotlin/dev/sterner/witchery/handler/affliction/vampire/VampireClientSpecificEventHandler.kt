@@ -4,8 +4,8 @@ import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
-import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
+import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionClientEventHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.TransformationHandler
