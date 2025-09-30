@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.affliction.lich
 
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionClientEventHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import net.minecraft.client.Minecraft

@@ -6,7 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.PossessionEvents
 import dev.sterner.witchery.api.interfaces.Possessable
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.payload.SyncPossessionComponentS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryTags
@@ -221,8 +222,6 @@ object PossessionComponentAttachment {
             data.possessedEntityId = -1
             data.possessedEntityUUID = null
             setPossessionData(player, data)
-
-            val remnant = AfflictionPlayerAttachment.getData(player).isVagrant()
 
             player.refreshDimensions()
             player.airSupply = player.maxAirSupply

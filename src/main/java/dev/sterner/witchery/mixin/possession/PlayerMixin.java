@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;

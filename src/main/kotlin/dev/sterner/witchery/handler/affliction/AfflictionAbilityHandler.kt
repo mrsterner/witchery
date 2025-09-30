@@ -1,7 +1,8 @@
 package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.client.screen.AbilitySelectionScreen
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.affliction.ability.AbilityHandler
 import dev.sterner.witchery.handler.affliction.ability.AbilityScrollHandler
@@ -59,7 +60,7 @@ object AfflictionAbilityHandler : AbilityHandler {
     }
 
     override fun updateAbilityIndex(player: Player, index: Int) {
-        AfflictionPlayerAttachment.batchUpdate(player) {
+        AfflictionPlayerAttachment.smartUpdate(player) {
             withAbilityIndex(index)
         }
     }
@@ -104,7 +105,7 @@ object AfflictionAbilityHandler : AbilityHandler {
 
     fun updateSelectedAbilities(player: Player, abilities: List<String>) {
 
-        AfflictionPlayerAttachment.batchUpdate(player) {
+        AfflictionPlayerAttachment.smartUpdate(player) {
             withSelectedAbilities(abilities).withAbilityIndex(-1)
         }
     }

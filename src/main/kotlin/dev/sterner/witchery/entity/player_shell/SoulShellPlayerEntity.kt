@@ -3,7 +3,8 @@ package dev.sterner.witchery.entity.player_shell
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.handler.SleepingPlayerHandler
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
@@ -64,7 +65,7 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
         if (originalUuid != null && level() is ServerLevel) {
             val player = (level() as ServerLevel).getPlayerByUUID(originalUuid)
             if (player != null) {
-                AfflictionPlayerAttachment.batchUpdate(player) {
+                AfflictionPlayerAttachment.smartUpdate(player) { ->
                     withSoulForm(true).withVagrant(false)
                 }
 
@@ -97,7 +98,7 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
             player.abilities.flying = false
             player.onUpdateAbilities()
 
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 withSoulForm(false)
             }
 

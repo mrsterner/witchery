@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.affliction
 
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager

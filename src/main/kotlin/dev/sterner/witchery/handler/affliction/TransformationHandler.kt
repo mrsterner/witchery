@@ -3,7 +3,8 @@ package dev.sterner.witchery.handler.affliction
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.PlatformUtils
 import dev.sterner.witchery.data_attachment.WitcheryAttributes
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.entity.WerewolfEntity
 import dev.sterner.witchery.handler.affliction.vampire.VampireAbility

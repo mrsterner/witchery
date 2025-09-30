@@ -2,9 +2,9 @@ package dev.sterner.witchery.mixin.possession.client;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
 import dev.sterner.witchery.api.event.PossessionEvents;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;

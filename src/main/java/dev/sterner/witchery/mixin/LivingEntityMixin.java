@@ -6,7 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import dev.sterner.witchery.api.interfaces.EntityChainInterface;
 import dev.sterner.witchery.api.interfaces.OnRemovedEffect;
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.entity.ChainEntity;
 import dev.sterner.witchery.handler.BloodPoolHandler;
 import dev.sterner.witchery.handler.NecroHandler;

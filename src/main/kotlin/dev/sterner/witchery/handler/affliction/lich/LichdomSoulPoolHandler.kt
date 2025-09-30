@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.affliction.lich
 
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
 import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
@@ -100,7 +101,7 @@ object LichdomSoulPoolHandler {
             val ownerPlayer = level.getPlayerByUUID(rec.owner)
             if (ownerPlayer != null && ownerPlayer is ServerPlayer) {
                 PhylacteryLevelDataAttachment.setPhylacteryHasSoul(level, pos, false)
-                AfflictionPlayerAttachment.batchUpdate(ownerPlayer) {
+                AfflictionPlayerAttachment.smartUpdate(ownerPlayer) {
                     withPhylacterySouls(getPhylacterySouls(ownerPlayer) - 1)
                 }
             } else {

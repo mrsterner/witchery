@@ -2,8 +2,8 @@ package dev.sterner.witchery.mixin.possession.client;
 
 
 import com.mojang.authlib.GameProfile;
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;

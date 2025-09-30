@@ -1,7 +1,8 @@
 package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
@@ -34,15 +35,13 @@ class SyncAfflictionS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val client = Minecraft.getInstance()
 
         val id = nbt.getUUID("Id")
-
-
         val dataTag = nbt.getCompound("AffData")
         val vampData = AfflictionPlayerAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
         val player = client.level?.getPlayerByUUID(id)
         client.execute {
             if (player != null && vampData.isPresent) {
-                AfflictionPlayerAttachment.setData(player, vampData.get())
+                AfflictionPlayerAttachment.setData(player, vampData.get(), sync = false)
             }
         }
     }

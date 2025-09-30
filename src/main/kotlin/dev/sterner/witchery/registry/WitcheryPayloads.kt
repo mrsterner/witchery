@@ -2,7 +2,6 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.payload.*
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
-import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler
 
 object WitcheryPayloads {
 
@@ -80,6 +79,12 @@ object WitcheryPayloads {
         ) { payload, ctx ->
             payload.handleOnClient(ctx)
         }
+        registrar.playToClient(
+            OptimizedSelectiveSyncPayload.ID,
+            OptimizedSelectiveSyncPayload.STREAM_CODEC
+        ) { payload, ctx ->
+            payload.handleOnClient(ctx)
+        }
         registrar.playToClient(SyncMiscS2CPayload.ID, SyncMiscS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
@@ -106,12 +111,6 @@ object WitcheryPayloads {
         }
         registrar.playToClient(SyncAfflictionS2CPayload.ID, SyncAfflictionS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
-        }
-        registrar.playToClient(
-            SelectiveSyncAfflictionS2CPayload.ID,
-            SelectiveSyncAfflictionS2CPayload.STREAM_CODEC
-        ) { payload, _ ->
-            payload.handleOnClient(payload)
         }
         registrar.playToClient(SyncEtherealS2CPayload.ID, SyncEtherealS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()

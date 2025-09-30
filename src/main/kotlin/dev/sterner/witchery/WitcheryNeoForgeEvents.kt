@@ -16,11 +16,11 @@ import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.data_attachment.UnderWaterBreathPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.handler.*
@@ -265,25 +265,13 @@ object WitcheryNeoForgeEvents {
             val serverPlayer = event.entity as ServerPlayer
             serverPlayer.server.execute {
                 val currentData = AfflictionPlayerAttachment.getData(serverPlayer)
-                AfflictionPlayerAttachment.sync(serverPlayer, currentData)
+                AfflictionPlayerAttachment.syncFull(serverPlayer, currentData)
 
                 if (currentData.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
                     val bloodData = BloodPoolLivingEntityAttachment.getData(serverPlayer)
                     BloodPoolLivingEntityAttachment.setData(serverPlayer, bloodData)
                 }
             }
-        }
-
-        val original = event.original
-        val player = event.entity
-
-        if (event.isWasDeath) {
-            // Copy data on death if needed
-            val originalData = PossessionComponentAttachment.getPossessionData(original)
-            val newData = PossessionComponentAttachment.getPossessionData(player)
-
-            // Copy relevant data
-            // You might want to reset possession state on death
         }
     }
 
@@ -381,7 +369,7 @@ object WitcheryNeoForgeEvents {
                 serverPlayer.kill()
                 DeathQueueLevelAttachment.removeFromDeathQueue(serverPlayer.serverLevel(), serverPlayer.uuid)
             }
-            AfflictionPlayerAttachment.sync(serverPlayer, AfflictionPlayerAttachment.getData(serverPlayer))
+            AfflictionPlayerAttachment.syncFull(serverPlayer, AfflictionPlayerAttachment.getData(serverPlayer))
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
             TransformationPlayerAttachment.sync(serverPlayer, TransformationPlayerAttachment.getData(serverPlayer))
             InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getPlayerInfusion(serverPlayer))

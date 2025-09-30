@@ -2,8 +2,8 @@ package dev.sterner.witchery.mixin.possession.possessor;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.sterner.witchery.api.interfaces.Possessable;
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.*;

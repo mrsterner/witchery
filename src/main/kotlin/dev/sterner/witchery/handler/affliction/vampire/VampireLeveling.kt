@@ -2,7 +2,8 @@ package dev.sterner.witchery.handler.affliction.vampire
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.VampireEvent
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
@@ -32,33 +33,39 @@ object VampireLeveling {
     fun setLevel(player: ServerPlayer, level: Int) {
         val previousLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM)
 
-        AfflictionPlayerAttachment.batchUpdate(player) {
-            var result = setLevel(AfflictionTypes.VAMPIRISM, level)
-
-            if (level == 0) {
-                result = result
-                    .withAbilityIndex(-1)
-                    .withNightVision(false)
-                    .withSpeedBoost(false)
-                    .withBatForm(false)
-            }
-
-            result
-        }
-
         if (level == 0) {
+            val newData = AfflictionPlayerAttachment.getData(player)
+                .setLevel(AfflictionTypes.VAMPIRISM, 0)
+                .withAbilityIndex(-1)
+                .withNightVision(false)
+                .withSpeedBoost(false)
+                .withBatForm(false)
+
+            AfflictionPlayerAttachment.setData(player, newData, sync = false)
+            AfflictionPlayerAttachment.syncFull(player, newData)
+
             TransformationHandler.removeForm(player)
+        } else {
+            AfflictionPlayerAttachment.smartUpdate(player) {
+                setLevel(AfflictionTypes.VAMPIRISM, level)
+            }
         }
 
         updateModifiers(player, level, false)
         player.refreshDimensions()
+
         PacketDistributor.sendToPlayersTrackingChunk(
             player.serverLevel(),
             player.chunkPosition(),
             RefreshDimensionsS2CPayload()
         )
+
         if (level > previousLevel) {
             AfflictionAbilityHandler.addAbilityOnLevelUp(player, level, AfflictionTypes.VAMPIRISM)
+        }
+
+        if (level == 0 && previousLevel > 0) {
+
         }
     }
 
@@ -156,7 +163,7 @@ object VampireLeveling {
 
         val data = AfflictionPlayerAttachment.getData(player)
         if (!data.getVillagersHalfBlood().contains(villager.uuid)) {
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 addVillagerHalfBlood(villager.uuid)
             }
             checkAndLevelUp(player, data.addVillagerHalfBlood(villager.uuid))
@@ -167,7 +174,7 @@ object VampireLeveling {
     fun removeVillagerHalfBlood(player: Player, villager: Villager) {
         val data = AfflictionPlayerAttachment.getData(player)
         if (data.getVillagersHalfBlood().contains(villager.uuid)) {
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 removeVillagerHalfBlood(villager.uuid)
             }
         }
@@ -183,7 +190,7 @@ object VampireLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
             incrementNightTicker()
         }
 
@@ -192,7 +199,7 @@ object VampireLeveling {
 
     @JvmStatic
     fun resetNightCounter(player: Player) {
-        AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+        AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
             withNightTicker(0)
         }
     }
@@ -207,7 +214,7 @@ object VampireLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             incrementUsedSunGrenades()
         }
 
@@ -224,7 +231,7 @@ object VampireLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             incrementKilledBlazes()
         }
 
@@ -258,7 +265,7 @@ object VampireLeveling {
         val longPos = ChunkPos.asLong(pos.x, pos.z)
 
         if (!data.getVisitedVillages().contains(longPos)) {
-            val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+            val newData = AfflictionPlayerAttachment.smartUpdate(player) {
                 addVisitedVillage(longPos)
             }
             checkAndLevelUp(player, newData)
@@ -268,7 +275,7 @@ object VampireLeveling {
     @JvmStatic
     fun resetVillages(player: Player) {
         val data = AfflictionPlayerAttachment.getData(player)
-        AfflictionPlayerAttachment.batchUpdate(player) {
+        AfflictionPlayerAttachment.smartUpdate(player) {
             var result = this
             data.getVisitedVillages().forEach { village ->
                 result = result.removeVisitedVillage(village)
@@ -289,7 +296,7 @@ object VampireLeveling {
 
         val data = AfflictionPlayerAttachment.getData(player)
         if (!data.getTrappedVillagers().contains(villager.uuid)) {
-            val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+            val newData = AfflictionPlayerAttachment.smartUpdate(player) {
                 addTrappedVillager(villager.uuid)
             }
             checkAndLevelUp(player, newData)
@@ -300,7 +307,7 @@ object VampireLeveling {
     fun removeTrappedVillager(player: Player, villager: Villager) {
         val data = AfflictionPlayerAttachment.getData(player)
         if (data.getTrappedVillagers().contains(villager.uuid)) {
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 removeTrappedVillager(villager.uuid)
             }
         }
@@ -333,7 +340,7 @@ object VampireLeveling {
         usedSunGrenades: Int? = null,
         nightTicker: Int? = null
     ) {
-        AfflictionPlayerAttachment.batchUpdate(player) {
+        AfflictionPlayerAttachment.smartUpdate(player) {
             var result = this
 
             level?.let {
@@ -358,7 +365,7 @@ object VampireLeveling {
      */
     @JvmStatic
     fun resetVampireProgress(player: ServerPlayer, keepLevel: Boolean = false) {
-        AfflictionPlayerAttachment.batchUpdate(player) {
+        AfflictionPlayerAttachment.smartUpdate(player) {
             var result = this
 
             if (!keepLevel) {

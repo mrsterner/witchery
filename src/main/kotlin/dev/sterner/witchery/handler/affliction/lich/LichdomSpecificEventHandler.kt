@@ -4,9 +4,10 @@ import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.data_attachment.transformation.PhylacteryLevelDataAttachment
 import dev.sterner.witchery.data_attachment.transformation.SoulPoolPlayerAttachment
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
@@ -219,7 +220,7 @@ object LichdomSpecificEventHandler {
                 SoulPoolPlayerAttachment.Data(soulData.maxSouls, 50)
             )
 
-            AfflictionPlayerAttachment.batchUpdate(newPlayer) {
+            AfflictionPlayerAttachment.smartUpdate(newPlayer) {
                 withSoulForm(false)
             }
 
@@ -240,7 +241,7 @@ object LichdomSpecificEventHandler {
         val shell = PlayerShellEntity.createShellFromPlayer(player)
         player.level().addFreshEntity(shell)
 
-        AfflictionPlayerAttachment.batchUpdate(player) {
+        AfflictionPlayerAttachment.smartUpdate(player) {
             withSoulForm(true).withVagrant(false)
         }
 
@@ -276,7 +277,7 @@ object LichdomSpecificEventHandler {
         val success = possessionComponent.startPossessing(target)
 
         if (success) {
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 withSoulForm(false).withVagrant(true)
             }
 
@@ -299,7 +300,7 @@ object LichdomSpecificEventHandler {
 
             EntityAiToggle.toggleAi(host, EntityAiToggle.POSSESSION_MECHANISM_ID, false, false)
 
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 withSoulForm(true).withVagrant(false)
             }
 
@@ -325,7 +326,7 @@ object LichdomSpecificEventHandler {
 
         player.teleportTo(shell.x, shell.y, shell.z)
 
-        AfflictionPlayerAttachment.batchUpdate(player) {
+        AfflictionPlayerAttachment.smartUpdate(player) {
             withSoulForm(false).withVagrant(false)
         }
 

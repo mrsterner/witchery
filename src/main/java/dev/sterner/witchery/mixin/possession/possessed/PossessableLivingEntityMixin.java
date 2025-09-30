@@ -1,9 +1,9 @@
 package dev.sterner.witchery.mixin.possession.possessed;
 
 import dev.sterner.witchery.api.interfaces.Possessable;
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.data_attachment.possession.EntityAiToggle;
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity;
 import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.core.Holder;
@@ -184,11 +184,10 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
 
             AfflictionPlayerAttachment.Data data = AfflictionPlayerAttachment.getData(possessor);
             if (data.getLichLevel() > 0) {
-                AfflictionPlayerAttachment.INSTANCE.batchUpdate(
+                AfflictionPlayerAttachment.INSTANCE.smartUpdate(
                         possessor,
                         true,
-                        true,
-                        (currentData) -> currentData.withSoulForm(true).withVagrant(false)
+                        currentData -> currentData.withSoulForm(true).withVagrant(false)
                 );
 
                 SoulShellPlayerEntity.Companion.enableFlight(possessor);

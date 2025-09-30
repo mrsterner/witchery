@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Zombie;

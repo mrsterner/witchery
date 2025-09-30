@@ -2,7 +2,8 @@ package dev.sterner.witchery.block.blood_crucible
 
 
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes

@@ -3,7 +3,8 @@ package dev.sterner.witchery.item
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.entity.LilithEntity
 import dev.sterner.witchery.handler.BloodPoolHandler

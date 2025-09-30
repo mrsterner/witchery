@@ -4,7 +4,8 @@ import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data_attachment.WitcheryAttributes
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
@@ -101,7 +102,7 @@ object VampireSpecificEventHandler {
 
         if (isInSunlight && !player.isCreative && !player.isSpectator) {
             if (currentSunTick < maxInSunTicks) {
-                val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+                val newData = AfflictionPlayerAttachment.smartUpdate(player) {
                     incrementInSunTick(1, maxInSunTicks)
                         .withMaxInSunTickClient(maxInSunTicks)
                 }
@@ -127,7 +128,7 @@ object VampireSpecificEventHandler {
         val currentData = AfflictionPlayerAttachment.getData(player)
 
         if (currentData.getInSunTick() > 0) {
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 decrementInSunTick(2)
             }
         }
@@ -206,7 +207,7 @@ object VampireSpecificEventHandler {
             val maxInSunTicks =
                 (newPlayer.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0).toInt()
 
-            AfflictionPlayerAttachment.batchUpdate(newPlayer) {
+            AfflictionPlayerAttachment.smartUpdate(newPlayer) {
                 withInSunTick(0, maxInSunTicks)
                     .withMaxInSunTickClient(maxInSunTicks)
             }

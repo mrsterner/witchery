@@ -3,7 +3,8 @@ package dev.sterner.witchery.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;

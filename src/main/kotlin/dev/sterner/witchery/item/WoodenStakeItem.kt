@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.registry.WitcheryDamageSources

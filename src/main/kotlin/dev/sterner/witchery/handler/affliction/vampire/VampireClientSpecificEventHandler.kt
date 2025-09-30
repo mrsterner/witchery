@@ -2,7 +2,8 @@ package dev.sterner.witchery.handler.affliction.vampire
 
 import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.handler.affliction.AfflictionClientEventHandler

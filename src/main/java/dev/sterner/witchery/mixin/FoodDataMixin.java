@@ -1,6 +1,7 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.handler.affliction.AfflictionTypes;
 import dev.sterner.witchery.handler.affliction.lich.LichdomSoulPoolHandler;
 import dev.sterner.witchery.mixin_logic.FoodDataMixinLogic;

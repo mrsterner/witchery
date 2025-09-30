@@ -2,9 +2,10 @@ package dev.sterner.witchery.handler.affliction.lich
 
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.handler.NecroHandler
 import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager

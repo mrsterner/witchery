@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.affliction.werewolf
 
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.transformation.TransformationPlayerAttachment
 import dev.sterner.witchery.entity.HornedHuntsmanEntity
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
@@ -57,7 +58,7 @@ object WerewolfSpecificEventHandler {
             player.fallDistance > 0.0f && !player.onGround() && !player.onClimbable() && !player.isInWater && !player.isPassenger
 
         if (wereLevel >= 6 && player.isSprinting && bl3) {
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 incrementAirSlayMonster()
             }
         }

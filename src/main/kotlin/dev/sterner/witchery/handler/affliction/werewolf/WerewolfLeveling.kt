@@ -2,7 +2,8 @@ package dev.sterner.witchery.handler.affliction.werewolf
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.WerewolfEvent
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.TransformationHandler
@@ -48,29 +49,29 @@ object WerewolfLeveling {
     fun setLevel(player: ServerPlayer, level: Int) {
         val previousLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LYCANTHROPY)
 
-        AfflictionPlayerAttachment.batchUpdate(player) {
-            var result = setLevel(AfflictionTypes.LYCANTHROPY, level)
-
-            if (level == 0) {
-                result = result
-                    .withAbilityIndex(-1)
-                    .withWolfForm(false)
-                    .withWolfManForm(false)
-                    .withWolfPack(0)
-            }
-
-            result
-        }
-
         if (level == 0) {
-            TransformationHandler.removeForm(player)
-        }
+            val newData = AfflictionPlayerAttachment.getData(player)
+                .setLevel(AfflictionTypes.LYCANTHROPY, 0)
+                .withAbilityIndex(-1)
+                .withWolfForm(false)
+                .withWolfManForm(false)
+                .withWolfPack(0)
 
+            AfflictionPlayerAttachment.setData(player, newData, sync = false)
+            AfflictionPlayerAttachment.syncFull(player, newData)
+
+            TransformationHandler.removeForm(player)
+        } else {
+            AfflictionPlayerAttachment.smartUpdate(player) {
+                setLevel(AfflictionTypes.LYCANTHROPY, level)
+            }
+        }
 
         val wolf = TransformationHandler.isWolf(player)
         val were = TransformationHandler.isWerewolf(player)
         updateModifiers(player, wolf = wolf, wolfMan = were)
         player.refreshDimensions()
+
         PacketDistributor.sendToPlayersTrackingChunk(
             player.serverLevel(),
             player.chunkPosition(),
@@ -128,7 +129,7 @@ object WerewolfLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
             incrementPigmenKilled()
         }
 
@@ -141,7 +142,7 @@ object WerewolfLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
             withKilledHornedOne(true)
         }
 
@@ -154,7 +155,7 @@ object WerewolfLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
             incrementKilledWolves()
         }
 
@@ -167,7 +168,7 @@ object WerewolfLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
             incrementKilledSheep()
         }
 

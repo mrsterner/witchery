@@ -1,10 +1,10 @@
-package dev.sterner.witchery.data_attachment.transformation
+package dev.sterner.witchery.data_attachment.affliction
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.payload.SelectiveSyncAfflictionS2CPayload
+import dev.sterner.witchery.payload.OptimizedSelectiveSyncPayload
 import dev.sterner.witchery.payload.SyncAfflictionS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments.AFFLICTION_PLAYER_DATA_ATTACHMENT
 import net.minecraft.core.UUIDUtil
@@ -18,6 +18,8 @@ import java.util.*
 
 object AfflictionPlayerAttachment {
 
+    private val playerDataCache = WeakHashMap<UUID, Data>()
+
     @JvmStatic
     fun getData(player: Player): Data {
         return player.getData(AFFLICTION_PLAYER_DATA_ATTACHMENT)
@@ -27,100 +29,88 @@ object AfflictionPlayerAttachment {
     fun setData(player: Player, data: Data, sync: Boolean = true) {
         player.setData(AFFLICTION_PLAYER_DATA_ATTACHMENT, data)
         if (sync) {
-            sync(player, data)
+            syncFull(player, data)
         }
     }
 
     @JvmStatic
-    fun sync(player: Player, data: Data) {
+    fun syncFull(player: Player, data: Data) {
         if (player is ServerPlayer) {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, SyncAfflictionS2CPayload(player, data))
-        }
-    }
-
-    fun selectiveSync(player: Player, data: Data, fields: Set<SyncField>) {
-        if (player.level() is ServerLevel && fields.isNotEmpty()) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                 player,
-                SelectiveSyncAfflictionS2CPayload(player, data, fields)
+                SyncAfflictionS2CPayload(player, data)
             )
+            playerDataCache[player.uuid] = data.copy()
         }
     }
 
-    inline fun batchUpdate(
+    @JvmStatic
+    fun syncSmart(player: Player, newData: Data) {
+        if (player !is ServerPlayer) return
+
+        val playerId = player.uuid
+        val oldData = playerDataCache[playerId]
+
+        if (oldData == null) {
+            // No cached data, do full sync
+            syncFull(player, newData)
+            return
+        }
+
+        val changes = detectChanges(oldData, newData)
+
+        if (changes.isNotEmpty()) {
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                player,
+                OptimizedSelectiveSyncPayload(playerId, changes)
+            )
+            playerDataCache[playerId] = newData.copy()
+        }
+    }
+
+    inline fun smartUpdate(
         player: Player,
         sync: Boolean = true,
-        forceFullSync: Boolean = false,
         crossinline operations: Data.() -> Data
     ): Data {
         val currentData = getData(player)
-
-        currentData.clearDirtyFields()
-
         val newData = currentData.operations()
 
         setData(player, newData, sync = false)
 
         if (sync && player.level() is ServerLevel) {
-            val dirtyFields = newData.getDirtyFields()
-
-            when {
-                forceFullSync || dirtyFields.isEmpty() -> {
-                    sync(player, newData)
-                }
-
-                else -> {
-                    selectiveSync(player, newData, dirtyFields)
-                }
-            }
+            syncSmart(player, newData)
         }
-
-        newData.clearDirtyFields()
 
         return newData
     }
 
-    enum class SyncField {
-        AFFLICTION_LEVELS,
-        ABILITY_INDEX,
-        ABILITY_COOLDOWNS,
-        VAMP_COMBAT_STATS,  // killedBlazes, usedSunGrenades
-        VAMP_FORM_STATES,   // batForm, nightVision, speedBoost
-        VAMP_VILLAGES,      // visitedVillages, villagersHalfBlood, trappedVillagers
-        WERE_COMBAT_STATS,  // killedSheep, killedWolves, etc.
-        WERE_FORM_STATES,    // wolfForm, wolfManForm
-        LICH_FORM_STATES,
-        LICH_PROGRESS,
-        LICH_SOUL,
+    private fun detectChanges(oldData: Data, newData: Data): Map<String, Any?> {
+        val changes = mutableMapOf<String, Any?>()
+
+        SyncFieldRegistry.fields.forEach { field ->
+            val oldValue = field.getter(oldData)
+            val newValue = field.getter(newData)
+
+            if (oldValue != newValue) {
+                changes[field.path] = newValue
+            }
+        }
+
+        return changes
     }
 
-    // =================
-    // DATA CLASS
-    // =================
-
     data class Data(
-        private val afflictionLevels: MutableMap<AfflictionTypes, Int> = mutableMapOf(),
+        internal val afflictionLevels: MutableMap<AfflictionTypes, Int> = mutableMapOf(),
         private val abilityIndex: Int = -1,
-        private val abilityCooldowns: MutableMap<String, Int> = mutableMapOf(),
+        internal val abilityCooldowns: MutableMap<String, Int> = mutableMapOf(),
         val vampData: VampData = VampData(),
         val wereData: WereData = WereData(),
         val lichData: LichData = LichData(),
-        private val selectedAbilities: List<String> = emptyList(),
-        @Transient private var dirtyFields: MutableSet<SyncField> = mutableSetOf()
+        private val selectedAbilities: List<String> = emptyList()
     ) {
 
-        fun markDirty(field: SyncField) {
-            dirtyFields.add(field)
-        }
-
-        fun getDirtyFields(): Set<SyncField> = dirtyFields.toSet()
-
-        fun clearDirtyFields() {
-            dirtyFields.clear()
-        }
-
         fun getLevel(type: AfflictionTypes): Int = afflictionLevels.getOrDefault(type, 0)
-
         fun getWerewolfLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.LYCANTHROPY, 0)
         fun getVampireLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.VAMPIRISM, 0)
         fun getLichLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.LICHDOM, 0)
@@ -143,21 +133,14 @@ object AfflictionPlayerAttachment {
                     afflictionLevels = newLevels,
                     selectedAbilities = emptyList(),
                     abilityIndex = -1
-                ).apply {
-                    markDirty(SyncField.AFFLICTION_LEVELS)
-                    markDirty(SyncField.ABILITY_INDEX)
-                }
+                )
             } else {
-                copy(afflictionLevels = newLevels).apply {
-                    markDirty(SyncField.AFFLICTION_LEVELS)
-                }
+                copy(afflictionLevels = newLevels)
             }
         }
 
         fun getAbilityIndex(): Int = abilityIndex
-        fun withAbilityIndex(index: Int): Data = copy(abilityIndex = index).apply {
-            markDirty(SyncField.ABILITY_INDEX)
-        }
+        fun withAbilityIndex(index: Int): Data = copy(abilityIndex = index)
 
         fun getAbilityCooldown(ability: String): Int = abilityCooldowns.getOrDefault(ability, 0)
         fun withAbilityCooldown(ability: String, cooldown: Int): Data {
@@ -167,40 +150,26 @@ object AfflictionPlayerAttachment {
             } else {
                 newCooldowns[ability] = cooldown
             }
-            return copy(abilityCooldowns = newCooldowns).apply {
-                markDirty(SyncField.ABILITY_COOLDOWNS)
-            }
+            return copy(abilityCooldowns = newCooldowns)
         }
 
         fun getSelectedAbilities(): List<String> = selectedAbilities.take(5)
 
         fun withSelectedAbilities(abilities: List<String>): Data =
-            copy(selectedAbilities = abilities.take(5)).apply {
-                markDirty(SyncField.ABILITY_INDEX)
-            }
+            copy(selectedAbilities = abilities.take(5))
 
         fun addSelectedAbility(abilityId: String): Data {
             if (selectedAbilities.size >= 5 || selectedAbilities.contains(abilityId)) {
                 return this
             }
-            return copy(selectedAbilities = selectedAbilities + abilityId).apply {
-                markDirty(SyncField.ABILITY_INDEX)
-            }
+            return copy(selectedAbilities = selectedAbilities + abilityId)
         }
 
         fun removeSelectedAbility(abilityId: String): Data =
-            copy(selectedAbilities = selectedAbilities - abilityId).apply {
-                markDirty(SyncField.ABILITY_INDEX)
-            }
+            copy(selectedAbilities = selectedAbilities - abilityId)
 
         fun clearSelectedAbilities(): Data =
-            copy(selectedAbilities = emptyList()).apply {
-                markDirty(SyncField.ABILITY_INDEX)
-            }
-
-        // ----------------
-        // VampData helpers
-        // ----------------
+            copy(selectedAbilities = emptyList())
 
         fun getKilledBlazes(): Int = vampData.killedBlazes
         fun getUsedSunGrenades(): Int = vampData.usedSunGrenades
@@ -214,18 +183,9 @@ object AfflictionPlayerAttachment {
         fun getVillagersHalfBlood(): List<UUID> = vampData.villagersHalfBlood
         fun getTrappedVillagers(): List<UUID> = vampData.trappedVillagers
 
-        // --- VampData Mutators (copy) ---
-        fun withKilledBlazes(killed: Int): Data = copy(vampData = vampData.copy(killedBlazes = killed)).apply {
-            markDirty(SyncField.VAMP_COMBAT_STATS)
-        }
-
-        fun withUsedSunGrenades(used: Int): Data = copy(vampData = vampData.copy(usedSunGrenades = used)).apply {
-            markDirty(SyncField.VAMP_COMBAT_STATS)
-        }
-
-        fun withNightTicker(ticks: Int): Data =
-            copy(vampData = vampData.copy(nightTicker = ticks))
-
+        fun withKilledBlazes(killed: Int): Data = copy(vampData = vampData.copy(killedBlazes = killed))
+        fun withUsedSunGrenades(used: Int): Data = copy(vampData = vampData.copy(usedSunGrenades = used))
+        fun withNightTicker(ticks: Int): Data = copy(vampData = vampData.copy(nightTicker = ticks))
 
         fun withInSunTick(ticks: Int, maxTicks: Int? = null): Data {
             val clamped = if (maxTicks != null) {
@@ -233,9 +193,7 @@ object AfflictionPlayerAttachment {
             } else {
                 ticks.coerceAtLeast(0)
             }
-            return copy(vampData = vampData.copy(inSunTick = clamped)).apply {
-                markDirty(SyncField.VAMP_FORM_STATES)
-            }
+            return copy(vampData = vampData.copy(inSunTick = clamped))
         }
 
         fun incrementInSunTick(by: Int = 1, maxTicks: Int? = null): Data {
@@ -245,136 +203,70 @@ object AfflictionPlayerAttachment {
             } else {
                 newValue.coerceAtLeast(0)
             }
-            return copy(vampData = vampData.copy(inSunTick = clamped)).apply {
-                markDirty(SyncField.VAMP_FORM_STATES)
-            }
+            return copy(vampData = vampData.copy(inSunTick = clamped))
         }
 
         fun decrementInSunTick(by: Int = 1): Data {
             val newValue = (vampData.inSunTick - by).coerceAtLeast(0)
-            return copy(vampData = vampData.copy(inSunTick = newValue)).apply {
-                markDirty(SyncField.VAMP_FORM_STATES)
-            }
+            return copy(vampData = vampData.copy(inSunTick = newValue))
         }
 
         fun incrementNightTicker(): Data = copy(
             vampData = vampData.copy(nightTicker = vampData.nightTicker + 1)
-        ).apply {
-            markDirty(SyncField.VAMP_FORM_STATES)
-        }
+        )
 
         fun withNightVision(active: Boolean): Data =
-            copy(vampData = vampData.copy(isNightVisionActive = active)).apply {
-                markDirty(SyncField.VAMP_FORM_STATES)
-            }
+            copy(vampData = vampData.copy(isNightVisionActive = active))
 
-        fun withSpeedBoost(active: Boolean): Data = copy(vampData = vampData.copy(isSpeedBoostActive = active)).apply {
-            markDirty(SyncField.VAMP_FORM_STATES)
-        }
+        fun withSpeedBoost(active: Boolean): Data = copy(vampData = vampData.copy(isSpeedBoostActive = active))
+        fun withBatForm(active: Boolean): Data = copy(vampData = vampData.copy(isBatFormActive = active))
+        fun withMaxInSunTickClient(value: Int): Data = copy(vampData = vampData.copy(maxInSunTickClient = value))
 
-        fun withBatForm(active: Boolean): Data = copy(vampData = vampData.copy(isBatFormActive = active)).apply {
-            markDirty(SyncField.VAMP_FORM_STATES)
-        }
-
-        fun withMaxInSunTickClient(value: Int): Data =
-            copy(vampData = vampData.copy(maxInSunTickClient = value)).apply {
-                markDirty(SyncField.VAMP_FORM_STATES)
-            }
-
-        // --- List Mutators ---
         fun addVisitedVillage(pos: Long): Data = copy(
-            vampData = vampData.copy(
-                visitedVillages = vampData.visitedVillages + pos
-            )
-        ).apply {
-            markDirty(SyncField.VAMP_VILLAGES)
-        }
+            vampData = vampData.copy(visitedVillages = vampData.visitedVillages + pos)
+        )
 
         fun removeVisitedVillage(pos: Long): Data = copy(
-            vampData = vampData.copy(
-                visitedVillages = vampData.visitedVillages - pos
-            )
-        ).apply {
-            markDirty(SyncField.VAMP_VILLAGES)
-        }
+            vampData = vampData.copy(visitedVillages = vampData.visitedVillages - pos)
+        )
 
         fun clearVisitedVillages(): Data = copy(
-            vampData = vampData.copy(
-                visitedVillages = emptyList()
-            )
-        ).apply {
-            markDirty(SyncField.VAMP_VILLAGES)
-        }
+            vampData = vampData.copy(visitedVillages = emptyList())
+        )
 
         fun addVillagerHalfBlood(uuid: UUID): Data = copy(
-            vampData = vampData.copy(
-                villagersHalfBlood = vampData.villagersHalfBlood + uuid
-            )
-        ).apply {
-            markDirty(SyncField.VAMP_VILLAGES)
-        }
+            vampData = vampData.copy(villagersHalfBlood = vampData.villagersHalfBlood + uuid)
+        )
 
         fun removeVillagerHalfBlood(uuid: UUID): Data = copy(
-            vampData = vampData.copy(
-                villagersHalfBlood = vampData.villagersHalfBlood - uuid
-            )
-        ).apply {
-            markDirty(SyncField.VAMP_VILLAGES)
-        }
+            vampData = vampData.copy(villagersHalfBlood = vampData.villagersHalfBlood - uuid)
+        )
 
         fun clearVillagerHalfBlood(): Data = copy(
-            vampData = vampData.copy(
-                villagersHalfBlood = emptyList()
-            )
-        ).apply {
-            markDirty(SyncField.VAMP_VILLAGES)
-        }
+            vampData = vampData.copy(villagersHalfBlood = emptyList())
+        )
 
         fun addTrappedVillager(uuid: UUID): Data = copy(
-            vampData = vampData.copy(
-                trappedVillagers = vampData.trappedVillagers + uuid
-            )
-        ).apply {
-            markDirty(SyncField.VAMP_VILLAGES)
-        }
+            vampData = vampData.copy(trappedVillagers = vampData.trappedVillagers + uuid)
+        )
 
         fun removeTrappedVillager(uuid: UUID): Data = copy(
-            vampData = vampData.copy(
-                trappedVillagers = vampData.trappedVillagers - uuid
-            )
-        ).apply {
-            markDirty(SyncField.VAMP_VILLAGES)
-        }
+            vampData = vampData.copy(trappedVillagers = vampData.trappedVillagers - uuid)
+        )
 
         fun clearTrappedVillager(): Data = copy(
-            vampData = vampData.copy(
-                trappedVillagers = emptyList()
-            )
-        ).apply {
-            markDirty(SyncField.VAMP_VILLAGES)
-        }
+            vampData = vampData.copy(trappedVillagers = emptyList())
+        )
 
         fun incrementKilledBlazes(by: Int = 1): Data =
-            copy(vampData = vampData.copy(killedBlazes = vampData.killedBlazes + by)).apply {
-                markDirty(SyncField.VAMP_COMBAT_STATS)
-            }
+            copy(vampData = vampData.copy(killedBlazes = vampData.killedBlazes + by))
 
-        fun clearKilledBlazes(): Data = copy(vampData = vampData.copy(killedBlazes = 0)).apply {
-            markDirty(SyncField.VAMP_COMBAT_STATS)
-        }
+        fun clearKilledBlazes(): Data = copy(vampData = vampData.copy(killedBlazes = 0))
 
         fun incrementUsedSunGrenades(by: Int = 1): Data =
-            copy(vampData = vampData.copy(usedSunGrenades = vampData.usedSunGrenades + by)).apply {
-                markDirty(SyncField.VAMP_COMBAT_STATS)
-            }
+            copy(vampData = vampData.copy(usedSunGrenades = vampData.usedSunGrenades + by))
 
-        fun clearUsedSunGrenades(): Data = copy(vampData = vampData.copy(usedSunGrenades = 0)).apply {
-            markDirty(SyncField.VAMP_COMBAT_STATS)
-        }
-
-        // ----------------
-        // WereData helpers
-        // ----------------
+        fun clearUsedSunGrenades(): Data = copy(vampData = vampData.copy(usedSunGrenades = 0))
 
         fun getLycanSource(): Optional<UUID> = wereData.lycanSourceUUID
         fun hasGivenGold(): Boolean = wereData.hasGivenGold
@@ -391,77 +283,35 @@ object AfflictionPlayerAttachment {
 
         fun withLycanSource(src: Optional<UUID>): Data = copy(wereData = wereData.copy(lycanSourceUUID = src))
         fun withGivenGold(given: Boolean): Data = copy(wereData = wereData.copy(hasGivenGold = given))
-        fun withKilledSheep(kills: Int): Data = copy(wereData = wereData.copy(killedSheep = kills)).apply {
-            markDirty(SyncField.WERE_COMBAT_STATS)
-        }
-
-        fun withKilledWolves(kills: Int): Data = copy(wereData = wereData.copy(killedWolves = kills)).apply {
-            markDirty(SyncField.WERE_COMBAT_STATS)
-        }
-
-        fun withKilledHornedOne(killed: Boolean): Data = copy(wereData = wereData.copy(killHornedOne = killed)).apply {
-            markDirty(SyncField.WERE_COMBAT_STATS)
-        }
-
-        fun withAirSlayMonster(count: Int): Data = copy(wereData = wereData.copy(airSlayMonster = count)).apply {
-            markDirty(SyncField.WERE_COMBAT_STATS)
-        }
-
-        fun withNightHowl(count: Int): Data = copy(wereData = wereData.copy(nightHowl = count)).apply {
-            markDirty(SyncField.WERE_COMBAT_STATS)
-        }
-
-        fun withWolfPack(count: Int): Data = copy(wereData = wereData.copy(wolfPack = count)).apply {
-            markDirty(SyncField.WERE_COMBAT_STATS)
-        }
-
-        fun withPigmenKilled(kills: Int): Data = copy(wereData = wereData.copy(pigmenKilled = kills)).apply {
-            markDirty(SyncField.WERE_COMBAT_STATS)
-        }
-
+        fun withKilledSheep(kills: Int): Data = copy(wereData = wereData.copy(killedSheep = kills))
+        fun withKilledWolves(kills: Int): Data = copy(wereData = wereData.copy(killedWolves = kills))
+        fun withKilledHornedOne(killed: Boolean): Data = copy(wereData = wereData.copy(killHornedOne = killed))
+        fun withAirSlayMonster(count: Int): Data = copy(wereData = wereData.copy(airSlayMonster = count))
+        fun withNightHowl(count: Int): Data = copy(wereData = wereData.copy(nightHowl = count))
+        fun withWolfPack(count: Int): Data = copy(wereData = wereData.copy(wolfPack = count))
+        fun withPigmenKilled(kills: Int): Data = copy(wereData = wereData.copy(pigmenKilled = kills))
         fun withSpreadLycanthropy(spread: Boolean): Data = copy(wereData = wereData.copy(spreadLycanthropy = spread))
-        fun withWolfManForm(active: Boolean): Data =
-            copy(wereData = wereData.copy(isWolfManFormActive = active)).apply {
-                markDirty(SyncField.WERE_FORM_STATES)
-            }
-
-        fun withWolfForm(active: Boolean): Data = copy(wereData = wereData.copy(isWolfFormActive = active)).apply {
-            markDirty(SyncField.WERE_FORM_STATES)
-        }
+        fun withWolfManForm(active: Boolean): Data = copy(wereData = wereData.copy(isWolfManFormActive = active))
+        fun withWolfForm(active: Boolean): Data = copy(wereData = wereData.copy(isWolfFormActive = active))
 
         fun incrementKilledSheep(by: Int = 1): Data =
-            copy(wereData = wereData.copy(killedSheep = wereData.killedSheep + by)).apply {
-                markDirty(SyncField.WERE_COMBAT_STATS)
-            }
+            copy(wereData = wereData.copy(killedSheep = wereData.killedSheep + by))
 
         fun incrementKilledWolves(by: Int = 1): Data =
-            copy(wereData = wereData.copy(killedWolves = wereData.killedWolves + by)).apply {
-                markDirty(SyncField.WERE_COMBAT_STATS)
-            }
+            copy(wereData = wereData.copy(killedWolves = wereData.killedWolves + by))
 
         fun incrementAirSlayMonster(by: Int = 1): Data =
-            copy(wereData = wereData.copy(airSlayMonster = wereData.airSlayMonster + by)).apply {
-                markDirty(SyncField.WERE_COMBAT_STATS)
-            }
+            copy(wereData = wereData.copy(airSlayMonster = wereData.airSlayMonster + by))
 
         fun incrementNightHowl(by: Int = 1): Data =
-            copy(wereData = wereData.copy(nightHowl = wereData.nightHowl + by)).apply {
-                markDirty(SyncField.WERE_COMBAT_STATS)
-            }
+            copy(wereData = wereData.copy(nightHowl = wereData.nightHowl + by))
 
         fun incrementWolfPack(by: Int = 1): Data =
-            copy(wereData = wereData.copy(wolfPack = wereData.wolfPack + by)).apply {
-                markDirty(SyncField.WERE_COMBAT_STATS)
-            }
+            copy(wereData = wereData.copy(wolfPack = wereData.wolfPack + by))
 
         fun incrementPigmenKilled(by: Int = 1): Data =
-            copy(wereData = wereData.copy(pigmenKilled = wereData.pigmenKilled + by)).apply {
-                markDirty(SyncField.WERE_COMBAT_STATS)
-            }
+            copy(wereData = wereData.copy(pigmenKilled = wereData.pigmenKilled + by))
 
-        // ----------------
-        // LichData helpers
-        // ----------------
         fun getReadTablets(): List<UUID> = lichData.readTablets
         fun getBoundSouls(): Int = lichData.boundSouls
         fun hasZombieKilledMob(): Boolean = lichData.zombieKilledMob
@@ -481,72 +331,44 @@ object AfflictionPlayerAttachment {
             return lichData.phylacteryDeathTimes.count { it > oneNightAgo }
         }
 
-        // Add Lich mutators
         fun addReadTablet(tabletId: UUID): Data = copy(
-            lichData = lichData.copy(
-                readTablets = lichData.readTablets + tabletId
-            )
-        ).apply { markDirty(SyncField.LICH_FORM_STATES) }
+            lichData = lichData.copy(readTablets = lichData.readTablets + tabletId)
+        )
 
         fun withReadTablets(list: List<UUID>): Data = copy(lichData = lichData.copy(readTablets = list))
-            .apply { markDirty(SyncField.LICH_PROGRESS) }
-
         fun withGolemKills(count: Int): Data = copy(lichData = lichData.copy(killedGolems = count))
-            .apply { markDirty(SyncField.LICH_PROGRESS) }
-
         fun withDrainedAnimals(count: Int): Data = copy(lichData = lichData.copy(drainedAnimals = count))
-            .apply { markDirty(SyncField.LICH_PROGRESS) }
-
         fun withBoundSouls(count: Int): Data = copy(lichData = lichData.copy(boundSouls = count))
-            .apply { markDirty(SyncField.LICH_SOUL) }
-
         fun withPhylacteryDeaths(count: Int): Data = copy(lichData = lichData.copy(phylacteryDeaths = count))
-            .apply { markDirty(SyncField.LICH_SOUL) }
-
         fun withPhylacteryDeathTimes(count: List<Long>): Data = copy(lichData = lichData.copy(phylacteryDeathTimes = count))
-            .apply { markDirty(SyncField.LICH_SOUL) }
 
         fun incrementBoundSouls(by: Int = 1): Data = copy(
-            lichData = lichData.copy(
-                boundSouls = lichData.boundSouls + by
-            )
-        ).apply { markDirty(SyncField.LICH_SOUL) }
+            lichData = lichData.copy(boundSouls = lichData.boundSouls + by)
+        )
 
         fun withZombieKilledMob(killed: Boolean): Data = copy(
-            lichData = lichData.copy(
-                zombieKilledMob = killed
-            )
-        ).apply { markDirty(SyncField.LICH_PROGRESS) }
+            lichData = lichData.copy(zombieKilledMob = killed)
+        )
 
         fun incrementKilledGolems(by: Int = 1): Data = copy(
-            lichData = lichData.copy(
-                killedGolems = lichData.killedGolems + by
-            )
-        ).apply { markDirty(SyncField.LICH_PROGRESS) }
+            lichData = lichData.copy(killedGolems = lichData.killedGolems + by)
+        )
 
         fun incrementDrainedAnimals(by: Int = 1): Data = copy(
-            lichData = lichData.copy(
-                drainedAnimals = lichData.drainedAnimals + by
-            )
-        ).apply { markDirty(SyncField.LICH_PROGRESS) }
+            lichData = lichData.copy(drainedAnimals = lichData.drainedAnimals + by)
+        )
 
         fun withPossessedKillVillager(killed: Boolean): Data = copy(
-            lichData = lichData.copy(
-                possessedKillVillager = killed
-            )
-        ).apply { markDirty(SyncField.LICH_PROGRESS) }
+            lichData = lichData.copy(possessedKillVillager = killed)
+        )
 
         fun withKilledWither(killed: Boolean): Data = copy(
-            lichData = lichData.copy(
-                killedWither = killed
-            )
-        ).apply { markDirty(SyncField.LICH_PROGRESS) }
+            lichData = lichData.copy(killedWither = killed)
+        )
 
         fun withPhylacteryBound(bound: Boolean): Data = copy(
-            lichData = lichData.copy(
-                phylacteryBound = bound
-            )
-        ).apply { markDirty(SyncField.LICH_SOUL) }
+            lichData = lichData.copy(phylacteryBound = bound)
+        )
 
         fun incrementPhylacteryDeaths(player: ServerPlayer): Data {
             val gameTime = player.level().gameTime
@@ -555,27 +377,20 @@ object AfflictionPlayerAttachment {
                     phylacteryDeaths = lichData.phylacteryDeaths + 1,
                     phylacteryDeathTimes = lichData.phylacteryDeathTimes + gameTime
                 )
-            ).apply { markDirty(SyncField.LICH_SOUL) }
+            )
         }
 
         fun withPhylacterySouls(souls: Int): Data = copy(
-            lichData = lichData.copy(
-                phylacterySouls = souls.coerceIn(0, 3)
-            )
-        ).apply { markDirty(SyncField.LICH_SOUL) }
+            lichData = lichData.copy(phylacterySouls = souls.coerceIn(0, 3))
+        )
 
         fun withSoulForm(active: Boolean): Data = copy(
-            lichData = lichData.copy(
-                isSoulFormActive = active
-            )
-        ).apply { markDirty(SyncField.LICH_FORM_STATES) }
-
+            lichData = lichData.copy(isSoulFormActive = active)
+        )
 
         fun withVagrant(active: Boolean): Data = copy(
-            lichData = lichData.copy(
-                isVagrant = active
-            )
-        ).apply { markDirty(SyncField.LICH_FORM_STATES) }
+            lichData = lichData.copy(isVagrant = active)
+        )
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
@@ -638,7 +453,6 @@ object AfflictionPlayerAttachment {
             val ID: ResourceLocation = Witchery.id("lich_player_data")
         }
     }
-
 
     data class VampData(
         val killedBlazes: Int = 0,

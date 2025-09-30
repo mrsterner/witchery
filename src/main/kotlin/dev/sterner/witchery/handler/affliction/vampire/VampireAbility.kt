@@ -1,7 +1,8 @@
 package dev.sterner.witchery.handler.affliction.vampire
 
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.data_attachment.transformation.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.affliction.AfflictionAbility
@@ -47,7 +48,7 @@ enum class VampireAbility(
         override fun use(player: Player): Boolean {
             val hadNightVision = AfflictionPlayerAttachment.getData(player).hasNightVision()
 
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 withNightVision(!hadNightVision)
             }
 
@@ -91,7 +92,7 @@ enum class VampireAbility(
         override fun use(player: Player): Boolean {
             val wasActive = AfflictionPlayerAttachment.getData(player).hasSpeedBoost()
 
-            AfflictionPlayerAttachment.batchUpdate(player) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
                 withSpeedBoost(!wasActive)
             }
 

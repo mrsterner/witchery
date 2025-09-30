@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.registry.WitcheryRenderTypes;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;

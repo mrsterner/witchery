@@ -2,7 +2,8 @@ package dev.sterner.witchery.handler.affliction.lich
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.event.LichEvent
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.TransformationHandler
@@ -27,29 +28,41 @@ object LichdomLeveling {
 
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
-        AfflictionPlayerAttachment.batchUpdate(player) {
-            var result = setLevel(AfflictionTypes.LICHDOM, level)
+        val previousLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
 
-            if (level == 0) {
-                result = result
-                    .withSoulForm(false)
-                    .withPhylacteryBound(false)
-                    .withPhylacterySouls(0)
+        if (level == 0) {
+            val newData = AfflictionPlayerAttachment.getData(player)
+                .setLevel(AfflictionTypes.LICHDOM, 0)
+                .withSoulForm(false)
+                .withPhylacteryBound(false)
+                .withPhylacterySouls(0)
+
+            AfflictionPlayerAttachment.setData(player, newData, sync = false)
+            AfflictionPlayerAttachment.syncFull(player, newData)
+
+            TransformationHandler.removeForm(player)
+        } else {
+            AfflictionPlayerAttachment.smartUpdate(player) {
+                setLevel(AfflictionTypes.LICHDOM, level)
             }
-
-            result
         }
 
         if (level >= 2) {
             LichdomSoulPoolHandler.setMaxSouls(player, level)
-        }
-
-        if (level == 0) {
-            TransformationHandler.removeForm(player)
+        } else if (level == 0 && previousLevel >= 2) {
+            LichdomSoulPoolHandler.setMaxSouls(player, 0)
         }
 
         updateModifiers(player, level)
         player.refreshDimensions()
+
+        if (level == 0 && previousLevel > 0) {
+            PacketDistributor.sendToPlayersTrackingChunk(
+                player.serverLevel(),
+                player.chunkPosition(),
+                RefreshDimensionsS2CPayload()
+            )
+        }
     }
 
     @JvmStatic
@@ -104,7 +117,7 @@ object LichdomLeveling {
     fun bindVillagerSoul(player: ServerPlayer) {
         if (!canPerformQuest(player, 1)) return
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             incrementBoundSouls()
         }
 
@@ -116,7 +129,7 @@ object LichdomLeveling {
     fun recordZombieKill(player: ServerPlayer) {
         if (!canPerformQuest(player, 2)) return
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             withZombieKilledMob(true)
         }
 
@@ -128,7 +141,7 @@ object LichdomLeveling {
     fun increaseKilledGolems(player: ServerPlayer) {
         if (!canPerformQuest(player, 3)) return
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             incrementKilledGolems()
         }
 
@@ -140,7 +153,7 @@ object LichdomLeveling {
     fun bindMultipleSouls(player: ServerPlayer, count: Int) {
         if (!canPerformQuest(player, 4)) return
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             withBoundSouls(getBoundSouls() + count)
         }
 
@@ -152,7 +165,7 @@ object LichdomLeveling {
     fun drainAnimalLife(player: ServerPlayer) {
         if (!canPerformQuest(player, 5)) return
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             incrementDrainedAnimals()
         }
 
@@ -164,7 +177,7 @@ object LichdomLeveling {
     fun recordPossessedKill(player: ServerPlayer) {
         if (!canPerformQuest(player, 6)) return
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             withPossessedKillVillager(true)
         }
 
@@ -176,7 +189,7 @@ object LichdomLeveling {
     fun recordWitherKill(player: ServerPlayer) {
         if (!canPerformQuest(player, 7)) return
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             withKilledWither(true)
         }
 
@@ -188,7 +201,7 @@ object LichdomLeveling {
     fun recordPhylacteryUse(player: ServerPlayer) {
         if (!canPerformQuest(player, 8)) return
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             withPhylacteryBound(true).incrementPhylacteryDeaths(player)
         }
 
@@ -218,7 +231,7 @@ object LichdomLeveling {
             return false
         }
 
-        val newData = AfflictionPlayerAttachment.batchUpdate(player) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player) {
             addReadTablet(tabletId)
         }
 

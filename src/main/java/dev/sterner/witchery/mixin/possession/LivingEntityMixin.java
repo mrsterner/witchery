@@ -2,7 +2,7 @@ package dev.sterner.witchery.mixin.possession;
 
 
 import dev.sterner.witchery.api.interfaces.Possessable;
-import dev.sterner.witchery.data_attachment.transformation.AfflictionPlayerAttachment;
+import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.util.DamageHelper;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
