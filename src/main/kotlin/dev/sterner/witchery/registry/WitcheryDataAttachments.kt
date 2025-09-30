@@ -16,7 +16,6 @@ import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
 import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment.PossessionData
 import dev.sterner.witchery.data_attachment.teleport.TeleportQueueLevelAttachment
-import dev.sterner.witchery.data_attachment.transformation.*
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries

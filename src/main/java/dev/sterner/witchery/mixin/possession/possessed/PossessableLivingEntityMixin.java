@@ -37,8 +37,7 @@ import java.util.UUID;
 
 @Mixin(LivingEntity.class)
 public abstract class PossessableLivingEntityMixin extends Entity implements Possessable {
-    @Unique
-    private final boolean witchery$immovable = this.getType().is(WitcheryTags.INSTANCE.getIMMOVABLE());
+
     @Unique
     private final boolean witchery$regularEater = this.getType().is(WitcheryTags.INSTANCE.getREGULAR_EATER());
 
@@ -147,18 +146,16 @@ public abstract class PossessableLivingEntityMixin extends Entity implements Pos
             this.setYRot(player.getYRot());
             this.setXRot(player.getXRot());
             this.yHeadRot = this.yRotO = this.getYRot();
-            if (!this.witchery$immovable) {
-                this.yBodyRot = this.yHeadRot;
-                this.setSwimming(player.isSwimming());
-                this.fallDistance = 0;
+            this.yBodyRot = this.yHeadRot;
+            this.setSwimming(player.isSwimming());
+            this.fallDistance = 0;
 
-                this.setDeltaMovement(player.getDeltaMovement());
-                this.move(MoverType.SELF, this.getDeltaMovement());
-                this.setPos(player.getX(), player.getY(), player.getZ());
+            this.setDeltaMovement(player.getDeltaMovement());
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setPos(player.getX(), player.getY(), player.getZ());
 
-                this.horizontalCollision = player.horizontalCollision;
-                this.verticalCollision = player.verticalCollision;
-            }
+            this.horizontalCollision = player.horizontalCollision;
+            this.verticalCollision = player.verticalCollision;
         }
     }
 

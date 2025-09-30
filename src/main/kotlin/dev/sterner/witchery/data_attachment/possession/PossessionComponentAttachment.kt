@@ -116,31 +116,22 @@ object PossessionComponentAttachment {
                 return false
             }
 
-            startPossessing0(host, possessable)
-            return true
-        }
-
-        private fun startPossessing0(host: Mob, possessable: Possessable) {
             possessable.setPossessor(null)
 
             if (!player.level().isClientSide) {
-                if (host.type.`is`(WitcheryTags.INVENTORY_CARRIERS)) {
-                    PossessedDataAttachment.get(host).moveItems(player.inventory, false)
-                }
+                PossessedDataAttachment.get(host).moveItems(player.inventory, false)
 
-                if (host.type.`is`(WitcheryTags.ITEM_USERS)) {
-                    for (slot in EquipmentSlot.values()) {
-                        val stuff: ItemStack = host.getItemBySlot(slot)
-                        if (stuff.isEmpty()) {
-                            continue
-                        }
-                        if (!player.getItemBySlot(slot).isEmpty()) {
-                            player.spawnAtLocation(stuff, 0.5f)
-                        } else {
-                            player.setItemSlot(slot, stuff)
-                        }
-                        host.setItemSlot(slot, ItemStack.EMPTY)
+                for (slot in EquipmentSlot.entries) {
+                    val stuff: ItemStack = host.getItemBySlot(slot)
+                    if (stuff.isEmpty) {
+                        continue
                     }
+                    if (!player.getItemBySlot(slot).isEmpty) {
+                        player.spawnAtLocation(stuff, 0.5f)
+                    } else {
+                        player.setItemSlot(slot, stuff)
+                    }
+                    host.setItemSlot(slot, ItemStack.EMPTY)
                 }
                 for (effect in host.activeEffects) {
                     player.addEffect(MobEffectInstance(effect))
@@ -170,6 +161,7 @@ object PossessionComponentAttachment {
 
             val event = PossessionEvents.PossessionStateChange(player, host)
             NeoForge.EVENT_BUS.post(event)
+            return true
         }
 
         fun stopPossessing(transfer: Boolean = !player.isCreative) {
@@ -349,24 +341,20 @@ object PossessionComponentAttachment {
                 val event = PossessionEvents.ShouldTransferInventory(player, possessed)
 
                 if (!event.isCanceled) {
-                    if (possessed.type.`is`(WitcheryTags.ITEM_USERS)) {
-                        for (slot in EquipmentSlot.entries) {
-                            val stuff: ItemStack = player.getItemBySlot(slot)
-                            if (stuff.isEmpty) {
-                                continue
-                            }
-                            if (!possessed.getItemBySlot(slot).isEmpty()) {
-                                possessed.spawnAtLocation(stuff, 0.5f)
-                            } else {
-                                possessed.setItemSlot(slot, stuff)
-                            }
-                            player.setItemSlot(slot, ItemStack.EMPTY)
+                    for (slot in EquipmentSlot.entries) {
+                        val stuff: ItemStack = player.getItemBySlot(slot)
+                        if (stuff.isEmpty) {
+                            continue
                         }
+                        if (!possessed.getItemBySlot(slot).isEmpty) {
+                            possessed.spawnAtLocation(stuff, 0.5f)
+                        } else {
+                            possessed.setItemSlot(slot, stuff)
+                        }
+                        player.setItemSlot(slot, ItemStack.EMPTY)
                     }
 
-                    if (possessed.type.`is`(WitcheryTags.INVENTORY_CARRIERS)) {
-                        PossessedDataAttachment.get(possessed).moveItems(player.inventory, true)
-                    }
+                    PossessedDataAttachment.get(possessed).moveItems(player.inventory, true)
 
                     player.inventory.dropAll()
                 }

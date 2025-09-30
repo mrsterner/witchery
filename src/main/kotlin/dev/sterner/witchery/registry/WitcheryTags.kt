@@ -65,13 +65,9 @@ object WitcheryTags {
     val NECROMANCER_SUMMONABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("necromancer_summonable"))
     val SCARED_BY_GROTESQUE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("scared_by_grotesque"))
 
-
-    val INVENTORY_CARRIERS  = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("inventory_carriers"))
     val SLEEPERS  = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("sleepers"))
-    val ITEM_USERS  = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("item_users"))
     val POSSESSABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("possessable"))
     val REGULAR_EATER = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("regular_eater"))
-    val IMMOVABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("immovable"))
 
     val EMPTY_FLUID = TagKey.create(Registries.FLUID, Witchery.id("empty"))
 
