@@ -105,9 +105,6 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
                 0.7f
             )
 
-            player.removeEffect(MobEffects.GLOWING)
-            player.removeEffect(MobEffects.INVISIBILITY)
-
             inventoryDropped = true
             this.discard()
         }

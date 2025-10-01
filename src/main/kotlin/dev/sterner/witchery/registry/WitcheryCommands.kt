@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.commands.CurseArgumentType
 import dev.sterner.witchery.commands.InfusionArgumentType
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
@@ -16,11 +17,16 @@ import dev.sterner.witchery.data_attachment.infusion.InfusionType
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.SoulPoolPlayerAttachment
+import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
+import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
+import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
+import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity.Companion.disableFlight
 import dev.sterner.witchery.handler.CurseHandler
 import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.lich.LichdomLeveling
+import dev.sterner.witchery.handler.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling.levelToBlood
 import dev.sterner.witchery.handler.affliction.werewolf.WerewolfLeveling
@@ -30,12 +36,16 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
+import net.minecraft.commands.synchronization.ArgumentTypeInfos
 import net.minecraft.commands.synchronization.SingletonArgumentInfo
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.registries.DeferredRegister
+import team.lodestar.lodestone.registry.common.LodestoneCommandArgumentTypes
 import java.util.function.Supplier
 
 
@@ -335,6 +345,61 @@ object WitcheryCommands {
                                         1
                                     })
                     )
+            ).then(
+                Commands.literal("soul_form")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .then(Commands.argument("enable", BoolArgumentType.bool())
+                                .executes { ctx ->
+                                    val enable = BoolArgumentType.getBool(ctx, "enable")
+                                    val player = ctx.source.playerOrException
+
+                                    val isSoulForm = AfflictionPlayerAttachment.getData(player).isSoulForm()
+                                    val isVagrant = AfflictionPlayerAttachment.getData(player).isVagrant()
+                                    if (isSoulForm && !isVagrant && !enable) {
+                                        disableFlight(player)
+                                        InventorySlots.unlockAll(player)
+                                        player.abilities.flying = false
+                                        player.onUpdateAbilities()
+
+                                        AfflictionPlayerAttachment.smartUpdate(player) {
+                                            withSoulForm(false).withVagrant(false)
+                                        }
+                                    } else if (!isSoulForm && !isVagrant && enable) {
+                                        LichdomSpecificEventHandler.activateSoulForm(player)
+                                    } else if (isVagrant && enable) {
+                                        val possessionComponent = PossessionComponentAttachment.get(player)
+                                        val host = possessionComponent.getHost()
+
+                                        if (host != null) {
+                                            possessionComponent.stopPossessing(false)
+                                            EntityAiToggle.toggleAi(host, EntityAiToggle.POSSESSION_MECHANISM_ID, false, false)
+                                        }
+
+                                        AfflictionPlayerAttachment.smartUpdate(player) {
+                                            withSoulForm(true).withVagrant(false)
+                                        }
+
+                                        InventorySlots.lockAll(player)
+                                        SoulShellPlayerEntity.enableFlight(player)
+                                        player.abilities.flying = true
+
+                                        val random = player.random
+                                        player.deltaMovement = player.deltaMovement.add(
+                                            (random.nextDouble() - 0.5) * 0.1,
+                                            0.2 + random.nextDouble() * 0.1,
+                                            (random.nextDouble() - 0.5) * 0.1
+                                        )
+                                        player.hurtMarked = true
+                                        player.onUpdateAbilities()
+                                    }
+
+                                    1
+                                }
+                            )
+
+                    )
+
             )
     }
 
