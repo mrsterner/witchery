@@ -397,9 +397,16 @@ object WitcheryCommands {
                                     1
                                 }
                             )
+                            .then(Commands.literal("cure")
+                                .executes { ctx ->
+                                    val player = ctx.source.playerOrException
+                                    val possess = PossessionComponentAttachment.get(player)
+                                    possess.startCuring()
 
+                                    1
+                                }
+                            )
                     )
-
             )
     }
 
