@@ -28,7 +28,7 @@ class VampireLevelTenEntryProvider(val id: String, parent: CategoryProviderBase?
         }
         this.page(id) {
             BookTextPageModel.create()
-                .withText("${parent.categoryId()}.$id.page.2")
+                .withText("${parent.categoryId()}.$id.page.3")
         }
     }
 

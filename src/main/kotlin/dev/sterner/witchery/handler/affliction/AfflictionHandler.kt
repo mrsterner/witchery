@@ -21,6 +21,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.AABB
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.network.PacketDistributor
 
@@ -33,7 +34,7 @@ object AfflictionHandler {
     private const val VILLAGER_DAMAGE_AMOUNT = 2f
 
     private const val CAGE_DETECTION_RANGE = 2.0
-    private const val MIN_CAGE_BARS = 24
+    private const val MIN_CAGE_BARS = 15
     private const val BLOOD_HEALING_THRESHOLD = 75
     private const val BLOOD_TRANSFER_AMOUNT_BASE = 10
 
@@ -187,14 +188,23 @@ object AfflictionHandler {
 
         val cageStates = villager.level().getBlockStates(
             villager.boundingBox.inflate(CAGE_DETECTION_RANGE, CAGE_DETECTION_RANGE, CAGE_DETECTION_RANGE)
-        )
-        val bars = cageStates.filter {
-            it.`is`(Blocks.IRON_BARS) || it.`is`(BlockTags.SLABS)
-        }.count()
+        ).toList()
 
-        if (bars >= MIN_CAGE_BARS) {
+        val roofPos = villager.blockPosition().above(2)
+
+        val roofStates = villager.level().getBlockStates(
+            AABB(roofPos).inflate(2.0,0.0,2.0)
+        ).toList()
+
+        val bars = cageStates.count { it.`is`(Blocks.IRON_BARS) }
+        val roof = roofStates.count {
+            !it.`is`(Blocks.IRON_BARS) && !it.`is`(Blocks.AIR) && !it.`is`(Blocks.CAVE_AIR)
+        }
+
+        if (bars >= MIN_CAGE_BARS && roof >= 9) {
             VampireLeveling.increaseTrappedVillagers(player, villager)
         }
     }
+
 
 }

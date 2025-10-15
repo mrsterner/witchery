@@ -545,7 +545,7 @@ object WitcheryBookLangProvider {
             "vampirism.vamp_9.page.2", "\n" +
                     "\\\n" +
                     "\\\n" +
-                    "\\\n...he began feeding from each of them; mesmerising them first, then carefully he drank al he could without damaging any...\n" +
+                    "\\\n...he began feeding from each of them; mesmerising them first, then carefully he drank al he could without damaging any..." +
                     "\\\n"
         )
 

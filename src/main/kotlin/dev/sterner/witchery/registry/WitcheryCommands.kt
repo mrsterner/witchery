@@ -470,7 +470,7 @@ object WitcheryCommands {
                                             "level",
                                             IntegerArgumentType.integer(
                                                 0,
-                                                VampireLeveling.LEVEL_REQUIREMENTS.map { it.key }.max()
+                                                levelToBlood(VampireLeveling.LEVEL_REQUIREMENTS.map { it.key }.max())
                                             )
                                         )
                                             .executes { context ->
