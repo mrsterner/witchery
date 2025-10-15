@@ -68,18 +68,6 @@ class ChaliceBlock(properties: Properties) : Block(properties.noOcclusion()) {
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult)
     }
 
-    override fun useWithoutItem(
-        state: BlockState,
-        level: Level,
-        pos: BlockPos,
-        player: Player,
-        hitResult: BlockHitResult
-    ): InteractionResult {
-        // TODO: Funni Idea: Drink the Soup?
-
-        return super.useWithoutItem(state, level, pos, player, hitResult)
-    }
-
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
         return Shapes.box(5.0 / 16, 0.0, 5.0 / 16, 11.0 / 16, 10.0 / 16, 11.0 / 16)
     }
