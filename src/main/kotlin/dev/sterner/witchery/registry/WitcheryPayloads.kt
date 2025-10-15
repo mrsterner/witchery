@@ -219,6 +219,12 @@ object WitcheryPayloads {
             payload.handleOnServer(ctx)
         }
         registrar.playToServer(
+            SelectUrnPotionC2SPayload.ID,
+            SelectUrnPotionC2SPayload.STREAM_CODEC
+        ) { payload, ctx ->
+            payload.handleOnServer(ctx)
+        }
+        registrar.playToServer(
             GrantWitcheryAdvancementsC2SPayload.ID,
             GrantWitcheryAdvancementsC2SPayload.STREAM_CODEC
         ) { payload, ctx ->

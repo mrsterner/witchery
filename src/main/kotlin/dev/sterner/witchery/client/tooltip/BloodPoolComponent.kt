@@ -1,5 +1,6 @@
-package dev.sterner.witchery.api.client
+package dev.sterner.witchery.client.tooltip
 
+import dev.sterner.witchery.api.client.WitcheryTooltipComponent
 import net.minecraft.world.item.ItemStack
 
 class BloodPoolComponent(val stack: ItemStack) :

@@ -12,7 +12,9 @@ import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.alchemy.PotionContents
+import net.minecraft.world.item.component.ItemContainerContents
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.*
 import java.util.function.Supplier
@@ -121,6 +123,18 @@ object WitcheryDataComponents {
     val WITCHERY_POTION_CONTENT = DATA.register("witchery_potion_content", Supplier {
         DataComponentType.builder<List<WitcheryPotionIngredient>>()
             .persistent(WitcheryPotionIngredient.CODEC.listOf())
+            .build()
+    })
+
+    val URN_POTIONS = DATA.register("urn_potions", Supplier {
+        DataComponentType.builder<List<ItemStack>>()
+            .persistent(ItemStack.OPTIONAL_CODEC.listOf())
+            .build()
+    })
+
+    val LOADED_POTION = DATA.register("loaded_potion", Supplier {
+        DataComponentType.builder<ItemContainerContents>()
+            .persistent(ItemContainerContents.CODEC)
             .build()
     })
 

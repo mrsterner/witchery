@@ -62,6 +62,13 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
             id?.let { add("witchery:${it.path}", formatId(id)) }
         }
 
+        add("item.witchery.leonards_urn.potions", "%s/%s Potions")
+        add("item.witchery.quartz_sphere.loaded", "Loaded:")
+        add("item.witchery.quartz_sphere.empty", "Empty - Use with Leonard's Urn")
+        add("gui.witchery.select_potion", "Select Potion")
+        add("gui.witchery.scroll_to_select", "Scroll to Select")
+
+
         add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")
         add(WitcheryTags.ALDER_LOG_ITEMS, "Alder Logs")
         add(WitcheryTags.HAWTHORN_LOG_ITEMS, "Hawthorn Logs")

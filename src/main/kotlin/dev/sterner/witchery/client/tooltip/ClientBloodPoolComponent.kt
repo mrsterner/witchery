@@ -1,6 +1,6 @@
-package dev.sterner.witchery.api.client
+package dev.sterner.witchery.client.tooltip
 
-import dev.sterner.witchery.item.CaneSwordItem.Companion.MAX_STORED_BLOOD
+import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.util.RenderUtils
 import net.minecraft.client.gui.Font
@@ -22,7 +22,7 @@ class ClientBloodPoolComponent(val stack: ItemStack) : ClientTooltipComponent {
         val bl = stack.has(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get())
         if (bl) {
             val amount = stack.get(WitcheryDataComponents.CANE_BLOOD_AMOUNT.get()) ?: 0
-            RenderUtils.innerRenderBlood(guiGraphics, MAX_STORED_BLOOD, amount, y, x + 14)
+            RenderUtils.innerRenderBlood(guiGraphics, CaneSwordItem.Companion.MAX_STORED_BLOOD, amount, y, x + 14)
         }
 
         super.renderImage(font, x, y, guiGraphics)

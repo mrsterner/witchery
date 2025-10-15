@@ -79,7 +79,7 @@ object WitcherySpecialPotionEffects {
 
     val HARVEST = SPECIALS.register("harvest", Supplier {
         object : SpecialPotion("harvest") {
-            //Harvest	Apple	1		Tool	Harvests plants
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -107,7 +107,7 @@ object WitcherySpecialPotionEffects {
 
     val FERTILE = SPECIALS.register("fertile", Supplier {
         object : SpecialPotion("fertile") {
-            //Fertilize	Bonemeal	1	250	Tool	Makes stuff grow
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -137,7 +137,7 @@ object WitcherySpecialPotionEffects {
 
     val EXTINGUISH = SPECIALS.register("extinguish", Supplier {
         object : SpecialPotion("extinguish") {
-            //Extinguish Fires	Coal	1	Puts out fires (3+ power required for the nether)
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -199,7 +199,7 @@ object WitcherySpecialPotionEffects {
     })
     val TILL_LAND = SPECIALS.register("till_land", Supplier {
         object : SpecialPotion("till_land") {
-            //Till Land	Dirt	1		Tool	Turns dirt into farmland
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -226,7 +226,7 @@ object WitcherySpecialPotionEffects {
     })
     val GROW_LILY = SPECIALS.register("grow_lily", Supplier {
         object : SpecialPotion("grow_lily") {
-            //Grow Lily	Lilypad	1	200	Tool	Places lilypads
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -253,7 +253,7 @@ object WitcherySpecialPotionEffects {
     })
     val PRUNE_LEAVES = SPECIALS.register("prune_leaves", Supplier {
         object : SpecialPotion("prune_leaves") {
-            //Prune Leaves	Brown Mushroom	1		Tool	Removes leaves
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -293,7 +293,7 @@ object WitcherySpecialPotionEffects {
     })
     val PLANT_DROPPED_SEEDS = SPECIALS.register("plant_dropped_seeds", Supplier {
         object : SpecialPotion("plant_dropped_seeds") {
-            //Plant Dropped Seeds	Seeds	1		Tool	Plants any seeds that are on the ground
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -337,7 +337,7 @@ object WitcherySpecialPotionEffects {
     })
     val FELL_TREE = SPECIALS.register("fell_tree", Supplier {
         object : SpecialPotion("fell_tree") {
-            //Fell Tree	String	1		Tool	Knocks down trees
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -396,7 +396,7 @@ object WitcherySpecialPotionEffects {
     })
     val SPROUTING = SPECIALS.register("sprouting", Supplier {
         object : SpecialPotion("sprouting") {
-            // Sprouting: Ent Twig, Tool, Grows a tree, Instant elevator
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -492,7 +492,7 @@ object WitcherySpecialPotionEffects {
 
     val PULL = SPECIALS.register("pull", Supplier {
         object : SpecialPotion("pull") {
-            //Pull	Slimeball	2	150	Tool	Suck creatures near
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -519,6 +519,7 @@ object WitcherySpecialPotionEffects {
     })
     val PUSH = SPECIALS.register("push", Supplier {
         object : SpecialPotion("push") {
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -544,7 +545,7 @@ object WitcherySpecialPotionEffects {
     })
     val TELEPORT = SPECIALS.register("teleport", Supplier {
         object : SpecialPotion("teleport") {
-            //Random Teleport	Ender Pearl	4	1,000	Tool	Potion causes random teleport, but if cast it as a ritual you can set the destination
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -593,8 +594,7 @@ object WitcherySpecialPotionEffects {
     })
     val TAME_ANIMALS = SPECIALS.register("tame_animals", Supplier {
         object : SpecialPotion("tame_animals") {
-            // Tame Animals: Heart of Gold, Tool, Attracts animals to you and tames them.
-            // Inverted, it repels them and untaims those that were tamed by others
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -665,7 +665,7 @@ object WitcherySpecialPotionEffects {
 
     val LOVE = SPECIALS.register("love", Supplier {
         object : SpecialPotion("love") {
-            //Love	Poppy	4	500	Tool	Mating (zombies too)
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -685,7 +685,7 @@ object WitcherySpecialPotionEffects {
     })
     val GROW = SPECIALS.register("grow", Supplier {
         object : SpecialPotion("grow") {
-            //Resize	Emerald	6	2,500	Tool	Make animals/players smaller or bigger.
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -712,7 +712,7 @@ object WitcherySpecialPotionEffects {
     })
     val SHRINK = SPECIALS.register("shrink", Supplier {
         object : SpecialPotion("shrink") {
-            //Resize	Emerald	6	2,500	Tool	Make animals/players smaller or bigger.
+
             override fun onActivated(
                 level: Level,
                 owner: Entity?,
@@ -739,6 +739,7 @@ object WitcherySpecialPotionEffects {
     })
     val SOUL_SEVERANCE = SPECIALS.register("soul_severance", Supplier {
         object : SpecialPotion("soul_severance") {
+
             override fun onDrunk(
                 level: Level,
                 owner: LivingEntity?,

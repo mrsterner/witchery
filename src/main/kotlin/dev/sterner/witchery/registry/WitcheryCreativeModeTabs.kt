@@ -180,6 +180,7 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.GRAVESTONE.get())
                     output.accept(WitcheryItems.TORN_PAGE.get())
                     output.accept(WitcheryItems.QUARTZ_SPHERE.get())
+                    output.accept(WitcheryItems.LEONARDS_URN.get())
                     output.accept(WitcheryItems.SEER_STONE.get())
                     output.accept(WitcheryItems.SUN_COLLECTOR.get())
                     output.accept(WitcheryItems.BLOOD_STAINED_WOOL.get())

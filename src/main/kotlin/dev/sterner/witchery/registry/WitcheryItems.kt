@@ -256,7 +256,7 @@ object WitcheryItems {
     }
 
     val ENT_TWIG = register("ent_twig") {
-        Item(Item.Properties())
+        EntTwigItem(Item.Properties())
     }
 
     val SPECTRAL_DUST = register("spectral_dust") {
@@ -1148,6 +1148,9 @@ object WitcheryItems {
         QuartzSphereItem(Item.Properties())
     }
 
+    val LEONARDS_URN = register("leonards_urn") {
+        LeonardsUrnItem()
+    }
 
     val SUN_COLLECTOR = register("sunlight_collector") {
         BlockItem(WitcheryBlocks.SUNLIGHT_COLLECTOR.get(), Item.Properties().stacksTo(1))

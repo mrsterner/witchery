@@ -2,8 +2,9 @@ package dev.sterner.witchery
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
-import dev.sterner.witchery.api.client.BloodPoolComponent
+import dev.sterner.witchery.client.tooltip.BloodPoolComponent
 import dev.sterner.witchery.block.phylactery.PhylacteryBlock
+import dev.sterner.witchery.client.UrnPotionSelectionHandler
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer
@@ -23,6 +24,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
 import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
@@ -145,7 +147,11 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
     }
 
     private fun onMouseScrolled(event: InputEvent.MouseScrollingEvent) {
-        val bl = AfflictionAbilityHandler.scroll(Minecraft.getInstance(), event.scrollDeltaX, event.scrollDeltaY)
+
+        var bl = AfflictionAbilityHandler.scroll(Minecraft.getInstance(), event.scrollDeltaX, event.scrollDeltaY)
+        if (UrnPotionSelectionHandler.onMouseScroll(event.scrollDeltaY)) {
+            bl = true
+        }
         if (bl) {
             event.isCanceled = true
         }
@@ -177,10 +183,12 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         WerewolfClientSpecificEventHandler.renderHud(event.guiGraphics)
         LichdomClientSpecificEventHandler.renderHud(event.guiGraphics)
         BarkBeltHandler.renderHud(event.guiGraphics, event.partialTick)
+        UrnPotionSelectionHandler.render(event.guiGraphics, event.partialTick)
     }
 
     private fun onTooltipComponentFactories(event: RegisterClientTooltipComponentFactoriesEvent) {
         event.register(BloodPoolComponent::class.java, BloodPoolComponent::getClientTooltipComponent)
+        event.register(UrnTooltipComponent::class.java, UrnTooltipComponent::getClientTooltipComponent)
     }
 
     private fun onClientTick(event: ClientTickEvent.Post) {
@@ -195,6 +203,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
                 PacketDistributor.sendToServer(DismountBroomC2SPayload())
             }
         }
+        UrnPotionSelectionHandler.tick(Minecraft.getInstance())
     }
 
     private fun bindContainerRenderers(event: RegisterMenuScreensEvent) {
