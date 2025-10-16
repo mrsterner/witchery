@@ -3,6 +3,7 @@ package dev.sterner.witchery.datagen.book
 import com.klikli_dev.modonomicon.api.datagen.SingleBookSubProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookModel
 import com.klikli_dev.modonomicon.book.BookFrameOverlay
+import com.mojang.blaze3d.systems.RenderSystem
 import dev.sterner.witchery.Witchery
 import java.util.function.BiConsumer
 

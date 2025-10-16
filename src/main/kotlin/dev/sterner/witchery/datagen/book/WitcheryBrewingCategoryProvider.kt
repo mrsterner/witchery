@@ -22,21 +22,24 @@ class WitcheryBrewingCategoryProvider(
 
     override fun generateEntryMap(): Array<String> {
         return arrayOf(
-            "__________________________________",
-            "__________________________________",
-            "__________________________________",
-            "______________p_m_n_______________",
-            "__________________________________",
-            "_____________h__j___g_____________",
-            "__________________________________",
-            "________l_s_b___c_r__o____________",
-            "____________a_____________________",
-            "_____________d______f_____________",
-            "______________e___________________",
-            "_______________yui________________",
-            "__________________________________",
-            "__________________________________",
-            "__________________________________"
+
+            "____________________________________",
+            "____________________________________",
+            "____________________________________",
+            "________ui__________________________",
+            "_______y____________________________",
+            "______1_______________p_____________",
+            "______e__t__h___c___j__n____________",
+            "______v_______________m_____________",
+            "_______d____________________________",
+            "________a2b_____w_x_________________",
+            "________________r___________________",
+            "________l_s___g___f_________________",
+            "________________o___________________",
+            "____________________________________",
+            "____________________________________",
+            "____________________________________",
+            "____________________________________"
         )
     }
 
@@ -48,7 +51,7 @@ class WitcheryBrewingCategoryProvider(
             index++
         }
 
-        // Core entries
+        // Core cauldron
         val cauldron = EntryProviders.doubleItem(
             this, "cauldron", WitcheryItems.CAULDRON.get(),
             WitcheryItems.COPPER_CAULDRON.get(),
@@ -56,15 +59,14 @@ class WitcheryBrewingCategoryProvider(
         )
             .generate("c")
             .withCondition(advancement(Witchery.id("cauldron")))
-
         addEntry(cauldron)
 
+        // Introduction
         val introduction = EntryProviders.double(this, "beginning_potions", WitcheryItems.WITCHERY_POTION.get())
             .generate("j")
             .requiresAndFollows(cauldron)
         addEntry(introduction)
 
-        // Potion mechanics entries
         val capacity = PotionCapacityEntryProvider(this).generate("m")
             .requiresAndFollows(introduction)
         addEntry(capacity)
@@ -77,15 +79,20 @@ class WitcheryBrewingCategoryProvider(
             .requiresAndFollows(introduction)
         addEntry(effectType)
 
-        // Infusions
-        val redstoneSoup = InfusionEntryProvider(this, "redstone_soup", WitcheryItems.REDSTONE_SOUP.get())
-            .generate("r")
+        // === INFUSIONS SECTION ===
+        val infusions = EntryProviders.single(this, "infusions", WitcheryItems.REDSTONE_SOUP.get())
+            .generate("w")
             .requiresAndFollows(cauldron)
-        addEntry(redstoneSoup)
+        addEntry(infusions)
 
         val ritualChalk = RitualChalkEntryProvider(this).generate("h")
             .requiresAndFollows(cauldron)
         addEntry(ritualChalk)
+
+        val redstoneSoup = InfusionEntryProvider(this, "redstone_soup", WitcheryItems.REDSTONE_SOUP.get())
+            .generate("r")
+            .requiresAndFollows(infusions)
+        addEntry(redstoneSoup)
 
         val flyingOintment = InfusionEntryProvider(this, "flying_ointment", WitcheryItems.FLYING_OINTMENT.get())
             .generate("f")
@@ -103,41 +110,27 @@ class WitcheryBrewingCategoryProvider(
             .requiresAndFollows(redstoneSoup)
         addEntry(ghostOfLight)
 
-        // Brews
-        val raising = BrewEntryProvider(WitcheryItems.BREW_OF_RAISING.get(), "brew_of_raising", this)
-            .generate("a")
-            .requiresAndFollows(cauldron)
-        addEntry(raising)
+        val necroSoulbind = InfusionEntryProvider(this, "necromantic_soulbind", WitcheryItems.NECROMANTIC_SOULBIND.get())
+            .generate("x")
+            .requiresAndFollows(redstoneSoup)
+        addEntry(necroSoulbind)
 
+        // === BREWS SECTION ===
+        val brewsIntro = EntryProviders.single(this, "brews", WitcheryItems.BREW_OF_THE_GROTESQUE.get())
+            .generate("t")
+            .requiresAndFollows(introduction)
+        addEntry(brewsIntro)
+
+        val grotesque = BrewEntryProvider(WitcheryItems.BREW_OF_THE_GROTESQUE.get(), "brew_of_the_grotesque", this)
+            .generate("1")
+            .requiresAndFollows(brewsIntro)
+        addEntry(grotesque)
+
+        // Basic Brews Branch
         val love = BrewEntryProvider(WitcheryItems.BREW_OF_LOVE.get(), "brew_of_love", this)
             .generate("b")
-            .requiresAndFollows(cauldron)
+            .requiresAndFollows(brewsIntro)
         addEntry(love)
-
-        val wasting = BrewEntryProvider(WitcheryItems.BREW_OF_WASTING.get(), "brew_of_wasting", this)
-            .generate("d")
-            .requiresAndFollows(cauldron)
-        addEntry(wasting)
-
-        val depths = BrewEntryProvider(WitcheryItems.BREW_OF_THE_DEPTHS.get(), "brew_of_the_depths", this)
-            .generate("e")
-            .requiresAndFollows(cauldron)
-        addEntry(depths)
-
-        val ink = BrewEntryProvider(WitcheryItems.BREW_OF_INK.get(), "brew_of_ink", this)
-            .generate("i")
-            .requiresAndFollows(cauldron)
-        addEntry(ink)
-
-        val frost = BrewEntryProvider(WitcheryItems.BREW_OF_FROST.get(), "brew_of_frost", this)
-            .generate("y")
-            .requiresAndFollows(cauldron)
-        addEntry(frost)
-
-        val revealing = BrewEntryProvider(WitcheryItems.BREW_OF_REVEALING.get(), "brew_of_revealing", this)
-            .generate("u")
-            .requiresAndFollows(cauldron)
-        addEntry(revealing)
 
         val sleep = BrewEntryProvider(WitcheryItems.BREW_OF_SLEEPING.get(), "brew_of_sleeping", this)
             .generate("s")
@@ -148,6 +141,46 @@ class WitcheryBrewingCategoryProvider(
             .generate("l")
             .requiresAndFollows(sleep, advancement(Witchery.id("spirit_world")))
         addEntry(spirit)
+
+        val raising = BrewEntryProvider(WitcheryItems.BREW_OF_RAISING.get(), "brew_of_raising", this)
+            .generate("a")
+            .requiresAndFollows(brewsIntro)
+        addEntry(raising)
+
+        val wasting = BrewEntryProvider(WitcheryItems.BREW_OF_WASTING.get(), "brew_of_wasting", this)
+            .generate("d")
+            .requiresAndFollows(brewsIntro)
+        addEntry(wasting)
+
+        val soul = BrewEntryProvider(WitcheryItems.BREW_OF_SOUL_SEVERANCE.get(), "brew_of_soul_severance", this)
+            .generate("2")
+            .requiresAndFollows(brewsIntro)
+        addEntry(soul)
+
+        val depths = BrewEntryProvider(WitcheryItems.BREW_OF_THE_DEPTHS.get(), "brew_of_the_depths", this)
+            .generate("e")
+            .requiresAndFollows(brewsIntro)
+        addEntry(depths)
+
+        val ink = BrewEntryProvider(WitcheryItems.BREW_OF_INK.get(), "brew_of_ink", this)
+            .generate("i")
+            .requiresAndFollows(brewsIntro)
+        addEntry(ink)
+
+        val frost = BrewEntryProvider(WitcheryItems.BREW_OF_FROST.get(), "brew_of_frost", this)
+            .generate("y")
+            .requiresAndFollows(brewsIntro)
+        addEntry(frost)
+
+        val revealing = BrewEntryProvider(WitcheryItems.BREW_OF_REVEALING.get(), "brew_of_revealing", this)
+            .generate("u")
+            .requiresAndFollows(brewsIntro)
+        addEntry(revealing)
+
+        val erosion = BrewEntryProvider(WitcheryItems.BREW_OF_EROSION.get(), "brew_of_erosion", this)
+            .generate("v")
+            .requiresAndFollows(brewsIntro)
+        addEntry(erosion)
     }
 
     override fun categoryName(): String {

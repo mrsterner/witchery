@@ -1,0 +1,61 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "altarPower": 500,
+  "dimensionKey": [
+    ""
+  ],
+  "inputItems": [
+    {
+      "color": -52686,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:mutandis_extremis"
+      },
+      "order": 0
+    },
+    {
+      "color": -10532086,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:mandrake_root"
+      },
+      "order": 1
+    },
+    {
+      "color": -11500806,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:water_artichoke_globe"
+      },
+      "order": 2
+    },
+    {
+      "color": -329166,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:golden_apple"
+      },
+      "order": 3
+    },
+    {
+      "color": -45006,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:tongue_of_dog"
+      },
+      "order": 4
+    },
+    {
+      "color": -52636,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:poisonous_potato"
+      },
+      "order": 5
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:brew_of_the_grotesque"
+  }
+}

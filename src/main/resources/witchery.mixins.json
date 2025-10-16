@@ -48,6 +48,7 @@
     "WolfMixin",
     "ZoglinMixin",
     "ZombieMixin",
+    "BookContentRendererMixin",
     "possession.BrainMixin",
     "possession.EntityMixin",
     "possession.EntitySelectorMixin",

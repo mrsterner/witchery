@@ -7,7 +7,7 @@
     "children": [
       {
         "type": "modonomicon:entry_read",
-        "entry_id": "brewing/cauldron"
+        "entry_id": "brewing/brews"
       }
     ]
   },
@@ -44,13 +44,13 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "brewing/cauldron",
+      "entry": "brewing/brews",
       "line_enabled": true,
       "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 13,
-  "x": -3,
-  "y": 3
+  "sort_number": 20,
+  "x": -12,
+  "y": -2
 }

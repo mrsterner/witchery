@@ -7,14 +7,14 @@
     "children": [
       {
         "type": "modonomicon:entry_read",
-        "entry_id": "brewing/cauldron"
+        "entry_id": "brewing/infusions"
       }
     ]
   },
   "description": "book.witchery.guidebook.brewing.redstone_soup.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:flying_ointment"
+    "item": "witchery:redstone_soup"
   },
   "name": "book.witchery.guidebook.brewing.redstone_soup.name",
   "pages": [
@@ -46,13 +46,13 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "brewing/cauldron",
+      "entry": "brewing/infusions",
       "line_enabled": true,
       "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 5,
-  "x": 1,
-  "y": 0
+  "sort_number": 7,
+  "x": -2,
+  "y": 2
 }

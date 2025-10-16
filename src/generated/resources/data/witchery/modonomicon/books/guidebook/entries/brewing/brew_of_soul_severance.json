@@ -11,12 +11,12 @@
       }
     ]
   },
-  "description": "book.witchery.guidebook.brewing.brew_of_frost.description",
+  "description": "book.witchery.guidebook.brewing.brew_of_soul_severance.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:brew_of_frost"
+    "item": "witchery:brew_of_soul_severance"
   },
-  "name": "book.witchery.guidebook.brewing.brew_of_frost.name",
+  "name": "book.witchery.guidebook.brewing.brew_of_soul_severance.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,8 +25,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "brewing.brew_of_frost.page.1",
-      "title": "brewing.brew_of_frost.title.1",
+      "text": "brewing.brew_of_soul_severance.page.1",
+      "title": "brewing.brew_of_soul_severance.title.1",
       "use_markdown_in_title": false
     },
     {
@@ -35,9 +35,9 @@
       "condition": {
         "type": "modonomicon:none"
       },
-      "recipe_id_1": "witchery:cauldron_brewing/brew_of_frost",
-      "text": "brewing.brew_of_frost.title.1",
-      "title1": "brewing.brew_of_frost",
+      "recipe_id_1": "witchery:cauldron_brewing/brew_of_soul_severance",
+      "text": "brewing.brew_of_soul_severance.title.1",
+      "title1": "brewing.brew_of_soul_severance",
       "title2": ""
     }
   ],
@@ -50,7 +50,7 @@
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 22,
-  "x": -11,
-  "y": -4
+  "sort_number": 19,
+  "x": -9,
+  "y": 1
 }

@@ -373,7 +373,7 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(Items.CHAIN)
             .addInputItem(Items.LEAD)
             .addInputItem(WitcheryItems.WAYSTONE.get())
-            .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .addMediumPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .setAltarPower(3000)
             .setTicks(20 * 60 * 5)
             .setCustomRitual(BindingRitual())

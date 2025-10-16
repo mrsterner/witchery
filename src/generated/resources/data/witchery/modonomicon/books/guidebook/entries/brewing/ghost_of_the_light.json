@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.brewing.ghost_of_the_light.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:flying_ointment"
+    "item": "witchery:ghost_of_the_light"
   },
   "name": "book.witchery.guidebook.brewing.ghost_of_the_light.name",
   "pages": [
@@ -52,7 +52,7 @@
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 9,
-  "x": 3,
-  "y": -2
+  "sort_number": 10,
+  "x": -4,
+  "y": 3
 }

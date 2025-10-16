@@ -1,22 +1,22 @@
 {
   "background_u_index": 0,
   "background_v_index": 0,
-  "category": "ritual",
+  "category": "brewing",
   "condition": {
     "type": "modonomicon:and",
     "children": [
       {
         "type": "modonomicon:entry_read",
-        "entry_id": "ritual/infernal_chalk"
+        "entry_id": "brewing/cauldron"
       }
     ]
   },
-  "description": "book.witchery.guidebook.ritual.summon_imp.description",
+  "description": "book.witchery.guidebook.brewing.infusions.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:netherrack"
+    "item": "witchery:redstone_soup"
   },
-  "name": "book.witchery.guidebook.ritual.summon_imp.name",
+  "name": "book.witchery.guidebook.brewing.infusions.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,26 +25,15 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "ritual.summon_imp.page.1",
-      "title": "ritual.summon_imp.title.1",
+      "text": "brewing.infusions.page.1",
+      "title": "brewing.infusions.title.1",
       "use_markdown_in_title": false
-    },
-    {
-      "type": "witchery:ritual_recipe",
-      "anchor": "",
-      "condition": {
-        "type": "modonomicon:none"
-      },
-      "recipe_id_1": "witchery:ritual/summon_imp",
-      "text": "ritual.summon_imp.page.2",
-      "title1": "",
-      "title2": ""
     }
   ],
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "ritual/infernal_chalk",
+      "entry": "brewing/cauldron",
       "line_enabled": true,
       "line_reversed": false
     }
@@ -52,5 +41,5 @@
   "show_when_any_parent_unlocked": false,
   "sort_number": 5,
   "x": -2,
-  "y": 5
+  "y": 1
 }

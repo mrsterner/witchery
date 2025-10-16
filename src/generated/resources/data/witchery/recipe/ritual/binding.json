@@ -3,7 +3,7 @@
   "altarPower": 3000,
   "blockMapping": {
     "G": "witchery:golden_chalk",
-    "M": "witchery:infernal_chalk"
+    "M": "witchery:otherwhere_chalk"
   },
   "celestialConditions": [],
   "commands": [],

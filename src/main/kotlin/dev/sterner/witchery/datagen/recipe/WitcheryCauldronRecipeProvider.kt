@@ -22,6 +22,17 @@ object WitcheryCauldronRecipeProvider {
     fun cauldron(exporter: RecipeOutput) {
 
         CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.MUTANDIS_EXTREMIS.get(), Color(255, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get(), Color(95, 75, 10).rgb)
+            .addInputWithColor(WitcheryItems.WATER_ARTICHOKE_GLOBE.get(), Color(80, 130, 250).rgb)
+            .addInputWithColor(Items.GOLDEN_APPLE, Color(250, 250, 50).rgb)
+            .addInputWithColor(WitcheryItems.TONGUE_OF_DOG.get(), Color(255, 80, 50).rgb)
+            .addInputWithColor(Items.POISONOUS_POTATO, Color(255, 50, 100).rgb)
+            .setOutput(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
+            .setAltarPower(500)
+            .save(exporter, Witchery.id("brew_of_the_grotesque"))
+
+        CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(Items.POPPY, Color(255, 50, 50).rgb)
             .addInputWithColor(Items.GOLDEN_CARROT, Color(250, 250, 50).rgb)
             .addInputWithColor(Items.LILY_PAD, Color(50, 250, 50).rgb)
@@ -110,6 +121,16 @@ object WitcheryCauldronRecipeProvider {
             .setOutput(WitcheryItems.BREW_OF_THE_DEPTHS.get())
             .setAltarPower(100)
             .save(exporter, Witchery.id("brew_of_the_depths"))
+
+        CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(WitcheryItems.SPECTRAL_DUST.get(), Color(90, 160, 150).rgb)
+            .addInputWithColor(Items.SOUL_SAND, Color(85, 65, 50).rgb)
+            .addInputWithColor(Items.PHANTOM_MEMBRANE, Color(140, 120, 180).rgb)
+            .addInputWithColor(WitcheryItems.ENDER_DEW.get(), Color(20, 120, 120).rgb)
+            .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get(), Color(160, 70, 30).rgb)
+            .setOutput(WitcheryItems.BREW_OF_SOUL_SEVERANCE.get())
+            .setAltarPower(200)
+            .save(exporter, Witchery.id("brew_of_soul_severance"))
 
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.MELLIFLUOUS_HUNGER.get(), Color(220, 70, 60).rgb)

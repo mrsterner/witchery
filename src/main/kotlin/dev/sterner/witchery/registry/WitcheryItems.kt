@@ -1103,6 +1103,10 @@ object WitcheryItems {
         BrewOfWastingItem(Color(180, 50, 40).rgb, Item.Properties().stacksTo(16))
     }
 
+    val BREW_OF_SOUL_SEVERANCE = register("brew_of_soul_severance") {
+        BrewOfSoulSeveranceItem(Color(180, 50, 40).rgb, Item.Properties().stacksTo(16))
+    }
+
     val BREW_OF_FROST = register("brew_of_frost") {
         BrewOfFrostItem(Color(125, 170, 230).rgb, Item.Properties().stacksTo(16))
     }

@@ -25,8 +25,8 @@ class WitcheryRitualCategoryProvider(
         return arrayOf(
             "__________________________________",
             "__________________________________",
-            "________________etz_______________",
-            "_______________=__________________",
+            "________________et=_______________",
+            "__________________________________",
             "__________________________________",
             "______________f__o__p_____________",
             "__________b__k_x__________________",
@@ -35,8 +35,8 @@ class WitcheryRitualCategoryProvider(
             "______________n__i____j___________",
             "_____________h__________6789______",
             "_______________s___c______________",
-            "________________mdw_______________",
-            "__________________________________",
+            "_______________m___w______________",
+            "________________z_d_______________",
             "__________________________________"
 
         )
@@ -170,7 +170,7 @@ class WitcheryRitualCategoryProvider(
 
         val soulbind = EntryProviders.ritual(this, "soulbind", Items.GOLDEN_APPLE)
             .generate("z")
-            .requiresAndFollows(otherwhereChalk)
+            .requiresAndFollows(infernalChalk)
         addEntry(soulbind)
 
         val infuseOtherwhere =

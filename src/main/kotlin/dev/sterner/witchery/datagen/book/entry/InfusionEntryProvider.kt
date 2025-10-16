@@ -40,7 +40,7 @@ class InfusionEntryProvider(parent: CategoryProviderBase?, var id: String, var i
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.FLYING_OINTMENT.get())
+        return BookIconModel.create(item)
     }
 
     override fun entryId(): String {

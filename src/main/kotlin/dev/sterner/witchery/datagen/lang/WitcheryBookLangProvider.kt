@@ -1255,5 +1255,57 @@ object WitcheryBookLangProvider {
             "ritual.waking_nightmare.page.1",
             "A curse that traps the victim in an endless waking nightmare. Sleep becomes impossible as phantom terrors haunt them. Must be cast during the night when nightmares are strongest."
         )
+
+        add("book.witchery.guidebook.brewing.brew_of_the_grotesque.name", "Brew of the Grotesque")
+        add("book.witchery.guidebook.brewing.brew_of_the_grotesque.description", "Turns you monstrous, scaring villagers.")
+        add("brewing.brew_of_the_grotesque.title.1", "Brew of the Grotesque")
+        add("brewing.brew_of_the_grotesque", "Brew of the Grotesque")
+        add(
+            "brewing.brew_of_the_grotesque.page.1",
+            "A twisted brew that warps the drinker’s face into a demonic visage. Villagers flee in terror at the sight."
+        )
+
+
+        add("book.witchery.guidebook.brewing.infusions.name", "Infusions")
+        add("book.witchery.guidebook.brewing.infusions.description", "Powerful concentrated brews")
+        add("brewing.infusions.title.1", "Infusions")
+        add(
+            "brewing.infusions.page.1",
+            "Infusions are concentrated magical essences that serve as components for more advanced rituals and crafting. Unlike brews, they are not meant to be consumed but used as ingredients."
+        )
+
+        add("book.witchery.guidebook.brewing.brews.name", "Brews")
+        add("book.witchery.guidebook.brewing.brews.description", "Magical concoctions with various effects")
+        add("brewing.brews.title.1", "Brews")
+        add(
+            "brewing.brews.page.1",
+            "Brews are the primary creations of the cauldron. These magical mixtures can be consumed or thrown, granting various effects to those who use them. Master these recipes to harness their power."
+        )
+
+        add("book.witchery.guidebook.brewing.brew_of_soul_severance.name", "Brew of Soul Severance")
+        add("book.witchery.guidebook.brewing.brew_of_soul_severance.description", "Tear your soul from its mortal shell.")
+        add("brewing.brew_of_soul_severance.title.1", "Brew of Soul Severance")
+        add("brewing.brew_of_soul_severance", "Brew of Soul Severance")
+        add(
+            "brewing.brew_of_soul_severance.page.1",
+            "Sever the tie between soul and flesh. Wander as spirit, or take the dead as hosts. Return soon, lest your body rot."
+        )
+        add("book.witchery.guidebook.brewing.brew_of_erosion.name", "Brew of Erosion")
+        add("book.witchery.guidebook.brewing.brew_of_erosion.description", "Weather the world into dust.")
+        add("brewing.brew_of_erosion.title.1", "Brew of Erosion")
+        add(
+            "brewing.brew_of_erosion.page.1",
+            "A draught that unravels stone and soil alike. Watch the land decay—grass to dirt, stone to rubble—until only ruin remains."
+        )
+
+        add("book.witchery.guidebook.brewing.necromantic_soulbind.name", "Necromantic Soulbind")
+        add("book.witchery.guidebook.brewing.necromantic_soulbind.description", "A potent essence of trapped souls.")
+        add("brewing.necromantic_soulbind.title.1", "Necromantic Soulbind")
+        add(
+            "brewing.necromantic_soulbind.page.1",
+            "Use in dark rituals to bind or manipulate spirits."
+        )
+
+
     }
 }
