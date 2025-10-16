@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.affliction.vampire
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
@@ -63,10 +64,6 @@ object VampireLeveling {
         if (level > previousLevel) {
             AfflictionAbilityHandler.addAbilityOnLevelUp(player, level, AfflictionTypes.VAMPIRISM)
         }
-
-        if (level == 0 && previousLevel > 0) {
-
-        }
     }
 
     /**
@@ -92,6 +89,7 @@ object VampireLeveling {
         setMaxBlood(player, nextLevel)
         player.sendSystemMessage(Component.literal("Vampire Level Up: $nextLevel"))
         updateModifiers(player, nextLevel, false)
+        WitcheryApi.makePlayerWitchy(player)
     }
 
     /**

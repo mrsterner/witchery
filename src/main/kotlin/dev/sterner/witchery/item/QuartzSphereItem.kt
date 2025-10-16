@@ -59,7 +59,6 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
                 }
 
                 if (!level.isClientSide) {
-                    WitcheryApi.makePlayerWitchy(player)
                     val thrownPotion = ThrownBrewEntity(level, player)
                     thrownPotion.item = potionToThrow
                     thrownPotion.setIsQuartzSphere(true)

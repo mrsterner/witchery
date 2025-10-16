@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.affliction.werewolf
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.event.WerewolfEvent
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
@@ -106,6 +107,7 @@ object WerewolfLeveling {
 
         player.sendSystemMessage(Component.literal("Werewolf Level Up: $nextLevel"))
         updateModifiers(player, currentData.isWolfForm(), currentData.isWolfManForm())
+        WitcheryApi.makePlayerWitchy(player)
     }
 
 

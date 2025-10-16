@@ -11,7 +11,9 @@ import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
+import dev.sterner.witchery.curse.CurseOfFragility
 import dev.sterner.witchery.data.*
+import dev.sterner.witchery.data_attachment.BindingCurseAttachment
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
@@ -132,6 +134,7 @@ object WitcheryNeoForgeEvents {
         NecroHandler.tickLiving(entity)
         if (entity is Player) {
             TarotPlayerAttachment.serverTick(entity)
+            BindingCurseAttachment.tick(entity)
         }
     }
 
@@ -151,7 +154,6 @@ object WitcheryNeoForgeEvents {
     fun onItemUsedFinish(event: LivingEntityUseItemEvent.Finish) {
         PossessionComponentAttachment.PossessionComponent.cure(event)
     }
-
 
     @SubscribeEvent
     fun onLivingHurt(event: LivingIncomingDamageEvent) {
@@ -209,6 +211,10 @@ object WitcheryNeoForgeEvents {
 
         if (damage > 0f) {
             damage = PotionHandler.handleHurt(entity, damageSource, damage)
+        }
+
+        if (damage > 0f && entity is Player) {
+            damage = CurseOfFragility.modifyDamage(entity, damage)
         }
 
         event.amount = damage

@@ -27,6 +27,17 @@ object WitcheryDataAttachments {
 
 
     @JvmStatic
+    val BINDING_CURSE: Supplier<AttachmentType<BindingCurseAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "binding_data",
+            Supplier {
+                AttachmentType.builder(Supplier { BindingCurseAttachment.Data() })
+                    .serialize(BindingCurseAttachment.Data.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
     val POSSESSED_DATA: Supplier<AttachmentType<PossessedDataAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "possessed_data",

@@ -37,6 +37,10 @@ object WitcheryRitualRegistry {
         RITUALS.register("remove_curse", Supplier { RemoveCurseRitual() })
     val BIND_FAMILIAR: DeferredHolder<Ritual, BindFamiliarRitual> =
         RITUALS.register("bind_familiar", Supplier { BindFamiliarRitual() })
+    val BINDING: DeferredHolder<Ritual, BindingRitual> =
+        RITUALS.register("binding", Supplier { BindingRitual() })
+    val SOULBIND: DeferredHolder<Ritual, SoulbindRitual> =
+        RITUALS.register("soulbind", Supplier { SoulbindRitual() })
     val RESURRECT_FAMILIAR: DeferredHolder<Ritual, ResurrectFamiliarRitual> =
         RITUALS.register("resurrect_familiar", Supplier { ResurrectFamiliarRitual() })
     val BIND_SPECTRAL_CREATURES: DeferredHolder<Ritual, BindSpectralCreaturesRitual> =
@@ -48,12 +52,11 @@ object WitcheryRitualRegistry {
         return holder?.get()
     }
 
-    /** Codec for serialization, safe for data gen */
     val CODEC: Codec<Ritual> = RecordCodecBuilder.create { instance ->
         instance.group(
             ResourceLocation.CODEC.fieldOf("id").forGetter { it.id }
         ).apply(instance) { resourceLocation ->
-            getById(resourceLocation) ?: EmptyRitual() // fallback during data gen
+            getById(resourceLocation) ?: EmptyRitual()
         }
     }
 

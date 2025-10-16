@@ -3,6 +3,7 @@ package dev.sterner.witchery.data_attachment.infusion
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.payload.SyncInfusionS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.nbt.CompoundTag
@@ -30,6 +31,7 @@ object InfusionPlayerAttachment {
     fun setInfusionCharge(player: Player, toBe: Int) {
         val infusion = player.getData(WitcheryDataAttachments.INFUSION_PLAYER_DATA_ATTACHMENT)
         setPlayerInfusion(player, Data(infusion.type, toBe))
+        WitcheryApi.makePlayerWitchy(player)
     }
 
     @JvmStatic

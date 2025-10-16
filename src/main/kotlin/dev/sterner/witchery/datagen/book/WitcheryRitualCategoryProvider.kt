@@ -25,15 +25,15 @@ class WitcheryRitualCategoryProvider(
         return arrayOf(
             "__________________________________",
             "__________________________________",
-            "________________et________________",
+            "________________etz=______________",
             "__________________________________",
             "__________________________________",
             "______________f__o_p______________",
             "__________b__k_x__________________",
             "___________u_l__r_g_______________",
-            "__________y__a_q__________________",
-            "______________n__i________________",
-            "_____________h____________________",
+            "__________y__a_q________12345_____",
+            "______________n__i____j___________",
+            "_____________h__________6789______",
             "_______________s___c______________",
             "________________mdw_______________",
             "__________________________________",
@@ -78,6 +78,59 @@ class WitcheryRitualCategoryProvider(
             .requiresAndFollows(ritualChalk)
         addEntry(infernalChalk)
 
+
+        //CURSES
+        val curses = EntryProviders.single(this, "curses", Items.POISONOUS_POTATO)
+            .generate("j")
+            .requiresAndFollows(infernalChalk)
+        add(curses)
+
+        val curseOfBefuddlement = EntryProviders.ritual(this, "befuddlement", Items.POISONOUS_POTATO)
+            .generate("1")
+            .requiresAndFollows(curses)
+        add(curseOfBefuddlement)
+
+        val curseOfCorrupt = EntryProviders.ritual(this, "curse_of_corrupt_poppet", Items.POISONOUS_POTATO)
+            .generate("2")
+            .requiresAndFollows(curses)
+        add(curseOfCorrupt)
+
+        val curseOfFragile = EntryProviders.ritual(this, "fragility", Items.POISONOUS_POTATO)
+            .generate("3")
+            .requiresAndFollows(curses)
+        add(curseOfFragile)
+
+        val curseOfHunger = EntryProviders.ritual(this, "hunger", Items.POISONOUS_POTATO)
+            .generate("4")
+            .requiresAndFollows(curses)
+        add(curseOfHunger)
+
+        val curseOfInsanity = EntryProviders.ritual(this, "curse_of_insanity", Items.POISONOUS_POTATO)
+            .generate("5")
+            .requiresAndFollows(curses)
+        add(curseOfInsanity)
+
+        val curseOfMisfortune = EntryProviders.ritual(this, "curse_of_misfortune", Items.POISONOUS_POTATO)
+            .generate("6")
+            .requiresAndFollows(curses)
+        add(curseOfMisfortune)
+
+        val curseOfOverheating = EntryProviders.ritual(this, "curse_of_overheating", Items.POISONOUS_POTATO)
+            .generate("7")
+            .requiresAndFollows(curses)
+        add(curseOfOverheating)
+
+        val curseOfSinking = EntryProviders.ritual(this, "curse_of_sinking", Items.POISONOUS_POTATO)
+            .generate("8")
+            .requiresAndFollows(curses)
+        add(curseOfSinking)
+
+        val curseOfWalkingNightmare = EntryProviders.ritual(this, "waking_nightmare", Items.POISONOUS_POTATO)
+            .generate("9")
+            .requiresAndFollows(curses)
+        add(curseOfWalkingNightmare)
+
+
         // Infernal chalk rituals
         val summonDemon = EntryProviders.ritual(this, "summon_demon", WitcheryItems.DEMON_HEART.get())
             .generate("d")
@@ -109,6 +162,16 @@ class WitcheryRitualCategoryProvider(
             .generate("t")
             .requiresAndFollows(otherwhereChalk)
         addEntry(teleportOtW)
+
+        val binding = EntryProviders.ritual(this, "binding", WitcheryItems.WAYSTONE.get())
+            .generate("=")
+            .requiresAndFollows(otherwhereChalk)
+        addEntry(binding)
+
+        val soulbind = EntryProviders.ritual(this, "soulbind", WitcheryItems.WAYSTONE.get())
+            .generate("z")
+            .requiresAndFollows(otherwhereChalk)
+        addEntry(soulbind)
 
         val infuseOtherwhere =
             EntryProviders.ritual(this, "infuse_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get())

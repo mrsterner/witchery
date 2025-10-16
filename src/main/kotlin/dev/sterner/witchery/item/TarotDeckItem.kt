@@ -1,6 +1,7 @@
 package dev.sterner.witchery.item
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
 import dev.sterner.witchery.payload.OpenTarotScreenS2CPayload
 import net.minecraft.ChatFormatting
@@ -20,7 +21,7 @@ class TarotDeckItem(properties: Properties) : Item(properties) {
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(usedHand)
 
-        if (!level.isClientSide && player is ServerPlayer) {
+        if (!level.isClientSide && player is ServerPlayer && WitcheryApi.isWitchy(player)) {
             val data = TarotPlayerAttachment.getData(player)
             if (data.drawnCards.isEmpty()) {
                 PacketDistributor.sendToPlayer(player, OpenTarotScreenS2CPayload())
@@ -32,6 +33,12 @@ class TarotDeckItem(properties: Properties) : Item(properties) {
                 )
 
             }
+        } else {
+            player.displayClientMessage(
+                Component.literal("You don't know how to use this.")
+                    .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC),
+                true
+            )
         }
 
         return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide)

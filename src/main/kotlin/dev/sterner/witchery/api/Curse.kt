@@ -8,6 +8,14 @@ import net.minecraft.world.level.block.state.BlockState
 
 open class Curse {
 
+    protected fun getEffectivenessMultiplier(player: Player): Float {
+        return if (WitcheryApi.isWitchy(player)) {
+            1.0f
+        } else {
+            0.3f
+        }
+    }
+
     open fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
 
     }

@@ -1,6 +1,7 @@
 package dev.sterner.witchery.curse
 
 import dev.sterner.witchery.api.Curse
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.player.Player
@@ -9,7 +10,13 @@ import net.minecraft.world.level.Level
 class CurseOfInsanity : Curse() {
 
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
-        if (level.gameTime % (20 * 60 + (level.random.nextDouble() * 30).toInt()) == 0L) {
+        val baseInterval = if (WitcheryApi.isWitchy(player)) {
+            20 * 60
+        } else {
+            20 * 180
+        }
+
+        if (level.gameTime % (baseInterval + (level.random.nextDouble() * 30).toInt()) == 0L) {
             val pos = findLocationForInsanityMob(player.blockPosition(), level)
             if (pos != null) {
                 val insanityEntity = WitcheryEntityTypes.INSANITY.get().create(level)
@@ -17,8 +24,6 @@ class CurseOfInsanity : Curse() {
                 insanityEntity?.let { level.addFreshEntity(it) }
             }
         }
-
-
     }
 
     private fun findLocationForInsanityMob(center: BlockPos, level: Level): BlockPos? {

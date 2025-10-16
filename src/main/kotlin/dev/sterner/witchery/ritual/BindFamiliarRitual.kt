@@ -2,6 +2,7 @@ package dev.sterner.witchery.ritual
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Ritual
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.entity.OwlEntity
 import dev.sterner.witchery.handler.FamiliarHandler
@@ -32,7 +33,7 @@ class BindFamiliarRitual : Ritual(Witchery.id("bind_familiar")) {
                 val animal = unboundEntities[0]
 
                 FamiliarHandler.bindOwnerAndFamiliar(level, player.uuid, animal)
-
+                WitcheryApi.makePlayerWitchy(player)
                 for (i in 0..10) {
                     val offsetX = (level.random.nextDouble() - 0.5) * 0.5
                     val offsetY = (level.random.nextDouble() - 0.5) * 0.5 + 0.5

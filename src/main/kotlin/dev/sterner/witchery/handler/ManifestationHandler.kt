@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
 import dev.sterner.witchery.util.RenderUtils
@@ -23,6 +24,7 @@ object ManifestationHandler {
         val old = ManifestationPlayerAttachment.getData(player)
         old.hasRiteOfManifestation = hasRite
         ManifestationPlayerAttachment.setData(player, old)
+        WitcheryApi.makePlayerWitchy(player)
     }
 
     fun setManifestationTimer(player: Player) {

@@ -1,0 +1,56 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "ritual",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "ritual/otherwhere_chalk"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.ritual.soulbind.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:waystone"
+  },
+  "name": "book.witchery.guidebook.ritual.soulbind.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "ritual.soulbind.page.1",
+      "title": "ritual.soulbind.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:ritual_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:ritual/soulbind",
+      "text": "ritual.soulbind.page.2",
+      "title1": "",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "ritual/otherwhere_chalk",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 11,
+  "x": 1,
+  "y": -5
+}

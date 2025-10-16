@@ -27,6 +27,9 @@ object WitcheryCurseRegistry {
     private val CURSES: DeferredRegister<Curse> = DeferredRegister.create(CURSES_REGISTRY, Witchery.MODID)
 
     val CORRUPT_POPPET = CURSES.register("corrupt_poppet", Supplier { CurseOfCorruptPoppet() })
+    val FRAGILITY = CURSES.register("fragility", Supplier { CurseOfFragility() })
+    val HUNGER = CURSES.register("hunger", Supplier { CurseOfHunger() })
+    val BEFUDDLEMENT = CURSES.register("befuddlement", Supplier { CurseOfBefuddlement() })
     val INSANITY = CURSES.register("insanity", Supplier { CurseOfInsanity() })
     val MISFORTUNE = CURSES.register("misfortune", Supplier { CurseOfMisfortune() })
     val OVERHEATING = CURSES.register("overheating", Supplier { CurseOfOverheating() })

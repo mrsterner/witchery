@@ -28,7 +28,6 @@ import java.util.UUID
 
 object PoppetHandler {
 
-
     fun onLivingHurt(entity: LivingEntity, damageSource: DamageSource, remainingDamage: Float): Float {
         if (entity !is Player) return remainingDamage
 
@@ -61,7 +60,13 @@ object PoppetHandler {
         val (voodooPoppet, location) = findPoppet(victim, WitcheryPoppetRegistry.VOODOO.get())
 
         if (voodooPoppet != null && location != null) {
-            val bonusDamage = damage * 0.5f
+            val damageMultiplier = if (victim is Player && !WitcheryApi.isWitchy(victim)) {
+                0.15f
+            } else {
+                0.5f
+            }
+
+            val bonusDamage = damage * damageMultiplier
 
             when (location) {
                 PoppetLocation.ACCESSORY -> {

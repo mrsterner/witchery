@@ -1,6 +1,7 @@
 package dev.sterner.witchery.handler.affliction.lich
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.event.LichEvent
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
@@ -94,6 +95,7 @@ object LichdomLeveling {
         if (nextLevel > currentLevel) {
             AfflictionAbilityHandler.addAbilityOnLevelUp(player, nextLevel, AfflictionTypes.LICHDOM)
         }
+        WitcheryApi.makePlayerWitchy(player)
     }
 
     private fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {

@@ -1,6 +1,7 @@
 package dev.sterner.witchery.ritual
 
 import dev.sterner.witchery.api.Ritual
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ColorParticleOption
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.monster.*
 import net.minecraft.world.entity.monster.hoglin.Hoglin
 import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
@@ -33,8 +35,8 @@ import java.awt.Color
 
 class RotRitual : Ritual("rot") {
 
-    private val TRANSFORM_DELAY = 40 // 2 seconds
-    private val EFFECT_RADIUS = 8.0 // blocks
+    private val TRANSFORM_DELAY = 40
+    private val EFFECT_RADIUS = 8.0
 
     private val transformingEntities = mutableMapOf<Entity, Int>()
 
@@ -60,18 +62,42 @@ class RotRitual : Ritual("rot") {
         }
 
         for (entity in entities) {
-            if (entity in transformingEntities) {
-                val remainingTicks = transformingEntities[entity]!! - 1
+            if (entity is Player && !WitcheryApi.isWitchy(entity)) {
+                val adjustedDelay = TRANSFORM_DELAY * 3
 
-                if (remainingTicks <= 0) {
-                    transformEntity(level, entity)
-                    transformingEntities.remove(entity)
+                if (entity in transformingEntities) {
+                    val remainingTicks = transformingEntities[entity]!! - 1
+
+                    if (remainingTicks <= 0) {
+                        if (level.random.nextFloat() < 0.7f) {
+                            transformingEntities.remove(entity)
+                            return
+                        }
+                        transformEntity(level, entity)
+                        transformingEntities.remove(entity)
+                    } else {
+                        transformingEntities[entity] = remainingTicks
+                        if (remainingTicks % 20 == 0) {
+                            spawnTransformParticles(level, entity)
+                        }
+                    }
                 } else {
-                    transformingEntities[entity] = remainingTicks
-                    spawnTransformParticles(level, entity)
+                    transformingEntities[entity] = adjustedDelay
                 }
             } else {
-                transformingEntities[entity] = TRANSFORM_DELAY
+                if (entity in transformingEntities) {
+                    val remainingTicks = transformingEntities[entity]!! - 1
+
+                    if (remainingTicks <= 0) {
+                        transformEntity(level, entity)
+                        transformingEntities.remove(entity)
+                    } else {
+                        transformingEntities[entity] = remainingTicks
+                        spawnTransformParticles(level, entity)
+                    }
+                } else {
+                    transformingEntities[entity] = TRANSFORM_DELAY
+                }
             }
         }
 

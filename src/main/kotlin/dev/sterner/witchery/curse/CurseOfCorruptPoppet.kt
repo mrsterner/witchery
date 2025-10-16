@@ -2,6 +2,7 @@ package dev.sterner.witchery.curse
 
 import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.PoppetLocation
+import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.interfaces.PoppetType
 import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.handler.PoppetHandler
@@ -26,7 +27,13 @@ class CurseOfCorruptPoppet : Curse() {
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
         super.onTickCurse(level, player, catBoosted)
 
-        if (level.gameTime % 100L == 0L) {
+        val tickInterval = if (WitcheryApi.isWitchy(player)) {
+            100L
+        } else {
+            300L
+        }
+
+        if (level.gameTime % tickInterval == 0L) {
             attemptToCorruptPoppet(level, player)
         }
 
@@ -44,7 +51,13 @@ class CurseOfCorruptPoppet : Curse() {
     ) {
         super.onHurt(level, player, damageSource, fl, catBoosted)
 
-        if (level.random.nextFloat() < 0.2f) {
+        val corruptChance = if (WitcheryApi.isWitchy(player)) {
+            0.2f
+        } else {
+            0.05f
+        }
+
+        if (level.random.nextFloat() < corruptChance) {
             attemptToCorruptPoppet(level, player)
         }
     }
