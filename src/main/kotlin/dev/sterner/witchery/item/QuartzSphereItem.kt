@@ -1,8 +1,10 @@
 package dev.sterner.witchery.item
 
 import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.entity.ThrownBrewEntity
 import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
+import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.item.brew.ThrowableBrewItem
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
@@ -42,6 +44,10 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
             val urn = LeonardsUrnItem.findUrn(player)
             if (urn != null) {
                 val urnPotions = LeonardsUrnItem.getStoredPotions(urn)
+                val infusion = InfusionPlayerAttachment.getPlayerInfusion(player)
+                if (infusion.charge < 100 && !player.abilities.instabuild) {
+                    return InteractionResultHolder.fail(itemStack)
+                }
 
                 val potionToThrow = if (urnPotions.any { ItemStack.isSameItemSameComponents(it, loadedPotion) }) {
                     loadedPotion.copy()
@@ -66,7 +72,9 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
                 if (!player.abilities.instabuild) {
                     itemStack.shrink(1)
                 }
-
+                if (!player.abilities.instabuild) {
+                    InfusionHandler.decreaseInfusionCharge(player, 100)
+                }
                 return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide())
             }
         }
