@@ -1144,6 +1144,10 @@ object WitcheryItems {
         TornPageItem(Item.Properties())
     }
 
+    val TAROT_DECK = register("tarot_deck") {
+        TarotDeckItem(Item.Properties())
+    }
+
     val QUARTZ_SPHERE = register("quartz_sphere") {
         QuartzSphereItem(Item.Properties())
     }

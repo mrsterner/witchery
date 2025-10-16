@@ -105,6 +105,18 @@ object WitcheryDataAttachments {
         )
 
     @JvmStatic
+    val ARCANA_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<TarotPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "arcana_player_data",
+            Supplier {
+                AttachmentType.builder(Supplier { TarotPlayerAttachment.Data() })
+                    .serialize(TarotPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
+
+    @JvmStatic
     val UNDER_WATER_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<UnderWaterBreathPlayerAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "underwater_player_data",

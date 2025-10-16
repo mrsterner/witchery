@@ -18,6 +18,7 @@ import dev.sterner.witchery.block.cauldron.CopperCauldronBlock
 import dev.sterner.witchery.block.censer.CenserBlock
 import dev.sterner.witchery.block.coffin.CoffinBlock
 import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
+import dev.sterner.witchery.block.crystal_ball.CrystalBall
 import dev.sterner.witchery.block.distillery.DistilleryBlock
 import dev.sterner.witchery.block.distillery.DistilleryCompanionBlock
 import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlock
@@ -1086,6 +1087,10 @@ object WitcheryBlocks {
 
     val CENSER = register("censer") {
         CenserBlock(Properties.of().noOcclusion())
+    }
+
+    val CRYSTAL_BALL = register("crystal_ball") {
+        CrystalBall(Properties.of().noOcclusion())
     }
 
     val FLOWING_SPIRIT_BLOCK = register("flowing_spirit_block") {

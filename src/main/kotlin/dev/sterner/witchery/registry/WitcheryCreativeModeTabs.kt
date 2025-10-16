@@ -79,6 +79,7 @@ object WitcheryCreativeModeTabs {
                     broom.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
 
                     output.accept(broom)
+                    output.accept(WitcheryItems.TAROT_DECK.get())
                     output.accept(WitcheryItems.DEMON_HEART.get())
                     output.accept(WitcheryItems.GYPSUM.get())
                     output.accept(WitcheryItems.TONGUE_OF_DOG.get())
