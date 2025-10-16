@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.ritual.curse_of_corrupt_poppet.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:poisonous_potato"
+    "item": "witchery:voodoo_protection_poppet"
   },
   "name": "book.witchery.guidebook.ritual.curse_of_corrupt_poppet.name",
   "pages": [

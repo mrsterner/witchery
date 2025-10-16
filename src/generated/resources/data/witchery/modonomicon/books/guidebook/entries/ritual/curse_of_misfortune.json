@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.ritual.curse_of_misfortune.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:poisonous_potato"
+    "item": "minecraft:fermented_spider_eye"
   },
   "name": "book.witchery.guidebook.ritual.curse_of_misfortune.name",
   "pages": [

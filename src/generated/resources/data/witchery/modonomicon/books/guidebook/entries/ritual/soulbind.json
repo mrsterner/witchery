@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.ritual.soulbind.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:waystone"
+    "item": "minecraft:golden_apple"
   },
   "name": "book.witchery.guidebook.ritual.soulbind.name",
   "pages": [

@@ -120,13 +120,30 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         var y = 0
 
         if (recipe.requireCat) {
-            blitWithAlpha(pose, Witchery.id("textures/gui/cat.png"), 31 - 11, 64 - 20 + 10, 0f, 0f, 10, 10, 10, 10)
+            val catX = 45
+            val catY = 0
+            blitWithAlpha(pose, Witchery.id("textures/gui/cat.png"), catX, catY, 0f, 0f, 10, 10, 10, 10)
+            if (mouseX in catX..(catX + iconSize) && mouseY in catY..(catY + iconSize)) {
+                guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Requires Familiar Cat"), mouseX, mouseY)
+            }
         }
+
         if (recipe.weather.contains(RitualRecipe.Weather.RAIN)) {
-            blitWithAlpha(pose, Witchery.id("textures/gui/weather/rain.png"), 20 + 11, 64 + 3, 0f, 0f, 10, 10, 10, 10)
+            val rainX = 45
+            val rainY = 11
+            blitWithAlpha(pose, Witchery.id("textures/gui/weather/rain.png"), rainX, rainY, 0f, 0f, 10, 10, 10, 10)
+            if (mouseX in rainX..(rainX + iconSize) && mouseY in rainY..(rainY + iconSize)) {
+                guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Requires Rain"), mouseX, mouseY)
+            }
         }
+
         if (recipe.weather.contains(RitualRecipe.Weather.STORM)) {
-            blitWithAlpha(pose, Witchery.id("textures/gui/weather/storm.png"), 20 - 11, 64 + 3, 0f, 0f, 10, 10, 10, 10)
+            val stormX = 45
+            val stormY = 22
+            blitWithAlpha(pose, Witchery.id("textures/gui/weather/storm.png"), stormX, stormY, 0f, 0f, 10, 10, 10, 10)
+            if (mouseX in stormX..(stormX + iconSize) && mouseY in stormY..(stormY + iconSize)) {
+                guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Requires Thunderstorm"), mouseX, mouseY)
+            }
         }
 
         val showSun = day || all

@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.ritual.binding.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:waystone"
+    "item": "minecraft:chain"
   },
   "name": "book.witchery.guidebook.ritual.binding.name",
   "pages": [
@@ -51,6 +51,6 @@
   ],
   "show_when_any_parent_unlocked": false,
   "sort_number": 10,
-  "x": 2,
-  "y": -5
+  "x": -2,
+  "y": -4
 }

@@ -25,10 +25,10 @@ class WitcheryRitualCategoryProvider(
         return arrayOf(
             "__________________________________",
             "__________________________________",
-            "________________etz=______________",
+            "________________etz_______________",
+            "_______________=__________________",
             "__________________________________",
-            "__________________________________",
-            "______________f__o_p______________",
+            "______________f__o__p_____________",
             "__________b__k_x__________________",
             "___________u_l__r_g_______________",
             "__________y__a_q________12345_____",
@@ -80,7 +80,7 @@ class WitcheryRitualCategoryProvider(
 
 
         //CURSES
-        val curses = EntryProviders.single(this, "curses", Items.POISONOUS_POTATO)
+        val curses = EntryProviders.single(this, "curses", WitcheryItems.BREW_OF_THE_GROTESQUE.get())
             .generate("j")
             .requiresAndFollows(infernalChalk)
         add(curses)
@@ -90,42 +90,42 @@ class WitcheryRitualCategoryProvider(
             .requiresAndFollows(curses)
         add(curseOfBefuddlement)
 
-        val curseOfCorrupt = EntryProviders.ritual(this, "curse_of_corrupt_poppet", Items.POISONOUS_POTATO)
+        val curseOfCorrupt = EntryProviders.ritual(this, "curse_of_corrupt_poppet", WitcheryItems.VOODOO_PROTECTION_POPPET.get())
             .generate("2")
             .requiresAndFollows(curses)
         add(curseOfCorrupt)
 
-        val curseOfFragile = EntryProviders.ritual(this, "fragility", Items.POISONOUS_POTATO)
+        val curseOfFragile = EntryProviders.ritual(this, "fragility", Items.BONE)
             .generate("3")
             .requiresAndFollows(curses)
         add(curseOfFragile)
 
-        val curseOfHunger = EntryProviders.ritual(this, "hunger", Items.POISONOUS_POTATO)
+        val curseOfHunger = EntryProviders.ritual(this, "hunger", Items.ROTTEN_FLESH)
             .generate("4")
             .requiresAndFollows(curses)
         add(curseOfHunger)
 
-        val curseOfInsanity = EntryProviders.ritual(this, "curse_of_insanity", Items.POISONOUS_POTATO)
+        val curseOfInsanity = EntryProviders.ritual(this, "curse_of_insanity", Items.SUGAR)
             .generate("5")
             .requiresAndFollows(curses)
         add(curseOfInsanity)
 
-        val curseOfMisfortune = EntryProviders.ritual(this, "curse_of_misfortune", Items.POISONOUS_POTATO)
+        val curseOfMisfortune = EntryProviders.ritual(this, "curse_of_misfortune", Items.FERMENTED_SPIDER_EYE)
             .generate("6")
             .requiresAndFollows(curses)
         add(curseOfMisfortune)
 
-        val curseOfOverheating = EntryProviders.ritual(this, "curse_of_overheating", Items.POISONOUS_POTATO)
+        val curseOfOverheating = EntryProviders.ritual(this, "curse_of_overheating", Items.BLAZE_ROD)
             .generate("7")
             .requiresAndFollows(curses)
         add(curseOfOverheating)
 
-        val curseOfSinking = EntryProviders.ritual(this, "curse_of_sinking", Items.POISONOUS_POTATO)
+        val curseOfSinking = EntryProviders.ritual(this, "curse_of_sinking", Items.INK_SAC)
             .generate("8")
             .requiresAndFollows(curses)
         add(curseOfSinking)
 
-        val curseOfWalkingNightmare = EntryProviders.ritual(this, "waking_nightmare", Items.POISONOUS_POTATO)
+        val curseOfWalkingNightmare = EntryProviders.ritual(this, "waking_nightmare", WitcheryItems.PHANTOM_VAPOR.get())
             .generate("9")
             .requiresAndFollows(curses)
         add(curseOfWalkingNightmare)
@@ -163,12 +163,12 @@ class WitcheryRitualCategoryProvider(
             .requiresAndFollows(otherwhereChalk)
         addEntry(teleportOtW)
 
-        val binding = EntryProviders.ritual(this, "binding", WitcheryItems.WAYSTONE.get())
+        val binding = EntryProviders.ritual(this, "binding", Items.CHAIN)
             .generate("=")
             .requiresAndFollows(otherwhereChalk)
         addEntry(binding)
 
-        val soulbind = EntryProviders.ritual(this, "soulbind", WitcheryItems.WAYSTONE.get())
+        val soulbind = EntryProviders.ritual(this, "soulbind", Items.GOLDEN_APPLE)
             .generate("z")
             .requiresAndFollows(otherwhereChalk)
         addEntry(soulbind)

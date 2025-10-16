@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.ritual.fragility.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:poisonous_potato"
+    "item": "minecraft:bone"
   },
   "name": "book.witchery.guidebook.ritual.fragility.name",
   "pages": [

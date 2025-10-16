@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.ritual.curse_of_insanity.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:poisonous_potato"
+    "item": "minecraft:sugar"
   },
   "name": "book.witchery.guidebook.ritual.curse_of_insanity.name",
   "pages": [

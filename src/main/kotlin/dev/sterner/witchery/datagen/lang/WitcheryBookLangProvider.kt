@@ -1158,5 +1158,102 @@ object WitcheryBookLangProvider {
         add("brazier.summon_banshee.title.1", "Summon Banshee")
         add("brazier.summon_banshee.page.1", "Summon Banshee")
         add("brazier.summon_banshee", "Summon Banshee")
+
+        add("book.witchery.guidebook.ritual.soulbind.name", "Soulbind")
+        add("book.witchery.guidebook.ritual.soulbind.description", "Soulbind")
+        add("ritual.soulbind.title.1", "Soulbind")
+        add(
+            "ritual.soulbind.page.1",
+            "Return to flesh if you ever find yourself without one."
+        )
+
+        add("book.witchery.guidebook.ritual.binding.name", "Binding")
+        add("book.witchery.guidebook.ritual.binding.description", "Containment")
+        add("ritual.binding.title.1", "Binding")
+        add(
+            "ritual.binding.page.1",
+            "Invisible box of immaculate force.. and in darkness bind them or something."
+        )
+
+        add("book.witchery.guidebook.ritual.curses.name", "Curses")
+        add("book.witchery.guidebook.ritual.curses.description", "Curses")
+        add("ritual.curses.title.1", "Curses")
+        add(
+            "ritual.curses.page.1",
+            "Smite your enemies with curses, or they will curse you."
+        )
+
+        add("book.witchery.guidebook.ritual.befuddlement.name", "Curse of Befuddlement")
+        add("book.witchery.guidebook.ritual.befuddlement.description", "Confuse and disorient your target")
+        add("ritual.befuddlement.title.1", "Curse of Befuddlement")
+        add(
+            "ritual.befuddlement.page.1",
+            "This curse clouds the mind of your victim, causing confusion and nausea. Their movements become erratic and unpredictable as the curse disrupts their thoughts."
+        )
+        add("curse.witchery.befuddlement.applied", "You feel your mind clouding...")
+
+        add("book.witchery.guidebook.ritual.curse_of_corrupt_poppet.name", "Curse of Corrupt Poppet")
+        add("book.witchery.guidebook.ritual.curse_of_corrupt_poppet.description", "Corrupt your target's protective poppets")
+        add("ritual.curse_of_corrupt_poppet.title.1", "Curse of Corrupt Poppet")
+        add(
+            "ritual.curse_of_corrupt_poppet.page.1",
+            "A sinister curse that corrupts the protective poppets of your victim, turning their safeguards into sources of harm. Requires a familiar cat to channel the dark magic."
+        )
+
+        add("book.witchery.guidebook.ritual.fragility.name", "Curse of Fragility")
+        add("book.witchery.guidebook.ritual.fragility.description", "Make your target vulnerable to harm")
+        add("ritual.fragility.title.1", "Curse of Fragility")
+        add(
+            "ritual.fragility.page.1",
+            "This curse weakens the body of your victim, making them brittle as glass. They will take significantly more damage from all sources."
+        )
+
+        add("book.witchery.guidebook.ritual.hunger.name", "Curse of Hunger")
+        add("book.witchery.guidebook.ritual.hunger.description", "Inflict unending hunger")
+        add("ritual.hunger.title.1", "Curse of Hunger")
+        add(
+            "ritual.hunger.page.1",
+            "A cruel curse that inflicts insatiable hunger upon your target. No matter how much they eat, they will never feel satisfied as their food depletes rapidly."
+        )
+
+        add("book.witchery.guidebook.ritual.curse_of_insanity.name", "Curse of Insanity")
+        add("book.witchery.guidebook.ritual.curse_of_insanity.description", "Drive your target to madness")
+        add("ritual.curse_of_insanity.title.1", "Curse of Insanity")
+        add(
+            "ritual.curse_of_insanity.page.1",
+            "This terrible curse summons manifestations of madness to haunt your victim. Entities born of insanity will periodically appear to torment them. Requires stormy weather to cast."
+        )
+
+        add("book.witchery.guidebook.ritual.curse_of_misfortune.name", "Curse of Misfortune")
+        add("book.witchery.guidebook.ritual.curse_of_misfortune.description", "Bring bad luck to your target")
+        add("ritual.curse_of_misfortune.title.1", "Curse of Misfortune")
+        add(
+            "ritual.curse_of_misfortune.page.1",
+            "Bad luck follows those afflicted by this curse. They will be randomly struck by debilitating effects, making even simple tasks difficult. Cast during a storm for maximum potency."
+        )
+
+        add("book.witchery.guidebook.ritual.curse_of_overheating.name", "Curse of Overheating")
+        add("book.witchery.guidebook.ritual.curse_of_overheating.description", "Make your target burn in hot climates")
+        add("ritual.curse_of_overheating.title.1", "Curse of Overheating")
+        add(
+            "ritual.curse_of_overheating.page.1",
+            "Those cursed with overheating will burst into flames when in hot biomes. The scorching heat of deserts, savannas, and the Nether becomes unbearable, igniting their very flesh."
+        )
+
+        add("book.witchery.guidebook.ritual.curse_of_sinking.name", "Curse of Sinking")
+        add("book.witchery.guidebook.ritual.curse_of_sinking.description", "Make your target sink in water")
+        add("ritual.curse_of_sinking.title.1", "Curse of Sinking")
+        add(
+            "ritual.curse_of_sinking.page.1",
+            "Water becomes deadly for those afflicted with this curse. They will sink like stone, unable to swim to the surface. Best cast during a storm when the waters are already treacherous."
+        )
+
+        add("book.witchery.guidebook.ritual.waking_nightmare.name", "Curse of Waking Nightmare")
+        add("book.witchery.guidebook.ritual.waking_nightmare.description", "Prevent your target from sleeping")
+        add("ritual.waking_nightmare.title.1", "Curse of Waking Nightmare")
+        add(
+            "ritual.waking_nightmare.page.1",
+            "A curse that traps the victim in an endless waking nightmare. Sleep becomes impossible as phantom terrors haunt them. Must be cast during the night when nightmares are strongest."
+        )
     }
 }

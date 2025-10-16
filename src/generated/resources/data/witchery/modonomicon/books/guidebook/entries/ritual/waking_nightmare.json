@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.ritual.waking_nightmare.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:poisonous_potato"
+    "item": "witchery:phantom_vapor"
   },
   "name": "book.witchery.guidebook.ritual.waking_nightmare.name",
   "pages": [

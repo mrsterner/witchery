@@ -14,7 +14,7 @@
   "description": "book.witchery.guidebook.ritual.curse_of_sinking.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:poisonous_potato"
+    "item": "minecraft:ink_sac"
   },
   "name": "book.witchery.guidebook.ritual.curse_of_sinking.name",
   "pages": [

@@ -152,6 +152,4 @@ public class LivingEntityMixin implements EntityChainInterface {
         }
         return damage;
     }
-
-
 }
