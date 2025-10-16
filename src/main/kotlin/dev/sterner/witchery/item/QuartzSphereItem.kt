@@ -71,10 +71,9 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
                 player.cooldowns.addCooldown(this, 20 * 3)
                 if (!player.abilities.instabuild) {
                     itemStack.shrink(1)
-                }
-                if (!player.abilities.instabuild) {
                     InfusionHandler.decreaseInfusionCharge(player, 100)
                 }
+
                 return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide())
             }
         }
