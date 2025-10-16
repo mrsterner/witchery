@@ -25,7 +25,7 @@ class CurseOfBefuddlement : Curse() {
 
         if (level.gameTime % baseInterval == 0L) {
             val nauseaChance = 0.3f * effectivenessMultiplier
-            val confusionDuration = (20 * 3 * effectivenessMultiplier).toInt()
+            val confusionDuration = (20 * 2 * effectivenessMultiplier).toInt()
 
             if (level.random.nextFloat() < nauseaChance) {
                 player.addEffect(MobEffectInstance(MobEffects.CONFUSION, confusionDuration, 0))

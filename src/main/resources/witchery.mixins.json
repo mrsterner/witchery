@@ -86,6 +86,7 @@
     "client.BookParentNodeScreenMixin",
     "client.GuiMixin",
     "client.HumanoidModelMixin",
+    "client.ItemInHandRendererMixin",
     "client.ItemRendererMixin",
     "client.LivingEntityRendererMixin",
     "client.LocalPlayerMixin",

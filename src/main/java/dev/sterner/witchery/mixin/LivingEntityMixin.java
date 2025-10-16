@@ -10,6 +10,7 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 import dev.sterner.witchery.entity.ChainEntity;
 import dev.sterner.witchery.handler.BloodPoolHandler;
 import dev.sterner.witchery.handler.NecroHandler;
+import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler;
 import dev.sterner.witchery.handler.affliction.AfflictionTypes;
 import dev.sterner.witchery.handler.affliction.TransformationHandler;
 import dev.sterner.witchery.registry.WitcheryTags;
@@ -37,6 +38,15 @@ public class LivingEntityMixin implements EntityChainInterface {
     private final List<Pair<ChainEntity, Boolean>> witchery$restrainingChains = new ArrayList<>();
     @Unique
     private boolean witchery$restrained = false;
+
+    @Inject(method = "swing(Lnet/minecraft/world/InteractionHand;Z)V", at = @At("HEAD"), cancellable = true)
+    private void witchery$preventSwingForAbility(CallbackInfo ci) {
+        LivingEntity self = (LivingEntity) (Object) this;
+
+        if (self instanceof Player player && AfflictionAbilityHandler.INSTANCE.getSelectedAbility(player) != null) {
+            ci.cancel();
+        }
+    }
 
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void witchery$modifyBaseTick(CallbackInfo ci) {
