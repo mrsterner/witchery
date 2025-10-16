@@ -37,12 +37,16 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
                 WitcheryApi.makePlayerWitchy(player)
                 val thrownPotion = ThrownBrewEntity(level, player)
                 thrownPotion.item = loadedPotion.copy()
+                thrownPotion.setIsQuartzSphere(true)
                 thrownPotion.shootFromRotation(player, player.xRot, player.yRot, -20.0f, 0.5f, 1.0f)
                 level.addFreshEntity(thrownPotion)
             }
 
             player.awardStat(Stats.ITEM_USED[this])
-            player.cooldowns.addCooldown(this, 20)
+            player.cooldowns.addCooldown(this, 20 * 3)
+            if (!player.abilities.instabuild) {
+                itemStack.shrink(1)
+            }
 
             return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide())
         }
@@ -54,7 +58,9 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
         if (livingEntity is ServerPlayer && stack.has(WitcheryDataComponents.HAS_SUN.get()) &&
             stack.get(WitcheryDataComponents.HAS_SUN.get()) == true
         ) {
-            livingEntity.mainHandItem.shrink(1)
+            if (!livingEntity.abilities.instabuild) {
+                stack.shrink(1)
+            }
             livingEntity.remainingFireTicks = 20 * 4
             VampireLeveling.increaseUsedSunGrenades(livingEntity)
         }
@@ -94,11 +100,6 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
                     .append(loadedPotion.hoverName)
                     .withStyle(ChatFormatting.GRAY)
             )
-        } else if (stack.get(WitcheryDataComponents.HAS_SUN.get()) != true) {
-            tooltipComponents.add(
-                Component.translatable("item.witchery.quartz_sphere.empty")
-                    .withStyle(ChatFormatting.GRAY)
-            )
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
@@ -130,10 +131,6 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
             } else {
                 stack.set(WitcheryDataComponents.LOADED_POTION.get(), ItemContainerContents.fromItems(listOf(potion)))
             }
-        }
-
-        fun hasLoadedPotion(stack: ItemStack): Boolean {
-            return getLoadedPotion(stack) != null
         }
     }
 }

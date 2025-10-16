@@ -97,7 +97,7 @@ object UrnPotionSelectionHandler {
         val screenWidth = window.guiScaledWidth
         val screenHeight = window.guiScaledHeight
 
-        val targetY = screenHeight / 2 - 30
+        val targetY = screenHeight / 2 + 25
         val startY = screenHeight + 20
         val currentY = Mth.lerp(
             easeOutCubic(animationProgress),

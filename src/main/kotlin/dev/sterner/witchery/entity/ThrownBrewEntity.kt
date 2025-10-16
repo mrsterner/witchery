@@ -4,6 +4,9 @@ import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.item.brew.BrewItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
+import net.minecraft.network.syncher.EntityDataAccessor
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.Containers
 import net.minecraft.world.damagesource.DamageSource
@@ -17,8 +20,12 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.HitResult
-
 class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
+
+    companion object {
+        private val DATA_IS_QUARTZ_SPHERE: EntityDataAccessor<Boolean> =
+            SynchedEntityData.defineId(ThrownBrewEntity::class.java, EntityDataSerializers.BOOLEAN)
+    }
 
     constructor(level: Level) : super(WitcheryEntityTypes.THROWN_BREW.get(), level)
 
@@ -31,6 +38,19 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
         z,
         level
     )
+
+    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
+        super.defineSynchedData(builder)
+        builder.define(DATA_IS_QUARTZ_SPHERE, false)
+    }
+
+    fun setIsQuartzSphere(isQuartz: Boolean) {
+        entityData.set(DATA_IS_QUARTZ_SPHERE, isQuartz)
+    }
+
+    fun isQuartzSphere(): Boolean {
+        return entityData.get(DATA_IS_QUARTZ_SPHERE)
+    }
 
     override fun onHitBlock(result: BlockHitResult) {
         super.onHitBlock(result)
@@ -53,14 +73,14 @@ class ThrownBrewEntity : ThrowableItemProjectile, ItemSupplier {
 
                 val brew = itemStack.item as BrewItem
                 if (result.type == HitResult.Type.BLOCK && brew.predicate.test((result as BlockHitResult).direction)) {
-                    applySplash(itemStack.item as BrewItem, result, frog)
+                    applySplash(brew, result, frog)
 
-                    val color = (itemStack.item as BrewItem).color
+                    val color = brew.color
                     level().levelEvent(2002, this.blockPosition(), color)
                 } else if (result.type != HitResult.Type.BLOCK) {
-                    applySplash(itemStack.item as BrewItem, result, frog)
+                    applySplash(brew, result, frog)
 
-                    val color = (itemStack.item as BrewItem).color
+                    val color = brew.color
                     level().levelEvent(2002, this.blockPosition(), color)
                 } else {
                     Containers.dropItemStack(
