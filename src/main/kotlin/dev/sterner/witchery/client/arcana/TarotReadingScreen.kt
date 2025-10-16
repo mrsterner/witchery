@@ -204,8 +204,7 @@ class TarotReadingScreen : Screen(Component.literal("Tarot Reading")) {
 
         updateHoverEffects(mouseX, mouseY)
 
-        val numStackedCards = 5
-        for (i in 0 until numStackedCards) {
+        for (i in 0 until 5) {
             val offsetCard = TarotCardObject(0)
             offsetCard.screenX = deckCard.screenX + (i * 1f)
             offsetCard.screenY = deckCard.screenY - (i * 1f)
@@ -300,17 +299,21 @@ class TarotReadingScreen : Screen(Component.literal("Tarot Reading")) {
         tooltip.add(Component.literal(""))
 
         if (card.isReversed) {
-            tooltip.add(Component.literal("⚠ Reversed Card").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC))
+            tooltip.add(Component.literal("Reversed Card").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC))
             tooltip.add(Component.literal("Negative Effect").withStyle(ChatFormatting.DARK_RED))
         } else {
-            tooltip.add(Component.literal("✦ Upright Card").withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC))
+            tooltip.add(Component.literal("Upright Card").withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC))
             tooltip.add(Component.literal("Positive Effect").withStyle(ChatFormatting.DARK_GREEN))
         }
+
+        val pos = Component.translatable("witchery.tarot.effect.${card.cardNumber}")
+        val neg = Component.translatable("witchery.tarot.effect.${card.cardNumber}.reversed")
+        val effect = if (card.isReversed) neg else pos
 
         tooltip.add(Component.literal(""))
         tooltip.add(
             Component.literal("Effect: ").withStyle(ChatFormatting.GRAY)
-                .append(Component.literal("[To be implemented]").withStyle(ChatFormatting.DARK_GRAY))
+                .append(effect.withStyle(ChatFormatting.DARK_GRAY))
         )
 
         val lines = tooltip.map { it.visualOrderText }

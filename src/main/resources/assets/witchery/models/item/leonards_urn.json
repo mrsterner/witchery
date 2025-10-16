@@ -1,0 +1,26 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchery:item/leonards_urn"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "witchery:level": 1
+      },
+      "model": "witchery:item/leonards_urn_1"
+    },
+    {
+      "predicate": {
+        "witchery:level": 2
+      },
+      "model": "witchery:item/leonards_urn_2"
+    },
+    {
+      "predicate": {
+        "witchery:level": 3
+      },
+      "model": "witchery:item/leonards_urn_3"
+    }
+  ]
+}

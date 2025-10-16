@@ -29,7 +29,7 @@ class LockInTarotCardsC2SPayload(val cardNumbers: List<Int>, val reversedStates:
         data.drawnCards = cardNumbers
         data.reversedCards = reversedStates
         data.cardEffectsActive = true
-        data.readingTimestamp = System.currentTimeMillis()
+        data.readingTimestamp = player.serverLevel().gameTime
 
         TarotPlayerAttachment.setData(player, data)
     }

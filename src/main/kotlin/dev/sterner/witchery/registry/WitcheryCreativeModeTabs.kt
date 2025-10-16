@@ -182,6 +182,20 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.TORN_PAGE.get())
                     output.accept(WitcheryItems.QUARTZ_SPHERE.get())
                     output.accept(WitcheryItems.LEONARDS_URN.get())
+
+                    val urn1 = WitcheryItems.LEONARDS_URN.get().defaultInstance
+                    urn1.set(WitcheryDataComponents.URN_LEVEL, 1)
+
+                    val urn2 = WitcheryItems.LEONARDS_URN.get().defaultInstance
+                    urn2.set(WitcheryDataComponents.URN_LEVEL, 2)
+
+                    val urn3 = WitcheryItems.LEONARDS_URN.get().defaultInstance
+                    urn3.set(WitcheryDataComponents.URN_LEVEL, 3)
+
+                    output.accept(urn1)
+                    output.accept(urn2)
+                    output.accept(urn3)
+
                     output.accept(WitcheryItems.SEER_STONE.get())
                     output.accept(WitcheryItems.SUN_COLLECTOR.get())
                     output.accept(WitcheryItems.BLOOD_STAINED_WOOL.get())

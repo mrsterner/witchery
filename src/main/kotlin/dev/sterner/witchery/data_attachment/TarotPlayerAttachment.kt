@@ -5,12 +5,16 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncTarotS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
+import net.minecraft.ChatFormatting
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
 
 object TarotPlayerAttachment {
+
+    const val THREE_DAYS = 24000L * 3
 
     @JvmStatic
     fun getData(player: Player): Data {
@@ -31,6 +35,30 @@ object TarotPlayerAttachment {
             )
         }
     }
+
+    fun serverTick(player: Player) {
+
+        if (player.level() is ServerLevel) {
+            val level = player.level()
+            val data = getData(player)
+
+            if (data.drawnCards.isNotEmpty() && level.gameTime - data.readingTimestamp >= THREE_DAYS) {
+                data.drawnCards = emptyList()
+                data.reversedCards = emptyList()
+                data.cardEffectsActive = false
+                data.readingTimestamp = 0L
+
+                setData(player, data)
+
+                player.displayClientMessage(
+                    Component.literal("Your tarot reading has faded with time.")
+                        .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC),
+                    true
+                )
+            }
+        }
+    }
+
 
     class Data(
         var drawnCards: List<Int> = emptyList(),

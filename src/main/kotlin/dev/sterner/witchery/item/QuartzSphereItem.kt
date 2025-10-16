@@ -4,6 +4,7 @@ import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.entity.ThrownBrewEntity
 import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.item.brew.ThrowableBrewItem
+import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.ChatFormatting
 import net.minecraft.core.Direction
@@ -32,23 +33,42 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
         }
 
         val loadedPotion = getLoadedPotion(itemStack)
-        if (loadedPotion != null && loadedPotion.item is ThrowableBrewItem) {
-            if (!level.isClientSide) {
-                WitcheryApi.makePlayerWitchy(player)
-                val thrownPotion = ThrownBrewEntity(level, player)
-                thrownPotion.item = loadedPotion.copy()
-                thrownPotion.setIsQuartzSphere(true)
-                thrownPotion.shootFromRotation(player, player.xRot, player.yRot, -20.0f, 0.5f, 1.0f)
-                level.addFreshEntity(thrownPotion)
-            }
+        if (loadedPotion != null && (
+                    loadedPotion.item is ThrowableBrewItem ||
+                            loadedPotion.item is ThrowablePotionItem ||
+                            loadedPotion.item is PotionItem ||
+                            loadedPotion.item is WitcheryPotionItem)) {
 
-            player.awardStat(Stats.ITEM_USED[this])
-            player.cooldowns.addCooldown(this, 20 * 3)
-            if (!player.abilities.instabuild) {
-                itemStack.shrink(1)
-            }
+            val urn = LeonardsUrnItem.findUrn(player)
+            if (urn != null) {
+                val urnPotions = LeonardsUrnItem.getStoredPotions(urn)
 
-            return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide())
+                val potionToThrow = if (urnPotions.any { ItemStack.isSameItemSameComponents(it, loadedPotion) }) {
+                    loadedPotion.copy()
+                } else if (urnPotions.isNotEmpty()) {
+                    urnPotions[0].copy()
+                } else {
+                    setLoadedPotion(itemStack, null)
+                    return InteractionResultHolder.fail(itemStack)
+                }
+
+                if (!level.isClientSide) {
+                    WitcheryApi.makePlayerWitchy(player)
+                    val thrownPotion = ThrownBrewEntity(level, player)
+                    thrownPotion.item = potionToThrow
+                    thrownPotion.setIsQuartzSphere(true)
+                    thrownPotion.shootFromRotation(player, player.xRot, player.yRot, -20.0f, 0.5f, 1.0f)
+                    level.addFreshEntity(thrownPotion)
+                }
+
+                player.awardStat(Stats.ITEM_USED[this])
+                player.cooldowns.addCooldown(this, 20 * 3)
+                if (!player.abilities.instabuild) {
+                    itemStack.shrink(1)
+                }
+
+                return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide())
+            }
         }
 
         return InteractionResultHolder.fail(itemStack)
@@ -86,19 +106,6 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
             tooltipComponents.add(
                 Component.translatable("witchery.has_sun")
                     .setStyle(Style.EMPTY.withColor(Color(250, 220, 40).rgb))
-            )
-        }
-
-        val loadedPotion = getLoadedPotion(stack)
-        if (loadedPotion != null) {
-            tooltipComponents.add(
-                Component.translatable("item.witchery.quartz_sphere.loaded")
-                    .withStyle(ChatFormatting.GOLD)
-            )
-            tooltipComponents.add(
-                Component.literal("  ")
-                    .append(loadedPotion.hoverName)
-                    .withStyle(ChatFormatting.GRAY)
             )
         }
 

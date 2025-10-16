@@ -1,5 +1,7 @@
 package dev.sterner.witchery.item
 
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
 import dev.sterner.witchery.payload.OpenTarotScreenS2CPayload
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
@@ -19,7 +21,17 @@ class TarotDeckItem(properties: Properties) : Item(properties) {
         val itemStack = player.getItemInHand(usedHand)
 
         if (!level.isClientSide && player is ServerPlayer) {
-            PacketDistributor.sendToPlayer(player, OpenTarotScreenS2CPayload())
+            val data = TarotPlayerAttachment.getData(player)
+            if (data.drawnCards.isEmpty()) {
+                PacketDistributor.sendToPlayer(player, OpenTarotScreenS2CPayload())
+            } else {
+                player.displayClientMessage(
+                    Component.literal("Your fortune this week has already been decided.")
+                        .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC),
+                    true
+                )
+
+            }
         }
 
         return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide)

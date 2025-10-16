@@ -209,6 +209,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
             this.add(WitcheryBlocks.COFFIN.get(), createCoffinTable(WitcheryBlocks.COFFIN.get()))
 
             dropSelf(WitcheryBlocks.DEEPLSTAE_ALTAR_BLOCK.get())
+            dropSelf(WitcheryBlocks.CRYSTAL_BALL.get())
             dropSelf(WitcheryBlocks.CENSER.get())
             dropSelf(WitcheryBlocks.PHYLACTERY.get())
             dropSelf(WitcheryBlocks.WITCHS_LADDER.get())

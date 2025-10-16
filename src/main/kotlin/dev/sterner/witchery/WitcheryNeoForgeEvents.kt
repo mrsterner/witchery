@@ -22,6 +22,7 @@ import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttac
 import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
 import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.handler.*
 import dev.sterner.witchery.handler.affliction.*
@@ -129,7 +130,9 @@ object WitcheryNeoForgeEvents {
 
         BloodPoolHandler.tickBloodRegen(entity)
         NecroHandler.tickLiving(entity)
-
+        if (entity is Player) {
+            TarotPlayerAttachment.serverTick(entity)
+        }
     }
 
 

@@ -3,6 +3,7 @@ package dev.sterner.witchery.item
 import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
 import dev.sterner.witchery.item.brew.BrewItem
 import dev.sterner.witchery.item.brew.ThrowableBrewItem
+import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
@@ -14,6 +15,7 @@ import net.minecraft.world.inventory.Slot
 import net.minecraft.world.inventory.tooltip.TooltipComponent
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.PotionItem
 import net.minecraft.world.item.TooltipFlag
 import java.util.Optional
 
@@ -40,10 +42,14 @@ class LeonardsUrnItem : Item(Properties().stacksTo(1)) {
                 playRemoveSound(player)
                 return true
             }
-        } else if (slotItem.item is BrewItem || slotItem.item is ThrowableBrewItem) {
+        } else if (slotItem.item is BrewItem || slotItem.item is ThrowableBrewItem || slotItem.item is PotionItem) {
 
+            var level = 1
+            if (stack.has(WitcheryDataComponents.URN_LEVEL)) {
+                level += stack.get(WitcheryDataComponents.URN_LEVEL)!!
+            }
             val potions = getStoredPotions(stack)
-            if (potions.size < MAX_POTIONS) {
+            if (potions.size < level) {
                 val toAdd = slotItem.split(1)
                 potions.add(toAdd)
                 setStoredPotions(stack, potions)
@@ -77,10 +83,13 @@ class LeonardsUrnItem : Item(Properties().stacksTo(1)) {
                 playRemoveSound(player)
                 return true
             }
-        } else if (other.item is BrewItem || other.item is ThrowableBrewItem) {
-
+        } else if (other.item is BrewItem || other.item is ThrowableBrewItem || other.item is PotionItem) {
+            var level = 1
+            if (stack.has(WitcheryDataComponents.URN_LEVEL)) {
+                level += stack.get(WitcheryDataComponents.URN_LEVEL)!!
+            }
             val potions = getStoredPotions(stack)
-            if (potions.size < MAX_POTIONS) {
+            if (potions.size < level) {
                 val toAdd = other.split(1)
                 potions.add(toAdd)
                 setStoredPotions(stack, potions)
@@ -99,9 +108,12 @@ class LeonardsUrnItem : Item(Properties().stacksTo(1)) {
         tooltipFlag: TooltipFlag
     ) {
         val potions = getStoredPotions(stack)
-
+        var level = 1
+        if (stack.has(WitcheryDataComponents.URN_LEVEL)) {
+            level += stack.get(WitcheryDataComponents.URN_LEVEL)!!
+        }
         tooltipComponents.add(
-            Component.translatable("item.witchery.leonards_urn.potions", potions.size, MAX_POTIONS)
+            Component.translatable("item.witchery.leonards_urn.potions", potions.size, level)
                 .withStyle(ChatFormatting.GRAY)
         )
 
@@ -115,19 +127,6 @@ class LeonardsUrnItem : Item(Properties().stacksTo(1)) {
         } else {
             Optional.of(UrnTooltipComponent(potions))
         }
-    }
-
-    override fun getBarWidth(stack: ItemStack): Int {
-        val potions = getStoredPotions(stack)
-        return Math.min(1 + 12 * potions.size / MAX_POTIONS, 13)
-    }
-
-    override fun getBarColor(stack: ItemStack): Int {
-        return 0x8B4789
-    }
-
-    override fun isBarVisible(stack: ItemStack): Boolean {
-        return getStoredPotions(stack).isNotEmpty()
     }
 
     private fun playInsertSound(player: Player) {
@@ -147,7 +146,6 @@ class LeonardsUrnItem : Item(Properties().stacksTo(1)) {
     }
 
     companion object {
-        const val MAX_POTIONS = 3
         fun getStoredPotions(stack: ItemStack): MutableList<ItemStack> {
             val list = stack.get(WitcheryDataComponents.URN_POTIONS.get()) ?: return mutableListOf()
             return list.toMutableList()

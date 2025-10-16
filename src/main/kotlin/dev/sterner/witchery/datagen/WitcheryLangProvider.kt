@@ -68,6 +68,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         add("gui.witchery.select_potion", "Select Potion")
         add("gui.witchery.scroll_to_select", "Scroll to Select")
 
+        add("item.witchery.tarot_deck.desc", "Fortune of three cards last 3 days")
 
         add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")
         add(WitcheryTags.ALDER_LOG_ITEMS, "Alder Logs")

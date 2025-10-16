@@ -485,6 +485,17 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         }
 
         ItemProperties.register(
+            WitcheryItems.LEONARDS_URN.get(),
+            Witchery.id("level")
+        ) { itemStack, _, _, _ ->
+            if (itemStack.has(WitcheryDataComponents.URN_LEVEL.get())) {
+                itemStack.get(WitcheryDataComponents.URN_LEVEL.get())?.toFloat()!!
+            } else {
+                0f
+            }
+        }
+
+        ItemProperties.register(
             WitcheryItems.PHYLACTERY.get(),
             Witchery.id("phylactery_variant")
         ) { stack, _, _, _ ->

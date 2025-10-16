@@ -126,6 +126,10 @@ object WitcheryDataComponents {
             .build()
     })
 
+    val URN_LEVEL = DATA.register("urn_level", Supplier {
+        DataComponentType.builder<Int>().persistent(Codec.INT).build()
+    })
+
     val URN_POTIONS = DATA.register("urn_potions", Supplier {
         DataComponentType.builder<List<ItemStack>>()
             .persistent(ItemStack.OPTIONAL_CODEC.listOf())
