@@ -18,7 +18,7 @@ class TheMoonEffect : TarotEffect(19) {
 
     override fun onTick(player: Player, isReversed: Boolean) {
         if (!isReversed) {
-            player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 6, 0, true, false))
+            player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 11, 0, true, false))
 
             if (!player.level().isDay && player.level().gameTime % 20 == 0L) {
                 val nearbyMobs = player.level().getEntitiesOfClass(

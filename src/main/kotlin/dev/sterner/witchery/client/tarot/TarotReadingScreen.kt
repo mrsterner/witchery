@@ -26,6 +26,7 @@ class TarotReadingScreen : Screen(Component.literal("Tarot Reading")) {
     private var hoveredCard: TarotCardObject? = null
 
     companion object {
+        const val OFFSET = 25f
         const val NUM_CARDS = 3
         const val ANIMATION_DURATION = 30
         const val FLIP_DELAY = 10
@@ -42,7 +43,8 @@ class TarotReadingScreen : Screen(Component.literal("Tarot Reading")) {
     override fun init() {
         super.init()
         val padding = 20f
-        deckCard.screenX = width - TarotCardObject.CARD_WIDTH - padding
+        val leftOffset = OFFSET
+        deckCard.screenX = width - TarotCardObject.CARD_WIDTH - padding - leftOffset
         deckCard.screenY = height - TarotCardObject.CARD_HEIGHT - padding
         deckCard.targetX = deckCard.screenX
         deckCard.targetY = deckCard.screenY
@@ -100,14 +102,14 @@ class TarotReadingScreen : Screen(Component.literal("Tarot Reading")) {
 
             cards.add(card)
         }
-
     }
 
     override fun resize(minecraft: Minecraft, width: Int, height: Int) {
         super.resize(minecraft, width, height)
 
         val padding = 20f
-        deckCard.screenX = width - TarotCardObject.CARD_WIDTH - padding
+        val leftOffset = OFFSET
+        deckCard.screenX = width - TarotCardObject.CARD_WIDTH - padding - leftOffset
         deckCard.screenY = height - TarotCardObject.CARD_HEIGHT - padding
         deckCard.targetX = deckCard.screenX
         deckCard.targetY = deckCard.screenY
@@ -210,6 +212,24 @@ class TarotReadingScreen : Screen(Component.literal("Tarot Reading")) {
             offsetCard.screenY = deckCard.screenY - (i * 1f)
             offsetCard.rotationY = deckCard.rotationY
             renderCard(guiGraphics, offsetCard, true, partialTick)
+        }
+
+        if (!hasDrawn && !isDrawing) {
+            val text = Component.literal("Draw to seal your fate")
+                .withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC)
+
+            val textWidth = minecraft!!.font.width(text)
+            val textX = (deckCard.screenX + TarotCardObject.CARD_WIDTH / 2f - textWidth / 2f).toInt()
+            val textY = (deckCard.screenY - 15).toInt()
+
+            guiGraphics.drawString(
+                minecraft!!.font,
+                text,
+                textX,
+                textY,
+                0xFFD700,
+                true
+            )
         }
 
         for (card in cards) {
