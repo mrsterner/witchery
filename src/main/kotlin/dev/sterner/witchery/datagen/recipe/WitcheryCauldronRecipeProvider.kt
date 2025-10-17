@@ -127,7 +127,7 @@ object WitcheryCauldronRecipeProvider {
             .addInputWithColor(WitcheryItems.BREATH_OF_THE_GODDESS.get(), Color(200, 220, 255).rgb)
             .addInputWithColor(Items.GLOW_INK_SAC, Color(80, 180, 170).rgb)
             .addInputWithColor(WitcheryItems.ENDER_DEW.get(), Color(20, 120, 120).rgb)
-            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get(), Color(180, 140, 200).rgb)
+            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get(), Color(255, 188, 168).rgb)
             .setOutput(WitcheryItems.BREW_OF_OBLIVION.get())
             .setAltarPower(250)
             .save(exporter, Witchery.id("brew_of_oblivion"))

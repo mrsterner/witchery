@@ -1096,7 +1096,7 @@ object WitcheryItems {
     }
 
     val BREW_OF_OBLIVION = register("brew_of_oblivion") {
-        BrewOfOblivion(Color(160, 160, 255).rgb, Item.Properties().stacksTo(16))
+        BrewOfOblivion(Color(255, 188, 168).rgb, Item.Properties().stacksTo(16))
     }
 
     val BREW_OF_WEBS = register("brew_of_webs") {
