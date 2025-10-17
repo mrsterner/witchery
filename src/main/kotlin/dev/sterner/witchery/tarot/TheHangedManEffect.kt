@@ -18,7 +18,7 @@ class TheHangedManEffect : TarotEffect(13) {
 
     override fun onTick(player: Player, isReversed: Boolean) {
         if (isReversed) {
-            //TODO Cannot drop items
+            //handled in event
         } else {
             if (player.deltaMovement.y < 0 && !player.onGround()) {
                 player.deltaMovement = player.deltaMovement.multiply(1.0, 0.7, 1.0)

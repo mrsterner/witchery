@@ -1,5 +1,6 @@
 package dev.sterner.witchery.tarot
 
+import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
 import net.minecraft.world.damagesource.DamageSource
@@ -35,4 +36,26 @@ abstract class TarotEffect(val cardNumber: Int) {
     open fun onEnterWater(player: Player, isReversed: Boolean) {}
 
     open fun onSleep(player: Player, isReversed: Boolean) {}
+
+    protected fun removeCardFromReading(player: Player, cardNumber: Int) {
+        val data = TarotPlayerAttachment.getData(player)
+        val newCards = data.drawnCards.toMutableList()
+        val newReversed = data.reversedCards.toMutableList()
+
+        val index = newCards.indexOf(cardNumber)
+        if (index != -1) {
+            newCards.removeAt(index)
+            if (index < newReversed.size) {
+                newReversed.removeAt(index)
+            }
+
+            val newData = TarotPlayerAttachment.Data(
+                drawnCards = newCards,
+                reversedCards = newReversed,
+                readingTimestamp = data.readingTimestamp
+            )
+
+            TarotPlayerAttachment.setData(player, newData)
+        }
+    }
 }

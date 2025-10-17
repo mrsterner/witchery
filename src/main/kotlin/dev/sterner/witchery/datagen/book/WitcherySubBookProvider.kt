@@ -17,6 +17,7 @@ class WitcherySubBookProvider(defaultLang: BiConsumer<String, String>?) :
         this.add(WitcheryGeneralCategoryProvider(this).generate())
         this.add(WitcheryBrewingCategoryProvider(this).generate())
         this.add(WitcheryRitualCategoryProvider(this).generate())
+        this.add(WitcheryTarotCategoryProvider(this).generate())
         this.add(WitcheryVampirismCategoryProvider(this).generate())
         this.add(WitcheryLycanthropyCategoryProvider(this).generate())
         this.add(WitcheryLichdomCategoryProvider(this).generate())

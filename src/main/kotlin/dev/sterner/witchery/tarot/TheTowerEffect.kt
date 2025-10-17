@@ -59,6 +59,7 @@ class TheTowerEffect : TarotEffect(17) {
                         1.0f,
                         0.8f
                     )
+                    removeCardFromReading(player, this.cardNumber)
                 }
             }
         }

@@ -2,7 +2,9 @@ package dev.sterner.witchery.datagen.book.util
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
+import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
+import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.datagen.book.page.BookRitualPageModel
 import net.minecraft.world.item.Item
@@ -167,5 +169,60 @@ object EntryProviders {
                 })
             }
             .build()
+    }
+
+    fun tarot(
+        parent: CategoryProviderBase?,
+        id: String
+    ): EntryProvider {
+        val cardNumber = when (id) {
+            "the_fool" -> 1
+            "the_magician" -> 2
+            "the_high_priestess" -> 3
+            "the_empress" -> 4
+            "the_emperor" -> 5
+            "the_hierophant" -> 6
+            "the_lovers" -> 7
+            "the_chariot" -> 8
+            "strength" -> 9
+            "the_hermit" -> 10
+            "wheel_of_fortune" -> 11
+            "justice" -> 12
+            "the_hanged_man" -> 13
+            "death" -> 14
+            "temperance" -> 15
+            "the_devil" -> 16
+            "the_tower" -> 17
+            "the_star" -> 18
+            "the_moon" -> 19
+            "the_sun" -> 20
+            "judgement" -> 21
+            "the_world" -> 22
+            else -> 1
+        }
+
+        return object : BaseEntryProvider(id, ItemStack.EMPTY, parent) {
+            override fun entryIcon(): BookIconModel {
+                return BookIconModel.create(
+                    Witchery.id("textures/gui/arcana/$cardNumber.png"),
+                    46,
+                    81
+                )
+            }
+
+            override fun generatePages() {
+                this.page("${id}_upright") {
+                    BookTextPageModel.create()
+                        .withTitle("${parent?.categoryId()}.$id.upright.title")
+                        .withText("${parent?.categoryId()}.$id.upright.text")
+                }
+
+                this.page("${id}_reversed") {
+                    BookTextPageModel.create()
+                        .withTitle("${parent?.categoryId()}.$id.reversed.title")
+                        .withText("${parent?.categoryId()}.$id.reversed.text")
+                }
+            }
+        }
     }
 }

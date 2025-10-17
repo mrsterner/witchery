@@ -1,0 +1,30 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "tarot",
+  "description": "book.witchery.guidebook.tarot.tarot_reading.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:tarot_deck"
+  },
+  "name": "book.witchery.guidebook.tarot.tarot_reading.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:tarot_deck"
+      },
+      "text": "tarot.tarot_reading.page.1",
+      "title": "tarot.tarot_reading.title.1"
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 0,
+  "x": -1,
+  "y": 0
+}

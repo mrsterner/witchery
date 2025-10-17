@@ -1315,5 +1315,235 @@ object WitcheryBookLangProvider {
             "A draught that devours memory itself. Those touched by it forget all bonds, duties, and grudges—left hollow, wandering in mental fog. Even the wisest will find their minds unmade."
         )
 
+
+        // Category
+        add("book.witchery.guidebook.category.tarot", "Tarot")
+
+// Tarot Reading Entry
+        add("book.witchery.guidebook.tarot.tarot_reading.name", "Tarot Reading")
+        add("book.witchery.guidebook.tarot.tarot_reading.description", "Divine your fortune with the cards")
+        add("tarot.tarot_reading.title.1", "Tarot Reading")
+        add("tarot.tarot_reading.page.1",
+            "Right-click a Crystal Ball with a Tarot Deck to perform a reading. Three cards will be drawn, revealing your fortune for the next three days. Each card brings powerful effects—both beneficial and perilous. A Crystal Ball reduces the chance of reversed cards appearing.")
+
+// 0. The Fool
+        add("book.witchery.guidebook.tarot.the_fool.name", "The Fool")
+        add("book.witchery.guidebook.tarot.the_fool.description", "New beginnings and reckless abandon")
+        add("tarot.the_fool.upright.title", "The Fool - Upright")
+        add("tarot.the_fool.upright.text",
+            "Fortune favors the bold. Random positive effects bless you occasionally, and damage taken is reduced. Embrace new adventures without fear.")
+        add("tarot.the_fool.reversed.title", "The Fool - Reversed")
+        add("tarot.the_fool.reversed.text",
+            "Recklessness brings misfortune. You stumble and fall randomly, taking unexpected damage. Each step forward risks a painful tumble.")
+
+// 1. The Magician
+        add("book.witchery.guidebook.tarot.the_magician.name", "The Magician")
+        add("book.witchery.guidebook.tarot.the_magician.description", "Mastery over the arcane arts")
+        add("tarot.the_magician.upright.title", "The Magician - Upright")
+        add("tarot.the_magician.upright.text",
+            "Your magical prowess peaks. Nearby altars restore power each dawn, and brews occasionally refuse to be consumed, preserving their magic for another use.")
+        add("tarot.the_magician.reversed.title", "The Magician - Reversed")
+        add("tarot.the_magician.reversed.text",
+            "Magic turns against you. Nearby altars drain each morning, their power scattered to the winds as your control falters.")
+
+// 2. The High Priestess
+        add("book.witchery.guidebook.tarot.the_high_priestess.name", "The High Priestess")
+        add("book.witchery.guidebook.tarot.the_high_priestess.description", "Intuition and hidden knowledge")
+        add("tarot.the_high_priestess.upright.title", "The High Priestess - Upright")
+        add("tarot.the_high_priestess.upright.text",
+            "The veil lifts, revealing hidden truths. Night vision becomes permanent, and breaking stone occasionally reveals nearby ores through mystical sight.")
+        add("tarot.the_high_priestess.reversed.title", "The High Priestess - Reversed")
+        add("tarot.the_high_priestess.reversed.text",
+            "Secrets remain forever hidden. The mysteries of the world turn away from your gaze, leaving you blind to hidden knowledge.")
+
+// 3. The Empress
+        add("book.witchery.guidebook.tarot.the_empress.name", "The Empress")
+        add("book.witchery.guidebook.tarot.the_empress.description", "Abundance and fertility")
+        add("tarot.the_empress.upright.title", "The Empress - Upright")
+        add("tarot.the_empress.upright.text",
+            "Nature's bounty flows freely. Crops yield double harvests, and each dawn restores your hunger. The earth provides generously.")
+        add("tarot.the_empress.reversed.title", "The Empress - Reversed")
+        add("tarot.the_empress.reversed.text",
+            "The harvest fails. Crops wither before they can be gathered, yielding nothing. Nature withholds its gifts from unworthy hands.")
+
+// 4. The Emperor
+        add("book.witchery.guidebook.tarot.the_emperor.name", "The Emperor")
+        add("book.witchery.guidebook.tarot.the_emperor.description", "Authority and control")
+        add("tarot.the_emperor.upright.title", "The Emperor - Upright")
+        add("tarot.the_emperor.upright.text",
+            "Command and dominance flow through you. Resistance to harm strengthens each morning, and your strikes occasionally slow enemies with intimidating force.")
+        add("tarot.the_emperor.reversed.title", "The Emperor - Reversed")
+        add("tarot.the_emperor.reversed.text",
+            "Authority crumbles. Each dawn strips away hard-earned experience as your power diminishes. Control slips through your fingers.")
+
+// 5. The Hierophant
+        add("book.witchery.guidebook.tarot.the_hierophant.name", "The Hierophant")
+        add("book.witchery.guidebook.tarot.the_hierophant.description", "Tradition and divine blessing")
+        add("tarot.the_hierophant.upright.title", "The Hierophant - Upright")
+        add("tarot.the_hierophant.upright.text",
+            "Divine protection shields you. Two absorption hearts manifest each dawn, and sleep fully restores your vitality. You are blessed.")
+        add("tarot.the_hierophant.reversed.title", "The Hierophant - Reversed")
+        add("tarot.the_hierophant.reversed.text",
+            "Healing forsakes you. Each dawn brings pain as divine favor withdraws. The gods turn their backs on the faithless.")
+
+// 6. The Lovers
+        add("book.witchery.guidebook.tarot.the_lovers.name", "The Lovers")
+        add("book.witchery.guidebook.tarot.the_lovers.description", "Harmony and relationships")
+        add("tarot.the_lovers.upright.title", "The Lovers - Upright")
+        add("tarot.the_lovers.upright.text",
+            "Creatures are drawn to your presence. Passive animals never flee, their fear dissolved by your harmonious aura.")
+        add("tarot.the_lovers.reversed.title", "The Lovers - Reversed")
+        add("tarot.the_lovers.reversed.text",
+            "Love corrupts into violence. Passive animals turn hostile, attacking each other and you. Harmony shatters into chaos.")
+
+// 7. The Chariot
+        add("book.witchery.guidebook.tarot.the_chariot.name", "The Chariot")
+        add("book.witchery.guidebook.tarot.the_chariot.description", "Victory through willpower")
+        add("tarot.the_chariot.upright.title", "The Chariot - Upright")
+        add("tarot.the_chariot.upright.text",
+            "Swift as the wind, unstoppable as a charging steed. Your movement speed increases dramatically. Victory awaits the bold.")
+        add("tarot.the_chariot.reversed.title", "The Chariot - Reversed")
+        add("tarot.the_chariot.reversed.text",
+            "Your path is blocked at every turn. Movement slows to a crawl as if wading through deep mud. Progress becomes torment.")
+
+// 8. Strength
+        add("book.witchery.guidebook.tarot.strength.name", "Strength")
+        add("book.witchery.guidebook.tarot.strength.description", "Inner fortitude and power")
+        add("tarot.strength.upright.title", "Strength - Upright")
+        add("tarot.strength.upright.text",
+            "Your strikes land with devastating force, and each kill restores vitality. True strength flows through body and spirit alike.")
+        add("tarot.strength.reversed.title", "Strength - Reversed")
+        add("tarot.strength.reversed.text",
+            "Weakness pervades your limbs. Strikes barely register as your power fades. The strong become feeble.")
+
+// 9. The Hermit
+        add("book.witchery.guidebook.tarot.the_hermit.name", "The Hermit")
+        add("book.witchery.guidebook.tarot.the_hermit.description", "Solitude and wisdom")
+        add("tarot.the_hermit.upright.title", "The Hermit - Upright")
+        add("tarot.the_hermit.upright.text",
+            "Wisdom blooms in isolation. When alone, experience flows freely as you contemplate the mysteries of existence.")
+        add("tarot.the_hermit.reversed.title", "The Hermit - Reversed")
+        add("tarot.the_hermit.reversed.text",
+            "Loneliness becomes madness. Isolation drains life force slowly. The hermit's wisdom turns to torment.")
+
+// 10. Wheel of Fortune
+        add("book.witchery.guidebook.tarot.wheel_of_fortune.name", "Wheel of Fortune")
+        add("book.witchery.guidebook.tarot.wheel_of_fortune.description", "Fate and chance")
+        add("tarot.wheel_of_fortune.upright.title", "Wheel of Fortune - Upright")
+        add("tarot.wheel_of_fortune.upright.text",
+            "Fortune smiles upon you. Luck increases dramatically, and slain foes occasionally drop rare treasures. The wheel turns in your favor.")
+        add("tarot.wheel_of_fortune.reversed.title", "Wheel of Fortune - Reversed")
+        add("tarot.wheel_of_fortune.reversed.text",
+            "Misfortune follows your every step. Bad luck pervades all actions. The wheel turns against you mercilessly.")
+
+// 11. Justice
+        add("book.witchery.guidebook.tarot.justice.name", "Justice")
+        add("book.witchery.guidebook.tarot.justice.description", "Balance and karmic retribution")
+        add("tarot.justice.upright.title", "Justice - Upright")
+        add("tarot.justice.upright.text",
+            "Balance is maintained. Those who strike you suffer thorns damage in return. Justice is swift and certain.")
+        add("tarot.justice.reversed.title", "Justice - Reversed")
+        add("tarot.justice.reversed.text",
+            "Injustice prevails. Your own violence rebounds, dealing increased damage. The scales tip against you.")
+
+// 12. The Hanged Man
+        add("book.witchery.guidebook.tarot.the_hanged_man.name", "The Hanged Man")
+        add("book.witchery.guidebook.tarot.the_hanged_man.description", "Sacrifice and suspension")
+        add("tarot.the_hanged_man.upright.title", "The Hanged Man - Upright")
+        add("tarot.the_hanged_man.upright.text",
+            "Sacrifice brings reward. Fall damage decreases as you drift gently downward, and pain feeds nearby altars with power. Suffering has purpose.")
+        add("tarot.the_hanged_man.reversed.title", "The Hanged Man - Reversed")
+        add("tarot.the_hanged_man.reversed.text",
+            "You cannot let go. Items refuse to leave your grasp—dropping becomes impossible. Attachment binds you completely.")
+
+// 13. Death
+        add("book.witchery.guidebook.tarot.death.name", "Death")
+        add("book.witchery.guidebook.tarot.death.description", "Transformation and endings")
+        add("tarot.death.upright.title", "Death - Upright")
+        add("tarot.death.upright.text",
+            "Transformation through endings. Slain creatures occasionally rise as ethereal allies, and each dawn purges harmful effects. Death brings renewal.")
+        add("tarot.death.reversed.title", "Death - Reversed")
+        add("tarot.death.reversed.text",
+            "Stagnation and decay consume you. Hunger drains constantly, and at nightfall, Death itself may manifest to claim your soul. This card expires upon summoning.")
+
+// 14. Temperance
+        add("book.witchery.guidebook.tarot.temperance.name", "Temperance")
+        add("book.witchery.guidebook.tarot.temperance.description", "Balance and moderation")
+        add("tarot.temperance.upright.title", "Temperance - Upright")
+        add("tarot.temperance.upright.text",
+            "Perfect balance restores you. Low health slowly regenerates, brews last longer, and water grants breathing. Moderation brings peace.")
+        add("tarot.temperance.reversed.title", "Temperance - Reversed")
+        add("tarot.temperance.reversed.text",
+            "Excess and imbalance reign. Effects feel unstable and unpredictable. Moderation fails.")
+
+// 15. The Devil
+        add("book.witchery.guidebook.tarot.the_devil.name", "The Devil")
+        add("book.witchery.guidebook.tarot.the_devil.description", "Bondage and temptation")
+        add("tarot.the_devil.upright.title", "The Devil - Upright")
+        add("tarot.the_devil.upright.text",
+            "Dark power comes at a cost. Damage increases significantly, but corruption slowly drains life. Power demands sacrifice.")
+        add("tarot.the_devil.reversed.title", "The Devil - Reversed")
+        add("tarot.the_devil.reversed.text",
+            "Breaking free from chains. Harmful effects are periodically cleansed, but experience drains with each purge. Freedom costs dearly.")
+
+// 16. The Tower
+        add("book.witchery.guidebook.tarot.the_tower.name", "The Tower")
+        add("book.witchery.guidebook.tarot.the_tower.description", "Sudden upheaval")
+        add("tarot.the_tower.upright.title", "The Tower - Upright")
+        add("tarot.the_tower.upright.text",
+            "Catastrophic revelation awaits. Baba Yaga may manifest without warning, and breaking blocks occasionally triggers explosive destruction. Chaos incarnate. This card expires upon summoning.")
+        add("tarot.the_tower.reversed.title", "The Tower - Reversed")
+        add("tarot.the_tower.reversed.text",
+            "Fear of change paralyzes. Upheaval never comes, but neither does growth. Stagnation festers.")
+
+// 17. The Star
+        add("book.witchery.guidebook.tarot.the_star.name", "The Star")
+        add("book.witchery.guidebook.tarot.the_star.description", "Hope and guidance")
+        add("tarot.the_star.upright.title", "The Star - Upright")
+        add("tarot.the_star.upright.text",
+            "A guiding light in darkness. Regeneration flows constantly, and each nightfall restores health. Hope illuminates the path.")
+        add("tarot.the_star.reversed.title", "The Star - Reversed")
+        add("tarot.the_star.reversed.text",
+            "Hope fades to despair. Health slowly drains as the light dims. Stars fall from the sky.")
+
+// 18. The Moon
+        add("book.witchery.guidebook.tarot.the_moon.name", "The Moon")
+        add("book.witchery.guidebook.tarot.the_moon.description", "Illusion and the subconscious")
+        add("tarot.the_moon.upright.title", "The Moon - Upright")
+        add("tarot.the_moon.upright.text",
+            "Embrace the shadows. Night vision becomes permanent, mobs lose track of you in darkness, and speed increases at night. The moon blesses its children.")
+        add("tarot.the_moon.reversed.title", "The Moon - Reversed")
+        add("tarot.the_moon.reversed.text",
+            "Illusions cloud your mind. Constant confusion distorts reality. The moon drives its victims mad.")
+
+// 19. The Sun
+        add("book.witchery.guidebook.tarot.the_sun.name", "The Sun")
+        add("book.witchery.guidebook.tarot.the_sun.description", "Vitality and success")
+        add("tarot.the_sun.upright.title", "The Sun - Upright")
+        add("tarot.the_sun.upright.text",
+            "Radiant energy fills you. Each dawn brings full restoration of health and hunger, plus temporary strength. Daylight brings passive healing. The sun's blessing is absolute.")
+        add("tarot.the_sun.reversed.title", "The Sun - Reversed")
+        add("tarot.the_sun.reversed.text",
+            "The sun scorches mercilessly. Daylight burns exposed flesh, setting you aflame under open sky. Shadows become sanctuary.")
+
+// 20. Judgement
+        add("book.witchery.guidebook.tarot.judgement.name", "Judgement")
+        add("book.witchery.guidebook.tarot.judgement.description", "Rebirth and reckoning")
+        add("tarot.judgement.upright.title", "Judgement - Upright")
+        add("tarot.judgement.upright.text",
+            "Rise from the ashes. When death approaches, Judgement may spare you with full regeneration. Kills restore health. Divine mercy is finite—this card expires after saving you.")
+        add("tarot.judgement.reversed.title", "Judgement - Reversed")
+        add("tarot.judgement.reversed.text",
+            "Past sins haunt you. Each kill inflicts damage upon yourself. Blood guilt weighs heavy on the damned.")
+
+// 21. The World
+        add("book.witchery.guidebook.tarot.the_world.name", "The World")
+        add("book.witchery.guidebook.tarot.the_world.description", "Completion and wholeness")
+        add("tarot.the_world.upright.title", "The World - Upright")
+        add("tarot.the_world.upright.text",
+            "Everything in harmony. Speed, mining efficiency, luck, and regeneration all increase. Each dawn brings experience, and blocks occasionally yield bonus drops. Perfection achieved.")
+        add("tarot.the_world.reversed.title", "The World - Reversed")
+        add("tarot.the_world.reversed.text",
+            "Scattered and incomplete. Random debuffs periodically afflict you as harmony fractures. Wholeness eludes your grasp.")
     }
 }

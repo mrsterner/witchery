@@ -142,6 +142,7 @@ class DeathEffect : TarotEffect(14) {
                             .withStyle(ChatFormatting.DARK_RED, ChatFormatting.BOLD),
                         false
                     )
+                    removeCardFromReading(player, this.cardNumber)
                 }
             }
         }

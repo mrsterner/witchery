@@ -1,7 +1,10 @@
 package dev.sterner.witchery.tarot
 
+import dev.sterner.witchery.client.tarot.TarotCardObject
 import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
 import dev.sterner.witchery.registry.WitcheryTarotEffects
+import net.minecraft.ChatFormatting
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity
 import net.neoforged.bus.api.IEventBus
@@ -31,7 +34,7 @@ object TarotEffectEventHandler {
             val cardNumber = data.drawnCards[i]
             val isReversed = data.reversedCards.getOrNull(i) ?: false
 
-            if (cardNumber == 13 && isReversed) {
+            if (cardNumber == WitcheryTarotEffects.THE_HANGED_MAN.get().cardNumber && isReversed) {
                 event.isCanceled = true
 
                 val itemEntity = event.entity
@@ -40,7 +43,10 @@ object TarotEffectEventHandler {
                 } else {
                     itemEntity.discard()
                 }
-
+                player.displayClientMessage(
+                    Component.literal("You cannot let go!").withStyle(ChatFormatting.DARK_RED),
+                    true
+                )
                 return
             }
         }

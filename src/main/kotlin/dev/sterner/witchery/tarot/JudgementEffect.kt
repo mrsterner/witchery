@@ -24,13 +24,16 @@ class JudgementEffect : TarotEffect(21) {
 
     override fun onPlayerHurt(player: Player, source: DamageSource, amount: Float, isReversed: Boolean): Float {
         if (!isReversed && amount >= player.health && player.level() is ServerLevel) {
-            if (player.level().random.nextFloat() < 0.5f) {
+            val level = player.level() as ServerLevel
+
+            // 50% chance to save
+            if (level.random.nextFloat() < 0.5f) {
                 player.health = 1f
                 player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 200, 2))
                 player.addEffect(MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0))
                 player.addEffect(MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 1))
 
-                (player.level() as ServerLevel).sendParticles(
+                level.sendParticles(
                     ParticleTypes.TOTEM_OF_UNDYING,
                     player.x, player.y + 1, player.z,
                     50, 0.5, 0.5, 0.5, 0.5
@@ -41,6 +44,15 @@ class JudgementEffect : TarotEffect(21) {
                     SoundEvents.TOTEM_USE, SoundSource.PLAYERS,
                     1.0f, 1.0f
                 )
+
+                player.displayClientMessage(
+                    Component.literal("Judgement spares you!")
+                        .withStyle(ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD),
+                    false
+                )
+
+                // Remove this card from the reading
+                removeCardFromReading(player, this.cardNumber)
 
                 return 0f
             }
