@@ -15,6 +15,10 @@ abstract class TarotEffect(val cardNumber: Int) {
     abstract fun getDisplayName(isReversed: Boolean): Component
     abstract fun getDescription(isReversed: Boolean): Component
 
+    open fun onAdded(player: Player, isReversed: Boolean) {}
+
+    open fun onRemoved(player: Player, isReversed: Boolean) {}
+
     open fun onTick(player: Player, isReversed: Boolean) {}
 
     open fun onMorning(player: Player, isReversed: Boolean) {}
@@ -44,6 +48,8 @@ abstract class TarotEffect(val cardNumber: Int) {
 
         val index = newCards.indexOf(cardNumber)
         if (index != -1) {
+            val wasReversed = newReversed.getOrNull(index) ?: false
+
             newCards.removeAt(index)
             if (index < newReversed.size) {
                 newReversed.removeAt(index)
@@ -56,6 +62,9 @@ abstract class TarotEffect(val cardNumber: Int) {
             )
 
             TarotPlayerAttachment.setData(player, newData)
+
+            // Trigger onRemoved callback
+            this.onRemoved(player, wasReversed)
         }
     }
 }

@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.payload.SyncTarotS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
+import dev.sterner.witchery.registry.WitcheryTarotEffects
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -23,8 +24,35 @@ object TarotPlayerAttachment {
 
     @JvmStatic
     fun setData(player: Player, data: Data) {
+        val oldData = getData(player)
         player.setData(WitcheryDataAttachments.ARCANA_PLAYER_DATA_ATTACHMENT, data)
         sync(player, data)
+
+        if (player.level() is ServerLevel) {
+            handleCardChanges(player, oldData, data)
+        }
+    }
+
+    private fun handleCardChanges(player: Player, oldData: Data, newData: Data) {
+        for (i in oldData.drawnCards.indices) {
+            val cardNumber = oldData.drawnCards[i]
+            val isReversed = oldData.reversedCards.getOrNull(i) ?: false
+
+            if (!newData.drawnCards.contains(cardNumber)) {
+                val effect = WitcheryTarotEffects.getByCardNumber(cardNumber)
+                effect?.onRemoved(player, isReversed)
+            }
+        }
+
+        for (i in newData.drawnCards.indices) {
+            val cardNumber = newData.drawnCards[i]
+            val isReversed = newData.reversedCards.getOrNull(i) ?: false
+
+            if (!oldData.drawnCards.contains(cardNumber)) {
+                val effect = WitcheryTarotEffects.getByCardNumber(cardNumber)
+                effect?.onAdded(player, isReversed)
+            }
+        }
     }
 
     fun sync(player: Player, data: Data) {

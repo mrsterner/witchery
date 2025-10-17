@@ -24,14 +24,15 @@ class TheSunEffect : TarotEffect(20) {
 
             player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 1200, 1))
             player.addEffect(MobEffectInstance(MobEffects.DAMAGE_BOOST, 1200, 0))
-
-            player.displayClientMessage(
-                Component.literal("The Sun fills you with vitality!").withStyle(ChatFormatting.GOLD),
-                true
-            )
         } else {
             if (player.level().isDay && !player.isInWaterOrBubble && player.level().canSeeSky(player.blockPosition())) {
                 player.igniteForSeconds(1f)
+
+                player.displayClientMessage(
+                    Component.literal("Sun is too harsh today")
+                        .withStyle(ChatFormatting.DARK_RED, ChatFormatting.BOLD),
+                    false
+                )
             }
         }
     }

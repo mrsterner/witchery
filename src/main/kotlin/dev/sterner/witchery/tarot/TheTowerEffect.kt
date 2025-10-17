@@ -46,7 +46,7 @@ class TheTowerEffect : TarotEffect(17) {
                     level.addFreshEntity(it)
 
                     player.displayClientMessage(
-                        Component.literal("The Tower crumbles! Baba Yaga approaches!")
+                        Component.literal("The Tower crumbles! Baba Yaga approaches")
                             .withStyle(ChatFormatting.DARK_RED, ChatFormatting.BOLD),
                         false
                     )

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.tarot
 
+import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
@@ -20,6 +21,11 @@ class TheFoolEffect : TarotEffect(1) {
         if (isReversed) {
             if (player.level().random.nextFloat() < 0.0001f && player.onGround()) {
                 player.hurt(player.damageSources().fall(), 1f)
+                player.displayClientMessage(
+                    Component.literal("Turning your ankle at a small stone, fool!")
+                        .withStyle(ChatFormatting.DARK_RED, ChatFormatting.BOLD),
+                    false
+                )
             }
         } else {
             if (player.level().random.nextFloat() < 0.0005f) {

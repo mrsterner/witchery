@@ -26,7 +26,6 @@ class JudgementEffect : TarotEffect(21) {
         if (!isReversed && amount >= player.health && player.level() is ServerLevel) {
             val level = player.level() as ServerLevel
 
-            // 50% chance to save
             if (level.random.nextFloat() < 0.5f) {
                 player.health = 1f
                 player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 200, 2))
@@ -51,7 +50,6 @@ class JudgementEffect : TarotEffect(21) {
                     false
                 )
 
-                // Remove this card from the reading
                 removeCardFromReading(player, this.cardNumber)
 
                 return 0f

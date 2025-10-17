@@ -31,7 +31,7 @@ class TemperanceEffect : TarotEffect(15) {
         if (!isReversed && item.item is PotionItem || item.item is BrewItem) {
             //TODO Potion effects last longer
             player.displayClientMessage(
-                Component.literal("Temperance extends your brew's duration").withStyle(ChatFormatting.AQUA),
+                Component.literal("Not implemented yet :(").withStyle(ChatFormatting.AQUA),
                 true
             )
         }

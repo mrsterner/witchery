@@ -23,8 +23,8 @@ class TheStarEffect : TarotEffect(18) {
                 player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 400, 0, true, false))
             }
         } else {
-            if (player.level().gameTime % 300 == 0L && player.health > 1f) {
-                player.hurt(player.damageSources().starve(), 1f)
+            if (player.level().gameTime % 100 == 0L) {
+                player.causeFoodExhaustion(0.5f)
             }
         }
     }
