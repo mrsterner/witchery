@@ -6,6 +6,7 @@ import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.entity.*
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
 import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.tarot.TarotEffectEventHandler
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.animal.Pig
 import net.neoforged.bus.api.IEventBus
@@ -50,10 +51,13 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         WitcheryRitualRegistry.register(modEventBus)
         WitcherySounds.SOUNDS.register(modEventBus)
         WitcherySpecialPotionEffects.register(modEventBus)
+        WitcheryTarotEffects.register(modEventBus)
 
         WitcheryPageRendererRegistry.register()
 
         NeoForge.EVENT_BUS.register(WitcheryNeoForgeEvents)
+        NeoForge.EVENT_BUS.register(TarotEffectEventHandler)
+
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC)
     }
 

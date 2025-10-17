@@ -310,6 +310,30 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     }
 
     companion object {
+
+        fun getClosestAltar(level: ServerLevel, pos: BlockPos, radius: Int): AltarBlockEntity? {
+            var closestAltar: AltarBlockEntity? = null
+            var closestDistance = Double.MAX_VALUE
+
+            for (x in -radius..radius) {
+                for (y in -radius..radius) {
+                    for (z in -radius..radius) {
+                        val checkPos = pos.offset(x, y, z)
+                        val be = level.getBlockEntity(checkPos)
+                        if (be is AltarBlockEntity) {
+                            val distance = pos.distSqr(checkPos)
+                            if (distance < closestDistance) {
+                                closestDistance = distance
+                                closestAltar = be
+                            }
+                        }
+                    }
+                }
+            }
+
+            return closestAltar
+        }
+
         private fun findNearbyAltars(level: Level, pos: BlockPos): List<BlockPos> {
             val radius = 32
             val altars = mutableListOf<BlockPos>()

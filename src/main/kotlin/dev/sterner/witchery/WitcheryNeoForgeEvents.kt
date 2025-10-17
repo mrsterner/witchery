@@ -45,6 +45,7 @@ import dev.sterner.witchery.registry.WitcheryCommands
 import dev.sterner.witchery.registry.WitcheryLootInjects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import dev.sterner.witchery.registry.WitcheryStructureInjects
+import dev.sterner.witchery.registry.WitcheryTarotEffects
 import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -460,9 +461,32 @@ object WitcheryNeoForgeEvents {
                 val fullDays = level.dayTime / 24000L
                 val newTime = (fullDays * 24000L) + 13000L
                 event.setTimeAddition(newTime)
+
+                triggerTarotEffectsForAllPlayers(level, isNightfall = true)
+            } else {
+                triggerTarotEffectsForAllPlayers(level, isNightfall = false)
             }
         }
     }
 
+    private fun triggerTarotEffectsForAllPlayers(level: ServerLevel, isNightfall: Boolean) {
+        for (player in level.players()) {
+            if (player !is ServerPlayer) continue
 
+            val data = TarotPlayerAttachment.getData(player)
+            if (data.drawnCards.isEmpty()) continue
+
+            for (i in data.drawnCards.indices) {
+                val cardNumber = data.drawnCards[i]
+                val isReversed = data.reversedCards.getOrNull(i) ?: false
+                val effect = WitcheryTarotEffects.getByCardNumber(cardNumber)
+
+                if (isNightfall) {
+                    effect?.onNightfall(player, isReversed)
+                } else {
+                    effect?.onMorning(player, isReversed)
+                }
+            }
+        }
+    }
 }

@@ -1,0 +1,39 @@
+package dev.sterner.witchery.tarot
+
+import net.minecraft.network.chat.Component
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.player.Player
+
+class TheFoolEffect : TarotEffect(1) {
+
+    override fun getDisplayName(isReversed: Boolean) = Component.literal(
+        if (isReversed) "The Fool (Reversed)" else "The Fool"
+    )
+
+    override fun getDescription(isReversed: Boolean) = Component.literal(
+        if (isReversed) "Recklessness brings misfortune" else "Fortune favors the bold"
+    )
+
+    override fun onTick(player: Player, isReversed: Boolean) {
+        if (isReversed) {
+            if (player.level().random.nextFloat() < 0.0001f && player.onGround()) {
+                player.hurt(player.damageSources().fall(), 1f)
+            }
+        } else {
+            if (player.level().random.nextFloat() < 0.0005f) {
+                val effects = listOf(
+                    MobEffects.MOVEMENT_SPEED,
+                    MobEffects.JUMP,
+                    MobEffects.LUCK
+                )
+                player.addEffect(MobEffectInstance(effects.random(), 200, 0))
+            }
+        }
+    }
+
+    override fun onPlayerHurt(player: Player, source: DamageSource, amount: Float, isReversed: Boolean): Float {
+        return if (isReversed) amount * 1.2f else amount * 0.9f
+    }
+}

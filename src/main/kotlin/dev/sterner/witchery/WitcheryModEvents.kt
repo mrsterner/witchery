@@ -21,6 +21,7 @@ object WitcheryModEvents {
         event.register(WitcheryRitualRegistry.RITUAL_REGISTRY)
         event.register(WitcherySpecialPotionEffects.SPECIAL_REGISTRY)
         event.register(WitcheryFetishEffects.FETISH_REGISTRY)
+        event.register(WitcheryTarotEffects.TAROT_REGISTRY)
     }
 
     @SubscribeEvent
