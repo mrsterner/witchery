@@ -37,17 +37,18 @@ object TarotPlayerAttachment {
     }
 
     fun serverTick(player: Player) {
-
         if (player.level() is ServerLevel) {
             val level = player.level()
             val data = getData(player)
 
             if (data.drawnCards.isNotEmpty() && level.gameTime - data.readingTimestamp >= THREE_DAYS) {
-                data.drawnCards = emptyList()
-                data.reversedCards = emptyList()
-                data.readingTimestamp = 0L
+                val newData = Data(
+                    drawnCards = emptyList(),
+                    reversedCards = emptyList(),
+                    readingTimestamp = 0L
+                )
 
-                setData(player, data)
+                setData(player, newData)
 
                 player.displayClientMessage(
                     Component.literal("Your tarot reading has faded with time.")
@@ -59,7 +60,7 @@ object TarotPlayerAttachment {
     }
 
 
-    class Data(
+    data class Data(
         var drawnCards: List<Int> = emptyList(),
         var reversedCards: List<Boolean> = emptyList(),
         var readingTimestamp: Long = 0L

@@ -2,7 +2,9 @@ package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
+import net.minecraft.ChatFormatting
 import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.Component
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.server.level.ServerPlayer
@@ -25,10 +27,11 @@ class LockInTarotCardsC2SPayload(val cardNumbers: List<Int>, val reversedStates:
     fun handleOnServer(ctx: IPayloadContext) {
         val player = ctx.player() as? ServerPlayer ?: return
 
-        val data = TarotPlayerAttachment.getData(player)
-        data.drawnCards = cardNumbers
-        data.reversedCards = reversedStates
-        data.readingTimestamp = player.serverLevel().gameTime
+        val data = TarotPlayerAttachment.Data(
+            drawnCards = cardNumbers,
+            reversedCards = reversedStates,
+            readingTimestamp = player.serverLevel().gameTime
+        )
 
         TarotPlayerAttachment.setData(player, data)
     }

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.client.arcana
+package dev.sterner.witchery.client.tarot
 
 data class TarotCardObject(
     val cardNumber: Int,

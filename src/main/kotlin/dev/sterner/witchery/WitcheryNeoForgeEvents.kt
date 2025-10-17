@@ -309,6 +309,11 @@ object WitcheryNeoForgeEvents {
 
             InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.entity))
         }
+        val player = event.entity
+        if (player is ServerPlayer) {
+            val data = TarotPlayerAttachment.getData(player)
+            TarotPlayerAttachment.sync(player, data)
+        }
     }
 
 

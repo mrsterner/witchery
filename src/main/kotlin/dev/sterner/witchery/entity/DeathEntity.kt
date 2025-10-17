@@ -1,5 +1,6 @@
 package dev.sterner.witchery.entity
 
+import dev.sterner.witchery.entity.goal.PrioritizeSetTargetGoal
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.server.level.ServerLevel
@@ -30,6 +31,7 @@ import kotlin.math.sin
 class DeathEntity(level: Level) : Monster(WitcheryEntityTypes.DEATH.get(), level) {
 
     private var teleportCooldown = 0
+    var hasForcedTarget: Boolean = false
 
     override fun registerGoals() {
         super.registerGoals()
@@ -38,8 +40,14 @@ class DeathEntity(level: Level) : Monster(WitcheryEntityTypes.DEATH.get(), level
         goalSelector.addGoal(2, WaterAvoidingRandomStrollGoal(this, 1.0))
         goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, 8.0f))
 
+        targetSelector.addGoal(0, PrioritizeSetTargetGoal(this, 400))
         targetSelector.addGoal(1, HurtByTargetGoal(this))
         targetSelector.addGoal(2, NearestAttackableTargetGoal(this, Player::class.java, true))
+    }
+
+    fun setForcedTarget(target: LivingEntity) {
+        this.target = target
+        this.hasForcedTarget = true
     }
 
     override fun finalizeSpawn(

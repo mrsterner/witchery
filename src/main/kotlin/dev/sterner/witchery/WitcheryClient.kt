@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.client.tooltip.BloodPoolComponent
 import dev.sterner.witchery.block.phylactery.PhylacteryBlock
+import dev.sterner.witchery.client.OreHighlightRenderer
 import dev.sterner.witchery.client.UrnPotionSelectionHandler
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
@@ -24,6 +25,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
+import dev.sterner.witchery.client.tarot.TarotCardHudRenderer
 import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
 import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.ManifestationHandler
@@ -105,6 +107,19 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         NeoForge.EVENT_BUS.addListener(::onMouseScrolled)
         NeoForge.EVENT_BUS.addListener(::onRenderHud)
         NeoForge.EVENT_BUS.addListener(::onClientTick)
+        NeoForge.EVENT_BUS.addListener(::onRenderLevel)
+        NeoForge.EVENT_BUS.register(TarotCardHudRenderer)
+    }
+
+
+    fun onRenderLevel(event: RenderLevelStageEvent) {
+        if (event.stage == RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
+            OreHighlightRenderer.renderOreHighlights(
+                event.poseStack,
+                event.camera,
+                event.partialTick.gameTimeDeltaTicks
+            )
+        }
     }
 
     fun onRegisterItemColors(event: RegisterColorHandlersEvent.Item) {
@@ -204,6 +219,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             }
         }
         UrnPotionSelectionHandler.tick(Minecraft.getInstance())
+        OreHighlightRenderer.tick()
     }
 
     private fun bindContainerRenderers(event: RegisterMenuScreensEvent) {

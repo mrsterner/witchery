@@ -2,11 +2,14 @@ package dev.sterner.witchery.tarot
 
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.item.brew.BrewItem
+import dev.sterner.witchery.item.brew.ThrowableBrewItem
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import java.util.UUID
 
 class TheMagicianEffect : TarotEffect(2) {
 
@@ -39,13 +42,29 @@ class TheMagicianEffect : TarotEffect(2) {
     }
 
     override fun onItemUse(player: Player, item: ItemStack, isReversed: Boolean) {
-        if (!isReversed && item.item is BrewItem) {
+        if (!isReversed && (item.item is BrewItem || item.item is ThrowableBrewItem)) {
             if (player.level().random.nextFloat() < 0.2f) {
-                //TODO dont consume brew
-                player.displayClientMessage(
-                    Component.literal("Not implemented yet").withStyle(ChatFormatting.LIGHT_PURPLE),
-                    true
-                )
+                if (player is ServerPlayer) {
+                    TheMagicianBrewReturn.scheduleReturn(player, item.copy())
+                }
+            }
+        }
+    }
+
+    object TheMagicianBrewReturn {
+        private val scheduledReturns = mutableMapOf<UUID, ItemStack>()
+
+        fun scheduleReturn(player: ServerPlayer, item: ItemStack) {
+            scheduledReturns[player.uuid] = item
+        }
+
+        fun tick(player: Player) {
+            if (player is ServerPlayer) {
+                val item = scheduledReturns.remove(player.uuid) ?: return
+
+                if (!player.inventory.add(item)) {
+                    player.drop(item, false)
+                }
             }
         }
     }

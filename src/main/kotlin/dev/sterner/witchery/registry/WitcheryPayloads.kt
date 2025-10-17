@@ -60,7 +60,12 @@ object WitcheryPayloads {
         ) { payload, _ ->
             payload.handleOnClient()
         }
-
+        registrar.playToClient(
+            HighlightOresS2CPayload.ID,
+            HighlightOresS2CPayload.STREAM_CODEC
+        ) { payload, context ->
+            payload.handleOnClient()
+        }
         registrar.playToClient(SyncUnderWaterS2CPayload.ID, SyncUnderWaterS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
@@ -112,8 +117,20 @@ object WitcheryPayloads {
         registrar.playToClient(SyncCurseS2CPayload.ID, SyncCurseS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
-        registrar.playToClient(SyncTarotS2CPayload.ID, SyncTarotS2CPayload.STREAM_CODEC) { payload, _ ->
+        registrar.playToClient(
+            SyncTarotS2CPayload.ID,
+            SyncTarotS2CPayload.STREAM_CODEC
+        ) { payload, context ->
             payload.handleOnClient()
+        }
+
+        registrar.playToServer(
+            LockInTarotCardsC2SPayload.ID,
+            LockInTarotCardsC2SPayload.STREAM_CODEC
+        ) { payload, context ->
+            context.enqueueWork {
+                payload.handleOnServer(context)
+            }
         }
         registrar.playToClient(SyncCorruptPoppetS2CPayload.ID, SyncCorruptPoppetS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
@@ -239,12 +256,6 @@ object WitcheryPayloads {
         registrar.playToServer(
             GrantWitcheryAdvancementsC2SPayload.ID,
             GrantWitcheryAdvancementsC2SPayload.STREAM_CODEC
-        ) { payload, ctx ->
-            payload.handleOnServer(ctx)
-        }
-        registrar.playToServer(
-            LockInTarotCardsC2SPayload.ID,
-            LockInTarotCardsC2SPayload.STREAM_CODEC
         ) { payload, ctx ->
             payload.handleOnServer(ctx)
         }

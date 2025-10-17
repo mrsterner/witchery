@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.neoforge.event.entity.item.ItemTossEvent
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent
@@ -19,6 +20,32 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent
 object TarotEffectEventHandler {
 
     private var lastDayTime = 0L
+
+    @SubscribeEvent
+    fun onItemToss(event: ItemTossEvent) {
+        val player = event.player
+        val data = TarotPlayerAttachment.getData(player)
+        if (data.drawnCards.isEmpty()) return
+
+        for (i in data.drawnCards.indices) {
+            val cardNumber = data.drawnCards[i]
+            val isReversed = data.reversedCards.getOrNull(i) ?: false
+
+            if (cardNumber == 13 && isReversed) {
+                event.isCanceled = true
+
+                val itemEntity = event.entity
+                if (!player.inventory.add(itemEntity.item.copy())) {
+                    itemEntity.discard()
+                } else {
+                    itemEntity.discard()
+                }
+
+                return
+            }
+        }
+    }
+
     @SubscribeEvent
     fun onPlayerTick(event: PlayerTickEvent.Post) {
         val player = event.entity
@@ -26,6 +53,8 @@ object TarotEffectEventHandler {
 
         val data = TarotPlayerAttachment.getData(player)
         if (data.drawnCards.isEmpty()) return
+
+        TheMagicianEffect.TheMagicianBrewReturn.tick(player)
 
         for (i in data.drawnCards.indices) {
             val cardNumber = data.drawnCards[i]

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.client.arcana
+package dev.sterner.witchery.client.tarot
 
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.math.Axis
