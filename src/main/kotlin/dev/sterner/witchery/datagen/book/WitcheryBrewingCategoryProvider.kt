@@ -26,7 +26,7 @@ class WitcheryBrewingCategoryProvider(
             "____________________________________",
             "____________________________________",
             "____________________________________",
-            "________ui__________________________",
+            "________ui3_________________________",
             "_______y____________________________",
             "______1_______________p_____________",
             "______e__t__h___c___j__n____________",
@@ -161,6 +161,11 @@ class WitcheryBrewingCategoryProvider(
             .generate("e")
             .requiresAndFollows(brewsIntro)
         addEntry(depths)
+
+        val oblivion = BrewEntryProvider(WitcheryItems.BREW_OF_OBLIVION.get(), "brew_of_oblivion", this)
+            .generate("3")
+            .requiresAndFollows(brewsIntro)
+        addEntry(oblivion)
 
         val ink = BrewEntryProvider(WitcheryItems.BREW_OF_INK.get(), "brew_of_ink", this)
             .generate("i")

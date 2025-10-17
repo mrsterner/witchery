@@ -21,24 +21,26 @@ class TarotDeckItem(properties: Properties) : Item(properties) {
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(usedHand)
 
-        if (!level.isClientSide && player is ServerPlayer && WitcheryApi.isWitchy(player)) {
-            val data = TarotPlayerAttachment.getData(player)
-            if (data.drawnCards.isEmpty()) {
-                PacketDistributor.sendToPlayer(player, OpenTarotScreenS2CPayload())
+        if (!level.isClientSide && player is ServerPlayer) {
+            if (WitcheryApi.isWitchy(player)) {
+                val data = TarotPlayerAttachment.getData(player)
+                if (data.drawnCards.isEmpty()) {
+                    PacketDistributor.sendToPlayer(player, OpenTarotScreenS2CPayload())
+                } else {
+                    player.displayClientMessage(
+                        Component.literal("Your fortune this week has already been decided.")
+                            .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC),
+                        true
+                    )
+
+                }
             } else {
                 player.displayClientMessage(
-                    Component.literal("Your fortune this week has already been decided.")
+                    Component.literal("You don't know how to use this.")
                         .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC),
                     true
                 )
-
             }
-        } else {
-            player.displayClientMessage(
-                Component.literal("You don't know how to use this.")
-                    .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC),
-                true
-            )
         }
 
         return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide)

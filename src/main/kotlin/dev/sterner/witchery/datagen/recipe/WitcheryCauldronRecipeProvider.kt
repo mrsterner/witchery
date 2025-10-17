@@ -123,6 +123,16 @@ object WitcheryCauldronRecipeProvider {
             .save(exporter, Witchery.id("brew_of_the_depths"))
 
         CauldronBrewingRecipeBuilder.create()
+            .addInputWithColor(Items.SUGAR, Color(230, 230, 230).rgb)
+            .addInputWithColor(WitcheryItems.BREATH_OF_THE_GODDESS.get(), Color(200, 220, 255).rgb)
+            .addInputWithColor(Items.GLOW_INK_SAC, Color(80, 180, 170).rgb)
+            .addInputWithColor(WitcheryItems.ENDER_DEW.get(), Color(20, 120, 120).rgb)
+            .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get(), Color(180, 140, 200).rgb)
+            .setOutput(WitcheryItems.BREW_OF_OBLIVION.get())
+            .setAltarPower(250)
+            .save(exporter, Witchery.id("brew_of_oblivion"))
+
+        CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.SPECTRAL_DUST.get(), Color(90, 160, 150).rgb)
             .addInputWithColor(Items.SOUL_SAND, Color(85, 65, 50).rgb)
             .addInputWithColor(Items.PHANTOM_MEMBRANE, Color(140, 120, 180).rgb)

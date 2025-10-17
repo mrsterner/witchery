@@ -45,7 +45,6 @@ object TarotPlayerAttachment {
             if (data.drawnCards.isNotEmpty() && level.gameTime - data.readingTimestamp >= THREE_DAYS) {
                 data.drawnCards = emptyList()
                 data.reversedCards = emptyList()
-                data.cardEffectsActive = false
                 data.readingTimestamp = 0L
 
                 setData(player, data)
@@ -63,7 +62,6 @@ object TarotPlayerAttachment {
     class Data(
         var drawnCards: List<Int> = emptyList(),
         var reversedCards: List<Boolean> = emptyList(),
-        var cardEffectsActive: Boolean = false,
         var readingTimestamp: Long = 0L
     ) {
         companion object {
@@ -71,7 +69,6 @@ object TarotPlayerAttachment {
                 instance.group(
                     Codec.INT.listOf().fieldOf("drawnCards").forGetter { it.drawnCards },
                     Codec.BOOL.listOf().fieldOf("reversedCards").forGetter { it.reversedCards },
-                    Codec.BOOL.fieldOf("cardEffectsActive").forGetter { it.cardEffectsActive },
                     Codec.LONG.fieldOf("readingTimestamp").forGetter { it.readingTimestamp }
                 ).apply(instance, ::Data)
             }

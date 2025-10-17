@@ -226,6 +226,7 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.BREW_OF_EROSION.get())
                     output.accept(WitcheryItems.BREW_OF_WEBS.get())
                     output.accept(WitcheryItems.BREW_OF_THE_DEPTHS.get())
+                    output.accept(WitcheryItems.BREW_OF_OBLIVION.get())
                     output.accept(WitcheryItems.BREW_OF_SOUL_SEVERANCE.get())
                     output.accept(WitcheryItems.BREW_OF_WASTING.get())
                     output.accept(WitcheryItems.BREW_OF_FROST.get())

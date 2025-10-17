@@ -1306,6 +1306,14 @@ object WitcheryBookLangProvider {
             "Use in dark rituals to bind or manipulate spirits."
         )
 
+        add("book.witchery.guidebook.brewing.brew_of_oblivion.name", "Brew of Oblivion")
+        add("book.witchery.guidebook.brewing.brew_of_oblivion.description", "Erase the mind and soul alike.")
+        add("brewing.brew_of_oblivion.title.1", "Brew of Oblivion")
+        add("brewing.brew_of_oblivion", "Brew of Oblivion")
+        add(
+            "brewing.brew_of_oblivion.page.1",
+            "A draught that devours memory itself. Those touched by it forget all bonds, duties, and grudges—left hollow, wandering in mental fog. Even the wisest will find their minds unmade."
+        )
 
     }
 }
