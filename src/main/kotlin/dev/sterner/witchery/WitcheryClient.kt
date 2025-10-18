@@ -5,6 +5,7 @@ import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.client.tooltip.BloodPoolComponent
 import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.client.OreHighlightRenderer
+import dev.sterner.witchery.client.TabletGazeTracker
 import dev.sterner.witchery.client.UrnPotionSelectionHandler
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
@@ -220,6 +221,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         }
         UrnPotionSelectionHandler.tick(Minecraft.getInstance())
         OreHighlightRenderer.tick()
+        TabletGazeTracker.tick()
     }
 
     private fun bindContainerRenderers(event: RegisterMenuScreensEvent) {

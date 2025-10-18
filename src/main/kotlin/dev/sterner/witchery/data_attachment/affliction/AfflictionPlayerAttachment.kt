@@ -331,9 +331,14 @@ object AfflictionPlayerAttachment {
             return lichData.phylacteryDeathTimes.count { it > oneNightAgo }
         }
 
-        fun addReadTablet(tabletId: UUID): Data = copy(
-            lichData = lichData.copy(readTablets = lichData.readTablets + tabletId)
-        )
+        fun addReadTablet(tabletId: UUID): Data {
+            if (lichData.readTablets.contains(tabletId)) {
+                return this
+            }
+            return copy(
+                lichData = lichData.copy(readTablets = lichData.readTablets + tabletId)
+            )
+        }
 
         fun withReadTablets(list: List<UUID>): Data = copy(lichData = lichData.copy(readTablets = list))
         fun withGolemKills(count: Int): Data = copy(lichData = lichData.copy(killedGolems = count))

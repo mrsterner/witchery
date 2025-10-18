@@ -7,6 +7,7 @@ import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import java.util.*
 
@@ -17,6 +18,14 @@ class AncientTabletBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     fun getTabletId(): UUID {
         return tabletId
+    }
+
+    override fun tick(
+        level: Level,
+        pos: BlockPos,
+        blockState: BlockState
+    ) {
+        super.tick(level, pos, blockState)
     }
 
     override fun saveAdditional(

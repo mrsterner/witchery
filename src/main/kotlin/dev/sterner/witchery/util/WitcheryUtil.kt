@@ -1,6 +1,9 @@
 package dev.sterner.witchery.util
 
 import net.minecraft.core.Direction
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.PlayerAdvancements
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -10,6 +13,41 @@ import net.minecraft.world.phys.shapes.VoxelShape
 
 
 object WitcheryUtil {
+
+    fun hasAdvancement(serverPlayer: ServerPlayer, advancementResourceLocation: ResourceLocation): Boolean {
+        if (serverPlayer.getServer() == null) {
+            return false
+        }
+
+        val manager = serverPlayer.server.advancements
+        val tracker: PlayerAdvancements = serverPlayer.advancements
+
+        val advancement = manager.get(advancementResourceLocation)
+        if (advancement != null) {
+            return tracker.getOrStartProgress(advancement).isDone
+        }
+
+        return false
+    }
+
+    fun grantAdvancementCriterion(
+        serverPlayer: ServerPlayer,
+        advancementResourceLocation: ResourceLocation,
+        criterion: String
+    ) {
+        if (serverPlayer.getServer() == null) {
+            return
+        }
+        val manager = serverPlayer.server.advancements
+        val tracker: PlayerAdvancements = serverPlayer.advancements
+
+        val advancement = manager.get(advancementResourceLocation)
+        if (advancement != null) {
+            if (!tracker.getOrStartProgress(advancement).isDone) {
+                tracker.award(advancement, criterion)
+            }
+        }
+    }
 
     fun rotateShape(from: Direction, to: Direction, shape: VoxelShape): VoxelShape {
         val buffer = arrayOf<VoxelShape>(shape, Shapes.empty())

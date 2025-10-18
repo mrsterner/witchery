@@ -2,6 +2,7 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.payload.*
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
+import net.neoforged.neoforge.network.handling.IPayloadContext
 
 object WitcheryPayloads {
 
@@ -127,6 +128,15 @@ object WitcheryPayloads {
         registrar.playToServer(
             LockInTarotCardsC2SPayload.ID,
             LockInTarotCardsC2SPayload.STREAM_CODEC
+        ) { payload, context ->
+            context.enqueueWork {
+                payload.handleOnServer(context)
+            }
+        }
+
+        registrar.playToServer(
+            ReadTabletC2SPayload.ID,
+            ReadTabletC2SPayload.STREAM_CODEC
         ) { payload, context ->
             context.enqueueWork {
                 payload.handleOnServer(context)

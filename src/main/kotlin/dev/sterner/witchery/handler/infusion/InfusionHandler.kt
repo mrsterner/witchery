@@ -13,10 +13,6 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 
-/**
- * Utility class for handling actions related to player infusions and interactions.
- * Provides functionality to manage infusion-specific behaviors based on player actions such as right-clicking or left-clicking entities and blocks.
- */
 object InfusionHandler {
 
     private val infusionMeter = Witchery.id("textures/gui/infusion_meter.png")

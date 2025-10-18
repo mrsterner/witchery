@@ -11,6 +11,7 @@ import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
+import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -146,7 +147,7 @@ object VampireLeveling {
         }
 
         val requiredAdvancement = LEVEL_REQUIREMENTS[targetLevel]?.advancement ?: return false
-        return TornPageItem.hasAdvancement(player, requiredAdvancement)
+        return WitcheryUtil.hasAdvancement(player, requiredAdvancement)
     }
 
     // ==========================================
@@ -414,7 +415,7 @@ object VampireLeveling {
 
         val requirement = LEVEL_REQUIREMENTS[targetLevel] ?: return false
 
-        return (requirement.advancement.let { TornPageItem.hasAdvancement(player, it) } &&
+        return (requirement.advancement.let { WitcheryUtil.hasAdvancement(player, it) } &&
                 (requirement.halfVillagers?.let { data.getVillagersHalfBlood().size >= it } ?: true) &&
                 (requirement.nightCounter?.let { data.getNightTicker() >= it && player.level().isNight } ?: true) &&
                 (requirement.sunGrenades?.let { data.getUsedSunGrenades() >= it } ?: true) &&

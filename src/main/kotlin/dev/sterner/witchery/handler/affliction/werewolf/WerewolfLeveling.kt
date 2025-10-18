@@ -11,6 +11,7 @@ import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.item.TornPageItem
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
+import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -119,10 +120,10 @@ object WerewolfLeveling {
         }
 
         val requiredAdvancement = LEVEL_REQUIREMENTS[targetLevel]?.advancement ?: return false
-        return TornPageItem.Companion.hasAdvancement(
+        return WitcheryUtil.hasAdvancement(
             player,
             requiredAdvancement
-        ) //Nothing to do with the actual TornPage
+        )
     }
 
     //To go from Level 8 -> 9
