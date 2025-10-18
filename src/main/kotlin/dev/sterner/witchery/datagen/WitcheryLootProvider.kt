@@ -187,7 +187,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
                         it != WitcheryBlocks.GOLDEN_CHALK_BLOCK.get() &&
                         it != WitcheryBlocks.WISPY_COTTON.get() &&
                         it != WitcheryBlocks.SPIRIT_PORTAL.get() &&
-                        it != WitcheryBlocks.ANCIENT_SLATE.get() &&
+                        it != WitcheryBlocks.ANCIENT_TABLET.get() &&
                         it != WitcheryBlocks.DISTURBED_COTTON.get() &&
                         it != WitcheryBlocks.POPPET.get() &&
                         it != WitcheryBlocks.MUSHROOM_LOG.get() &&

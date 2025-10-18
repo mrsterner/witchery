@@ -296,7 +296,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         )
         event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(AncientTabletBlockEntityWithoutLevelRenderer()),
-            WitcheryItems.STONE_TABLET.get()
+            WitcheryItems.ANCIENT_TABLET.get()
         )
         event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()),
@@ -624,7 +624,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryBlocks.EFFIGY_COMPONENT,
             WitcheryBlocks.CRITTER_SNARE,
             WitcheryBlocks.SOUL_CAGE,
-            WitcheryBlocks.ANCIENT_SLATE,
+            WitcheryBlocks.ANCIENT_TABLET,
             WitcheryBlocks.ANCIENT_TABLET_COMPONENT,
             WitcheryBlocks.MUSHROOM_LOG
         )

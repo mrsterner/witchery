@@ -6,9 +6,11 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionType
 import dev.sterner.witchery.util.WitcheryUtil
+import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.Component
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.server.level.ServerPlayer
@@ -29,6 +31,10 @@ data class ReadTabletC2SPayload(
     fun handleOnServer(ctx: IPayloadContext) {
         val player = ctx.player() as? ServerPlayer ?: return
         val level = player.serverLevel()
+
+        if (!WitcheryUtil.hasAdvancement(player, Witchery.id("necro/1"))) {
+            return
+        }
 
         val infusion = InfusionPlayerAttachment.getPlayerInfusion(player)
         if (infusion.type != InfusionType.NECRO) {
@@ -70,15 +76,21 @@ data class ReadTabletC2SPayload(
             1.0f,
             0.5f
         )
+
+        player.displayClientMessage(
+            Component.literal("Ancient knowledge floods your mind... ($tabletCount/$MAX_TABLETS)")
+                .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC),
+            true
+        )
     }
 
     companion object {
         const val MAX_TABLETS = 3
 
         val ADVANCEMENT_LOCATIONS = listOf(
-            Witchery.id("necro/1"),
             Witchery.id("necro/2"),
-            Witchery.id("necro/3")
+            Witchery.id("necro/3"),
+            Witchery.id("necro/4")
         )
         val ID: CustomPacketPayload.Type<ReadTabletC2SPayload> =
             CustomPacketPayload.Type(Witchery.id("read_tablet"))

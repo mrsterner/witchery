@@ -211,7 +211,7 @@ object WitcheryBlocks {
 
     val ANCIENT_TABLET_COMPONENT = register("ancient_tablet_component") {
         AncientTableCompanionBlock(
-            Properties.ofFullCopy(Blocks.STONE)
+            Properties.ofFullCopy(Blocks.OBSIDIAN)
                 .sound(SoundType.STONE)
         )
     }
@@ -1077,8 +1077,8 @@ object WitcheryBlocks {
         SoulCageBlock(Properties.of().noOcclusion())
     }
 
-    val ANCIENT_SLATE = register("ancient_slate") {
-        AncientTabletBlock(Properties.of().noOcclusion())
+    val ANCIENT_TABLET = register("ancient_tablet") {
+        AncientTabletBlock(Properties.ofFullCopy(Blocks.OBSIDIAN).noOcclusion())
     }
 
     val PHYLACTERY = register("phylactery") {

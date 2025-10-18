@@ -70,6 +70,7 @@ class WitcheryAdvancementProvider(
             val necro1 = makeNecroRuinPageAdvancement("1", null, consumer)
             val necro2 = makeNecroRuinPageAdvancement("2", necro1, consumer)
             val necro3 = makeNecroRuinPageAdvancement("3", necro2, consumer)
+            makeNecroRuinPageAdvancement("4", necro3, consumer)
         }
     }
 

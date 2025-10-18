@@ -480,8 +480,8 @@ object WitcheryItems {
         MultiBlockItem(WitcheryBlocks.ALTAR.get(), Item.Properties(), AltarBlock.STRUCTURE)
     }
 
-    val STONE_TABLET = register("ancient_tablet") {
-        MultiBlockItem(WitcheryBlocks.ANCIENT_SLATE.get(), Item.Properties(), AncientTabletBlock.STRUCTURE)
+    val ANCIENT_TABLET = register("ancient_tablet") {
+        MultiBlockItem(WitcheryBlocks.ANCIENT_TABLET.get(), Item.Properties(), AncientTabletBlock.STRUCTURE)
     }
 
     val CAULDRON = register("cauldron") {

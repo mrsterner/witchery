@@ -261,7 +261,7 @@ object WitcheryBlockEntityTypes {
     }
 
     val ANCIENT_SLATE = reg("ancient_slate") {
-        BlockEntityType.Builder.of(::AncientTabletBlockEntity, WitcheryBlocks.ANCIENT_SLATE.get()).build(null)
+        BlockEntityType.Builder.of(::AncientTabletBlockEntity, WitcheryBlocks.ANCIENT_TABLET.get()).build(null)
     }
 
     val PHYLACTERY = reg("phylactery") {

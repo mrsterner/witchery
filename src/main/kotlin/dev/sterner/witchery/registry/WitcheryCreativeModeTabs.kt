@@ -178,6 +178,7 @@ object WitcheryCreativeModeTabs {
                     output.accept(wineVamp)
                     output.accept { WitcheryItems.BLOOD_CRUCIBLE.get() }
 
+                    output.accept(WitcheryItems.ANCIENT_TABLET.get())
                     output.accept(WitcheryItems.GRAVESTONE.get())
                     output.accept(WitcheryItems.SUSPICIOUS_GRAVEYARD_DIRT.get())
                     output.accept(WitcheryItems.TORN_PAGE.get())
