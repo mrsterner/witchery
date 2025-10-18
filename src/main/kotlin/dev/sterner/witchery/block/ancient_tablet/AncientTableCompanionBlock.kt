@@ -21,7 +21,7 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
 class AncientTableCompanionBlock(properties: Properties) :
-    MultiBlockComponentBlock(properties.noOcclusion().noCollission()) {
+    MultiBlockComponentBlock(properties.noOcclusion()) {
 
     init {
         this.registerDefaultState(

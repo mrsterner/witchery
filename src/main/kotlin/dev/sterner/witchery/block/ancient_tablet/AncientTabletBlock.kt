@@ -26,7 +26,7 @@ import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 
-class AncientTabletBlock(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion().noCollission()) {
+class AncientTabletBlock(properties: Properties) : MultiBlockComponentBlock(properties.noOcclusion()) {
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
         return AncientTabletBlockEntity(pos, state)
