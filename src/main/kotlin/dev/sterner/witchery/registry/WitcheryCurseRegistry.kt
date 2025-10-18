@@ -34,7 +34,6 @@ object WitcheryCurseRegistry {
     val MISFORTUNE = CURSES.register("misfortune", Supplier { CurseOfMisfortune() })
     val OVERHEATING = CURSES.register("overheating", Supplier { CurseOfOverheating() })
     val SINKING = CURSES.register("sinking", Supplier { CurseOfSinking() })
-    val WALKING_NIGHTMARE = CURSES.register("walking_nightmare", Supplier { CurseOfWalkingNightmare() })
 
     fun register(modEventBus: IEventBus) {
         CURSES.register(modEventBus)

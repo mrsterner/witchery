@@ -9,11 +9,14 @@ import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.InventoryChangeTrigger
 import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.data.recipes.RecipeOutput
+import net.minecraft.data.worldgen.DimensionTypes
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.alchemy.Potions
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.dimension.DimensionType
 import java.awt.Color
 import java.util.*
 
@@ -129,13 +132,14 @@ object WitcheryCauldronRecipeProvider {
             .addInputWithColor(WitcheryItems.ENDER_DEW.get(), Color(20, 120, 120).rgb)
             .addInputWithColor(WitcheryItems.WHIFF_OF_MAGIC.get(), Color(255, 188, 168).rgb)
             .setOutput(WitcheryItems.BREW_OF_OBLIVION.get())
+            .setDimensionKey("minecraft:the_end")
             .setAltarPower(250)
             .save(exporter, Witchery.id("brew_of_oblivion"))
 
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.SPECTRAL_DUST.get(), Color(90, 160, 150).rgb)
             .addInputWithColor(Items.SOUL_SAND, Color(85, 65, 50).rgb)
-            .addInputWithColor(Items.PHANTOM_MEMBRANE, Color(140, 120, 180).rgb)
+            .addInputWithColor(WitcheryItems.PHANTOM_VAPOR.get(), Color(140, 120, 180).rgb)
             .addInputWithColor(WitcheryItems.ENDER_DEW.get(), Color(20, 120, 120).rgb)
             .addInputWithColor(WitcheryItems.MANDRAKE_ROOT.get(), Color(160, 70, 30).rgb)
             .setOutput(WitcheryItems.BREW_OF_SOUL_SEVERANCE.get())

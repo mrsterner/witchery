@@ -33,6 +33,16 @@ object WitcheryRitualLangProvider {
         add("witchery:ritual/curse_of_misfortune.tooltip", "Random negative status effects")
         add("witchery:ritual/curse_of_insanity", "Curse of Insanity")
         add("witchery:ritual/curse_of_insanity.tooltip", "Those mobs... are they real?")
+
+        add("witchery:ritual/fragility", "Curse of Fragility")
+        add("witchery:ritual/fragility.tooltip", "Things hurt more")
+        add("witchery:ritual/befuddlement", "Curse of Befuddlement")
+        add("witchery:ritual/befuddlement.tooltip", "Make them clumsy")
+        add("witchery:ritual/hunger", "Curse of Hunger")
+        add("witchery:ritual/hunger.tooltip", "Never satisfied")
+        add("witchery:ritual/binding", "Binding")
+        add("witchery:ritual/binding.tooltip", "Bind entities to an area")
+
         add("witchery:ritual/infuse_seer", "Infuse Seer")
         add("witchery:ritual/infuse_seer.tooltip", "Used to summon coven")
         add("witchery:ritual/infuse_necromancy", "Infuse Necromancy")
@@ -40,6 +50,11 @@ object WitcheryRitualLangProvider {
         add("witchery:ritual/summon_lightning", "Lightning Strike")
         add("witchery:ritual/summon_lightning.tooltip", "Summons a Lightning Strike at ritual center")
         add("witchery:ritual/set_midnight", "Turn Night")
+
+
+        add("witchery:ritual/soulbind", "Rite of Soulbind")
+        add("witchery:ritual/soulbind.tooltip", "Fuses a players soul form into flesh again")
+
         add("witchery:ritual/set_midnight.tooltip", "Sets the time to midnight")
         add("witchery:ritual/push_mobs", "Rite of Sanctity")
         add("witchery:ritual/push_mobs.tooltip", "Pushes hostile mobs away from ritual center")

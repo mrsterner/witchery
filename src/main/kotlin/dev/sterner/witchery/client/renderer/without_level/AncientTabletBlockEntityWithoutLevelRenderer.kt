@@ -37,7 +37,6 @@ class AncientTabletBlockEntityWithoutLevelRenderer : BlockEntityWithoutLevelRend
             packedLight,
             packedOverlay
         )
-        poseStack.translate(0.0, -0.8, 0.3)
 
         poseStack.popPose()
     }

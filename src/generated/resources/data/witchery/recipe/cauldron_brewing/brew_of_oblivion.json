@@ -2,7 +2,7 @@
   "type": "witchery:cauldron_brewing",
   "altarPower": 250,
   "dimensionKey": [
-    ""
+    "minecraft:the_end"
   ],
   "inputItems": [
     {
