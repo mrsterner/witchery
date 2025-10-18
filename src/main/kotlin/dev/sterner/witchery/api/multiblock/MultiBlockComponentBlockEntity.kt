@@ -4,6 +4,7 @@ import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.Vec3i
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
@@ -14,17 +15,28 @@ import net.minecraft.world.level.block.state.BlockState
 
 
 open class MultiBlockComponentBlockEntity(
-    blockPos: BlockPos, blockState: BlockState
+    blockPos: BlockPos,
+    blockState: BlockState
 ) : WitcheryBaseBlockEntity(WitcheryBlockEntityTypes.MULTI_BLOCK_COMPONENT.get(), blockPos, blockState) {
-    var corePos: BlockPos? = null
 
+    var corePos: BlockPos? = null
+    var structureOffset: Vec3i = Vec3i.ZERO
 
     override fun loadAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
-        corePos = if (tag.contains("X")) BlockPos(
-            tag.getInt("X"),
-            tag.getInt("Y"),
-            tag.getInt("Z")
-        ) else null
+        corePos = if (tag.contains("X")) {
+            BlockPos(
+                tag.getInt("X"),
+                tag.getInt("Y"),
+                tag.getInt("Z")
+            )
+        } else null
+
+        structureOffset = Vec3i(
+            tag.getInt("OffsetX"),
+            tag.getInt("OffsetY"),
+            tag.getInt("OffsetZ")
+        )
+
         super.loadAdditional(tag, registries)
     }
 
@@ -34,6 +46,11 @@ open class MultiBlockComponentBlockEntity(
             tag.putInt("Y", corePos!!.y)
             tag.putInt("Z", corePos!!.z)
         }
+
+        tag.putInt("OffsetX", structureOffset.x)
+        tag.putInt("OffsetY", structureOffset.y)
+        tag.putInt("OffsetZ", structureOffset.z)
+
         super.saveAdditional(tag, registries)
     }
 

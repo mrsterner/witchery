@@ -293,6 +293,10 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryItems.SPINNING_WHEEL.get()
         )
         event.registerItem(
+            WitcheryBlockEntityWithoutLevelRendererInstance(AncientTabletBlockEntityWithoutLevelRenderer()),
+            WitcheryItems.STONE_TABLET.get()
+        )
+        event.registerItem(
             WitcheryBlockEntityWithoutLevelRendererInstance(BroomBlockEntityWithoutLevelRenderer()),
             WitcheryItems.BROOM.get()
         )
@@ -357,6 +361,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerLayerDefinition(BearTrapModel.LAYER_LOCATION) { BearTrapModel.createBodyLayer() }
         event.registerLayerDefinition(HuntsmanSpearModel.LAYER_LOCATION) { HuntsmanSpearModel.createBodyLayer() }
         event.registerLayerDefinition(ChainModel.LAYER_LOCATION) { ChainModel.createBodyLayer() }
+        event.registerLayerDefinition(AncientTabletModel.LAYER_LOCATION) { AncientTabletModel.createBodyLayer() }
         event.registerLayerDefinition(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
         event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION) { ArmorPoppetModel.createBodyLayer() }
         event.registerLayerDefinition(HungerPoppetModel.LAYER_LOCATION) { HungerPoppetModel.createBodyLayer() }

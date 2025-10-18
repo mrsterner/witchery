@@ -14,7 +14,6 @@ class AncientTabletBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     MultiBlockCoreEntity(WitcheryBlockEntityTypes.ANCIENT_SLATE.get(), AncientTabletBlock.STRUCTURE.get(), blockPos, blockState) {
 
     private var tabletId: UUID = UUID.randomUUID()
-    var textureId: Int = 1
 
     fun getTabletId(): UUID {
         return tabletId
@@ -26,7 +25,6 @@ class AncientTabletBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     ) {
         super.saveAdditional(tag, registries)
         tag.putUUID("tabletId", tabletId)
-        tag.putInt("textureId", textureId)
     }
 
     override fun loadAdditional(
@@ -36,9 +34,6 @@ class AncientTabletBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         super.loadAdditional(pTag, pRegistries)
         if (pTag.hasUUID("tabletId")) {
             tabletId = pTag.getUUID("tabletId")
-        }
-        if (pTag.hasUUID("textureId")) {
-            textureId = pTag.getInt("textureId")
         }
     }
 }

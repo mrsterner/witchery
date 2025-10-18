@@ -1,5 +1,6 @@
 package dev.sterner.witchery.api.multiblock
 
+import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.Vec3i
@@ -19,9 +20,16 @@ class MultiBlockHorizontalDirectionStructure(structurePieces: ArrayList<Structur
             val stateWithDirection = s.state.setValue(BlockStateProperties.HORIZONTAL_FACING, direction)
             context.level.setBlock(pos, stateWithDirection, 3)
 
-            val component = context.level.getBlockEntity(pos)
-            if (component is MultiBlockComponentBlockEntity) {
-                component.corePos = context.clickedPos
+            val blockEntity = context.level.getBlockEntity(pos)
+
+            when (blockEntity) {
+                is MultiBlockComponentBlockEntity -> {
+                    blockEntity.corePos = context.clickedPos
+                    blockEntity.structureOffset = s.offset
+                }
+                is MultiBlockCoreEntity -> {
+                    blockEntity.structureOffset = s.offset
+                }
             }
         }
     }
@@ -34,10 +42,16 @@ class MultiBlockHorizontalDirectionStructure(structurePieces: ArrayList<Structur
             val stateWithDirection = s.state.setValue(BlockStateProperties.HORIZONTAL_FACING, direction)
             level.setBlock(componentPos, stateWithDirection, 3)
 
-            // Check if the block entity is a MultiBlockComponentBlockEntity
             val component = level.getBlockEntity(componentPos)
-            if (component is MultiBlockComponentBlockEntity) {
-                component.corePos = pos // Set corePos to the main altar position
+
+            when (component) {
+                is MultiBlockComponentBlockEntity -> {
+                    component.corePos = pos
+                    component.structureOffset = s.offset
+                }
+                is MultiBlockCoreEntity -> {
+                    component.structureOffset = s.offset
+                }
             }
         }
     }
