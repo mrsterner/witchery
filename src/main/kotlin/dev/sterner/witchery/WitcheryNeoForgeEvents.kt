@@ -135,8 +135,9 @@ object WitcheryNeoForgeEvents {
         NecroHandler.tickLiving(entity)
         if (entity is Player) {
             TarotPlayerAttachment.serverTick(entity)
-            BindingCurseAttachment.tick(entity)
+
         }
+        BindingCurseAttachment.tick(entity)
     }
 
 

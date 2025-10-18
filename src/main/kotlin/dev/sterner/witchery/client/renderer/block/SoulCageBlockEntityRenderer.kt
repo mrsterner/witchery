@@ -112,12 +112,10 @@ open class SoulCageBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
         poseStack.scale(-1.0f, -1.0f, 1.0f)
         poseStack.scale(0.5f, 0.5f, 0.5f)
 
-        // Set head rotation
         val headPart = villagerHead.root().getChild("head")
         headPart.xRot = Math.toRadians(rotation.second.toDouble()).toFloat()
         headPart.yRot = Math.toRadians(rotation.first.toDouble()).toFloat()
 
-        // Make only the head visible
         villagerHead.root().getChild("body").visible = false
         villagerHead.root().getChild("right_leg").visible = false
         villagerHead.root().getChild("left_leg").visible = false

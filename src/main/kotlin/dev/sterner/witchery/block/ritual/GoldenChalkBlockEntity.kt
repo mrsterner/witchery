@@ -22,6 +22,7 @@ import net.minecraft.core.NonNullList
 import net.minecraft.nbt.*
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -828,7 +829,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     else -> RitualState.IDLE
                 }
             }
-
             else -> RitualState.IDLE
         }
 
@@ -842,7 +842,12 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (pTag.contains(TAG_RITUAL_ID)) {
-            ritualRecipe = safelyLoadRitualRecipe(pTag.getCompound(TAG_RITUAL_ID), pRegistries)
+            val ritualTypeId = ResourceLocation.parse(pTag.getString(TAG_RITUAL_ID))
+            ritualRecipe = findRitualRecipeByType(ritualTypeId)
+
+            if (ritualRecipe == null) {
+                Witchery.logDebugRitual("Failed to find ritual recipe with type: $ritualTypeId")
+            }
         }
 
         if (pTag.contains(TAG_OWNER_NAME)) {
@@ -867,15 +872,11 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     }
 
     /**
-     * Safely load ritual recipe from NBT
+     * Find a ritual recipe by its ritual type ID
      */
-    private fun safelyLoadRitualRecipe(tag: CompoundTag, registries: HolderLookup.Provider): RitualRecipe? {
-        return try {
-            RitualRecipe.fromNbt(tag, registries)
-        } catch (e: Exception) {
-            Witchery.logDebugRitual("Failed to load ritual recipe: ${e.message}")
-            null
-        }
+    private fun findRitualRecipeByType(ritualTypeId: ResourceLocation): RitualRecipe? {
+        val allRecipes = level?.recipeManager?.getAllRecipesFor(WitcheryRecipeTypes.RITUAL_RECIPE_TYPE.get())
+        return allRecipes?.firstOrNull { it.value.ritualType?.id == ritualTypeId }?.value
     }
 
     /**
@@ -919,7 +920,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (ritualRecipe != null) {
-            tag.put(TAG_RITUAL_ID, ritualRecipe!!.toNbt(registries))
+            tag.putString(TAG_RITUAL_ID, ritualRecipe!!.ritualType?.id.toString())
         }
 
         ownerName?.let { tag.putString(TAG_OWNER_NAME, it) }

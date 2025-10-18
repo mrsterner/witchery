@@ -136,29 +136,6 @@ object WitcheryRenderTypes {
         )
     }
 
-    val ETHER = Util.memoize { resourceLocation: ResourceLocation ->
-        val compositeState: RenderType.CompositeState? =
-            RenderType.CompositeState.builder()
-                .setShaderState(ShaderStateShard(WitcheryShaders::ether))
-                .setTextureState(TextureStateShard(resourceLocation, false, true))
-                .setTransparencyState(ADDITIVE_TRANSPARENCY)
-                .setCullState(CULL)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                .setWriteMaskState(COLOR_WRITE)
-                .createCompositeState(true)
-        create(
-            Witchery.MODID + "spirit_portal",
-            DefaultVertexFormat.NEW_ENTITY,
-            VertexFormat.Mode.QUADS,
-            262144,
-            true,
-            false,
-            compositeState!!
-        )
-    }
-
     val GLINT = Util.memoize { resourceLocation: ResourceLocation ->
         val compositeState: RenderType.CompositeState? =
             RenderType.CompositeState.builder()
