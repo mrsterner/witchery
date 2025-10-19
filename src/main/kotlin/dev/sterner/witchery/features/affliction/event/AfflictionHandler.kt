@@ -1,4 +1,4 @@
-package dev.sterner.witchery.features.affliction
+package dev.sterner.witchery.features.affliction.event
 
 import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
@@ -7,6 +7,7 @@ import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload

@@ -5,7 +5,7 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.entity.HornedHuntsmanEntity
 import dev.sterner.witchery.features.affliction.AfflictionTypes
-import dev.sterner.witchery.features.affliction.TransformationHandler
+import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer

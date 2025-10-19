@@ -5,9 +5,9 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
-import dev.sterner.witchery.features.affliction.AfflictionHandler
+import dev.sterner.witchery.features.affliction.event.AfflictionHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
-import dev.sterner.witchery.features.affliction.TransformationHandler
+import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity

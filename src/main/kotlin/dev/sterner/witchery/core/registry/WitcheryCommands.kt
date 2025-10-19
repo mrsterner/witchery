@@ -30,7 +30,7 @@ import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling.levelToBlood
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
-import dev.sterner.witchery.handler.infusion.InfusionHandler
+import dev.sterner.witchery.features.infusion.InfusionHandler
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands

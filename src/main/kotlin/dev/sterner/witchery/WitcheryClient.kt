@@ -34,7 +34,7 @@ import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomClientSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireClientSpecificEventHandler
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfClientSpecificEventHandler
-import dev.sterner.witchery.handler.infusion.InfusionHandler
+import dev.sterner.witchery.features.infusion.InfusionHandler
 import dev.sterner.witchery.item.HunterArmorItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.VampireArmorItem

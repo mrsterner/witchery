@@ -8,7 +8,7 @@ import com.mojang.math.Axis;
 import dev.sterner.witchery.block.coffin.CoffinBlock;
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment;
 import dev.sterner.witchery.data_attachment.infusion.LightInfusionPlayerAttachment;
-import dev.sterner.witchery.features.affliction.TransformationHandler;
+import dev.sterner.witchery.features.affliction.event.TransformationHandler;
 import dev.sterner.witchery.registry.WitcheryMobEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;

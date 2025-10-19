@@ -2,7 +2,7 @@ package dev.sterner.witchery.features.affliction.lich
 
 
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.features.affliction.AfflictionClientEventHandler
+import dev.sterner.witchery.features.affliction.event.AfflictionClientEventHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics

@@ -6,9 +6,9 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
-import dev.sterner.witchery.features.affliction.AfflictionClientEventHandler
+import dev.sterner.witchery.features.affliction.event.AfflictionClientEventHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
-import dev.sterner.witchery.features.affliction.TransformationHandler
+import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics

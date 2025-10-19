@@ -12,7 +12,7 @@ import dev.sterner.witchery.handler.BloodPoolHandler;
 import dev.sterner.witchery.handler.NecroHandler;
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler;
 import dev.sterner.witchery.features.affliction.AfflictionTypes;
-import dev.sterner.witchery.features.affliction.TransformationHandler;
+import dev.sterner.witchery.features.affliction.event.TransformationHandler;
 import dev.sterner.witchery.registry.WitcheryTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;

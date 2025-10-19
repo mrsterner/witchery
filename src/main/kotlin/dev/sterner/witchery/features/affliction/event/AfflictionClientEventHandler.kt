@@ -1,4 +1,4 @@
-package dev.sterner.witchery.features.affliction
+package dev.sterner.witchery.features.affliction.event
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment

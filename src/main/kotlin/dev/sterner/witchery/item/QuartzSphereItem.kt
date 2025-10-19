@@ -3,7 +3,7 @@ package dev.sterner.witchery.item
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.entity.ThrownBrewEntity
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
-import dev.sterner.witchery.handler.infusion.InfusionHandler
+import dev.sterner.witchery.features.infusion.InfusionHandler
 import dev.sterner.witchery.item.brew.ThrowableBrewItem
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryDataComponents

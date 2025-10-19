@@ -3,7 +3,7 @@ package dev.sterner.witchery.features.affliction.werewolf
 import dev.sterner.witchery.data_attachment.PlatformUtils
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
 import dev.sterner.witchery.features.affliction.AfflictionTypes
-import dev.sterner.witchery.features.affliction.TransformationHandler
+import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.mixin_logic.SummonedWolf
 import dev.sterner.witchery.registry.WitcheryItems

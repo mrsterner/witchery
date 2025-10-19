@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler.infusion
+package dev.sterner.witchery.features.infusion
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
