@@ -3,6 +3,8 @@ package dev.sterner.witchery.features.affliction
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.RenderType

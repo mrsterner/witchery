@@ -12,7 +12,7 @@ import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttach
 import dev.sterner.witchery.data_attachment.PhylacteryLevelDataAttachment
 import dev.sterner.witchery.data_attachment.SoulPoolPlayerAttachment
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
-import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleOptions

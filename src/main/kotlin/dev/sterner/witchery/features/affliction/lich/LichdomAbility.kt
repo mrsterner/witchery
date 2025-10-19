@@ -5,7 +5,7 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
-import dev.sterner.witchery.features.affliction.AfflictionAbility
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.NecroHandler

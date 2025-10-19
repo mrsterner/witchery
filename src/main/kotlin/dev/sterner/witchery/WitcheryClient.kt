@@ -30,7 +30,7 @@ import dev.sterner.witchery.client.tarot.TarotCardHudRenderer
 import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
 import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.ManifestationHandler
-import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomClientSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireClientSpecificEventHandler
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfClientSpecificEventHandler

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.item.brew
 
-import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler

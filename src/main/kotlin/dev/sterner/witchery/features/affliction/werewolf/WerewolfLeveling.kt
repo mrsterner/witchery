@@ -5,7 +5,7 @@ import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.event.WerewolfEvent
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
-import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.TransformationHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling

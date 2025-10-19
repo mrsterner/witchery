@@ -4,6 +4,7 @@ package dev.sterner.witchery.features.affliction
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.handler.BloodPoolHandler
 import dev.sterner.witchery.payload.AfflictionAbilityUseC2SPayload
 import net.minecraft.server.level.ServerPlayer

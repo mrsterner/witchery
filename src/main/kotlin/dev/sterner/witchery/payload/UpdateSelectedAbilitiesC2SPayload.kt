@@ -1,7 +1,7 @@
 package dev.sterner.witchery.payload
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload

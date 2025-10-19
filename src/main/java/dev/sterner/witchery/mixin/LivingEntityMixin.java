@@ -10,7 +10,7 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 import dev.sterner.witchery.entity.ChainEntity;
 import dev.sterner.witchery.handler.BloodPoolHandler;
 import dev.sterner.witchery.handler.NecroHandler;
-import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler;
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler;
 import dev.sterner.witchery.features.affliction.AfflictionTypes;
 import dev.sterner.witchery.features.affliction.TransformationHandler;
 import dev.sterner.witchery.registry.WitcheryTags;

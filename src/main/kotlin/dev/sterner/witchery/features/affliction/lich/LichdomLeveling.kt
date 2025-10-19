@@ -4,7 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.event.LichEvent
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.TransformationHandler
 

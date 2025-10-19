@@ -3,7 +3,7 @@ package dev.sterner.witchery.mixin.client;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.sterner.witchery.Witchery;
 import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment;
-import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler;
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler;
 import dev.sterner.witchery.features.affliction.vampire.VampireClientSpecificEventHandler;
 import dev.sterner.witchery.mixin_logic.GuiMixinLogic;
 import net.minecraft.client.DeltaTracker;

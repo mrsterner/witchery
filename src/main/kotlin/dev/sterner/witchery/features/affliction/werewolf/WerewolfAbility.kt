@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.affliction.werewolf
 
 import dev.sterner.witchery.data_attachment.PlatformUtils
-import dev.sterner.witchery.features.affliction.AfflictionAbility
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.TransformationHandler
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager

@@ -2,8 +2,8 @@ package dev.sterner.witchery.client.screen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.features.affliction.AfflictionAbility
-import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 
 import dev.sterner.witchery.handler.affliction.*

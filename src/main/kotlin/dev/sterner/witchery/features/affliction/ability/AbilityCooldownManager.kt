@@ -1,6 +1,5 @@
 package dev.sterner.witchery.features.affliction.ability
 
-import dev.sterner.witchery.features.affliction.AfflictionAbility
 import net.minecraft.world.entity.player.Player
 import java.util.*
 

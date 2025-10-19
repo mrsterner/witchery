@@ -4,7 +4,7 @@ import dev.sterner.witchery.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.features.affliction.AfflictionAbility
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
 import dev.sterner.witchery.features.affliction.AfflictionHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.TransformationHandler

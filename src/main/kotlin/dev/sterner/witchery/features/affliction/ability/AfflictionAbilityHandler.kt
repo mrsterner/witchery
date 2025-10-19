@@ -1,11 +1,9 @@
-package dev.sterner.witchery.features.affliction
+package dev.sterner.witchery.features.affliction.ability
 
 import dev.sterner.witchery.client.screen.AbilitySelectionScreen
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
+import dev.sterner.witchery.features.affliction.AfflictionTypes
 
-import dev.sterner.witchery.features.affliction.ability.AbilityHandler
-import dev.sterner.witchery.features.affliction.ability.AbilityScrollHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility
 import dev.sterner.witchery.features.affliction.vampire.VampireAbility
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfAbility
