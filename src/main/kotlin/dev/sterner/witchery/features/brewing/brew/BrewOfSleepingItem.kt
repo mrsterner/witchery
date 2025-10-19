@@ -7,7 +7,7 @@ import dev.sterner.witchery.features.misc.AccessoryHandler
 import dev.sterner.witchery.features.misc.SleepingPlayerHandler
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component

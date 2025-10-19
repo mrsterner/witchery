@@ -2,7 +2,7 @@ package dev.sterner.witchery.core.api
 
 import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.content.block.effigy.EffigyState
-import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.content.item.TaglockItem
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
 import net.minecraft.world.entity.LivingEntity

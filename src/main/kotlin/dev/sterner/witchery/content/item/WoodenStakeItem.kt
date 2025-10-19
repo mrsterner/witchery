@@ -2,9 +2,9 @@ package dev.sterner.witchery.content.item
 
 
 import dev.sterner.witchery.content.entity.VampireEntity
+import dev.sterner.witchery.core.registry.WitcheryDamageSources
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
-import dev.sterner.witchery.registry.WitcheryDamageSources
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item

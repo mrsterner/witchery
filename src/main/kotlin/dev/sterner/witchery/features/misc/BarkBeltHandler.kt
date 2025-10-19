@@ -1,9 +1,9 @@
 package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.BarkBeltPlayerAttachment
+import dev.sterner.witchery.core.data_attachment.BarkBeltPlayerAttachment
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft

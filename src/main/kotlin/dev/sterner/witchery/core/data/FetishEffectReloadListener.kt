@@ -6,7 +6,7 @@ import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.core.api.FetishEffect
-import dev.sterner.witchery.registry.WitcheryFetishEffects
+import dev.sterner.witchery.core.registry.WitcheryFetishEffects
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener

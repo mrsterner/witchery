@@ -3,7 +3,7 @@ package dev.sterner.witchery.features.affliction.lich
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.event.LichEvent
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.event.TransformationHandler

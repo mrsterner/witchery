@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.misc
 
-import dev.sterner.witchery.registry.WitcheryMobEffects
+import dev.sterner.witchery.core.registry.WitcheryMobEffects
 import net.minecraft.tags.EntityTypeTags
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance

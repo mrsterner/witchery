@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.particle
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.registry.WitcheryParticleTypes
+import dev.sterner.witchery.core.registry.WitcheryParticleTypes
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleType
 import net.minecraft.network.RegistryFriendlyByteBuf

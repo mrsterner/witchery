@@ -4,8 +4,11 @@ package dev.sterner.witchery.content.block.poppet
 import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.features.poppet.PoppetLevelAttachment
-import dev.sterner.witchery.item.PoppetItem
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.content.item.PoppetItem
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup

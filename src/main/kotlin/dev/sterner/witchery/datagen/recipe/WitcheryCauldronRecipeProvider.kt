@@ -1,8 +1,8 @@
 package dev.sterner.witchery.datagen.recipe
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipeBuilder
-import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipeBuilder
+import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipeBuilder
+import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipeBuilder
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.advancements.Criterion

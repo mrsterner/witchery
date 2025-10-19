@@ -6,11 +6,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.event.PossessionEvents
 import dev.sterner.witchery.core.api.interfaces.Possessable
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.network.SyncPossessionComponentS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.core.registry.WitcheryTags
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket
 import net.minecraft.resources.ResourceLocation

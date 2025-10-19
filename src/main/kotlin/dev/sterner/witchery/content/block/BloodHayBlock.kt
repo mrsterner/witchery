@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.block
 
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.sounds.SoundEvents

@@ -1,11 +1,11 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient.*
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryMobEffects
-import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
+import dev.sterner.witchery.core.registry.WitcheryMobEffects
+import dev.sterner.witchery.core.registry.WitcherySpecialPotionEffects
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient.*
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
@@ -264,7 +264,7 @@ class WitcheryPotionProvider(
             WitcheryItems.MANDRAKE_ROOT.get(),
             altarPower = 50,
             capacity = 1,
-            effectModifier = EffectModifier(durationMultiplier = 6),
+            effectModifier = WitcheryPotionIngredient.EffectModifier(durationMultiplier = 6),
             color = Color(60, 250, 50).rgb
         )
         makeIngredient(
@@ -381,7 +381,7 @@ class WitcheryPotionProvider(
 
             Items.OBSIDIAN,
             altarPower = 100,
-            effectModifier = EffectModifier(durationMultiplier = 4),
+            effectModifier = WitcheryPotionIngredient.EffectModifier(durationMultiplier = 4),
             color = Color(50, 20, 100).rgb
         )
         makeIngredient(

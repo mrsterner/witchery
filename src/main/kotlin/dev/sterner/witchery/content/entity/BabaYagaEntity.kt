@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.entity
 
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.Holder
 import net.minecraft.core.component.DataComponents

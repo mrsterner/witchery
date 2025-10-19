@@ -2,7 +2,6 @@ package dev.sterner.witchery.content.recipe.ritual
 
 import dev.sterner.witchery.core.api.Ritual
 import dev.sterner.witchery.content.block.ritual.CommandType
-import dev.sterner.witchery.recipe.ritual.RitualRecipe.Celestial
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.ritual.EmptyRitual
@@ -37,7 +36,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
     private val blockMapping: MutableMap<Char, Block> = mutableMapOf<Char, Block>().apply {
         'G' to WitcheryBlocks.GOLDEN_CHALK_BLOCK.get()
     }
-    private var celestialConditions: Set<Celestial> = setOf()
+    private var celestialConditions: Set<RitualRecipe.Celestial> = setOf()
     private var weather: MutableSet<RitualRecipe.Weather> = mutableSetOf()
     private var requireCat = false
 
@@ -127,7 +126,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
         return this
     }
 
-    fun setCelestialConditions(celestialConditions: Set<Celestial>): RitualRecipeBuilder {
+    fun setCelestialConditions(celestialConditions: Set<RitualRecipe.Celestial>): RitualRecipeBuilder {
         this.celestialConditions = celestialConditions
         return this
     }
@@ -143,22 +142,22 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
     }
 
     fun setRequireNight(): RitualRecipeBuilder {
-        this.celestialConditions = setOf(Celestial.NIGHT)
+        this.celestialConditions = setOf(RitualRecipe.Celestial.NIGHT)
         return this
     }
 
     fun setRequireDay(): RitualRecipeBuilder {
-        this.celestialConditions = setOf(Celestial.DAY)
+        this.celestialConditions = setOf(RitualRecipe.Celestial.DAY)
         return this
     }
 
     fun setRequireFullMoon(): RitualRecipeBuilder {
-        this.celestialConditions = setOf(Celestial.NIGHT, Celestial.FULL_MOON)
+        this.celestialConditions = setOf(RitualRecipe.Celestial.NIGHT, RitualRecipe.Celestial.FULL_MOON)
         return this
     }
 
     fun setRequireNewMoon(): RitualRecipeBuilder {
-        this.celestialConditions = setOf(Celestial.NIGHT, Celestial.NEW_MOON)
+        this.celestialConditions = setOf(RitualRecipe.Celestial.NIGHT, RitualRecipe.Celestial.NEW_MOON)
         return this
     }
 

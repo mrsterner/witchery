@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.affliction.ability
 
 import dev.sterner.witchery.client.screen.AbilitySelectionScreen
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility

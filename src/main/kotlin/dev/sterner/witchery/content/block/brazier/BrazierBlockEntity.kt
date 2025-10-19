@@ -12,7 +12,7 @@ import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
+import dev.sterner.witchery.core.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.core.registry.WitcheryItems
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.BlockPos

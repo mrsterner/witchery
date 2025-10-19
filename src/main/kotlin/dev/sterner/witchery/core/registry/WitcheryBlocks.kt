@@ -45,7 +45,7 @@ import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarComponent
 import dev.sterner.witchery.content.worldgen.tree.WitcheryTreeGrowers
 import dev.sterner.witchery.core.data_attachment.PlatformUtils.registerWoodType
-import dev.sterner.witchery.registry.WitcheryFluids
+import dev.sterner.witchery.core.registry.WitcheryFluids
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries

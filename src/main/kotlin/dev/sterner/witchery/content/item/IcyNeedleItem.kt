@@ -8,7 +8,7 @@ import dev.sterner.witchery.features.misc.AccessoryHandler
 import dev.sterner.witchery.features.misc.SleepingPlayerHandler
 import dev.sterner.witchery.features.misc.TeleportQueueHandler
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.core.registry.WitcheryTags
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand

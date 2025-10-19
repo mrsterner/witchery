@@ -1,8 +1,5 @@
 package dev.sterner.witchery.features.infusion
 
-import dev.sterner.witchery.data_attachment.infusion.CreatureType
-import dev.sterner.witchery.data_attachment.infusion.InfernalInfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity

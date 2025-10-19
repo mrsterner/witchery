@@ -3,8 +3,8 @@ package dev.sterner.witchery.content.recipe.oven
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.registry.WitcheryRecipeSerializers
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.core.registry.WitcheryRecipeSerializers
+import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import net.minecraft.core.HolderLookup
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs

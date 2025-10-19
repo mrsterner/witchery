@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.mob_effect
 
-import dev.sterner.witchery.registry.WitcheryMobEffects
+import dev.sterner.witchery.core.registry.WitcheryMobEffects
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.effect.MobEffect

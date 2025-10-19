@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.entity
 
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel

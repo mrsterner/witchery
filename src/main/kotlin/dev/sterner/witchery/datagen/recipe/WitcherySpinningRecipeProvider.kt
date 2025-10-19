@@ -1,7 +1,7 @@
 package dev.sterner.witchery.datagen.recipe
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipeBuilder
+import dev.sterner.witchery.content.recipe.spinning_wheel.SpinningWheelRecipeBuilder
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.item.ItemStack

@@ -1,6 +1,7 @@
 package dev.sterner.witchery.features.familiar
 
 import dev.sterner.witchery.content.entity.OwlEntity
+import dev.sterner.witchery.core.data_attachment.FamiliarLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel

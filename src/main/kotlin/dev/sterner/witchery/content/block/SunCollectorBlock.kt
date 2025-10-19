@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.block
 
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel

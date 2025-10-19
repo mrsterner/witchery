@@ -1,7 +1,7 @@
 package dev.sterner.witchery.client.colors
 
 
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import net.minecraft.client.color.item.ItemColor
 import net.minecraft.util.FastColor
 import net.minecraft.world.item.ItemStack

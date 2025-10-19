@@ -4,9 +4,9 @@ import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.PoppetLocation
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.interfaces.PoppetType
-import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.features.poppet.PoppetHandler
-import dev.sterner.witchery.registry.WitcheryPoppetRegistry
+import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
+import dev.sterner.witchery.features.poppet.CorruptPoppetPlayerAttachment
 import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.chat.Component

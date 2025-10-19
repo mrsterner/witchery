@@ -3,10 +3,10 @@ package dev.sterner.witchery.content.entity.player_shell
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.InventorySlots
 import dev.sterner.witchery.core.api.entity.PlayerShellEntity
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.network.SpawnSleepingDeathParticleS2CPayload
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import net.minecraft.core.NonNullList
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.brewing.brew
 
-import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
+import dev.sterner.witchery.core.data_attachment.TarotPlayerAttachment
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents

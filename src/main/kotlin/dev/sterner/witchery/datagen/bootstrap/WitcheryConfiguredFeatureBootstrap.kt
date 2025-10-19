@@ -3,7 +3,7 @@ package dev.sterner.witchery.datagen.bootstrap
 
 import dev.sterner.witchery.content.block.CottonBlock
 import dev.sterner.witchery.core.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryFeatures
+import dev.sterner.witchery.core.registry.WitcheryFeatures
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ALDER_KEY
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.HAWTHORN_KEY
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ROWAN_KEY

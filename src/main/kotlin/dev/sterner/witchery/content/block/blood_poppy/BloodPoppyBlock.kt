@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.block.blood_poppy
 
-import dev.sterner.witchery.item.TaglockItem
+import dev.sterner.witchery.content.item.TaglockItem
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Holder

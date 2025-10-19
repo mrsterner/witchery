@@ -13,10 +13,13 @@ import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.core.registry.WitcheryRitualRegistry
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.familiar.FamiliarHandler
-import dev.sterner.witchery.item.SeerStoneItem
-import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.item.WaystoneItem
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.content.item.SeerStoneItem
+import dev.sterner.witchery.content.item.TaglockItem
+import dev.sterner.witchery.content.item.WaystoneItem
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup

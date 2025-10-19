@@ -1,15 +1,15 @@
 package dev.sterner.witchery.features.affliction.lich
 
-import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 
 import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity
+import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.features.misc.NecroHandler
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.core.registry.WitcheryTags
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer

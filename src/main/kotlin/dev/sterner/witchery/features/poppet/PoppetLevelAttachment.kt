@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel

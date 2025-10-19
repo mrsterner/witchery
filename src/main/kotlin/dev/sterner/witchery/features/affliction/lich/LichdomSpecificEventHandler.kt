@@ -4,16 +4,15 @@ import dev.sterner.witchery.core.api.InventorySlots
 import dev.sterner.witchery.core.api.entity.PlayerShellEntity
 import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlockEntity
-import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
-
-import dev.sterner.witchery.data_attachment.PhylacteryLevelDataAttachment
-import dev.sterner.witchery.data_attachment.SoulPoolPlayerAttachment
 import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity
+import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.core.data_attachment.PhylacteryLevelDataAttachment
+import dev.sterner.witchery.core.data_attachment.SoulPoolPlayerAttachment
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
+import dev.sterner.witchery.features.possession.EntityAiToggle
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleTypes

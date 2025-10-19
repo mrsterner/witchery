@@ -1,7 +1,7 @@
 package dev.sterner.witchery.core.api.interfaces
 
 import dev.sterner.witchery.core.api.PoppetUsage
-import dev.sterner.witchery.registry.WitcheryPoppetRegistry
+import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity

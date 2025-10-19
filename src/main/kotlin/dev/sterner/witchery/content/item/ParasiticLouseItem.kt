@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.Item

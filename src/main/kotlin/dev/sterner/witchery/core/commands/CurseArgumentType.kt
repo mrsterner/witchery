@@ -7,7 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import dev.sterner.witchery.core.api.Curse
-import dev.sterner.witchery.registry.WitcheryCurseRegistry
+import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation

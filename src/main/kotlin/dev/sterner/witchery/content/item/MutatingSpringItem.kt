@@ -4,7 +4,7 @@ import dev.sterner.witchery.content.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.content.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes

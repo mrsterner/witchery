@@ -2,7 +2,7 @@ package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.features.coven.CovenHandler
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import net.minecraft.commands.arguments.EntityAnchorArgument
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag

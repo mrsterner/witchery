@@ -4,7 +4,7 @@ import dev.sterner.witchery.core.api.SpecialPotion
 import dev.sterner.witchery.datagen.lang.WitcheryAdvancementLangProvider
 import dev.sterner.witchery.datagen.lang.WitcheryBookLangProvider
 import dev.sterner.witchery.datagen.lang.WitcheryRitualLangProvider
-import dev.sterner.witchery.registry.*
+import dev.sterner.witchery.core.registry.*
 import net.minecraft.data.PackOutput
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation

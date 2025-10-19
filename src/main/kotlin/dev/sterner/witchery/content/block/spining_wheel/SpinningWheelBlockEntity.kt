@@ -7,7 +7,7 @@ import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.content.recipe.spinning_wheel.SpinningWheelRecipe
 import dev.sterner.witchery.core.api.block.AltarPowerConsumer
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import io.netty.buffer.Unpooled
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.BlockPos

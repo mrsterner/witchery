@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.nightmare
 
 import dev.sterner.witchery.content.entity.NightmareEntity
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player

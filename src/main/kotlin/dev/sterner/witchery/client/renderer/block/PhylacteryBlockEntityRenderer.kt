@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.content.block.phylactery.PhylacteryBlockEntity
-import dev.sterner.witchery.registry.WitcheryRenderTypes
+import dev.sterner.witchery.core.registry.WitcheryRenderTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.SkullModel
 import net.minecraft.client.model.geom.ModelLayers

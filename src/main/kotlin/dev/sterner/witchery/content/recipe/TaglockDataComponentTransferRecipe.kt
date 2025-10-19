@@ -1,9 +1,9 @@
 package dev.sterner.witchery.content.recipe
 
-import dev.sterner.witchery.item.PoppetItem
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.content.item.PoppetItem
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryRecipeSerializers
+import dev.sterner.witchery.core.registry.WitcheryRecipeSerializers
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.item.ItemStack

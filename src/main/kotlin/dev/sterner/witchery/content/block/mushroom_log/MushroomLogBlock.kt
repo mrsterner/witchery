@@ -5,7 +5,7 @@ import dev.sterner.witchery.core.api.multiblock.MultiBlockHorizontalDirectionStr
 import dev.sterner.witchery.core.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.core.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.core.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.player.Player

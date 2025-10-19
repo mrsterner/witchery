@@ -1,9 +1,13 @@
 package dev.sterner.witchery.features.poppet
 
 import dev.sterner.witchery.features.misc.AccessoryHandler
-import dev.sterner.witchery.item.PoppetItem
-import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryPoppetRegistry
+import dev.sterner.witchery.content.item.PoppetItem
+import dev.sterner.witchery.core.api.PoppetLocation
+import dev.sterner.witchery.core.api.PoppetUsage
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.api.interfaces.PoppetType
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel

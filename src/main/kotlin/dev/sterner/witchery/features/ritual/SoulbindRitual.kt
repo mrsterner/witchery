@@ -4,12 +4,12 @@ import dev.sterner.witchery.core.api.InventorySlots
 import dev.sterner.witchery.core.api.Ritual
 import dev.sterner.witchery.core.api.entity.PlayerShellEntity
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel

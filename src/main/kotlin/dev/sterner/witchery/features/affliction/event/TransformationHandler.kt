@@ -1,19 +1,18 @@
 package dev.sterner.witchery.features.affliction.event
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.PlatformUtils
-import dev.sterner.witchery.data_attachment.WitcheryAttributes
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-
-import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.content.entity.WerewolfEntity
+import dev.sterner.witchery.core.data_attachment.PlatformUtils
+import dev.sterner.witchery.core.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.features.affliction.vampire.VampireAbility
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
 import dev.sterner.witchery.mixin.LivingEntityAccessor
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor
 import dev.sterner.witchery.network.RefreshDimensionsS2CPayload
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import net.minecraft.client.player.AbstractClientPlayer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -176,7 +175,7 @@ object TransformationHandler {
 
     fun tickBat(player: Player) {
 
-        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() compareTo VampireAbility.BAT_FORM.requiredLevel) {
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() == VampireAbility.BAT_FORM.requiredLevel) {
             if (player.level() is ServerLevel) {
 
                 if (isBat(player)) {

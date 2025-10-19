@@ -4,7 +4,7 @@ import dev.sterner.witchery.content.block.oven.OvenBlockEntity
 import dev.sterner.witchery.content.menu.slot.OvenFuelSlot
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryMenuTypes
+import dev.sterner.witchery.core.registry.WitcheryMenuTypes
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Inventory

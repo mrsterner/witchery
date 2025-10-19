@@ -9,8 +9,8 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.Tesselator
 import com.mojang.blaze3d.vertex.VertexFormat
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.BindingCurseAttachment
-import dev.sterner.witchery.registry.WitcheryShaders
+import dev.sterner.witchery.core.data_attachment.BindingCurseAttachment
+import dev.sterner.witchery.core.registry.WitcheryShaders
 import dev.sterner.witchery.features.ritual.BindingRitual
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource

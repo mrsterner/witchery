@@ -1,7 +1,7 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag

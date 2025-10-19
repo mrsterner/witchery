@@ -2,8 +2,8 @@ package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.features.familiar.FamiliarHandler
 import dev.sterner.witchery.network.SyncOwlAbilityS2CPayload
-import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.client.Minecraft
 import net.minecraft.core.Direction

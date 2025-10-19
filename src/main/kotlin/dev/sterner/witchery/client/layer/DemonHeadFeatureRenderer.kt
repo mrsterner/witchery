@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.layer
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.DemonEntityModel
-import dev.sterner.witchery.registry.WitcheryMobEffects
+import dev.sterner.witchery.core.registry.WitcheryMobEffects
 import net.minecraft.client.model.PlayerModel
 import net.minecraft.client.player.AbstractClientPlayer
 import net.minecraft.client.renderer.MultiBufferSource

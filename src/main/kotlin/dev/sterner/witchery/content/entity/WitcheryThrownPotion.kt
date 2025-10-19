@@ -2,10 +2,10 @@ package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
-import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryMobEffects
-import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
+import dev.sterner.witchery.core.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryMobEffects
+import dev.sterner.witchery.core.registry.WitcherySpecialPotionEffects
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance

@@ -1,8 +1,6 @@
 package dev.sterner.witchery.features.infusion
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionType
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.DeltaTracker

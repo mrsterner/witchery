@@ -2,14 +2,13 @@ package dev.sterner.witchery.features.affliction.vampire
 
 import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-
-import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
+import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.affliction.event.AfflictionClientEventHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.core.util.RenderUtils
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.player.LocalPlayer

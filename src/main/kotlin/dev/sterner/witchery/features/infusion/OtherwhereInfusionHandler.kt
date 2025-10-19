@@ -1,8 +1,5 @@
 package dev.sterner.witchery.features.infusion
 
-import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionType
-import dev.sterner.witchery.data_attachment.infusion.OtherwhereInfusionPlayerAttachment
 import net.minecraft.world.entity.player.Player
 
 object OtherwhereInfusionHandler {

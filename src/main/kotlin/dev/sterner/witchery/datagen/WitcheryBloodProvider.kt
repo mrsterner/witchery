@@ -2,7 +2,7 @@ package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.PackOutput

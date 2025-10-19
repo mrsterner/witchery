@@ -5,9 +5,9 @@ import com.google.common.collect.Maps
 import com.mojang.logging.LogUtils
 import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryMobEffects
-import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryMobEffects
+import dev.sterner.witchery.core.registry.WitcherySpecialPotionEffects
 import net.minecraft.core.particles.ColorParticleOption
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleTypes

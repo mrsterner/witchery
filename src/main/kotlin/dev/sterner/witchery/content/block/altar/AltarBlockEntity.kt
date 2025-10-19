@@ -7,7 +7,7 @@ import dev.sterner.witchery.content.menu.AltarMenu
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.network.AltarMultiplierSyncS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryTags
+import dev.sterner.witchery.core.registry.WitcheryTags
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

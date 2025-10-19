@@ -6,7 +6,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.block.spirit_portal.SpiritPortalBlockEntity
 import dev.sterner.witchery.client.model.SpiritPortalBlockEntityModel
 import dev.sterner.witchery.client.model.SpiritPortalPortalModel
-import dev.sterner.witchery.registry.WitcheryRenderTypes
+import dev.sterner.witchery.core.registry.WitcheryRenderTypes
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer

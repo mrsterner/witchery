@@ -7,7 +7,7 @@ import dev.sterner.witchery.core.api.block.PotionDisperserHelper
 import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.content.block.altar.AltarBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
+import dev.sterner.witchery.core.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.core.util.WitcheryUtil
 import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
 import net.minecraft.core.BlockPos

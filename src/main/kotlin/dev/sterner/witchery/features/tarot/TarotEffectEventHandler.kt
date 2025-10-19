@@ -1,8 +1,7 @@
 package dev.sterner.witchery.features.tarot
 
-import dev.sterner.witchery.client.tarot.TarotCardObject
-import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
-import dev.sterner.witchery.registry.WitcheryTarotEffects
+import dev.sterner.witchery.core.data_attachment.TarotPlayerAttachment
+import dev.sterner.witchery.core.registry.WitcheryTarotEffects
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer

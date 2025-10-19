@@ -2,7 +2,7 @@ package dev.sterner.witchery.content.menu
 
 import dev.sterner.witchery.content.block.altar.AltarBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryMenuTypes
+import dev.sterner.witchery.core.registry.WitcheryMenuTypes
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player

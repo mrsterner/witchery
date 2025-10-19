@@ -1,9 +1,8 @@
 package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-
-import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer

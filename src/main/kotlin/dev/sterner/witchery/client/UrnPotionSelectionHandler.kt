@@ -1,8 +1,8 @@
 package dev.sterner.witchery.client
 
 import com.mojang.blaze3d.platform.InputConstants
-import dev.sterner.witchery.item.LeonardsUrnItem
-import dev.sterner.witchery.item.QuartzSphereItem
+import dev.sterner.witchery.content.item.LeonardsUrnItem
+import dev.sterner.witchery.content.item.QuartzSphereItem
 import dev.sterner.witchery.network.SelectUrnPotionC2SPayload
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft

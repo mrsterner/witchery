@@ -3,9 +3,8 @@ package dev.sterner.witchery.client.renderer.entity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.content.entity.ThrownBrewEntity
-import dev.sterner.witchery.item.QuartzSphereItem
-import dev.sterner.witchery.item.brew.BrewItem
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.features.brewing.brew.BrewItem
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRenderer

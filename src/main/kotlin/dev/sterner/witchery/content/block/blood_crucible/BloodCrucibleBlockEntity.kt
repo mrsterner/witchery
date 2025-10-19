@@ -6,7 +6,7 @@ import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.misc.BloodPoolHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.util.WitcheryUtil
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment

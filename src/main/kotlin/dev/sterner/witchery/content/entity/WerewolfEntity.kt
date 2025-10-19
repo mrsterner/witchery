@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfSpecificEventHandler
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData

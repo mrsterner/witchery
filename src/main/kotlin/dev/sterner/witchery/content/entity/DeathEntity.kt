@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.content.entity.goal.PrioritizeSetTargetGoal
-import dev.sterner.witchery.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents

@@ -144,7 +144,7 @@ object CurseHandler {
         while (iterator.hasNext()) {
             val curseData = iterator.next()
 
-            if (curseData.duration compareTo 0) {
+            if (curseData.duration == 0) {
                 curseData.duration -= 1
                 dataModified = true
 
@@ -155,7 +155,7 @@ object CurseHandler {
                 )
             }
 
-            if (curseData.duration compareTo 0) {
+            if (curseData.duration == 0) {
                 WitcheryCurseRegistry.CURSES_REGISTRY[curseData.curseId]?.onRemoved(
                     player.level(),
                     player,

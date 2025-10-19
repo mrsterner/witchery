@@ -2,7 +2,7 @@ package dev.sterner.witchery.features.poppet
 
 import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.core.api.PoppetUsage
-import dev.sterner.witchery.item.PoppetItem
+import dev.sterner.witchery.content.item.PoppetItem
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
