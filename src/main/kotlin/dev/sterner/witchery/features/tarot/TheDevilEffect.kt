@@ -1,4 +1,4 @@
-package dev.sterner.witchery.tarot
+package dev.sterner.witchery.features.tarot
 
 import dev.sterner.witchery.Witchery
 import net.minecraft.network.chat.Component

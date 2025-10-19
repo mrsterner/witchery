@@ -1,4 +1,4 @@
-package dev.sterner.witchery.tarot
+package dev.sterner.witchery.features.tarot
 
 import dev.sterner.witchery.client.tarot.TarotCardObject
 import dev.sterner.witchery.data_attachment.TarotPlayerAttachment

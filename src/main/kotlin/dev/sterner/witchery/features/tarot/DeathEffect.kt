@@ -1,4 +1,4 @@
-package dev.sterner.witchery.tarot
+package dev.sterner.witchery.features.tarot
 
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes

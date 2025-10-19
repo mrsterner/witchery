@@ -1,4 +1,4 @@
-package dev.sterner.witchery.tarot
+package dev.sterner.witchery.features.tarot
 
 import dev.sterner.witchery.payload.HighlightOresS2CPayload
 import net.minecraft.core.BlockPos

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.tarot
+package dev.sterner.witchery.features.tarot
 
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.item.brew.BrewItem
