@@ -1,4 +1,4 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock

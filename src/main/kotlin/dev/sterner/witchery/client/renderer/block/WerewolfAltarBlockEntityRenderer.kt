@@ -3,8 +3,8 @@ package dev.sterner.witchery.client.renderer.block
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlockEntity
 import dev.sterner.witchery.client.model.WerewolfAltarModel
+import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarBlockEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType

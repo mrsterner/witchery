@@ -1,8 +1,8 @@
 package dev.sterner.witchery.content.block.werewolf_altar
 
 
-import dev.sterner.witchery.api.multiblock.MultiBlockStructure
-import dev.sterner.witchery.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.core.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

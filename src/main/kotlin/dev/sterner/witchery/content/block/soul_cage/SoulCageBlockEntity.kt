@@ -1,8 +1,8 @@
 package dev.sterner.witchery.content.block.soul_cage
 
-import dev.sterner.witchery.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
-import dev.sterner.witchery.entity.AbstractSpectralEntity
+import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.content.entity.AbstractSpectralEntity
+import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment
 import dev.sterner.witchery.features.chain.ChainManager
 import dev.sterner.witchery.features.chain.ChainType
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes

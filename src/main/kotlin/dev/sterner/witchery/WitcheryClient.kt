@@ -3,7 +3,6 @@ package dev.sterner.witchery
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.client.tooltip.BloodPoolComponent
-import dev.sterner.witchery.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.client.OreHighlightRenderer
 import dev.sterner.witchery.client.TabletGazeTracker
 import dev.sterner.witchery.client.UrnPotionSelectionHandler

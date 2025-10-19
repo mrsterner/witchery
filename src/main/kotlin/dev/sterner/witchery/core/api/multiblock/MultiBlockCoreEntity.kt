@@ -1,6 +1,6 @@
 package dev.sterner.witchery.core.api.multiblock
 
-import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.Vec3i
