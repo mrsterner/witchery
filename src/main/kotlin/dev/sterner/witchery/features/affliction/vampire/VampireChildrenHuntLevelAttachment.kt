@@ -1,4 +1,4 @@
-package dev.sterner.witchery.core.data_attachment.affliction
+package dev.sterner.witchery.features.affliction.vampire
 
 import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
