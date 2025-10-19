@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.poppet
 
-import dev.sterner.witchery.handler.AccessoryHandler
+import dev.sterner.witchery.features.misc.AccessoryHandler
 import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryPoppetRegistry

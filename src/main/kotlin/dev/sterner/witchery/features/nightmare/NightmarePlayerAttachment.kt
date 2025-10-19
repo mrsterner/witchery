@@ -1,4 +1,4 @@
-package dev.sterner.witchery.core.data_attachment
+package dev.sterner.witchery.features.nightmare
 
 import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
@@ -10,7 +10,8 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
-import java.util.*
+import java.util.Optional
+import java.util.UUID
 
 object NightmarePlayerAttachment {
     @JvmStatic
@@ -42,7 +43,7 @@ object NightmarePlayerAttachment {
                 ).apply(instance, ::Data)
             }
 
-            val ID: ResourceLocation = Witchery.id("nightmare_player_data")
+            val ID: ResourceLocation = Witchery.Companion.id("nightmare_player_data")
         }
     }
 }

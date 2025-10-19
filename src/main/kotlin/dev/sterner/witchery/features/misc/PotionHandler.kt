@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import net.minecraft.tags.EntityTypeTags

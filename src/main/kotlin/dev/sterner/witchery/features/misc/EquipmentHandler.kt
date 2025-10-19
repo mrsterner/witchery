@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionType

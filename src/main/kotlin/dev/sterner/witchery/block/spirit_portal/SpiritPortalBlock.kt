@@ -5,7 +5,7 @@ import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructur
 import dev.sterner.witchery.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
-import dev.sterner.witchery.handler.ManifestationHandler
+import dev.sterner.witchery.features.misc.ManifestationHandler
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.misc
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -16,6 +16,8 @@ import net.minecraft.world.level.chunk.ChunkAccess
 import net.minecraft.world.level.levelgen.Heightmap
 import net.minecraft.world.level.levelgen.structure.BoundingBox
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings
+import kotlin.collections.forEach
+import kotlin.math.abs
 
 object VillageWallHandler {
     private val wallStraightStructure = Witchery.id("wall_straight") // 8x7x5
@@ -96,7 +98,7 @@ object VillageWallHandler {
             val stepDir = if (dx != 0) Direction.EAST else Direction.SOUTH
             val step = stepDir.normal
 
-            val absDistance = kotlin.math.abs(distance)
+            val absDistance = abs(distance)
             val segmentCount = absDistance / wallSize
 
             val gateIndex = segmentCount / 2

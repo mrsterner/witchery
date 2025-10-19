@@ -8,7 +8,7 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.affliction.AfflictionTypes
-import dev.sterner.witchery.handler.BloodPoolHandler
+import dev.sterner.witchery.features.misc.BloodPoolHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryBlocks

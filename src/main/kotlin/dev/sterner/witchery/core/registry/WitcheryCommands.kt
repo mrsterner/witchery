@@ -23,7 +23,7 @@ import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity.Companion.disableFlight
 import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.features.familiar.FamiliarHandler
-import dev.sterner.witchery.handler.ManifestationHandler
+import dev.sterner.witchery.features.misc.ManifestationHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.lich.LichdomLeveling
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler

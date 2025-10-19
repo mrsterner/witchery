@@ -4,9 +4,9 @@ import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
-import dev.sterner.witchery.handler.AccessoryHandler
-import dev.sterner.witchery.handler.SleepingPlayerHandler
-import dev.sterner.witchery.handler.TeleportQueueHandler
+import dev.sterner.witchery.features.misc.AccessoryHandler
+import dev.sterner.witchery.features.misc.SleepingPlayerHandler
+import dev.sterner.witchery.features.misc.TeleportQueueHandler
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
@@ -20,12 +20,10 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.Containers
 import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.entity.MoverType
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
-import net.neoforged.neoforge.common.NeoForgeMod
 import net.neoforged.neoforge.network.PacketDistributor
 
 

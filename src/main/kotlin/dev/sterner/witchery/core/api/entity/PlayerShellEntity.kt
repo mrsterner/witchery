@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.entity.player_shell.SleepingPlayerEntity
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
-import dev.sterner.witchery.handler.SleepingPlayerHandler
+import dev.sterner.witchery.features.misc.SleepingPlayerHandler
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.payload.SyncSleepingShellS2CPayload

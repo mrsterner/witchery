@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.payload.OpenLecternGuidebookS2CPayload
 import dev.sterner.witchery.registry.WitcheryItems

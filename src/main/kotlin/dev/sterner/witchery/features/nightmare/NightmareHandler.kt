@@ -1,13 +1,12 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.nightmare
 
-import dev.sterner.witchery.data_attachment.NightmarePlayerAttachment
 import dev.sterner.witchery.entity.NightmareEntity
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.levelgen.Heightmap
-import java.util.*
+import java.util.Optional
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -22,7 +21,7 @@ object NightmareHandler {
             val level = player.level()
             if (!data.hasNightmare) {
                 val nightmare = WitcheryEntityTypes.NIGHTMARE.get().create(level)
-                nightmare!!.entityData.set(NightmareEntity.NIGHTMARE_TARGET, Optional.of(player.uuid))
+                nightmare!!.entityData.set(NightmareEntity.Companion.NIGHTMARE_TARGET, Optional.of(player.uuid))
 
                 val distance = 16 + level.random.nextInt(8)
                 val angle = level.random.nextDouble() * Math.PI * 2

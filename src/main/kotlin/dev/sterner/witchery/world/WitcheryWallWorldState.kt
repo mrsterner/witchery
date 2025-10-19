@@ -1,6 +1,6 @@
 package dev.sterner.witchery.world
 
-import dev.sterner.witchery.handler.VillageWallHandler
+import dev.sterner.witchery.features.misc.VillageWallHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag

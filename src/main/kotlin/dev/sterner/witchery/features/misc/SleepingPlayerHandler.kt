@@ -1,9 +1,10 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.data_attachment.SleepingLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import java.util.*
+import kotlin.collections.get
 
 object SleepingPlayerHandler {
     fun getPlayerFromSleeping(playerUUID: UUID, level: ServerLevel): SleepingLevelAttachment.PlayerSleepingData? {

@@ -8,7 +8,7 @@ import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
-import dev.sterner.witchery.handler.NecroHandler
+import dev.sterner.witchery.features.misc.NecroHandler
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel

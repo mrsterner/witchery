@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment

@@ -8,7 +8,7 @@ import dev.sterner.witchery.entity.goal.DrinkBloodTargetingGoal
 import dev.sterner.witchery.entity.goal.NightHuntGoal
 import dev.sterner.witchery.entity.goal.VampireEscapeSunGoal
 import dev.sterner.witchery.entity.goal.VampireHurtByTargetGoal
-import dev.sterner.witchery.handler.BloodPoolHandler
+import dev.sterner.witchery.features.misc.BloodPoolHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker

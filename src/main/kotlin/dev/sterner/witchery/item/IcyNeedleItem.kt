@@ -4,9 +4,9 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
-import dev.sterner.witchery.handler.AccessoryHandler
-import dev.sterner.witchery.handler.SleepingPlayerHandler
-import dev.sterner.witchery.handler.TeleportQueueHandler
+import dev.sterner.witchery.features.misc.AccessoryHandler
+import dev.sterner.witchery.features.misc.SleepingPlayerHandler
+import dev.sterner.witchery.features.misc.TeleportQueueHandler
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.server.level.ServerLevel
