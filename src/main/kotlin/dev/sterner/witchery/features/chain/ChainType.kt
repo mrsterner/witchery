@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler.chain
+package dev.sterner.witchery.features.chain
 
 import net.minecraft.util.StringRepresentable
 

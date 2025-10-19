@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler.chain
+package dev.sterner.witchery.features.chain
 
 import dev.sterner.witchery.api.interfaces.EntityChainInterface
 import dev.sterner.witchery.api.schedule.ServerTickTask

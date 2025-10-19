@@ -1,7 +1,7 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.handler.chain.ChainManager
-import dev.sterner.witchery.handler.chain.ChainType
+import dev.sterner.witchery.features.chain.ChainManager
+import dev.sterner.witchery.features.chain.ChainType
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.InteractionHand

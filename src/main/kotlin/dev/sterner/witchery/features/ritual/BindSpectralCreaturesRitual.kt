@@ -5,8 +5,8 @@ import dev.sterner.witchery.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.entity.BansheeEntity
 import dev.sterner.witchery.entity.SpectreEntity
-import dev.sterner.witchery.handler.chain.ChainManager
-import dev.sterner.witchery.handler.chain.ChainType
+import dev.sterner.witchery.features.chain.ChainManager
+import dev.sterner.witchery.features.chain.ChainType
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel

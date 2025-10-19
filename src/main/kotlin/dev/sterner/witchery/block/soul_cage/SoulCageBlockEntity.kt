@@ -3,8 +3,8 @@ package dev.sterner.witchery.block.soul_cage
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
 import dev.sterner.witchery.entity.AbstractSpectralEntity
-import dev.sterner.witchery.handler.chain.ChainManager
-import dev.sterner.witchery.handler.chain.ChainType
+import dev.sterner.witchery.features.chain.ChainManager
+import dev.sterner.witchery.features.chain.ChainType
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
