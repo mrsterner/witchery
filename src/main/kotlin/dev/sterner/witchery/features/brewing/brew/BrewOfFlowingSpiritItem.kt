@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item.brew
+package dev.sterner.witchery.features.brewing.brew
 
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity

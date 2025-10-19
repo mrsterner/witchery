@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item.brew
+package dev.sterner.witchery.features.brewing.brew
 
 import dev.sterner.witchery.data_attachment.UnderWaterBreathPlayerAttachment
 import net.minecraft.core.particles.ParticleTypes

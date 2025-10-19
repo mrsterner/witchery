@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item.brew
+package dev.sterner.witchery.features.brewing.brew
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.entity.PlayerShellEntity

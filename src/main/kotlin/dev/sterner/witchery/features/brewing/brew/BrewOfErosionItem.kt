@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item.brew
+package dev.sterner.witchery.features.brewing.brew
 
 import dev.sterner.witchery.core.data.ErosionReloadListener
 import net.minecraft.core.BlockPos

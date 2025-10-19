@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item.brew
+package dev.sterner.witchery.features.brewing.brew
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
