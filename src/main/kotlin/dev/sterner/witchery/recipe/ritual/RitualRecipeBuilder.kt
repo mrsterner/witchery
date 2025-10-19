@@ -5,7 +5,7 @@ import dev.sterner.witchery.block.ritual.CommandType
 import dev.sterner.witchery.recipe.ritual.RitualRecipe.Celestial
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.ritual.EmptyRitual
+import dev.sterner.witchery.features.ritual.EmptyRitual
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.Criterion

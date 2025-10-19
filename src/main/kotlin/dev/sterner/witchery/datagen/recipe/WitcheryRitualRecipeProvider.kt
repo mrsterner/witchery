@@ -2,13 +2,20 @@ package dev.sterner.witchery.datagen.recipe
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.ritual.CommandType
+import dev.sterner.witchery.features.ritual.BindFamiliarRitual
+import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
+import dev.sterner.witchery.features.ritual.BindingRitual
+import dev.sterner.witchery.features.ritual.PushMobsRitual
+import dev.sterner.witchery.features.ritual.RemoveCurseRitual
+import dev.sterner.witchery.features.ritual.ResurrectFamiliarRitual
+import dev.sterner.witchery.features.ritual.RotRitual
+import dev.sterner.witchery.features.ritual.SoulbindRitual
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipeBuilder
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.ritual.*
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack

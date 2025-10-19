@@ -4,6 +4,15 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Ritual
+import dev.sterner.witchery.features.ritual.BindFamiliarRitual
+import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
+import dev.sterner.witchery.features.ritual.BindingRitual
+import dev.sterner.witchery.features.ritual.EmptyRitual
+import dev.sterner.witchery.features.ritual.PushMobsRitual
+import dev.sterner.witchery.features.ritual.RemoveCurseRitual
+import dev.sterner.witchery.features.ritual.ResurrectFamiliarRitual
+import dev.sterner.witchery.features.ritual.RotRitual
+import dev.sterner.witchery.features.ritual.SoulbindRitual
 import dev.sterner.witchery.ritual.*
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey

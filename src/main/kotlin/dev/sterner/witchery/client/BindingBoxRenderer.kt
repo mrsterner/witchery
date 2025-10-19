@@ -11,7 +11,7 @@ import com.mojang.blaze3d.vertex.VertexFormat
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.BindingCurseAttachment
 import dev.sterner.witchery.registry.WitcheryShaders
-import dev.sterner.witchery.ritual.BindingRitual
+import dev.sterner.witchery.features.ritual.BindingRitual
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.world.entity.LivingEntity

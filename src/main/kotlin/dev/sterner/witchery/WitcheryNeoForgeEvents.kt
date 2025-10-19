@@ -56,7 +56,7 @@ import dev.sterner.witchery.registry.WitcheryLootInjects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import dev.sterner.witchery.registry.WitcheryStructureInjects
 import dev.sterner.witchery.registry.WitcheryTarotEffects
-import dev.sterner.witchery.ritual.BindSpectralCreaturesRitual
+import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity

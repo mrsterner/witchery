@@ -1,4 +1,4 @@
-package dev.sterner.witchery.ritual
+package dev.sterner.witchery.features.ritual
 
 import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.Ritual
