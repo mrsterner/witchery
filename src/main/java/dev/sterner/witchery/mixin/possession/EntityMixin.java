@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public class EntityMixin {
@@ -22,6 +23,18 @@ public class EntityMixin {
         Entity self = (Entity)(Object)this;
         if (self instanceof Player player && AfflictionPlayerAttachment.getData(player).isSoulForm()) {
             this.fallDistance = 0;
+        }
+    }
+
+    @Mixin(Entity.class)
+    public abstract static class EntityMixin {
+
+        @Inject(method = "isVisuallyCrawling", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"), cancellable = true)
+        private void witchery$isVisuallyCrawling(CallbackInfoReturnable<Boolean> cir) {
+            Entity self = (Entity) (Object) this;
+            if (self instanceof Player player && AfflictionPlayerAttachment.getData(player).isSoulForm()) {
+                cir.setReturnValue(false);
+            }
         }
     }
 }

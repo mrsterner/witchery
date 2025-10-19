@@ -62,7 +62,7 @@
     "possession.PersistentEntitySectionManagerMixin",
     "possession.PlayerMixin",
     "possession.ServerLevelMixin",
-    "possession.client.EntityMixin",
+    "possession.EntityMixin.EntityMixin",
     "possession.possessed.EntityAccessMixin",
     "possession.possessed.HurtByTargetGoalMixin",
     "possession.possessed.NearestAttackableTargetGoalMixin",
@@ -84,7 +84,7 @@
     "requireAnnotations": true
   },
   "client": [
-    "InventoryScreenMixin",
+    "client.InventoryScreenMixin",
     "client.BookParentNodeScreenMixin",
     "client.GuiMixin",
     "client.HumanoidModelMixin",
