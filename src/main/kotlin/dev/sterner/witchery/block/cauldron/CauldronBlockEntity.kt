@@ -4,7 +4,7 @@ import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.data.PotionDataReloadListener
+import dev.sterner.witchery.core.data.PotionDataReloadListener
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.payload.*

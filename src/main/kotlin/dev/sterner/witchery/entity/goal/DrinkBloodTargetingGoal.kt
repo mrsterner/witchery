@@ -1,6 +1,6 @@
 package dev.sterner.witchery.entity.goal
 
-import dev.sterner.witchery.data.BloodPoolReloadListener
+import dev.sterner.witchery.core.data.BloodPoolReloadListener
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity

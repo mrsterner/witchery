@@ -13,7 +13,7 @@ import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling.canPerfor
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.util.WitcheryConstants
+import dev.sterner.witchery.core.WitcheryConstants
 import net.minecraft.ChatFormatting
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.BlockPos

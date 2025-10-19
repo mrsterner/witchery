@@ -11,8 +11,13 @@ import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
+import dev.sterner.witchery.core.data.BloodPoolReloadListener
+import dev.sterner.witchery.core.data.ErosionReloadListener
+import dev.sterner.witchery.core.data.FetishEffectReloadListener
+import dev.sterner.witchery.core.data.InfiniteCenserReloadListener
+import dev.sterner.witchery.core.data.NaturePowerReloadListener
+import dev.sterner.witchery.core.data.PotionDataReloadListener
 import dev.sterner.witchery.curse.CurseOfFragility
-import dev.sterner.witchery.data.*
 import dev.sterner.witchery.data_attachment.BindingCurseAttachment
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment

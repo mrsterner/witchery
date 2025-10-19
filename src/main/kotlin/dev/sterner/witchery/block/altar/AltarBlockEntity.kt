@@ -2,7 +2,7 @@ package dev.sterner.witchery.block.altar
 
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.ChaliceBlock
-import dev.sterner.witchery.data.NaturePowerReloadListener
+import dev.sterner.witchery.core.data.NaturePowerReloadListener
 import dev.sterner.witchery.menu.AltarMenu
 import dev.sterner.witchery.payload.AltarMultiplierSyncS2CPayload
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes

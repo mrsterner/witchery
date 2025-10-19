@@ -1,4 +1,4 @@
-package dev.sterner.witchery.util
+package dev.sterner.witchery.core
 
 object WitcheryConstants {
 

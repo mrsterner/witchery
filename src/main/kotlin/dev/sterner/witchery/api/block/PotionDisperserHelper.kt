@@ -1,6 +1,6 @@
 package dev.sterner.witchery.api.block
 
-import dev.sterner.witchery.data.InfiniteCenserReloadListener
+import dev.sterner.witchery.core.data.InfiniteCenserReloadListener
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects

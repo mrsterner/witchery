@@ -1,7 +1,7 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.ErosionReloadListener
+import dev.sterner.witchery.core.data.ErosionReloadListener
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.PackOutput

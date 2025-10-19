@@ -1,7 +1,7 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.FetishEffectReloadListener
+import dev.sterner.witchery.core.data.FetishEffectReloadListener
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.PackOutput
 import net.minecraft.server.packs.PackType

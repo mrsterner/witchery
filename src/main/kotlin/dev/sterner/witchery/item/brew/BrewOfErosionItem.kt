@@ -1,6 +1,6 @@
 package dev.sterner.witchery.item.brew
 
-import dev.sterner.witchery.data.ErosionReloadListener
+import dev.sterner.witchery.core.data.ErosionReloadListener
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Vec3i
 import net.minecraft.world.level.Level

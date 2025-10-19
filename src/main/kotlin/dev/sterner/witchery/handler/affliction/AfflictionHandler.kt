@@ -2,7 +2,7 @@ package dev.sterner.witchery.handler.affliction
 
 import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.interfaces.VillagerTransfix
-import dev.sterner.witchery.data.BloodPoolReloadListener
+import dev.sterner.witchery.core.data.BloodPoolReloadListener
 import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
@@ -13,7 +13,6 @@ import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
-import net.minecraft.tags.BlockTags
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects

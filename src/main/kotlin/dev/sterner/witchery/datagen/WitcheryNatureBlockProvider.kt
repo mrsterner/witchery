@@ -1,7 +1,7 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.NaturePowerReloadListener
+import dev.sterner.witchery.core.data.NaturePowerReloadListener
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries

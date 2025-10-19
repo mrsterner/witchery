@@ -1,7 +1,7 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data.InfiniteCenserReloadListener
+import dev.sterner.witchery.core.data.InfiniteCenserReloadListener
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.PackOutput
