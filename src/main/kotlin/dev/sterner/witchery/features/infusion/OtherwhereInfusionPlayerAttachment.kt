@@ -1,4 +1,4 @@
-package dev.sterner.witchery.core.data_attachment.infusion
+package dev.sterner.witchery.features.infusion
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
