@@ -6,7 +6,7 @@ import dev.sterner.witchery.api.PoppetUsage
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
-import dev.sterner.witchery.handler.PoppetHandler
+import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes

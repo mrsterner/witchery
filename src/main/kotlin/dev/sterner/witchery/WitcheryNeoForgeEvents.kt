@@ -46,7 +46,7 @@ import dev.sterner.witchery.features.infusion.InfernalInfusionHandler
 import dev.sterner.witchery.features.infusion.InfusionHandler
 import dev.sterner.witchery.features.infusion.LightInfusionHandler
 import dev.sterner.witchery.features.infusion.OtherwhereInfusionHandler
-import dev.sterner.witchery.handler.PoppetHandler
+import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.item.WineGlassItem
 import dev.sterner.witchery.item.accessories.BitingBeltItem

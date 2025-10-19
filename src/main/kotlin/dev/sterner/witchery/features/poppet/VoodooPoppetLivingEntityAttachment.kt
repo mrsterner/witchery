@@ -1,4 +1,4 @@
-package dev.sterner.witchery.core.data_attachment.poppet
+package dev.sterner.witchery.features.poppet
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder

@@ -1,11 +1,6 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.poppet
 
-import dev.sterner.witchery.api.PoppetLocation
-import dev.sterner.witchery.api.PoppetUsage
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.api.interfaces.PoppetType
-import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
-import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
+import dev.sterner.witchery.handler.AccessoryHandler
 import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryPoppetRegistry

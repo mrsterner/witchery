@@ -7,7 +7,7 @@ import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
-import dev.sterner.witchery.handler.PoppetHandler
+import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
