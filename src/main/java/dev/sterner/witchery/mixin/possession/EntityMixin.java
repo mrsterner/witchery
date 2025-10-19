@@ -26,15 +26,11 @@ public class EntityMixin {
         }
     }
 
-    @Mixin(Entity.class)
-    public abstract static class EntityMixin {
-
-        @Inject(method = "isVisuallyCrawling", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"), cancellable = true)
-        private void witchery$isVisuallyCrawling(CallbackInfoReturnable<Boolean> cir) {
-            Entity self = (Entity) (Object) this;
-            if (self instanceof Player player && AfflictionPlayerAttachment.getData(player).isSoulForm()) {
-                cir.setReturnValue(false);
-            }
+    @Inject(method = "isVisuallyCrawling", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"), cancellable = true)
+    private void witchery$isVisuallyCrawling(CallbackInfoReturnable<Boolean> cir) {
+        Entity self = (Entity) (Object) this;
+        if (self instanceof Player player && AfflictionPlayerAttachment.getData(player).isSoulForm()) {
+            cir.setReturnValue(false);
         }
     }
 }
