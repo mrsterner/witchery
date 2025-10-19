@@ -1,6 +1,5 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.coven
 
-import dev.sterner.witchery.data_attachment.CovenPlayerAttachment
 import dev.sterner.witchery.entity.CovenWitchEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
@@ -12,7 +11,9 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
-import java.util.*
+import java.util.Optional
+import java.util.UUID
+import kotlin.collections.get
 import kotlin.math.cos
 import kotlin.math.sin
 

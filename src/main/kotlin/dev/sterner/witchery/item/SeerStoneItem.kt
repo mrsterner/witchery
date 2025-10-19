@@ -2,7 +2,7 @@ package dev.sterner.witchery.item
 
 import dev.sterner.witchery.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
-import dev.sterner.witchery.handler.CovenHandler
+import dev.sterner.witchery.features.coven.CovenHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.chat.Component

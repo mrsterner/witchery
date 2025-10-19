@@ -1,6 +1,5 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.familiar
 
-import dev.sterner.witchery.data_attachment.FamiliarLevelAttachment
 import dev.sterner.witchery.entity.OwlEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
@@ -10,7 +9,7 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Cat
 import net.minecraft.world.entity.animal.frog.Frog
-import java.util.*
+import java.util.UUID
 
 object FamiliarHandler {
 

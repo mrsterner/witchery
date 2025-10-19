@@ -5,7 +5,7 @@ import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.entity.OwlEntity
-import dev.sterner.witchery.handler.FamiliarHandler
+import dev.sterner.witchery.features.familiar.FamiliarHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel

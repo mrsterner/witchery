@@ -9,7 +9,7 @@ import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.data_attachment.CovenPlayerAttachment
 import dev.sterner.witchery.entity.CovenWitchEntity
-import dev.sterner.witchery.handler.FamiliarHandler
+import dev.sterner.witchery.features.familiar.FamiliarHandler
 import dev.sterner.witchery.item.SeerStoneItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.WaystoneItem

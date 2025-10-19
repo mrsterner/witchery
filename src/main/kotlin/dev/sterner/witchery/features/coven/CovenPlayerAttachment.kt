@@ -1,4 +1,4 @@
-package dev.sterner.witchery.core.data_attachment
+package dev.sterner.witchery.features.coven
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
-import java.util.*
+import java.util.UUID
 
 object CovenPlayerAttachment {
     @JvmStatic
@@ -48,7 +48,7 @@ object CovenPlayerAttachment {
                 ).apply(instance, ::Data)
             }
 
-            val ID: ResourceLocation = Witchery.id("coven_data")
+            val ID: ResourceLocation = Witchery.Companion.id("coven_data")
         }
 
 

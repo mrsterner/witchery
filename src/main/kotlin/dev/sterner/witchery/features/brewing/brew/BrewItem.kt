@@ -2,7 +2,7 @@ package dev.sterner.witchery.features.brewing.brew
 
 import com.google.common.base.Predicate
 import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.handler.FamiliarHandler
+import dev.sterner.witchery.features.familiar.FamiliarHandler
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
