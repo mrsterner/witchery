@@ -50,6 +50,9 @@ dev/sterner/witchery/mixin/BookCategoryNodeScreenMixin.java
 dev/sterner/witchery/mixin/BookContentRendererMixin.java
   class BookContentRendererMixin
 
+dev/sterner/witchery/mixin/BookIconMixin.java
+  class BookIconMixin
+
 dev/sterner/witchery/mixin/BrushItemMixin.java
   class BrushItemMixin
 
@@ -721,6 +724,8 @@ dev/sterner/witchery/api/multiblock/MultiBlockComponentBlockEntity.kt
 dev/sterner/witchery/api/multiblock/MultiBlockCoreEntity.kt
   class MultiBlockCoreEntity
   fun onBreak(player: Player)
+  fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
+  fun loadAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
 
 dev/sterner/witchery/api/multiblock/MultiBlockHorizontalDirectionStructure.kt
   class MultiBlockHorizontalDirectionStructure
@@ -1035,6 +1040,7 @@ dev/sterner/witchery/block/ancient_tablet/AncientTabletBlock.kt
 dev/sterner/witchery/block/ancient_tablet/AncientTabletBlockEntity.kt
   class AncientTabletBlockEntity
   fun getTabletId(): UUID
+  fun tick(level: Level, pos: BlockPos, blockState: BlockState)
   fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
   fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider)
 
@@ -1633,7 +1639,7 @@ dev/sterner/witchery/block/ritual/GoldenChalkBlockEntity.kt
   fun getAttunedStoneBonus(level: Level): Int
   fun findAttunedStone(level: Level): List<ItemEntity>
   fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider)
-  fun safelyLoadRitualRecipe(tag: CompoundTag, registries: HolderLookup.Provider): RitualRecipe?
+  fun findRitualRecipeByType(ritualTypeId: ResourceLocation): RitualRecipe?
   fun loadGlobalPosition(tag: CompoundTag)
   fun getLodestoneDimension(tag: CompoundTag): Optional<ResourceKey<Level>>
   fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
@@ -1860,6 +1866,12 @@ dev/sterner/witchery/block/werewolf_altar/WerewolfAltarComponent.kt
   fun getRenderShape(state: BlockState): RenderShape
   fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape
 
+dev/sterner/witchery/client/BindingBoxRenderer.kt
+  object BindingBoxRenderer
+  fun onRenderLevel(event: RenderLevelStageEvent)
+  fun renderBindingBox(radius: Float, fadeProgress: Float, poseStack: PoseStack, bufferSource: MultiBufferSource)
+  fun addGlowFace(builder: BufferBuilder, matrix: Matrix4f, x1: Float, y1: Float, z1: Float, x2: Float, y2: Float, z2: Float, x3: Float, y3: Float, z3: Float, x4: Float, y4: Float, z4: Float)
+
 dev/sterner/witchery/client/OreHighlightRenderer.kt
   class HighlightedOre
   object OreHighlightRenderer
@@ -1873,6 +1885,12 @@ dev/sterner/witchery/client/SleepingClientPlayerEntity.kt
   class SleepingClientPlayerEntity
   fun isSpectator(): Boolean
   fun isModelPartShown(part: PlayerModelPart): Boolean
+
+dev/sterner/witchery/client/TabletGazeTracker.kt
+  object TabletGazeTracker
+  fun tick()
+  fun findTabletInView(player: Player, level: Level): Pair<BlockPos, AncientTabletBlockEntity>?
+  fun reset()
 
 dev/sterner/witchery/client/UrnPotionSelectionHandler.kt
   object UrnPotionSelectionHandler
@@ -1916,6 +1934,11 @@ dev/sterner/witchery/client/model/AltarBlockEntityModel.kt
 dev/sterner/witchery/client/model/AltarClothBlockEntityModel.kt
   class AltarClothBlockEntityModel
   fun renderToBuffer(poseStack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
+  fun createBodyLayer(): LayerDefinition
+
+dev/sterner/witchery/client/model/AncientTabletModel.kt
+  class AncientTabletModel
+  fun renderToBuffer(poseStack: PoseStack, vertexConsumer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
   fun createBodyLayer(): LayerDefinition
 
 dev/sterner/witchery/client/model/BabaYagaEntityModel.kt
@@ -2216,7 +2239,6 @@ dev/sterner/witchery/client/renderer/block/AncientTabletBlockEntityRenderer.kt
   class AncientTabletBlockEntityRenderer
   fun getRenderBoundingBox(blockEntity: AncientTabletBlockEntity): AABB
   fun render(blockEntity: AncientTabletBlockEntity, partialTick: Float, poseStack: PoseStack, bufferSource: MultiBufferSource, packedLight: Int, packedOverlay: Int)
-  fun renderQuad(poseStack: PoseStack, vertexConsumer: VertexConsumer, packedLight: Int, packedOverlay: Int)
 
 dev/sterner/witchery/client/renderer/block/BearTrapBlockEntityRenderer.kt
   class BearTrapBlockEntityRenderer
@@ -2469,6 +2491,10 @@ dev/sterner/witchery/client/renderer/entity/WerewolfEntityRenderer.kt
   class WerewolfEntityRenderer
   fun render(entity: WerewolfEntity, entityYaw: Float, partialTicks: Float, poseStack: PoseStack, buffer: MultiBufferSource, packedLight: Int)
   fun getTextureLocation(entity: WerewolfEntity): ResourceLocation
+
+dev/sterner/witchery/client/renderer/without_level/AncientTabletBlockEntityWithoutLevelRenderer.kt
+  class AncientTabletBlockEntityWithoutLevelRenderer
+  fun renderByItem(stack: ItemStack, displayContext: ItemDisplayContext, poseStack: PoseStack, buffer: MultiBufferSource, packedLight: Int, packedOverlay: Int)
 
 dev/sterner/witchery/client/renderer/without_level/BearTrapBlockEntityWithoutLevelRenderer.kt
   class BearTrapBlockEntityWithoutLevelRenderer
@@ -2738,10 +2764,10 @@ dev/sterner/witchery/data_attachment/BarkBeltPlayerAttachment.kt
 dev/sterner/witchery/data_attachment/BindingCurseAttachment.kt
   class Data
   object BindingCurseAttachment
-  fun getData(player: Player): Data
-  fun setData(player: Player, data: Data)
+  fun getData(livingEntity: LivingEntity): Data
+  fun setData(livingEntity: LivingEntity, data: Data)
   fun sync(player: Player)
-  fun tick(player: Player)
+  fun tick(livingEntity: LivingEntity)
 
 dev/sterner/witchery/data_attachment/BloodPoolLivingEntityAttachment.kt
   class Data
@@ -2904,6 +2930,7 @@ dev/sterner/witchery/data_attachment/TarotPlayerAttachment.kt
   object TarotPlayerAttachment
   fun getData(player: Player): Data
   fun setData(player: Player, data: Data)
+  fun handleCardChanges(player: Player, oldData: Data, newData: Data)
   fun sync(player: Player, data: Data)
   fun serverTick(player: Player)
 
@@ -3370,6 +3397,16 @@ dev/sterner/witchery/datagen/book/WitcherySubBookProvider.kt
   fun bookTooltip(): String
   fun additionalSetup(book: BookModel?): BookModel
 
+dev/sterner/witchery/datagen/book/WitcheryTarotCategoryProvider.kt
+  class WitcheryTarotCategoryProvider
+  fun categoryId(): String
+  fun generateEntryMap(): Array<String>
+  fun generateEntries()
+  fun addEntry(entry: BookEntryModel)
+  fun categoryName(): String
+  fun categoryIcon(): BookIconModel
+  fun additionalSetup(category: BookCategoryModel?): BookCategoryModel
+
 dev/sterner/witchery/datagen/book/WitcheryVampirismCategoryProvider.kt
   class WitcheryVampirismCategoryProvider
   fun categoryId(): String
@@ -3683,6 +3720,9 @@ dev/sterner/witchery/datagen/book/util/EntryProviders.kt
   fun spotlightWithCauldronRecipes(parent: CategoryProviderBase?, id: String, icon: ItemStack, vararg recipeIds: String): EntryProvider
   fun ritual(parent: CategoryProviderBase?, id: String, icon: Item)
   fun ritual(parent: CategoryProviderBase?, id: String, icon: ItemStack): EntryProvider
+  fun tarot(parent: CategoryProviderBase?, id: String): EntryProvider
+  fun entryIcon(): BookIconModel
+  fun generatePages()
 
 dev/sterner/witchery/datagen/bootstrap/WitcheryConfiguredFeatureBootstrap.kt
   object WitcheryConfiguredFeatureBootstrap
@@ -3891,9 +3931,22 @@ dev/sterner/witchery/entity/DeathEntity.kt
 
 dev/sterner/witchery/entity/DemonEntity.kt
   class DemonEntity
+  fun defineSynchedData(builder: SynchedEntityData.Builder)
+  fun isBreathingFire(): Boolean
+  fun setBreathing(breathing: Boolean)
+  fun isEnraged(): Boolean
+  fun setEnraged(enraged: Boolean)
   fun isOnFire(): Boolean
   fun fireImmune(): Boolean
   fun registerGoals()
+  fun aiStep()
+  fun doHurtTarget(target: Entity): Boolean
+  fun hurt(source: DamageSource, amount: Float): Boolean
+  fun getAmbientSound(): SoundEvent
+  fun getHurtSound(damageSource: DamageSource): SoundEvent
+  fun getDeathSound(): SoundEvent
+  fun addAdditionalSaveData(compound: CompoundTag)
+  fun readAdditionalSaveData(compound: CompoundTag)
   fun createAttributes(): AttributeSupplier.Builder
 
 dev/sterner/witchery/entity/ElleEntity.kt
@@ -4206,6 +4259,22 @@ dev/sterner/witchery/entity/WitcheryThrownPotion.kt
   fun getRangeBonus(stack: ItemStack): Int
   fun calculateEffectDuration(potionContent: WitcheryPotionIngredient, effectData: WitcheryPotionIngredient.EffectModifier): Int
   fun applySplash(stack: ItemStack, entity: Entity?, result: HitResult)
+
+dev/sterner/witchery/entity/goal/DemonFireBreathGoal.kt
+  class DemonFireBreathGoal
+  fun canUse(): Boolean
+  fun canContinueToUse(): Boolean
+  fun start()
+  fun stop()
+  fun tick()
+  fun spawnFireBreath(target: LivingEntity)
+  fun isInFireCone(entity: LivingEntity, eyePos: Vec3, lookVec: Vec3): Boolean
+
+dev/sterner/witchery/entity/goal/DemonLeapAttackGoal.kt
+  class DemonLeapAttackGoal
+  fun canUse(): Boolean
+  fun start()
+  fun canContinueToUse(): Boolean
 
 dev/sterner/witchery/entity/goal/DisorientationGoal.kt
   class DisorientationGoal
@@ -4753,7 +4822,6 @@ dev/sterner/witchery/handler/infusion/InfernalInfusionHandler.kt
   fun tick(player: Player?)
 
 dev/sterner/witchery/handler/infusion/InfusionHandler.kt
-  class for
   object InfusionHandler
   fun increaseInfusionCharge(player: Player, toAdd: Int)
   fun decreaseInfusionCharge(player: Player, toRemove: Int)
@@ -5273,8 +5341,6 @@ dev/sterner/witchery/item/TarotDeckItem.kt
 dev/sterner/witchery/item/TornPageItem.kt
   class TornPageItem
   fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack>
-  fun hasAdvancement(serverPlayer: ServerPlayer, advancementResourceLocation: ResourceLocation): Boolean
-  fun grantAdvancementCriterion(serverPlayer: ServerPlayer, advancementResourceLocation: ResourceLocation, criterion: String)
 
 dev/sterner/witchery/item/VampireArmorItem.kt
   class VampireArmorItem
@@ -5672,6 +5738,11 @@ dev/sterner/witchery/payload/OptimizedSelectiveSyncPayload.kt
   fun writeChanges(buf: RegistryFriendlyByteBuf, changes: Map<String, Any?>)
   fun readChanges(buf: RegistryFriendlyByteBuf): Map<String, Any?>
   fun applyChanges(data: AfflictionPlayerAttachment.Data, changes: Map<String, Any?>): AfflictionPlayerAttachment.Data
+
+dev/sterner/witchery/payload/ReadTabletC2SPayload.kt
+  class ReadTabletC2SPayload
+  fun handleOnServer(ctx: IPayloadContext)
+  fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
 
 dev/sterner/witchery/payload/RefreshDimensionsS2CPayload.kt
   class RefreshDimensionsS2CPayload
@@ -6417,7 +6488,6 @@ dev/sterner/witchery/ritual/BindSpectralCreaturesRitual.kt
 dev/sterner/witchery/ritual/BindingRitual.kt
   class BindingRitual
   fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
-  fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
 
 dev/sterner/witchery/ritual/EmptyRitual.kt
   class EmptyRitual
@@ -6491,7 +6561,9 @@ dev/sterner/witchery/tarot/TarotEffect.kt
   fun getDisplayName(isReversed: Boolean): Component
     abstract fun getDescription(isReversed: Boolean): Component
 
-    open fun onTick(player: Player, isReversed: Boolean)
+    open fun onAdded(player: Player, isReversed: Boolean)
+  fun onRemoved(player: Player, isReversed: Boolean)
+  fun onTick(player: Player, isReversed: Boolean)
   fun onMorning(player: Player, isReversed: Boolean)
   fun onNightfall(player: Player, isReversed: Boolean)
   fun onBlockBreak(player: Player, blockState: BlockState, pos: BlockPos, isReversed: Boolean)
@@ -6501,6 +6573,7 @@ dev/sterner/witchery/tarot/TarotEffect.kt
   fun onItemUse(player: Player, item: ItemStack, isReversed: Boolean)
   fun onEnterWater(player: Player, isReversed: Boolean)
   fun onSleep(player: Player, isReversed: Boolean)
+  fun removeCardFromReading(player: Player, cardNumber: Int)
 
 dev/sterner/witchery/tarot/TarotEffectEventHandler.kt
   object TarotEffectEventHandler
@@ -6533,6 +6606,8 @@ dev/sterner/witchery/tarot/TheDevilEffect.kt
   class TheDevilEffect
   fun getDisplayName(isReversed: Boolean)
   fun getDescription(isReversed: Boolean)
+  fun onAdded(player: Player, isReversed: Boolean)
+  fun onRemoved(player: Player, isReversed: Boolean)
   fun onTick(player: Player, isReversed: Boolean)
 
 dev/sterner/witchery/tarot/TheEmperorEffect.kt
@@ -6567,7 +6642,10 @@ dev/sterner/witchery/tarot/TheHermitEffect.kt
   class TheHermitEffect
   fun getDisplayName(isReversed: Boolean)
   fun getDescription(isReversed: Boolean)
+  fun onAdded(player: Player, isReversed: Boolean)
+  fun onRemoved(player: Player, isReversed: Boolean)
   fun onTick(player: Player, isReversed: Boolean)
+  fun updateHealthModifier(player: Player, isAlone: Boolean)
 
 dev/sterner/witchery/tarot/TheHierophantEffect.kt
   class TheHierophantEffect
@@ -6588,6 +6666,7 @@ dev/sterner/witchery/tarot/TheLoversEffect.kt
   fun getDisplayName(isReversed: Boolean)
   fun getDescription(isReversed: Boolean)
   fun onTick(player: Player, isReversed: Boolean)
+  fun ensureAttackGoals(mob: PathfinderMob)
 
 dev/sterner/witchery/tarot/TheMagicianEffect.kt
   class TheMagicianEffect
@@ -6667,6 +6746,8 @@ dev/sterner/witchery/util/WitcheryConstants.kt
 
 dev/sterner/witchery/util/WitcheryUtil.kt
   object WitcheryUtil
+  fun hasAdvancement(serverPlayer: ServerPlayer, advancementResourceLocation: ResourceLocation): Boolean
+  fun grantAdvancementCriterion(serverPlayer: ServerPlayer, advancementResourceLocation: ResourceLocation, criterion: String)
   fun rotateShape(from: Direction, to: Direction, shape: VoxelShape): VoxelShape
   fun formatDuration(ticks: Int): String
   fun toRoman(number: Int): String
