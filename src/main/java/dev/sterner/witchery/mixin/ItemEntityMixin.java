@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment;
-import dev.sterner.witchery.registry.WitcheryItems;
-import dev.sterner.witchery.registry.WitcheryPoppetRegistry;
+import dev.sterner.witchery.core.data_attachment.InventoryLockPlayerAttachment;
+import dev.sterner.witchery.core.registry.WitcheryItems;
+import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

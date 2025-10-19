@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.client;
 
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
-import dev.sterner.witchery.registry.WitcheryRenderTypes;
+import dev.sterner.witchery.core.registry.WitcheryRenderTypes;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.client.renderer.RenderType;

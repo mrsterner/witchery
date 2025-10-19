@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.renderer.block
 import com.mojang.authlib.GameProfile
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
-import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
+import dev.sterner.witchery.content.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.registry.WitcheryRenderTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.SkullModel

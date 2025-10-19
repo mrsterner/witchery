@@ -3,7 +3,7 @@ package dev.sterner.witchery.features.affliction.werewolf
 
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
-import dev.sterner.witchery.entity.HornedHuntsmanEntity
+import dev.sterner.witchery.content.entity.HornedHuntsmanEntity
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import net.minecraft.core.particles.ParticleTypes

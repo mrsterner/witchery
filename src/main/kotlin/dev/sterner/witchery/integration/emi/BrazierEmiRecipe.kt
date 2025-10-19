@@ -6,8 +6,8 @@ import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.TextWidget
 import dev.emi.emi.api.widget.WidgetHolder
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.crafting.Ingredient

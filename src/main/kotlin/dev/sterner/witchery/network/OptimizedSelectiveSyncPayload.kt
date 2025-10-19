@@ -2,9 +2,8 @@ package dev.sterner.witchery.network
 
 import com.mojang.serialization.Codec
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.affliction.SyncFieldRegistry
-
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.SyncFieldRegistry
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps

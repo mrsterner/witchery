@@ -1,9 +1,9 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.block.poppet.PoppetBlockEntity
-import dev.sterner.witchery.item.TaglockItem.Companion.getLivingEntityName
-import dev.sterner.witchery.item.TaglockItem.Companion.getPlayerProfile
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.content.block.poppet.PoppetBlockEntity
+import dev.sterner.witchery.content.item.TaglockItem.Companion.getLivingEntityName
+import dev.sterner.witchery.content.item.TaglockItem.Companion.getPlayerProfile
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.InteractionResult

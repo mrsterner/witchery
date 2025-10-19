@@ -2,10 +2,10 @@ package dev.sterner.witchery.client.renderer.entity
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
-import dev.sterner.witchery.api.entity.PlayerShellEntity
+import dev.sterner.witchery.core.api.entity.PlayerShellEntity
 import dev.sterner.witchery.client.SleepingClientPlayerEntity
 import dev.sterner.witchery.client.particle.ZzzData
-import dev.sterner.witchery.entity.player_shell.SleepingPlayerEntity
+import dev.sterner.witchery.content.entity.player_shell.SleepingPlayerEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.MultiBufferSource

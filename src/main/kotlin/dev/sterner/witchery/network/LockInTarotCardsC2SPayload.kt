@@ -1,7 +1,7 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
+import dev.sterner.witchery.core.data_attachment.TarotPlayerAttachment
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload

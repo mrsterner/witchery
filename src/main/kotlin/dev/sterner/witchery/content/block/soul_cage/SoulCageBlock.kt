@@ -1,8 +1,8 @@
 package dev.sterner.witchery.content.block.soul_cage
 
 
-import dev.sterner.witchery.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmission
+import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.content.block.cauldron.CauldronBlock.Companion.litBlockEmission
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.Block

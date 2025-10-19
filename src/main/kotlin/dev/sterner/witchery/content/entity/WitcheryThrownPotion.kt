@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.entity
 
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.item.potion.WitcheryPotionItem
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryMobEffects

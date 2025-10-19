@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.misc
 
-import dev.sterner.witchery.data_attachment.SleepingLevelAttachment
+import dev.sterner.witchery.core.data_attachment.SleepingLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import java.util.*

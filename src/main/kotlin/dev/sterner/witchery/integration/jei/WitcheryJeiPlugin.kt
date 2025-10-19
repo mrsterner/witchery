@@ -1,14 +1,14 @@
 package dev.sterner.witchery.integration.jei
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
+import dev.sterner.witchery.content.recipe.oven.OvenCookingRecipe
+import dev.sterner.witchery.content.recipe.spinning_wheel.SpinningWheelRecipe
+import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.integration.jei.wrapper.BrazierSummoningJeiRecipe
 import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
-import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
-import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
-import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import mezz.jei.api.IModPlugin
 import mezz.jei.api.JeiPlugin
 import mezz.jei.api.recipe.RecipeType

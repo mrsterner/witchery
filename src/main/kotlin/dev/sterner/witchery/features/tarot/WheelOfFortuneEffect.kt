@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.tarot
 
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.network.chat.Component
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects

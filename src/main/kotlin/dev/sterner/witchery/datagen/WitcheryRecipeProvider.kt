@@ -1,11 +1,11 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.phylactery.PhylacteryBlock
+import dev.sterner.witchery.content.block.phylactery.PhylacteryBlock
 import dev.sterner.witchery.datagen.recipe.*
 import dev.sterner.witchery.recipe.*
 import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.core.HolderLookup

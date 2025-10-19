@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.entity.goal
 
-import dev.sterner.witchery.entity.DeathEntity
+import dev.sterner.witchery.content.entity.DeathEntity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.goal.Goal

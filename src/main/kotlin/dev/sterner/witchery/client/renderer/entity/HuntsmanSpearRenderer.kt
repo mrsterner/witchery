@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.HuntsmanSpearModel
-import dev.sterner.witchery.entity.HuntsmanSpearEntity
+import dev.sterner.witchery.content.entity.HuntsmanSpearEntity
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider

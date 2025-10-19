@@ -1,8 +1,8 @@
 package dev.sterner.witchery.content.block.spirit_portal
 
 
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup

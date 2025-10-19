@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession.possessor;
 
 import com.mojang.authlib.GameProfile;
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;

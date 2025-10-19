@@ -1,6 +1,6 @@
 package dev.sterner.witchery.datagen
 
-import dev.sterner.witchery.api.SpecialPotion
+import dev.sterner.witchery.core.api.SpecialPotion
 import dev.sterner.witchery.datagen.lang.WitcheryAdvancementLangProvider
 import dev.sterner.witchery.datagen.lang.WitcheryBookLangProvider
 import dev.sterner.witchery.datagen.lang.WitcheryRitualLangProvider

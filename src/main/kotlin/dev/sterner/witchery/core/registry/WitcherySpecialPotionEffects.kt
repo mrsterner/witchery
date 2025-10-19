@@ -1,18 +1,18 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import com.google.common.collect.ImmutableMap
 import com.google.common.collect.Maps
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.SpecialPotion
+import dev.sterner.witchery.core.api.SpecialPotion
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.mixin.SaplingBlockAccessor
 import dev.sterner.witchery.core.world.WitcheryWorldState
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Registry
 import net.minecraft.core.particles.ParticleOptions

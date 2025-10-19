@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.layer
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.client.model.BabaYagaEntityModel
-import dev.sterner.witchery.entity.BabaYagaEntity
+import dev.sterner.witchery.content.entity.BabaYagaEntity
 import net.minecraft.client.renderer.ItemInHandRenderer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.RenderLayerParent

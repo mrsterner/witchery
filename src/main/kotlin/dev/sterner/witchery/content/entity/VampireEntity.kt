@@ -1,13 +1,12 @@
 package dev.sterner.witchery.content.entity
 
-import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-
-import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.entity.goal.DrinkBloodTargetingGoal
-import dev.sterner.witchery.entity.goal.NightHuntGoal
-import dev.sterner.witchery.entity.goal.VampireEscapeSunGoal
-import dev.sterner.witchery.entity.goal.VampireHurtByTargetGoal
+import dev.sterner.witchery.content.block.blood_crucible.BloodCrucibleBlockEntity
+import dev.sterner.witchery.content.entity.goal.DrinkBloodTargetingGoal
+import dev.sterner.witchery.content.entity.goal.NightHuntGoal
+import dev.sterner.witchery.content.entity.goal.VampireEscapeSunGoal
+import dev.sterner.witchery.content.entity.goal.VampireHurtByTargetGoal
+import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.misc.BloodPoolHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntHandler

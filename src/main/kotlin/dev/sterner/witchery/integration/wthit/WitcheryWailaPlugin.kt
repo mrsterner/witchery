@@ -1,6 +1,6 @@
 package dev.sterner.witchery.integration.wthit
 
-import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlock
+import dev.sterner.witchery.content.block.blood_poppy.BloodPoppyBlock
 import mcp.mobius.waila.api.IClientRegistrar
 import mcp.mobius.waila.api.ICommonRegistrar
 import mcp.mobius.waila.api.IWailaClientPlugin

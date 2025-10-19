@@ -1,7 +1,7 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
+import dev.sterner.witchery.features.possession.EntityAiToggle
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps

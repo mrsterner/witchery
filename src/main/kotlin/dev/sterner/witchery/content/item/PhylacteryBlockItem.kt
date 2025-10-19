@@ -1,7 +1,7 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.block.phylactery.PhylacteryBlock
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.content.block.phylactery.PhylacteryBlock
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.block.Block

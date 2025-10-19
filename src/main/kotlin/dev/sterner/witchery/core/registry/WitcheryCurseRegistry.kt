@@ -1,8 +1,7 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.Curse
-import dev.sterner.witchery.curse.*
+import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.features.curse.CurseOfBefuddlement
 import dev.sterner.witchery.features.curse.CurseOfCorruptPoppet
 import dev.sterner.witchery.features.curse.CurseOfFragility

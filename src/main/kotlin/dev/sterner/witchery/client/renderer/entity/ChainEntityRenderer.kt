@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.ChainModel
-import dev.sterner.witchery.entity.ChainEntity
+import dev.sterner.witchery.content.entity.ChainEntity
 import dev.sterner.witchery.features.chain.ChainType
 import dev.sterner.witchery.registry.WitcheryRenderTypes
 import net.minecraft.client.renderer.MultiBufferSource

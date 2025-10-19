@@ -5,8 +5,8 @@ import dev.sterner.witchery.content.entity.AbstractSpectralEntity
 import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment
 import dev.sterner.witchery.features.chain.ChainManager
 import dev.sterner.witchery.features.chain.ChainType
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.particles.ParticleTypes

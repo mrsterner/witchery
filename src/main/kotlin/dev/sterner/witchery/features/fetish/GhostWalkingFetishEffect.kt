@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.fetish
 
-import dev.sterner.witchery.api.FetishEffect
-import dev.sterner.witchery.block.effigy.EffigyBlockEntity
+import dev.sterner.witchery.core.api.FetishEffect
+import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.features.misc.ManifestationHandler
 import net.minecraft.core.BlockPos

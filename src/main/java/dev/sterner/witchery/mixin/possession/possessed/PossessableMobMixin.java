@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession.possessed;
 
-import dev.sterner.witchery.api.interfaces.Possessable;
-import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment;
+import dev.sterner.witchery.core.api.interfaces.Possessable;
+import dev.sterner.witchery.features.possession.PossessedDataAttachment;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;

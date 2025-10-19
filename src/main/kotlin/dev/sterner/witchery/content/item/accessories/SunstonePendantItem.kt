@@ -1,8 +1,8 @@
-package dev.sterner.witchery.item.accessories
+package dev.sterner.witchery.content.item.accessories
 
 import com.google.common.collect.Multimap
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.core.data_attachment.WitcheryAttributes
 import net.minecraft.core.Holder
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.ai.attributes.Attribute

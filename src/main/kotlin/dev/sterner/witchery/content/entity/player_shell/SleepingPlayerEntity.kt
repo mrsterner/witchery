@@ -1,15 +1,15 @@
 package dev.sterner.witchery.content.entity.player_shell
 
-import dev.sterner.witchery.api.entity.PlayerShellEntity
-import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
-import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
-import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
+import dev.sterner.witchery.core.api.entity.PlayerShellEntity
+import dev.sterner.witchery.core.data_attachment.DeathQueueLevelAttachment
+import dev.sterner.witchery.core.data_attachment.ManifestationPlayerAttachment
+import dev.sterner.witchery.core.data_attachment.teleport.TeleportRequest
 import dev.sterner.witchery.features.misc.AccessoryHandler
 import dev.sterner.witchery.features.misc.SleepingPlayerHandler
 import dev.sterner.witchery.features.misc.TeleportQueueHandler
 import dev.sterner.witchery.network.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag

@@ -4,8 +4,8 @@ import dev.emi.emi.api.recipe.EmiPatternCraftingRecipe
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.SlotWidget
-import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.crafting.Ingredient
 import java.util.*

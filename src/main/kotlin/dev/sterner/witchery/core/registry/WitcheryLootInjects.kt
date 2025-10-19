@@ -1,4 +1,4 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.block.Blocks
@@ -12,7 +12,6 @@ object WitcheryLootInjects {
     fun onLootTableLoad(event: LootTableLoadEvent) {
         val name = event.name
 
-        // Add Witches Hand to witch loot table
         if (name == EntityType.WITCH.defaultLootTable) {
             val pool = LootPool.lootPool()
                 .add(
@@ -23,7 +22,6 @@ object WitcheryLootInjects {
             event.table.addPool(pool)
         }
 
-        // Add Tongue of Dog to wolf loot table
         if (name == EntityType.WOLF.defaultLootTable) {
             val pool = LootPool.lootPool()
                 .add(
@@ -34,7 +32,6 @@ object WitcheryLootInjects {
             event.table.addPool(pool)
         }
 
-        // Add Toe of Frog to frog loot table
         if (name == EntityType.FROG.defaultLootTable) {
             val pool = LootPool.lootPool()
                 .add(
@@ -45,7 +42,6 @@ object WitcheryLootInjects {
             event.table.addPool(pool)
         }
 
-        // Add Wool of Bat to bat loot table
         if (name == EntityType.BAT.defaultLootTable) {
             val pool = LootPool.lootPool()
                 .add(
@@ -56,7 +52,6 @@ object WitcheryLootInjects {
             event.table.addPool(pool)
         }
 
-        // Add seeds to grass loot tables
         if (name == Blocks.SHORT_GRASS.lootTable || name == Blocks.TALL_GRASS.lootTable) {
             val belladonnaPool = LootPool.lootPool()
                 .add(

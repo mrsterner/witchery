@@ -3,7 +3,7 @@ package dev.sterner.witchery.core.data_attachment.teleport
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.registry.WitcheryDataAttachments.TELEPORT_QUEUE_DATA_ATTACHMENT
+import dev.sterner.witchery.core.registry.WitcheryDataAttachments.TELEPORT_QUEUE_DATA_ATTACHMENT
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 

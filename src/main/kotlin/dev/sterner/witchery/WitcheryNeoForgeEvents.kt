@@ -1,16 +1,16 @@
 package dev.sterner.witchery
 
-import dev.sterner.witchery.api.event.ChainEvent
-import dev.sterner.witchery.api.event.SleepingEvent
-import dev.sterner.witchery.api.schedule.TickTaskScheduler
-import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.block.brazier.BrazierBlockEntity
-import dev.sterner.witchery.block.coffin.CoffinBlock
-import dev.sterner.witchery.block.mushroom_log.MushroomLogBlock
-import dev.sterner.witchery.block.phylactery.PhylacteryBlockEntity
-import dev.sterner.witchery.block.ritual.RitualChalkBlock
-import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
-import dev.sterner.witchery.block.soul_cage.SoulCageBlockEntity
+import dev.sterner.witchery.core.api.event.ChainEvent
+import dev.sterner.witchery.core.api.event.SleepingEvent
+import dev.sterner.witchery.core.api.schedule.TickTaskScheduler
+import dev.sterner.witchery.content.block.altar.AltarBlockEntity
+import dev.sterner.witchery.content.block.brazier.BrazierBlockEntity
+import dev.sterner.witchery.content.block.coffin.CoffinBlock
+import dev.sterner.witchery.content.block.mushroom_log.MushroomLogBlock
+import dev.sterner.witchery.content.block.phylactery.PhylacteryBlockEntity
+import dev.sterner.witchery.content.block.ritual.RitualChalkBlock
+import dev.sterner.witchery.content.block.sacrificial_circle.SacrificialBlockEntity
+import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
 import dev.sterner.witchery.core.data.ErosionReloadListener
 import dev.sterner.witchery.core.data.FetishEffectReloadListener

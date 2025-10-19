@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.layer
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.HornedHuntsmanModel
 import dev.sterner.witchery.client.renderer.entity.HornedHuntsmanEntityRenderer
-import dev.sterner.witchery.entity.HornedHuntsmanEntity
+import dev.sterner.witchery.content.entity.HornedHuntsmanEntity
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.texture.OverlayTexture
 

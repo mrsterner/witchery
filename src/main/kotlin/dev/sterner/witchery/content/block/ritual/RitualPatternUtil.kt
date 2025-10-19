@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.block.ritual
 
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block

@@ -1,12 +1,12 @@
 package dev.sterner.witchery.content.block.ancient_tablet
 
 
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
-import dev.sterner.witchery.api.multiblock.MultiBlockStructure
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlock
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlockEntity
+import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.core.api.multiblock.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.core.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

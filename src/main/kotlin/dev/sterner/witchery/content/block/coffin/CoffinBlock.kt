@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.block.coffin
 
 
-import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.InteractionResult

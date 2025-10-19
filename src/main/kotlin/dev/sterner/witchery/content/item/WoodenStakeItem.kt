@@ -1,8 +1,8 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
 
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.entity.VampireEntity
+import dev.sterner.witchery.content.entity.VampireEntity
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import net.minecraft.world.entity.LivingEntity

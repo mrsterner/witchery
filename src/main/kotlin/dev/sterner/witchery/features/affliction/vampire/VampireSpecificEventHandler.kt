@@ -1,8 +1,8 @@
 package dev.sterner.witchery.features.affliction.vampire
 
-import dev.sterner.witchery.api.event.VampireEvent
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
-import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlock
+import dev.sterner.witchery.core.api.event.VampireEvent
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlockEntity
+import dev.sterner.witchery.content.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
@@ -14,7 +14,7 @@ import dev.sterner.witchery.network.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents

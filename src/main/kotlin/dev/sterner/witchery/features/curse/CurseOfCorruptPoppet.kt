@@ -1,9 +1,9 @@
 package dev.sterner.witchery.features.curse
 
-import dev.sterner.witchery.api.Curse
-import dev.sterner.witchery.api.PoppetLocation
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.api.interfaces.PoppetType
+import dev.sterner.witchery.core.api.Curse
+import dev.sterner.witchery.core.api.PoppetLocation
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.registry.WitcheryPoppetRegistry

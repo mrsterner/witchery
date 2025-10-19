@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.tarot
 
-import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.content.block.altar.AltarBlockEntity
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.damagesource.DamageSource

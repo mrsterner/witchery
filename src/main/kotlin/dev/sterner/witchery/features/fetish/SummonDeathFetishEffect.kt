@@ -1,10 +1,10 @@
 package dev.sterner.witchery.features.fetish
 
-import dev.sterner.witchery.api.FetishEffect
-import dev.sterner.witchery.block.effigy.EffigyBlockEntity
-import dev.sterner.witchery.block.effigy.EffigyState
+import dev.sterner.witchery.core.api.FetishEffect
+import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
+import dev.sterner.witchery.content.block.effigy.EffigyState
 import dev.sterner.witchery.data_attachment.MiscPlayerAttachment
-import dev.sterner.witchery.entity.DeathEntity
+import dev.sterner.witchery.content.entity.DeathEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
 import net.minecraft.core.particles.ParticleTypes

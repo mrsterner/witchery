@@ -1,7 +1,7 @@
 package dev.sterner.witchery.client.model
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.content.entity.WerewolfEntity
 import net.minecraft.client.model.HumanoidModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart

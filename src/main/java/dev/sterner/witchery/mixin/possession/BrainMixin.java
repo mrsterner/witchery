@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin.possession;
 
-import dev.sterner.witchery.api.interfaces.DisableableAiController;
+import dev.sterner.witchery.core.api.interfaces.DisableableAiController;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;

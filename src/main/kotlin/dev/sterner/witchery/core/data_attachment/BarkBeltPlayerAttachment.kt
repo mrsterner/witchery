@@ -3,8 +3,8 @@ package dev.sterner.witchery.core.data_attachment
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import dev.sterner.witchery.network.SyncBarkS2CPayload
-import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.entity
 
-import dev.sterner.witchery.entity.goal.WitcheryPanicGoal
+import dev.sterner.witchery.content.entity.goal.WitcheryPanicGoal
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier

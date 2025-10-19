@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.menu
 
-import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.content.block.distillery.DistilleryBlockEntity
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryMenuTypes
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.util.Mth

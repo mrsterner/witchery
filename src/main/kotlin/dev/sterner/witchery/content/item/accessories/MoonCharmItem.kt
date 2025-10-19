@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item.accessories
+package dev.sterner.witchery.content.item.accessories
 
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import net.minecraft.world.entity.player.Player

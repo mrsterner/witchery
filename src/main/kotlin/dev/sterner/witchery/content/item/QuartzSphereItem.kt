@@ -1,12 +1,12 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.entity.ThrownBrewEntity
+import dev.sterner.witchery.content.entity.ThrownBrewEntity
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
+import dev.sterner.witchery.features.brewing.brew.ThrowableBrewItem
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
 import dev.sterner.witchery.features.infusion.InfusionHandler
-import dev.sterner.witchery.item.brew.ThrowableBrewItem
-import dev.sterner.witchery.item.potion.WitcheryPotionItem
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
 import net.minecraft.core.Direction
 import net.minecraft.core.Position
 import net.minecraft.network.chat.Component

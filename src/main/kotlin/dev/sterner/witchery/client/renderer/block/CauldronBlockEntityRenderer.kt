@@ -2,7 +2,7 @@ package dev.sterner.witchery.client.renderer.block
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
-import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
+import dev.sterner.witchery.content.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.client.particle.ColorBubbleData
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType

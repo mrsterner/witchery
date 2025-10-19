@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.item.brew.BrewOfFlowingSpiritItem;
+import dev.sterner.witchery.features.brewing.brew.BrewOfFlowingSpiritItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;

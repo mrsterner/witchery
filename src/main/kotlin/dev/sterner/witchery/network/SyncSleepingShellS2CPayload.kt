@@ -1,7 +1,7 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.entity.PlayerShellEntity
+import dev.sterner.witchery.core.api.entity.PlayerShellEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps

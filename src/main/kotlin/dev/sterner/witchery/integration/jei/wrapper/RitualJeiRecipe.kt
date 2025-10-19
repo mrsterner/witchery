@@ -1,6 +1,6 @@
 package dev.sterner.witchery.integration.jei.wrapper
 
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
+import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
 import net.minecraft.resources.ResourceLocation
 
 data class RitualJeiRecipe(

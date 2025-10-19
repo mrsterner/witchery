@@ -1,8 +1,8 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.item.LeonardsUrnItem
-import dev.sterner.witchery.item.QuartzSphereItem
+import dev.sterner.witchery.content.item.LeonardsUrnItem
+import dev.sterner.witchery.content.item.QuartzSphereItem
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload

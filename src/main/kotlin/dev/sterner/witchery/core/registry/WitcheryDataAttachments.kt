@@ -1,21 +1,24 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.*
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
-import dev.sterner.witchery.data_attachment.affliction.VampireChildrenHuntLevelAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfernalInfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.LightInfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.OtherwhereInfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
-import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
-import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
-import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment.PossessionData
-import dev.sterner.witchery.data_attachment.teleport.TeleportQueueLevelAttachment
+import dev.sterner.witchery.core.data_attachment.*
+import dev.sterner.witchery.core.data_attachment.teleport.TeleportQueueLevelAttachment
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
+import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntLevelAttachment
+import dev.sterner.witchery.features.coven.CovenPlayerAttachment
+import dev.sterner.witchery.features.curse.CursePlayerAttachment
+import dev.sterner.witchery.features.infusion.InfernalInfusionPlayerAttachment
+import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.features.infusion.LightInfusionPlayerAttachment
+import dev.sterner.witchery.features.infusion.OtherwhereInfusionPlayerAttachment
+import dev.sterner.witchery.features.nightmare.NightmarePlayerAttachment
+import dev.sterner.witchery.features.poppet.CorruptPoppetPlayerAttachment
+import dev.sterner.witchery.features.poppet.PoppetLevelAttachment
+import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment
+import dev.sterner.witchery.features.possession.EntityAiToggle
+import dev.sterner.witchery.features.possession.PossessedDataAttachment
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
@@ -49,12 +52,12 @@ object WitcheryDataAttachments {
         )
 
     @JvmStatic
-    val PLAYER_POSSESSION: Supplier<AttachmentType<PossessionData>> =
+    val PLAYER_POSSESSION: Supplier<AttachmentType<PossessionComponentAttachment.PossessionData>> =
         ATTACHMENT_TYPES.register(
             "player_possession",
             Supplier {
-                AttachmentType.builder(Supplier { PossessionData() })
-                    .serialize(PossessionData.CODEC)
+                AttachmentType.builder(Supplier { PossessionComponentAttachment.PossessionData() })
+                    .serialize(PossessionComponentAttachment.PossessionData.CODEC)
                     .build()
             }
         )

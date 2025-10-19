@@ -1,22 +1,22 @@
 package dev.sterner.witchery.content.block.cauldron
 
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.api.block.AltarPowerConsumer
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.block.altar.AltarBlockEntity
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.api.block.AltarPowerConsumer
+import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.content.block.altar.AltarBlockEntity
+import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
+import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.core.data.PotionDataReloadListener
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.item.potion.WitcheryPotionItem
+import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
 import dev.sterner.witchery.network.*
-import dev.sterner.witchery.recipe.MultipleItemRecipeInput
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
-import dev.sterner.witchery.recipe.cauldron.ItemStackWithColor
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryItems.WITCHERY_POTION
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems.WITCHERY_POTION
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
@@ -54,6 +54,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank
 import net.neoforged.neoforge.network.PacketDistributor
 import org.joml.Vector3d
+import kotlin.collections.forEach
 
 class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.CAULDRON.get(), CauldronBlock.STRUCTURE.get(),

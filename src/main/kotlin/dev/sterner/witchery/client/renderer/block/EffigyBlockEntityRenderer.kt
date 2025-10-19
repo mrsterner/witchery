@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.renderer.block
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.effigy.EffigyBlockEntity
+import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.client.model.BansheeEntityModel
 import dev.sterner.witchery.client.model.SpectreEntityModel
 import dev.sterner.witchery.registry.WitcheryBlocks

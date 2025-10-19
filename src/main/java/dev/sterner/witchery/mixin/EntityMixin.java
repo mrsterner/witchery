@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment;
+import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

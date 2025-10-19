@@ -1,12 +1,12 @@
 package dev.sterner.witchery.content.block.altar
 
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.block.ChaliceBlock
+import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.content.block.ChaliceBlock
 import dev.sterner.witchery.core.data.NaturePowerReloadListener
 import dev.sterner.witchery.content.menu.AltarMenu
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.network.AltarMultiplierSyncS2CPayload
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryTags
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
@@ -79,7 +79,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
     private fun getLocalAABB() = AABB.ofSize(blockPos.center, range.toDouble(), range.toDouble(), range.toDouble())
 
-    // Based on speed and potential lag, lets call this every 5 or so seconds
     private fun collectAllLocalNaturePower(level: ServerLevel) {
         limitTracker.clear()
         maxPower = 0
@@ -121,11 +120,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     fun augmentAltar(level: ServerLevel) {
         val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
 
-        //  There are 3 values to augment
-        //      Recharge Rate (power multiplier)
-        //      Power Boost (extra max power)
-        //      Range Boost (extra range)
-
         powerMultiplier = 1.0
 
         val prevPowerBoost = powerBoost
@@ -142,7 +136,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         var hasInfinityEgg = false
 
         level.getBlockStatesIfLoaded(augments).forEach { state ->
-            // Handle Light-based Augments which effect Recharge Rate
+
             if (state.`is`(WitcheryTags.CANDELABRAS) { b -> b.getValue(BlockStateProperties.LIT) } && 2.0 > bestLightAugment) {
                 bestLightAugment = 2.0
             } else if (state.`is`(Blocks.SOUL_TORCH) && 1.5 > bestLightAugment) {
@@ -172,7 +166,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                 bestLightAugment = 0.25
             }
 
-            // Handle Head-base Augments which effect Recharge Rate AND Power Boost
             if ((state.`is`(Blocks.PLAYER_HEAD) || state.`is`(Blocks.PLAYER_WALL_HEAD)) && 3.0 > bestHeadAugment) {
                 bestHeadAugment = 3.0
             } else if ((state.`is`(Blocks.WITHER_SKELETON_SKULL) || state.`is`(Blocks.WITHER_SKELETON_WALL_SKULL)) && 2.0 > bestHeadAugment) {
@@ -181,13 +174,10 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                 bestHeadAugment = 1.0
             }
 
-            // Handle Pentacle
             if (state.`is`(WitcheryBlocks.PENTACLE.get()) && !hasPentacle) {
                 hasPentacle = true
             }
 
-
-            // Handle Chalice
             if (state.`is`(WitcheryBlocks.CHALICE.get()))
                 if (state.getValue(ChaliceBlock.HAS_SOUP) && 2.0 > bestChaliceAugment) {
                     bestChaliceAugment = 2.0
@@ -195,14 +185,10 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                     bestChaliceAugment = 1.0
                 }
 
-
-            // Handle Arthana
             if (state.`is`(WitcheryBlocks.ARTHANA.get()) && 2.0 > rangeMultiplier) {
                 rangeMultiplier = 2.0
             }
 
-
-            // Handle Infinity Egg
             if (state.`is`(WitcheryBlocks.INFINITY_EGG.get()) && !hasInfinityEgg) {
                 hasInfinityEgg = true
             }
@@ -356,7 +342,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         fun onBlockBreak(event: BlockEvent.BreakEvent) {
             val level = event.level
             if (level is Level && !level.isClientSide) {
-                // Find nearby altar block entities
                 val altarPos = findNearbyAltars(level, event.pos)
                 altarPos.forEach { pos ->
                     val be = level.getBlockEntity(pos)
@@ -378,7 +363,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         fun onBlockPlace(event: BlockEvent.EntityPlaceEvent) {
             val level = event.level
             if (level is Level && !level.isClientSide) {
-                // Find nearby altar block entities
                 val altarPos = findNearbyAltars(level, event.pos)
                 altarPos.forEach { pos ->
                     val be = level.getBlockEntity(pos)

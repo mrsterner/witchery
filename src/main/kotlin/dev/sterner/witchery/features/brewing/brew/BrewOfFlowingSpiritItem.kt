@@ -1,9 +1,9 @@
 package dev.sterner.witchery.features.brewing.brew
 
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlockEntity
 
-import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock
+import dev.sterner.witchery.content.block.spirit_portal.SpiritPortalBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

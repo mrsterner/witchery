@@ -1,7 +1,7 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.poppet.CorruptPoppetPlayerAttachment
+import dev.sterner.witchery.features.poppet.CorruptPoppetPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.ItemNameBlockItem

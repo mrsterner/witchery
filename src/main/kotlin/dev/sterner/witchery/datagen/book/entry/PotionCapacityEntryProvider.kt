@@ -8,7 +8,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.klikli_dev.modonomicon.book.BookTextHolder
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.datagen.book.page.BookPotionPageModel
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Items
 

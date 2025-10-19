@@ -1,8 +1,8 @@
 package dev.sterner.witchery.content.block.blood_poppy
 
 
-import dev.sterner.witchery.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag

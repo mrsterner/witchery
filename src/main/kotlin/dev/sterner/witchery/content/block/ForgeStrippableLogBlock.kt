@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.block
 
-import dev.sterner.witchery.block.trees.StrippableLogBlock
+import dev.sterner.witchery.content.block.trees.StrippableLogBlock
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState

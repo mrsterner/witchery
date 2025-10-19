@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.data_attachment.EtherealEntityAttachment;
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
-import dev.sterner.witchery.registry.WitcheryTags;
+import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment;
+import dev.sterner.witchery.core.registry.WitcheryTags;
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;

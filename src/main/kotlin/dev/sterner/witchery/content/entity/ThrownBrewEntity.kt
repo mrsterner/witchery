@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.entity
 
+import dev.sterner.witchery.features.brewing.brew.BrewItem
 import dev.sterner.witchery.features.familiar.FamiliarHandler
-import dev.sterner.witchery.item.brew.BrewItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
 import net.minecraft.core.component.DataComponents

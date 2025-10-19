@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.block
 
 import com.mojang.serialization.MapCodec
-import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmission
+import dev.sterner.witchery.content.block.cauldron.CauldronBlock.Companion.litBlockEmission
 import net.minecraft.core.BlockPos
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource

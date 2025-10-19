@@ -3,12 +3,12 @@ package dev.sterner.witchery.integration.modonomicon
 import com.klikli_dev.modonomicon.book.page.BookPage
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
-import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
-import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
+import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
+import dev.sterner.witchery.content.recipe.oven.OvenCookingRecipe
+import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
 import net.minecraft.resources.ResourceLocation
 
 object WitcheryPageRendererRegistry {

@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.block
 
 import com.mojang.serialization.MapCodec
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
 import net.minecraft.core.BlockPos
 import net.minecraft.world.Containers

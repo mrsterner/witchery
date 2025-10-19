@@ -1,8 +1,8 @@
 package dev.sterner.witchery.features.affliction.werewolf
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.api.event.WerewolfEvent
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.api.event.WerewolfEvent
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler

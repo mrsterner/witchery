@@ -1,13 +1,13 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
-import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.data_attachment.ManifestationPlayerAttachment
+import dev.sterner.witchery.core.data_attachment.teleport.TeleportRequest
 import dev.sterner.witchery.features.misc.AccessoryHandler
 import dev.sterner.witchery.features.misc.SleepingPlayerHandler
 import dev.sterner.witchery.features.misc.TeleportQueueHandler
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -27,27 +27,21 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
     override fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack {
         super.finishUsingItem(stack, level, livingEntity)
 
-        try {
-            // Handle player in spirit world
-            if (livingEntity is ServerPlayer && WitcheryApi.isInSpiritWorld(livingEntity)) {
-                handleSpiritWorldReturn(livingEntity, level)
-                return stack
+        if (livingEntity is ServerPlayer && WitcheryApi.isInSpiritWorld(livingEntity)) {
+            handleSpiritWorldReturn(livingEntity, level)
+            return stack
+        }
+
+        if (livingEntity is Player &&
+            livingEntity.level().dimension() == Level.OVERWORLD &&
+            ManifestationPlayerAttachment.getData(livingEntity).manifestationTimer > 0
+        ) {
+
+            handleManifestationEnd(livingEntity, level)
+
+            if (!livingEntity.isCreative) {
+                stack.shrink(1)
             }
-
-            // Handle manifested player in overworld
-            if (livingEntity is Player &&
-                livingEntity.level().dimension() == Level.OVERWORLD &&
-                ManifestationPlayerAttachment.getData(livingEntity).manifestationTimer > 0
-            ) {
-
-                handleManifestationEnd(livingEntity, level)
-
-                if (!livingEntity.isCreative) {
-                    stack.shrink(1)
-                }
-            }
-        } catch (e: Exception) {
-            Witchery.LOGGER.error("Error in Icy Needle use", e)
         }
 
         return stack
@@ -61,7 +55,6 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
         val sleepingData = SleepingPlayerHandler.getPlayerFromSleeping(player.uuid, overworld)
 
         if (sleepingData != null) {
-            // Player has a sleeping body to return to
             val chunkPos = ChunkPos(sleepingData.pos)
             overworld.setChunkForced(chunkPos.x, chunkPos.z, true)
 
@@ -75,7 +68,6 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
                 )
             )
         } else {
-            // No sleeping body found, teleport to spawn
             val pos = player.respawnPosition ?: overworld.sharedSpawnPos
             if (pos != null) {
                 playerHasNoBodyClearInv(player)
@@ -101,7 +93,6 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
         val serverLevel = player.level() as ServerLevel
         val sleepingData = SleepingPlayerHandler.getPlayerFromSleeping(player.uuid, serverLevel)
 
-        // Drop all items and reset manifestation timer
         player.inventory.dropAll()
 
         val oldData = ManifestationPlayerAttachment.getData(player)
@@ -146,7 +137,6 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
         val armorToKeep = mutableListOf<ItemStack>()
 
         try {
-            // Check for dreamweaver charm to keep armor
             val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
             if (charmStack != null) {
                 for (armor in player.armorSlots) {
@@ -156,7 +146,6 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
                 }
             }
 
-            // Keep tagged items
             for (i in 0 until player.inventory.containerSize) {
                 val itemStack = player.inventory.getItem(i)
                 if (!itemStack.isEmpty && itemStack.`is`(WitcheryTags.FROM_SPIRIT_WORLD_TRANSFERABLE)) {
@@ -164,7 +153,6 @@ class IcyNeedleItem(properties: Properties) : Item(properties) {
                 }
             }
 
-            // Clear and restore kept items
             player.inventory.clearContent()
 
             for (item in itemsToKeep) {

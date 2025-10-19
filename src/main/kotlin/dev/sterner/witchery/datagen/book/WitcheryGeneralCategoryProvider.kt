@@ -11,7 +11,7 @@ import dev.sterner.witchery.datagen.book.entry.*
 import dev.sterner.witchery.datagen.book.util.EntryProviders
 import dev.sterner.witchery.datagen.book.util.alsoFollows
 import dev.sterner.witchery.datagen.book.util.requiresAndFollows
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.world.item.Items
 
 

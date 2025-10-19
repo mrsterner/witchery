@@ -1,8 +1,8 @@
 package dev.sterner.witchery.features.brewing.brew
 
 import com.google.common.base.Predicate
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.entity.ThrownBrewEntity
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.content.entity.ThrownBrewEntity
 import net.minecraft.core.Direction
 import net.minecraft.core.Position
 import net.minecraft.stats.Stats

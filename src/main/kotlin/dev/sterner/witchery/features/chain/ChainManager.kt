@@ -1,9 +1,9 @@
 package dev.sterner.witchery.features.chain
 
-import dev.sterner.witchery.api.interfaces.EntityChainInterface
-import dev.sterner.witchery.api.schedule.ServerTickTask
-import dev.sterner.witchery.api.schedule.TickTaskScheduler
-import dev.sterner.witchery.entity.ChainEntity
+import dev.sterner.witchery.core.api.interfaces.EntityChainInterface
+import dev.sterner.witchery.core.api.schedule.ServerTickTask
+import dev.sterner.witchery.core.api.schedule.TickTaskScheduler
+import dev.sterner.witchery.content.entity.ChainEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity

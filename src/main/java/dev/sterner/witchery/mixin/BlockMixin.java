@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.registry.WitcheryMobEffects;
+import dev.sterner.witchery.core.registry.WitcheryMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;

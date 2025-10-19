@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.renderer.block
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
+import dev.sterner.witchery.content.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.client.model.SpinningWheelBlockEntityModel
 import dev.sterner.witchery.client.model.SpinningWheelWheelBlockEntityModel
 import net.minecraft.client.renderer.MultiBufferSource

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item.accessories
+package dev.sterner.witchery.content.item.accessories
 
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Rarity

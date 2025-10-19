@@ -1,7 +1,7 @@
 package dev.sterner.witchery.client.renderer.block
 
 import com.mojang.blaze3d.vertex.PoseStack
-import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
+import dev.sterner.witchery.content.block.sacrificial_circle.SacrificialBlockEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer

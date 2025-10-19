@@ -2,7 +2,7 @@ package dev.sterner.witchery.client.renderer.entity
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
-import dev.sterner.witchery.entity.InsanityEntity
+import dev.sterner.witchery.content.entity.InsanityEntity
 import net.minecraft.client.model.CreeperModel
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.HumanoidModel

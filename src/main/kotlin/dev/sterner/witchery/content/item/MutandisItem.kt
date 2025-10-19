@@ -1,7 +1,7 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.data_attachment.MutandisLevelAttachment
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.data_attachment.MutandisLevelAttachment
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Holder

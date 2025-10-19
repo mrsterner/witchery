@@ -6,7 +6,7 @@ import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.mixin_logic.SummonedWolf
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer

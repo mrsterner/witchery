@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.sterner.witchery.data_attachment.infusion.LightInfusionPlayerAttachment;
-import dev.sterner.witchery.registry.WitcheryItems;
+import dev.sterner.witchery.core.registry.WitcheryItems;
+import dev.sterner.witchery.features.infusion.LightInfusionPlayerAttachment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.PlayerItemInHandLayer;
 import net.minecraft.world.entity.HumanoidArm;

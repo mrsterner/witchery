@@ -2,7 +2,7 @@ package dev.sterner.witchery.client.renderer.entity
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.ElleEntity
+import dev.sterner.witchery.content.entity.ElleEntity
 import net.minecraft.client.model.PlayerModel
 import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.renderer.MultiBufferSource

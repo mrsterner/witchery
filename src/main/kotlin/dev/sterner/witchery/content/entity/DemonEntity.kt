@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.entity
 
-import dev.sterner.witchery.entity.goal.DemonFireBreathGoal
-import dev.sterner.witchery.entity.goal.DemonLeapAttackGoal
+import dev.sterner.witchery.content.entity.goal.DemonFireBreathGoal
+import dev.sterner.witchery.content.entity.goal.DemonLeapAttackGoal
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag

@@ -1,10 +1,9 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
-import dev.sterner.witchery.item.brew.BrewItem
-import dev.sterner.witchery.item.brew.ThrowableBrewItem
-import dev.sterner.witchery.registry.WitcheryDataAttachments
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
+import dev.sterner.witchery.features.brewing.brew.BrewItem
+import dev.sterner.witchery.features.brewing.brew.ThrowableBrewItem
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents

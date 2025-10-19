@@ -1,8 +1,8 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.infusion.CreatureType
-import dev.sterner.witchery.data_attachment.infusion.InfernalInfusionPlayerAttachment
+import dev.sterner.witchery.features.infusion.CreatureType
+import dev.sterner.witchery.features.infusion.InfernalInfusionPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag

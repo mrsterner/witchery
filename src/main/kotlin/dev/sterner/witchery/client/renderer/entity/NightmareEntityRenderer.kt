@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.renderer.entity
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.NightmareEntityModel
-import dev.sterner.witchery.entity.NightmareEntity
+import dev.sterner.witchery.content.entity.NightmareEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType

@@ -1,8 +1,8 @@
 package dev.sterner.witchery.features.fetish
 
 import dev.sterner.witchery.MobAccessor
-import dev.sterner.witchery.api.FetishEffect
-import dev.sterner.witchery.block.effigy.EffigyBlockEntity
+import dev.sterner.witchery.core.api.FetishEffect
+import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.item.TaglockItem
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.LivingEntity

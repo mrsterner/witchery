@@ -1,7 +1,7 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.block.arthana.ArthanaBlockEntity
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.content.block.arthana.ArthanaBlockEntity
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import net.minecraft.core.Direction
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.LivingEntity

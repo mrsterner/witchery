@@ -4,8 +4,8 @@ import com.klikli_dev.modonomicon.book.page.BookRecipePage
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.util.RenderUtils.blitWithAlpha
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics

@@ -1,10 +1,10 @@
 package dev.sterner.witchery.content.block.effigy
 
-import dev.sterner.witchery.api.FetishEffect
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.core.api.FetishEffect
+import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.core.data.FetishEffectReloadListener
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup

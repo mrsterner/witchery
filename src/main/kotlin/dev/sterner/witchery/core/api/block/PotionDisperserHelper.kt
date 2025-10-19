@@ -1,7 +1,7 @@
 package dev.sterner.witchery.core.api.block
 
 import dev.sterner.witchery.core.data.InfiniteCenserReloadListener
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects
 import net.minecraft.core.BlockPos

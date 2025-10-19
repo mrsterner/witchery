@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.registry.WitcheryMobEffects;
-import dev.sterner.witchery.registry.WitcheryTags;
+import dev.sterner.witchery.core.registry.WitcheryMobEffects;
+import dev.sterner.witchery.core.registry.WitcheryTags;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;

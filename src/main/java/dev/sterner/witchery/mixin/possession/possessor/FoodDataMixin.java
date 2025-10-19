@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession.possessor;
 
-import dev.sterner.witchery.api.interfaces.Possessable;
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
+import dev.sterner.witchery.core.api.interfaces.Possessable;
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;

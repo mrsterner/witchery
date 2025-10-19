@@ -1,15 +1,15 @@
 package dev.sterner.witchery.content.block.distillery
 
-import dev.sterner.witchery.api.block.AltarPowerConsumer
-import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.block.oven.OvenBlockEntity
+import dev.sterner.witchery.core.api.block.AltarPowerConsumer
+import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
+import dev.sterner.witchery.content.block.altar.AltarBlockEntity
+import dev.sterner.witchery.content.block.oven.OvenBlockEntity
 import dev.sterner.witchery.content.menu.DistilleryMenu
-import dev.sterner.witchery.recipe.MultipleItemRecipeInput
-import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
+import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
+import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryItems
 import io.netty.buffer.Unpooled
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.BlockPos

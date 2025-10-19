@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.entity.goal
 
-import dev.sterner.witchery.entity.VampireEntity
+import dev.sterner.witchery.content.entity.VampireEntity
 import net.minecraft.world.entity.ai.goal.target.TargetGoal
 import net.minecraft.world.entity.ai.targeting.TargetingConditions
 import java.util.*

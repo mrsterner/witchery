@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.mob_effect
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.interfaces.OnRemovedEffect
+import dev.sterner.witchery.core.api.interfaces.OnRemovedEffect
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
 import net.minecraft.world.entity.LivingEntity

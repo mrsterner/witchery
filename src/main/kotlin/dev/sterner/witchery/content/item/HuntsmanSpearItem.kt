@@ -1,7 +1,7 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.entity.HornedHuntsmanEntity
-import dev.sterner.witchery.entity.HuntsmanSpearEntity
+import dev.sterner.witchery.content.entity.HornedHuntsmanEntity
+import dev.sterner.witchery.content.entity.HuntsmanSpearEntity
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.stats.Stats

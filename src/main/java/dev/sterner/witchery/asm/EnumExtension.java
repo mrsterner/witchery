@@ -1,8 +1,8 @@
 package dev.sterner.witchery.asm;
 
 
-import dev.sterner.witchery.registry.WitcheryBlocks;
-import dev.sterner.witchery.registry.WitcheryItems;
+import dev.sterner.witchery.core.registry.WitcheryBlocks;
+import dev.sterner.witchery.core.registry.WitcheryItems;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;

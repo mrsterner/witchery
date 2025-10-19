@@ -1,14 +1,13 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.interfaces.PoppetType
+import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.features.poppet.ArmorProtectionPoppet
 import dev.sterner.witchery.features.poppet.DeathProtectionPoppet
 import dev.sterner.witchery.features.poppet.HungerProtectionPoppet
 import dev.sterner.witchery.features.poppet.VampiricPoppet
 import dev.sterner.witchery.features.poppet.VoodooPoppet
 import dev.sterner.witchery.features.poppet.VoodooProtectionPoppet
-import dev.sterner.witchery.poppet.*
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation

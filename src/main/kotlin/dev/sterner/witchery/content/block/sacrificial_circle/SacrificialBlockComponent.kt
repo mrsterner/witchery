@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.block.sacrificial_circle
 
 
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlock
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.RenderShape

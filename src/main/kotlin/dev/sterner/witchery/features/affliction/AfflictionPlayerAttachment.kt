@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.network.OptimizedSelectiveSyncPayload
 import dev.sterner.witchery.network.SyncAfflictionS2CPayload
-import dev.sterner.witchery.registry.WitcheryDataAttachments.AFFLICTION_PLAYER_DATA_ATTACHMENT
+import dev.sterner.witchery.core.registry.WitcheryDataAttachments.AFFLICTION_PLAYER_DATA_ATTACHMENT
 import net.minecraft.core.UUIDUtil
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel

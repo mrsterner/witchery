@@ -2,9 +2,9 @@ package dev.sterner.witchery.mixin.possession.possessor;
 
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
-import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity;
+import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity;
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

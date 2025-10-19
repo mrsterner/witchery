@@ -1,11 +1,11 @@
 package dev.sterner.witchery.features.poppet
 
-import dev.sterner.witchery.api.interfaces.PoppetType
-import dev.sterner.witchery.api.PoppetUsage
-import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.core.api.interfaces.PoppetType
+import dev.sterner.witchery.core.api.PoppetUsage
+import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.data_attachment.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.features.poppet.PoppetHandler
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.damagesource.DamageSource

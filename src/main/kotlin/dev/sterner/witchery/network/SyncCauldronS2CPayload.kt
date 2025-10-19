@@ -1,7 +1,7 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.cauldron.CauldronBlockEntity
+import dev.sterner.witchery.content.block.cauldron.CauldronBlockEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag

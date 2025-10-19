@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.VampireArmorModel

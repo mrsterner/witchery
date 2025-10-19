@@ -3,9 +3,9 @@ package dev.sterner.witchery.features.possession
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.api.interfaces.Possessable
+import dev.sterner.witchery.core.api.interfaces.Possessable
 import dev.sterner.witchery.network.SyncPossessedDataS2CPayload
-import dev.sterner.witchery.registry.WitcheryDataAttachments
+import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag

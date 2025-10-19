@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.curse
 
-import dev.sterner.witchery.api.Curse
-import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.core.api.Curse
+import dev.sterner.witchery.core.api.WitcheryApi
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.player.Player

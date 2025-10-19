@@ -1,7 +1,7 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.block.ritual.GoldenChalkBlock
-import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
+import dev.sterner.witchery.content.block.ritual.GoldenChalkBlock
+import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.features.coven.CovenHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes

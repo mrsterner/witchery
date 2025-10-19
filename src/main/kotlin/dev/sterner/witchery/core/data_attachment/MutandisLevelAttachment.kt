@@ -3,7 +3,7 @@ package dev.sterner.witchery.core.data_attachment
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.registry.WitcheryDataAttachments
+import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation

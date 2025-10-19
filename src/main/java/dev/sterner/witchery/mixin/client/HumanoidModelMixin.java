@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.registry.WitcheryDataComponents;
-import dev.sterner.witchery.registry.WitcheryItems;
+import dev.sterner.witchery.core.registry.WitcheryDataComponents;
+import dev.sterner.witchery.core.registry.WitcheryItems;
 import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HeadedModel;

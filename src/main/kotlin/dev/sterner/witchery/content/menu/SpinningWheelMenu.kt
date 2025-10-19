@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.menu
 
-import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
+import dev.sterner.witchery.content.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.registry.WitcheryMenuTypes
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.util.Mth

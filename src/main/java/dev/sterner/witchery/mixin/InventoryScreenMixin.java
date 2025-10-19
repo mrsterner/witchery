@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.Witchery;
-import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment;
+import dev.sterner.witchery.core.data_attachment.InventoryLockPlayerAttachment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;

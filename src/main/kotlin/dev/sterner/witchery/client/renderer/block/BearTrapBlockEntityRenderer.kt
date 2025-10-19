@@ -2,7 +2,7 @@ package dev.sterner.witchery.client.renderer.block
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.bear_trap.BearTrapBlockEntity
+import dev.sterner.witchery.content.block.bear_trap.BearTrapBlockEntity
 import dev.sterner.witchery.client.model.BearTrapModel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType

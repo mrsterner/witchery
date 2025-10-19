@@ -1,7 +1,7 @@
 package dev.sterner.witchery.core.api.interfaces
 
 
-import dev.sterner.witchery.entity.ChainEntity
+import dev.sterner.witchery.content.entity.ChainEntity
 
 interface EntityChainInterface {
     /**

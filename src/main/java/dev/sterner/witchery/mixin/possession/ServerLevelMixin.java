@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

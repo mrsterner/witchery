@@ -1,9 +1,9 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.*
-import dev.sterner.witchery.entity.player_shell.SleepingPlayerEntity
-import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
+import dev.sterner.witchery.content.entity.*
+import dev.sterner.witchery.content.entity.player_shell.SleepingPlayerEntity
+import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobCategory

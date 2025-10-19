@@ -1,10 +1,10 @@
 package dev.sterner.witchery.features.ritual
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.Ritual
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
-import dev.sterner.witchery.entity.OwlEntity
+import dev.sterner.witchery.core.api.Ritual
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
+import dev.sterner.witchery.content.entity.OwlEntity
 import dev.sterner.witchery.features.familiar.FamiliarHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes

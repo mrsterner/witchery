@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.brewing.potion
 
-import dev.sterner.witchery.entity.WitcheryThrownPotion
+import dev.sterner.witchery.content.entity.WitcheryThrownPotion
 import dev.sterner.witchery.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects

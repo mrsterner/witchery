@@ -1,10 +1,10 @@
 package dev.sterner.witchery.features.ritual
 
-import dev.sterner.witchery.api.Ritual
-import dev.sterner.witchery.block.effigy.EffigyBlockEntity
-import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
-import dev.sterner.witchery.entity.BansheeEntity
-import dev.sterner.witchery.entity.SpectreEntity
+import dev.sterner.witchery.core.api.Ritual
+import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
+import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
+import dev.sterner.witchery.content.entity.BansheeEntity
+import dev.sterner.witchery.content.entity.SpectreEntity
 import dev.sterner.witchery.features.chain.ChainManager
 import dev.sterner.witchery.features.chain.ChainType
 import net.minecraft.core.BlockPos

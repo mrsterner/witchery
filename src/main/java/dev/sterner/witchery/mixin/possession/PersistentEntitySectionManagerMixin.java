@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin.possession;
 
-import dev.sterner.witchery.api.interfaces.Possessable;
-import dev.sterner.witchery.api.interfaces.ProtoPossessable;
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
+import dev.sterner.witchery.core.api.interfaces.Possessable;
+import dev.sterner.witchery.core.api.interfaces.ProtoPossessable;
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.entity.EntityAccess;

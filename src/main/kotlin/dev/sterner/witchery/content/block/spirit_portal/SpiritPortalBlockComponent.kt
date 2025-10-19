@@ -1,13 +1,13 @@
 package dev.sterner.witchery.content.block.spirit_portal
 
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
 
-import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.EAST
-import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.NORTH
-import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.SOUTH
-import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.WEST
-import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlock.Companion.litBlockEmission
+import dev.sterner.witchery.content.block.spirit_portal.SpiritPortalBlock.Companion.EAST
+import dev.sterner.witchery.content.block.spirit_portal.SpiritPortalBlock.Companion.NORTH
+import dev.sterner.witchery.content.block.spirit_portal.SpiritPortalBlock.Companion.SOUTH
+import dev.sterner.witchery.content.block.spirit_portal.SpiritPortalBlock.Companion.WEST
+import dev.sterner.witchery.content.block.spirit_portal.SpiritPortalBlock.Companion.litBlockEmission
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlock
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.Entity

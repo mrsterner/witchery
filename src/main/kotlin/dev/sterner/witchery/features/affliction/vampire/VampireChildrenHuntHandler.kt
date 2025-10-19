@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.affliction.vampire
 
-import dev.sterner.witchery.entity.VampireEntity
+import dev.sterner.witchery.content.entity.VampireEntity
 import dev.sterner.witchery.features.misc.BloodPoolHandler
 import dev.sterner.witchery.network.SpawnSmokeParticlesS2CPayload
 import net.minecraft.core.BlockPos

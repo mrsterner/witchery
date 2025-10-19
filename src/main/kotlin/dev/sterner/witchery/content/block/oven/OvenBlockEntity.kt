@@ -1,12 +1,12 @@
 package dev.sterner.witchery.content.block.oven
 
-import dev.sterner.witchery.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
 
 import dev.sterner.witchery.content.menu.OvenMenu
-import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.content.recipe.oven.OvenCookingRecipe
+import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryItems
 import io.netty.buffer.Unpooled
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.core.*

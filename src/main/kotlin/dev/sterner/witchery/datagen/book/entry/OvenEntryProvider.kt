@@ -8,7 +8,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.datagen.book.page.BookOvenFumingPageModel
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 
 class OvenEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
 

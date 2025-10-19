@@ -1,7 +1,7 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.entity.CustomBoat
-import dev.sterner.witchery.entity.CustomChestBoat
+import dev.sterner.witchery.content.entity.CustomBoat
+import dev.sterner.witchery.content.entity.CustomChestBoat
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.stats.Stats
 import net.minecraft.world.InteractionHand

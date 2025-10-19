@@ -4,9 +4,9 @@ import dev.sterner.witchery.content.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.content.entity.WerewolfEntity
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.network.SpawnItemParticlesS2CPayload
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

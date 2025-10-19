@@ -1,6 +1,6 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.item.Item

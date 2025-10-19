@@ -1,18 +1,18 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.api.interfaces.VillagerTransfix
-import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
-import dev.sterner.witchery.block.sacrificial_circle.SacrificialBlockEntity
+import dev.sterner.witchery.core.api.interfaces.VillagerTransfix
+import dev.sterner.witchery.content.block.blood_crucible.BloodCrucibleBlockEntity
+import dev.sterner.witchery.content.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.entity.LilithEntity
+import dev.sterner.witchery.content.entity.LilithEntity
 import dev.sterner.witchery.features.misc.BloodPoolHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling.canPerformQuest
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.WitcheryConstants
 import net.minecraft.ChatFormatting
 import net.minecraft.advancements.CriteriaTriggers

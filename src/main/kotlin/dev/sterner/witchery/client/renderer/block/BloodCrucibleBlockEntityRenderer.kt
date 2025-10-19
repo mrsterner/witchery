@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.renderer.block
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlockEntity
+import dev.sterner.witchery.content.block.blood_crucible.BloodCrucibleBlockEntity
 import dev.sterner.witchery.client.model.BloodCrucibleModel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType

@@ -1,7 +1,7 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.phylactery.PhylacteryBlock
+import dev.sterner.witchery.content.block.phylactery.PhylacteryBlock
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.CreativeModeTab

@@ -2,9 +2,9 @@ package dev.sterner.witchery.integration.jei
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.util.RenderUtils
 import mezz.jei.api.constants.VanillaTypes
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder

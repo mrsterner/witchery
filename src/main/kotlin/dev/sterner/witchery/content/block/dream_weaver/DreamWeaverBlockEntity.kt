@@ -1,9 +1,9 @@
 package dev.sterner.witchery.content.block.dream_weaver
 
 
-import dev.sterner.witchery.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.core.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects

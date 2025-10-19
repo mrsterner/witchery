@@ -1,8 +1,8 @@
 package dev.sterner.witchery.content.entity.player_shell
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.InventorySlots
-import dev.sterner.witchery.api.entity.PlayerShellEntity
+import dev.sterner.witchery.core.api.InventorySlots
+import dev.sterner.witchery.core.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.network.SpawnSleepingDeathParticleS2CPayload

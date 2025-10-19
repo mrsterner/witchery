@@ -1,6 +1,6 @@
-package dev.sterner.witchery.item.accessories
+package dev.sterner.witchery.content.item.accessories
 
-import dev.sterner.witchery.data_attachment.BarkBeltPlayerAttachment
+import dev.sterner.witchery.core.data_attachment.BarkBeltPlayerAttachment
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack

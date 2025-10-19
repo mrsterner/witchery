@@ -8,7 +8,7 @@ import dev.sterner.witchery.data_attachment.infusion.InfusionType
 
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.network.SpawnNecroParticlesS2CPayload
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes

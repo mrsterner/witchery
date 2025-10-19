@@ -1,7 +1,7 @@
 package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.Registries

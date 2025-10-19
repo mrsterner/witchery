@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment;
+import dev.sterner.witchery.core.data_attachment.InventoryLockPlayerAttachment;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

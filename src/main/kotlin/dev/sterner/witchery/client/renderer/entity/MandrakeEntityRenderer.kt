@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.renderer.entity
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.MandrakeEntityModel
-import dev.sterner.witchery.entity.MandrakeEntity
+import dev.sterner.witchery.content.entity.MandrakeEntity
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.LivingEntityRenderer

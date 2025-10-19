@@ -1,11 +1,11 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionType
+import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.core.util.WitcheryUtil
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.features.infusion.InfusionType
 import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos
 import net.minecraft.core.UUIDUtil

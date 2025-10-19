@@ -1,6 +1,6 @@
 package dev.sterner.witchery.core.api.block
 
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
 import net.minecraft.resources.ResourceLocation
 
 /**

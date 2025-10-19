@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.entity.goal
 
-import dev.sterner.witchery.entity.DemonEntity
+import dev.sterner.witchery.content.entity.DemonEntity
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents

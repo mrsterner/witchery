@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.sterner.witchery.api.event.SleepingEvent;
-import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment;
+import dev.sterner.witchery.core.api.event.SleepingEvent;
+import dev.sterner.witchery.core.data_attachment.InventoryLockPlayerAttachment;
 import dev.sterner.witchery.mixin_logic.PlayerMixinLogic;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;

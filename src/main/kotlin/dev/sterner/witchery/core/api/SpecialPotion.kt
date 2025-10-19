@@ -1,8 +1,8 @@
 package dev.sterner.witchery.core.api
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.core.world.WitcheryWorldState
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.resources.ResourceLocation

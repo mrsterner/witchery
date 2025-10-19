@@ -1,4 +1,4 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import net.minecraft.world.level.block.Block
 import net.neoforged.neoforge.registries.DeferredHolder

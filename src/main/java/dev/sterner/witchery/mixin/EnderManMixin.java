@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.registry.WitcheryMobEffects;
+import dev.sterner.witchery.core.registry.WitcheryMobEffects;
 import net.minecraft.world.entity.monster.EnderMan;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

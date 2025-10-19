@@ -1,8 +1,8 @@
 package dev.sterner.witchery.features.poppet
 
-import dev.sterner.witchery.api.interfaces.PoppetType
-import dev.sterner.witchery.api.PoppetUsage
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.api.interfaces.PoppetType
+import dev.sterner.witchery.core.api.PoppetUsage
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents

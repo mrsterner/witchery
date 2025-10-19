@@ -4,12 +4,12 @@ package dev.sterner.witchery.features.possession
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.event.PossessionEvents
-import dev.sterner.witchery.api.interfaces.Possessable
+import dev.sterner.witchery.core.api.event.PossessionEvents
+import dev.sterner.witchery.core.api.interfaces.Possessable
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.network.SyncPossessionComponentS2CPayload
-import dev.sterner.witchery.registry.WitcheryDataAttachments
+import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket

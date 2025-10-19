@@ -1,6 +1,6 @@
 package dev.sterner.witchery.core.api
 
-import dev.sterner.witchery.data_attachment.InventoryLockPlayerAttachment
+import dev.sterner.witchery.core.data_attachment.InventoryLockPlayerAttachment
 import net.minecraft.world.entity.player.Player
 
 object InventorySlots {

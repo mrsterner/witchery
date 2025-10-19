@@ -1,16 +1,16 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.PendantDataComponentRecipe
-import dev.sterner.witchery.recipe.PotionDataComponentTransferRecipe
-import dev.sterner.witchery.recipe.TaglockDataComponentTransferRecipe
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe
-import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
-import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
-import dev.sterner.witchery.recipe.ritual.RitualRecipe
-import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
+import dev.sterner.witchery.content.recipe.PendantDataComponentRecipe
+import dev.sterner.witchery.content.recipe.PotionDataComponentTransferRecipe
+import dev.sterner.witchery.content.recipe.TaglockDataComponentTransferRecipe
+import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
+import dev.sterner.witchery.content.recipe.oven.OvenCookingRecipe
+import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
+import dev.sterner.witchery.content.recipe.spinning_wheel.SpinningWheelRecipe
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer

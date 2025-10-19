@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import com.google.common.collect.ImmutableMap;
-import dev.sterner.witchery.registry.WitcheryMobEffects;
+import dev.sterner.witchery.core.registry.WitcheryMobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.sensing.VillagerHostilesSensor;

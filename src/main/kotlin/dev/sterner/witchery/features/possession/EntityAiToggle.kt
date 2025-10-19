@@ -3,10 +3,10 @@ package dev.sterner.witchery.features.possession
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.interfaces.DisableableAiController
+import dev.sterner.witchery.core.api.interfaces.DisableableAiController
 import dev.sterner.witchery.mixin.possession.MobAccessor
 import dev.sterner.witchery.network.SyncAIEntityToggleS2CPayload
-import dev.sterner.witchery.registry.WitcheryDataAttachments
+import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap
 import net.minecraft.resources.ResourceLocation

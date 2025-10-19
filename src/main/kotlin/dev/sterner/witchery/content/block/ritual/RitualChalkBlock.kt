@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.block.ritual
 
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.features.affliction.vampire.VampireSpecificEventHandler
-import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.particles.ParticleOptions

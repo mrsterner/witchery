@@ -1,12 +1,12 @@
 package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
-import dev.sterner.witchery.data_attachment.PlatformUtils
-import dev.sterner.witchery.data_attachment.WitcheryAttributes
-import dev.sterner.witchery.entity.*
+import dev.sterner.witchery.content.entity.*
+import dev.sterner.witchery.core.data_attachment.PlatformUtils
+import dev.sterner.witchery.core.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.core.registry.*
+import dev.sterner.witchery.features.tarot.TarotEffectEventHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
-import dev.sterner.witchery.registry.*
-import dev.sterner.witchery.tarot.TarotEffectEventHandler
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.animal.Pig
 import net.neoforged.bus.api.IEventBus

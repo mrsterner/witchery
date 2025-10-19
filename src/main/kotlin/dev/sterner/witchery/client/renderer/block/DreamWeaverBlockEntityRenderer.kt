@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.renderer.block
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.dream_weaver.DreamWeaverBlockEntity
+import dev.sterner.witchery.content.block.dream_weaver.DreamWeaverBlockEntity
 import dev.sterner.witchery.client.model.DreamWeaverBlockEntityModel
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType

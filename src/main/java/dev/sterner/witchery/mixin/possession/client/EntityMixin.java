@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession.client;
 
 
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;

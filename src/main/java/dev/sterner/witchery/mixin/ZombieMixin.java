@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.data_attachment.EtherealEntityAttachment;
+import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.features.chain.ChainManager
 import dev.sterner.witchery.features.chain.ChainType

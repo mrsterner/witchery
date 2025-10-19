@@ -1,8 +1,8 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.block.ritual.GoldenChalkBlock
-import dev.sterner.witchery.block.ritual.RitualChalkBlock
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.content.block.ritual.GoldenChalkBlock
+import dev.sterner.witchery.content.block.ritual.RitualChalkBlock
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.ItemNameBlockItem
 import net.minecraft.world.item.context.UseOnContext

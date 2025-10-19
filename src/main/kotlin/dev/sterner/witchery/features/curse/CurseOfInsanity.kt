@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.curse
 
-import dev.sterner.witchery.api.Curse
-import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.core.api.Curse
+import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.player.Player

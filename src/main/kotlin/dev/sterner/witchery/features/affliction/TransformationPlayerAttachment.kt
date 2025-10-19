@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.network.SyncTransformationS2CPayload
-import dev.sterner.witchery.registry.WitcheryDataAttachments
+import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.StringRepresentable

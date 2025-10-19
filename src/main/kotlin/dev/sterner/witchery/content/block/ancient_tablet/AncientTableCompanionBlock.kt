@@ -1,12 +1,12 @@
 package dev.sterner.witchery.content.block.ancient_tablet
 
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
-import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_BOTTOM_LEFT
-import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_BOTTOM_RIGHT
-import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_FULL
-import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_TOP_LEFT
-import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_TOP_RIGHT
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlock
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlockEntity
+import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_BOTTOM_LEFT
+import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_BOTTOM_RIGHT
+import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_FULL
+import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_TOP_LEFT
+import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_TOP_RIGHT
 import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

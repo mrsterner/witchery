@@ -1,4 +1,4 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import net.minecraft.client.renderer.ShaderInstance
 

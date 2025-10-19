@@ -1,11 +1,11 @@
 package dev.sterner.witchery.mixin.possession.possessed;
 
-import dev.sterner.witchery.api.interfaces.Possessable;
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
-import dev.sterner.witchery.data_attachment.possession.EntityAiToggle;
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
-import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity;
-import dev.sterner.witchery.registry.WitcheryTags;
+import dev.sterner.witchery.core.api.interfaces.Possessable;
+import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity;
+import dev.sterner.witchery.core.registry.WitcheryTags;
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
+import dev.sterner.witchery.features.possession.EntityAiToggle;
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;

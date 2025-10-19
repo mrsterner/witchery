@@ -1,12 +1,12 @@
 package dev.sterner.witchery.content.block.oven
 
 
-import dev.sterner.witchery.api.multiblock.MultiBlockHorizontalDirectionStructure
-import dev.sterner.witchery.api.multiblock.MultiBlockStructure
-import dev.sterner.witchery.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.block.cauldron.CauldronBlock.Companion.litBlockEmission
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.api.multiblock.MultiBlockHorizontalDirectionStructure
+import dev.sterner.witchery.core.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.content.block.cauldron.CauldronBlock.Companion.litBlockEmission
+import dev.sterner.witchery.core.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.item.context.BlockPlaceContext

@@ -3,8 +3,8 @@ package dev.sterner.witchery.content.entity
 import com.google.common.collect.Lists
 import com.google.common.collect.Maps
 import com.mojang.logging.LogUtils
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.item.potion.WitcheryPotionItem
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryMobEffects
 import dev.sterner.witchery.registry.WitcherySpecialPotionEffects

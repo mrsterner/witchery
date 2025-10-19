@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.data_attachment.EntSpawnLevelAttachment
-import dev.sterner.witchery.entity.EntEntity
+import dev.sterner.witchery.content.entity.EntEntity
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos

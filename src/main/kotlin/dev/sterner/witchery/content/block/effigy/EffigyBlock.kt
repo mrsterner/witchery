@@ -1,12 +1,12 @@
 package dev.sterner.witchery.content.block.effigy
 
 
-import dev.sterner.witchery.api.multiblock.MultiBlockStructure
-import dev.sterner.witchery.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.api.multiblock.MultiBlockStructure
+import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.core.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.item.ItemEntity

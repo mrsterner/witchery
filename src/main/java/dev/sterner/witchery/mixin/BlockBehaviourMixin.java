@@ -4,8 +4,8 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
-import dev.sterner.witchery.registry.WitcheryTags;
+import dev.sterner.witchery.core.registry.WitcheryTags;
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;

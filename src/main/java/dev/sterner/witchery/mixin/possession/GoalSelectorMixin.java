@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin.possession;
 
-import dev.sterner.witchery.api.interfaces.DisableableAiController;
+import dev.sterner.witchery.core.api.interfaces.DisableableAiController;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

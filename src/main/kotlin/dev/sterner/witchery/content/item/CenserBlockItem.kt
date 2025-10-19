@@ -1,6 +1,6 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.block.censer.CenserBlock
+import dev.sterner.witchery.content.block.censer.CenserBlock
 import net.minecraft.world.item.ItemNameBlockItem
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.block.Block

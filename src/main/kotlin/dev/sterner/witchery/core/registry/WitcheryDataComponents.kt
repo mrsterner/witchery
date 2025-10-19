@@ -1,11 +1,11 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
-import dev.sterner.witchery.block.phylactery.PhylacteryBlock
-import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.content.block.critter_snare.CritterSnareBlock
+import dev.sterner.witchery.content.block.phylactery.PhylacteryBlock
+import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType

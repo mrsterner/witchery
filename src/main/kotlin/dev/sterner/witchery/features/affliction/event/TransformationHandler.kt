@@ -6,7 +6,7 @@ import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
-import dev.sterner.witchery.entity.WerewolfEntity
+import dev.sterner.witchery.content.entity.WerewolfEntity
 import dev.sterner.witchery.features.affliction.vampire.VampireAbility
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling

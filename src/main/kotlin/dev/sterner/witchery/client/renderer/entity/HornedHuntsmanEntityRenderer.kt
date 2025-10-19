@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.layer.HornedHuntsmanEmissiveLayer
 import dev.sterner.witchery.client.model.HornedHuntsmanModel
-import dev.sterner.witchery.entity.HornedHuntsmanEntity
+import dev.sterner.witchery.content.entity.HornedHuntsmanEntity
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer

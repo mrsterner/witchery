@@ -1,7 +1,7 @@
 package dev.sterner.witchery.datagen.bootstrap
 
 
-import dev.sterner.witchery.block.CottonBlock
+import dev.sterner.witchery.content.block.CottonBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryFeatures
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ALDER_KEY

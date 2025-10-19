@@ -10,7 +10,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementCond
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.datagen.book.entry.SoulCageEntryProvider
 import dev.sterner.witchery.datagen.book.util.EntryProviders
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.alchemy.Potions

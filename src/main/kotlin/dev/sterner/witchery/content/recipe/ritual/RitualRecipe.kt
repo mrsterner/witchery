@@ -4,11 +4,11 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.api.Ritual
-import dev.sterner.witchery.block.ritual.CommandType
-import dev.sterner.witchery.recipe.MultipleItemRecipeInput
+import dev.sterner.witchery.content.block.ritual.CommandType
+import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
+import dev.sterner.witchery.core.api.Ritual
+import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.registry.WitcheryRecipeSerializers
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.registry.WitcheryRitualRegistry
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries

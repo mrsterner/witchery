@@ -1,9 +1,9 @@
 package dev.sterner.witchery.content.block.phylactery
 
 
-import dev.sterner.witchery.block.WitcheryBaseEntityBlock
+import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.player.Player

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.ArgumentType
@@ -6,21 +6,16 @@ import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.InventorySlots
+import dev.sterner.witchery.core.api.InventorySlots
 import dev.sterner.witchery.core.commands.CurseArgumentType
 import dev.sterner.witchery.core.commands.InfusionArgumentType
-import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
-import dev.sterner.witchery.data_attachment.PlatformUtils
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionType
-
-import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.data_attachment.SoulPoolPlayerAttachment
-import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
-import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
-import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity.Companion.disableFlight
+import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity
+import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity.Companion.disableFlight
+import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.core.data_attachment.ManifestationPlayerAttachment
+import dev.sterner.witchery.core.data_attachment.PlatformUtils
+import dev.sterner.witchery.core.data_attachment.SoulPoolPlayerAttachment
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.features.familiar.FamiliarHandler
 import dev.sterner.witchery.features.misc.ManifestationHandler
@@ -31,6 +26,10 @@ import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling.levelToBlood
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
 import dev.sterner.witchery.features.infusion.InfusionHandler
+import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.features.infusion.InfusionType
+import dev.sterner.witchery.features.possession.EntityAiToggle
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands

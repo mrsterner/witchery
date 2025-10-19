@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.entity.goal
 
-import dev.sterner.witchery.entity.CovenWitchEntity
+import dev.sterner.witchery.content.entity.CovenWitchEntity
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
 
 class InterruptWaterAvoidingRandomStrollGoal(var witch: CovenWitchEntity, speedModifier: Double) :

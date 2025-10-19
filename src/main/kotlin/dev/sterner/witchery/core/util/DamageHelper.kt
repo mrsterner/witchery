@@ -1,6 +1,6 @@
 package dev.sterner.witchery.core.util
 
-import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
+import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity

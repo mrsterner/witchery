@@ -1,8 +1,8 @@
 package dev.sterner.witchery.content.entity
 
-import dev.sterner.witchery.data_attachment.BoatTypeHelper
+import dev.sterner.witchery.core.data_attachment.BoatTypeHelper
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.entity.EntityType

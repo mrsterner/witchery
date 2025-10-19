@@ -1,6 +1,6 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.api.WitcheryApi
+import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.features.infusion.InfusionHandler
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder

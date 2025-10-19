@@ -6,7 +6,7 @@ import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
+import dev.sterner.witchery.content.recipe.spinning_wheel.SpinningWheelRecipe
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.crafting.Ingredient

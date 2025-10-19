@@ -1,7 +1,7 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.possession.PossessedDataAttachment
+import dev.sterner.witchery.features.possession.PossessedDataAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag

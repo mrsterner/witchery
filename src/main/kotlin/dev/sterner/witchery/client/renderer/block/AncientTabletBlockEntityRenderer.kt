@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
+import dev.sterner.witchery.content.block.altar.AltarBlockEntity
+import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.client.model.AltarBlockEntityModel
 import dev.sterner.witchery.client.model.AltarClothBlockEntityModel
 import dev.sterner.witchery.client.model.AncientTabletModel

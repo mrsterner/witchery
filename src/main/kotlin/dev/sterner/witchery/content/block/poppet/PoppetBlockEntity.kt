@@ -1,8 +1,9 @@
 package dev.sterner.witchery.content.block.poppet
 
 
-import dev.sterner.witchery.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
+import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.core.registry.WitcheryBlocks
+import dev.sterner.witchery.features.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.item.PoppetItem
 import dev.sterner.witchery.registry.*
 import net.minecraft.core.BlockPos

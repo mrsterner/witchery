@@ -1,6 +1,6 @@
 package dev.sterner.witchery.core.api.event
 
-import dev.sterner.witchery.entity.ChainEntity
+import dev.sterner.witchery.content.entity.ChainEntity
 import net.minecraft.world.entity.Entity
 import net.neoforged.bus.api.Event
 

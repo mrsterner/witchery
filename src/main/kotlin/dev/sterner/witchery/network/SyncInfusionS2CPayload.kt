@@ -1,8 +1,8 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionType
+import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.features.infusion.InfusionType
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -17,7 +17,7 @@ class SyncInfusionS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
     constructor(player: Player, data: InfusionPlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
         putInt("Charge", data.charge)
-        putString("Type", data.type.serializedName) // serializedName should be in lowercase
+        putString("Type", data.type.serializedName)
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress

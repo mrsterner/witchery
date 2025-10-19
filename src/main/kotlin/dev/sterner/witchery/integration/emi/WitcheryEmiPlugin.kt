@@ -7,10 +7,10 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.PendantDataComponentRecipe
-import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
-import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.registry.WitcheryRecipeTypes
+import dev.sterner.witchery.content.recipe.PendantDataComponentRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
+import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import net.minecraft.world.item.crafting.*
 
 

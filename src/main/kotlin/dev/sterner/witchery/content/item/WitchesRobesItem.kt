@@ -1,8 +1,8 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.WitchesRobesModel
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.HumanoidModel
 import net.minecraft.core.Holder

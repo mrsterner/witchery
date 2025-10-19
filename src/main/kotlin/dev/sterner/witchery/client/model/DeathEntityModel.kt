@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.model
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.entity.DeathEntity
+import dev.sterner.witchery.content.entity.DeathEntity
 import net.minecraft.client.model.ArmedModel
 import net.minecraft.client.model.HierarchicalModel
 import net.minecraft.client.model.geom.ModelLayerLocation

@@ -1,6 +1,8 @@
 package dev.sterner.witchery.features.curse
 
-import dev.sterner.witchery.registry.WitcheryCurseRegistry
+import dev.sterner.witchery.core.api.Curse
+import dev.sterner.witchery.core.api.event.CurseEvent
+import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource

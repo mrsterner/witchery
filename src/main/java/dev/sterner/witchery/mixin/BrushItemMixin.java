@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.block.SuspiciousGraveyardDirtBlockEntity;
+import dev.sterner.witchery.content.block.SuspiciousGraveyardDirtBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;

@@ -1,7 +1,7 @@
 package dev.sterner.witchery.client.renderer.block
 
 import com.mojang.blaze3d.vertex.PoseStack
-import dev.sterner.witchery.block.grassper.GrassperBlockEntity
+import dev.sterner.witchery.content.block.grassper.GrassperBlockEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer

@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.affliction.vampire
 
-import dev.sterner.witchery.api.interfaces.VillagerTransfix
+import dev.sterner.witchery.core.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment

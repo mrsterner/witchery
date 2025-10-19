@@ -1,8 +1,8 @@
-package dev.sterner.witchery.item.accessories
+package dev.sterner.witchery.content.item.accessories
 
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.features.misc.AccessoryHandler
-import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.network.chat.Component
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity

@@ -1,8 +1,8 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer

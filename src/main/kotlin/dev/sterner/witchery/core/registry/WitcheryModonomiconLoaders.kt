@@ -1,4 +1,4 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import com.google.gson.JsonObject
 import com.klikli_dev.modonomicon.book.page.BookPage

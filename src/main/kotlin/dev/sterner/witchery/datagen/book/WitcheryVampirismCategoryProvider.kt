@@ -10,7 +10,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.datagen.book.entry.vampire.*
 import dev.sterner.witchery.datagen.book.util.advancement
 import dev.sterner.witchery.datagen.book.util.requiresAndFollows
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 
 
 class WitcheryVampirismCategoryProvider(

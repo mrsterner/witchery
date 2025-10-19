@@ -1,6 +1,6 @@
 package dev.sterner.witchery.integration.jei.wrapper
 
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipe
+import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
 import net.minecraft.resources.ResourceLocation
 
 data class BrazierSummoningJeiRecipe(

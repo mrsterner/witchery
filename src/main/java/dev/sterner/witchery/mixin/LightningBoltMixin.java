@@ -1,8 +1,8 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.sterner.witchery.entity.ElleEntity;
-import dev.sterner.witchery.registry.WitcheryItems;
+import dev.sterner.witchery.content.entity.ElleEntity;
+import dev.sterner.witchery.core.registry.WitcheryItems;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LightningBolt;

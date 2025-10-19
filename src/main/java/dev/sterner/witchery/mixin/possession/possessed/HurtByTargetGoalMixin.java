@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin.possession.possessed;
 
-import dev.sterner.witchery.api.interfaces.Possessable;
+import dev.sterner.witchery.core.api.interfaces.Possessable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;

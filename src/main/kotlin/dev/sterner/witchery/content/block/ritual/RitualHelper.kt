@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.block.ritual
 
 import com.mojang.brigadier.ParseResults
-import dev.sterner.witchery.entity.FloatingItemEntity
+import dev.sterner.witchery.content.entity.FloatingItemEntity
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.core.BlockPos

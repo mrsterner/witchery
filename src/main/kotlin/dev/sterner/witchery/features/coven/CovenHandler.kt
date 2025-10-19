@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.coven
 
-import dev.sterner.witchery.entity.CovenWitchEntity
+import dev.sterner.witchery.content.entity.CovenWitchEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component

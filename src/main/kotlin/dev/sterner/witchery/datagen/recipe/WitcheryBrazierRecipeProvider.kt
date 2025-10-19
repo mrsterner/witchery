@@ -1,9 +1,9 @@
 package dev.sterner.witchery.datagen.recipe
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.brazier.BrazierSummoningRecipeBuilder
-import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipeBuilder
+import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.data.recipes.RecipeOutput
 
 object WitcheryBrazierRecipeProvider {

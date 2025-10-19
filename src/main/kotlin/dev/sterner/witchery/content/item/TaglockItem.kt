@@ -1,7 +1,7 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.api.entity.PlayerShellEntity
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.core.api.entity.PlayerShellEntity
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style

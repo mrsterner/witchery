@@ -1,6 +1,6 @@
 package dev.sterner.witchery.client
 
-import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
+import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionType

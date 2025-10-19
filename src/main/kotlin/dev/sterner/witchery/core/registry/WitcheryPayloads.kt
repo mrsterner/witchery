@@ -1,4 +1,4 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.network.*
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent

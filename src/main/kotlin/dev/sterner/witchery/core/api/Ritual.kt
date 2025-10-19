@@ -1,7 +1,7 @@
 package dev.sterner.witchery.core.api
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
+import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.Level

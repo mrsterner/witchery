@@ -1,8 +1,8 @@
 package dev.sterner.witchery.datagen.recipe
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipeBuilder
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipeBuilder
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.item.Items
 

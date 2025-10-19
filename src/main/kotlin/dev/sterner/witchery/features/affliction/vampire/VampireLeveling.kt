@@ -1,8 +1,8 @@
 package dev.sterner.witchery.features.affliction.vampire
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.api.event.VampireEvent
+import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.api.event.VampireEvent
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment

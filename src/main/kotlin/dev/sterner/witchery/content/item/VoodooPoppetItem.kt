@@ -1,4 +1,4 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.features.poppet.VoodooPoppet
 import net.minecraft.world.InteractionResult

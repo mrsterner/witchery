@@ -1,11 +1,11 @@
-package dev.sterner.witchery.item
+package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.block.critter_snare.CritterSnareBlock
-import dev.sterner.witchery.block.grassper.GrassperBlockEntity
-import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.registry.WitcheryDataComponents
+import dev.sterner.witchery.content.block.critter_snare.CritterSnareBlock
+import dev.sterner.witchery.content.block.grassper.GrassperBlockEntity
+import dev.sterner.witchery.core.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.sounds.SoundEvents

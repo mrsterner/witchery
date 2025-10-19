@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.block.effigy
 
-import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlock
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlock
 import net.minecraft.core.BlockPos
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter

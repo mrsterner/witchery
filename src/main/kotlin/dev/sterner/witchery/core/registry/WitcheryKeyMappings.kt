@@ -1,4 +1,4 @@
-package dev.sterner.witchery.registry
+package dev.sterner.witchery.core.registry
 
 import com.mojang.blaze3d.platform.InputConstants
 import net.minecraft.client.KeyMapping

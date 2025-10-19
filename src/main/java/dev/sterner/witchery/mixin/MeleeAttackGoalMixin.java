@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.data_attachment.EtherealEntityAttachment;
-import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment;
+import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment;
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.features.affliction.AfflictionTypes;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
