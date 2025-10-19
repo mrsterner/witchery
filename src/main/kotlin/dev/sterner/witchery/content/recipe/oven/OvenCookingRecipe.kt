@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.oven
+package dev.sterner.witchery.content.recipe.oven
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec

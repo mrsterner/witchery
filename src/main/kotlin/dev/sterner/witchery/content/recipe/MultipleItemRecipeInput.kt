@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe
+package dev.sterner.witchery.content.recipe
 
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.RecipeInput

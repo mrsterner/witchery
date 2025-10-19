@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe
+package dev.sterner.witchery.content.recipe
 
 import dev.sterner.witchery.ShapedRecipeAccessor
 import net.minecraft.advancements.AdvancementRequirements

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.ritual
+package dev.sterner.witchery.content.recipe.ritual
 
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.CommandType

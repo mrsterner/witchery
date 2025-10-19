@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.spinning_wheel
+package dev.sterner.witchery.content.recipe.spinning_wheel
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec

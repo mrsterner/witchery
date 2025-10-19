@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.distillery
+package dev.sterner.witchery.content.recipe.cauldron
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
@@ -11,26 +11,23 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
 
 
-class DistilleryCraftingRecipe(
-    val inputItems: List<ItemStack>,
-    val outputItems: List<ItemStack>,
+class CauldronBrewingRecipe(
+    val inputItems: List<ItemStackWithColor>,
+    val outputItem: ItemStack,
     val altarPower: Int,
-    val cookingTime: Int,
-    val jarConsumption: Int
+    val dimensionKey: Set<String>
 ) :
     Recipe<MultipleItemRecipeInput> {
 
-
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
 
-        val filteredInputItems = inputItems.filter { !it.isEmpty }
+        val filteredInputItems = inputItems.filter { !it.itemStack.isEmpty }
         val filteredInputList = input.list.filter { !it.isEmpty }
 
         if (filteredInputList.size != filteredInputItems.size) {
@@ -40,7 +37,7 @@ class DistilleryCraftingRecipe(
         return filteredInputList.all { ingredient ->
             filteredInputItems.any {
                 ItemStack.isSameItem(
-                    it,
+                    it.itemStack,
                     ingredient
                 )
             }
@@ -48,7 +45,7 @@ class DistilleryCraftingRecipe(
     }
 
     override fun assemble(input: MultipleItemRecipeInput, registries: HolderLookup.Provider): ItemStack {
-        return Items.AIR.defaultInstance
+        return outputItem
     }
 
     override fun canCraftInDimensions(width: Int, height: Int): Boolean {
@@ -56,39 +53,41 @@ class DistilleryCraftingRecipe(
     }
 
     override fun getResultItem(registries: HolderLookup.Provider): ItemStack {
-        return Items.AIR.defaultInstance
+        return outputItem
     }
 
     override fun getSerializer(): RecipeSerializer<*> {
-        return WitcheryRecipeSerializers.DISTILLERY_RECIPE_SERIALIZER.get()
+        return WitcheryRecipeSerializers.CAULDRON_BREWING_RECIPE_SERIALIZER.get()
     }
 
     override fun getType(): RecipeType<*> {
-        return WitcheryRecipeTypes.DISTILLERY_RECIPE_TYPE.get()
+        return WitcheryRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get()
     }
 
-    class Serializer : RecipeSerializer<DistilleryCraftingRecipe> {
-        override fun codec(): MapCodec<DistilleryCraftingRecipe> {
+    class Serializer : RecipeSerializer<CauldronBrewingRecipe> {
+        override fun codec(): MapCodec<CauldronBrewingRecipe> {
             return CODEC
         }
 
-        override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, DistilleryCraftingRecipe> {
+        override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, CauldronBrewingRecipe> {
             return STREAM_CODEC
         }
 
         companion object {
-            val CODEC: MapCodec<DistilleryCraftingRecipe> =
-                RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<DistilleryCraftingRecipe> ->
+            val CODEC: MapCodec<CauldronBrewingRecipe> =
+                RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<CauldronBrewingRecipe> ->
                     obj.group(
-                        ItemStack.CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
-                        ItemStack.CODEC.listOf().fieldOf("outputItems").forGetter { it.outputItems },
+                        ItemStackWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems")
+                            .forGetter { it.inputItems },
+                        ItemStack.CODEC.fieldOf("outputItem").forGetter { it.outputItem },
                         Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
-                        Codec.INT.fieldOf("cookingTime").forGetter { recipe -> recipe.cookingTime },
-                        Codec.INT.fieldOf("jarConsumption").forGetter { recipe -> recipe.jarConsumption }
-                    ).apply(obj, ::DistilleryCraftingRecipe)
+                        Codec.STRING.listOf().fieldOf("dimensionKey")
+                            .xmap({ it.toSet() }, { it.toList() })
+                            .forGetter { it.dimensionKey }
+                    ).apply(obj, ::CauldronBrewingRecipe)
                 }
 
-            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, DistilleryCraftingRecipe> =
+            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, CauldronBrewingRecipe> =
                 ByteBufCodecs.fromCodecWithRegistries(
                     CODEC.codec()
                 )
@@ -96,6 +95,6 @@ class DistilleryCraftingRecipe(
     }
 
     companion object {
-        const val NAME: String = "distillery_crafting"
+        const val NAME: String = "cauldron_brewing"
     }
 }

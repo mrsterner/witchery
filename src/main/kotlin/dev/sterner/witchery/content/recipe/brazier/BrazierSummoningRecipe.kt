@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.brazier
+package dev.sterner.witchery.content.recipe.brazier
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec

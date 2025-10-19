@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.spinning_wheel
+package dev.sterner.witchery.content.recipe.spinning_wheel
 
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards

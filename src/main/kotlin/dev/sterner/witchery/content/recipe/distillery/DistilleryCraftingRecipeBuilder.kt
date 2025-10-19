@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.cauldron
+package dev.sterner.witchery.content.recipe.distillery
 
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards
@@ -10,72 +10,77 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 
-class CauldronCraftingRecipeBuilder(
-    private var inputItems: MutableList<ItemStackWithColor> = mutableListOf(),
+class DistilleryCraftingRecipeBuilder(
+    private var inputItems: MutableList<ItemStack> = mutableListOf(),
     private var outputStack: MutableList<ItemStack> = mutableListOf(),
-    private val altarPower: Int = 0
+    private var altarPower: Int = 0,
+    private var cookingTime: Int = 100,
+    private var jarConsumption: Int = 1,
 ) : RecipeBuilder {
-
-    var order = 0
 
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     private var group: String? = null
 
     companion object {
-        fun create(): CauldronCraftingRecipeBuilder {
-            return CauldronCraftingRecipeBuilder()
+        fun create(): DistilleryCraftingRecipeBuilder {
+            return DistilleryCraftingRecipeBuilder()
         }
     }
 
-    fun addInputWithColor(itemStack: ItemStack, color: Int): CauldronCraftingRecipeBuilder {
-        inputItems.add(ItemStackWithColor(itemStack, color, order))
-        order++
+    fun addInput(itemStack: ItemStack): DistilleryCraftingRecipeBuilder {
+        inputItems.add(itemStack)
         return this
     }
 
-    fun addInputWithColor(item: Item, color: Int): CauldronCraftingRecipeBuilder {
-        inputItems.add(ItemStackWithColor(ItemStack(item), color, order))
-        order++
+    fun addInput(itemStack: Item): DistilleryCraftingRecipeBuilder {
+        inputItems.add(ItemStack(itemStack))
         return this
     }
 
-    fun addInput(itemStackWithColor: ItemStackWithColor): CauldronCraftingRecipeBuilder {
-        inputItems += itemStackWithColor
-        return this
-    }
-
-    fun addOutput(itemStack: ItemStack, count: Int): CauldronCraftingRecipeBuilder {
+    fun addOutput(itemStack: ItemStack, count: Int): DistilleryCraftingRecipeBuilder {
         itemStack.count = count
         outputStack += itemStack
         return this
     }
 
-    fun addOutput(item: Item, count: Int): CauldronCraftingRecipeBuilder {
+    fun addOutput(item: Item, count: Int): DistilleryCraftingRecipeBuilder {
         val itemStack = ItemStack(item, count)
         outputStack += itemStack
         return this
     }
 
-    fun addOutput(itemStack: ItemStack): CauldronCraftingRecipeBuilder {
+
+    fun addOutput(itemStack: ItemStack): DistilleryCraftingRecipeBuilder {
         outputStack += itemStack
         return this
     }
 
-    fun addOutput(item: Item): CauldronCraftingRecipeBuilder {
+    fun addOutput(item: Item): DistilleryCraftingRecipeBuilder {
         outputStack += item.defaultInstance
         return this
     }
 
-    fun setAltarPower(power: Int): CauldronCraftingRecipeBuilder {
-        return CauldronCraftingRecipeBuilder(inputItems, outputStack, power)
+    fun setJarConsumption(count: Int): DistilleryCraftingRecipeBuilder {
+        jarConsumption = count
+        return this
     }
 
-    override fun unlockedBy(name: String, criterion: Criterion<*>): CauldronCraftingRecipeBuilder {
+    fun setAltarPower(power: Int): DistilleryCraftingRecipeBuilder {
+        this.altarPower = power
+        return this
+    }
+
+    fun setCookingTime(cookingTime: Int): DistilleryCraftingRecipeBuilder {
+        this.cookingTime = cookingTime
+        return this
+    }
+
+    override fun unlockedBy(name: String, criterion: Criterion<*>): DistilleryCraftingRecipeBuilder {
         criteria[name] = criterion
         return this
     }
 
-    override fun group(groupName: String?): CauldronCraftingRecipeBuilder {
+    override fun group(groupName: String?): DistilleryCraftingRecipeBuilder {
         group = groupName
         return this
     }
@@ -94,11 +99,12 @@ class CauldronCraftingRecipeBuilder(
             builder.addCriterion(name, criterion)
         }
 
-        val cauldronCraftingRecipe = CauldronCraftingRecipe(inputItems, outputStack, altarPower)
+        val cauldronCraftingRecipe =
+            DistilleryCraftingRecipe(inputItems, outputStack, altarPower, cookingTime, jarConsumption)
         recipeOutput.accept(
-            id.withPrefix("cauldron_crafting/"),
+            id.withPrefix("distillery_crafting/"),
             cauldronCraftingRecipe,
-            builder.build(id.withPrefix("recipes/cauldron_crafting/"))
+            builder.build(id.withPrefix("recipes/distillery_crafting/"))
         )
     }
 }

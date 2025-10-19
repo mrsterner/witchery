@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe
+package dev.sterner.witchery.content.recipe
 
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.registry.WitcheryItems

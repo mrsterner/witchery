@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.cauldron
+package dev.sterner.witchery.content.recipe.cauldron
 
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards

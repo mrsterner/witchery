@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.brazier
+package dev.sterner.witchery.content.recipe.brazier
 
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards

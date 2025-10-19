@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.oven
+package dev.sterner.witchery.content.recipe.oven
 
 import net.minecraft.advancements.AdvancementRequirements
 import net.minecraft.advancements.AdvancementRewards

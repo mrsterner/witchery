@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.cauldron
+package dev.sterner.witchery.content.recipe.distillery
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
@@ -18,17 +18,19 @@ import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
 
 
-class CauldronCraftingRecipe(
-    val inputItems: List<ItemStackWithColor>,
+class DistilleryCraftingRecipe(
+    val inputItems: List<ItemStack>,
     val outputItems: List<ItemStack>,
-    val altarPower: Int
+    val altarPower: Int,
+    val cookingTime: Int,
+    val jarConsumption: Int
 ) :
     Recipe<MultipleItemRecipeInput> {
 
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
 
-        val filteredInputItems = inputItems.filter { !it.itemStack.isEmpty }
+        val filteredInputItems = inputItems.filter { !it.isEmpty }
         val filteredInputList = input.list.filter { !it.isEmpty }
 
         if (filteredInputList.size != filteredInputItems.size) {
@@ -38,7 +40,7 @@ class CauldronCraftingRecipe(
         return filteredInputList.all { ingredient ->
             filteredInputItems.any {
                 ItemStack.isSameItem(
-                    it.itemStack,
+                    it,
                     ingredient
                 )
             }
@@ -58,34 +60,35 @@ class CauldronCraftingRecipe(
     }
 
     override fun getSerializer(): RecipeSerializer<*> {
-        return WitcheryRecipeSerializers.CAULDRON_RECIPE_SERIALIZER.get()
+        return WitcheryRecipeSerializers.DISTILLERY_RECIPE_SERIALIZER.get()
     }
 
     override fun getType(): RecipeType<*> {
-        return WitcheryRecipeTypes.CAULDRON_RECIPE_TYPE.get()
+        return WitcheryRecipeTypes.DISTILLERY_RECIPE_TYPE.get()
     }
 
-    class Serializer : RecipeSerializer<CauldronCraftingRecipe> {
-        override fun codec(): MapCodec<CauldronCraftingRecipe> {
+    class Serializer : RecipeSerializer<DistilleryCraftingRecipe> {
+        override fun codec(): MapCodec<DistilleryCraftingRecipe> {
             return CODEC
         }
 
-        override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, CauldronCraftingRecipe> {
+        override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, DistilleryCraftingRecipe> {
             return STREAM_CODEC
         }
 
         companion object {
-            val CODEC: MapCodec<CauldronCraftingRecipe> =
-                RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<CauldronCraftingRecipe> ->
+            val CODEC: MapCodec<DistilleryCraftingRecipe> =
+                RecordCodecBuilder.mapCodec { obj: RecordCodecBuilder.Instance<DistilleryCraftingRecipe> ->
                     obj.group(
-                        ItemStackWithColor.INGREDIENT_WITH_COLOR_CODEC.listOf().fieldOf("inputItems")
-                            .forGetter { it.inputItems },
+                        ItemStack.CODEC.listOf().fieldOf("inputItems").forGetter { it.inputItems },
                         ItemStack.CODEC.listOf().fieldOf("outputItems").forGetter { it.outputItems },
-                        Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower }
-                    ).apply(obj, ::CauldronCraftingRecipe)
+                        Codec.INT.fieldOf("altarPower").forGetter { recipe -> recipe.altarPower },
+                        Codec.INT.fieldOf("cookingTime").forGetter { recipe -> recipe.cookingTime },
+                        Codec.INT.fieldOf("jarConsumption").forGetter { recipe -> recipe.jarConsumption }
+                    ).apply(obj, ::DistilleryCraftingRecipe)
                 }
 
-            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, CauldronCraftingRecipe> =
+            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, DistilleryCraftingRecipe> =
                 ByteBufCodecs.fromCodecWithRegistries(
                     CODEC.codec()
                 )
@@ -93,6 +96,6 @@ class CauldronCraftingRecipe(
     }
 
     companion object {
-        const val NAME: String = "cauldron_crafting"
+        const val NAME: String = "distillery_crafting"
     }
 }

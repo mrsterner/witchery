@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.cauldron
+package dev.sterner.witchery.content.recipe.cauldron
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.recipe.ritual
+package dev.sterner.witchery.content.recipe.ritual
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
