@@ -2,6 +2,12 @@ package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.FetishEffect
+import dev.sterner.witchery.features.fetish.DisorientationFetishEffect
+import dev.sterner.witchery.features.fetish.EmptyFetishEffect
+import dev.sterner.witchery.features.fetish.GhostWalkingFetishEffect
+import dev.sterner.witchery.features.fetish.SentinelFetishEffect
+import dev.sterner.witchery.features.fetish.ShriekingFetishEffect
+import dev.sterner.witchery.features.fetish.SummonDeathFetishEffect
 import dev.sterner.witchery.fetish.*
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
