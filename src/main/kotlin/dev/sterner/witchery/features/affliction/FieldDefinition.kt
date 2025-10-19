@@ -1,4 +1,4 @@
-package dev.sterner.witchery.core.data_attachment.affliction
+package dev.sterner.witchery.features.affliction
 
 import com.mojang.serialization.Codec
 
