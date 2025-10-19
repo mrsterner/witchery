@@ -3,7 +3,7 @@ package dev.sterner.witchery.features.misc
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.world.WitcheryWallWorldState
+import dev.sterner.witchery.core.world.WitcheryWallWorldState
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.nbt.CompoundTag

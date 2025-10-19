@@ -1,4 +1,4 @@
-package dev.sterner.witchery.world
+package dev.sterner.witchery.core.world
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.datafix.DataFixTypes
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.saveddata.SavedData
+import kotlin.collections.iterator
 
 class WitcheryWorldState(private val level: ServerLevel) : SavedData() {
 

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.world
+package dev.sterner.witchery.core.world
 
 import dev.sterner.witchery.features.misc.VillageWallHandler
 import net.minecraft.core.BlockPos
@@ -12,6 +12,7 @@ import net.minecraft.util.datafix.DataFixTypes
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.block.Rotation
 import net.minecraft.world.level.saveddata.SavedData
+import kotlin.collections.iterator
 
 class WitcheryWallWorldState : SavedData() {
 
