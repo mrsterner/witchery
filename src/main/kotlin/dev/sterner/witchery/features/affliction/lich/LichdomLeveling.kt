@@ -8,7 +8,7 @@ import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
 
-import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
+import dev.sterner.witchery.network.RefreshDimensionsS2CPayload
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier

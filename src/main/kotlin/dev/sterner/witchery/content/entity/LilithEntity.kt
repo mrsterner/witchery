@@ -4,7 +4,7 @@ package dev.sterner.witchery.content.entity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
-import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
+import dev.sterner.witchery.network.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag

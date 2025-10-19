@@ -10,7 +10,7 @@ import dev.sterner.witchery.handler.affliction.*
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility
 import dev.sterner.witchery.features.affliction.vampire.VampireAbility
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfAbility
-import dev.sterner.witchery.payload.UpdateSelectedAbilitiesC2SPayload
+import dev.sterner.witchery.network.UpdateSelectedAbilitiesC2SPayload
 import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button

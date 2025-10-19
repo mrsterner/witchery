@@ -1,8 +1,7 @@
 package dev.sterner.witchery.registry
 
-import dev.sterner.witchery.payload.*
+import dev.sterner.witchery.network.*
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
-import net.neoforged.neoforge.network.handling.IPayloadContext
 
 object WitcheryPayloads {
 

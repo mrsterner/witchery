@@ -3,7 +3,7 @@ package dev.sterner.witchery.features.poppet
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncVoodooDataS2CPayload
+import dev.sterner.witchery.network.SyncVoodooDataS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel

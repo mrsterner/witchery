@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.api.interfaces.VillagerTransfix;
-import dev.sterner.witchery.payload.SpawnTransfixParticlesS2CPayload;
+import dev.sterner.witchery.network.SpawnTransfixParticlesS2CPayload;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.WalkTarget;

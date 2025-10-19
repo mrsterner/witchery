@@ -4,7 +4,7 @@ import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionType
-import dev.sterner.witchery.payload.ReadTabletC2SPayload
+import dev.sterner.witchery.network.ReadTabletC2SPayload
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.player.Player

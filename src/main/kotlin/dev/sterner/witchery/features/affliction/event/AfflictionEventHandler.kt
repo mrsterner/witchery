@@ -7,7 +7,7 @@ import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.misc.BloodPoolHandler
-import dev.sterner.witchery.payload.AfflictionAbilityUseC2SPayload
+import dev.sterner.witchery.network.AfflictionAbilityUseC2SPayload
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity

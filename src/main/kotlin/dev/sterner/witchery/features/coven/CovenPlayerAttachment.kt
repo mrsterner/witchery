@@ -3,7 +3,7 @@ package dev.sterner.witchery.features.coven
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncCovenS2CPayload
+import dev.sterner.witchery.network.SyncCovenS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag

@@ -5,7 +5,7 @@ import dev.sterner.witchery.api.InventorySlots
 import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
-import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
+import dev.sterner.witchery.network.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.core.NonNullList
 import net.minecraft.server.level.ServerLevel
@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.Containers
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack

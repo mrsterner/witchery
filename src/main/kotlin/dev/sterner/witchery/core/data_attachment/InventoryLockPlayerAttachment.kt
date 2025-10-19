@@ -1,26 +1,16 @@
 package dev.sterner.witchery.core.data_attachment
 
-import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncCurseS2CPayload
-import dev.sterner.witchery.payload.SyncInventoryLockS2CPayload
+import dev.sterner.witchery.network.SyncInventoryLockS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
-import net.minecraft.ChatFormatting
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.screens.inventory.InventoryScreen
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
-import net.neoforged.neoforge.client.event.RenderGuiEvent
 import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.network.PacketDistributor
-import java.util.UUID
 
 object InventoryLockPlayerAttachment {
 

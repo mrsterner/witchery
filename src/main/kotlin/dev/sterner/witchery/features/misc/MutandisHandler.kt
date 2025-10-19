@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.data_attachment.MutandisLevelAttachment
-import dev.sterner.witchery.payload.MutandisRemenantParticleS2CPayload
+import dev.sterner.witchery.network.MutandisRemenantParticleS2CPayload
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.ChunkPos

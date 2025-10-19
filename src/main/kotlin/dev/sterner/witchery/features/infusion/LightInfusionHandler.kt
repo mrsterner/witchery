@@ -1,9 +1,6 @@
 package dev.sterner.witchery.features.infusion
 
-import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.data_attachment.infusion.InfusionType
-import dev.sterner.witchery.data_attachment.infusion.LightInfusionPlayerAttachment
-import dev.sterner.witchery.payload.SpawnPoofParticlesS2CPayload
+import dev.sterner.witchery.network.SpawnPoofParticlesS2CPayload
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player

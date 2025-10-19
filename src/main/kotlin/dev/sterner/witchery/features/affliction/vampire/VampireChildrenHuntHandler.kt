@@ -2,7 +2,7 @@ package dev.sterner.witchery.features.affliction.vampire
 
 import dev.sterner.witchery.entity.VampireEntity
 import dev.sterner.witchery.features.misc.BloodPoolHandler
-import dev.sterner.witchery.payload.SpawnSmokeParticlesS2CPayload
+import dev.sterner.witchery.network.SpawnSmokeParticlesS2CPayload
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.MinecraftServer

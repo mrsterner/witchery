@@ -3,7 +3,7 @@ package dev.sterner.witchery.features.infusion
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncInfernalInfusionS2CPayload
+import dev.sterner.witchery.network.SyncInfernalInfusionS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel

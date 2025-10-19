@@ -6,8 +6,8 @@ import dev.sterner.witchery.entity.player_shell.SleepingPlayerEntity
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.features.misc.SleepingPlayerHandler
 import dev.sterner.witchery.item.TaglockItem
-import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
-import dev.sterner.witchery.payload.SyncSleepingShellS2CPayload
+import dev.sterner.witchery.network.SpawnSleepingDeathParticleS2CPayload
+import dev.sterner.witchery.network.SyncSleepingShellS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.core.util.WitcheryUtil

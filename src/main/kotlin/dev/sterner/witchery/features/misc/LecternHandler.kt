@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.misc
 
-import dev.sterner.witchery.payload.OpenLecternGuidebookS2CPayload
+import dev.sterner.witchery.network.OpenLecternGuidebookS2CPayload
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerPlayer

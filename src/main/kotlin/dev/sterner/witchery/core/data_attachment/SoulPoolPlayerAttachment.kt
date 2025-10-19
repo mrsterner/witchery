@@ -3,7 +3,7 @@ package dev.sterner.witchery.core.data_attachment
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncSoulS2CPayload
+import dev.sterner.witchery.network.SyncSoulS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel

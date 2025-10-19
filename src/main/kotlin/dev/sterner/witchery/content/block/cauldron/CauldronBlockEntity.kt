@@ -7,7 +7,7 @@ import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.core.data.PotionDataReloadListener
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.item.potion.WitcheryPotionItem
-import dev.sterner.witchery.payload.*
+import dev.sterner.witchery.network.*
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.recipe.cauldron.CauldronCraftingRecipe

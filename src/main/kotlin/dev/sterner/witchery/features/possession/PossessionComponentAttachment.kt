@@ -8,7 +8,7 @@ import dev.sterner.witchery.api.event.PossessionEvents
 import dev.sterner.witchery.api.interfaces.Possessable
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
-import dev.sterner.witchery.payload.SyncPossessionComponentS2CPayload
+import dev.sterner.witchery.network.SyncPossessionComponentS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import dev.sterner.witchery.registry.WitcheryTags
 import net.minecraft.core.particles.ParticleTypes

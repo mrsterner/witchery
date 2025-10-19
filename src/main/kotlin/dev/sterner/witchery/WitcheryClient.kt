@@ -39,7 +39,7 @@ import dev.sterner.witchery.item.HunterArmorItem
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.item.VampireArmorItem
 import dev.sterner.witchery.item.WitchesRobesItem
-import dev.sterner.witchery.payload.DismountBroomC2SPayload
+import dev.sterner.witchery.network.DismountBroomC2SPayload
 import dev.sterner.witchery.registry.*
 import dev.sterner.witchery.registry.WitcheryItems.BABA_YAGAS_HAT
 import dev.sterner.witchery.registry.WitcheryItems.DRESS_COAT

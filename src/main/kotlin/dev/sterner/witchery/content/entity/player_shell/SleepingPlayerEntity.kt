@@ -7,7 +7,7 @@ import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
 import dev.sterner.witchery.features.misc.AccessoryHandler
 import dev.sterner.witchery.features.misc.SleepingPlayerHandler
 import dev.sterner.witchery.features.misc.TeleportQueueHandler
-import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
+import dev.sterner.witchery.network.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags

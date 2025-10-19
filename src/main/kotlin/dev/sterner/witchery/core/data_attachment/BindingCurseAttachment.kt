@@ -2,7 +2,7 @@ package dev.sterner.witchery.core.data_attachment
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.payload.SyncBindingCurseS2CPayload
+import dev.sterner.witchery.network.SyncBindingCurseS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes

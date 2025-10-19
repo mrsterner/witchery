@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.tarot
 
-import dev.sterner.witchery.payload.HighlightOresS2CPayload
+import dev.sterner.witchery.network.HighlightOresS2CPayload
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.chat.Component

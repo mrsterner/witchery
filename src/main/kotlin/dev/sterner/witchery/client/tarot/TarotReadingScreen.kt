@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.tarot
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.LockInTarotCardsC2SPayload
+import dev.sterner.witchery.network.LockInTarotCardsC2SPayload
 import dev.sterner.witchery.registry.WitcheryBlocks
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft

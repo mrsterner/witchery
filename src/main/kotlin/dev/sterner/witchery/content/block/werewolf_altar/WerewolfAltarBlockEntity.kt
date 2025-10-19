@@ -4,7 +4,7 @@ package dev.sterner.witchery.content.block.werewolf_altar
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.entity.WerewolfEntity
-import dev.sterner.witchery.payload.SpawnItemParticlesS2CPayload
+import dev.sterner.witchery.network.SpawnItemParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems

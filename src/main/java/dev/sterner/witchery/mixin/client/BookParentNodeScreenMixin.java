@@ -2,7 +2,7 @@ package dev.sterner.witchery.mixin.client;
 
 import com.klikli_dev.modonomicon.client.gui.book.node.BookParentNodeScreen;
 import dev.sterner.witchery.client.WitcheryAdvancementButton;
-import dev.sterner.witchery.payload.GrantWitcheryAdvancementsC2SPayload;
+import dev.sterner.witchery.network.GrantWitcheryAdvancementsC2SPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;

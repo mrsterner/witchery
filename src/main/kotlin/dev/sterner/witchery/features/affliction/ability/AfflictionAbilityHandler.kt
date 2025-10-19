@@ -7,7 +7,7 @@ import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility
 import dev.sterner.witchery.features.affliction.vampire.VampireAbility
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfAbility
-import dev.sterner.witchery.payload.AfflictionAbilitySelectionC2SPayload
+import dev.sterner.witchery.network.AfflictionAbilitySelectionC2SPayload
 import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor

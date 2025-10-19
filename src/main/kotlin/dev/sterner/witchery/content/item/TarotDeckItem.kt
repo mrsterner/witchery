@@ -1,9 +1,8 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.data_attachment.TarotPlayerAttachment
-import dev.sterner.witchery.payload.OpenTarotScreenS2CPayload
+import dev.sterner.witchery.network.OpenTarotScreenS2CPayload
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer

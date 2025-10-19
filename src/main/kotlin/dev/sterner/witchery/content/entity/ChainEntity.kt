@@ -3,7 +3,7 @@ package dev.sterner.witchery.content.entity
 import dev.sterner.witchery.api.event.ChainEvent
 import dev.sterner.witchery.api.interfaces.EntityChainInterface
 import dev.sterner.witchery.features.chain.ChainManager
-import dev.sterner.witchery.payload.SyncChainS2CPayload
+import dev.sterner.witchery.network.SyncChainS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.protocol.Packet

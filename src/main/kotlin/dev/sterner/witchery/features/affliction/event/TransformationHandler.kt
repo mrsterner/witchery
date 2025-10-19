@@ -12,7 +12,7 @@ import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
 import dev.sterner.witchery.mixin.LivingEntityAccessor
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor
-import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
+import dev.sterner.witchery.network.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import net.minecraft.client.player.AbstractClientPlayer
 import net.minecraft.server.level.ServerLevel

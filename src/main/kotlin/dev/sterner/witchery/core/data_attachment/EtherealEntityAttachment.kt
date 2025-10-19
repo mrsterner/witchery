@@ -4,7 +4,7 @@ import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.payload.SyncEtherealS2CPayload
+import dev.sterner.witchery.network.SyncEtherealS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
