@@ -1,4 +1,4 @@
-package dev.sterner.witchery.worldgen
+package dev.sterner.witchery.content.worldgen
 
 import dev.sterner.witchery.Witchery
 import net.minecraft.core.registries.Registries

@@ -12,7 +12,6 @@ import dev.sterner.witchery.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.block.blood_crucible.BloodCrucibleBlock
 import dev.sterner.witchery.block.blood_poppy.BloodPoppyBlock
 import dev.sterner.witchery.block.brazier.BrazierBlock
-import dev.sterner.witchery.block.cauldron.CauldronBlock
 import dev.sterner.witchery.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.block.cauldron.CopperCauldronBlock
 import dev.sterner.witchery.block.censer.CenserBlock
@@ -45,7 +44,7 @@ import dev.sterner.witchery.block.spirit_portal.SpiritPortalBlockComponent
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.block.werewolf_altar.WerewolfAltarComponent
 import dev.sterner.witchery.data_attachment.PlatformUtils.registerWoodType
-import dev.sterner.witchery.worldgen.tree.WitcheryTreeGrowers
+import dev.sterner.witchery.content.worldgen.tree.WitcheryTreeGrowers
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries

@@ -3,7 +3,7 @@ package dev.sterner.witchery.content.block.spining_wheel
 import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
-import dev.sterner.witchery.menu.SpinningWheelMenu
+import dev.sterner.witchery.content.menu.SpinningWheelMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.spinning_wheel.SpinningWheelRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes

@@ -4,11 +4,11 @@ package dev.sterner.witchery.datagen.bootstrap
 import dev.sterner.witchery.block.CottonBlock
 import dev.sterner.witchery.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryFeatures
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ALDER_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.HAWTHORN_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ROWAN_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WISPY_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WITCH_CIRCLE_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ALDER_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.HAWTHORN_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ROWAN_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.WISPY_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.WITCH_CIRCLE_KEY
 import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.data.worldgen.features.FeatureUtils
 import net.minecraft.data.worldgen.placement.PlacementUtils

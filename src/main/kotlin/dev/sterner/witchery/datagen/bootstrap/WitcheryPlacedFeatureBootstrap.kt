@@ -3,16 +3,16 @@ package dev.sterner.witchery.datagen.bootstrap
 
 import com.google.common.collect.ImmutableList
 import dev.sterner.witchery.registry.WitcheryBlocks
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ALDER_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ALDER_PLACED_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.HAWTHORN_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.HAWTHORN_PLACED_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ROWAN_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.ROWAN_PLACED_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WISPY_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WISPY_PLACED_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WITCH_CIRCLE_KEY
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys.WITCH_CIRCLE_PLACED_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ALDER_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ALDER_PLACED_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.HAWTHORN_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.HAWTHORN_PLACED_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ROWAN_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ROWAN_PLACED_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.WISPY_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.WISPY_PLACED_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.WITCH_CIRCLE_KEY
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.WITCH_CIRCLE_PLACED_KEY
 import net.minecraft.core.registries.Registries
 import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.data.worldgen.placement.PlacementUtils

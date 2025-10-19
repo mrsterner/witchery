@@ -1,6 +1,6 @@
-package dev.sterner.witchery.worldgen.tree
+package dev.sterner.witchery.content.worldgen.tree
 
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
 import net.minecraft.world.level.block.grower.TreeGrower
 import java.util.*
 

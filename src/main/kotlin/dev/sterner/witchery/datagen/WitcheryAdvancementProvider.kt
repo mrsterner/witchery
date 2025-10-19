@@ -2,7 +2,7 @@ package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
 import net.minecraft.advancements.*
 import net.minecraft.advancements.critereon.ChangeDimensionTrigger
 import net.minecraft.advancements.critereon.ImpossibleTrigger

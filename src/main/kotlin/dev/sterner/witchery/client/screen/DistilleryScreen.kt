@@ -1,7 +1,7 @@
 package dev.sterner.witchery.client.screen
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.menu.DistilleryMenu
+import dev.sterner.witchery.content.menu.DistilleryMenu
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.network.chat.Component

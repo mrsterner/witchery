@@ -2,7 +2,7 @@ package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.data_attachment.NightmarePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryEntityTypes
-import dev.sterner.witchery.worldgen.WitcheryWorldgenKeys
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers

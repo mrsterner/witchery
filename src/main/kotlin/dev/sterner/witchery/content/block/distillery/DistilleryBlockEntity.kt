@@ -4,7 +4,7 @@ import dev.sterner.witchery.api.block.AltarPowerConsumer
 import dev.sterner.witchery.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.block.altar.AltarBlockEntity
 import dev.sterner.witchery.block.oven.OvenBlockEntity
-import dev.sterner.witchery.menu.DistilleryMenu
+import dev.sterner.witchery.content.menu.DistilleryMenu
 import dev.sterner.witchery.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes

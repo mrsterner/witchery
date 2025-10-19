@@ -1,10 +1,10 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.menu.AltarMenu
-import dev.sterner.witchery.menu.DistilleryMenu
-import dev.sterner.witchery.menu.OvenMenu
-import dev.sterner.witchery.menu.SpinningWheelMenu
+import dev.sterner.witchery.content.menu.AltarMenu
+import dev.sterner.witchery.content.menu.DistilleryMenu
+import dev.sterner.witchery.content.menu.OvenMenu
+import dev.sterner.witchery.content.menu.SpinningWheelMenu
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.inventory.MenuType
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension

@@ -1,6 +1,6 @@
-package dev.sterner.witchery.menu.slot
+package dev.sterner.witchery.content.menu.slot
 
-import dev.sterner.witchery.menu.OvenMenu
+import dev.sterner.witchery.content.menu.OvenMenu
 import net.minecraft.world.Container
 import net.minecraft.world.inventory.Slot
 import net.minecraft.world.item.ItemStack

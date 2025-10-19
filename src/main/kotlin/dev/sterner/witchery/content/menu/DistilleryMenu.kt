@@ -1,4 +1,4 @@
-package dev.sterner.witchery.menu
+package dev.sterner.witchery.content.menu
 
 import dev.sterner.witchery.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.registry.WitcheryItems

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.menu
+package dev.sterner.witchery.content.menu
 
 import dev.sterner.witchery.block.spining_wheel.SpinningWheelBlockEntity
 import dev.sterner.witchery.registry.WitcheryMenuTypes

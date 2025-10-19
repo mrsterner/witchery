@@ -1,4 +1,4 @@
-package dev.sterner.witchery.worldgen.patch
+package dev.sterner.witchery.content.worldgen.patch
 
 import com.mojang.serialization.Codec
 import net.minecraft.core.BlockPos

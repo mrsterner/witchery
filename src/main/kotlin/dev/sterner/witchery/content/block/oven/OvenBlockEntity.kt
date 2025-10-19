@@ -2,7 +2,7 @@ package dev.sterner.witchery.content.block.oven
 
 import dev.sterner.witchery.block.WitcheryBaseBlockEntity
 
-import dev.sterner.witchery.menu.OvenMenu
+import dev.sterner.witchery.content.menu.OvenMenu
 import dev.sterner.witchery.recipe.oven.OvenCookingRecipe
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems

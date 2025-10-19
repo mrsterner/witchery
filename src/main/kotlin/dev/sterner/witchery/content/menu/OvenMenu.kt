@@ -1,7 +1,7 @@
-package dev.sterner.witchery.menu
+package dev.sterner.witchery.content.menu
 
 import dev.sterner.witchery.block.oven.OvenBlockEntity
-import dev.sterner.witchery.menu.slot.OvenFuelSlot
+import dev.sterner.witchery.content.menu.slot.OvenFuelSlot
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryMenuTypes
 import dev.sterner.witchery.registry.WitcheryRecipeTypes
