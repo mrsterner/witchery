@@ -3,6 +3,14 @@ package dev.sterner.witchery.registry
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.curse.*
+import dev.sterner.witchery.features.curse.CurseOfBefuddlement
+import dev.sterner.witchery.features.curse.CurseOfCorruptPoppet
+import dev.sterner.witchery.features.curse.CurseOfFragility
+import dev.sterner.witchery.features.curse.CurseOfHunger
+import dev.sterner.witchery.features.curse.CurseOfInsanity
+import dev.sterner.witchery.features.curse.CurseOfMisfortune
+import dev.sterner.witchery.features.curse.CurseOfOverheating
+import dev.sterner.witchery.features.curse.CurseOfSinking
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.neoforged.bus.api.IEventBus

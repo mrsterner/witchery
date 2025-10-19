@@ -1,4 +1,4 @@
-package dev.sterner.witchery.curse
+package dev.sterner.witchery.features.curse
 
 import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.WitcheryApi
