@@ -1,4 +1,4 @@
-package dev.sterner.witchery.poppet
+package dev.sterner.witchery.features.poppet
 
 import dev.sterner.witchery.api.PoppetLocation
 import dev.sterner.witchery.api.interfaces.PoppetType

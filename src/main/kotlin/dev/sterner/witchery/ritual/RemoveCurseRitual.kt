@@ -3,7 +3,7 @@ package dev.sterner.witchery.ritual
 import dev.sterner.witchery.api.Ritual
 import dev.sterner.witchery.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.data_attachment.CursePlayerAttachment
-import dev.sterner.witchery.handler.CurseHandler
+import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.registry.WitcheryCurseRegistry
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level

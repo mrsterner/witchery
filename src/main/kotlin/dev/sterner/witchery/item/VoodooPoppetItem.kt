@@ -1,6 +1,6 @@
 package dev.sterner.witchery.item
 
-import dev.sterner.witchery.poppet.VoodooPoppet
+import dev.sterner.witchery.features.poppet.VoodooPoppet
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.ClipContext

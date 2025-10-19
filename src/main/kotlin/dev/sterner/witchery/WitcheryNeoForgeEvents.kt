@@ -41,6 +41,7 @@ import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireSpecificEventHandler
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfSpecificEventHandler
+import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.features.infusion.InfernalInfusionHandler
 import dev.sterner.witchery.features.infusion.InfusionHandler
 import dev.sterner.witchery.features.infusion.LightInfusionHandler

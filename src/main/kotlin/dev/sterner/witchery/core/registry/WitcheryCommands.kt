@@ -21,7 +21,7 @@ import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity.Companion.disableFlight
-import dev.sterner.witchery.handler.CurseHandler
+import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.handler.FamiliarHandler
 import dev.sterner.witchery.handler.ManifestationHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes

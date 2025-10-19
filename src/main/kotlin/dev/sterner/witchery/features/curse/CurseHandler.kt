@@ -1,8 +1,5 @@
-package dev.sterner.witchery.handler
+package dev.sterner.witchery.features.curse
 
-import dev.sterner.witchery.api.Curse
-import dev.sterner.witchery.api.event.CurseEvent
-import dev.sterner.witchery.data_attachment.CursePlayerAttachment
 import dev.sterner.witchery.registry.WitcheryCurseRegistry
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -13,6 +10,8 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.neoforged.neoforge.common.NeoForge
+import kotlin.collections.remove
+import kotlin.compareTo
 
 object CurseHandler {
     /**
@@ -143,7 +142,7 @@ object CurseHandler {
         while (iterator.hasNext()) {
             val curseData = iterator.next()
 
-            if (curseData.duration > 0) {
+            if (curseData.duration compareTo 0) {
                 curseData.duration -= 1
                 dataModified = true
 
@@ -154,7 +153,7 @@ object CurseHandler {
                 )
             }
 
-            if (curseData.duration <= 0) {
+            if (curseData.duration compareTo 0) {
                 WitcheryCurseRegistry.CURSES_REGISTRY[curseData.curseId]?.onRemoved(
                     player.level(),
                     player,

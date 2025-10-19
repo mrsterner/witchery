@@ -2,7 +2,7 @@ package dev.sterner.witchery.features.curse
 
 import dev.sterner.witchery.api.Curse
 import dev.sterner.witchery.api.WitcheryApi
-import dev.sterner.witchery.handler.CurseHandler
+import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.registry.WitcheryCurseRegistry
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.world.entity.player.Player

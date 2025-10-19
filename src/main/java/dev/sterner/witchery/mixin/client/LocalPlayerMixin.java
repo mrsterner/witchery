@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.client;
 
 import dev.sterner.witchery.api.WitcheryApi;
-import dev.sterner.witchery.handler.CurseHandler;
+import dev.sterner.witchery.features.curse.CurseHandler;
 import dev.sterner.witchery.features.affliction.event.TransformationHandler;
 import dev.sterner.witchery.registry.WitcheryCurseRegistry;
 import net.minecraft.client.Minecraft;

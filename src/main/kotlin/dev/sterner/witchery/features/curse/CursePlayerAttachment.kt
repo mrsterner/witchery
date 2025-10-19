@@ -1,4 +1,4 @@
-package dev.sterner.witchery.core.data_attachment
+package dev.sterner.witchery.features.curse
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -46,7 +46,7 @@ object CursePlayerAttachment {
     data class Data(var playerCurseList: MutableList<PlayerCurseData> = mutableListOf()) {
 
         companion object {
-            val ID: ResourceLocation = Witchery.id("player_curse_list")
+            val ID: ResourceLocation = Witchery.Companion.id("player_curse_list")
 
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
