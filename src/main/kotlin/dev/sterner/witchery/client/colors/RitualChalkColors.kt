@@ -2,7 +2,7 @@ package dev.sterner.witchery.client.colors
 
 import dev.sterner.witchery.content.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.content.block.sacrificial_circle.SacrificialBlock
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import net.minecraft.client.color.block.BlockColor
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockAndTintGetter

@@ -2,7 +2,7 @@ package dev.sterner.witchery.content.block
 
 import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.content.block.altar.AltarBlock
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction

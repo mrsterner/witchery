@@ -2,7 +2,7 @@ package dev.sterner.witchery.datagen
 
 import dev.sterner.witchery.content.block.MandrakeCropBlock
 import dev.sterner.witchery.content.block.WitcheryCropBlock
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.advancements.critereon.StatePropertiesPredicate

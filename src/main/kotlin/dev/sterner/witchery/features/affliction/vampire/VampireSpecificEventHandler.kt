@@ -11,7 +11,7 @@ import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.misc.BloodPoolHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.network.SpawnBloodParticlesS2CPayload
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.registry.WitcheryDamageSources
 import dev.sterner.witchery.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems

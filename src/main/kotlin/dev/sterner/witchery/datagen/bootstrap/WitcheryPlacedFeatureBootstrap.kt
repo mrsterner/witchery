@@ -2,7 +2,7 @@ package dev.sterner.witchery.datagen.bootstrap
 
 
 import com.google.common.collect.ImmutableList
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ALDER_KEY
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.ALDER_PLACED_KEY
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys.HAWTHORN_KEY

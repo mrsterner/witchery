@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.block
 
 import com.mojang.serialization.MapCodec
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel

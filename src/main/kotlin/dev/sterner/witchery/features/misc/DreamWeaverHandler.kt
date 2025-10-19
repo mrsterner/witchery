@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.content.block.dream_weaver.DreamWeaverBlockEntity
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.player.Player
 

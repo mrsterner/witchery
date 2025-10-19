@@ -7,7 +7,7 @@ import dev.sterner.witchery.client.layer.BabaItemLayer
 import dev.sterner.witchery.client.model.BabaYagaEntityModel
 import dev.sterner.witchery.client.model.WitchesRobesModel
 import dev.sterner.witchery.content.entity.BabaYagaEntity
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType

@@ -3,7 +3,7 @@ package dev.sterner.witchery.content.recipe.ritual
 import dev.sterner.witchery.core.api.Ritual
 import dev.sterner.witchery.content.block.ritual.CommandType
 import dev.sterner.witchery.recipe.ritual.RitualRecipe.Celestial
-import dev.sterner.witchery.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.ritual.EmptyRitual
 import net.minecraft.advancements.AdvancementRequirements
