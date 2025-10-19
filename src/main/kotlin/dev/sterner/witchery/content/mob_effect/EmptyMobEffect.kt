@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mobeffect
+package dev.sterner.witchery.content.mob_effect
 
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory

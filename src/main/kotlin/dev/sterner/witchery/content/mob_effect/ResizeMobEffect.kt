@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mobeffect
+package dev.sterner.witchery.content.mob_effect
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.interfaces.OnRemovedEffect

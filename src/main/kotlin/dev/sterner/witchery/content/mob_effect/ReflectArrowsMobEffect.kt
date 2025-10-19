@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mobeffect
+package dev.sterner.witchery.content.mob_effect
 
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -9,16 +9,13 @@ import net.minecraft.world.entity.projectile.AbstractArrow
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
-/**
- * A mob effect that attracts arrows towards the entity with the effect.
- * The opposite of ReflectArrowsMobEffect.
- */
-class AttractArrowsMobEffect(category: MobEffectCategory, color: Int) :
+//Reflect Arrows	Cobweb	2	250	Positive
+class ReflectArrowsMobEffect(category: MobEffectCategory, color: Int) :
     MobEffect(category, color) {
 
     override fun applyEffectTick(entity: LivingEntity, amplifier: Int): Boolean {
         if (!entity.level().isClientSide) {
-            val radius = 5.0 + (amplifier * 2)
+            val radius = 1.0 + (amplifier * 2)
             val level = entity.level()
 
             val nearbyArrows = level.getEntitiesOfClass(
@@ -27,8 +24,9 @@ class AttractArrowsMobEffect(category: MobEffectCategory, color: Int) :
             )
 
             for (arrow in nearbyArrows) {
-                if (arrow.owner != entity && !arrow.onGround()) {
-                    val direction = entity.position().subtract(arrow.position()).normalize()
+                val shooter = arrow.owner
+                if (shooter is LivingEntity && shooter != entity && !arrow.isCritArrow) {
+                    val direction = shooter.position().subtract(arrow.position()).normalize()
 
                     val dx = direction.x
                     val dy = direction.y
@@ -37,10 +35,10 @@ class AttractArrowsMobEffect(category: MobEffectCategory, color: Int) :
                     val yaw = Math.toDegrees(atan2(-dx, dz)).toFloat()
                     val pitch = Math.toDegrees(-atan2(dy, sqrt(dx * dx + dz * dz))).toFloat()
 
-                    val speedMultiplier = 1.0f + (amplifier * 0.2f)
-                    val speed = (arrow.deltaMovement.length().toFloat() * speedMultiplier).coerceAtMost(3.0f)
-
+                    val speed = arrow.deltaMovement.length().toFloat() * 0.9f
                     arrow.shootFromRotation(entity, pitch, yaw, 0.0f, speed, 0.1f)
+
+                    arrow.setOwner(entity)
                     arrow.hasImpulse = true
 
                     level.playSound(
@@ -48,21 +46,11 @@ class AttractArrowsMobEffect(category: MobEffectCategory, color: Int) :
                         arrow.blockX.toDouble(),
                         arrow.blockY.toDouble(),
                         arrow.blockZ.toDouble(),
-                        SoundEvents.FISHING_BOBBER_RETRIEVE,
+                        SoundEvents.SHIELD_BLOCK,
                         SoundSource.PLAYERS,
-                        0.7f,
-                        1.3f + (level.random.nextFloat() * 0.4f)
+                        1.0f,
+                        1.0f
                     )
-
-                    if (level.isClientSide) {
-                        (0..3).forEach { i ->
-                            level.addParticle(
-                                net.minecraft.core.particles.ParticleTypes.CRIT,
-                                arrow.x, arrow.y, arrow.z,
-                                0.0, 0.0, 0.0
-                            )
-                        }
-                    }
                 }
             }
         }

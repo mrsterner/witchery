@@ -1,7 +1,14 @@
 package dev.sterner.witchery.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.mobeffect.*
+import dev.sterner.witchery.content.mob_effect.AttractArrowsMobEffect
+import dev.sterner.witchery.content.mob_effect.BaneOfArthropodsWeaponMobEffect
+import dev.sterner.witchery.content.mob_effect.DiseaseMobEffect
+import dev.sterner.witchery.content.mob_effect.EmptyMobEffect
+import dev.sterner.witchery.content.mob_effect.FortuneToolMobEffect
+import dev.sterner.witchery.content.mob_effect.PoisonWeaponMobEffect
+import dev.sterner.witchery.content.mob_effect.ReflectArrowsMobEffect
+import dev.sterner.witchery.content.mob_effect.ResizeMobEffect
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.effect.MobEffect
