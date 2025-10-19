@@ -2,7 +2,7 @@ package dev.sterner.witchery.handler
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.BarkBeltPlayerAttachment
-import dev.sterner.witchery.handler.affliction.TransformationHandler
+import dev.sterner.witchery.features.affliction.TransformationHandler
 import dev.sterner.witchery.registry.WitcheryTags
 import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.DeltaTracker

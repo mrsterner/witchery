@@ -1,13 +1,13 @@
-package dev.sterner.witchery.handler.affliction.lich
+package dev.sterner.witchery.features.affliction.lich
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.WitcheryApi
 import dev.sterner.witchery.api.event.LichEvent
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.AfflictionTypes
+import dev.sterner.witchery.features.affliction.TransformationHandler
 
-import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.handler.affliction.TransformationHandler
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer

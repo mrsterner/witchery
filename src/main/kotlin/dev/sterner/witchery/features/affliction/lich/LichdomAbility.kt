@@ -1,25 +1,20 @@
-package dev.sterner.witchery.handler.affliction.lich
+package dev.sterner.witchery.features.affliction.lich
 
-import dev.sterner.witchery.api.entity.PlayerShellEntity
 import dev.sterner.witchery.data_attachment.EtherealEntityAttachment
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.data_attachment.possession.EntityAiToggle
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
+import dev.sterner.witchery.features.affliction.AfflictionAbility
+import dev.sterner.witchery.features.affliction.AfflictionTypes
+import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.NecroHandler
-import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager
-import dev.sterner.witchery.handler.affliction.AfflictionAbility
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.registry.WitcheryTags
-import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
-import net.minecraft.tags.EntityTypeTags
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob

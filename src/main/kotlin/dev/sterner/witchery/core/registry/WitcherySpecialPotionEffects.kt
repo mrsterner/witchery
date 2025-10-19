@@ -6,10 +6,10 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.SpecialPotion
-import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
-import dev.sterner.witchery.handler.affliction.lich.LichdomAbility
-import dev.sterner.witchery.handler.affliction.lich.LichdomSpecificEventHandler
+import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.AfflictionTypes
+import dev.sterner.witchery.features.affliction.lich.LichdomAbility
+import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.mixin.SaplingBlockAccessor
 import dev.sterner.witchery.world.WitcheryWorldState

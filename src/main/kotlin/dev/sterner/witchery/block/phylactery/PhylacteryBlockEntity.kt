@@ -5,7 +5,7 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 
 import dev.sterner.witchery.data_attachment.PhylacteryLevelDataAttachment
 import dev.sterner.witchery.data_attachment.SoulPoolPlayerAttachment
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
 import net.minecraft.core.BlockPos

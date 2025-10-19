@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler.affliction
+package dev.sterner.witchery.features.affliction
 
 import net.minecraft.util.StringRepresentable
 

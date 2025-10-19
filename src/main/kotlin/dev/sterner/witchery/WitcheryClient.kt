@@ -30,10 +30,10 @@ import dev.sterner.witchery.client.tarot.TarotCardHudRenderer
 import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
 import dev.sterner.witchery.handler.BarkBeltHandler
 import dev.sterner.witchery.handler.ManifestationHandler
-import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler
-import dev.sterner.witchery.handler.affliction.lich.LichdomClientSpecificEventHandler
-import dev.sterner.witchery.handler.affliction.vampire.VampireClientSpecificEventHandler
-import dev.sterner.witchery.handler.affliction.werewolf.WerewolfClientSpecificEventHandler
+import dev.sterner.witchery.features.affliction.AfflictionAbilityHandler
+import dev.sterner.witchery.features.affliction.lich.LichdomClientSpecificEventHandler
+import dev.sterner.witchery.features.affliction.vampire.VampireClientSpecificEventHandler
+import dev.sterner.witchery.features.affliction.werewolf.WerewolfClientSpecificEventHandler
 import dev.sterner.witchery.handler.infusion.InfusionHandler
 import dev.sterner.witchery.item.HunterArmorItem
 import dev.sterner.witchery.item.TaglockItem

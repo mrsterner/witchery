@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler.affliction
+package dev.sterner.witchery.features.affliction
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.PlatformUtils
@@ -7,9 +7,9 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 
 import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.entity.WerewolfEntity
-import dev.sterner.witchery.handler.affliction.vampire.VampireAbility
-import dev.sterner.witchery.handler.affliction.vampire.VampireLeveling
-import dev.sterner.witchery.handler.affliction.werewolf.WerewolfLeveling
+import dev.sterner.witchery.features.affliction.vampire.VampireAbility
+import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
+import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
 import dev.sterner.witchery.mixin.LivingEntityAccessor
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor
 import dev.sterner.witchery.payload.RefreshDimensionsS2CPayload
@@ -28,6 +28,7 @@ import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
+import kotlin.compareTo
 
 object TransformationHandler {
 
@@ -175,7 +176,7 @@ object TransformationHandler {
 
     fun tickBat(player: Player) {
 
-        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= VampireAbility.BAT_FORM.requiredLevel) {
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() compareTo VampireAbility.BAT_FORM.requiredLevel) {
             if (player.level() is ServerLevel) {
 
                 if (isBat(player)) {

@@ -3,7 +3,7 @@ package dev.sterner.witchery.core.data_attachment.affliction
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.payload.OptimizedSelectiveSyncPayload
 import dev.sterner.witchery.payload.SyncAfflictionS2CPayload
 import dev.sterner.witchery.registry.WitcheryDataAttachments.AFFLICTION_PLAYER_DATA_ATTACHMENT

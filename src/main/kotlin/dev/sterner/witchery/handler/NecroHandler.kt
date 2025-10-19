@@ -6,7 +6,7 @@ import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachmen
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionType
 
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.payload.SpawnNecroParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryItems
 import dev.sterner.witchery.registry.WitcheryTags

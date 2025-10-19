@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler.affliction.vampire
+package dev.sterner.witchery.features.affliction.vampire
 
 import dev.sterner.witchery.api.event.VampireEvent
 import dev.sterner.witchery.api.multiblock.MultiBlockComponentBlockEntity
@@ -7,8 +7,8 @@ import dev.sterner.witchery.data_attachment.WitcheryAttributes
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.payload.SpawnBloodParticlesS2CPayload
 import dev.sterner.witchery.registry.WitcheryBlocks

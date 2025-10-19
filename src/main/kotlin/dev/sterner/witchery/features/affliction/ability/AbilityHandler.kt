@@ -1,6 +1,6 @@
-package dev.sterner.witchery.handler.affliction.ability
+package dev.sterner.witchery.features.affliction.ability
 
-import dev.sterner.witchery.handler.affliction.AfflictionAbility
+import dev.sterner.witchery.features.affliction.AfflictionAbility
 import net.minecraft.world.entity.player.Player
 
 interface AbilityHandler {

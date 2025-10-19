@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler.affliction.ability
+package dev.sterner.witchery.features.affliction.ability
 
 import net.minecraft.world.entity.player.Player
 

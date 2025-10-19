@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.sterner.witchery.handler.affliction.AfflictionEventHandler;
+import dev.sterner.witchery.features.affliction.AfflictionEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;

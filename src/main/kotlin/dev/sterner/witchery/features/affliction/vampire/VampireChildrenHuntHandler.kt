@@ -1,4 +1,4 @@
-package dev.sterner.witchery.handler.affliction.vampire
+package dev.sterner.witchery.features.affliction.vampire
 
 import dev.sterner.witchery.data_attachment.affliction.VampireChildrenHuntLevelAttachment
 import dev.sterner.witchery.entity.VampireEntity

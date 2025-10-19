@@ -1,7 +1,7 @@
 package dev.sterner.witchery.core.data_attachment.affliction
 
 import com.mojang.serialization.Codec
-import dev.sterner.witchery.handler.affliction.AfflictionTypes
+import dev.sterner.witchery.features.affliction.AfflictionTypes
 import net.minecraft.core.UUIDUtil
 import net.minecraft.util.StringRepresentable
 

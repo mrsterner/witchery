@@ -1,17 +1,16 @@
-package dev.sterner.witchery.handler.affliction
+package dev.sterner.witchery.features.affliction
 
 import dev.sterner.witchery.client.screen.AbilitySelectionScreen
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 
-import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager
-import dev.sterner.witchery.handler.affliction.ability.AbilityHandler
-import dev.sterner.witchery.handler.affliction.ability.AbilityScrollHandler
-import dev.sterner.witchery.handler.affliction.lich.LichdomAbility
-import dev.sterner.witchery.handler.affliction.vampire.VampireAbility
-import dev.sterner.witchery.handler.affliction.werewolf.WerewolfAbility
+import dev.sterner.witchery.features.affliction.ability.AbilityHandler
+import dev.sterner.witchery.features.affliction.ability.AbilityScrollHandler
+import dev.sterner.witchery.features.affliction.lich.LichdomAbility
+import dev.sterner.witchery.features.affliction.vampire.VampireAbility
+import dev.sterner.witchery.features.affliction.werewolf.WerewolfAbility
 import dev.sterner.witchery.payload.AfflictionAbilitySelectionC2SPayload
 import net.minecraft.client.Minecraft
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
 
@@ -42,7 +41,7 @@ object AfflictionAbilityHandler : AbilityHandler {
             ability.isAvailable(player, wereLevel) &&
                     when (ability) {
                         WerewolfAbility.WOLF_FORM,
-                        WerewolfAbility.WEREWOLF_FORM -> WerewolfAbility.hasMoonCharm(player)
+                        WerewolfAbility.WEREWOLF_FORM -> WerewolfAbility.Companion.hasMoonCharm(player)
 
                         else -> true
                     }

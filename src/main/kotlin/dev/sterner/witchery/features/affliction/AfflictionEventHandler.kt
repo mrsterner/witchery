@@ -1,13 +1,10 @@
-package dev.sterner.witchery.handler.affliction
+package dev.sterner.witchery.features.affliction
 
 
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.handler.BloodPoolHandler
-import dev.sterner.witchery.handler.affliction.ability.AbilityCooldownManager
-import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.getAbilities
-import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.getSelectedAbility
-import dev.sterner.witchery.handler.affliction.AfflictionAbilityHandler.useSelectedAbility
 import dev.sterner.witchery.payload.AfflictionAbilityUseC2SPayload
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
@@ -54,7 +51,7 @@ object AfflictionEventHandler {
     ) {
         if (interactionHand == InteractionHand.OFF_HAND) return
 
-        if (useSelectedAbility(player)) {
+        if (AfflictionAbilityHandler.useSelectedAbility(player)) {
             event.isCanceled = true
         }
     }
@@ -67,7 +64,7 @@ object AfflictionEventHandler {
     ) {
         if (player !is ServerPlayer || entity !is Entity) return
 
-        val ability = getSelectedAbility(player) ?: return
+        val ability = AfflictionAbilityHandler.getSelectedAbility(player) ?: return
 
         if (AbilityCooldownManager.isOnCooldown(player, ability)) return
 
@@ -80,7 +77,7 @@ object AfflictionEventHandler {
     fun clientRightClickAbility(player: Player?, interactionHand: InteractionHand?): Boolean {
         if (player == null || interactionHand == InteractionHand.OFF_HAND) return false
 
-        val abilities = getAbilities(player)
+        val abilities = AfflictionAbilityHandler.getAbilities(player)
         val index = AfflictionPlayerAttachment.getData(player).getAbilityIndex()
 
         val ability = abilities.getOrNull(index) ?: return false
