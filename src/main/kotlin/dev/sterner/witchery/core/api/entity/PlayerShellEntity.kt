@@ -2,24 +2,19 @@ package dev.sterner.witchery.core.api.entity
 
 import com.mojang.authlib.GameProfile
 import dev.sterner.witchery.data_attachment.DeathQueueLevelAttachment
-import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
-import dev.sterner.witchery.data_attachment.teleport.TeleportRequest
 import dev.sterner.witchery.entity.player_shell.SleepingPlayerEntity
 import dev.sterner.witchery.entity.player_shell.SoulShellPlayerEntity
 import dev.sterner.witchery.handler.SleepingPlayerHandler
-import dev.sterner.witchery.handler.TeleportQueueHandler
 import dev.sterner.witchery.item.TaglockItem
 import dev.sterner.witchery.payload.SpawnSleepingDeathParticleS2CPayload
 import dev.sterner.witchery.payload.SyncSleepingShellS2CPayload
 import dev.sterner.witchery.registry.WitcheryEntityDataSerializers
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.util.WitcheryUtil
+import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.NonNullList
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
-import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
@@ -37,7 +32,6 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.component.ResolvableProfile
-import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import net.neoforged.neoforge.common.NeoForgeMod

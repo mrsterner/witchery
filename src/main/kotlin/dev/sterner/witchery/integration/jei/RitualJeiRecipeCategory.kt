@@ -5,7 +5,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.util.RenderUtils
+import dev.sterner.witchery.core.util.RenderUtils
 import mezz.jei.api.constants.VanillaTypes
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder
 import mezz.jei.api.gui.builder.ITooltipBuilder

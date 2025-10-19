@@ -5,7 +5,7 @@ import dev.sterner.witchery.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.data_attachment.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.util.WitcheryUtil
+import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel

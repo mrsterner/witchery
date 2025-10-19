@@ -1,4 +1,4 @@
-package dev.sterner.witchery.util
+package dev.sterner.witchery.core.util
 
 import net.minecraft.core.Direction
 import net.minecraft.resources.ResourceLocation

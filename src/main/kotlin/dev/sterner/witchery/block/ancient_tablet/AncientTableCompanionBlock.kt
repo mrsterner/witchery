@@ -7,7 +7,7 @@ import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock.Companion.SH
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_FULL
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_TOP_LEFT
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlock.Companion.SHAPE_TOP_RIGHT
-import dev.sterner.witchery.util.WitcheryUtil
+import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.Vec3i

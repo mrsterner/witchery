@@ -1,4 +1,4 @@
-package dev.sterner.witchery.util
+package dev.sterner.witchery.core.util
 
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment
 import net.minecraft.world.damagesource.DamageSource

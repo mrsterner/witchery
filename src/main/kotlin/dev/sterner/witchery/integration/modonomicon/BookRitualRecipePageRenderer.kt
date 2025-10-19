@@ -6,8 +6,8 @@ import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.util.RenderUtils
-import dev.sterner.witchery.util.RenderUtils.blitWithAlpha
+import dev.sterner.witchery.core.util.RenderUtils
+import dev.sterner.witchery.core.util.RenderUtils.blitWithAlpha
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component

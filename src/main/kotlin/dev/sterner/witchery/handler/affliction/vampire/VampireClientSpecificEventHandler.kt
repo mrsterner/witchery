@@ -9,7 +9,7 @@ import dev.sterner.witchery.data_attachment.affliction.TransformationPlayerAttac
 import dev.sterner.witchery.handler.affliction.AfflictionClientEventHandler
 import dev.sterner.witchery.handler.affliction.AfflictionTypes
 import dev.sterner.witchery.handler.affliction.TransformationHandler
-import dev.sterner.witchery.util.RenderUtils
+import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.player.LocalPlayer

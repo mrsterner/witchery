@@ -1,15 +1,12 @@
 package dev.sterner.witchery.client
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionType
 import dev.sterner.witchery.payload.ReadTabletC2SPayload
-import dev.sterner.witchery.util.WitcheryUtil
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3

@@ -2,7 +2,7 @@ package dev.sterner.witchery.client.tooltip
 
 import dev.sterner.witchery.item.CaneSwordItem
 import dev.sterner.witchery.registry.WitcheryDataComponents
-import dev.sterner.witchery.util.RenderUtils
+import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent

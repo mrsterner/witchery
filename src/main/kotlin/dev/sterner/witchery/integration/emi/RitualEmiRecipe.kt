@@ -9,7 +9,7 @@ import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.util.RenderUtils
+import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component

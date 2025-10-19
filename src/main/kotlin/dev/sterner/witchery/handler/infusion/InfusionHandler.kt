@@ -4,7 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_attachment.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.data_attachment.infusion.InfusionType
 import dev.sterner.witchery.registry.WitcheryItems
-import dev.sterner.witchery.util.RenderUtils
+import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics

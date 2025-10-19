@@ -1,4 +1,4 @@
-package dev.sterner.witchery.util
+package dev.sterner.witchery.core.util
 
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.platform.Lighting

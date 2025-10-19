@@ -2,7 +2,7 @@ package dev.sterner.witchery.mixin.possession.possessor;
 
 import dev.sterner.witchery.data_attachment.possession.PossessionComponentAttachment;
 import dev.sterner.witchery.registry.WitcheryTags;
-import dev.sterner.witchery.util.DamageHelper;
+import dev.sterner.witchery.core.util.DamageHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
