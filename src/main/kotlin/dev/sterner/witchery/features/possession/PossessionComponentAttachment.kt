@@ -1,4 +1,4 @@
-package dev.sterner.witchery.core.data_attachment.possession
+package dev.sterner.witchery.features.possession
 
 
 import com.mojang.serialization.Codec
