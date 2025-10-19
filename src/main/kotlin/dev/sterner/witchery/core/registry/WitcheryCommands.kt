@@ -7,8 +7,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.api.InventorySlots
-import dev.sterner.witchery.commands.CurseArgumentType
-import dev.sterner.witchery.commands.InfusionArgumentType
+import dev.sterner.witchery.core.commands.CurseArgumentType
+import dev.sterner.witchery.core.commands.InfusionArgumentType
 import dev.sterner.witchery.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.data_attachment.PlatformUtils
 import dev.sterner.witchery.data_attachment.affliction.AfflictionPlayerAttachment
@@ -36,16 +36,12 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
-import net.minecraft.commands.synchronization.ArgumentTypeInfos
 import net.minecraft.commands.synchronization.SingletonArgumentInfo
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
-import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.registries.DeferredRegister
-import team.lodestar.lodestone.registry.common.LodestoneCommandArgumentTypes
 import java.util.function.Supplier
 
 
