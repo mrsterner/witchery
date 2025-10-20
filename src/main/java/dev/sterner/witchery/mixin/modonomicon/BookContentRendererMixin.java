@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.modonomicon;
 
 import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
-import dev.sterner.witchery.datagen.book.WitcherySubBookProvider;
+import dev.sterner.witchery.data_gen.book.WitcherySubBookProvider;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;

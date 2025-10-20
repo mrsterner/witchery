@@ -1,7 +1,7 @@
 package dev.sterner.witchery
 
-import dev.sterner.witchery.datagen.*
-import dev.sterner.witchery.datagen.bootstrap.WitcheryRegistryDataGen
+import dev.sterner.witchery.data_gen.*
+import dev.sterner.witchery.data_gen.bootstrap.WitcheryRegistryDataGen
 import net.minecraft.data.PackOutput
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
