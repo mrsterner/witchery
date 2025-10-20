@@ -2,10 +2,10 @@ package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.WitcheryApi
-import dev.sterner.witchery.core.data_attachment.ManifestationPlayerAttachment
+import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment
 import dev.sterner.witchery.core.api.TeleportRequest
 import dev.sterner.witchery.features.misc.AccessoryHandler
-import dev.sterner.witchery.features.misc.SleepingPlayerHandler
+import dev.sterner.witchery.features.spirit_world.SleepingPlayerHandler
 import dev.sterner.witchery.features.misc.TeleportQueueHandler
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryTags

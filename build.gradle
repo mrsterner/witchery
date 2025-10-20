@@ -38,6 +38,10 @@ repositories {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
     }
+
+    maven{
+        url = "https://api.modrinth.com/maven"
+    }
 }
 
 base {
@@ -118,6 +122,7 @@ dependencies {
     implementation ("com.klikli_dev:modonomicon-${minecraft_version}-neoforge:${modonomicon_version}"){
         transitive = false
     }
+    implementation ("maven.modrinth:guard-villagers:2.3.2")
     compileOnly "mcp.mobius.waila:wthit:neo-${wthitVersion}"
 
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")

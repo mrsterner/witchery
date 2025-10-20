@@ -14,7 +14,7 @@ import dev.sterner.witchery.content.item.*
 import dev.sterner.witchery.content.item.accessories.*
 import dev.sterner.witchery.content.item.brew.*
 import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
-import dev.sterner.witchery.core.data_attachment.BoatTypeHelper
+import dev.sterner.witchery.core.util.BoatTypeHelper
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.food.Foods
 import net.minecraft.world.item.*

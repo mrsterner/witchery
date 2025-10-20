@@ -1,7 +1,7 @@
 package dev.sterner.witchery.features.infusion
 
 import com.mojang.serialization.Codec
-import dev.sterner.witchery.features.misc.NecroHandler
+import dev.sterner.witchery.features.necromancy.NecroHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel

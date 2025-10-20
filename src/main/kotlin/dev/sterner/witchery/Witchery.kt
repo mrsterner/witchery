@@ -2,8 +2,7 @@ package dev.sterner.witchery
 
 import com.mojang.logging.LogUtils
 import dev.sterner.witchery.content.entity.*
-import dev.sterner.witchery.core.data_attachment.PlatformUtils
-import dev.sterner.witchery.core.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.core.registry.WitcheryAttributes
 import dev.sterner.witchery.core.registry.*
 import dev.sterner.witchery.features.tarot.TarotEffectEventHandler
 import dev.sterner.witchery.integration.modonomicon.WitcheryPageRendererRegistry
@@ -14,6 +13,7 @@ import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.config.ModConfig
+import net.neoforged.fml.loading.FMLEnvironment
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import org.slf4j.Logger
@@ -89,7 +89,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         val LOGGER: Logger = LogUtils.getLogger()
 
         fun id(path: String) = ResourceLocation.fromNamespaceAndPath(MODID, path)
-        val debugRitualLog: Boolean = PlatformUtils.isDevEnv()
+        val debugRitualLog: Boolean = !FMLEnvironment.production
 
 
         fun logDebugRitual(message: String) {

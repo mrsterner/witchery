@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.tarot
 
-import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment
+import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryTags
 import net.minecraft.ChatFormatting

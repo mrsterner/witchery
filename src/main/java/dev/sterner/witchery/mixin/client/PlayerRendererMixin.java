@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.sterner.witchery.content.block.coffin.CoffinBlock;
-import dev.sterner.witchery.core.data_attachment.ManifestationPlayerAttachment;
+import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment;
 import dev.sterner.witchery.core.registry.WitcheryMobEffects;
 import dev.sterner.witchery.features.affliction.event.TransformationHandler;
 import dev.sterner.witchery.features.infusion.LightInfusionPlayerAttachment;

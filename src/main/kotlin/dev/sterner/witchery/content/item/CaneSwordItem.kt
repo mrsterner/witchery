@@ -2,10 +2,10 @@ package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.client.tooltip.BloodPoolComponent
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
-import dev.sterner.witchery.features.misc.BloodPoolHandler
+import dev.sterner.witchery.features.blood.BloodPoolHandler
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.WitcheryConstants
-import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.component.DataComponents

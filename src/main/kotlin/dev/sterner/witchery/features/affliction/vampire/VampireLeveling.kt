@@ -3,7 +3,7 @@ package dev.sterner.witchery.features.affliction.vampire
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.event.VampireEvent
-import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.event.TransformationHandler

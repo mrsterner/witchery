@@ -4,9 +4,9 @@ package dev.sterner.witchery.content.block.spirit_portal
 import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.core.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.core.api.multiblock.MultiBlockStructure
-import dev.sterner.witchery.core.data_attachment.ManifestationPlayerAttachment
+import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment
 import dev.sterner.witchery.core.registry.WitcheryBlocks
-import dev.sterner.witchery.features.misc.ManifestationHandler
+import dev.sterner.witchery.features.spirit_world.ManifestationHandler
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos

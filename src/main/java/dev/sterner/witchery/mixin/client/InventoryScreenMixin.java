@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.client;
 
 import dev.sterner.witchery.Witchery;
-import dev.sterner.witchery.core.data_attachment.InventoryLockPlayerAttachment;
+import dev.sterner.witchery.features.misc.InventoryLockPlayerAttachment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;

@@ -1,7 +1,7 @@
 package dev.sterner.witchery.core.api
 
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
-import dev.sterner.witchery.core.data_attachment.MiscPlayerAttachment
+import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 

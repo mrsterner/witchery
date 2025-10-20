@@ -3,12 +3,12 @@ package dev.sterner.witchery.features.affliction.event
 import dev.sterner.witchery.core.api.event.VampireEvent
 import dev.sterner.witchery.core.api.interfaces.VillagerTransfix
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
-import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.core.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.core.registry.WitcheryAttributes
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
-import dev.sterner.witchery.features.misc.BloodPoolHandler
+import dev.sterner.witchery.features.blood.BloodPoolHandler
 import dev.sterner.witchery.network.SpawnBloodParticlesS2CPayload
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents

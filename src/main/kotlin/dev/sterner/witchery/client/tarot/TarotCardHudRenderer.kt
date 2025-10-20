@@ -5,7 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.core.data_attachment.TarotPlayerAttachment
+import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import dev.sterner.witchery.core.registry.WitcheryTarotEffects
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft

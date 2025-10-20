@@ -38,8 +38,8 @@ import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryFluids
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.features.misc.BarkBeltHandler
-import dev.sterner.witchery.features.misc.ManifestationHandler
+import dev.sterner.witchery.features.bark_belt.BarkBeltHandler
+import dev.sterner.witchery.features.spirit_world.ManifestationHandler
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomClientSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireClientSpecificEventHandler

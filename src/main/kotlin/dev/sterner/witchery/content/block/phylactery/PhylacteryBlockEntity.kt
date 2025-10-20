@@ -1,8 +1,8 @@
 package dev.sterner.witchery.content.block.phylactery
 
 import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
-import dev.sterner.witchery.core.data_attachment.PhylacteryLevelDataAttachment
-import dev.sterner.witchery.core.data_attachment.SoulPoolPlayerAttachment
+import dev.sterner.witchery.features.necromancy.PhylacteryLevelDataAttachment
+import dev.sterner.witchery.features.necromancy.SoulPoolPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes

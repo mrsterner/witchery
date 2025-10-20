@@ -1,6 +1,6 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment;
+import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment;
 import dev.sterner.witchery.core.registry.WitcheryTags;
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
 import net.minecraft.tags.EntityTypeTags;

@@ -5,9 +5,9 @@ import dev.sterner.witchery.core.api.entity.PlayerShellEntity
 import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity
-import dev.sterner.witchery.core.data_attachment.EtherealEntityAttachment
-import dev.sterner.witchery.core.data_attachment.PhylacteryLevelDataAttachment
-import dev.sterner.witchery.core.data_attachment.SoulPoolPlayerAttachment
+import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
+import dev.sterner.witchery.features.necromancy.PhylacteryLevelDataAttachment
+import dev.sterner.witchery.features.necromancy.SoulPoolPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes

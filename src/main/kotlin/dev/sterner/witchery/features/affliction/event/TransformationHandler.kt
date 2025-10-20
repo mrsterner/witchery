@@ -2,8 +2,7 @@ package dev.sterner.witchery.features.affliction.event
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.entity.WerewolfEntity
-import dev.sterner.witchery.core.data_attachment.PlatformUtils
-import dev.sterner.witchery.core.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.core.registry.WitcheryAttributes
 import dev.sterner.witchery.features.affliction.vampire.VampireAbility
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling

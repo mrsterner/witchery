@@ -1,7 +1,7 @@
 package dev.sterner.witchery.core.api.block
 
 import dev.sterner.witchery.content.block.altar.AltarBlockEntity
-import dev.sterner.witchery.core.data_attachment.AltarLevelAttachment
+import dev.sterner.witchery.features.misc.AltarLevelAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.Level

@@ -1,8 +1,9 @@
 package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.core.api.WitcheryApi
-import dev.sterner.witchery.core.data_attachment.MutandisLevelAttachment
+import dev.sterner.witchery.features.mutandis.MutandisLevelAttachment
 import dev.sterner.witchery.core.registry.WitcheryTags
+import dev.sterner.witchery.features.mutandis.MutandisHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
@@ -66,7 +67,7 @@ class MutandisItem(properties: Properties) : Item(properties) {
             state: BlockState,
             tag: TagKey<Block>
         ): Boolean {
-            val existingTag = MutandisLevelAttachment.getTagForBlockPos(level, pos)
+            val existingTag = MutandisHandler.getTagForBlockPos(level, pos)
 
             if (state.`is`(tag) || existingTag != null) {
                 val blockToApplyTag = existingTag ?: tag
@@ -78,9 +79,9 @@ class MutandisItem(properties: Properties) : Item(properties) {
                         player?.mainHandItem?.shrink(1)
                     }
                     if (existingTag == blockToApplyTag) {
-                        MutandisLevelAttachment.resetTimeForTagBlockPos(level, pos)
+                        MutandisHandler.resetTimeForTagBlockPos(level, pos)
                     } else {
-                        MutandisLevelAttachment.setTagForBlockPos(level, pos, blockToApplyTag)
+                        MutandisHandler.setTagForBlockPos(level, pos, blockToApplyTag)
                     }
 
                     return true

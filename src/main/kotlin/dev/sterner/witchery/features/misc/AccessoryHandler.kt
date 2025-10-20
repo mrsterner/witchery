@@ -1,7 +1,6 @@
 package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.content.item.PoppetItem
-import dev.sterner.witchery.core.data_attachment.PlatformUtils
 import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.entity.LivingEntity

@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.content.entity.player_shell.SleepingPlayerEntity;
-import dev.sterner.witchery.features.misc.SleepingPlayerHandler;
+import dev.sterner.witchery.features.spirit_world.SleepingPlayerHandler;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;

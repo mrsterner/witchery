@@ -10,6 +10,7 @@ import net.minecraft.server.packs.PackType
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import net.neoforged.neoforge.common.data.JsonCodecProvider
+import tallestegg.guardvillagers.GuardEntityType
 import java.util.concurrent.CompletableFuture
 
 class WitcheryBloodProvider(
@@ -79,6 +80,9 @@ class WitcheryBloodProvider(
         // Witchery mobs
         makeBlood(WitcheryEntityTypes.VAMPIRE.get(), 6, 1)
         makeBlood(WitcheryEntityTypes.WEREWOLF.get(), 4, 1)
+
+        //Compat
+        makeBlood(GuardEntityType.GUARD.get(), 5, 2)
     }
 
     private fun makeBlood(entityType: EntityType<*>, bloodDrops: Int, quality: Int) {

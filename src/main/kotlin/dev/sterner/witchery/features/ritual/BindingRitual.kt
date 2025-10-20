@@ -4,7 +4,7 @@ import dev.sterner.witchery.core.api.Ritual
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.content.item.TaglockItem
-import dev.sterner.witchery.core.data_attachment.BindingRitualAttachment
+import dev.sterner.witchery.features.misc.BindingRitualAttachment
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos

@@ -1,6 +1,6 @@
 package dev.sterner.witchery
 
-import dev.sterner.witchery.core.data_attachment.WitcheryAttributes
+import dev.sterner.witchery.core.registry.WitcheryAttributes
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import dev.sterner.witchery.core.registry.WitcheryFetishEffects

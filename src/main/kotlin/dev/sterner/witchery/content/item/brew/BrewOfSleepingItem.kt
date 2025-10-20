@@ -4,7 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.entity.PlayerShellEntity
 import dev.sterner.witchery.content.entity.player_shell.SleepingPlayerEntity
 import dev.sterner.witchery.features.misc.AccessoryHandler
-import dev.sterner.witchery.features.misc.SleepingPlayerHandler
+import dev.sterner.witchery.features.spirit_world.SleepingPlayerHandler
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryTags

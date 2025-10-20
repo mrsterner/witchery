@@ -1,7 +1,7 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.core.data_attachment.TarotPlayerAttachment
+import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
