@@ -11,6 +11,7 @@ import dev.sterner.witchery.content.block.phylactery.PhylacteryBlockEntity
 import dev.sterner.witchery.content.block.ritual.RitualChalkBlock
 import dev.sterner.witchery.content.block.sacrificial_circle.SacrificialBlockEntity
 import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
+import dev.sterner.witchery.content.entity.CovenWitchEntity
 import dev.sterner.witchery.content.item.CaneSwordItem
 import dev.sterner.witchery.content.item.WineGlassItem
 import dev.sterner.witchery.content.item.accessories.BitingBeltItem
@@ -53,6 +54,8 @@ import dev.sterner.witchery.features.infusion.LightInfusionHandler
 import dev.sterner.witchery.features.infusion.OtherwhereInfusionHandler
 import dev.sterner.witchery.features.bark_belt.BarkBeltHandler
 import dev.sterner.witchery.features.blood.BloodPoolHandler
+import dev.sterner.witchery.features.coven.CovenDialogue
+import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.misc.DreamWeaverHandler
 import dev.sterner.witchery.features.ent.EntSpawningHandler
 import dev.sterner.witchery.features.misc.EquipmentHandler
@@ -79,6 +82,7 @@ import net.neoforged.neoforge.event.LootTableLoadEvent
 import net.neoforged.neoforge.event.RegisterCommandsEvent
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent
+import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent
 import net.neoforged.neoforge.event.entity.living.LivingConversionEvent
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
@@ -297,6 +301,7 @@ object WitcheryNeoForgeEvents {
         LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
         PhylacteryBlockEntity.onPlayerLoad(event.entity)
         BrewOfSleepingItem.respawnPlayer(event.entity)
+        CovenPlayerAttachment.setData(event.entity, CovenPlayerAttachment.getData(event.original))
 
         if (event.entity is ServerPlayer) {
             val serverPlayer = event.entity as ServerPlayer
@@ -308,6 +313,16 @@ object WitcheryNeoForgeEvents {
                     val bloodData = BloodPoolLivingEntityAttachment.getData(serverPlayer)
                     BloodPoolLivingEntityAttachment.setData(serverPlayer, bloodData)
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    private fun finalizeMobSpawn(event: FinalizeSpawnEvent){
+        val entity = event.entity
+        if (entity is CovenWitchEntity) {
+            if (entity.customName == null) {
+                entity.customName = CovenDialogue.generateName(event.level.random)
             }
         }
     }

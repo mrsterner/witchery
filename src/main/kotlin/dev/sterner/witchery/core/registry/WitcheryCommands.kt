@@ -25,6 +25,8 @@ import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling.levelToBlood
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
+import dev.sterner.witchery.features.coven.CovenHandler
+import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.infusion.InfusionHandler
 import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.features.infusion.InfusionType
@@ -81,6 +83,7 @@ object WitcheryCommands {
                 .then(registerVampireCommands())
                 .then(registerWerewolfCommands())
                 .then(registerLichdomCommands())
+                .then(registerCovenCommands())
         )
     }
 
@@ -572,5 +575,216 @@ object WitcheryCommands {
                     )
             )
 
+    }
+
+    private fun registerCovenCommands(): LiteralArgumentBuilder<CommandSourceStack> {
+        return Commands.literal("coven")
+            .requires { it.hasPermission(2) }
+            .then(
+                Commands.literal("info")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .executes { ctx ->
+                                val player = EntityArgument.getPlayer(ctx, "player")
+                                val data = CovenPlayerAttachment.getData(player)
+
+                                ctx.source.sendSuccess(
+                                    { Component.literal("=== Coven Info for ${player.name.string} ===") },
+                                    false
+                                )
+
+                                val witchCount = data.covenWitches.size
+                                val activeWitches = data.covenWitches.count { it.isActive }
+                                ctx.source.sendSuccess(
+                                    { Component.literal("Coven Witches: $activeWitches/$witchCount active") },
+                                    false
+                                )
+
+                                if (data.playerMembers.isNotEmpty()) {
+                                    ctx.source.sendSuccess(
+                                        { Component.literal("Player Members (${data.playerMembers.size}):") },
+                                        false
+                                    )
+                                    data.playerMembers.forEach { memberUuid ->
+                                        val member = ctx.source.server.playerList.getPlayer(memberUuid)
+                                        val memberName = member?.name?.string ?: "Offline Player"
+                                        ctx.source.sendSuccess(
+                                            { Component.literal("  - $memberName") },
+                                            false
+                                        )
+                                    }
+                                } else {
+                                    ctx.source.sendSuccess(
+                                        { Component.literal("No player members") },
+                                        false
+                                    )
+                                }
+
+                                1
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("witches")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .executes { ctx ->
+                                val player = EntityArgument.getPlayer(ctx, "player")
+                                val data = CovenPlayerAttachment.getData(player)
+
+                                if (data.covenWitches.isEmpty()) {
+                                    ctx.source.sendSuccess(
+                                        { Component.literal("${player.name.string} has no coven witches") },
+                                        false
+                                    )
+                                } else {
+                                    ctx.source.sendSuccess(
+                                        { Component.literal("=== Coven Witches for ${player.name.string} ===") },
+                                        false
+                                    )
+                                    data.covenWitches.forEachIndexed { index, witch ->
+                                        val status = if (witch.isActive) "Active" else "Dead"
+                                        val health = if (witch.isActive) "${witch.health.toInt()} HP" else "0 HP"
+                                        ctx.source.sendSuccess(
+                                            { Component.literal("[$index] ${witch.name.string} - $status ($health)") },
+                                            false
+                                        )
+                                    }
+                                }
+                                1
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("members")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .executes { ctx ->
+                                val player = EntityArgument.getPlayer(ctx, "player")
+                                val data = CovenPlayerAttachment.getData(player)
+
+                                if (data.playerMembers.isEmpty()) {
+                                    ctx.source.sendSuccess(
+                                        { Component.literal("${player.name.string} has no player members in their coven") },
+                                        false
+                                    )
+                                } else {
+                                    ctx.source.sendSuccess(
+                                        { Component.literal("=== Player Members for ${player.name.string} ===") },
+                                        false
+                                    )
+                                    data.playerMembers.forEach { memberUuid ->
+                                        val member = ctx.source.server.playerList.getPlayer(memberUuid)
+                                        val memberName = member?.name?.string ?: "Offline"
+                                        val status = if (member != null) "Online" else "Offline"
+                                        ctx.source.sendSuccess(
+                                            { Component.literal("  - $memberName ($status)") },
+                                            false
+                                        )
+                                    }
+                                }
+                                1
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("add_player")
+                    .then(
+                        Commands.argument("leader", EntityArgument.player())
+                            .then(
+                                Commands.argument("member", EntityArgument.player())
+                                    .executes { ctx ->
+                                        val leader = EntityArgument.getPlayer(ctx, "leader")
+                                        val member = EntityArgument.getPlayer(ctx, "member")
+
+                                        if (CovenHandler.addPlayerToCoven(leader, member)) {
+                                            ctx.source.sendSuccess(
+                                                { Component.literal("Added ${member.name.string} to ${leader.name.string}'s coven") },
+                                                true
+                                            )
+                                        } else {
+                                            ctx.source.sendFailure(
+                                                Component.literal("Failed to add ${member.name.string} to coven")
+                                            )
+                                        }
+                                        1
+                                    }
+                            )
+                    )
+            )
+            .then(
+                Commands.literal("remove_player")
+                    .then(
+                        Commands.argument("leader", EntityArgument.player())
+                            .then(
+                                Commands.argument("member", EntityArgument.player())
+                                    .executes { ctx ->
+                                        val leader = EntityArgument.getPlayer(ctx, "leader")
+                                        val member = EntityArgument.getPlayer(ctx, "member")
+
+                                        if (CovenHandler.removePlayerFromCoven(leader, member.uuid)) {
+                                            ctx.source.sendSuccess(
+                                                { Component.literal("Removed ${member.name.string} from ${leader.name.string}'s coven") },
+                                                true
+                                            )
+                                        } else {
+                                            ctx.source.sendFailure(
+                                                Component.literal("Failed to remove ${member.name.string} from coven")
+                                            )
+                                        }
+                                        1
+                                    }
+                            )
+                    )
+            )
+            .then(
+                Commands.literal("resurrect_witch")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .then(
+                                Commands.argument("index", IntegerArgumentType.integer(0))
+                                    .executes { ctx ->
+                                        val player = EntityArgument.getPlayer(ctx, "player")
+                                        val index = IntegerArgumentType.getInteger(ctx, "index")
+
+                                        if (CovenHandler.resurrectWitch(player, index)) {
+                                            ctx.source.sendSuccess(
+                                                { Component.literal("Resurrected witch at index $index for ${player.name.string}") },
+                                                true
+                                            )
+                                        } else {
+                                            ctx.source.sendFailure(
+                                                Component.literal("Failed to resurrect witch (invalid index or witch is already alive)")
+                                            )
+                                        }
+                                        1
+                                    }
+                            )
+                    )
+            )
+            .then(
+                Commands.literal("clear")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .executes { ctx ->
+                                val player = EntityArgument.getPlayer(ctx, "player")
+                                val data = CovenPlayerAttachment.getData(player)
+
+                                data.playerMembers.toList().forEach { memberUuid ->
+                                    CovenHandler.removePlayerFromCoven(player, memberUuid)
+                                }
+
+                                for (i in data.covenWitches.size - 1 downTo 0) {
+                                    CovenHandler.removeWitchFromCoven(player, i)
+                                }
+
+                                ctx.source.sendSuccess(
+                                    { Component.literal("Cleared all coven members for ${player.name.string}") },
+                                    true
+                                )
+                                1
+                            }
+                    )
+            )
     }
 }

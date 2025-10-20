@@ -2473,6 +2473,7 @@ dev/sterner/witchery/content/entity/CovenWitchEntity.kt
   class CovenWitchEntity
   class RitualAttendanceGoal
   fun registerGoals()
+  fun mobInteract(player: Player, hand: InteractionHand): InteractionResult
   fun aiStep()
   fun die(damageSource: DamageSource)
   fun hurt(source: DamageSource, amount: Float): Boolean
@@ -2481,6 +2482,8 @@ dev/sterner/witchery/content/entity/CovenWitchEntity.kt
   fun setLastRitualPos(ritualPos: Optional<BlockPos>)
   fun getIsCoven(): Boolean
   fun setIsCoven(isCoven: Boolean)
+  fun getHasDemonHeart(): Boolean
+  fun setHasDemonHeart(hasDemonHeart: Boolean)
   fun setRitualCompleted(completed: Boolean)
   fun setOwner(uuid: UUID?)
   fun resetDespawnTimer()
@@ -2995,6 +2998,15 @@ dev/sterner/witchery/content/item/ChaliceBlockItem.kt
 dev/sterner/witchery/content/item/ChalkItem.kt
   class ChalkItem
   fun useOn(context: UseOnContext): InteractionResult
+
+dev/sterner/witchery/content/item/CovenContractItem.kt
+  class CovenContractItem
+  fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack
+  fun interactLivingEntity(stack: ItemStack, player: Player, interactionTarget: LivingEntity, usedHand: InteractionHand): InteractionResult
+  fun getUseDuration(stack: ItemStack, entity: LivingEntity): Int
+  fun getUseAnimation(stack: ItemStack): UseAnim
+  fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack>
+  fun appendHoverText(stack: ItemStack, context: TooltipContext, tooltip: MutableList<Component>, flag: TooltipFlag)
 
 dev/sterner/witchery/content/item/CritterSnareBlockItem.kt
   class CritterSnareBlockItem
@@ -5261,20 +5273,18 @@ dev/sterner/witchery/features/chain/ChainType.kt
 
 dev/sterner/witchery/features/coven/CovenHandler.kt
   object CovenHandler
-  fun addWitchToCoven(player: ServerPlayer, witch: CovenWitchEntity)
-  fun addPlayerToCoven(leader: ServerPlayer, member: ServerPlayer)
-  fun removePlayerFromCoven(leader: ServerPlayer, memberUUID: UUID)
-  fun getWitchesFromCoven(player: Player): List<CovenWitchEntity>
+  fun addWitchToCoven(player: ServerPlayer, witch: CovenWitchEntity): Boolean
+  fun addPlayerToCoven(leader: ServerPlayer, member: ServerPlayer): Boolean
+  fun removePlayerFromCoven(leader: ServerPlayer, memberUUID: UUID): Boolean
   fun getActiveCovenPlayers(leader: Player, pos: BlockPos, radius: Double): List<Player>
-  fun getTotalCovenSize(player: Player): Int
   fun getActiveCovenSize(player: Player, ritualPos: BlockPos): Int
   fun summonWitchFromCoven(player: Player, index: Int, summonTo: Vec3): CovenWitchEntity?
   fun summonCovenAroundRitual(player: Player, level: Level, ritualPos: BlockPos): Int
+  fun returnWitchToCoven(player: ServerPlayer, witch: CovenWitchEntity)
   fun updateWitchHealth(player: ServerPlayer, witch: CovenWitchEntity)
   fun handleWitchDeath(player: ServerPlayer, witch: CovenWitchEntity)
   fun resurrectWitch(player: ServerPlayer, index: Int): Boolean
   fun removeWitchFromCoven(player: ServerPlayer, index: Int): Boolean
-  fun getSummonableWitchCount(player: Player): Int
   fun calculateCirclePositions(centerX: Double, centerY: Double, centerZ: Double, count: Int, radius: Double): List<Pair<Double, Double>>
   fun findValidSpawnPosition(level: Level, origin: BlockPos, radius: Int): BlockPos?
   fun isSpawnPositionValid(level: Level, pos: BlockPos): Boolean

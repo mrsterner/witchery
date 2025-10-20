@@ -20,6 +20,7 @@ import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.features.coven.CovenHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
@@ -726,8 +727,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (player.inventory.contains { it.`is`(WitcheryItems.SEER_STONE.get()) }) {
-            val covenData = CovenPlayerAttachment.getData(player)
-            val activeWitches = covenData.covenWitches.count { it.isActive }
+            val activeWitches = CovenHandler.getActiveCovenSize(player, blockPos)
 
             if (activeWitches >= recipe.covenCount) {
                 level?.let { safeLevel ->

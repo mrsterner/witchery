@@ -71,6 +71,26 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
 
         add("item.witchery.tarot_deck.desc", "Fortune of three cards last 3 days")
 
+        add("witchery.coven.needs_demon_heart", "This witch needs a Demon Heart to join your coven")
+        add("witchery.coven.witch_limit", "Your coven has reached the maximum number of witches")
+        add("witchery.coven.witch_added", "Witch has been bound to your coven")
+        add("witchery.coven.witch_already_bound", "This witch is already bound to a coven")
+        add("witchery.coven.player_limit", "Your coven has reached the maximum number of players")
+        add("witchery.coven.already_member", "This player is already a member of your coven")
+        add("witchery.coven.added_player", "%s has been added to your coven")
+        add("witchery.coven.joined", "You have joined %s's coven")
+        add("witchery.coven.not_member", "This player is not a member of your coven")
+        add("witchery.coven.contract_signed", "You have signed the Coven Contract")
+        add("witchery.coven.bound_members", "Successfully bound %s members to your coven")
+        add("witchery.coven.summoned", "Summoned %s witches to the ritual circle")
+        add("witchery.coven.no_witches", "You have no witches in your coven to summon")
+        add("witchery.coven.no_ritual", "No ritual circle found nearby")
+        add("witchery.coven.interrupted", "Ritual interrupted")
+        add("witchery.coven.witch_died", "One of your coven witches has died")
+        add("witchery.coven.disbanded", "You have been removed from the coven")
+        add("witchery.coven.contract_destroyed", "The coven contract has been destroyed! Your coven has been disbanded.")
+
+
         add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")
         add(WitcheryTags.ALDER_LOG_ITEMS, "Alder Logs")
         add(WitcheryTags.HAWTHORN_LOG_ITEMS, "Hawthorn Logs")

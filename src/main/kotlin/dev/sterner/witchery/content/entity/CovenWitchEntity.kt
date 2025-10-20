@@ -3,14 +3,21 @@ package dev.sterner.witchery.content.entity
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.features.coven.CovenHandler
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.commands.arguments.EntityAnchorArgument
 import net.minecraft.core.BlockPos
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
@@ -41,6 +48,44 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         goalSelector.addGoal(5, RandomLookAroundGoal(this))
     }
 
+    override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
+        val itemStack = player.getItemInHand(hand)
+
+        if (itemStack.`is`(WitcheryItems.DEMON_HEART.get()) && !getHasDemonHeart()) {
+            if (!level().isClientSide) {
+                setHasDemonHeart(true)
+                if (!player.isCreative) {
+                    itemStack.shrink(1)
+                }
+
+                val serverLevel = level() as ServerLevel
+                serverLevel.sendParticles(
+                    ParticleTypes.HEART,
+                    this.x,
+                    this.y + this.bbHeight + 0.5,
+                    this.z,
+                    10,
+                    0.4,
+                    0.2,
+                    0.4,
+                    0.0
+                )
+
+                level().playSound(
+                    null,
+                    this.blockPosition(),
+                    SoundEvents.WITCH_CELEBRATE,
+                    SoundSource.NEUTRAL,
+                    1.0f,
+                    1.0f
+                )
+            }
+            return InteractionResult.SUCCESS
+        }
+
+        return super.mobInteract(player, hand)
+    }
+
     override fun aiStep() {
         if (level().isClientSide) {
             super.aiStep()
@@ -51,13 +96,13 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
             if (lastRitualPosInternal.isPresent) {
                 val pos = lastRitualPosInternal.get()
                 if (level().getBlockState(pos).block !is GoldenChalkBlock) {
-                    setLastRitualPos(Optional.empty<BlockPos>())
+                    setLastRitualPos(Optional.empty())
                     ritualCompleted = true
                 }
             }
         }
 
-        if (getIsCoven()) {
+        if (getIsCoven() && !isPersistenceRequired) {
             if (ritualCompleted) {
                 despawnTimer -= 2
             } else {
@@ -65,6 +110,12 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
             }
 
             if (despawnTimer <= 0) {
+                if (ownerUuid != null) {
+                    val owner = level().getPlayerByUUID(ownerUuid!!)
+                    if (owner is ServerPlayer) {
+                        CovenHandler.returnWitchToCoven(owner, this)
+                    }
+                }
                 discard()
             }
         }
@@ -73,7 +124,7 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
     }
 
     override fun die(damageSource: DamageSource) {
-        if (getIsCoven() && ownerUuid != null) {
+        if (getIsCoven() && ownerUuid != null && !level().isClientSide) {
             val owner = level().getPlayerByUUID(ownerUuid!!)
             if (owner is ServerPlayer) {
                 CovenHandler.handleWitchDeath(owner, this)
@@ -100,23 +151,26 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         super.defineSynchedData(builder)
         builder.define(LAST_RITUAL_POS, Optional.empty())
         builder.define(IS_COVEN, false)
+        builder.define(HAS_DEMON_HEART, false)
     }
 
-    fun getLastRitualPos(): Optional<BlockPos> {
-        return entityData.get(LAST_RITUAL_POS)
-    }
+    fun getLastRitualPos(): Optional<BlockPos> = entityData.get(LAST_RITUAL_POS)
 
     fun setLastRitualPos(ritualPos: Optional<BlockPos>) {
         entityData.set(LAST_RITUAL_POS, ritualPos)
         lastRitualPosInternal = ritualPos
     }
 
-    fun getIsCoven(): Boolean {
-        return entityData.get(IS_COVEN)
-    }
+    fun getIsCoven(): Boolean = entityData.get(IS_COVEN)
 
     fun setIsCoven(isCoven: Boolean) {
         entityData.set(IS_COVEN, isCoven)
+    }
+
+    fun getHasDemonHeart(): Boolean = entityData.get(HAS_DEMON_HEART)
+
+    fun setHasDemonHeart(hasDemonHeart: Boolean) {
+        entityData.set(HAS_DEMON_HEART, hasDemonHeart)
     }
 
     fun setRitualCompleted(completed: Boolean) {
@@ -133,12 +187,12 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
-        if (this.lastRitualPosInternal.isPresent) {
-            val tag = NbtUtils.writeBlockPos(this.lastRitualPosInternal.get())
-            compound.put("LastRitualPos", tag)
+        if (lastRitualPosInternal.isPresent) {
+            compound.put("LastRitualPos", NbtUtils.writeBlockPos(lastRitualPosInternal.get()))
         }
         compound.putInt("DespawnTimer", despawnTimer)
         compound.putBoolean("IsCoven", getIsCoven())
+        compound.putBoolean("HasDemonHeart", getHasDemonHeart())
         compound.putBoolean("RitualCompleted", ritualCompleted)
         ownerUuid?.let { compound.putUUID("OwnerUUID", it) }
     }
@@ -156,6 +210,9 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         if (compound.contains("IsCoven")) {
             setIsCoven(compound.getBoolean("IsCoven"))
         }
+        if (compound.contains("HasDemonHeart")) {
+            setHasDemonHeart(compound.getBoolean("HasDemonHeart"))
+        }
         if (compound.contains("RitualCompleted")) {
             ritualCompleted = compound.getBoolean("RitualCompleted")
         }
@@ -171,11 +228,15 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         val IS_COVEN: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
             CovenWitchEntity::class.java, EntityDataSerializers.BOOLEAN
         )
+        val HAS_DEMON_HEART: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
+            CovenWitchEntity::class.java, EntityDataSerializers.BOOLEAN
+        )
 
         fun createAttributes(): AttributeSupplier.Builder {
             return Monster.createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, 26.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
+                .add(Attributes.FOLLOW_RANGE, 48.0)
         }
     }
 
@@ -190,11 +251,11 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         private val speed: Double
         private var timeoutCounter: Int = 0
         private var ritual: BlockPos? = null
-        private var desiredDistance: Double = 3.5
+        private val desiredDistance: Double = 4.0
 
         init {
             this.speed = speed
-            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK))
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK))
         }
 
         override fun canUse(): Boolean {
@@ -203,7 +264,7 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
             val ritualPos = witch.getLastRitualPos()
             if (!ritualPos.isPresent) return false
 
-            this.ritual = ritualPos.get()
+            ritual = ritualPos.get()
             return true
         }
 

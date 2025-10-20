@@ -145,22 +145,6 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
         }
     }
 
-    override fun interactLivingEntity(
-        stack: ItemStack,
-        player: Player,
-        interactionTarget: LivingEntity,
-        usedHand: InteractionHand
-    ): InteractionResult {
-        if (interactionTarget is CovenWitchEntity && player is ServerPlayer) {
-            if (!interactionTarget.getIsCoven()) {
-                CovenHandler.addWitchToCoven(player, interactionTarget)
-                return InteractionResult.SUCCESS
-            }
-        }
-
-        return InteractionResult.PASS
-    }
-
     companion object {
         fun summonWitchesAroundCircle(player: Player, level: Level, covenSize: Int) {
             val playerPos = player.blockPosition()
