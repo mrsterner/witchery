@@ -7,7 +7,6 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
@@ -30,7 +29,6 @@ class BlocksBelowRitual(
     ) {
         super.onStartRitual(level, blockPos, goldenChalkBlockEntity)
 
-        // Load ore types from recipe if available
         goldenChalkBlockEntity.ritualRecipe?.let { recipe ->
             val ritualData = recipe.ritualData
             if (ritualData.contains("targetOre")) {
@@ -64,7 +62,7 @@ class BlocksBelowRitual(
 
         if (columnsToProcess.isEmpty() && collectedItems.isEmpty()) return
 
-        val columnsThisTick = columnsToProcess.take(2)
+        val columnsThisTick = columnsToProcess.take(3)
         for ((x, z) in columnsThisTick) {
             columnsToProcess.remove(Pair(x, z))
 
@@ -86,16 +84,31 @@ class BlocksBelowRitual(
         }
 
         tickCounter++
-        if (tickCounter >= 20) {
+        if (tickCounter >= 5) {
             tickCounter = 0
             if (collectedItems.isNotEmpty()) {
-                val toSpawn = collectedItems.take(5)
-                collectedItems.removeAll(toSpawn)
+                val toSpawn = collectedItems.take(20)
+                collectedItems.removeAll(toSpawn.toSet())
                 for (stack in toSpawn) {
                     val entity = ItemEntity(level, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5, stack)
                     level.addFreshEntity(entity)
                 }
             }
         }
+    }
+
+    override fun onEndRitual(
+        level: Level,
+        blockPos: BlockPos,
+        goldenChalkBlockEntity: GoldenChalkBlockEntity
+    ) {
+        if (collectedItems.isNotEmpty()) {
+            for (stack in collectedItems) {
+                val entity = ItemEntity(level, blockPos.x + 0.5, blockPos.y + 1.0, blockPos.z + 0.5, stack)
+                level.addFreshEntity(entity)
+            }
+            collectedItems.clear()
+        }
+        super.onEndRitual(level, blockPos, goldenChalkBlockEntity)
     }
 }

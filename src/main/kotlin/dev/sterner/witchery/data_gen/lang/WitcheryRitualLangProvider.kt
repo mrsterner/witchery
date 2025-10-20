@@ -108,5 +108,22 @@ object WitcheryRitualLangProvider {
         add("witchery:ritual/resurrect_familiar", "Resurrect Familiar")
         add("witchery:ritual/resurrect_familiar.tooltip", "A bound familiar will be revived")
 
+
+        add("witchery:ritual/blocks_below_iron", "Blocks Below: Iron")
+        add("witchery:ritual/blocks_below_iron.tooltip", "Pulls the blocks below to the surface")
+        add("witchery:ritual/blocks_below_gold", "Blocks Below: Gold")
+        add("witchery:ritual/blocks_below_gold.tooltip", "Pulls the blocks below to the surface")
+        add("witchery:ritual/blocks_below_copper", "Blocks Below: Copper")
+        add("witchery:ritual/blocks_below_copper.tooltip", "Pulls the blocks below to the surface")
+
+        add("witchery:ritual/pull_mobs", "Rite of Imprisonment")
+        add("witchery:ritual/pull_mobs.tooltip", "The ritual circle will contain mobs")
+
+        add("witchery:ritual/raining_toad", "Rite of Raining Frogs")
+        add("witchery:ritual/raining_toad.tooltip", "Poisonous Frogs will rain")
+
+        add("witchery:ritual/bestial_call", "Rite of Bestial Call")
+        add("witchery:ritual/bestial_call.tooltip", "Will spawn 10 random animals")
+
     }
 }

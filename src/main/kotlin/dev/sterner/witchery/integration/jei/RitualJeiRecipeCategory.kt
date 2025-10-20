@@ -191,6 +191,10 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
             background.height - 30,
             0xffffff,
         )
+        val size = recipe.recipe.covenCount
+        if (size > 0) {
+            graphics.drawCenteredString(Minecraft.getInstance().font, "Coven Size: $size", 24, background.height - 20, 0xffffff)
+        }
 
         if (recipe.recipe.inputEntities.isNotEmpty()) {
 

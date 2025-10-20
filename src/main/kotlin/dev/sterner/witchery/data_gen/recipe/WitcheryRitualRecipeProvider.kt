@@ -158,7 +158,7 @@ object WitcheryRitualRecipeProvider {
             .setCustomRitual(BlocksBelowRitual())
             .addRitualData("targetOre", BuiltInRegistries.BLOCK.getKey(Blocks.IRON_ORE).toString())
             .addRitualData("targetDeepslateOre", BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE_IRON_ORE).toString())
-            .save(exporter, Witchery.id("blocks_below"))
+            .save(exporter, Witchery.id("blocks_below_iron"))
 
         RitualRecipeBuilder.create()
             .addInputItem(Items.ENDER_PEARL)
@@ -221,6 +221,7 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(WitcheryItems.BELLADONNA_FLOWER.get())
             .setCustomRitual(RainingToadRitual())
             .setTicks(20 * 60)
+            .setCovenCount(1)
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("raining_toad"))
 
@@ -232,6 +233,7 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(WitcheryItems.BROOM.get())
             .addOutputItem(broom)
             .setAltarPower(3000)
+            .setCelestialConditions(setOf(RitualRecipe.Celestial.NIGHT))
             .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("apply_ointment"))
 
@@ -241,6 +243,7 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(WitcheryItems.HAPPENSTANCE_OIL.get())
             .addOutputItem(WitcheryItems.SEER_STONE.get())
             .setAltarPower(2000)
+            .setCelestialConditions(setOf(RitualRecipe.Celestial.NIGHT))
             .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("infuse_seer"))
 
@@ -355,7 +358,6 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
             .addCommand(CommandType("witchery werewolf level try_curse {taglockPlayerOrEntity}", CommandType.END))
             .setAltarPower(10000)
-            .setCovenCount(6)
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setTicks(20)
             .save(exporter, Witchery.id("curse_of_the_wolf"))

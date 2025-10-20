@@ -220,6 +220,18 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             true
         )
 
+        val size = recipe.covenCount
+        if (size > 0) {
+            widgets.addText(
+                Component.literal("Coven Size: $size"),
+                7,
+                displayHeight / 2 + 18 + 10,
+                0xffffff,
+                true
+            )
+        }
+
+
         if (recipe.inputEntities.isNotEmpty()) {
 
             val minecraft = Minecraft.getInstance()

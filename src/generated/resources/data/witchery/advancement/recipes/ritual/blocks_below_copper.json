@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:blocks_below"
+        "recipe": "witchery:blocks_below_copper"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "witchery:blocks_below"
+      "witchery:blocks_below_copper"
     ]
   }
 }

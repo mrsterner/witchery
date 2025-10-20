@@ -8,7 +8,9 @@
   },
   "commands": [],
   "conditions": {
-    "celestialConditions": [],
+    "celestialConditions": [
+      "night"
+    ],
     "requireCat": false,
     "ritualData": {},
     "weather": []
