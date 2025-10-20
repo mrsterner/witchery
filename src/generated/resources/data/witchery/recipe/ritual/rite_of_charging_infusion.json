@@ -6,13 +6,18 @@
     "M": "witchery:otherwhere_chalk",
     "S": "witchery:ritual_chalk"
   },
-  "celestialConditions": [],
   "commands": [
     {
       "type": "tick",
       "command": "witchery infusion increase {owner} 1"
     }
   ],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
   "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
@@ -42,10 +47,8 @@
     "__M_____M__",
     "___MMMMM___"
   ],
-  "requireCat": false,
   "ritual": {
     "id": "witchery:empty"
   },
-  "ticks": 0,
-  "weather": []
+  "ticks": 0
 }

@@ -5,13 +5,18 @@
     "G": "witchery:golden_chalk",
     "S": "witchery:ritual_chalk"
   },
-  "celestialConditions": [],
   "commands": [
     {
       "type": "end",
       "command": "time set midnight"
     }
   ],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
   "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
@@ -35,10 +40,8 @@
     "_S___S_",
     "__SSS__"
   ],
-  "requireCat": false,
   "ritual": {
     "id": "witchery:empty"
   },
-  "ticks": 20,
-  "weather": []
+  "ticks": 20
 }

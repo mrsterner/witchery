@@ -5,8 +5,13 @@
     "G": "witchery:golden_chalk",
     "L": "witchery:otherwhere_chalk"
   },
-  "celestialConditions": [],
   "commands": [],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
   "covenCount": 3,
   "floatingItemOutput": false,
   "inputEntities": [],
@@ -53,10 +58,8 @@
     "___LL_____LL___",
     "_____LLLLL_____"
   ],
-  "requireCat": false,
   "ritual": {
     "id": "witchery:bestial_call"
   },
-  "ticks": 0,
-  "weather": []
+  "ticks": 0
 }

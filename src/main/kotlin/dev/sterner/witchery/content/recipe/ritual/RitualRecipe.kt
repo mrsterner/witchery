@@ -28,6 +28,7 @@ import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 
+
 class RitualRecipe(
     val ritualType: Ritual?,
     val inputItems: List<ItemStack>,
@@ -42,10 +43,20 @@ class RitualRecipe(
     val ticks: Int,
     val pattern: List<String>,
     val blockMapping: Map<Char, Block>,
-    val celestialConditions: Set<Celestial>,
-    val weather: Set<Weather>,
-    val requireCat: Boolean
+    val conditions: RitualConditions
 ) : Recipe<MultipleItemRecipeInput> {
+
+    val celestialConditions: Set<Celestial>
+        get() = conditions.celestialConditions
+
+    val weather: Set<Weather>
+        get() = conditions.weather
+
+    val requireCat: Boolean
+        get() = conditions.requireCat
+
+    val ritualData: CompoundTag
+        get() = conditions.ritualData
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
         return true
@@ -72,6 +83,7 @@ class RitualRecipe(
     }
 
     class Serializer : RecipeSerializer<RitualRecipe> {
+
         override fun codec(): MapCodec<RitualRecipe> {
             return CODEC
         }
@@ -81,7 +93,6 @@ class RitualRecipe(
         }
 
         companion object {
-
             private val COMMAND_TYPE_CODEC: Codec<CommandType> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.STRING.fieldOf("command").forGetter(CommandType::command),
@@ -116,13 +127,8 @@ class RitualRecipe(
                         Codec.STRING.listOf().fieldOf("pattern").forGetter { recipe -> recipe.pattern },
                         Codec.unboundedMap(SYMBOL_CODEC, BuiltInRegistries.BLOCK.byNameCodec()).fieldOf("blockMapping")
                             .forGetter { recipe -> recipe.blockMapping },
-                        Celestial.CELESTIAL_SET_CODEC.fieldOf("celestialConditions").orElse(setOf())
-                            .forGetter { recipe -> recipe.celestialConditions },
-                        Weather.WEATHER_SET_CODEC.fieldOf("weather").orElse(setOf())
-                            .forGetter { recipe -> recipe.weather },
-                        Codec.BOOL.fieldOf("requireCat").forGetter { it.requireCat }
-
-
+                        RitualConditions.CODEC.fieldOf("conditions").orElse(RitualConditions())
+                            .forGetter { recipe -> recipe.conditions }
                     ).apply(obj, ::RitualRecipe)
                 }
 
@@ -131,6 +137,92 @@ class RitualRecipe(
                     CODEC.codec()
                 )
         }
+    }
+
+    fun toNbt(provider: HolderLookup.Provider): CompoundTag {
+        val tag = CompoundTag()
+
+        ritualType?.let { tag.putString("ritualType", it.id.toString()) }
+
+        inputItems.let {
+            val inputItemsTag = ListTag()
+            it.forEach { item -> inputItemsTag.add(item.save(provider, CompoundTag())) }
+            tag.put("inputItems", inputItemsTag)
+        }
+
+        inputEntities.let {
+            val inputEntitiesTag = ListTag()
+            it.forEach { entity -> inputEntitiesTag.add(StringTag.valueOf(EntityType.getKey(entity).toString())) }
+            tag.put("inputEntities", inputEntitiesTag)
+        }
+
+        outputItems.let {
+            val outputItemsTag = ListTag()
+            it.forEach { item -> outputItemsTag.add(item.save(provider, CompoundTag())) }
+            tag.put("outputItems", outputItemsTag)
+        }
+
+        outputEntities.let {
+            val outputEntitiesTag = ListTag()
+            it.forEach { entity -> outputEntitiesTag.add(StringTag.valueOf(EntityType.getKey(entity).toString())) }
+            tag.put("outputEntities", outputEntitiesTag)
+        }
+
+        tag.putInt("altarPower", altarPower)
+        tag.putInt("covenCount", covenCount)
+
+        commands.let {
+            val commandsTag = ListTag()
+            it.forEach { command ->
+                commandsTag.add(CompoundTag().apply {
+                    putString("command", command.command)
+                    putString("type", command.type)
+                })
+            }
+            tag.put("commands", commandsTag)
+        }
+
+        tag.putBoolean("isInfinite", isInfinite)
+        tag.putBoolean("floatingItemOutput", floatingItemOutput)
+        tag.putInt("ticks", ticks)
+
+        pattern.let {
+            val patternTag = ListTag()
+            it.forEach { patternItem -> patternTag.add(StringTag.valueOf(patternItem)) }
+            tag.put("pattern", patternTag)
+        }
+
+        blockMapping.let {
+            val blockMappingTag = CompoundTag()
+            it.forEach { (key, block) ->
+                blockMappingTag.putString(key.toString(), block.builtInRegistryHolder().unwrapKey().get().toString())
+            }
+            tag.put("blockMapping", blockMappingTag)
+        }
+
+        val conditionsTag = CompoundTag()
+
+        conditions.celestialConditions.let {
+            val celestialTag = ListTag()
+            it.forEach { celestialCondition -> celestialTag.add(StringTag.valueOf(celestialCondition.name)) }
+            conditionsTag.put("celestialConditions", celestialTag)
+        }
+
+        conditions.weather.let {
+            val weatherTag = ListTag()
+            it.forEach { weatherCondition -> weatherTag.add(StringTag.valueOf(weatherCondition.name)) }
+            conditionsTag.put("weather", weatherTag)
+        }
+
+        conditionsTag.putBoolean("requireCat", conditions.requireCat)
+
+        if (!conditions.ritualData.isEmpty) {
+            conditionsTag.put("ritualData", conditions.ritualData)
+        }
+
+        tag.put("conditions", conditionsTag)
+
+        return tag
     }
 
     companion object {
@@ -203,32 +295,84 @@ class RitualRecipe(
                 emptyList<String>()
             }
 
-            // Load block mapping (optional)
             val blockMapping = if (tag.contains("blockMapping")) {
                 tag.getCompound("blockMapping").allKeys.associate { key ->
-                    key[0] to BuiltInRegistries.BLOCK.get(ResourceLocation.parse(tag.getString(key)))
+                    key[0] to BuiltInRegistries.BLOCK.get(ResourceLocation.parse(tag.getCompound("blockMapping").getString(key)))
                 }
             } else {
                 emptyMap()
             }
 
-            val celestialConditions = if (tag.contains("celestialConditions")) {
-                tag.getList("celestialConditions", 8).mapNotNull {
-                    Celestial.valueOf(it.asString.uppercase())
-                }.toSet()
-            } else {
-                emptySet()
-            }
+            val conditions = if (tag.contains("conditions")) {
+                val conditionsTag = tag.getCompound("conditions")
 
-            val weather = if (tag.contains("weather")) {
-                tag.getList("weather", 8).mapNotNull {
-                    Weather.valueOf(it.asString.uppercase())
-                }.toSet()
-            } else {
-                emptySet()
-            }
+                val celestialConditions = if (conditionsTag.contains("celestialConditions")) {
+                    conditionsTag.getList("celestialConditions", 8).mapNotNull {
+                        try {
+                            Celestial.valueOf(it.asString.uppercase())
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }.toSet()
+                } else {
+                    emptySet()
+                }
 
-            val requireCat = if (tag.contains("requireCat")) tag.getBoolean("requireCat") else false
+                val weather = if (conditionsTag.contains("weather")) {
+                    conditionsTag.getList("weather", 8).mapNotNull {
+                        try {
+                            Weather.valueOf(it.asString.uppercase())
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }.toSet()
+                } else {
+                    emptySet()
+                }
+
+                val requireCat = if (conditionsTag.contains("requireCat")) {
+                    conditionsTag.getBoolean("requireCat")
+                } else {
+                    false
+                }
+
+                val ritualData = if (conditionsTag.contains("ritualData")) {
+                    conditionsTag.getCompound("ritualData")
+                } else {
+                    CompoundTag()
+                }
+
+                RitualConditions(celestialConditions, weather, requireCat, ritualData)
+            } else {
+                val celestialConditions = if (tag.contains("celestialConditions")) {
+                    tag.getList("celestialConditions", 8).mapNotNull {
+                        try {
+                            Celestial.valueOf(it.asString.uppercase())
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }.toSet()
+                } else {
+                    emptySet()
+                }
+
+                val weather = if (tag.contains("weather")) {
+                    tag.getList("weather", 8).mapNotNull {
+                        try {
+                            Weather.valueOf(it.asString.uppercase())
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }.toSet()
+                } else {
+                    emptySet()
+                }
+
+                val requireCat = if (tag.contains("requireCat")) tag.getBoolean("requireCat") else false
+                val ritualData = if (tag.contains("ritualData")) tag.getCompound("ritualData") else CompoundTag()
+
+                RitualConditions(celestialConditions, weather, requireCat, ritualData)
+            }
 
             return RitualRecipe(
                 ritualType,
@@ -244,83 +388,9 @@ class RitualRecipe(
                 ticks,
                 pattern,
                 blockMapping,
-                celestialConditions,
-                weather,
-                requireCat
+                conditions
             )
         }
-    }
-
-    fun toNbt(provider: HolderLookup.Provider): CompoundTag {
-        val tag = CompoundTag()
-
-        ritualType?.let { tag.putString("ritualType", it.id.toString()) }
-
-        inputItems.let {
-            val inputItemsTag = ListTag()
-            it.forEach { item -> inputItemsTag.add(item.save(provider, CompoundTag())) }
-            tag.put("inputItems", inputItemsTag)
-        }
-
-        inputEntities.let {
-            val inputEntitiesTag = ListTag()
-            it.forEach { entity -> inputEntitiesTag.add(StringTag.valueOf(EntityType.getKey(entity).toString())) }
-            tag.put("inputEntities", inputEntitiesTag)
-        }
-
-        outputItems.let {
-            val outputItemsTag = ListTag()
-            it.forEach { item -> outputItemsTag.add(item.save(provider, CompoundTag())) }
-            tag.put("outputItems", outputItemsTag)
-        }
-
-        outputEntities.let {
-            val outputEntitiesTag = ListTag()
-            it.forEach { entity -> outputEntitiesTag.add(StringTag.valueOf(EntityType.getKey(entity).toString())) }
-            tag.put("outputEntities", outputEntitiesTag)
-        }
-
-        tag.putInt("altarPower", altarPower)
-        tag.putInt("covenCount", covenCount)
-
-        commands.let {
-            val commandsTag = ListTag()
-            it.forEach { command ->
-                commandsTag.add(CompoundTag().apply {
-                    putString("command", command.command)
-                    putString("type", command.type)
-                })
-            }
-            tag.put("commands", commandsTag)
-        }
-
-
-        tag.putBoolean("isInfinite", isInfinite)
-        tag.putBoolean("floatingItemOutput", floatingItemOutput)
-
-        tag.putInt("ticks", ticks)
-
-        pattern.let {
-            val patternTag = ListTag()
-            it.forEach { patternItem -> patternTag.add(StringTag.valueOf(patternItem)) }
-            tag.put("pattern", patternTag)
-        }
-
-        blockMapping.let {
-            val blockMappingTag = CompoundTag()
-            it.forEach { (key, block) ->
-                blockMappingTag.putString(key.toString(), block.builtInRegistryHolder().unwrapKey().get().toString())
-            }
-            tag.put("blockMapping", blockMappingTag)
-        }
-
-        celestialConditions.let {
-            val celestialTag = ListTag()
-            it.forEach { celestialCondition -> celestialTag.add(StringTag.valueOf(celestialCondition.name)) }
-            tag.put("celestialConditions", celestialTag)
-        }
-
-        return tag
     }
 
     enum class Celestial : StringRepresentable {

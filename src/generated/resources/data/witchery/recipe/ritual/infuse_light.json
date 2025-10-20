@@ -6,13 +6,18 @@
     "M": "witchery:ritual_chalk",
     "S": "witchery:ritual_chalk"
   },
-  "celestialConditions": [],
   "commands": [
     {
       "type": "end",
       "command": "witchery infusion setAndKill {owner} light"
     }
   ],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
   "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
@@ -37,10 +42,8 @@
     "__M_____M__",
     "___MMMMM___"
   ],
-  "requireCat": false,
   "ritual": {
     "id": "witchery:empty"
   },
-  "ticks": 0,
-  "weather": []
+  "ticks": 0
 }

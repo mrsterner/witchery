@@ -5,13 +5,18 @@
     "G": "witchery:golden_chalk",
     "M": "witchery:infernal_chalk"
   },
-  "celestialConditions": [],
   "commands": [
     {
       "type": "end",
       "command": "witchery curse apply {taglockPlayer} witchery:corrupt_poppet"
     }
   ],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": true,
+    "ritualData": {},
+    "weather": []
+  },
   "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
@@ -48,10 +53,8 @@
     "__M_____M__",
     "___MMMMM___"
   ],
-  "requireCat": true,
   "ritual": {
     "id": "witchery:empty"
   },
-  "ticks": 20,
-  "weather": []
+  "ticks": 20
 }

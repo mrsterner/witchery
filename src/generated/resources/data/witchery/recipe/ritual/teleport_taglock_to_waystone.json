@@ -5,13 +5,18 @@
     "G": "witchery:golden_chalk",
     "M": "witchery:otherwhere_chalk"
   },
-  "celestialConditions": [],
   "commands": [
     {
       "type": "end",
       "command": "tp {taglockPlayerOrEntity} {waystonePos}"
     }
   ],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
   "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
@@ -45,10 +50,8 @@
     "__M_____M__",
     "___MMMMM___"
   ],
-  "requireCat": false,
   "ritual": {
     "id": "witchery:empty"
   },
-  "ticks": 40,
-  "weather": []
+  "ticks": 40
 }

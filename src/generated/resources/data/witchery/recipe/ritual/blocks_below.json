@@ -5,8 +5,16 @@
     "G": "witchery:golden_chalk",
     "L": "witchery:otherwhere_chalk"
   },
-  "celestialConditions": [],
   "commands": [],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {
+      "targetDeepslateOre": "minecraft:deepslate_iron_ore",
+      "targetOre": "minecraft:iron_ore"
+    },
+    "weather": []
+  },
   "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
@@ -50,10 +58,8 @@
     "___LL_____LL___",
     "_____LLLLL_____"
   ],
-  "requireCat": false,
   "ritual": {
     "id": "witchery:blocks_below"
   },
-  "ticks": 200,
-  "weather": []
+  "ticks": 200
 }

@@ -11,6 +11,7 @@ import net.minecraft.advancements.Criterion
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger
 import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeOutput
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Item
@@ -34,11 +35,12 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
     private val criteria: MutableMap<String, Criterion<*>> = LinkedHashMap()
     private var pattern: List<String> = listOf()
     private val blockMapping: MutableMap<Char, Block> = mutableMapOf<Char, Block>().apply {
-        'G' to WitcheryBlocks.GOLDEN_CHALK_BLOCK.get()
+        put('G', WitcheryBlocks.GOLDEN_CHALK_BLOCK.get())
     }
     private var celestialConditions: Set<RitualRecipe.Celestial> = setOf()
     private var weather: MutableSet<RitualRecipe.Weather> = mutableSetOf()
     private var requireCat = false
+    private val ritualDataTag = CompoundTag()
 
     companion object {
         fun create(): RitualRecipeBuilder {
@@ -331,6 +333,21 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
         return this
     }
 
+    fun addRitualData(key: String, value: String): RitualRecipeBuilder {
+        ritualDataTag.putString(key, value)
+        return this
+    }
+
+    fun addRitualData(key: String, value: Int): RitualRecipeBuilder {
+        ritualDataTag.putInt(key, value)
+        return this
+    }
+
+    fun addRitualData(key: String, value: Boolean): RitualRecipeBuilder {
+        ritualDataTag.putBoolean(key, value)
+        return this
+    }
+
     override fun unlockedBy(name: String, criterion: Criterion<*>): RitualRecipeBuilder {
         this.criteria[name] = criterion
         return this
@@ -352,6 +369,13 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
 
         criteria.forEach { (name, criterion) -> builder.addCriterion(name, criterion) }
 
+        val conditions = RitualConditions(
+            celestialConditions = celestialConditions,
+            weather = weather.toSet(),
+            requireCat = requireCat,
+            ritualData = ritualDataTag
+        )
+
         val recipe = RitualRecipe(
             ritualType = ritual,
             inputItems = inputItems,
@@ -366,9 +390,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             ticks = ticks,
             pattern = pattern,
             blockMapping = blockMapping,
-            celestialConditions = celestialConditions,
-            weather = weather,
-            requireCat = requireCat
+            conditions = conditions
         )
 
         recipeOutput.accept(

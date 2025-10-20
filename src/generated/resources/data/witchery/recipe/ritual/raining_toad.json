@@ -5,8 +5,13 @@
     "G": "witchery:golden_chalk",
     "M": "witchery:infernal_chalk"
   },
-  "celestialConditions": [],
   "commands": [],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
   "covenCount": 0,
   "floatingItemOutput": false,
   "inputEntities": [],
@@ -49,10 +54,8 @@
     "__M_____M__",
     "___MMMMM___"
   ],
-  "requireCat": false,
   "ritual": {
     "id": "witchery:raining_toad"
   },
-  "ticks": 1200,
-  "weather": []
+  "ticks": 1200
 }

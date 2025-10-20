@@ -20,12 +20,14 @@ import dev.sterner.witchery.features.ritual.BestialCallRitual
 import dev.sterner.witchery.features.ritual.BlocksBelowRitual
 import dev.sterner.witchery.features.ritual.PullMobsRitual
 import dev.sterner.witchery.features.ritual.RainingToadRitual
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.alchemy.Potions
+import net.minecraft.world.level.block.Blocks
 
 object WitcheryRitualRecipeProvider {
 
@@ -154,7 +156,38 @@ object WitcheryRitualRecipeProvider {
             .setTicks(20 * 10)
             .addLargePattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .setCustomRitual(BlocksBelowRitual())
+            .addRitualData("targetOre", BuiltInRegistries.BLOCK.getKey(Blocks.IRON_ORE).toString())
+            .addRitualData("targetDeepslateOre", BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE_IRON_ORE).toString())
             .save(exporter, Witchery.id("blocks_below"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.ENDER_PEARL)
+            .addInputItem(Items.GOLD_INGOT)
+            .addInputItem(Items.BLAZE_POWDER)
+            .addInputItem(WitcheryItems.PHANTOM_VAPOR.get())
+            .addInputItem(attuned)
+            .setAltarPower(0)
+            .setTicks(20 * 10)
+            .addLargePattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .setCustomRitual(BlocksBelowRitual())
+            .addRitualData("targetOre", BuiltInRegistries.BLOCK.getKey(Blocks.GOLD_ORE).toString())
+            .addRitualData("targetDeepslateOre", BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE_GOLD_ORE).toString())
+            .save(exporter, Witchery.id("blocks_below_gold"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.ENDER_PEARL)
+            .addInputItem(Items.COPPER_INGOT)
+            .addInputItem(Items.BLAZE_POWDER)
+            .addInputItem(WitcheryItems.PHANTOM_VAPOR.get())
+            .addInputItem(attuned)
+            .setAltarPower(0)
+            .setTicks(20 * 10)
+            .addLargePattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .setCustomRitual(BlocksBelowRitual())
+            .addRitualData("targetOre", BuiltInRegistries.BLOCK.getKey(Blocks.COPPER_ORE).toString())
+            .addRitualData("targetDeepslateOre", BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE_COPPER_ORE).toString())
+            .save(exporter, Witchery.id("blocks_below_copper"))
+
 
         RitualRecipeBuilder.create()
             .addInputItem(Items.MILK_BUCKET)

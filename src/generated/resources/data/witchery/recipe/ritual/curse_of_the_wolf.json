@@ -5,15 +5,20 @@
     "G": "witchery:golden_chalk",
     "M": "witchery:infernal_chalk"
   },
-  "celestialConditions": [
-    "full_moon"
-  ],
   "commands": [
     {
       "type": "end",
       "command": "witchery werewolf level try_curse {taglockPlayerOrEntity}"
     }
   ],
+  "conditions": {
+    "celestialConditions": [
+      "full_moon"
+    ],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
   "covenCount": 6,
   "floatingItemOutput": false,
   "inputEntities": [],
@@ -53,10 +58,8 @@
     "__M_____M__",
     "___MMMMM___"
   ],
-  "requireCat": false,
   "ritual": {
     "id": "witchery:empty"
   },
-  "ticks": 20,
-  "weather": []
+  "ticks": 20
 }
