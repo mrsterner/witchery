@@ -2,6 +2,7 @@ package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
+import dev.sterner.witchery.content.entity.CovenWitchEntity
 import dev.sterner.witchery.features.coven.CovenHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
@@ -11,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -120,7 +122,7 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
     override fun releaseUsing(stack: ItemStack, level: Level, livingEntity: LivingEntity, timeCharged: Int) {
         if (!level.isClientSide && livingEntity is Player) {
             val timeUsed = getUseDuration(stack, livingEntity) - timeCharged
-            if (timeUsed < 60) { // Less than 3 seconds
+            if (timeUsed < 60) {
                 livingEntity.displayClientMessage(
                     Component.translatable("witchery.coven.interrupted"),
                     true
@@ -141,6 +143,22 @@ class SeerStoneItem(properties: Properties) : Item(properties) {
                 0.0, 0.0, 0.0
             )
         }
+    }
+
+    override fun interactLivingEntity(
+        stack: ItemStack,
+        player: Player,
+        interactionTarget: LivingEntity,
+        usedHand: InteractionHand
+    ): InteractionResult {
+        if (interactionTarget is CovenWitchEntity && player is ServerPlayer) {
+            if (!interactionTarget.getIsCoven()) {
+                CovenHandler.addWitchToCoven(player, interactionTarget)
+                return InteractionResult.SUCCESS
+            }
+        }
+
+        return InteractionResult.PASS
     }
 
     companion object {

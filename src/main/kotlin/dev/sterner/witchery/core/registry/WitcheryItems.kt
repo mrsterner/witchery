@@ -75,6 +75,10 @@ object WitcheryItems {
         SeerStoneItem(Item.Properties().stacksTo(1))
     }
 
+    val COVEN_CONTRACT = register("coven_contract") {
+        CovenContractItem(Item.Properties().stacksTo(1))
+    }
+
     //start ARMOR
 
     val WITCHES_HAT = register("witches_hat") {

@@ -199,6 +199,7 @@ object WitcheryCreativeModeTabs {
                     output.accept(urn3)
 
                     output.accept(WitcheryItems.SEER_STONE.get())
+                    output.accept(WitcheryItems.COVEN_CONTRACT.get())
                     output.accept(WitcheryItems.SUN_COLLECTOR.get())
                     output.accept(WitcheryItems.BLOOD_STAINED_WOOL.get())
                     output.accept(WitcheryItems.BLOOD_STAINED_HAY.get())

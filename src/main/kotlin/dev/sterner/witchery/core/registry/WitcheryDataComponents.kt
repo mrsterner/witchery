@@ -1,5 +1,6 @@
 package dev.sterner.witchery.core.registry
 
+import com.google.common.collect.Lists
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
@@ -17,8 +18,10 @@ import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.component.ItemContainerContents
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.*
+import java.util.function.Function
 import java.util.function.Supplier
 
+import com.mojang.datafixers.util.Pair as DFPair
 
 object WitcheryDataComponents {
 
@@ -60,6 +63,25 @@ object WitcheryDataComponents {
     val PLAYER_UUID = DATA.register("player_uuid", Supplier {
         DataComponentType.builder<UUID>().persistent(UUIDUtil.CODEC).build()
     })
+
+    val PLAYER_UUID_ORDERED_LIST = DATA.register("player_uuid_list", Supplier {
+        DataComponentType.builder<LinkedList<Pair<UUID, String>>>()
+            .persistent(CODEC_LINKED_LIST_PAIR)
+            .build()
+    })
+
+    val CODEC_UUID_NAME_PAIR: Codec<Pair<UUID, String>> = Codec.STRING.xmap(
+        { str ->
+            val parts = str.split(";", limit = 2)
+            if (parts.size == 2) Pair(UUID.fromString(parts[0]), parts[1])
+            else throw IllegalArgumentException("Invalid UUID;Name format: $str")
+        },
+        { pair -> "${pair.first};${pair.second}" }
+    )
+
+    val CODEC_LINKED_LIST_PAIR: Codec<LinkedList<Pair<UUID, String>>> =
+        Codec.list(CODEC_UUID_NAME_PAIR).xmap(::LinkedList, Lists::newArrayList)
+
 
     val BLOOD = DATA.register("blood", Supplier {
         DataComponentType.builder<UUID>().persistent(UUIDUtil.CODEC).build()
@@ -141,6 +163,12 @@ object WitcheryDataComponents {
             .persistent(ItemContainerContents.CODEC)
             .build()
     })
+
+
+    val CODEC_LIST: Codec<MutableList<UUID>> = Codec.list(UUIDUtil.CODEC)
+
+    val CODEC_LINKED_LIST: Codec<LinkedList<UUID>> =
+        Codec.list(UUIDUtil.CODEC).xmap(::LinkedList, Lists::newArrayList)
 
     data class DualPotionContents(
         val positive: Optional<PotionContents>,

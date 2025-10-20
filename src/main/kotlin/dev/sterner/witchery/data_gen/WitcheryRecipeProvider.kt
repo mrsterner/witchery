@@ -768,6 +768,22 @@ class WitcheryRecipeProvider(output: PackOutput, val registriesFuture: Completab
             .unlockedBy("has_cruor", has(WitcheryItems.WOVEN_CRUOR.get()))
             .save(exporter)
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.COVEN_CONTRACT.get())
+            .requires(Items.PAPER)
+            .requires(Items.INK_SAC)
+            .requires(Items.FEATHER)
+            .requires(WitcheryItems.ROWAN_BERRIES.get())
+            .unlockedBy("has_sac", has(Items.INK_SAC))
+            .save(exporter, "coven_contract_1")
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.COVEN_CONTRACT.get())
+            .requires(Items.PAPER)
+            .requires(Items.GLOW_INK_SAC)
+            .requires(Items.FEATHER)
+            .requires(WitcheryItems.ROWAN_BERRIES.get())
+            .unlockedBy("has_glow_sac", has(Items.GLOW_INK_SAC))
+            .save(exporter, "coven_contract_2")
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WitcheryItems.BONE_NEEDLE.get())
             .requires(Items.BONE)
             .requires(Items.FLINT)
