@@ -12,9 +12,9 @@ import dev.sterner.witchery.content.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.content.item.*
 import dev.sterner.witchery.content.item.accessories.*
+import dev.sterner.witchery.content.item.brew.*
+import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.core.data_attachment.BoatTypeHelper
-import dev.sterner.witchery.features.brewing.brew.*
-import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.food.Foods
 import net.minecraft.world.item.*

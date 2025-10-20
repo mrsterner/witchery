@@ -2,7 +2,7 @@ package dev.sterner.witchery.core.data_attachment
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import dev.sterner.witchery.network.SyncBindingCurseS2CPayload
+import dev.sterner.witchery.network.SyncBindingRitualS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
@@ -18,7 +18,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 import net.neoforged.neoforge.network.PacketDistributor
 
-object BindingCurseAttachment {
+object BindingRitualAttachment {
 
     fun getData(livingEntity: LivingEntity): Data {
         return livingEntity.getData(WitcheryDataAttachments.BINDING_CURSE)
@@ -35,7 +35,7 @@ object BindingCurseAttachment {
         if (player is ServerPlayer) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                 player,
-                SyncBindingCurseS2CPayload(player, getData(player))
+                SyncBindingRitualS2CPayload(player, getData(player))
             )
         }
     }

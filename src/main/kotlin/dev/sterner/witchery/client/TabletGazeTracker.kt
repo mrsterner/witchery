@@ -26,7 +26,7 @@ object TabletGazeTracker {
     fun tick() {
         val player = Minecraft.getInstance().player ?: return
 
-        val infusion = InfusionPlayerAttachment.getPlayerInfusion(player)
+        val infusion = InfusionPlayerAttachment.getData(player)
         if (infusion.type != InfusionType.NECRO) {
             reset()
             return

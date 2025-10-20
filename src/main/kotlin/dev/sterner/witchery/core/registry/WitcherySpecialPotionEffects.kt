@@ -12,7 +12,7 @@ import dev.sterner.witchery.features.affliction.lich.LichdomAbility
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.mixin.SaplingBlockAccessor
 import dev.sterner.witchery.core.world.WitcheryWorldState
-import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.content.item.potion.WitcheryPotionIngredient
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Registry
 import net.minecraft.core.particles.ParticleOptions

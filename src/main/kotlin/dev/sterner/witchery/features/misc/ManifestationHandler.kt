@@ -3,7 +3,7 @@ package dev.sterner.witchery.features.misc
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.data_attachment.ManifestationPlayerAttachment
-import dev.sterner.witchery.core.data_attachment.teleport.TeleportRequest
+import dev.sterner.witchery.core.api.TeleportRequest
 import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft

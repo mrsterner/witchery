@@ -1,6 +1,5 @@
 package dev.sterner.witchery.mixin;
 
-import dev.sterner.witchery.features.misc.VillageWallHandler;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -35,11 +34,7 @@ public class StructureStartMixin {
         Registry<Structure> structureRegistry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
         ResourceKey<Structure> key = structureRegistry.getResourceKey(structure).orElse(null);
         if (key != null && key.location().getPath().contains("village")) {
-            BoundingBox bounds = self.getBoundingBox();
 
-            if (VillageWallHandler.INSTANCE.markVillage(bounds, level)) {
-                System.out.println("New village detected at: " + bounds);
-            }
         }
     }
 }

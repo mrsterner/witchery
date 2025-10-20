@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.entity
 
-import dev.sterner.witchery.features.brewing.brew.BrewItem
+import dev.sterner.witchery.content.item.brew.BrewItem
 import dev.sterner.witchery.features.familiar.FamiliarHandler
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair

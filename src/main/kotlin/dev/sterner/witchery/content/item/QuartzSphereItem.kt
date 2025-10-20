@@ -3,8 +3,8 @@ package dev.sterner.witchery.content.item
 import dev.sterner.witchery.content.entity.ThrownBrewEntity
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
-import dev.sterner.witchery.features.brewing.brew.ThrowableBrewItem
-import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
+import dev.sterner.witchery.content.item.brew.ThrowableBrewItem
+import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.features.infusion.InfusionHandler
 import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
 import net.minecraft.core.Direction
@@ -42,7 +42,7 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
             val urn = LeonardsUrnItem.findUrn(player)
             if (urn != null) {
                 val urnPotions = LeonardsUrnItem.getStoredPotions(urn)
-                val infusion = InfusionPlayerAttachment.getPlayerInfusion(player)
+                val infusion = InfusionPlayerAttachment.getData(player)
                 if (infusion.charge < 100 && !player.abilities.instabuild) {
                     return InteractionResultHolder.fail(itemStack)
                 }

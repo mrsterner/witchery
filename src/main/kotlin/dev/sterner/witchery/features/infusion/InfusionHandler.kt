@@ -54,7 +54,7 @@ object InfusionHandler {
      * @return true if the player can use infusion actions, false otherwise.
      */
     private fun canUse(player: Player): Boolean {
-        return hasWitchesHand(player) && InfusionPlayerAttachment.getPlayerInfusion(player).type != InfusionType.NONE
+        return hasWitchesHand(player) && InfusionPlayerAttachment.getData(player).type != InfusionType.NONE
     }
 
     /**
@@ -64,7 +64,7 @@ object InfusionHandler {
      */
     fun onHoldRightClick(player: Player) {
         if (canUse(player)) {
-            val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
+            val infusionType = InfusionPlayerAttachment.getData(player).type
             infusionType.onHoldRightClick(player)
         }
     }
@@ -77,7 +77,7 @@ object InfusionHandler {
      */
     fun onHoldReleaseRightClick(player: Player) {
         if (canUse(player)) {
-            val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
+            val infusionType = InfusionPlayerAttachment.getData(player).type
             if (player.isShiftKeyDown) {
                 infusionType.onReleaseRightClickShift(player)
             } else {
@@ -92,7 +92,7 @@ object InfusionHandler {
         entity: Entity?,
     ) {
         if (canUse(player)) {
-            val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
+            val infusionType = InfusionPlayerAttachment.getData(player).type
             if (player.isShiftKeyDown) {
                 infusionType.leftClickEntityShift(player, entity)
             } else {
@@ -117,7 +117,7 @@ object InfusionHandler {
         blockPos: BlockPos?,
     ) {
         if (canUse(player)) {
-            val infusionType = InfusionPlayerAttachment.getPlayerInfusion(player).type
+            val infusionType = InfusionPlayerAttachment.getData(player).type
             if (player.isShiftKeyDown) {
                 infusionType.leftClickBlockShift(player, blockPos)
             } else {
@@ -130,7 +130,7 @@ object InfusionHandler {
         val minecraft = Minecraft.getInstance()
         val clientPlayer = minecraft.player ?: return
 
-        val data = InfusionPlayerAttachment.getPlayerInfusion(clientPlayer)
+        val data = InfusionPlayerAttachment.getData(clientPlayer)
         if (data.type == InfusionType.NONE) return
 
         val scaledY = minecraft.window.guiScaledHeight

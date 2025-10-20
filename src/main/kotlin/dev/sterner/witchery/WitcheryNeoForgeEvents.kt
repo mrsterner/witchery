@@ -14,13 +14,14 @@ import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.content.item.CaneSwordItem
 import dev.sterner.witchery.content.item.WineGlassItem
 import dev.sterner.witchery.content.item.accessories.BitingBeltItem
+import dev.sterner.witchery.content.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
 import dev.sterner.witchery.core.data.ErosionReloadListener
 import dev.sterner.witchery.core.data.FetishEffectReloadListener
 import dev.sterner.witchery.core.data.InfiniteCenserReloadListener
 import dev.sterner.witchery.core.data.NaturePowerReloadListener
 import dev.sterner.witchery.core.data.PotionDataReloadListener
-import dev.sterner.witchery.core.data_attachment.BindingCurseAttachment
+import dev.sterner.witchery.core.data_attachment.BindingRitualAttachment
 import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.core.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.core.data_attachment.InventoryLockPlayerAttachment
@@ -43,7 +44,6 @@ import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireSpecificEventHandler
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfSpecificEventHandler
-import dev.sterner.witchery.features.brewing.brew.BrewOfSleepingItem
 import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.features.familiar.FamiliarHandler
 import dev.sterner.witchery.features.infusion.InfernalInfusionHandler
@@ -158,7 +158,7 @@ object WitcheryNeoForgeEvents {
             TarotPlayerAttachment.serverTick(entity)
 
         }
-        BindingCurseAttachment.tick(entity)
+        BindingRitualAttachment.tick(entity)
     }
 
 
@@ -287,9 +287,9 @@ object WitcheryNeoForgeEvents {
 
         VampireSpecificEventHandler.respawn(event.original, event.entity, event.isWasDeath)
 
-        InfusionPlayerAttachment.setPlayerInfusion(
+        InfusionPlayerAttachment.setData(
             event.entity,
-            InfusionPlayerAttachment.getPlayerInfusion(event.original)
+            InfusionPlayerAttachment.getData(event.original)
         )
 
         InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.original))
@@ -414,7 +414,7 @@ object WitcheryNeoForgeEvents {
             AfflictionPlayerAttachment.syncFull(serverPlayer, AfflictionPlayerAttachment.getData(serverPlayer))
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
             TransformationPlayerAttachment.sync(serverPlayer, TransformationPlayerAttachment.getData(serverPlayer))
-            InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getPlayerInfusion(serverPlayer))
+            InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getData(serverPlayer))
             PhylacteryBlockEntity.onPlayerLoad(serverPlayer)
         }
     }

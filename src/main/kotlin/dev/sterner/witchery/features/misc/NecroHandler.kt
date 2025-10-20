@@ -96,7 +96,7 @@ object NecroHandler {
     private fun playerHasWitchHand(player: ServerPlayer): Boolean {
         val bl = player.mainHandItem.`is`(WitcheryItems.WITCHES_HAND.get()) ||
                 player.offhandItem.`is`(WitcheryItems.WITCHES_HAND.get())
-        val bl2 = InfusionPlayerAttachment.getPlayerInfusion(player).type == InfusionType.NECRO
+        val bl2 = InfusionPlayerAttachment.getData(player).type == InfusionType.NECRO
         return bl && bl2
     }
 

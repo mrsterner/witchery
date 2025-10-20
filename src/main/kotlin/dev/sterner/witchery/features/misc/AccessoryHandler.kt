@@ -2,6 +2,7 @@ package dev.sterner.witchery.features.misc
 
 import dev.sterner.witchery.content.item.PoppetItem
 import dev.sterner.witchery.core.data_attachment.PlatformUtils
+import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -31,7 +32,7 @@ object AccessoryHandler {
 
         if (livingEntity is Player) {
 
-            val list: List<ItemStack> = PlatformUtils.allEquippedAccessories(livingEntity)
+            val list: List<ItemStack> = WitcheryUtil.allEquippedAccessories(livingEntity)
                 .filter { it.item is PoppetItem }
                 .filter { it.`is`(item) }
 
@@ -91,7 +92,7 @@ object AccessoryHandler {
         var itemStack: ItemStack? = null
 
         if (livingEntity is Player) {
-            val list: List<ItemStack> = PlatformUtils.allEquippedAccessories(livingEntity)
+            val list: List<ItemStack> = WitcheryUtil.allEquippedAccessories(livingEntity)
                 .filter { it.item is ICurioItem }
                 .filter { it.`is`(item) }
 

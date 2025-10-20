@@ -54,7 +54,6 @@ class OptimizedSelectiveSyncPayload(
         private fun writeChanges(buf: RegistryFriendlyByteBuf, changes: Map<String, Any?>) {
             val tag = CompoundTag()
 
-            // Write number of changes
             tag.putInt("count", changes.size)
 
             changes.forEach { (path, value) ->

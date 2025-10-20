@@ -11,6 +11,7 @@ import dev.sterner.witchery.mixin.LivingEntityAccessor
 import dev.sterner.witchery.mixin.WalkAnimationStateAccessor
 import dev.sterner.witchery.network.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.util.WitcheryUtil
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import net.minecraft.client.player.AbstractClientPlayer
@@ -94,7 +95,7 @@ object TransformationHandler {
         WerewolfLeveling.updateModifiers(player, wolf = false, wolfMan = false)
 
         if (player.level() is ServerLevel) {
-            PlatformUtils.tryDisableBatFlight(player)
+            WitcheryUtil.tryDisableBatFlight(player)
         }
         PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, RefreshDimensionsS2CPayload())
     }
@@ -186,7 +187,7 @@ object TransformationHandler {
                             player.onUpdateAbilities()
                         }
                     } else {
-                        PlatformUtils.tryEnableBatFlight(player)
+                        WitcheryUtil.tryEnableBatFlight(player)
                     }
 
                     increaseBatFormTimer(player)
@@ -209,7 +210,7 @@ object TransformationHandler {
                         VampireLeveling.resetVillages(player)
                     }
 
-                    PlatformUtils.tryDisableBatFlight(player)
+                    WitcheryUtil.tryDisableBatFlight(player)
                 }
             } else {
                 if (isBat(player)) {

@@ -2,7 +2,7 @@ package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.data_attachment.*
-import dev.sterner.witchery.core.data_attachment.teleport.TeleportQueueLevelAttachment
+import dev.sterner.witchery.core.data_attachment.TeleportQueueLevelAttachment
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntLevelAttachment
@@ -30,12 +30,12 @@ object WitcheryDataAttachments {
 
 
     @JvmStatic
-    val BINDING_CURSE: Supplier<AttachmentType<BindingCurseAttachment.Data>> =
+    val BINDING_CURSE: Supplier<AttachmentType<BindingRitualAttachment.Data>> =
         ATTACHMENT_TYPES.register(
             "binding_data",
             Supplier {
-                AttachmentType.builder(Supplier { BindingCurseAttachment.Data() })
-                    .serialize(BindingCurseAttachment.Data.CODEC)
+                AttachmentType.builder(Supplier { BindingRitualAttachment.Data() })
+                    .serialize(BindingRitualAttachment.Data.CODEC)
                     .build()
             }
         )

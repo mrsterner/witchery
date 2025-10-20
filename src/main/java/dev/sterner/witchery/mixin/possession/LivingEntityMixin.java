@@ -2,7 +2,7 @@ package dev.sterner.witchery.mixin.possession;
 
 
 import dev.sterner.witchery.core.api.interfaces.Possessable;
-import dev.sterner.witchery.core.util.DamageHelper;
+import dev.sterner.witchery.core.util.WitcheryUtil;
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -65,7 +65,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (possessor != null) {
             this.lastHurtByPlayerTime = 100;
             this.lastHurtByPlayer = possessor;
-            DamageSource proxiedDamage = DamageHelper.INSTANCE.createProxiedDamage(deathCause, possessor);
+            DamageSource proxiedDamage = WitcheryUtil.createProxiedDamage(deathCause, possessor);
             if (proxiedDamage != null) {
                 return proxiedDamage;
             }

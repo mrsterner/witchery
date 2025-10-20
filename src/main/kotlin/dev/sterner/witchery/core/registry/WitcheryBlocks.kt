@@ -44,8 +44,8 @@ import dev.sterner.witchery.content.block.spirit_portal.SpiritPortalBlockCompone
 import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarComponent
 import dev.sterner.witchery.content.worldgen.tree.WitcheryTreeGrowers
-import dev.sterner.witchery.core.data_attachment.PlatformUtils.registerWoodType
 import dev.sterner.witchery.core.registry.WitcheryFluids
+import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
@@ -451,7 +451,7 @@ object WitcheryBlocks {
     }
 
     private val ROWAN_WOOD_TYPE: WoodType =
-        registerWoodType(WoodType("${MODID}:rowan", BlockSetType.OAK))
+        WitcheryUtil.registerWoodType(WoodType("${MODID}:rowan", BlockSetType.OAK))
 
     val ROWAN_FENCE_GATE = register("rowan_fence_gate") {
         FenceGateBlock(ROWAN_WOOD_TYPE, Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))
@@ -572,7 +572,7 @@ object WitcheryBlocks {
         FenceBlock(Properties.ofFullCopy(Blocks.OAK_FENCE))
     }
 
-    private val ALDER_WOOD_TYPE: WoodType = registerWoodType(WoodType("$MODID:alder", BlockSetType.OAK))
+    private val ALDER_WOOD_TYPE: WoodType = WitcheryUtil.registerWoodType(WoodType("$MODID:alder", BlockSetType.OAK))
 
 
     val ALDER_FENCE_GATE = register("alder_fence_gate") {
@@ -700,7 +700,7 @@ object WitcheryBlocks {
     }
 
     private val HAWTHORN_WOOD_TYPE: WoodType =
-        registerWoodType(WoodType("$MODID:hawthorn", BlockSetType.OAK))
+        WitcheryUtil.registerWoodType(WoodType("$MODID:hawthorn", BlockSetType.OAK))
 
     val HAWTHORN_FENCE_GATE = register("hawthorn_fence_gate") {
         FenceGateBlock(HAWTHORN_WOOD_TYPE, Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))

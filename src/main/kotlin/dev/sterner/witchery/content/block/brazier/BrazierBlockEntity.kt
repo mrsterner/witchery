@@ -5,12 +5,12 @@ import dev.sterner.witchery.core.api.block.AltarPowerConsumer
 import dev.sterner.witchery.core.api.block.PotionDisperser
 import dev.sterner.witchery.core.api.block.PotionDisperserHelper
 import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.content.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
-import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.core.registry.WitcheryItems

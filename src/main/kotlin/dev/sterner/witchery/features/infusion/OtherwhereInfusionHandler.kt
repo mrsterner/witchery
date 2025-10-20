@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player
 object OtherwhereInfusionHandler {
 
     fun tick(player: Player?) {
-        if (player != null && InfusionPlayerAttachment.getPlayerInfusion(player).type == InfusionType.OTHERWHERE) {
+        if (player != null && InfusionPlayerAttachment.getData(player).type == InfusionType.OTHERWHERE) {
 
             val data = OtherwhereInfusionPlayerAttachment.getInfusion(player)
             val ticks = data.teleportCooldown

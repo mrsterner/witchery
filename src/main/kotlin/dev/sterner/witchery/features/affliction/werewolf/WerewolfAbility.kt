@@ -7,6 +7,7 @@ import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.mixin_logic.SummonedWolf
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -247,7 +248,7 @@ enum class WerewolfAbility(
     companion object {
         @JvmStatic
         fun hasMoonCharm(player: Player): Boolean {
-            return PlatformUtils.allEquippedAccessories(player).map { it.item }.contains(WitcheryItems.MOON_CHARM.get())
+            return WitcheryUtil.allEquippedAccessories(player).map { it.item }.contains(WitcheryItems.MOON_CHARM.get())
         }
     }
 }

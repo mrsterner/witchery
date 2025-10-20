@@ -16,78 +16,84 @@ object MutandisLevelAttachment {
     const val CACHE_LIFETIME = 20 * 3
 
     @JvmStatic
-    fun getMap(level: ServerLevel): MutableMap<BlockPos, MutandisData> {
-        return level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT).mutandisCacheMap
+    fun getData(level: ServerLevel): Data {
+        return level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
     }
 
     @JvmStatic
-    fun getTagForBlockPos(level: ServerLevel, pos: BlockPos): TagKey<Block>? {
-        val levelData = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT.get())
-            ?: Data()
-        return levelData.mutandisCacheMap[pos]?.tag
-    }
-
-    @JvmStatic
-    fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>) {
-        val data = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
-        val mutableMap = data.mutandisCacheMap.toMutableMap()
-        mutableMap[pos] = MutandisData(tag, CACHE_LIFETIME)
-        data.mutandisCacheMap = mutableMap.toMutableMap()
+    fun setData(level: ServerLevel, data: Data) {
         level.setData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
     }
 
     @JvmStatic
+    fun getMap(level: ServerLevel): MutableMap<BlockPos, MutandisData> {
+        return getData(level).mutandisCacheMap
+    }
+
+    @JvmStatic
+    fun getTagForBlockPos(level: ServerLevel, pos: BlockPos): TagKey<Block>? {
+        return getData(level).mutandisCacheMap[pos]?.tag
+    }
+
+    @JvmStatic
+    fun setTagForBlockPos(level: ServerLevel, pos: BlockPos, tag: TagKey<Block>) {
+        val data = getData(level)
+        val updatedMap = data.mutandisCacheMap.toMutableMap()
+        updatedMap[pos] = MutandisData(tag, CACHE_LIFETIME)
+        setData(level, data.copy(mutandisCacheMap = updatedMap))
+    }
+
+    @JvmStatic
     fun removeTagForBlockPos(level: ServerLevel, pos: BlockPos) {
-        val levelData = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
-        levelData.mutandisCacheMap.remove(pos)
-        level.setData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT, levelData)
+        val data = getData(level)
+        val updatedMap = data.mutandisCacheMap.toMutableMap()
+        updatedMap.remove(pos)
+        setData(level, data.copy(mutandisCacheMap = updatedMap))
     }
 
     @JvmStatic
     fun updateTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
-        val data = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
-        if (data.mutandisCacheMap[pos] != null) {
-            data.mutandisCacheMap[pos] = MutandisData(
-                data.mutandisCacheMap[pos]!!.tag,
-                data.mutandisCacheMap[pos]!!.time - 1
-            )
-            level.setData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
-        }
+        val data = getData(level)
+        val existingData = data.mutandisCacheMap[pos] ?: return
+
+        val updatedMap = data.mutandisCacheMap.toMutableMap()
+        updatedMap[pos] = existingData.copy(time = existingData.time - 1)
+        setData(level, data.copy(mutandisCacheMap = updatedMap))
     }
 
     @JvmStatic
     fun resetTimeForTagBlockPos(level: ServerLevel, pos: BlockPos) {
-        val data = level.getData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT)
-        if (data.mutandisCacheMap[pos] != null) {
-            data.mutandisCacheMap[pos] =
-                MutandisData(data.mutandisCacheMap[pos]!!.tag, CACHE_LIFETIME)
-            level.setData(WitcheryDataAttachments.MUTANDIS_LEVEL_DATA_ATTACHMENT, data)
-        }
+        val data = getData(level)
+        val existingData = data.mutandisCacheMap[pos] ?: return
+
+        val updatedMap = data.mutandisCacheMap.toMutableMap()
+        updatedMap[pos] = existingData.copy(time = CACHE_LIFETIME)
+        setData(level, data.copy(mutandisCacheMap = updatedMap))
     }
 
-    val ID: ResourceLocation = Witchery.id("mutandis_level_data")
-
     data class MutandisData(val tag: TagKey<Block>, val time: Int) {
+
         companion object {
-            val MUTANDIS_DATA_CODEC: Codec<MutandisData> = RecordCodecBuilder.create { inst ->
-                inst.group(
-                    TagKey.codec(Registries.BLOCK).fieldOf("tag").forGetter(MutandisData::tag),
-                    Codec.INT.fieldOf("time").forGetter(MutandisData::time)
-                ).apply(inst, ::MutandisData)
+            val CODEC: Codec<MutandisData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    TagKey.codec(Registries.BLOCK).fieldOf("tag").forGetter { it.tag },
+                    Codec.INT.fieldOf("time").forGetter { it.time }
+                ).apply(instance, ::MutandisData)
             }
         }
     }
 
-    data class Data(var mutandisCacheMap: MutableMap<BlockPos, MutandisData> = mutableMapOf()) {
+    data class Data(val mutandisCacheMap: MutableMap<BlockPos, MutandisData> = mutableMapOf()) {
+
         companion object {
-            val CODEC: Codec<Data> = RecordCodecBuilder.create { inst ->
-                inst.group(
-                    Codec.unboundedMap(
-                        BlockPos.CODEC,
-                        MutandisData.MUTANDIS_DATA_CODEC
-                    ).fieldOf("mutandisCacheMap")
-                        .forGetter(Data::mutandisCacheMap)
-                ).apply(inst, ::Data)
+            val ID: ResourceLocation = Witchery.id("mutandis_level_data")
+
+            val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.unboundedMap(BlockPos.CODEC, MutandisData.CODEC)
+                        .fieldOf("mutandisCacheMap")
+                        .forGetter { it.mutandisCacheMap }
+                ).apply(instance, ::Data)
             }
         }
     }

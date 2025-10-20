@@ -1,4 +1,4 @@
-package dev.sterner.witchery.features.brewing.brew
+package dev.sterner.witchery.content.item.brew
 
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes

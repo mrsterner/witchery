@@ -27,7 +27,7 @@ object EquipmentHandler {
         if (livingEntity is Player && livingEntity.getItemBySlot(EquipmentSlot.HEAD)
                 .`is`(WitcheryItems.BABA_YAGAS_HAT.get())
         ) {
-            if (InfusionPlayerAttachment.getPlayerInfusion(livingEntity).type != InfusionType.NONE) {
+            if (InfusionPlayerAttachment.getData(livingEntity).type != InfusionType.NONE) {
                 val level = livingEntity.level()
 
                 if (level.random.nextFloat() < 0.2f && fl > 0) {

@@ -1,4 +1,4 @@
-package dev.sterner.witchery.features.brewing.potion
+package dev.sterner.witchery.content.item.potion
 
 import dev.sterner.witchery.content.entity.WitcheryThrownPotion
 import dev.sterner.witchery.core.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT

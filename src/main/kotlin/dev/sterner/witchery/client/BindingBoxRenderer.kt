@@ -9,7 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.Tesselator
 import com.mojang.blaze3d.vertex.VertexFormat
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.core.data_attachment.BindingCurseAttachment
+import dev.sterner.witchery.core.data_attachment.BindingRitualAttachment
 import dev.sterner.witchery.core.registry.WitcheryShaders
 import dev.sterner.witchery.features.ritual.BindingRitual
 import net.minecraft.client.Minecraft
@@ -55,7 +55,7 @@ object BindingBoxRenderer {
         for (entity in nearbyEntities) {
             if (entity !is LivingEntity) continue
 
-            val bindingData = BindingCurseAttachment.getData(entity)
+            val bindingData = BindingRitualAttachment.getData(entity)
             if (!bindingData.isActive) continue
 
             val centerPos = bindingData.centerPos

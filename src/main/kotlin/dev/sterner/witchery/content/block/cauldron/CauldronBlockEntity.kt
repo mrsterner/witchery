@@ -4,14 +4,14 @@ import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.block.AltarPowerConsumer
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.content.block.altar.AltarBlockEntity
+import dev.sterner.witchery.content.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.content.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.core.data.PotionDataReloadListener
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
-import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.features.brewing.potion.WitcheryPotionItem
 import dev.sterner.witchery.network.*
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT

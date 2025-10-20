@@ -1,4 +1,4 @@
-package dev.sterner.witchery.core.data_attachment.teleport
+package dev.sterner.witchery.core.api
 
 import com.klikli_dev.modonomicon.util.Codecs
 import com.mojang.serialization.Codec
@@ -9,15 +9,16 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
-import java.util.*
+import java.util.Optional
+import java.util.UUID
 
 data class TeleportRequest(
-    val player: UUID,                         // UUID of the player to teleport
-    val pos: BlockPos,                        // Target position to teleport to
-    val chunkPos: ChunkPos,                   // Chunk position to ensure is loaded
-    val createdGameTime: Long,                // Game time when request was created
-    var attempts: Int = 0,                    // Number of processing attempts made
-    val sourceDimension: ResourceKey<Level>? = null // Source dimension, if cross-dimensional
+    val player: UUID,
+    val pos: BlockPos,
+    val chunkPos: ChunkPos,
+    val createdGameTime: Long,
+    var attempts: Int = 0,
+    val sourceDimension: ResourceKey<Level>? = null
 ) {
     companion object {
         /**

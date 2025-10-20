@@ -62,7 +62,6 @@
     "possession.PersistentEntitySectionManagerMixin",
     "possession.PlayerMixin",
     "possession.ServerLevelMixin",
-    "possession.EntityMixin.EntityMixin",
     "possession.possessed.EntityAccessMixin",
     "possession.possessed.HurtByTargetGoalMixin",
     "possession.possessed.NearestAttackableTargetGoalMixin",

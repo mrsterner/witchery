@@ -21,7 +21,7 @@ object LightInfusionHandler {
 
     fun tick(player: Player?) {
 
-        if (player != null && InfusionPlayerAttachment.getPlayerInfusion(player).type == InfusionType.LIGHT) {
+        if (player != null && InfusionPlayerAttachment.getData(player).type == InfusionType.LIGHT) {
             if (LightInfusionPlayerAttachment.isInvisible(player).isInvisible) {
                 val ticks = LightInfusionPlayerAttachment.isInvisible(player).invisibleTimer
 

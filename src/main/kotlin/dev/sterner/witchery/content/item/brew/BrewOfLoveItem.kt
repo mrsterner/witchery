@@ -1,4 +1,4 @@
-package dev.sterner.witchery.features.brewing.brew
+package dev.sterner.witchery.content.item.brew
 
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Animal

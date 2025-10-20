@@ -3,7 +3,7 @@ package dev.sterner.witchery.content.entity.player_shell
 import dev.sterner.witchery.core.api.entity.PlayerShellEntity
 import dev.sterner.witchery.core.data_attachment.DeathQueueLevelAttachment
 import dev.sterner.witchery.core.data_attachment.ManifestationPlayerAttachment
-import dev.sterner.witchery.core.data_attachment.teleport.TeleportRequest
+import dev.sterner.witchery.core.api.TeleportRequest
 import dev.sterner.witchery.features.misc.AccessoryHandler
 import dev.sterner.witchery.features.misc.SleepingPlayerHandler
 import dev.sterner.witchery.features.misc.TeleportQueueHandler

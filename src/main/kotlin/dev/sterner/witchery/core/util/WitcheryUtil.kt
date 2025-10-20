@@ -1,15 +1,24 @@
 package dev.sterner.witchery.core.util
 
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.mixin.ArgumentTypeInfosInvoker
+import net.minecraft.commands.synchronization.ArgumentTypeInfo
 import net.minecraft.core.Direction
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.PlayerAdvancements
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
+import net.neoforged.neoforge.common.NeoForgeMod
+import top.theillusivec4.curios.api.CuriosApi
 
 
 object WitcheryUtil {
@@ -103,5 +112,80 @@ object WitcheryUtil {
                 }
             }
         }
+    }
+
+    @JvmStatic
+    fun allEquippedAccessories(livingEntity: Player): List<ItemStack> {
+        val curioInventory = CuriosApi.getCuriosInventory(livingEntity).orElse(null) ?: return emptyList()
+
+        val equippedCurios = curioInventory.equippedCurios
+        val equippedItems = mutableListOf<ItemStack>()
+
+        for (slotIndex in 0 until equippedCurios.slots) {
+            val itemStack = equippedCurios.getStackInSlot(slotIndex)
+            if (!itemStack.isEmpty) {
+                equippedItems.add(itemStack)
+            }
+        }
+
+        return equippedItems
+    }
+
+    @JvmStatic
+    fun tryEnableBatFlight(player: Player) {
+        if (!player.isCreative && !player.isSpectator) {
+            val flightAttribute = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT)
+            if (flightAttribute != null && flightAttribute.value <= 0) {
+                flightAttribute.addPermanentModifier(
+                    AttributeModifier(
+                        Witchery.id("bat_flight"),
+                        1.0,
+                        AttributeModifier.Operation.ADD_VALUE
+                    )
+                )
+            }
+
+            if (!player.onGround()) {
+                player.abilities.flying = true
+                player.onUpdateAbilities()
+            }
+        }
+    }
+
+
+    @JvmStatic
+    fun tryDisableBatFlight(player: Player) {
+        if (!player.isCreative && !player.isSpectator) {
+            val flightAttribute = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT)
+            flightAttribute?.removeModifier(Witchery.id("bat_flight"))
+
+            player.abilities.flying = false
+            player.onUpdateAbilities()
+        }
+    }
+
+
+    @JvmStatic
+    fun registerWoodType(woodType: WoodType): WoodType {
+        return WoodType.register(woodType)
+    }
+
+    @JvmStatic
+    fun getByClass(): MutableMap<Class<*>, ArgumentTypeInfo<*, *>> {
+        return ArgumentTypeInfosInvoker.getByClass()
+    }
+
+    @JvmStatic
+    fun createProxiedDamage(source: DamageSource, newAttacker: Entity): DamageSource? {
+        if (source.getEntity() != null) {
+            val damageType = source.typeHolder()
+            val key = damageType.getKey()
+
+            if (key != null) {
+                return newAttacker.damageSources().source(key, source.getDirectEntity(), source.getEntity())
+            }
+        }
+
+        return null
     }
 }

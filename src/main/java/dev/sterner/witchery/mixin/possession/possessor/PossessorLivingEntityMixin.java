@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession.possessor;
 
 import dev.sterner.witchery.core.registry.WitcheryTags;
-import dev.sterner.witchery.core.util.DamageHelper;
+import dev.sterner.witchery.core.util.WitcheryUtil;
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
@@ -15,12 +15,16 @@ import net.minecraft.world.phys.Vec3;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
+
+    @Unique
+    private boolean witchery$wasSprinting;
 
     @Shadow
     public abstract void setSprinting(boolean sprinting);
@@ -70,15 +74,16 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
     private DamageSource witchery$hurt(DamageSource source, DamageSource s, float amount) {
         Entity attacker = source.getEntity();
         if (attacker instanceof LivingEntity) {
-            DamageSource newSource = DamageHelper.INSTANCE.tryProxyDamage(source, (LivingEntity) attacker);
-            if (newSource != null) {
-                return newSource;
+            LivingEntity delegate = null;
+            if (attacker instanceof Player player) {
+                delegate = PossessionComponentAttachment.INSTANCE.get(player).getHost();
+            }
+            if (delegate != null) {
+                return WitcheryUtil.createProxiedDamage(source, delegate);
             }
         }
         return source;
     }
-
-    private boolean witchery$wasSprinting;
 
     @Inject(method = "getFluidFallingAdjustedMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isSprinting()Z"))
     private void witchery$getFluidFallingAdjustedMovement(double gravity, boolean isFalling, Vec3 deltaMovement, CallbackInfoReturnable<Vec3> cir) {

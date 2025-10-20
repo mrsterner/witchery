@@ -1,8 +1,8 @@
 package dev.sterner.witchery.features.tarot
 
 import dev.sterner.witchery.content.block.altar.AltarBlockEntity
-import dev.sterner.witchery.features.brewing.brew.BrewItem
-import dev.sterner.witchery.features.brewing.brew.ThrowableBrewItem
+import dev.sterner.witchery.content.item.brew.BrewItem
+import dev.sterner.witchery.content.item.brew.ThrowableBrewItem
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel

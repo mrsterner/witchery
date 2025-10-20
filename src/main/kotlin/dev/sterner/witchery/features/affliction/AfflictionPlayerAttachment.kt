@@ -51,7 +51,6 @@ object AfflictionPlayerAttachment {
         val oldData = playerDataCache[playerId]
 
         if (oldData == null) {
-            // No cached data, do full sync
             syncFull(player, newData)
             return
         }

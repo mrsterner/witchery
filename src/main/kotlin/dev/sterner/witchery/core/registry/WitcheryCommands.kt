@@ -15,6 +15,7 @@ import dev.sterner.witchery.core.data_attachment.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.core.data_attachment.ManifestationPlayerAttachment
 import dev.sterner.witchery.core.data_attachment.PlatformUtils
 import dev.sterner.witchery.core.data_attachment.SoulPoolPlayerAttachment
+import dev.sterner.witchery.core.util.WitcheryUtil
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.features.familiar.FamiliarHandler
@@ -61,7 +62,7 @@ object WitcheryCommands {
         infoClass: Class<A>?,
         argumentTypeInfo: I
     ): I {
-        val byClass: MutableMap<Class<*>, ArgumentTypeInfo<*, *>> = PlatformUtils.getByClass()
+        val byClass: MutableMap<Class<*>, ArgumentTypeInfo<*, *>> = WitcheryUtil.getByClass()
         byClass[infoClass as Class<*>] = argumentTypeInfo as ArgumentTypeInfo<*, *>
 
         return argumentTypeInfo
@@ -96,7 +97,7 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusion")
-                                        InfusionPlayerAttachment.setPlayerInfusion(
+                                        InfusionPlayerAttachment.setData(
                                             player,
                                             InfusionPlayerAttachment.Data(infusionType)
                                         )
@@ -111,7 +112,7 @@ object WitcheryCommands {
                         Commands.argument("player", EntityArgument.player())
                             .executes { ctx ->
                                 val player = EntityArgument.getPlayer(ctx, "player")
-                                val currentInfusion = InfusionPlayerAttachment.getPlayerInfusion(player)
+                                val currentInfusion = InfusionPlayerAttachment.getData(player)
                                 ctx.source.sendSuccess(
                                     { Component.literal("Current infusion type: ${currentInfusion.type.serializedName} for player ${player.name.string}") },
                                     false
@@ -129,7 +130,7 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val amount = IntegerArgumentType.getInteger(ctx, "amount")
-                                        if (InfusionPlayerAttachment.getPlayerInfusion(player).type != InfusionType.NONE) {
+                                        if (InfusionPlayerAttachment.getData(player).type != InfusionType.NONE) {
                                             InfusionHandler.increaseInfusionCharge(player, amount)
                                         }
                                         1
@@ -148,7 +149,7 @@ object WitcheryCommands {
                                         val infusionType = InfusionArgumentType.getInfusionType(ctx, "infusionType")
                                         player.hurt(player.level().damageSources().magic(), 100f)
                                         if (player.health > 0) {
-                                            InfusionPlayerAttachment.setPlayerInfusion(
+                                            InfusionPlayerAttachment.setData(
                                                 player,
                                                 InfusionPlayerAttachment.Data(infusionType)
                                             )

@@ -39,7 +39,7 @@ class SyncInfusionS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
         client.execute {
             if (player != null) {
-                InfusionPlayerAttachment.setPlayerInfusion(player, InfusionPlayerAttachment.Data(type, charge))
+                InfusionPlayerAttachment.setData(player, InfusionPlayerAttachment.Data(type, charge))
             }
         }
     }

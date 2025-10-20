@@ -1,4 +1,4 @@
-package dev.sterner.witchery.features.brewing.brew
+package dev.sterner.witchery.content.item.brew
 
 import dev.sterner.witchery.content.entity.BansheeEntity
 import dev.sterner.witchery.content.entity.SpectralPigEntity

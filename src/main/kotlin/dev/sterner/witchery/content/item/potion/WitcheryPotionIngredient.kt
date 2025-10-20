@@ -1,4 +1,4 @@
-package dev.sterner.witchery.features.brewing.potion
+package dev.sterner.witchery.content.item.potion
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder

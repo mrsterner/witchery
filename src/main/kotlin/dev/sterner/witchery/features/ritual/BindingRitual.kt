@@ -4,7 +4,7 @@ import dev.sterner.witchery.core.api.Ritual
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.content.item.TaglockItem
-import dev.sterner.witchery.core.data_attachment.BindingCurseAttachment
+import dev.sterner.witchery.core.data_attachment.BindingRitualAttachment
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
@@ -62,14 +62,14 @@ class BindingRitual : Ritual("binding") {
                 dur = WEAK_BINDING_DURATION
             }
         }
-        val bindingData = BindingCurseAttachment.Data(
+        val bindingData = BindingRitualAttachment.Data(
             centerPos = waystonePos.pos(),
             radius = BINDING_RADIUS,
             duration = dur,
             isActive = true
         )
 
-        BindingCurseAttachment.setData(target, bindingData)
+        BindingRitualAttachment.setData(target, bindingData)
 
         if (level is ServerLevel) {
             level.playSound(

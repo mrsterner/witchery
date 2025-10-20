@@ -36,7 +36,7 @@ data class ReadTabletC2SPayload(
             return
         }
 
-        val infusion = InfusionPlayerAttachment.getPlayerInfusion(player)
+        val infusion = InfusionPlayerAttachment.getData(player)
         if (infusion.type != InfusionType.NECRO) {
             return
         }

@@ -4,8 +4,8 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryMobEffects
 import dev.sterner.witchery.core.registry.WitcherySpecialPotionEffects
-import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient
-import dev.sterner.witchery.features.brewing.potion.WitcheryPotionIngredient.*
+import dev.sterner.witchery.content.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.content.item.potion.WitcheryPotionIngredient.*
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
