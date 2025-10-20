@@ -50,5 +50,11 @@ class WitcheryEntityTypeTagProvider(
             .add(EntityType.SHEEP)
             .add(EntityType.ZOMBIE_VILLAGER)
             .add(EntityType.ZOMBIFIED_PIGLIN)
+
+        tag(WitcheryTags.BESTIAL_CALL_BLACKLIST)
+            .add(EntityType.SNIFFER)
+            .add(EntityType.ZOMBIE_HORSE)
+            .add(EntityType.HOGLIN)
+            .add(EntityType.STRIDER)
     }
 }

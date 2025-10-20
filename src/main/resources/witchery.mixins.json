@@ -17,6 +17,8 @@
     "EntityMixin",
     "FireBlockMixin",
     "FoodDataMixin",
+    "FrogEntityMixin",
+    "FrogMixin",
     "IBlockStateExtensionMixin",
     "InventoryMixin",
     "ItemEntityMixin",

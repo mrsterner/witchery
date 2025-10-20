@@ -68,6 +68,7 @@ object WitcheryTags {
     val SLEEPERS  = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("sleepers"))
     val POSSESSABLE = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("possessable"))
     val REGULAR_EATER = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("regular_eater"))
+    val BESTIAL_CALL_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, Witchery.id("bestial_call_blacklist"))
 
     val EMPTY_FLUID = TagKey.create(Registries.FLUID, Witchery.id("empty"))
 

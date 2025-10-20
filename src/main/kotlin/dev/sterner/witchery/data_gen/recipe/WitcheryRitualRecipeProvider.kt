@@ -16,6 +16,10 @@ import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.features.ritual.BestialCallRitual
+import dev.sterner.witchery.features.ritual.BlocksBelowRitual
+import dev.sterner.witchery.features.ritual.PullMobsRitual
+import dev.sterner.witchery.features.ritual.RainingToadRitual
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
@@ -140,6 +144,52 @@ object WitcheryRitualRecipeProvider {
             .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("charge_attuned"))
 
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.ENDER_PEARL)
+            .addInputItem(Items.IRON_INGOT)
+            .addInputItem(Items.BLAZE_POWDER)
+            .addInputItem(WitcheryItems.PHANTOM_VAPOR.get())
+            .addInputItem(attuned)
+            .setAltarPower(0)
+            .setTicks(20 * 10)
+            .addLargePattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .setCustomRitual(BlocksBelowRitual())
+            .save(exporter, Witchery.id("blocks_below"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.MILK_BUCKET)
+            .addInputItem(Items.HAY_BLOCK)
+            .addInputItem(Items.APPLE)
+            .addInputItem(Items.COD)
+            .addInputItem(Items.BROWN_MUSHROOM)
+            .addInputItem(Items.CARROT)
+            .addInputItem(Items.WHEAT_SEEDS)
+            .setAltarPower(6000)
+            .setCovenCount(3)
+            .addLargePattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
+            .setCustomRitual(BestialCallRitual())
+            .save(exporter, Witchery.id("bestial_call"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.SLIME_BALL)
+            .addInputItem(Items.REDSTONE)
+            .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .setAltarPower(16)
+            .setInfinite(true)
+            .setCustomRitual(PullMobsRitual())
+            .save(exporter, Witchery.id("pull_mobs"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(attuned)
+            .addInputItem(WitcheryItems.REDSTONE_SOUP.get())
+            .addInputItem(WitcheryItems.REEK_OF_MISFORTUNE.get())
+            .addInputItem(WitcheryItems.TOE_OF_FROG.get())
+            .addInputItem(Items.WATER_BUCKET)
+            .addInputItem(WitcheryItems.BELLADONNA_FLOWER.get())
+            .setCustomRitual(RainingToadRitual())
+            .setTicks(20 * 60)
+            .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .save(exporter, Witchery.id("raining_toad"))
 
         val broom = ItemStack(WitcheryItems.BROOM.get())
         broom.set(WitcheryDataComponents.HAS_OINTMENT.get(), true)
@@ -385,6 +435,7 @@ object WitcheryRitualRecipeProvider {
             .setTicks(20 * 60 * 5)
             .setCustomRitual(BindingRitual())
             .save(exporter, Witchery.id("binding"))
+
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.TAGLOCK.get())

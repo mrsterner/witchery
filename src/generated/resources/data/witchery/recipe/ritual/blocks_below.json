@@ -1,0 +1,59 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "L": "witchery:otherwhere_chalk"
+  },
+  "celestialConditions": [],
+  "commands": [],
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "minecraft:ender_pearl"
+    },
+    {
+      "id": "minecraft:iron_ingot"
+    },
+    {
+      "id": "minecraft:blaze_powder"
+    },
+    {
+      "id": "witchery:phantom_vapor"
+    },
+    {
+      "components": {
+        "witchery:attuned": true
+      },
+      "id": "witchery:attuned_stone"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "_____LLLLL_____",
+    "___LL_____LL___",
+    "__L_________L__",
+    "_L___________L_",
+    "_L___________L_",
+    "L_____________L",
+    "L_____________L",
+    "L______G______L",
+    "L_____________L",
+    "L_____________L",
+    "_L___________L_",
+    "_L___________L_",
+    "__L_________L__",
+    "___LL_____LL___",
+    "_____LLLLL_____"
+  ],
+  "requireCat": false,
+  "ritual": {
+    "id": "witchery:blocks_below"
+  },
+  "ticks": 200,
+  "weather": []
+}

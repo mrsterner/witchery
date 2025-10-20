@@ -103,17 +103,24 @@ public abstract class PossessorLivingEntityMixin extends PossessorEntityMixin {
 
     @Inject(method = "startSleeping", at = @At("RETURN"))
     private void witchery$startSleeping(BlockPos pos, CallbackInfo ci) {
-        LivingEntity host = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
-        if (host != null && host.getType().is(WitcheryTags.INSTANCE.getSLEEPERS())) {
-            host.startSleeping(pos);
+        LivingEntity self = (LivingEntity)(Object)this;
+        if (self instanceof Player player) {
+            LivingEntity host = PossessionComponentAttachment.INSTANCE.get(player).getHost();
+            if (host != null && host.getType().is(WitcheryTags.INSTANCE.getSLEEPERS())) {
+                host.startSleeping(pos);
+            }
         }
     }
 
     @Inject(method = "stopSleeping", at = @At("RETURN"))
     private void witchery$stopSleeping(CallbackInfo ci) {
-        LivingEntity host = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
-        if (host != null && host.getType().is(WitcheryTags.INSTANCE.getSLEEPERS())) {
-            host.stopSleeping();
+        LivingEntity self = (LivingEntity)(Object)this;
+        if (self instanceof Player player) {
+            LivingEntity host = PossessionComponentAttachment.INSTANCE.get(player).getHost();
+            if (host != null && host.getType().is(WitcheryTags.INSTANCE.getSLEEPERS())) {
+                host.stopSleeping();
+            }
         }
+
     }
 }

@@ -72,7 +72,12 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.WOOD_ASH.get())
                     output.accept(WitcheryItems.BONE_NEEDLE.get())
                     output.accept(WitcheryItems.TAGLOCK.get())
+
+                    val attuned = WitcheryItems.ATTUNED_STONE.get().defaultInstance
                     output.accept(WitcheryItems.ATTUNED_STONE.get())
+                    attuned.set(WitcheryDataComponents.ATTUNED.get(), true)
+                    output.accept(attuned)
+
                     output.accept(WitcheryItems.BROOM.get())
 
                     val broom = WitcheryItems.BROOM.get().defaultInstance

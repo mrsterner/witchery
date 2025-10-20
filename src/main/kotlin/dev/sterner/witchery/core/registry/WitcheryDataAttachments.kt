@@ -35,6 +35,7 @@ import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.features.possession.EntityAiToggle
 import dev.sterner.witchery.features.possession.PossessedDataAttachment
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment
+import dev.sterner.witchery.features.ritual.RainingToadAttachment
 import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
@@ -64,6 +65,17 @@ object WitcheryDataAttachments {
             Supplier {
                 AttachmentType.builder(Supplier { PossessedDataAttachment.Data() })
                     .serialize(PossessedDataAttachment.Data.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val RAINING_TOAD_DATA_ATTACHMENT: Supplier<AttachmentType<RainingToadAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "raining_toad",
+            Supplier {
+                AttachmentType.builder(Supplier { RainingToadAttachment.Data() })
+                    .serialize(RainingToadAttachment.Data.CODEC)
                     .build()
             }
         )
