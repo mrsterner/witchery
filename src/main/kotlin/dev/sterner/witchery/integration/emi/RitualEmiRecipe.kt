@@ -82,34 +82,32 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         val day = recipe.celestialConditions.contains(RitualRecipe.Celestial.DAY)
         val waxing = recipe.celestialConditions.contains(RitualRecipe.Celestial.WAXING)
         val waning = recipe.celestialConditions.contains(RitualRecipe.Celestial.WANING)
-
         val all = recipe.celestialConditions.isEmpty()
 
         widgets.addTexture(
             Witchery.id("textures/gui/celestial/${if (day || all) "sun" else "empty"}.png"),
             20, 4 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
-        )
-            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Day", Style.EMPTY))))
+        ).tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Day", Style.EMPTY))))
+
         widgets.addTexture(
             Witchery.id("textures/gui/celestial/${if (fullMoon || night || all) "full_moon" else "empty"}.png"),
             20, 4 + 11 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
-        )
-            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Full Moon", Style.EMPTY))))
+        ).tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Full Moon", Style.EMPTY))))
+
         widgets.addTexture(
             Witchery.id("textures/gui/celestial/${if (newMoon || night || all) "new_moon" else "empty"}.png"),
             20, 4 + 11 + 11 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
-        )
-            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("New Moon", Style.EMPTY))))
+        ).tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("New Moon", Style.EMPTY))))
+
         widgets.addTexture(
             Witchery.id("textures/gui/celestial/${if (waxing || night || all) "waxing_moon" else "empty"}.png"),
             20 - 11, 4 + 6 + 20 + 20 + 10, 10, 10, 0, 0, 10, 10, 10, 10
-        )
-            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Waxing Moon", Style.EMPTY))))
+        ).tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Waxing Moon", Style.EMPTY))))
+
         widgets.addTexture(
             Witchery.id("textures/gui/celestial/${if (waning || night || all) "waning_moon" else "empty"}.png"),
             20 + 11, 4 + 6 + 20 + 20 + 10, 10, 10, 0, 0, 10, 10, 10, 10
-        )
-            .tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Waning Moon", Style.EMPTY))))
+        ).tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Waning Moon", Style.EMPTY))))
 
         val rain = recipe.weather.contains(RitualRecipe.Weather.RAIN)
         val thunder = recipe.weather.contains(RitualRecipe.Weather.STORM)
@@ -117,35 +115,13 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             widgets.addTexture(
                 Witchery.id("textures/gui/weather/rain.png"),
                 20 + 11, 4 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
-            )
-                .tooltip(
-                    listOf(
-                        ClientTooltipComponent.create(
-                            FormattedCharSequence.forward(
-                                "Requires Rain",
-                                Style.EMPTY
-                            )
-                        )
-                    )
-                )
-
+            ).tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Requires Rain", Style.EMPTY))))
         }
         if (thunder) {
             widgets.addTexture(
                 Witchery.id("textures/gui/weather/storm.png"),
                 20 - 11, 4 + 20 + 20, 10, 10, 0, 0, 10, 10, 10, 10
-            )
-                .tooltip(
-                    listOf(
-                        ClientTooltipComponent.create(
-                            FormattedCharSequence.forward(
-                                "Requires Storm",
-                                Style.EMPTY
-                            )
-                        )
-                    )
-                )
-
+            ).tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Requires Storm", Style.EMPTY))))
         }
 
         val cat = recipe.requireCat
@@ -153,18 +129,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
             widgets.addTexture(
                 Witchery.id("textures/gui/cat.png"),
                 20, 4 + 20 + 20 - 11, 10, 10, 0, 0, 10, 10, 10, 10
-            )
-                .tooltip(
-                    listOf(
-                        ClientTooltipComponent.create(
-                            FormattedCharSequence.forward(
-                                "Requires Cat Familiar",
-                                Style.EMPTY
-                            )
-                        )
-                    )
-                )
-
+            ).tooltip(listOf(ClientTooltipComponent.create(FormattedCharSequence.forward("Requires Cat Familiar", Style.EMPTY))))
         }
 
         val itemsPerRow = 6
@@ -175,9 +140,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         for (item in recipe.inputItems) {
             val posX = 9 + (colIndex * itemSize)
             val posY = 18 + (rowIndex * itemSize) - 4
-
             widgets.add(WitcherySlotWidget(EmiStack.of(item), posX, posY))
-
             colIndex++
             if (colIndex >= itemsPerRow) {
                 colIndex = 0
@@ -188,52 +151,90 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         val squareX = 18 * 3 - 9
         val squareY = displayHeight - (18 * 6)
         val squareSize = 92
-
         renderRitualCircle(widgets, pattern, blockMapping, squareX, squareY, squareSize)
 
         val colXOffset = displayWidth - itemSize - 9
         rowIndex = 0
-
         for (item in recipe.outputItems) {
             val posY = (rowIndex * itemSize) + displayHeight - (itemsPerRow * itemSize) - 18 - 4
-
             widgets.add(WitcherySlotWidget(EmiStack.of(item), colXOffset, posY).recipeContext(this))
-
             rowIndex++
         }
 
-        val append = if (recipe.isInfinite) "/s" else ""
+        var yOffset = displayHeight / 2 + 6
 
-        widgets.addText(
-            Component.literal("Power"),
-            7,
-            displayHeight / 2 + 6,
-            0xffffff,
-            true
-        )
+        if (recipe.altarPower > 0) {
+            widgets.addText(
+                Component.literal("Initial Cost"),
+                7,
+                yOffset,
+                0xffffff,
+                true
+            )
+            yOffset += 12
 
-        widgets.addText(
-            Component.literal("${recipe.altarPower}$append"),
-            7,
-            displayHeight / 2 + 18,
-            0xffffff,
-            true
-        )
+            widgets.addText(
+                Component.literal("${recipe.altarPower}"),
+                7,
+                yOffset,
+                0xFFD700,
+                true
+            )
+            yOffset += 14
+        }
+
+        if (recipe.altarPowerPerSecond > 0) {
+            widgets.addText(
+                Component.literal("Per Tick"),
+                7,
+                yOffset,
+                0xffffff,
+                true
+            )
+            yOffset += 12
+
+            widgets.addText(
+                Component.literal("${recipe.altarPowerPerSecond}"),
+                7,
+                yOffset,
+                0x87CEEB,
+                true
+            )
+            yOffset += 14
+        }
+
+        if (recipe.altarPower == 0 && recipe.altarPowerPerSecond == 0) {
+            widgets.addText(
+                Component.literal("Power"),
+                7,
+                yOffset,
+                0xffffff,
+                true
+            )
+            yOffset += 12
+
+            widgets.addText(
+                Component.literal("0"),
+                7,
+                yOffset,
+                0xffffff,
+                true
+            )
+            yOffset += 14
+        }
 
         val size = recipe.covenCount
         if (size > 0) {
             widgets.addText(
                 Component.literal("Coven Size: $size"),
                 7,
-                displayHeight / 2 + 18 + 10,
+                yOffset,
                 0xffffff,
                 true
             )
         }
 
-
         if (recipe.inputEntities.isNotEmpty()) {
-
             val minecraft = Minecraft.getInstance()
             val entityX = displayWidth / 2
             val entityY = displayHeight / 2

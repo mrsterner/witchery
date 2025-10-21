@@ -131,7 +131,7 @@ class WitcheryEmiPlugin : EmiPlugin {
             OVEN_COOKING_CATEGORY,
             EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get()))
         )
-
+        registry.addWorkstation(RITUAL_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.RITUAL_CHALK.get())))
         registry.addWorkstation(RITUAL_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.GOLDEN_CHALK.get())))
         registry.addWorkstation(DISTILLING_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.DISTILLERY.get())))
         registry.addWorkstation(SPINNING_CATEGORY, EmiIngredient.of(Ingredient.of(WitcheryItems.SPINNING_WHEEL.get())))

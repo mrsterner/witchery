@@ -18,7 +18,6 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Block
-
 class RitualRecipeBuilder private constructor() : RecipeBuilder {
 
     private var ritual: Ritual = EmptyRitual()
@@ -27,6 +26,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
     private var outputItems: MutableList<ItemStack> = mutableListOf()
     private var outputEntities: MutableList<EntityType<*>> = mutableListOf()
     private var altarPower: Int = 0
+    private var altarPowerPerTick: Int = 0
     private var covenCount: Int = 0
     private var commands: MutableSet<CommandType> = mutableSetOf()
     private var isInfinite: Boolean = false
@@ -100,6 +100,11 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
 
     fun setAltarPower(power: Int): RitualRecipeBuilder {
         this.altarPower = power
+        return this
+    }
+
+    fun setAltarPowerPerTick(power: Int): RitualRecipeBuilder {
+        this.altarPowerPerTick = power
         return this
     }
 
@@ -383,6 +388,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             outputItems = outputItems,
             outputEntities = outputEntities,
             altarPower = altarPower,
+            altarPowerPerSecond = altarPowerPerTick,
             covenCount = covenCount,
             commands = commands,
             isInfinite = isInfinite,

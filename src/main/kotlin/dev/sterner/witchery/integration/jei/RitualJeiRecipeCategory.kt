@@ -94,7 +94,6 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
         mouseX: Double,
         mouseY: Double
     ) {
-
         graphics.drawCenteredString(
             Minecraft.getInstance().font,
             Component.translatable("${recipe.id}"), (width / 2), 2, -1
@@ -109,7 +108,6 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
 
         drawCirclePattern(graphics, pattern, blockMapping, squareX, squareY, squareSize)
 
-        // Draw Celestial Icons
         val celestial = recipe.recipe.celestialConditions
         val all = celestial.isEmpty()
 
@@ -155,7 +153,6 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
                 10,
                 10
             )
-
         }
         if (recipe.recipe.weather.contains(RitualRecipe.Weather.RAIN)) {
             graphics.blit(
@@ -182,22 +179,80 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
             )
         }
 
-        val append = if (recipe.recipe.isInfinite) "/s" else ""
-        graphics.drawCenteredString(Minecraft.getInstance().font, "Power", 24, background.height - 40, 0xffffff)
-        graphics.drawCenteredString(
-            Minecraft.getInstance().font,
-            "${recipe.recipe.altarPower}$append",
-            24,
-            background.height - 30,
-            0xffffff,
-        )
+        var yOffset = background.height - 40
+
+        if (recipe.recipe.altarPower > 0) {
+            graphics.drawCenteredString(
+                Minecraft.getInstance().font,
+                "Initial Cost",
+                24,
+                yOffset,
+                0xffffff
+            )
+            yOffset += 10
+
+            graphics.drawCenteredString(
+                Minecraft.getInstance().font,
+                "${recipe.recipe.altarPower}",
+                24,
+                yOffset,
+                0xFFD700
+            )
+            yOffset += 12
+        }
+
+        if (recipe.recipe.altarPowerPerSecond > 0) {
+            graphics.drawCenteredString(
+                Minecraft.getInstance().font,
+                "Per Tick",
+                24,
+                yOffset,
+                0xffffff
+            )
+            yOffset += 10
+
+            graphics.drawCenteredString(
+                Minecraft.getInstance().font,
+                "${recipe.recipe.altarPowerPerSecond}",
+                24,
+                yOffset,
+                0x87CEEB
+            )
+            yOffset += 12
+        }
+
+        if (recipe.recipe.altarPower == 0 && recipe.recipe.altarPowerPerSecond == 0) {
+            graphics.drawCenteredString(
+                Minecraft.getInstance().font,
+                "Power",
+                24,
+                yOffset,
+                0xffffff
+            )
+            yOffset += 10
+
+            graphics.drawCenteredString(
+                Minecraft.getInstance().font,
+                "0",
+                24,
+                yOffset,
+                0xffffff
+            )
+            yOffset += 12
+        }
+
         val size = recipe.recipe.covenCount
         if (size > 0) {
-            graphics.drawCenteredString(Minecraft.getInstance().font, "Coven Size: $size", 24, background.height - 20, 0xffffff)
+            graphics.drawCenteredString(
+                Minecraft.getInstance().font,
+                "Coven Size: $size",
+                24,
+                yOffset,
+                0xffffff
+            )
         }
 
         if (recipe.recipe.inputEntities.isNotEmpty()) {
-
             val minecraft = Minecraft.getInstance()
             val entityX = background.width / 2
             val entityY = background.height / 2
@@ -241,7 +296,6 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
                     0xFFFFFF
                 )
             }
-
         }
     }
 

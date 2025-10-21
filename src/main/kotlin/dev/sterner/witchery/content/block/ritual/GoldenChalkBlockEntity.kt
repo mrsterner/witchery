@@ -11,7 +11,6 @@ import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.block.AltarPowerConsumer
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.core.registry.WitcheryRitualRegistry
-import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.familiar.FamiliarHandler
 import dev.sterner.witchery.content.item.SeerStoneItem
 import dev.sterner.witchery.content.item.TaglockItem
@@ -135,9 +134,12 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     private fun processActiveRitual(level: Level) {
         ritualTickCounter++
 
-        if (ritualRecipe != null && !consumeAltarPower(level, ritualRecipe!!)) {
-            resetRitual()
-            return
+        if (ritualRecipe != null && ritualRecipe!!.altarPowerPerSecond > 0) {
+            if (!consumeAltarPower(level, ritualRecipe!!)) {
+                Witchery.logDebugRitual("Insufficient altar power per tick, ritual ending")
+                resetRitual()
+                return
+            }
         }
 
         onTickRitual(level)
@@ -157,6 +159,26 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (!hasRitualStarted) {
             level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
 
+            if (ritualRecipe != null && ritualRecipe!!.altarPower > 0) {
+                val attunedStoneBonus = getAttunedStoneBonus(level)
+                val maybeAttunedItem = findAttunedStone(level)
+                val requiredAltarPower = Mth.clamp(ritualRecipe!!.altarPower - attunedStoneBonus, 0, Int.MAX_VALUE)
+
+                if (requiredAltarPower > 0 && cachedAltarPos != null) {
+                    val success = tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
+
+                    if (!success) {
+                        Witchery.logDebugRitual("Failed to consume initial altar power, ritual aborted")
+                        resetRitual()
+                        return
+                    }
+
+                    if (success && maybeAttunedItem.isNotEmpty()) {
+                        maybeAttunedItem[0].item.remove(WitcheryDataComponents.ATTUNED.get())
+                    }
+                }
+            }
+
             val ritualType = ritualRecipe?.ritualType?.id ?: return
             WitcheryRitualRegistry.RITUAL_REGISTRY.get(ritualType)?.onStartRitual(level, blockPos, this)
 
@@ -167,6 +189,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             setChanged()
         }
     }
+
 
     /**
      * Called on each tick of an active ritual
@@ -624,8 +647,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             "Ritual conditions - Valid Circle: $hasValidCircle, " +
                     "Enough Power: $hasEnoughPower : ${recipe.altarPower}, " +
                     "Celestial Condition: $meetsCelestialCondition, " +
-                    "Coven Condition: $hasCovenCount" +
-                    "Cat: $requiresCat" +
+                    "Coven Condition: $hasCovenCount, " +
+                    "Cat: $requiresCat, " +
                     "Weather Condition: $meetsWeatherRequirement"
         )
 
@@ -774,6 +797,10 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      * Consume altar power for an active ritual
      */
     private fun consumeAltarPower(level: Level, recipe: RitualRecipe): Boolean {
+        if (recipe.altarPowerPerSecond <= 0) {
+            return true
+        }
+
         val attunedStoneBonus = getAttunedStoneBonus(level)
         val maybeAttunedItem = findAttunedStone(level)
 
@@ -783,7 +810,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             return false
         }
 
-        val requiredAltarPower = recipe.altarPower - attunedStoneBonus
+        val requiredAltarPower = recipe.altarPowerPerSecond - attunedStoneBonus
 
         if (requiredAltarPower <= 0) {
             return true

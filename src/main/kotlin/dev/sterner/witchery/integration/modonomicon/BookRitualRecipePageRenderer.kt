@@ -72,7 +72,6 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
             this.parentScreen.renderItemStack(guiGraphics, x, y, mouseX, mouseY, item)
         }
 
-
         val squareSize = 92
         renderRitualCircle(
             guiGraphics,
@@ -92,16 +91,42 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
             96, 23,
         )
 
-        val append = if (recipe.isInfinite) "/s" else ""
+        val powerTextY = recipeY + 18 * 6 - 2
 
-        val c = Component.literal("Power: ${recipe.altarPower}$append")
-        val i: Int = Minecraft.getInstance().font.width(c)
+        val leftText = Component.literal("${recipe.altarPower}")
+        val colonText = Component.literal("   ")
+        val rightText = Component.literal("${recipe.altarPowerPerSecond}/s")
+
+        val leftWidth = Minecraft.getInstance().font.width(leftText)
+        val colonWidth = Minecraft.getInstance().font.width(colonText)
+
+        val colonX = recipeX + 36 + 15
+
         guiGraphics.drawStringWithBackdrop(
             Minecraft.getInstance().font,
-            c,
-            recipeX + (c.toString().length) + 8,
-            recipeY + 18 * 6 - 2,
-            i,
+            leftText,
+            colonX - leftWidth - 2,
+            powerTextY,
+            leftWidth,
+            0xffffff
+        )
+
+        guiGraphics.drawStringWithBackdrop(
+            Minecraft.getInstance().font,
+            colonText,
+            colonX,
+            powerTextY,
+            colonWidth,
+            0xffffff
+        )
+
+        val rightWidth = Minecraft.getInstance().font.width(rightText)
+        guiGraphics.drawStringWithBackdrop(
+            Minecraft.getInstance().font,
+            rightText,
+            colonX + colonWidth + 2,
+            powerTextY,
+            rightWidth,
             0xffffff
         )
 
@@ -113,7 +138,6 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         val waning = recipe.celestialConditions.contains(RitualRecipe.Celestial.WANING)
 
         val all = recipe.celestialConditions.isEmpty()
-
 
         val iconSize = 10
         var x = 20
@@ -157,7 +181,6 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
 
         y += 11
 
-
         val showFullMoon = fullMoon || night || all
         blitWithAlpha(
             pose, Witchery.id("textures/gui/celestial/${if (showFullMoon) "full_moon" else "empty"}.png"),
@@ -169,7 +192,6 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
 
         y += 11
 
-
         val showNewMoon = newMoon || night || all
         blitWithAlpha(
             pose, Witchery.id("textures/gui/celestial/${if (showNewMoon) "new_moon" else "empty"}.png"),
@@ -178,7 +200,6 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         if (mouseX in x..(x + iconSize) && mouseY in y..(y + iconSize)) {
             guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("New Moon"), mouseX, mouseY)
         }
-
 
         x = 9
         y = 16
@@ -190,7 +211,6 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         if (mouseX in x..(x + iconSize) && mouseY in y..(y + iconSize)) {
             guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Waxing Moon"), mouseX, mouseY)
         }
-
 
         x = 31
         y = 16
@@ -204,7 +224,6 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         }
 
         if (recipe.inputEntities.isNotEmpty()) {
-
             val minecraft = Minecraft.getInstance()
             val entityX = startX - 60
             val entityY = startY + 50
@@ -238,7 +257,6 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
                     entity
                 )
             }
-
         }
 
         pose.popPose()

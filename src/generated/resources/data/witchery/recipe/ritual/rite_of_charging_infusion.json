@@ -1,6 +1,7 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 40,
+  "altarPower": 4000,
+  "altarPowerPerTick": 40,
   "blockMapping": {
     "G": "witchery:golden_chalk",
     "M": "witchery:otherwhere_chalk",

@@ -6,12 +6,14 @@ import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
 import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.content.recipe.oven.OvenCookingRecipe
 import dev.sterner.witchery.content.recipe.spinning_wheel.SpinningWheelRecipe
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.integration.jei.wrapper.BrazierSummoningJeiRecipe
 import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
 import mezz.jei.api.IModPlugin
 import mezz.jei.api.JeiPlugin
 import mezz.jei.api.recipe.RecipeType
+import mezz.jei.api.registration.IRecipeCatalystRegistration
 import mezz.jei.api.registration.IRecipeCategoryRegistration
 import mezz.jei.api.registration.IRecipeRegistration
 import net.minecraft.client.Minecraft
@@ -85,6 +87,38 @@ class WitcheryJeiPlugin : IModPlugin {
                     .stream().map { it.value }.collect(Collectors.toList())
             )
         }
+    }
+
+    override fun registerRecipeCatalysts(registration: IRecipeCatalystRegistration) {
+
+        registration.addRecipeCatalyst(WitcheryItems.GOLDEN_CHALK.get().defaultInstance, RITUAL)
+        registration.addRecipeCatalyst(WitcheryItems.RITUAL_CHALK.get().defaultInstance, RITUAL)
+
+        registration.addRecipeCatalyst(WitcheryItems.BRAZIER.get().defaultInstance, BRAZIER)
+
+        registration.addRecipeCatalyst(WitcheryItems.CAULDRON.get().defaultInstance, CAULDRON_BREWING, CAULDRON_CRAFTING)
+        registration.addRecipeCatalyst(WitcheryItems.COPPER_CAULDRON.get().defaultInstance, CAULDRON_BREWING, CAULDRON_CRAFTING)
+        registration.addRecipeCatalyst(WitcheryItems.EXPOSED_COPPER_CAULDRON.get().defaultInstance, CAULDRON_BREWING, CAULDRON_CRAFTING)
+        registration.addRecipeCatalyst(WitcheryItems.WEATHERED_COPPER_CAULDRON.get().defaultInstance, CAULDRON_BREWING, CAULDRON_CRAFTING)
+        registration.addRecipeCatalyst(WitcheryItems.OXIDIZED_COPPER_CAULDRON.get().defaultInstance, CAULDRON_BREWING, CAULDRON_CRAFTING)
+        registration.addRecipeCatalyst(WitcheryItems.WAXED_COPPER_CAULDRON.get().defaultInstance, CAULDRON_BREWING, CAULDRON_CRAFTING)
+        registration.addRecipeCatalyst(WitcheryItems.WAXED_EXPOSED_COPPER_CAULDRON.get().defaultInstance, CAULDRON_BREWING, CAULDRON_CRAFTING)
+        registration.addRecipeCatalyst(WitcheryItems.WAXED_WEATHERED_COPPER_CAULDRON.get().defaultInstance, CAULDRON_BREWING, CAULDRON_CRAFTING)
+        registration.addRecipeCatalyst(WitcheryItems.WAXED_OXIDIZED_COPPER_CAULDRON.get().defaultInstance, CAULDRON_BREWING, CAULDRON_CRAFTING)
+
+        registration.addRecipeCatalyst(WitcheryItems.IRON_WITCHES_OVEN.get().defaultInstance, OVEN)
+        registration.addRecipeCatalyst(WitcheryItems.COPPER_WITCHES_OVEN.get().defaultInstance, OVEN)
+        registration.addRecipeCatalyst(WitcheryItems.EXPOSED_COPPER_WITCHES_OVEN.get().defaultInstance, OVEN)
+        registration.addRecipeCatalyst(WitcheryItems.WEATHERED_COPPER_WITCHES_OVEN.get().defaultInstance, OVEN)
+        registration.addRecipeCatalyst(WitcheryItems.OXIDIZED_COPPER_WITCHES_OVEN.get().defaultInstance, OVEN)
+        registration.addRecipeCatalyst(WitcheryItems.WAXED_COPPER_WITCHES_OVEN.get().defaultInstance, OVEN)
+        registration.addRecipeCatalyst(WitcheryItems.WAXED_EXPOSED_COPPER_WITCHES_OVEN.get().defaultInstance, OVEN)
+        registration.addRecipeCatalyst(WitcheryItems.WAXED_WEATHERED_COPPER_WITCHES_OVEN.get().defaultInstance, OVEN)
+        registration.addRecipeCatalyst(WitcheryItems.WAXED_OXIDIZED_COPPER_WITCHES_OVEN.get().defaultInstance, OVEN)
+
+        registration.addRecipeCatalyst(WitcheryItems.DISTILLERY.get().defaultInstance, DISTILLING)
+
+        registration.addRecipeCatalyst(WitcheryItems.SPINNING_WHEEL.get().defaultInstance, SPINNING)
     }
 
     companion object {

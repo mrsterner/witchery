@@ -28,7 +28,7 @@ public abstract class FrogEntityMixin {
     @Inject(method = "push(Lnet/minecraft/world/entity/Entity;)V", at = @At("HEAD"))
     protected void witchery$onPush(Entity entity, CallbackInfo ci) {
         Entity self = Entity.class.cast(this);
-        if (self instanceof Frog frog && entity instanceof LivingEntity living) {
+        if (self instanceof Frog frog && entity instanceof LivingEntity living && !(living instanceof Frog)) {
             RainingToadAttachment.Data data = RainingToadAttachment.getData(frog);
             if (data.isPoisonous()) {
                 living.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * 5, 0));
