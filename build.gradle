@@ -112,9 +112,6 @@ configurations {
 dependencies {
     implementation 'thedarkcolour:kotlinforforge-neoforge:5.10.0'
 
-    compileOnlyApi "team.lodestar.lodestone:lodestone:${property('minecraft_version')}-${property('lodestone_version')}"
-    runtimeOnly "team.lodestar.lodestone:lodestone:${property('minecraft_version')}-${property('lodestone_version')}"
-
     compileOnlyApi"top.theillusivec4.curios:curios-neoforge:${property("curios_version")}"
     runtimeOnly"top.theillusivec4.curios:curios-neoforge:${property("curios_version")}"
 

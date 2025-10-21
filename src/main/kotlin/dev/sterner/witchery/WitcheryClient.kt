@@ -210,7 +210,6 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         LichdomClientSpecificEventHandler.renderHud(event.guiGraphics)
         BarkBeltHandler.renderHud(event.guiGraphics, event.partialTick)
         UrnPotionSelectionHandler.render(event.guiGraphics, event.partialTick)
-        LifebloodHudRenderer.renderHud(event.guiGraphics, event.partialTick)
     }
 
     private fun onTooltipComponentFactories(event: RegisterClientTooltipComponentFactoriesEvent) {
@@ -275,6 +274,15 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerShader(
             ShaderInstance(event.resourceProvider, Witchery.id("ether"), DefaultVertexFormat.NEW_ENTITY)
         ) { WitcheryShaders.ether = it }
+        event.registerShader(
+            ShaderInstance(
+                event.resourceProvider,
+                Witchery.id("lifeblood_wobble"),
+                DefaultVertexFormat.POSITION_TEX
+            )
+        ) { shader ->
+            WitcheryShaders.lifeblood = shader
+        }
     }
 
     fun registerClientExtensions(event: RegisterClientExtensionsEvent) {

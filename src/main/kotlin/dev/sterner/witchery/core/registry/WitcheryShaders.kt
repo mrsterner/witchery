@@ -23,4 +23,7 @@ object WitcheryShaders {
 
     @JvmField
     var ether: ShaderInstance? = null
+
+    @JvmField
+    var lifeblood: ShaderInstance? = null
 }

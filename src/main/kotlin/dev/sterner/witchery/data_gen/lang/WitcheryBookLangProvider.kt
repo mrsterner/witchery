@@ -1551,7 +1551,9 @@ object WitcheryBookLangProvider {
 
 
         add("lichdom.lifeblood.title.1", "Lifeblood Berries")
-        add("lichdom.lifeblood.page.1", "With four Chorus, four Vines of Glowing berries and a soul of a villager. Make the contraption and use a Mutating Spring on the cobweb in its center.")
+        add("lichdom.lifeblood.page.1", "Combine four Chorus, four Vines of Glowing Berries, and the soul of a Villager to build the contraption. Then, use a Mutating Spring on the cobweb at its center.\n" +
+                "\\\n" +
+                "Consumed Lifeblood will regenerate health as long as there are some left to generate from.")
         add("book.witchery.guidebook.lichdom.lifeblood.name", "Lifeblood Berries")
         add("book.witchery.guidebook.lichdom.lifeblood.description", "There is an echo of something hallow...")
     }
