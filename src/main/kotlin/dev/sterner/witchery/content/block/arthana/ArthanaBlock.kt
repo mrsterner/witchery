@@ -35,7 +35,7 @@ class ArthanaBlock(properties: Properties) :
         pHitResult: BlockHitResult
     ): InteractionResult {
         val be = pLevel.getBlockEntity(pPos)
-        if (pPlayer is ServerPlayer && pLevel.mayInteract(pPlayer, pPos) && be is ArthanaBlockEntity) {
+        if (pPlayer is ServerPlayer && be is ArthanaBlockEntity) {
             val arthana = be.arthana.copy()
             pPlayer.setItemInHand(InteractionHand.MAIN_HAND, arthana)
             pLevel.setBlockAndUpdate(pPos, Blocks.AIR.defaultBlockState())

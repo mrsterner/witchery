@@ -79,6 +79,10 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun shouldConsumePower() = true
 
+    private fun isOnAltar(): Boolean {
+        return cachedAltarPos != null && level?.getBlockEntity(cachedAltarPos!!) is AltarBlockEntity
+    }
+
     fun tickPotionEffects(level: Level, pos: BlockPos) {
         val iterator = activeEffects.iterator()
         val currentTime = level.gameTime
@@ -418,6 +422,10 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             PotionDisperserHelper.refreshActiveEffects(this)
         }
 
+        if (!level.isClientSide && level.gameTime % 100 == 0L && cachedAltarPos == null) {
+            findAndCacheAltar(level as? ServerLevel)
+        }
+
         if (level.gameTime % 5 == 0L) {
             spawnClientParticles(level, pos, blockState)
         }
@@ -433,7 +441,7 @@ class CenserBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val litProperty = blockState.properties.find { it.name == "lit" } as? BooleanProperty
 
         if (litProperty != null) {
-            val shouldBeLit = activeEffects.isNotEmpty()
+            val shouldBeLit = activeEffects.isNotEmpty() || isOnAltar()
             val currentlyLit = blockState.getValue(litProperty)
 
             if (currentlyLit != shouldBeLit) {

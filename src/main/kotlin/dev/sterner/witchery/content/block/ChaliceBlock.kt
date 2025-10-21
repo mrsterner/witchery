@@ -50,7 +50,7 @@ class ChaliceBlock(properties: Properties) : Block(properties.noOcclusion()) {
         hand: InteractionHand,
         hitResult: BlockHitResult
     ): ItemInteractionResult {
-        if (level.isClientSide || level.mayInteract(player, pos))
+        if (level.isClientSide)
             return super.useItemOn(stack, state, level, pos, player, hand, hitResult)
 
         if (state.getValue(HAS_SOUP) && stack.`is`(Items.GLASS_BOTTLE)) {

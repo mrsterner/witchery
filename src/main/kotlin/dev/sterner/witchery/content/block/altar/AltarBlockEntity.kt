@@ -137,7 +137,9 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         level.getBlockStatesIfLoaded(augments).forEach { state ->
 
-            if (state.`is`(WitcheryTags.CANDELABRAS) { b -> b.getValue(BlockStateProperties.LIT) } && 2.0 > bestLightAugment) {
+            if (state.`is`(WitcheryBlocks.CENSER.get()) && 2.5 > bestLightAugment) {
+                bestLightAugment = 2.5
+            } else if (state.`is`(WitcheryTags.CANDELABRAS) { b -> b.getValue(BlockStateProperties.LIT) } && 2.0 > bestLightAugment) {
                 bestLightAugment = 2.0
             } else if (state.`is`(Blocks.SOUL_TORCH) && 1.5 > bestLightAugment) {
                 bestLightAugment = 1.5

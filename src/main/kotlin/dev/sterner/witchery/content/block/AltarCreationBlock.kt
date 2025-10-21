@@ -131,7 +131,7 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
         ) {
 
             val sw = level.getBlockState(pos.south().west())
-            val ss = level.getBlockState(pos.south().north())
+            val ss = level.getBlockState(pos.south().south())
             val ssw = level.getBlockState(pos.south().south().west())
             if (isAltar(sw) && isAltar(ss) && isAltar(ssw)) {
                 makeAltar(level, pos.south(), Direction.WEST)
@@ -144,20 +144,21 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
         ) {
 
             val se = level.getBlockState(pos.south().east())
-            val ss = level.getBlockState(pos.south().north())
+            val ss = level.getBlockState(pos.south().south())
             val sse = level.getBlockState(pos.south().south().east())
             if (isAltar(se) && isAltar(ss) && isAltar(sse)) {
                 makeAltar(level, pos.south(), Direction.EAST)
             }
         }
 
-        //Middlehandleing
+        // Middle handling - FIXED: Added missing 6th block check (ee or ww)
         if (list.size == 3 && isAltar(eastBlockState)) {
             val s = level.getBlockState(pos.south())
             val n = level.getBlockState(pos.north())
             val ne = level.getBlockState(pos.north().east())
             val se = level.getBlockState(pos.south().east())
-            if (isAltar(s) && isAltar(n) && isAltar(ne) && isAltar(se)) {
+            val ee = level.getBlockState(pos.east().east())
+            if (isAltar(s) && isAltar(n) && isAltar(ne) && isAltar(se) && isAltar(ee)) {
                 makeAltar(level, pos, Direction.EAST)
             }
         }
@@ -167,7 +168,8 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
             val n = level.getBlockState(pos.north())
             val nw = level.getBlockState(pos.north().west())
             val sw = level.getBlockState(pos.south().west())
-            if (isAltar(s) && isAltar(n) && isAltar(nw) && isAltar(sw)) {
+            val ww = level.getBlockState(pos.west().west())
+            if (isAltar(s) && isAltar(n) && isAltar(nw) && isAltar(sw) && isAltar(ww)) {
                 makeAltar(level, pos, Direction.WEST)
             }
         }
@@ -225,13 +227,15 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
             }
         }
 
+        // Middle handling - FIXED: Added missing 6th block check (ss or nn)
         if (list.size == 3 && isAltar(southBlockState)) {
             val e = level.getBlockState(pos.east())
             val w = level.getBlockState(pos.west())
             val es = level.getBlockState(pos.east().south())
             val ws = level.getBlockState(pos.west().south())
+            val ss = level.getBlockState(pos.south().south())
 
-            if (isAltar(e) && isAltar(w) && isAltar(es) && isAltar(ws)) {
+            if (isAltar(e) && isAltar(w) && isAltar(es) && isAltar(ws) && isAltar(ss)) {
                 makeAltar(level, pos, Direction.SOUTH)
             }
         }
@@ -241,8 +245,9 @@ class AltarCreationBlock(properties: Properties) : Block(properties.noOcclusion(
             val w = level.getBlockState(pos.west())
             val en = level.getBlockState(pos.east().north())
             val wn = level.getBlockState(pos.west().north())
+            val nn = level.getBlockState(pos.north().north())
 
-            if (isAltar(e) && isAltar(w) && isAltar(en) && isAltar(wn)) {
+            if (isAltar(e) && isAltar(w) && isAltar(en) && isAltar(wn) && isAltar(nn)) {
                 makeAltar(level, pos, Direction.NORTH)
             }
         }
