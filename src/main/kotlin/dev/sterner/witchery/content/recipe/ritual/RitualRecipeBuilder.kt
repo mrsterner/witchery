@@ -26,7 +26,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
     private var outputItems: MutableList<ItemStack> = mutableListOf()
     private var outputEntities: MutableList<EntityType<*>> = mutableListOf()
     private var altarPower: Int = 0
-    private var altarPowerPerTick: Int = 0
+    private var altarPowerPerSecond: Int = 0
     private var covenCount: Int = 0
     private var commands: MutableSet<CommandType> = mutableSetOf()
     private var isInfinite: Boolean = false
@@ -103,8 +103,8 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
         return this
     }
 
-    fun setAltarPowerPerTick(power: Int): RitualRecipeBuilder {
-        this.altarPowerPerTick = power
+    fun setAltarPowerPerSecond(power: Int): RitualRecipeBuilder {
+        this.altarPowerPerSecond = power
         return this
     }
 
@@ -388,7 +388,7 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
             outputItems = outputItems,
             outputEntities = outputEntities,
             altarPower = altarPower,
-            altarPowerPerSecond = altarPowerPerTick,
+            altarPowerPerSecond = altarPowerPerSecond,
             covenCount = covenCount,
             commands = commands,
             isInfinite = isInfinite,

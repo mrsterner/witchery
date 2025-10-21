@@ -204,7 +204,7 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
         if (recipe.recipe.altarPowerPerSecond > 0) {
             graphics.drawCenteredString(
                 Minecraft.getInstance().font,
-                "Per Tick",
+                "Per Second",
                 24,
                 yOffset,
                 0xffffff

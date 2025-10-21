@@ -3,6 +3,7 @@ package dev.sterner.witchery.core.api
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
 import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.Level
 
@@ -30,4 +31,11 @@ open class Ritual(val id: ResourceLocation) {
     open fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
 
     }
+
+    open fun saveState(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity, tag: CompoundTag) {}
+
+    open fun loadState(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity, tag: CompoundTag) {}
+
+
+    open fun onLoadRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {}
 }

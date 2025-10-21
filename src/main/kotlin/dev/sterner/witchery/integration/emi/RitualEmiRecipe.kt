@@ -185,7 +185,7 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
 
         if (recipe.altarPowerPerSecond > 0) {
             widgets.addText(
-                Component.literal("Per Tick"),
+                Component.literal("Per Second"),
                 7,
                 yOffset,
                 0xffffff,

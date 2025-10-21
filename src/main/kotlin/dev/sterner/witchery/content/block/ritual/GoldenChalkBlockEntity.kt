@@ -92,7 +92,8 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         CONSUMING_SACRIFICES,
         ACTIVE
     }
-
+    private var pendingRitualTypeId: ResourceLocation? = null
+    private var needsRitualLoad = false
     private var cachedAltarPos: BlockPos? = null
     var targetPlayer: UUID? = null
     var targetEntity: Int? = null
@@ -113,6 +114,29 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      */
     override fun tick(level: Level, pos: BlockPos, blockState: BlockState) {
         super.tick(level, pos, blockState)
+
+        if (pendingRitualTypeId != null && !level.isClientSide) {
+            ritualRecipe = findRitualRecipeByType(pendingRitualTypeId!!)
+
+            if (ritualRecipe != null) {
+                pendingRitualTypeId = null
+
+                if (hasRitualStarted) {
+                    needsRitualLoad = true
+                }
+            }
+        }
+
+        if (needsRitualLoad && !level.isClientSide) {
+            needsRitualLoad = false
+
+            val ritualType = ritualRecipe?.ritualType?.id
+            if (ritualType != null) {
+                WitcheryRitualRegistry.RITUAL_REGISTRY.get(ritualType)?.onLoadRitual(level, pos, this)
+            } else {
+                resetRitual()
+            }
+        }
 
         if (level.isClientSide || currentState == RitualState.IDLE) {
             return
@@ -135,10 +159,12 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         ritualTickCounter++
 
         if (ritualRecipe != null && ritualRecipe!!.altarPowerPerSecond > 0) {
-            if (!consumeAltarPower(level, ritualRecipe!!)) {
-                Witchery.logDebugRitual("Insufficient altar power per tick, ritual ending")
-                resetRitual()
-                return
+            if (ritualTickCounter % 20 == 0) {
+                if (!consumeAltarPower(level, ritualRecipe!!)) {
+                    Witchery.logDebugRitual("Insufficient altar power per second, ritual ending")
+                    resetRitual()
+                    return
+                }
             }
         }
 
@@ -801,27 +827,14 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             return true
         }
 
-        val attunedStoneBonus = getAttunedStoneBonus(level)
-        val maybeAttunedItem = findAttunedStone(level)
-
         if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
             cachedAltarPos = null
             setChanged()
             return false
         }
 
-        val requiredAltarPower = recipe.altarPowerPerSecond - attunedStoneBonus
-
-        if (requiredAltarPower <= 0) {
-            return true
-        }
-
         val success = cachedAltarPos != null &&
-                tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
-
-        if (success && maybeAttunedItem.isNotEmpty()) {
-            maybeAttunedItem[0].item.remove(WitcheryDataComponents.ATTUNED.get())
-        }
+                tryConsumeAltarPower(level, cachedAltarPos!!, recipe.altarPowerPerSecond, false)
 
         return success
     }
@@ -846,7 +859,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     it.item.get(WitcheryDataComponents.ATTUNED.get()) == true
         }
     }
-
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
         super.loadAdditional(pTag, pRegistries)
@@ -875,10 +887,21 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         if (pTag.contains(TAG_RITUAL_ID)) {
             val ritualTypeId = ResourceLocation.parse(pTag.getString(TAG_RITUAL_ID))
+            pendingRitualTypeId = ritualTypeId
+
             ritualRecipe = findRitualRecipeByType(ritualTypeId)
 
-            if (ritualRecipe == null) {
-                Witchery.logDebugRitual("Failed to find ritual recipe with type: $ritualTypeId")
+            if (ritualRecipe != null) {
+                pendingRitualTypeId = null
+
+                if (pTag.contains(TAG_RITUAL_STATE) && level != null) {
+                    val ritualStateTag = pTag.getCompound(TAG_RITUAL_STATE)
+                    WitcheryRitualRegistry.RITUAL_REGISTRY.get(ritualTypeId)?.loadState(level!!, blockPos, this, ritualStateTag)
+                }
+
+                if (hasRitualStarted) {
+                    needsRitualLoad = true
+                }
             }
         }
 
@@ -931,10 +954,12 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val dimensionTag = tag[TAG_DIMENSION] ?: return Optional.empty()
         return Level.RESOURCE_KEY_CODEC.parse(NbtOps.INSTANCE, dimensionTag).result()
     }
+    private val TAG_RITUAL_STATE = "ritualState"
 
     /**
      * Save NBT data
      */
+
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         super.saveAdditional(tag, registries)
         ContainerHelper.saveAllItems(tag, this.items, registries)
@@ -952,7 +977,17 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (ritualRecipe != null) {
-            tag.putString(TAG_RITUAL_ID, ritualRecipe!!.ritualType?.id.toString())
+            val ritualTypeId = ritualRecipe!!.ritualType?.id.toString()
+            tag.putString(TAG_RITUAL_ID, ritualTypeId)
+
+            val ritualType = ritualRecipe!!.ritualType?.id
+            if (ritualType != null && level != null) {
+                val ritualStateTag = CompoundTag()
+                WitcheryRitualRegistry.RITUAL_REGISTRY.get(ritualType)?.saveState(level!!, blockPos, this, ritualStateTag)
+                if (!ritualStateTag.isEmpty) {
+                    tag.put(TAG_RITUAL_STATE, ritualStateTag)
+                }
+            }
         }
 
         ownerName?.let { tag.putString(TAG_OWNER_NAME, it) }
