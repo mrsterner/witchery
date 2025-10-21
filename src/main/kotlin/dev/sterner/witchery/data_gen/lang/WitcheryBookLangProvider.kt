@@ -1320,13 +1320,16 @@ object WitcheryBookLangProvider {
         add("book.witchery.guidebook.category.tarot", "Tarot")
 
 // Tarot Reading Entry
+        add("book.witchery.guidebook.tarot.name", "Tarot")
         add("book.witchery.guidebook.tarot.tarot_reading.name", "Tarot Reading")
         add("book.witchery.guidebook.tarot.tarot_reading.description", "Divine your fortune with the cards")
         add("tarot.tarot_reading.title.1", "Tarot Reading")
         add("tarot.tarot_reading.page.1",
             "Right-click a Crystal Ball with a Tarot Deck to perform a reading. Three cards will be drawn, revealing your fortune for the next three days. Each card brings powerful effects—both beneficial and perilous. A Crystal Ball reduces the chance of reversed cards appearing.")
 
-// 0. The Fool
+
+
+        // 0. The Fool
         add("book.witchery.guidebook.tarot.the_fool.name", "The Fool")
         add("book.witchery.guidebook.tarot.the_fool.description", "New beginnings and reckless abandon")
         add("tarot.the_fool.upright.title", "The Fool - Upright")
@@ -1336,7 +1339,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_fool.reversed.text",
             "Recklessness brings misfortune. You stumble and fall randomly, taking unexpected damage. Each step forward risks a painful tumble.")
 
-// 1. The Magician
+        // 1. The Magician
         add("book.witchery.guidebook.tarot.the_magician.name", "The Magician")
         add("book.witchery.guidebook.tarot.the_magician.description", "Mastery over the arcane arts")
         add("tarot.the_magician.upright.title", "The Magician - Upright")
@@ -1346,7 +1349,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_magician.reversed.text",
             "Magic turns against you. Nearby altars drain each morning, their power scattered to the winds as your control falters.")
 
-// 2. The High Priestess
+        // 2. The High Priestess
         add("book.witchery.guidebook.tarot.the_high_priestess.name", "The High Priestess")
         add("book.witchery.guidebook.tarot.the_high_priestess.description", "Intuition and hidden knowledge")
         add("tarot.the_high_priestess.upright.title", "The High Priestess - Upright")
@@ -1356,7 +1359,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_high_priestess.reversed.text",
             "Secrets remain forever hidden. The mysteries of the world turn away from your gaze, leaving you blind to hidden knowledge.")
 
-// 3. The Empress
+        // 3. The Empress
         add("book.witchery.guidebook.tarot.the_empress.name", "The Empress")
         add("book.witchery.guidebook.tarot.the_empress.description", "Abundance and fertility")
         add("tarot.the_empress.upright.title", "The Empress - Upright")
@@ -1366,7 +1369,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_empress.reversed.text",
             "The harvest fails. Crops wither before they can be gathered, yielding nothing. Nature withholds its gifts from unworthy hands.")
 
-// 4. The Emperor
+        // 4. The Emperor
         add("book.witchery.guidebook.tarot.the_emperor.name", "The Emperor")
         add("book.witchery.guidebook.tarot.the_emperor.description", "Authority and control")
         add("tarot.the_emperor.upright.title", "The Emperor - Upright")
@@ -1376,7 +1379,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_emperor.reversed.text",
             "Authority crumbles. Each dawn strips away hard-earned experience as your power diminishes. Control slips through your fingers.")
 
-// 5. The Hierophant
+        // 5. The Hierophant
         add("book.witchery.guidebook.tarot.the_hierophant.name", "The Hierophant")
         add("book.witchery.guidebook.tarot.the_hierophant.description", "Tradition and divine blessing")
         add("tarot.the_hierophant.upright.title", "The Hierophant - Upright")
@@ -1386,7 +1389,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_hierophant.reversed.text",
             "Healing forsakes you. Each dawn brings pain as divine favor withdraws. The gods turn their backs on the faithless.")
 
-// 6. The Lovers
+        // 6. The Lovers
         add("book.witchery.guidebook.tarot.the_lovers.name", "The Lovers")
         add("book.witchery.guidebook.tarot.the_lovers.description", "Harmony and relationships")
         add("tarot.the_lovers.upright.title", "The Lovers - Upright")
@@ -1396,7 +1399,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_lovers.reversed.text",
             "Love corrupts into violence. Passive animals turn hostile, attacking each other and you. Harmony shatters into chaos.")
 
-// 7. The Chariot
+        // 7. The Chariot
         add("book.witchery.guidebook.tarot.the_chariot.name", "The Chariot")
         add("book.witchery.guidebook.tarot.the_chariot.description", "Victory through willpower")
         add("tarot.the_chariot.upright.title", "The Chariot - Upright")
@@ -1406,7 +1409,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_chariot.reversed.text",
             "Your path is blocked at every turn. Movement slows to a crawl as if wading through deep mud. Progress becomes torment.")
 
-// 8. Strength
+        // 8. Strength
         add("book.witchery.guidebook.tarot.strength.name", "Strength")
         add("book.witchery.guidebook.tarot.strength.description", "Inner fortitude and power")
         add("tarot.strength.upright.title", "Strength - Upright")
@@ -1416,7 +1419,7 @@ object WitcheryBookLangProvider {
         add("tarot.strength.reversed.text",
             "Weakness pervades your limbs. Strikes barely register as your power fades. The strong become feeble.")
 
-// 9. The Hermit
+        // 9. The Hermit
         add("book.witchery.guidebook.tarot.the_hermit.name", "The Hermit")
         add("book.witchery.guidebook.tarot.the_hermit.description", "Solitude and wisdom")
         add("tarot.the_hermit.upright.title", "The Hermit - Upright")
@@ -1426,7 +1429,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_hermit.reversed.text",
             "Loneliness becomes madness. Isolation drains life force slowly. The hermit's wisdom turns to torment.")
 
-// 10. Wheel of Fortune
+        // 10. Wheel of Fortune
         add("book.witchery.guidebook.tarot.wheel_of_fortune.name", "Wheel of Fortune")
         add("book.witchery.guidebook.tarot.wheel_of_fortune.description", "Fate and chance")
         add("tarot.wheel_of_fortune.upright.title", "Wheel of Fortune - Upright")
@@ -1436,7 +1439,7 @@ object WitcheryBookLangProvider {
         add("tarot.wheel_of_fortune.reversed.text",
             "Misfortune follows your every step. Bad luck pervades all actions. The wheel turns against you mercilessly.")
 
-// 11. Justice
+        // 11. Justice
         add("book.witchery.guidebook.tarot.justice.name", "Justice")
         add("book.witchery.guidebook.tarot.justice.description", "Balance and karmic retribution")
         add("tarot.justice.upright.title", "Justice - Upright")
@@ -1446,7 +1449,7 @@ object WitcheryBookLangProvider {
         add("tarot.justice.reversed.text",
             "Injustice prevails. Your own violence rebounds, dealing increased damage. The scales tip against you.")
 
-// 12. The Hanged Man
+        // 12. The Hanged Man
         add("book.witchery.guidebook.tarot.the_hanged_man.name", "The Hanged Man")
         add("book.witchery.guidebook.tarot.the_hanged_man.description", "Sacrifice and suspension")
         add("tarot.the_hanged_man.upright.title", "The Hanged Man - Upright")
@@ -1456,7 +1459,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_hanged_man.reversed.text",
             "You cannot let go. Items refuse to leave your grasp—dropping becomes impossible. Attachment binds you completely.")
 
-// 13. Death
+        // 13. Death
         add("book.witchery.guidebook.tarot.death.name", "Death")
         add("book.witchery.guidebook.tarot.death.description", "Transformation and endings")
         add("tarot.death.upright.title", "Death - Upright")
@@ -1466,7 +1469,7 @@ object WitcheryBookLangProvider {
         add("tarot.death.reversed.text",
             "Stagnation and decay consume you. Hunger drains constantly, and at nightfall, Death itself may manifest to claim your soul. This card expires upon summoning.")
 
-// 14. Temperance
+        // 14. Temperance
         add("book.witchery.guidebook.tarot.temperance.name", "Temperance")
         add("book.witchery.guidebook.tarot.temperance.description", "Balance and moderation")
         add("tarot.temperance.upright.title", "Temperance - Upright")
@@ -1476,7 +1479,7 @@ object WitcheryBookLangProvider {
         add("tarot.temperance.reversed.text",
             "Excess and imbalance reign. Effects feel unstable and unpredictable. Moderation fails.")
 
-// 15. The Devil
+        // 15. The Devil
         add("book.witchery.guidebook.tarot.the_devil.name", "The Devil")
         add("book.witchery.guidebook.tarot.the_devil.description", "Bondage and temptation")
         add("tarot.the_devil.upright.title", "The Devil - Upright")
@@ -1486,7 +1489,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_devil.reversed.text",
             "Breaking free from chains. Harmful effects are periodically cleansed, but experience drains with each purge. Freedom costs dearly.")
 
-// 16. The Tower
+        // 16. The Tower
         add("book.witchery.guidebook.tarot.the_tower.name", "The Tower")
         add("book.witchery.guidebook.tarot.the_tower.description", "Sudden upheaval")
         add("tarot.the_tower.upright.title", "The Tower - Upright")
@@ -1496,7 +1499,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_tower.reversed.text",
             "Fear of change paralyzes. Upheaval never comes, but neither does growth. Stagnation festers.")
 
-// 17. The Star
+        // 17. The Star
         add("book.witchery.guidebook.tarot.the_star.name", "The Star")
         add("book.witchery.guidebook.tarot.the_star.description", "Hope and guidance")
         add("tarot.the_star.upright.title", "The Star - Upright")
@@ -1506,7 +1509,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_star.reversed.text",
             "Hope fades to despair. Health slowly drains as the light dims. Stars fall from the sky.")
 
-// 18. The Moon
+        // 18. The Moon
         add("book.witchery.guidebook.tarot.the_moon.name", "The Moon")
         add("book.witchery.guidebook.tarot.the_moon.description", "Illusion and the subconscious")
         add("tarot.the_moon.upright.title", "The Moon - Upright")
@@ -1516,7 +1519,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_moon.reversed.text",
             "Illusions cloud your mind. Constant confusion distorts reality. The moon drives its victims mad.")
 
-// 19. The Sun
+        // 19. The Sun
         add("book.witchery.guidebook.tarot.the_sun.name", "The Sun")
         add("book.witchery.guidebook.tarot.the_sun.description", "Vitality and success")
         add("tarot.the_sun.upright.title", "The Sun - Upright")
@@ -1526,7 +1529,7 @@ object WitcheryBookLangProvider {
         add("tarot.the_sun.reversed.text",
             "The sun scorches mercilessly. Daylight burns exposed flesh, setting you aflame under open sky. Shadows become sanctuary.")
 
-// 20. Judgement
+        // 20. Judgement
         add("book.witchery.guidebook.tarot.judgement.name", "Judgement")
         add("book.witchery.guidebook.tarot.judgement.description", "Rebirth and reckoning")
         add("tarot.judgement.upright.title", "Judgement - Upright")
@@ -1536,7 +1539,7 @@ object WitcheryBookLangProvider {
         add("tarot.judgement.reversed.text",
             "Past sins haunt you. Each kill inflicts damage upon yourself. Blood guilt weighs heavy on the damned.")
 
-// 21. The World
+        // 21. The World
         add("book.witchery.guidebook.tarot.the_world.name", "The World")
         add("book.witchery.guidebook.tarot.the_world.description", "Completion and wholeness")
         add("tarot.the_world.upright.title", "The World - Upright")
@@ -1545,5 +1548,11 @@ object WitcheryBookLangProvider {
         add("tarot.the_world.reversed.title", "The World - Reversed")
         add("tarot.the_world.reversed.text",
             "Scattered and incomplete. Random debuffs periodically afflict you as harmony fractures. Wholeness eludes your grasp.")
+
+
+        add("lichdom.lifeblood.title.1", "Lifeblood Berries")
+        add("lichdom.lifeblood.page.1", "With four Chorus, four Vines of Glowing berries and a soul of a villager. Make the contraption and use a Mutating Spring on the cobweb in its center.")
+        add("book.witchery.guidebook.lichdom.lifeblood.name", "Lifeblood Berries")
+        add("book.witchery.guidebook.lichdom.lifeblood.description", "There is an echo of something hallow...")
     }
 }

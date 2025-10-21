@@ -14,6 +14,7 @@ import dev.sterner.witchery.data_gen.book.entry.necro.NecroLevelTwoEntryProvider
 import dev.sterner.witchery.data_gen.book.util.advancement
 import dev.sterner.witchery.data_gen.book.util.requiresAndFollows
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.data_gen.book.entry.LifebloodEntryProvider
 
 
 class WitcheryLichdomCategoryProvider(
@@ -35,7 +36,7 @@ class WitcheryLichdomCategoryProvider(
             "__________________________________",
             "_____________a_b_c_d______________",
             "__________________________________",
-            "__________________________________",
+            "_______________f__________________",
             "__________________________________",
             "__________________________________",
             "__________________________________",
@@ -67,6 +68,10 @@ class WitcheryLichdomCategoryProvider(
         val necro2 = NecroLevelTwoEntryProvider("carving_1", this).generate("b")
             .requiresAndFollows(necro1, advancement(Witchery.id("necro/2")))
         addEntry(necro2)
+
+        val lifeblood = LifebloodEntryProvider(this).generate("f")
+            .requiresAndFollows(necro2, advancement(Witchery.id("necro/2")))
+        addEntry(lifeblood)
 
         val necro3 = NecroLevelTwoEntryProvider("carving_2", this).generate("c")
             .requiresAndFollows(necro2, advancement(Witchery.id("necro/3")))

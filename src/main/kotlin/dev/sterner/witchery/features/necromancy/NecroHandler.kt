@@ -206,6 +206,7 @@ object NecroHandler {
 
     fun summonNecroAroundPos(level: ServerLevel, summoner: Player, center: BlockPos, radius: Int) {
         val list = collectNecroLists(level, center, radius)
+
         if (list.isEmpty()) return
 
         val lichLevel = AfflictionPlayerAttachment.getData(summoner).getLevel(AfflictionTypes.LICHDOM)

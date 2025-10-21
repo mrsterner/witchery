@@ -9,6 +9,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_gen.book.util.EntryProviders
 import dev.sterner.witchery.data_gen.book.util.requiresAndFollows
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.data_gen.book.util.advancement
 
 class WitcheryTarotCategoryProvider(
     parent: ModonomiconProviderBase?
@@ -48,6 +49,7 @@ class WitcheryTarotCategoryProvider(
 
         val tarotReading = EntryProviders.singleItem(this, "tarot_reading", WitcheryItems.TAROT_DECK.get())
             .generate("a")
+            .withCondition(advancement(Witchery.id("tarot")))
         addEntry(tarotReading)
 
         // Major Arcana

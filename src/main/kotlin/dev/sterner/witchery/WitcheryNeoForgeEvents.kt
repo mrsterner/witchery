@@ -58,6 +58,8 @@ import dev.sterner.witchery.features.coven.CovenDialogue
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.misc.DreamWeaverHandler
 import dev.sterner.witchery.features.ent.EntSpawningHandler
+import dev.sterner.witchery.features.lifeblood.LifebloodHandler
+import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
 import dev.sterner.witchery.features.misc.EquipmentHandler
 import dev.sterner.witchery.features.misc.LecternHandler
 import dev.sterner.witchery.features.spirit_world.ManifestationHandler
@@ -244,6 +246,10 @@ object WitcheryNeoForgeEvents {
             damage = CurseOfFragility.modifyDamage(entity, damage)
         }
 
+        if (damage > 0f && entity is Player) {
+            damage = LifebloodHandler.handleDamage(entity, damageSource, damage)
+        }
+
         event.amount = damage
     }
 
@@ -280,6 +286,10 @@ object WitcheryNeoForgeEvents {
         TransformationHandler.tickWolf(event.entity)
         LichdomSpecificEventHandler.tick(event.entity)
         UnderWaterBreathPlayerAttachment.tick(event.entity)
+        val player = event.entity
+        if (!player.level().isClientSide) {
+            LifebloodHandler.tick(player)
+        }
     }
 
     @SubscribeEvent
@@ -302,6 +312,7 @@ object WitcheryNeoForgeEvents {
         PhylacteryBlockEntity.onPlayerLoad(event.entity)
         BrewOfSleepingItem.respawnPlayer(event.entity)
         CovenPlayerAttachment.setData(event.entity, CovenPlayerAttachment.getData(event.original))
+        LifebloodPlayerAttachment.setData(event.entity, LifebloodPlayerAttachment.getData(event.original))
 
         if (event.entity is ServerPlayer) {
             val serverPlayer = event.entity as ServerPlayer
@@ -345,6 +356,7 @@ object WitcheryNeoForgeEvents {
             }
 
             InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.entity))
+            LifebloodPlayerAttachment.setData(event.entity, LifebloodPlayerAttachment.getData(event.entity))
         }
         val player = event.entity
         if (player is ServerPlayer) {
@@ -430,6 +442,7 @@ object WitcheryNeoForgeEvents {
             BloodPoolLivingEntityAttachment.sync(serverPlayer, BloodPoolLivingEntityAttachment.getData(serverPlayer))
             TransformationPlayerAttachment.sync(serverPlayer, TransformationPlayerAttachment.getData(serverPlayer))
             InfusionPlayerAttachment.sync(serverPlayer, InfusionPlayerAttachment.getData(serverPlayer))
+            LifebloodPlayerAttachment.sync(serverPlayer, LifebloodPlayerAttachment.getData(serverPlayer))
             PhylacteryBlockEntity.onPlayerLoad(serverPlayer)
         }
     }

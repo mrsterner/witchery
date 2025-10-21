@@ -794,24 +794,26 @@ object WitcheryBlocks {
         )
     }
 
-    val LIFE_BLOOD: DeferredHolder<Block, out LifeBloodBlock> = register("life_blood") {
+    val LIFE_BLOOD: DeferredHolder<Block, out LifeBloodBlock> = register("lifeblood") {
         LifeBloodBlock(
             Properties.of()
                 .mapColor(MapColor.PLANT)
                 .noCollission()
                 .randomTicks()
                 .lightLevel(CaveVines.emission(14))
+                .noOcclusion()
                 .sound(SoundType.CAVE_VINES)
                 .pushReaction(PushReaction.DESTROY)
         )
     }
 
-    val LIFE_BLOOD_PLANT: DeferredHolder<Block, out LifeBloodPlantBlock> = register("life_blood_plant") {
+    val LIFE_BLOOD_PLANT: DeferredHolder<Block, out LifeBloodPlantBlock> = register("lifeblood_plant") {
         LifeBloodPlantBlock(
             Properties.of()
                 .mapColor(MapColor.PLANT)
                 .noCollission()
                 .randomTicks()
+                .noOcclusion()
                 .lightLevel(CaveVines.emission(14))
                 .sound(SoundType.CAVE_VINES)
                 .pushReaction(PushReaction.DESTROY)

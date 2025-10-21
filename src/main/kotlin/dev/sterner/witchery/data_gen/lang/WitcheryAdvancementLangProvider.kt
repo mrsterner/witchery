@@ -21,5 +21,7 @@ object WitcheryAdvancementLangProvider {
         add("advancements.witchery.spirit_world.description", "I have a dream")
         add("advancements.witchery.disturbed.title", "The Disturbed")
         add("advancements.witchery.disturbed.description", "Easy, just don't have a nightmare")
+        add("advancements.witchery.tarot.title", "The Future")
+        add("advancements.witchery.tarot.description", "The Future")
     }
 }

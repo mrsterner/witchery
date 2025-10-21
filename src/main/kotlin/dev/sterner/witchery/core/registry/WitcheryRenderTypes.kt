@@ -136,6 +136,26 @@ object WitcheryRenderTypes {
         )
     }
 
+    val LIFE = Util.memoize { resourceLocation: ResourceLocation ->
+        val compositeState: RenderType.CompositeState? =
+            RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_EYES_SHADER)
+                .setTextureState(TextureStateShard(resourceLocation, false, true))
+                .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                .setCullState(CULL)
+                .setWriteMaskState(COLOR_WRITE)
+                .createCompositeState(true)
+        create(
+            Witchery.MODID + "life",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            262144,
+            true,
+            false,
+            compositeState!!
+        )
+    }
+
     val GLINT = Util.memoize { resourceLocation: ResourceLocation ->
         val compositeState: RenderType.CompositeState? =
             RenderType.CompositeState.builder()

@@ -1,8 +1,8 @@
 package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.content.block.LifebloodVineBlock
 import dev.sterner.witchery.content.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.content.block.grassper.GrassperBlockEntity
+import dev.sterner.witchery.content.block.life_blood.LifeBloodBlock
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
@@ -21,6 +21,7 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.CaveVinesPlantBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
@@ -179,18 +180,41 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             EtherealEntityAttachment.getData(it).isEthereal
         }
 
-        if (hasVillager.isEmpty() && hasGuard.isEmpty()) return
+        val hasZombieVill = level.getEntities(
+            EntityType.ZOMBIE_VILLAGER,
+            AABB.ofSize(pos.center, 1.0, 1.0, 1.0)
+        ) {
+            EtherealEntityAttachment.getData(it).isEthereal
+        }
 
-        val soulEntity = if (hasVillager.isNotEmpty()) hasVillager[0] else hasGuard[0]
+        if (hasVillager.isEmpty() && hasGuard.isEmpty() && hasZombieVill.isEmpty()) return
 
-        val hasCaveVines = checkCardinal(level, pos, Blocks.CAVE_VINES)
+        val soulEntity = if (hasVillager.isNotEmpty()) hasVillager[0] else if(hasZombieVill.isNotEmpty()) hasZombieVill[0] else hasGuard[0]
+
+        val ne = pos.north().east().below()
+        val nw = pos.north().west().below()
+        val se = pos.south().east().below()
+        val sw = pos.south().west().below()
+
+
+        val hasCaveVines =
+            (level.getBlockState(ne).`is`(Blocks.CAVE_VINES) || level.getBlockState(ne).`is`(Blocks.CAVE_VINES_PLANT)) &&
+            (level.getBlockState(nw).`is`(Blocks.CAVE_VINES) || level.getBlockState(nw).`is`(Blocks.CAVE_VINES_PLANT)) &&
+            (level.getBlockState(se).`is`(Blocks.CAVE_VINES) || level.getBlockState(se).`is`(Blocks.CAVE_VINES_PLANT)) &&
+            (level.getBlockState(sw).`is`(Blocks.CAVE_VINES) || level.getBlockState(sw).`is`(Blocks.CAVE_VINES_PLANT))
+
         if (!hasCaveVines) return
 
+        val nea = pos.north().east().above()
+        val nwa = pos.north().west().above()
+        val sea = pos.south().east().above()
+        val swa = pos.south().west().above()
+
         val hasChorusPlants =
-            level.getBlockState(pos.north().east()).`is`(Blocks.CHORUS_PLANT) &&
-                    level.getBlockState(pos.north().west()).`is`(Blocks.CHORUS_PLANT) &&
-                    level.getBlockState(pos.south().east()).`is`(Blocks.CHORUS_PLANT) &&
-                    level.getBlockState(pos.south().west()).`is`(Blocks.CHORUS_PLANT)
+            (level.getBlockState(nea).`is`(Blocks.CHORUS_PLANT) || level.getBlockState(nea).`is`(Blocks.CHORUS_FLOWER)) &&
+            (level.getBlockState(nwa).`is`(Blocks.CHORUS_PLANT) || level.getBlockState(nea).`is`(Blocks.CHORUS_FLOWER)) &&
+            (level.getBlockState(sea).`is`(Blocks.CHORUS_PLANT) || level.getBlockState(nea).`is`(Blocks.CHORUS_FLOWER)) &&
+            (level.getBlockState(swa).`is`(Blocks.CHORUS_PLANT) || level.getBlockState(nea).`is`(Blocks.CHORUS_FLOWER))
 
         if (!hasChorusPlants) return
 
@@ -198,22 +222,22 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             soulEntity.discard()
 
             listOf(
-                pos.north(),
-                pos.south(),
-                pos.east(),
-                pos.west()
+                pos.north().east().below(),
+                pos.north().west().below(),
+                pos.south().east().below(),
+                pos.south().west().below()
             ).forEach { vinePos ->
                 level.setBlockAndUpdate(
                     vinePos,
                     WitcheryBlocks.LIFE_BLOOD.get().defaultBlockState()
-                        .setValue(LifebloodVineBlock.BERRIES, 0)
+                        .setValue(CaveVinesPlantBlock.BERRIES, true)
                 )
             }
 
-            level.setBlockAndUpdate(pos.north().east(), Blocks.AIR.defaultBlockState())
-            level.setBlockAndUpdate(pos.north().west(), Blocks.AIR.defaultBlockState())
-            level.setBlockAndUpdate(pos.south().east(), Blocks.AIR.defaultBlockState())
-            level.setBlockAndUpdate(pos.south().west(), Blocks.AIR.defaultBlockState())
+            level.setBlockAndUpdate(pos.north().east().above(), Blocks.AIR.defaultBlockState())
+            level.setBlockAndUpdate(pos.north().west().above(), Blocks.AIR.defaultBlockState())
+            level.setBlockAndUpdate(pos.south().east().above(), Blocks.AIR.defaultBlockState())
+            level.setBlockAndUpdate(pos.south().west().above(), Blocks.AIR.defaultBlockState())
 
             spawnLifebloodTransformationParticles(level, pos)
 

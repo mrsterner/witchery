@@ -45,6 +45,7 @@ class WitcheryAdvancementProvider(
             necromantic.parent(ritual).save(consumer, "witchery:necromantic")
             val spirit = spiritWorld.parent(root).save(consumer, "witchery:spirit_world")
             disturbed.parent(spirit).save(consumer, "witchery:disturbed")
+            tarotAdvancement.parent(root).save(consumer, "witchery:tarot")
 
             // Example for repetitive advancements
             val vamp1 = makeVampTornPageAdvancement("1", null, consumer)
@@ -112,6 +113,23 @@ class WitcheryAdvancementProvider(
             .addCriterion(
                 "has_water_artichoke",
                 InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.WATER_ARTICHOKE_SEEDS.get())
+            )
+
+        val tarotAdvancement = Advancement.Builder.advancement()
+            .display(
+                WitcheryItems.TAROT_DECK.get(),
+                Component.translatable("advancements.witchery.tarot.title"),
+                Component.translatable("advancements.witchery.tarot.description"),
+                Witchery.id("textures/block/rowan_planks.png"),
+                AdvancementType.TASK,
+                true,
+                false,
+                false
+            )
+            .requirements(AdvancementRequirements.Strategy.AND)
+            .addCriterion(
+                "has_tarot",
+                InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.TAROT_DECK.get())
             )
 
 

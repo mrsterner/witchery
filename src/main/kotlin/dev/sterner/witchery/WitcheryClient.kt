@@ -2,6 +2,7 @@ package dev.sterner.witchery
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
+import dev.sterner.witchery.client.LifebloodHudRenderer
 import dev.sterner.witchery.client.tooltip.BloodPoolComponent
 import dev.sterner.witchery.client.OreHighlightRenderer
 import dev.sterner.witchery.client.TabletGazeTracker
@@ -209,6 +210,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         LichdomClientSpecificEventHandler.renderHud(event.guiGraphics)
         BarkBeltHandler.renderHud(event.guiGraphics, event.partialTick)
         UrnPotionSelectionHandler.render(event.guiGraphics, event.partialTick)
+        LifebloodHudRenderer.renderHud(event.guiGraphics, event.partialTick)
     }
 
     private fun onTooltipComponentFactories(event: RegisterClientTooltipComponentFactoriesEvent) {

@@ -18,6 +18,7 @@ import dev.sterner.witchery.features.misc.BindingRitualAttachment
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.misc.DeathQueueLevelAttachment
 import dev.sterner.witchery.features.ent.EntSpawnLevelAttachment
+import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
 import dev.sterner.witchery.features.misc.InventoryLockPlayerAttachment
 import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment
@@ -130,6 +131,17 @@ object WitcheryDataAttachments {
         Supplier {
             AttachmentType.builder(Supplier { EtherealEntityAttachment.Data() })
                 .serialize(EtherealEntityAttachment.Data.CODEC)
+                .copyOnDeath()
+                .build()
+        }
+    )
+
+    @JvmStatic
+    val LIFEBLOOD_ATTACHMENT: Supplier<AttachmentType<LifebloodPlayerAttachment.Data>> = ATTACHMENT_TYPES.register(
+        "life_blood",
+        Supplier {
+            AttachmentType.builder(Supplier { LifebloodPlayerAttachment.Data() })
+                .serialize(LifebloodPlayerAttachment.Data.CODEC)
                 .copyOnDeath()
                 .build()
         }
