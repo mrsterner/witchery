@@ -16,6 +16,7 @@ import dev.sterner.witchery.content.item.brew.*
 import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.core.util.BoatTypeHelper
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.food.Foods
 import net.minecraft.world.item.*
 import net.neoforged.neoforge.common.DeferredSpawnEggItem
@@ -161,6 +162,22 @@ object WitcheryItems {
 
     val MUTANDIS_EXTREMIS = register("mutandis_extremis") {
         MutandisItem(Item.Properties())
+    }
+
+    val LIFEBLOOD_BERRY: DeferredHolder<Item, LifebloodBerryItem> = register(
+        "lifeblood_berry",
+        true
+    ) {
+        LifebloodBerryItem(
+            Item.Properties()
+                .food(
+                    FoodProperties.Builder()
+                        .nutrition(2)
+                        .saturationModifier(0.4f)
+                        .alwaysEdible()
+                        .build()
+                )
+        )
     }
 
     val MANDRAKE_SEEDS = register("mandrake_seeds") {

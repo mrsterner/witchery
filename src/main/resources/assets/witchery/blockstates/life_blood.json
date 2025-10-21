@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "berries=false": {
+      "model": "witchery:block/cave_vines"
+    },
+    "berries=true": {
+      "model": "witchery:block/cave_vines_lit"
+    }
+  }
+}

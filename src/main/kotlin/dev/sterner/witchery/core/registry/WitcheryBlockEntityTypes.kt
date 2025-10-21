@@ -18,6 +18,7 @@ import dev.sterner.witchery.content.block.distillery.DistilleryBlockEntity
 import dev.sterner.witchery.content.block.dream_weaver.DreamWeaverBlockEntity
 import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.content.block.grassper.GrassperBlockEntity
+import dev.sterner.witchery.content.block.life_blood.LifeBloodBlockEntity
 import dev.sterner.witchery.content.block.mushroom_log.MushroomLogBlockEntity
 import dev.sterner.witchery.content.block.oven.OvenBlockEntity
 import dev.sterner.witchery.content.block.oven.OvenFumeExtensionBlockEntity
@@ -73,6 +74,12 @@ object WitcheryBlockEntityTypes {
         BlockEntityType.Builder.of({ pos, state -> AltarBlockEntity(pos, state) }, WitcheryBlocks.ALTAR.get())
             .build(null)
     }
+
+    val LIFE_BLOOD = reg("life_blood") {
+        BlockEntityType.Builder.of({ pos, state -> LifeBloodBlockEntity(pos, state) }, WitcheryBlocks.LIFE_BLOOD.get(), WitcheryBlocks.LIFE_BLOOD_PLANT.get())
+            .build(null)
+    }
+
 
     val MUSHROOM_LOG = reg("mushroom_log") {
         BlockEntityType.Builder.of(

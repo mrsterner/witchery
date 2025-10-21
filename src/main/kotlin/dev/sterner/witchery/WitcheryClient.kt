@@ -375,6 +375,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerLayerDefinition(AncientTabletModel.LAYER_LOCATION) { AncientTabletModel.createBodyLayer() }
         event.registerLayerDefinition(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
         event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION) { ArmorPoppetModel.createBodyLayer() }
+        event.registerLayerDefinition(LifeBloodPlantModel.LAYER_LOCATION) { LifeBloodPlantModel.createBodyLayer() }
         event.registerLayerDefinition(HungerPoppetModel.LAYER_LOCATION) { HungerPoppetModel.createBodyLayer() }
         event.registerLayerDefinition(VampiricPoppetModel.LAYER_LOCATION) { VampiricPoppetModel.createBodyLayer() }
         event.registerLayerDefinition(VoodooPoppetModel.LAYER_LOCATION) { VoodooPoppetModel.createBodyLayer() }
@@ -419,6 +420,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         )
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.PHYLACTERY.get(), ::PhylacteryBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.ALTAR.get(), ::AltarBlockEntityRenderer)
+        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.LIFE_BLOOD.get(), ::LifeBloodBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.ANCIENT_SLATE.get(), ::AncientTabletBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.CAULDRON.get(), ::CauldronBlockEntityRenderer)
         event.registerBlockEntityRenderer(
@@ -586,6 +588,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryBlocks.OTHERWHERE_CHALK_BLOCK,
             WitcheryBlocks.CAULDRON,
             WitcheryBlocks.GLINTWEED,
+            WitcheryBlocks.LIFE_BLOOD,
             WitcheryBlocks.EMBER_MOSS,
             WitcheryBlocks.SPANISH_MOSS,
             WitcheryBlocks.MANDRAKE_CROP,

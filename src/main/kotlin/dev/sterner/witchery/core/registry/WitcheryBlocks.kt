@@ -1,7 +1,6 @@
 package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery.Companion.MODID
-import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.content.block.*
 import dev.sterner.witchery.content.block.altar.AltarBlock
 import dev.sterner.witchery.content.block.altar.AltarBlockComponent
@@ -24,6 +23,8 @@ import dev.sterner.witchery.content.block.dream_weaver.DreamWeaverBlock
 import dev.sterner.witchery.content.block.effigy.EffigyBlock
 import dev.sterner.witchery.content.block.effigy.EffigyCompanionBlock
 import dev.sterner.witchery.content.block.grassper.GrassperBlock
+import dev.sterner.witchery.content.block.life_blood.LifeBloodBlock
+import dev.sterner.witchery.content.block.life_blood.LifeBloodPlantBlock
 import dev.sterner.witchery.content.block.mushroom_log.MushroomLogBlock
 import dev.sterner.witchery.content.block.mushroom_log.MushroomLogComponent
 import dev.sterner.witchery.content.block.oven.*
@@ -44,7 +45,7 @@ import dev.sterner.witchery.content.block.spirit_portal.SpiritPortalBlockCompone
 import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarComponent
 import dev.sterner.witchery.content.worldgen.tree.WitcheryTreeGrowers
-import dev.sterner.witchery.core.registry.WitcheryFluids
+import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlock
 import dev.sterner.witchery.core.util.WitcheryUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
@@ -55,7 +56,10 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.DyeColor
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties
@@ -789,6 +793,31 @@ object WitcheryBlocks {
                 .pushReaction(PushReaction.DESTROY)
         )
     }
+
+    val LIFE_BLOOD: DeferredHolder<Block, out LifeBloodBlock> = register("life_blood") {
+        LifeBloodBlock(
+            Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .lightLevel(CaveVines.emission(14))
+                .sound(SoundType.CAVE_VINES)
+                .pushReaction(PushReaction.DESTROY)
+        )
+    }
+
+    val LIFE_BLOOD_PLANT: DeferredHolder<Block, out LifeBloodPlantBlock> = register("life_blood_plant") {
+        LifeBloodPlantBlock(
+            Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .lightLevel(CaveVines.emission(14))
+                .sound(SoundType.CAVE_VINES)
+                .pushReaction(PushReaction.DESTROY)
+        )
+    }
+
 
     val EMBER_MOSS = register("ember_moss") {
         EmbermossBlock(

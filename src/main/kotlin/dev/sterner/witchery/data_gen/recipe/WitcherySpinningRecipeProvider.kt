@@ -88,5 +88,14 @@ object WitcherySpinningRecipeProvider {
             .addOutput(WitcheryItems.FANCIFUL_THREAD.get(), 4)
             .save(exporter, Witchery.id("fanciful_thread"))
 
+        SpinningWheelRecipeBuilder.create()
+            .addInput(ItemStack(WitcheryItems.WORMWOOD.get(), 3))
+            .addInput(WitcheryItems.WOOD_ASH.get())
+            .addInput(WitcheryItems.OIL_OF_VITRIOL.get())
+            .setCookingTime(100)
+            .setAltarPower(5)
+            .addOutput(Items.LEATHER, 2)
+            .save(exporter, Witchery.id("fibre_leather"))
+
     }
 }

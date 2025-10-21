@@ -61,6 +61,7 @@ class WitcheryNatureBlockProvider(
         makeBlock(WitcheryBlocks.SNOWBELL_CROP.get(), 4, 20)
         makeBlock(WitcheryBlocks.WATER_ARTICHOKE_CROP.get(), 4, 20)
         makeBlock(WitcheryBlocks.GLINTWEED.get(), 2, 20)
+        makeBlock(WitcheryBlocks.LIFE_BLOOD.get(), 2, 20)
         makeBlock(WitcheryBlocks.EMBER_MOSS.get(), 4, 20)
         makeBlock(WitcheryBlocks.SPANISH_MOSS.get(), 3, 20)
         makeBlock(WitcheryBlocks.CRITTER_SNARE.get(), 2, 10)

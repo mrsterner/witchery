@@ -67,6 +67,14 @@ dev/sterner/witchery/mixin/FireBlockMixin.java
 dev/sterner/witchery/mixin/FoodDataMixin.java
   class FoodDataMixin
 
+dev/sterner/witchery/mixin/FrogEntityMixin.java
+  class FrogEntityMixin
+  new MobEffectInstance(MobEffects.POISON, 20 * 5, 0)
+
+dev/sterner/witchery/mixin/FrogMixin.java
+  class FrogMixin
+  void preventFallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir)
+
 dev/sterner/witchery/mixin/IBlockStateExtensionMixin.java
   void getFlammability(BlockGetter level, BlockPos pos, Direction face, CallbackInfoReturnable<Integer> cir)
   void getFireSpreadSpeed(BlockGetter level, BlockPos pos, Direction face, CallbackInfoReturnable<Integer> cir)
@@ -466,6 +474,7 @@ dev/sterner/witchery/WitcheryNeoForgeEvents.kt
   fun onAddReloadListener(event: AddReloadListenerEvent)
   fun onPlayerTick(event: PlayerTickEvent.Post)
   fun onPlayerClone(event: PlayerEvent.Clone)
+  fun finalizeMobSpawn(event: FinalizeSpawnEvent)
   fun onLivingConversion(event: LivingConversionEvent.Post)
   fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent)
   fun onInteractEntity(event: PlayerInteractEvent.EntityInteract)
@@ -1753,6 +1762,7 @@ dev/sterner/witchery/content/block/censer/CenserBlockEntity.kt
   fun setInfiniteMode(infinite: Boolean)
   fun getDispersalRadius()
   fun shouldConsumePower()
+  fun isOnAltar(): Boolean
   fun tickPotionEffects(level: Level, pos: BlockPos)
   fun consumeAltarPower(level: Level): Boolean
   fun spawnClientParticles(level: Level, pos: BlockPos, blockState: BlockState)
@@ -3001,6 +3011,7 @@ dev/sterner/witchery/content/item/ChalkItem.kt
 
 dev/sterner/witchery/content/item/CovenContractItem.kt
   class CovenContractItem
+  fun onDestroyed(itemEntity: ItemEntity, damageSource: DamageSource)
   fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack
   fun interactLivingEntity(stack: ItemStack, player: Player, interactionTarget: LivingEntity, usedHand: InteractionHand): InteractionResult
   fun getUseDuration(stack: ItemStack, entity: LivingEntity): Int
@@ -3615,11 +3626,15 @@ dev/sterner/witchery/content/recipe/oven/OvenCookingRecipeBuilder.kt
   fun getResult(): Item
   fun save(recipeOutput: RecipeOutput, id: ResourceLocation)
 
+dev/sterner/witchery/content/recipe/ritual/RitualConditions.kt
+  class RitualConditions
+
 dev/sterner/witchery/content/recipe/ritual/RitualRecipe.kt
   class RitualRecipe
   class Serializer
   class Celestial
   class Weather
+  object val
   fun matches(input: MultipleItemRecipeInput, level: Level): Boolean
   fun assemble(input: MultipleItemRecipeInput, registries: HolderLookup.Provider): ItemStack
   fun canCraftInDimensions(width: Int, height: Int): Boolean
@@ -3628,7 +3643,6 @@ dev/sterner/witchery/content/recipe/ritual/RitualRecipe.kt
   fun getType(): RecipeType<*>
   fun codec(): MapCodec<RitualRecipe>
   fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, RitualRecipe>
-  fun fromNbt(tag: CompoundTag, registries: HolderLookup.Provider): RitualRecipe
   fun toNbt(provider: HolderLookup.Provider): CompoundTag
   fun getSerializedName(): String
 
@@ -3646,6 +3660,7 @@ dev/sterner/witchery/content/recipe/ritual/RitualRecipeBuilder.kt
   fun addOutputEntity(entityType: EntityType<*>): RitualRecipeBuilder
   fun addOutputEntities(entityTypes: List<EntityType<*>>): RitualRecipeBuilder
   fun setAltarPower(power: Int): RitualRecipeBuilder
+  fun setAltarPowerPerSecond(power: Int): RitualRecipeBuilder
   fun addCommand(commandType: CommandType): RitualRecipeBuilder
   fun addCommands(commandTypes: Set<CommandType>): RitualRecipeBuilder
   fun setInfinite(infinite: Boolean): RitualRecipeBuilder
@@ -3669,6 +3684,9 @@ dev/sterner/witchery/content/recipe/ritual/RitualRecipeBuilder.kt
   fun addLargePattern(large: Block): RitualRecipeBuilder
   fun define(letter: Char, block: Block): RitualRecipeBuilder
   fun setCustomRitual(ritual: Ritual): RitualRecipeBuilder
+  fun addRitualData(key: String, value: String): RitualRecipeBuilder
+  fun addRitualData(key: String, value: Int): RitualRecipeBuilder
+  fun addRitualData(key: String, value: Boolean): RitualRecipeBuilder
   fun unlockedBy(name: String, criterion: Criterion<*>): RitualRecipeBuilder
   fun group(groupName: String?): RitualRecipeBuilder
   fun getResult(): Item
@@ -3772,6 +3790,9 @@ dev/sterner/witchery/core/api/Ritual.kt
   fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
   fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
   fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun saveState(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity, tag: CompoundTag)
+  fun loadState(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity, tag: CompoundTag)
+  fun onLoadRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
 
 dev/sterner/witchery/core/api/SavedInventory.kt
   class SavedInventory
@@ -4085,6 +4106,7 @@ dev/sterner/witchery/core/registry/WitcheryCommands.kt
   fun registerLichdomCommands(): LiteralArgumentBuilder<CommandSourceStack>
   fun registerVampireCommands(): LiteralArgumentBuilder<CommandSourceStack>
   fun registerWerewolfCommands(): LiteralArgumentBuilder<CommandSourceStack>
+  fun registerCovenCommands(): LiteralArgumentBuilder<CommandSourceStack>
 
 dev/sterner/witchery/core/registry/WitcheryCreativeModeTabs.kt
   object WitcheryCreativeModeTabs
@@ -5271,6 +5293,14 @@ dev/sterner/witchery/features/chain/ChainType.kt
   class ChainType
   fun getSerializedName(): String
 
+dev/sterner/witchery/features/coven/CovenDialogue.kt
+  object CovenDialogue
+  fun generateName(random: RandomSource): MutableComponent
+  fun getBindingResponse(witchName: Component, random: RandomSource): MutableComponent
+  fun getAlreadyBoundResponse(witchName: Component, random: RandomSource): MutableComponent
+  fun getNeedsHeartResponse(witchName: Component, random: RandomSource): MutableComponent
+  fun getCovenFullResponse(witchName: Component, random: RandomSource): MutableComponent
+
 dev/sterner/witchery/features/coven/CovenHandler.kt
   object CovenHandler
   fun addWitchToCoven(player: ServerPlayer, witch: CovenWitchEntity): Boolean
@@ -5289,6 +5319,7 @@ dev/sterner/witchery/features/coven/CovenHandler.kt
   fun findValidSpawnPosition(level: Level, origin: BlockPos, radius: Int): BlockPos?
   fun isSpawnPositionValid(level: Level, pos: BlockPos): Boolean
   fun findWitchIndex(witch: CovenWitchEntity, witches: List<CovenPlayerAttachment.Data.WitchData>): Int
+  fun disbandCovenFromContract(level: ServerLevel, stack: ItemStack)
 
 dev/sterner/witchery/features/coven/CovenPlayerAttachment.kt
   class Data
@@ -5816,6 +5847,10 @@ dev/sterner/witchery/features/possession/PossessionComponentAttachment.kt
   fun dropEquipment(possessed: LivingEntity, player: ServerPlayer)
   fun get(player: Player): PossessionComponent
 
+dev/sterner/witchery/features/ritual/BestialCallRitual.kt
+  class BestialCallRitual
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+
 dev/sterner/witchery/features/ritual/BindFamiliarRitual.kt
   class BindFamiliarRitual
   fun onEndRitual(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity)
@@ -5831,12 +5866,37 @@ dev/sterner/witchery/features/ritual/BindingRitual.kt
   class BindingRitual
   fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
 
+dev/sterner/witchery/features/ritual/BlocksBelowRitual.kt
+  class BlocksBelowRitual
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun saveState(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity, tag: CompoundTag)
+  fun loadState(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity, tag: CompoundTag)
+
 dev/sterner/witchery/features/ritual/EmptyRitual.kt
   class EmptyRitual
+
+dev/sterner/witchery/features/ritual/PullMobsRitual.kt
+  class PullMobsRitual
+  fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
 
 dev/sterner/witchery/features/ritual/PushMobsRitual.kt
   class PushMobsRitual
   fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+
+dev/sterner/witchery/features/ritual/RainingToadAttachment.kt
+  class Data
+  object RainingToadAttachment
+  fun getData(livingEntity: LivingEntity): Data
+  fun setData(livingEntity: LivingEntity, data: Data)
+  fun copy(isPoisonous: Boolean, safeFall: Boolean): Data
+
+dev/sterner/witchery/features/ritual/RainingToadRitual.kt
+  class RainingToadRitual
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
 
 dev/sterner/witchery/features/ritual/RemoveCurseRitual.kt
   class RemoveCurseRitual
@@ -6266,6 +6326,7 @@ dev/sterner/witchery/integration/jei/WitcheryJeiPlugin.kt
   class WitcheryJeiPlugin
   fun registerCategories(registration: IRecipeCategoryRegistration)
   fun registerRecipes(registration: IRecipeRegistration)
+  fun registerRecipeCatalysts(registration: IRecipeCatalystRegistration)
   fun register()
   fun getPluginUid(): ResourceLocation
 

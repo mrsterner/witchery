@@ -55,6 +55,7 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.WAYSTONE.get())
                     output.accept(WitcheryItems.GLINTWEED.get())
                     output.accept(WitcheryItems.EMBER_MOSS.get())
+                    output.accept(WitcheryItems.LIFEBLOOD_BERRY.get())
                     output.accept(WitcheryItems.SPANISH_MOSS.get())
                     output.accept(WitcheryItems.MANDRAKE_SEEDS.get())
                     output.accept(WitcheryItems.MANDRAKE_ROOT.get())

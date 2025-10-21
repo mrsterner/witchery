@@ -13,7 +13,7 @@ import kotlin.math.sqrt
 
 class PushMobsRitual : Ritual(Witchery.id("push_mobs")) {
 
-    private val radius = 12.0
+    private val radius = 16.0
 
     override fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
         val entities = level.getEntitiesOfClass(LivingEntity::class.java,
@@ -34,6 +34,7 @@ class PushMobsRitual : Ritual(Witchery.id("push_mobs")) {
 
             if (distance < radius) {
                 val pushStrength = 0.25
+
                 val pushX = (dx / distance) * pushStrength
                 val pushY = (dy / distance) * pushStrength
                 val pushZ = (dz / distance) * pushStrength

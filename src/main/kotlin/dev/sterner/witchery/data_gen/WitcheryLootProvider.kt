@@ -395,6 +395,14 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
             }
 
             this.add(
+                WitcheryBlocks.LIFE_BLOOD.get()
+            ) { itemLike: Block ->
+                createShearsOnlyDrop(
+                    itemLike
+                )
+            }
+
+            this.add(
                 WitcheryBlocks.GLINTWEED.get()
             ) { itemLike: Block ->
                 createShearsOnlyDrop(

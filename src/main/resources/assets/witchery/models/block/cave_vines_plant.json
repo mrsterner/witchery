@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "witchery:block/cave_vines_plant"
+  }
+}

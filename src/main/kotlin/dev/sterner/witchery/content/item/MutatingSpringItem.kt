@@ -1,13 +1,16 @@
 package dev.sterner.witchery.content.item
 
+import dev.sterner.witchery.content.block.LifebloodVineBlock
 import dev.sterner.witchery.content.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.content.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth
@@ -21,6 +24,7 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
+import tallestegg.guardvillagers.GuardEntityType
 
 class MutatingSpringItem(properties: Properties) : Item(properties) {
 
@@ -38,6 +42,7 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
         }
         if (level.getBlockState(pos).`is`(Blocks.COBWEB)) {
             makeCritterSnare(level, pos)
+            makeLifeBlood(level, pos)
             return InteractionResult.SUCCESS
         }
         if (level.getBlockState(pos).`is`(WitcheryBlocks.CRITTER_SNARE.get())) {
@@ -156,6 +161,155 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             level.setBlockAndUpdate(pos.north(), WitcheryBlocks.GRASSPER.get().defaultBlockState())
             level.setBlockAndUpdate(pos.west(), WitcheryBlocks.GRASSPER.get().defaultBlockState())
             level.setBlockAndUpdate(pos.east(), WitcheryBlocks.GRASSPER.get().defaultBlockState())
+        }
+    }
+
+    private fun makeLifeBlood(level: Level, pos: BlockPos) {
+        val hasVillager = level.getEntities(
+            EntityType.VILLAGER,
+            AABB.ofSize(pos.center, 1.0, 1.0, 1.0)
+        ) {
+            EtherealEntityAttachment.getData(it).isEthereal
+        }
+
+        val hasGuard = level.getEntities(
+            GuardEntityType.GUARD.get(),
+            AABB.ofSize(pos.center, 1.0, 1.0, 1.0)
+        ) {
+            EtherealEntityAttachment.getData(it).isEthereal
+        }
+
+        if (hasVillager.isEmpty() && hasGuard.isEmpty()) return
+
+        val soulEntity = if (hasVillager.isNotEmpty()) hasVillager[0] else hasGuard[0]
+
+        val hasCaveVines = checkCardinal(level, pos, Blocks.CAVE_VINES)
+        if (!hasCaveVines) return
+
+        val hasChorusPlants =
+            level.getBlockState(pos.north().east()).`is`(Blocks.CHORUS_PLANT) &&
+                    level.getBlockState(pos.north().west()).`is`(Blocks.CHORUS_PLANT) &&
+                    level.getBlockState(pos.south().east()).`is`(Blocks.CHORUS_PLANT) &&
+                    level.getBlockState(pos.south().west()).`is`(Blocks.CHORUS_PLANT)
+
+        if (!hasChorusPlants) return
+
+        if (level is ServerLevel) {
+            soulEntity.discard()
+
+            listOf(
+                pos.north(),
+                pos.south(),
+                pos.east(),
+                pos.west()
+            ).forEach { vinePos ->
+                level.setBlockAndUpdate(
+                    vinePos,
+                    WitcheryBlocks.LIFE_BLOOD.get().defaultBlockState()
+                        .setValue(LifebloodVineBlock.BERRIES, 0)
+                )
+            }
+
+            level.setBlockAndUpdate(pos.north().east(), Blocks.AIR.defaultBlockState())
+            level.setBlockAndUpdate(pos.north().west(), Blocks.AIR.defaultBlockState())
+            level.setBlockAndUpdate(pos.south().east(), Blocks.AIR.defaultBlockState())
+            level.setBlockAndUpdate(pos.south().west(), Blocks.AIR.defaultBlockState())
+
+            spawnLifebloodTransformationParticles(level, pos)
+
+            level.playSound(
+                null,
+                pos,
+                SoundEvents.END_PORTAL_SPAWN,
+                SoundSource.BLOCKS,
+                1.0f,
+                0.8f
+            )
+
+            level.playSound(
+                null,
+                pos,
+                SoundEvents.SOUL_ESCAPE.value(),
+                SoundSource.BLOCKS,
+                1.5f,
+                1.2f
+            )
+        }
+    }
+
+    private fun spawnLifebloodTransformationParticles(level: ServerLevel, pos: BlockPos) {
+        val center = pos.center
+
+        for (i in 0..50) {
+            val angle = (i / 50.0) * Math.PI * 2
+            val radius = i / 25.0
+            val x = center.x + Math.cos(angle) * radius
+            val z = center.z + Math.sin(angle) * radius
+
+            level.sendParticles(
+                ParticleTypes.SOUL,
+                x, center.y + 0.5, z,
+                2,
+                0.0, 0.1, 0.0, 0.05
+            )
+        }
+
+        for (i in 0..60) {
+            val angle = (i / 60.0) * Math.PI * 6
+            val radius = 0.5 + (i / 60.0) * 2.0
+            val height = (i / 60.0) * 3.0
+
+            val x = center.x + Math.cos(angle) * radius
+            val z = center.z + Math.sin(angle) * radius
+            val y = center.y + height
+
+            level.sendParticles(
+                ParticleTypes.SOUL_FIRE_FLAME,
+                x, y, z,
+                1,
+                0.0, 0.0, 0.0, 0.0
+            )
+        }
+
+        listOf(
+            pos.north().east(),
+            pos.north().west(),
+            pos.south().east(),
+            pos.south().west()
+        ).forEach { chorusPos ->
+            val chorusCenter = chorusPos.center
+            for (i in 0..20) {
+                level.sendParticles(
+                    ParticleTypes.PORTAL,
+                    chorusCenter.x,
+                    chorusCenter.y,
+                    chorusCenter.z,
+                    1,
+                    Mth.nextDouble(level.random, -0.3, 0.3),
+                    Mth.nextDouble(level.random, 0.1, 0.5),
+                    Mth.nextDouble(level.random, -0.3, 0.3),
+                    0.2
+                )
+            }
+        }
+
+        listOf(
+            pos.north(),
+            pos.south(),
+            pos.east(),
+            pos.west()
+        ).forEach { vinePos ->
+            val vineCenter = vinePos.center
+            for (i in 0..15) {
+                level.sendParticles(
+                    ParticleTypes.FALLING_NECTAR,
+                    vineCenter.x,
+                    vineCenter.y + i * 0.1,
+                    vineCenter.z,
+                    1,
+                    0.0, -0.1, 0.0, 0.0
+                )
+            }
         }
     }
 

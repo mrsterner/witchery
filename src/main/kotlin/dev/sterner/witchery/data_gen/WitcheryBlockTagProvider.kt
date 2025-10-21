@@ -109,6 +109,8 @@ class WitcheryBlockTagProvider(
             WitcheryBlocks.BLACK_IRON_CANDELABRA.get()
         )
 
+        tag(BlockTags.CAVE_VINES).add(WitcheryBlocks.LIFE_BLOOD.get())
+
         tag(BlockTags.FLOWERS)
             .add(WitcheryBlocks.GLINTWEED.get())
             .add(WitcheryBlocks.EMBER_MOSS.get())
