@@ -657,6 +657,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryBlocks.SOUL_CAGE,
             WitcheryBlocks.ANCIENT_TABLET,
             WitcheryBlocks.ANCIENT_TABLET_COMPONENT,
+            WitcheryBlocks.CRYSTAL_BALL,
             WitcheryBlocks.MUSHROOM_LOG
         )
 

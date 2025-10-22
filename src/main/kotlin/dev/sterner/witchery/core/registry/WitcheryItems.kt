@@ -724,6 +724,10 @@ object WitcheryItems {
         BlockItem(WitcheryBlocks.COFFIN.get(), Item.Properties())
     }
 
+    val CRYSTAL_BALL = register("crystal_ball") {
+        BlockItem(WitcheryBlocks.CRYSTAL_BALL.get(), Item.Properties())
+    }
+
     // start WOOD
 
     val ROWAN_LOG = register("rowan_log") {

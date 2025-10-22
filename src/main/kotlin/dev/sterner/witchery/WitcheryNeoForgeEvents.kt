@@ -30,10 +30,12 @@ import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment
 import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import dev.sterner.witchery.features.misc.UnderWaterBreathPlayerAttachment
 import dev.sterner.witchery.core.registry.WitcheryCommands
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryLootInjects
 import dev.sterner.witchery.core.registry.WitcherySpecialPotionEffects
 import dev.sterner.witchery.core.registry.WitcheryStructureInjects
 import dev.sterner.witchery.core.registry.WitcheryTarotEffects
+import dev.sterner.witchery.core.registry.WitcheryVillagers
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.curse.CurseOfFragility
 import dev.sterner.witchery.features.affliction.event.AfflictionEventHandler
@@ -77,7 +79,11 @@ import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.npc.VillagerTrades
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.trading.ItemCost
+import net.minecraft.world.item.trading.MerchantOffer
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.event.AddReloadListenerEvent
@@ -101,8 +107,68 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent
 import net.neoforged.neoforge.event.tick.LevelTickEvent
 import net.neoforged.neoforge.event.tick.PlayerTickEvent
 import net.neoforged.neoforge.event.tick.ServerTickEvent
+import net.neoforged.neoforge.event.village.VillagerTradesEvent
 
 object WitcheryNeoForgeEvents {
+
+    @SubscribeEvent
+    fun addFortuneTellerTrades(event: VillagerTradesEvent) {
+        if (event.type == WitcheryVillagers.FORTUNE_TELLER_PROFESSION.get()) {
+            val villagerTraders = event.trades
+
+            // Novice (Level 1)
+            villagerTraders[1]?.add(
+                VillagerTrades.ItemsForEmeralds(WitcheryItems.GYPSUM.get(), 2, 8, 16, 2)
+            )
+            villagerTraders[1]?.add(
+                VillagerTrades.EmeraldForItems(WitcheryItems.QUARTZ_SPHERE.get(), 1, 16, 2)
+            )
+            villagerTraders[1]?.add(
+                VillagerTrades.ItemsForEmeralds(Items.CANDLE, 1, 4, 16, 1)
+            )
+
+            // Apprentice (Level 2)
+            villagerTraders[2]?.add(
+                VillagerTrades.ItemsForEmeralds(WitcheryItems.BONE_NEEDLE.get(), 4, 1, 10, 5)
+            )
+            villagerTraders[2]?.add(
+                VillagerTrades.EmeraldForItems(Items.AMETHYST_SHARD, 4, 12, 10)
+            )
+
+            // Journeyman (Level 3)
+            villagerTraders[3]?.add(
+                VillagerTrades.ItemsForEmeralds(WitcheryItems.DREAM_WEAVER.get(), 8, 1, 8, 10)
+            )
+            villagerTraders[3]?.add(
+                VillagerTrades.ItemsForEmeralds(WitcheryItems.GOLDEN_THREAD.get(), 6, 2, 8, 10)
+            )
+            villagerTraders[3]?.add(
+                VillagerTrades.EmeraldForItems(Items.LAPIS_LAZULI, 8, 12, 20)
+            )
+
+            // Expert (Level 4)
+            villagerTraders[4]?.add(
+                VillagerTrades.ItemsForEmeralds(WitcheryItems.HAPPENSTANCE_OIL.get(), 10, 1, 5, 15)
+            )
+            villagerTraders[4]?.add(
+                VillagerTrades.ItemsForEmeralds(WitcheryItems.ATTUNED_STONE.get(), 12, 1, 5, 15)
+            )
+            villagerTraders[4]?.add(
+                VillagerTrades.ItemsForEmeralds(Items.ECHO_SHARD, 16, 1, 3, 20)
+            )
+
+            // Master (Level 5)
+            villagerTraders[5]?.add { entity, random ->
+                MerchantOffer(
+                    ItemCost(Items.EMERALD, 24),
+                    WitcheryItems.TAROT_DECK.get().defaultInstance,
+                    1,
+                    3,
+                    0.2f
+                )
+            }
+        }
+    }
 
     @SubscribeEvent
     fun onServerStarting(event: ServerStartingEvent) {
