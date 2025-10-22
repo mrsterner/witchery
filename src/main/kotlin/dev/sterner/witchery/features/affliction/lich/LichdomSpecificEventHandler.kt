@@ -43,7 +43,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 object LichdomSpecificEventHandler {
 
     private const val PHYLACTERY_SKYLIGHT_CHECK_RATE = 200
-    private const val SOUL_SEPARATION_DURATION = 20 * 30
 
 
     @JvmStatic
@@ -151,25 +150,21 @@ object LichdomSpecificEventHandler {
         val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
         if (lichLevel == 0) return
 
-        // Check for zombie minion kills (level 2->3)
         if (damageSource.entity is Zombie && isPlayerMinion(damageSource.entity as Zombie, player)) {
             if (livingEntity is Monster) {
                 LichdomLeveling.recordZombieKill(player)
             }
         }
 
-        // Check for golem kills (level 3->4)
         if (livingEntity is IronGolem || livingEntity is SnowGolem) {
             LichdomLeveling.increaseKilledGolems(player)
         }
 
-        // Check for possessed kill (level 6->7)
         val data = AfflictionPlayerAttachment.getData(player)
         if (data.isSoulForm() && livingEntity is Villager) {
             LichdomLeveling.recordPossessedKill(player)
         }
 
-        // Check for Wither kill (level 7->8)
         if (livingEntity is WitherBoss) {
             LichdomLeveling.recordWitherKill(player)
         }

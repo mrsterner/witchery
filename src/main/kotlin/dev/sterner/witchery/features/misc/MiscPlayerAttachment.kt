@@ -41,9 +41,10 @@ object MiscPlayerAttachment {
         }
     }
 
-    class Data(
+    data class Data(
         var isWitcheryAligned: Boolean = false,
         var isDeath: Boolean = false,
+        var hasDeathTeleport: Boolean = false,
     ) {
 
         companion object {
@@ -51,6 +52,7 @@ object MiscPlayerAttachment {
                 instance.group(
                     Codec.BOOL.fieldOf("isWitcheryAligned").forGetter { it.isWitcheryAligned },
                     Codec.BOOL.fieldOf("isDeath").forGetter { it.isDeath },
+                    Codec.BOOL.fieldOf("hasDeathTeleport").forGetter { it.hasDeathTeleport },
                 ).apply(instance, ::Data)
             }
 

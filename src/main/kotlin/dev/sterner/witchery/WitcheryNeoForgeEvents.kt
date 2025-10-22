@@ -62,6 +62,7 @@ import dev.sterner.witchery.features.lifeblood.LifebloodHandler
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
 import dev.sterner.witchery.features.misc.EquipmentHandler
 import dev.sterner.witchery.features.misc.LecternHandler
+import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import dev.sterner.witchery.features.spirit_world.ManifestationHandler
 import dev.sterner.witchery.features.mutandis.MutandisHandler
 import dev.sterner.witchery.features.necromancy.NecroHandler
@@ -293,6 +294,14 @@ object WitcheryNeoForgeEvents {
     }
 
     @SubscribeEvent
+    fun onPlayerRespawn(event: PlayerEvent.PlayerRespawnEvent) {
+        if (event.entity is ServerPlayer) {
+            val miscData = MiscPlayerAttachment.getData(event.entity)
+            MiscPlayerAttachment.setData(event.entity, miscData.copy(hasDeathTeleport = false))
+        }
+    }
+
+    @SubscribeEvent
     fun onPlayerClone(event: PlayerEvent.Clone) {
         val oldData = AfflictionPlayerAttachment.getData(event.original)
 
@@ -307,6 +316,9 @@ object WitcheryNeoForgeEvents {
         )
 
         InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.original))
+
+        val miscData = MiscPlayerAttachment.getData(event.entity)
+        MiscPlayerAttachment.setData(event.entity, miscData.copy(hasDeathTeleport = false))
 
         LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
         PhylacteryBlockEntity.onPlayerLoad(event.entity)
@@ -373,6 +385,11 @@ object WitcheryNeoForgeEvents {
     }
 
     @SubscribeEvent
+    fun onRightClickItem(event: PlayerInteractEvent.RightClickItem) {
+        AfflictionEventHandler.rightClickItem(event, event.entity, event.hand)
+    }
+
+    @SubscribeEvent
     fun onRightClickBlock(event: PlayerInteractEvent.RightClickBlock) {
         AfflictionEventHandler.rightClickBlockAbility(event, event.entity, event.hand)
         LecternHandler.tryAccessGuidebook(event, event.entity, event.hand, event.pos)
@@ -385,6 +402,7 @@ object WitcheryNeoForgeEvents {
     @SubscribeEvent
     fun onLeftClickBlock(event: PlayerInteractEvent.LeftClickBlock) {
         InfusionHandler.leftClickBlock(event.entity, event.hand, event.pos)
+        AfflictionEventHandler.leftClickBlock(event, event.entity)
     }
 
     @SubscribeEvent

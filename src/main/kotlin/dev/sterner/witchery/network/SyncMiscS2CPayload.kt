@@ -17,6 +17,7 @@ class SyncMiscS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         putUUID("Id", player.uuid)
         putBoolean("isWitcheryAligned", data.isWitcheryAligned)
         putBoolean("isDeath", data.isDeath)
+        putBoolean("hasDeathTeleport", data.hasDeathTeleport)
     })
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
@@ -33,12 +34,13 @@ class SyncMiscS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         val id = nbt.getUUID("Id")
         val isWitcheryAligned = nbt.getBoolean("isWitcheryAligned")
         val isDeath = nbt.getBoolean("isDeath")
+        val isDeathTeleport = nbt.getBoolean("hasDeathTeleport")
 
         val player = client.level?.getPlayerByUUID(id)
 
         client.execute {
             if (player != null) {
-                MiscPlayerAttachment.setData(player, MiscPlayerAttachment.Data(isWitcheryAligned, isDeath))
+                MiscPlayerAttachment.setData(player, MiscPlayerAttachment.Data(isWitcheryAligned, isDeath, isDeathTeleport))
             }
         }
     }

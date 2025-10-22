@@ -74,6 +74,8 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         add("item.witchery.lifeblood_berry.tooltip", "Fills the soul with ethereal vitality")
         add("item.witchery.lifeblood_berry.tooltip2", "+5 Lifeblood")
 
+        add("witchery.ability.death_teleport.already_used", "Already used this life")
+
         add("witchery.coven.needs_demon_heart", "This witch needs a Demon Heart to join your coven")
         add("witchery.coven.witch_limit", "Your coven has reached the maximum number of witches")
         add("witchery.coven.witch_added", "Witch has been bound to your coven")

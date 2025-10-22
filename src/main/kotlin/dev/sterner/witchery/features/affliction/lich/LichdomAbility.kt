@@ -9,8 +9,11 @@ import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.features.necromancy.NecroHandler
 import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment
+import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
@@ -224,6 +227,16 @@ enum class LichdomAbility(
         override fun use(player: Player): Boolean {
             if (player !is ServerPlayer) return false
 
+            val miscData = MiscPlayerAttachment.getData(player)
+            if (miscData.hasDeathTeleport) {
+                player.displayClientMessage(
+                    Component.translatable("witchery.ability.death_teleport.already_used")
+                        .withStyle(ChatFormatting.RED),
+                    true
+                )
+                return false
+            }
+
             val lastDeathPos = player.lastDeathLocation.orElse(null) ?: return false
 
             if (lastDeathPos.dimension() == player.level().dimension()) {
@@ -243,6 +256,9 @@ enum class LichdomAbility(
                     1.0f,
                     0.5f
                 )
+
+                val updatedData = miscData.copy(hasDeathTeleport = true)
+                MiscPlayerAttachment.setData(player, updatedData)
 
                 AbilityCooldownManager.startCooldown(player, this)
                 return true

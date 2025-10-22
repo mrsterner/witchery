@@ -20,6 +20,9 @@ object AfflictionEventHandler {
     private const val HUMAN_BLOOD_REGEN_RATE = 1000
     private const val HUMAN_BLOOD_REGEN_AMOUNT = 10
 
+    private fun isInAbilityMode(player: Player): Boolean {
+        return AfflictionPlayerAttachment.getData(player).getAbilityIndex() != -1
+    }
 
     @JvmStatic
     fun tick(player: Player?) {
@@ -53,7 +56,8 @@ object AfflictionEventHandler {
     ) {
         if (interactionHand == InteractionHand.OFF_HAND) return
 
-        if (AfflictionAbilityHandler.useSelectedAbility(player)) {
+        if (isInAbilityMode(player)) {
+            AfflictionAbilityHandler.useSelectedAbility(player)
             event.isCanceled = true
         }
     }
@@ -66,11 +70,29 @@ object AfflictionEventHandler {
     ) {
         if (player !is ServerPlayer || entity !is Entity) return
 
-        val ability = AfflictionAbilityHandler.getSelectedAbility(player) ?: return
+        if (isInAbilityMode(player)) {
+            val ability = AfflictionAbilityHandler.getSelectedAbility(player)
 
-        if (AbilityCooldownManager.isOnCooldown(player, ability)) return
+            if (ability != null && !AbilityCooldownManager.isOnCooldown(player, ability)) {
+                ability.use(player, entity)
+            }
 
-        if (ability.use(player, entity)) {
+            event.isCanceled = true
+        }
+    }
+
+    @JvmStatic
+    fun leftClickBlock(event: PlayerInteractEvent.LeftClickBlock, player: Player) {
+        if (isInAbilityMode(player)) {
+            event.isCanceled = true
+        }
+    }
+
+    @JvmStatic
+    fun rightClickItem(event: PlayerInteractEvent.RightClickItem, player: Player, interactionHand: InteractionHand) {
+        if (interactionHand == InteractionHand.OFF_HAND) return
+
+        if (isInAbilityMode(player)) {
             event.isCanceled = true
         }
     }
@@ -79,13 +101,15 @@ object AfflictionEventHandler {
     fun clientRightClickAbility(player: Player?, interactionHand: InteractionHand?): Boolean {
         if (player == null || interactionHand == InteractionHand.OFF_HAND) return false
 
-        val abilities = AfflictionAbilityHandler.getAbilities(player)
-        val index = AfflictionPlayerAttachment.getData(player).getAbilityIndex()
+        if (isInAbilityMode(player)) {
+            val abilities = AfflictionAbilityHandler.getAbilities(player)
+            val index = AfflictionPlayerAttachment.getData(player).getAbilityIndex()
+            val ability = abilities.getOrNull(index)
 
-        val ability = abilities.getOrNull(index) ?: return false
+            if (ability != null && !ability.passive) {
+                PacketDistributor.sendToServer(AfflictionAbilityUseC2SPayload(index))
+            }
 
-        if (!ability.passive) {
-            PacketDistributor.sendToServer(AfflictionAbilityUseC2SPayload(index))
             return true
         }
 
