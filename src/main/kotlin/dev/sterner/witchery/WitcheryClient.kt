@@ -597,7 +597,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.PHYLACTERY.get(), RenderType.translucent())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.SCARECROW.get(), RenderType.translucent())
         ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.EFFIGY_COMPONENT.get(), RenderType.translucent())
-
+        ItemBlockRenderTypes.setRenderLayer(WitcheryBlocks.CRYSTAL_BALL.get(), RenderType.translucent())
 
         val cutoutBlocks = listOf(
             WitcheryBlocks.CENSER,
@@ -657,7 +657,6 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryBlocks.SOUL_CAGE,
             WitcheryBlocks.ANCIENT_TABLET,
             WitcheryBlocks.ANCIENT_TABLET_COMPONENT,
-            WitcheryBlocks.CRYSTAL_BALL,
             WitcheryBlocks.MUSHROOM_LOG
         )
 

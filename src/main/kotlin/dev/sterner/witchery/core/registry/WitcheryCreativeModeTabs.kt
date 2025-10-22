@@ -37,6 +37,7 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.WEREWOLF_ALTAR.get())
                     output.accept(WitcheryItems.CENSER.get())
                     output.accept(WitcheryItems.CENSER_LONG.get())
+                    output.accept(WitcheryItems.CRYSTAL_BALL.get())
 
 
                     val phylactery = WitcheryItems.PHYLACTERY.get().defaultInstance

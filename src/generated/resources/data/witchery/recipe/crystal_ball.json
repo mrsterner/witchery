@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:gold_ingot"
+    },
+    "S": {
+      "item": "witchery:seer_stone"
+    }
+  },
+  "pattern": [
+    "S",
+    "D"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:crystal_ball"
+  }
+}
