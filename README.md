@@ -18,23 +18,26 @@ Witchery adds mods stuff from the original witchery mod.
 
 ## Ritual JSON Structure
 Rituals support a lot of customizable functions. They are data-driven and can execute commands.
-
 ```json
 {
   "type": "witchery:ritual",
   "altarPower": 2000,
+  "altarPowerPerSecond": 0,
   "blockMapping": {
     "G": "witchery:golden_chalk",
     "M": "witchery:otherwhere_chalk",
     "S": "witchery:otherwhere_chalk"
   },
-  "celestialConditions": [
-    "night"
-  ],
-  "requireCat": false,
-  "weather": [
-    "storm"
-  ],
+  "conditions": {
+    "celestialConditions": [
+      "night"
+    ],
+    "requireCat": false,
+    "weather": [
+      "storm"
+    ],
+    "ritualData": {}
+  },
   "commands": [
     {
       "type": "end",
@@ -76,7 +79,7 @@ Rituals support a lot of customizable functions. They are data-driven and can ex
     "__M_____M__",
     "___MMMMM___"
   ],
-  "ritual": {
+  "ritualType": {
     "id": "witchery:empty"
   },
   "ticks": 0
@@ -87,37 +90,53 @@ Rituals support a lot of customizable functions. They are data-driven and can ex
 | Key                   | Description                                                                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `type`                | Always `"witchery:ritual"`.                                                                                                                               |
-| `altarPower`          | Amount of altar power consumed to perform the ritual.                                                                                                     |
-| `blockMapping`        | Mapping block IDs.                                                                                                                                        |
-| `celestialConditions` | A list of celestial events required for the ritual (`"day"`, `"night"`, `"full_moon"`, `"new_moon"`, `"waxing"`, `"waning"`). Empty means no requirement. |
-| `commands`            | A list of commands, `type` is at which point of the ritual the command will run (`"start"`, `"end"`, `"tick"`).                                           
-| `covenCount`          | Minimum number of coven members required.                                                                                                                 |
-| `floatingItemOutput`  | If `true`, the result item will float above the ritual center rather than being dropped.                                                                  |
-| `inputEntities`       | A list of required entity types needed to start the ritual, will be sacrificed.                                                                           |
-| `inputItems`          | A list of items required, will be consumed.                                                                                                               |
-| `isInfinite`          | If `true`, the ritual will run until altar power runs out or the glyph is broken. Will continuesly drain the defined `altarPower`                         |
-| `outputEntities`      | List of entities spawned upon ritual completion.                                                                                                          |
-| `outputItems`         | Items granted after successful ritual.                                                                                                                    |
-| `pattern`             | A visual layout using characters defined in `blockMapping`, forming the ritual circle layout.                                                             |
-| `ritual`              | `"witchery:empty"` means no special effect. Special effects is hardcoded.                                                                                 |
-| `ticks`               | Number of ticks the ritual takes to complete. `0` means instant.                                                                                          |
-| `requireCat`          | true if the ritual requires a familiar cat                                                                                                                |
-| `weather`             | `"clear"`, `"rain"`, `"storm"`. What weather is needed to start the ritual.                                                                               | 
+| `altarPower`          | Amount of altar power consumed to start the ritual.                                                                                                       |
+| `altarPowerPerSecond` | Amount of altar power consumed per second while the ritual is active. Only used if `isInfinite` is true or `ticks` > 0.                                   |
+| `blockMapping`        | Mapping of pattern characters to block IDs.                                                                                                               |
+| `conditions`          | Container for all ritual conditions (celestial, weather, cat requirement, custom data).                                                                    |
+| `celestialConditions` | A list of celestial events required (`"day"`, `"night"`, `"full_moon"`, `"new_moon"`, `"waxing"`, `"waning"`). Empty means no requirement.                |
+| `commands`            | A list of commands. `type` specifies when the command runs: `"start"`, `"end"`, or `"tick"`.                                                              |
+| `covenCount`          | Minimum number of coven members required (0 = not required).                                                                                               |
+| `floatingItemOutput`  | If `true`, output items float above the ritual center instead of dropping.                                                                                 |
+| `inputEntities`       | List of entity types required as sacrifices to start the ritual. Entities are killed when consumed.                                                        |
+| `inputItems`          | List of items required to start the ritual. Items are consumed from dropped items or grassper blocks.                                                      |
+| `isInfinite`          | If `true`, the ritual runs indefinitely until altar power depletes or the glyph is broken. Continuously drains `altarPowerPerSecond`.                     |
+| `outputEntities`      | List of entities spawned upon ritual completion.                                                                                                           |
+| `outputItems`         | List of items granted after successful ritual completion.                                                                                                  |
+| `pattern`             | Visual layout using characters defined in `blockMapping`, forming the ritual circle shape.                                                                 |
+| `ritualType`          | Custom ritual logic. `"witchery:empty"` means no special behavior. Special effects are registered in `WitcheryRitualRegistry`.                            |
+| `ticks`               | Number of ticks the ritual takes to complete (20 ticks = 1 second). `0` means instant completion.                                                         |
+| `requireCat`          | If `true`, the ritual requires a cat familiar or player with an active cat familiar in their coven.                                                        |
+| `weather`             | Required weather conditions: `"clear"`, `"rain"`, or `"storm"`. Empty means no weather requirement.                                                        |
+| `ritualData`          | Custom NBT data passed to custom ritual implementations for additional configuration.                                                                      |
 
+### Ritual Pattern Sizes
 
-### Command replacements
-These arguments will be replaced in the command parser with some context. For example
-``"command": "witchery infusion setAndKill {owner} otherwhere"`` {owner} will be replaced by the ritual with the player who started the ritual.
+The ritual builder provides convenience methods for standard pattern sizes:
 
-| Replaced                  | Desc.                                                             |
-|---------------------------|-------------------------------------------------------------------|
-| `{taglockPlayer}`         | To target a player which taglock is used in the ritual            |
-| `{taglockEntity}`         | To target a entity which taglock is used in the ritual            |
-| `{taglockPlayerOrEntity}` | To target a player or entity which taglock was used in the ritual |
-| `{waystonePos}`           | to use the waystones bound position                               |
-| `{time}`                  | Replaced with level.dayTime to specify current time               |
-| `"{owner}"`               | To specify the starter of the ritual.                             |
-| `"{chalkPos}"`            | To specify the blockpos os the ritual center                      |
+| Method                              | Pattern Size | Usage                                                      |
+|-------------------------------------|--------------|------------------------------------------------------------|
+| `addSmallPattern(block)`            | 7x7          | Basic rituals with minimal altar power requirements        |
+| `addMediumPattern(block)`           | 11x11        | Intermediate rituals                                       |
+| `addLargePattern(block)`            | 15x15        | Advanced rituals with high power requirements              |
+| `addSmallAndMediumPattern(...)`     | 11x11        | Nested small inside medium circle                          |
+| `addMediumAndLargePattern(...)`     | 15x15        | Nested medium inside large circle                          |
+| `addSmallAndLargePattern(...)`      | 15x15        | Nested small inside large circle (no medium)               |
+| `addSmallAndMediumAndLargePattern(...)` | 15x15    | All three circle sizes nested                              |
+
+### Command Replacements
+
+Command strings support contextual placeholders that are replaced at runtime:
+
+| Placeholder               | Description                                                      |
+|---------------------------|------------------------------------------------------------------|
+| `{taglockPlayer}`         | Target player whose taglock was used in the ritual               |
+| `{taglockEntity}`         | Target entity whose taglock was used in the ritual               |
+| `{taglockPlayerOrEntity}` | Target player OR entity (whichever taglock was used)             |
+| `{waystonePos}`           | Coordinates of the waystone's bound position                     |
+| `{time}`                  | Current level day time                                           |
+| `{owner}`                 | Player who started the ritual                                    |
+| `{chalkPos}`              | Block position of the ritual center (golden chalk)               |
 
 ## Other Recipe examples
 

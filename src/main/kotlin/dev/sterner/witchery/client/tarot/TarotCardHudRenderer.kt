@@ -49,12 +49,6 @@ object TarotCardHudRenderer {
         val screenHeight = minecraft.window.guiScaledHeight
 
         renderTarotCards(guiGraphics, data, screenWidth, screenHeight, event.partialTick.gameTimeDeltaTicks)
-
-        if (hoveredCardIndex != null && isMenuOpen) {
-            val cardNumber = data.drawnCards[hoveredCardIndex!!]
-            val isReversed = data.reversedCards.getOrNull(hoveredCardIndex!!) ?: false
-            renderCardTooltip(guiGraphics, cardNumber, isReversed, minecraft)
-        }
     }
 
     @SubscribeEvent
@@ -233,37 +227,6 @@ object TarotCardHudRenderer {
         RenderSystem.disableBlend()
 
         poseStack.popPose()
-    }
-
-    private fun renderCardTooltip(
-        guiGraphics: GuiGraphics,
-        cardNumber: Int,
-        isReversed: Boolean,
-        minecraft: Minecraft
-    ) {
-        val tooltip = mutableListOf<Component>()
-
-        tooltip.add(
-            Component.literal(TarotCardObject.getArcanaName(cardNumber, isReversed))
-                .withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD)
-        )
-
-        if (isReversed) {
-            tooltip.add(Component.literal("Reversed").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC))
-        } else {
-            tooltip.add(Component.literal("Upright").withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC))
-        }
-
-        val effect = WitcheryTarotEffects.getByCardNumber(cardNumber)
-        if (effect != null) {
-            tooltip.add(Component.literal(""))
-            tooltip.add(effect.getDescription(isReversed))
-        }
-
-        val mouseX = (minecraft.mouseHandler.xpos() * minecraft.window.guiScaledWidth / minecraft.window.screenWidth).toInt()
-        val mouseY = (minecraft.mouseHandler.ypos() * minecraft.window.guiScaledHeight / minecraft.window.screenHeight).toInt()
-
-        guiGraphics.renderComponentTooltip(minecraft.font, tooltip, mouseX, mouseY)
     }
 
     private fun getCardTexture(cardNumber: Int): ResourceLocation {

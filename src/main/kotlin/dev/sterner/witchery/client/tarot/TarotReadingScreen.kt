@@ -5,11 +5,13 @@ import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.network.LockInTarotCardsC2SPayload
 import dev.sterner.witchery.core.registry.WitcheryBlocks
+import dev.sterner.witchery.core.registry.WitcheryTarotEffects
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Player
@@ -326,15 +328,16 @@ class TarotReadingScreen : Screen(Component.literal("Tarot Reading")) {
             tooltip.add(Component.literal("Positive Effect").withStyle(ChatFormatting.DARK_GREEN))
         }
 
-        val pos = Component.translatable("witchery.tarot.effect.${card.cardNumber}")
-        val neg = Component.translatable("witchery.tarot.effect.${card.cardNumber}.reversed")
-        val effect = if (card.isReversed) neg else pos
+        val tarotEffect = WitcheryTarotEffects.getByCardNumber(card.cardNumber)
+        if (tarotEffect != null) {
+            val effect: MutableComponent = tarotEffect.getDescription(card.isReversed).copy()
 
-        tooltip.add(Component.literal(""))
-        tooltip.add(
-            Component.literal("Effect: ").withStyle(ChatFormatting.GRAY)
-                .append(effect.withStyle(ChatFormatting.DARK_GRAY))
-        )
+            tooltip.add(Component.literal(""))
+            tooltip.add(
+                Component.literal("Effect: ").withStyle(ChatFormatting.GRAY)
+                    .append(effect.withStyle(ChatFormatting.DARK_GRAY))
+            )
+        }
 
         val lines = tooltip.map { it.visualOrderText }
         guiGraphics.renderTooltip(minecraft!!.font, lines, mouseX, mouseY)
