@@ -1,0 +1,30 @@
+{
+  "type": "witchery:distillery_crafting",
+  "altarPower": 5,
+  "cookingTime": 100,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "minecraft:blaze_powder"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:gunpowder"
+    }
+  ],
+  "jarConsumption": 1,
+  "outputItems": [
+    {
+      "count": 1,
+      "id": "witchery:reek_of_misfortune"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:glowstone_dust"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:glowstone_dust"
+    }
+  ]
+}

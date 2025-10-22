@@ -1,0 +1,522 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brewing",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "brewing/beginning_potions"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.brewing.potion_effect.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "minecraft:blaze_powder"
+  },
+  "name": "book.witchery.guidebook.brewing.potion_effect.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "brewing.potion_effect.page.1",
+      "title": "brewing.potion_effect.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:blaze_powder"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.blaze_powder"
+            },
+            "text_title": {
+              "translate": "potion_effect.blaze_powder.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:glistering_melon_slice"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.glistering_melon_slice"
+            },
+            "text_title": {
+              "translate": "potion_effect.glistering_melon_slice.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:spider_eye"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.spider_eye"
+            },
+            "text_title": {
+              "translate": "potion_effect.spider_eye.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": "Effect Modifiers"
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:ghast_tear"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.ghast_tear"
+            },
+            "text_title": {
+              "translate": "potion_effect.ghast_tear.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:sugar"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.sugar"
+            },
+            "text_title": {
+              "translate": "potion_effect.sugar.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:apple"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.apple"
+            },
+            "text_title": {
+              "translate": "potion_effect.apple.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:bone_meal"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.bone_meal"
+            },
+            "text_title": {
+              "translate": "potion_effect.bone_meal.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:coal"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.coal"
+            },
+            "text_title": {
+              "translate": "potion_effect.coal.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:dandelion"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.dandelion"
+            },
+            "text_title": {
+              "translate": "potion_effect.dandelion.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:dirt"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.dirt"
+            },
+            "text_title": {
+              "translate": "potion_effect.dirt.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:ender_dew"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.ender_dew"
+            },
+            "text_title": {
+              "translate": "potion_effect.ender_dew.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:lily_pad"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.lily_pad"
+            },
+            "text_title": {
+              "translate": "potion_effect.lily_pad.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:dead_bush"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.dead_bush"
+            },
+            "text_title": {
+              "translate": "potion_effect.dead_bush.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:sand"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.sand"
+            },
+            "text_title": {
+              "translate": "potion_effect.sand.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:wheat_seeds"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.wheat_seeds"
+            },
+            "text_title": {
+              "translate": "potion_effect.wheat_seeds.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:wolfsbane"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.wolfsbane"
+            },
+            "text_title": {
+              "translate": "potion_effect.wolfsbane.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:string"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.string"
+            },
+            "text_title": {
+              "translate": "potion_effect.string.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:cobblestone"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.cobblestone"
+            },
+            "text_title": {
+              "translate": "potion_effect.cobblestone.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:ent_twig"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.ent_twig"
+            },
+            "text_title": {
+              "translate": "potion_effect.ent_twig.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:slime_ball"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.slime_ball"
+            },
+            "text_title": {
+              "translate": "potion_effect.slime_ball.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:stick"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.stick"
+            },
+            "text_title": {
+              "translate": "potion_effect.stick.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:ender_pearl"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.ender_pearl"
+            },
+            "text_title": {
+              "translate": "potion_effect.ender_pearl.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:rose_bush"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.rose_bush"
+            },
+            "text_title": {
+              "translate": "potion_effect.rose_bush.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:poppy"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.poppy"
+            },
+            "text_title": {
+              "translate": "potion_effect.poppy.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:brown_mushroom"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.brown_mushroom"
+            },
+            "text_title": {
+              "translate": "potion_effect.brown_mushroom.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:red_mushroom"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.red_mushroom"
+            },
+            "text_title": {
+              "translate": "potion_effect.red_mushroom.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:witches_hat"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.witches_hat"
+            },
+            "text_title": {
+              "translate": "potion_effect.witches_hat.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "brewing/beginning_potions",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 3,
+  "x": 5,
+  "y": -2
+}

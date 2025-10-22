@@ -1,0 +1,11 @@
+{
+  "altar_power": 200,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -4610686,
+  "effect": "minecraft:jump_boost",
+  "item": {
+    "count": 1,
+    "id": "minecraft:rabbit_foot"
+  }
+}

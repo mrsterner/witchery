@@ -1,0 +1,71 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "soul_magic",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "soul_magic/carving_2"
+      },
+      {
+        "type": "modonomicon:advancement",
+        "advancement_id": "witchery:necro/4"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.soul_magic.carving_3.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:gravestone"
+  },
+  "name": "book.witchery.guidebook.soul_magic.carving_3.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "soul_magic.carving_3.page.1",
+      "title": "",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "soul_magic.carving_3.page.2",
+      "title": "",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "soul_magic.carving_3.page.3",
+      "title": "",
+      "use_markdown_in_title": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "soul_magic/carving_2",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 5,
+  "x": 2,
+  "y": 0
+}

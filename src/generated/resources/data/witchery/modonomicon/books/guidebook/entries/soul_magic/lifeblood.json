@@ -1,0 +1,61 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "soul_magic",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "soul_magic/soul_severance"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.soul_magic.lifeblood.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:lifeblood_berry"
+  },
+  "name": "book.witchery.guidebook.soul_magic.lifeblood.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:lifeblood_berry"
+      },
+      "text": "soul_magic.lifeblood.page.1",
+      "title": "soul_magic.lifeblood.title.1"
+    },
+    {
+      "type": "modonomicon:image",
+      "anchor": "",
+      "border": true,
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "images": [
+        "witchery:textures/gui/modonomicon/images/lifeblood.png"
+      ],
+      "text": "",
+      "title": "",
+      "use_legacy_rendering": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "soul_magic/soul_severance",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 3,
+  "x": -2,
+  "y": 2
+}

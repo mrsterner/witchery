@@ -1,0 +1,62 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 0,
+  "altarPowerPerTick": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "M": "witchery:infernal_chalk"
+  },
+  "commands": [],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
+  "covenCount": 1,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "components": {
+        "witchery:attuned": true
+      },
+      "id": "witchery:attuned_stone"
+    },
+    {
+      "id": "witchery:redstone_soup"
+    },
+    {
+      "id": "witchery:reek_of_misfortune"
+    },
+    {
+      "id": "witchery:toe_of_frog"
+    },
+    {
+      "id": "minecraft:water_bucket"
+    },
+    {
+      "id": "witchery:belladonna_flower"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "___MMMMM___",
+    "__M_____M__",
+    "_M_______M_",
+    "M_________M",
+    "M_________M",
+    "M____G____M",
+    "M_________M",
+    "M_________M",
+    "_M_______M_",
+    "__M_____M__",
+    "___MMMMM___"
+  ],
+  "ritual": {
+    "id": "witchery:raining_toad"
+  },
+  "ticks": 1200
+}

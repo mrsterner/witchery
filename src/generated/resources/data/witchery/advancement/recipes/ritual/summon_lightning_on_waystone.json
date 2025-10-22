@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_recipe": {
+      "conditions": {
+        "recipe": "witchery:summon_lightning_on_waystone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "witchery:summon_lightning_on_waystone"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "item": "witchery:woven_cruor"
+    }
+  },
+  "pattern": [
+    "WWW",
+    "W W",
+    "W W"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:trousers"
+  }
+}

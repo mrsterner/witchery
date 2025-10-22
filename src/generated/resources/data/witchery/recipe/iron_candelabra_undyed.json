@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "witchery:candelabras"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:iron_candelabra"
+  }
+}

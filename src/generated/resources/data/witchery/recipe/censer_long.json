@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "witchery:brazier"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "N": {
+      "item": "witchery:eternal_catalyst"
+    }
+  },
+  "pattern": [
+    "GNG",
+    "GBG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:censer_long"
+  }
+}

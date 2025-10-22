@@ -1,0 +1,21 @@
+{
+  "type": "witchery:brazier_summoning",
+  "altarPower": 500,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "witchery:wormwood"
+    },
+    {
+      "count": 1,
+      "id": "witchery:condensed_fear"
+    },
+    {
+      "count": 1,
+      "id": "witchery:spectral_dust"
+    }
+  ],
+  "outputEntities": [
+    "witchery:banshee"
+  ]
+}

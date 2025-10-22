@@ -1,0 +1,18 @@
+{
+  "type": "witchery:oven_cooking",
+  "cookingTime": 85,
+  "experience": 0.5,
+  "extraIngredient": {
+    "item": "witchery:jar"
+  },
+  "extraOutput": {
+    "id": "witchery:breath_of_the_goddess"
+  },
+  "extraOutputChance": 0.5,
+  "ingredient": {
+    "item": "minecraft:birch_sapling"
+  },
+  "result": {
+    "id": "witchery:wood_ash"
+  }
+}

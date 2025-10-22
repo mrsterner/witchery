@@ -1,0 +1,32 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "lycanthropy",
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "witchery:werewolf/1"
+  },
+  "description": "book.witchery.guidebook.lycanthropy.were_1.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "minecraft:mutton"
+  },
+  "name": "book.witchery.guidebook.lycanthropy.were_1.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "lycanthropy.were_1.page.1",
+      "title": "lycanthropy.were_1.title.1",
+      "use_markdown_in_title": true
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 0,
+  "x": -4,
+  "y": 0
+}

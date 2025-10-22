@@ -1,0 +1,57 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 5000,
+  "altarPowerPerTick": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "S": "witchery:otherwhere_chalk"
+  },
+  "commands": [
+    {
+      "type": "end",
+      "command": "witchery manifestation set {owner} true"
+    }
+  ],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:spectral_dust"
+    },
+    {
+      "id": "witchery:mellifluous_hunger"
+    },
+    {
+      "id": "witchery:necromantic_stone"
+    },
+    {
+      "id": "witchery:arthana"
+    },
+    {
+      "id": "minecraft:breeze_rod"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "__SSS__",
+    "_S___S_",
+    "S_____S",
+    "S__G__S",
+    "S_____S",
+    "_S___S_",
+    "__SSS__"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 0
+}

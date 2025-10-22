@@ -1,0 +1,53 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "altarPower": 200,
+  "dimensionKey": [
+    ""
+  ],
+  "inputItems": [
+    {
+      "color": -10837866,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:spectral_dust"
+      },
+      "order": 0
+    },
+    {
+      "color": -11189966,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:soul_sand"
+      },
+      "order": 1
+    },
+    {
+      "color": -7571276,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:phantom_vapor"
+      },
+      "order": 2
+    },
+    {
+      "color": -15435656,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:ender_dew"
+      },
+      "order": 3
+    },
+    {
+      "color": -6273506,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:mandrake_root"
+      },
+      "order": 4
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:brew_of_soul_severance"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_sac": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:ink_sac"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:coven_contract_1"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sac"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:coven_contract_1"
+    ]
+  }
+}

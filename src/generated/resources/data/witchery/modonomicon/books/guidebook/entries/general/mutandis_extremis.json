@@ -1,0 +1,56 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "general",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "general/mutandis"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.general.mutandis_extremis.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:mutandis_extremis"
+  },
+  "name": "book.witchery.guidebook.general.mutandis_extremis.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "general.mutandis_extremis.page.1",
+      "title": "general.mutandis_extremis.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:cauldron_crafting_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_crafting/mutandis_extremis",
+      "text": "general.mutandis_extremis.title.1",
+      "title1": "general.mutandis_extremis",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "general/mutandis",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 5,
+  "x": 3,
+  "y": -3
+}

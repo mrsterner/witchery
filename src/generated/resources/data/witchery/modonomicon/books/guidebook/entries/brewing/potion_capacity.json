@@ -1,0 +1,158 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brewing",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "brewing/beginning_potions"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.brewing.potion_capacity.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:mandrake_root"
+  },
+  "name": "book.witchery.guidebook.brewing.potion_capacity.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "brewing.potion_capacity.page.1",
+      "title": "brewing.potion_capacity.title",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:potion_model",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:mandrake_root"
+          },
+          "text": {
+            "translate": "witchery.potion_crafting.mandrake",
+            "with": [
+              1,
+              50
+            ]
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:tear_of_the_goddess"
+          },
+          "text": {
+            "translate": "witchery.potion_crafting.tear_of_the_goddess",
+            "with": [
+              1,
+              100
+            ]
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:phantom_vapor"
+          },
+          "text": {
+            "translate": "witchery.potion_crafting.phantom_vapour",
+            "with": [
+              1,
+              150
+            ]
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:amethyst_shard"
+          },
+          "text": {
+            "translate": "witchery.potion_crafting.amethyst",
+            "with": [
+              1,
+              200
+            ]
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:heart_of_the_sea"
+          },
+          "text": {
+            "translate": "witchery.potion_crafting.heart_of_the_sea",
+            "with": [
+              1,
+              250
+            ]
+          }
+        }
+      ],
+      "text": "",
+      "title": "Capacity Modifiers"
+    },
+    {
+      "type": "witchery:potion_model",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "minecraft:nether_star"
+          },
+          "text": {
+            "translate": "witchery.potion_crafting.nether_star",
+            "with": [
+              3,
+              0
+            ]
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:pentacle"
+          },
+          "text": {
+            "translate": "witchery.potion_crafting.pentacle",
+            "with": [
+              4,
+              0
+            ]
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "brewing/beginning_potions",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 2,
+  "x": 4,
+  "y": -1
+}

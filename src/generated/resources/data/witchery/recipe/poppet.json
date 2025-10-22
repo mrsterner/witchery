@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "witchery:bone_needle"
+    },
+    "S": {
+      "item": "witchery:spanish_moss"
+    },
+    "T": {
+      "item": "minecraft:string"
+    },
+    "W": {
+      "item": "minecraft:hay_block"
+    }
+  },
+  "pattern": [
+    "WSW",
+    "BST",
+    "W W"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:poppet"
+  }
+}

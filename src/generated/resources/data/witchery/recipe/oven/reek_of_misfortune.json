@@ -1,0 +1,18 @@
+{
+  "type": "witchery:oven_cooking",
+  "cookingTime": 85,
+  "experience": 0.5,
+  "extraIngredient": {
+    "item": "witchery:jar"
+  },
+  "extraOutput": {
+    "id": "witchery:reek_of_misfortune"
+  },
+  "extraOutputChance": 0.5,
+  "ingredient": {
+    "item": "witchery:alder_sapling"
+  },
+  "result": {
+    "id": "witchery:wood_ash"
+  }
+}

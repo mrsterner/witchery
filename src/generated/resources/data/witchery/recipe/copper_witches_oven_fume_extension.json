@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:copper_trapdoor"
+    },
+    "B": {
+      "item": "minecraft:lightning_rod"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    },
+    "I": {
+      "item": "minecraft:copper_block"
+    },
+    "L": {
+      "item": "minecraft:lava_bucket"
+    }
+  },
+  "pattern": [
+    "BLB",
+    "BGB",
+    "IAI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:copper_witches_oven_fume_extension"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "altar_power": 100,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -367606,
+  "dispersal_modifier": {
+    "range": 2
+  },
+  "item": {
+    "count": 1,
+    "id": "minecraft:cocoa_beans"
+  }
+}

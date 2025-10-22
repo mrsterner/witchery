@@ -1,0 +1,73 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "general",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "general/mutating_spring"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.general.owl.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "minecraft:bat_spawn_egg"
+  },
+  "name": "book.witchery.guidebook.general.owl.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "general.owl.page.1",
+      "title": "general.owl.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:entity",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "default_rotation": -45.0,
+      "entity_id": "witchery:owl",
+      "name": "",
+      "offset": 0.0,
+      "rotate": true,
+      "scale": 1.0,
+      "text": ""
+    },
+    {
+      "type": "modonomicon:image",
+      "anchor": "",
+      "border": true,
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "images": [
+        "witchery:textures/gui/modonomicon/images/owl_image.png"
+      ],
+      "text": "",
+      "title": "",
+      "use_legacy_rendering": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "general/mutating_spring",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 10,
+  "x": 6,
+  "y": -5
+}

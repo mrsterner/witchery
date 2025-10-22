@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "dyed_candle",
+  "ingredients": [
+    {
+      "tag": "witchery:candelabras"
+    },
+    {
+      "item": "minecraft:white_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:white_iron_candelabra"
+  }
+}

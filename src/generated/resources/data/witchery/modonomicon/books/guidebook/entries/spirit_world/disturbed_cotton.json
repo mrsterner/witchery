@@ -1,0 +1,34 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "spirit_world",
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "witchery:spirit_world"
+  },
+  "description": "book.witchery.guidebook.spirit_world.disturbed_cotton.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:disturbed_cotton"
+  },
+  "name": "book.witchery.guidebook.spirit_world.disturbed_cotton.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:disturbed_cotton"
+      },
+      "text": "spirit_world.disturbed_cotton.page.1",
+      "title": "spirit_world.disturbed_cotton.title.1"
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 0,
+  "x": -4,
+  "y": 0
+}

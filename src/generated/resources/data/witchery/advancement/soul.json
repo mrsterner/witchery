@@ -1,0 +1,28 @@
+{
+  "parent": "witchery:root",
+  "criteria": {
+    "has_seen_soul": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.soul.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:soul_soil"
+    },
+    "title": {
+      "translate": "advancements.witchery.soul.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_seen_soul"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

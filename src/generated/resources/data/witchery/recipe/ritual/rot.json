@@ -1,0 +1,62 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 6000,
+  "altarPowerPerTick": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "L": "witchery:infernal_chalk"
+  },
+  "commands": [],
+  "conditions": {
+    "celestialConditions": [
+      "waning",
+      "new_moon"
+    ],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [
+    "minecraft:zombie"
+  ],
+  "inputItems": [
+    {
+      "id": "witchery:foul_fume"
+    },
+    {
+      "id": "minecraft:rotten_flesh"
+    },
+    {
+      "id": "witchery:belladonna_flower"
+    },
+    {
+      "id": "witchery:reek_of_misfortune"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "_____LLLLL_____",
+    "___LL_____LL___",
+    "__L_________L__",
+    "_L___________L_",
+    "_L___________L_",
+    "L_____________L",
+    "L_____________L",
+    "L______G______L",
+    "L_____________L",
+    "L_____________L",
+    "_L___________L_",
+    "_L___________L_",
+    "__L_________L__",
+    "___LL_____LL___",
+    "_____LLLLL_____"
+  ],
+  "ritual": {
+    "id": "witchery:rot"
+  },
+  "ticks": 200
+}

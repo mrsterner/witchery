@@ -1,0 +1,61 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "altarPower": 100,
+  "dimensionKey": [
+    ""
+  ],
+  "inputItems": [
+    {
+      "color": -13487566,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:oil_of_vitriol"
+      },
+      "order": 0
+    },
+    {
+      "color": -13495246,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:oil_of_vitriol"
+      },
+      "order": 1
+    },
+    {
+      "color": -10197986,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:wood_ash"
+      },
+      "order": 2
+    },
+    {
+      "color": -3314106,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:magma_cream"
+      },
+      "order": 3
+    },
+    {
+      "color": -52566,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:belladonna_flower"
+      },
+      "order": 4
+    },
+    {
+      "color": -10850766,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:dandelion"
+      },
+      "order": 5
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:brew_of_erosion"
+  }
+}

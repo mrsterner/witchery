@@ -1,0 +1,56 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "ritual",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "ritual/necro_stone"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.ritual.infuse_necromancy.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:necromantic_soulbind"
+  },
+  "name": "book.witchery.guidebook.ritual.infuse_necromancy.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "ritual.infuse_necromancy.page.1",
+      "title": "ritual.infuse_necromancy.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:ritual_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:ritual/infuse_necromancy",
+      "text": "ritual.infuse_necromancy.page.2",
+      "title1": "",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "ritual/necro_stone",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 25,
+  "x": -4,
+  "y": 3
+}

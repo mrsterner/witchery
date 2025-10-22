@@ -1,0 +1,45 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brewing",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "brewing/beginning_potions"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.brewing.brews.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:brew_of_the_grotesque"
+  },
+  "name": "book.witchery.guidebook.brewing.brews.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "brewing.brews.page.1",
+      "title": "brewing.brews.title.1",
+      "use_markdown_in_title": false
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "brewing/beginning_potions",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 11,
+  "x": -8,
+  "y": -2
+}

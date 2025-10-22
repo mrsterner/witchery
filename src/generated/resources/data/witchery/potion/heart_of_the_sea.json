@@ -1,0 +1,9 @@
+{
+  "altar_power": 200,
+  "base_duration": 900,
+  "color": -10197766,
+  "item": {
+    "count": 1,
+    "id": "minecraft:heart_of_the_sea"
+  }
+}

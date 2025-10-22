@@ -1,0 +1,58 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 1000,
+  "altarPowerPerTick": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "S": "witchery:ritual_chalk"
+  },
+  "commands": [],
+  "conditions": {
+    "celestialConditions": [
+      "night"
+    ],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:attuned_stone"
+    },
+    {
+      "id": "minecraft:bone"
+    },
+    {
+      "id": "minecraft:rotten_flesh"
+    },
+    {
+      "id": "witchery:wood_ash"
+    },
+    {
+      "id": "witchery:spectral_dust"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [
+    {
+      "id": "witchery:necromantic_stone"
+    }
+  ],
+  "pattern": [
+    "__SSS__",
+    "_S___S_",
+    "S_____S",
+    "S__G__S",
+    "S_____S",
+    "_S___S_",
+    "__SSS__"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 0
+}

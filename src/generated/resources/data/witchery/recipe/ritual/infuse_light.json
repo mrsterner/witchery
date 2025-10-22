@@ -1,0 +1,50 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 2000,
+  "altarPowerPerTick": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "M": "witchery:ritual_chalk",
+    "S": "witchery:ritual_chalk"
+  },
+  "commands": [
+    {
+      "type": "end",
+      "command": "witchery infusion setAndKill {owner} light"
+    }
+  ],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:ghost_of_the_light"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "___MMMMM___",
+    "__M_____M__",
+    "_M__SSS__M_",
+    "M__S___S__M",
+    "M_S_____S_M",
+    "M_S__G__S_M",
+    "M_S_____S_M",
+    "M__S___S__M",
+    "_M__SSS__M_",
+    "__M_____M__",
+    "___MMMMM___"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 0
+}

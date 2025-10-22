@@ -1,0 +1,11 @@
+{
+  "altar_power": 200,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -6240026,
+  "effect": "minecraft:dolphins_grace",
+  "item": {
+    "count": 1,
+    "id": "minecraft:cod"
+  }
+}

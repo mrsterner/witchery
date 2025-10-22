@@ -1,0 +1,11 @@
+{
+  "altar_power": 200,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -14110881,
+  "effect": "minecraft:resistance",
+  "item": {
+    "count": 1,
+    "id": "minecraft:turtle_scute"
+  }
+}

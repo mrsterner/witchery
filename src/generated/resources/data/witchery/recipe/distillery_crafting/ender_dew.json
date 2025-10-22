@@ -1,0 +1,30 @@
+{
+  "type": "witchery:distillery_crafting",
+  "altarPower": 5,
+  "cookingTime": 100,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "minecraft:ender_pearl"
+    }
+  ],
+  "jarConsumption": 6,
+  "outputItems": [
+    {
+      "count": 2,
+      "id": "witchery:ender_dew"
+    },
+    {
+      "count": 2,
+      "id": "witchery:ender_dew"
+    },
+    {
+      "count": 1,
+      "id": "witchery:ender_dew"
+    },
+    {
+      "count": 1,
+      "id": "witchery:whiff_of_magic"
+    }
+  ]
+}

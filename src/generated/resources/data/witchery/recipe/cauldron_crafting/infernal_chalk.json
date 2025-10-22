@@ -1,0 +1,36 @@
+{
+  "type": "witchery:cauldron_crafting",
+  "altarPower": 100,
+  "inputItems": [
+    {
+      "color": -52686,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:nether_wart"
+      },
+      "order": 0
+    },
+    {
+      "color": -3291126,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:blaze_powder"
+      },
+      "order": 1
+    },
+    {
+      "color": -3618616,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:ritual_chalk"
+      },
+      "order": 2
+    }
+  ],
+  "outputItems": [
+    {
+      "count": 1,
+      "id": "witchery:infernal_chalk"
+    }
+  ]
+}

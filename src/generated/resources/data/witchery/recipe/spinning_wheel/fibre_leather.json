@@ -1,0 +1,23 @@
+{
+  "type": "witchery:spinning_wheel",
+  "altarPower": 5,
+  "cookingTime": 100,
+  "inputItems": [
+    {
+      "count": 3,
+      "id": "witchery:wormwood"
+    },
+    {
+      "count": 1,
+      "id": "witchery:wood_ash"
+    },
+    {
+      "count": 1,
+      "id": "witchery:oil_of_vitriol"
+    }
+  ],
+  "outputItem": {
+    "count": 2,
+    "id": "minecraft:leather"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "type": "witchery:cauldron_brewing",
+  "altarPower": 250,
+  "dimensionKey": [
+    "minecraft:the_end"
+  ],
+  "inputItems": [
+    {
+      "color": -1644826,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:sugar"
+      },
+      "order": 0
+    },
+    {
+      "color": -3613441,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:breath_of_the_goddess"
+      },
+      "order": 1
+    },
+    {
+      "color": -11488086,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:glow_ink_sac"
+      },
+      "order": 2
+    },
+    {
+      "color": -15435656,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:ender_dew"
+      },
+      "order": 3
+    },
+    {
+      "color": -17240,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:whiff_of_magic"
+      },
+      "order": 4
+    }
+  ],
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:brew_of_oblivion"
+  }
+}

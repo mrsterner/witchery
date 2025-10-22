@@ -1,0 +1,56 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 5000,
+  "altarPowerPerTick": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "M": "witchery:infernal_chalk"
+  },
+  "commands": [],
+  "conditions": {
+    "celestialConditions": [
+      "waning",
+      "new_moon"
+    ],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:taglock"
+    },
+    {
+      "id": "witchery:ender_dew"
+    },
+    {
+      "id": "witchery:tormented_twine"
+    },
+    {
+      "id": "witchery:necromantic_stone"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "___MMMMM___",
+    "__M_____M__",
+    "_M_______M_",
+    "M_________M",
+    "M_________M",
+    "M____G____M",
+    "M_________M",
+    "M_________M",
+    "_M_______M_",
+    "__M_____M__",
+    "___MMMMM___"
+  ],
+  "ritual": {
+    "id": "witchery:soul_severance"
+  },
+  "ticks": 0
+}

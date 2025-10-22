@@ -1,0 +1,9 @@
+{
+  "base_duration": 900,
+  "capacity_cost": 3,
+  "color": -3618566,
+  "item": {
+    "count": 1,
+    "id": "minecraft:nether_star"
+  }
+}

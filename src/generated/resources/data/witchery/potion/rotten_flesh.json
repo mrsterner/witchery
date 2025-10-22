@@ -1,0 +1,11 @@
+{
+  "altar_power": 200,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -2333596,
+  "effect": "witchery:disease",
+  "item": {
+    "count": 1,
+    "id": "minecraft:rotten_flesh"
+  }
+}

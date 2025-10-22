@@ -1,0 +1,11 @@
+{
+  "altar_power": 200,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -8231681,
+  "effect": "witchery:fortune_tool",
+  "item": {
+    "count": 1,
+    "id": "minecraft:clay"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 6000,
+  "altarPowerPerTick": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "M": "witchery:ritual_chalk"
+  },
+  "commands": [],
+  "conditions": {
+    "celestialConditions": [
+      "night"
+    ],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "witchery:attuned_stone"
+    },
+    {
+      "id": "witchery:arthana"
+    },
+    {
+      "id": "minecraft:soul_lantern"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "___MMMMM___",
+    "__M_____M__",
+    "_M_______M_",
+    "M_________M",
+    "M_________M",
+    "M____G____M",
+    "M_________M",
+    "M_________M",
+    "_M_______M_",
+    "__M_____M__",
+    "___MMMMM___"
+  ],
+  "ritual": {
+    "id": "witchery:bind_spectral_creatures"
+  },
+  "ticks": 20
+}

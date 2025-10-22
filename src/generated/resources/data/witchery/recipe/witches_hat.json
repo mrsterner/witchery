@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "I": {
+      "item": "witchery:impregnated_fabric"
+    },
+    "S": {
+      "item": "witchery:golden_thread"
+    }
+  },
+  "pattern": [
+    " I ",
+    "SIS",
+    "IGI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:witches_hat"
+  }
+}

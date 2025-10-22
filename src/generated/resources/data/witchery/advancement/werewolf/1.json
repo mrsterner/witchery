@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "impossible_1": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "witchery:textures/block/rowan_planks.png",
+    "description": {
+      "translate": "advancements.witchery.werewolf_1.description"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "witchery:torn_page"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.witchery.werewolf_1.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible_1"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
