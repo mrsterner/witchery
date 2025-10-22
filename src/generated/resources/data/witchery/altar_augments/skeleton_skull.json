@@ -1,0 +1,7 @@
+{
+  "block": "minecraft:skeleton_skull",
+  "bonus": {
+    "head_bonus": 1.0
+  },
+  "category": "head"
+}

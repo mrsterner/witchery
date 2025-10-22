@@ -1,0 +1,7 @@
+{
+  "block": "witchery:chalice",
+  "bonus": {
+    "chalice_bonus": 1.0
+  },
+  "category": "chalice"
+}

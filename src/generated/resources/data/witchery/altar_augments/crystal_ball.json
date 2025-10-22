@@ -1,0 +1,7 @@
+{
+  "block": "witchery:crystal_ball",
+  "bonus": {
+    "chalice_bonus": 2.0
+  },
+  "category": "chalice"
+}

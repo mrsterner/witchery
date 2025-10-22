@@ -69,5 +69,10 @@ object WitcheryDataGen {
         val datapackProvider: DatapackBuiltinEntriesProvider = WitcheryRegistryDataGen(packOutput, event.lookupProvider)
 
         generator.addProvider(true, datapackProvider)
+
+        generator.addProvider(
+            event.includeServer(),
+            WitcheryAltarAugmentProvider(packOutput, event.lookupProvider, event.existingFileHelper)
+        )
     }
 }

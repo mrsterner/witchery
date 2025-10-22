@@ -1,0 +1,9 @@
+{
+  "bonus": {
+    "light_bonus": 1.0
+  },
+  "category": "light",
+  "required_candle_count": 4,
+  "requires_lit": true,
+  "tag": "minecraft:candles"
+}

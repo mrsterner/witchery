@@ -4,6 +4,7 @@ import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.content.block.ChaliceBlock
 import dev.sterner.witchery.core.data.NaturePowerReloadListener
 import dev.sterner.witchery.content.menu.AltarMenu
+import dev.sterner.witchery.core.data.AltarAugmentReloadListener
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.network.AltarMultiplierSyncS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
@@ -117,106 +118,6 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         return aabb.setMaxX(aabb.maxX - 0.4).setMaxY(aabb.maxY - 0.4).setMaxZ(aabb.maxZ - 0.4)
     }
 
-    fun augmentAltar(level: ServerLevel) {
-        val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-
-        powerMultiplier = 1.0
-
-        val prevPowerBoost = powerBoost
-        powerBoost = 1.0
-
-        var rangeMultiplier = 1.0
-        val prevRange = range
-        range = 16
-
-        var bestLightAugment = 0.0
-        var bestHeadAugment = 0.0
-        var bestChaliceAugment = 0.0
-        var hasPentacle = false
-        var hasInfinityEgg = false
-
-        level.getBlockStatesIfLoaded(augments).forEach { state ->
-
-            if (state.`is`(WitcheryBlocks.CENSER.get()) && 2.5 > bestLightAugment) {
-                bestLightAugment = 2.5
-            } else if (state.`is`(WitcheryTags.CANDELABRAS) { b -> b.getValue(BlockStateProperties.LIT) } && 2.0 > bestLightAugment) {
-                bestLightAugment = 2.0
-            } else if (state.`is`(Blocks.SOUL_TORCH) && 1.5 > bestLightAugment) {
-                bestLightAugment = 1.5
-            } else if ((state.`is`(Blocks.TORCH) || state.`is`(BlockTags.CANDLES) { s ->
-                    s.getValue(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.CANDLES) == 4
-                }) && 1.0 > bestLightAugment) {
-                bestLightAugment = 1.0
-            } else if (state.`is`(BlockTags.CANDLES) { s ->
-                    s.getValue(BlockStateProperties.LIT) && s.getValue(
-                        BlockStateProperties.CANDLES
-                    ) == 3
-                } && 0.75 > bestLightAugment) {
-                bestLightAugment = 0.75
-            } else if (state.`is`(BlockTags.CANDLES) { s ->
-                    s.getValue(BlockStateProperties.LIT) && s.getValue(
-                        BlockStateProperties.CANDLES
-                    ) == 2
-                } && 0.5 > bestLightAugment) {
-                bestLightAugment = 0.5
-            } else if ((state.`is`(BlockTags.CANDLES) { s ->
-                    s.getValue(BlockStateProperties.LIT) && s.getValue(
-                        BlockStateProperties.CANDLES
-                    ) == 1
-                } ||
-                        state.`is`(BlockTags.CANDLE_CAKES) { s -> s.getValue(BlockStateProperties.LIT) }) && 0.25 > bestLightAugment) {
-                bestLightAugment = 0.25
-            }
-
-            if ((state.`is`(Blocks.PLAYER_HEAD) || state.`is`(Blocks.PLAYER_WALL_HEAD)) && 3.0 > bestHeadAugment) {
-                bestHeadAugment = 3.0
-            } else if ((state.`is`(Blocks.WITHER_SKELETON_SKULL) || state.`is`(Blocks.WITHER_SKELETON_WALL_SKULL)) && 2.0 > bestHeadAugment) {
-                bestHeadAugment = 2.0
-            } else if ((state.`is`(Blocks.SKELETON_SKULL) || state.`is`(Blocks.SKELETON_WALL_SKULL)) && 1.0 > bestHeadAugment) {
-                bestHeadAugment = 1.0
-            }
-
-            if (state.`is`(WitcheryBlocks.PENTACLE.get()) && !hasPentacle) {
-                hasPentacle = true
-            }
-
-            if (state.`is`(WitcheryBlocks.CHALICE.get()))
-                if (state.getValue(ChaliceBlock.HAS_SOUP) && 2.0 > bestChaliceAugment) {
-                    bestChaliceAugment = 2.0
-                } else if (1.0 > bestChaliceAugment) {
-                    bestChaliceAugment = 1.0
-                }
-
-            if (state.`is`(WitcheryBlocks.ARTHANA.get()) && 2.0 > rangeMultiplier) {
-                rangeMultiplier = 2.0
-            }
-
-            if (state.`is`(WitcheryBlocks.INFINITY_EGG.get()) && !hasInfinityEgg) {
-                hasInfinityEgg = true
-            }
-        }
-
-        powerMultiplier += powerMultiplier * bestLightAugment
-        powerMultiplier += powerMultiplier * bestHeadAugment
-        if (hasPentacle) {
-            powerMultiplier *= 2
-        }
-
-        powerBoost += powerBoost * bestHeadAugment
-        powerBoost += powerBoost * bestChaliceAugment
-
-        range += (range * rangeMultiplier).toInt()
-
-        if (hasInfinityEgg) {
-            powerMultiplier *= 10
-            powerBoost *= 2
-        }
-
-        if (powerBoost != prevPowerBoost || range != prevRange) {
-            powerUpdateQueued = true
-        }
-    }
-
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
         if (pPlayer is ServerPlayer) {
             openMenu(pPlayer)
@@ -242,8 +143,78 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         }, blockPos)
     }
 
-    override fun tickServer(serverLevel: ServerLevel) {
+    fun augmentAltar(level: ServerLevel) {
+        val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
 
+        powerMultiplier = 1.0
+
+        val prevPowerBoost = powerBoost
+        powerBoost = 1.0
+
+        var rangeMultiplier = 1.0
+        val prevRange = range
+        range = 16
+
+        var bestLightAugment = 0.0
+        var bestHeadAugment = 0.0
+        var bestChaliceAugment = 0.0
+        var hasPentacle = false
+        var hasInfinityEgg = false
+
+        level.getBlockStatesIfLoaded(augments).forEach { state ->
+            val augment = AltarAugmentReloadListener.getAugment(state) ?: return@forEach
+            val bonus = augment.bonus
+
+            when (augment.category) {
+                AltarAugmentReloadListener.AugmentCategory.LIGHT -> {
+                    if (bonus.lightBonus > bestLightAugment) {
+                        bestLightAugment = bonus.lightBonus
+                    }
+                }
+                AltarAugmentReloadListener.AugmentCategory.HEAD -> {
+                    if (bonus.headBonus > bestHeadAugment) {
+                        bestHeadAugment = bonus.headBonus
+                    }
+                }
+                AltarAugmentReloadListener.AugmentCategory.CHALICE -> {
+                    if (bonus.chaliceBonus > bestChaliceAugment) {
+                        bestChaliceAugment = bonus.chaliceBonus
+                    }
+                }
+                AltarAugmentReloadListener.AugmentCategory.RANGE -> {
+                    if (bonus.rangeMultiplier > rangeMultiplier) {
+                        rangeMultiplier = bonus.rangeMultiplier
+                    }
+                }
+                AltarAugmentReloadListener.AugmentCategory.SPECIAL -> {
+                    if (bonus.hasPentacle) hasPentacle = true
+                    if (bonus.hasInfinityEgg) hasInfinityEgg = true
+                }
+            }
+        }
+
+        powerMultiplier += powerMultiplier * bestLightAugment
+        powerMultiplier += powerMultiplier * bestHeadAugment
+        if (hasPentacle) {
+            powerMultiplier *= 2
+        }
+
+        powerBoost += powerBoost * bestHeadAugment
+        powerBoost += powerBoost * bestChaliceAugment
+
+        range += (range * rangeMultiplier).toInt()
+
+        if (hasInfinityEgg) {
+            powerMultiplier *= 10
+            powerBoost *= 2
+        }
+
+        if (powerBoost != prevPowerBoost || range != prevRange) {
+            powerUpdateQueued = true
+        }
+    }
+
+    override fun tickServer(serverLevel: ServerLevel) {
         if (powerUpdateQueued) {
             collectAllLocalNaturePower(serverLevel)
             powerUpdateQueued = false

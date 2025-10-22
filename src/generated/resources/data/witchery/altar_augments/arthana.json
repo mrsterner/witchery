@@ -1,0 +1,7 @@
+{
+  "block": "witchery:arthana",
+  "bonus": {
+    "range_multiplier": 2.0
+  },
+  "category": "range"
+}

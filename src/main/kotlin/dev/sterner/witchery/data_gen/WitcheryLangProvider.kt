@@ -190,5 +190,17 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
 
 
         add("witchery.too_few_in_coven", "Coven too small")
+
+        add("witchery.curse.afflicted", "%s is afflicted by %s")
+        add( "witchery.curse.free", "%s is free from curses!")
+
+        add("witchery.curse.misfortune.name", "the Curse of Misfortune")
+        add("witchery.curse.insanity.name", "the Curse of Insanity")
+        add("witchery.curse.corrupt_poppet.name", "the Curse of Corrupt Poppet")
+        add("witchery.curse.overheating.name", "the Curse of Overheating")
+        add("witchery.curse.sinking.name", "the Curse of Sinking")
+        add("witchery.curse.befuddlement.name", "the Curse of Befuddlement")
+        add("witchery.curse.hunger.name", "the Curse of Hunger")
+        add("witchery.curse.fragility.name", "the Curse of Fragility")
     }
 }

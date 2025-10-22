@@ -1,0 +1,8 @@
+{
+  "bonus": {
+    "light_bonus": 2.0
+  },
+  "category": "light",
+  "requires_lit": true,
+  "tag": "witchery:candelabras"
+}

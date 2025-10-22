@@ -1,0 +1,7 @@
+{
+  "block": "witchery:infinity_egg",
+  "bonus": {
+    "has_infinity_egg": true
+  },
+  "category": "special"
+}

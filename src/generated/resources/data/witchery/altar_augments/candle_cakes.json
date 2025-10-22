@@ -1,0 +1,8 @@
+{
+  "bonus": {
+    "light_bonus": 0.25
+  },
+  "category": "light",
+  "requires_lit": true,
+  "tag": "minecraft:candle_cakes"
+}

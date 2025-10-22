@@ -1,0 +1,7 @@
+{
+  "block": "witchery:pentacle",
+  "bonus": {
+    "has_pentacle": true
+  },
+  "category": "special"
+}

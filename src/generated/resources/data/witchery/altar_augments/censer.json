@@ -1,0 +1,7 @@
+{
+  "block": "witchery:censer",
+  "bonus": {
+    "light_bonus": 2.5
+  },
+  "category": "light"
+}

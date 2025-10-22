@@ -1,0 +1,7 @@
+{
+  "block": "minecraft:wither_skeleton_wall_skull",
+  "bonus": {
+    "head_bonus": 2.0
+  },
+  "category": "head"
+}

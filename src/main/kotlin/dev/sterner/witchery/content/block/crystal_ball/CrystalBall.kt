@@ -1,9 +1,18 @@
 package dev.sterner.witchery.content.block.crystal_ball
 
+import dev.sterner.witchery.content.item.SeerStoneItem
+import dev.sterner.witchery.features.coven.CovenDialogue
+import dev.sterner.witchery.features.curse.CursePlayerAttachment
+import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos
+import net.minecraft.network.chat.Component
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.BooleanOp
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
@@ -18,6 +27,41 @@ class CrystalBall(properties: Properties) : Block(properties) {
         context: CollisionContext
     ): VoxelShape {
         return SHAPE
+    }
+
+    override fun useWithoutItem(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        player: Player,
+        hitResult: BlockHitResult
+    ): InteractionResult {
+
+        if (!level.isClientSide) {
+            val curseData = CursePlayerAttachment.getData(player)
+            if (curseData.playerCurseList.isEmpty()) {
+                player.displayClientMessage(
+                    Component.translatable(
+                        "witchery.curse.free",
+                        player.displayName
+                    ).withStyle(ChatFormatting.GREEN),
+                    false
+                )
+            } else {
+                curseData.playerCurseList.forEach { curse ->
+                    player.displayClientMessage(
+                        Component.translatable(
+                            "witchery.curse.afflicted",
+                            player.displayName,
+                            Component.translatable("witchery.curse.${curse.curseId.path}.name").withStyle(ChatFormatting.RED)
+                        ),
+                        false
+                    )
+                }
+            }
+        }
+
+        return super.useWithoutItem(state, level, pos, player, hitResult)
     }
 
     companion object {

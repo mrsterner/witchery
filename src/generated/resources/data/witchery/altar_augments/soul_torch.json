@@ -1,0 +1,7 @@
+{
+  "block": "minecraft:soul_torch",
+  "bonus": {
+    "light_bonus": 1.5
+  },
+  "category": "light"
+}

@@ -1,0 +1,7 @@
+{
+  "block": "minecraft:player_wall_head",
+  "bonus": {
+    "head_bonus": 3.0
+  },
+  "category": "head"
+}

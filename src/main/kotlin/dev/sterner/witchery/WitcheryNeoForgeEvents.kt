@@ -16,6 +16,7 @@ import dev.sterner.witchery.content.item.CaneSwordItem
 import dev.sterner.witchery.content.item.WineGlassItem
 import dev.sterner.witchery.content.item.accessories.BitingBeltItem
 import dev.sterner.witchery.content.item.brew.BrewOfSleepingItem
+import dev.sterner.witchery.core.data.AltarAugmentReloadListener
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
 import dev.sterner.witchery.core.data.ErosionReloadListener
 import dev.sterner.witchery.core.data.FetishEffectReloadListener
@@ -335,6 +336,7 @@ object WitcheryNeoForgeEvents {
         event.addListener(InfiniteCenserReloadListener.LOADER)
         event.addListener(NaturePowerReloadListener.LOADER)
         event.addListener(PotionDataReloadListener.LOADER)
+        event.addListener(AltarAugmentReloadListener.LOADER)
     }
 
     @SubscribeEvent
