@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemNameBlockItem
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Block
 
-class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block, properties.durability(128)) {
+class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block, properties.durability(96)) {
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
