@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.GameRules
 import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.network.PacketDistributor
 
@@ -64,7 +65,7 @@ object InventoryLockPlayerAttachment {
         val data = getData(player)
         val newLockedSlots = data.lockedSlots.toMutableSet().apply { addAll(slots) }
 
-        if (player is ServerPlayer) {
+        if (player is ServerPlayer && !player.serverLevel().gameRules.getBoolean(GameRules.RULE_KEEPINVENTORY)) {
             slots.forEach { slot ->
                 if (!data.lockedSlots.contains(slot)) {
                     dropItemFromSlot(player, slot)

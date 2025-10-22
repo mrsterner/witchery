@@ -4,11 +4,12 @@ import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlock
 import dev.sterner.witchery.content.block.ritual.RitualChalkBlock
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.item.ItemNameBlockItem
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Block
 
-class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block, properties) {
+class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block, properties.durability(128)) {
 
     override fun useOn(context: UseOnContext): InteractionResult {
         val level = context.level
@@ -27,9 +28,12 @@ class ChalkItem(block: Block, properties: Properties) : ItemNameBlockItem(block,
                     context.level.random.nextIntBetweenInclusive(0, RitualChalkBlock.VARIANTS)
                 )
             )
+
+            context.itemInHand.hurtAndBreak(1, context.player, EquipmentSlot.MAINHAND)
             return InteractionResult.CONSUME
-        } else if (state.block is GoldenChalkBlock && state.`is`(item.block))
+        } else if (state.block is GoldenChalkBlock && state.`is`(item.block)) {
             return InteractionResult.FAIL
+        }
 
         return super.useOn(context)
     }

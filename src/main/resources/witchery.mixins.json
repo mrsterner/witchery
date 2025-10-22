@@ -8,6 +8,7 @@
     "ArgumentTypeInfosInvoker",
     "AvoidEntityGoalMixin",
     "BlockBehaviourMixin",
+    "BlockItemMixin",
     "BlockMixin",
     "BrushItemMixin",
     "CompositeEntryBaseAccessor",

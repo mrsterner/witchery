@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.context.CommandContext
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.InventorySlots
 import dev.sterner.witchery.core.commands.CurseArgumentType
@@ -32,6 +33,8 @@ import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.features.infusion.InfusionType
 import dev.sterner.witchery.features.possession.EntityAiToggle
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment
+import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
+import net.minecraft.ChatFormatting
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -40,6 +43,7 @@ import net.minecraft.commands.synchronization.ArgumentTypeInfo
 import net.minecraft.commands.synchronization.SingletonArgumentInfo
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.registries.DeferredRegister
@@ -84,6 +88,7 @@ object WitcheryCommands {
                 .then(registerWerewolfCommands())
                 .then(registerLichdomCommands())
                 .then(registerCovenCommands())
+                .then(registerTarotCommands())
         )
     }
 
@@ -786,5 +791,243 @@ object WitcheryCommands {
                             }
                     )
             )
+    }
+
+    private fun registerTarotCommands(): LiteralArgumentBuilder<CommandSourceStack> {
+        return Commands.literal("tarot")
+            .requires { it.hasPermission(2) }
+            .then(
+                Commands.literal("apply")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .then(
+                                Commands.argument("cardNumber", IntegerArgumentType.integer(1, 22))
+                                    .then(
+                                        Commands.argument("reversed", BoolArgumentType.bool())
+                                            .executes { ctx ->
+                                                val player = EntityArgument.getPlayer(ctx, "player")
+                                                val cardNumber = IntegerArgumentType.getInteger(ctx, "cardNumber")
+                                                val reversed = BoolArgumentType.getBool(ctx, "reversed")
+                                                applyTarotCard(ctx, player, cardNumber, reversed)
+                                            }
+                                    )
+                                    .executes { ctx ->
+                                        val player = EntityArgument.getPlayer(ctx, "player")
+                                        val cardNumber = IntegerArgumentType.getInteger(ctx, "cardNumber")
+                                        applyTarotCard(ctx, player, cardNumber, false)
+                                    }
+                            )
+                    )
+            )
+            .then(
+                Commands.literal("clear")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .executes { ctx ->
+                                val player = EntityArgument.getPlayer(ctx, "player")
+                                clearTarotCards(ctx, player)
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("list")
+                    .executes { ctx ->
+                        listTarotCards(ctx)
+                    }
+            )
+            .then(
+                Commands.literal("info")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .executes { ctx ->
+                                val player = EntityArgument.getPlayer(ctx, "player")
+                                showTarotInfo(ctx, player)
+                            }
+                    )
+            )
+    }
+
+    private fun applyTarotCard(
+        ctx: CommandContext<CommandSourceStack>,
+        target: ServerPlayer,
+        cardNumber: Int,
+        reversed: Boolean
+    ): Int {
+        val effect = WitcheryTarotEffects.getByCardNumber(cardNumber)
+
+        if (effect == null) {
+            ctx.source.sendFailure(
+                Component.literal("Invalid card number: $cardNumber. Must be between 1 and 22.")
+                    .withStyle(ChatFormatting.RED)
+            )
+            return 0
+        }
+
+        val currentData = TarotPlayerAttachment.getData(target)
+        val newCards = currentData.drawnCards.toMutableList()
+        val newReversed = currentData.reversedCards.toMutableList()
+
+        val existingIndex = newCards.indexOf(cardNumber)
+        if (existingIndex != -1) {
+            newCards.removeAt(existingIndex)
+            newReversed.removeAt(existingIndex)
+        }
+
+        newCards.add(cardNumber)
+        newReversed.add(reversed)
+
+        if (newCards.size > 3) {
+            newCards.removeAt(0)
+            newReversed.removeAt(0)
+        }
+
+        val newData = TarotPlayerAttachment.Data(
+            drawnCards = newCards,
+            reversedCards = newReversed,
+            readingTimestamp = target.level().gameTime
+        )
+
+        TarotPlayerAttachment.setData(target, newData)
+
+        val cardName = effect.getDisplayName(reversed).string
+        ctx.source.sendSuccess(
+            {
+                Component.literal("Applied tarot card ")
+                    .withStyle(ChatFormatting.GREEN)
+                    .append(Component.literal(cardName).withStyle(ChatFormatting.GOLD))
+                    .append(" to ${target.name.string}")
+            },
+            true
+        )
+
+        target.displayClientMessage(
+            Component.literal("You have been granted: ")
+                .withStyle(ChatFormatting.GRAY)
+                .append(effect.getDisplayName(reversed).copy().withStyle(ChatFormatting.GOLD)),
+            false
+        )
+
+        return 1
+    }
+
+    private fun clearTarotCards(
+        ctx: CommandContext<CommandSourceStack>,
+        target: ServerPlayer
+    ): Int {
+        val newData = TarotPlayerAttachment.Data(
+            drawnCards = emptyList(),
+            reversedCards = emptyList(),
+            readingTimestamp = 0L
+        )
+
+        TarotPlayerAttachment.setData(target, newData)
+
+        ctx.source.sendSuccess(
+            {
+                Component.literal("Cleared all tarot cards from ${target.name.string}")
+                    .withStyle(ChatFormatting.GREEN)
+            },
+            true
+        )
+
+        target.displayClientMessage(
+            Component.literal("Your tarot cards have been cleared.")
+                .withStyle(ChatFormatting.GRAY),
+            false
+        )
+
+        return 1
+    }
+
+    private fun listTarotCards(ctx: CommandContext<CommandSourceStack>): Int {
+        ctx.source.sendSuccess(
+            {
+                Component.literal("=== Available Tarot Cards ===")
+                    .withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD)
+            },
+            false
+        )
+
+        for (i in 1..22) {
+            val effect = WitcheryTarotEffects.getByCardNumber(i)
+            if (effect != null) {
+                ctx.source.sendSuccess(
+                    {
+                        Component.literal("$i. ")
+                            .withStyle(ChatFormatting.GRAY)
+                            .append(effect.getDisplayName(false).copy().withStyle(ChatFormatting.WHITE))
+                    },
+                    false
+                )
+            }
+        }
+
+        return 1
+    }
+
+    private fun showTarotInfo(
+        ctx: CommandContext<CommandSourceStack>,
+        target: ServerPlayer
+    ): Int {
+        val data = TarotPlayerAttachment.getData(target)
+
+        if (data.drawnCards.isEmpty()) {
+            ctx.source.sendSuccess(
+                {
+                    Component.literal("${target.name.string} has no active tarot cards")
+                        .withStyle(ChatFormatting.GRAY)
+                },
+                false
+            )
+            return 1
+        }
+
+        ctx.source.sendSuccess(
+            {
+                Component.literal("=== Tarot Cards for ${target.name.string} ===")
+                    .withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD)
+            },
+            false
+        )
+
+        val timeRemaining = TarotPlayerAttachment.THREE_DAYS - (target.level().gameTime - data.readingTimestamp)
+        val daysRemaining = timeRemaining / 24000L
+        val hoursRemaining = (timeRemaining % 24000L) / 1000L
+
+        ctx.source.sendSuccess(
+            {
+                Component.literal("Time Remaining: ${daysRemaining}d ${hoursRemaining}h")
+                    .withStyle(ChatFormatting.YELLOW)
+            },
+            false
+        )
+
+        data.drawnCards.forEachIndexed { index, cardNumber ->
+            val isReversed = data.reversedCards.getOrNull(index) ?: false
+            val effect = WitcheryTarotEffects.getByCardNumber(cardNumber)
+
+            if (effect != null) {
+                ctx.source.sendSuccess(
+                    {
+                        Component.literal("${index + 1}. ")
+                            .withStyle(ChatFormatting.GRAY)
+                            .append(
+                                Component.literal(effect.getDisplayName(isReversed).string)
+                                    .withStyle(ChatFormatting.WHITE)
+                            )
+                    },
+                    false
+                )
+                ctx.source.sendSuccess(
+                    {
+                        Component.literal("   ")
+                            .append(effect.getDescription(isReversed).copy().withStyle(ChatFormatting.DARK_GRAY))
+                    },
+                    false
+                )
+            }
+        }
+
+        return 1
     }
 }
