@@ -3,6 +3,7 @@ package dev.sterner.witchery.client
 import com.mojang.blaze3d.platform.InputConstants
 import dev.sterner.witchery.content.item.LeonardsUrnItem
 import dev.sterner.witchery.content.item.QuartzSphereItem
+import dev.sterner.witchery.core.registry.WitcheryKeyMappings
 import dev.sterner.witchery.network.SelectUrnPotionC2SPayload
 import net.minecraft.client.DeltaTracker
 import net.minecraft.client.Minecraft
@@ -28,7 +29,7 @@ object UrnPotionSelectionHandler {
 
         val shouldBeOpen = heldItem.item is QuartzSphereItem &&
                 LeonardsUrnItem.hasUrn(player) &&
-                isLeftAltPressed()
+                WitcheryKeyMappings.UTILITY_BUTTON.isDown
 
         if (shouldBeOpen && !isMenuOpen) {
             openMenu(player)
@@ -74,13 +75,6 @@ object UrnPotionSelectionHandler {
             PacketDistributor.sendToServer(packet)
         }
         isMenuOpen = false
-    }
-
-    private fun isLeftAltPressed(): Boolean {
-        return InputConstants.isKeyDown(
-            Minecraft.getInstance().window.window,
-            GLFW.GLFW_KEY_LEFT_ALT
-        )
     }
 
     fun render(guiGraphics: GuiGraphics, partialTick: DeltaTracker) {

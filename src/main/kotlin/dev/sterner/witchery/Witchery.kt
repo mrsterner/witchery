@@ -14,6 +14,7 @@ import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.config.ModConfig
 import net.neoforged.fml.loading.FMLEnvironment
+import net.neoforged.fml.loading.FMLLoader
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import org.slf4j.Logger
@@ -98,6 +99,10 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
             if (debugRitualLog) {
                 println(message)
             }
+        }
+
+        fun useDebugBoxRender(): Boolean {
+            return !FMLLoader.isProduction()
         }
     }
 }

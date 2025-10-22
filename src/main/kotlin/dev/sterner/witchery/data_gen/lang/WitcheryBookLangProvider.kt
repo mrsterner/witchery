@@ -1325,7 +1325,7 @@ object WitcheryBookLangProvider {
         add("book.witchery.guidebook.tarot.tarot_reading.description", "Divine your fortune with the cards")
         add("tarot.tarot_reading.title.1", "Tarot Reading")
         add("tarot.tarot_reading.page.1",
-            "Right-click a Crystal Ball with a Tarot Deck to perform a reading. Three cards will be drawn, revealing your fortune for the next three days. Each card brings powerful effects—both beneficial and perilous. A Crystal Ball reduces the chance of reversed cards appearing.")
+            "Right-click a Tarot Deck to perform a reading. Three cards will be drawn, revealing your fortune for the next three days. Each card brings powerful effects—both beneficial and perilous. A Crystal Ball reduces the chance of reversed cards appearing. Hold L.Alt to show active cards")
 
 
 

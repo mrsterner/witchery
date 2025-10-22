@@ -9,13 +9,19 @@ import dev.sterner.witchery.core.WitcheryConstants
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.necromancy.SoulPoolPlayerAttachment
 import dev.sterner.witchery.core.registry.WitcheryShaders
+import dev.sterner.witchery.network.DebugAABBRenderS2CPayload
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.phys.AABB
+import net.neoforged.neoforge.network.PacketDistributor
 import org.joml.Matrix4f
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -705,5 +711,9 @@ object RenderUtils {
         builder.addVertex(matrix, x2, y2, z2).setColor(255, 255, 255, 255).setUv(1f, 0f).setUv2(light, light)
         builder.addVertex(matrix, x3, y3, z3).setColor(255, 255, 255, 255).setUv(1f, 1f).setUv2(light, light)
         builder.addVertex(matrix, x4, y4, z4).setColor(255, 255, 255, 255).setUv(0f, 1f).setUv2(light, light)
+    }
+
+    fun makeDebugAABB(aabb: AABB, color: Int = 0xFF0000, durationTicks: Int = 100, level: ServerLevel) {
+        PacketDistributor.sendToPlayersTrackingChunk(level, ChunkPos(BlockPos.containing(aabb.center)), DebugAABBRenderS2CPayload(aabb, color, durationTicks))
     }
 }

@@ -51,6 +51,12 @@ object WitcheryPayloads {
         ) { payload, _ ->
             payload.handleOnClient()
         }
+        registrar.playToClient(
+            DebugAABBRenderS2CPayload.ID,
+            DebugAABBRenderS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
+            payload.handleOnClient()
+        }
         registrar.playToClient(SyncLightInfusionS2CPayload.ID, SyncLightInfusionS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }

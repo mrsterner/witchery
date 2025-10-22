@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.core.registry.WitcheryKeyMappings
 import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import dev.sterner.witchery.core.registry.WitcheryTarotEffects
 import net.minecraft.ChatFormatting
@@ -62,7 +63,7 @@ object TarotCardHudRenderer {
         val player = minecraft.player ?: return
 
         val data = TarotPlayerAttachment.getData(player)
-        val shouldBeOpen = data.drawnCards.isNotEmpty() && isLeftAltPressed()
+        val shouldBeOpen = data.drawnCards.isNotEmpty() && WitcheryKeyMappings.UTILITY_BUTTON.isDown
 
         if (shouldBeOpen && !isMenuOpen) {
             openMenu()
@@ -93,13 +94,6 @@ object TarotCardHudRenderer {
 
     private fun closeMenu() {
         isMenuOpen = false
-    }
-
-    private fun isLeftAltPressed(): Boolean {
-        return InputConstants.isKeyDown(
-            Minecraft.getInstance().window.window,
-            GLFW.GLFW_KEY_LEFT_ALT
-        )
     }
 
     private fun checkHover(

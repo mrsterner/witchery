@@ -2,6 +2,7 @@ package dev.sterner.witchery
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
+import dev.sterner.witchery.client.DebugAABBRenderer
 import dev.sterner.witchery.client.LifebloodHudRenderer
 import dev.sterner.witchery.client.tooltip.BloodPoolComponent
 import dev.sterner.witchery.client.OreHighlightRenderer
@@ -63,6 +64,7 @@ import dev.sterner.witchery.core.registry.WitcheryKeyMappings
 import dev.sterner.witchery.core.registry.WitcheryMenuTypes
 import dev.sterner.witchery.core.registry.WitcheryParticleTypes
 import dev.sterner.witchery.core.registry.WitcheryShaders
+import dev.sterner.witchery.mixin.client.LevelRendererAccessor
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
@@ -90,6 +92,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.ConfigurationScreen
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.event.tick.LevelTickEvent
 import net.neoforged.neoforge.network.PacketDistributor
 
 @Mod(value = MODID, dist = [Dist.CLIENT])
@@ -120,8 +123,9 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         NeoForge.EVENT_BUS.addListener(::onClientTick)
         NeoForge.EVENT_BUS.addListener(::onRenderLevel)
         NeoForge.EVENT_BUS.register(TarotCardHudRenderer)
-    }
 
+
+    }
 
     fun onRenderLevel(event: RenderLevelStageEvent) {
         if (event.stage == RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
@@ -129,6 +133,13 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
                 event.poseStack,
                 event.camera,
                 event.partialTick.gameTimeDeltaTicks
+            )
+            val renderBuffers = (event.levelRenderer as LevelRendererAccessor).renderBuffers
+
+            DebugAABBRenderer.render(
+                event.poseStack,
+                renderBuffers.bufferSource(),
+                event.camera.position
             )
         }
     }
@@ -232,6 +243,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         UrnPotionSelectionHandler.tick(Minecraft.getInstance())
         OreHighlightRenderer.tick()
         TabletGazeTracker.tick()
+        DebugAABBRenderer.tick()
     }
 
     private fun bindContainerRenderers(event: RegisterMenuScreensEvent) {

@@ -1,5 +1,6 @@
 package dev.sterner.witchery.content.block.altar
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.content.block.ChaliceBlock
 import dev.sterner.witchery.core.data.NaturePowerReloadListener
@@ -9,6 +10,7 @@ import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.network.AltarMultiplierSyncS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryTags
+import dev.sterner.witchery.core.util.RenderUtils
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -31,6 +33,7 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
+import net.neoforged.fml.loading.FMLLoader
 import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.network.PacketDistributor
 import kotlin.math.floor
@@ -109,14 +112,28 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     }
 
     fun getLocalAugmentAABB(direction: Direction): AABB {
-        val forwardVec = direction.opposite.normal
-        val sidewaysVec = direction.counterClockWise.normal
-        val aabb = AABB(blockPos).move(0.0, 1.0, 0.0)
-            .expandTowards(forwardVec.x.toDouble(), 0.0, forwardVec.z.toDouble())
-            .expandTowards(sidewaysVec.x.toDouble(), 0.0, sidewaysVec.z.toDouble())
-            .expandTowards(-sidewaysVec.x.toDouble(), 0.0, -sidewaysVec.z.toDouble())
-        return aabb.setMaxX(aabb.maxX - 0.4).setMaxY(aabb.maxY - 0.4).setMaxZ(aabb.maxZ - 0.4)
+        val pos = blockPos
+
+        val (minX, minZ, maxX, maxZ) = when (direction) {
+            Direction.NORTH -> Tuple4(pos.x - 1.0, pos.z.toDouble(), pos.x + 2.0, pos.z + 2.0)
+            Direction.SOUTH -> Tuple4(pos.x - 1.0, pos.z - 1.0, pos.x + 2.0, pos.z + 1.0)
+            Direction.WEST -> Tuple4(pos.x.toDouble(), pos.z - 1.0, pos.x + 2.0, pos.z + 2.0)
+            Direction.EAST -> Tuple4(pos.x - 1.0, pos.z - 1.0, pos.x + 1.0, pos.z + 2.0)
+
+            else -> Tuple4(pos.x.toDouble(), pos.z.toDouble(), pos.x + 2.0, pos.z + 2.0)
+        }
+
+        return AABB(
+            minX,
+            pos.y + 1.0,
+            minZ,
+            maxX,
+            pos.y + 2.0,
+            maxZ
+        )
     }
+
+    private data class Tuple4(val minX: Double, val minZ: Double, val maxX: Double, val maxZ: Double)
 
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
         if (pPlayer is ServerPlayer) {
@@ -144,7 +161,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     }
 
     fun augmentAltar(level: ServerLevel) {
-        val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+        val augments: AABB = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
 
         powerMultiplier = 1.0
 
@@ -231,6 +248,14 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         if (ticks % 20 == 5) {
             augmentAltar(serverLevel)
+        }
+
+        if (ticks % 20 == 0 && Witchery.useDebugBoxRender()) {
+            val augments = getLocalAugmentAABB(blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+            RenderUtils.makeDebugAABB(augments, 0x00FF00, 40, serverLevel)
+
+            val mainRange = getLocalAABB()
+            RenderUtils.makeDebugAABB(mainRange, 0xFF0000, 40, serverLevel)
         }
 
         if (ticks % 20 > 5) {
