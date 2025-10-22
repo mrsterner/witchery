@@ -206,7 +206,13 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
 
             val ritualType = ritualRecipe?.ritualType?.id ?: return
-            WitcheryRitualRegistry.RITUAL_REGISTRY.get(ritualType)?.onStartRitual(level, blockPos, this)
+            val ritualSuccess = WitcheryRitualRegistry.RITUAL_REGISTRY.get(ritualType)?.onStartRitual(level, blockPos, this) ?: true
+
+            if (!ritualSuccess) {
+                Witchery.logDebugRitual("Ritual onStartRitual returned false, canceling ritual and dropping items")
+                cancelRitualAndDropItems(level)
+                return
+            }
 
             RitualHelper.runCommand(level, blockPos, this, CommandType.START)
             isRitualActive = true
@@ -216,6 +222,13 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
     }
 
+    private fun cancelRitualAndDropItems(level: Level) {
+        Containers.dropContents(level, blockPos, this)
+
+        level.playSound(null, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0f, 1.0f)
+
+        resetRitual()
+    }
 
     /**
      * Called on each tick of an active ritual

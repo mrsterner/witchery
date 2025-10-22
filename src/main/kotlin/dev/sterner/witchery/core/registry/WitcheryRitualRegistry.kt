@@ -16,6 +16,7 @@ import dev.sterner.witchery.features.ritual.RainingToadRitual
 import dev.sterner.witchery.features.ritual.RemoveCurseRitual
 import dev.sterner.witchery.features.ritual.ResurrectFamiliarRitual
 import dev.sterner.witchery.features.ritual.RotRitual
+import dev.sterner.witchery.features.ritual.SoulSeveranceRitual
 import dev.sterner.witchery.features.ritual.SoulbindRitual
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
@@ -62,6 +63,8 @@ object WitcheryRitualRegistry {
     val BESTIAL_CALL: DeferredHolder<Ritual, BestialCallRitual> = RITUALS.register("bestial_call", Supplier { BestialCallRitual() })
     val PULL_MOBS: DeferredHolder<Ritual, PullMobsRitual> = RITUALS.register("pull_mobs", Supplier { PullMobsRitual() })
     val RAINING_TOAD: DeferredHolder<Ritual, RainingToadRitual> = RITUALS.register("raining_toad", Supplier { RainingToadRitual() })
+    val SOUL_SEVERANCE: DeferredHolder<Ritual, SoulSeveranceRitual> =
+        RITUALS.register("soul_severance", Supplier { SoulSeveranceRitual() })
 
     fun getById(id: ResourceLocation): Ritual? {
         val holder = RITUALS.entries.firstOrNull { it.id == id }

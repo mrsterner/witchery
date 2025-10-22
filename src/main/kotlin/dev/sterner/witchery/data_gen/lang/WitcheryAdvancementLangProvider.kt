@@ -23,5 +23,9 @@ object WitcheryAdvancementLangProvider {
         add("advancements.witchery.disturbed.description", "Easy, just don't have a nightmare")
         add("advancements.witchery.tarot.title", "The Future")
         add("advancements.witchery.tarot.description", "The Future")
+
+        add("advancements.witchery.necro_2.title", "Ancient Tablet #1")
+        add("advancements.witchery.necro_3.title", "Ancient Tablet #2")
+        add("advancements.witchery.necro_4.title", "Ancient Tablet #3")
     }
 }

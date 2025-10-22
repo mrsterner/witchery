@@ -17,10 +17,10 @@ class BestialCallRitual : Ritual("bestial_call") {
         level: Level,
         blockPos: BlockPos,
         goldenChalkBlockEntity: GoldenChalkBlockEntity
-    ) {
+    ): Boolean {
         super.onStartRitual(level, blockPos, goldenChalkBlockEntity)
 
-        if (level !is ServerLevel) return
+        if (level !is ServerLevel) return true
 
         val animalTypes = BuiltInRegistries.ENTITY_TYPE
             .filter { it.create(level) is Animal && !it.`is`(WitcheryTags.BESTIAL_CALL_BLACKLIST)}
@@ -40,5 +40,6 @@ class BestialCallRitual : Ritual("bestial_call") {
             entity.moveTo(spawnX, spawnY.toDouble(), spawnZ, level.random.nextFloat() * 360f, 0f)
             level.addFreshEntity(entity)
         }
+        return true
     }
 }

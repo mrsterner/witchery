@@ -203,26 +203,26 @@ object WitcheryBookLangProvider {
         add("ritual.ritual_chalk.golden_chalk", "Golden Chalk")
 
 
-        add("book.witchery.guidebook.lichdom.name", "Lichdom")
+        add("book.witchery.guidebook.soul_magic.name", "Soul Magic")
 
 
-        add("lichdom.necro_1.title.1", "Souls as a resource")
-        add("lichdom.necro_1.page.1", "inspiring yet eerie words")
-        add("lichdom.necro_1.page.2", "inspiring yet eerie words")
-        add("lichdom.necro_1.page.3", "inspiring yet eerie words")
+        add("soul_magic.necro_1.title.1", "Your Soul as a resource")
+        add("soul_magic.necro_1.page.1", "inspiring yet eerie words")
+        add("soul_magic.necro_1.page.2", "inspiring yet eerie words")
+        add("soul_magic.necro_1.page.3", "inspiring yet eerie words")
 
-        add("book.witchery.guidebook.lichdom.necro_1.name", "Souls as a resource")
-        add("book.witchery.guidebook.lichdom.necro_1.description", "First Stage")
-        add("book.witchery.guidebook.lichdom.carving_1.name", "The Binding of Souls")
-        add("book.witchery.guidebook.lichdom.carving_1.description", "Second Stage")
-        add("book.witchery.guidebook.lichdom.carving_2.name", "The Severed Soul")
-        add("book.witchery.guidebook.lichdom.carving_2.description", "Third Stage")
-        add("book.witchery.guidebook.lichdom.carving_3.name", "The Phylactery's Embrace")
-        add("book.witchery.guidebook.lichdom.carving_3.description", "Death Stage")
+        add("book.witchery.guidebook.soul_magic.necro_1.name", "Your Soul as a resource")
+        add("book.witchery.guidebook.soul_magic.necro_1.description", "First Stage")
+        add("book.witchery.guidebook.soul_magic.carving_1.name", "The Binding of Souls")
+        add("book.witchery.guidebook.soul_magic.carving_1.description", "Second Stage")
+        add("book.witchery.guidebook.soul_magic.carving_2.name", "The Severed Soul")
+        add("book.witchery.guidebook.soul_magic.carving_2.description", "Third Stage")
+        add("book.witchery.guidebook.soul_magic.carving_3.name", "The Phylactery's Embrace")
+        add("book.witchery.guidebook.soul_magic.carving_3.description", "Death Stage")
 
-        add("lichdom.carving_1.title", "The Binding of Souls")
+        add("soul_magic.carving_1.title", "The Binding of Souls")
         add(
-            "lichdom.carving_1.page.1", "\n" +
+            "soul_magic.carving_1.page.1", "\n" +
                     "\\\n" +
                     "\\\n...weathered stone, older than memory, speaks of the first necromancer...\n" +
                     "\\\n" +
@@ -232,7 +232,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "lichdom.carving_1.page.2", "\n" +
+            "soul_magic.carving_1.page.2", "\n" +
                     "\\\n...a single undead villager's spirit, torn from flesh and bound in ethereal chains...\n" +
                     "\\\n" +
                     "\\\n" +
@@ -242,7 +242,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "lichdom.carving_1.page.3", "\n" +
+            "soul_magic.carving_1.page.3", "\n" +
                     "\\\n...the protectors of the living, those of golem, must fall...\n" +
                     "\\\n" +
                     "\\\n...five must be destroyed by necrotic hands...\n" +
@@ -252,9 +252,9 @@ object WitcheryBookLangProvider {
         )
 
 
-        add("lichdom.carving_2.title", "The Severed Soul")
+        add("soul_magic.carving_2.title", "The Severed Soul")
         add(
-            "lichdom.carving_2.page.1", "\n" +
+            "soul_magic.carving_2.page.1", "\n" +
                     "\\\n...the stone depicts a figure standing over fallen beasts...\n" +
                     "\\\n" +
                     "\\\n...five creatures of innocence, their life force drained to emptiness...\n" +
@@ -264,7 +264,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "lichdom.carving_2.page.2", "\n" +
+            "soul_magic.carving_2.page.2", "\n" +
                     "\\\n...the greatest power lies in abandoning one's own flesh...\n" +
                     "\\\n" +
                     "\\\n...spirit walks free, entering the hollow shell of the risen dead...\n" +
@@ -274,7 +274,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "lichdom.carving_2.page.3", "\n" +
+            "soul_magic.carving_2.page.3", "\n" +
                     "\\\n...the three-souled horror, born of nether stars...\n" +
                     "\\\n" +
                     "\\\n" +
@@ -284,9 +284,9 @@ object WitcheryBookLangProvider {
         )
 
 
-        add("lichdom.carving_3.title", "The Phylactery's Embrace")
+        add("soul_magic.carving_3.title", "The Phylactery's Embrace")
         add(
-            "lichdom.carving_3.page.1", "\n" +
+            "soul_magic.carving_3.page.1", "\n" +
                     "\\\n...the final carving shows a crystalline vessel, pulsing with unlife...\n" +
                     "\\\n" +
                     "\\\n" +
@@ -296,7 +296,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "lichdom.carving_3.page.2", "\n" +
+            "soul_magic.carving_3.page.2", "\n" +
                     "\\\n...but true lichdom demands the ultimate sacrifice...\n" +
                     "\\\n" +
                     "\\\n...three times must you die, three times return...\n" +
@@ -306,7 +306,7 @@ object WitcheryBookLangProvider {
         )
 
         add(
-            "lichdom.carving_3.page.3", "\n" +
+            "soul_magic.carving_3.page.3", "\n" +
                     "\\\n...only then does mortality truly break...\n" +
                     "\\\n" +
                     "\\\n" +
@@ -1550,11 +1550,52 @@ object WitcheryBookLangProvider {
             "Scattered and incomplete. Random debuffs periodically afflict you as harmony fractures. Wholeness eludes your grasp.")
 
 
-        add("lichdom.lifeblood.title.1", "Lifeblood Berries")
-        add("lichdom.lifeblood.page.1", "Combine four Chorus, four Vines of Glowing Berries, and the soul of a Villager to build the contraption. Then, use a Mutating Spring on the cobweb at its center.\n" +
+        add("soul_magic.lifeblood.title.1", "Lifeblood Berries")
+        add("soul_magic.lifeblood.page.1", "Combine four Chorus, four Vines of Glowing Berries, and the soul of a Villager to build the contraption. Then, use a Mutating Spring on the cobweb at its center.\n" +
                 "\\\n" +
                 "Consumed Lifeblood will regenerate health as long as there are some left to generate from.")
-        add("book.witchery.guidebook.lichdom.lifeblood.name", "Lifeblood Berries")
-        add("book.witchery.guidebook.lichdom.lifeblood.description", "There is an echo of something hallow...")
+        add("book.witchery.guidebook.soul_magic.lifeblood.name", "Lifeblood Berries")
+        add("book.witchery.guidebook.soul_magic.lifeblood.description", "There is an echo of something hallow...")
+
+        add("book.witchery.guidebook.soul_magic.soul_severance.name", "Soul Severance")
+        add("book.witchery.guidebook.soul_magic.soul_severance.description", "Other souls as a resource")
+        add("soul_magic.soul_severance.title.1", "Soul Severance")
+        add("soul_magic.soul_severance.page.1", "Strip those lovely souls from their useless flesh. Most soul magic probably requires a pure villagers soul, or a zombie villager soul.")
+
+        add("book.witchery.guidebook.ritual.soul_severance.name", "Soul Severance")
+        add("book.witchery.guidebook.ritual.soul_severance.description", "Split the soul from its flesh from humanoids or humans.")
+        add("ritual.soul_severance.title.1", "Soul Severance")
+        add("ritual.soul_severance.page.1",
+            "The taglocked will be separated from its body. Only humans can reenter their bodies. Humanoids are left to wither unless they are collected with a Soul Cage. The soul cage are only able to sustain pure souls of villagers.")
+
+
+        add("book.witchery.guidebook.ritual.raining_toad.name", "Raining Toads")
+        add("book.witchery.guidebook.ritual.raining_toad.description", "Toads, of the raining variety")
+        add("ritual.raining_toad.title.1", "Raining Toads")
+        add("ritual.raining_toad.page.1", "It will rain and it will frog, watch out for their poisonous skin, will only last for a minute or two.")
+
+        add("book.witchery.guidebook.ritual.bestial_call.name", "Bestial Call")
+        add("book.witchery.guidebook.ritual.bestial_call.description", "The smell alone should call them...")
+        add("ritual.bestial_call.title.1", "Bestial Call")
+        add("ritual.bestial_call.page.1", "Will summon a flock of exactly 10 random animals, with some exceptions.")
+
+
+        add("book.witchery.guidebook.ritual.blocks_below_iron.name", "Blocks Below: Iron")
+        add("book.witchery.guidebook.ritual.blocks_below_iron.description", "Bring em up boys")
+        add("ritual.blocks_below_iron.title.1", "Blocks Below: Iron")
+        add("ritual.blocks_below_iron.page.1", "Will pull iron from the depths below, this will consume the iron below in a cylinder of the ritual circle.")
+
+
+        add("book.witchery.guidebook.ritual.blocks_below_copper.name", "Blocks Below: Copper")
+        add("book.witchery.guidebook.ritual.blocks_below_copper.description", "Bring em up boys")
+        add("ritual.blocks_below_copper.title.1", "Blocks Below: Copper")
+        add("ritual.blocks_below_copper.page.1", "Will pull copper from the depths below, this will consume the copper below in a cylinder of the ritual circle.")
+
+
+        add("book.witchery.guidebook.ritual.blocks_below_gold.name", "Blocks Below: Gold")
+        add("book.witchery.guidebook.ritual.blocks_below_gold.description", "Bring em up boys")
+        add("ritual.blocks_below_gold.title.1", "Blocks Below: Gold")
+        add("ritual.blocks_below_gold.page.1", "Will pull gold from the depths below, this will consume the gold below in a cylinder of the ritual circle.")
+
     }
 }

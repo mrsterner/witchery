@@ -1,5 +1,7 @@
 package dev.sterner.witchery.core.registry
 
+import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.ByteBufferBuilder
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.VertexFormat
@@ -147,6 +149,42 @@ object WitcheryRenderTypes {
                 .createCompositeState(true)
         create(
             Witchery.MODID + "life",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            262144,
+            true,
+            false,
+            compositeState!!
+        )
+    }
+
+    val SOFT_ADDITIVE_TRANSPARENCY = TransparencyStateShard(
+        "soft_additive_transparency",
+        {
+            RenderSystem.enableBlend()
+            RenderSystem.blendFunc(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE
+            )
+        },
+        {
+            RenderSystem.disableBlend()
+            RenderSystem.defaultBlendFunc()
+        }
+    )
+
+    val INNER_SOUL_CAGE = Util.memoize { resourceLocation: ResourceLocation ->
+        val compositeState: RenderType.CompositeState? =
+            RenderType.CompositeState.builder()
+                .setShaderState(ShaderStateShard(WitcheryShaders::soulCage))
+                .setTextureState(TextureStateShard(resourceLocation, false, true))
+                .setTransparencyState(SOFT_ADDITIVE_TRANSPARENCY)
+                .setCullState(CULL)
+                .setWriteMaskState(COLOR_WRITE)
+                .setLightmapState(LIGHTMAP)
+                .createCompositeState(true)
+        create(
+            Witchery.MODID + "inner_soul_cage",
             DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
             262144,

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.GlassContainerModel
 import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
+import dev.sterner.witchery.core.registry.WitcheryRenderTypes
 import dev.sterner.witchery.core.util.RenderUtils
 import net.minecraft.client.model.VillagerModel
 import net.minecraft.client.model.geom.ModelLayers
@@ -51,14 +52,14 @@ open class SoulCageBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
 
         val renderTypeOuter =
             if (lit) RenderType.entityTranslucentEmissive(outerTexture) else RenderType.entityTranslucent(outerTexture)
-        val renderTypeInner = if (lit) RenderType.eyes(innerTexture) else RenderType.entityTranslucent(innerTexture)
+        val renderTypeInner = if (lit) WitcheryRenderTypes.INNER_SOUL_CAGE.apply(innerTexture) else RenderType.entityTranslucent(innerTexture)
 
         if (blockEntity.hasSoul) {
             val headRotation = calculateHeadRotation(partialTick, blockEntity)
 
             renderVillagerHead(
                 poseStack,
-                bufferSource.getBuffer(RenderType.entityTranslucent(villagerSkin)),
+                bufferSource.getBuffer(WitcheryRenderTypes.GHOST_ADDITIVE.apply(villagerSkin)),
                 packedLight,
                 packedOverlay,
                 headRotation
@@ -110,7 +111,7 @@ open class SoulCageBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
         poseStack.pushPose()
         poseStack.translate(0.0, 1.0, 0.0)
         poseStack.scale(-1.0f, -1.0f, 1.0f)
-        poseStack.scale(0.5f, 0.5f, 0.5f)
+        poseStack.scale(0.4f, 0.4f, 0.4f)
 
         val headPart = villagerHead.root().getChild("head")
         headPart.xRot = Math.toRadians(rotation.second.toDouble()).toFloat()

@@ -15,6 +15,8 @@ import dev.sterner.witchery.data_gen.book.util.advancement
 import dev.sterner.witchery.data_gen.book.util.requiresAndFollows
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.data_gen.book.entry.LifebloodEntryProvider
+import dev.sterner.witchery.data_gen.book.util.EntryProviders
+import net.minecraft.world.item.Items
 
 
 class WitcheryLichdomCategoryProvider(
@@ -22,7 +24,7 @@ class WitcheryLichdomCategoryProvider(
 ) : CategoryProvider(parent) {
 
     override fun categoryId(): String {
-        return "lichdom"
+        return "soul_magic"
     }
 
     override fun generateEntryMap(): Array<String> {
@@ -32,11 +34,11 @@ class WitcheryLichdomCategoryProvider(
             "__________________________________",
             "__________________________________",
             "__________________________________",
-            "_________________e________________",
+            "__________________________________",
             "__________________________________",
             "_____________a_b_c_d______________",
             "__________________________________",
-            "_______________f__________________",
+            "_____________g_f__________________",
             "__________________________________",
             "__________________________________",
             "__________________________________",
@@ -69,17 +71,22 @@ class WitcheryLichdomCategoryProvider(
             .requiresAndFollows(necro1, advancement(Witchery.id("necro/2")))
         addEntry(necro2)
 
+
+        val theSoul = EntryProviders.ritual(this, "soul_severance", Items.SOUL_SOIL).generate("g")
+            .withCondition(
+                BookAndConditionModel.create().withChildren(
+                    BookAdvancementConditionModel.create().withAdvancementId(Witchery.id("soul"))
+                ),
+            )
+        addEntry(theSoul)
+
         val lifeblood = LifebloodEntryProvider(this).generate("f")
-            .requiresAndFollows(necro2, advancement(Witchery.id("necro/2")))
+            .requiresAndFollows(theSoul)
         addEntry(lifeblood)
 
         val necro3 = NecroLevelTwoEntryProvider("carving_2", this).generate("c")
             .requiresAndFollows(necro2, advancement(Witchery.id("necro/3")))
         addEntry(necro3)
-
-        val necro3b = NecroLevelTwoEntryProvider("soul_severance", this).generate("e")
-            .requiresAndFollows(necro3, advancement(Witchery.id("necro/3")))
-        addEntry(necro3b)
 
         val necro4 = NecroLevelTwoEntryProvider("carving_3", this).generate("d")
             .requiresAndFollows(necro3, advancement(Witchery.id("necro/4")))
@@ -89,7 +96,7 @@ class WitcheryLichdomCategoryProvider(
     }
 
     override fun categoryName(): String {
-        return "lichdom"
+        return "soul_magic"
     }
 
     override fun categoryIcon(): BookIconModel {

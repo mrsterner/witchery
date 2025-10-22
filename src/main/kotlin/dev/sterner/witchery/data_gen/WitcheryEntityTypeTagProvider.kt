@@ -9,6 +9,7 @@ import net.minecraft.data.tags.EntityTypeTagsProvider
 import net.minecraft.tags.EntityTypeTags
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.common.data.ExistingFileHelper
+import tallestegg.guardvillagers.GuardEntityType
 import java.util.concurrent.CompletableFuture
 
 class WitcheryEntityTypeTagProvider(
@@ -41,6 +42,9 @@ class WitcheryEntityTypeTagProvider(
             .add(EntityType.SKELETON)
             .add(EntityType.SKELETON_HORSE)
             .add(EntityType.WITHER_SKELETON)
+            .add(EntityType.VILLAGER)
+            .add(EntityType.PILLAGER)
+            .add(GuardEntityType.GUARD.get())
 
         tag(WitcheryTags.SCARED_BY_GROTESQUE)
             .add(EntityType.ZOMBIE)

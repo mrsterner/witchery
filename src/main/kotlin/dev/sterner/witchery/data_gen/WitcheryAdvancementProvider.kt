@@ -10,6 +10,7 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.PackOutput
 import net.minecraft.network.chat.Component
+import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Blocks
 import net.neoforged.neoforge.common.data.AdvancementProvider
 import net.neoforged.neoforge.common.data.ExistingFileHelper
@@ -46,6 +47,7 @@ class WitcheryAdvancementProvider(
             val spirit = spiritWorld.parent(root).save(consumer, "witchery:spirit_world")
             disturbed.parent(spirit).save(consumer, "witchery:disturbed")
             tarotAdvancement.parent(root).save(consumer, "witchery:tarot")
+            soulAdvancement.parent(root).save(consumer, "witchery:soul")
 
             // Example for repetitive advancements
             val vamp1 = makeVampTornPageAdvancement("1", null, consumer)
@@ -130,6 +132,23 @@ class WitcheryAdvancementProvider(
             .addCriterion(
                 "has_tarot",
                 InventoryChangeTrigger.TriggerInstance.hasItems(WitcheryItems.TAROT_DECK.get())
+            )
+
+        val soulAdvancement = Advancement.Builder.advancement()
+            .display(
+                Items.SOUL_SOIL,
+                Component.translatable("advancements.witchery.soul.title"),
+                Component.translatable("advancements.witchery.soul.description"),
+                Witchery.id("textures/block/rowan_planks.png"),
+                AdvancementType.TASK,
+                true,
+                false,
+                false
+            )
+            .requirements(AdvancementRequirements.Strategy.AND)
+            .addCriterion(
+                "has_seen_soul",
+                CriteriaTriggers.IMPOSSIBLE.createCriterion(ImpossibleTrigger.TriggerInstance())
             )
 
 

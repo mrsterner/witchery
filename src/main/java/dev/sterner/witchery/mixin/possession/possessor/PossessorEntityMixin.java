@@ -75,9 +75,13 @@ public abstract class PossessorEntityMixin {
 
     @Inject(method = "getEyeHeight(Lnet/minecraft/world/entity/Pose;)F", at = @At("HEAD"), cancellable = true)
     private void witchery$adjustEyeHeight(Pose pose, CallbackInfoReturnable<Float> cir) {
-        Entity possessedEntity = PossessionComponentAttachment.INSTANCE.get((Player)(Object)this).getHost();
-        if (possessedEntity instanceof LivingEntity livingEntity) {
-            cir.setReturnValue((livingEntity).getEyeHeight(pose));
+        Entity self = (Entity) (Object) this;
+        if (self instanceof Player player) {
+            Entity possessedEntity = PossessionComponentAttachment.INSTANCE.get(player).getHost();
+            if (possessedEntity instanceof LivingEntity livingEntity) {
+                cir.setReturnValue((livingEntity).getEyeHeight(pose));
+            }
         }
+
     }
 }

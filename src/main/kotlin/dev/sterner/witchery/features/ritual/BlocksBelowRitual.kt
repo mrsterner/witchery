@@ -28,10 +28,9 @@ class BlocksBelowRitual(
         level: Level,
         blockPos: BlockPos,
         goldenChalkBlockEntity: GoldenChalkBlockEntity
-    ) {
+    ): Boolean {
         super.onStartRitual(level, blockPos, goldenChalkBlockEntity)
 
-        // Load ore types from recipe ritual data
         goldenChalkBlockEntity.ritualRecipe?.let { recipe ->
             val ritualData = recipe.ritualData
             if (ritualData.contains("targetOre")) {
@@ -46,7 +45,6 @@ class BlocksBelowRitual(
             }
         }
 
-        // Initialize columns to process in a circular radius
         val radius = 9
         for (dx in -radius..radius) {
             for (dz in -radius..radius) {
@@ -55,6 +53,7 @@ class BlocksBelowRitual(
                 }
             }
         }
+        return true
     }
 
     override fun onTickRitual(
@@ -66,12 +65,10 @@ class BlocksBelowRitual(
 
         if (columnsToProcess.isEmpty() && collectedItems.isEmpty()) return
 
-        // Process 3 columns per tick
         val columnsThisTick = columnsToProcess.take(3)
         for ((x, z) in columnsThisTick) {
             columnsToProcess.remove(Pair(x, z))
 
-            // Scan from bottom to ritual position
             for (y in (level.minBuildHeight until pos.y).reversed()) {
                 val blockPos = BlockPos(x, y, z)
                 val block = level.getBlockState(blockPos).block
@@ -89,12 +86,11 @@ class BlocksBelowRitual(
             }
         }
 
-        // Spawn items periodically
         tickCounter++
-        if (tickCounter >= 5) {  // Drop every 5 ticks (4 times per second)
+        if (tickCounter >= 5) {
             tickCounter = 0
             if (collectedItems.isNotEmpty()) {
-                val toSpawn = collectedItems.take(20)  // Drop 20 items at a time
+                val toSpawn = collectedItems.take(20)
                 collectedItems.removeAll(toSpawn.toSet())
                 for (stack in toSpawn) {
                     val entity = ItemEntity(level, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5, stack)
@@ -109,7 +105,6 @@ class BlocksBelowRitual(
         blockPos: BlockPos,
         goldenChalkBlockEntity: GoldenChalkBlockEntity
     ) {
-        // Spawn all remaining collected items before ending
         if (collectedItems.isNotEmpty()) {
             for (stack in collectedItems) {
                 val entity = ItemEntity(level, blockPos.x + 0.5, blockPos.y + 1.0, blockPos.z + 0.5, stack)

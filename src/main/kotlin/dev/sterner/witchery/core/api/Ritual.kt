@@ -21,8 +21,8 @@ open class Ritual(val id: ResourceLocation) {
     /**
      * Runs once when the ritual is started
      */
-    open fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity) {
-
+    open fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean {
+        return true
     }
 
     /**

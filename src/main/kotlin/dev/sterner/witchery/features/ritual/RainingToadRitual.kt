@@ -18,7 +18,7 @@ class RainingToadRitual : Ritual("raining_toad") {
         level: Level,
         blockPos: BlockPos,
         goldenChalkBlockEntity: GoldenChalkBlockEntity
-    ) {
+    ): Boolean {
         super.onStartRitual(level, blockPos, goldenChalkBlockEntity)
         tickCounter = 0
 
@@ -26,6 +26,7 @@ class RainingToadRitual : Ritual("raining_toad") {
             val serverLevel = level as ServerLevel
             serverLevel.setWeatherParameters(0, 6000, true, false)
         }
+        return true
     }
 
     override fun onTickRitual(

@@ -173,7 +173,7 @@ object NecroHandler {
                         val exactPos = livingEntity.blockPosition()
                         val newData = NecromancerLevelAttachment.DeadEntityData(
                             exactPos,
-                            EntityType.ZOMBIE_VILLAGER,
+                            EntityType.VILLAGER,
                             livingEntity.level().gameTime
                         )
 

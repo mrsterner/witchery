@@ -26,4 +26,7 @@ object WitcheryShaders {
 
     @JvmField
     var lifeblood: ShaderInstance? = null
+
+    @JvmField
+    var soulCage: ShaderInstance? = null
 }

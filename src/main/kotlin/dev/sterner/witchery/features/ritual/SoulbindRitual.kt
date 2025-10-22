@@ -5,6 +5,7 @@ import dev.sterner.witchery.core.api.Ritual
 import dev.sterner.witchery.core.api.entity.PlayerShellEntity
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.content.entity.player_shell.SoulShellPlayerEntity
+import dev.sterner.witchery.content.item.TaglockItem
 import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.core.registry.WitcheryItems
@@ -16,6 +17,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.AABB
 
@@ -25,22 +27,16 @@ class SoulbindRitual : Ritual("soulbind") {
         level: Level,
         blockPos: BlockPos,
         goldenChalkBlockEntity: GoldenChalkBlockEntity
-    ) {
-        if (level.isClientSide) return
+    ): Boolean {
+        if (level.isClientSide) return true
 
-        val recipe = goldenChalkBlockEntity.ritualRecipe ?: return
-
-        val taglock = recipe.inputItems.firstOrNull {
-            it.item == WitcheryItems.TAGLOCK.get()
-        } ?: return
-
-        val player = PoppetHandler.getBoundPlayer(level, taglock)
-        if (player !is ServerPlayer) return
+        val player = level.server?.playerList?.getPlayer(goldenChalkBlockEntity.targetPlayer!!)
+        if (player == null) return false
 
         val data = AfflictionPlayerAttachment.getData(player)
 
         if (!data.isSoulForm() && !data.isVagrant()) {
-            return
+            return false
         }
 
         if (data.isVagrant()) {
@@ -84,5 +80,6 @@ class SoulbindRitual : Ritual("soulbind") {
             0.5, 0.5, 0.5,
             0.1
         )
+        return true
     }
 }

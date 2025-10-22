@@ -22,12 +22,12 @@ class AltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     override fun getRenderBoundingBox(blockEntity: AltarBlockEntity): AABB {
         val pos = blockEntity.blockPos
         return AABB(
-            pos.x - 1.5,
+            pos.x - 2.5,
             pos.y - 0.0,
-            pos.z - 1.5,
-            pos.x + 1.5,
-            pos.y + 1.0,
-            pos.z + 1.5
+            pos.z - 2.5,
+            pos.x + 2.5,
+            pos.y + 2.0,
+            pos.z + 2.5
         )
     }
 

@@ -56,7 +56,6 @@ public class GuardMixin implements VillagerTransfix {
             if (witchery$mesmerisedUUIDCounter > 0) {
                 var player = guard.level().getPlayerByUUID(witchery$getMesmerized());
                 if (player != null) {
-                    // Make the guard navigate to the mesmerizing player
                     guard.getNavigation().moveTo(player, 1.0F);
                 }
                 witchery$mesmerisedUUIDCounter--;

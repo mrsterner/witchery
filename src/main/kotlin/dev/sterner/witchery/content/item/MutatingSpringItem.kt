@@ -3,6 +3,7 @@ package dev.sterner.witchery.content.item
 import dev.sterner.witchery.content.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.content.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.content.block.life_blood.LifeBloodBlock
+import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
@@ -187,9 +188,29 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             EtherealEntityAttachment.getData(it).isEthereal
         }
 
-        if (hasVillager.isEmpty() && hasGuard.isEmpty() && hasZombieVill.isEmpty()) return
+        val foundSoulCage = BlockPos.betweenClosedStream(AABB.ofSize(pos.center, 3.0, 3.0, 3.0))
+            .toList().firstNotNullOfOrNull { blockPos ->
+                val blockEntity = level.getBlockEntity(blockPos)
+                if (blockEntity is SoulCageBlockEntity && blockEntity.hasSoul) {
+                    blockEntity
+                } else {
+                    null
+                }
+            }
 
-        val soulEntity = if (hasVillager.isNotEmpty()) hasVillager[0] else if(hasZombieVill.isNotEmpty()) hasZombieVill[0] else hasGuard[0]
+        if (hasVillager.isEmpty() && hasGuard.isEmpty() && hasZombieVill.isEmpty() && foundSoulCage == null) {
+            return
+        }
+
+        val soulEntity = if (hasVillager.isNotEmpty()) {
+            hasVillager[0]
+        } else if (hasZombieVill.isNotEmpty()) {
+            hasZombieVill[0]
+        } else if (hasGuard.isNotEmpty()) {
+            hasGuard[0]
+        } else {
+            null
+        }
 
         val ne = pos.north().east().below()
         val nw = pos.north().west().below()
@@ -219,7 +240,8 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
         if (!hasChorusPlants) return
 
         if (level is ServerLevel) {
-            soulEntity.discard()
+            soulEntity?.discard()
+            foundSoulCage?.extractSoul()
 
             listOf(
                 pos.north().east().below(),

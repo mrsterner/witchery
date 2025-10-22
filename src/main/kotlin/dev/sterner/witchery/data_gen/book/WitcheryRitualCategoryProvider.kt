@@ -23,21 +23,21 @@ class WitcheryRitualCategoryProvider(
 
     override fun generateEntryMap(): Array<String> {
         return arrayOf(
-            "__________________________________",
-            "__________________________________",
-            "________________et=_______________",
+            "______________[___________________",
+            "_______________€___@______________",
+            "______________{_et=_______________",
             "__________________________________",
             "__________________________________",
             "______________f__o__p_____________",
             "__________b__k_x__________________",
             "___________u_l__r_g_______________",
-            "__________y__a_q________12345_____",
+            "__________y__a_q________1234______",
             "______________n__i____j___________",
-            "_____________h__________6789______",
+            "_____________h__________6785______",
             "_______________s___c______________",
             "_______________m___w______________",
-            "________________z_d_______________",
-            "__________________________________"
+            "_______________z___d______________",
+            "________________&_£______________"
 
         )
     }
@@ -100,7 +100,7 @@ class WitcheryRitualCategoryProvider(
             .requiresAndFollows(curses)
         add(curseOfFragile)
 
-        val curseOfHunger = EntryProviders.ritual(this, "hunger", Items.ROTTEN_FLESH)
+        val curseOfHunger = EntryProviders.ritual(this, "hunger", Items.DRIED_KELP)
             .generate("4")
             .requiresAndFollows(curses)
         add(curseOfHunger)
@@ -115,7 +115,7 @@ class WitcheryRitualCategoryProvider(
             .requiresAndFollows(curses)
         add(curseOfMisfortune)
 
-        val curseOfOverheating = EntryProviders.ritual(this, "curse_of_overheating", Items.BLAZE_ROD)
+        val curseOfOverheating = EntryProviders.ritual(this, "curse_of_overheating", Items.BLAZE_POWDER)
             .generate("7")
             .requiresAndFollows(curses)
         add(curseOfOverheating)
@@ -124,11 +124,6 @@ class WitcheryRitualCategoryProvider(
             .generate("8")
             .requiresAndFollows(curses)
         add(curseOfSinking)
-
-        val curseOfWalkingNightmare = EntryProviders.ritual(this, "waking_nightmare", WitcheryItems.PHANTOM_VAPOR.get())
-            .generate("9")
-            .requiresAndFollows(curses)
-        add(curseOfWalkingNightmare)
 
 
         // Infernal chalk rituals
@@ -173,13 +168,43 @@ class WitcheryRitualCategoryProvider(
             .requiresAndFollows(infernalChalk)
         addEntry(soulbind)
 
+        val soulSeverance = EntryProviders.ritual(this, "soul_severance", Items.SOUL_LANTERN)
+            .generate("&")
+            .requiresAndFollows(infernalChalk)
+        addEntry(soulSeverance)
+
+
+
+        val bestialCall = EntryProviders.ritual(this, "bestial_call", Items.CARROT)
+            .generate("@")
+            .requiresAndFollows(otherwhereChalk)
+        addEntry(bestialCall)
+        val rainingToads = EntryProviders.ritual(this, "raining_toad", WitcheryItems.TOE_OF_FROG.get())
+            .generate("£")
+            .requiresAndFollows(infernalChalk)
+        addEntry(rainingToads)
+        val blockBelowIron = EntryProviders.ritual(this, "blocks_below_iron", Items.IRON_ORE)
+            .generate("€")
+            .requiresAndFollows(otherwhereChalk)
+        addEntry(blockBelowIron)
+        val blockBelowCopper = EntryProviders.ritual(this, "blocks_below_copper", Items.COPPER_ORE)
+            .generate("{")
+            .requiresAndFollows(otherwhereChalk)
+        addEntry(blockBelowCopper)
+        val blockBelowGold = EntryProviders.ritual(this, "blocks_below_gold", Items.GOLD_ORE)
+            .generate("[")
+            .requiresAndFollows(otherwhereChalk)
+        addEntry(blockBelowGold)
+
+
+
         val infuseOtherwhere =
             EntryProviders.ritual(this, "infuse_otherwhere", WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
                 .generate("p")
                 .requiresAndFollows(otherwhereChalk)
         addEntry(infuseOtherwhere)
 
-        val manifestation = EntryProviders.ritual(this, "manifestation", Items.WIND_CHARGE)
+        val manifestation = EntryProviders.ritual(this, "manifestation", WitcheryItems.MELLIFLUOUS_HUNGER.get())
             .generate("e")
             .requiresAndFollows(otherwhereChalk)
         addEntry(manifestation)
@@ -195,7 +220,7 @@ class WitcheryRitualCategoryProvider(
             .requiresAndFollows(ritualChalk)
         addEntry(applyOintment)
 
-        val midnight = EntryProviders.ritual(this, "set_midnight", Items.WOODEN_AXE)
+        val midnight = EntryProviders.ritual(this, "set_midnight", Items.CLOCK)
             .generate("k")
             .requiresAndFollows(ritualChalk)
         addEntry(midnight)

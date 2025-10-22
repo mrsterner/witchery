@@ -30,31 +30,24 @@ class BindingRitual : Ritual("binding") {
         level: Level,
         blockPos: BlockPos,
         goldenChalkBlockEntity: GoldenChalkBlockEntity
-    ) {
-        if (level.isClientSide) return
+    ): Boolean {
+        if (level.isClientSide) return true
 
-        val recipe = goldenChalkBlockEntity.ritualRecipe ?: return
-
-        val taglock: ItemStack = recipe.inputItems.firstOrNull {
-            it.item == WitcheryItems.TAGLOCK.get()
-        } ?: return
-
-        val target: LivingEntity? = TaglockItem.getLivingEntity(level, taglock)
-            ?: TaglockItem.getPlayer(level, taglock)
+        val target: LivingEntity? = when {
+            goldenChalkBlockEntity.targetPlayer != null -> {
+                level.server?.playerList?.getPlayer(goldenChalkBlockEntity.targetPlayer!!)
+            }
+            goldenChalkBlockEntity.targetEntity != null -> {
+                level.getEntity(goldenChalkBlockEntity.targetEntity!!) as? LivingEntity
+            }
+            else -> null
+        }
 
         if (target == null) {
-            return
+            return false
         }
 
-        val waystone = recipe.inputItems.firstOrNull {
-            it.item == WitcheryItems.WAYSTONE.get()
-        } ?: return
-
-        val waystonePos: GlobalPos = if (waystone.has(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())) {
-            waystone.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())!!
-        } else {
-            GlobalPos.of(level.dimension(), blockPos)
-        }
+        val waystonePos = goldenChalkBlockEntity.targetPos ?: return false
 
         var dur: Int = BINDING_DURATION
         if (target is Player) {
@@ -90,5 +83,6 @@ class BindingRitual : Ritual("binding") {
                 0.1
             )
         }
+        return true
     }
 }
