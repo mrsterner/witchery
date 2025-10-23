@@ -33,6 +33,7 @@
     "MeleeAttackGoalMixin",
     "MobMixin",
     "NearestAttackableTargetGoalMixin",
+    "PanicGoalMixin",
     "PlayerInvoker",
     "PlayerMixin",
     "SaplingBlockAccessor",

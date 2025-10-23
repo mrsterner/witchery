@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.ai.memory.MemoryModuleType
 import net.minecraft.world.entity.animal.Animal
+import net.minecraft.world.entity.animal.Sheep
 import net.minecraft.world.entity.player.Player
 
 class TheLoversEffect : TarotEffect(7) {
@@ -56,6 +57,7 @@ class TheLoversEffect : TarotEffect(7) {
                 if (animal.brain.hasMemoryValue(MemoryModuleType.IS_PANICKING)) {
                     animal.brain.eraseMemory(MemoryModuleType.IS_PANICKING)
                 }
+                //Goal handles in mixin
             }
         }
     }
