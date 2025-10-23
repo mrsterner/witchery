@@ -26,7 +26,7 @@ class TheHighPriestessEffect : TarotEffect(3) {
 
     override fun onTick(player: Player, isReversed: Boolean) {
         if (!isReversed) {
-            player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 200, 0, true, false))
+            player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 11, 0, true, false))
         }
     }
 

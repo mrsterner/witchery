@@ -1,4 +1,4 @@
-package dev.sterner.witchery.content.item.accessories
+package dev.sterner.witchery.content.item.curios
 
 import com.google.common.collect.Multimap
 import dev.sterner.witchery.Witchery
@@ -13,11 +13,11 @@ import net.minecraft.world.item.Rarity
 import top.theillusivec4.curios.api.SlotContext
 import top.theillusivec4.curios.api.type.capability.ICurioItem
 
-open class SunstonePendantItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)),
+open class BatwingPendantItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)),
     ICurioItem {
 
     val modifier = AttributeModifier(
-        Witchery.id("sunresist_modifier"), 100.0,
+        Witchery.id("batwing_modifier"), 60.0 * 20,
         AttributeModifier.Operation.ADD_VALUE
     )
 
@@ -26,8 +26,8 @@ open class SunstonePendantItem(properties: Properties) : Item(properties.stacksT
         id: ResourceLocation?,
         stack: ItemStack?
     ): Multimap<Holder<Attribute>, AttributeModifier> {
-        val multimap = super.getAttributeModifiers(slotContext, id, stack)
-        multimap.put(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE, modifier)
-        return multimap
+        val map = super.getAttributeModifiers(slotContext, id, stack)
+        map.put(WitcheryAttributes.VAMPIRE_BAT_FORM_DURATION, modifier)
+        return map
     }
 }

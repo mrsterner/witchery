@@ -14,7 +14,7 @@ import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.content.entity.CovenWitchEntity
 import dev.sterner.witchery.content.item.CaneSwordItem
 import dev.sterner.witchery.content.item.WineGlassItem
-import dev.sterner.witchery.content.item.accessories.BitingBeltItem
+import dev.sterner.witchery.content.item.curios.BitingBeltItem
 import dev.sterner.witchery.content.item.brew.BrewOfSleepingItem
 import dev.sterner.witchery.core.data.AltarAugmentReloadListener
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
@@ -61,6 +61,7 @@ import dev.sterner.witchery.features.coven.CovenDialogue
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.misc.DreamWeaverHandler
 import dev.sterner.witchery.features.ent.EntSpawningHandler
+import dev.sterner.witchery.features.hags_ring.VeinMiningTracker
 import dev.sterner.witchery.features.lifeblood.LifebloodHandler
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
 import dev.sterner.witchery.features.misc.EquipmentHandler
@@ -359,6 +360,9 @@ object WitcheryNeoForgeEvents {
         if (!player.level().isClientSide) {
             LifebloodHandler.tick(player)
         }
+        if (player is ServerPlayer) {
+            VeinMiningTracker.tick(player)
+        }
     }
 
     @SubscribeEvent
@@ -479,6 +483,22 @@ object WitcheryNeoForgeEvents {
         EntSpawningHandler.breakBlock(event.player.level(), event.pos, event.state, event.player)
         AltarBlockEntity.onBlockBreak(event)
         InventoryLockPlayerAttachment.blockBreakEvent(event)
+    }
+
+    @SubscribeEvent
+    fun onPlayerLogout(event: PlayerEvent.PlayerLoggedOutEvent) {
+        val player = event.entity
+        if (player is ServerPlayer) {
+            VeinMiningTracker.cancelVeinMining(player)
+        }
+    }
+
+    @SubscribeEvent
+    fun onPlayerChangedDimension(event: PlayerEvent.PlayerChangedDimensionEvent) {
+        val player = event.entity
+        if (player is ServerPlayer) {
+            VeinMiningTracker.cancelVeinMining(player)
+        }
     }
 
     @SubscribeEvent

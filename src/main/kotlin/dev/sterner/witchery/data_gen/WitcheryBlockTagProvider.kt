@@ -23,6 +23,20 @@ class WitcheryBlockTagProvider(
 
     override fun addTags(wrapperLookup: HolderLookup.Provider) {
 
+        tag(WitcheryTags.VEIN_MINEABLE)
+            .addTag(BlockTags.COAL_ORES)
+            .addTag(BlockTags.IRON_ORES)
+            .addTag(BlockTags.GOLD_ORES)
+            .addTag(BlockTags.DIAMOND_ORES)
+            .addTag(BlockTags.EMERALD_ORES)
+            .addTag(BlockTags.LAPIS_ORES)
+            .addTag(BlockTags.REDSTONE_ORES)
+            .addTag(BlockTags.COPPER_ORES)
+            .add(Blocks.NETHER_QUARTZ_ORE)
+            .add(Blocks.ANCIENT_DEBRIS)
+            .add(Blocks.NETHER_GOLD_ORE)
+            .add(Blocks.GILDED_BLACKSTONE)
+
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get())
             .add(WitcheryBlocks.IRON_WITCHES_OVEN.get())

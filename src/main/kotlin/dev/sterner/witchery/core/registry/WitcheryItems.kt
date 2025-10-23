@@ -11,7 +11,7 @@ import dev.sterner.witchery.content.block.effigy.EffigyBlock
 import dev.sterner.witchery.content.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.content.item.*
-import dev.sterner.witchery.content.item.accessories.*
+import dev.sterner.witchery.content.item.curios.*
 import dev.sterner.witchery.content.item.brew.*
 import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.core.util.BoatTypeHelper
@@ -1239,6 +1239,10 @@ object WitcheryItems {
 
     val DREAMWEAVER_CHARM = register("dreamweaver_charm") {
         DreamweaverCharmItem(Item.Properties())
+    }
+
+    val HAGS_RING = register("hags_ring") {
+        HagsRing(Item.Properties().stacksTo(1).rarity(Rarity.EPIC))
     }
 
     val BITING_BELT = register("biting_belt") {

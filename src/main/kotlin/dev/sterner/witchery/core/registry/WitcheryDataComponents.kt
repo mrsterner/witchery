@@ -31,7 +31,9 @@ object WitcheryDataComponents {
     val CHALK_USES = DATA.register("chalk_uses", Supplier {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
     })
-
+    val FORTUNE_LEVEL = DATA.register("fortune_level", Supplier {
+        DataComponentType.builder<Int>().persistent(Codec.INT).build()
+    })
     val GLOBAL_POS_COMPONENT = DATA.register("global_pos", Supplier {
         DataComponentType.builder<GlobalPos>().persistent(GlobalPos.CODEC).build()
     })

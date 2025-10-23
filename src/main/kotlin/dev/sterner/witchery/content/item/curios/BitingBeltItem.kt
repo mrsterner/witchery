@@ -1,4 +1,4 @@
-package dev.sterner.witchery.content.item.accessories
+package dev.sterner.witchery.content.item.curios
 
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.features.misc.AccessoryHandler

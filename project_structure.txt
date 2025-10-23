@@ -38,6 +38,9 @@ dev/sterner/witchery/mixin/AvoidEntityGoalMixin.java
 dev/sterner/witchery/mixin/BlockBehaviourMixin.java
   class BlockBehaviourMixin
 
+dev/sterner/witchery/mixin/BlockItemMixin.java
+  class BlockItemMixin
+
 dev/sterner/witchery/mixin/BlockMixin.java
   class BlockMixin
   else if(entry instanceof CompositeEntryBase composite)
@@ -122,6 +125,9 @@ dev/sterner/witchery/mixin/MobMixin.java
 dev/sterner/witchery/mixin/NearestAttackableTargetGoalMixin.java
   class NearestAttackableTargetGoalMixin
   public NearestAttackableTargetGoalMixin(Mob mob, boolean mustSee)
+
+dev/sterner/witchery/mixin/PanicGoalMixin.java
+  class PanicGoalMixin
 
 dev/sterner/witchery/mixin/PlayerInvoker.java
   EntityDataAccessor<Byte> getPlayerModeCustomisationAccessor()
@@ -223,6 +229,9 @@ dev/sterner/witchery/mixin/client/ItemInHandRendererMixin.java
 
 dev/sterner/witchery/mixin/client/ItemRendererMixin.java
   class ItemRendererMixin
+
+dev/sterner/witchery/mixin/client/LevelRendererAccessor.java
+  RenderBuffers getRenderBuffers()
 
 dev/sterner/witchery/mixin/client/LivingEntityRendererMixin.java
   class LivingEntityRendererMixin
@@ -423,6 +432,7 @@ dev/sterner/witchery/Witchery.kt
   fun onEntityAttributeCreation(event: EntityAttributeCreationEvent)
   fun id(path: String)
   fun logDebugRitual(message: String)
+  fun useDebugBoxRender(): Boolean
 
 dev/sterner/witchery/WitcheryClient.kt
   class WitcheryClient
@@ -463,6 +473,7 @@ dev/sterner/witchery/WitcheryModEvents.kt
 
 dev/sterner/witchery/WitcheryNeoForgeEvents.kt
   object WitcheryNeoForgeEvents
+  fun addFortuneTellerTrades(event: VillagerTradesEvent)
   fun onServerStarting(event: ServerStartingEvent)
   fun onServerTick(event: ServerTickEvent.Pre)
   fun onLivingDeath(event: LivingDeathEvent)
@@ -473,11 +484,13 @@ dev/sterner/witchery/WitcheryNeoForgeEvents.kt
   fun onLivingHurt(event: LivingDamageEvent.Post)
   fun onAddReloadListener(event: AddReloadListenerEvent)
   fun onPlayerTick(event: PlayerTickEvent.Post)
+  fun onPlayerRespawn(event: PlayerEvent.PlayerRespawnEvent)
   fun onPlayerClone(event: PlayerEvent.Clone)
   fun finalizeMobSpawn(event: FinalizeSpawnEvent)
   fun onLivingConversion(event: LivingConversionEvent.Post)
   fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent)
   fun onInteractEntity(event: PlayerInteractEvent.EntityInteract)
+  fun onRightClickItem(event: PlayerInteractEvent.RightClickItem)
   fun onRightClickBlock(event: PlayerInteractEvent.RightClickBlock)
   fun onLeftClickBlock(event: PlayerInteractEvent.LeftClickBlock)
   fun onBlockBreak(event: BlockEvent.BreakEvent)
@@ -503,6 +516,26 @@ dev/sterner/witchery/client/BindingBoxRenderer.kt
   fun onRenderLevel(event: RenderLevelStageEvent)
   fun renderBindingBox(radius: Float, fadeProgress: Float, poseStack: PoseStack, bufferSource: MultiBufferSource)
   fun addGlowFace(builder: BufferBuilder, matrix: Matrix4f, x1: Float, y1: Float, z1: Float, x2: Float, y2: Float, z2: Float, x3: Float, y3: Float, z3: Float, x4: Float, y4: Float, z4: Float)
+
+dev/sterner/witchery/client/DebugAABBRenderer.kt
+  class DebugAABB
+  object DebugAABBRenderer
+  fun addAABB(aabb: AABB, color: Int, durationTicks: Int)
+  fun tick()
+  fun render(poseStack: PoseStack, bufferSource: MultiBufferSource, cameraPos: Vec3)
+  fun renderAABBLines(poseStack: PoseStack, buffer: VertexConsumer, aabb: AABB, r: Float, g: Float, b: Float, a: Float)
+  fun drawLine(matrix: Matrix4f, buffer: VertexConsumer, x1: Double, y1: Double, z1: Double, x2: Double, y2: Double, z2: Double, r: Float, g: Float, b: Float, a: Float)
+
+dev/sterner/witchery/client/LifebloodHudRenderer.kt
+  class HeartbeatData
+  object LifebloodHudRenderer
+  fun renderHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker)
+  fun renderLifebloodHearts(guiGraphics: GuiGraphics, player: Player, data: LifebloodPlayerAttachment.Data, screenWidth: Int, y: Int)
+  fun calculateHeartbeat(timeInSeconds: Float): HeartbeatData
+  fun easeOutCubic(t: Float): Float
+  fun easeInQuad(t: Float): Float
+  fun renderWobblyHeart(player: Player, poseStack: PoseStack, texture: ResourceLocation, x: Float, y: Float, size: Float, index: Int, alpha: Float, additive: Boolean)
+  fun getLifebloodEmissiveTexture(points: Int): ResourceLocation
 
 dev/sterner/witchery/client/OreHighlightRenderer.kt
   class HighlightedOre
@@ -530,7 +563,6 @@ dev/sterner/witchery/client/UrnPotionSelectionHandler.kt
   fun onMouseScroll(delta: Double): Boolean
   fun openMenu(player: Player)
   fun closeMenu()
-  fun isLeftAltPressed(): Boolean
   fun render(guiGraphics: GuiGraphics, partialTick: DeltaTracker)
   fun easeOutCubic(t: Float): Float
 
@@ -681,6 +713,11 @@ dev/sterner/witchery/client/model/ImpEntityModel.kt
 dev/sterner/witchery/client/model/JarModel.kt
   class JarModel
   fun renderToBuffer(poseStack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
+  fun createBodyLayer(): LayerDefinition
+
+dev/sterner/witchery/client/model/LifeBloodPlantModel.kt
+  class LifeBloodPlantModel
+  fun renderToBuffer(poseStack: PoseStack, vertexConsumer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
   fun createBodyLayer(): LayerDefinition
 
 dev/sterner/witchery/client/model/LilithEntityModel.kt
@@ -920,6 +957,10 @@ dev/sterner/witchery/client/renderer/block/EffigyBlockEntityRenderer.kt
 dev/sterner/witchery/client/renderer/block/GrassperBlockEntityRenderer.kt
   class GrassperBlockEntityRenderer
   fun render(blockEntity: GrassperBlockEntity, partialTick: Float, poseStack: PoseStack, bufferSource: MultiBufferSource, packedLight: Int, packedOverlay: Int)
+
+dev/sterner/witchery/client/renderer/block/LifeBloodBlockEntityRenderer.kt
+  class LifeBloodBlockEntityRenderer
+  fun render(blockEntity: LifeBloodBlockEntity, partialTick: Float, poseStack: PoseStack, bufferSource: MultiBufferSource, packedLight: Int, packedOverlay: Int)
 
 dev/sterner/witchery/client/renderer/block/MushroomLogBlockEntityRenderer.kt
   class MushroomLogBlockEntityRenderer
@@ -1211,11 +1252,9 @@ dev/sterner/witchery/client/tarot/TarotCardHudRenderer.kt
   fun onClientTick(event: ClientTickEvent.Post)
   fun openMenu()
   fun closeMenu()
-  fun isLeftAltPressed(): Boolean
   fun checkHover(data: TarotPlayerAttachment.Data, screenWidth: Int, screenHeight: Int, mouseX: Float, mouseY: Float)
   fun renderTarotCards(guiGraphics: GuiGraphics, data: TarotPlayerAttachment.Data, screenWidth: Int, screenHeight: Int, partialTick: Float)
   fun renderMiniCard(guiGraphics: GuiGraphics, poseStack: PoseStack, cardNumber: Int, isReversed: Boolean, x: Float, y: Float, isHovered: Boolean, partialTick: Float)
-  fun renderCardTooltip(guiGraphics: GuiGraphics, cardNumber: Int, isReversed: Boolean, minecraft: Minecraft)
   fun getCardTexture(cardNumber: Int): ResourceLocation
   fun easeOutCubic(t: Float): Float
 
@@ -1355,6 +1394,9 @@ dev/sterner/witchery/content/block/InfinityEggBlock.kt
   class InfinityEggBlock
   fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape
   fun appendHoverText(stack: ItemStack, context: Item.TooltipContext, tooltipComponents: MutableList<Component>, tooltipFlag: TooltipFlag)
+
+dev/sterner/witchery/content/block/Lifeblood.kt
+  fun use(entity: Entity?, state: BlockState, level: Level, pos: BlockPos): InteractionResult
 
 dev/sterner/witchery/content/block/MandrakeCropBlock.kt
   class MandrakeCropBlock
@@ -1508,6 +1550,7 @@ dev/sterner/witchery/content/block/altar/AltarBlockComponent.kt
 
 dev/sterner/witchery/content/block/altar/AltarBlockEntity.kt
   class AltarBlockEntity
+  class Tuple4
   fun get(index: Int): Int
   fun set(index: Int, value: Int)
   fun getCount()
@@ -1515,11 +1558,11 @@ dev/sterner/witchery/content/block/altar/AltarBlockEntity.kt
   fun collectAllLocalNaturePower(level: ServerLevel)
   fun updateCurrentPower()
   fun getLocalAugmentAABB(direction: Direction): AABB
-  fun augmentAltar(level: ServerLevel)
   fun onUseWithoutItem(pPlayer: Player): InteractionResult
   fun openMenu(player: ServerPlayer)
   fun createMenu(containerId: Int, inventory: Inventory, player: Player): AbstractContainerMenu?
   fun getDisplayName(): Component
+  fun augmentAltar(level: ServerLevel)
   fun tickServer(serverLevel: ServerLevel)
   fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
   fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider)
@@ -1819,6 +1862,8 @@ dev/sterner/witchery/content/block/critter_snare/CritterSnareBlockEntity.kt
 
 dev/sterner/witchery/content/block/crystal_ball/CrystalBall.kt
   class CrystalBall
+  fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape
+  fun useWithoutItem(state: BlockState, level: Level, pos: BlockPos, player: Player, hitResult: BlockHitResult): InteractionResult
 
 dev/sterner/witchery/content/block/distillery/DistilleryBlock.kt
   class DistilleryBlock
@@ -1941,6 +1986,25 @@ dev/sterner/witchery/content/block/grassper/GrassperBlockEntity.kt
   fun getSlotsForFace(side: Direction): IntArray
   fun canPlaceItemThroughFace(index: Int, itemStack: ItemStack, direction: Direction?): Boolean
   fun canTakeItemThroughFace(index: Int, stack: ItemStack, direction: Direction): Boolean
+
+dev/sterner/witchery/content/block/life_blood/LifeBloodBlock.kt
+  class LifeBloodBlock
+  fun getCloneItemStack(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): ItemStack
+  fun getBodyBlock(): Block
+  fun useWithoutItem(blockState: BlockState, level: Level, blockPos: BlockPos, player: Player, blockHitResult: BlockHitResult): InteractionResult
+  fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity?
+  fun getRenderShape(state: BlockState): RenderShape
+
+dev/sterner/witchery/content/block/life_blood/LifeBloodBlockEntity.kt
+  class LifeBloodBlockEntity
+
+dev/sterner/witchery/content/block/life_blood/LifeBloodPlantBlock.kt
+  class LifeBloodPlantBlock
+  fun getCloneItemStack(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): ItemStack
+  fun getHeadBlock(): GrowingPlantHeadBlock
+  fun useWithoutItem(blockState: BlockState, level: Level, blockPos: BlockPos, player: Player, blockHitResult: BlockHitResult): InteractionResult
+  fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity?
+  fun getRenderShape(state: BlockState): RenderShape
 
 dev/sterner/witchery/content/block/mushroom_log/MushroomLogBlock.kt
   class MushroomLogBlock
@@ -2111,6 +2175,7 @@ dev/sterner/witchery/content/block/ritual/GoldenChalkBlockEntity.kt
   fun tick(level: Level, pos: BlockPos, blockState: BlockState)
   fun processActiveRitual(level: Level)
   fun onStartRitual(level: Level)
+  fun cancelRitualAndDropItems(level: Level)
   fun onTickRitual(level: Level)
   fun onEndRitual(level: Level)
   fun processSacrificeConsumption(level: Level)
@@ -3008,6 +3073,10 @@ dev/sterner/witchery/content/item/ChaliceBlockItem.kt
 dev/sterner/witchery/content/item/ChalkItem.kt
   class ChalkItem
   fun useOn(context: UseOnContext): InteractionResult
+  fun decrementUses(stack: ItemStack, player: Player?)
+  fun isBarVisible(stack: ItemStack): Boolean
+  fun getBarWidth(stack: ItemStack): Int
+  fun getBarColor(stack: ItemStack): Int
 
 dev/sterner/witchery/content/item/CovenContractItem.kt
   class CovenContractItem
@@ -3082,6 +3151,11 @@ dev/sterner/witchery/content/item/LeonardsUrnItem.kt
   fun hasUrn(player: Player): Boolean
   fun findUrn(player: Player): ItemStack?
 
+dev/sterner/witchery/content/item/LifebloodBerryItem.kt
+  class LifebloodBerryItem
+  fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack
+  fun appendHoverText(stack: ItemStack, context: TooltipContext, tooltipComponents: MutableList<Component>, tooltipFlag: TooltipFlag)
+
 dev/sterner/witchery/content/item/MutandisItem.kt
   class MutandisItem
   fun useOn(useOnContext: UseOnContext): InteractionResult
@@ -3094,6 +3168,8 @@ dev/sterner/witchery/content/item/MutatingSpringItem.kt
   fun makeFromSnare(level: Level, pos: BlockPos)
   fun makeWormwood(level: Level, pos: BlockPos)
   fun makeGrassper(level: Level, pos: BlockPos)
+  fun makeLifeBlood(level: Level, pos: BlockPos)
+  fun spawnLifebloodTransformationParticles(level: ServerLevel, pos: BlockPos)
   fun makeCritterSnare(level: Level, pos: BlockPos)
   fun checkCardinal(level: Level, pos: BlockPos, block: Block): Boolean
   fun checkWaterDiagonals(level: Level, pos: BlockPos): Boolean
@@ -3788,7 +3864,7 @@ dev/sterner/witchery/core/api/PoppetUsage.kt
 dev/sterner/witchery/core/api/Ritual.kt
   class Ritual
   fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
-  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
   fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
   fun saveState(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity, tag: CompoundTag)
   fun loadState(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity, tag: CompoundTag)
@@ -4031,6 +4107,17 @@ dev/sterner/witchery/core/commands/InfusionArgumentType.kt
   fun infusionType(): InfusionArgumentType
   fun getInfusionType(context: CommandContext<CommandSourceStack>, name: String): InfusionType
 
+dev/sterner/witchery/core/data/AltarAugmentReloadListener.kt
+  class AltarAugmentResourceReloadListener
+  class AltarAugment
+  class AugmentBonus
+  class AugmentCategory
+  object AltarAugmentReloadListener
+  fun apply(objects: MutableMap<ResourceLocation, JsonElement>, resourceManager: ResourceManager, profiler: ProfilerFiller)
+  fun parseJson(json: JsonObject, file: ResourceLocation)
+  fun getAugment(state: BlockState): AltarAugment?
+  fun matches(state: BlockState): Boolean
+
 dev/sterner/witchery/core/data/BloodPoolReloadListener.kt
   class BloodPoolResourceReloadListener
   class BloodData
@@ -4107,6 +4194,11 @@ dev/sterner/witchery/core/registry/WitcheryCommands.kt
   fun registerVampireCommands(): LiteralArgumentBuilder<CommandSourceStack>
   fun registerWerewolfCommands(): LiteralArgumentBuilder<CommandSourceStack>
   fun registerCovenCommands(): LiteralArgumentBuilder<CommandSourceStack>
+  fun registerTarotCommands(): LiteralArgumentBuilder<CommandSourceStack>
+  fun applyTarotCard(ctx: CommandContext<CommandSourceStack>, target: ServerPlayer, cardNumber: Int, reversed: Boolean): Int
+  fun clearTarotCards(ctx: CommandContext<CommandSourceStack>, target: ServerPlayer): Int
+  fun listTarotCards(ctx: CommandContext<CommandSourceStack>): Int
+  fun showTarotInfo(ctx: CommandContext<CommandSourceStack>, target: ServerPlayer): Int
 
 dev/sterner/witchery/core/registry/WitcheryCreativeModeTabs.kt
   object WitcheryCreativeModeTabs
@@ -4259,6 +4351,9 @@ dev/sterner/witchery/core/registry/WitcheryTarotEffects.kt
   fun getAllEffects(): Collection<TarotEffect>
   fun register(modEventBus: IEventBus)
 
+dev/sterner/witchery/core/registry/WitcheryVillagers.kt
+  object WitcheryVillagers
+
 dev/sterner/witchery/core/util/BoatTypeHelper.kt
   object BoatTypeHelper
   fun getRowanBoatType(): Boat.Type
@@ -4279,6 +4374,7 @@ dev/sterner/witchery/core/util/RenderUtils.kt
   fun renderEntityInInventory(guiGraphics: GuiGraphics, x: Float, y: Float, scale: Float, translate: Vector3f, pose: Quaternionf?, cameraOrientation: Quaternionf?, entity: LivingEntity)
   fun renderGlowBoxEffect11(fadeProgress: Float, poseStack: PoseStack, bufferSource: MultiBufferSource)
   fun addGlowFace(builder: BufferBuilder, matrix: Matrix4f, x1: Float, y1: Float, z1: Float, x2: Float, y2: Float, z2: Float, x3: Float, y3: Float, z3: Float, x4: Float, y4: Float, z4: Float)
+  fun makeDebugAABB(aabb: AABB, color: Int, durationTicks: Int, level: ServerLevel)
 
 dev/sterner/witchery/core/util/WitcheryUtil.kt
   object WitcheryUtil
@@ -4312,6 +4408,18 @@ dev/sterner/witchery/data_gen/WitcheryAdvancementProvider.kt
   fun makeVampTornPageAdvancement(id: String, parent: AdvancementHolder?, consumer: Consumer<AdvancementHolder>): AdvancementHolder
   fun makeNecroRuinPageAdvancement(id: String, parent: AdvancementHolder?, consumer: Consumer<AdvancementHolder>): AdvancementHolder
   fun makeWerewolfAltarAdvancement(id: String, parent: AdvancementHolder?, consumer: Consumer<AdvancementHolder>): AdvancementHolder
+
+dev/sterner/witchery/data_gen/WitcheryAltarAugmentProvider.kt
+  class WitcheryAltarAugmentProvider
+  fun getName(): String
+  fun gather()
+  fun lightAugment(name: String, block: Block, bonus: Double)
+  fun lightAugmentTag(name: String, tag: ResourceLocation, requiresLit: Boolean, bonus: Double)
+  fun lightAugmentCandleTag(name: String, tag: ResourceLocation, requiresLit: Boolean, candleCount: Int, bonus: Double)
+  fun headAugment(name: String, block: Block, bonus: Double)
+  fun chaliceAugment(name: String, block: Block, requiresSoup: Boolean, bonus: Double)
+  fun rangeAugment(name: String, block: Block, multiplier: Double)
+  fun specialAugment(name: String, block: Block, hasPentacle: Boolean, hasInfinityEgg: Boolean)
 
 dev/sterner/witchery/data_gen/WitcheryBlockTagProvider.kt
   class WitcheryBlockTagProvider
@@ -4526,6 +4634,15 @@ dev/sterner/witchery/data_gen/book/entry/FumeExtensionEntryProvider.kt
 
 dev/sterner/witchery/data_gen/book/entry/InfusionEntryProvider.kt
   class InfusionEntryProvider
+  fun generatePages()
+  fun entryName(): String
+  fun entryDescription(): String
+  fun entryBackground(): Pair<Int, Int>
+  fun entryIcon(): BookIconModel
+  fun entryId(): String
+
+dev/sterner/witchery/data_gen/book/entry/LifebloodEntryProvider.kt
+  class LifebloodEntryProvider
   fun generatePages()
   fun entryName(): String
   fun entryDescription(): String
@@ -5043,10 +5160,13 @@ dev/sterner/witchery/features/affliction/event/AfflictionClientEventHandler.kt
 
 dev/sterner/witchery/features/affliction/event/AfflictionEventHandler.kt
   object AfflictionEventHandler
+  fun isInAbilityMode(player: Player): Boolean
   fun tick(player: Player?)
   fun regenerateHumanBlood(player: ServerPlayer)
   fun rightClickBlockAbility(event: PlayerInteractEvent.RightClickBlock, player: Player, interactionHand: InteractionHand)
   fun interactEntityWithAbility(event: PlayerInteractEvent.EntityInteract, player: Player?, entity: Entity?)
+  fun leftClickBlock(event: PlayerInteractEvent.LeftClickBlock, player: Player)
+  fun rightClickItem(event: PlayerInteractEvent.RightClickItem, player: Player, interactionHand: InteractionHand)
   fun clientRightClickAbility(player: Player?, interactionHand: InteractionHand?): Boolean
 
 dev/sterner/witchery/features/affliction/event/AfflictionHandler.kt
@@ -5161,6 +5281,7 @@ dev/sterner/witchery/features/affliction/vampire/VampireClientSpecificEventHandl
   object VampireClientSpecificEventHandler
   fun renderHud(guiGraphics: GuiGraphics)
   fun renderSunOverlay(guiGraphics: GuiGraphics, minecraft: Minecraft)
+  fun hasReversedSunTarot(player: Player): Boolean
   fun drawSun(guiGraphics: GuiGraphics, player: Player)
   fun drawBatFormHud(guiGraphics: GuiGraphics, player: LocalPlayer)
   fun drawBloodSense(guiGraphics: GuiGraphics)
@@ -5198,8 +5319,9 @@ dev/sterner/witchery/features/affliction/vampire/VampireSpecificEventHandler.kt
   fun handleBloodHealing(player: ServerPlayer)
   fun applyActiveEffects(player: ServerPlayer)
   fun handleSunExposure(player: ServerPlayer)
+  fun hasReversedSunTarot(player: ServerPlayer): Boolean
+  fun handleSunDamage(player: ServerPlayer, affData: AfflictionPlayerAttachment.Data, hasSunReversed: Boolean)
   fun decreaseSunTick(player: ServerPlayer)
-  fun handleSunDamage(player: ServerPlayer, affData: AfflictionPlayerAttachment.Data)
   fun playSunDamageEffects(player: ServerPlayer)
   fun respawn(oldPlayer: Player, newPlayer: Player, alive: Boolean)
   fun onKillEntity(livingEntity: LivingEntity, damageSource: DamageSource)
@@ -5535,6 +5657,25 @@ dev/sterner/witchery/features/infusion/OtherwhereInfusionPlayerAttachment.kt
   fun getInfusion(player: Player): Data
   fun sync(player: Player, data: Data)
 
+dev/sterner/witchery/features/lifeblood/LifebloodHandler.kt
+  object LifebloodHandler
+  fun tick(player: Player)
+  fun handleDamage(player: Player, source: DamageSource, damage: Float): Float
+  fun addLifeblood(player: Player, points: Int)
+
+dev/sterner/witchery/features/lifeblood/LifebloodPlayerAttachment.kt
+  class Data
+  object LifebloodPlayerAttachment
+  fun getData(player: Player): Data
+  fun setData(player: Player, data: Data)
+  fun sync(player: Player, data: Data)
+  fun getFullHearts(): Int
+  fun getPartialHeartPoints(): Int
+  fun getMaxRegenPoints(): Int
+  fun canRegenerate(): Boolean
+  fun addPoints(amount: Int): Data
+  fun removePoints(amount: Int): Data
+
 dev/sterner/witchery/features/misc/AccessoryHandler.kt
   class for
   object AccessoryHandler
@@ -5849,7 +5990,7 @@ dev/sterner/witchery/features/possession/PossessionComponentAttachment.kt
 
 dev/sterner/witchery/features/ritual/BestialCallRitual.kt
   class BestialCallRitual
-  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
 
 dev/sterner/witchery/features/ritual/BindFamiliarRitual.kt
   class BindFamiliarRitual
@@ -5864,11 +6005,11 @@ dev/sterner/witchery/features/ritual/BindSpectralCreaturesRitual.kt
 
 dev/sterner/witchery/features/ritual/BindingRitual.kt
   class BindingRitual
-  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
 
 dev/sterner/witchery/features/ritual/BlocksBelowRitual.kt
   class BlocksBelowRitual
-  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
   fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
   fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
   fun saveState(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity, tag: CompoundTag)
@@ -5894,7 +6035,7 @@ dev/sterner/witchery/features/ritual/RainingToadAttachment.kt
 
 dev/sterner/witchery/features/ritual/RainingToadRitual.kt
   class RainingToadRitual
-  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
   fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
   fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
 
@@ -5924,9 +6065,13 @@ dev/sterner/witchery/features/ritual/RotRitual.kt
   fun spawnCompletionParticles(level: Level, pos: Vec3)
   fun spawnAmbientParticles(level: Level, pos: BlockPos)
 
+dev/sterner/witchery/features/ritual/SoulSeveranceRitual.kt
+  class SoulSeveranceRitual
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
+
 dev/sterner/witchery/features/ritual/SoulbindRitual.kt
   class SoulbindRitual
-  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
 
 dev/sterner/witchery/features/spirit_world/ManifestationHandler.kt
   object ManifestationHandler
@@ -5984,8 +6129,10 @@ dev/sterner/witchery/features/tarot/StrengthEffect.kt
   class StrengthEffect
   fun getDisplayName(isReversed: Boolean)
   fun getDescription(isReversed: Boolean)
-  fun onTick(player: Player, isReversed: Boolean)
+  fun onAdded(player: Player, isReversed: Boolean)
+  fun onRemoved(player: Player, isReversed: Boolean)
   fun onEntityKill(player: Player, entity: LivingEntity, isReversed: Boolean)
+  fun updateDamageModifier(player: Player, isReversed: Boolean)
 
 dev/sterner/witchery/features/tarot/TarotEffect.kt
   class TarotEffect
@@ -6040,7 +6187,9 @@ dev/sterner/witchery/features/tarot/TheChariotEffect.kt
   class TheChariotEffect
   fun getDisplayName(isReversed: Boolean)
   fun getDescription(isReversed: Boolean)
-  fun onTick(player: Player, isReversed: Boolean)
+  fun onAdded(player: Player, isReversed: Boolean)
+  fun onRemoved(player: Player, isReversed: Boolean)
+  fun updateSpeedModifier(player: Player, isReversed: Boolean)
 
 dev/sterner/witchery/features/tarot/TheDevilEffect.kt
   class TheDevilEffect
@@ -6160,6 +6309,10 @@ dev/sterner/witchery/features/tarot/WheelOfFortuneEffect.kt
   fun getDescription(isReversed: Boolean)
   fun onTick(player: Player, isReversed: Boolean)
   fun onEntityKill(player: Player, entity: LivingEntity, isReversed: Boolean)
+
+dev/sterner/witchery/integration/CompatHelper.kt
+  object CompatHelper
+  fun isGuard(entity: Entity): Boolean
 
 dev/sterner/witchery/integration/emi/BloodPendantEmiRecipe.kt
   class BloodPendantEmiRecipe
@@ -6532,6 +6685,12 @@ dev/sterner/witchery/network/CauldronPotionBrewParticleS2CPayload.kt
   fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
   fun handleOnClient()
 
+dev/sterner/witchery/network/DebugAABBRenderS2CPayload.kt
+  class DebugAABBRenderS2CPayload
+  fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
+  fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
+  fun handleOnClient()
+
 dev/sterner/witchery/network/DismountBroomC2SPayload.kt
   class DismountBroomC2SPayload
   fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
@@ -6729,6 +6888,12 @@ dev/sterner/witchery/network/SyncInfusionS2CPayload.kt
 
 dev/sterner/witchery/network/SyncInventoryLockS2CPayload.kt
   class SyncInventoryLockS2CPayload
+  fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
+  fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
+  fun handleOnClient()
+
+dev/sterner/witchery/network/SyncLifebloodS2CPayload.kt
+  class SyncLifebloodS2CPayload
   fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
   fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
   fun handleOnClient()

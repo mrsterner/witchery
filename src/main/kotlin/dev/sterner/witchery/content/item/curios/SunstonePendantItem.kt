@@ -1,4 +1,4 @@
-package dev.sterner.witchery.content.item.accessories
+package dev.sterner.witchery.content.item.curios
 
 import com.google.common.collect.Multimap
 import dev.sterner.witchery.Witchery
@@ -13,11 +13,11 @@ import net.minecraft.world.item.Rarity
 import top.theillusivec4.curios.api.SlotContext
 import top.theillusivec4.curios.api.type.capability.ICurioItem
 
-open class BloodstonePendantItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)),
+open class SunstonePendantItem(properties: Properties) : Item(properties.stacksTo(1).rarity(Rarity.UNCOMMON)),
     ICurioItem {
 
     val modifier = AttributeModifier(
-        Witchery.id("drink_speed_modifier"), 10.0,
+        Witchery.id("sunresist_modifier"), 100.0,
         AttributeModifier.Operation.ADD_VALUE
     )
 
@@ -27,7 +27,7 @@ open class BloodstonePendantItem(properties: Properties) : Item(properties.stack
         stack: ItemStack?
     ): Multimap<Holder<Attribute>, AttributeModifier> {
         val multimap = super.getAttributeModifiers(slotContext, id, stack)
-        multimap.put(WitcheryAttributes.VAMPIRE_DRINK_SPEED, modifier)
+        multimap.put(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE, modifier)
         return multimap
     }
 }
