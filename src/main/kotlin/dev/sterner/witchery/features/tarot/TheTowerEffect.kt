@@ -15,13 +15,12 @@ import kotlin.math.sin
 
 class TheTowerEffect : TarotEffect(17) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Tower (Reversed)" else "The Tower"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_tower.reversed" else "tarot.witchery.the_tower"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Stagnation without growth or change"
-        else "Chaos incarnate - blocks may explode when broken, Baba Yaga may appear"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_tower.reversed.description" else "tarot.witchery.the_tower.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

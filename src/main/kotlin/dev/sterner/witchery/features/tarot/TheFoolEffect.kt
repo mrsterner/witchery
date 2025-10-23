@@ -9,13 +9,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheFoolEffect : TarotEffect(1) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Fool (Reversed)" else "The Fool"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_fool.reversed" else "tarot.witchery.the_fool"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Clumsy mishaps and increased damage plague your journey"
-        else "Naive luck protects you - reduced damage taken, random beneficial effects"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_fool.reversed.description" else "tarot.witchery.the_fool.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

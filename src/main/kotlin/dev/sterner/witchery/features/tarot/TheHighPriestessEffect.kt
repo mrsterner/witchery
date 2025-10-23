@@ -16,13 +16,12 @@ import net.neoforged.neoforge.network.PacketDistributor
 
 class TheHighPriestessEffect : TarotEffect(3) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The High Priestess (Reversed)" else "The High Priestess"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_high_priestess.reversed" else "tarot.witchery.the_high_priestess"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Intuition blocked - lose experience when mining"
-        else "Perpetual night vision reveals hidden ores when mining - secrets glow briefly"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_high_priestess.reversed.description" else "tarot.witchery.the_high_priestess.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

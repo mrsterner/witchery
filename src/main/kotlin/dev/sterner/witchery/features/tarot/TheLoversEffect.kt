@@ -14,13 +14,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheLoversEffect : TarotEffect(7) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Lovers (Reversed)" else "The Lovers"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_lovers.reversed" else "tarot.witchery.the_lovers"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Love twisted - peaceful creatures turn violent against you and each other"
-        else "Animals are calmed by your presence, panic fades in your aura"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_lovers.reversed.description" else "tarot.witchery.the_lovers.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

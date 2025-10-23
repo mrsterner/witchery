@@ -10,13 +10,12 @@ import net.minecraft.world.level.block.state.BlockState
 
 class TheEmpressEffect : TarotEffect(4) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Empress (Reversed)" else "The Empress"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_empress.reversed" else "tarot.witchery.the_empress"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Barren harvest - crops may fail when broken"
-        else "Nature's bounty - bonus crop drops, awaken each morning well-fed"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_empress.reversed.description" else "tarot.witchery.the_empress.description"
     )
 
     override fun onBlockBreak(player: Player, blockState: BlockState, pos: BlockPos, isReversed: Boolean) {

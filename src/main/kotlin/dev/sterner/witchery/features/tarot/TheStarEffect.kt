@@ -10,13 +10,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheStarEffect : TarotEffect(18) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Star (Reversed)" else "The Star"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_star.reversed" else "tarot.witchery.the_star"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Your guiding light fades - constant hunger drains your energy"
-        else "Slow regeneration under stars, fully restored when night falls"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_star.reversed.description" else "tarot.witchery.the_star.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

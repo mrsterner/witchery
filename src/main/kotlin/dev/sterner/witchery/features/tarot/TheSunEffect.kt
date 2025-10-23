@@ -13,13 +13,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheSunEffect : TarotEffect(20) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Sun (Reversed)" else "The Sun"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_sun.reversed" else "tarot.witchery.the_sun"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Scorching rays - daylight burns you beneath open sky"
-        else "Full restoration each dawn, slow healing in daylight, strength and regeneration"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_sun.reversed.description" else "tarot.witchery.the_sun.description"
     )
 
     override fun onMorning(player: Player, isReversed: Boolean) {

@@ -20,13 +20,12 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams
 
 class WheelOfFortuneEffect : TarotEffect(11) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Wheel of Fortune (Reversed)" else "Wheel of Fortune"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.wheel_of_fortune.reversed" else "tarot.witchery.wheel_of_fortune"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The wheel turns against you - constant bad luck"
-        else "Fortune's favor - increased luck, rare drops from slain enemies"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.wheel_of_fortune.reversed.description" else "tarot.witchery.wheel_of_fortune.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

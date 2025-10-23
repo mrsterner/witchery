@@ -9,13 +9,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheEmperorEffect : TarotEffect(5) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Emperor (Reversed)" else "The Emperor"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_emperor.reversed" else "tarot.witchery.the_emperor"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Your authority crumbles - lose experience each dawn"
-        else "Command the battlefield - gain damage resistance at dawn, your strikes slow enemies"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_emperor.reversed.description" else "tarot.witchery.the_emperor.description"
     )
 
     override fun onMorning(player: Player, isReversed: Boolean) {

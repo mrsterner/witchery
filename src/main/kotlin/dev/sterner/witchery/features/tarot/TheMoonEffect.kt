@@ -9,13 +9,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheMoonEffect : TarotEffect(19) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Moon (Reversed)" else "The Moon"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_moon.reversed" else "tarot.witchery.the_moon"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Harsh daylight occasionally blinds you - clarity obscures truth"
-        else "Night vision, speed at dusk, enemies lose track of you in darkness"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_moon.reversed.description" else "tarot.witchery.the_moon.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

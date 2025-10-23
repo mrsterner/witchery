@@ -8,13 +8,12 @@ import net.minecraft.world.entity.player.Player
 
 class JusticeEffect : TarotEffect(12) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Justice (Reversed)" else "Justice"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.justice.reversed" else "tarot.witchery.justice"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Unfair punishment - you take more damage from all sources"
-        else "An eye for an eye - those who harm you suffer thorns damage in return"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.justice.reversed.description" else "tarot.witchery.justice.description"
     )
 
     override fun onEntityHit(player: Player, target: Entity, isReversed: Boolean) {

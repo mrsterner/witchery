@@ -11,13 +11,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheChariotEffect : TarotEffect(8) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Chariot (Reversed)" else "The Chariot"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_chariot.reversed" else "tarot.witchery.the_chariot"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Your movement is hindered, as if pulling a great weight"
-        else "Accelerated movement - you move with enhanced speed and agility"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_chariot.reversed.description" else "tarot.witchery.the_chariot.description"
     )
 
     override fun onAdded(player: Player, isReversed: Boolean) {

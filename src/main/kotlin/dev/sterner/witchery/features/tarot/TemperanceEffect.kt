@@ -11,13 +11,12 @@ import net.minecraft.world.item.PotionItem
 
 class TemperanceEffect : TarotEffect(15) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Temperance (Reversed)" else "Temperance"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.temperance.reversed" else "tarot.witchery.temperance"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Excess and imbalance plague your actions"
-        else "Harmony restored - slow regeneration when wounded, water breathing, enhanced potions"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.temperance.reversed.description" else "tarot.witchery.temperance.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

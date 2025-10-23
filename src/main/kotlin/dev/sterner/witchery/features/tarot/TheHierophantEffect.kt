@@ -7,13 +7,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheHierophantEffect : TarotEffect(6) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Hierophant (Reversed)" else "The Hierophant"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_hierophant.reversed" else "tarot.witchery.the_hierophant"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Divine grace withheld - take damage each morning"
-        else "Blessed each dawn with absorption, sleeping fully restores your health"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_hierophant.reversed.description" else "tarot.witchery.the_hierophant.description"
     )
 
     override fun onMorning(player: Player, isReversed: Boolean) {

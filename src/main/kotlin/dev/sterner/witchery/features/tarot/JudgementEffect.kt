@@ -14,13 +14,12 @@ import net.minecraft.world.entity.player.Player
 
 class JudgementEffect : TarotEffect(21) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Judgement (Reversed)" else "Judgement"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.judgement.reversed" else "tarot.witchery.judgement"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Each kill weighs on your soul, damaging you in turn"
-        else "A second chance when death looms - rise reborn from mortal wounds, heal from victory"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.judgement.reversed.description" else "tarot.witchery.judgement.description"
     )
 
     override fun onPlayerHurt(player: Player, source: DamageSource, amount: Float, isReversed: Boolean): Float {

@@ -11,13 +11,12 @@ import net.minecraft.world.level.block.state.BlockState
 
 class TheWorldEffect : TarotEffect(22) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The World (Reversed)" else "The World"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_world.reversed" else "tarot.witchery.the_world"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Discord and incompletion - random debuffs plague you"
-        else "Perfect completion - speed, haste, luck, regeneration, bonus drops, experience at dawn"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_world.reversed.description" else "tarot.witchery.the_world.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

@@ -13,13 +13,12 @@ import java.util.UUID
 
 class TheMagicianEffect : TarotEffect(2) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Magician (Reversed)" else "The Magician"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_magician.reversed" else "tarot.witchery.the_magician"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Magic backfires - nearby altars drain power each dawn"
-        else "Master of the craft - altars recharge each morning, brews may return to you"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_magician.reversed.description" else "tarot.witchery.the_magician.description"
     )
 
     override fun onMorning(player: Player, isReversed: Boolean) {

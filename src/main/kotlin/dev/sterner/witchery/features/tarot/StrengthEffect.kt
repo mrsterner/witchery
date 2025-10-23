@@ -12,13 +12,12 @@ import net.minecraft.world.entity.player.Player
 
 class StrengthEffect : TarotEffect(9) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Strength (Reversed)" else "Strength"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.strength.reversed" else "tarot.witchery.strength"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Your muscles betray you, constant weakness afflicts your blows"
-        else "Enhanced might flows through you - strike harder and heal from each kill"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.strength.reversed.description" else "tarot.witchery.strength.description"
     )
 
     override fun onAdded(player: Player, isReversed: Boolean) {

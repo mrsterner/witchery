@@ -28,6 +28,10 @@ object WitcheryDataComponents {
     val DATA: DeferredRegister<DataComponentType<*>> =
         DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Witchery.MODID)
 
+    val CHALK_USES = DATA.register("chalk_uses", Supplier {
+        DataComponentType.builder<Int>().persistent(Codec.INT).build()
+    })
+
     val GLOBAL_POS_COMPONENT = DATA.register("global_pos", Supplier {
         DataComponentType.builder<GlobalPos>().persistent(GlobalPos.CODEC).build()
     })

@@ -8,13 +8,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheHangedManEffect : TarotEffect(13) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Hanged Man (Reversed)" else "The Hanged Man"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_hanged_man.reversed" else "tarot.witchery.the_hanged_man"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Unable to release items from your grasp"
-        else "Suffering empowers nearby altars - falling is slower, pain fuels magic"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_hanged_man.reversed.description" else "tarot.witchery.the_hanged_man.description"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

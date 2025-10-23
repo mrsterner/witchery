@@ -9,13 +9,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheHermitEffect : TarotEffect(10) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Hermit (Reversed)" else "The Hermit"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_hermit.reversed" else "tarot.witchery.the_hermit"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Isolation saps your vitality - lose max health when alone"
-        else "Solitude breeds wisdom - gain experience when far from others"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_hermit.reversed.description" else "tarot.witchery.the_hermit.description"
     )
 
     override fun onAdded(player: Player, isReversed: Boolean) {

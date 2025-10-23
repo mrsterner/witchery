@@ -17,18 +17,17 @@ import kotlin.math.sin
 
 class DeathEffect : TarotEffect(14) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Death (Reversed)" else "Death"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.death.reversed" else "tarot.witchery.death"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Decay drains your vitality, and Death itself stalks you at dusk"
-        else "Endings bring new beginnings - fallen foes may rise as ethereal servants, ailments fade at dawn"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.death.reversed.description" else "tarot.witchery.death.description"
     )
 
     override fun onEntityKill(player: Player, entity: LivingEntity, isReversed: Boolean) {
         if (!isReversed && entity.type.`is`(WitcheryTags.NECROMANCER_SUMMONABLE)) {
-            if (player.level().random.nextFloat() < 0.05f && player.level() is ServerLevel) {
+            if (player.level().random.nextFloat() < 0.1f && player.level() is ServerLevel) {
                 val level = player.level() as ServerLevel
 
                 val ethereal = entity.type.create(level)

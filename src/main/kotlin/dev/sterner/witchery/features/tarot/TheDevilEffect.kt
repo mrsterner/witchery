@@ -11,13 +11,12 @@ import net.minecraft.world.entity.player.Player
 
 class TheDevilEffect : TarotEffect(16) {
 
-    override fun getDisplayName(isReversed: Boolean) = Component.literal(
-        if (isReversed) "The Devil (Reversed)" else "The Devil"
+    override fun getDisplayName(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_devil.reversed" else "tarot.witchery.the_devil"
     )
 
-    override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Slowly break free from curses and debuffs, but lose experience in the process"
-        else "Devastating strength at the cost of your vitality - reduced max health for increased damage"
+    override fun getDescription(isReversed: Boolean) = Component.translatable(
+        if (isReversed) "tarot.witchery.the_devil.reversed.description" else "tarot.witchery.the_devil.description"
     )
 
     override fun onAdded(player: Player, isReversed: Boolean) {
