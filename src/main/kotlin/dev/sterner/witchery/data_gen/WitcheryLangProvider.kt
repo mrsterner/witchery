@@ -300,6 +300,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         add("tarot.witchery.the_world.reversed.description", "Discord and incompletion - random debuffs plague you")
 
         add("emi.category.witchery.cauldron_infusion", "Cauldron Infusion")
+        add("witchery.cauldron_infusion.category", "Cauldron Infusion")
 
     }
 }

@@ -22,82 +22,53 @@ class WitcheryEmiPlugin : EmiPlugin {
             BRAZIER_CATEGORY,
             EmiIngredient.of(Ingredient.of(WitcheryItems.BRAZIER.get()))
         )
+
+        registry.addWorkstation(
+            CAULDRON_CRAFTING_CATEGORY,
+            EmiIngredient.of(Ingredient.of(
+                WitcheryItems.CAULDRON.get(),
+                WitcheryItems.COPPER_CAULDRON.get(),
+                WitcheryItems.EXPOSED_COPPER_CAULDRON.get(),
+                WitcheryItems.WEATHERED_COPPER_CAULDRON.get(),
+                WitcheryItems.OXIDIZED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_EXPOSED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_WEATHERED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_OXIDIZED_COPPER_CAULDRON.get()
+            ))
+        )
+
         registry.addWorkstation(
             CAULDRON_INFUSION_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.CAULDRON.get()))
+            EmiIngredient.of(Ingredient.of(
+                WitcheryItems.CAULDRON.get(),
+                WitcheryItems.COPPER_CAULDRON.get(),
+                WitcheryItems.EXPOSED_COPPER_CAULDRON.get(),
+                WitcheryItems.WEATHERED_COPPER_CAULDRON.get(),
+                WitcheryItems.OXIDIZED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_EXPOSED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_WEATHERED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_OXIDIZED_COPPER_CAULDRON.get()
+            ))
         )
-        registry.addWorkstation(
-            CAULDRON_CRAFTING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_CRAFTING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_CRAFTING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.EXPOSED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_CRAFTING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WEATHERED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_CRAFTING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.OXIDIZED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_CRAFTING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_CRAFTING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_EXPOSED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_CRAFTING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_WEATHERED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_CRAFTING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_OXIDIZED_COPPER_CAULDRON.get()))
-        )
+
         registry.addWorkstation(
             CAULDRON_BREWING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.CAULDRON.get()))
+            EmiIngredient.of(Ingredient.of(
+                WitcheryItems.CAULDRON.get(),
+                WitcheryItems.COPPER_CAULDRON.get(),
+                WitcheryItems.EXPOSED_COPPER_CAULDRON.get(),
+                WitcheryItems.WEATHERED_COPPER_CAULDRON.get(),
+                WitcheryItems.OXIDIZED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_EXPOSED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_WEATHERED_COPPER_CAULDRON.get(),
+                WitcheryItems.WAXED_OXIDIZED_COPPER_CAULDRON.get()
+            ))
         )
-        registry.addWorkstation(
-            CAULDRON_BREWING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_BREWING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.EXPOSED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_BREWING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WEATHERED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_BREWING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.OXIDIZED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_BREWING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_BREWING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_EXPOSED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_BREWING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_WEATHERED_COPPER_CAULDRON.get()))
-        )
-        registry.addWorkstation(
-            CAULDRON_BREWING_CATEGORY,
-            EmiIngredient.of(Ingredient.of(WitcheryItems.WAXED_OXIDIZED_COPPER_CAULDRON.get()))
-        )
+
+
 
         registry.addWorkstation(
             OVEN_COOKING_CATEGORY,
