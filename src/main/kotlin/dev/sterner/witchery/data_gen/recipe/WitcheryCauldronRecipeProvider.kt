@@ -81,7 +81,7 @@ object WitcheryCauldronRecipeProvider {
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(WitcheryItems.OIL_OF_VITRIOL.get(), Color(50, 50, 50).rgb)
             .addInputWithColor(WitcheryItems.OIL_OF_VITRIOL.get(), Color(50, 20, 50).rgb)
-            .addInputWithColor(WitcheryItems.WOOD_ASH.get(), Color(100, 100, 30).rgb)
+            .addInputWithColor(WitcheryItems.GYPSUM.get(), Color(100, 100, 30).rgb)
             .addInputWithColor(Items.MAGMA_CREAM, Color(205, 110, 70).rgb)
             .addInputWithColor(WitcheryItems.BELLADONNA_FLOWER.get(), Color(255, 50, 170).rgb)
             .addInputWithColor(Items.DANDELION, Color(90, 110, 50).rgb)

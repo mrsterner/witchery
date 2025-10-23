@@ -330,13 +330,30 @@ class TarotReadingScreen : Screen(Component.literal("Tarot Reading")) {
 
         val tarotEffect = WitcheryTarotEffects.getByCardNumber(card.cardNumber)
         if (tarotEffect != null) {
-            val effect: MutableComponent = tarotEffect.getDescription(card.isReversed).copy()
+            val effectText = tarotEffect.getDescription(card.isReversed).string
 
             tooltip.add(Component.literal(""))
-            tooltip.add(
-                Component.literal("Effect: ").withStyle(ChatFormatting.GRAY)
-                    .append(effect.withStyle(ChatFormatting.DARK_GRAY))
-            )
+            tooltip.add(Component.literal("Effect:").withStyle(ChatFormatting.GRAY))
+
+            val maxWidth = 200
+            val words = effectText.split(" ")
+            var currentLine = ""
+
+            for (word in words) {
+                val testLine = if (currentLine.isEmpty()) word else "$currentLine $word"
+                if (minecraft!!.font.width(testLine) <= maxWidth) {
+                    currentLine = testLine
+                } else {
+                    if (currentLine.isNotEmpty()) {
+                        tooltip.add(Component.literal("  $currentLine").withStyle(ChatFormatting.DARK_GRAY))
+                    }
+                    currentLine = word
+                }
+            }
+
+            if (currentLine.isNotEmpty()) {
+                tooltip.add(Component.literal("  $currentLine").withStyle(ChatFormatting.DARK_GRAY))
+            }
         }
 
         val lines = tooltip.map { it.visualOrderText }
