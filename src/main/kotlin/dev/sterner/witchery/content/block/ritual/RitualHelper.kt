@@ -28,22 +28,22 @@ object RitualHelper {
     }
 
     fun isFullMoon(level: Level): Boolean {
-        // Full moon occurs when the moon phase is 0.
+        // Full moon is 0
         return level.moonPhase == 0 && isNighttime(level)
     }
 
     fun isNewMoon(level: Level): Boolean {
-        // New moon occurs when the moon phase is 4.
+        // New moon is 4
         return level.moonPhase == 4 && isNighttime(level)
     }
 
     fun isWaxing(level: Level): Boolean {
-        // Waxing phases: moon phases 5, 6, or 7, occurring during the night
+        // Waxing phases: 5, 6, or 7
         return level.moonPhase in 5..7 && isNighttime(level)
     }
 
     fun isWaning(level: Level): Boolean {
-        // Waning phases: moon phases 1, 2, or 3, occurring during the night
+        // Waning phases: 1, 2, or 3
         return level.moonPhase in 1..3 && isNighttime(level)
     }
 
@@ -81,8 +81,6 @@ object RitualHelper {
         }
     }
 
-
-    //Rewrite
     fun runCommand(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity, phase: String) {
         val server = level.server
         if (blockEntity.ritualRecipe != null) {

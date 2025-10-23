@@ -397,6 +397,146 @@ Command strings support contextual placeholders that are replaced at runtime:
 ```
 </details>
 
+## Other data-driven stuff
+
+<details>
+<summary>Erosion Brew block transformation JSON, directory: erosion</summary>
+
+```json
+{
+  "fromBlock": "minecraft:grass_block",
+  "toBlock": "minecraft:coarse_dirt"
+}
+```
+
+</details>
+
+<details>
+<summary>Blood quality JSON, directory: blood_pool</summary>
+
+```json
+{
+  "bloodDrops": 5,
+  "entityType": "minecraft:villager",
+  "qualityBloodDrops": 2
+}
+```
+</details>
+
+
+<details>
+<summary>Censer Infinity Potions JSON, directory: infinite_censer</summary>
+This will make the censer never run out of the potion.
+
+```json
+{
+  "potion": "minecraft:long_leaping"
+}
+```
+
+</details>
+
+<details>
+<summary>Nature Altar power JSON, directory: nature</summary>
+Limit is how many one altar can take. Power is power per block
+
+```json
+{
+  "block": "minecraft:carrots",
+  "limit": 20,
+  "power": 4
+}
+```
+
+</details>
+
+<details>
+<summary>Witchery Potion ingredients JSON, directory: potion</summary>
+Capacity cost is negative since it takes a capacity slot to use this ingredient. 
+
+```json
+{
+  "altar_power": 200,
+  "base_duration": 900,
+  "capacity_cost": -1,
+  "color": -32236,
+  "effect": "minecraft:strength",
+  "item": {
+    "count": 1,
+    "id": "minecraft:blaze_powder"
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>Altar Augments JSON, directory: altar_augments </summary>
+
+Semi-full JSON:
+```json
+{
+  "type": "witchery:altar_augment",
+  "block": "minecraft:skeleton_skull",
+  "category": "head",
+  "bonus": {
+    "lightBonus": 0.0,
+    "headBonus": 0.15,
+    "chaliceBonus": 0.0,
+    "rangeMultiplier": 1.0,
+    "hasPentacle": false,
+    "hasInfinityEgg": false
+  }
+}
+```
+
+The JSON doesn't need all the fields:
+```json
+{
+  "block": "witchery:chalice",
+  "bonus": {
+    "chalice_bonus": 1.0
+  },
+  "category": "chalice"
+}
+```
+Also support the LIT BlockStateProperty and block tags
+```json
+{
+  "bonus": {
+    "light_bonus": 2.0
+  },
+  "category": "light",
+  "requires_lit": true,
+  "tag": "witchery:candelabras"
+}
+``` 
+
+### Augment Categories
+
+Augments are organized into 5 categories. Only the **best** (highest bonus) augment of each category applies - multiple augments of the same category don't stack.
+
+| Category | Effect                                                          |
+|----------|-----------------------------------------------------------------|
+| `light` | Increases **power multiplier** - affects power generation rate  |
+| `head` | Increases both **power multiplier** and **power boost**         |
+| `chalice` | Increases **power boost** - adds flat power to max capacity     |
+| `range` | Multiplies the altar's detection range for nature power sources |
+| `special` | Unique effects like `hasPentacle` or `hasInfinityEgg`           |
+
+### Bonus Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `lightBonus` | double | Percentage increase to power multiplier (0.1 = 10% faster charging) |
+| `headBonus` | double | Percentage increase to both power multiplier AND power boost (0.15 = 15% faster + 15% more max power) |
+| `chaliceBonus` | double | Percentage increase to power boost only (0.2 = 20% more max power) |
+| `rangeMultiplier` | double | Multiplies altar's detection range (2.0 = double range) |
+| `hasPentacle` | boolean | If true, doubles the final power multiplier |
+| `hasInfinityEgg` | boolean | If true, multiplies power multiplier by 10 and power boost by 2 |
+
+</details>
+
 ## Credits
 - Model and texture of Witches oven is made by WK/AtheneNoctua.
 - Texture of Taglock is made by WK/AtheneNoctua.

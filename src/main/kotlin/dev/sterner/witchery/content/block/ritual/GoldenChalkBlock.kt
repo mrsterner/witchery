@@ -51,7 +51,7 @@ class GoldenChalkBlock(properties: Properties) :
     }
 
     override fun canSurvive(state: BlockState, level: LevelReader, pos: BlockPos): Boolean {
-        return !level.isEmptyBlock(pos.below())
+        return isFaceFull(level.getBlockState(pos.below()).getCollisionShape(level, pos.below()), Direction.UP)
     }
 
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
