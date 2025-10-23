@@ -10,6 +10,9 @@
     "id": "witchery:gold_ring"
   },
   "outputItem": {
+    "components": {
+      "witchery:hag_ring_type": "miner"
+    },
     "count": 1,
     "id": "witchery:hags_ring"
   }

@@ -150,7 +150,11 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.BITING_BELT.get())
                     output.accept(WitcheryItems.BARK_BELT.get())
                     output.accept(WitcheryItems.GOLD_RING.get())
-                    output.accept(WitcheryItems.HAGS_RING.get())
+
+                    val hag = WitcheryItems.HAGS_RING.get().defaultInstance
+                    hag.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.MINER)
+
+                    output.accept(hag)
                     //output.accept(WitcheryItems.TRENT_EFFIGY.get())
                     output.accept(WitcheryItems.SCARECROW.get())
                     output.accept(WitcheryItems.CLAY_EFFIGY.get())

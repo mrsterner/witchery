@@ -12,16 +12,14 @@ import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
 import net.minecraft.util.StringRepresentable
+import net.minecraft.world.damagesource.DamageEffects
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.component.ItemContainerContents
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.*
-import java.util.function.Function
 import java.util.function.Supplier
-
-import com.mojang.datafixers.util.Pair as DFPair
 
 object WitcheryDataComponents {
 
@@ -170,6 +168,9 @@ object WitcheryDataComponents {
             .build()
     })
 
+    val HAG_RING_TYPE = DATA.register("hag_ring_type", Supplier {
+        DataComponentType.builder<HagType>().persistent(HagType.CODEC).build()
+    })
 
     val CODEC_LIST: Codec<MutableList<UUID>> = Codec.list(UUIDUtil.CODEC)
 
@@ -187,6 +188,18 @@ object WitcheryDataComponents {
                     PotionContents.CODEC.optionalFieldOf("negative").forGetter { it.negative }
                 ).apply(instance, ::DualPotionContents)
             }
+        }
+    }
+
+    enum class HagType : StringRepresentable {
+        MINER;
+
+        override fun getSerializedName(): String {
+            return name.lowercase(Locale.getDefault())
+        }
+
+        companion object {
+            val CODEC: Codec<HagType> = StringRepresentable.fromEnum<HagType> { HagType.entries.toTypedArray() }
         }
     }
 }

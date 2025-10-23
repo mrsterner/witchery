@@ -41,11 +41,14 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         WitcheryBookLangProvider.book(::add)
 
         for (item in WitcheryItems.LANG_HELPER) {
-            if (item == "censer_long") {
+            if (item == "hags_ring") {
+                add("item.witchery.hags_ring", "Hag's Ring")
+            } else if (item == "censer_long") {
                 add("item.witchery.censer_long", "Censer")
             } else {
                 add("item.witchery.$item", formatId(item))
             }
+
         }
 
         for (block in WitcheryBlocks.LANG_HELPER) {
@@ -301,6 +304,8 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
 
         add("emi.category.witchery.cauldron_infusion", "Cauldron Infusion")
         add("witchery.cauldron_infusion.category", "Cauldron Infusion")
+
+        add("witchery.hag_type.miner", "Miner")
 
     }
 }

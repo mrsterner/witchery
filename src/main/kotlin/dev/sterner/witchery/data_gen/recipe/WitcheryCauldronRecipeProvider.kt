@@ -4,6 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipeBuilder
 import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipeBuilder
 import dev.sterner.witchery.content.recipe.cauldron.CauldronInfusionRecipeBuilder
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.advancements.Criterion
@@ -372,10 +373,13 @@ object WitcheryCauldronRecipeProvider {
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
             .save(exporter, Witchery.id("nether_wart"))
 
+        val hag = WitcheryItems.HAGS_RING.get().defaultInstance
+        hag.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.MINER)
+
         CauldronInfusionRecipeBuilder.create()
             .setBrewInput(WitcheryItems.BREW_OF_EROSION.get())
             .setInfusionItem(WitcheryItems.GOLD_RING.get())
-            .setOutput(WitcheryItems.HAGS_RING.get())
+            .setOutput(hag)
             .setAltarPower(5000)
             .unlockedBy("has_gold_ring", has(WitcheryItems.GOLD_RING.get()))
             .save(exporter, Witchery.id("hags_ring_infusion"))
