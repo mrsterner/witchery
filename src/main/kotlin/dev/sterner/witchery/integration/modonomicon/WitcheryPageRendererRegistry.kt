@@ -6,6 +6,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronInfusionRecipe
 import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.content.recipe.oven.OvenCookingRecipe
 import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
@@ -15,6 +16,9 @@ object WitcheryPageRendererRegistry {
 
     val CAULDRON_RECIPE: ResourceLocation =
         ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "cauldron_crafting_recipe")
+
+    val CAULDRON_INFUSION_RECIPE: ResourceLocation =
+        ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "cauldron_infusion_recipe")
 
     val CAULDRON_BREWING_RECIPE: ResourceLocation =
         ResourceLocation.fromNamespaceAndPath(Witchery.MODID, "cauldron_brewing_recipe")
@@ -38,6 +42,15 @@ object WitcheryPageRendererRegistry {
             object :
                 BookCauldronCraftingRecipePageRenderer<CauldronCraftingRecipe>(
                     p as BookCauldronCraftingRecipePage
+                ) {
+            }
+        }
+        PageRendererRegistry.registerPageRenderer(
+            CAULDRON_INFUSION_RECIPE
+        ) { p: BookPage ->
+            object :
+                BookCauldronInfusionRecipePageRenderer<CauldronInfusionRecipe>(
+                    p as BookCauldronInfusionRecipePage
                 ) {
             }
         }

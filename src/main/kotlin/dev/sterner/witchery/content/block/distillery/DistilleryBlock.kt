@@ -2,7 +2,7 @@ package dev.sterner.witchery.content.block.distillery
 
 import dev.sterner.witchery.core.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.content.block.cauldron.CauldronBlock.Companion.litBlockEmission
+import dev.sterner.witchery.content.block.cauldron.WitcheryCauldronBlock.Companion.litBlockEmission
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import net.minecraft.client.Minecraft

@@ -5,6 +5,7 @@ import dev.sterner.witchery.content.recipe.TaglockDataComponentTransferRecipe
 import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronInfusionRecipe
 import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.content.recipe.oven.OvenCookingRecipe
 import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
@@ -51,6 +52,10 @@ object WitcheryRecipeTypes {
 
     val BRAZIER_SUMMONING_RECIPE_TYPE = RECIPE_TYPES.register(BrazierSummoningRecipe.NAME, Supplier {
         registerRecipeType<BrazierSummoningRecipe>(BrazierSummoningRecipe.NAME)
+    })
+
+    val CAULDRON_INFUSION_RECIPE_TYPE = RECIPE_TYPES.register("cauldron_infusion", Supplier {
+        RecipeType.simple<CauldronInfusionRecipe>(Witchery.id("cauldron_infusion"))
     })
 
     private fun <T : Recipe<*>> registerRecipeType(identifier: String): RecipeType<T> {

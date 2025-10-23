@@ -1,0 +1,16 @@
+{
+  "type": "witchery:cauldron_infusion",
+  "altarPower": 5000,
+  "brewInput": {
+    "count": 1,
+    "id": "witchery:brew_of_erosion"
+  },
+  "infusionItem": {
+    "count": 1,
+    "id": "witchery:gold_ring"
+  },
+  "outputItem": {
+    "count": 1,
+    "id": "witchery:hags_ring"
+  }
+}

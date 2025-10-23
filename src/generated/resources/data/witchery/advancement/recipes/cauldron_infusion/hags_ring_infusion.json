@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gold_ring": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witchery:gold_ring"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_recipe": {
+      "conditions": {
+        "recipe": "witchery:hags_ring_infusion"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_recipe",
+      "has_gold_ring"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "witchery:hags_ring_infusion"
+    ]
+  }
+}

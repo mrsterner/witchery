@@ -1202,6 +1202,14 @@ class WitcheryRecipeProvider(output: PackOutput, val registriesFuture: Completab
             .unlockedBy("has_stone", has(WitcheryItems.SEER_STONE.get()))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.GOLD_RING.get())
+            .pattern(" S ")
+            .pattern("S S")
+            .pattern(" S ")
+            .define('S', Items.GOLD_NUGGET)
+            .unlockedBy("has_nugget", has(Items.GOLD_NUGGET))
+            .save(exporter)
+
         SimpleCookingRecipeBuilder.smelting(
             Ingredient.of(WitcheryItems.BLOOD_STAINED_WOOL.get()),
             RecipeCategory.MISC,

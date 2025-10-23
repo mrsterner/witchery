@@ -1595,5 +1595,10 @@ object WitcheryBookLangProvider {
         add("ritual.blocks_below_gold.title.1", "Blocks Below: Gold")
         add("ritual.blocks_below_gold.page.1", "Will pull gold from the depths below, this will consume the gold below in a cylinder of the ritual circle.")
 
+        add("book.witchery.guidebook.brewing.hags_ring_infusion.name", "Hag's Ring Infusion")
+        add("book.witchery.guidebook.brewing.hags_ring_infusion.description", "First we mine")
+        add("brewing.hags_ring_infusion.title.1", "Hag's Ring Infusion")
+        add("brewing.hags_ring_infusion", "Hag's Ring Infusion")
+        add("brewing.hags_ring_infusion.page.1", "In an already finished Brew of Erosion. Toss a Golden Ring and infuse the properties of the brew into the ring. Equip it and with a Witch's hand, use it to harvest multiple ores at ones")
     }
 }

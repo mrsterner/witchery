@@ -5,7 +5,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.multiblock.MultiBlockItem
 import dev.sterner.witchery.content.block.altar.AltarBlock
 import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlock
-import dev.sterner.witchery.content.block.cauldron.CauldronBlock
+import dev.sterner.witchery.content.block.cauldron.WitcheryCauldronBlock
 import dev.sterner.witchery.content.block.distillery.DistilleryBlock
 import dev.sterner.witchery.content.block.effigy.EffigyBlock
 import dev.sterner.witchery.content.block.oven.OvenFumeExtensionBlock
@@ -506,19 +506,19 @@ object WitcheryItems {
     }
 
     val CAULDRON = register("cauldron") {
-        MultiBlockItem(WitcheryBlocks.CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
+        MultiBlockItem(WitcheryBlocks.CAULDRON.get(), Item.Properties(), WitcheryCauldronBlock.STRUCTURE)
     }
 
     val COPPER_CAULDRON = register("copper_cauldron") {
-        MultiBlockItem(WitcheryBlocks.COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
+        MultiBlockItem(WitcheryBlocks.COPPER_CAULDRON.get(), Item.Properties(), WitcheryCauldronBlock.STRUCTURE)
     }
 
     val WAXED_COPPER_CAULDRON = register("waxed_copper_cauldron") {
-        MultiBlockItem(WitcheryBlocks.WAXED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
+        MultiBlockItem(WitcheryBlocks.WAXED_COPPER_CAULDRON.get(), Item.Properties(), WitcheryCauldronBlock.STRUCTURE)
     }
 
     val EXPOSED_COPPER_CAULDRON = register("exposed_copper_cauldron") {
-        MultiBlockItem(WitcheryBlocks.EXPOSED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
+        MultiBlockItem(WitcheryBlocks.EXPOSED_COPPER_CAULDRON.get(), Item.Properties(), WitcheryCauldronBlock.STRUCTURE)
     }
 
     val WAXED_EXPOSED_COPPER_CAULDRON =
@@ -526,12 +526,12 @@ object WitcheryItems {
             MultiBlockItem(
                 WitcheryBlocks.WAXED_EXPOSED_COPPER_CAULDRON.get(),
                 Item.Properties(),
-                CauldronBlock.STRUCTURE
+                WitcheryCauldronBlock.STRUCTURE
             )
         }
 
     val WEATHERED_COPPER_CAULDRON = register("weathered_copper_cauldron") {
-        MultiBlockItem(WitcheryBlocks.WEATHERED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
+        MultiBlockItem(WitcheryBlocks.WEATHERED_COPPER_CAULDRON.get(), Item.Properties(), WitcheryCauldronBlock.STRUCTURE)
     }
 
     val WAXED_WEATHERED_COPPER_CAULDRON =
@@ -539,12 +539,12 @@ object WitcheryItems {
             MultiBlockItem(
                 WitcheryBlocks.WAXED_WEATHERED_COPPER_CAULDRON.get(),
                 Item.Properties(),
-                CauldronBlock.STRUCTURE
+                WitcheryCauldronBlock.STRUCTURE
             )
         }
 
     val OXIDIZED_COPPER_CAULDRON = register("oxidized_copper_cauldron") {
-        MultiBlockItem(WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get(), Item.Properties(), CauldronBlock.STRUCTURE)
+        MultiBlockItem(WitcheryBlocks.OXIDIZED_COPPER_CAULDRON.get(), Item.Properties(), WitcheryCauldronBlock.STRUCTURE)
     }
 
     val WAXED_OXIDIZED_COPPER_CAULDRON =
@@ -552,7 +552,7 @@ object WitcheryItems {
             MultiBlockItem(
                 WitcheryBlocks.WAXED_OXIDIZED_COPPER_CAULDRON.get(),
                 Item.Properties(),
-                CauldronBlock.STRUCTURE
+                WitcheryCauldronBlock.STRUCTURE
             )
         }
 
@@ -1239,6 +1239,10 @@ object WitcheryItems {
 
     val DREAMWEAVER_CHARM = register("dreamweaver_charm") {
         DreamweaverCharmItem(Item.Properties())
+    }
+
+    val GOLD_RING = register("gold_ring") {
+        Item(Item.Properties().stacksTo(1))
     }
 
     val HAGS_RING = register("hags_ring") {

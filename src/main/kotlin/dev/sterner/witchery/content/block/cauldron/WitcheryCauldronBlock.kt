@@ -32,7 +32,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler
 import java.util.function.Supplier
 import java.util.function.ToIntFunction
 
-open class CauldronBlock(properties: Properties) :
+open class WitcheryCauldronBlock(properties: Properties) :
     WitcheryBaseEntityBlock(properties.noOcclusion().lightLevel(litBlockEmission(8))) {
 
     init {

@@ -2,7 +2,7 @@ package dev.sterner.witchery.content.block.brazier
 
 
 import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.content.block.cauldron.CauldronBlock.Companion.litBlockEmission
+import dev.sterner.witchery.content.block.cauldron.WitcheryCauldronBlock.Companion.litBlockEmission
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes

@@ -13,6 +13,7 @@ import dev.sterner.witchery.content.block.blood_poppy.BloodPoppyBlock
 import dev.sterner.witchery.content.block.brazier.BrazierBlock
 import dev.sterner.witchery.content.block.cauldron.CauldronBlockComponent
 import dev.sterner.witchery.content.block.cauldron.CopperCauldronBlock
+import dev.sterner.witchery.content.block.cauldron.WitcheryCauldronBlock
 import dev.sterner.witchery.content.block.censer.CenserBlock
 import dev.sterner.witchery.content.block.coffin.CoffinBlock
 import dev.sterner.witchery.content.block.critter_snare.CritterSnareBlock
@@ -60,7 +61,6 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
-import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import net.minecraft.world.level.block.state.BlockState
@@ -74,6 +74,24 @@ import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.awt.Color
 import java.util.function.Supplier
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.ButtonBlock
+import net.minecraft.world.level.block.CaveVines
+import net.minecraft.world.level.block.DoorBlock
+import net.minecraft.world.level.block.FenceBlock
+import net.minecraft.world.level.block.FenceGateBlock
+import net.minecraft.world.level.block.FlowerPotBlock
+import net.minecraft.world.level.block.LeavesBlock
+import net.minecraft.world.level.block.LiquidBlock
+import net.minecraft.world.level.block.PressurePlateBlock
+import net.minecraft.world.level.block.RotatedPillarBlock
+import net.minecraft.world.level.block.SaplingBlock
+import net.minecraft.world.level.block.SlabBlock
+import net.minecraft.world.level.block.SoundType
+import net.minecraft.world.level.block.StairBlock
+import net.minecraft.world.level.block.TrapDoorBlock
+import net.minecraft.world.level.block.WeatheringCopper
 
 
 object WitcheryBlocks {
@@ -126,7 +144,7 @@ object WitcheryBlocks {
     }
 
     val CAULDRON = register("cauldron") {
-        CauldronBlock(
+        WitcheryCauldronBlock(
             Properties.ofFullCopy(Blocks.IRON_BLOCK)
                 .sound(SoundType.METAL)
         )
@@ -172,7 +190,7 @@ object WitcheryBlocks {
     }
 
     val WAXED_COPPER_CAULDRON = register("waxed_copper_cauldron") {
-        CauldronBlock(
+        WitcheryCauldronBlock(
             Properties.ofFullCopy(Blocks.COPPER_BLOCK)
                 .sound(SoundType.METAL)
         )
@@ -180,7 +198,7 @@ object WitcheryBlocks {
 
     val WAXED_EXPOSED_COPPER_CAULDRON =
         register("waxed_exposed_copper_cauldron") {
-            CauldronBlock(
+            WitcheryCauldronBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
                     .sound(SoundType.METAL)
             )
@@ -188,7 +206,7 @@ object WitcheryBlocks {
 
     val WAXED_WEATHERED_COPPER_CAULDRON =
         register("waxed_weathered_copper_cauldron") {
-            CauldronBlock(
+            WitcheryCauldronBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
                     .sound(SoundType.METAL)
             )
@@ -196,7 +214,7 @@ object WitcheryBlocks {
 
     val WAXED_OXIDIZED_COPPER_CAULDRON =
         register("waxed_oxidized_copper_cauldron") {
-            CauldronBlock(
+            WitcheryCauldronBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
                     .sound(SoundType.METAL)
             )

@@ -3,17 +3,22 @@ package dev.sterner.witchery.integration.modonomicon
 import com.klikli_dev.modonomicon.book.page.BookRecipePage
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
+import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer.X
+import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer.Y
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronInfusionRecipe
 import dev.sterner.witchery.core.util.RenderUtils.blitWithAlpha
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeHolder
+import java.awt.Color
 
-
-abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: BookCauldronCraftingRecipePage?) :
-    BookRecipePageRenderer<CauldronCraftingRecipe, BookRecipePage<CauldronCraftingRecipe>?>(page) {
+open class BookCauldronInfusionRecipePageRenderer<T : Recipe<*>?>(page: BookCauldronInfusionRecipePage?) :
+    BookRecipePageRenderer<CauldronInfusionRecipe, BookRecipePage<CauldronInfusionRecipe>?>(page) {
 
 
     override fun getRecipeHeight(): Int {
@@ -42,7 +47,7 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
 
     override fun drawRecipe(
         guiGraphics: GuiGraphics,
-        recipeHolder: RecipeHolder<CauldronCraftingRecipe>,
+        recipeHolder: RecipeHolder<CauldronInfusionRecipe>,
         recipeX: Int,
         recipeY: Int,
         mouseX: Int,
@@ -55,53 +60,35 @@ abstract class BookCauldronCraftingRecipePageRenderer<T : Recipe<*>?>(page: Book
         if (!this.page!!.title1.isEmpty) {
             this.renderTitle(guiGraphics, this.page!!.title1, false, BookEntryScreen.PAGE_WIDTH / 2, 0)
         }
-        for ((index, ingredient) in recipeHolder.value.inputItems.withIndex()) {
-            guiGraphics.blit(
-                Witchery.id("textures/gui/order_widget.png"),
-                recipeX + 2, recipeY + 20 * index,
-                0f, 0f,
-                48, 18,
-                48, 18
-            )
 
-            blitWithAlpha(
-                pose,
-                Witchery.id("textures/gui/index_${ingredient.order + 1}.png"),
-                recipeX + 2 + 2, recipeY + 20 * index + 2,
-                0f, 0f,
-                13, 13,
-                13, 13
-            )
+        this.parentScreen.renderItemStack(guiGraphics,
+            recipeX + 48 - 24,
+            recipeY + 20 + 6 - 4 + 18 + 18, mouseX, mouseY, recipeHolder.value().infusionItem
+        )
 
-            this.parentScreen.renderItemStack(
-                guiGraphics,
-                recipeX + 2 + 2 + 18,
-                recipeY + 20 * index,
-                mouseX,
-                mouseY,
-                ingredient.itemStack
-            )
-        }
+        this.parentScreen.renderItemStack(guiGraphics,
+            recipeX + 48,
+            recipeY + 20 + 9, mouseX, mouseY,recipeHolder.value().outputItem
+        )
 
-        for ((index, itemStack) in recipeHolder.value.outputItems.withIndex()) {
-            guiGraphics.renderItem(
-                itemStack,
-                recipeX + 48 + 9 + 4 + 6 + (18 * index),
-                recipeY + 20 + 6 - 4 + 18
-            )
-            this.parentScreen.renderItemStack(
-                guiGraphics,
-                recipeX + 48 + 9 + 4 + 6 + (18 * index),
-                recipeY + 20 + 6 - 4 + 18,
-                mouseX,
-                mouseY,
-                itemStack
-            )
-        }
+        this.parentScreen.renderItemStack(guiGraphics,
+            recipeX + 48,
+            recipeY + 20 + 18 + 18 + 18 + 3, mouseX, mouseY,recipeHolder.value().brewInput,
+        )
 
+        val c = Component.literal("Altar Power: ${recipeHolder.value.altarPower}/s")
+        val i: Int = Minecraft.getInstance().font.width(c)
+        guiGraphics.drawStringWithBackdrop(
+            Minecraft.getInstance().font,
+            c,
+            recipeX + (c.toString().length) - 18,
+            recipeY + 18 * 6 - 2,
+            i,
+            Color(200,200,200).rgb
+        )
         guiGraphics.blit(
             Witchery.id("textures/gui/cauldron_modonomicon.png"),
-            recipeX + 48 + 9, recipeY + 20 + 18 + 18,
+            recipeX + 48 - 9, recipeY + 20 + 18 + 9,
             0f, 0f,
             35, 56,
             35, 56

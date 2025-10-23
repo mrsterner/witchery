@@ -149,6 +149,7 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.DREAMWEAVER_CHARM.get())
                     output.accept(WitcheryItems.BITING_BELT.get())
                     output.accept(WitcheryItems.BARK_BELT.get())
+                    output.accept(WitcheryItems.GOLD_RING.get())
                     output.accept(WitcheryItems.HAGS_RING.get())
                     //output.accept(WitcheryItems.TRENT_EFFIGY.get())
                     output.accept(WitcheryItems.SCARECROW.get())

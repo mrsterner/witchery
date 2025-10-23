@@ -7,6 +7,7 @@ import dev.sterner.witchery.content.recipe.TaglockDataComponentTransferRecipe
 import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronInfusionRecipe
 import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
 import dev.sterner.witchery.content.recipe.oven.OvenCookingRecipe
 import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
@@ -56,6 +57,9 @@ object WitcheryRecipeSerializers {
             SimpleCraftingRecipeSerializer { PendantDataComponentRecipe() }
         })
 
+    val CAULDRON_INFUSION_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("cauldron_infusion", Supplier {
+        CauldronInfusionRecipe.Serializer()
+    })
 
     val BRAZIER_SUMMONING_RECIPE_SERIALIZER =
         RECIPE_SERIALIZERS.register(BrazierSummoningRecipe.NAME, Supplier { BrazierSummoningRecipe.Serializer() })

@@ -26,9 +26,15 @@ object WitcheryRenderTypes {
 
     fun checkAllBlack(): Boolean {
         val target = targetStack.get()
-        return target != null && !target.isEmpty && (target.`is`(WitcheryItems.NECROMANTIC_STONE.get()) || target.`is`(
-            WitcheryItems.ETERNAL_CATALYST.get()
-        ))
+        if (target != null && !target.isEmpty) {
+            val bl = target.`is`(WitcheryItems.NECROMANTIC_STONE.get())
+            val bl2 = target.`is`(WitcheryItems.ETERNAL_CATALYST.get())
+            val bl3 = target.`is`(WitcheryItems.HAGS_RING.get())
+
+            return bl || bl2 || bl3
+        }
+
+        return false
     }
 
     @JvmStatic

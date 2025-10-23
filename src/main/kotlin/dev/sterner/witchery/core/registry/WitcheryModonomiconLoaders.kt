@@ -29,6 +29,21 @@ object WitcheryModonomiconLoaders {
         }
 
         LoaderRegistry.registerPageLoader(
+            WitcheryPageRendererRegistry.CAULDRON_INFUSION_RECIPE,
+            BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
+                BookCauldronInfusionRecipePage.fromJson(
+                    entryId,
+                    json,
+                    provider
+                )
+            } as BookPageJsonLoader<*>
+        ) { buffer: RegistryFriendlyByteBuf ->
+            BookCauldronInfusionRecipePage.fromNetwork(
+                buffer
+            )
+        }
+
+        LoaderRegistry.registerPageLoader(
             WitcheryPageRendererRegistry.CAULDRON_BREWING_RECIPE,
             BookPageJsonLoader<BookPage> { entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider? ->
                 BookCauldronBrewingRecipePage.fromJson(

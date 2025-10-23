@@ -9,6 +9,7 @@ import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
+import dev.sterner.witchery.content.recipe.cauldron.CauldronInfusionRecipeInput
 import dev.sterner.witchery.content.recipe.cauldron.ItemStackWithColor
 import dev.sterner.witchery.core.data.PotionDataReloadListener
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
@@ -57,7 +58,7 @@ import org.joml.Vector3d
 import kotlin.collections.forEach
 
 class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
-    WitcheryBlockEntityTypes.CAULDRON.get(), CauldronBlock.STRUCTURE.get(),
+    WitcheryBlockEntityTypes.CAULDRON.get(), WitcheryCauldronBlock.STRUCTURE.get(),
     pos, state
 ), Container, WorldlyContainer, AltarPowerConsumer {
 
@@ -247,6 +248,9 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
                 }
                 item.shrink(1)
                 setChanged()
+            } else if (!brewItemOutput.isEmpty && checkInfusionRecipe(level, item)) {
+                item.shrink(1)
+                setChanged()
             } else if (item.`is`(Items.NETHER_WART) &&
                 cauldronCraftingRecipe == null &&
                 cauldronBrewingRecipe == null &&
@@ -301,6 +305,39 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
 
             setChanged()
         }
+    }
+
+    private fun checkInfusionRecipe(level: Level, thrownItem: ItemStack): Boolean {
+        val allInfusionRecipes = level.recipeManager
+            .getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_INFUSION_RECIPE_TYPE.get())
+
+        val input = CauldronInfusionRecipeInput(brewItemOutput, thrownItem)
+
+        val matchingRecipe = allInfusionRecipes.firstOrNull {
+            it.value.matches(input, level)
+        }
+
+        if (matchingRecipe != null) {
+            val recipe = matchingRecipe.value
+
+            if (cachedAltarPos != null && recipe.altarPower > 0) {
+                if (!tryConsumeAltarPower(level, cachedAltarPos!!, recipe.altarPower, false)) {
+                    return false
+                }
+            }
+
+            val output = recipe.assemble(input, level.registryAccess())
+            Containers.dropItemStack(level, blockPos.x + 0.5, blockPos.y + 1.1, blockPos.z + 0.5, output)
+
+            level.playSound(null, blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0f, 1.0f)
+            spawnSmokeParticle(level, blockPos)
+
+            fullReset()
+
+            return true
+        }
+
+        return false
     }
 
     private fun forceColor(potionIngredientStack: ItemStack) {

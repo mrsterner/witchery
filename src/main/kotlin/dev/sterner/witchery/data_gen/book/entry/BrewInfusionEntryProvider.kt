@@ -8,9 +8,10 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_gen.book.page.BookCauldronBrewingPageModel
+import dev.sterner.witchery.data_gen.book.page.BookCauldronInfusionPageModel
 import net.minecraft.world.item.Item
 
-class BrewEntryProvider(val icon: Item, val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {
+class BrewInfusionEntryProvider(val icon: Item, val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {
 
     override fun generatePages() {
         this.page(id) {
@@ -20,8 +21,8 @@ class BrewEntryProvider(val icon: Item, val id: String, parent: CategoryProvider
         }
 
         this.page("${parent.categoryId()}.${id}") {
-            BookCauldronBrewingPageModel.create().withText("${parent.categoryId()}.$id.title.1")
-                .withRecipeId1(Witchery.id("cauldron_brewing/$id"))
+            BookCauldronInfusionPageModel.create().withText("${parent.categoryId()}.$id.title.1")
+                .withRecipeId1(Witchery.id("cauldron_infusion/$id"))
                 .withTitle1("${parent.categoryId()}.${id}")
         }
     }
