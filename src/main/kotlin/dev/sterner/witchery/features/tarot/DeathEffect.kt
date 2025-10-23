@@ -22,7 +22,8 @@ class DeathEffect : TarotEffect(14) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Stagnation and decay" else "Transformation through endings"
+        if (isReversed) "Decay drains your vitality, and Death itself stalks you at dusk"
+        else "Endings bring new beginnings - fallen foes may rise as ethereal servants, ailments fade at dawn"
     )
 
     override fun onEntityKill(player: Player, entity: LivingEntity, isReversed: Boolean) {

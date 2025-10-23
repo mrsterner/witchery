@@ -19,7 +19,8 @@ class JudgementEffect : TarotEffect(21) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Past sins haunt you" else "Rise from the ashes"
+        if (isReversed) "Each kill weighs on your soul, damaging you in turn"
+        else "A second chance when death looms - rise reborn from mortal wounds, heal from victory"
     )
 
     override fun onPlayerHurt(player: Player, source: DamageSource, amount: Float, isReversed: Boolean): Float {

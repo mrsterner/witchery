@@ -1,5 +1,6 @@
 package dev.sterner.witchery.features.tarot
 
+import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
@@ -14,13 +15,16 @@ class TheStarEffect : TarotEffect(18) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Hope fades away" else "Guiding light in darkness"
+        if (isReversed) "Your guiding light fades - constant hunger drains your energy"
+        else "Slow regeneration under stars, fully restored when night falls"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {
         if (!isReversed) {
-            if (!player.hasEffect(MobEffects.REGENERATION)) {
-                player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 400, 0, true, false))
+            if (!player.level().isDay && player.level().canSeeSky(player.blockPosition())) {
+                if (player.level().gameTime % 40 == 0L) {
+                    player.heal(0.5f)
+                }
             }
         } else {
             if (player.level().gameTime % 100 == 0L) {
@@ -31,13 +35,25 @@ class TheStarEffect : TarotEffect(18) {
 
     override fun onNightfall(player: Player, isReversed: Boolean) {
         if (!isReversed) {
-            player.heal(4f)
+            player.health = player.maxHealth
+
+            val negativeEffects = player.activeEffects
+                .filter { !it.effect.value().isBeneficial }
+                .map { it.effect }
+
+            negativeEffects.forEach { player.removeEffect(it) }
 
             if (player.level() is ServerLevel) {
                 (player.level() as ServerLevel).sendParticles(
                     ParticleTypes.END_ROD,
                     player.x, player.y + 2, player.z,
-                    20, 0.5, 0.5, 0.5, 0.05
+                    30, 0.5, 0.8, 0.5, 0.05
+                )
+
+                (player.level() as ServerLevel).sendParticles(
+                    ParticleTypes.GLOW,
+                    player.x, player.y + 1, player.z,
+                    20, 0.3, 0.5, 0.3, 0.1
                 )
             }
         }

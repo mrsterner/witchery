@@ -19,7 +19,8 @@ class TheLoversEffect : TarotEffect(7) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Creatures turn hostile" else "Creatures are drawn to you"
+        if (isReversed) "Love twisted - peaceful creatures turn violent against you and each other"
+        else "Animals are calmed by your presence, panic fades in your aura"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

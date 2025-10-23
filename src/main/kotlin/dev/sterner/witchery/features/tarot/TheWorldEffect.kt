@@ -16,7 +16,8 @@ class TheWorldEffect : TarotEffect(22) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Incomplete and scattered" else "Everything in harmony"
+        if (isReversed) "Discord and incompletion - random debuffs plague you"
+        else "Perfect completion - speed, haste, luck, regeneration, bonus drops, experience at dawn"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

@@ -14,7 +14,8 @@ class TheHermitEffect : TarotEffect(10) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Isolation brings madness" else "Wisdom in solitude"
+        if (isReversed) "Isolation saps your vitality - lose max health when alone"
+        else "Solitude breeds wisdom - gain experience when far from others"
     )
 
     override fun onAdded(player: Player, isReversed: Boolean) {

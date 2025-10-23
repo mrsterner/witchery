@@ -14,7 +14,8 @@ class TheFoolEffect : TarotEffect(1) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Recklessness brings misfortune" else "Fortune favors the bold"
+        if (isReversed) "Clumsy mishaps and increased damage plague your journey"
+        else "Naive luck protects you - reduced damage taken, random beneficial effects"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

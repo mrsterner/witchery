@@ -1,7 +1,12 @@
 package dev.sterner.witchery.features.tarot
 
+import dev.sterner.witchery.core.registry.WitcheryDamageSources
+import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.player.Player
@@ -13,7 +18,8 @@ class TheSunEffect : TarotEffect(20) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Shadows consume the light" else "Radiant energy"
+        if (isReversed) "Scorching rays - daylight burns you beneath open sky"
+        else "Full restoration each dawn, slow healing in daylight, strength and regeneration"
     )
 
     override fun onMorning(player: Player, isReversed: Boolean) {
@@ -24,16 +30,6 @@ class TheSunEffect : TarotEffect(20) {
 
             player.addEffect(MobEffectInstance(MobEffects.REGENERATION, 1200, 1))
             player.addEffect(MobEffectInstance(MobEffects.DAMAGE_BOOST, 1200, 0))
-        } else {
-            if (player.level().isDay && !player.isInWaterOrBubble && player.level().canSeeSky(player.blockPosition())) {
-                player.igniteForSeconds(1f)
-
-                player.displayClientMessage(
-                    Component.literal("Sun is too harsh today")
-                        .withStyle(ChatFormatting.DARK_RED, ChatFormatting.BOLD),
-                    false
-                )
-            }
         }
     }
 

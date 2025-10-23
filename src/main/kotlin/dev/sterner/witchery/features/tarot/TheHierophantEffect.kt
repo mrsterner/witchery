@@ -12,7 +12,8 @@ class TheHierophantEffect : TarotEffect(6) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Healing forsakes you" else "Divine protection each dawn"
+        if (isReversed) "Divine grace withheld - take damage each morning"
+        else "Blessed each dawn with absorption, sleeping fully restores your health"
     )
 
     override fun onMorning(player: Player, isReversed: Boolean) {

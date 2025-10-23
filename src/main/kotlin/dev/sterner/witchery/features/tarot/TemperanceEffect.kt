@@ -16,7 +16,8 @@ class TemperanceEffect : TarotEffect(15) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Excess and chaos" else "Perfect balance"
+        if (isReversed) "Excess and imbalance plague your actions"
+        else "Harmony restored - slow regeneration when wounded, water breathing, enhanced potions"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {
@@ -28,7 +29,7 @@ class TemperanceEffect : TarotEffect(15) {
     }
 
     override fun onItemUse(player: Player, item: ItemStack, isReversed: Boolean) {
-        if (!isReversed && item.item is PotionItem || item.item is BrewItem) {
+        if (!isReversed && (item.item is PotionItem || item.item is BrewItem)) {
             //TODO Potion effects last longer
             player.displayClientMessage(
                 Component.literal("Not implemented yet :(").withStyle(ChatFormatting.AQUA),

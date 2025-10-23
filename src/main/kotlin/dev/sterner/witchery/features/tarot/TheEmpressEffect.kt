@@ -15,7 +15,8 @@ class TheEmpressEffect : TarotEffect(4) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Nature withholds its bounty" else "Abundance flows freely"
+        if (isReversed) "Barren harvest - crops may fail when broken"
+        else "Nature's bounty - bonus crop drops, awaken each morning well-fed"
     )
 
     override fun onBlockBreak(player: Player, blockState: BlockState, pos: BlockPos, isReversed: Boolean) {

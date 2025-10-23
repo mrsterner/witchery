@@ -14,7 +14,8 @@ class TheEmperorEffect : TarotEffect(5) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Authority crumbles" else "Command and control"
+        if (isReversed) "Your authority crumbles - lose experience each dawn"
+        else "Command the battlefield - gain damage resistance at dawn, your strikes slow enemies"
     )
 
     override fun onMorning(player: Player, isReversed: Boolean) {

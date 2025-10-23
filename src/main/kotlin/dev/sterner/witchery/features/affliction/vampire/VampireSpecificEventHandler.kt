@@ -14,6 +14,7 @@ import dev.sterner.witchery.core.registry.WitcheryDamageSources
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
@@ -46,14 +47,16 @@ object VampireSpecificEventHandler {
     fun tick(player: Player?) {
         if (player !is ServerPlayer) return
 
-        if (player.isAlive && AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) > 0) {
+        val isVampire = player.isAlive && AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) > 0
+        val hasSunReversed = hasReversedSunTarot(player)
 
+        if (isVampire) {
             VampireLeveling.increaseNightTicker(player)
-
             vampireTick(player)
+        } else if (hasSunReversed && player.isAlive) {
+            handleSunExposure(player)
         }
     }
-
 
     private fun vampireTick(player: ServerPlayer) {
         handleSunExposure(player)
@@ -98,45 +101,45 @@ object VampireSpecificEventHandler {
         val currentSunTick = currentData.getInSunTick()
         val maxInSunTicks = (player.getAttribute(WitcheryAttributes.VAMPIRE_SUN_RESISTANCE)?.value ?: 0.0).toInt()
 
+        // Check if player has The Sun Reversed tarot card
+        val hasSunReversed = hasReversedSunTarot(player)
 
-        if (isInSunlight && !player.isCreative && !player.isSpectator) {
-            if (currentSunTick < maxInSunTicks) {
-                val newData = AfflictionPlayerAttachment.smartUpdate(player) {
-                    incrementInSunTick(1, maxInSunTicks)
-                        .withMaxInSunTickClient(maxInSunTicks)
+        if ((isInSunlight && currentData.getLevel(AfflictionTypes.VAMPIRISM) > 0) ||
+            (isInSunlight && hasSunReversed)) {
+
+            if (!player.isCreative && !player.isSpectator) {
+                if (currentSunTick < maxInSunTicks) {
+                    val newData = AfflictionPlayerAttachment.smartUpdate(player) {
+                        incrementInSunTick(1, maxInSunTicks)
+                            .withMaxInSunTickClient(maxInSunTicks)
+                    }
+
+                    val newSunTick = newData.getInSunTick()
+
+                    if (newSunTick >= maxInSunTicks) {
+                        handleSunDamage(player, newData, hasSunReversed)
+                    }
+                } else {
+                    handleSunDamage(player, currentData, hasSunReversed)
                 }
-
-                val newSunTick = newData.getInSunTick()
-
-                if (newSunTick >= maxInSunTicks) {
-                    handleSunDamage(player, newData)
-                }
-            } else {
-                handleSunDamage(player, currentData)
             }
         } else {
             decreaseSunTick(player)
         }
     }
 
+    private fun hasReversedSunTarot(player: ServerPlayer): Boolean {
+        val tarotData = TarotPlayerAttachment.getData(player)
+        val sunCardIndex = tarotData.drawnCards.indexOf(20)
 
-    /**
-     * Decreases sun tick counter when not in sunlight
-     */
-    private fun decreaseSunTick(player: ServerPlayer) {
-        val currentData = AfflictionPlayerAttachment.getData(player)
-
-        if (currentData.getInSunTick() > 0) {
-            AfflictionPlayerAttachment.smartUpdate(player) {
-                decrementInSunTick(2)
-            }
+        if (sunCardIndex != -1) {
+            return tarotData.reversedCards.getOrNull(sunCardIndex) ?: false
         }
+
+        return false
     }
 
-    /**
-     * Applies sun damage based on vampire level and blood pool
-     */
-    private fun handleSunDamage(player: ServerPlayer, affData: AfflictionPlayerAttachment.Data) {
+    private fun handleSunDamage(player: ServerPlayer, affData: AfflictionPlayerAttachment.Data, hasSunReversed: Boolean) {
         val sunDamageSource = (player.level().damageSources() as DamageSourcesInvoker)
             .invokeSource(WitcheryDamageSources.IN_SUN)
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
@@ -146,6 +149,15 @@ object VampireSpecificEventHandler {
         NeoForge.EVENT_BUS.post(event)
 
         if (event.isCanceled()) {
+            return
+        }
+
+        //Tarot card
+        if (hasSunReversed && vampireLevel == 0) {
+            if (player.tickCount % BLOOD_DRAIN_TICK_RATE == 0) {
+                player.hurt(sunDamageSource, SUN_DAMAGE_AMOUNT)
+                playSunDamageEffects(player)
+            }
             return
         }
 
@@ -163,6 +175,20 @@ object VampireSpecificEventHandler {
 
             else -> {
                 player.hurt(sunDamageSource, Float.MAX_VALUE)
+            }
+        }
+    }
+
+
+    /**
+     * Decreases sun tick counter when not in sunlight
+     */
+    private fun decreaseSunTick(player: ServerPlayer) {
+        val currentData = AfflictionPlayerAttachment.getData(player)
+
+        if (currentData.getInSunTick() > 0) {
+            AfflictionPlayerAttachment.smartUpdate(player) {
+                decrementInSunTick(2)
             }
         }
     }
@@ -191,7 +217,7 @@ object VampireSpecificEventHandler {
 
     @JvmStatic
     fun respawn(oldPlayer: Player, newPlayer: Player, alive: Boolean) {
-        val data = AfflictionPlayerAttachment.getData(newPlayer) // Get from NEW player now
+        val data = AfflictionPlayerAttachment.getData(newPlayer)
 
         if (data.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)

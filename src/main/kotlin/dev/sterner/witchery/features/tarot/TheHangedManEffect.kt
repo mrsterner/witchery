@@ -13,7 +13,8 @@ class TheHangedManEffect : TarotEffect(13) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "You cannot let go" else "Sacrifice brings reward"
+        if (isReversed) "Unable to release items from your grasp"
+        else "Suffering empowers nearby altars - falling is slower, pain fuels magic"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {

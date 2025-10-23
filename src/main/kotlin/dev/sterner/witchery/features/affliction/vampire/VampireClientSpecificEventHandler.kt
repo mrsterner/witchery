@@ -9,6 +9,7 @@ import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.core.util.RenderUtils
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
+import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.player.LocalPlayer
@@ -22,25 +23,25 @@ object VampireClientSpecificEventHandler {
     /**
      * Renders the vampire HUD elements
      */
-
     @JvmStatic
     fun renderHud(guiGraphics: GuiGraphics) {
         val client = Minecraft.getInstance()
         val player = client.player ?: return
 
-        val isNotVamp = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) <= 0
-        if (isNotVamp) return
+        val isVampire = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) > 0
 
-        val hasOffhand = !player.offhandItem.isEmpty
-        val y = guiGraphics.guiHeight() - 18 - 5
-        val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - if (hasOffhand) 32 else 0
+        if (isVampire) {
+            val hasOffhand = !player.offhandItem.isEmpty
+            val y = guiGraphics.guiHeight() - 18 - 5
+            val x = guiGraphics.guiWidth() / 2 - 36 - 18 * 4 - 5 - if (hasOffhand) 32 else 0
 
-        AfflictionClientEventHandler.drawAbilityBar(guiGraphics, player, x, y)
+            AfflictionClientEventHandler.drawAbilityBar(guiGraphics, player, x, y)
 
-        val canHurtPlayer = client.gameMode!!.canHurtPlayer()
-        if (canHurtPlayer) {
-            drawBloodSense(guiGraphics)
-            drawBatFormHud(guiGraphics, player)
+            val canHurtPlayer = client.gameMode!!.canHurtPlayer()
+            if (canHurtPlayer) {
+                drawBloodSense(guiGraphics)
+                drawBatFormHud(guiGraphics, player)
+            }
         }
     }
 
@@ -51,13 +52,29 @@ object VampireClientSpecificEventHandler {
     fun renderSunOverlay(guiGraphics: GuiGraphics, minecraft: Minecraft) {
         val player = minecraft.player ?: return
 
-        val isNotVamp = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) <= 0
-        if (isNotVamp) return
+        val isVampire = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) > 0
+        val hasSunReversed = hasReversedSunTarot(player)
+
+        if (!isVampire && !hasSunReversed) return
 
         val canHurtPlayer = minecraft.gameMode?.canHurtPlayer() ?: false
         if (!canHurtPlayer) return
 
         drawSun(guiGraphics, player)
+    }
+
+    /**
+     * Checks if player has The Sun (Reversed) tarot card
+     */
+    private fun hasReversedSunTarot(player: Player): Boolean {
+        val tarotData = TarotPlayerAttachment.getData(player)
+        val sunCardIndex = tarotData.drawnCards.indexOf(20)
+
+        if (sunCardIndex != -1) {
+            return tarotData.reversedCards.getOrNull(sunCardIndex) ?: false
+        }
+
+        return false
     }
 
     /**
@@ -109,7 +126,6 @@ object VampireClientSpecificEventHandler {
             RenderUtils.innerRenderBat(guiGraphics, maxTicks, currentTicks, y, x)
         }
     }
-
 
     /**
      * Draws the crosshair entity's blood pool indicator

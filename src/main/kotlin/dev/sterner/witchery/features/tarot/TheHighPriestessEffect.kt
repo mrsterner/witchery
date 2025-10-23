@@ -1,6 +1,7 @@
 package dev.sterner.witchery.features.tarot
 
 import dev.sterner.witchery.network.HighlightOresS2CPayload
+import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.chat.Component
@@ -20,7 +21,8 @@ class TheHighPriestessEffect : TarotEffect(3) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Secrets hidden from you" else "See what others cannot"
+        if (isReversed) "Intuition blocked - lose experience when mining"
+        else "Perpetual night vision reveals hidden ores when mining - secrets glow briefly"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {
@@ -65,6 +67,10 @@ class TheHighPriestessEffect : TarotEffect(3) {
                         HighlightOresS2CPayload(orePositions, 200)
                     )
                 }
+            }
+        } else if (isReversed) {
+            if (player.level().random.nextFloat() < 0.15f) {
+                player.giveExperiencePoints(-1)
             }
         }
     }

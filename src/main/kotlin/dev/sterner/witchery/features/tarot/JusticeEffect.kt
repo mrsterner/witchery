@@ -13,7 +13,8 @@ class JusticeEffect : TarotEffect(12) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Injustice prevails" else "Balance is maintained"
+        if (isReversed) "Unfair punishment - you take more damage from all sources"
+        else "An eye for an eye - those who harm you suffer thorns damage in return"
     )
 
     override fun onEntityHit(player: Player, target: Entity, isReversed: Boolean) {

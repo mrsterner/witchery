@@ -10,6 +10,8 @@ import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
+import kotlin.math.cos
+import kotlin.math.sin
 
 class TheTowerEffect : TarotEffect(17) {
 
@@ -18,7 +20,8 @@ class TheTowerEffect : TarotEffect(17) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Fear of change" else "Sudden upheaval"
+        if (isReversed) "Stagnation without growth or change"
+        else "Chaos incarnate - blocks may explode when broken, Baba Yaga may appear"
     )
 
     override fun onTick(player: Player, isReversed: Boolean) {
@@ -36,8 +39,8 @@ class TheTowerEffect : TarotEffect(17) {
                         val angle = level.random.nextDouble() * 2 * Math.PI
                         val distance = 8.0 + level.random.nextDouble() * 8.0
 
-                        spawnX = player.x + Math.cos(angle) * distance
-                        spawnZ = player.z + Math.sin(angle) * distance
+                        spawnX = player.x + cos(angle) * distance
+                        spawnZ = player.z + sin(angle) * distance
 
                         attempts++
                     } while (attempts < 10 && player.distanceToSqr(spawnX, player.y, spawnZ) < 64.0)
@@ -66,7 +69,7 @@ class TheTowerEffect : TarotEffect(17) {
     }
 
     override fun onBlockBreak(player: Player, blockState: BlockState, pos: BlockPos, isReversed: Boolean) {
-        if (!isReversed && player.level().random.nextFloat() < 0.05f) {
+        if (!isReversed && player.level().random.nextFloat() < 0.5f) {
             player.level().explode(
                 null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5,
                 1.5f, Level.ExplosionInteraction.NONE

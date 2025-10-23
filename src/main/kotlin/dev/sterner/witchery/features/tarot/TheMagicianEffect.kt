@@ -18,7 +18,8 @@ class TheMagicianEffect : TarotEffect(2) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Your magic turns against you" else "Mastery over the arcane"
+        if (isReversed) "Magic backfires - nearby altars drain power each dawn"
+        else "Master of the craft - altars recharge each morning, brews may return to you"
     )
 
     override fun onMorning(player: Player, isReversed: Boolean) {

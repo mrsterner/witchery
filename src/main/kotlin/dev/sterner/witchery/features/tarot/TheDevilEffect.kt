@@ -16,7 +16,8 @@ class TheDevilEffect : TarotEffect(16) {
     )
 
     override fun getDescription(isReversed: Boolean) = Component.literal(
-        if (isReversed) "Breaking free from chains" else "Dark power at a cost"
+        if (isReversed) "Slowly break free from curses and debuffs, but lose experience in the process"
+        else "Devastating strength at the cost of your vitality - reduced max health for increased damage"
     )
 
     override fun onAdded(player: Player, isReversed: Boolean) {
