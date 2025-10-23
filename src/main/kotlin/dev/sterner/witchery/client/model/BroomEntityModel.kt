@@ -35,7 +35,6 @@ class BroomEntityModel(root: ModelPart) :
 
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("broom"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()

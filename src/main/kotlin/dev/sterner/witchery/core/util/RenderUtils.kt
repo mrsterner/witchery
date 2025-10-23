@@ -211,7 +211,6 @@ object RenderUtils {
         for (i in 0 until dropCount) {
             val xPos = x + i * 12 - 8
 
-            // Draw empty icon first (for all icons)
             blitWithAlpha(
                 guiGraphics.pose(),
                 Witchery.id("textures/gui/affliction_abilities/bat_form_empty.png"),
@@ -227,7 +226,6 @@ object RenderUtils {
                 0xFFFFFF
             )
 
-            // Draw full icon if this icon is within the full range
             if (i < fullIcons) {
                 blitWithAlpha(
                     guiGraphics.pose(),
@@ -315,7 +313,6 @@ object RenderUtils {
     ) {
         val f = (x1 + x2).toFloat() / 2.0f
         val g = (y1 + y2).toFloat() / 2.0f
-        //guiGraphics.enableScissor(x1, y1, x2, y2)
         val h = atan(((f - mouseX) / 40.0f).toDouble()).toFloat()
         val i = atan(((g - mouseY) / 40.0f).toDouble()).toFloat()
         val quaternionf = Quaternionf().rotateZ(Math.PI.toFloat())
@@ -340,7 +337,6 @@ object RenderUtils {
         entity.xRot = l
         entity.yHeadRotO = m
         entity.yHeadRot = n
-        //guiGraphics.disableScissor()
     }
 
     fun renderEntityInInventory(

@@ -31,11 +31,11 @@ class EffigyCompanionBlock(properties: Properties) : MultiBlockComponentBlock(pr
     }
 
     override fun getShadeBrightness(state: BlockState, level: BlockGetter, pos: BlockPos): Float {
-        return 1.0f // Force full brightness
+        return 1.0f
     }
 
     override fun getLightBlock(state: BlockState, level: BlockGetter, pos: BlockPos): Int {
-        return 0 // No light blocking
+        return 0
     }
 
 

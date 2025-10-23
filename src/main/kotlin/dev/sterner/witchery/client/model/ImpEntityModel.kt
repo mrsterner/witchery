@@ -72,9 +72,9 @@ class ImpEntityModel(modelPart: ModelPart) :
         head.xRot = headPitch * 0.017453292f
         head.yRot = netHeadYaw * 0.017453292f
 
-        right_wing.xRot = -0.2f * (1.0f - j) // Previously 0.43633232F
+        right_wing.xRot = -0.2f * (1.0f - j)
         right_wing.yRot = -0.7853982f + g
-        left_wing.xRot = -0.2f * (1.0f - j) // Previously 0.43633232F
+        left_wing.xRot = -0.2f * (1.0f - j)
         left_wing.yRot = 0.7853982f - g
 
         body.xRot = j * 0.7853982f
@@ -92,7 +92,6 @@ class ImpEntityModel(modelPart: ModelPart) :
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(Witchery.id("imp"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()

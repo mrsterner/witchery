@@ -47,21 +47,17 @@ open class OvenBlock(properties: Properties) :
         if (pLevel.getBlockEntity(pPos) is OvenBlockEntity) {
             val oven = pLevel.getBlockEntity(pPos) as OvenBlockEntity
 
-            // Check the presence of regular fume funnels
             oven.fumeHoodCount = checkFumeFunnels(pState, pLevel, pPos, regular = true)
 
-            // Check the presence of filtered fume funnels
             oven.filteredFumeHoodCount = checkFumeFunnels(pState, pLevel, pPos, regular = false)
         }
     }
 
-    // Helper to count funnels
     private fun checkFumeFunnels(state: BlockState, level: LevelReader, pos: BlockPos, regular: Boolean): Int {
         val blockFacing = state.getValue(BlockStateProperties.HORIZONTAL_FACING)
         val leftPos = pos.relative(blockFacing.counterClockWise)
         val rightPos = pos.relative(blockFacing.clockWise)
 
-        // Check left and right positions for funnels
         val leftState = level.getBlockEntity(leftPos)
         val rightState = level.getBlockEntity(rightPos)
 

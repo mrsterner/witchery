@@ -96,33 +96,21 @@ object NaturePowerReloadListener {
             resourceManager: ResourceManager,
             profiler: ProfilerFiller
         ) {
-            // Clear and reset on reload
             NATURE_POWER_VALUES.clear()
             tagQueue.clear()
             blockQueue.clear()
             pendingDataProcessed = false
 
             `object`.forEach { (file, element) ->
-                try {
-                    if (element.isJsonArray)
-                        element.asJsonArray.map(JsonElement::getAsJsonObject).forEach { parseJson(it, file) }
-                    else if (element.isJsonObject)
-                        parseJson(element.asJsonObject, file)
-                    else
-                        LOGGER.error("The file $file seems to have neither a JSON object or a JSON array... Skipping...")
-                } catch (e: Exception) {
-                    throw IllegalArgumentException(e.fillInStackTrace())
-                }
+                if (element.isJsonArray)
+                    element.asJsonArray.map(JsonElement::getAsJsonObject).forEach { parseJson(it, file) }
+                else if (element.isJsonObject)
+                    parseJson(element.asJsonObject, file)
+                else
+                    LOGGER.error("The file $file seems to have neither a JSON object or a JSON array... Skipping...")
             }
 
-            // Try to process immediately if tags are available
-            // This happens during /reload commands
-            try {
-                addPending()
-            } catch (e: Exception) {
-                // Tags might not be ready yet, will process on server start
-                LOGGER.debug("Tags not ready during reload, will process on server start")
-            }
+            addPending()
         }
 
         fun parseJson(json: JsonObject, file: ResourceLocation) {

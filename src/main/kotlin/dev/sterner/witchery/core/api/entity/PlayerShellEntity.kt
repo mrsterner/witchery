@@ -54,8 +54,8 @@ abstract class PlayerShellEntity(
     }
 
     enum class ShellType {
-        SLEEPING,  // For dream walking - pulls player back when hurt
-        SOUL       // For lich soul form - doesn't pull back
+        SLEEPING,
+        SOUL
     }
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {

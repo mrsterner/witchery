@@ -54,7 +54,6 @@ class SpinningWheelMenu(id: Int, val inventory: Inventory, buf: FriendlyByteBuf)
         resultStack = slotStack.copy()
 
         if (index in 0..4) {
-            // Move Stack to Player Inventory
             if (!moveItemStackTo(slotStack, 5, 41, true))
                 return ItemStack.EMPTY
         } else if (!moveItemStackTo(slotStack, 0, 4, false))

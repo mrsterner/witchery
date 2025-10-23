@@ -64,7 +64,6 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         private const val TICK_INTERVAL = 20
         private const val ATTUNED_STONE_POWER_BONUS = 2000
 
-        // NBT Tag constants
         private const val TAG_SHOULD_RUN = "shouldRun"
         private const val TAG_SHOULD_CONSUME_SACRIFICES = "shouldStartConsuming"
         private const val TAG_SHOULD_CONSUME_ITEMS = "shouldStartConsumingItems"

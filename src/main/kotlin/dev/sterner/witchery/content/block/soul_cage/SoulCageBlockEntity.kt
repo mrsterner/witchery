@@ -40,24 +40,18 @@ class SoulCageBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var chainChargeUp = 0
     var maxChargeUp = 2 //In seconds
 
-    //Clientside:
-    // Current rotation values
     private var currentYaw = 0f
     private var currentPitch = 0f
 
-    // Target rotation values
     private var targetYaw = 0f
     private var targetPitch = 0f
 
-    // Previous tick's rotation for interpolation
     private var prevYaw = 0f
     private var prevPitch = 0f
 
-    // Tracking state
     private var isTrackingPlayer = false
     private var previousTrackingState = false
 
-    //Soul barrier
     private var saltCount: Int = 0
     private var fuelTime: Int = 0
     private var maxFuelTime: Int = 0

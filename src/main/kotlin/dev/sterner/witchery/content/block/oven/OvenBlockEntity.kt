@@ -92,12 +92,10 @@ class OvenBlockEntity(
         val wasLit: Boolean = isLit()
         var shouldUpdateBlock = false
 
-        // Decrease lit time if the oven is lit
         if (isLit()) {
             litTime--
         }
 
-        // Fetch the fuel and input items
         val fuelStack: ItemStack = items[SLOT_FUEL]
         val inputStack: ItemStack = items[SLOT_INPUT]
         val hasInput = !inputStack.isEmpty

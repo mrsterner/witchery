@@ -667,7 +667,6 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     }
 
 
-    //INVENTORY IMPL
     override fun clearContent() {
         inputItems.clear()
     }

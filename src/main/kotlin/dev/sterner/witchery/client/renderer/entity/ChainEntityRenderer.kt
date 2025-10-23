@@ -29,7 +29,7 @@ class ChainEntityRenderer(context: EntityRendererProvider.Context) : EntityRende
     private val chainOverlap = 0.15f * 1.5
     private val linkLength = chainLinkLength - chainOverlap
 
-    private val particleFrequency = 0.3f  // How often particles spawn (0-1)
+    private val particleFrequency = 0.3f // How often particles spawn (0-1)
 
     override fun getTextureLocation(entity: ChainEntity): ResourceLocation {
         return Witchery.id("textures/entity/chain.png")

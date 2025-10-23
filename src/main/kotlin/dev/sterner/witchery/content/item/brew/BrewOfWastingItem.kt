@@ -166,7 +166,7 @@ class BrewOfWastingItem(color: Int, properties: Properties) : ThrowableBrewItem(
         level.addParticle(
             ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, Color(145, 80, 40).rgb),
             location.x, location.y, location.z,
-            0.3, 0.3, 0.0 // Yellow-green color
+            0.3, 0.3, 0.0
         )
     }
 }

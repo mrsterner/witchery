@@ -214,7 +214,7 @@ object TarotCardHudRenderer {
         )
 
         if (isHovered) {
-            RenderSystem.setShaderColor(1.0f, 0.84f, 0.0f, animationProgress) // Gold color
+            RenderSystem.setShaderColor(1.0f, 0.84f, 0.0f, animationProgress)
             guiGraphics.renderOutline(
                 0, 0,
                 TarotCardObject.CARD_WIDTH.toInt(),

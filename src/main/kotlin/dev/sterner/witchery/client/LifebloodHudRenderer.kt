@@ -146,7 +146,7 @@ object LifebloodHudRenderer {
      */
     private fun calculateHeartbeat(timeInSeconds: Float): HeartbeatData {
         val cycleTime = timeInSeconds * HEARTBEAT_SPEED
-        val phase = cycleTime % 1.0f // 0 to 1 repeating
+        val phase = cycleTime % 1.0f
 
         val glowRange = MAX_GLOW_INTENSITY - MIN_GLOW_INTENSITY
 

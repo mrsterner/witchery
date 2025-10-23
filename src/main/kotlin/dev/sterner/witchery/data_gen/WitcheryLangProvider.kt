@@ -299,5 +299,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         add("tarot.witchery.the_world.description", "Perfect completion - speed, haste, luck, regeneration, bonus drops, experience at dawn")
         add("tarot.witchery.the_world.reversed.description", "Discord and incompletion - random debuffs plague you")
 
+        add("emi.category.witchery.cauldron_infusion", "Cauldron Infusion")
+
     }
 }

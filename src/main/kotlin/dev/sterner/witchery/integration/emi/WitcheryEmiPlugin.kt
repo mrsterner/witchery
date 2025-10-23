@@ -23,6 +23,10 @@ class WitcheryEmiPlugin : EmiPlugin {
             EmiIngredient.of(Ingredient.of(WitcheryItems.BRAZIER.get()))
         )
         registry.addWorkstation(
+            CAULDRON_INFUSION_CATEGORY,
+            EmiIngredient.of(Ingredient.of(WitcheryItems.CAULDRON.get()))
+        )
+        registry.addWorkstation(
             CAULDRON_CRAFTING_CATEGORY,
             EmiIngredient.of(Ingredient.of(WitcheryItems.CAULDRON.get()))
         )
@@ -143,6 +147,7 @@ class WitcheryEmiPlugin : EmiPlugin {
         registry.addCategory(DISTILLING_CATEGORY)
         registry.addCategory(SPINNING_CATEGORY)
         registry.addCategory(BRAZIER_CATEGORY)
+        registry.addCategory(CAULDRON_INFUSION_CATEGORY)
 
         val manager: RecipeManager = registry.recipeManager
 
@@ -180,6 +185,10 @@ class WitcheryEmiPlugin : EmiPlugin {
             registry.addRecipe(BrazierEmiRecipe(recipe.id, recipe.value))
         }
 
+        for (recipe in manager.getAllRecipesFor(WitcheryRecipeTypes.CAULDRON_INFUSION_RECIPE_TYPE.get())) {
+            registry.addRecipe(CauldronInfusionEmiRecipe(recipe.id, recipe.value))
+        }
+
         for (recipe in getRecipes(registry, RecipeType.CRAFTING)) {
             if (recipe is PendantDataComponentRecipe) {
                 registry.addRecipe(BloodPendantEmiRecipe(Witchery.id("/blood")))
@@ -210,6 +219,10 @@ class WitcheryEmiPlugin : EmiPlugin {
 
         val CAULDRON_BREWING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
             Witchery.id("cauldron_brewing"), ICON_CAULDRON
+        )
+
+        val CAULDRON_INFUSION_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(
+            Witchery.id("cauldron_infusion"), ICON_CAULDRON
         )
 
         val CAULDRON_CRAFTING_CATEGORY: EmiRecipeCategory = EmiRecipeCategory(

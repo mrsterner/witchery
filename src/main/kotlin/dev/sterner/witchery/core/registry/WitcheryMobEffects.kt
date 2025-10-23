@@ -21,7 +21,7 @@ import java.util.function.Supplier
 
 object WitcheryMobEffects {
 
-    val EFFECTS: DeferredRegister<MobEffect> = // Remove the nullable type
+    val EFFECTS: DeferredRegister<MobEffect> =
         DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, Witchery.MODID)
 
     val EMPTY: DeferredHolder<MobEffect, MobEffect> =
@@ -85,7 +85,7 @@ object WitcheryMobEffects {
         }
 
     private fun register(name: String, effectSupplier: () -> MobEffect): DeferredHolder<MobEffect, MobEffect> {
-        return EFFECTS.register(name, Supplier(effectSupplier)) // Pass the supplier, don't call it
+        return EFFECTS.register(name, Supplier(effectSupplier))
     }
 
     fun invertEffect(effect: Holder<MobEffect>): Holder<MobEffect> {

@@ -21,7 +21,6 @@ object InventorySlots {
     // Offhand: 40
     const val OFFHAND = 40
 
-    // Lock methods
     fun lockHotbar(player: Player) {
         val slots = (HOTBAR_START..HOTBAR_END).toSet()
         InventoryLockPlayerAttachment.lockSlots(player, slots)
@@ -47,7 +46,6 @@ object InventorySlots {
         InventoryLockPlayerAttachment.lockSlots(player, slots)
     }
 
-    // Unlock methods
     fun unlockHotbar(player: Player) {
         val slots = (HOTBAR_START..HOTBAR_END).toSet()
         InventoryLockPlayerAttachment.unlockSlots(player, slots)
@@ -72,7 +70,6 @@ object InventorySlots {
         InventoryLockPlayerAttachment.unlockAllSlots(player)
     }
 
-    // Toggle methods
     fun toggleHotbar(player: Player) {
         val data = InventoryLockPlayerAttachment.getData(player)
         val hotbarSlots = (HOTBAR_START..HOTBAR_END).toSet()

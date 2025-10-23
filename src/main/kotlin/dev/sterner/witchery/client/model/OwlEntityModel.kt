@@ -52,8 +52,8 @@ class OwlEntityModel(val root: ModelPart) :
             leftWing.visible = true
             rightWing.visible = true
 
-            val wingFlapSpeed = 0.7f // Speed of wing flapping
-            val wingFlapAmplitude = 0.4f // Intensity of wing flapping
+            val wingFlapSpeed = 0.7f
+            val wingFlapAmplitude = 0.4f
 
             leftWing.zRot = (-0.05f + sin((ageInTicks * wingFlapSpeed).toDouble()) * wingFlapAmplitude).toFloat()
             rightWing.zRot = (0.05f - sin((ageInTicks * wingFlapSpeed).toDouble()) * wingFlapAmplitude).toFloat()

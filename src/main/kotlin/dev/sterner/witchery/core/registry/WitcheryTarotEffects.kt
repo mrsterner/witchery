@@ -29,7 +29,6 @@ object WitcheryTarotEffects {
 
     private val TAROT_EFFECTS: DeferredRegister<TarotEffect> = DeferredRegister.create(TAROT_REGISTRY, Witchery.MODID)
 
-    // Major Arcana
     val THE_FOOL: DeferredHolder<TarotEffect, TheFoolEffect> =
         TAROT_EFFECTS.register("the_fool", Supplier { TheFoolEffect() })
     val THE_MAGICIAN: DeferredHolder<TarotEffect, TheMagicianEffect> =

@@ -25,7 +25,6 @@ class TaglockItem(properties: Properties) : Item(properties) {
             if (timestamp != null) {
                 val currentGameTime = level.gameTime
 
-                // Check if 7 days (168000 ticks) have passed since the timestamp
                 if (currentGameTime - timestamp >= 168000) {
                     stack.set(WitcheryDataComponents.EXPIRED_TAGLOCK.get(), true)
                 }

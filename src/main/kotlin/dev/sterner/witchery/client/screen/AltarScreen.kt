@@ -37,7 +37,6 @@ class AltarScreen(menu: AltarMenu, inventory: Inventory, title: Component) : Abs
     override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float) {
         super.render(guiGraphics, mouseX, mouseY, partialTick)
 
-        // render current power, max power, multiplier
         guiGraphics.drawCenteredString(
             font, POWER_FORMAT.format(menu.getCurrentPower(), menu.getMaxPower(), menu.altar?.powerMultiplier ?: 1),
             this.width / 2, this.height / 2 - font.lineHeight / 2, ChatFormatting.WHITE.color ?: 0xFFFFFF

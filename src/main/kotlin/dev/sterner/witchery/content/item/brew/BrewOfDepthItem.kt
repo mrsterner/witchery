@@ -40,9 +40,9 @@ class BrewOfDepthItem(color: Int, properties: Properties) : BrewItem(color, prop
                 (player.level() as ServerLevel).sendParticles(
                     ParticleTypes.BUBBLE,
                     d0, d1, d2,
-                    5, // count
+                    5,
                     0.2, 0.2, 0.2,
-                    0.1 // speed
+                    0.1
                 )
             }
 

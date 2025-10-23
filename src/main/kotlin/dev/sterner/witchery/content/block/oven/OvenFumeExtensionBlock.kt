@@ -45,7 +45,6 @@ open class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBl
     ) {
         super.neighborChanged(pState, pLevel, pPos, pBlock, pFromPos, pIsMoving)
 
-        // Check if this block is placed next to an oven
         val (canSurvive, isOvenRight) = checkOvenPlacement(pState, pLevel, pPos)
 
         if (canSurvive) {
@@ -60,38 +59,31 @@ open class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBl
 
         val ovenState = pLevel.getBlockState(ovenPos)
 
-        // Check if the oven is lit and set this block's LIT state accordingly
         val isOvenLit = ovenState.getValue(BlockStateProperties.LIT)
         pLevel.setBlock(pPos, pState.setValue(BlockStateProperties.LIT, isOvenLit), 3)
     }
 
     private fun checkOvenPlacement(state: BlockState, level: LevelReader, pos: BlockPos): Pair<Boolean, Boolean?> {
-        // Get the facing direction of this block
         val blockFacing = state.getValue(BlockStateProperties.HORIZONTAL_FACING)
 
-        // Check positions on the left and right of the current block
         val leftPos = pos.relative(blockFacing.counterClockWise)
         val rightPos = pos.relative(blockFacing.clockWise)
 
-        // Check if there's an oven at either of those positions
         val leftState = level.getBlockState(leftPos)
         val rightState = level.getBlockState(rightPos)
 
         val isOvenLeft = leftState.block is OvenBlock
         val isOvenRight = rightState.block is OvenBlock
 
-        // Return false if the block isn't next to an oven
         if (!isOvenLeft && !isOvenRight) {
             return Pair(false, null)
         }
 
-        // Get the oven's facing direction and compare it with this block's facing
         val ovenFacing =
             if (isOvenLeft) leftState.getValue(BlockStateProperties.HORIZONTAL_FACING) else rightState.getValue(
                 BlockStateProperties.HORIZONTAL_FACING
             )
 
-        // Return true if the facings match, and also return whether the oven is on the right (ALT)
         return Pair(blockFacing == ovenFacing, isOvenRight)
     }
 
@@ -106,7 +98,6 @@ open class OvenFumeExtensionBlock(properties: Properties) : WitcheryBaseEntityBl
         val (canSurvive, isOvenRight) = checkOvenPlacement(state, level, pos)
 
         if (canSurvive) {
-            // Set ALT based on whether the oven is on the right
             updateLit(
                 level,
                 isOvenRight,
