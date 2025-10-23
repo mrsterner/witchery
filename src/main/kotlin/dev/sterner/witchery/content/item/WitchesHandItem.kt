@@ -1,6 +1,6 @@
 package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.content.item.curios.HagsRing
+import dev.sterner.witchery.content.item.curios.HagsRingItem
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryTags
@@ -53,7 +53,7 @@ class WitchesHandItem(properties: Properties) : Item(properties) {
             return InteractionResult.SUCCESS
         }
 
-        val oresToBreak = HagsRing.gatherConnectedOres(level as ServerLevel, pos, state.block)
+        val oresToBreak = HagsRingItem.gatherConnectedOres(level as ServerLevel, pos, state.block)
 
         if (oresToBreak.isNotEmpty()) {
             VeinMiningTracker.startVeinMining(player, oresToBreak)

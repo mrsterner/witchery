@@ -359,6 +359,7 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.LILITH_SPAWN_EGG.get())
                     output.accept(WitcheryItems.ELLE_SPAWN_EGG.get())
                     output.accept(WitcheryItems.PARASITIC_LOUSE_SPAWN_EGG.get())
+                    output.accept(WitcheryItems.DEATH_SPAWN_EGG.get())
                 }
                 .build()
         })

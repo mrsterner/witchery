@@ -1246,7 +1246,7 @@ object WitcheryItems {
     }
 
     val HAGS_RING = register("hags_ring") {
-        HagsRing(Item.Properties().stacksTo(1).rarity(Rarity.EPIC))
+        HagsRingItem(Item.Properties().stacksTo(1).rarity(Rarity.EPIC))
     }
 
     val BITING_BELT = register("biting_belt") {
@@ -1330,5 +1330,8 @@ object WitcheryItems {
     }
     val PARASITIC_LOUSE_SPAWN_EGG = register("parasitic_louse_spawn_egg") {
         DeferredSpawnEggItem(WitcheryEntityTypes.PARASITIC_LOUSE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+    }
+    val DEATH_SPAWN_EGG = register("death_spawn_egg") {
+        DeferredSpawnEggItem(WitcheryEntityTypes.DEATH, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
 }

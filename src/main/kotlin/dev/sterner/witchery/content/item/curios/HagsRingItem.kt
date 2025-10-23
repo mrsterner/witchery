@@ -1,6 +1,5 @@
 package dev.sterner.witchery.content.item.curios
 
-import dev.sterner.witchery.content.item.BroomItem
 import dev.sterner.witchery.core.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
@@ -14,31 +13,26 @@ import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.TooltipFlag
+import top.theillusivec4.curios.api.CuriosApi
 import java.awt.Color
 
-class HagsRing(properties: Properties) : Item(properties), ICurioItem {
+class HagsRingItem(properties: Properties) : Item(properties), ICurioItem {
 
-    override fun appendHoverText(
+    override fun makesPiglinsNeutral(
         stack: ItemStack,
-        context: TooltipContext,
-        tooltipComponents: MutableList<Component>,
-        tooltipFlag: TooltipFlag
-    ) {
-        if (stack.get(WitcheryDataComponents.HAG_RING_TYPE.get()) == WitcheryDataComponents.HagType.MINER) {
-            tooltipComponents.add(
-                Component.translatable("witchery.hag_type.miner")
-                    .setStyle(Style.EMPTY.withColor(Color(250, 250, 100).rgb))
-            )
-        }
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
+        wearer: LivingEntity
+    ): Boolean {
+        return true
     }
 
     companion object {
         private const val MAX_VEIN_SIZE = 64
 
-        fun getFortuneLevel(player: net.minecraft.world.entity.player.Player): Int {
-            val curiosInventory = top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(player)
+        fun getFortuneLevel(player: Player): Int {
+            val curiosInventory = CuriosApi.getCuriosInventory(player)
                 .orElse(null) ?: return 0
 
             val ringStack = curiosInventory.findFirstCurio(WitcheryItems.HAGS_RING.get())

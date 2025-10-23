@@ -51,6 +51,7 @@
     "WolfMixin",
     "ZoglinMixin",
     "ZombieMixin",
+    "curios.CuriosClientEventHandlerMixin",
     "guard_villagers.GuardMixin",
     "modonomicon.BookCategoryNodeScreenMixin",
     "modonomicon.BookContentRendererMixin",

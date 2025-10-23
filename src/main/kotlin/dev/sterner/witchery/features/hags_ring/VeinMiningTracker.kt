@@ -1,6 +1,6 @@
 package dev.sterner.witchery.features.hags_ring
 
-import dev.sterner.witchery.content.item.curios.HagsRing
+import dev.sterner.witchery.content.item.curios.HagsRingItem
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.Registries
@@ -95,7 +95,7 @@ object VeinMiningTracker {
         val veins = playerVeins[player.uuid] ?: return
         val level = player.serverLevel()
 
-        val fortuneLevel = HagsRing.getFortuneLevel(player)
+        val fortuneLevel = HagsRingItem.getFortuneLevel(player)
 
         val iterator = veins.iterator()
         while (iterator.hasNext()) {
