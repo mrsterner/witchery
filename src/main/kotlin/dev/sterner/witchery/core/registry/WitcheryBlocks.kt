@@ -1049,7 +1049,12 @@ object WitcheryBlocks {
     }
 
     val SPINNING_WHEEL = register("spinning_wheel") {
-        SpinningWheelBlock(Properties.of().noOcclusion().requiresCorrectToolForDrops())
+        SpinningWheelBlock(
+            Properties.of()
+                .noOcclusion()
+                .requiresCorrectToolForDrops()
+                .strength(2.0F)
+                .sound(SoundType.WOOD))
     }
 
     val DREAM_WEAVER = register("dream_weaver") {
@@ -1077,7 +1082,11 @@ object WitcheryBlocks {
     }
 
     val BLOOD_CRUCIBLE = register("blood_crucible") {
-        BloodCrucibleBlock(Properties.of().requiresCorrectToolForDrops())
+        BloodCrucibleBlock(
+            Properties.of()
+                .requiresCorrectToolForDrops()
+                .strength(5.0F, 6.0F)
+        )
     }
 
     val WISPY_COTTON = register("wispy_cotton") {
@@ -1105,11 +1114,11 @@ object WitcheryBlocks {
     }
 
     val POPPET = register("poppet") {
-        PoppetBlock(Properties.of().noOcclusion())
+        PoppetBlock(Properties.of().noOcclusion().strength(3.0F, 2.0F))
     }
 
     val SPIRIT_PORTAL = register("spirit_portal") {
-        SpiritPortalBlock(Properties.of().noOcclusion())
+        SpiritPortalBlock(Properties.of().noOcclusion().strength(3.0F, 6.0F))
     }
 
     val SPIRIT_PORTAL_COMPONENT = register("spirit_component") {
@@ -1119,7 +1128,12 @@ object WitcheryBlocks {
     }
 
     val BRAZIER = register("brazier") {
-        BrazierBlock(Properties.of().noOcclusion().requiresCorrectToolForDrops())
+        BrazierBlock(
+            Properties.of()
+                .noOcclusion()
+                .requiresCorrectToolForDrops()
+                .strength(5.0F, 6.0F)
+        )
     }
 
     val SOUL_CAGE = register("soul_cage") {
