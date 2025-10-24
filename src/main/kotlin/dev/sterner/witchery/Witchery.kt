@@ -53,6 +53,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         WitcherySounds.SOUNDS.register(modEventBus)
         WitcheryVillagers.POIS.register(modEventBus)
         WitcheryVillagers.PROFESSIONS.register(modEventBus)
+        WitcheryStructureProcessors.STRUCTURE_PROCESSOR_TYPES.register(modEventBus)
         WitcherySpecialPotionEffects.register(modEventBus)
         WitcheryTarotEffects.register(modEventBus)
 

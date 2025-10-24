@@ -39,6 +39,10 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
     private var ritualCompleted = false
     private var ownerUuid: UUID? = null
 
+    init {
+        setPersistenceRequired()
+    }
+
     override fun registerGoals() {
         super.registerGoals()
         goalSelector.addGoal(1, RitualAttendanceGoal(this, 1.0))

@@ -29,6 +29,15 @@ object WitcheryStructureInjects {
         )
 
         VillageHelper.addBuildingToPool(
+            builtinTemplate,
+            builtinProcessor,
+            ResourceLocation.parse("minecraft:village/plains/houses"),
+            "$MODID:village/houses/coven_hut",
+            20,
+            "witchery:coven_hut"
+        )
+
+        VillageHelper.addBuildingToPool(
             builtinTemplate, builtinProcessor,
             ResourceLocation.parse("minecraft:village/plains/houses"),
             "$MODID:village/houses/seer_house",

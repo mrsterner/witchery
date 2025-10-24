@@ -22,14 +22,29 @@ public class VillageHelper {
                                          ResourceLocation poolRL,
                                          String nbtPieceRL,
                                          int weight) {
+        addBuildingToPool(templatePoolRegistry, processorListRegistry, poolRL, nbtPieceRL, weight, null);
+    }
+
+    public static void addBuildingToPool(Registry<StructureTemplatePool> templatePoolRegistry,
+                                         Registry<StructureProcessorList> processorListRegistry,
+                                         ResourceLocation poolRL,
+                                         String nbtPieceRL,
+                                         int weight,
+                                         String processorListId) {
 
         StructureTemplatePool pool = templatePoolRegistry.get(poolRL);
         if (pool == null) return;
 
-        ResourceLocation emptyProcessor = ResourceLocation.withDefaultNamespace("empty");
-        Holder<StructureProcessorList> processorHolder = processorListRegistry.getHolderOrThrow(ResourceKey.create(Registries.PROCESSOR_LIST, emptyProcessor));
+        ResourceLocation processorRL = processorListId != null
+                ? ResourceLocation.parse(processorListId)
+                : ResourceLocation.withDefaultNamespace("empty");
 
-        SinglePoolElement piece = SinglePoolElement.single(nbtPieceRL, processorHolder).apply(StructureTemplatePool.Projection.RIGID);
+        Holder<StructureProcessorList> processorHolder = processorListRegistry.getHolderOrThrow(
+                ResourceKey.create(Registries.PROCESSOR_LIST, processorRL)
+        );
+
+        SinglePoolElement piece = SinglePoolElement.single(nbtPieceRL, processorHolder)
+                .apply(StructureTemplatePool.Projection.RIGID);
 
         for (int i = 0; i < weight; i++) {
             var mut = ((StructureTemplatePoolAccessor) pool).getTemplates();
@@ -37,7 +52,9 @@ public class VillageHelper {
             ((StructureTemplatePoolAccessor) pool).setTemplates(mut);
         }
 
-        List<Pair<StructurePoolElement, Integer>> listOfPieceEntries = new ArrayList<>(((StructureTemplatePoolAccessor) pool).getRawTemplates());
+        List<Pair<StructurePoolElement, Integer>> listOfPieceEntries = new ArrayList<>(
+                ((StructureTemplatePoolAccessor) pool).getRawTemplates()
+        );
         listOfPieceEntries.add(new Pair<>(piece, weight));
         ((StructureTemplatePoolAccessor) pool).setRawTemplates(listOfPieceEntries);
     }
