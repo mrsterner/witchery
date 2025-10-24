@@ -235,6 +235,7 @@ class WitcheryItemTagProvider(
             WitcheryItems.GOLDEN_CHALK.get(),
             WitcheryItems.ARTHANA.get(),
             WitcheryItems.CHALICE.get(),
+            WitcheryItems.GOLD_RING.get(),
             WitcheryItems.GOLDEN_THREAD.get()
         )
 
@@ -369,6 +370,8 @@ class WitcheryItemTagProvider(
             .add(Items.STICK)
             .add(Items.FISHING_ROD)
             .add(Items.WOODEN_PICKAXE)
+            .add(WitcheryItems.WOODEN_OAK_STAKE.get())
+            .add(WitcheryItems.WOODEN_HAWTHORN_STAKE.get())
             .add(Items.WOODEN_HOE)
             .add(Items.WOODEN_SHOVEL)
 

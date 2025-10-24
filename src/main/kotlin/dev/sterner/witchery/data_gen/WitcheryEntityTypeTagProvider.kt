@@ -21,7 +21,10 @@ class WitcheryEntityTypeTagProvider(
     override fun addTags(wrapperLookup: HolderLookup.Provider) {
         tag(WitcheryTags.POSSESSABLE)
             .add(EntityType.ZOMBIE)
+            .add(EntityType.ZOMBIE_VILLAGER)
             .add(EntityType.SKELETON)
+            .add(EntityType.STRAY)
+            .add(EntityType.HUSK)
 
         tag(EntityTypeTags.DISMOUNTS_UNDERWATER).add(
             WitcheryEntityTypes.CUSTOM_BOAT.get(),
@@ -31,7 +34,9 @@ class WitcheryEntityTypeTagProvider(
         tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
             .add(WitcheryEntityTypes.NIGHTMARE.get())
             .add(WitcheryEntityTypes.VAMPIRE.get())
+            .add(WitcheryEntityTypes.DEATH.get())
             .add(WitcheryEntityTypes.BANSHEE.get())
+            .add(WitcheryEntityTypes.SPECTRE.get())
             .add(WitcheryEntityTypes.SPECTRAL_PIG.get())
 
         tag(WitcheryTags.NECROMANCER_SUMMONABLE)
@@ -50,8 +55,11 @@ class WitcheryEntityTypeTagProvider(
             .add(EntityType.ZOMBIE)
             .add(EntityType.CREEPER)
             .add(EntityType.SKELETON)
+            .add(EntityType.VILLAGER)
             .add(EntityType.COW)
+            .add(EntityType.PIG)
             .add(EntityType.SHEEP)
+            .add(EntityType.CHICKEN)
             .add(EntityType.ZOMBIE_VILLAGER)
             .add(EntityType.ZOMBIFIED_PIGLIN)
 

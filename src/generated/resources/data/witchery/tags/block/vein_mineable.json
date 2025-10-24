@@ -11,6 +11,7 @@
     "minecraft:nether_quartz_ore",
     "minecraft:ancient_debris",
     "minecraft:nether_gold_ore",
-    "minecraft:gilded_blackstone"
+    "minecraft:gilded_blackstone",
+    "#c:ores"
   ]
 }

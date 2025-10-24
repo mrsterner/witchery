@@ -5,6 +5,8 @@
     "minecraft:stick",
     "minecraft:fishing_rod",
     "minecraft:wooden_pickaxe",
+    "witchery:wooden_oak_stake",
+    "witchery:wooden_hawthorn_stake",
     "minecraft:wooden_hoe",
     "minecraft:wooden_shovel"
   ]

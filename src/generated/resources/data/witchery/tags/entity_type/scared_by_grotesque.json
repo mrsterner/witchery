@@ -3,8 +3,11 @@
     "minecraft:zombie",
     "minecraft:creeper",
     "minecraft:skeleton",
+    "minecraft:villager",
     "minecraft:cow",
+    "minecraft:pig",
     "minecraft:sheep",
+    "minecraft:chicken",
     "minecraft:zombie_villager",
     "minecraft:zombified_piglin"
   ]

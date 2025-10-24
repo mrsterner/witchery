@@ -29,6 +29,21 @@
     "witchery:werewolf_altar",
     "witchery:soul_cage",
     "witchery:werewolf_altar_component",
-    "witchery:coffin"
+    "witchery:coffin",
+    "witchery:phylactery",
+    "witchery:censer",
+    "witchery:clay_effigy",
+    "witchery:brazier",
+    "witchery:crystal_ball",
+    "witchery:blood_crucible",
+    "#witchery:candelabras",
+    "witchery:mushroom_log",
+    "witchery:mushroom_log_component",
+    "witchery:dream_weaver",
+    "witchery:dream_weaver_of_fasting",
+    "witchery:dream_weaver_of_iron_arm",
+    "witchery:dream_weaver_of_nightmares",
+    "witchery:dream_weaver_of_intensity",
+    "witchery:dream_weaver_of_fleet_foot"
   ]
 }

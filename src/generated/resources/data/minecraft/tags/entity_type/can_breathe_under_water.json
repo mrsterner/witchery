@@ -2,7 +2,9 @@
   "values": [
     "witchery:nightmare",
     "witchery:vampire",
+    "witchery:death",
     "witchery:banshee",
+    "witchery:spectre",
     "witchery:spectral_pig"
   ]
 }

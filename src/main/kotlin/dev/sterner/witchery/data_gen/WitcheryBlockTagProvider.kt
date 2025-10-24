@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.BlockTags
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Blocks
+import net.neoforged.neoforge.common.Tags
 import net.neoforged.neoforge.common.data.BlockTagsProvider
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import java.util.concurrent.CompletableFuture
@@ -36,6 +37,7 @@ class WitcheryBlockTagProvider(
             .add(Blocks.ANCIENT_DEBRIS)
             .add(Blocks.NETHER_GOLD_ORE)
             .add(Blocks.GILDED_BLACKSTONE)
+            .addTag(Tags.Blocks.ORES)
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get())
@@ -68,6 +70,23 @@ class WitcheryBlockTagProvider(
             .add(WitcheryBlocks.SOUL_CAGE.get())
             .add(WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get())
             .add(WitcheryBlocks.COFFIN.get())
+            .add(WitcheryBlocks.PHYLACTERY.get())
+            .add(WitcheryBlocks.CENSER.get())
+            .add(WitcheryBlocks.CLAY_EFFIGY.get())
+            .add(WitcheryBlocks.BRAZIER.get())
+            .add(WitcheryBlocks.CRYSTAL_BALL.get())
+            .add(WitcheryBlocks.BLOOD_CRUCIBLE.get())
+            .addTag(WitcheryTags.CANDELABRAS)
+
+        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .add(WitcheryBlocks.MUSHROOM_LOG.get())
+            .add(WitcheryBlocks.MUSHROOM_LOG_COMPONENT.get())
+            .add(WitcheryBlocks.DREAM_WEAVER.get())
+            .add(WitcheryBlocks.DREAM_WEAVER_OF_FASTING.get())
+            .add(WitcheryBlocks.DREAM_WEAVER_OF_IRON_ARM.get())
+            .add(WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())
+            .add(WitcheryBlocks.DREAM_WEAVER_OF_INTENSITY.get())
+            .add(WitcheryBlocks.DREAM_WEAVER_OF_FLEET_FOOT.get())
 
 
         tag(WitcheryTags.LEAVES).add(
@@ -248,10 +267,6 @@ class WitcheryBlockTagProvider(
 
 
         // Common Tags
-
-
-        //tag(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed")))
-        //    .addTag(WitcheryTags.CANDELABRAS)
 
         tag(TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", "dyed/white")))
             .add(WitcheryBlocks.WHITE_IRON_CANDELABRA.get())
