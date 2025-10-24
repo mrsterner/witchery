@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class DreamWeaverBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion()) {
+class DreamWeaverBlock(properties: Properties) : WitcheryBaseEntityBlock(properties.noOcclusion().requiresCorrectToolForDrops()) {
 
     override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
         return WitcheryBlockEntityTypes.DREAM_WEAVER.get().create(pos, state)

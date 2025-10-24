@@ -129,13 +129,13 @@ object WitcheryBlocks {
 
     val MUSHROOM_LOG = register("mushroom_log") {
         MushroomLogBlock(
-            Properties.of().noOcclusion().sound(SoundType.WOOD)
+            Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.WOOD)
         )
     }
 
     val MUSHROOM_LOG_COMPONENT = register("mushroom_log_component") {
         MushroomLogComponent(
-            Properties.of().noOcclusion().sound(SoundType.WOOD)
+            Properties.of().noOcclusion().requiresCorrectToolForDrops().sound(SoundType.WOOD)
         )
     }
 
@@ -152,7 +152,7 @@ object WitcheryBlocks {
 
     val CAULDRON_COMPONENT = register("cauldron_component") {
         CauldronBlockComponent(
-            Properties.ofFullCopy(Blocks.IRON_BLOCK)
+            Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()
                 .sound(SoundType.METAL)
         )
     }
@@ -160,7 +160,7 @@ object WitcheryBlocks {
     val COPPER_CAULDRON = register("copper_cauldron") {
         CopperCauldronBlock(
             WeatheringCopper.WeatherState.UNAFFECTED,
-            Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+            Properties.ofFullCopy(Blocks.COPPER_BLOCK).requiresCorrectToolForDrops()
                 .sound(SoundType.METAL).randomTicks()
         )
     }
@@ -168,7 +168,7 @@ object WitcheryBlocks {
     val EXPOSED_COPPER_CAULDRON = register("exposed_copper_cauldron") {
         CopperCauldronBlock(
             WeatheringCopper.WeatherState.EXPOSED,
-            Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+            Properties.ofFullCopy(Blocks.COPPER_BLOCK).requiresCorrectToolForDrops()
                 .sound(SoundType.METAL).randomTicks()
         )
     }
@@ -176,7 +176,7 @@ object WitcheryBlocks {
     val WEATHERED_COPPER_CAULDRON = register("weathered_copper_cauldron") {
         CopperCauldronBlock(
             WeatheringCopper.WeatherState.WEATHERED,
-            Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+            Properties.ofFullCopy(Blocks.COPPER_BLOCK).requiresCorrectToolForDrops()
                 .sound(SoundType.METAL).randomTicks()
         )
     }
@@ -184,14 +184,14 @@ object WitcheryBlocks {
     val OXIDIZED_COPPER_CAULDRON = register("oxidized_copper_cauldron") {
         CopperCauldronBlock(
             WeatheringCopper.WeatherState.OXIDIZED,
-            Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+            Properties.ofFullCopy(Blocks.COPPER_BLOCK).requiresCorrectToolForDrops()
                 .sound(SoundType.METAL).randomTicks()
         )
     }
 
     val WAXED_COPPER_CAULDRON = register("waxed_copper_cauldron") {
         WitcheryCauldronBlock(
-            Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+            Properties.ofFullCopy(Blocks.COPPER_BLOCK).requiresCorrectToolForDrops()
                 .sound(SoundType.METAL)
         )
     }
@@ -199,7 +199,7 @@ object WitcheryBlocks {
     val WAXED_EXPOSED_COPPER_CAULDRON =
         register("waxed_exposed_copper_cauldron") {
             WitcheryCauldronBlock(
-                Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                Properties.ofFullCopy(Blocks.COPPER_BLOCK).requiresCorrectToolForDrops()
                     .sound(SoundType.METAL)
             )
         }
@@ -207,7 +207,7 @@ object WitcheryBlocks {
     val WAXED_WEATHERED_COPPER_CAULDRON =
         register("waxed_weathered_copper_cauldron") {
             WitcheryCauldronBlock(
-                Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                Properties.ofFullCopy(Blocks.COPPER_BLOCK).requiresCorrectToolForDrops()
                     .sound(SoundType.METAL)
             )
         }
@@ -215,19 +215,19 @@ object WitcheryBlocks {
     val WAXED_OXIDIZED_COPPER_CAULDRON =
         register("waxed_oxidized_copper_cauldron") {
             WitcheryCauldronBlock(
-                Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                Properties.ofFullCopy(Blocks.COPPER_BLOCK).requiresCorrectToolForDrops()
                     .sound(SoundType.METAL)
             )
         }
 
     val DISTILLERY = register("distillery") {
-        DistilleryBlock(Properties.ofFullCopy(Blocks.COPPER_BLOCK))
+        DistilleryBlock(Properties.ofFullCopy(Blocks.COPPER_BLOCK).requiresCorrectToolForDrops())
     }
 
     val DISTILLERY_COMPONENT = register("distillery_component") {
         DistilleryCompanionBlock(
             Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                .sound(SoundType.METAL)
+                .sound(SoundType.METAL).requiresCorrectToolForDrops()
         )
     }
 
@@ -239,25 +239,25 @@ object WitcheryBlocks {
     }
 
     val COFFIN = register("coffin") {
-        CoffinBlock(Properties.of(), DyeColor.BLACK)
+        CoffinBlock(Properties.of().requiresCorrectToolForDrops(), DyeColor.BLACK)
     }
 
     val WEREWOLF_ALTAR = register("werewolf_altar") {
-        WerewolfAltarBlock(Properties.ofFullCopy(Blocks.STONE))
+        WerewolfAltarBlock(Properties.ofFullCopy(Blocks.STONE).requiresCorrectToolForDrops())
     }
 
     val WEREWOLF_ALTAR_COMPONENT =
         register("werewolf_altar_component") {
             WerewolfAltarComponent(
                 Properties.ofFullCopy(Blocks.STONE)
-                    .sound(SoundType.STONE)
+                    .sound(SoundType.STONE).requiresCorrectToolForDrops()
             )
         }
 
     val IRON_WITCHES_OVEN = register("iron_witches_oven") {
         OvenBlock(
             Properties.ofFullCopy(Blocks.IRON_BLOCK)
-                .sound(SoundType.METAL)
+                .sound(SoundType.METAL).requiresCorrectToolForDrops()
         )
     }
 
@@ -265,7 +265,7 @@ object WitcheryBlocks {
         register("iron_witches_oven_fume_extension") {
             OvenFumeExtensionBlock(
                 Properties.ofFullCopy(Blocks.IRON_BLOCK)
-                    .sound(SoundType.METAL)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()
             )
         }
 
@@ -274,7 +274,7 @@ object WitcheryBlocks {
             CopperOvenFumeExtensionBlock(
                 WeatheringCopper.WeatherState.UNAFFECTED,
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL).randomTicks()
+                    .sound(SoundType.METAL).randomTicks().requiresCorrectToolForDrops()
             )
         }
 
@@ -282,7 +282,7 @@ object WitcheryBlocks {
         register("waxed_copper_witches_oven_fume_extension") {
             OvenFumeExtensionBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()
             )
         }
 
@@ -291,7 +291,7 @@ object WitcheryBlocks {
             CopperOvenFumeExtensionBlock(
                 WeatheringCopper.WeatherState.EXPOSED,
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL).randomTicks()
+                    .sound(SoundType.METAL).randomTicks().requiresCorrectToolForDrops()
             )
         }
 
@@ -299,7 +299,7 @@ object WitcheryBlocks {
         register("waxed_exposed_copper_witches_oven_fume_extension") {
             OvenFumeExtensionBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()
             )
         }
 
@@ -308,7 +308,7 @@ object WitcheryBlocks {
             CopperOvenFumeExtensionBlock(
                 WeatheringCopper.WeatherState.WEATHERED,
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL).randomTicks()
+                    .sound(SoundType.METAL).randomTicks().requiresCorrectToolForDrops()
             )
         }
 
@@ -316,7 +316,7 @@ object WitcheryBlocks {
         register("waxed_weathered_copper_witches_oven_fume_extension") {
             OvenFumeExtensionBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()
             )
         }
 
@@ -325,7 +325,7 @@ object WitcheryBlocks {
             CopperOvenFumeExtensionBlock(
                 WeatheringCopper.WeatherState.OXIDIZED,
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL).randomTicks()
+                    .sound(SoundType.METAL).randomTicks().requiresCorrectToolForDrops()
             )
         }
 
@@ -333,7 +333,7 @@ object WitcheryBlocks {
         register("waxed_oxidized_copper_witches_oven_fume_extension") {
             OvenFumeExtensionBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()
             )
         }
 
@@ -341,7 +341,7 @@ object WitcheryBlocks {
         register("iron_witches_oven_fume_extension_component") {
             OvenFumeExtensionBlockComponent(
                 Properties.ofFullCopy(Blocks.IRON_BLOCK)
-                    .sound(SoundType.METAL)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()
             )
         }
 
@@ -349,7 +349,7 @@ object WitcheryBlocks {
         CopperOvenBlock(
             WeatheringCopper.WeatherState.UNAFFECTED,
             Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                .sound(SoundType.METAL).randomTicks()
+                .sound(SoundType.METAL).randomTicks().requiresCorrectToolForDrops()
         )
     }
 
@@ -358,7 +358,7 @@ object WitcheryBlocks {
             CopperOvenBlock(
                 WeatheringCopper.WeatherState.EXPOSED,
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL).randomTicks()
+                    .sound(SoundType.METAL).randomTicks().requiresCorrectToolForDrops()
             )
         }
 
@@ -367,7 +367,7 @@ object WitcheryBlocks {
             CopperOvenBlock(
                 WeatheringCopper.WeatherState.WEATHERED,
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL).randomTicks()
+                    .sound(SoundType.METAL).randomTicks().requiresCorrectToolForDrops()
             )
         }
 
@@ -376,14 +376,14 @@ object WitcheryBlocks {
             CopperOvenBlock(
                 WeatheringCopper.WeatherState.OXIDIZED,
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL).randomTicks()
+                    .sound(SoundType.METAL).randomTicks().requiresCorrectToolForDrops()
             )
         }
 
     val WAXED_COPPER_WITCHES_OVEN = register("waxed_copper_witches_oven") {
         OvenBlock(
             Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                .sound(SoundType.METAL)
+                .sound(SoundType.METAL).requiresCorrectToolForDrops()
         )
     }
 
@@ -391,7 +391,7 @@ object WitcheryBlocks {
         register("waxed_exposed_copper_witches_oven") {
             OvenBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()
             )
         }
 
@@ -399,7 +399,7 @@ object WitcheryBlocks {
         register("waxed_weathered_copper_witches_oven") {
             OvenBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()
             )
         }
 
@@ -407,7 +407,7 @@ object WitcheryBlocks {
         register("waxed_oxidized_copper_witches_oven") {
             OvenBlock(
                 Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                    .sound(SoundType.METAL)
+                    .sound(SoundType.METAL).requiresCorrectToolForDrops()
             )
         }
 
@@ -420,7 +420,7 @@ object WitcheryBlocks {
     }
 
     val BEAR_TRAP = register("bear_trap") {
-        BearTrapBlock(Properties.of().noOcclusion())
+        BearTrapBlock(Properties.of().noOcclusion().requiresCorrectToolForDrops())
     }
 
     val STRIPPED_ROWAN_LOG = register("stripped_rowan_log") {
@@ -1049,7 +1049,7 @@ object WitcheryBlocks {
     }
 
     val SPINNING_WHEEL = register("spinning_wheel") {
-        SpinningWheelBlock(Properties.of().noOcclusion())
+        SpinningWheelBlock(Properties.of().noOcclusion().requiresCorrectToolForDrops())
     }
 
     val DREAM_WEAVER = register("dream_weaver") {
@@ -1077,7 +1077,7 @@ object WitcheryBlocks {
     }
 
     val BLOOD_CRUCIBLE = register("blood_crucible") {
-        BloodCrucibleBlock(Properties.of())
+        BloodCrucibleBlock(Properties.of().requiresCorrectToolForDrops())
     }
 
     val WISPY_COTTON = register("wispy_cotton") {
@@ -1119,11 +1119,19 @@ object WitcheryBlocks {
     }
 
     val BRAZIER = register("brazier") {
-        BrazierBlock(Properties.of().noOcclusion())
+        BrazierBlock(Properties.of().noOcclusion().requiresCorrectToolForDrops())
     }
 
     val SOUL_CAGE = register("soul_cage") {
-        SoulCageBlock(Properties.of().noOcclusion())
+        SoulCageBlock(
+            Properties.of()
+                .noOcclusion()
+                .requiresCorrectToolForDrops()
+                .strength(5.0F, 6.0F)
+                .sound(
+                    SoundType.METAL
+                )
+        )
     }
 
     val ANCIENT_TABLET = register("ancient_tablet") {
@@ -1131,15 +1139,30 @@ object WitcheryBlocks {
     }
 
     val PHYLACTERY = register("phylactery") {
-        PhylacteryBlock(Properties.of().noOcclusion())
+        PhylacteryBlock(
+            Properties.ofFullCopy(Blocks.OBSIDIAN)
+                .noOcclusion()
+                .requiresCorrectToolForDrops()
+                .sound(
+                    SoundType.METAL
+                )
+        )
     }
 
     val CENSER = register("censer") {
-        CenserBlock(Properties.of().noOcclusion())
+        CenserBlock(
+            Properties.of()
+                .noOcclusion()
+                .requiresCorrectToolForDrops()
+                .strength(5.0F, 6.0F)
+                .sound(
+                    SoundType.METAL
+                )
+        )
     }
 
     val CRYSTAL_BALL = register("crystal_ball") {
-        CrystalBall(Properties.of().noOcclusion())
+        CrystalBall(Properties.of().noOcclusion().requiresCorrectToolForDrops())
     }
 
     val FLOWING_SPIRIT_BLOCK = register("flowing_spirit_block") {
@@ -1165,7 +1188,7 @@ object WitcheryBlocks {
 
 
     val GRAVESTONE = register("gravestone") {
-        GravestoneBlock(Properties.of())
+        GravestoneBlock(Properties.of().requiresCorrectToolForDrops())
     }
 
     val SUSPICIOUS_GRAVEYARD_DIRT =
@@ -1191,7 +1214,7 @@ object WitcheryBlocks {
         }
 
     val SUNLIGHT_COLLECTOR = register("sunlight_collector") {
-        SunCollectorBlock(Properties.of().randomTicks().noOcclusion())
+        SunCollectorBlock(Properties.of().randomTicks().noOcclusion().requiresCorrectToolForDrops())
     }
 
     val BLOOD_STAINED_WOOL = register("blood_stained_wool") {

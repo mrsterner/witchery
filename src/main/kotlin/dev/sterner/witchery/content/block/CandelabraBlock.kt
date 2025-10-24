@@ -26,7 +26,7 @@ import net.minecraft.world.phys.shapes.VoxelShape
 
 
 class CandelabraBlock(properties: Properties) :
-    AbstractCandleBlock(properties.noOcclusion().lightLevel(litBlockEmission(13))) {
+    AbstractCandleBlock(properties.noOcclusion().lightLevel(litBlockEmission(13)).requiresCorrectToolForDrops()) {
 
     init {
         this.registerDefaultState(

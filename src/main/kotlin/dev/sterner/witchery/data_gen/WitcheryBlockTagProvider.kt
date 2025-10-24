@@ -72,13 +72,14 @@ class WitcheryBlockTagProvider(
             .add(WitcheryBlocks.COFFIN.get())
             .add(WitcheryBlocks.PHYLACTERY.get())
             .add(WitcheryBlocks.CENSER.get())
-            .add(WitcheryBlocks.CLAY_EFFIGY.get())
             .add(WitcheryBlocks.BRAZIER.get())
             .add(WitcheryBlocks.CRYSTAL_BALL.get())
+            .add(WitcheryBlocks.BEAR_TRAP.get())
             .add(WitcheryBlocks.BLOOD_CRUCIBLE.get())
+            .add(WitcheryBlocks.SUNLIGHT_COLLECTOR.get())
             .addTag(WitcheryTags.CANDELABRAS)
 
-        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        tag(BlockTags.MINEABLE_WITH_AXE)
             .add(WitcheryBlocks.MUSHROOM_LOG.get())
             .add(WitcheryBlocks.MUSHROOM_LOG_COMPONENT.get())
             .add(WitcheryBlocks.DREAM_WEAVER.get())
@@ -87,6 +88,7 @@ class WitcheryBlockTagProvider(
             .add(WitcheryBlocks.DREAM_WEAVER_OF_NIGHTMARES.get())
             .add(WitcheryBlocks.DREAM_WEAVER_OF_INTENSITY.get())
             .add(WitcheryBlocks.DREAM_WEAVER_OF_FLEET_FOOT.get())
+            .add(WitcheryBlocks.SPINNING_WHEEL.get())
 
 
         tag(WitcheryTags.LEAVES).add(
