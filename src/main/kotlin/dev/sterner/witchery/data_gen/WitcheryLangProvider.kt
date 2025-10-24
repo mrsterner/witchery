@@ -99,7 +99,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         add("witchery.coven.disbanded", "You have been removed from the coven")
         add("witchery.coven.contract_destroyed", "The coven contract has been destroyed! Your coven has been disbanded.")
 
-
+        add("witchery.ritual.curses_disabled", "This ritual cannot be performed - curses are disabled")
         add(WitcheryTags.ROWAN_LOG_ITEMS, "Rowan Logs")
         add(WitcheryTags.ALDER_LOG_ITEMS, "Alder Logs")
         add(WitcheryTags.HAWTHORN_LOG_ITEMS, "Hawthorn Logs")

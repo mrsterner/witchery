@@ -2,6 +2,8 @@ package dev.sterner.witchery.integration.jei
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.WitcheryConfig
+import dev.sterner.witchery.content.block.ritual.RitualHelper
 import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.integration.jei.wrapper.RitualJeiRecipe
 import dev.sterner.witchery.core.registry.WitcheryItems
@@ -16,6 +18,7 @@ import mezz.jei.api.recipe.IFocusGroup
 import mezz.jei.api.recipe.RecipeIngredientRole
 import mezz.jei.api.recipe.RecipeType
 import mezz.jei.api.recipe.category.IRecipeCategory
+import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
@@ -98,6 +101,16 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
             Minecraft.getInstance().font,
             Component.translatable("${recipe.id}"), (width / 2), 2, -1
         )
+
+        if (RitualHelper.usesCurseCommands(recipe.recipe) && !WitcheryConfig.ENABLE_CURSES.get()) {
+            graphics.drawCenteredString(
+                Minecraft.getInstance().font,
+                Component.literal("Curses Disabled").withStyle(ChatFormatting.RED, ChatFormatting.BOLD),
+                (width / 2),
+                14,
+                0xFF0000
+            )
+        }
 
         val squareX = 18 * 4 - 12
         val squareY = background.height - (18 * 8) + 9

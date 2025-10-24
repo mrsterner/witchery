@@ -1,6 +1,7 @@
 package dev.sterner.witchery.content.block.ritual
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.WitcheryConfig
 import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
 
 import dev.sterner.witchery.content.block.altar.AltarBlockEntity
@@ -20,6 +21,7 @@ import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.coven.CovenHandler
+import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
@@ -559,6 +561,17 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         if (selectedRecipe != null) {
             Witchery.logDebugRitual("Selected recipe: ${selectedRecipe.value} with inputs: ${selectedRecipe.value.inputItems.size} items and ${selectedRecipe.value.inputEntities.size} entities.")
+
+            if (!WitcheryConfig.ENABLE_CURSES.get() && RitualHelper.usesCurseCommands(selectedRecipe.value)) {
+                Witchery.logDebugRitual("Ritual failed: Curses are disabled in config")
+                player.displayClientMessage(
+                    Component.translatable("witchery.ritual.curses_disabled")
+                        .withStyle(ChatFormatting.RED),
+                    true
+                )
+                playRitualFailureSound(player)
+                return
+            }
 
             if (validateRitualRequirements(player, level!!, selectedRecipe.value)) {
                 startRitual(player, selectedRecipe.value)

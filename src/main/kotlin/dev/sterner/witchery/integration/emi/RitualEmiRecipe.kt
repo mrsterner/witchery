@@ -7,9 +7,12 @@ import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.TextWidget
 import dev.emi.emi.api.widget.WidgetHolder
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.WitcheryConfig
+import dev.sterner.witchery.content.block.ritual.RitualHelper
 import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.util.RenderUtils
+import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component
@@ -61,6 +64,17 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
         widgets.addText(Component.translatable(id.toString()), displayWidth / 2, 2, 0xffffff, true)
             .horizontalAlign(TextWidget.Alignment.CENTER)
         widgets.addTooltipText(listOf(Component.translatable("$id.tooltip")), 9, 2, 18 * 7, 18)
+
+        if (RitualHelper.usesCurseCommands(recipe) && !WitcheryConfig.ENABLE_CURSES.get()) {
+            widgets.addText(
+                Component.literal("Curses Disabled")
+                    .withStyle(ChatFormatting.RED, ChatFormatting.BOLD),
+                displayWidth / 2,
+                14,
+                0xFF0000,
+                true
+            ).horizontalAlign(TextWidget.Alignment.CENTER)
+        }
 
         widgets.addTexture(
             Witchery.id("textures/gui/black_square.png"),

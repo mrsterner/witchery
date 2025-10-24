@@ -61,7 +61,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         NeoForge.EVENT_BUS.register(WitcheryNeoForgeEvents)
         NeoForge.EVENT_BUS.register(TarotEffectEventHandler)
 
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC)
+        modContainer.registerConfig(ModConfig.Type.COMMON, WitcheryConfig.SPEC)
     }
 
     @SubscribeEvent

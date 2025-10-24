@@ -4,8 +4,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-public class Config {
+public class WitcheryConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+
+    public static final ModConfigSpec.BooleanValue ENABLE_CURSES = BUILDER
+            .comment("Enable curses. When disabled, rituals that apply curses will not function.")
+            .define("enableCurses", true);
 
 /*
     public static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER

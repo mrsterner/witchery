@@ -1,7 +1,10 @@
 package dev.sterner.witchery.content.block.ritual
 
 import com.mojang.brigadier.ParseResults
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.WitcheryConfig
 import dev.sterner.witchery.content.entity.FloatingItemEntity
+import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.core.BlockPos
@@ -15,6 +18,14 @@ import kotlin.math.sin
 
 
 object RitualHelper {
+
+    fun usesCurseCommands(recipe: RitualRecipe): Boolean {
+        return recipe.commands.any { command ->
+            command.command.contains("curse apply", ignoreCase = true) ||
+                    command.command.contains("werewolf level try_curse", ignoreCase = true) ||
+                    command.command.contains("vampire level try_curse", ignoreCase = true)
+        }
+    }
 
     fun isDaytime(level: Level): Boolean {
         val timeOfDay = level.dayTime % 24000
@@ -86,6 +97,11 @@ object RitualHelper {
         if (blockEntity.ritualRecipe != null) {
             for (commandType in blockEntity.ritualRecipe!!.commands) {
                 if (commandType.type == phase) {
+                    if (!WitcheryConfig.ENABLE_CURSES.get() && isCurseCommand(commandType.command)) {
+                        Witchery.logDebugRitual("Skipping curse command - curses disabled in config")
+                        continue
+                    }
+
                     val playerUuid = blockEntity.targetPlayer
                     val player = playerUuid?.let { server?.playerList?.getPlayer(it) }
                     val targetEntity = blockEntity.targetEntity
@@ -105,6 +121,15 @@ object RitualHelper {
                 }
             }
         }
+    }
+
+    /**
+     * Check if a command is a curse command
+     */
+    private fun isCurseCommand(command: String): Boolean {
+        return command.contains("curse apply", ignoreCase = true) ||
+                command.contains("werewolf level try_curse", ignoreCase = true) ||
+                command.contains("vampire level try_curse", ignoreCase = true)
     }
 
     private fun runCommand(

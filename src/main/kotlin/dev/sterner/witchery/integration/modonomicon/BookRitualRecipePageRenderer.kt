@@ -4,10 +4,13 @@ import com.klikli_dev.modonomicon.book.page.BookRecipePage
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.WitcheryConfig
+import dev.sterner.witchery.content.block.ritual.RitualHelper
 import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.util.RenderUtils
 import dev.sterner.witchery.core.util.RenderUtils.blitWithAlpha
+import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
@@ -56,6 +59,21 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
         pose.pushPose()
 
         val recipe = recipeHolder.value
+
+        if (RitualHelper.usesCurseCommands(recipe) && !WitcheryConfig.ENABLE_CURSES.get()) {
+            val warningText = Component.literal("Curses Disabled")
+                .withStyle(ChatFormatting.RED, ChatFormatting.BOLD)
+            val textWidth = Minecraft.getInstance().font.width(warningText)
+
+            guiGraphics.drawStringWithBackdrop(
+                Minecraft.getInstance().font,
+                warningText,
+                recipeX + 46 - (textWidth / 2),
+                recipeY - 40,
+                textWidth,
+                0xFF0000
+            )
+        }
 
         val itemsPerRow = 2
         val itemSpacing = 18

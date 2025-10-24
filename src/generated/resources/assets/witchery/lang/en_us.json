@@ -1543,6 +1543,7 @@
   "witchery.potion_crafting.phantom_vapour": "Capacity: +%1$d\nAltar Power: -%2$d",
   "witchery.potion_crafting.tear_of_the_goddess": "Capacity: +%1$d\nAltar Power: -%2$d",
   "witchery.ritual.category": "Ritual",
+  "witchery.ritual.curses_disabled": "This ritual cannot be performed - curses are disabled",
   "witchery.secondbrewbonus.25": "+25% chance of second brew",
   "witchery.secondbrewbonus.35": "+35% chance of second brew",
   "witchery.spinning.category": "Spinning",
