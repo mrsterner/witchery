@@ -2,6 +2,7 @@ package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.sterner.witchery.core.api.event.SleepingEvent;
+import dev.sterner.witchery.features.death.DeathPlayerAttachment;
 import dev.sterner.witchery.features.death.DeathTransformationHelper;
 import dev.sterner.witchery.features.misc.InventoryLockPlayerAttachment;
 import dev.sterner.witchery.features.misc.MiscPlayerAttachment;
@@ -51,7 +52,7 @@ public abstract class PlayerMixin {
         Player player = (Player) (Object) this;
         if (!player.level().isClientSide) {
             if (DeathTransformationHelper.INSTANCE.hasDeathHood(player)) {
-                var data = MiscPlayerAttachment.getData(player);
+                var data = DeathPlayerAttachment.getData(player);
                 if (data.getHasDeathNightVision()) {
                     boolean isDark = player.level().dimensionType().ambientLight() == 0.0f ||
                             player.level().getBrightness(LightLayer.BLOCK, player.blockPosition()) < 8;

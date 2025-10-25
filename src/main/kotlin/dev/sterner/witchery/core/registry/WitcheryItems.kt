@@ -49,10 +49,7 @@ object WitcheryItems {
     val DEATH_ROBE = register("death_robe") {
         DeathArmorItem(WitcheryArmorMaterials.DEATH,ArmorItem.Type.CHESTPLATE,Item.Properties().stacksTo(1))
     }
-    val DEATH_PANTS = register("death_pants") {
-        DeathArmorItem(WitcheryArmorMaterials.DEATH,ArmorItem.Type.LEGGINGS,Item.Properties().stacksTo(1))
-    }
-    val DEATH_BOOTS = register("death_boots") {
+    val DEATH_BOOTS = register("death_footwear") {
         DeathArmorItem(WitcheryArmorMaterials.DEATH,ArmorItem.Type.BOOTS,Item.Properties().stacksTo(1))
     }
     val DEATH_HAND = register("death_hand") {

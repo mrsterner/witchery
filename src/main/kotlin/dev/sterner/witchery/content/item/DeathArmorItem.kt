@@ -33,19 +33,12 @@ open class DeathArmorItem(material: Holder<ArmorMaterial>, type: Type, propertie
         layer: ArmorMaterial.Layer,
         innerModel: Boolean
     ): ResourceLocation? {
-        return if (layer.dyeable()) {
-            ResourceLocation.fromNamespaceAndPath(
-                Witchery.MODID,
-                "textures/models/armor/death_armor.png"
-            )
-        } else {
-            ResourceLocation.fromNamespaceAndPath(
-                Witchery.MODID,
-                "textures/models/armor/death_armor_overlay.png"
-            )
-        }
+        return ResourceLocation.fromNamespaceAndPath(
+            Witchery.MODID,
+            "textures/models/armor/death_robes.png"
+        )
     }
-
+/*TODO
     class ArmorRender : IClientItemExtensions {
         @NotNull
         override fun getHumanoidArmorModel(
@@ -55,7 +48,7 @@ open class DeathArmorItem(material: Holder<ArmorMaterial>, type: Type, propertie
             model: HumanoidModel<*>?
         ): HumanoidModel<*> {
             val models = Minecraft.getInstance().entityModels
-            val root = models.bakeLayer(HunterArmorModel.LAYER_LOCATION)
+            val root = models.bakeLayer(DeathArmorModel.LAYER_LOCATION)
             val armor = HunterArmorModel(root)
             armor.setAllVisible(false)
 
@@ -74,4 +67,6 @@ open class DeathArmorItem(material: Holder<ArmorMaterial>, type: Type, propertie
             val INSTANCE: ArmorRender = ArmorRender()
         }
     }
+
+ */
 }

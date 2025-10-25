@@ -22,18 +22,16 @@ object DeathTransformationHelper {
     fun isPlayerFullyDeath(player: Player): Boolean {
         val helmet = player.getItemBySlot(EquipmentSlot.HEAD)
         val chestplate = player.getItemBySlot(EquipmentSlot.CHEST)
-        val leggings = player.getItemBySlot(EquipmentSlot.LEGS)
         val boots = player.getItemBySlot(EquipmentSlot.FEET)
         val mainhand = player.getItemBySlot(EquipmentSlot.MAINHAND)
 
         val hasHelmet = helmet.`is`(WitcheryItems.DEATH_HOOD.get())
         val hasChestplate = chestplate.`is`(WitcheryItems.DEATH_ROBE.get())
-        val hasLeggings = leggings.`is`(WitcheryItems.DEATH_PANTS.get())
         val hasBoots = boots.`is`(WitcheryItems.DEATH_BOOTS.get())
         val hasWeapon = mainhand.`is`(WitcheryItems.DEATH_HAND.get()) ||
                 mainhand.`is`(WitcheryItems.DEATH_SICKLE.get())
 
-        return hasHelmet && hasChestplate && hasLeggings && hasBoots && hasWeapon
+        return hasHelmet && hasChestplate && hasBoots && hasWeapon
     }
 
     fun isDeath(player: Player): Boolean {

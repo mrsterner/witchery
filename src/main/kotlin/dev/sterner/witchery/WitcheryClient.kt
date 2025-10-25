@@ -322,13 +322,15 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             HUNTER_LEGGINGS.get(),
             HUNTER_BOOTS.get()
         )
+        /*
         event.registerItem(
             DeathArmorItem.ArmorRender.INSTANCE,
             WitcheryItems.DEATH_HOOD.get(),
             WitcheryItems.DEATH_ROBE.get(),
-            WitcheryItems.DEATH_PANTS.get(),
             WitcheryItems.DEATH_BOOTS.get()
         )
+
+         */
         event.registerItem(
             VampireArmorItem.ArmorRender.INSTANCE,
             TOP_HAT.get(),
