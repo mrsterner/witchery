@@ -1,73 +1,68 @@
 package dev.sterner.witchery;
 
 import com.mojang.serialization.MapCodec;
+import dev.sterner.witchery.Witchery;
+import dev.sterner.witchery.core.registry.WitcheryBlocks;
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes;
 import dev.sterner.witchery.core.registry.WitcheryStructureProcessors;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CovenWitchProcessor extends StructureProcessor {
 
     public static final MapCodec<CovenWitchProcessor> CODEC = MapCodec.unit(CovenWitchProcessor::new);
 
-    private boolean hasSpawnedWitch = false;
-
     @Override
-    public @NotNull List<StructureTemplate.StructureBlockInfo> finalizeProcessing(
-            ServerLevelAccessor serverLevel,
-            BlockPos offset,
-            BlockPos pos,
-            List<StructureTemplate.StructureBlockInfo> originalBlockInfos,
-            List<StructureTemplate.StructureBlockInfo> processedBlockInfos,
-            StructurePlaceSettings settings
+    public StructureTemplate.StructureEntityInfo processEntity(
+            LevelReader world,
+            BlockPos seedPos,
+            StructureTemplate.StructureEntityInfo rawEntityInfo,
+            StructureTemplate.StructureEntityInfo entityInfo,
+            StructurePlaceSettings placementSettings, StructureTemplate template
     ) {
+        if (entityInfo.nbt.getString("id").equals(WitcheryEntityTypes.INSTANCE.getCOVEN_WITCH().getId().toString())) {
 
-        if (!hasSpawnedWitch) {
-            hasSpawnedWitch = true;
+            CompoundTag newNbt = entityInfo.nbt.copy();
 
-            BoundingBox boundingBox = settings.getBoundingBox();
-            if (boundingBox != null) {
-                int centerX = (boundingBox.minX() + boundingBox.maxX()) / 2;
-                int centerZ = (boundingBox.minZ() + boundingBox.maxZ()) / 2;
+            UUID newUuid = UUID.randomUUID();
+            newNbt.putUUID("UUID", newUuid);
 
-                BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos(centerX, boundingBox.maxY(), centerZ);
+            BlockPos witchPos = entityInfo.blockPos;
+            for (int x = -10; x <= 10; x++) {
+                for (int y = -5; y <= 5; y++) {
+                    for (int z = -10; z <= 10; z++) {
+                        BlockPos checkPos = witchPos.offset(x, y, z);
+                        if (world.getBlockState(checkPos).is(WitcheryBlocks.INSTANCE.getPOTTED_ROWAN_SAPLING().get())) {
+                            CompoundTag homeTag = new CompoundTag();
+                            homeTag.putInt("X", checkPos.getX());
+                            homeTag.putInt("Y", checkPos.getY());
+                            homeTag.putInt("Z", checkPos.getZ());
+                            newNbt.put("HomePos", homeTag);
 
-                var witch = WitcheryEntityTypes.INSTANCE.getCOVEN_WITCH().get().create(serverLevel.getLevel());
-                if (witch != null) {
-                    witch.moveTo(
-                            centerX + 0.5,
-                            mutablePos.getY() - 4.0,
-                            centerZ + 0.5,
-                            0f,
-                            0f
-                    );
-                    witch.setPersistenceRequired();
-                    witch.setIsCoven(false);
-
-                    witch.finalizeSpawn(
-                            serverLevel,
-                            serverLevel.getCurrentDifficultyAt(witch.blockPosition()),
-                            MobSpawnType.STRUCTURE,
-                            null
-                    );
-
-                    serverLevel.addFreshEntity(witch);
+                            break;
+                        }
+                    }
                 }
             }
+
+            return new StructureTemplate.StructureEntityInfo(
+                    entityInfo.pos,
+                    entityInfo.blockPos,
+                    newNbt
+            );
         }
 
-        return super.finalizeProcessing(serverLevel, offset, pos, originalBlockInfos, processedBlockInfos, settings);
+        return super.processEntity(world, seedPos, rawEntityInfo, entityInfo, placementSettings, template);
     }
 
     @Override

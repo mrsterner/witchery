@@ -1,6 +1,7 @@
 package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlock
+import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.features.coven.CovenHandler
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
@@ -38,6 +39,7 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
     private var despawnTimer = 20 * 60 * 20
     private var ritualCompleted = false
     private var ownerUuid: UUID? = null
+    private var homePos: BlockPos? = null
 
     init {
         setPersistenceRequired()
@@ -45,10 +47,12 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
 
     override fun registerGoals() {
         super.registerGoals()
+        goalSelector.addGoal(0, FindHomeGoal(this))
         goalSelector.addGoal(1, RitualAttendanceGoal(this, 1.0))
         goalSelector.addGoal(2, FloatGoal(this))
         goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, 8.0f))
-        goalSelector.addGoal(4, RandomStrollGoal(this, 0.8))
+        goalSelector.addGoal(4, HomeWanderGoal(this, 1.0))
+        goalSelector.addGoal(5, HomeWanderFarGoal(this, 0.8))
         goalSelector.addGoal(5, RandomLookAroundGoal(this))
     }
 
@@ -194,6 +198,7 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         if (lastRitualPosInternal.isPresent) {
             compound.put("LastRitualPos", NbtUtils.writeBlockPos(lastRitualPosInternal.get()))
         }
+        homePos?.let { compound.put("HomePos", NbtUtils.writeBlockPos(it)) }
         compound.putInt("DespawnTimer", despawnTimer)
         compound.putBoolean("IsCoven", getIsCoven())
         compound.putBoolean("HasDemonHeart", getHasDemonHeart())
@@ -207,6 +212,9 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
         if (compound.contains("LastRitualPos")) {
             lastRitualPosInternal = NbtUtils.readBlockPos(compound, "LastRitualPos")
             setLastRitualPos(lastRitualPosInternal)
+        }
+        if (compound.contains("HomePos")) {
+            homePos = NbtUtils.readBlockPos(compound, "HomePos").orElse(null)
         }
         if (compound.contains("DespawnTimer")) {
             despawnTimer = compound.getInt("DespawnTimer")
@@ -224,6 +232,11 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
             ownerUuid = compound.getUUID("OwnerUUID")
         }
     }
+    fun setHome(pos: BlockPos?) {
+        homePos = pos
+    }
+
+    fun getHome(): BlockPos? = homePos
 
     companion object {
         val LAST_RITUAL_POS: EntityDataAccessor<Optional<BlockPos>> = SynchedEntityData.defineId(
@@ -306,6 +319,146 @@ class CovenWitchEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.COVEN_W
                     Vec3(ritualPos.x + 0.5, ritualPos.y + 0.5, ritualPos.z + 0.5)
                 )
             }
+        }
+    }
+
+    class HomeWanderGoal(
+        private val witch: CovenWitchEntity,
+        private val speed: Double
+    ) : Goal() {
+        private val pathFinder: PathNavigation = witch.navigation
+        private val wanderRadius = 16.0
+        private val maxDistanceFromHome = 24.0
+
+        init {
+            setFlags(EnumSet.of(Flag.MOVE))
+        }
+
+        override fun canUse(): Boolean {
+            if (witch.random.nextFloat() > 0.02f) return false
+
+            if (witch.getIsCoven() && witch.getLastRitualPos().isPresent) {
+                return false
+            }
+
+            val home = witch.getHome() ?: return false
+
+            if (!witch.level().getBlockState(home).`is`(WitcheryBlocks.POTTED_ROWAN_SAPLING.get())) {
+                witch.setHome(null)
+                return false
+            }
+
+            val distance = witch.position().distanceTo(Vec3.atCenterOf(home))
+            return distance < maxDistanceFromHome
+        }
+
+        override fun start() {
+            val home = witch.getHome() ?: return
+
+            val angle = witch.random.nextDouble() * Math.PI * 2
+            val distance = 4.0 + witch.random.nextDouble() * (wanderRadius - 4.0)
+            val targetX = home.x + 0.5 + kotlin.math.cos(angle) * distance
+            val targetZ = home.z + 0.5 + kotlin.math.sin(angle) * distance
+
+            pathFinder.moveTo(targetX, home.y.toDouble(), targetZ, speed)
+        }
+
+        override fun canContinueToUse(): Boolean {
+            return !pathFinder.isDone
+        }
+
+        override fun stop() {
+            pathFinder.stop()
+        }
+    }
+
+
+    class FindHomeGoal(
+        private val witch: CovenWitchEntity
+    ) : Goal() {
+        private var searchCooldown = 0
+        private val searchRadius = 32.0
+
+        init {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK))
+        }
+
+        override fun canUse(): Boolean {
+            if (witch.getHome() != null) return false
+
+            searchCooldown--
+            if (searchCooldown > 0) return false
+
+            return true
+        }
+
+        override fun start() {
+            findRowanSapling()
+            searchCooldown = 200
+        }
+
+        private fun findRowanSapling() {
+            val witchPos = witch.blockPosition()
+
+            for (pos in BlockPos.betweenClosed(
+                witchPos.offset(-searchRadius.toInt(), -8, -searchRadius.toInt()),
+                witchPos.offset(searchRadius.toInt(), 8, searchRadius.toInt())
+            )) {
+                if (witch.level().getBlockState(pos).`is`(WitcheryBlocks.POTTED_ROWAN_SAPLING.get())) {
+                    witch.setHome(pos.immutable())
+                    return
+                }
+            }
+        }
+    }
+
+    class HomeWanderFarGoal(
+        private val witch: CovenWitchEntity,
+        private val speed: Double
+    ) : Goal() {
+        private val pathFinder: PathNavigation = witch.navigation
+        private val farWanderRadius = 40.0
+        private val maxDistanceFromHome = 48.0
+
+        init {
+            setFlags(EnumSet.of(Flag.MOVE))
+        }
+
+        override fun canUse(): Boolean {
+            if (witch.random.nextFloat() > 0.002f) return false
+
+            if (witch.getIsCoven() && witch.getLastRitualPos().isPresent) {
+                return false
+            }
+
+            val home = witch.getHome() ?: return false
+
+            if (!witch.level().getBlockState(home).`is`(WitcheryBlocks.POTTED_ROWAN_SAPLING.get())) {
+                witch.setHome(null)
+                return false
+            }
+
+            val distance = witch.position().distanceTo(Vec3.atCenterOf(home))
+            return distance < maxDistanceFromHome
+        }
+
+        override fun start() {
+            val home = witch.getHome() ?: return
+
+            val angle = witch.random.nextDouble() * Math.PI * 2
+            val distance = 20.0 + witch.random.nextDouble() * (farWanderRadius - 20.0)
+            val targetX = home.x + 0.5 + cos(angle) * distance
+            val targetZ = home.z + 0.5 + sin(angle) * distance
+
+            pathFinder.moveTo(targetX, home.y.toDouble(), targetZ, speed)
+        }
+
+        override fun canContinueToUse(): Boolean {
+            return !pathFinder.isDone
+        }
+
+        override fun stop() {
+            pathFinder.stop()
         }
     }
 }
