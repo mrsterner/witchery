@@ -12,7 +12,7 @@ enum class DeathAbility(
     override val affliction: AfflictionTypes = AfflictionTypes.VAMPIRISM
 ) : AfflictionAbility {
 
-    NIGHT_VISION(0, 20 * 5) {
+    NIGHT_VISION(0, 20 * 1) {
         override val id: String
             get() = "death_night_vision"
 
@@ -35,7 +35,7 @@ enum class DeathAbility(
         }
     },
 
-    FLUID_WALKING(0, 20 * 5) {
+    FLUID_WALKING(0, 20 * 1) {
         override val id: String
             get() = "death_fluid_walking"
 

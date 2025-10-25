@@ -1,6 +1,7 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import dev.sterner.witchery.features.death.DeathPlayerAttachment;
 import dev.sterner.witchery.features.death.DeathTransformationHelper;
 import dev.sterner.witchery.features.misc.MiscPlayerAttachment;
 import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment;
@@ -24,7 +25,7 @@ public class EntityMixin {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof Player player) {
             if (DeathTransformationHelper.INSTANCE.hasDeathBoots(player)) {
-                var data = MiscPlayerAttachment.getData(player);
+                var data = DeathPlayerAttachment.getData(player);
                 if (data.getHasDeathFluidWalking() && !player.isShiftKeyDown()) {
                     AABB aabb = entity.getBoundingBox().deflate(0.001);
                     int minX = Mth.floor(aabb.minX);
