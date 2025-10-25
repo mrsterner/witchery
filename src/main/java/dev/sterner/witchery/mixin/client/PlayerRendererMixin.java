@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.sterner.witchery.content.block.coffin.CoffinBlock;
+import dev.sterner.witchery.features.death.DeathTransformationHelper;
 import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment;
 import dev.sterner.witchery.core.registry.WitcheryMobEffects;
 import dev.sterner.witchery.features.affliction.event.TransformationHandler;
@@ -82,7 +83,15 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
             cancellable = true
     )
     private void witchery$renderTransformation(AbstractClientPlayer entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
-        if (TransformationHandler.isBat(entity)) {
+        if (DeathTransformationHelper.INSTANCE.isDeath(entity)) {
+            var death = DeathTransformationHelper.INSTANCE.getDeathEntity(entity);
+            if (death != null) {
+                TransformationHandler.INSTANCE.copyTransforms(death, entity);
+                Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(death)
+                        .render(death, entityYaw, partialTicks, poseStack, buffer, packedLight);
+                ci.cancel();
+            }
+        } else if (TransformationHandler.isBat(entity)) {
             var bat = TransformationHandler.getBatEntity(entity);
             if (bat != null) {
                 TransformationHandler.INSTANCE.copyTransforms(bat, entity);

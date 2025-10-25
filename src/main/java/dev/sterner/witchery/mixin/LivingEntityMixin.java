@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import dev.sterner.witchery.core.api.interfaces.EntityChainInterface;
 import dev.sterner.witchery.core.api.interfaces.OnRemovedEffect;
 import dev.sterner.witchery.content.entity.ChainEntity;
+import dev.sterner.witchery.features.death.DeathTransformationHelper;
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment;
 import dev.sterner.witchery.core.registry.WitcheryTags;
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
@@ -14,7 +15,9 @@ import dev.sterner.witchery.features.necromancy.NecroHandler;
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler;
 import dev.sterner.witchery.features.affliction.AfflictionTypes;
 import dev.sterner.witchery.features.affliction.event.TransformationHandler;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -27,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +42,20 @@ public class LivingEntityMixin implements EntityChainInterface {
     private final List<Pair<ChainEntity, Boolean>> witchery$restrainingChains = new ArrayList<>();
     @Unique
     private boolean witchery$restrained = false;
+
+    @Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
+    private void witchery$deathRobeFireProtection(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        if (entity instanceof Player player) {
+            if (DeathTransformationHelper.INSTANCE.hasDeathRobe(player)) {
+                if (source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.LAVA) ||
+                        source.is(DamageTypes.HOT_FLOOR) || source.is(DamageTypes.IN_FIRE) ||
+                        source.is(DamageTypes.ON_FIRE)) {
+                    cir.setReturnValue(false);
+                }
+            }
+        }
+    }
 
     @Inject(method = "swing(Lnet/minecraft/world/InteractionHand;Z)V", at = @At("HEAD"), cancellable = true)
     private void witchery$preventSwingForAbility(CallbackInfo ci) {

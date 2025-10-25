@@ -16,6 +16,7 @@ import dev.sterner.witchery.features.misc.AltarLevelAttachment
 import dev.sterner.witchery.features.bark_belt.BarkBeltPlayerAttachment
 import dev.sterner.witchery.features.misc.BindingRitualAttachment
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
+import dev.sterner.witchery.features.death.DeathPlayerAttachment
 import dev.sterner.witchery.features.misc.DeathQueueLevelAttachment
 import dev.sterner.witchery.features.ent.EntSpawnLevelAttachment
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
@@ -291,6 +292,18 @@ object WitcheryDataAttachments {
             Supplier {
                 AttachmentType.builder(Supplier { MiscPlayerAttachment.Data() })
                     .serialize(MiscPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val DEATH_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<DeathPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "death_player",
+            Supplier {
+                AttachmentType.builder(Supplier { DeathPlayerAttachment.Data() })
+                    .serialize(DeathPlayerAttachment.Data.CODEC)
                     .copyOnDeath()
                     .build()
             }

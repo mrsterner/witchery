@@ -108,6 +108,9 @@ object WitcheryPayloads {
         registrar.playToClient(SyncMiscS2CPayload.ID, SyncMiscS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
+        registrar.playToClient(SyncDeathS2CPayload.ID, SyncDeathS2CPayload.STREAM_CODEC) { payload, _ ->
+            payload.handleOnClient()
+        }
         registrar.playToClient(SyncManifestationS2CPayload.ID, SyncManifestationS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }

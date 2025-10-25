@@ -1,7 +1,13 @@
 
-dev/sterner/witchery/Config.java
-  class Config
-  boolean validateItemName(final Object obj)
+dev/sterner/witchery/CovenWitchProcessor.java
+  class CovenWitchProcessor
+  StructureEntityInfo processEntity(LevelReader world,
+            BlockPos seedPos,
+            StructureTemplate.StructureEntityInfo rawEntityInfo,
+            StructureTemplate.StructureEntityInfo entityInfo,
+            StructurePlaceSettings placementSettings, StructureTemplate template)
+  new CompoundTag()
+  StructureProcessorType<?> getType()
 
 dev/sterner/witchery/MobAccessor.java
   class Data
@@ -18,6 +24,16 @@ dev/sterner/witchery/VillageHelper.java
                                          ResourceLocation poolRL,
                                          String nbtPieceRL,
                                          int weight)
+  void addBuildingToPool(Registry<StructureTemplatePool> templatePoolRegistry,
+                                         Registry<StructureProcessorList> processorListRegistry,
+                                         ResourceLocation poolRL,
+                                         String nbtPieceRL,
+                                         int weight,
+                                         String processorListId)
+
+dev/sterner/witchery/WitcheryConfig.java
+  class WitcheryConfig
+  boolean validateItemName(final Object obj)
 
 dev/sterner/witchery/asm/EnumExtension.java
   class EnumExtension
@@ -263,6 +279,11 @@ dev/sterner/witchery/mixin/client/ScreenAccessor.java
 dev/sterner/witchery/mixin/client/WorldOpenFlowsMixin.java
   class WorldOpenFlowsMixin
 
+dev/sterner/witchery/mixin/curios/CuriosClientEventHandlerMixin.java
+  class CuriosClientEventHandlerMixin
+  new Color(250, 250, 100)
+  new Color(150, 255, 150)
+
 dev/sterner/witchery/mixin/guard_villagers/GuardMixin.java
   class GuardMixin
   void setTransfixedLookVector(@NotNull Vec3 vec3)
@@ -494,6 +515,8 @@ dev/sterner/witchery/WitcheryNeoForgeEvents.kt
   fun onRightClickBlock(event: PlayerInteractEvent.RightClickBlock)
   fun onLeftClickBlock(event: PlayerInteractEvent.LeftClickBlock)
   fun onBlockBreak(event: BlockEvent.BreakEvent)
+  fun onPlayerLogout(event: PlayerEvent.PlayerLoggedOutEvent)
+  fun onPlayerChangedDimension(event: PlayerEvent.PlayerChangedDimensionEvent)
   fun onBlockPlace(event: BlockEvent.EntityPlaceEvent)
   fun onServerStarted(event: ServerStartedEvent)
   fun onLootTableLoad(event: LootTableLoadEvent)
@@ -1708,20 +1731,6 @@ dev/sterner/witchery/content/block/brazier/BrazierBlockEntity.kt
   fun loadAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
   fun makeSoulCage(event: PlayerInteractEvent.RightClickBlock, player: Player, blockPos: BlockPos)
 
-dev/sterner/witchery/content/block/cauldron/CauldronBlock.kt
-  class CauldronBlock
-  fun getRenderShape(state: BlockState): RenderShape
-  fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState
-  fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>)
-  fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity?
-  fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape
-  fun shouldHandlePrecipitation(level: Level, precipitation: Precipitation): Boolean
-  fun giveFluid(cauldron: CauldronBlockEntity)
-  fun handlePrecipitation(state: BlockState, level: Level, pos: BlockPos, precipitation: Precipitation)
-  fun randomTick(state: BlockState, level: ServerLevel, pos: BlockPos, random: RandomSource)
-  fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: RandomSource)
-  fun litBlockEmission(lightValue: Int): ToIntFunction<BlockState>
-
 dev/sterner/witchery/content/block/cauldron/CauldronBlockComponent.kt
   class CauldronBlockComponent
   fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState
@@ -1743,6 +1752,7 @@ dev/sterner/witchery/content/block/cauldron/CauldronBlockEntity.kt
   fun consumeAltarPower(level: Level, ingredient: WitcheryPotionIngredient): Boolean
   fun consumeItem(level: Level, pos: BlockPos)
   fun randomSmallOffset(): Double
+  fun checkInfusionRecipe(level: Level, thrownItem: ItemStack): Boolean
   fun forceColor(potionIngredientStack: ItemStack)
   fun updateColor(level: Level, cacheForColorItem: ItemStack)
   fun craft(level: Level, pos: BlockPos)
@@ -1776,6 +1786,20 @@ dev/sterner/witchery/content/block/cauldron/CopperCauldronBlock.kt
   class CopperCauldronBlock
   fun getAge(): WeatheringCopper.WeatherState
   fun randomTick(state: BlockState, level: ServerLevel, pos: BlockPos, random: RandomSource)
+
+dev/sterner/witchery/content/block/cauldron/WitcheryCauldronBlock.kt
+  class WitcheryCauldronBlock
+  fun getRenderShape(state: BlockState): RenderShape
+  fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState
+  fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>)
+  fun newBlockEntity(blockPos: BlockPos, blockState: BlockState): BlockEntity?
+  fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape
+  fun shouldHandlePrecipitation(level: Level, precipitation: Precipitation): Boolean
+  fun giveFluid(cauldron: CauldronBlockEntity)
+  fun handlePrecipitation(state: BlockState, level: Level, pos: BlockPos, precipitation: Precipitation)
+  fun randomTick(state: BlockState, level: ServerLevel, pos: BlockPos, random: RandomSource)
+  fun animateTick(state: BlockState, level: Level, pos: BlockPos, random: RandomSource)
+  fun litBlockEmission(lightValue: Int): ToIntFunction<BlockState>
 
 dev/sterner/witchery/content/block/censer/CenserBlock.kt
   class CenserBlock
@@ -2239,6 +2263,7 @@ dev/sterner/witchery/content/block/ritual/RitualChalkBlock.kt
 
 dev/sterner/witchery/content/block/ritual/RitualHelper.kt
   object RitualHelper
+  fun usesCurseCommands(recipe: RitualRecipe): Boolean
   fun isDaytime(level: Level): Boolean
   fun isNighttime(level: Level): Boolean
   fun isFullMoon(level: Level): Boolean
@@ -2248,6 +2273,7 @@ dev/sterner/witchery/content/block/ritual/RitualHelper.kt
   fun summonItems(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity)
   fun summonSummons(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity)
   fun runCommand(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity, phase: String)
+  fun isCurseCommand(command: String): Boolean
   fun runCommand(blockEntity: GoldenChalkBlockEntity, level: Level, minecraftServer: MinecraftServer?, blockPos: BlockPos, waystonePos: BlockPos?, command: String, player: Player?, entityId: Int?)
 
 dev/sterner/witchery/content/block/ritual/RitualPatternUtil.kt
@@ -2547,6 +2573,9 @@ dev/sterner/witchery/content/entity/ChainEntity.kt
 dev/sterner/witchery/content/entity/CovenWitchEntity.kt
   class CovenWitchEntity
   class RitualAttendanceGoal
+  class HomeWanderGoal
+  class FindHomeGoal
+  class HomeWanderFarGoal
   fun registerGoals()
   fun mobInteract(player: Player, hand: InteractionHand): InteractionResult
   fun aiStep()
@@ -2564,11 +2593,15 @@ dev/sterner/witchery/content/entity/CovenWitchEntity.kt
   fun resetDespawnTimer()
   fun addAdditionalSaveData(compound: CompoundTag)
   fun readAdditionalSaveData(compound: CompoundTag)
+  fun setHome(pos: BlockPos?)
+  fun getHome(): BlockPos?
   fun createAttributes(): AttributeSupplier.Builder
   fun canUse(): Boolean
   fun start()
   fun stop()
   fun tick()
+  fun canContinueToUse(): Boolean
+  fun findRowanSapling()
 
 dev/sterner/witchery/content/entity/CustomBoat.kt
   class CustomBoat
@@ -3280,6 +3313,7 @@ dev/sterner/witchery/content/item/WineGlassItem.kt
 dev/sterner/witchery/content/item/WitchesHandItem.kt
   class WitchesHandItem
   fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack>
+  fun useOn(context: UseOnContext): InteractionResult
   fun getUseDuration(stack: ItemStack, entity: LivingEntity): Int
   fun onUseTick(level: Level, livingEntity: LivingEntity, stack: ItemStack, remainingUseDuration: Int)
   fun releaseUsing(stack: ItemStack, level: Level, livingEntity: LivingEntity, timeCharged: Int)
@@ -3297,35 +3331,6 @@ dev/sterner/witchery/content/item/WitchesRobesItem.kt
 dev/sterner/witchery/content/item/WoodenStakeItem.kt
   class WoodenStakeItem
   fun hurtEnemy(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean
-
-dev/sterner/witchery/content/item/accessories/BarkBeltItem.kt
-  class BarkBeltItem
-  fun onEquip(slotContext: SlotContext?, prevStack: ItemStack?, stack: ItemStack?)
-  fun onUnequip(slotContext: SlotContext?, newStack: ItemStack?, stack: ItemStack?)
-
-dev/sterner/witchery/content/item/accessories/BatwingPendantItem.kt
-  class BatwingPendantItem
-  fun getAttributeModifiers(slotContext: SlotContext?, id: ResourceLocation?, stack: ItemStack?): Multimap<Holder<Attribute>, AttributeModifier>
-
-dev/sterner/witchery/content/item/accessories/BitingBeltItem.kt
-  class BitingBeltItem
-  fun appendHoverText(stack: ItemStack, context: TooltipContext, tooltipComponents: MutableList<Component>, tooltipFlag: TooltipFlag)
-  fun usePotion(livingEntity: LivingEntity?, damageSource: DamageSource?, fl: Float)
-
-dev/sterner/witchery/content/item/accessories/BloodstonePendantItem.kt
-  class BloodstonePendantItem
-  fun getAttributeModifiers(slotContext: SlotContext?, id: ResourceLocation?, stack: ItemStack?): Multimap<Holder<Attribute>, AttributeModifier>
-
-dev/sterner/witchery/content/item/accessories/DreamweaverCharmItem.kt
-  class DreamweaverCharmItem
-
-dev/sterner/witchery/content/item/accessories/MoonCharmItem.kt
-  class MoonCharmItem
-  fun onUnequip(slotContext: SlotContext?, newStack: ItemStack?, stack: ItemStack?)
-
-dev/sterner/witchery/content/item/accessories/SunstonePendantItem.kt
-  class SunstonePendantItem
-  fun getAttributeModifiers(slotContext: SlotContext?, id: ResourceLocation?, stack: ItemStack?): Multimap<Holder<Attribute>, AttributeModifier>
 
 dev/sterner/witchery/content/item/brew/BrewItem.kt
   class BrewItem
@@ -3417,6 +3422,43 @@ dev/sterner/witchery/content/item/brew/ThrowableBrewItem.kt
   fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack>
   fun asProjectile(level: Level, pos: Position, stack: ItemStack, direction: Direction): Projectile
   fun createDispenseConfig(): ProjectileItem.DispenseConfig
+
+dev/sterner/witchery/content/item/curios/BarkBeltItem.kt
+  class BarkBeltItem
+  fun onEquip(slotContext: SlotContext?, prevStack: ItemStack?, stack: ItemStack?)
+  fun onUnequip(slotContext: SlotContext?, newStack: ItemStack?, stack: ItemStack?)
+
+dev/sterner/witchery/content/item/curios/BatwingPendantItem.kt
+  class BatwingPendantItem
+  fun getAttributeModifiers(slotContext: SlotContext?, id: ResourceLocation?, stack: ItemStack?): Multimap<Holder<Attribute>, AttributeModifier>
+
+dev/sterner/witchery/content/item/curios/BitingBeltItem.kt
+  class BitingBeltItem
+  fun appendHoverText(stack: ItemStack, context: TooltipContext, tooltipComponents: MutableList<Component>, tooltipFlag: TooltipFlag)
+  fun usePotion(livingEntity: LivingEntity?, damageSource: DamageSource?, fl: Float)
+
+dev/sterner/witchery/content/item/curios/BloodstonePendantItem.kt
+  class BloodstonePendantItem
+  fun getAttributeModifiers(slotContext: SlotContext?, id: ResourceLocation?, stack: ItemStack?): Multimap<Holder<Attribute>, AttributeModifier>
+
+dev/sterner/witchery/content/item/curios/DreamweaverCharmItem.kt
+  class DreamweaverCharmItem
+
+dev/sterner/witchery/content/item/curios/HagsRingItem.kt
+  class HagsRingItem
+  fun makesPiglinsNeutral(stack: ItemStack, wearer: LivingEntity): Boolean
+  fun getFortuneLevel(player: Player): Int
+  fun gatherConnectedOres(level: ServerLevel, startPos: BlockPos, targetBlock: Block): List<BlockPos>
+  fun dfs(pos: BlockPos)
+  fun canEquipFromUse(slotContext: SlotContext, stack: ItemStack): Boolean
+
+dev/sterner/witchery/content/item/curios/MoonCharmItem.kt
+  class MoonCharmItem
+  fun onUnequip(slotContext: SlotContext?, newStack: ItemStack?, stack: ItemStack?)
+
+dev/sterner/witchery/content/item/curios/SunstonePendantItem.kt
+  class SunstonePendantItem
+  fun getAttributeModifiers(slotContext: SlotContext?, id: ResourceLocation?, stack: ItemStack?): Multimap<Holder<Attribute>, AttributeModifier>
 
 dev/sterner/witchery/content/item/potion/WitcheryPotionIngredient.kt
   class WitcheryPotionIngredient
@@ -3635,6 +3677,38 @@ dev/sterner/witchery/content/recipe/cauldron/CauldronCraftingRecipeBuilder.kt
   fun group(groupName: String?): CauldronCraftingRecipeBuilder
   fun getResult(): Item
   fun save(recipeOutput: RecipeOutput, id: ResourceLocation)
+
+dev/sterner/witchery/content/recipe/cauldron/CauldronInfusionRecipe.kt
+  class CauldronInfusionRecipe
+  class Serializer
+  fun matches(input: CauldronInfusionRecipeInput, level: Level): Boolean
+  fun assemble(input: CauldronInfusionRecipeInput, registries: HolderLookup.Provider): ItemStack
+  fun canCraftInDimensions(width: Int, height: Int): Boolean
+  fun getResultItem(registries: HolderLookup.Provider): ItemStack
+  fun getSerializer(): RecipeSerializer<*>
+  fun getType(): RecipeType<*>
+  fun codec(): MapCodec<CauldronInfusionRecipe>
+  fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, CauldronInfusionRecipe>
+
+dev/sterner/witchery/content/recipe/cauldron/CauldronInfusionRecipeBuilder.kt
+  class CauldronInfusionRecipeBuilder
+  fun create(): CauldronInfusionRecipeBuilder
+  fun setBrewInput(brew: ItemStack): CauldronInfusionRecipeBuilder
+  fun setBrewInput(brew: Item): CauldronInfusionRecipeBuilder
+  fun setInfusionItem(item: ItemStack): CauldronInfusionRecipeBuilder
+  fun setInfusionItem(item: Item): CauldronInfusionRecipeBuilder
+  fun setOutput(output: ItemStack): CauldronInfusionRecipeBuilder
+  fun setOutput(output: Item): CauldronInfusionRecipeBuilder
+  fun setAltarPower(power: Int): CauldronInfusionRecipeBuilder
+  fun unlockedBy(name: String, criterion: Criterion<*>): RecipeBuilder
+  fun group(groupName: String?): RecipeBuilder
+  fun getResult(): Item
+  fun save(recipeOutput: RecipeOutput, id: ResourceLocation)
+
+dev/sterner/witchery/content/recipe/cauldron/CauldronInfusionRecipeInput.kt
+  class CauldronInfusionRecipeInput
+  fun getItem(index: Int): ItemStack
+  fun size(): Int
 
 dev/sterner/witchery/content/recipe/cauldron/ItemStackWithColor.kt
   class ItemStackWithColor
@@ -4215,7 +4289,9 @@ dev/sterner/witchery/core/registry/WitcheryDataAttachments.kt
 
 dev/sterner/witchery/core/registry/WitcheryDataComponents.kt
   class DualPotionContents
+  class HagType
   object WitcheryDataComponents
+  fun getSerializedName(): String
 
 dev/sterner/witchery/core/registry/WitcheryEntityDataSerializers.kt
   object WitcheryEntityDataSerializers
@@ -4340,6 +4416,9 @@ dev/sterner/witchery/core/registry/WitcherySpecialPotionEffects.kt
 dev/sterner/witchery/core/registry/WitcheryStructureInjects.kt
   object WitcheryStructureInjects
   fun addStructure(server: MinecraftServer)
+
+dev/sterner/witchery/core/registry/WitcheryStructureProcessors.kt
+  object WitcheryStructureProcessors
 
 dev/sterner/witchery/core/registry/WitcheryTags.kt
   object WitcheryTags
@@ -4614,6 +4693,15 @@ dev/sterner/witchery/data_gen/book/entry/BrewEntryProvider.kt
   fun entryIcon(): BookIconModel
   fun entryId(): String
 
+dev/sterner/witchery/data_gen/book/entry/BrewInfusionEntryProvider.kt
+  class BrewInfusionEntryProvider
+  fun generatePages()
+  fun entryName(): String
+  fun entryDescription(): String
+  fun entryBackground(): Pair<Int, Int>
+  fun entryIcon(): BookIconModel
+  fun entryId(): String
+
 dev/sterner/witchery/data_gen/book/entry/DistilleryEntryProvider.kt
   class DistilleryEntryProvider
   fun generatePages()
@@ -4832,6 +4920,10 @@ dev/sterner/witchery/data_gen/book/page/BookCauldronBrewingPageModel.kt
 dev/sterner/witchery/data_gen/book/page/BookCauldronCraftingPageModel.kt
   class BookCauldronCraftingPageModel
   fun create(): BookCauldronCraftingPageModel
+
+dev/sterner/witchery/data_gen/book/page/BookCauldronInfusionPageModel.kt
+  class BookCauldronInfusionPageModel
+  fun create(): BookCauldronInfusionPageModel
 
 dev/sterner/witchery/data_gen/book/page/BookDistillingPageModel.kt
   class BookDistillingPageModel
@@ -5579,6 +5671,16 @@ dev/sterner/witchery/features/fetish/ShriekingFetishEffect.kt
 dev/sterner/witchery/features/fetish/SummonDeathFetishEffect.kt
   class SummonDeathFetishEffect
   fun onTickEffect(level: Level, blockEntity: EffigyBlockEntity, state: EffigyState?, pos: BlockPos, taglock: NonNullList<ItemStack>, tickRate: Int)
+
+dev/sterner/witchery/features/hags_ring/VeinMiningTracker.kt
+  class BreakingBlock
+  object VeinMiningTracker
+  fun startVeinMining(player: ServerPlayer, orePositions: List<BlockPos>)
+  fun generateFacePositions(pos: BlockPos): List<Vec3>
+  fun tick(player: ServerPlayer)
+  fun cancelVeinMining(player: ServerPlayer)
+  fun isVeinMining(player: ServerPlayer): Boolean
+  fun generatePosHash(blockPos: BlockPos): Int
 
 dev/sterner/witchery/features/infusion/CreatureType.kt
   class CreatureType
@@ -6349,6 +6451,16 @@ dev/sterner/witchery/integration/emi/CauldronCraftingEmiRecipe.kt
   fun getDisplayHeight(): Int
   fun addWidgets(widgets: WidgetHolder)
 
+dev/sterner/witchery/integration/emi/CauldronInfusionEmiRecipe.kt
+  class CauldronInfusionEmiRecipe
+  fun getCategory(): EmiRecipeCategory
+  fun getId(): ResourceLocation
+  fun getInputs(): MutableList<EmiIngredient>
+  fun getOutputs(): MutableList<EmiStack>
+  fun getDisplayWidth(): Int
+  fun getDisplayHeight(): Int
+  fun addWidgets(widgets: WidgetHolder)
+
 dev/sterner/witchery/integration/emi/DistillingEmiRecipe.kt
   class DistillingEmiRecipe
   fun getCategory(): EmiRecipeCategory
@@ -6434,6 +6546,15 @@ dev/sterner/witchery/integration/jei/CauldronCraftingRecipeCategory.kt
   fun getIcon(): IDrawable?
   fun setRecipe(builder: IRecipeLayoutBuilder, recipe: CauldronCraftingRecipe, focuses: IFocusGroup)
   fun draw(recipe: CauldronCraftingRecipe, recipeSlotsView: IRecipeSlotsView, guiGraphics: GuiGraphics, mouseX: Double, mouseY: Double)
+
+dev/sterner/witchery/integration/jei/CauldronInfusionRecipeCategory.kt
+  class CauldronInfusionRecipeCategory
+  fun getRecipeType(): RecipeType<CauldronInfusionRecipe>
+  fun getTitle(): Component
+  fun getBackground(): IDrawable
+  fun getIcon(): IDrawable?
+  fun setRecipe(builder: IRecipeLayoutBuilder, recipe: CauldronInfusionRecipe, focuses: IFocusGroup)
+  fun draw(recipe: CauldronInfusionRecipe, recipeSlotsView: IRecipeSlotsView, guiGraphics: GuiGraphics, mouseX: Double, mouseY: Double)
 
 dev/sterner/witchery/integration/jei/DistillingRecipeCategory.kt
   class DistillingRecipeCategory
@@ -6527,6 +6648,19 @@ dev/sterner/witchery/integration/modonomicon/BookCauldronCraftingRecipePageRende
   fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, ticks: Float)
   fun getClickedComponentStyleAt(pMouseX: Double, pMouseY: Double): Style?
   fun drawRecipe(guiGraphics: GuiGraphics, recipeHolder: RecipeHolder<CauldronCraftingRecipe>, recipeX: Int, recipeY: Int, mouseX: Int, mouseY: Int, second: Boolean)
+
+dev/sterner/witchery/integration/modonomicon/BookCauldronInfusionRecipePage.kt
+  class BookCauldronInfusionRecipePage
+  fun getType(): ResourceLocation
+  fun fromJson(entryId: ResourceLocation?, json: JsonObject, provider: HolderLookup.Provider?): BookCauldronInfusionRecipePage
+  fun fromNetwork(buffer: RegistryFriendlyByteBuf): BookCauldronInfusionRecipePage
+
+dev/sterner/witchery/integration/modonomicon/BookCauldronInfusionRecipePageRenderer.kt
+  class BookCauldronInfusionRecipePageRenderer
+  fun getRecipeHeight(): Int
+  fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, ticks: Float)
+  fun getClickedComponentStyleAt(pMouseX: Double, pMouseY: Double): Style?
+  fun drawRecipe(guiGraphics: GuiGraphics, recipeHolder: RecipeHolder<CauldronInfusionRecipe>, recipeX: Int, recipeY: Int, mouseX: Int, mouseY: Int, second: Boolean)
 
 dev/sterner/witchery/integration/modonomicon/BookDistillingRecipePage.kt
   class BookDistillingRecipePage

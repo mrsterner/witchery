@@ -30,6 +30,7 @@ import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.client.tarot.TarotCardHudRenderer
 import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
 import dev.sterner.witchery.content.block.phylactery.PhylacteryBlock
+import dev.sterner.witchery.content.item.DeathArmorItem
 import dev.sterner.witchery.content.item.HunterArmorItem
 import dev.sterner.witchery.content.item.TaglockItem
 import dev.sterner.witchery.content.item.VampireArmorItem
@@ -322,6 +323,13 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             HUNTER_BOOTS.get()
         )
         event.registerItem(
+            DeathArmorItem.ArmorRender.INSTANCE,
+            WitcheryItems.DEATH_HOOD.get(),
+            WitcheryItems.DEATH_ROBE.get(),
+            WitcheryItems.DEATH_PANTS.get(),
+            WitcheryItems.DEATH_BOOTS.get()
+        )
+        event.registerItem(
             VampireArmorItem.ArmorRender.INSTANCE,
             TOP_HAT.get(),
             DRESS_COAT.get(),
@@ -500,6 +508,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerEntityRenderer(WitcheryEntityTypes.DEMON.get()) { DemonEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.COVEN_WITCH.get()) { CovenWitchEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.PARASITIC_LOUSE.get()) { ParasiticLouseEntityRenderer(it) }
+        event.registerEntityRenderer(WitcheryEntityTypes.SCYTHE_THROWN.get()) { ScytheThrownEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.DEATH.get()) { DeathEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.HORNED_HUNTSMAN.get()) { HornedHuntsmanEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.OWL.get()) { OwlEntityRenderer(it) }

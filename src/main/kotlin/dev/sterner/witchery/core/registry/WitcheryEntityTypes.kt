@@ -92,6 +92,14 @@ object WitcheryEntityTypes {
         ).sized(1.0F, 0.6F).clientTrackingRange(10).build(Witchery.id("broom").toString())
     }
 
+    val SCYTHE_THROWN = register("scythe_thrown") {
+        EntityType.Builder.of(
+            { _: EntityType<ScytheThrownEntity>, level: Level ->
+                ScytheThrownEntity(level)
+            }, MobCategory.MISC
+        ).sized(1.0F, 0.6F).clientTrackingRange(10).build(Witchery.id("scythe_thrown").toString())
+    }
+
     val CHAIN = register("chain", Supplier {
         EntityType.Builder.of(
             { _: EntityType<ChainEntity>, level: Level ->

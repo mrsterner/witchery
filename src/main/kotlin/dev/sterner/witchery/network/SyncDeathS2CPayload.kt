@@ -1,6 +1,7 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.features.death.DeathPlayerAttachment
 import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
@@ -10,14 +11,14 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
 
-class SyncMiscS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
+class SyncDeathS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
     constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
 
-    constructor(player: Player, data: MiscPlayerAttachment.Data) : this(CompoundTag().apply {
+    constructor(player: Player, data: DeathPlayerAttachment.Data) : this(CompoundTag().apply {
         putUUID("Id", player.uuid)
-        MiscPlayerAttachment.Data.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
-            put("playerMisc", it.get())
+        DeathPlayerAttachment.Data.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
+            put("playerDeath", it.get())
         }
     })
 
@@ -34,27 +35,27 @@ class SyncMiscS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 
         val id = nbt.getUUID("Id")
 
-        val dataTag = nbt.getCompound("playerMisc")
-        val playerMisc = MiscPlayerAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
+        val dataTag = nbt.getCompound("playerDeath")
+        val playerDeath = DeathPlayerAttachment.Data.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
 
 
         val player = client.level?.getPlayerByUUID(id)
 
         client.execute {
-            if (player != null && playerMisc.isPresent) {
-                MiscPlayerAttachment.setData(player, playerMisc.get())
+            if (player != null && playerDeath.isPresent) {
+                DeathPlayerAttachment.setData(player, playerDeath.get())
             }
         }
     }
 
     companion object {
-        val ID: CustomPacketPayload.Type<SyncMiscS2CPayload> =
-            CustomPacketPayload.Type(Witchery.id("sync_misc_player"))
+        val ID: CustomPacketPayload.Type<SyncDeathS2CPayload> =
+            CustomPacketPayload.Type(Witchery.id("sync_death_player"))
 
-        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncMiscS2CPayload> =
+        val STREAM_CODEC: StreamCodec<in RegistryFriendlyByteBuf, SyncDeathS2CPayload> =
             CustomPacketPayload.codec(
                 { payload, buf -> payload.write(buf) },
-                { buf -> SyncMiscS2CPayload(buf) }
+                { buf -> SyncDeathS2CPayload(buf) }
             )
     }
 }

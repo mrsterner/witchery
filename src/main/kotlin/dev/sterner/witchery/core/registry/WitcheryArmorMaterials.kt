@@ -56,6 +56,26 @@ object WitcheryArmorMaterials {
         )
     })
 
+    val DEATH: DeferredHolder<ArmorMaterial, ArmorMaterial> = MATERIALS.register("death", Supplier {
+        ArmorMaterial(
+            Map.of(
+                ArmorItem.Type.HELMET, 1,
+                ArmorItem.Type.CHESTPLATE, 3,
+                ArmorItem.Type.LEGGINGS, 2,
+                ArmorItem.Type.BOOTS, 1
+            ),
+            18,
+            SoundEvents.ARMOR_EQUIP_LEATHER,
+            { Ingredient.of(Items.LEATHER) },
+            listOf(
+                ArmorMaterial.Layer(Witchery.id("death"), "", true),
+                ArmorMaterial.Layer(Witchery.id("death"), "_overlay", false)
+            ),
+            6f,
+            8f
+        )
+    })
+
     val DAPPER: DeferredHolder<ArmorMaterial, ArmorMaterial> = MATERIALS.register("dapper", Supplier {
         ArmorMaterial(
             Map.of(

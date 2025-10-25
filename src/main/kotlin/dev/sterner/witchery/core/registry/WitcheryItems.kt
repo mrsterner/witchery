@@ -43,6 +43,29 @@ object WitcheryItems {
     val DEATH_SICKLE = register("death_sickle") {
         DeathSickleItem(Item.Properties().stacksTo(1))
     }
+    val DEATH_HOOD = register("death_hood") {
+        DeathArmorItem(WitcheryArmorMaterials.DEATH,ArmorItem.Type.HELMET,Item.Properties().stacksTo(1))
+    }
+    val DEATH_ROBE = register("death_robe") {
+        DeathArmorItem(WitcheryArmorMaterials.DEATH,ArmorItem.Type.CHESTPLATE,Item.Properties().stacksTo(1))
+    }
+    val DEATH_PANTS = register("death_pants") {
+        DeathArmorItem(WitcheryArmorMaterials.DEATH,ArmorItem.Type.LEGGINGS,Item.Properties().stacksTo(1))
+    }
+    val DEATH_BOOTS = register("death_boots") {
+        DeathArmorItem(WitcheryArmorMaterials.DEATH,ArmorItem.Type.BOOTS,Item.Properties().stacksTo(1))
+    }
+    val DEATH_HAND = register("death_hand") {
+        DeathHandItem(Item.Properties().stacksTo(1))
+    }
+
+    /*
+    val hasHelmet = helmet.`is`(WitcheryItems.DEATH_HOOD.get())
+        val hasChestplate = chestplate.`is`(WitcheryItems.DEATH_ROBE.get())
+        val hasLeggings = leggings.`is`(WitcheryItems.DEATH_PANTS.get())
+        val hasBoots = boots.`is`(WitcheryItems.DEATH_BOOTS.get())
+        val hasWeapon = mainhand.`is`(WitcheryItems.DEATH_HAND.get()) ||
+     */
 
     val HUNTSMAN_SPEAR = register("huntsman_spear") {
         HuntsmanSpearItem(Item.Properties().stacksTo(1))

@@ -59,11 +59,13 @@ import dev.sterner.witchery.features.bark_belt.BarkBeltHandler
 import dev.sterner.witchery.features.blood.BloodPoolHandler
 import dev.sterner.witchery.features.coven.CovenDialogue
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
+import dev.sterner.witchery.features.death.DeathEquipmentEventHandler
 import dev.sterner.witchery.features.misc.DreamWeaverHandler
 import dev.sterner.witchery.features.ent.EntSpawningHandler
 import dev.sterner.witchery.features.hags_ring.VeinMiningTracker
 import dev.sterner.witchery.features.lifeblood.LifebloodHandler
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
+import dev.sterner.witchery.features.death.DeathTransformationHelper
 import dev.sterner.witchery.features.misc.EquipmentHandler
 import dev.sterner.witchery.features.misc.LecternHandler
 import dev.sterner.witchery.features.misc.MiscPlayerAttachment
@@ -98,6 +100,7 @@ import net.neoforged.neoforge.event.entity.living.LivingConversionEvent
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent
+import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 import net.neoforged.neoforge.event.entity.player.*
 import net.neoforged.neoforge.event.level.BlockEvent
@@ -363,6 +366,12 @@ object WitcheryNeoForgeEvents {
         if (player is ServerPlayer) {
             VeinMiningTracker.tick(player)
         }
+        DeathEquipmentEventHandler.onPlayerTick(event)
+    }
+
+    @SubscribeEvent
+    fun onEquipmentChange(event: LivingEquipmentChangeEvent){
+        DeathEquipmentEventHandler.onEquipmentChange(event)
     }
 
     @SubscribeEvent
