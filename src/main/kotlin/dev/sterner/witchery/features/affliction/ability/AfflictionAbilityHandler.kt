@@ -1,40 +1,52 @@
 package dev.sterner.witchery.features.affliction.ability
 
 import dev.sterner.witchery.client.screen.AbilitySelectionScreen
+import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility
 import dev.sterner.witchery.features.affliction.vampire.VampireAbility
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfAbility
-import dev.sterner.witchery.features.death.DeathAbilityHandler
+import dev.sterner.witchery.features.death.DeathAbility
 import dev.sterner.witchery.features.death.DeathTransformationHelper
+import dev.sterner.witchery.features.death.DeathTransformationHelper.hasDeathBoots
 import dev.sterner.witchery.network.AfflictionAbilitySelectionC2SPayload
 import net.minecraft.client.Minecraft
+import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
 
 object AfflictionAbilityHandler : AbilityHandler {
 
-    override val abilityIndex: Int
-        get() = AfflictionPlayerAttachment.getData(Minecraft.getInstance().player!!).getAbilityIndex()
-
-    override fun getAbilities(player: Player): List<AfflictionAbility> {
-        if (DeathTransformationHelper.isDeath(player)) {
-            return DeathAbilityHandler.getAbilities(player)
+    override val abilityIndex: Int?
+        get(){
+            val player = Minecraft.getInstance().player ?: return null
+            return AfflictionPlayerAttachment.getData(player).getAbilityIndex()
         }
 
+    override fun getAbilities(player: Player): List<AfflictionAbility> {
         val data = AfflictionPlayerAttachment.getData(player)
         val selectedIds = data.getSelectedAbilities()
 
         val allAvailable = getAllAvailableAbilities(player)
-        return selectedIds.mapNotNull { id ->
+        val noDeath: List<AfflictionAbility> = selectedIds.mapNotNull { id ->
             allAvailable.find { it.id == id }
         }
+        if (DeathTransformationHelper.isDeath(player)) {
+            noDeath.plus(DeathAbility.entries)
+        } else if (hasDeathBoots(player)) {
+            noDeath.plus(DeathAbility.FLUID_WALKING)
+        }
+
+        return noDeath
     }
 
     fun getAllAvailableAbilities(player: Player): List<AfflictionAbility> {
+        var deathAbilities = listOf<DeathAbility>()
         if (DeathTransformationHelper.isDeath(player)) {
-            return DeathAbilityHandler.getAbilities(player)
+            deathAbilities = DeathAbility.entries
+        } else if (hasDeathBoots(player)) {
+            deathAbilities = listOf(DeathAbility.FLUID_WALKING)
         }
 
         val data = AfflictionPlayerAttachment.getData(player)
@@ -55,15 +67,10 @@ object AfflictionAbilityHandler : AbilityHandler {
         }
         val lichAbilities: List<LichdomAbility> = LichdomAbility.entries.filter { it.isAvailable(player, lichLevel) }
 
-        return (vampAbilities + wereAbilities + lichAbilities)
+        return (vampAbilities + wereAbilities + lichAbilities + deathAbilities)
     }
 
     override fun setAbilityIndex(player: Player, index: Int) {
-        if (DeathTransformationHelper.isDeath(player)) {
-            DeathAbilityHandler.setAbilityIndex(player, index)
-            return
-        }
-
         updateAbilityIndex(player, index)
         if (player.level().isClientSide) {
             PacketDistributor.sendToServer(AfflictionAbilitySelectionC2SPayload(index))
@@ -71,11 +78,6 @@ object AfflictionAbilityHandler : AbilityHandler {
     }
 
     override fun updateAbilityIndex(player: Player, index: Int) {
-        if (DeathTransformationHelper.isDeath(player)) {
-            DeathAbilityHandler.updateAbilityIndex(player, index)
-            return
-        }
-
         AfflictionPlayerAttachment.smartUpdate(player) {
             withAbilityIndex(index)
         }
@@ -102,6 +104,12 @@ object AfflictionAbilityHandler : AbilityHandler {
                     (it.requiredLevel == newLevel && it.affliction == affliction) || force
                 }
             }
+
+            AfflictionTypes.DEATH -> {
+                DeathAbility.entries.filter {
+                    false
+                }
+            }
         }
 
         newAbilities.forEach { newAbility ->
@@ -125,11 +133,6 @@ object AfflictionAbilityHandler : AbilityHandler {
 
     fun scroll(minecraft: Minecraft?, scrollDeltaX: Double, scrollDeltaY: Double): Boolean {
         val player = minecraft?.player ?: return false
-
-        if (DeathTransformationHelper.isDeath(player)) {
-            return DeathAbilityHandler.scroll(minecraft, scrollDeltaX, scrollDeltaY)
-        }
-
         val abilities = getAbilities(player)
         if (abilities.isEmpty()) return false
 
@@ -137,20 +140,12 @@ object AfflictionAbilityHandler : AbilityHandler {
     }
 
     fun getSelectedAbility(player: Player): AfflictionAbility? {
-        if (DeathTransformationHelper.isDeath(player)) {
-            return DeathAbilityHandler.getSelectedAbility(player)
-        }
-
         val abilities = getAbilities(player)
         val index = AfflictionPlayerAttachment.getData(player).getAbilityIndex()
         return abilities.getOrNull(index)
     }
 
     fun useSelectedAbility(player: Player): Boolean {
-        if (DeathTransformationHelper.isDeath(player)) {
-            return DeathAbilityHandler.useSelectedAbility(player)
-        }
-
         val ability = getSelectedAbility(player) ?: return false
         if (AbilityCooldownManager.isOnCooldown(player, ability)) return false
 

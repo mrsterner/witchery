@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import dev.sterner.witchery.core.api.interfaces.EntityChainInterface;
 import dev.sterner.witchery.core.api.interfaces.OnRemovedEffect;
 import dev.sterner.witchery.content.entity.ChainEntity;
+import dev.sterner.witchery.features.death.DeathPlayerAttachment;
 import dev.sterner.witchery.features.death.DeathTransformationHelper;
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment;
 import dev.sterner.witchery.core.registry.WitcheryTags;
@@ -42,6 +43,38 @@ public class LivingEntityMixin implements EntityChainInterface {
     private final List<Pair<ChainEntity, Boolean>> witchery$restrainingChains = new ArrayList<>();
     @Unique
     private boolean witchery$restrained = false;
+
+    @Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
+    private void witchery$deathBootsLavaImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        if (entity instanceof Player player) {
+            if (DeathTransformationHelper.INSTANCE.hasDeathBoots(player) && DeathPlayerAttachment.getData(player).getHasDeathFluidWalking()) {
+                if (source.is(DamageTypes.LAVA)) {
+                    cir.setReturnValue(false);
+                }
+            }
+        }
+    }
+
+    @Inject(method = "decreaseAirSupply", at = @At("HEAD"), cancellable = true)
+    private void witchery$deathBootsUnderwaterBreathing(int air, CallbackInfoReturnable<Integer> cir) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        if (entity instanceof Player player) {
+            if (DeathTransformationHelper.INSTANCE.isDeath(player)) {
+                cir.setReturnValue(air);
+            }
+        }
+    }
+
+    @Inject(method = "increaseAirSupply", at = @At("HEAD"), cancellable = true)
+    private void witchery$deathBootsMaxAirSupply(int air, CallbackInfoReturnable<Integer> cir) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        if (entity instanceof Player player) {
+            if (DeathTransformationHelper.INSTANCE.isDeath(player)) {
+                cir.setReturnValue(entity.getMaxAirSupply());
+            }
+        }
+    }
 
     @Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
     private void witchery$deathRobeFireProtection(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {

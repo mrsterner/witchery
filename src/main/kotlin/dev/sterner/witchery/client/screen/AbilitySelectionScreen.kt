@@ -194,23 +194,15 @@ class AbilitySelectionScreen(
                 .withStyle(ChatFormatting.GRAY)
         )
 
-        if (ability.cooldown > 0) {
-            val seconds = ability.cooldown / 20
-            tooltip.add(
-                Component.literal("Cooldown: ${seconds}s")
-                    .withStyle(ChatFormatting.AQUA)
-            )
-        }
-
         val isSelected = selectedAbilities.contains(ability.id)
         if (isSelected) {
             tooltip.add(
-                Component.literal("✓ Selected")
+                Component.literal("Selected")
                     .withStyle(ChatFormatting.GREEN)
             )
         } else if (selectedAbilities.size >= MAX_SELECTED) {
             tooltip.add(
-                Component.literal("✗ Max abilities selected")
+                Component.literal("Max abilities selected")
                     .withStyle(ChatFormatting.RED)
             )
         } else {

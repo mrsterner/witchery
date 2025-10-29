@@ -36,23 +36,44 @@ public class EntityMixin {
                     int maxZ = Mth.ceil(aabb.maxZ);
 
                     BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+                    Double highestWaterSurface = null;
+
                     for (int x = minX; x < maxX; x++) {
-                        for (int y = minY; y < maxY; y++) {
-                            for (int z = minZ; z < maxZ; z++) {
+                        for (int z = minZ; z < maxZ; z++) {
+                            for (int y = maxY - 1; y >= minY; y--) {
                                 mutablePos.set(x, y, z);
                                 FluidState fluidState = entity.level().getFluidState(mutablePos);
+
                                 if (!fluidState.isEmpty() && fluidState.getAmount() >= 8) {
+                                    mutablePos.set(x, y + 1, z);
+                                    FluidState aboveFluidState = entity.level().getFluidState(mutablePos);
+                                    boolean isWaterAbove = !aboveFluidState.isEmpty() && aboveFluidState.getAmount() >= 8;
+
+                                    mutablePos.set(x, y, z);
+                                    fluidState = entity.level().getFluidState(mutablePos);
                                     double fluidHeight = (double) ((float) y + fluidState.getHeight(entity.level(), mutablePos));
-                                    if (fluidHeight >= aabb.minY) {
-                                        if (entity.getDeltaMovement().y < 0) {
-                                            entity.setDeltaMovement(entity.getDeltaMovement().x, 0, entity.getDeltaMovement().z);
+
+                                    if (!isWaterAbove && fluidHeight >= aabb.minY - 0.1) {
+                                        if (highestWaterSurface == null || fluidHeight > highestWaterSurface) {
+                                            highestWaterSurface = fluidHeight;
                                         }
-                                        entity.setOnGround(true);
-                                        cir.setReturnValue(false);
-                                        return;
                                     }
+
+                                    break;
                                 }
                             }
+                        }
+                    }
+
+                    if (highestWaterSurface != null) {
+                        double feetY = aabb.minY;
+                        double distanceToSurface = highestWaterSurface - feetY;
+
+                        if (distanceToSurface >= -0.1 && distanceToSurface <= 0.5 && entity.getDeltaMovement().y <= 0) {
+                            entity.setDeltaMovement(entity.getDeltaMovement().x, 0, entity.getDeltaMovement().z);
+                            entity.setOnGround(true);
+                            cir.setReturnValue(false);
+                            return;
                         }
                     }
                 }

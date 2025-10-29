@@ -64,6 +64,8 @@ import dev.sterner.witchery.core.registry.WitcheryKeyMappings
 import dev.sterner.witchery.core.registry.WitcheryMenuTypes
 import dev.sterner.witchery.core.registry.WitcheryParticleTypes
 import dev.sterner.witchery.core.registry.WitcheryShaders
+import dev.sterner.witchery.features.affliction.event.AfflictionClientEventHandler
+import dev.sterner.witchery.features.death.DeathClientSpecificEventHandler
 import dev.sterner.witchery.mixin.client.LevelRendererAccessor
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.BoatModel
@@ -218,6 +220,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         DraggableHuds.renderManifestHud(event.guiGraphics, event.partialTick)
         DraggableHuds.renderBarkHud(event.guiGraphics, event.partialTick)
 
+        DeathClientSpecificEventHandler.renderHud(event.guiGraphics)
         VampireClientSpecificEventHandler.renderHud(event.guiGraphics)
         WerewolfClientSpecificEventHandler.renderHud(event.guiGraphics)
         LichdomClientSpecificEventHandler.renderHud(event.guiGraphics)

@@ -36,7 +36,6 @@ object DeathPlayerAttachment {
         var isDeath: Boolean = false,
         var hasDeathNightVision: Boolean = false,
         var hasDeathFluidWalking: Boolean = false,
-        var deathAbilityIndex: Int = -1
     ) {
 
         companion object {
@@ -45,7 +44,6 @@ object DeathPlayerAttachment {
                     Codec.BOOL.fieldOf("isDeath").forGetter { it.isDeath },
                     Codec.BOOL.fieldOf("hasDeathNightVision").forGetter { it.hasDeathNightVision },
                     Codec.BOOL.fieldOf("hasDeathFluidWalking").forGetter { it.hasDeathFluidWalking },
-                    Codec.INT.fieldOf("deathAbilityIndex").forGetter { it.deathAbilityIndex }
                 ).apply(instance, ::Data)
             }
 
@@ -56,8 +54,6 @@ object DeathPlayerAttachment {
                 Data::hasDeathNightVision,
                 StreamCodec.of({ buf, value -> buf.writeBoolean(value) }, { it.readBoolean() }),
                 Data::hasDeathFluidWalking,
-                StreamCodec.of({ buf, value -> buf.writeInt(value) }, { it.readInt() }),
-                Data::deathAbilityIndex,
                 ::Data
             )
 

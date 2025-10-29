@@ -3,6 +3,8 @@ package dev.sterner.witchery.features.death
 import dev.sterner.witchery.content.entity.DeathEntity
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.features.affliction.ability.AbilityScrollHandler
+import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
@@ -23,15 +25,12 @@ object DeathTransformationHelper {
         val helmet = player.getItemBySlot(EquipmentSlot.HEAD)
         val chestplate = player.getItemBySlot(EquipmentSlot.CHEST)
         val boots = player.getItemBySlot(EquipmentSlot.FEET)
-        val mainhand = player.getItemBySlot(EquipmentSlot.MAINHAND)
 
         val hasHelmet = helmet.`is`(WitcheryItems.DEATH_HOOD.get())
         val hasChestplate = chestplate.`is`(WitcheryItems.DEATH_ROBE.get())
         val hasBoots = boots.`is`(WitcheryItems.DEATH_BOOTS.get())
-        val hasWeapon = mainhand.`is`(WitcheryItems.DEATH_HAND.get()) ||
-                mainhand.`is`(WitcheryItems.DEATH_SICKLE.get())
 
-        return hasHelmet && hasChestplate && hasBoots && hasWeapon
+        return hasHelmet && hasChestplate && hasBoots
     }
 
     fun isDeath(player: Player): Boolean {
@@ -44,6 +43,12 @@ object DeathTransformationHelper {
 
         if (currentData.isDeath != shouldBeDeath) {
             DeathPlayerAttachment.setData(player, currentData.copy(isDeath = shouldBeDeath))
+        }
+        if (!shouldBeDeath) {
+            if (AfflictionAbilityHandler.abilityIndex != -1) {
+                AfflictionAbilityHandler.setAbilityIndex(player, -1)
+                player.inventory.selected = 0
+            }
         }
     }
 

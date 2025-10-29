@@ -57,10 +57,7 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.DyeColor
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import net.minecraft.world.level.block.state.BlockState
@@ -696,7 +693,7 @@ object WitcheryBlocks {
 
     @JvmStatic
     fun createStrippableLog(stripped: Supplier<out RotatedPillarBlock>, properties: Properties) =
-        Supplier { ForgeStrippableLogBlock(stripped, properties) }
+        Supplier { LogBlock(stripped, properties) }
 
     val HAWTHORN_LEAVES = register("hawthorn_leaves") {
         LeavesBlock(Properties.ofFullCopy(Blocks.AZALEA_LEAVES))

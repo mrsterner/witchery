@@ -60,6 +60,7 @@ import dev.sterner.witchery.features.blood.BloodPoolHandler
 import dev.sterner.witchery.features.coven.CovenDialogue
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.death.DeathEquipmentEventHandler
+import dev.sterner.witchery.features.death.DeathPlayerAttachment
 import dev.sterner.witchery.features.misc.DreamWeaverHandler
 import dev.sterner.witchery.features.ent.EntSpawningHandler
 import dev.sterner.witchery.features.hags_ring.VeinMiningTracker
@@ -401,6 +402,7 @@ object WitcheryNeoForgeEvents {
         val miscData = MiscPlayerAttachment.getData(event.entity)
         MiscPlayerAttachment.setData(event.entity, miscData.copy(hasDeathTeleport = false))
 
+        DeathPlayerAttachment.setData(event.entity, DeathPlayerAttachment.getData(event.original))
         LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
         PhylacteryBlockEntity.onPlayerLoad(event.entity)
         BrewOfSleepingItem.respawnPlayer(event.entity)
@@ -448,7 +450,7 @@ object WitcheryNeoForgeEvents {
                 BloodPoolLivingEntityAttachment.setData(player, bloodData)
             }
             HudPlayerAttachment.sync(player as ServerPlayer, HudPlayerAttachment.getData(player))
-
+            DeathPlayerAttachment.setData(player, DeathPlayerAttachment.getData(player))
             InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.entity))
             LifebloodPlayerAttachment.setData(event.entity, LifebloodPlayerAttachment.getData(event.entity))
             TarotPlayerAttachment.sync(player, TarotPlayerAttachment.getData(player))
