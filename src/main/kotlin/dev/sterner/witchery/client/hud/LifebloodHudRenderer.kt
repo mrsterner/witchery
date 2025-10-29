@@ -1,7 +1,11 @@
-package dev.sterner.witchery.client
+package dev.sterner.witchery.client.hud
 
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.*
+import com.mojang.blaze3d.vertex.BufferUploader
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.Tesselator
+import com.mojang.blaze3d.vertex.VertexFormat
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.registry.WitcheryShaders
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
@@ -113,7 +117,7 @@ object LifebloodHudRenderer {
             renderWobblyHeart(
                 player,
                 poseStack,
-                Witchery.id("textures/gui/lifeblood_empty.png"),
+                Witchery.Companion.id("textures/gui/lifeblood_empty.png"),
                 0f,
                 0f,
                 size.toFloat(),
@@ -242,12 +246,12 @@ object LifebloodHudRenderer {
 
     private fun getLifebloodEmissiveTexture(points: Int): ResourceLocation {
         return when (points) {
-            0 -> Witchery.id("textures/gui/lifeblood_empty.png")
-            1 -> Witchery.id("textures/gui/lifeblood_1_emissive.png")
-            2 -> Witchery.id("textures/gui/lifeblood_2_emissive.png")
-            3 -> Witchery.id("textures/gui/lifeblood_3_emissive.png")
-            4 -> Witchery.id("textures/gui/lifeblood_4_emissive.png")
-            else -> Witchery.id("textures/gui/lifeblood_full_emissive.png")
+            0 -> Witchery.Companion.id("textures/gui/lifeblood_empty.png")
+            1 -> Witchery.Companion.id("textures/gui/lifeblood_1_emissive.png")
+            2 -> Witchery.Companion.id("textures/gui/lifeblood_2_emissive.png")
+            3 -> Witchery.Companion.id("textures/gui/lifeblood_3_emissive.png")
+            4 -> Witchery.Companion.id("textures/gui/lifeblood_4_emissive.png")
+            else -> Witchery.Companion.id("textures/gui/lifeblood_full_emissive.png")
         }
     }
 }

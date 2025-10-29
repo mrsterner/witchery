@@ -2,7 +2,7 @@ package dev.sterner.witchery.mixin.client;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.sterner.witchery.Witchery;
-import dev.sterner.witchery.client.LifebloodHudRenderer;
+import dev.sterner.witchery.client.hud.LifebloodHudRenderer;
 import dev.sterner.witchery.features.misc.InventoryLockPlayerAttachment;
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler;
 import dev.sterner.witchery.features.affliction.vampire.VampireClientSpecificEventHandler;
