@@ -1,7 +1,7 @@
 package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.HunterArmorModel
+import dev.sterner.witchery.client.model.DeathArmorModel
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.HumanoidModel
 import net.minecraft.core.Holder
@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
-import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.ItemStack
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import org.jetbrains.annotations.NotNull
@@ -38,7 +37,7 @@ open class DeathArmorItem(material: Holder<ArmorMaterial>, type: Type, propertie
             "textures/models/armor/death_robes.png"
         )
     }
-/*TODO
+
     class ArmorRender : IClientItemExtensions {
         @NotNull
         override fun getHumanoidArmorModel(
@@ -49,7 +48,7 @@ open class DeathArmorItem(material: Holder<ArmorMaterial>, type: Type, propertie
         ): HumanoidModel<*> {
             val models = Minecraft.getInstance().entityModels
             val root = models.bakeLayer(DeathArmorModel.LAYER_LOCATION)
-            val armor = HunterArmorModel(root)
+            val armor = DeathArmorModel(root)
             armor.setAllVisible(false)
 
 
@@ -68,5 +67,4 @@ open class DeathArmorItem(material: Holder<ArmorMaterial>, type: Type, propertie
         }
     }
 
- */
 }

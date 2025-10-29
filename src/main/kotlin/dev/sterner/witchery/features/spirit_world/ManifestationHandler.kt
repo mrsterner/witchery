@@ -1,13 +1,8 @@
 package dev.sterner.witchery.features.spirit_world
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.TeleportRequest
-import dev.sterner.witchery.core.util.RenderUtils
 import dev.sterner.witchery.features.misc.TeleportQueueHandler
-import net.minecraft.client.DeltaTracker
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.ChunkPos
@@ -70,43 +65,5 @@ object ManifestationHandler {
         }
     }
 
-    fun renderHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker?) {
-        val minecraft = Minecraft.getInstance()
-        val clientPlayer = minecraft.player ?: return
 
-        val data = ManifestationPlayerAttachment.getData(clientPlayer)
-        if (data.manifestationTimer <= 0) return
-
-        val scaledY = minecraft.window.guiScaledHeight
-        val chargePercentage = data.manifestationTimer.toFloat() / MAX_TIME
-
-        RenderUtils.blitWithAlpha(
-            guiGraphics.pose(),
-            Witchery.id("textures/gui/zzz_meter_overlay.png"),
-            10 + 18,
-            scaledY / 2 - (24 / 2),
-            0f,
-            0f,
-            12,
-            24,
-            12,
-            24,
-            1f
-        )
-
-        val overlayHeight = ((1f - chargePercentage) * 24).toInt()
-        RenderUtils.blitWithAlpha(
-            guiGraphics.pose(),
-            Witchery.id("textures/gui/zzz_meter.png"),
-            10 + 18,
-            scaledY / 2 - (24 / 2),
-            0f,
-            0f,
-            12,
-            overlayHeight,
-            12,
-            24,
-            1f
-        )
-    }
 }

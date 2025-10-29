@@ -27,4 +27,11 @@ object WitcheryKeyMappings {
         "key.categories.witchery"
     )
 
+    val EDIT_HUD = KeyMapping(
+        "key.witchery.edit_hud",
+        InputConstants.Type.KEYSYM,
+        InputConstants.KEY_H,
+        "key.categories.witchery"
+    )
+
 }

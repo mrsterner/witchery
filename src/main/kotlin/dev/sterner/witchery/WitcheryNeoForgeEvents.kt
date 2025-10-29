@@ -65,8 +65,8 @@ import dev.sterner.witchery.features.ent.EntSpawningHandler
 import dev.sterner.witchery.features.hags_ring.VeinMiningTracker
 import dev.sterner.witchery.features.lifeblood.LifebloodHandler
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
-import dev.sterner.witchery.features.death.DeathTransformationHelper
 import dev.sterner.witchery.features.misc.EquipmentHandler
+import dev.sterner.witchery.features.misc.HudPlayerAttachment
 import dev.sterner.witchery.features.misc.LecternHandler
 import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import dev.sterner.witchery.features.spirit_world.ManifestationHandler
@@ -447,14 +447,11 @@ object WitcheryNeoForgeEvents {
                 val bloodData = BloodPoolLivingEntityAttachment.getData(player)
                 BloodPoolLivingEntityAttachment.setData(player, bloodData)
             }
+            HudPlayerAttachment.sync(player as ServerPlayer, HudPlayerAttachment.getData(player))
 
             InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.entity))
             LifebloodPlayerAttachment.setData(event.entity, LifebloodPlayerAttachment.getData(event.entity))
-        }
-        val player = event.entity
-        if (player is ServerPlayer) {
-            val data = TarotPlayerAttachment.getData(player)
-            TarotPlayerAttachment.sync(player, data)
+            TarotPlayerAttachment.sync(player, TarotPlayerAttachment.getData(player))
         }
     }
 

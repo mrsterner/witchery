@@ -38,14 +38,14 @@ object MiscPlayerAttachment {
 
     data class Data(
         var isWitcheryAligned: Boolean = false,
-        var hasDeathTeleport: Boolean = false,
+        var hasDeathTeleport: Boolean = false
     ) {
 
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.BOOL.fieldOf("isWitcheryAligned").forGetter { it.isWitcheryAligned },
-                    Codec.BOOL.fieldOf("hasDeathTeleport").forGetter { it.hasDeathTeleport },
+                    Codec.BOOL.fieldOf("hasDeathTeleport").forGetter { it.hasDeathTeleport }
                 ).apply(instance, ::Data)
             }
 

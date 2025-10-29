@@ -120,6 +120,12 @@ object WitcheryPayloads {
         ) { payload, _ ->
             payload.handleOnClient()
         }
+        registrar.playToClient(
+            SyncHudPositionsS2CPayload.ID,
+            SyncHudPositionsS2CPayload.STREAM_CODEC
+        ) { payload, ctx ->
+            payload.handleOnClient(ctx)
+        }
         registrar.playToClient(SyncOwlAbilityS2CPayload.ID, SyncOwlAbilityS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
@@ -283,6 +289,12 @@ object WitcheryPayloads {
         registrar.playToServer(
             UpdateSelectedAbilitiesC2SPayload.ID,
             UpdateSelectedAbilitiesC2SPayload.STREAM_CODEC
+        ) { payload, ctx ->
+            payload.handleOnServer(ctx)
+        }
+        registrar.playToServer(
+            UpdateHudPositionsC2SPayload.ID,
+            UpdateHudPositionsC2SPayload.STREAM_CODEC
         ) { payload, ctx ->
             payload.handleOnServer(ctx)
         }

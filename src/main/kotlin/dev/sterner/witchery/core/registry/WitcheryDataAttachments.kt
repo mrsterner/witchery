@@ -20,6 +20,7 @@ import dev.sterner.witchery.features.death.DeathPlayerAttachment
 import dev.sterner.witchery.features.misc.DeathQueueLevelAttachment
 import dev.sterner.witchery.features.ent.EntSpawnLevelAttachment
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
+import dev.sterner.witchery.features.misc.HudPlayerAttachment
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
 import dev.sterner.witchery.features.misc.InventoryLockPlayerAttachment
 import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment
@@ -292,6 +293,18 @@ object WitcheryDataAttachments {
             Supplier {
                 AttachmentType.builder(Supplier { MiscPlayerAttachment.Data() })
                     .serialize(MiscPlayerAttachment.Data.CODEC)
+                    .copyOnDeath()
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val HUD_PLAYER_DATA_ATTACHMENT: Supplier<AttachmentType<HudPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "hud_player",
+            Supplier {
+                AttachmentType.builder(Supplier { HudPlayerAttachment.Data() })
+                    .serialize(HudPlayerAttachment.Data.CODEC)
                     .copyOnDeath()
                     .build()
             }

@@ -208,6 +208,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
 
         add("key.categories.witchery", "Witchery")
         add("key.witchery.dismount", "Dismount Broom")
+        add("key.witchery.edit_hud", "Edit HUD")
         add("key.witchery.open_ability_selection", "Open Ability Selection")
         add("key.witchery.utility_button", "Utility Button")
 

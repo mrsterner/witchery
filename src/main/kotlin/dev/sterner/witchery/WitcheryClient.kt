@@ -3,13 +3,13 @@ package dev.sterner.witchery
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import dev.sterner.witchery.Witchery.Companion.MODID
 import dev.sterner.witchery.client.DebugAABBRenderer
-import dev.sterner.witchery.client.LifebloodHudRenderer
 import dev.sterner.witchery.client.tooltip.BloodPoolComponent
 import dev.sterner.witchery.client.OreHighlightRenderer
 import dev.sterner.witchery.client.TabletGazeTracker
 import dev.sterner.witchery.client.UrnPotionSelectionHandler
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
+import dev.sterner.witchery.client.hud.DraggableHuds
 import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
@@ -25,6 +25,7 @@ import dev.sterner.witchery.client.renderer.entity.*
 import dev.sterner.witchery.client.renderer.without_level.*
 import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
+import dev.sterner.witchery.client.screen.HudEditorScreen
 import dev.sterner.witchery.client.screen.OvenScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.client.tarot.TarotCardHudRenderer
@@ -41,8 +42,6 @@ import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryFluids
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.features.bark_belt.BarkBeltHandler
-import dev.sterner.witchery.features.spirit_world.ManifestationHandler
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomClientSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireClientSpecificEventHandler
@@ -215,12 +214,13 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
     }
 
     private fun onRenderHud(event: RenderGuiEvent.Post) {
-        InfusionHandler.renderInfusionHud(event.guiGraphics, event.partialTick)
-        ManifestationHandler.renderHud(event.guiGraphics, event.partialTick)
+        DraggableHuds.renderInfusionHud(event.guiGraphics, event.partialTick)
+        DraggableHuds.renderManifestHud(event.guiGraphics, event.partialTick)
+        DraggableHuds.renderBarkHud(event.guiGraphics, event.partialTick)
+
         VampireClientSpecificEventHandler.renderHud(event.guiGraphics)
         WerewolfClientSpecificEventHandler.renderHud(event.guiGraphics)
         LichdomClientSpecificEventHandler.renderHud(event.guiGraphics)
-        BarkBeltHandler.renderHud(event.guiGraphics, event.partialTick)
         UrnPotionSelectionHandler.render(event.guiGraphics, event.partialTick)
     }
 
@@ -245,6 +245,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         OreHighlightRenderer.tick()
         TabletGazeTracker.tick()
         DebugAABBRenderer.tick()
+        HudEditorScreen.handleKeyPress()
     }
 
     private fun bindContainerRenderers(event: RegisterMenuScreensEvent) {
@@ -322,7 +323,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             HUNTER_LEGGINGS.get(),
             HUNTER_BOOTS.get()
         )
-        /*
+
         event.registerItem(
             DeathArmorItem.ArmorRender.INSTANCE,
             WitcheryItems.DEATH_HOOD.get(),
@@ -330,7 +331,6 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryItems.DEATH_BOOTS.get()
         )
 
-         */
         event.registerItem(
             VampireArmorItem.ArmorRender.INSTANCE,
             TOP_HAT.get(),
@@ -423,6 +423,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerLayerDefinition(WitchesRobesModel.LAYER_LOCATION) { WitchesRobesModel.createBodyLayer() }
         event.registerLayerDefinition(VampireArmorModel.LAYER_LOCATION) { VampireArmorModel.createBodyLayer() }
         event.registerLayerDefinition(HunterArmorModel.LAYER_LOCATION) { HunterArmorModel.createBodyLayer() }
+        event.registerLayerDefinition(DeathArmorModel.LAYER_LOCATION) { DeathArmorModel.createBodyLayer() }
         event.registerLayerDefinition(SpinningWheelWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelWheelBlockEntityModel.createBodyLayer() }
         event.registerLayerDefinition(SpinningWheelBlockEntityModel.LAYER_LOCATION) { SpinningWheelBlockEntityModel.createBodyLayer() }
         event.registerLayerDefinition(BloodCrucibleModel.LAYER_LOCATION) { BloodCrucibleModel.createBodyLayer() }

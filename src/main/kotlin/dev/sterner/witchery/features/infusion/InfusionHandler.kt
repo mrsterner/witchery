@@ -1,11 +1,6 @@
 package dev.sterner.witchery.features.infusion
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.core.util.RenderUtils
-import net.minecraft.client.DeltaTracker
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.core.BlockPos
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
@@ -13,12 +8,6 @@ import net.minecraft.world.entity.player.Player
 
 object InfusionHandler {
 
-    private val infusionMeter = Witchery.id("textures/gui/infusion_meter.png")
-    private val infusionMeterOtherwhere = Witchery.id("textures/gui/infusion_meter_otherwhere.png")
-    private val infusionMeterInfernal = Witchery.id("textures/gui/infusion_meter_infernal.png")
-    private val infusionMeterNecro = Witchery.id("textures/gui/infusion_meter_necro.png")
-    private val infusionMeterOverworld = Witchery.id("textures/gui/infusion_meter_overworld.png")
-    private val infusionMeterLight = Witchery.id("textures/gui/infusion_meter_light.png")
 
 
     @JvmStatic
@@ -126,63 +115,4 @@ object InfusionHandler {
         }
     }
 
-    fun renderInfusionHud(guiGraphics: GuiGraphics, deltaTracker: DeltaTracker?) {
-        val minecraft = Minecraft.getInstance()
-        val clientPlayer = minecraft.player ?: return
-
-        val data = InfusionPlayerAttachment.getData(clientPlayer)
-        if (data.type == InfusionType.NONE) return
-
-        val scaledY = minecraft.window.guiScaledHeight
-        val chargePercentage = data.charge.toFloat() / InfusionPlayerAttachment.MAX_CHARGE
-
-        val texture = when (data.type) {
-            InfusionType.LIGHT -> {
-                infusionMeterLight
-            }
-
-            InfusionType.OTHERWHERE -> {
-                infusionMeterOtherwhere
-            }
-
-            InfusionType.INFERNAL -> {
-                infusionMeterInfernal
-            }
-
-            InfusionType.NECRO -> {
-                infusionMeterNecro
-            }
-
-            else -> infusionMeterOverworld
-        }
-
-        RenderUtils.blitWithAlpha(
-            guiGraphics.pose(),
-            infusionMeter,
-            10,
-            scaledY / 2 - (47 / 2),
-            0f,
-            0f,
-            15,
-            47,
-            15,
-            47,
-            1f
-        )
-
-        val otherwhereHeight = (chargePercentage * 28).toInt()
-        RenderUtils.blitWithAlpha(
-            guiGraphics.pose(),
-            texture,
-            12 + 4,
-            scaledY / 2 - (47 / 2) + (28 - otherwhereHeight) + 4,
-            0f,
-            (28 - otherwhereHeight).toFloat(),
-            3,
-            otherwhereHeight,
-            3,
-            28,
-            1f
-        )
-    }
 }

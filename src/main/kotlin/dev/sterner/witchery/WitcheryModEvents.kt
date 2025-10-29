@@ -55,6 +55,7 @@ object WitcheryModEvents {
         event.register(WitcheryKeyMappings.BROOM_DISMOUNT_KEYMAPPING)
         event.register(WitcheryKeyMappings.OPEN_ABILITY_SELECTION)
         event.register(WitcheryKeyMappings.UTILITY_BUTTON)
+        event.register(WitcheryKeyMappings.EDIT_HUD)
     }
 
     @SubscribeEvent
