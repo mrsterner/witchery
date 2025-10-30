@@ -101,6 +101,10 @@ object TransformationHandler {
 
     @JvmStatic
     fun setBatForm(player: Player) {
+        if (player.level().isClientSide) {
+            return
+        }
+
         removeAllTransformationModifiers(player)
 
         VampireLeveling.updateModifiers(player, AfflictionPlayerAttachment.getData(player).getVampireLevel(), true)

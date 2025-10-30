@@ -38,13 +38,11 @@ class SoulSeveranceRitual : Ritual("soul_severance") {
             else -> null
         }
 
-        println("Target: $target")
         if (target == null) {
             return false
         }
 
         if (target.type.`is`(WitcheryTags.NECROMANCER_SUMMONABLE)) {
-            println("Summoning")
             val tagCopy = target.saveWithoutId(CompoundTag())
             tagCopy.remove("UUID")
             val deadTargetCopy = target.type.create(level)
@@ -67,8 +65,6 @@ class SoulSeveranceRitual : Ritual("soul_severance") {
 
                 target.kill()
                 level.addFreshEntity(deadTargetCopy)
-
-                println("Fresh entity spawned with UUID: ${deadTargetCopy.uuid}")
             }
 
         } else if (target is ServerPlayer) {

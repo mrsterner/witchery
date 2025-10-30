@@ -110,7 +110,9 @@ enum class VampireAbility(
             get() = "bat_form"
 
         override fun use(player: Player): Boolean {
+
             val isBat = TransformationHandler.isBat(player)
+
             if (isBat) {
                 TransformationHandler.removeForm(player)
                 AbilityCooldownManager.startCooldown(player, this)
@@ -119,5 +121,5 @@ enum class VampireAbility(
             }
             return true
         }
-    };
+    }
 }

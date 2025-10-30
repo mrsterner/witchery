@@ -11,6 +11,7 @@ import dev.sterner.witchery.features.death.DeathAbility
 import dev.sterner.witchery.features.death.DeathTransformationHelper
 import dev.sterner.witchery.features.death.DeathTransformationHelper.hasDeathBoots
 import dev.sterner.witchery.network.AfflictionAbilitySelectionC2SPayload
+import dev.sterner.witchery.network.AfflictionAbilityUseC2SPayload
 import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
@@ -146,10 +147,25 @@ object AfflictionAbilityHandler : AbilityHandler {
     }
 
     fun useSelectedAbility(player: Player): Boolean {
-        val ability = getSelectedAbility(player) ?: return false
-        if (AbilityCooldownManager.isOnCooldown(player, ability)) return false
 
-        return ability.use(player)
+        val ability = getSelectedAbility(player)
+
+        if (ability == null) {
+            return false
+        }
+
+        val isOnCooldown = AbilityCooldownManager.isOnCooldown(player, ability)
+
+        if (isOnCooldown) return false
+
+        if (player.level().isClientSide) {
+            val index = AfflictionPlayerAttachment.getData(player).getAbilityIndex()
+            PacketDistributor.sendToServer(AfflictionAbilityUseC2SPayload(index))
+            return true
+        }
+
+        val result = ability.use(player)
+        return result
     }
 
     fun openSelectionScreen(player: Player) {

@@ -57,7 +57,9 @@ object AfflictionEventHandler {
         if (interactionHand == InteractionHand.OFF_HAND) return
 
         if (isInAbilityMode(player)) {
-            AfflictionAbilityHandler.useSelectedAbility(player)
+            if (player.level().isClientSide) {
+                AfflictionAbilityHandler.useSelectedAbility(player)
+            }
             event.isCanceled = true
         }
     }

@@ -10,7 +10,7 @@ import tallestegg.guardvillagers.common.entities.Guard
 object CompatHelper {
 
     fun isLoaded(): Boolean {
-        return ModList.get().isLoaded("guardvillagers")
+        return FMLLoader.getLoadingModList().getModFileById("guardvillagers") != null
     }
 
     fun isGuard(entity: Entity): Boolean {

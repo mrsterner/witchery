@@ -238,7 +238,6 @@ class WitcheryPotionItem(properties: Properties) : Item(properties) {
                     entity.addEffect(MobEffectInstance(effect, finalDuration, amplifier))
                 }
 
-                println(potionContent.specialEffect.isPresent)
                 if (potionContent.specialEffect.isPresent) {
                     val special =
                         WitcherySpecialPotionEffects.SPECIAL_REGISTRY.get(potionContent.specialEffect.get())

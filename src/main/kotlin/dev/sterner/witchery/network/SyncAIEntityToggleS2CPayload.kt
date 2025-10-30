@@ -18,7 +18,7 @@ class SyncAIEntityToggleS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
         putInt("EntityId", entityId)
         EntityAiToggle.Data.CODEC.encodeStart(NbtOps.INSTANCE, data)
             .resultOrPartial { error ->
-                println("Error encoding player possession data: $error")
+
             }
             .ifPresent { put("AIData", it) }
     })
