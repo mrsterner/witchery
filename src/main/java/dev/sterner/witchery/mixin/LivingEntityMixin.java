@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import dev.sterner.witchery.core.api.interfaces.EntityChainInterface;
 import dev.sterner.witchery.core.api.interfaces.OnRemovedEffect;
 import dev.sterner.witchery.content.entity.ChainEntity;
+import dev.sterner.witchery.core.registry.WitcheryMobEffects;
 import dev.sterner.witchery.features.death.DeathPlayerAttachment;
 import dev.sterner.witchery.features.death.DeathTransformationHelper;
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment;
@@ -43,6 +44,23 @@ public class LivingEntityMixin implements EntityChainInterface {
     private final List<Pair<ChainEntity, Boolean>> witchery$restrainingChains = new ArrayList<>();
     @Unique
     private boolean witchery$restrained = false;
+
+    @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
+    private void witchery$preventMovement(Vec3 travelVector, CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        if (entity.hasEffect(WitcheryMobEffects.INSTANCE.getBEAR_TRAP_INCAPACITATED())) {
+            entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.0, 1.0, 0.0));
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "canBeAffected", at = @At("HEAD"))
+    private void witchery$preventKnockback(CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        if (entity.hasEffect(WitcheryMobEffects.INSTANCE.getBEAR_TRAP_INCAPACITATED())) {
+            entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.0, 1.0, 0.0));
+        }
+    }
 
     @Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
     private void witchery$deathBootsLavaImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {

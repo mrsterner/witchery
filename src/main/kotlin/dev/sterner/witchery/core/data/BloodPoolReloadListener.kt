@@ -27,49 +27,41 @@ object BloodPoolReloadListener {
             profiler: ProfilerFiller
         ) {
             `object`.forEach { (file, element) ->
-                try {
-                    if (element.isJsonArray)
-                        element.asJsonArray.map(JsonElement::getAsJsonObject).forEach { parseJson(it, file) }
-                    else if (element.isJsonObject)
-                        parseJson(element.asJsonObject, file)
-                } catch (e: Exception) {
-                    throw IllegalArgumentException(e.fillInStackTrace())
-                }
+                if (element.isJsonArray)
+                    element.asJsonArray.map(JsonElement::getAsJsonObject).forEach { parseJson(it, file) }
+                else if (element.isJsonObject)
+                    parseJson(element.asJsonObject, file)
             }
 
         }
 
         private fun parseJson(json: JsonObject, file: ResourceLocation) {
-            val entityJson = json.get("entityType")?.asString
-            val bloodJson = json.get("bloodDrops")?.asString
-            if (entityJson != null) {
-                if (ResourceLocation.tryParse(entityJson) == null || ResourceLocation.tryParse(bloodJson) == null) {
-                    return
-                }
-                val data = BloodData.CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(::IllegalArgumentException).first
+            val data = BloodData.CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(::IllegalArgumentException).first
 
-                val entity = data.entity
-
+            val entity = data.resolveEntity()
+            if (entity != null) {
                 BLOOD_PAIR[entity] = data
             }
         }
     }
 
-    data class BloodData(val entity: EntityType<*>, val bloodDrops: Int, val qualityBloodDrops: Int) {
+    data class BloodData(val entityId: ResourceLocation, val bloodDrops: Int, val qualityBloodDrops: Int) {
 
         companion object {
             val CODEC: Codec<BloodData> =
-                RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<BloodData> ->
-                    instance.group(
-                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityType").forGetter(BloodData::entity),
+                RecordCodecBuilder.create { inst ->
+                    inst.group(
+                        ResourceLocation.CODEC.fieldOf("entityType").forGetter(BloodData::entityId),
                         Codec.INT.fieldOf("bloodDrops").forGetter(BloodData::bloodDrops),
-                        Codec.INT.fieldOf("qualityBloodDrops").forGetter(BloodData::qualityBloodDrops),
-                    ).apply(
-                        instance
-                    ) { entity, bloodDrops, qualityBloodDrops ->
-                        BloodData(entity, bloodDrops, qualityBloodDrops)
+                        Codec.INT.fieldOf("qualityBloodDrops").forGetter(BloodData::qualityBloodDrops)
+                    ).apply(inst) { entityId, bloodDrops, qualityBloodDrops ->
+                        BloodData(entityId, bloodDrops, qualityBloodDrops)
                     }
                 }
         }
+
+        fun resolveEntity(): EntityType<*>? =
+            BuiltInRegistries.ENTITY_TYPE.getOptional(entityId).orElse(null)
     }
+
 }

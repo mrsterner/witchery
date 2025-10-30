@@ -84,6 +84,11 @@ object WitcheryMobEffects {
             EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 100, 100).rgb)
         }
 
+    val BEAR_TRAP_INCAPACITATED =
+        register("bear_trap_incapacitated") {
+            EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 100, 100).rgb)
+        }
+
     private fun register(name: String, effectSupplier: () -> MobEffect): DeferredHolder<MobEffect, MobEffect> {
         return EFFECTS.register(name, Supplier(effectSupplier))
     }

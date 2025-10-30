@@ -2,6 +2,7 @@ package dev.sterner.witchery.mixin.client;
 
 import dev.sterner.witchery.core.api.WitcheryApi;
 import dev.sterner.witchery.core.registry.WitcheryCurseRegistry;
+import dev.sterner.witchery.core.registry.WitcheryMobEffects;
 import dev.sterner.witchery.features.curse.CurseHandler;
 import dev.sterner.witchery.features.affliction.event.TransformationHandler;
 import net.minecraft.client.Minecraft;
@@ -31,6 +32,22 @@ public class LocalPlayerMixin {
 
     @Unique
     private static final long witchery$INPUT_DISRUPT_COOLDOWN = 40L;
+
+    @Inject(method = "aiStep", at = @At("HEAD"))
+    private void witchery$disableMovementInput(CallbackInfo ci) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        if (player.hasEffect(WitcheryMobEffects.INSTANCE.getBEAR_TRAP_INCAPACITATED())) {
+            player.input.up = false;
+            player.input.down = false;
+            player.input.left = false;
+            player.input.right = false;
+            player.input.jumping = false;
+            player.input.shiftKeyDown = false;
+
+            player.input.leftImpulse = 0.0F;
+            player.input.forwardImpulse = 0.0F;
+        }
+    }
 
     @Inject(method = "aiStep", at = @At("HEAD"))
     private void witchery$onAiStep(CallbackInfo ci) {

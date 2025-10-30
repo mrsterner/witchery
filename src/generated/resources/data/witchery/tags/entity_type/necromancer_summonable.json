@@ -9,6 +9,9 @@
     "minecraft:wither_skeleton",
     "minecraft:villager",
     "minecraft:pillager",
-    "guardvillagers:guard"
+    {
+      "id": "guardvillagers:guard",
+      "required": false
+    }
   ]
 }

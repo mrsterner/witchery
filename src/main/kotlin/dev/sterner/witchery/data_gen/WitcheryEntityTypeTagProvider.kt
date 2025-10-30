@@ -49,7 +49,7 @@ class WitcheryEntityTypeTagProvider(
             .add(EntityType.WITHER_SKELETON)
             .add(EntityType.VILLAGER)
             .add(EntityType.PILLAGER)
-            .add(GuardEntityType.GUARD.get())
+            .addOptional(GuardEntityType.GUARD.id)
 
         tag(WitcheryTags.SCARED_BY_GROTESQUE)
             .add(EntityType.ZOMBIE)

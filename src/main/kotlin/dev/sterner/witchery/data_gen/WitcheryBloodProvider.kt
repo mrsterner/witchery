@@ -6,6 +6,7 @@ import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.PackOutput
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.common.data.ExistingFileHelper
@@ -82,11 +83,21 @@ class WitcheryBloodProvider(
         makeBlood(WitcheryEntityTypes.WEREWOLF.get(), 4, 1)
 
         //Compat
-        makeBlood(GuardEntityType.GUARD.get(), 5, 2)
+        val guardId = ResourceLocation.fromNamespaceAndPath("guardvillagers", "guard")
+        makeBloodOptional(guardId, 5, 2)
     }
 
     private fun makeBlood(entityType: EntityType<*>, bloodDrops: Int, quality: Int) {
         val id = BuiltInRegistries.ENTITY_TYPE.getKey(entityType)
-        unconditional(Witchery.id(id.path), BloodPoolReloadListener.BloodData(entityType, bloodDrops, quality))
+        unconditional(
+            Witchery.id(id.path),
+            BloodPoolReloadListener.BloodData(id, bloodDrops, quality)
+        )
+    }
+
+    private fun makeBloodOptional(id: ResourceLocation, bloodDrops: Int, quality: Int) {
+        if (BuiltInRegistries.ENTITY_TYPE.containsKey(id)) {
+            makeBlood(BuiltInRegistries.ENTITY_TYPE.get(id), bloodDrops, quality)
+        }
     }
 }

@@ -9,6 +9,7 @@ import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
+import dev.sterner.witchery.integration.CompatHelper
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
@@ -16,7 +17,9 @@ import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
@@ -26,7 +29,6 @@ import net.minecraft.world.level.block.CaveVinesPlantBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
-import tallestegg.guardvillagers.GuardEntityType
 
 class MutatingSpringItem(properties: Properties) : Item(properties) {
 
@@ -174,11 +176,15 @@ class MutatingSpringItem(properties: Properties) : Item(properties) {
             EtherealEntityAttachment.getData(it).isEthereal
         }
 
-        val hasGuard = level.getEntities(
-            GuardEntityType.GUARD.get(),
-            AABB.ofSize(pos.center, 1.0, 1.0, 1.0)
-        ) {
-            EtherealEntityAttachment.getData(it).isEthereal
+        val hasGuard = if (CompatHelper.isLoaded()) {
+            level.getEntities(
+                CompatHelper.getGuard(),
+                AABB.ofSize(pos.center, 1.0, 1.0, 1.0)
+            ) {
+                EtherealEntityAttachment.getData(it as LivingEntity).isEthereal
+            }
+        } else {
+            listOf<Entity>()
         }
 
         val hasZombieVill = level.getEntities(

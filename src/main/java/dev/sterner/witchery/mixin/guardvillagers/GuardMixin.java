@@ -1,8 +1,11 @@
-package dev.sterner.witchery.mixin.guard_villagers;
+package dev.sterner.witchery.mixin.guardvillagers;
 
 import dev.sterner.witchery.core.api.interfaces.VillagerTransfix;
 import dev.sterner.witchery.network.SpawnTransfixParticlesS2CPayload;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;

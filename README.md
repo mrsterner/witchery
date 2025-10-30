@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="fabric/src/main/resources/assets/logo.png" alt="Ritual Diagram" width="256"/>
+  <img src="src/main/resources/logo.png" alt="Ritual Diagram" width="256"/>
 </div>
 
 # Witchery
@@ -12,7 +12,7 @@
 
 Witchery adds mods stuff from the original witchery mod.
 - EMI and JEI support
-- Fabric and Neoforge support
+- Neoforge support only as of 0.4+
 - 1.21.1
 - Uses Modomomicon for in-game wiki
 
