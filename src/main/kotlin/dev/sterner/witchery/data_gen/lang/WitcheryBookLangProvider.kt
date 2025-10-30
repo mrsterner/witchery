@@ -213,14 +213,14 @@ object WitcheryBookLangProvider {
 
         add("book.witchery.guidebook.soul_magic.necro_1.name", "Your Soul as a resource")
         add("book.witchery.guidebook.soul_magic.necro_1.description", "First Stage")
-        add("book.witchery.guidebook.soul_magic.carving_1.name", "The Binding of Souls")
+        add("book.witchery.guidebook.soul_magic.carving_1.name", "TABLET DONT SPAWN NATURALLY YET") //TODO "The Binding of Souls")
         add("book.witchery.guidebook.soul_magic.carving_1.description", "Second Stage")
         add("book.witchery.guidebook.soul_magic.carving_2.name", "The Severed Soul")
         add("book.witchery.guidebook.soul_magic.carving_2.description", "Third Stage")
         add("book.witchery.guidebook.soul_magic.carving_3.name", "The Phylactery's Embrace")
         add("book.witchery.guidebook.soul_magic.carving_3.description", "Death Stage")
 
-        add("soul_magic.carving_1.title", "The Binding of Souls")
+        add("soul_magic.carving_1.title", "TABLET DONT SPAWN NATURALLY YET") //TODO "The Binding of Souls")
         add(
             "soul_magic.carving_1.page.1", "\n" +
                     "\\\n" +

@@ -7,13 +7,17 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.core.registry.WitcheryItems
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
+import java.awt.Color
 
 class NecroLevelTwoEntryProvider(val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {
 
     override fun generatePages() {
         this.page(id) {
             BookTextPageModel.create()
-                .withText("${parent.categoryId()}.$id.page.1")
+                .withText(Component.literal("TABLET DONT SPAWN NATURALLY YET").setStyle(Style.EMPTY.withColor( //TODO "${parent.categoryId()}.$id.page.1"
+                    Color(255,25,25).rgb)))
         }
         this.page(id) {
             BookTextPageModel.create()
@@ -38,7 +42,7 @@ class NecroLevelTwoEntryProvider(val id: String, parent: CategoryProviderBase?) 
     }
 
     override fun entryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.GRAVESTONE.get())
+        return BookIconModel.create(WitcheryItems.ANCIENT_TABLET.get())
     }
 
     override fun entryId(): String {

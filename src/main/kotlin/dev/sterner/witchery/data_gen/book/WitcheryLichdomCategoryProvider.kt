@@ -100,7 +100,7 @@ class WitcheryLichdomCategoryProvider(
     }
 
     override fun categoryIcon(): BookIconModel {
-        return BookIconModel.create(WitcheryItems.GRAVESTONE.get())
+        return BookIconModel.create(WitcheryItems.ANCIENT_TABLET.get())
     }
 
     override fun additionalSetup(category: BookCategoryModel?): BookCategoryModel {

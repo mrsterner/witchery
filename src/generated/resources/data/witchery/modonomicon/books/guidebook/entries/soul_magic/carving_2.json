@@ -18,7 +18,7 @@
   "description": "book.witchery.guidebook.soul_magic.carving_2.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:gravestone"
+    "item": "witchery:ancient_tablet"
   },
   "name": "book.witchery.guidebook.soul_magic.carving_2.name",
   "pages": [
@@ -29,7 +29,10 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "soul_magic.carving_2.page.1",
+      "text": {
+        "color": "#FF1919",
+        "text": "TABLET DONT SPAWN NATURALLY YET"
+      },
       "title": "",
       "use_markdown_in_title": false
     },
