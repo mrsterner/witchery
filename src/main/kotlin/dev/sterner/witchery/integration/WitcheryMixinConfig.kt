@@ -15,7 +15,7 @@ class WitcheryMixinConfig : IMixinConfigPlugin {
     }
 
     override fun shouldApplyMixin(targetClassName: String?, mixinClassName: String): Boolean {
-        if (mixinClassName.startsWith("sterner.witchery.mixin.guardvillagers")) {
+        if (mixinClassName.startsWith("dev.sterner.witchery.mixin.guardvillagers")) {
             return CompatHelper.isLoaded()
         }
         return true
