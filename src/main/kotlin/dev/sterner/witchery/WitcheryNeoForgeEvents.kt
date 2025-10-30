@@ -276,7 +276,7 @@ object WitcheryNeoForgeEvents {
             val attacker = damageSource.entity as Player
             val wereData = AfflictionPlayerAttachment.getData(attacker)
 
-            if (wereData.getLevel(AfflictionTypes.LYCANTHROPY) > 0) {
+            if (wereData.getWerewolfLevel() > 0) {
                 if (TransformationHandler.isWolf(attacker) || TransformationHandler.isWerewolf(attacker)) {
                     damage = WerewolfSpecificEventHandler.modifyWerewolfDamage(
                         attacker, entity, damage
@@ -286,7 +286,7 @@ object WitcheryNeoForgeEvents {
         }
 
         val isVamp =
-            entity is Player && AfflictionPlayerAttachment.getData(entity).getLevel(AfflictionTypes.VAMPIRISM) > 0
+            entity is Player && AfflictionPlayerAttachment.getData(entity).getVampireLevel() > 0
         val isWereMan = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfManForm()
         val isWere = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfForm()
 
@@ -415,7 +415,7 @@ object WitcheryNeoForgeEvents {
                 val currentData = AfflictionPlayerAttachment.getData(serverPlayer)
                 AfflictionPlayerAttachment.syncFull(serverPlayer, currentData)
 
-                if (currentData.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
+                if (currentData.getVampireLevel() > 0) {
                     val bloodData = BloodPoolLivingEntityAttachment.getData(serverPlayer)
                     BloodPoolLivingEntityAttachment.setData(serverPlayer, bloodData)
                 }
@@ -445,7 +445,7 @@ object WitcheryNeoForgeEvents {
             val afflictionData = AfflictionPlayerAttachment.getData(player)
             AfflictionPlayerAttachment.setData(player, afflictionData, sync = true)
 
-            if (afflictionData.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
+            if (afflictionData.getVampireLevel() > 0) {
                 val bloodData = BloodPoolLivingEntityAttachment.getData(player)
                 BloodPoolLivingEntityAttachment.setData(player, bloodData)
             }

@@ -212,7 +212,7 @@ public class LivingEntityMixin implements EntityChainInterface {
         if (source.getEntity() instanceof Player player) {
             var data = AfflictionPlayerAttachment.getData(player);
 
-            if (data.getLevel(AfflictionTypes.LYCANTHROPY) >= 9) {
+            if (data.getWerewolfLevel() >= 9) {
                 if (TransformationHandler.isWolf(player) ||
                         TransformationHandler.isWerewolf(player)) {
                     return damage;

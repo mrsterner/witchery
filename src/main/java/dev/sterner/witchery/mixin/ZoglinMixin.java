@@ -52,8 +52,8 @@ public class ZoglinMixin {
                             }
 
                             var owner = zoglin.level().getPlayerByUUID(etherealData.getOwnerUUID());
-                            if (owner != null && AfflictionPlayerAttachment.getData(owner).getLevel(AfflictionTypes.LICHDOM) > 0) {
-                                if (AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM) > 0) {
+                            if (owner != null && AfflictionPlayerAttachment.getData(owner).getLichLevel() > 0) {
+                                if (AfflictionPlayerAttachment.getData(player).getLichLevel() > 0) {
                                     return false;
                                 }
                             }

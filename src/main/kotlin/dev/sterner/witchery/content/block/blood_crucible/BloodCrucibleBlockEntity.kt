@@ -74,7 +74,7 @@ class BloodCrucibleBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
         val level = pPlayer.level()
 
-        val vampData = AfflictionPlayerAttachment.getData(pPlayer).getLevel(AfflictionTypes.VAMPIRISM)
+        val vampData = AfflictionPlayerAttachment.getData(pPlayer).getVampireLevel()
         if (vampData <= 0) {
             return InteractionResult.PASS
         }

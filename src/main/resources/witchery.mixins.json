@@ -54,7 +54,6 @@
     "ZombieMixin",
     "curios.CuriosClientEventHandlerMixin",
     "guardvillagers.GuardMixin",
-    "guardvillagers.MobMixin",
     "modonomicon.BookCategoryNodeScreenMixin",
     "modonomicon.BookContentRendererMixin",
     "modonomicon.BookIconMixin",

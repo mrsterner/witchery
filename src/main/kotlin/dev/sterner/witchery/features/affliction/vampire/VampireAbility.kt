@@ -74,7 +74,7 @@ enum class VampireAbility(
                 val transfixVillager = target as VillagerTransfix
                 transfixVillager.setTransfixedLookVector(player.eyePosition)
 
-                if (AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) >= 8) {
+                if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= 8) {
                     transfixVillager.`witchery$setMesmerized`(player.uuid)
                 }
 

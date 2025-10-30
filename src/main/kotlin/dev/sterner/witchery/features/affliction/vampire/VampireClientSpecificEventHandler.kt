@@ -28,7 +28,7 @@ object VampireClientSpecificEventHandler {
         val client = Minecraft.getInstance()
         val player = client.player ?: return
 
-        val isVampire = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) > 0
+        val isVampire = AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0
 
         if (isVampire) {
             val hasOffhand = !player.offhandItem.isEmpty
@@ -52,7 +52,7 @@ object VampireClientSpecificEventHandler {
     fun renderSunOverlay(guiGraphics: GuiGraphics, minecraft: Minecraft) {
         val player = minecraft.player ?: return
 
-        val isVampire = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) > 0
+        val isVampire = AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0
         val hasSunReversed = hasReversedSunTarot(player)
 
         if (!isVampire && !hasSunReversed) return

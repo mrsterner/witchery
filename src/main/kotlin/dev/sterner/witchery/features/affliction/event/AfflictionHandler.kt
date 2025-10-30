@@ -45,7 +45,7 @@ object AfflictionHandler {
     fun handleHurt(player: LivingEntity, damageSource: DamageSource, original: Float): Float {
         if (player !is Player) return original
 
-        val level = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM)
+        val level = AfflictionPlayerAttachment.getData(player).getVampireLevel()
 
         if (level < 1) return original
 

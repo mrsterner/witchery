@@ -49,7 +49,7 @@ object LichdomSpecificEventHandler {
     fun tick(player: Player?) {
         if (player !is ServerPlayer) return
 
-        val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+        val lichLevel = AfflictionPlayerAttachment.getData(player).getLichLevel()
         if (player.isAlive && lichLevel > 0) {
             lichTick(player, lichLevel)
         }
@@ -147,7 +147,7 @@ object LichdomSpecificEventHandler {
     fun onKillEntity(livingEntity: LivingEntity, damageSource: DamageSource) {
         val player = damageSource.entity as? ServerPlayer ?: return
 
-        val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+        val lichLevel = AfflictionPlayerAttachment.getData(player).getLichLevel()
         if (lichLevel == 0) return
 
         if (damageSource.entity is Zombie && isPlayerMinion(damageSource.entity as Zombie, player)) {
@@ -174,7 +174,7 @@ object LichdomSpecificEventHandler {
     fun onDeath(event: LivingDeathEvent, livingEntity: LivingEntity, damageSource: DamageSource) {
         if (livingEntity !is ServerPlayer) return
 
-        val lichLevel = AfflictionPlayerAttachment.getData(livingEntity).getLevel(AfflictionTypes.LICHDOM)
+        val lichLevel = AfflictionPlayerAttachment.getData(livingEntity).getLichLevel()
         if (lichLevel < 2) return
 
         val currentSouls = LichdomSoulPoolHandler.getCurrentSouls(livingEntity)
@@ -207,7 +207,7 @@ object LichdomSpecificEventHandler {
 
     @JvmStatic
     fun respawn(newPlayer: Player, oldPlayer: Player, alive: Boolean) {
-        val lichLevel = AfflictionPlayerAttachment.getData(oldPlayer).getLevel(AfflictionTypes.LICHDOM)
+        val lichLevel = AfflictionPlayerAttachment.getData(oldPlayer).getLichLevel()
 
         if (lichLevel > 0) {
             val soulData = SoulPoolPlayerAttachment.getData(oldPlayer)
@@ -277,7 +277,7 @@ object LichdomSpecificEventHandler {
     }
 
     fun attemptPossession(player: ServerPlayer, target: Mob): Boolean {
-        val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+        val lichLevel = AfflictionPlayerAttachment.getData(player).getLichLevel()
 
         val canPossess = when {
             target is ZombieVillager -> lichLevel >= 6

@@ -15,7 +15,7 @@ object WerewolfClientSpecificEventHandler {
         val client = Minecraft.getInstance()
         val player = client.player ?: return
 
-        val isNotWere = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LYCANTHROPY) <= 0
+        val isNotWere = AfflictionPlayerAttachment.getData(player).getWerewolfLevel() <= 0
         if (isNotWere) return
 
         val hasOffhand = !player.offhandItem.isEmpty

@@ -26,7 +26,7 @@ public class FoodDataMixin {
             this.witchery$player = player;
             ci.cancel();
         }
-        int lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM);
+        int lichLevel = AfflictionPlayerAttachment.getData(player).getLichLevel();
 
         if (lichLevel >= 2) {
             LichdomSoulPoolHandler.INSTANCE.updateLichHunger(player);

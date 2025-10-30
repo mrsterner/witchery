@@ -95,7 +95,7 @@ class PhylacteryBlockEntity(
 
         if (pPlacer is ServerPlayer) {
             val level = pPlacer.serverLevel()
-            val lichLevel = AfflictionPlayerAttachment.getData(pPlacer).getLevel(AfflictionTypes.LICHDOM)
+            val lichLevel = AfflictionPlayerAttachment.getData(pPlacer).getLichLevel()
 
             val maxSouls = when {
                 lichLevel in 2..3 -> 1

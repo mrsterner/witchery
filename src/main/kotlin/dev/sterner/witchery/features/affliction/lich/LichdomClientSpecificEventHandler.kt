@@ -16,7 +16,7 @@ object LichdomClientSpecificEventHandler {
 
         val attach = AfflictionPlayerAttachment.getData(player)
 
-        val isNotLich = attach.getLevel(AfflictionTypes.LICHDOM) <= 0 && !attach.isSoulForm()
+        val isNotLich = attach.getLichLevel() <= 0 && !attach.isSoulForm()
         if (isNotLich) return
 
         val hasOffhand = !player.offhandItem.isEmpty

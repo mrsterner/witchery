@@ -31,7 +31,7 @@ object VampireLeveling {
 
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
-        val previousLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM)
+        val previousLevel = AfflictionPlayerAttachment.getData(player).getVampireLevel()
 
         if (level == 0) {
             val newData = AfflictionPlayerAttachment.getData(player)
@@ -71,7 +71,7 @@ object VampireLeveling {
     @JvmStatic
     fun increaseVampireLevel(player: ServerPlayer) {
         val currentData = AfflictionPlayerAttachment.getData(player)
-        val currentLevel = currentData.getLevel(AfflictionTypes.VAMPIRISM)
+        val currentLevel = currentData.getVampireLevel()
         val nextLevel = currentLevel + 1
 
         if (nextLevel > 10) return
@@ -140,7 +140,7 @@ object VampireLeveling {
     fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = AfflictionPlayerAttachment.getData(player)
 
-        if (data.getLevel(AfflictionTypes.VAMPIRISM) != targetLevel) {
+        if (data.getVampireLevel() != targetLevel) {
             return false
         }
 
@@ -318,7 +318,7 @@ object VampireLeveling {
      * Check if requirements are met and level up if so
      */
     private fun checkAndLevelUp(player: ServerPlayer, data: AfflictionPlayerAttachment.Data) {
-        val currentLevel = data.getLevel(AfflictionTypes.VAMPIRISM)
+        val currentLevel = data.getVampireLevel()
         val nextLevel = currentLevel + 1
 
         if (nextLevel <= 10 && canLevelUp(player, data, nextLevel)) {

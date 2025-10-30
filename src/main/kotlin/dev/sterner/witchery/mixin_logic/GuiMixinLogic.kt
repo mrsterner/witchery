@@ -16,7 +16,7 @@ object GuiMixinLogic {
             return false
         }
 
-        if (AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM) >= 2) {
+        if (AfflictionPlayerAttachment.getData(player).getLichLevel() >= 2) {
             RenderUtils.innerRenderSouls(guiGraphics, player, y, x)
             return false
         }

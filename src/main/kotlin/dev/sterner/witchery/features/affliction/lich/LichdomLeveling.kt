@@ -29,7 +29,7 @@ object LichdomLeveling {
 
     @JvmStatic
     fun setLevel(player: ServerPlayer, level: Int) {
-        val previousLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+        val previousLevel = AfflictionPlayerAttachment.getData(player).getLichLevel()
 
         if (level == 0) {
             val newData = AfflictionPlayerAttachment.getData(player)
@@ -69,7 +69,7 @@ object LichdomLeveling {
     @JvmStatic
     fun increaseNecromancerLevel(player: ServerPlayer) {
         val currentData = AfflictionPlayerAttachment.getData(player)
-        val currentLevel = currentData.getLevel(AfflictionTypes.LICHDOM)
+        val currentLevel = currentData.getLichLevel()
         val nextLevel = currentLevel + 1
 
         if (nextLevel > 10) return
@@ -101,7 +101,7 @@ object LichdomLeveling {
     private fun canPerformQuest(player: ServerPlayer, targetLevel: Int): Boolean {
         val data = AfflictionPlayerAttachment.getData(player)
 
-        if (data.getLevel(AfflictionTypes.LICHDOM) != targetLevel) {
+        if (data.getLichLevel() != targetLevel) {
             return false
         }
 
@@ -259,7 +259,7 @@ object LichdomLeveling {
     }
 
     private fun checkAndLevelUp(player: ServerPlayer, data: AfflictionPlayerAttachment.Data) {
-        val currentLevel = data.getLevel(AfflictionTypes.LICHDOM)
+        val currentLevel = data.getLichLevel()
         val nextLevel = currentLevel + 1
 
         if (nextLevel <= 10 && canLevelUp(player, data, nextLevel)) {

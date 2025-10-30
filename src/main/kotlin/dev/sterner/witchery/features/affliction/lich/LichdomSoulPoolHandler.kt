@@ -134,7 +134,7 @@ object LichdomSoulPoolHandler {
     }
 
     fun updateLichHunger(player: Player) {
-        val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+        val lichLevel = AfflictionPlayerAttachment.getData(player).getLichLevel()
         if (lichLevel < 2) return
 
         val data = SoulPoolPlayerAttachment.getData(player)

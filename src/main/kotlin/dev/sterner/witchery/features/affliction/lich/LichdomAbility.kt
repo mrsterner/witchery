@@ -38,7 +38,7 @@ enum class LichdomAbility(
         override fun use(player: Player): Boolean {
             if (player !is ServerPlayer) return false
 
-            val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+            val lichLevel = AfflictionPlayerAttachment.getData(player).getLichLevel()
             val radius = 5 + lichLevel
 
             NecroHandler.summonNecroAroundPos(
@@ -137,7 +137,7 @@ enum class LichdomAbility(
         override fun use(player: Player): Boolean {
             if (player !is ServerPlayer) return false
 
-            val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+            val lichLevel = AfflictionPlayerAttachment.getData(player).getLichLevel()
             val explosionPower = 2.0f + (lichLevel * 0.5f)
             val range = 20.0 + (lichLevel * 2.0)
 
@@ -188,7 +188,7 @@ enum class LichdomAbility(
         override fun use(player: Player, target: Entity): Boolean {
             if (player !is ServerPlayer || target !is LivingEntity) return false
 
-            val lichLevel = AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+            val lichLevel = AfflictionPlayerAttachment.getData(player).getLichLevel()
             val drainAmount = 2.0f + (lichLevel * 0.5f)
 
             target.hurt(player.damageSources().magic(), drainAmount)

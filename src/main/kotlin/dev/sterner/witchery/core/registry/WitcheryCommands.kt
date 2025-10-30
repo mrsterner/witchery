@@ -264,7 +264,7 @@ object WitcheryCommands {
                                     .executes { context ->
                                         val player = context.source.playerOrException
                                         val level =
-                                            AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.LICHDOM)
+                                            AfflictionPlayerAttachment.getData(player).getLichLevel()
                                         context.source.sendSuccess(
                                             { Component.literal("Level: $level for ${player.name.string}") },
                                             true

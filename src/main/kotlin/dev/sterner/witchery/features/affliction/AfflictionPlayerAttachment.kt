@@ -108,7 +108,7 @@ object AfflictionPlayerAttachment {
         private val selectedAbilities: List<String> = emptyList()
     ) {
 
-        fun getLevel(type: AfflictionTypes): Int = afflictionLevels.getOrDefault(type, 0)
+        //fun getLevel(type: AfflictionTypes): Int = afflictionLevels.getOrDefault(type, 0)
         fun getWerewolfLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.LYCANTHROPY, 0)
         fun getVampireLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.VAMPIRISM, 0)
         fun getLichLevel(): Int = afflictionLevels.getOrDefault(AfflictionTypes.LICHDOM, 0)

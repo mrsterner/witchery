@@ -52,9 +52,9 @@ object AfflictionAbilityHandler : AbilityHandler {
 
         val data = AfflictionPlayerAttachment.getData(player)
 
-        val vampLevel = data.getLevel(AfflictionTypes.VAMPIRISM)
-        val wereLevel = data.getLevel(AfflictionTypes.LYCANTHROPY)
-        val lichLevel = data.getLevel(AfflictionTypes.LICHDOM)
+        val vampLevel = data.getVampireLevel()
+        val wereLevel = data.getWerewolfLevel()
+        val lichLevel = data.getLichLevel()
 
         val vampAbilities: List<VampireAbility> = VampireAbility.entries.filter { it.isAvailable(player, vampLevel) }
         val wereAbilities: List<WerewolfAbility> = WerewolfAbility.entries.filter { ability ->

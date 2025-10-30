@@ -47,7 +47,7 @@ object VampireSpecificEventHandler {
     fun tick(player: Player?) {
         if (player !is ServerPlayer) return
 
-        val isVampire = player.isAlive && AfflictionPlayerAttachment.getData(player).getLevel(AfflictionTypes.VAMPIRISM) > 0
+        val isVampire = player.isAlive && AfflictionPlayerAttachment.getData(player).getVampireLevel() > 0
         val hasSunReversed = hasReversedSunTarot(player)
 
         if (isVampire) {
@@ -104,7 +104,7 @@ object VampireSpecificEventHandler {
         // Check if player has The Sun Reversed tarot card
         val hasSunReversed = hasReversedSunTarot(player)
 
-        if ((isInSunlight && currentData.getLevel(AfflictionTypes.VAMPIRISM) > 0) ||
+        if ((isInSunlight && currentData.getVampireLevel() > 0) ||
             (isInSunlight && hasSunReversed)) {
 
             if (!player.isCreative && !player.isSpectator) {
@@ -143,7 +143,7 @@ object VampireSpecificEventHandler {
         val sunDamageSource = (player.level().damageSources() as DamageSourcesInvoker)
             .invokeSource(WitcheryDamageSources.IN_SUN)
         val bloodData = BloodPoolLivingEntityAttachment.getData(player)
-        val vampireLevel = affData.getLevel(AfflictionTypes.VAMPIRISM)
+        val vampireLevel = affData.getVampireLevel()
 
         val event = VampireEvent.SunDamage(player)
         NeoForge.EVENT_BUS.post(event)
@@ -219,7 +219,7 @@ object VampireSpecificEventHandler {
     fun respawn(oldPlayer: Player, newPlayer: Player, alive: Boolean) {
         val data = AfflictionPlayerAttachment.getData(newPlayer)
 
-        if (data.getLevel(AfflictionTypes.VAMPIRISM) > 0) {
+        if (data.getVampireLevel() > 0) {
             val oldBloodData = BloodPoolLivingEntityAttachment.getData(oldPlayer)
 
             newPlayer.foodData.foodLevel = RESPAWN_FOOD_LEVEL
@@ -264,7 +264,7 @@ object VampireSpecificEventHandler {
     @JvmStatic
     fun resetNightCount(livingEntity: LivingEntity) {
         if (livingEntity is Player && AfflictionPlayerAttachment.getData(livingEntity)
-                .getLevel(AfflictionTypes.VAMPIRISM) == 3
+                .getVampireLevel() == 3
         ) {
             VampireLeveling.resetNightCounter(livingEntity)
         }

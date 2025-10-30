@@ -25,7 +25,7 @@ object WerewolfSpecificEventHandler {
 
         val player = damageSource.entity as ServerPlayer
         val wereData = AfflictionPlayerAttachment.getData(player)
-        val wereLevel = wereData.getLevel(AfflictionTypes.LYCANTHROPY)
+        val wereLevel = wereData.getWerewolfLevel()
 
         when (livingEntity) {
             is Piglin -> WerewolfLeveling.increaseKilledPiglin(player)
@@ -102,7 +102,7 @@ object WerewolfSpecificEventHandler {
         originalDamage: Float
     ): Float {
         val wereData = AfflictionPlayerAttachment.getData(attacker)
-        val wereLevel = wereData.getLevel(AfflictionTypes.LYCANTHROPY)
+        val wereLevel = wereData.getWerewolfLevel()
 
         if (!TransformationHandler.isWolf(attacker) && !TransformationHandler.isWerewolf(attacker)) {
             return originalDamage

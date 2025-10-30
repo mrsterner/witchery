@@ -165,7 +165,7 @@ object NecroHandler {
             if (livingEntity.type == EntityType.VILLAGER) {
                 val attacker = damageSource?.entity as? Player
                 if (attacker != null) {
-                    val lichLevel = AfflictionPlayerAttachment.getData(attacker).getLevel(AfflictionTypes.LICHDOM)
+                    val lichLevel = AfflictionPlayerAttachment.getData(attacker).getLichLevel()
                     if (lichLevel >= 6) {
                         val serverLevel = livingEntity.level() as? ServerLevel ?: return
                         val data = NecromancerLevelAttachment.getData(serverLevel)
@@ -209,7 +209,7 @@ object NecroHandler {
 
         if (list.isEmpty()) return
 
-        val lichLevel = AfflictionPlayerAttachment.getData(summoner).getLevel(AfflictionTypes.LICHDOM)
+        val lichLevel = AfflictionPlayerAttachment.getData(summoner).getLichLevel()
         val despawnTime = calculateDespawnTime(lichLevel)
 
         for ((pos, entityType) in list) {
