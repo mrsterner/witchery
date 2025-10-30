@@ -30,25 +30,9 @@
       "color": -52666,
       "itemStack": {
         "count": 1,
-        "id": "minecraft:spider_eye"
+        "id": "minecraft:fermented_spider_eye"
       },
       "order": 2
-    },
-    {
-      "color": -3314106,
-      "itemStack": {
-        "count": 1,
-        "id": "minecraft:brown_mushroom"
-      },
-      "order": 3
-    },
-    {
-      "color": -52666,
-      "itemStack": {
-        "count": 1,
-        "id": "minecraft:spider_eye"
-      },
-      "order": 4
     },
     {
       "color": -6933866,
@@ -56,7 +40,7 @@
         "count": 1,
         "id": "witchery:odor_of_purity"
       },
-      "order": 5
+      "order": 3
     }
   ],
   "outputItem": {

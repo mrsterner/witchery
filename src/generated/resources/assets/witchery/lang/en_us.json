@@ -1642,6 +1642,8 @@
   "witchery:ritual/rot.tooltip": "Turns life to death",
   "witchery:ritual/set_midnight": "Turn Night",
   "witchery:ritual/set_midnight.tooltip": "Sets the time to midnight",
+  "witchery:ritual/soul_severance": "Rite of Severed Soul",
+  "witchery:ritual/soul_severance.tooltip": "Will Split you from your flesh, not advised",
   "witchery:ritual/soulbind": "Rite of Soulbind",
   "witchery:ritual/soulbind.tooltip": "Fuses a players soul form into flesh again",
   "witchery:ritual/summon_demon": "Summon Demon",

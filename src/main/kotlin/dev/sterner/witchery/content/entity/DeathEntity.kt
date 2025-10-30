@@ -50,10 +50,9 @@ class DeathEntity(level: Level) : Monster(WitcheryEntityTypes.DEATH.get(), level
         private val DATA_PHASE: EntityDataAccessor<Int> =
             SynchedEntityData.defineId(DeathEntity::class.java, EntityDataSerializers.INT)
 
-        // Boss phases
         const val PHASE_NORMAL = 0
-        const val PHASE_ENRAGED = 1 // Below 50% health
-        const val PHASE_DESPERATE = 2 // Below 25% health
+        const val PHASE_ENRAGED = 1
+        const val PHASE_DESPERATE = 2
 
         fun createAttributes(): AttributeSupplier.Builder {
             return createMonsterAttributes()
@@ -113,9 +112,6 @@ class DeathEntity(level: Level) : Monster(WitcheryEntityTypes.DEATH.get(), level
         targetSelector.addGoal(2, NearestAttackableTargetGoal(this, Player::class.java, true))
     }
 
-    /**
-     * Sets Death's summoner and forces it to focus on them
-     */
     fun setForcedTarget(target: LivingEntity) {
         this.target = target
         this.hasForcedTarget = true

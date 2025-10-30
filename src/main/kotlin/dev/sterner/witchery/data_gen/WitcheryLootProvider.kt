@@ -61,17 +61,13 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
 
         override fun getKnownEntityTypes(): Stream<EntityType<*>?> {
             return WitcheryEntityTypes.ENTITY_TYPES.entries.stream().map { it.value() }.filter {
-                it != WitcheryEntityTypes.MANDRAKE.get() &&
                         it != WitcheryEntityTypes.INSANITY.get() &&
-                        it != WitcheryEntityTypes.DEATH.get() &&
-                        it != WitcheryEntityTypes.HORNED_HUNTSMAN.get() &&
                         it != WitcheryEntityTypes.WEREWOLF.get() &&
                         it != WitcheryEntityTypes.AREA_EFFECT_CLOUD.get() &&
                         it != WitcheryEntityTypes.ELLE.get() &&
                         it != WitcheryEntityTypes.THROWN_BREW.get() &&
                         it != WitcheryEntityTypes.BROOM.get() &&
                         it != WitcheryEntityTypes.VAMPIRE.get() &&
-                        it != WitcheryEntityTypes.BABA_YAGA.get() &&
                         it != WitcheryEntityTypes.LILITH.get() &&
                         it != WitcheryEntityTypes.PARASITIC_LOUSE.get() &&
                         it != WitcheryEntityTypes.IMP.get()
@@ -79,6 +75,63 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
         }
 
         override fun generate() {
+            this.add(
+                WitcheryEntityTypes.DEATH.get(),
+                LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(2f))
+                            .add(LootItem.lootTableItem(WitcheryItems.DEATH_HOOD.get())
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f))))
+                            .add(LootItem.lootTableItem(WitcheryItems.DEATH_BOOTS.get())
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f))))
+                            .add(LootItem.lootTableItem(WitcheryItems.DEATH_SICKLE.get())
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f))))
+                            .add(LootItem.lootTableItem(WitcheryItems.DEATH_ROBE.get())
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f))))
+                    )
+            )
+
+            this.add(
+                WitcheryEntityTypes.HORNED_HUNTSMAN.get(), LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1.0F))
+                            .add(
+                                LootItem.lootTableItem(WitcheryItems.HUNTSMAN_SPEAR.get())
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                            )
+                    )
+            )
+
+            this.add(
+                WitcheryEntityTypes.BABA_YAGA.get(), LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1.0F))
+                            .add(
+                                LootItem.lootTableItem(WitcheryItems.BABA_YAGAS_HAT.get())
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                            )
+                    )
+            )
+
+            this.add(
+                WitcheryEntityTypes.MANDRAKE.get(), LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(2.0F))
+                            .add(
+                                LootItem.lootTableItem(WitcheryItems.MANDRAKE_ROOT.get())
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                            )
+                            .add(
+                                LootItem.lootTableItem(WitcheryItems.MANDRAKE_SEEDS.get())
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                            )
+                    )
+            )
+
             this.add(
                 WitcheryEntityTypes.OWL.get(), LootTable.lootTable()
                     .withPool(

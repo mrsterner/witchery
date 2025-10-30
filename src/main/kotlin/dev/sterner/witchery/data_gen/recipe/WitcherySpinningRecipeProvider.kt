@@ -89,7 +89,7 @@ object WitcherySpinningRecipeProvider {
             .save(exporter, Witchery.id("fanciful_thread"))
 
         SpinningWheelRecipeBuilder.create()
-            .addInput(ItemStack(WitcheryItems.WORMWOOD.get(), 3))
+            .addInput(ItemStack(WitcheryItems.SPANISH_MOSS.get(), 3))
             .addInput(WitcheryItems.WOOD_ASH.get())
             .addInput(WitcheryItems.OIL_OF_VITRIOL.get())
             .setCookingTime(100)

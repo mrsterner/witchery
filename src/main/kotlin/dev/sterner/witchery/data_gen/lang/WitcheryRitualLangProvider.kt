@@ -125,5 +125,9 @@ object WitcheryRitualLangProvider {
         add("witchery:ritual/bestial_call", "Rite of Bestial Call")
         add("witchery:ritual/bestial_call.tooltip", "Will spawn 10 random animals")
 
+
+        add("witchery:ritual/soul_severance", "Rite of Severed Soul")
+        add("witchery:ritual/soul_severance.tooltip", "Will Split you from your flesh, not advised")
+
     }
 }

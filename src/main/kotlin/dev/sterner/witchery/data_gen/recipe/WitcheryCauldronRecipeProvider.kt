@@ -72,9 +72,7 @@ object WitcheryCauldronRecipeProvider {
                 PotionContents.createItemStack(Items.POTION, Potions.NIGHT_VISION),
                 Color(50, 20, 150).rgb
             )
-            .addInputWithColor(Items.SPIDER_EYE, Color(255, 50, 70).rgb)
-            .addInputWithColor(Items.BROWN_MUSHROOM, Color(205, 110, 70).rgb)
-            .addInputWithColor(Items.SPIDER_EYE, Color(255, 50, 70).rgb)
+            .addInputWithColor(Items.FERMENTED_SPIDER_EYE, Color(255, 50, 70).rgb)
             .addInputWithColor(WitcheryItems.ODOR_OF_PURITY.get(), Color(150, 50, 150).rgb)
             .setOutput(WitcheryItems.BREW_OF_REVEALING.get())
             .setAltarPower(100)
