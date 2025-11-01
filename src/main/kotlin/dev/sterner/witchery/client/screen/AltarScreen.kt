@@ -8,7 +8,10 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.entity.player.Inventory
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.api.distmarker.OnlyIn
 
+@OnlyIn(Dist.CLIENT)
 class AltarScreen(menu: AltarMenu, inventory: Inventory, title: Component) : AbstractContainerScreen<AltarMenu>(
     menu, NamelessInventory(inventory), Component.empty().append(title).withStyle(ChatFormatting.WHITE)
 ) {

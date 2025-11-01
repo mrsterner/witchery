@@ -6,9 +6,9 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.WitcheryConstants
+import dev.sterner.witchery.core.registry.WitcheryShaders
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.necromancy.SoulPoolPlayerAttachment
-import dev.sterner.witchery.core.registry.WitcheryShaders
 import dev.sterner.witchery.network.DebugAABBRenderS2CPayload
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
@@ -21,6 +21,8 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.phys.AABB
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.api.distmarker.OnlyIn
 import net.neoforged.neoforge.network.PacketDistributor
 import org.joml.Matrix4f
 import org.joml.Quaternionf
@@ -30,6 +32,7 @@ import kotlin.math.atan
 import kotlin.math.cos
 import kotlin.math.sin
 
+@OnlyIn(Dist.CLIENT)
 object RenderUtils {
 
     /**

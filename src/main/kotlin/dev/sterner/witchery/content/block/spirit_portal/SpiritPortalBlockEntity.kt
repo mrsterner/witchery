@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.Mth
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
@@ -58,21 +59,30 @@ class SpiritPortalBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return InteractionResult.SUCCESS
     }
 
+    override fun tick(
+        level: Level,
+        pos: BlockPos,
+        blockState: BlockState
+    ) {
+        if (!level.isClientSide) {
+            val progressChangeSpeed = 0.05f
+
+            val previousProgress = progress
+            progress = if (isOpening) {
+                (progress + progressChangeSpeed).coerceAtMost(1f)
+            } else {
+                (progress - progressChangeSpeed).coerceAtLeast(0f)
+            }
+
+            if (previousProgress != progress) {
+                lastProgress = previousProgress
+                setChanged()
+            }
+        }
+    }
+
     override fun tickServer(level: ServerLevel) {
-        val deltaTime = Minecraft.getInstance().timer.gameTimeDeltaTicks
-        val progressChangeSpeed = 0.2f
 
-        val previousProgress = progress
-        progress = if (isOpening) {
-            (progress + deltaTime * progressChangeSpeed).coerceAtMost(1f)
-        } else {
-            (progress - deltaTime * progressChangeSpeed).coerceAtLeast(0f)
-        }
-
-        if (previousProgress != progress) {
-            lastProgress = previousProgress
-            setChanged()
-        }
     }
 
     override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {

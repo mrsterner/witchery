@@ -506,7 +506,6 @@ dev/sterner/witchery/WitcheryNeoForgeEvents.kt
   fun onLivingTick(event: EntityTickEvent.Post)
   fun onLivingTick2(event: EntityTickEvent.Post)
   fun onItemUsedFinish(event: LivingEntityUseItemEvent.Finish)
-  fun onLivingHurtHighest(event: LivingIncomingDamageEvent)
   fun onLivingHurt(event: LivingIncomingDamageEvent)
   fun onLivingHurt(event: LivingDamageEvent.Post)
   fun onAddReloadListener(event: AddReloadListenerEvent)

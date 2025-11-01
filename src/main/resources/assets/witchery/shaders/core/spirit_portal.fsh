@@ -2,6 +2,8 @@
 
 #moj_import <fog.glsl>
 
+#define PI 3.1415926538
+
 uniform sampler2D Sampler0;
 uniform float GameTime;
 uniform vec4 ColorModulator;
@@ -18,37 +20,38 @@ in vec4 normal;
 
 out vec4 fragColor;
 
-float hash(vec2 p) {
-    p = fract(p * vec2(123.34, 456.21));
-    p += dot(p, p + 45.32);
-    return fract(p.x * p.y);
-}
-
 void main() {
-    // Use mod to keep time manageable
-    float time = mod(GameTime * 1000.0, 1000.0);
 
-    // Pixelate
-    vec2 uv = floor(texCoord0 * 10.0) / 10.0;
+    float time = GameTime * 500.0;
+    vec2 texCopy = texCoord0;
 
-    // Create falling motion
-    float fall = uv.y - time * 0.001;
+    float aspectRatio = 9.0 / 9.0;
+    texCopy.y /= aspectRatio;
 
-    // Multiple columns of falling particles
-    float col1 = hash(vec2(floor(uv.x * 10.0), floor(fall * 20.0)));
-    float col2 = hash(vec2(floor(uv.x * 10.0 + 0.5), floor(fall * 20.0 + 10.0)));
-    float col3 = hash(vec2(floor(uv.x * 10.0 - 0.3), floor(fall * 20.0 + 5.0)));
+    float pixelationFactor = 200.0;
+    texCopy = floor(texCopy * pixelationFactor) / pixelationFactor;
 
-    // Create threshold for visible particles
-    float particles = 0.0;
-    if (col1 > 0.6) particles += 1.0;
-    if (col2 > 0.65) particles += 0.8;
-    if (col3 > 0.7) particles += 0.6;
+    texCopy *= vec2(5.0, 5.0);
+    vec2 p = mod(texCopy * PI * 2.0, PI * 2.0) - 256.0;
 
-    float intensity = particles * 0.4;
+    vec2 i = vec2(p);
+    float c = 1.0;
+    float inten = 0.005;
+    float alpha = 0.1;
 
-    // Red waterfall color
-    vec3 color = vec3(intensity * 0.9, intensity * 0.1, intensity * 0.05);
+    for (int n = 0; n < 5; n++) {
+        float t = time * (1.0 - (3.5 / float(n + 1)));
+        i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
+        c += 1.0 / length(vec2(p.x / (sin(i.x + t) / inten), p.y / (cos(i.y + t) / inten)));
+    }
+    c /= 5.0;
+    c = 1.17 - pow(c, 1.4);
+    vec3 colour = vec3(pow(abs(c), 8.0));
+    colour = clamp(colour + vec3(0.3, 0.7, 0.7), 0.0, 1.0);
 
-    fragColor = vec4(color, 1.0);
+    if (length(colour.rgb) < 0.1 * 3.0) {
+        discard;
+    }
+
+    fragColor = vec4(colour, max(colour.r * 0.1, max(colour.g * 0.1, colour.b)) * 0.5);
 }

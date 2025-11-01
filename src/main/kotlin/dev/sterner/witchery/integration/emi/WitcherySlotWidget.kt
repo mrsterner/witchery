@@ -3,7 +3,10 @@ package dev.sterner.witchery.integration.emi
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.SlotWidget
 import net.minecraft.client.gui.GuiGraphics
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.api.distmarker.OnlyIn
 
+@OnlyIn(Dist.CLIENT)
 class WitcherySlotWidget(stack: EmiStack?, x: Int, y: Int, val scale: Double = 1.0) : SlotWidget(stack, x, y) {
 
     override fun shouldDrawSlotHighlight(mouseX: Int, mouseY: Int): Boolean {

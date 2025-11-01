@@ -1,5 +1,6 @@
 package dev.sterner.witchery.content.block.cauldron
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.block.AltarPowerConsumer
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
@@ -519,13 +520,24 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             }
             val witchesPotion = createOutput(pPlayer, potion)
 
-            if (level!!.random.nextFloat() < witchesPotion.first) {
-                Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, witchesPotion.second)
+            if (!level!!.isClientSide) {
+                if (!pPlayer.addItem(witchesPotion.second.copy())) {
+                    Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y + 0.5, pPlayer.z, witchesPotion.second.copy())
+                }
+                val roll1 = level!!.random.nextFloat()
+                if (roll1 < witchesPotion.first) {
+                    if (!pPlayer.addItem(witchesPotion.second.copy())) {
+                        Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y + 0.5, pPlayer.z, witchesPotion.second.copy())
+                    }
+                }
+
+                val roll2 = level!!.random.nextFloat()
+                if (roll2 < witchesPotion.third) {
+                    if (!pPlayer.addItem(witchesPotion.second.copy())) {
+                        Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y + 0.5, pPlayer.z, witchesPotion.second.copy())
+                    }
+                }
             }
-            if (level!!.random.nextFloat() < witchesPotion.third) {
-                Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, witchesPotion.second)
-            }
-            Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, witchesPotion.second)
 
             fluidTank.drain(potionAmount, IFluidHandler.FluidAction.EXECUTE)
             playSound(level, pPlayer, blockPos, SoundEvents.ITEM_PICKUP, 0.5f)
@@ -538,14 +550,23 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
             pStack.shrink(1)
             val brewOutput = createOutput(pPlayer, brewItemOutput.copy())
 
-            if (level != null) {
-                if (level!!.random.nextFloat() < brewOutput.first) {
-                    Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, brewOutput.second)
+            if (level != null && !level!!.isClientSide) {
+                if (!pPlayer.addItem(brewOutput.second.copy())) {
+                    Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y + 0.5, pPlayer.z, brewOutput.second.copy())
                 }
-                if (level!!.random.nextFloat() < brewOutput.third) {
-                    Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, brewOutput.second)
+                val roll1 = level!!.random.nextFloat()
+                if (roll1 < brewOutput.first) {
+                    if (!pPlayer.addItem(brewOutput.second.copy())) {
+                        Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y + 0.5, pPlayer.z, brewOutput.second.copy())
+                    }
                 }
-                Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y, pPlayer.z, brewOutput.second)
+
+                val roll2 = level!!.random.nextFloat()
+                if (roll2 < brewOutput.third) {
+                    if (!pPlayer.addItem(brewOutput.second.copy())) {
+                        Containers.dropItemStack(level!!, pPlayer.x, pPlayer.y + 0.5, pPlayer.z, brewOutput.second.copy())
+                    }
+                }
             }
 
             fluidTank.drain(potionAmount, IFluidHandler.FluidAction.EXECUTE)
@@ -561,9 +582,17 @@ class CauldronBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEnti
     private fun createOutput(pPlayer: Player, itemStack: ItemStack): Triple<Float, ItemStack, Float> {
         var bonus = 0f
         var thirdBonus = 0f
-        if (pPlayer.getItemBySlot(EquipmentSlot.HEAD).`is`(WitcheryItems.WITCHES_HAT.get())) bonus += 0.35f
-        if (pPlayer.getItemBySlot(EquipmentSlot.CHEST).`is`(WitcheryItems.WITCHES_ROBES.get())) bonus += 0.35f
-        if (pPlayer.getItemBySlot(EquipmentSlot.CHEST).`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
+
+        val headItem = pPlayer.getItemBySlot(EquipmentSlot.HEAD)
+        val chestItem = pPlayer.getItemBySlot(EquipmentSlot.CHEST)
+
+        if (headItem.`is`(WitcheryItems.WITCHES_HAT.get())) {
+            bonus += 0.35f
+        }
+        if (chestItem.`is`(WitcheryItems.WITCHES_ROBES.get())) {
+            bonus += 0.35f
+        }
+        if (headItem.`is`(WitcheryItems.BABA_YAGAS_HAT.get())) {
             bonus += 0.25f
             thirdBonus += 0.25f
         }

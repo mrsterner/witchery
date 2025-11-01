@@ -1,5 +1,6 @@
 package dev.sterner.witchery.content.block
 
+import dev.sterner.witchery.content.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
@@ -71,7 +72,7 @@ class SunCollectorBlock(properties: Properties) : Block(
             if (state.getValue(SPHERE_STATE) == 2) {
                 sun.set(WitcheryDataComponents.HAS_SUN.get(), true)
             }
-            player.setItemInHand(InteractionHand.MAIN_HAND, sun)
+            player.addItem(sun)
         }
 
         return super.useWithoutItem(state, level, pos, player, hitResult)

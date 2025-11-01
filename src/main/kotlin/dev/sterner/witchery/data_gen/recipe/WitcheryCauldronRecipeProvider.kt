@@ -295,7 +295,7 @@ object WitcheryCauldronRecipeProvider {
             .save(exporter, Witchery.id("pentacle"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART, Color(255, 55, 50).rgb)
+            .addInputWithColor(Items.CRIMSON_FUNGUS, Color(255, 55, 50).rgb)
             .addInputWithColor(WitcheryItems.ENT_TWIG.get(), Color(255, 100, 1).rgb)
             .addInputWithColor(WitcheryItems.MUTANDIS_EXTREMIS.get(), Color(255, 1, 1).rgb)
             .addOutput(WitcheryItems.MUTATING_SPRING.get())
@@ -313,7 +313,7 @@ object WitcheryCauldronRecipeProvider {
             .save(exporter, Witchery.id("golden_chalk"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART, Color(255, 50, 50).rgb)
+            .addInputWithColor(Items.WARPED_FUNGUS, Color(255, 50, 50).rgb)
             .addInputWithColor(WitcheryItems.TEAR_OF_THE_GODDESS.get(), Color(105, 50, 250).rgb)
             .addInputWithColor(Items.ENDER_PEARL, Color(50, 150, 150).rgb)
             .addInputWithColor(WitcheryItems.RITUAL_CHALK.get(), Color(255, 255, 255).rgb)
@@ -323,7 +323,7 @@ object WitcheryCauldronRecipeProvider {
             .save(exporter, Witchery.id("otherwhere_chalk"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART, Color(255, 50, 50).rgb)
+            .addInputWithColor(Items.CRIMSON_FUNGUS, Color(255, 50, 50).rgb)
             .addInputWithColor(Items.BLAZE_POWDER, Color(205, 200, 10).rgb)
             .addInputWithColor(WitcheryItems.RITUAL_CHALK.get(), Color(200, 200, 200).rgb)
             .addOutput(WitcheryItems.INFERNAL_CHALK.get())
@@ -341,7 +341,7 @@ object WitcheryCauldronRecipeProvider {
             .save(exporter, Witchery.id("mutandis"))
 
         CauldronCraftingRecipeBuilder.create()
-            .addInputWithColor(Items.NETHER_WART, Color(255, 50, 50).rgb)
+            .addInputWithColor(Items.CRIMSON_FUNGUS, Color(255, 50, 50).rgb)
             .addInputWithColor(WitcheryItems.MUTANDIS.get(), Color(155, 150, 50).rgb)
             .addOutput(WitcheryItems.MUTANDIS_EXTREMIS.get())
             .setAltarPower(100)

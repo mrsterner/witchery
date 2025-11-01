@@ -43,21 +43,22 @@ class WitchesHandItem(properties: Properties) : Item(properties) {
             .map { inv -> inv.findFirstCurio(WitcheryItems.HAGS_RING.get()).isPresent }
             .orElse(false)
 
-        if (!hasRing) return InteractionResult.PASS
+        if (hasRing && state.`is`(WitcheryTags.VEIN_MINEABLE) && !player.isShiftKeyDown) {
+            if (VeinMiningTracker.isVeinMining(player)) {
+                return InteractionResult.SUCCESS
+            }
 
-        if (!state.`is`(WitcheryTags.VEIN_MINEABLE)) return InteractionResult.PASS
+            val oresToBreak = HagsRingItem.gatherConnectedOres(level as ServerLevel, pos, state.block)
 
-        if (player.isShiftKeyDown) return InteractionResult.PASS
-
-        if (VeinMiningTracker.isVeinMining(player)) {
-            return InteractionResult.SUCCESS
+            if (oresToBreak.isNotEmpty()) {
+                VeinMiningTracker.startVeinMining(player, oresToBreak)
+                return InteractionResult.SUCCESS
+            }
         }
 
-        val oresToBreak = HagsRingItem.gatherConnectedOres(level as ServerLevel, pos, state.block)
-
-        if (oresToBreak.isNotEmpty()) {
-            VeinMiningTracker.startVeinMining(player, oresToBreak)
-            return InteractionResult.SUCCESS
+        if (InfusionHandler.canUse(player)) {
+            player.startUsingItem(context.hand)
+            return InteractionResult.CONSUME
         }
 
         return InteractionResult.PASS

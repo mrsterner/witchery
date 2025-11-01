@@ -84,6 +84,14 @@ object WitcheryLootInjects {
                 )
                 .build()
             event.table.addPool(snowbellPool)
+
+            val wolfsbane = LootPool.lootPool()
+                .add(
+                    LootItem.lootTableItem(WitcheryItems.WOLFSBANE_SEEDS.get())
+                        .`when`(LootItemRandomChanceCondition.randomChance(0.03f))
+                )
+                .build()
+            event.table.addPool(wolfsbane)
         }
     }
 }

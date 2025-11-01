@@ -35,3 +35,17 @@ file="META-INF/accesstransformer.cfg"
     ordering="NONE"
     side="BOTH"
 
+[[dependencies.${mod_id}]]
+    modId="kotlinforforge"
+    type="required"
+    versionRange="${kff_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="modonomicon"
+    type="required"
+    versionRange="${modonomicon_version_range}"
+    ordering="NONE"
+    side="BOTH"
+

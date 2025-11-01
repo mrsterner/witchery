@@ -51,7 +51,6 @@ class BrewOfOblivion(color: Int, properties: Properties) : ThrowableBrewItem(col
 
             if (livingEntity is NeutralMob) {
                 livingEntity.stopBeingAngry()
-                livingEntity.playerDied(null)
                 livingEntity.persistentAngerTarget = null
                 livingEntity.remainingPersistentAngerTime = 0
             }

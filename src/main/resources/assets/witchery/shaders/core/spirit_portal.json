@@ -64,6 +64,14 @@
       ]
     },
     {
+      "name": "FogShape",
+      "type": "int",
+      "count": 1,
+      "values": [
+        0
+      ]
+    },
+    {
       "name": "GameTime",
       "type": "float",
       "count": 1,

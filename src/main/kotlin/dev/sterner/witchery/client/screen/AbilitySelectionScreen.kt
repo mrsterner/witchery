@@ -2,10 +2,9 @@ package dev.sterner.witchery.client.screen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
-import dev.sterner.witchery.features.affliction.AfflictionTypes
-
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility
 import dev.sterner.witchery.features.affliction.vampire.VampireAbility
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfAbility
@@ -18,8 +17,11 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.player.Player
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.api.distmarker.OnlyIn
 import net.neoforged.neoforge.network.PacketDistributor
 
+@OnlyIn(Dist.CLIENT)
 class AbilitySelectionScreen(
     private val player: Player
 ) : Screen(Component.literal("Select Abilities")) {

@@ -176,10 +176,10 @@ class RotRitual : Ritual("rot") {
 
         val zombieEntity = when (entity) {
             is Villager -> {
-                val zombieVillager: ZombieVillager = entity.convertTo(EntityType.ZOMBIE_VILLAGER, false)!!
+                val zombieVillager = ZombieVillager(EntityType.ZOMBIE_VILLAGER, level)
                 zombieVillager.finalizeSpawn(
                     level as ServerLevel,
-                    level.getCurrentDifficultyAt(zombieVillager.blockPosition()),
+                    level.getCurrentDifficultyAt(entity.blockPosition()),
                     MobSpawnType.CONVERSION,
                     Zombie.ZombieGroupData(false, true)
                 )
@@ -187,6 +187,9 @@ class RotRitual : Ritual("rot") {
                 zombieVillager.setGossips(entity.gossips.store(NbtOps.INSTANCE))
                 zombieVillager.setTradeOffers(entity.offers.copy())
                 zombieVillager.villagerXp = entity.villagerXp
+                zombieVillager.setPos(entity.x, entity.y, entity.z)
+                zombieVillager.yRot = entity.yRot
+                zombieVillager.xRot = entity.xRot
                 zombieVillager
             }
 
@@ -198,6 +201,9 @@ class RotRitual : Ritual("rot") {
                     MobSpawnType.CONVERSION,
                     null
                 )
+                zombiePig.setPos(entity.x, entity.y, entity.z)
+                zombiePig.yRot = entity.yRot
+                zombiePig.xRot = entity.xRot
                 zombiePig
             }
 
@@ -209,7 +215,7 @@ class RotRitual : Ritual("rot") {
                     MobSpawnType.CONVERSION,
                     null
                 )
-
+                zombieHorse.setPos(entity.x, entity.y, entity.z)
                 zombieHorse.yRot = entity.yRot
                 zombieHorse.xRot = entity.xRot
                 zombieHorse
@@ -223,6 +229,9 @@ class RotRitual : Ritual("rot") {
                     MobSpawnType.CONVERSION,
                     null
                 )
+                zoglin.setPos(entity.x, entity.y, entity.z)
+                zoglin.yRot = entity.yRot
+                zoglin.xRot = entity.xRot
                 zoglin
             }
 
@@ -234,6 +243,9 @@ class RotRitual : Ritual("rot") {
                     MobSpawnType.CONVERSION,
                     null
                 )
+                witherSkeleton.setPos(entity.x, entity.y, entity.z)
+                witherSkeleton.yRot = entity.yRot
+                witherSkeleton.xRot = entity.xRot
                 witherSkeleton
             }
 
@@ -241,8 +253,6 @@ class RotRitual : Ritual("rot") {
         }
 
         if (zombieEntity != null) {
-            zombieEntity.setPos(entity.x, entity.y, entity.z)
-
             entity.remove(Entity.RemovalReason.DISCARDED)
             level.addFreshEntity(zombieEntity)
 

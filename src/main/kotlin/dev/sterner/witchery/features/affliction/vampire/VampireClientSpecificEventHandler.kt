@@ -2,20 +2,22 @@ package dev.sterner.witchery.features.affliction.vampire
 
 import com.mojang.blaze3d.platform.ScreenManager.clamp
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.features.affliction.event.AfflictionClientEventHandler
-import dev.sterner.witchery.features.affliction.AfflictionTypes
-import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.core.util.RenderUtils
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
+import dev.sterner.witchery.features.affliction.event.AfflictionClientEventHandler
+import dev.sterner.witchery.features.affliction.event.TransformationHandler
+import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.player.LocalPlayer
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.api.distmarker.OnlyIn
 
+@OnlyIn(Dist.CLIENT)
 object VampireClientSpecificEventHandler {
 
     private val sun = Witchery.id("textures/gui/affliction_abilities/sun_")

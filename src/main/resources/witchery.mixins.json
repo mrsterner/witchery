@@ -56,7 +56,6 @@
     "guardvillagers.GuardMixin",
     "modonomicon.BookCategoryNodeScreenMixin",
     "modonomicon.BookContentRendererMixin",
-    "modonomicon.BookIconMixin",
     "possession.BrainMixin",
     "possession.EntityMixin",
     "possession.EntitySelectorMixin",
@@ -90,7 +89,9 @@
     "requireAnnotations": true
   },
   "client": [
+    "modonomicon.BookIconMixin",
     "client.BookParentNodeScreenMixin",
+    "client.EntityRenderDispatcherMixin",
     "client.GuiMixin",
     "client.HumanoidModelMixin",
     "client.InventoryScreenMixin",

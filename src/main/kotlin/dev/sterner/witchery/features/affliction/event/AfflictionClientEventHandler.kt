@@ -10,7 +10,10 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Player
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.api.distmarker.OnlyIn
 
+@OnlyIn(Dist.CLIENT)
 object AfflictionClientEventHandler {
 
     private val overlay = Witchery.id("textures/gui/ability_hotbar_selection.png")

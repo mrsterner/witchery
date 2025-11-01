@@ -42,7 +42,7 @@ object InfusionHandler {
      * @param player the player to check.
      * @return true if the player can use infusion actions, false otherwise.
      */
-    private fun canUse(player: Player): Boolean {
+    fun canUse(player: Player): Boolean {
         return hasWitchesHand(player) && InfusionPlayerAttachment.getData(player).type != InfusionType.NONE
     }
 
