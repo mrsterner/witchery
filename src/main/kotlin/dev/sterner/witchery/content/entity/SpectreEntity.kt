@@ -71,25 +71,6 @@ class SpectreEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.S
                 .add(Attributes.ATTACK_DAMAGE, 4.0)
                 .add(Attributes.FOLLOW_RANGE, 48.0)
         }
-
-        val REVEALED: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
-            SpectreEntity::class.java, EntityDataSerializers.BOOLEAN
-        )
-    }
-
-    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
-        builder.define(REVEALED, false)
-        super.defineSynchedData(builder)
-    }
-
-    override fun save(compound: CompoundTag): Boolean {
-        compound.putBoolean("Revealed", entityData.get(REVEALED))
-        return super.save(compound)
-    }
-
-    override fun load(compound: CompoundTag) {
-        entityData.set(REVEALED, compound.getBoolean("Revealed"))
-        super.load(compound)
     }
 
     override fun isInvulnerableTo(source: DamageSource): Boolean {

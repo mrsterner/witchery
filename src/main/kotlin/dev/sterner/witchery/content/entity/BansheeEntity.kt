@@ -39,24 +39,7 @@ class BansheeEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.B
                 .add(Attributes.FOLLOW_RANGE, 48.0)
         }
 
-        val REVEALED: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
-            BansheeEntity::class.java, EntityDataSerializers.BOOLEAN
-        )
-    }
 
-    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
-        builder.define(REVEALED, false)
-        super.defineSynchedData(builder)
-    }
-
-    override fun save(compound: CompoundTag): Boolean {
-        compound.putBoolean("Revealed", entityData.get(REVEALED))
-        return super.save(compound)
-    }
-
-    override fun load(compound: CompoundTag) {
-        entityData.set(REVEALED, compound.getBoolean("Revealed"))
-        super.load(compound)
     }
 
     override fun isInvulnerableTo(source: DamageSource): Boolean {

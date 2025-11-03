@@ -1,5 +1,6 @@
 package dev.sterner.witchery.content.item.brew
 
+import dev.sterner.witchery.content.entity.AbstractSpectralEntity
 import dev.sterner.witchery.content.entity.BansheeEntity
 import dev.sterner.witchery.content.entity.SpectralPigEntity
 import dev.sterner.witchery.content.entity.SpectreEntity
@@ -14,17 +15,11 @@ class BrewOfRevealingItem(color: Int, properties: Properties) : ThrowableBrewIte
         if (livingEntity.hasEffect(MobEffects.INVISIBILITY)) {
             livingEntity.removeEffect(MobEffects.INVISIBILITY)
         }
-        if (livingEntity is BansheeEntity) {
-            livingEntity.entityData.set(BansheeEntity.REVEALED, true)
+        if (livingEntity is AbstractSpectralEntity) {
+            livingEntity.entityData.set(AbstractSpectralEntity.REVEALED, true)
         }
         if (livingEntity is SpectralPigEntity) {
             livingEntity.entityData.set(SpectralPigEntity.REVEALED, true)
-        }
-        if (livingEntity is SpectreEntity) {
-            livingEntity.entityData.set(SpectreEntity.REVEALED, true)
-        }
-        if (livingEntity is SpiritEntity) {
-            livingEntity.entityData.set(SpiritEntity.REVEALED, true)
         }
     }
 }
