@@ -52,19 +52,16 @@ open class HunterArmorItem(material: Holder<ArmorMaterial>, type: Type, properti
                 Component.literal("Set Bonus:").withStyle(ChatFormatting.GRAY)
             )
             tooltipComponents.add(
-                Component.literal(" - Reduced potion duration").withStyle(ChatFormatting.BLUE)
+                Component.literal(" - Reduced harmful potion duration").withStyle(ChatFormatting.BLUE)
             )
             tooltipComponents.add(
                 Component.literal(" - Reduced curse duration").withStyle(ChatFormatting.BLUE)
             )
             tooltipComponents.add(
-                Component.literal(" - Reduced poppet damage").withStyle(ChatFormatting.BLUE)
-            )
-            tooltipComponents.add(
                 Component.literal(" - Magic resistance").withStyle(ChatFormatting.BLUE)
             )
             tooltipComponents.add(
-                Component.literal(" - Curse reflection").withStyle(ChatFormatting.BLUE)
+                Component.literal(" - Possible Curse reflection").withStyle(ChatFormatting.BLUE)
             )
             tooltipComponents.add(
                 Component.literal("Bonuses scale with pieces worn").withStyle(ChatFormatting.DARK_GRAY)

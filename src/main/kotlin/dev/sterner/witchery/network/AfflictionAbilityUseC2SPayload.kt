@@ -24,11 +24,7 @@ class AfflictionAbilityUseC2SPayload(val abilityIndex: Int) : CustomPacketPayloa
 
         val abilities = AfflictionAbilityHandler.getAbilities(player)
 
-        val ability = abilities.getOrNull(abilityIndex)
-
-        if (ability == null) {
-            return
-        }
+        val ability = abilities.getOrNull(abilityIndex) ?: return
 
         val isOnCooldown = AbilityCooldownManager.isOnCooldown(player, ability)
 

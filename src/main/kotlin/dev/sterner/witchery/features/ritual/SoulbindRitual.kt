@@ -30,8 +30,7 @@ class SoulbindRitual : Ritual("soulbind") {
     ): Boolean {
         if (level.isClientSide) return true
 
-        val player = level.server?.playerList?.getPlayer(goldenChalkBlockEntity.targetPlayer!!)
-        if (player == null) return false
+        val player = level.server?.playerList?.getPlayer(goldenChalkBlockEntity.targetPlayer!!) ?: return false
 
         val data = AfflictionPlayerAttachment.getData(player)
 

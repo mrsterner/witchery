@@ -49,7 +49,7 @@ object HunterArmorParticleEffects {
             )
         }
 
-        if (HunterArmorDefenseHandler.hasFullHunterSet(player)) {
+        if (HunterArmorDefenseHandler.getHunterArmorPieceCount(player) > 0) {
             spawnShieldEffect(level, position)
         }
 
@@ -157,35 +157,6 @@ object HunterArmorParticleEffects {
             1.0f,
             0.8f
         )
-    }
-
-    /**
-     * Spawns ambient particles when wearing full Hunter armor set
-     * Call this periodically (e.g., every 20 ticks) for passive visual effect
-     */
-    fun spawnAmbientProtectionAura(player: Player) {
-        if (!HunterArmorDefenseHandler.hasFullHunterSet(player)) return
-        if (player.level() !is ServerLevel) return
-
-        val level = player.level() as ServerLevel
-        val position = player.position()
-
-        // Subtle golden aura
-        if (level.random.nextInt(3) == 0) {
-            val angle = level.random.nextDouble() * Math.PI * 2
-            val radius = 0.8
-            val x = position.x + Math.cos(angle) * radius
-            val z = position.z + Math.sin(angle) * radius
-            val y = position.y + level.random.nextDouble() * 1.5
-
-            level.sendParticles(
-                ParticleTypes.WAX_ON,
-                x, y, z,
-                1,
-                0.0, 0.05, 0.0,
-                0.01
-            )
-        }
     }
 
     enum class ProtectionType {

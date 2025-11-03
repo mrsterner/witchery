@@ -19,10 +19,7 @@ class AbilityScrollHandler {
             return false
         }
 
-        var index = abilityHandler.abilityIndex
-        if (index == null) {
-            return false
-        }
+        var index = abilityHandler.abilityIndex ?: return false
 
         if (index >= abilityCount) {
             index = -1

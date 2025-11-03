@@ -84,6 +84,7 @@ import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.damagesource.DamageTypes
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.npc.VillagerTrades
 import net.minecraft.world.entity.player.Player
@@ -125,16 +126,11 @@ object WitcheryNeoForgeEvents {
     }
 
     @SubscribeEvent
-    fun onLivingHurtForHunterArmor(event: LivingIncomingDamageEvent) {
-        HunterArmorDefenseHandler.onLivingHurt(event)
-    }
-
-    @SubscribeEvent
     fun addFortuneTellerTrades(event: VillagerTradesEvent) {
         if (event.type == WitcheryVillagers.FORTUNE_TELLER_PROFESSION.get()) {
             val villagerTraders = event.trades
 
-            // Novice (Level 1)
+            // Novice
             villagerTraders[1]?.add(
                 VillagerTrades.ItemsForEmeralds(WitcheryItems.GYPSUM.get(), 2, 8, 16, 2)
             )
@@ -145,7 +141,7 @@ object WitcheryNeoForgeEvents {
                 VillagerTrades.ItemsForEmeralds(Items.CANDLE, 1, 4, 16, 1)
             )
 
-            // Apprentice (Level 2)
+            // Apprentice
             villagerTraders[2]?.add(
                 VillagerTrades.ItemsForEmeralds(WitcheryItems.BONE_NEEDLE.get(), 4, 1, 10, 5)
             )
@@ -153,7 +149,7 @@ object WitcheryNeoForgeEvents {
                 VillagerTrades.EmeraldForItems(Items.AMETHYST_SHARD, 4, 12, 10)
             )
 
-            // Journeyman (Level 3)
+            // Journeyman
             villagerTraders[3]?.add(
                 VillagerTrades.ItemsForEmeralds(WitcheryItems.DREAM_WEAVER.get(), 8, 1, 8, 10)
             )
@@ -164,7 +160,7 @@ object WitcheryNeoForgeEvents {
                 VillagerTrades.EmeraldForItems(Items.LAPIS_LAZULI, 8, 12, 20)
             )
 
-            // Expert (Level 4)
+            // Expert
             villagerTraders[4]?.add(
                 VillagerTrades.ItemsForEmeralds(WitcheryItems.HAPPENSTANCE_OIL.get(), 10, 1, 5, 15)
             )
@@ -175,7 +171,7 @@ object WitcheryNeoForgeEvents {
                 VillagerTrades.ItemsForEmeralds(Items.ECHO_SHARD, 16, 1, 3, 20)
             )
 
-            // Master (Level 5)
+            // Master
             villagerTraders[5]?.add { entity, random ->
                 MerchantOffer(
                     ItemCost(Items.EMERALD, 24),
@@ -297,8 +293,11 @@ object WitcheryNeoForgeEvents {
             }
         }
 
-        val isVamp =
-            entity is Player && AfflictionPlayerAttachment.getData(entity).getVampireLevel() > 0
+        if (damage > 0f && entity is Player) {
+            damage = CurseOfFragility.modifyDamage(entity, damage)
+        }
+
+        val isVamp = entity is Player && AfflictionPlayerAttachment.getData(entity).getVampireLevel() > 0
         val isWereMan = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfManForm()
         val isWere = entity is Player && AfflictionPlayerAttachment.getData(entity).isWolfForm()
 
@@ -327,8 +326,8 @@ object WitcheryNeoForgeEvents {
             damage = PotionHandler.handleHurt(entity, damageSource, damage)
         }
 
-        if (damage > 0f && entity is Player) {
-            damage = CurseOfFragility.modifyDamage(entity, damage)
+        if (damage > 0f && entity is Player && damageSource.`is`(DamageTypes.MAGIC)) {
+            damage = damage * (1.0f - (HunterArmorDefenseHandler.getProtectionMultiplier(player = entity) * 0.5f))
         }
 
         if (damage > 0f && entity is Player) {

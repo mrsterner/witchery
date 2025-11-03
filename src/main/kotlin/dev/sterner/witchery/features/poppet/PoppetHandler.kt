@@ -47,8 +47,6 @@ object PoppetHandler {
             modifiedDamage = vampiricPoppet.handleDamage(entity, damageSource, modifiedDamage)
         }
 
-        modifiedDamage = HunterArmorDefenseHandler.modifyDamage(entity, damageSource, modifiedDamage)
-
         if (damageSource.entity is Player) {
             val attacker = damageSource.entity as Player
             val voodooBonusDamage = handleVoodooPoppet(attacker, entity, modifiedDamage)
@@ -384,47 +382,15 @@ object PoppetHandler {
         if (level is ServerLevel) {
             val entityId = poppet.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
             if (entityId != null) {
-                try {
-                    val uuid = UUID.fromString(entityId)
-                    for (entity in level.allEntities) {
-                        if (entity is LivingEntity && entity.uuid == uuid) {
-                            return entity
-                        }
+                val uuid = UUID.fromString(entityId)
+                for (entity in level.allEntities) {
+                    if (entity is LivingEntity && entity.uuid == uuid) {
+                        return entity
                     }
-                } catch (_: IllegalArgumentException) {
-
                 }
             }
         }
 
         return null
-    }
-
-    /**
-     * Bind a poppet to a player
-     */
-    private fun bindPoppetToPlayer(poppet: ItemStack, player: Player): Boolean {
-        if (poppet.item !is PoppetItem) return false
-
-        poppet.set(DataComponents.PROFILE, ResolvableProfile(player.gameProfile))
-        poppet.remove(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-
-        return true
-    }
-
-    /**
-     * Bind a poppet to any living entity
-     */
-    fun bindPoppetToEntity(poppet: ItemStack, entity: LivingEntity): Boolean {
-        if (poppet.item !is PoppetItem) return false
-
-        if (entity is Player) {
-            return bindPoppetToPlayer(poppet, entity)
-        } else {
-            poppet.set(WitcheryDataComponents.ENTITY_ID_COMPONENT.get(), entity.stringUUID)
-            poppet.remove(DataComponents.PROFILE)
-
-            return true
-        }
     }
 }

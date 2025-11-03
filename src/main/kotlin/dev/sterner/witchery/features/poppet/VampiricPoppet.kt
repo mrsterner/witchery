@@ -129,18 +129,6 @@ class VampiricPoppet : PoppetType {
             if (boundPlayer != null || boundEntity != null) {
                 val outDamage = damage
 
-                val hunterPieces = if (target is Player) HunterArmorDefenseHandler.getHunterArmorPieceCount(target) else 0
-                val hunterMultiplier =
-                    if (hunterPieces > 0) HunterArmorDefenseHandler.getProtectionMultiplier(target as Player) else 0f
-
-                val reductionFactor = if (hunterPieces > 0) {
-                    HunterArmorDefenseHandler.POPPET_DAMAGE_REDUCTION * hunterMultiplier
-                } else {
-                    0f
-                }
-
-                val reducedHunterDamage = outDamage * (1f - reductionFactor)
-
                 val (playerShare, boundShare) =
                     if (boundPlayer is Player && !WitcheryApi.isWitchy(boundPlayer)) {
                         0.75f to 0.25f
@@ -148,12 +136,12 @@ class VampiricPoppet : PoppetType {
                         0.5f to 0.5f
                     }
 
-                val playerDamage = if (hunterPieces > 0) reducedHunterDamage * playerShare else outDamage * playerShare
-                val boundDamage = outDamage * boundShare
+                val baseDamageToPlayer = outDamage * playerShare
+                val baseDamageToBound = outDamage * boundShare
 
-                boundPlayer?.hurt(damageSource, playerDamage)
-                boundEntity?.hurt(damageSource, boundDamage)
+                boundPlayer?.hurt(damageSource, baseDamageToPlayer)
 
+                boundEntity?.hurt(damageSource, baseDamageToBound)
 
                 when (location) {
                     PoppetLocation.ACCESSORY, PoppetLocation.INVENTORY -> {

@@ -148,11 +148,7 @@ object AfflictionAbilityHandler : AbilityHandler {
 
     fun useSelectedAbility(player: Player): Boolean {
 
-        val ability = getSelectedAbility(player)
-
-        if (ability == null) {
-            return false
-        }
+        val ability = getSelectedAbility(player) ?: return false
 
         val isOnCooldown = AbilityCooldownManager.isOnCooldown(player, ability)
 

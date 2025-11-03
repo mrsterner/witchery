@@ -37,7 +37,7 @@ class HungerProtectionPoppet : PoppetType {
     override fun onCorruptedActivate(owner: LivingEntity, source: DamageSource?): Boolean {
         if (owner !is Player) return onActivate(owner, source)
 
-        owner.foodData.foodLevel = Math.max(0, owner.foodData.foodLevel - 4)
+        owner.foodData.foodLevel = 0.coerceAtLeast(owner.foodData.foodLevel - 4)
 
         owner.addEffect(MobEffectInstance(MobEffects.HUNGER, 200, 2))
 

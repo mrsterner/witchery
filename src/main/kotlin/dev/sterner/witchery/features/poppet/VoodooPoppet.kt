@@ -43,13 +43,6 @@ class VoodooPoppet : PoppetType {
                         scaledMovement = scaledMovement.scale(0.75)
                     }
 
-                    val pieces = HunterArmorDefenseHandler.getHunterArmorPieceCount(this)
-                    if (pieces > 0) {
-                        val multiplier = HunterArmorDefenseHandler.getProtectionMultiplier(this)
-                        val reduction = HunterArmorDefenseHandler.POPPET_DAMAGE_REDUCTION * multiplier
-                        scaledMovement = scaledMovement.scale(1.0 - reduction)
-                    }
-
                     addDeltaMovement(scaledMovement)
                     hurtMarked = true
                 }
@@ -120,21 +113,15 @@ class VoodooPoppet : PoppetType {
             }
 
             boundPlayer?.let { player ->
-                var ticks = if (WitcheryApi.isWitchy(player)) fireTicksPlayer * 2 else fireTicksPlayer
-
-                if (player is Player) {
-                    val pieces = HunterArmorDefenseHandler.getHunterArmorPieceCount(player)
-                    if (pieces > 0) {
-                        val multiplier = HunterArmorDefenseHandler.getProtectionMultiplier(player)
-                        val reduction = HunterArmorDefenseHandler.POPPET_DAMAGE_REDUCTION * multiplier
-                        ticks = max((ticks * (1.0 - reduction)).toInt(), 1)
-                    }
-                }
+                val ticks = if (WitcheryApi.isWitchy(player)) fireTicksPlayer * 2 else fireTicksPlayer
 
                 player.remainingFireTicks = ticks
             }
 
-            boundEntity?.remainingFireTicks = fireTicksEntity
+            boundEntity?.let { entity ->
+                entity.remainingFireTicks = fireTicksEntity
+            }
+
             item.damageValue += damage
             if (item.damageValue >= item.maxDamage) {
                 item.shrink(1)
