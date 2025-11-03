@@ -360,7 +360,7 @@ class DeathEntity(level: Level) : Monster(WitcheryEntityTypes.DEATH.get(), level
         val horizontalDistance = kotlin.math.sqrt(dx * dx + dz * dz)
 
         val velocity = Vec3(dx, dy + horizontalDistance * 0.1, dz).normalize().scale(1.5)
-        scythe.setDeltaMovement(velocity)
+        scythe.deltaMovement = velocity
 
         level().addFreshEntity(scythe)
 

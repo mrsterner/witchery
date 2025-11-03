@@ -65,7 +65,7 @@ class SyncPossessionComponentS2CPayload(
 
         private fun updateCamera(player: Player?, cameraEntity: Entity?) {
             val mc: Minecraft = Minecraft.getInstance()
-            if (mc.options.getCameraType().isFirstPerson && player === mc.player) {
+            if (mc.options.cameraType.isFirstPerson && player === mc.player) {
                 mc.gameRenderer.checkEntityPostEffect(cameraEntity)
             }
         }

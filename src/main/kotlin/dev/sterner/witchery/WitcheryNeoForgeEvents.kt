@@ -326,7 +326,7 @@ object WitcheryNeoForgeEvents {
         }
 
         if (damage > 0f && entity is Player && damageSource.`is`(DamageTypes.MAGIC)) {
-            damage = damage * (1.0f - (HunterArmorDefenseHandler.getProtectionMultiplier(player = entity) * 0.5f))
+            damage = damage * (1.0f - (HunterArmorDefenseHandler.getProtectionMultiplier(player = entity) * HunterArmorDefenseHandler.MAGIC_DAMAGE_REDUCTION))
         }
 
         if (damage > 0f && entity is Player) {

@@ -47,7 +47,7 @@ class LifeBloodPlantModel(modelPart: ModelPart) :
 
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
-            val partdefinition = meshdefinition.getRoot()
+            val partdefinition = meshdefinition.root
 
             val main =
                 partdefinition.addOrReplaceChild("main", CubeListBuilder.create(), PartPose.offset(0.0f, 16.0f, 0.0f))

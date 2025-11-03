@@ -107,7 +107,7 @@ class ScytheThrownEntity : ThrowableProjectile {
 
             val speed = 0.5 + (1.0 - (distance / maxDistance)) * 0.5
             val direction = toOwner.normalize().scale(speed)
-            setDeltaMovement(direction)
+            deltaMovement = direction
         }
 
         checkEntityCollisions()
@@ -125,7 +125,7 @@ class ScytheThrownEntity : ThrowableProjectile {
 
         val entities = level().getEntities(this, aabb) { entity ->
             entity is LivingEntity &&
-                    entity != getOwner() &&
+                    entity != owner &&
                     entity.isAlive &&
                     !lastHitEntities.contains(entity.id)
         }

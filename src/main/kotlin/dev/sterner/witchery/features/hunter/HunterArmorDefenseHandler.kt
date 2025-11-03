@@ -12,7 +12,7 @@ object HunterArmorDefenseHandler {
 
     private const val POTION_DURATION_REDUCTION = 0.5f
     private const val CURSE_DURATION_REDUCTION = 0.4f
-    private const val MAGIC_DAMAGE_REDUCTION = 0.25f
+    const val MAGIC_DAMAGE_REDUCTION = 0.25f
     private const val CURSE_REFLECT_CHANCE = 0.15f
 
 

@@ -177,12 +177,12 @@ object WitcheryUtil {
 
     @JvmStatic
     fun createProxiedDamage(source: DamageSource, newAttacker: Entity): DamageSource? {
-        if (source.getEntity() != null) {
+        if (source.entity != null) {
             val damageType = source.typeHolder()
             val key = damageType.getKey()
 
             if (key != null) {
-                return newAttacker.damageSources().source(key, source.getDirectEntity(), source.getEntity())
+                return newAttacker.damageSources().source(key, source.directEntity, source.entity)
             }
         }
 

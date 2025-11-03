@@ -62,7 +62,7 @@ class ScytheThrowGoal(
         val target = death.target ?: return
 
         val distanceSq = death.distanceToSqr(target)
-        val canSee = death.getSensing().hasLineOfSight(target)
+        val canSee = death.sensing.hasLineOfSight(target)
 
         if (canSee) {
             seeTime++

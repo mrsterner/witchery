@@ -257,19 +257,19 @@ object TransformationHandler {
         to.swingTime = from.swingTime
         to.attackAnim = from.attackAnim
         to.oAttackAnim = from.oAttackAnim
-        to.setXRot(from.getXRot())
+        to.xRot = from.xRot
         to.xRotO = from.xRotO
 
-        to.setShiftKeyDown(from.isShiftKeyDown())
-        to.setSprinting(from.isSprinting())
-        to.setSwimming(from.isSwimming())
-        to.setInvisible(from.isInvisible())
+        to.isShiftKeyDown = from.isShiftKeyDown
+        to.setSprinting(from.isSprinting)
+        to.isSwimming = from.isSwimming
+        to.isInvisible = from.isInvisible
         to.setGlowingTag(from.hasGlowingTag())
-        to.setAirSupply(from.getAirSupply())
-        to.setCustomName(from.getCustomName())
-        to.setCustomNameVisible(from.isCustomNameVisible())
-        to.setPose(from.getPose())
-        to.setTicksFrozen(from.getTicksFrozen())
+        to.airSupply = from.airSupply
+        to.customName = from.customName
+        to.isCustomNameVisible = from.isCustomNameVisible
+        to.pose = from.pose
+        to.ticksFrozen = from.ticksFrozen
 
         to.setOnGround(from.onGround())
         to.horizontalCollision = from.horizontalCollision
@@ -284,7 +284,7 @@ object TransformationHandler {
         to.wasOnFire = from.wasOnFire
 
         to.swingingArm =
-            if (from.getMainArm() == HumanoidArm.RIGHT) InteractionHand.MAIN_HAND else InteractionHand.OFF_HAND
+            if (from.mainArm == HumanoidArm.RIGHT) InteractionHand.MAIN_HAND else InteractionHand.OFF_HAND
         to.deathTime = from.deathTime
 
         val toAccessor = to.walkAnimation as WalkAnimationStateAccessor
