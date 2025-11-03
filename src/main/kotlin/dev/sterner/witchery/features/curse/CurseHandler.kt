@@ -3,6 +3,7 @@ package dev.sterner.witchery.features.curse
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.event.CurseEvent
 import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
+import dev.sterner.witchery.features.hunter.HunterArmorDefenseHandler
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource
@@ -38,9 +39,21 @@ object CurseHandler {
             return false
         }
 
+        val adjustedDuration = HunterArmorDefenseHandler.reduceCurseDuration(player, duration)
+        if (sourcePlayer != null && HunterArmorDefenseHandler.tryReflectCurse(player, sourcePlayer)) {
+            val sourceData = CursePlayerAttachment.getData(sourcePlayer)
+            sourceData.playerCurseList.getOrNull(sourceData.playerCurseList.indexOfFirst { it.curseId == curse })?.let {
+                it.duration = adjustedDuration
+                CursePlayerAttachment.setData(sourcePlayer, sourceData)
+                NeoForge.EVENT_BUS.post(CurseEvent.Added(sourcePlayer, sourcePlayer, curse, catBoosted))
+                return false
+            }
+
+        }
+
         val data = CursePlayerAttachment.getData(player).playerCurseList.toMutableList()
         val existingCurse = data.find { it.curseId == curse }
-        val newCurseData = CursePlayerAttachment.PlayerCurseData(curse, duration = duration, catBoosted = catBoosted)
+        val newCurseData = CursePlayerAttachment.PlayerCurseData(curse, duration = adjustedDuration, catBoosted = catBoosted)
 
         if (existingCurse != null) {
             data.remove(existingCurse)

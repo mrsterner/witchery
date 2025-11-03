@@ -2,7 +2,7 @@ package dev.sterner.witchery.features.fetish
 
 import dev.sterner.witchery.core.api.FetishEffect
 import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
-import dev.sterner.witchery.content.entity.SpectreEntity
+import dev.sterner.witchery.content.entity.PoltergeistEntity
 import dev.sterner.witchery.content.item.TaglockItem
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
@@ -22,7 +22,7 @@ class SentinelFetishEffect : FetishEffect(2) {
     ) {
         if (blockEntity.deployedSpectreCount >= 3) return
 
-        val spectre = SpectreEntity.summonSpectre(level, pos, ignoredUUIDs = ignored)
+        val spectre = PoltergeistEntity.summonSpectre(level, pos, ignoredUUIDs = ignored)
         spectre.target = target
         blockEntity.deployedSpectreCount += 1
     }

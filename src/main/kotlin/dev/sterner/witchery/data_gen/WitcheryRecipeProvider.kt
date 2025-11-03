@@ -999,11 +999,48 @@ class WitcheryRecipeProvider(output: PackOutput, val registriesFuture: Completab
             .unlockedBy("has_star", has(WitcheryItems.ETERNAL_CATALYST.get()))
             .save(exporter, "witchery:eternal_catalyst_2")
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, WitcheryItems.NULLIFIED_LEATHER.get(), 8)
+            .requires(Items.LEATHER, 8)
+            .requires(WitcheryItems.ETERNAL_CATALYST.get(), 1)
+            .unlockedBy("has_star", has(WitcheryItems.ETERNAL_CATALYST.get()))
+            .save(exporter)
+
+
         SimpleCookingRecipeBuilder.smelting(
             Ingredient.of(WitcheryItems.CLAY_JAR.get()),
             RecipeCategory.MISC, WitcheryItems.JAR.get(), 0.3f, 200
         )
             .unlockedBy("has_clay_jar", has(WitcheryItems.CLAY_JAR.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.HUNTER_HELMET.get())
+            .pattern("GGG")
+            .pattern("G G")
+            .define('G', WitcheryItems.NULLIFIED_LEATHER.get())
+            .unlockedBy("has_leather", has(WitcheryItems.NULLIFIED_LEATHER.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.HUNTER_LEGGINGS.get())
+            .pattern("GGG")
+            .pattern("G G")
+            .pattern("G G")
+            .define('G', WitcheryItems.NULLIFIED_LEATHER.get())
+            .unlockedBy("has_leather", has(WitcheryItems.NULLIFIED_LEATHER.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.HUNTER_CHESTPLATE.get())
+            .pattern("G G")
+            .pattern("GGG")
+            .pattern("GGG")
+            .define('G', WitcheryItems.NULLIFIED_LEATHER.get())
+            .unlockedBy("has_leather", has(WitcheryItems.NULLIFIED_LEATHER.get()))
+            .save(exporter)
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.HUNTER_BOOTS.get())
+            .pattern("G G")
+            .pattern("G G")
+            .define('G', WitcheryItems.NULLIFIED_LEATHER.get())
+            .unlockedBy("has_leather", has(WitcheryItems.NULLIFIED_LEATHER.get()))
             .save(exporter)
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.CENSER.get())
@@ -1209,6 +1246,7 @@ class WitcheryRecipeProvider(output: PackOutput, val registriesFuture: Completab
             .define('S', Items.GOLD_NUGGET)
             .unlockedBy("has_nugget", has(Items.GOLD_NUGGET))
             .save(exporter)
+
 
         SimpleCookingRecipeBuilder.smelting(
             Ingredient.of(WitcheryItems.BLOOD_STAINED_WOOL.get()),

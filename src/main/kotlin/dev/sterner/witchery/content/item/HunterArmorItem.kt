@@ -2,9 +2,11 @@ package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.HunterArmorModel
+import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.HumanoidModel
 import net.minecraft.core.Holder
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EquipmentSlot
@@ -13,6 +15,7 @@ import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
 import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import org.jetbrains.annotations.NotNull
 import javax.annotation.Nullable
@@ -22,6 +25,41 @@ open class HunterArmorItem(material: Holder<ArmorMaterial>, type: Type, properti
     ArmorItem(material, type, properties) {
     override fun isRepairable(arg: ItemStack): Boolean {
         return false
+    }
+
+
+    override fun appendHoverText(
+        stack: ItemStack,
+        context: TooltipContext,
+        tooltipComponents: MutableList<Component>,
+        tooltipFlag: TooltipFlag
+    ) {
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
+
+        tooltipComponents.add(
+            Component.literal("Hunter's Protection").withStyle(ChatFormatting.GOLD)
+        )
+        tooltipComponents.add(
+            Component.literal("Set Bonus (4 pieces):").withStyle(ChatFormatting.GRAY)
+        )
+        tooltipComponents.add(
+            Component.literal("  50% reduced potion duration").withStyle(ChatFormatting.BLUE)
+        )
+        tooltipComponents.add(
+            Component.literal("  40% reduced curse duration").withStyle(ChatFormatting.BLUE)
+        )
+        tooltipComponents.add(
+            Component.literal("  35% reduced poppet damage").withStyle(ChatFormatting.BLUE)
+        )
+        tooltipComponents.add(
+            Component.literal("  25% magic resistance").withStyle(ChatFormatting.BLUE)
+        )
+        tooltipComponents.add(
+            Component.literal("  15% curse reflection").withStyle(ChatFormatting.BLUE)
+        )
+        tooltipComponents.add(
+            Component.literal("Bonuses scale with pieces worn").withStyle(ChatFormatting.DARK_GRAY)
+        )
     }
 
 

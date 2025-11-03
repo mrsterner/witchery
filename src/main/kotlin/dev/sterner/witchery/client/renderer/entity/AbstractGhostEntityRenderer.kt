@@ -2,7 +2,8 @@ package dev.sterner.witchery.client.renderer.entity
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.content.entity.SpectreEntity
+import dev.sterner.witchery.content.entity.AbstractSpectralEntity
+import dev.sterner.witchery.content.entity.PoltergeistEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.renderer.MultiBufferSource
@@ -35,7 +36,7 @@ abstract class AbstractGhostEntityRenderer<T : Mob, M : EntityModel<T>>(
             100
         }
 
-        if (entity.entityData.get(SpectreEntity.REVEALED)) {
+        if (entity.entityData.get(AbstractSpectralEntity.REVEALED)) {
             alpha = 255
         }
 

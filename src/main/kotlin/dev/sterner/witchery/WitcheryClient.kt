@@ -31,7 +31,6 @@ import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.client.tarot.TarotCardHudRenderer
 import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
 import dev.sterner.witchery.content.block.phylactery.PhylacteryBlock
-import dev.sterner.witchery.content.entity.SpiritEntity
 import dev.sterner.witchery.content.item.DeathArmorItem
 import dev.sterner.witchery.content.item.HunterArmorItem
 import dev.sterner.witchery.content.item.TaglockItem
@@ -47,7 +46,6 @@ import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomClientSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireClientSpecificEventHandler
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfClientSpecificEventHandler
-import dev.sterner.witchery.features.infusion.InfusionHandler
 import dev.sterner.witchery.network.DismountBroomC2SPayload
 import dev.sterner.witchery.core.registry.WitcheryItems.BABA_YAGAS_HAT
 import dev.sterner.witchery.core.registry.WitcheryItems.DRESS_COAT
@@ -65,7 +63,6 @@ import dev.sterner.witchery.core.registry.WitcheryKeyMappings
 import dev.sterner.witchery.core.registry.WitcheryMenuTypes
 import dev.sterner.witchery.core.registry.WitcheryParticleTypes
 import dev.sterner.witchery.core.registry.WitcheryShaders
-import dev.sterner.witchery.features.affliction.event.AfflictionClientEventHandler
 import dev.sterner.witchery.features.death.DeathClientSpecificEventHandler
 import dev.sterner.witchery.mixin.client.LevelRendererAccessor
 import net.minecraft.client.Minecraft
@@ -95,7 +92,6 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.ConfigurationScreen
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.common.NeoForge
-import net.neoforged.neoforge.event.tick.LevelTickEvent
 import net.neoforged.neoforge.network.PacketDistributor
 
 @Mod(value = MODID, dist = [Dist.CLIENT])
@@ -512,7 +508,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerEntityRenderer(WitcheryEntityTypes.ENT.get()) { EntEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.BANSHEE.get()) { BansheeEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.BABA_YAGA.get()) { BabaYagaEntityRenderer(it) }
-        event.registerEntityRenderer(WitcheryEntityTypes.SPECTRE.get()) { SpectreEntityRenderer(it) }
+        event.registerEntityRenderer(WitcheryEntityTypes.POLTERGEIST.get()) { SpectreEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.SPIRIT.get()) { SpiritEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.DEMON.get()) { DemonEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.COVEN_WITCH.get()) { CovenWitchEntityRenderer(it) }

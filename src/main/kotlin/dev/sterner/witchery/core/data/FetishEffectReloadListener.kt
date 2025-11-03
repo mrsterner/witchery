@@ -21,7 +21,7 @@ object FetishEffectReloadListener {
         return dataMap.entries.firstOrNull { (_, data) ->
             data.bansheeCount == banshee &&
                     data.specterCount == specter &&
-                    data.spiritCount == spirit
+                    data.poltergeist == spirit
         }?.key
     }
 
@@ -48,7 +48,7 @@ object FetishEffectReloadListener {
 
         private fun parseJson(json: JsonObject, file: ResourceLocation) {
 
-            val spiritCount = json.get("spirit_count")?.asInt ?: 0
+            val poltergeist = json.get("poltergeist_count")?.asInt ?: 0
             val bansheeCount = json.get("banshee_count")?.asInt ?: 0
             val specterCount = json.get("specter_count")?.asInt ?: 0
 
@@ -56,7 +56,7 @@ object FetishEffectReloadListener {
             val effectLocation = ResourceLocation.tryParse(effectString) ?: return
 
             val data = Data(
-                spiritCount = spiritCount,
+                poltergeist = poltergeist,
                 bansheeCount = bansheeCount,
                 specterCount = specterCount,
                 effectLocation = effectLocation
@@ -67,7 +67,7 @@ object FetishEffectReloadListener {
     }
 
     data class Data(
-        var spiritCount: Int = 0,
+        var poltergeist: Int = 0,
         var bansheeCount: Int = 0,
         var specterCount: Int = 0,
         var effectLocation: ResourceLocation
@@ -75,7 +75,7 @@ object FetishEffectReloadListener {
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    Codec.INT.optionalFieldOf("spirit_count", 0).forGetter { it.spiritCount },
+                    Codec.INT.optionalFieldOf("poltergeist_count", 0).forGetter { it.poltergeist },
                     Codec.INT.optionalFieldOf("banshee_count", 0).forGetter { it.bansheeCount },
                     Codec.INT.optionalFieldOf("specter_count", 0).forGetter { it.specterCount },
                     ResourceLocation.CODEC.fieldOf("effect").forGetter { it.effectLocation }

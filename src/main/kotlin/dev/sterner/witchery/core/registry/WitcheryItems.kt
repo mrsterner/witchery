@@ -56,6 +56,11 @@ object WitcheryItems {
         DeathHandItem(Item.Properties().stacksTo(1))
     }
 
+    val NULLIFIED_LEATHER = register("nullified_leather") {
+        Item(Item.Properties())
+    }
+
+
     /*
     val hasHelmet = helmet.`is`(WitcheryItems.DEATH_HOOD.get())
         val hasChestplate = chestplate.`is`(WitcheryItems.DEATH_ROBE.get())
@@ -1322,7 +1327,7 @@ object WitcheryItems {
         DeferredSpawnEggItem(WitcheryEntityTypes.BANSHEE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val SPECTRE_SPAWN_EGG = register("spectre_spawn_egg") {
-        DeferredSpawnEggItem(WitcheryEntityTypes.SPECTRE, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
+        DeferredSpawnEggItem(WitcheryEntityTypes.POLTERGEIST, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())
     }
     val COVEN_WITCH_SPAWN_EGG = register("coven_witch_spawn_egg") {
         DeferredSpawnEggItem(WitcheryEntityTypes.COVEN_WITCH, Color.WHITE.rgb, Color.WHITE.rgb, Item.Properties())

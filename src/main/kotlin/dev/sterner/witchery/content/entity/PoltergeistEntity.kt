@@ -4,24 +4,18 @@ import dev.sterner.witchery.content.entity.goal.RandomFloatAroundGoal
 import dev.sterner.witchery.content.entity.move_control.GhostMoveControl
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import net.minecraft.core.BlockPos
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.syncher.EntityDataAccessor
-import net.minecraft.network.syncher.EntityDataSerializers
-import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.DamageTypeTags
-import net.minecraft.util.Mth
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraft.world.entity.ai.control.MoveControl
 import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.ai.goal.target.TargetGoal
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import java.util.*
 
-class SpectreEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.SPECTRE.get(), level) {
+class PoltergeistEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.POLTERGEIST.get(), level) {
 
     val ignoredUUIDs: MutableSet<UUID> = mutableSetOf()
     var summonPos: Vec3 = Vec3.ZERO
@@ -45,8 +39,8 @@ class SpectreEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.S
             level: ServerLevel,
             pos: BlockPos,
             ignoredUUIDs: Set<UUID> = emptySet()
-        ): SpectreEntity {
-            val spectre = SpectreEntity(level)
+        ): PoltergeistEntity {
+            val spectre = PoltergeistEntity(level)
 
             spectre.setPos(
                 pos.x + 0.5,
@@ -78,7 +72,7 @@ class SpectreEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.S
     }
 
     class TargetNearbyPlayersGoal(
-        private val spectre: SpectreEntity,
+        private val spectre: PoltergeistEntity,
         private val range: Double
     ) : TargetGoal(spectre, false) {
 
@@ -100,7 +94,7 @@ class SpectreEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.S
         }
     }
 
-    class AttackAndReturnGoal(private val spectre: SpectreEntity) : Goal() {
+    class AttackAndReturnGoal(private val spectre: PoltergeistEntity) : Goal() {
 
         private var returning = false
         private val maxAttacks = 5

@@ -212,12 +212,12 @@ object WitcheryEntityTypes {
         ).sized(0.75F, 0.75F).build(Witchery.id("spirit").toString())
     }
 
-    val SPECTRE = register("spectre", Supplier {
+    val POLTERGEIST = register("poltergeist", Supplier {
         EntityType.Builder.of(
-            { _: EntityType<SpectreEntity>, level: Level ->
-                SpectreEntity(level)
+            { _: EntityType<PoltergeistEntity>, level: Level ->
+                PoltergeistEntity(level)
             }, MobCategory.MONSTER
-        ).sized(0.6f, 1.8f).build(Witchery.id("spectre").toString())
+        ).sized(0.6f, 1.8f).build(Witchery.id("poltergeist").toString())
     })
 
     var COVEN_WITCH = register("coven_witch") {

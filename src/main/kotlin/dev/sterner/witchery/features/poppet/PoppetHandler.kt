@@ -8,6 +8,7 @@ import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
+import dev.sterner.witchery.features.hunter.HunterArmorDefenseHandler
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
@@ -45,6 +46,8 @@ object PoppetHandler {
         WitcheryPoppetRegistry.VAMPIRIC.get().let { vampiricPoppet ->
             modifiedDamage = vampiricPoppet.handleDamage(entity, damageSource, modifiedDamage)
         }
+
+        modifiedDamage = HunterArmorDefenseHandler.modifyDamage(entity, damageSource, modifiedDamage)
 
         if (damageSource.entity is Player) {
             val attacker = damageSource.entity as Player

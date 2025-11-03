@@ -23,8 +23,16 @@ object WitcheryBrazierRecipeProvider {
             .addInput(WitcheryItems.WOOL_OF_BAT.get())
             .addInput(WitcheryItems.SPECTRAL_DUST.get())
             .setAltarPower(500)
-            .addSummon(WitcheryEntityTypes.SPECTRE.get())
+            .addSummon(WitcheryEntityTypes.POLTERGEIST.get())
             .save(exporter, Witchery.id("summon_spectre"))
+
+        BrazierSummoningRecipeBuilder.create()
+            .addInput(WitcheryItems.WORMWOOD.get())
+            .addInput(WitcheryItems.REFINED_EVIL.get())
+            .addInput(WitcheryItems.FOCUSED_WILL.get())
+            .setAltarPower(500)
+            .addSummon(WitcheryEntityTypes.POLTERGEIST.get())
+            .save(exporter, Witchery.id("summon_poltergeist"))
 
     }
 }

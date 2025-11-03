@@ -40,7 +40,7 @@ class WitcheryFetishProvider(
         unconditional(
             Witchery.id("ghost_walking"),
             FetishEffectReloadListener.Data(
-                spiritCount = 3,
+                poltergeist = 3,
                 specterCount = 1,
                 bansheeCount = 1,
                 effectLocation = Witchery.id("ghost_walking")
@@ -49,14 +49,14 @@ class WitcheryFetishProvider(
         unconditional(
             Witchery.id("disorientation"),
             FetishEffectReloadListener.Data(
-                spiritCount = 5,
+                poltergeist = 5,
                 effectLocation = Witchery.id("disorientation")
             )
         )
         unconditional(
             Witchery.id("sentinel"),
             FetishEffectReloadListener.Data(
-                spiritCount = 3,
+                poltergeist = 3,
                 specterCount = 3,
                 effectLocation = Witchery.id("sentinel")
             )
@@ -64,7 +64,7 @@ class WitcheryFetishProvider(
         unconditional(
             Witchery.id("voodoo_protection"),
             FetishEffectReloadListener.Data(
-                spiritCount = 3,
+                poltergeist = 3,
                 specterCount = 1,
                 bansheeCount = 2,
                 effectLocation = Witchery.id("voodoo_protection")
@@ -73,7 +73,7 @@ class WitcheryFetishProvider(
         unconditional(
             Witchery.id("summon_death"),
             FetishEffectReloadListener.Data(
-                spiritCount = 6,
+                poltergeist = 6,
                 specterCount = 6,
                 bansheeCount = 6,
                 effectLocation = Witchery.id("summon_death")

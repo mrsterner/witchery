@@ -1,10 +1,7 @@
 package dev.sterner.witchery.content.item.brew
 
 import dev.sterner.witchery.content.entity.AbstractSpectralEntity
-import dev.sterner.witchery.content.entity.BansheeEntity
 import dev.sterner.witchery.content.entity.SpectralPigEntity
-import dev.sterner.witchery.content.entity.SpectreEntity
-import dev.sterner.witchery.content.entity.SpiritEntity
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level

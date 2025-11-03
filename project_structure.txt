@@ -232,6 +232,9 @@ dev/sterner/witchery/mixin/client/BookParentNodeScreenMixin.java
   else if(mc.player != null)
   new GrantWitcheryAdvancementsC2SPayload()
 
+dev/sterner/witchery/mixin/client/EntityRenderDispatcherMixin.java
+  class EntityRenderDispatcherMixin
+
 dev/sterner/witchery/mixin/client/GuiMixin.java
   class GuiMixin
   boolean onRenderHotbar(GuiGraphics instance, ResourceLocation sprite, int x, int y, int width, int height)
@@ -819,7 +822,7 @@ dev/sterner/witchery/client/model/SpectreEntityModel.kt
   class SpectreEntityModel
   fun renderToBuffer(poseStack: PoseStack, vertexConsumer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
   fun root(): ModelPart
-  fun setupAnim(entity: SpectreEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float)
+  fun setupAnim(entity: PoltergeistEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float)
   fun createBodyLayer(): LayerDefinition
 
 dev/sterner/witchery/client/model/SpinningWheelBlockEntityModel.kt
@@ -830,6 +833,13 @@ dev/sterner/witchery/client/model/SpinningWheelBlockEntityModel.kt
 dev/sterner/witchery/client/model/SpinningWheelWheelBlockEntityModel.kt
   class SpinningWheelWheelBlockEntityModel
   fun renderToBuffer(poseStack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
+  fun createBodyLayer(): LayerDefinition
+
+dev/sterner/witchery/client/model/SpiritEntityModel.kt
+  class SpiritEntityModel
+  fun renderToBuffer(poseStack: PoseStack, vertexConsumer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
+  fun root(): ModelPart
+  fun setupAnim(entity: SpiritEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float)
   fun createBodyLayer(): LayerDefinition
 
 dev/sterner/witchery/client/model/SpiritPortalBlockEntityModel.kt
@@ -1191,7 +1201,11 @@ dev/sterner/witchery/client/renderer/entity/SpectralPigRenderer.kt
 
 dev/sterner/witchery/client/renderer/entity/SpectreEntityRenderer.kt
   class SpectreEntityRenderer
-  fun getTextureLocation(entity: SpectreEntity): ResourceLocation
+  fun getTextureLocation(entity: PoltergeistEntity): ResourceLocation
+
+dev/sterner/witchery/client/renderer/entity/SpiritEntityRenderer.kt
+  class SpiritEntityRenderer
+  fun getTextureLocation(entity: SpiritEntity): ResourceLocation
 
 dev/sterner/witchery/client/renderer/entity/ThrownBrewRenderer.kt
   class ThrownBrewRenderer
@@ -2479,6 +2493,7 @@ dev/sterner/witchery/content/block/spirit_portal/SpiritPortalBlockEntity.kt
   fun easeOut(t: Float): Float
   fun getRenderProgress(partialTick: Float): Float
   fun onUseWithoutItem(pPlayer: Player): InteractionResult
+  fun tick(level: Level, pos: BlockPos, blockState: BlockState)
   fun tickServer(level: ServerLevel)
   fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider)
   fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
@@ -2507,6 +2522,9 @@ dev/sterner/witchery/content/block/werewolf_altar/WerewolfAltarComponent.kt
 
 dev/sterner/witchery/content/entity/AbstractSpectralEntity.kt
   class AbstractSpectralEntity
+  fun defineSynchedData(builder: SynchedEntityData.Builder)
+  fun save(compound: CompoundTag): Boolean
+  fun load(compound: CompoundTag)
   fun move(type: MoverType, pos: Vec3)
   fun tick()
   fun shouldDespawnInPeaceful(): Boolean
@@ -2531,20 +2549,9 @@ dev/sterner/witchery/content/entity/BabaYagaEntity.kt
 
 dev/sterner/witchery/content/entity/BansheeEntity.kt
   class BansheeEntity
-  class GhostMoveControl
-  class RandomFloatAroundGoal
   fun registerGoals()
   fun createAttributes(): AttributeSupplier.Builder
-  fun defineSynchedData(builder: SynchedEntityData.Builder)
-  fun save(compound: CompoundTag): Boolean
-  fun load(compound: CompoundTag)
   fun isInvulnerableTo(source: DamageSource): Boolean
-  fun tick()
-  fun canReach(pos: Vec3, length: Int): Boolean
-  fun rotateTowards(currentYaw: Float, targetYaw: Float, maxTurn: Float): Float
-  fun canUse(): Boolean
-  fun canContinueToUse(): Boolean
-  fun start()
 
 dev/sterner/witchery/content/entity/BroomEntity.kt
   class BroomEntity
@@ -2920,6 +2927,19 @@ dev/sterner/witchery/content/entity/ParasiticLouseEntity.kt
   fun registerGoals()
   fun createAttributes(): AttributeSupplier.Builder
 
+dev/sterner/witchery/content/entity/PoltergeistEntity.kt
+  class PoltergeistEntity
+  class TargetNearbyPlayersGoal
+  class AttackAndReturnGoal
+  fun registerGoals()
+  fun summonSpectre(level: ServerLevel, pos: BlockPos, ignoredUUIDs: Set<UUID>)
+  fun createAttributes(): AttributeSupplier.Builder
+  fun isInvulnerableTo(source: DamageSource): Boolean
+  fun canUse(): Boolean
+  fun canContinueToUse(): Boolean
+  fun tick()
+  fun start()
+
 dev/sterner/witchery/content/entity/ScytheThrownEntity.kt
   class ScytheThrownEntity
   fun defineSynchedData(builder: SynchedEntityData.Builder)
@@ -2944,38 +2964,11 @@ dev/sterner/witchery/content/entity/SpectralPigEntity.kt
   fun load(compound: CompoundTag)
   fun isInvulnerableTo(source: DamageSource): Boolean
 
-dev/sterner/witchery/content/entity/SpectreEntity.kt
-  class SpectreEntity
-  class GhostMoveControl
-  class RandomFloatAroundGoal
-  class TargetNearbyPlayersGoal
-  class AttackAndReturnGoal
+dev/sterner/witchery/content/entity/SpiritEntity.kt
+  class SpiritEntity
   fun registerGoals()
-  fun summonSpectre(level: ServerLevel, pos: BlockPos, ignoredUUIDs: Set<UUID>)
   fun createAttributes(): AttributeSupplier.Builder
-  fun defineSynchedData(builder: SynchedEntityData.Builder)
-  fun save(compound: CompoundTag): Boolean
-  fun load(compound: CompoundTag)
   fun isInvulnerableTo(source: DamageSource): Boolean
-  fun tick()
-  fun canReach(pos: Vec3, length: Int): Boolean
-  fun rotateTowards(currentYaw: Float, targetYaw: Float, maxTurn: Float): Float
-  fun canUse(): Boolean
-  fun canContinueToUse(): Boolean
-  fun start()
-
-dev/sterner/witchery/content/entity/ThrownBrewEntity.kt
-  class ThrownBrewEntity
-  fun defineSynchedData(builder: SynchedEntityData.Builder)
-  fun setIsQuartzSphere(isQuartz: Boolean)
-  fun isQuartzSphere(): Boolean
-  fun onHitBlock(result: BlockHitResult)
-  fun getDefaultItem(): Item
-  fun onHit(result: HitResult)
-  fun applySplash(item: BrewItem, result: HitResult, hasFrog: Boolean)
-  fun applySplash(effects: Iterable<MobEffectInstance>, pEntity: Entity?)
-  fun calculateHorizontalHurtKnockbackDirection(entity: LivingEntity, damageSource: DamageSource): DoubleDoubleImmutablePair
-  fun getDefaultGravity(): Double
 
 dev/sterner/witchery/content/entity/VampireEntity.kt
   class VampireEntity
@@ -3020,19 +3013,6 @@ dev/sterner/witchery/content/entity/WitcheryAreaEffectCloud.kt
   fun onSyncedDataUpdated(dataAccessor: EntityDataAccessor<*>)
   fun getPistonPushReaction(): PushReaction
   fun getDimensions(pose: Pose): EntityDimensions
-
-dev/sterner/witchery/content/entity/WitcheryThrownPotion.kt
-  class WitcheryThrownPotion
-  fun onHitBlock(result: BlockHitResult)
-  fun getDefaultItem(): Item
-  fun onHit(result: HitResult)
-  fun makeAreaOfEffectCloud(potionContentList: MutableList<WitcheryPotionIngredient>, result: HitResult)
-  fun calculateHorizontalHurtKnockbackDirection(entity: LivingEntity, damageSource: DamageSource): DoubleDoubleImmutablePair
-  fun getDefaultGravity(): Double
-  fun getRangeBonus(potion: List<WitcheryPotionIngredient>): Int
-  fun getRangeBonus(stack: ItemStack): Int
-  fun calculateEffectDuration(potionContent: WitcheryPotionIngredient, effectData: WitcheryPotionIngredient.EffectModifier): Int
-  fun applySplash(stack: ItemStack, entity: Entity?, result: HitResult)
 
 dev/sterner/witchery/content/entity/goal/DemonFireBreathGoal.kt
   class DemonFireBreathGoal
@@ -3102,6 +3082,12 @@ dev/sterner/witchery/content/entity/goal/PrioritizeSetTargetGoal.kt
   fun tick()
   fun stop()
 
+dev/sterner/witchery/content/entity/goal/RandomFloatAroundGoal.kt
+  class RandomFloatAroundGoal
+  fun canUse(): Boolean
+  fun canContinueToUse(): Boolean
+  fun start()
+
 dev/sterner/witchery/content/entity/goal/ScytheThrowGoal.kt
   class ScytheThrowGoal
   fun canUse(): Boolean
@@ -3130,6 +3116,12 @@ dev/sterner/witchery/content/entity/goal/WitcheryPanicGoal.kt
   fun stop()
   fun canContinueToUse(): Boolean
 
+dev/sterner/witchery/content/entity/move_control/GhostMoveControl.kt
+  class GhostMoveControl
+  fun tick()
+  fun canReach(pos: Vec3, length: Int): Boolean
+  fun rotateTowards(currentYaw: Float, targetYaw: Float, maxTurn: Float): Float
+
 dev/sterner/witchery/content/entity/player_shell/SleepingPlayerEntity.kt
   class SleepingPlayerEntity
   fun hurt(source: DamageSource, amount: Float): Boolean
@@ -3156,6 +3148,41 @@ dev/sterner/witchery/content/entity/player_shell/SoulShellPlayerEntity.kt
   fun disableFlight(player: ServerPlayer)
   fun replaceWithPlayer(player: Player, shellEntity: SoulShellPlayerEntity)
   fun insertOrDrop(player: Player, inventory: NonNullList<ItemStack>, playerInv: NonNullList<ItemStack>)
+
+dev/sterner/witchery/content/entity/projectile/SunGrenadeProjectile.kt
+  class SunGrenadeProjectile
+  fun getDefaultItem(): Item
+  fun handleEntityEvent(id: Byte)
+  fun spread()
+  fun onHitEntity(result: EntityHitResult)
+  fun onHitBlock(result: BlockHitResult)
+  fun onHit(result: HitResult)
+
+dev/sterner/witchery/content/entity/projectile/ThrownBrewEntity.kt
+  class ThrownBrewEntity
+  fun defineSynchedData(builder: SynchedEntityData.Builder)
+  fun setIsQuartzSphere(isQuartz: Boolean)
+  fun isQuartzSphere(): Boolean
+  fun onHitBlock(result: BlockHitResult)
+  fun getDefaultItem(): Item
+  fun onHit(result: HitResult)
+  fun applySplash(item: BrewItem, result: HitResult, hasFrog: Boolean)
+  fun applySplash(effects: Iterable<MobEffectInstance>, pEntity: Entity?)
+  fun calculateHorizontalHurtKnockbackDirection(entity: LivingEntity, damageSource: DamageSource): DoubleDoubleImmutablePair
+  fun getDefaultGravity(): Double
+
+dev/sterner/witchery/content/entity/projectile/WitcheryThrownPotion.kt
+  class WitcheryThrownPotion
+  fun onHitBlock(result: BlockHitResult)
+  fun getDefaultItem(): Item
+  fun onHit(result: HitResult)
+  fun makeAreaOfEffectCloud(potionContentList: MutableList<WitcheryPotionIngredient>, result: HitResult)
+  fun calculateHorizontalHurtKnockbackDirection(entity: LivingEntity, damageSource: DamageSource): DoubleDoubleImmutablePair
+  fun getDefaultGravity(): Double
+  fun getRangeBonus(potion: List<WitcheryPotionIngredient>): Int
+  fun getRangeBonus(stack: ItemStack): Int
+  fun calculateEffectDuration(potionContent: WitcheryPotionIngredient, effectData: WitcheryPotionIngredient.EffectModifier): Int
+  fun applySplash(stack: ItemStack, entity: Entity?, result: HitResult)
 
 dev/sterner/witchery/content/item/ArthanaItem.kt
   class ArthanaItem
@@ -4322,7 +4349,7 @@ dev/sterner/witchery/core/data/FetishEffectReloadListener.kt
   class FetishResourceReloadListener
   class Data
   object FetishEffectReloadListener
-  fun findMatchingEffect(spirit: Int, banshee: Int, specter: Int, poltergeist: Int): ResourceLocation?
+  fun findMatchingEffect(spirit: Int, banshee: Int, specter: Int): ResourceLocation?
   fun getEffect(location: ResourceLocation): FetishEffect?
   fun apply(`object`: MutableMap<ResourceLocation, JsonElement>, resourceManager: ResourceManager, profiler: ProfilerFiller)
   fun parseJson(json: JsonObject, file: ResourceLocation)
@@ -5118,6 +5145,7 @@ dev/sterner/witchery/data_gen/book/util/EntryProviders.kt
   fun spotlightWithImage(parent: CategoryProviderBase?, id: String, icon: ItemStack, imagePath: String)
   fun textWithImage(parent: CategoryProviderBase?, id: String, icon: Item)
   fun textWithImage(parent: CategoryProviderBase?, id: String, icon: ItemStack)
+  fun textWithImageAndItem(parent: CategoryProviderBase?, id: String, icon: ItemStack)
   fun spotlightWithCauldronRecipes(parent: CategoryProviderBase?, id: String, icon: Item, vararg recipeIds: String)
   fun spotlightWithCauldronRecipes(parent: CategoryProviderBase?, id: String, icon: ItemStack, vararg recipeIds: String): EntryProvider
   fun ritual(parent: CategoryProviderBase?, id: String, icon: Item)

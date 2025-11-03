@@ -105,7 +105,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun onPlace(pPlacer: LivingEntity?, pStack: ItemStack) {
         val bl = pStack.has(WitcheryDataComponents.BANSHEE_COUNT.get())
         val bl2 = pStack.has(WitcheryDataComponents.SPECTRE_COUNT.get())
-        val bl4 = pStack.has(WitcheryDataComponents.SPIRIT_COUNT.get())
+        val bl4 = pStack.has(WitcheryDataComponents.POLTERGEIST_COUNT.get())
 
         if (bl) {
             bansheeCount = pStack.get(WitcheryDataComponents.BANSHEE_COUNT.get()) ?: 0
@@ -115,7 +115,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         if (bl4) {
-            spiritCount = pStack.get(WitcheryDataComponents.SPIRIT_COUNT.get()) ?: 0
+            spiritCount = pStack.get(WitcheryDataComponents.POLTERGEIST_COUNT.get()) ?: 0
         }
         setChanged()
 

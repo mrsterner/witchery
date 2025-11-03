@@ -64,6 +64,7 @@ import dev.sterner.witchery.features.death.DeathPlayerAttachment
 import dev.sterner.witchery.features.misc.DreamWeaverHandler
 import dev.sterner.witchery.features.ent.EntSpawningHandler
 import dev.sterner.witchery.features.hags_ring.VeinMiningTracker
+import dev.sterner.witchery.features.hunter.HunterArmorDefenseHandler
 import dev.sterner.witchery.features.lifeblood.LifebloodHandler
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
 import dev.sterner.witchery.features.misc.EquipmentHandler
@@ -103,6 +104,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent
 import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
+import net.neoforged.neoforge.event.entity.living.MobEffectEvent
 import net.neoforged.neoforge.event.entity.player.*
 import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent
@@ -116,6 +118,16 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent
 import net.neoforged.neoforge.event.village.VillagerTradesEvent
 
 object WitcheryNeoForgeEvents {
+
+    @SubscribeEvent
+    fun onPotionEffectApplied(event: MobEffectEvent.Added) {
+        HunterArmorDefenseHandler.onPotionEffectApplied(event)
+    }
+
+    @SubscribeEvent
+    fun onLivingHurtForHunterArmor(event: LivingIncomingDamageEvent) {
+        HunterArmorDefenseHandler.onLivingHurt(event)
+    }
 
     @SubscribeEvent
     fun addFortuneTellerTrades(event: VillagerTradesEvent) {

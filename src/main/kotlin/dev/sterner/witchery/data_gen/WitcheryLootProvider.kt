@@ -191,7 +191,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
                     )
             )
             this.add(
-                WitcheryEntityTypes.SPECTRE.get(), LootTable.lootTable()
+                WitcheryEntityTypes.POLTERGEIST.get(), LootTable.lootTable()
                     .withPool(
                         LootPool.lootPool()
                             .setRolls(ConstantValue.exactly(1.0F))

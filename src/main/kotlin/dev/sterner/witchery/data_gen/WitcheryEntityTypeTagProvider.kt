@@ -36,7 +36,7 @@ class WitcheryEntityTypeTagProvider(
             .add(WitcheryEntityTypes.VAMPIRE.get())
             .add(WitcheryEntityTypes.DEATH.get())
             .add(WitcheryEntityTypes.BANSHEE.get())
-            .add(WitcheryEntityTypes.SPECTRE.get())
+            .add(WitcheryEntityTypes.POLTERGEIST.get())
             .add(WitcheryEntityTypes.SPECTRAL_PIG.get())
 
         tag(WitcheryTags.NECROMANCER_SUMMONABLE)

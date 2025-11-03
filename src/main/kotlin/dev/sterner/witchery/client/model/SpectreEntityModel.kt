@@ -3,7 +3,7 @@ package dev.sterner.witchery.client.model
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.content.entity.SpectreEntity
+import dev.sterner.witchery.content.entity.PoltergeistEntity
 import net.minecraft.client.model.HierarchicalModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -19,7 +19,7 @@ import java.util.function.Function
 
 
 class SpectreEntityModel(val root: ModelPart) :
-    HierarchicalModel<SpectreEntity>(Function { location: ResourceLocation ->
+    HierarchicalModel<PoltergeistEntity>(Function { location: ResourceLocation ->
         RenderType.entityTranslucent(
             location
         )
@@ -48,7 +48,7 @@ class SpectreEntityModel(val root: ModelPart) :
     }
 
     override fun setupAnim(
-        entity: SpectreEntity,
+        entity: PoltergeistEntity,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,

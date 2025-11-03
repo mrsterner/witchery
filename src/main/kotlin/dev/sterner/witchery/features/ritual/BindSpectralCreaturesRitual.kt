@@ -4,7 +4,7 @@ import dev.sterner.witchery.core.api.Ritual
 import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.content.entity.BansheeEntity
-import dev.sterner.witchery.content.entity.SpectreEntity
+import dev.sterner.witchery.content.entity.PoltergeistEntity
 import dev.sterner.witchery.content.entity.SpiritEntity
 import dev.sterner.witchery.features.chain.ChainManager
 import dev.sterner.witchery.features.chain.ChainType
@@ -40,7 +40,7 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
                         entity.discard()
                     }
 
-                    is SpectreEntity -> {
+                    is PoltergeistEntity -> {
                         blockEntity.specterCount += 1
                         blockEntity.setChanged()
                         entityToEffigyMap.remove(entityId)
@@ -89,7 +89,7 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
             val area = AABB.ofSize(blockPos.center, 16.0, 16.0, 16.0)
 
             val unboundEntities = level.getEntitiesOfClass(LivingEntity::class.java, area)
-                .filter { it is BansheeEntity || it is SpectreEntity || it is SpiritEntity } //TODO add the other spectral creatures
+                .filter { it is BansheeEntity || it is PoltergeistEntity || it is SpiritEntity } //TODO add the other spectral creatures
 
             val possibleEffigies =
                 BlockPos.betweenClosedStream(area).filter { level.getBlockEntity(it) is EffigyBlockEntity }.findAny()

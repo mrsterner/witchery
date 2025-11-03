@@ -1,10 +1,8 @@
 package dev.sterner.witchery.content.entity.move_control
 
 import dev.sterner.witchery.content.entity.AbstractSpectralEntity
-import dev.sterner.witchery.content.entity.SpectreEntity
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.ai.control.MoveControl
-import net.minecraft.world.entity.ai.control.MoveControl.Operation
 import net.minecraft.world.phys.Vec3
 
 class GhostMoveControl(private val ghost: AbstractSpectralEntity) : MoveControl(
