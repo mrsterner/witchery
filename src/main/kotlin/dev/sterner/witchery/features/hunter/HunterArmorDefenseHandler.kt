@@ -2,11 +2,13 @@ package dev.sterner.witchery.features.hunter
 
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.Holder
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
 import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
@@ -17,7 +19,7 @@ object HunterArmorDefenseHandler {
 
     private const val POTION_DURATION_REDUCTION = 0.5f
     private const val CURSE_DURATION_REDUCTION = 0.4f
-    private const val POPPET_DAMAGE_REDUCTION = 0.35f
+    const val POPPET_DAMAGE_REDUCTION = 0.35f
     private const val MAGIC_DAMAGE_REDUCTION = 0.25f
     private const val CURSE_REFLECT_CHANCE = 0.15f
 
@@ -32,10 +34,10 @@ object HunterArmorDefenseHandler {
 
     fun getHunterArmorPieceCount(player: Player): Int {
         var count = 0
-        if (player.inventory.armor[3].item == WitcheryItems.HUNTER_HELMET.get()) count++
-        if (player.inventory.armor[2].item == WitcheryItems.HUNTER_CHESTPLATE.get()) count++
-        if (player.inventory.armor[1].item == WitcheryItems.HUNTER_LEGGINGS.get()) count++
-        if (player.inventory.armor[0].item == WitcheryItems.HUNTER_BOOTS.get()) count++
+        if (player.getItemBySlot(EquipmentSlot.HEAD) == WitcheryItems.HUNTER_HELMET.get()) count++
+        if (player.getItemBySlot(EquipmentSlot.CHEST) == WitcheryItems.HUNTER_CHESTPLATE.get()) count++
+        if (player.getItemBySlot(EquipmentSlot.LEGS) == WitcheryItems.HUNTER_LEGGINGS.get()) count++
+        if (player.getItemBySlot(EquipmentSlot.FEET) == WitcheryItems.HUNTER_BOOTS.get()) count++
         return count
     }
 
@@ -48,7 +50,6 @@ object HunterArmorDefenseHandler {
         }
     }
 
-    @SubscribeEvent
     fun onPotionEffectApplied(event: MobEffectEvent.Added) {
         val entity = event.entity
         if (entity !is Player) return
@@ -58,7 +59,7 @@ object HunterArmorDefenseHandler {
 
         val effectInstance = event.effectInstance ?: return
 
-        if (isHarmfulWitcheryEffect(effectInstance.effect) || effectInstance.effect.value().category == MobEffectCategory.HARMFUL) {
+        if (isHarmfulEffect(effectInstance.effect)) {
             val multiplier = getProtectionMultiplier(entity)
             val reduction = POTION_DURATION_REDUCTION * multiplier
 
@@ -87,12 +88,10 @@ object HunterArmorDefenseHandler {
         }
     }
 
-    private fun isHarmfulWitcheryEffect(effect: Holder<MobEffect>): Boolean {
-        val effectId = net.minecraft.core.registries.BuiltInRegistries.MOB_EFFECT.getKey(effect.value())
-        return effectId?.namespace == "witchery" && effect.value().category == MobEffectCategory.HARMFUL
+    private fun isHarmfulEffect(effect: Holder<MobEffect>): Boolean {
+        return effect.value().category == MobEffectCategory.HARMFUL
     }
 
-    @SubscribeEvent
     fun onLivingHurt(event: LivingIncomingDamageEvent) {
         val entity = event.entity
         if (entity !is Player) return
@@ -142,8 +141,8 @@ object HunterArmorDefenseHandler {
         }
 
         val entityType = attacker.type
-        val entityId = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(entityType)
-        return entityId?.namespace == "witchery"
+        val entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entityType)
+        return entityId.namespace == "witchery"
     }
 
     fun reduceCurseDuration(player: Player, originalDuration: Int): Int {

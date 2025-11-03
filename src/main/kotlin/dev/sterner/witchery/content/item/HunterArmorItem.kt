@@ -4,6 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.HunterArmorModel
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.model.HumanoidModel
 import net.minecraft.core.Holder
 import net.minecraft.network.chat.Component
@@ -34,32 +35,43 @@ open class HunterArmorItem(material: Holder<ArmorMaterial>, type: Type, properti
         tooltipComponents: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
+        tooltipComponents.add(
+            Component.literal("Hunter's Protection")
+                .withStyle(ChatFormatting.GOLD)
+        )
+        if (!Screen.hasShiftDown()) {
 
-        tooltipComponents.add(
-            Component.literal("Hunter's Protection").withStyle(ChatFormatting.GOLD)
-        )
-        tooltipComponents.add(
-            Component.literal("Set Bonus (4 pieces):").withStyle(ChatFormatting.GRAY)
-        )
-        tooltipComponents.add(
-            Component.literal("  50% reduced potion duration").withStyle(ChatFormatting.BLUE)
-        )
-        tooltipComponents.add(
-            Component.literal("  40% reduced curse duration").withStyle(ChatFormatting.BLUE)
-        )
-        tooltipComponents.add(
-            Component.literal("  35% reduced poppet damage").withStyle(ChatFormatting.BLUE)
-        )
-        tooltipComponents.add(
-            Component.literal("  25% magic resistance").withStyle(ChatFormatting.BLUE)
-        )
-        tooltipComponents.add(
-            Component.literal("  15% curse reflection").withStyle(ChatFormatting.BLUE)
-        )
-        tooltipComponents.add(
-            Component.literal("Bonuses scale with pieces worn").withStyle(ChatFormatting.DARK_GRAY)
-        )
+            tooltipComponents.add(
+                Component.literal("Hold ")
+                    .withStyle(ChatFormatting.GRAY)
+                    .append(Component.literal("Shift").withStyle(ChatFormatting.YELLOW))
+                    .append(Component.literal(" for more info"))
+            )
+        } else {
+            tooltipComponents.add(
+                Component.literal("Set Bonus:").withStyle(ChatFormatting.GRAY)
+            )
+            tooltipComponents.add(
+                Component.literal(" - Reduced potion duration").withStyle(ChatFormatting.BLUE)
+            )
+            tooltipComponents.add(
+                Component.literal(" - Reduced curse duration").withStyle(ChatFormatting.BLUE)
+            )
+            tooltipComponents.add(
+                Component.literal(" - Reduced poppet damage").withStyle(ChatFormatting.BLUE)
+            )
+            tooltipComponents.add(
+                Component.literal(" - Magic resistance").withStyle(ChatFormatting.BLUE)
+            )
+            tooltipComponents.add(
+                Component.literal(" - Curse reflection").withStyle(ChatFormatting.BLUE)
+            )
+            tooltipComponents.add(
+                Component.literal("Bonuses scale with pieces worn").withStyle(ChatFormatting.DARK_GRAY)
+            )
+        }
+
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
     }
 
 
@@ -90,7 +102,7 @@ open class HunterArmorItem(material: Holder<ArmorMaterial>, type: Type, properti
             living: LivingEntity,
             stack: ItemStack,
             slot: EquipmentSlot,
-            model: HumanoidModel<*>?
+            model: HumanoidModel<*>
         ): HumanoidModel<*> {
             val models = Minecraft.getInstance().entityModels
             val root = models.bakeLayer(HunterArmorModel.LAYER_LOCATION)
