@@ -1,9 +1,9 @@
-package dev.sterner.witchery.content.entity
+package dev.sterner.witchery.content.entity.projectile
 
+import dev.sterner.witchery.content.entity.WitcheryAreaEffectCloud
 import dev.sterner.witchery.content.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
-
-import dev.sterner.witchery.core.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryMobEffects
 import dev.sterner.witchery.core.registry.WitcherySpecialPotionEffects
@@ -44,7 +44,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         if (!level().isClientSide) {
             val itemStack = this.item
             if (itemStack.item is WitcheryPotionItem) {
-                val potionContentList = itemStack.get(WITCHERY_POTION_CONTENT.get())
+                val potionContentList = itemStack.get(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get())
 
                 if (lingering) {
                     potionContentList?.let { potionContent ->
@@ -102,7 +102,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
         }
 
         fun getRangeBonus(stack: ItemStack): Int {
-            val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get()) ?: return 1
+            val potionContentList = stack.get(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get()) ?: return 1
             return potionContentList.maxOfOrNull { it.dispersalModifier.rangeModifier } ?: 1
         }
     }
@@ -124,12 +124,12 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
             Entity::class.java, aABB
         )
 
-        if (stack.has(WITCHERY_POTION_CONTENT.get())) {
-            val potionContentList = stack.get(WITCHERY_POTION_CONTENT.get())
+        if (stack.has(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get())) {
+            val potionContentList = stack.get(WitcheryDataComponents.WITCHERY_POTION_CONTENT.get())
             if (potionContentList != null) {
                 var shouldInvertNext = false
 
-                val globalModifier = WitcheryPotionItem.getMergedEffectModifier(potionContentList)
+                val globalModifier = WitcheryPotionItem.Companion.getMergedEffectModifier(potionContentList)
 
                 for ((i, potionContent) in potionContentList.withIndex()) {
                     if (i == 0) continue
@@ -145,7 +145,7 @@ class WitcheryThrownPotion : ThrowableItemProjectile, ItemSupplier {
                             owner,
                             result,
                             list,
-                            WitcheryPotionItem.getMergedDisperseModifier(potionContentList),
+                            WitcheryPotionItem.Companion.getMergedDisperseModifier(potionContentList),
                             duration,
                             amplifier
                         )

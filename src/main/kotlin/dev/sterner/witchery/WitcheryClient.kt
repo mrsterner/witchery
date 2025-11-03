@@ -535,6 +535,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerEntityRenderer(WitcheryEntityTypes.FLOATING_ITEM.get(), ::FloatingItemEntityRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.THROWN_BREW.get(), ::ThrownBrewRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.THROWN_POTION.get(), ::ThrownItemRenderer)
+        event.registerEntityRenderer(WitcheryEntityTypes.SUN_GRENADE.get(), ::ThrownItemRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.SLEEPING_PLAYER.get(), ::SleepingPlayerEntityRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.SOUL_SHELL_PLAYER.get(), ::SleepingPlayerEntityRenderer)
         event.registerEntityRenderer(WitcheryEntityTypes.SPECTRAL_PIG.get(), ::SpectralPigRenderer)

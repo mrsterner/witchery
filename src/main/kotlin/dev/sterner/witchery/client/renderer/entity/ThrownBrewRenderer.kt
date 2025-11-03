@@ -2,7 +2,7 @@ package dev.sterner.witchery.client.renderer.entity
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
-import dev.sterner.witchery.content.entity.ThrownBrewEntity
+import dev.sterner.witchery.content.entity.projectile.ThrownBrewEntity
 import dev.sterner.witchery.content.item.brew.BrewItem
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.client.renderer.MultiBufferSource

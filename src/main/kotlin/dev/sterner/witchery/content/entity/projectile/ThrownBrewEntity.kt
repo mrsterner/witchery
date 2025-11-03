@@ -1,8 +1,8 @@
-package dev.sterner.witchery.content.entity
+package dev.sterner.witchery.content.entity.projectile
 
 import dev.sterner.witchery.content.item.brew.BrewItem
-import dev.sterner.witchery.features.familiar.FamiliarHandler
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.features.familiar.FamiliarHandler
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.syncher.EntityDataAccessor

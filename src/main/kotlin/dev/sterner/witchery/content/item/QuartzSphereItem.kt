@@ -1,6 +1,7 @@
 package dev.sterner.witchery.content.item
 
-import dev.sterner.witchery.content.entity.ThrownBrewEntity
+import dev.sterner.witchery.content.entity.projectile.ThrownBrewEntity
+import dev.sterner.witchery.content.entity.projectile.SunGrenadeProjectile
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.content.item.brew.ThrowableBrewItem
@@ -18,6 +19,7 @@ import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.projectile.Projectile
+import net.minecraft.world.entity.projectile.Snowball
 import net.minecraft.world.item.*
 import net.minecraft.world.item.component.ItemContainerContents
 import net.minecraft.world.level.Level
@@ -82,11 +84,15 @@ class QuartzSphereItem(properties: Properties) : Item(properties), ProjectileIte
         if (livingEntity is ServerPlayer && stack.has(WitcheryDataComponents.HAS_SUN.get()) &&
             stack.get(WitcheryDataComponents.HAS_SUN.get()) == true
         ) {
+
+            val grenade = SunGrenadeProjectile(level, livingEntity)
+            grenade.item = stack
+            grenade.shootFromRotation(livingEntity, livingEntity.xRot, livingEntity.yRot, -20.0f, 0.5f, 1.0f)
+            level.addFreshEntity(grenade)
+
             if (!livingEntity.abilities.instabuild) {
                 stack.shrink(1)
             }
-            livingEntity.remainingFireTicks = 20 * 4
-            VampireLeveling.increaseUsedSunGrenades(livingEntity)
         }
 
         return super.finishUsingItem(stack, level, livingEntity)
