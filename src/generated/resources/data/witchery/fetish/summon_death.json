@@ -1,7 +1,6 @@
 {
-  "banshee_count": 5,
+  "banshee_count": 6,
   "effect": "witchery:summon_death",
-  "poltergeist_count": 5,
-  "specter_count": 5,
-  "spirit_count": 5
+  "specter_count": 6,
+  "spirit_count": 6
 }

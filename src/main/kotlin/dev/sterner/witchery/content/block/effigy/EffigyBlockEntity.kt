@@ -33,7 +33,6 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var spiritCount = 0
     var bansheeCount = 0
     var specterCount = 0
-    var poltergeistCount = 0
 
     var deployedSpectreCount = 0
 
@@ -45,8 +44,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 FetishEffectReloadListener.findMatchingEffect(
                     spiritCount,
                     bansheeCount,
-                    specterCount,
-                    poltergeistCount
+                    specterCount
                 )
             if (newMatch != matchedEffect) {
                 matchedEffect = newMatch
@@ -83,7 +81,6 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putInt("Spirit", spiritCount)
         tag.putInt("Banshee", bansheeCount)
         tag.putInt("Spectre", specterCount)
-        tag.putInt("Poltergeist", poltergeistCount)
 
         tag.putInt("DeployedSpectres", deployedSpectreCount)
         EffigyState.CODEC.encodeStart(NbtOps.INSTANCE, state ?: EffigyState.IDLE).result().ifPresent {
@@ -97,7 +94,6 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         spiritCount = pTag.getInt("Spirit")
         bansheeCount = pTag.getInt("Banshee")
         specterCount = pTag.getInt("Spectre")
-        poltergeistCount = pTag.getInt("Poltergeist")
 
         deployedSpectreCount = pTag.getInt("DeployedSpectres")
         state = EffigyState.CODEC.parse(NbtOps.INSTANCE, pTag.get("EffigyState")).result().orElse(EffigyState.IDLE)
@@ -109,7 +105,6 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun onPlace(pPlacer: LivingEntity?, pStack: ItemStack) {
         val bl = pStack.has(WitcheryDataComponents.BANSHEE_COUNT.get())
         val bl2 = pStack.has(WitcheryDataComponents.SPECTRE_COUNT.get())
-        val bl3 = pStack.has(WitcheryDataComponents.POLTERGEIST_COUNT.get())
         val bl4 = pStack.has(WitcheryDataComponents.SPIRIT_COUNT.get())
 
         if (bl) {
@@ -118,9 +113,7 @@ class EffigyBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         if (bl2) {
             specterCount = pStack.get(WitcheryDataComponents.SPECTRE_COUNT.get()) ?: 0
         }
-        if (bl3) {
-            poltergeistCount = pStack.get(WitcheryDataComponents.POLTERGEIST_COUNT.get()) ?: 0
-        }
+
         if (bl4) {
             spiritCount = pStack.get(WitcheryDataComponents.SPIRIT_COUNT.get()) ?: 0
         }

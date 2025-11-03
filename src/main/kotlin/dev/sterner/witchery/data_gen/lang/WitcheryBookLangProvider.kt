@@ -1600,5 +1600,21 @@ object WitcheryBookLangProvider {
         add("brewing.hags_ring_infusion.title.1", "Hag's Ring: Miner")
         add("brewing.hags_ring_infusion", "Hag's Ring: Miner")
         add("brewing.hags_ring_infusion.page.1", "In an already finished Brew of Erosion. Toss a Golden Ring and infuse the properties of the brew into the ring. Equip it and with a Witch's hand, use it to harvest multiple ores at ones")
+
+        add("book.witchery.guidebook.general.tag_lock.name", "Taglock")
+        add("book.witchery.guidebook.general.tag_lock.description", "Only a pinch")
+        add("general.tag_lock.title.1", "Taglock")
+        add("general.tag_lock.page.1", "To create a taglock, use a Bone Needle on a living target while holding a glass bottle in your offhand. " +
+                "This captures their essence into the bottle, creating a taglock you can use in rituals. Also used beds works for collection.")
+        add(
+            "general.tag_lock.page.2",
+            "Taglocks expire after 2 days. Using the Bone Needle behind a player or while invisible increases your chance of success. Direct attempts in plain sight or in bright light are much less likely to succeed."
+        )
+
+        add("book.witchery.guidebook.general.poppet.name", "Poppet")
+        add("book.witchery.guidebook.general.poppet.description", "Gonna collect like 40K of these")
+        add("general.poppet.title.1", "Poppet")
+        add("general.poppet.page.1", "Craft together with a Taglock to bind to a player or creature. If the poppet dont require to be in the owners inventory you can place it in the world.")
+
     }
 }

@@ -8,17 +8,13 @@ import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.tags.DamageTypeTags
-import net.minecraft.util.Mth
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraft.world.entity.ai.control.MoveControl
-import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.level.Level
-import net.minecraft.world.phys.Vec3
-import java.util.*
 
-class BansheeEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.BANSHEE.get(), level) {
+
+class SpiritEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.SPIRIT.get(), level) {
 
     init {
         this.moveControl = GhostMoveControl(this)
@@ -40,7 +36,7 @@ class BansheeEntity(level: Level) : AbstractSpectralEntity(WitcheryEntityTypes.B
         }
 
         val REVEALED: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(
-            BansheeEntity::class.java, EntityDataSerializers.BOOLEAN
+            SpiritEntity::class.java, EntityDataSerializers.BOOLEAN
         )
     }
 

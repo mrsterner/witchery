@@ -30,7 +30,7 @@ class WitcheryGeneralCategoryProvider(
             "______________________kj__________",
             "________________________v_________",
             "________________c_m_y_s__z________",
-            "___________________w____g_________",
+            "____________2_1____w____g_________",
             "_____________________e_u__________",
             "____________a___b__o______________",
             "__________________x_h_____________",
@@ -53,6 +53,14 @@ class WitcheryGeneralCategoryProvider(
 
         val beginning = EntryProviders.single(this, "beginning", WitcheryItems.GUIDEBOOK.get()).generate("b")
         addEntry(beginning)
+
+        val tagLock = EntryProviders.singleItemTwoPages(this, "tag_lock", WitcheryItems.TAGLOCK.get().defaultInstance).generate("1")
+            .requiresAndFollows(beginning)
+        addEntry(tagLock)
+
+        val poppet = EntryProviders.textWithImageAndItem(this, "poppet", WitcheryItems.POPPET.get().defaultInstance).generate("2")
+            .requiresAndFollows(tagLock)
+        addEntry(poppet)
 
         val mushroomLog = EntryProviders.textWithImage(
             this,

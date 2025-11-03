@@ -3,6 +3,7 @@ package dev.sterner.witchery.content.item.brew
 import dev.sterner.witchery.content.entity.BansheeEntity
 import dev.sterner.witchery.content.entity.SpectralPigEntity
 import dev.sterner.witchery.content.entity.SpectreEntity
+import dev.sterner.witchery.content.entity.SpiritEntity
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
@@ -21,6 +22,9 @@ class BrewOfRevealingItem(color: Int, properties: Properties) : ThrowableBrewIte
         }
         if (livingEntity is SpectreEntity) {
             livingEntity.entityData.set(SpectreEntity.REVEALED, true)
+        }
+        if (livingEntity is SpiritEntity) {
+            livingEntity.entityData.set(SpiritEntity.REVEALED, true)
         }
     }
 }

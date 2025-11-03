@@ -5,6 +5,7 @@ import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.content.entity.BansheeEntity
 import dev.sterner.witchery.content.entity.SpectreEntity
+import dev.sterner.witchery.content.entity.SpiritEntity
 import dev.sterner.witchery.features.chain.ChainManager
 import dev.sterner.witchery.features.chain.ChainType
 import net.minecraft.core.BlockPos
@@ -45,18 +46,12 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
                         entityToEffigyMap.remove(entityId)
                         entity.discard()
                     }
-                    /* TODO: Add more entity types when they're created
-                    is PoltergeistEntity -> {
-                        blockEntity.poltergeistCount += 1
-                        entityToEffigyMap.remove(entityId)
-                        entity.discard()
-                    }
-                    is Spirit -> {
+                    is SpiritEntity -> {
                         blockEntity.spiritCount += 1
                         entityToEffigyMap.remove(entityId)
                         entity.discard()
                     }
-                    */
+
                 }
 
                 makeBindingParticles(level, entity.position(), blockEntity.blockPos.center)
@@ -94,7 +89,7 @@ class BindSpectralCreaturesRitual : Ritual("bind_spectral_creatures") {
             val area = AABB.ofSize(blockPos.center, 16.0, 16.0, 16.0)
 
             val unboundEntities = level.getEntitiesOfClass(LivingEntity::class.java, area)
-                .filter { it is BansheeEntity || it is SpectreEntity } //TODO add the other spectral creatures
+                .filter { it is BansheeEntity || it is SpectreEntity || it is SpiritEntity } //TODO add the other spectral creatures
 
             val possibleEffigies =
                 BlockPos.betweenClosedStream(area).filter { level.getBlockEntity(it) is EffigyBlockEntity }.findAny()

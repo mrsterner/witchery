@@ -11,13 +11,26 @@
       }
     ]
   },
-  "description": "book.witchery.guidebook.general.mushroom_log.description",
+  "description": "book.witchery.guidebook.general.tag_lock.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:red_mushroom"
+    "item": "witchery:taglock"
   },
-  "name": "book.witchery.guidebook.general.mushroom_log.name",
+  "name": "book.witchery.guidebook.general.tag_lock.name",
   "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:taglock"
+      },
+      "text": "general.tag_lock.page.1",
+      "title": "general.tag_lock.title.1"
+    },
     {
       "type": "modonomicon:text",
       "anchor": "",
@@ -25,23 +38,9 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "general.mushroom_log.page.1",
-      "title": "general.mushroom_log.title.1",
-      "use_markdown_in_title": false
-    },
-    {
-      "type": "modonomicon:image",
-      "anchor": "",
-      "border": true,
-      "condition": {
-        "type": "modonomicon:none"
-      },
-      "images": [
-        "witchery:textures/gui/modonomicon/images/mushroom_log.png"
-      ],
-      "text": "",
+      "text": "general.tag_lock.page.2",
       "title": "",
-      "use_legacy_rendering": false
+      "use_markdown_in_title": false
     }
   ],
   "parents": [
@@ -53,7 +52,7 @@
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 3,
-  "x": -5,
-  "y": 0
+  "sort_number": 1,
+  "x": -3,
+  "y": -2
 }

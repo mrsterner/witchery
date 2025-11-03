@@ -49,8 +49,7 @@ class WitcheryFetishProvider(
         unconditional(
             Witchery.id("disorientation"),
             FetishEffectReloadListener.Data(
-                spiritCount = 3,
-                poltergeistCount = 2,
+                spiritCount = 5,
                 effectLocation = Witchery.id("disorientation")
             )
         )
@@ -67,18 +66,16 @@ class WitcheryFetishProvider(
             FetishEffectReloadListener.Data(
                 spiritCount = 3,
                 specterCount = 1,
-                bansheeCount = 1,
-                poltergeistCount = 1,
+                bansheeCount = 2,
                 effectLocation = Witchery.id("voodoo_protection")
             )
         )
         unconditional(
             Witchery.id("summon_death"),
             FetishEffectReloadListener.Data(
-                spiritCount = 5,
-                specterCount = 5,
-                bansheeCount = 5,
-                poltergeistCount = 5,
+                spiritCount = 6,
+                specterCount = 6,
+                bansheeCount = 6,
                 effectLocation = Witchery.id("summon_death")
             )
         )

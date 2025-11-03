@@ -204,6 +204,14 @@ object WitcheryEntityTypes {
         ).sized(1.15F, 1.8F).build(Witchery.id("banshee").toString())
     }
 
+    val SPIRIT = register("spirit") {
+        EntityType.Builder.of(
+            { _: EntityType<SpiritEntity>, level: Level ->
+                SpiritEntity(level)
+            }, MobCategory.MONSTER
+        ).sized(0.75F, 0.75F).build(Witchery.id("spirit").toString())
+    }
+
     val SPECTRE = register("spectre", Supplier {
         EntityType.Builder.of(
             { _: EntityType<SpectreEntity>, level: Level ->

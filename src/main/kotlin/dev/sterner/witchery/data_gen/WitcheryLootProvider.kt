@@ -180,6 +180,17 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
                     )
             )
             this.add(
+                WitcheryEntityTypes.SPIRIT.get(), LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1.0F))
+                            .add(
+                                LootItem.lootTableItem(WitcheryItems.SPECTRAL_DUST.get())
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                            )
+                    )
+            )
+            this.add(
                 WitcheryEntityTypes.SPECTRE.get(), LootTable.lootTable()
                     .withPool(
                         LootPool.lootPool()

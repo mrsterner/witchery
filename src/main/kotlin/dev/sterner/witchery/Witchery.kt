@@ -74,6 +74,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         event.put(WitcheryEntityTypes.ENT.get(), EntEntity.createAttributes().build())
         event.put(WitcheryEntityTypes.BANSHEE.get(), BansheeEntity.createAttributes().build())
         event.put(WitcheryEntityTypes.SPECTRE.get(), SpectreEntity.createAttributes().build())
+        event.put(WitcheryEntityTypes.SPIRIT.get(), SpectreEntity.createAttributes().build())
         event.put(WitcheryEntityTypes.SPECTRAL_PIG.get(), Pig.createAttributes().build())
         event.put(WitcheryEntityTypes.NIGHTMARE.get(), NightmareEntity.createAttributes().build())
         event.put(WitcheryEntityTypes.VAMPIRE.get(), VampireEntity.createAttributes().build())

@@ -3,6 +3,7 @@ package dev.sterner.witchery.data_gen.book.util
 import com.klikli_dev.modonomicon.api.datagen.CategoryProviderBase
 import com.klikli_dev.modonomicon.api.datagen.EntryProvider
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
+import com.klikli_dev.modonomicon.api.datagen.book.page.BookImagePageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import dev.sterner.witchery.Witchery
@@ -120,6 +121,17 @@ object EntryProviders {
         id(id)
         icon(icon)
         textPage()
+        imagePage("${id}_image", "textures/gui/modonomicon/images/${id}.png")
+    }
+
+    fun textWithImageAndItem(
+        parent: CategoryProviderBase?,
+        id: String,
+        icon: ItemStack
+    ) = parent.entry {
+        id(id)
+        icon(icon)
+        spotlightPage()
         imagePage("${id}_image", "textures/gui/modonomicon/images/${id}.png")
     }
 

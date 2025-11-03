@@ -127,10 +127,6 @@ object WitcheryDataComponents {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
     })
 
-    val POLTERGEIST_COUNT = DATA.register("poltergeist_count", Supplier {
-        DataComponentType.builder<Int>().persistent(Codec.INT).build()
-    })
-
     val SPIRIT_COUNT = DATA.register("spirit_count", Supplier {
         DataComponentType.builder<Int>().persistent(Codec.INT).build()
     })

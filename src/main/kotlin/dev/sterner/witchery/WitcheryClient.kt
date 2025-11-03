@@ -31,6 +31,7 @@ import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.client.tarot.TarotCardHudRenderer
 import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
 import dev.sterner.witchery.content.block.phylactery.PhylacteryBlock
+import dev.sterner.witchery.content.entity.SpiritEntity
 import dev.sterner.witchery.content.item.DeathArmorItem
 import dev.sterner.witchery.content.item.HunterArmorItem
 import dev.sterner.witchery.content.item.TaglockItem
@@ -443,6 +444,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerLayerDefinition(HornedHuntsmanModel.LAYER_LOCATION) { HornedHuntsmanModel.createBodyLayer() }
         event.registerLayerDefinition(DeathEntityModel.LAYER_LOCATION) { DeathEntityModel.createBodyLayer() }
         event.registerLayerDefinition(SpectreEntityModel.LAYER_LOCATION) { SpectreEntityModel.createBodyLayer() }
+        event.registerLayerDefinition(SpiritEntityModel.LAYER_LOCATION) { SpiritEntityModel.createBodyLayer() }
         event.registerLayerDefinition(BabaYagaEntityModel.LAYER_LOCATION) { BabaYagaEntityModel.createBodyLayer() }
         event.registerLayerDefinition(ParasiticLouseEntityModel.LAYER_LOCATION) { ParasiticLouseEntityModel.createBodyLayer() }
         event.registerLayerDefinition(WerewolfEntityModel.LAYER_LOCATION) { WerewolfEntityModel.createBodyLayer() }
@@ -511,6 +513,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerEntityRenderer(WitcheryEntityTypes.BANSHEE.get()) { BansheeEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.BABA_YAGA.get()) { BabaYagaEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.SPECTRE.get()) { SpectreEntityRenderer(it) }
+        event.registerEntityRenderer(WitcheryEntityTypes.SPIRIT.get()) { SpiritEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.DEMON.get()) { DemonEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.COVEN_WITCH.get()) { CovenWitchEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.PARASITIC_LOUSE.get()) { ParasiticLouseEntityRenderer(it) }
