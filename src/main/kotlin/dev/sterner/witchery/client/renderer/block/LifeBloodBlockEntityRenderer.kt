@@ -2,7 +2,6 @@ package dev.sterner.witchery.client.renderer.block
 
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.client.model.DistilleryGemModel
 import dev.sterner.witchery.client.model.LifeBloodPlantModel
 import dev.sterner.witchery.content.block.life_blood.LifeBloodBlock
 import dev.sterner.witchery.content.block.life_blood.LifeBloodBlockEntity
@@ -11,7 +10,6 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
-import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.CaveVinesPlantBlock
 
 class LifeBloodBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :

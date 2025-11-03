@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.Containers
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Cat
-import net.minecraft.world.entity.animal.Ocelot
 import net.minecraft.world.entity.animal.frog.Frog
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level

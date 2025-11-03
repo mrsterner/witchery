@@ -10,14 +10,10 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.NeutralMob
-import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.ai.gossip.GossipType
-import net.minecraft.world.entity.monster.piglin.Piglin
 import net.minecraft.world.entity.npc.Villager
-import net.minecraft.world.entity.npc.VillagerProfession
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
-import java.util.function.Predicate
 
 class BrewOfOblivion(color: Int, properties: Properties) : ThrowableBrewItem(color, properties) {
 

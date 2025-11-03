@@ -4,7 +4,6 @@ package dev.sterner.witchery.content.block.blood_crucible
 import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.blood.BloodPoolHandler
-import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems

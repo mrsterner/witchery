@@ -5,7 +5,6 @@ import dev.sterner.witchery.core.api.event.SleepingEvent;
 import dev.sterner.witchery.features.death.DeathPlayerAttachment;
 import dev.sterner.witchery.features.death.DeathTransformationHelper;
 import dev.sterner.witchery.features.misc.InventoryLockPlayerAttachment;
-import dev.sterner.witchery.features.misc.MiscPlayerAttachment;
 import dev.sterner.witchery.mixin_logic.PlayerMixinLogic;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;

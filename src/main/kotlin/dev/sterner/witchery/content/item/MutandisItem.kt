@@ -1,7 +1,6 @@
 package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.core.api.WitcheryApi
-import dev.sterner.witchery.features.mutandis.MutandisLevelAttachment
 import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.features.mutandis.MutandisHandler
 import net.minecraft.core.BlockPos

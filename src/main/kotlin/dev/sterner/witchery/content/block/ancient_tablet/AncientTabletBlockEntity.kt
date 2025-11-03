@@ -2,7 +2,6 @@ package dev.sterner.witchery.content.block.ancient_tablet
 
 
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup

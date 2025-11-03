@@ -3,7 +3,6 @@ package dev.sterner.witchery.mixin.possession.possessor;
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;

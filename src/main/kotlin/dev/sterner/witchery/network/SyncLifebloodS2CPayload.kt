@@ -1,8 +1,6 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.core.registry.WitcheryDataAttachments
-import dev.sterner.witchery.features.curse.CursePlayerAttachment
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
@@ -11,7 +9,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.player.Player
-import net.neoforged.neoforge.network.handling.IPayloadContext
 
 class SyncLifebloodS2CPayload(val nbt: CompoundTag) : CustomPacketPayload {
 

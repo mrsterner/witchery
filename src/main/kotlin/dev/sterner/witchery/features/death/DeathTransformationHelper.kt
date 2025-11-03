@@ -3,9 +3,7 @@ package dev.sterner.witchery.features.death
 import dev.sterner.witchery.content.entity.DeathEntity
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.features.affliction.ability.AbilityScrollHandler
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
-import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level

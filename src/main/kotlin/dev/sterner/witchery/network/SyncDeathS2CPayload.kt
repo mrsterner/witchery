@@ -2,7 +2,6 @@ package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.features.death.DeathPlayerAttachment
-import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps

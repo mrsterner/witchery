@@ -1,6 +1,5 @@
 package dev.sterner.witchery.client
 
-import com.mojang.blaze3d.platform.InputConstants
 import dev.sterner.witchery.content.item.LeonardsUrnItem
 import dev.sterner.witchery.content.item.QuartzSphereItem
 import dev.sterner.witchery.core.registry.WitcheryKeyMappings
@@ -13,7 +12,6 @@ import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
-import org.lwjgl.glfw.GLFW
 import java.awt.Color
 
 object UrnPotionSelectionHandler {

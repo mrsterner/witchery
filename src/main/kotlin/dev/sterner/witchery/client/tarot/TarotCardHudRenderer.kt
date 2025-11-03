@@ -1,24 +1,19 @@
 package dev.sterner.witchery.client.tarot
 
-import com.mojang.blaze3d.platform.InputConstants
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.registry.WitcheryKeyMappings
 import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
-import dev.sterner.witchery.core.registry.WitcheryTarotEffects
-import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.client.event.ClientTickEvent
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers
-import org.lwjgl.glfw.GLFW
 import java.awt.Color
 
 object TarotCardHudRenderer {

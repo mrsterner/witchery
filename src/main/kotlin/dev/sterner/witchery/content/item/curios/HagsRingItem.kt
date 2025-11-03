@@ -11,13 +11,9 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem
 
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.Style
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.TooltipFlag
 import top.theillusivec4.curios.api.CuriosApi
-import java.awt.Color
 
 class HagsRingItem(properties: Properties) : Item(properties), ICurioItem {
 

@@ -6,7 +6,6 @@ import dev.sterner.witchery.core.data.BloodPoolReloadListener
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.core.registry.WitcheryAttributes
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.blood.BloodPoolHandler
 import dev.sterner.witchery.network.SpawnBloodParticlesS2CPayload

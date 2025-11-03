@@ -3,11 +3,9 @@ package dev.sterner.witchery.features.ritual
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
 import dev.sterner.witchery.core.api.Ritual
 import net.minecraft.core.BlockPos
-import net.minecraft.server.commands.WeatherCommand
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.entity.BedBlockEntity
 import net.minecraft.world.level.levelgen.Heightmap
 
 class RainingToadRitual : Ritual("raining_toad") {

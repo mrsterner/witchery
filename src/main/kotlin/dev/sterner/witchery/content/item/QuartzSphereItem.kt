@@ -3,7 +3,6 @@ package dev.sterner.witchery.content.item
 import dev.sterner.witchery.content.entity.projectile.ThrownBrewEntity
 import dev.sterner.witchery.content.entity.projectile.SunGrenadeProjectile
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
-import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.content.item.brew.ThrowableBrewItem
 import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
 import dev.sterner.witchery.features.infusion.InfusionHandler
@@ -19,7 +18,6 @@ import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.projectile.Projectile
-import net.minecraft.world.entity.projectile.Snowball
 import net.minecraft.world.item.*
 import net.minecraft.world.item.component.ItemContainerContents
 import net.minecraft.world.level.Level

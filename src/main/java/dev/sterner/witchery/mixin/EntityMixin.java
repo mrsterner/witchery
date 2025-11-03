@@ -3,7 +3,6 @@ package dev.sterner.witchery.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.sterner.witchery.features.death.DeathPlayerAttachment;
 import dev.sterner.witchery.features.death.DeathTransformationHelper;
-import dev.sterner.witchery.features.misc.MiscPlayerAttachment;
 import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;

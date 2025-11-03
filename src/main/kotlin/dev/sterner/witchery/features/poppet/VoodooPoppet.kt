@@ -3,22 +3,18 @@ package dev.sterner.witchery.features.poppet
 import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.core.api.PoppetUsage
 import dev.sterner.witchery.core.api.WitcheryApi
-import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.features.hunter.HunterArmorDefenseHandler
 import net.minecraft.core.BlockPos
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.item.ItemEntity
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec3
-import kotlin.math.max
 
 class VoodooPoppet : PoppetType {
     override val item = WitcheryItems.VOODOO_POPPET.get()

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.features.tarot
 
-import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
 import net.minecraft.world.damagesource.DamageSource

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.content.block.cauldron
 
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.block.AltarPowerConsumer
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity

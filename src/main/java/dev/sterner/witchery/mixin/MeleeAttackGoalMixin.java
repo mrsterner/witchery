@@ -2,7 +2,6 @@ package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment;
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
-import dev.sterner.witchery.features.affliction.AfflictionTypes;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.monster.Zombie;

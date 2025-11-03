@@ -1,11 +1,9 @@
 package dev.sterner.witchery.features.tarot
 
-import dev.sterner.witchery.content.entity.DeathEntity
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.features.death.DeathTransformationHelper
-import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.chat.Component

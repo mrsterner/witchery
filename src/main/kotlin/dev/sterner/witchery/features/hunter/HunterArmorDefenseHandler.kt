@@ -1,18 +1,12 @@
 package dev.sterner.witchery.features.hunter
 
 import dev.sterner.witchery.core.registry.WitcheryItems
-import net.minecraft.core.Holder
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
-import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent
-import java.util.UUID
-import java.util.concurrent.ConcurrentHashMap
 
 object HunterArmorDefenseHandler {
 

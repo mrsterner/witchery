@@ -3,8 +3,6 @@ package dev.sterner.witchery.client.renderer.without_level
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.AncientTabletModel
-import dev.sterner.witchery.client.model.SpinningWheelBlockEntityModel
-import dev.sterner.witchery.client.model.SpinningWheelWheelBlockEntityModel
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
 import net.minecraft.client.renderer.MultiBufferSource

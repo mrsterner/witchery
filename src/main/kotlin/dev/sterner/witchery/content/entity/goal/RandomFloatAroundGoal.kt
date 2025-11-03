@@ -1,9 +1,7 @@
 package dev.sterner.witchery.content.entity.goal
 
 import dev.sterner.witchery.content.entity.AbstractSpectralEntity
-import dev.sterner.witchery.content.entity.BansheeEntity
 import net.minecraft.world.entity.ai.goal.Goal
-import net.minecraft.world.entity.ai.goal.Goal.Flag
 import java.util.EnumSet
 
 class RandomFloatAroundGoal(private val bansheeEntity: AbstractSpectralEntity) : Goal() {

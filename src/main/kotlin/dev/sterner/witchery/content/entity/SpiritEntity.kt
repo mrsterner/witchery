@@ -3,10 +3,6 @@ package dev.sterner.witchery.content.entity
 import dev.sterner.witchery.content.entity.goal.RandomFloatAroundGoal
 import dev.sterner.witchery.content.entity.move_control.GhostMoveControl
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.syncher.EntityDataAccessor
-import net.minecraft.network.syncher.EntityDataSerializers
-import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.tags.DamageTypeTags
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier

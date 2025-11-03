@@ -11,7 +11,6 @@ import net.minecraft.server.packs.PackType
 import net.minecraft.world.entity.EntityType
 import net.neoforged.neoforge.common.data.ExistingFileHelper
 import net.neoforged.neoforge.common.data.JsonCodecProvider
-import tallestegg.guardvillagers.GuardEntityType
 import java.util.concurrent.CompletableFuture
 
 class WitcheryBloodProvider(

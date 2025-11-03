@@ -2,7 +2,6 @@ package dev.sterner.witchery.content.entity
 
 
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.network.SpawnSmokeParticlesS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes

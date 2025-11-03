@@ -1,11 +1,8 @@
 package dev.sterner.witchery.features.tarot
 
-import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.effect.MobEffectInstance
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.player.Player
 
 class TheStarEffect : TarotEffect(18) {

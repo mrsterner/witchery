@@ -1,9 +1,7 @@
 package dev.sterner.witchery.features.ritual
 
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
-import dev.sterner.witchery.content.item.TaglockItem
 import dev.sterner.witchery.core.api.Ritual
-import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
@@ -14,8 +12,6 @@ import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 
 class SoulSeveranceRitual : Ritual("soul_severance") {

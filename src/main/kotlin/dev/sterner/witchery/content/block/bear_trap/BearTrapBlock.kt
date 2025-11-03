@@ -5,7 +5,6 @@ import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
 import dev.sterner.witchery.core.registry.WitcheryMobEffects
 import net.minecraft.core.BlockPos
 import net.minecraft.world.effect.MobEffectInstance
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player

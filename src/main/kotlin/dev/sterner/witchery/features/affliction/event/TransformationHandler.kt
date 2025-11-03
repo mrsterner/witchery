@@ -27,7 +27,6 @@ import net.minecraft.world.entity.ambient.Bat
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
-import kotlin.compareTo
 
 object TransformationHandler {
 

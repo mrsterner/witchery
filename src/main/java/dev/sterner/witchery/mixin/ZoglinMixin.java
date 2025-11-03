@@ -2,7 +2,6 @@ package dev.sterner.witchery.mixin;
 
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment;
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
-import dev.sterner.witchery.features.affliction.AfflictionTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;

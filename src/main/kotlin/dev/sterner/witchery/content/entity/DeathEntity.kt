@@ -1,7 +1,6 @@
 package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.content.entity.goal.FocusSummonerGoal
-import dev.sterner.witchery.content.entity.goal.PrioritizeSetTargetGoal
 import dev.sterner.witchery.content.entity.goal.ScytheThrowGoal
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems

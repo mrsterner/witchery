@@ -10,7 +10,6 @@ import dev.sterner.witchery.features.necromancy.PhylacteryLevelDataAttachment
 import dev.sterner.witchery.features.necromancy.SoulPoolPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
-import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.possession.EntityAiToggle
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import net.minecraft.core.BlockPos

@@ -3,19 +3,14 @@ package dev.sterner.witchery.features.ritual
 import dev.sterner.witchery.core.api.Ritual
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.content.block.ritual.GoldenChalkBlockEntity
-import dev.sterner.witchery.content.item.TaglockItem
 import dev.sterner.witchery.features.misc.BindingRitualAttachment
-import dev.sterner.witchery.core.registry.WitcheryDataComponents
-import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos
-import net.minecraft.core.GlobalPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 
 class BindingRitual : Ritual("binding") {

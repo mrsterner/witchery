@@ -8,13 +8,10 @@ import dev.sterner.witchery.features.affliction.event.AfflictionHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
-import dev.sterner.witchery.integration.CompatHelper
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
-import tallestegg.guardvillagers.common.entities.Guard
 
 enum class VampireAbility(
     override val requiredLevel: Int,

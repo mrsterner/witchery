@@ -7,7 +7,6 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel
 import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.data_gen.book.page.BookCauldronBrewingPageModel
 import dev.sterner.witchery.data_gen.book.page.BookCauldronInfusionPageModel
 import net.minecraft.world.item.Item
 

@@ -1,12 +1,6 @@
 package dev.sterner.witchery.features.tarot
 
-import dev.sterner.witchery.core.registry.WitcheryDamageSources
-import dev.sterner.witchery.mixin.DamageSourcesInvoker
-import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.sounds.SoundEvents
-import net.minecraft.sounds.SoundSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.player.Player

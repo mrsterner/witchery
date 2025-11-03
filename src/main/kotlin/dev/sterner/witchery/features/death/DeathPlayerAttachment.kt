@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import dev.sterner.witchery.network.SyncDeathS2CPayload
-import dev.sterner.witchery.network.SyncMiscS2CPayload
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceLocation

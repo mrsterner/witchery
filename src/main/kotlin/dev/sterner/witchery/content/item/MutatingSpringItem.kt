@@ -2,7 +2,6 @@ package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.content.block.critter_snare.CritterSnareBlock
 import dev.sterner.witchery.content.block.grassper.GrassperBlockEntity
-import dev.sterner.witchery.content.block.life_blood.LifeBloodBlock
 import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryDataComponents

@@ -1,7 +1,5 @@
 package dev.sterner.witchery.content.block.crystal_ball
 
-import dev.sterner.witchery.content.item.SeerStoneItem
-import dev.sterner.witchery.features.coven.CovenDialogue
 import dev.sterner.witchery.features.curse.CursePlayerAttachment
 import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos

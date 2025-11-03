@@ -1,13 +1,11 @@
 package dev.sterner.witchery.features.necromancy
 
-import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.network.SpawnNecroParticlesS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.features.infusion.InfusionType
-import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel

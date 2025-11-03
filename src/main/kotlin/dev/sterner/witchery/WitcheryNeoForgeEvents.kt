@@ -41,7 +41,6 @@ import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.curse.CurseOfFragility
 import dev.sterner.witchery.features.affliction.event.AfflictionEventHandler
 import dev.sterner.witchery.features.affliction.event.AfflictionHandler
-import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler

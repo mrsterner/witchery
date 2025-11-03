@@ -1,6 +1,5 @@
 package dev.sterner.witchery.core.api.multiblock
 
-import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlockEntity
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.Vec3i

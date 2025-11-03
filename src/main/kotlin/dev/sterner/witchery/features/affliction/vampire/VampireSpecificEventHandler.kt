@@ -5,7 +5,6 @@ import dev.sterner.witchery.core.api.multiblock.MultiBlockComponentBlockEntity
 import dev.sterner.witchery.content.block.sacrificial_circle.SacrificialBlock
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.core.registry.WitcheryAttributes
-import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.blood.BloodPoolHandler
 import dev.sterner.witchery.mixin.DamageSourcesInvoker
 import dev.sterner.witchery.network.SpawnBloodParticlesS2CPayload

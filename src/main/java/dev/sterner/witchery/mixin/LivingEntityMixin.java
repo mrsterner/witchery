@@ -15,7 +15,6 @@ import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.features.blood.BloodPoolHandler;
 import dev.sterner.witchery.features.necromancy.NecroHandler;
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler;
-import dev.sterner.witchery.features.affliction.AfflictionTypes;
 import dev.sterner.witchery.features.affliction.event.TransformationHandler;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;

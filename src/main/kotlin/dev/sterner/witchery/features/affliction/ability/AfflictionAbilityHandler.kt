@@ -1,7 +1,6 @@
 package dev.sterner.witchery.features.affliction.ability
 
 import dev.sterner.witchery.client.screen.AbilitySelectionScreen
-import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility
@@ -13,7 +12,6 @@ import dev.sterner.witchery.features.death.DeathTransformationHelper.hasDeathBoo
 import dev.sterner.witchery.network.AfflictionAbilitySelectionC2SPayload
 import dev.sterner.witchery.network.AfflictionAbilityUseC2SPayload
 import net.minecraft.client.Minecraft
-import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.neoforged.neoforge.network.PacketDistributor
 

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.content.block
 
-import dev.sterner.witchery.content.block.cauldron.CauldronBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.core.BlockPos

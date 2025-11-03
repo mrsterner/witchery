@@ -3,7 +3,6 @@ package dev.sterner.witchery.features.death
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
 import dev.sterner.witchery.features.death.DeathTransformationHelper.hasDeathBoots
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 
 enum class DeathAbility(

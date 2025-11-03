@@ -2,14 +2,11 @@ package dev.sterner.witchery.content.block.altar
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
-import dev.sterner.witchery.content.block.ChaliceBlock
 import dev.sterner.witchery.core.data.NaturePowerReloadListener
 import dev.sterner.witchery.content.menu.AltarMenu
 import dev.sterner.witchery.core.data.AltarAugmentReloadListener
-import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.network.AltarMultiplierSyncS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.core.util.RenderUtils
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
@@ -21,7 +18,6 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.tags.BlockTags
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.MenuProvider
 import net.minecraft.world.entity.player.Inventory
@@ -29,11 +25,9 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.ContainerData
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
-import net.neoforged.fml.loading.FMLLoader
 import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.network.PacketDistributor
 import kotlin.math.floor

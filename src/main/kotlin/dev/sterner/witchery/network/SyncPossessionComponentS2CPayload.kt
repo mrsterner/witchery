@@ -8,7 +8,6 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
-import java.util.*
 
 class SyncPossessionComponentS2CPayload(
     val playerId: Int,

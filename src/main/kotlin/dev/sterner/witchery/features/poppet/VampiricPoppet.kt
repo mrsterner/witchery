@@ -4,9 +4,7 @@ import dev.sterner.witchery.core.api.PoppetLocation
 import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.core.api.PoppetUsage
 import dev.sterner.witchery.core.api.WitcheryApi
-import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.features.hunter.HunterArmorDefenseHandler
 import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.chat.Component

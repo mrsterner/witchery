@@ -1,21 +1,17 @@
 package dev.sterner.witchery;
 
 import com.mojang.serialization.MapCodec;
-import dev.sterner.witchery.Witchery;
 import dev.sterner.witchery.core.registry.WitcheryBlocks;
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes;
 import dev.sterner.witchery.core.registry.WitcheryStructureProcessors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
-import java.util.List;
 import java.util.UUID;
 
 public class CovenWitchProcessor extends StructureProcessor {

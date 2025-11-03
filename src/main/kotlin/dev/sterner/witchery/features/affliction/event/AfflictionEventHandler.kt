@@ -3,7 +3,6 @@ package dev.sterner.witchery.features.affliction.event
 
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.blood.BloodPoolHandler

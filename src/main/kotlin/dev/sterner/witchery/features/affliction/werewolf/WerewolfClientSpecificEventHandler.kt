@@ -3,7 +3,6 @@ package dev.sterner.witchery.features.affliction.werewolf
 
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.event.AfflictionClientEventHandler
-import dev.sterner.witchery.features.affliction.AfflictionTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 
