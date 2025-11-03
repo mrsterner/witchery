@@ -566,7 +566,6 @@ class WitcheryPotionProvider(
             specialPotion = Optional.of(WitcherySpecialPotionEffects.GROW.id)
         )
         makeIngredient(
-
             Items.RED_MUSHROOM,
             capacity = -3,
             altarPower = 2500,
@@ -574,7 +573,13 @@ class WitcheryPotionProvider(
             specialPotion = Optional.of(WitcherySpecialPotionEffects.SHRINK.id)
         )
         makeIngredient(
-
+            WitcheryItems.LIFEBLOOD_BERRY.get(),
+            capacity = -2,
+            altarPower = 3000,
+            color = Color(90, 190, 255).rgb,
+            specialPotion = Optional.of(WitcherySpecialPotionEffects.LIFEBLOOD.id)
+        )
+        makeIngredient(
             WitcheryItems.SPECTRAL_DUST.get(),
             capacity = -3,
             altarPower = 3000,
@@ -582,7 +587,6 @@ class WitcheryPotionProvider(
             specialPotion = Optional.of(WitcherySpecialPotionEffects.SOUL_SEVERANCE.id)
         )
         makeIngredient(
-
             WitcheryItems.WITCHES_HAT.get(),
             capacity = -8,
             altarPower = 10000,

@@ -79,6 +79,11 @@ class PotionEffectEntryProvider(parent: CategoryProviderBase?) : EntryProvider(p
                 .addItem(Items.RED_MUSHROOM.defaultInstance)
                 .addItem(WitcheryItems.WITCHES_HAT.get().defaultInstance)
         }
+        this.page("${ID}_11") {
+            BookPotionEffectPageModel.create()
+                .addItem(WitcheryItems.SPECTRAL_DUST.get().defaultInstance)
+                .addItem(WitcheryItems.LIFEBLOOD_BERRY.get().defaultInstance)
+        }
     }
 
     override fun entryName(): String {

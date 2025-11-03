@@ -505,6 +505,45 @@
       ],
       "text": "",
       "title": ""
+    },
+    {
+      "type": "witchery:potion_effect",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "items": [
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:spectral_dust"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.spectral_dust"
+            },
+            "text_title": {
+              "translate": "potion_effect.spectral_dust.title.1"
+            }
+          }
+        },
+        {
+          "item": {
+            "count": 1,
+            "id": "witchery:lifeblood_berry"
+          },
+          "texts": {
+            "text": {
+              "translate": "potion_effect.lifeblood_berry"
+            },
+            "text_title": {
+              "translate": "potion_effect.lifeblood_berry.title.1"
+            }
+          }
+        }
+      ],
+      "text": "",
+      "title": ""
     }
   ],
   "parents": [

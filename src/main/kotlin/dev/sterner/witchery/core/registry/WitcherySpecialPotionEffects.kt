@@ -13,6 +13,8 @@ import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.mixin.SaplingBlockAccessor
 import dev.sterner.witchery.core.world.WitcheryWorldState
 import dev.sterner.witchery.content.item.potion.WitcheryPotionIngredient
+import dev.sterner.witchery.features.lifeblood.LifebloodHandler
+import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Registry
 import net.minecraft.core.particles.ParticleOptions
@@ -734,6 +736,36 @@ object WitcherySpecialPotionEffects {
                 amplifier: Int
             ) {
                 owner?.addEffect(MobEffectInstance(WitcheryMobEffects.SHRINK, duration, amplifier))
+            }
+        }
+    })
+    val LIFEBLOOD = SPECIALS.register("life_blood", Supplier {
+        object : SpecialPotion("life_blood") {
+            override fun onDrunk(
+                level: Level,
+                owner: LivingEntity?,
+                duration: Int,
+                amplifier: Int
+            ) {
+                if (owner is ServerPlayer && LifebloodPlayerAttachment.getData(owner).lifebloodPoints < 10) {
+                    LifebloodHandler.addLifeblood(player = owner, 6 + amplifier)
+                }
+            }
+
+            override fun onActivated(
+                level: Level,
+                owner: Entity?,
+                hitResult: HitResult,
+                list: MutableList<Entity>,
+                mergedDispersalModifier: WitcheryPotionIngredient.DispersalModifier,
+                duration: Int,
+                amplifier: Int
+            ) {
+                list.filterIsInstance<ServerPlayer>().forEach { serverPlayer ->
+                    if (LifebloodPlayerAttachment.getData(serverPlayer).lifebloodPoints < 10) {
+                        LifebloodHandler.addLifeblood(player = serverPlayer, 6 + amplifier)
+                    }
+                }
             }
         }
     })

@@ -1098,6 +1098,12 @@ object WitcheryBookLangProvider {
         add("potion_effect.witches_hat", "not yet implemented")
         add("potion_effect.witches_hat.title.1", "Summon Leonard")
 
+        add("potion_effect.spectral_dust", "Detaches the soul from the entity")
+        add("potion_effect.spectral_dust.title.1", "Soul Severance")
+
+        add("potion_effect.lifeblood_berry", "Extra hearts which regenerates over time")
+        add("potion_effect.lifeblood_berry.title.1", "Regenerative Hearts")
+
         add("book.witchery.guidebook.brazier.censer.name", "The Censer")
         add("brazier.censer.title.1", "The Censer")
         add(

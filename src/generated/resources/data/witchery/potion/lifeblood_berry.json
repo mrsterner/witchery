@@ -1,0 +1,11 @@
+{
+  "altar_power": 3000,
+  "base_duration": 900,
+  "capacity_cost": -2,
+  "color": -10830081,
+  "item": {
+    "count": 1,
+    "id": "witchery:lifeblood_berry"
+  },
+  "special_effect": "witchery:life_blood"
+}
