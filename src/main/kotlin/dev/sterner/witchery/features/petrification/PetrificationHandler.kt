@@ -1,11 +1,13 @@
 package dev.sterner.witchery.features.petrification
 
 import dev.sterner.witchery.Witchery
+import net.minecraft.client.renderer.entity.LivingEntityRenderer.isEntityUpsideDown
 import net.minecraft.core.particles.BlockParticleOption
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.util.Mth
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
@@ -17,6 +19,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent
 import kotlin.math.cos
 import kotlin.math.sin
 
+
 @EventBusSubscriber
 object PetrificationHandler {
 
@@ -25,7 +28,47 @@ object PetrificationHandler {
 
     fun petrify(entity: LivingEntity, duration: Int) {
         val data = PetrifiedEntityAttachment.getData(entity)
-        val newData = data.withPetrification(duration, entity.yBodyRot)
+
+        var f: Float = entity.yBodyRot
+        val f1: Float = entity.yHeadRot
+        var yaw = f1 - f
+        val shouldSit = entity.isPassenger && (entity.vehicle != null && entity.vehicle!!.shouldRiderSit())
+        if (shouldSit && entity.vehicle is LivingEntity) {
+            val livingentity = entity.vehicle as LivingEntity
+            f = livingentity.yBodyRot
+            yaw = f1 - f
+            var f3 = Mth.wrapDegrees(yaw)
+            if (f3 < -85.0f) {
+                f3 = -85.0f
+            }
+
+            if (f3 >= 85.0f) {
+                f3 = 85.0f
+            }
+
+            f = f1 - f3
+            if (f3 * f3 > 2500.0f) {
+                f += f3 * 0.2f
+            }
+
+            yaw = f1 - f
+        }
+
+        var pitch: Float = entity.xRot
+        if (isEntityUpsideDown(entity)) {
+            pitch *= -1.0f
+            yaw *= -1.0f
+        }
+
+        val newData = data.withPetrification(
+            duration,
+            entity.tickCount.toFloat(),
+            entity.walkAnimation.speed(),
+            entity.walkAnimation.position(),
+            yaw,
+            pitch
+        )
+
         PetrifiedEntityAttachment.setData(entity, newData)
 
         entity.level().playSound(

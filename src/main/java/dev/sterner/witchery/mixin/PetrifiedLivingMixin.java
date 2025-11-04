@@ -12,14 +12,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class PetrifiedMovementMixin {
+public abstract class PetrifiedLivingMixin {
 
     @Inject(
             method = "travel",
             at = @At("HEAD"),
             cancellable = true
     )
-    private void preventMovement(Vec3 travelVector, CallbackInfo ci) {
+    private void witchery$preventMovement(Vec3 travelVector, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         PetrifiedEntityAttachment.Data data = PetrifiedEntityAttachment.INSTANCE.getData(entity);
 
@@ -33,7 +33,7 @@ public abstract class PetrifiedMovementMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void preventJumping(CallbackInfo ci) {
+    private void witchery$preventJumping(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         PetrifiedEntityAttachment.Data data = PetrifiedEntityAttachment.INSTANCE.getData(entity);
 
@@ -47,7 +47,7 @@ public abstract class PetrifiedMovementMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void preventSprinting(boolean sprinting, CallbackInfo ci) {
+    private void witchery$preventSprinting(boolean sprinting, CallbackInfo ci) {
         if (!sprinting) return;
 
         LivingEntity entity = (LivingEntity) (Object) this;
@@ -65,7 +65,7 @@ public abstract class PetrifiedMovementMixin {
                     target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V"
             )
     )
-    private void reduceKnockback(LivingEntity instance, double x, double y, double z, Operation<Void> original) {
+    private void witchery$reduceKnockback(LivingEntity instance, double x, double y, double z, Operation<Void> original) {
         PetrifiedEntityAttachment.Data data = PetrifiedEntityAttachment.INSTANCE.getData(instance);
 
         if (data.isPetrified()) {
@@ -80,7 +80,7 @@ public abstract class PetrifiedMovementMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void preventTurning(float yRot, float animStep, CallbackInfoReturnable<Float> cir) {
+    private void witchery$preventTurning(float yRot, float animStep, CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
         PetrifiedEntityAttachment.Data data = PetrifiedEntityAttachment.INSTANCE.getData(entity);
 
@@ -94,7 +94,7 @@ public abstract class PetrifiedMovementMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void preventAttacking(LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$preventAttacking(LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
         PetrifiedEntityAttachment.Data data = PetrifiedEntityAttachment.INSTANCE.getData(entity);
 

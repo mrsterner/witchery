@@ -79,7 +79,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At("HEAD")
     )
-    private void onRenderStart(T entity, float entityYaw, float partialTicks, PoseStack poseStack,
+    private void witchery$onRenderStart(T entity, float entityYaw, float partialTicks, PoseStack poseStack,
                                MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
         PetrificationTextureManager.INSTANCE.setCurrentEntity(entity);
     }
@@ -88,7 +88,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At("RETURN")
     )
-    private void onRenderEnd(T entity, float entityYaw, float partialTicks, PoseStack poseStack,
+    private void witchery$onRenderEnd(T entity, float entityYaw, float partialTicks, PoseStack poseStack,
                              MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
         PetrificationTextureManager.INSTANCE.clearCurrentEntity();
     }
@@ -98,7 +98,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             at = @At("STORE"),
             ordinal = 0
     )
-    private ResourceLocation modifyTexture(ResourceLocation original, T entity) {
+    private ResourceLocation witchery$modifyTexture(ResourceLocation original, T entity) {
         PetrifiedEntityAttachment.Data data = PetrifiedEntityAttachment.INSTANCE.getData(entity);
 
         if (!data.isPetrified()) {
@@ -107,7 +107,4 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
         return PetrificationTextureManager.INSTANCE.getPetrifiedTexture(original);
     }
-
-
-
 }

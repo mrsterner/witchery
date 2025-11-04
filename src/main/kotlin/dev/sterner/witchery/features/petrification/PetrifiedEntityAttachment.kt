@@ -3,10 +3,7 @@ package dev.sterner.witchery.features.petrification
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.core.registry.WitcheryDataAttachments
-import dev.sterner.witchery.features.possession.PossessedDataAttachment.get
-import dev.sterner.witchery.network.SyncCurseS2CPayload
 import dev.sterner.witchery.network.SyncPetrificationS2CPayload
-import dev.sterner.witchery.network.SyncPossessedDataS2CPayload
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
 import net.neoforged.neoforge.network.PacketDistributor
@@ -17,7 +14,11 @@ object PetrifiedEntityAttachment {
         val petrified: Boolean = false,
         val petrificationTicks: Int = 0,
         val totalDuration: Int = 0,
-        val bodyRot: Float = 0f,
+        val age: Float = 0f,
+        val limbSwing: Float = 0f,
+        val limbSwingAmount: Float = 0f,
+        val headYaw: Float = 0f,
+        val headPitch: Float = 0f
     ) {
         fun isPetrified(): Boolean = petrified && petrificationTicks > 0
 
@@ -35,12 +36,16 @@ object PetrifiedEntityAttachment {
             )
         }
 
-        fun withPetrification(duration: Int, bodyRot: Float): Data {
+        fun withPetrification(duration: Int, age: Float, limbSwing: Float, limbSwingAmount: Float, headYaw: Float, headPitch: Float): Data {
             return copy(
                 petrified = true,
                 petrificationTicks = duration,
                 totalDuration = duration,
-                bodyRot
+                age,
+                limbSwing,
+                limbSwingAmount,
+                headYaw,
+                headPitch
             )
         }
         companion object {
@@ -49,7 +54,11 @@ object PetrifiedEntityAttachment {
                     Codec.BOOL.fieldOf("petrified").forGetter { it.petrified },
                     Codec.INT.fieldOf("petrificationTicks").forGetter { it.petrificationTicks },
                     Codec.INT.fieldOf("totalDuration").forGetter { it.totalDuration },
-                    Codec.FLOAT.fieldOf("bodyRot").forGetter { it.bodyRot }
+                    Codec.FLOAT.fieldOf("age").forGetter { it.age },
+                    Codec.FLOAT.fieldOf("limbSwing").forGetter { it.limbSwing },
+                    Codec.FLOAT.fieldOf("limbSwingAmount").forGetter { it.limbSwingAmount },
+                    Codec.FLOAT.fieldOf("headYaw").forGetter { it.headYaw },
+                    Codec.FLOAT.fieldOf("headPitch").forGetter { it.headPitch }
                 ).apply(instance, ::Data)
             }
         }
