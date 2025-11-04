@@ -37,6 +37,7 @@
       },
       "items": [
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:gold_nugget"
@@ -51,6 +52,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:fermented_spider_eye"
@@ -65,6 +67,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "witchery:spanish_moss"
@@ -90,6 +93,7 @@
       },
       "items": [
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:glowstone_dust"
@@ -104,6 +108,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:blaze_rod"
@@ -118,6 +123,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "witchery:attuned_stone"
@@ -143,6 +149,7 @@
       },
       "items": [
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:redstone"
@@ -157,6 +164,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:obsidian"
@@ -171,6 +179,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:gunpowder"
@@ -196,6 +205,7 @@
       },
       "items": [
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:cocoa_beans"
@@ -210,6 +220,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "witchery:wispy_cotton"
@@ -224,6 +235,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:dragon_breath"
@@ -249,6 +261,7 @@
       },
       "items": [
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "witchery:belladonna_flower"
@@ -263,6 +276,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:lapis_lazuli"
@@ -277,6 +291,7 @@
           }
         },
         {
+          "capacity": 0,
           "item": {
             "count": 1,
             "id": "minecraft:end_stone"

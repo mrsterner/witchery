@@ -3,6 +3,7 @@ package dev.sterner.witchery.content.recipe.spinning_wheel
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.content.recipe.AltarUserRecipe
 import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.core.registry.WitcheryRecipeSerializers
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
@@ -20,10 +21,10 @@ import net.minecraft.world.level.Level
 class SpinningWheelRecipe(
     val inputItems: List<ItemStack>,
     val outputItem: ItemStack,
-    val altarPower: Int,
+    override val altarPower: Int,
     val cookingTime: Int
 ) :
-    Recipe<MultipleItemRecipeInput> {
+    Recipe<MultipleItemRecipeInput>, AltarUserRecipe {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
         val filteredInputItems = inputItems.filter { !it.isEmpty }

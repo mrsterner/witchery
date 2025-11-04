@@ -7,6 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.sterner.witchery.Witchery
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 
 
@@ -19,9 +20,9 @@ open class BookPotionEffectPageRenderer(page: BookPotionEffectPage) :
 
         val itemHeight = 18
         val offsetX = 0
+        val font = Minecraft.getInstance().font
 
         for (item in page!!.items) {
-            // Render the item to the left
             RenderSystem.enableBlend()
             guiGraphics.blit(
                 Witchery.id("textures/gui/book_item_entry.png"),
@@ -43,10 +44,39 @@ open class BookPotionEffectPageRenderer(page: BookPotionEffectPage) :
                 item.first
             )
 
+            val capacity = item.second.first
+            val capacityText = capacity.toString()
+            val textWidth = font.width(capacityText)
+
+            val capacityX = offsetX + 24 - textWidth + 1
+            val capacityY = currentY - 1
+
+            guiGraphics.drawString(
+                font,
+                capacityText,
+                capacityX,
+                capacityY,
+                0x000000,
+                false
+            )
+            val width = font.width(capacityText)
+            val height = font.lineHeight
+
+            val hovered = mouseX >= capacityX && mouseX <= capacityX + width &&
+                    mouseY >= capacityY && mouseY <= capacityY + height
+
+            if (hovered) {
+                guiGraphics.renderTooltip(
+                    font,
+                    Component.literal("Capacity: $capacity"),
+                    mouseX, mouseY
+                )
+            }
+
             renderBookTextHolder(
                 guiGraphics,
-                item.second.second,
-                Minecraft.getInstance().font,
+                item.second.third,
+                font,
                 offsetX + 18 + 11,
                 currentY + 8,
                 BookEntryScreen.PAGE_WIDTH - 5,
@@ -55,8 +85,8 @@ open class BookPotionEffectPageRenderer(page: BookPotionEffectPage) :
 
             renderBookTextHolder(
                 guiGraphics,
-                item.second.first,
-                Minecraft.getInstance().font,
+                item.second.second,
+                font,
                 offsetX + 18 + 11 - 24,
                 currentY + 4 + 18 + 4,
                 BookEntryScreen.PAGE_WIDTH - 5,
@@ -84,9 +114,9 @@ open class BookPotionEffectPageRenderer(page: BookPotionEffectPage) :
             val x = parentScreen.book.bookTextOffsetX
             val y = this.textY + parentScreen.book.bookTextOffsetY
             val width =
-                BookEntryScreen.PAGE_WIDTH + parentScreen.book.bookTextOffsetWidth - x //always remove the offset x from the width to avoid overflow
+                BookEntryScreen.PAGE_WIDTH + parentScreen.book.bookTextOffsetWidth - x
             val height =
-                BookEntryScreen.PAGE_HEIGHT + parentScreen.book.bookTextOffsetHeight - y //always remove the offset y from the height to avoid overflow
+                BookEntryScreen.PAGE_HEIGHT + parentScreen.book.bookTextOffsetHeight - y
 
             val textStyle = this.getClickedComponentStyleAtForTextHolder(
                 page!!.text, x, y, width, height, pMouseX, pMouseY
@@ -95,7 +125,6 @@ open class BookPotionEffectPageRenderer(page: BookPotionEffectPage) :
                 return textStyle
             }
 
-            //should not do item hover - that is handled by render ingredient, which also makes sure the tooltip does not go beyond the screen.
         }
         return super.getClickedComponentStyleAt(pMouseX, pMouseY)
     }

@@ -50,6 +50,7 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         WitcheryRecipeTypes.RECIPE_TYPES.register(modEventBus)
         WitcheryRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus)
         WitcheryRitualRegistry.register(modEventBus)
+        WitcheryBrazierRegistry.register(modEventBus)
         WitcherySounds.SOUNDS.register(modEventBus)
         WitcheryVillagers.POIS.register(modEventBus)
         WitcheryVillagers.PROFESSIONS.register(modEventBus)

@@ -2,6 +2,7 @@ package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.recipe.TaglockDataComponentTransferRecipe
+import dev.sterner.witchery.content.recipe.brazier.BrazierPassiveRecipe
 import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronBrewingRecipe
 import dev.sterner.witchery.content.recipe.cauldron.CauldronCraftingRecipe
@@ -52,6 +53,10 @@ object WitcheryRecipeTypes {
 
     val BRAZIER_SUMMONING_RECIPE_TYPE = RECIPE_TYPES.register(BrazierSummoningRecipe.NAME, Supplier {
         registerRecipeType<BrazierSummoningRecipe>(BrazierSummoningRecipe.NAME)
+    })
+
+    val BRAZIER_PASSIVE_RECIPE_TYPE = RECIPE_TYPES.register(BrazierPassiveRecipe.NAME, Supplier {
+        registerRecipeType<BrazierPassiveRecipe>(BrazierPassiveRecipe.NAME)
     })
 
     val CAULDRON_INFUSION_RECIPE_TYPE = RECIPE_TYPES.register("cauldron_infusion", Supplier {

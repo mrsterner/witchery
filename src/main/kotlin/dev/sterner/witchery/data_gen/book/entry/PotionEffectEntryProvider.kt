@@ -10,6 +10,7 @@ import dev.sterner.witchery.data_gen.book.page.BookPotionEffectPageModel
 import dev.sterner.witchery.core.registry.WitcheryItems
 import net.minecraft.world.item.Items
 
+
 class PotionEffectEntryProvider(parent: CategoryProviderBase?) : EntryProvider(parent) {
 
     companion object {
@@ -25,64 +26,64 @@ class PotionEffectEntryProvider(parent: CategoryProviderBase?) : EntryProvider(p
         this.page("${ID}_2") {
             BookPotionEffectPageModel.create()
                 .withTitle("Effect Modifiers")
-                .addItem(Items.BLAZE_POWDER.defaultInstance)
-                .addItem(Items.GLISTERING_MELON_SLICE.defaultInstance)
-                .addItem(Items.SPIDER_EYE.defaultInstance)
+                .addItem(Items.BLAZE_POWDER.defaultInstance, -1)
+                .addItem(Items.GLISTERING_MELON_SLICE.defaultInstance, -1)
+                .addItem(Items.SPIDER_EYE.defaultInstance, -1)
         }
 
         this.page("${ID}_3") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.GHAST_TEAR.defaultInstance)
-                .addItem(Items.SUGAR.defaultInstance)
-                .addItem(Items.APPLE.defaultInstance)
+                .addItem(Items.GHAST_TEAR.defaultInstance, -1)
+                .addItem(Items.SUGAR.defaultInstance, -1)
+                .addItem(Items.APPLE.defaultInstance, -1)
         }
 
         this.page("${ID}_4") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.BONE_MEAL.defaultInstance)
-                .addItem(Items.COAL.defaultInstance)
-                .addItem(Items.DANDELION.defaultInstance)
+                .addItem(Items.BONE_MEAL.defaultInstance, -1)
+                .addItem(Items.COAL.defaultInstance, -1)
+                .addItem(Items.DANDELION.defaultInstance, -1)
         }
         this.page("${ID}_5") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.DIRT.defaultInstance)
-                .addItem(WitcheryItems.ENDER_DEW.get().defaultInstance)
-                .addItem(Items.LILY_PAD.defaultInstance)
+                .addItem(Items.DIRT.defaultInstance, -1)
+                .addItem(WitcheryItems.ENDER_DEW.get().defaultInstance, -1)
+                .addItem(Items.LILY_PAD.defaultInstance, -1)
         }
         this.page("${ID}_6") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.DEAD_BUSH.defaultInstance)
-                .addItem(Items.SAND.defaultInstance)
-                .addItem(Items.WHEAT_SEEDS.defaultInstance)
+                .addItem(Items.DEAD_BUSH.defaultInstance, -1)
+                .addItem(Items.SAND.defaultInstance, -1)
+                .addItem(Items.WHEAT_SEEDS.defaultInstance, -1)
         }
         this.page("${ID}_7") {
             BookPotionEffectPageModel.create()
-                .addItem(WitcheryItems.WOLFSBANE.get().defaultInstance)
-                .addItem(Items.STRING.defaultInstance)
-                .addItem(Items.COBBLESTONE.defaultInstance)
+                .addItem(WitcheryItems.WOLFSBANE.get().defaultInstance, -1)
+                .addItem(Items.STRING.defaultInstance, -1)
+                .addItem(Items.COBBLESTONE.defaultInstance, -1)
         }
         this.page("${ID}_8") {
             BookPotionEffectPageModel.create()
-                .addItem(WitcheryItems.ENT_TWIG.get().defaultInstance)
-                .addItem(Items.SLIME_BALL.defaultInstance)
-                .addItem(Items.STICK.defaultInstance)
+                .addItem(WitcheryItems.ENT_TWIG.get().defaultInstance, -1)
+                .addItem(Items.SLIME_BALL.defaultInstance, -1)
+                .addItem(Items.STICK.defaultInstance, -1)
         }
         this.page("${ID}_9") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.ENDER_PEARL.defaultInstance)
-                .addItem(Items.ROSE_BUSH.defaultInstance)
-                .addItem(Items.POPPY.defaultInstance)
+                .addItem(Items.ENDER_PEARL.defaultInstance, -2)
+                .addItem(Items.ROSE_BUSH.defaultInstance, -2)
+                .addItem(Items.POPPY.defaultInstance, -2)
         }
         this.page("${ID}_10") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.BROWN_MUSHROOM.defaultInstance)
-                .addItem(Items.RED_MUSHROOM.defaultInstance)
-                .addItem(WitcheryItems.WITCHES_HAT.get().defaultInstance)
+                .addItem(Items.BROWN_MUSHROOM.defaultInstance, -3)
+                .addItem(Items.RED_MUSHROOM.defaultInstance, -3)
+                .addItem(WitcheryItems.WITCHES_HAT.get().defaultInstance, -8)
         }
         this.page("${ID}_11") {
             BookPotionEffectPageModel.create()
-                .addItem(WitcheryItems.SPECTRAL_DUST.get().defaultInstance)
-                .addItem(WitcheryItems.LIFEBLOOD_BERRY.get().defaultInstance)
+                .addItem(WitcheryItems.SPECTRAL_DUST.get().defaultInstance, -3)
+                .addItem(WitcheryItems.LIFEBLOOD_BERRY.get().defaultInstance, -2)
         }
     }
 

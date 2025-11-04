@@ -3,6 +3,7 @@ package dev.sterner.witchery.content.recipe.brazier
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.content.recipe.AltarUserRecipe
 import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.core.registry.WitcheryRecipeSerializers
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
@@ -21,8 +22,8 @@ import net.minecraft.world.level.Level
 class BrazierSummoningRecipe(
     val inputItems: List<ItemStack>,
     val outputEntities: List<EntityType<*>>,
-    val altarPower: Int,
-) : Recipe<MultipleItemRecipeInput> {
+    override val altarPower: Int,
+) : Recipe<MultipleItemRecipeInput>, AltarUserRecipe {
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {
         val filteredInputItems = inputItems.filter { !it.isEmpty }

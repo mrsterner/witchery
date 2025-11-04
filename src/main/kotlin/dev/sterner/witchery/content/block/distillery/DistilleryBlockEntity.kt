@@ -96,7 +96,15 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                 isProcessing = true
 
                 if (cookingProgress % 20 == 0) {
-                    consumeAltarPower(serverLevel, distillingRecipe.value)
+                    distillingRecipe?.value?.let { recipe ->
+                        consumeAltarPower(
+                            serverLevel,
+                            recipe,
+                            cachedAltarPos,
+                            { setChanged() },
+                            ::tryConsumeAltarPower
+                        )
+                    }
                 }
 
                 if (cookingProgress == cookingTotalTime) {
@@ -143,7 +151,13 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         val success = placeOutputItems(items, outputItems, maxStackSize)
         if (success) {
-            consumeAltarPower(level!!, recipe.value)
+            consumeAltarPower(
+                level!!,
+                recipe.value,
+                cachedAltarPos,
+                { setChanged() },
+                ::tryConsumeAltarPower
+            )
         }
         return success
     }
@@ -284,19 +298,6 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return true
     }
 
-    private fun hasEnoughAltarPower(level: Level, recipe: DistilleryCraftingRecipe): Boolean {
-        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
-            cachedAltarPos = null
-            setChanged()
-            return false
-        }
-        val requiredAltarPower = recipe.altarPower
-        if (requiredAltarPower > 0 && cachedAltarPos != null) {
-            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
-        }
-        return requiredAltarPower == 0
-    }
-
     private fun canDistill(
         recipe: RecipeHolder<DistilleryCraftingRecipe>?,
         items: NonNullList<ItemStack>,
@@ -310,7 +311,14 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             setChanged()
         }
 
-        if (!hasEnoughAltarPower(level!!, recipe.value)) {
+        if (!hasEnoughAltarPower(
+                level!!,
+                recipe.value,
+                cachedAltarPos,
+                { setChanged() },
+                ::tryConsumeAltarPower
+            )
+        ) {
             return false
         }
 
@@ -322,19 +330,7 @@ class DistilleryBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return checkOutputs(outputItems, items, maxStackSize)
     }
 
-    private fun consumeAltarPower(level: Level, recipe: DistilleryCraftingRecipe): Boolean {
-        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
-            cachedAltarPos = null
-            setChanged()
-            return false
-        }
 
-        val requiredAltarPower = recipe.altarPower
-        if (requiredAltarPower > 0 && cachedAltarPos != null) {
-            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
-        }
-        return requiredAltarPower == 0
-    }
 
     private fun canFitInSlot(resultStack: ItemStack, outputSlot: ItemStack, maxStackSize: Int): Boolean {
         if (outputSlot.isEmpty) {

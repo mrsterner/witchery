@@ -94,7 +94,7 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             if (canSpin(spinningRecipe, items, maxStackSize)) {
                 cookingProgress++
                 if (cookingProgress % 20 == 0) {
-                    consumeAltarPower(level, spinningRecipe.value)
+                    consumeAltarPower(level, spinningRecipe.value, cachedAltarPos, { setChanged() }, ::tryConsumeAltarPower)
                 }
                 if (cookingProgress == cookingTotalTime) {
                     cookingProgress = 0
@@ -135,7 +135,8 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
         val success = placeOutputItems(items, outputItems, maxStackSize)
         if (success) {
-            consumeAltarPower(level!!, spinningRecipe.value)
+            consumeAltarPower(level!!, spinningRecipe.value, cachedAltarPos, { setChanged() },
+                ::tryConsumeAltarPower)
         }
         return success
     }
@@ -200,7 +201,13 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             setChanged()
         }
 
-        if (!hasEnoughAltarPower(level!!, spinningRecipe.value)) {
+        if (!hasEnoughAltarPower(
+                level!!,
+                spinningRecipe.value,
+                cachedAltarPos,
+                { setChanged() },
+                ::tryConsumeAltarPower
+        )) {
             return false
         }
 
@@ -263,33 +270,6 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         return false
-    }
-
-    private fun hasEnoughAltarPower(level: Level, recipe: SpinningWheelRecipe): Boolean {
-        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
-            cachedAltarPos = null
-            setChanged()
-            return false
-        }
-        val requiredAltarPower = recipe.altarPower
-        if (requiredAltarPower > 0 && cachedAltarPos != null) {
-            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, true)
-        }
-        return requiredAltarPower == 0
-    }
-
-    private fun consumeAltarPower(level: Level, recipe: SpinningWheelRecipe): Boolean {
-        if (cachedAltarPos != null && level.getBlockEntity(cachedAltarPos!!) !is AltarBlockEntity) {
-            cachedAltarPos = null
-            setChanged()
-            return false
-        }
-
-        val requiredAltarPower = recipe.altarPower
-        if (requiredAltarPower > 0 && cachedAltarPos != null) {
-            return tryConsumeAltarPower(level, cachedAltarPos!!, requiredAltarPower, false)
-        }
-        return requiredAltarPower == 0
     }
 
     override fun setRecipeUsed(recipe: RecipeHolder<*>?) {

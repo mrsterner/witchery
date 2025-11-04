@@ -3,6 +3,7 @@ package dev.sterner.witchery.content.recipe.distillery
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.content.recipe.AltarUserRecipe
 import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.core.registry.WitcheryRecipeSerializers
@@ -21,11 +22,11 @@ import net.minecraft.world.level.Level
 class DistilleryCraftingRecipe(
     val inputItems: List<ItemStack>,
     val outputItems: List<ItemStack>,
-    val altarPower: Int,
+    override val altarPower: Int,
     val cookingTime: Int,
     val jarConsumption: Int
 ) :
-    Recipe<MultipleItemRecipeInput> {
+    Recipe<MultipleItemRecipeInput>, AltarUserRecipe {
 
 
     override fun matches(input: MultipleItemRecipeInput, level: Level): Boolean {

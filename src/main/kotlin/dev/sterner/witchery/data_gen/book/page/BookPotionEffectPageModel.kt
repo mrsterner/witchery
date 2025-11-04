@@ -1,14 +1,15 @@
 package dev.sterner.witchery.data_gen.book.page
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.klikli_dev.modonomicon.api.datagen.book.BookTextHolderModel
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookPageModel
 import com.klikli_dev.modonomicon.book.BookTextHolder
 import com.mojang.serialization.JsonOps
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.integration.modonomicon.BookPotionCapacityPage
 import net.minecraft.core.HolderLookup
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.ComponentSerialization
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.ItemLike
@@ -16,20 +17,59 @@ import net.minecraft.world.level.ItemLike
 class BookPotionEffectPageModel :
     BookPageModel<BookPotionEffectPageModel?>(Witchery.id("potion_effect")) {
 
-    var items: MutableList<Pair<ItemStack, Pair<BookTextHolder, BookTextHolder>>> = mutableListOf()
+    // Changed to include capacity: Pair<ItemStack, Triple<Int, BookTextHolder, BookTextHolder>>
+    var items: MutableList<Pair<ItemStack, Triple<Int, BookTextHolder, BookTextHolder>>> = mutableListOf()
     var title: BookTextHolderModel = BookTextHolderModel("")
     var text: BookTextHolderModel = BookTextHolderModel("")
 
     override fun toJson(entryId: ResourceLocation, provider: HolderLookup.Provider): JsonObject {
         val json = super.toJson(entryId, provider)
         json.add("title", title.toJson(provider))
-        json.add(
-            "items",
-            BookPotionCapacityPage.ITEMS_WITH_TEXT_LIST_PAIR_CODEC.encodeStart(
+
+        // Create custom JSON array for items with capacity
+        val itemsArray = com.google.gson.JsonArray()
+        for ((stack, triple) in this.items) {
+            val itemObj = com.google.gson.JsonObject()
+
+            // Encode the ItemStack
+            val stackJson = ItemStack.CODEC.encodeStart(
                 provider.createSerializationContext(JsonOps.INSTANCE),
-                this.items
+                stack
             ).getOrThrow()
-        )
+            itemObj.add("item", stackJson)
+
+            // Add capacity
+            itemObj.addProperty("capacity", triple.first)
+
+            // Add texts - directly use component if available, otherwise use string/key
+            val textsObj = com.google.gson.JsonObject()
+
+            // For text
+            if (triple.second.hasComponent()) {
+                textsObj.add("text", ComponentSerialization.CODEC.encodeStart(
+                    provider.createSerializationContext(JsonOps.INSTANCE),
+                    triple.second.component
+                ).getOrThrow())
+            } else {
+                textsObj.addProperty("text", triple.second.string)
+            }
+
+            // For text_title
+            if (triple.third.hasComponent()) {
+                textsObj.add("text_title", ComponentSerialization.CODEC.encodeStart(
+                    provider.createSerializationContext(JsonOps.INSTANCE),
+                    triple.third.component
+                ).getOrThrow())
+            } else {
+                textsObj.addProperty("text_title", triple.third.string)
+            }
+
+            itemObj.add("texts", textsObj)
+
+            itemsArray.add(itemObj)
+        }
+        json.add("items", itemsArray)
+
         json.add("text", text.toJson(provider))
         return json
     }
@@ -44,29 +84,32 @@ class BookPotionEffectPageModel :
         return this
     }
 
-    fun addItem(item: ItemStack): BookPotionEffectPageModel {
+    fun addItem(item: ItemStack, capacity: Int): BookPotionEffectPageModel {
         this.addItem(
-            item, BookTextHolder(
+            item,
+            capacity,
+            BookTextHolder(
                 Component.translatable("potion_effect." + item.item.toString().substringAfter(":"))
-            ), BookTextHolder(
+            ),
+            BookTextHolder(
                 Component.translatable("potion_effect." + item.item.toString().substringAfter(":") + ".title.1")
             )
         )
         return this
     }
 
-    fun addItem(item: ItemStack, holder: BookTextHolder, holderTitle: BookTextHolder): BookPotionEffectPageModel {
-        this.items.add(item to (holder to holderTitle))
+    fun addItem(item: ItemStack, capacity: Int, holder: BookTextHolder, holderTitle: BookTextHolder): BookPotionEffectPageModel {
+        this.items.add(item to Triple(capacity, holder, holderTitle))
         return this
     }
 
-    fun addItem(item: ItemStack, text: Component, textTitle: Component): BookPotionEffectPageModel {
-        this.items.add(item to (BookTextHolder(text) to (BookTextHolder(textTitle))))
+    fun addItem(item: ItemStack, capacity: Int, text: Component, textTitle: Component): BookPotionEffectPageModel {
+        this.items.add(item to Triple(capacity, BookTextHolder(text), BookTextHolder(textTitle)))
         return this
     }
 
-    fun addItem(item: ItemLike, text: Component, textTitle: Component): BookPotionEffectPageModel {
-        return addItem(ItemStack(item), text, textTitle)
+    fun addItem(item: ItemLike, capacity: Int, text: Component, textTitle: Component): BookPotionEffectPageModel {
+        return addItem(ItemStack(item), capacity, text, textTitle)
     }
 
     fun withText(text: String?): BookPotionEffectPageModel {

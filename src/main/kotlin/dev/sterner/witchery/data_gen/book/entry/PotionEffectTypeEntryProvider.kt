@@ -25,36 +25,36 @@ class PotionEffectTypeEntryProvider(parent: CategoryProviderBase?) : EntryProvid
 
         this.page("${ID}_2") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.GOLD_NUGGET.defaultInstance)
-                .addItem(Items.FERMENTED_SPIDER_EYE.defaultInstance)
-                .addItem(WitcheryItems.SPANISH_MOSS.get().defaultInstance)
+                .addItem(Items.GOLD_NUGGET.defaultInstance, 0)
+                .addItem(Items.FERMENTED_SPIDER_EYE.defaultInstance, 0)
+                .addItem(WitcheryItems.SPANISH_MOSS.get().defaultInstance, 0)
         }
 
         this.page("${ID}_3") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.GLOWSTONE_DUST.defaultInstance)
-                .addItem(Items.BLAZE_ROD.defaultInstance)
-                .addItem(WitcheryItems.ATTUNED_STONE.get().defaultInstance)
+                .addItem(Items.GLOWSTONE_DUST.defaultInstance, 0)
+                .addItem(Items.BLAZE_ROD.defaultInstance, 0)
+                .addItem(WitcheryItems.ATTUNED_STONE.get().defaultInstance, 0)
         }
 
         this.page("${ID}_4") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.REDSTONE.defaultInstance)
-                .addItem(Items.OBSIDIAN.defaultInstance)
-                .addItem(Items.GUNPOWDER.defaultInstance)
+                .addItem(Items.REDSTONE.defaultInstance, 0)
+                .addItem(Items.OBSIDIAN.defaultInstance, 0)
+                .addItem(Items.GUNPOWDER.defaultInstance, 0)
         }
 
         this.page("${ID}_5") {
             BookPotionEffectPageModel.create()
-                .addItem(Items.COCOA_BEANS.defaultInstance)
-                .addItem(WitcheryItems.WISPY_COTTON.get().defaultInstance)
-                .addItem(Items.DRAGON_BREATH.defaultInstance)
+                .addItem(Items.COCOA_BEANS.defaultInstance, 0)
+                .addItem(WitcheryItems.WISPY_COTTON.get().defaultInstance, 0)
+                .addItem(Items.DRAGON_BREATH.defaultInstance, 0)
         }
         this.page("${ID}_6") {
             BookPotionEffectPageModel.create()
-                .addItem(WitcheryItems.BELLADONNA_FLOWER.get().defaultInstance)
-                .addItem(Items.LAPIS_LAZULI.defaultInstance)
-                .addItem(Items.END_STONE.defaultInstance)
+                .addItem(WitcheryItems.BELLADONNA_FLOWER.get().defaultInstance, 0)
+                .addItem(Items.LAPIS_LAZULI.defaultInstance, 0)
+                .addItem(Items.END_STONE.defaultInstance, 0)
         }
 
     }

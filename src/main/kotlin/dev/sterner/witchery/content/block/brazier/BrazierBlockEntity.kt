@@ -5,13 +5,20 @@ import dev.sterner.witchery.core.api.block.AltarPowerConsumer
 import dev.sterner.witchery.core.api.block.PotionDisperser
 import dev.sterner.witchery.core.api.block.PotionDisperserHelper
 import dev.sterner.witchery.content.block.WitcheryBaseBlockEntity
+import dev.sterner.witchery.content.block.altar.AltarBlockEntity
 import dev.sterner.witchery.content.item.potion.WitcheryPotionIngredient
 import dev.sterner.witchery.content.item.potion.WitcheryPotionItem
+import dev.sterner.witchery.content.recipe.AltarUserRecipe
 import dev.sterner.witchery.content.recipe.MultipleItemRecipeInput
+import dev.sterner.witchery.content.recipe.brazier.BrazierPassiveRecipe
 import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
+import dev.sterner.witchery.content.recipe.distillery.DistilleryCraftingRecipe
+import dev.sterner.witchery.content.recipe.spinning_wheel.SpinningWheelRecipe
+import dev.sterner.witchery.core.api.BrazierPassive
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryRecipeTypes
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryBrazierRegistry
 import dev.sterner.witchery.core.registry.WitcheryDataComponents.WITCHERY_POTION_CONTENT
 import dev.sterner.witchery.core.registry.WitcheryItems
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
@@ -57,6 +64,10 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var items: NonNullList<ItemStack> = NonNullList.withSize(8, ItemStack.EMPTY)
     private val recipesUsed = Object2IntOpenHashMap<ResourceLocation>()
     private val quickCheck = RecipeManager.createCheck(WitcheryRecipeTypes.BRAZIER_SUMMONING_RECIPE_TYPE.get())
+    private val quickCheckPassive = RecipeManager.createCheck(WitcheryRecipeTypes.BRAZIER_PASSIVE_RECIPE_TYPE.get())
+
+    private var brazierPassive: BrazierPassive? = null
+    private var passiveTypeId: String? = null
 
     private var summoningTicker = 0
     var active = false
@@ -112,13 +123,22 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             deferredNbtData = null
         }
 
+        if (cachedAltarPos == null && level is ServerLevel) {
+
+            cachedAltarPos = getAltarPos(level, blockPos)
+            setChanged()
+        }
+
+        if (cachedAltarPos != null) {
+            if (active && items.isNotEmpty()) {
+                tickSummoning(level, pos)
+                tickPassive(level, pos)
+            }
+        }
+
         if (level.isClientSide) {
             spawnClientParticles(level, pos)
             return
-        }
-
-        if (active && items.isNotEmpty()) {
-            tickSummoning(level, pos)
         }
 
         if (active && activeEffects.isNotEmpty()) {
@@ -128,6 +148,47 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         updateLitState(level, pos, blockState)
     }
 
+    private fun tickPassive(level: Level, pos: BlockPos) {
+        val brazierPassiveRecipe = quickCheckPassive.getRecipeFor(MultipleItemRecipeInput(items), level).orElse(null)
+
+        if (brazierPassive != null) {
+            brazierPassive!!.onTickBrazier(level, pos, this)
+            return
+        }
+
+        if (brazierPassiveRecipe != null) {
+            summoningTicker++
+            if (summoningTicker >= 20 * 5) {
+                val brazierRecipe = brazierPassiveRecipe.value ?: return
+
+                if (hasEnoughAltarPower(
+                        level,
+                        brazierRecipe,
+                        cachedAltarPos,
+                        { setChanged() },
+                        ::tryConsumeAltarPower
+                    )
+                ) {
+                    brazierPassive = brazierRecipe.passive
+                    if (brazierPassive?.onStartBrazier(level, pos, this) == true) {
+                        consumeAltarPower(
+                            level,
+                            brazierRecipe,
+                            cachedAltarPos,
+                            { setChanged() },
+                            ::tryConsumeAltarPower
+                        )
+                    } else {
+                        brazierPassive = null
+                        active = false
+                        setChanged()
+                    }
+                }
+
+                completePassive()
+            }
+        }
+    }
 
     private fun tickSummoning(level: Level, pos: BlockPos) {
         val brazierSummonRecipe = quickCheck.getRecipeFor(MultipleItemRecipeInput(items), level).orElse(null)
@@ -136,21 +197,39 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             summoningTicker++
 
             if (summoningTicker >= 20 * 5) {
-                performSummoning(level, pos, brazierSummonRecipe)
+                val recipe = brazierSummonRecipe.value ?: return
+
+                if (hasEnoughAltarPower(
+                        level,
+                        recipe,
+                        cachedAltarPos,
+                        { setChanged() },
+                        ::tryConsumeAltarPower
+                    )
+                ) {
+                    performSummoning(level, pos, recipe)
+                }
+
                 completeSummoning(level, pos)
             }
         }
     }
 
-    private fun performSummoning(level: Level, pos: BlockPos, recipe: RecipeHolder<*>) {
-        val brazierRecipe = recipe.value as? BrazierSummoningRecipe ?: return
-
-        brazierRecipe.outputEntities.forEach { entityType ->
+    private fun performSummoning(level: Level, pos: BlockPos, recipe: BrazierSummoningRecipe) {
+        recipe.outputEntities.forEach { entityType ->
             findSummonPosition(level, pos)?.let { summonPos ->
                 entityType.create(level)?.let { entity ->
                     entity.moveTo(Vec3(summonPos.x + 0.5, summonPos.y.toDouble(), summonPos.z + 0.5))
                     if (!level.addFreshEntity(entity)) {
                         Containers.dropContents(level, pos, this)
+                    } else {
+                        consumeAltarPower(
+                            level,
+                            recipe,
+                            cachedAltarPos,
+                            { setChanged() },
+                            ::tryConsumeAltarPower
+                        )
                     }
                 }
             }
@@ -172,6 +251,12 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
         }
         return centerPos.north()
+    }
+
+    private fun completePassive() {
+        items.clear()
+        summoningTicker = 0
+        setChanged()
     }
 
     private fun completeSummoning(level: Level, pos: BlockPos) {
@@ -362,9 +447,10 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     private fun handleIgnition(player: Player, stack: ItemStack): ItemInteractionResult {
         val canSummon = items.isNotEmpty() && quickCheck.getRecipeFor(MultipleItemRecipeInput(items), level!!).isPresent
+        val canPassive = items.isNotEmpty() && quickCheckPassive.getRecipeFor(MultipleItemRecipeInput(items), level!!).isPresent
         val canActivatePotions = activeEffects.isNotEmpty()
 
-        if (canSummon || canActivatePotions) {
+        if (canSummon || canActivatePotions || canPassive) {
             spawnIgnitionParticles()
 
             stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND)
@@ -464,7 +550,9 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         level?.let {
             PotionDisperserHelper.savePotionData(tag, this, it)
         }
-
+        brazierPassive?.id?.let { id ->
+            tag.putString("PassiveId", id.toString())
+        }
         tag.putDouble("PotionRadius", potionEffectRadius)
         tag.putInt("PotionDuration", potionEffectDuration)
     }
@@ -490,6 +578,14 @@ class BrazierBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
         } ?: run {
             deferredNbtData = tag.copy()
+        }
+
+        if (tag.contains("PassiveId")) {
+            val id = tag.getString("PassiveId")
+            passiveTypeId = if (id.isNullOrBlank() || id == "null") null else id
+            if (passiveTypeId != null) {
+                brazierPassive = WitcheryBrazierRegistry.BRAZIER_REGISTRY.get(ResourceLocation.parse(passiveTypeId!!))
+            }
         }
 
         potionEffectRadius = tag.getDouble("PotionRadius").takeIf { it > 0.0 } ?: 8.0

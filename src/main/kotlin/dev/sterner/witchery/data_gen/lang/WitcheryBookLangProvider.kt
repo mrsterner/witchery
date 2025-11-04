@@ -955,7 +955,8 @@ object WitcheryBookLangProvider {
         add("brewing.potion_effect.title.1", "Potion Effect")
         add(
             "brewing.potion_effect.page.1",
-            "Once the brew holds capacity, ingredients may bestow their magick. Each carries a tale, each a tincture. Choose wisely, for not all gifts are kind. Most potions needs to be thrown"
+            "Effects usually costs Capacity, noted on top right of the item." +
+                    "Most potions needs to be thrown. As long a potion has capacity it hang hold any amount of effects."
         )
 
         add("book.witchery.guidebook.brewing.potion_effect_type.title.1", "Effect Type")

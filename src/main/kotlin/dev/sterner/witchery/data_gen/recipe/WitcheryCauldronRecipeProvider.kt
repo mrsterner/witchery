@@ -58,7 +58,6 @@ object WitcheryCauldronRecipeProvider {
         CauldronBrewingRecipeBuilder.create()
             .addInputWithColor(Items.INK_SAC, Color(40, 40, 50).rgb)
             .addInputWithColor(Items.SLIME_BALL, Color(50, 200, 50).rgb)
-            .addInputWithColor(WitcheryItems.WOOD_ASH.get(), Color(250, 150, 50).rgb)
             .addInputWithColor(WitcheryItems.BELLADONNA_FLOWER.get(), Color(195, 75, 110).rgb)
             .addInputWithColor(WitcheryItems.ROWAN_BERRIES.get(), Color(255, 50, 70).rgb)
             .addInputWithColor(WitcheryItems.OIL_OF_VITRIOL.get(), Color(50, 50, 50).rgb)

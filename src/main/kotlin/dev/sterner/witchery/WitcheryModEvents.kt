@@ -2,6 +2,7 @@ package dev.sterner.witchery
 
 import dev.sterner.witchery.core.registry.WitcheryAttributes
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryBrazierRegistry
 import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import dev.sterner.witchery.core.registry.WitcheryFetishEffects
 import dev.sterner.witchery.core.registry.WitcheryKeyMappings
@@ -26,6 +27,7 @@ object WitcheryModEvents {
         event.register(WitcheryPoppetRegistry.POPPET_REGISTRY)
         event.register(WitcheryCurseRegistry.CURSES_REGISTRY)
         event.register(WitcheryRitualRegistry.RITUAL_REGISTRY)
+        event.register(WitcheryBrazierRegistry.BRAZIER_REGISTRY)
         event.register(WitcherySpecialPotionEffects.SPECIAL_REGISTRY)
         event.register(WitcheryFetishEffects.FETISH_REGISTRY)
         event.register(WitcheryTarotEffects.TAROT_REGISTRY)

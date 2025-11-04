@@ -600,7 +600,7 @@
   "brewing.potion_capacity.page.1": "After the Nether Wart has been added the potion starts without any capacity. And since most ingredients cost capacity, capacity modifiers should be added first, but not limited to first. Potent ingredients might require more than one capacity.",
   "brewing.potion_capacity.title": "Brew Capacity",
   "brewing.potion_capacity.title.1": "Potion Capacity",
-  "brewing.potion_effect.page.1": "Once the brew holds capacity, ingredients may bestow their magick. Each carries a tale, each a tincture. Choose wisely, for not all gifts are kind. Most potions needs to be thrown",
+  "brewing.potion_effect.page.1": "Effects usually costs Capacity, noted on top right of the item.Most potions needs to be thrown. As long a potion has capacity it hang hold any amount of effects.",
   "brewing.potion_effect.title.1": "Potion Effect",
   "brewing.potion_effect_type.page.1": "Modifies the behaviour of potions",
   "brewing.potion_effect_type.title.1": "Effect Type",

@@ -24,7 +24,7 @@ import java.util.*
 class BookPotionEffectPage(
     var title: BookTextHolder,
     var text: BookTextHolder,
-    var items: MutableList<Pair<ItemStack, Pair<BookTextHolder, BookTextHolder>>>,
+    var items: MutableList<Pair<ItemStack, Triple<Int, BookTextHolder, BookTextHolder>>>,
     anchor: String?,
     condition: BookCondition?
 ) :
@@ -64,7 +64,13 @@ class BookPotionEffectPage(
 
     override fun toNetwork(buffer: RegistryFriendlyByteBuf) {
         title.toNetwork(buffer)
-        ITEMS_WITH_TEXT_TEXT_LIST_STREAM_CODEC.encode(buffer, items)
+        buffer.writeInt(items.size)
+        for ((stack, triple) in items) {
+            ItemStack.STREAM_CODEC.encode(buffer, stack)
+            buffer.writeInt(triple.first) // capacity
+            triple.second.toNetwork(buffer) // text
+            triple.third.toNetwork(buffer) // text_title
+        }
         text.toNetwork(buffer)
         buffer.writeUtf(anchor ?: "")
         BookCondition.toNetwork(condition, buffer)
@@ -112,25 +118,36 @@ class BookPotionEffectPage(
                     obj.get("item")
                 ).result().orElse(ItemStack.EMPTY)
 
+                val capacity = GsonHelper.getAsInt(obj, "capacity", 0)
+
                 val textsObj = obj.getAsJsonObject("texts")
                 val itemText = BookGsonHelper.getAsBookTextHolder(textsObj, "text", BookTextHolder.EMPTY, provider)
                 val itemText1 =
                     BookGsonHelper.getAsBookTextHolder(textsObj, "text_title", BookTextHolder.EMPTY, provider)
 
-                stack to (itemText to itemText1)
+                stack to Triple(capacity, itemText, itemText1)
             }.toMutableList()
 
             return BookPotionEffectPage(title, text, itemList, anchor, condition)
         }
 
 
+
         fun fromNetwork(buffer: RegistryFriendlyByteBuf): BookPotionEffectPage {
             val title = BookTextHolder.fromNetwork(buffer)
-            val itemList = ITEMS_WITH_TEXT_TEXT_LIST_STREAM_CODEC.decode(buffer)
+            val size = buffer.readInt()
+            val itemList = mutableListOf<Pair<ItemStack, Triple<Int, BookTextHolder, BookTextHolder>>>()
+            for (i in 0 until size) {
+                val stack = ItemStack.STREAM_CODEC.decode(buffer)
+                val capacity = buffer.readInt()
+                val text = BookTextHolder.fromNetwork(buffer)
+                val textTitle = BookTextHolder.fromNetwork(buffer)
+                itemList.add(stack to Triple(capacity, text, textTitle))
+            }
             val text = BookTextHolder.fromNetwork(buffer)
             val anchor = buffer.readUtf()
             val condition = BookCondition.fromNetwork(buffer)
-            return BookPotionEffectPage(title, text, itemList.toMutableList(), anchor, condition)
+            return BookPotionEffectPage(title, text, itemList, anchor, condition)
         }
     }
 }
