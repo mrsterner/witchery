@@ -32,6 +32,7 @@ import dev.sterner.witchery.features.spirit_world.SleepingLevelAttachment
 import dev.sterner.witchery.features.necromancy.SoulPoolPlayerAttachment
 import dev.sterner.witchery.features.misc.UnderWaterBreathPlayerAttachment
 import dev.sterner.witchery.features.nightmare.NightmarePlayerAttachment
+import dev.sterner.witchery.features.petrification.PetrifiedEntityAttachment
 import dev.sterner.witchery.features.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.features.poppet.PoppetLevelAttachment
 import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment
@@ -68,6 +69,17 @@ object WitcheryDataAttachments {
             Supplier {
                 AttachmentType.builder(Supplier { PossessedDataAttachment.Data() })
                     .serialize(PossessedDataAttachment.Data.CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val PETRIFIED_ENTITY: Supplier<AttachmentType<PetrifiedEntityAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "petrified_entity",
+            Supplier {
+                AttachmentType.builder(Supplier { PetrifiedEntityAttachment.Data() })
+                    .serialize(PetrifiedEntityAttachment.Data.CODEC)
                     .build()
             }
         )

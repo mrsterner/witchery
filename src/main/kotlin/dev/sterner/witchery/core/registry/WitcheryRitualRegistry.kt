@@ -10,6 +10,7 @@ import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
 import dev.sterner.witchery.features.ritual.BindingRitual
 import dev.sterner.witchery.features.ritual.BlocksBelowRitual
 import dev.sterner.witchery.features.ritual.EmptyRitual
+import dev.sterner.witchery.features.ritual.PetrificationRitual
 import dev.sterner.witchery.features.ritual.PullMobsRitual
 import dev.sterner.witchery.features.ritual.PushMobsRitual
 import dev.sterner.witchery.features.ritual.RainingToadRitual
@@ -65,6 +66,9 @@ object WitcheryRitualRegistry {
     val RAINING_TOAD: DeferredHolder<Ritual, RainingToadRitual> = RITUALS.register("raining_toad", Supplier { RainingToadRitual() })
     val SOUL_SEVERANCE: DeferredHolder<Ritual, SoulSeveranceRitual> =
         RITUALS.register("soul_severance", Supplier { SoulSeveranceRitual() })
+    val PETRIFICATION_RITUAL: DeferredHolder<Ritual, Ritual> = RITUALS.register("petrification", Supplier {
+        PetrificationRitual()
+    })
 
     fun getById(id: ResourceLocation): Ritual? {
         val holder = RITUALS.entries.firstOrNull { it.id == id }

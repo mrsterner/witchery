@@ -30,6 +30,8 @@ import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.infusion.InfusionHandler
 import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.features.infusion.InfusionType
+import dev.sterner.witchery.features.petrification.PetrificationHandler
+import dev.sterner.witchery.features.petrification.PetrifiedEntityAttachment
 import dev.sterner.witchery.features.possession.EntityAiToggle
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
@@ -45,6 +47,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.function.Supplier
 
@@ -88,6 +91,7 @@ object WitcheryCommands {
                 .then(registerLichdomCommands())
                 .then(registerCovenCommands())
                 .then(registerTarotCommands())
+                .then(registerPetrificationCommands())
         )
     }
 
@@ -844,6 +848,141 @@ object WitcheryCommands {
                             }
                     )
             )
+    }
+
+    fun registerPetrificationCommands(): LiteralArgumentBuilder<CommandSourceStack> {
+        return Commands.literal("petrification")
+            .requires { it.hasPermission(2) }
+            .then(
+                Commands.literal("apply")
+                    .then(
+                        Commands.argument("target", EntityArgument.entity())
+                            .then(
+                                Commands.argument("duration", IntegerArgumentType.integer(1, 72000))
+                                    .executes { ctx ->
+                                        applyPetrification(
+                                            ctx,
+                                            EntityArgument.getEntity(ctx, "target"),
+                                            IntegerArgumentType.getInteger(ctx, "duration")
+                                        )
+                                    }
+                            )
+                            .executes { ctx ->
+                                applyPetrification(
+                                    ctx,
+                                    EntityArgument.getEntity(ctx, "target"),
+                                    6000
+                                )
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("remove")
+                    .then(
+                        Commands.argument("target", EntityArgument.entity())
+                            .executes { ctx ->
+                                removePetrification(
+                                    ctx,
+                                    EntityArgument.getEntity(ctx, "target")
+                                )
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("check")
+                    .then(
+                        Commands.argument("target", EntityArgument.entity())
+                            .executes { ctx ->
+                                checkPetrification(
+                                    ctx,
+                                    EntityArgument.getEntity(ctx, "target")
+                                )
+                            }
+                    )
+            )
+    }
+
+    private fun applyPetrification(
+        ctx: CommandContext<CommandSourceStack>,
+        target: net.minecraft.world.entity.Entity,
+        duration: Int
+    ): Int {
+        if (target !is LivingEntity) {
+            ctx.source.sendFailure(Component.literal("Target must be a living entity"))
+            return 0
+        }
+
+        PetrificationHandler.petrify(target, duration)
+
+        val minutes = duration / 1200
+        val seconds = (duration % 1200) / 20
+
+        ctx.source.sendSuccess(
+            {
+                Component.literal("Petrified ${target.name.string} for ${minutes}m ${seconds}s")
+            },
+            true
+        )
+
+        return 1
+    }
+
+    private fun removePetrification(
+        ctx: CommandContext<CommandSourceStack>,
+        target: net.minecraft.world.entity.Entity
+    ): Int {
+        if (target !is LivingEntity) {
+            ctx.source.sendFailure(Component.literal("Target must be a living entity"))
+            return 0
+        }
+
+        PetrificationHandler.unpetrify(target)
+
+        ctx.source.sendSuccess(
+            {
+                Component.literal("Removed petrification from ${target.name.string}")
+            },
+            true
+        )
+
+        return 1
+    }
+
+    private fun checkPetrification(
+        ctx: CommandContext<CommandSourceStack>,
+        target: net.minecraft.world.entity.Entity
+    ): Int {
+        if (target !is LivingEntity) {
+            ctx.source.sendFailure(Component.literal("Target must be a living entity"))
+            return 0
+        }
+
+        val data = PetrifiedEntityAttachment.getData(target)
+
+        if (!data.isPetrified()) {
+            ctx.source.sendSuccess(
+                {
+                    Component.literal("${target.name.string} is not petrified")
+                },
+                false
+            )
+            return 0
+        }
+
+        val ticksRemaining = data.petrificationTicks
+        val minutes = ticksRemaining / 1200
+        val seconds = (ticksRemaining % 1200) / 20
+
+        ctx.source.sendSuccess(
+            {
+                Component.literal(
+                    "${target.name.string} is petrified with ${minutes}m ${seconds}s remaining"
+                )
+            },
+            false
+        )
+
+        return 1
     }
 
     private fun applyTarotCard(

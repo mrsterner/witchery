@@ -1,0 +1,69 @@
+package dev.sterner.witchery.features.petrification
+
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.core.registry.WitcheryDataAttachments
+import dev.sterner.witchery.features.possession.PossessedDataAttachment.get
+import dev.sterner.witchery.network.SyncCurseS2CPayload
+import dev.sterner.witchery.network.SyncPetrificationS2CPayload
+import dev.sterner.witchery.network.SyncPossessedDataS2CPayload
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.LivingEntity
+import net.neoforged.neoforge.network.PacketDistributor
+
+object PetrifiedEntityAttachment {
+
+    data class Data(
+        val petrified: Boolean = false,
+        val petrificationTicks: Int = 0,
+        val totalDuration: Int = 0,
+        val bodyRot: Float = 0f,
+    ) {
+        fun isPetrified(): Boolean = petrified && petrificationTicks > 0
+
+        fun tick(): Data {
+            if (!petrified || petrificationTicks <= 0) {
+                return copy(
+                    petrified = false
+                )
+            }
+
+            val newTicks = petrificationTicks - 1
+
+            return copy(
+                petrificationTicks = newTicks
+            )
+        }
+
+        fun withPetrification(duration: Int, bodyRot: Float): Data {
+            return copy(
+                petrified = true,
+                petrificationTicks = duration,
+                totalDuration = duration,
+                bodyRot
+            )
+        }
+        companion object {
+            val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.BOOL.fieldOf("petrified").forGetter { it.petrified },
+                    Codec.INT.fieldOf("petrificationTicks").forGetter { it.petrificationTicks },
+                    Codec.INT.fieldOf("totalDuration").forGetter { it.totalDuration },
+                    Codec.FLOAT.fieldOf("bodyRot").forGetter { it.bodyRot }
+                ).apply(instance, ::Data)
+            }
+        }
+
+    }
+
+    fun getData(entity: LivingEntity): Data {
+        return entity.getData(WitcheryDataAttachments.PETRIFIED_ENTITY)
+    }
+
+    fun setData(entity: LivingEntity, data: Data) {
+        entity.setData(WitcheryDataAttachments.PETRIFIED_ENTITY, data)
+        if (entity.level() is ServerLevel) {
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, SyncPetrificationS2CPayload(entity, data))
+        }
+    }
+}

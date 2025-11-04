@@ -502,6 +502,7 @@ dev/sterner/witchery/WitcheryModEvents.kt
 
 dev/sterner/witchery/WitcheryNeoForgeEvents.kt
   object WitcheryNeoForgeEvents
+  fun onPotionEffectApplied(event: MobEffectEvent.Added)
   fun addFortuneTellerTrades(event: VillagerTradesEvent)
   fun onServerStarting(event: ServerStartingEvent)
   fun onServerTick(event: ServerTickEvent.Pre)
@@ -1754,9 +1755,11 @@ dev/sterner/witchery/content/block/brazier/BrazierBlockEntity.kt
   fun getDispersalRadius()
   fun shouldConsumePower()
   fun tick(level: Level, pos: BlockPos, blockState: BlockState)
+  fun tickPassive(level: Level, pos: BlockPos)
   fun tickSummoning(level: Level, pos: BlockPos)
-  fun performSummoning(level: Level, pos: BlockPos, recipe: RecipeHolder<*>)
+  fun performSummoning(level: Level, pos: BlockPos, recipe: BrazierSummoningRecipe)
   fun findSummonPosition(level: Level, centerPos: BlockPos): BlockPos?
+  fun completePassive()
   fun completeSummoning(level: Level, pos: BlockPos)
   fun tickPotionEffects(level: Level, pos: BlockPos)
   fun updateLitState(level: Level, pos: BlockPos, blockState: BlockState)
@@ -1966,9 +1969,7 @@ dev/sterner/witchery/content/block/distillery/DistilleryBlockEntity.kt
   fun placeOutputItems(items: NonNullList<ItemStack>, outputItems: List<ItemStack>, maxStackSize: Int): Boolean
   fun checkInputs(inputItems: List<ItemStack>, items: NonNullList<ItemStack>, recipe: DistilleryCraftingRecipe): Boolean
   fun checkOutputs(outputItems: List<ItemStack>, items: NonNullList<ItemStack>, maxStackSize: Int): Boolean
-  fun hasEnoughAltarPower(level: Level, recipe: DistilleryCraftingRecipe): Boolean
   fun canDistill(recipe: RecipeHolder<DistilleryCraftingRecipe>?, items: NonNullList<ItemStack>, maxStackSize: Int): Boolean
-  fun consumeAltarPower(level: Level, recipe: DistilleryCraftingRecipe): Boolean
   fun canFitInSlot(resultStack: ItemStack, outputSlot: ItemStack, maxStackSize: Int): Boolean
   fun setRecipeUsed(recipe: RecipeHolder<*>?)
   fun getRecipeUsed(): RecipeHolder<*>?
@@ -2442,8 +2443,6 @@ dev/sterner/witchery/content/block/spining_wheel/SpinningWheelBlockEntity.kt
   fun checkInputs(inputItems: List<ItemStack>, items: NonNullList<ItemStack>): Boolean
   fun checkOutputs(outputItem: ItemStack, items: NonNullList<ItemStack>, maxStackSize: Int): Boolean
   fun canFitInSlot(resultStack: ItemStack, outputSlot: ItemStack, maxStackSize: Int): Boolean
-  fun hasEnoughAltarPower(level: Level, recipe: SpinningWheelRecipe): Boolean
-  fun consumeAltarPower(level: Level, recipe: SpinningWheelRecipe): Boolean
   fun setRecipeUsed(recipe: RecipeHolder<*>?)
   fun getRecipeUsed(): RecipeHolder<*>?
   fun onUseWithoutItem(pPlayer: Player): InteractionResult
@@ -3184,6 +3183,10 @@ dev/sterner/witchery/content/entity/projectile/WitcheryThrownPotion.kt
   fun calculateEffectDuration(potionContent: WitcheryPotionIngredient, effectData: WitcheryPotionIngredient.EffectModifier): Int
   fun applySplash(stack: ItemStack, entity: Entity?, result: HitResult)
 
+dev/sterner/witchery/content/item/AppleOfSleepingItem.kt
+  class AppleOfSleepingItem
+  fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack
+
 dev/sterner/witchery/content/item/ArthanaItem.kt
   class ArthanaItem
   fun hurtEnemy(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean
@@ -3287,8 +3290,9 @@ dev/sterner/witchery/content/item/HunterArmorItem.kt
   class HunterArmorItem
   class ArmorRender
   fun isRepairable(arg: ItemStack): Boolean
+  fun appendHoverText(stack: ItemStack, context: TooltipContext, tooltipComponents: MutableList<Component>, tooltipFlag: TooltipFlag)
   fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EquipmentSlot, layer: ArmorMaterial.Layer, innerModel: Boolean): ResourceLocation?
-  fun getHumanoidArmorModel(living: LivingEntity, stack: ItemStack, slot: EquipmentSlot, model: HumanoidModel<*>?): HumanoidModel<*>
+  fun getHumanoidArmorModel(living: LivingEntity, stack: ItemStack, slot: EquipmentSlot, model: HumanoidModel<*>): HumanoidModel<*>
   fun getArmorLayerTintColor(stack: ItemStack, entity: LivingEntity, layer: ArmorMaterial.Layer, layerIdx: Int, fallbackColor: Int): Int
 
 dev/sterner/witchery/content/item/HuntsmanSpearItem.kt
@@ -3525,15 +3529,15 @@ dev/sterner/witchery/content/item/brew/BrewOfRevealingItem.kt
 
 dev/sterner/witchery/content/item/brew/BrewOfSleepingItem.kt
   class BrewOfSleepingItem
-  fun respawnPlayer(newServerPlayer: Player?)
-  fun countNearbyBlocks(player: Player, blockToCheck: Block, radius: Int): Int
-  fun applyEffectOnSelf(player: Player, hasFrog: Boolean)
-  fun savePlayerItems(player: Player, hasFrog: Boolean): Pair<MutableList<ItemStack>, MutableList<ItemStack>>
+  fun teleportToDreamDimension(player: Player, destinationKey: ResourceKey<Level>)
   fun createSleepingEntity(player: Player): SleepingPlayerEntity
   fun restoreKeptItems(player: Player, itemsToKeep: List<ItemStack>, armorToKeep: List<ItemStack>)
   fun forceLoadPlayerChunk(player: Player)
+  fun respawnPlayer(newServerPlayer: Player?)
+  fun countNearbyBlocks(player: Player, blockToCheck: Block, radius: Int): Int
+  fun savePlayerItems(player: Player, hasFrog: Boolean): Pair<MutableList<ItemStack>, MutableList<ItemStack>>
+  fun applyEffectOnSelf(player: Player, hasFrog: Boolean)
   fun calculateDreamDestination(player: Player, hasFrog: Boolean): ResourceKey<Level>
-  fun teleportToDreamDimension(player: Player, destinationKey: ResourceKey<Level>)
 
 dev/sterner/witchery/content/item/brew/BrewOfSoulSeveranceItem.kt
   class BrewOfSoulSeveranceItem
@@ -3699,6 +3703,9 @@ dev/sterner/witchery/content/mob_effect/ResizeMobEffect.kt
   fun onEffectAdded(livingEntity: LivingEntity, amplifier: Int)
   fun onRemovedEffect(livingEntity: LivingEntity)
 
+dev/sterner/witchery/content/recipe/AltarUserRecipe.kt
+  (no signatures found)
+
 dev/sterner/witchery/content/recipe/MultipleItemRecipeInput.kt
   class MultipleItemRecipeInput
   fun getItem(index: Int): ItemStack
@@ -3735,6 +3742,30 @@ dev/sterner/witchery/content/recipe/TaglockDataComponentTransferRecipe.kt
   fun assemble(input: CraftingInput, registries: HolderLookup.Provider): ItemStack
   fun canCraftInDimensions(width: Int, height: Int): Boolean
   fun getSerializer(): RecipeSerializer<*>
+
+dev/sterner/witchery/content/recipe/brazier/BrazierPassiveRecipe.kt
+  class BrazierPassiveRecipe
+  class Serializer
+  fun matches(input: MultipleItemRecipeInput, level: Level): Boolean
+  fun assemble(input: MultipleItemRecipeInput, registries: HolderLookup.Provider): ItemStack
+  fun canCraftInDimensions(width: Int, height: Int): Boolean
+  fun getResultItem(registries: HolderLookup.Provider): ItemStack
+  fun getSerializer(): RecipeSerializer<*>
+  fun getType(): RecipeType<*>
+  fun codec(): MapCodec<BrazierPassiveRecipe>
+  fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, BrazierPassiveRecipe>
+
+dev/sterner/witchery/content/recipe/brazier/BrazierPassiveRecipeBuilder.kt
+  class BrazierPassiveRecipeBuilder
+  fun create(): BrazierPassiveRecipeBuilder
+  fun setPassive(passive: BrazierPassive): BrazierPassiveRecipeBuilder
+  fun addInput(itemStack: ItemStack): BrazierPassiveRecipeBuilder
+  fun addInput(itemStack: Item): BrazierPassiveRecipeBuilder
+  fun setAltarPower(power: Int): BrazierPassiveRecipeBuilder
+  fun unlockedBy(name: String, criterion: Criterion<*>): BrazierPassiveRecipeBuilder
+  fun group(groupName: String?): BrazierPassiveRecipeBuilder
+  fun getResult(): Item
+  fun save(recipeOutput: RecipeOutput, id: ResourceLocation)
 
 dev/sterner/witchery/content/recipe/brazier/BrazierSummoningRecipe.kt
   class BrazierSummoningRecipe
@@ -4021,6 +4052,11 @@ dev/sterner/witchery/content/worldgen/tree/WitcheryTreeGrowers.kt
 dev/sterner/witchery/core/WitcheryConstants.kt
   object WitcheryConstants
 
+dev/sterner/witchery/core/api/BrazierPassive.kt
+  class BrazierPassive
+  fun onTickBrazier(level: Level, pos: BlockPos, blockEntity: BrazierBlockEntity)
+  fun onStartBrazier(level: Level, blockPos: BlockPos, blockEntity: BrazierBlockEntity): Boolean
+
 dev/sterner/witchery/core/api/Curse.kt
   class Curse
   fun getEffectivenessMultiplier(player: Player): Float
@@ -4112,6 +4148,8 @@ dev/sterner/witchery/core/api/block/AltarPowerConsumer.kt
   fun tryConsumeAltarPower(level: Level, pos: BlockPos, amount: Int, simulate: Boolean): Boolean
   fun getAltarPos(level: ServerLevel, origin: BlockPos): BlockPos?
   fun distance(pos1: BlockPos, pos2: BlockPos): Double
+  fun hasEnoughAltarPower(level: Level, recipe: AltarUserRecipe, altarPos: BlockPos?, setChanged: ()
+  fun consumeAltarPower(level: Level, recipe: AltarUserRecipe, altarPos: BlockPos?, setChanged: ()
 
 dev/sterner/witchery/core/api/block/CustomDataPacketHandlingBlockEntity.kt
   fun onDataPacket(connection: Connection?, packet: ClientboundBlockEntityDataPacket?, registryAccess: RegistryAccess.Frozen)
@@ -4396,6 +4434,11 @@ dev/sterner/witchery/core/registry/WitcheryBlocks.kt
   fun createStrippableLog(stripped: Supplier<out RotatedPillarBlock>, properties: Properties)
   fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity)
   fun getFluidState(state: BlockState): FluidState
+
+dev/sterner/witchery/core/registry/WitcheryBrazierRegistry.kt
+  object WitcheryBrazierRegistry
+  fun getById(id: ResourceLocation): BrazierPassive?
+  fun register(modEventBus: IEventBus)
 
 dev/sterner/witchery/core/registry/WitcheryCommands.kt
   object WitcheryCommands
@@ -5078,10 +5121,10 @@ dev/sterner/witchery/data_gen/book/page/BookPotionEffectPageModel.kt
   fun toJson(entryId: ResourceLocation, provider: HolderLookup.Provider): JsonObject
   fun withTitle(title: String?): BookPotionEffectPageModel
   fun withTitle(title: Component?): BookPotionEffectPageModel
-  fun addItem(item: ItemStack): BookPotionEffectPageModel
-  fun addItem(item: ItemStack, holder: BookTextHolder, holderTitle: BookTextHolder): BookPotionEffectPageModel
-  fun addItem(item: ItemStack, text: Component, textTitle: Component): BookPotionEffectPageModel
-  fun addItem(item: ItemLike, text: Component, textTitle: Component): BookPotionEffectPageModel
+  fun addItem(item: ItemStack, capacity: Int): BookPotionEffectPageModel
+  fun addItem(item: ItemStack, capacity: Int, holder: BookTextHolder, holderTitle: BookTextHolder): BookPotionEffectPageModel
+  fun addItem(item: ItemStack, capacity: Int, text: Component, textTitle: Component): BookPotionEffectPageModel
+  fun addItem(item: ItemLike, capacity: Int, text: Component, textTitle: Component): BookPotionEffectPageModel
   fun withText(text: String?): BookPotionEffectPageModel
   fun withText(text: Component?): BookPotionEffectPageModel
   fun create(): BookPotionEffectPageModel
@@ -5629,6 +5672,29 @@ dev/sterner/witchery/features/blood/BloodPoolLivingEntityAttachment.kt
   fun sync(livingEntity: LivingEntity, data: Data)
   fun copy(maxBlood: Int, bloodPool: Int): Data
 
+dev/sterner/witchery/features/brazier/AnguishOfTheDeadBrazierPassive.kt
+  class AnguishOfTheDeadBrazierPassive
+  fun onTickBrazier(level: Level, pos: BlockPos, blockEntity: BrazierBlockEntity)
+
+dev/sterner/witchery/features/brazier/DeathlyVeilBrazierPassive.kt
+  class DeathlyVeilBrazierPassive
+  fun onTickBrazier(level: Level, pos: BlockPos, blockEntity: BrazierBlockEntity)
+
+dev/sterner/witchery/features/brazier/DrainGrowthBrazierPassive.kt
+  class DrainGrowthBrazierPassive
+  fun onTickBrazier(level: Level, pos: BlockPos, blockEntity: BrazierBlockEntity)
+
+dev/sterner/witchery/features/brazier/EmptyBrazierPassive.kt
+  class EmptyBrazierPassive
+
+dev/sterner/witchery/features/brazier/FortificationOfTheCorpseBrazierPassive.kt
+  class FortificationOfTheCorpseBrazierPassive
+  fun onTickBrazier(level: Level, pos: BlockPos, blockEntity: BrazierBlockEntity)
+
+dev/sterner/witchery/features/brazier/GraveyardMistBrazierPassive.kt
+  class GraveyardMistBrazierPassive
+  fun onTickBrazier(level: Level, pos: BlockPos, blockEntity: BrazierBlockEntity)
+
 dev/sterner/witchery/features/chain/ChainManager.kt
   object ChainManager
   fun createChain(level: Level, position: Vec3, targetEntity: Entity, extensionSpeed: Float, retractionSpeed: Float, pullStrength: Float, lifetime: Int, chainType: ChainType): ChainEntity
@@ -5856,6 +5922,22 @@ dev/sterner/witchery/features/hags_ring/VeinMiningTracker.kt
   fun cancelVeinMining(player: ServerPlayer)
   fun isVeinMining(player: ServerPlayer): Boolean
   fun generatePosHash(blockPos: BlockPos): Int
+
+dev/sterner/witchery/features/hunter/HunterArmorDefenseHandler.kt
+  object HunterArmorDefenseHandler
+  fun getHunterArmorPieceCount(player: Player): Int
+  fun getProtectionMultiplier(player: Player): Float
+  fun reduceCurseDuration(player: Player, originalDuration: Int): Int
+  fun tryReflectCurse(player: Player, sourcePlayer: ServerPlayer?): Boolean
+  fun onPotionEffectApplied(event: MobEffectEvent.Added)
+
+dev/sterner/witchery/features/hunter/HunterArmorParticleEffects.kt
+  class ProtectionType
+  object HunterArmorParticleEffects
+  fun spawnProtectionParticles(player: Player, type: ProtectionType)
+  fun spawnShieldEffect(level: ServerLevel, position: Vec3)
+  fun playSoundEffect(level: ServerLevel, player: Player, type: ProtectionType)
+  fun spawnCurseReflectionEffect(player: Player, target: ServerPlayer)
 
 dev/sterner/witchery/features/infusion/CreatureType.kt
   class CreatureType
@@ -6180,8 +6262,6 @@ dev/sterner/witchery/features/poppet/PoppetHandler.kt
   fun findPoppet(owner: LivingEntity, poppetType: PoppetType): Pair<ItemStack?, PoppetLocation?>
   fun getBoundPlayer(level: Level, poppet: ItemStack): Player?
   fun getBoundEntity(level: Level, poppet: ItemStack): LivingEntity?
-  fun bindPoppetToPlayer(poppet: ItemStack, player: Player): Boolean
-  fun bindPoppetToEntity(poppet: ItemStack, entity: LivingEntity): Boolean
 
 dev/sterner/witchery/features/poppet/PoppetLevelAttachment.kt
   class PoppetData
