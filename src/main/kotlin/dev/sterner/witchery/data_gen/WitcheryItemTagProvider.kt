@@ -45,6 +45,7 @@ class WitcheryItemTagProvider(
 
         tag(WitcheryTags.TO_SPIRIT_WORLD_TRANSFERABLE)
             .add(WitcheryItems.ICY_NEEDLE.get())
+            .add(WitcheryItems.MUTANDIS.get())
             .add(WitcheryItems.WISPY_COTTON.get())
             .add(WitcheryItems.BREW_FLOWING_SPIRIT.get())
 

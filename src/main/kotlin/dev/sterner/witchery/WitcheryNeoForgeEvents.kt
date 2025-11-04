@@ -16,6 +16,7 @@ import dev.sterner.witchery.content.item.CaneSwordItem
 import dev.sterner.witchery.content.item.WineGlassItem
 import dev.sterner.witchery.content.item.curios.BitingBeltItem
 import dev.sterner.witchery.content.item.brew.BrewOfSleepingItem
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
 import dev.sterner.witchery.core.data.AltarAugmentReloadListener
 import dev.sterner.witchery.core.data.BloodPoolReloadListener
 import dev.sterner.witchery.core.data.ErosionReloadListener
@@ -84,7 +85,10 @@ import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageTypes
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.monster.EnderMan
+import net.minecraft.world.entity.monster.Endermite
 import net.minecraft.world.entity.npc.VillagerTrades
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
@@ -439,6 +443,14 @@ object WitcheryNeoForgeEvents {
         if (entity is CovenWitchEntity) {
             if (entity.customName == null) {
                 entity.customName = CovenDialogue.generateName(event.level.random)
+            }
+        }
+        if (entity is EnderMan) {
+            if (event.level is ServerLevel) {
+                val serverLevel = event.level as ServerLevel
+                if (serverLevel.dimension() == WitcheryWorldgenKeys.DREAM || serverLevel.dimension() == WitcheryWorldgenKeys.NIGHTMARE) {
+                    event.isSpawnCancelled = true
+                }
             }
         }
     }

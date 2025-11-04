@@ -1,5 +1,7 @@
 package dev.sterner.witchery.content.item
 
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.features.mutandis.MutandisHandler
@@ -14,6 +16,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import kotlin.jvm.optionals.getOrNull
 
@@ -73,7 +76,17 @@ class MutandisItem(properties: Properties) : Item(properties) {
                 val block = getRandomBlockFromTag(blockToApplyTag)
 
                 if (block != null) {
-                    level.setBlockAndUpdate(pos, block.defaultBlockState())
+                    if (level.dimension() == WitcheryWorldgenKeys.NIGHTMARE || level.dimension() == WitcheryWorldgenKeys.DREAM) {
+
+                        if (level.random.nextFloat() < 0.1) {
+                            level.setBlockAndUpdate(pos, Blocks.NETHER_WART.defaultBlockState())
+                        } else {
+                            level.setBlockAndUpdate(pos, block.defaultBlockState())
+                        }
+
+                    } else {
+                        level.setBlockAndUpdate(pos, block.defaultBlockState())
+                    }
                     if (player?.isCreative != true) {
                         player?.mainHandItem?.shrink(1)
                     }
