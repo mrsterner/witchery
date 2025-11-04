@@ -15,8 +15,8 @@ class DrainGrowthBrazierPassive : BrazierPassive("drain_growth") {
 
         val radius = 16
         val affectedArea = BlockPos.betweenClosed(
-            pos.offset(-radius, -1, -radius),
-            pos.offset(radius, 1, radius)
+            pos.offset(-radius, -2, -radius),
+            pos.offset(radius, 2, radius)
         )
 
         val entitiesToHeal = level.getEntitiesOfClass(
