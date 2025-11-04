@@ -3,7 +3,7 @@
   "criteria": {
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:fog_brazier_passive"
+        "recipe": "witchery:deathly_veil"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "witchery:fog_brazier_passive"
+      "witchery:deathly_veil"
     ]
   }
 }

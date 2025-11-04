@@ -1,0 +1,21 @@
+{
+  "type": "witchery:brazier_passive",
+  "altarPower": 200,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "minecraft:bone"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:blaze_rod"
+    },
+    {
+      "count": 1,
+      "id": "witchery:tear_of_the_goddess"
+    }
+  ],
+  "ritual": {
+    "id": "witchery:anguish_of_the_dead"
+  }
+}

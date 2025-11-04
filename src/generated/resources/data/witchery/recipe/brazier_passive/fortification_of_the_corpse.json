@@ -1,0 +1,21 @@
+{
+  "type": "witchery:brazier_passive",
+  "altarPower": 200,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "witchery:tear_of_the_goddess"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:rotten_flesh"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:blaze_powder"
+    }
+  ],
+  "ritual": {
+    "id": "witchery:fortification_of_the_corpse"
+  }
+}

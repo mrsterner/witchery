@@ -4,8 +4,12 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.api.BrazierPassive
+import dev.sterner.witchery.features.brazier.AnguishOfTheDeadBrazierPassive
+import dev.sterner.witchery.features.brazier.DeathlyVeilBrazierPassive
+import dev.sterner.witchery.features.brazier.DrainGrowthBrazierPassive
 import dev.sterner.witchery.features.brazier.EmptyBrazierPassive
-import dev.sterner.witchery.features.brazier.FogBrazierPassive
+import dev.sterner.witchery.features.brazier.FortificationOfTheCorpseBrazierPassive
+import dev.sterner.witchery.features.brazier.GraveyardMistBrazierPassive
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
@@ -33,7 +37,11 @@ object WitcheryBrazierRegistry {
 
 
     val EMPTY: DeferredHolder<BrazierPassive, EmptyBrazierPassive> = BRAZIERS.register("empty", Supplier { EmptyBrazierPassive() })
-    val FOG: DeferredHolder<BrazierPassive, FogBrazierPassive> = BRAZIERS.register("fog", Supplier { FogBrazierPassive() })
+    val GRAVEYARD_MIST: DeferredHolder<BrazierPassive, GraveyardMistBrazierPassive> = BRAZIERS.register("graveyard_mist", Supplier { GraveyardMistBrazierPassive() })
+    val ANGUISH_OF_THE_DEAD: DeferredHolder<BrazierPassive, AnguishOfTheDeadBrazierPassive> = BRAZIERS.register("anguish_of_the_dead", Supplier { AnguishOfTheDeadBrazierPassive() })
+    val DEATHLY_VEIL: DeferredHolder<BrazierPassive, DeathlyVeilBrazierPassive> = BRAZIERS.register("deathly_veil", Supplier { DeathlyVeilBrazierPassive() })
+    val DRAIN_GROWTH: DeferredHolder<BrazierPassive, DrainGrowthBrazierPassive> = BRAZIERS.register("drain_growth", Supplier { DrainGrowthBrazierPassive() })
+    val FORTIFICATION_OF_THE_CORPSE: DeferredHolder<BrazierPassive, FortificationOfTheCorpseBrazierPassive> = BRAZIERS.register("fortification_of_the_corpse", Supplier { FortificationOfTheCorpseBrazierPassive() })
 
 
     fun getById(id: ResourceLocation): BrazierPassive? {

@@ -1,0 +1,21 @@
+{
+  "type": "witchery:brazier_passive",
+  "altarPower": 200,
+  "inputItems": [
+    {
+      "count": 1,
+      "id": "minecraft:gunpowder"
+    },
+    {
+      "count": 1,
+      "id": "witchery:wood_ash"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:glowstone_dust"
+    }
+  ],
+  "ritual": {
+    "id": "witchery:graveyard_mist"
+  }
+}

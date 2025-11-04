@@ -5,7 +5,7 @@ import dev.sterner.witchery.core.api.BrazierPassive
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 
-class FogBrazierPassive : BrazierPassive("fog") {
+class GraveyardMistBrazierPassive : BrazierPassive("graveyard_mist") {
 
     override fun onTickBrazier(
         level: Level,
