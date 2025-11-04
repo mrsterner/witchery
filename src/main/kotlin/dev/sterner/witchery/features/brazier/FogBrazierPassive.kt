@@ -13,6 +13,5 @@ class FogBrazierPassive : BrazierPassive("fog") {
         blockEntity: BrazierBlockEntity
     ) {
         super.onTickBrazier(level, pos, blockEntity)
-        println("Fog brazier ticking at $pos")
     }
 }
