@@ -28,7 +28,59 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         private const val MAX_NEARBY_BLOCKS = 4
         private const val SEARCH_RADIUS = 6
 
+        /**
+         * Teleport player to dream dimension
+         */
+        fun teleportToDreamDimension(player: Player, destinationKey: ResourceKey<Level>) {
+            val destination = player.level().server?.getLevel(destinationKey) ?: return
 
+            val targetX = player.x
+            val targetY = player.y
+            val targetZ = player.z
+
+            val blockPos = BlockPos.containing(targetX, targetY, targetZ)
+            val solidY = if (!destination.getBlockState(blockPos).isSolid) {
+                blockPos.y
+            } else {
+                destination.getHeight(Heightmap.Types.MOTION_BLOCKING, blockPos.x, blockPos.z)
+            }
+
+            if (player is ServerPlayer) {
+                player.teleportTo(destination, targetX, solidY + 1.0, targetZ, player.yRot, player.xRot)
+            }
+        }
+
+        /**
+         * Create sleeping entity from player
+         */
+        fun createSleepingEntity(player: Player): SleepingPlayerEntity {
+            return PlayerShellEntity.createSleepFromPlayer(player)
+        }
+
+        /**
+         * Restore items that were kept during sleep
+         */
+        fun restoreKeptItems(player: Player, itemsToKeep: List<ItemStack>, armorToKeep: List<ItemStack>) {
+            for (keep in itemsToKeep) {
+                player.inventory.add(keep.copy())
+            }
+
+            for (armor in armorToKeep) {
+                val slot = player.getEquipmentSlotForItem(armor)
+                player.setItemSlot(slot, armor.copy())
+            }
+        }
+
+        /**
+         * Force load the chunk where the sleeping player is
+         */
+        fun forceLoadPlayerChunk(player: Player) {
+            if (player.level() is ServerLevel) {
+                val serverLevel = player.level() as ServerLevel
+                val chunk = ChunkPos(player.onPos)
+                serverLevel.setChunkForced(chunk.x, chunk.z, true)
+            }
+        }
         /**
          * Handles player respawn after death or returning from the dream world
          */
@@ -75,6 +127,36 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
             }
             return count
         }
+
+        fun savePlayerItems(
+            player: Player,
+            hasFrog: Boolean
+        ): Pair<MutableList<ItemStack>, MutableList<ItemStack>> {
+            val itemsToKeep = mutableListOf<ItemStack>()
+            val armorToKeep = mutableListOf<ItemStack>()
+
+            val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
+
+            if (charmStack != null) {
+                for (armor in player.armorSlots) {
+                    if (!armor.isEmpty) {
+                        armorToKeep.add(armor.copy())
+                        player.inventory.removeItem(armor)
+                    }
+                }
+            }
+
+            for (i in 0 until player.inventory.containerSize) {
+                val itemStack = player.inventory.getItem(i)
+                if (!itemStack.isEmpty && itemStack.item.builtInRegistryHolder()
+                        .`is`(WitcheryTags.TO_SPIRIT_WORLD_TRANSFERABLE)
+                ) {
+                    itemsToKeep.add(player.inventory.removeItem(i, itemStack.count))
+                }
+            }
+
+            return Pair(itemsToKeep, armorToKeep)
+        }
     }
 
     override fun applyEffectOnSelf(player: Player, hasFrog: Boolean) {
@@ -100,71 +182,7 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         super.applyEffectOnSelf(player, hasFrog)
     }
 
-    /**
-     * Save items that should be kept during sleep
-     */
-    private fun savePlayerItems(
-        player: Player,
-        hasFrog: Boolean
-    ): Pair<MutableList<ItemStack>, MutableList<ItemStack>> {
-        val itemsToKeep = mutableListOf<ItemStack>()
-        val armorToKeep = mutableListOf<ItemStack>()
 
-        val charmStack: ItemStack? = AccessoryHandler.checkNoConsume(player, WitcheryItems.DREAMWEAVER_CHARM.get())
-
-        if (charmStack != null) {
-            for (armor in player.armorSlots) {
-                if (!armor.isEmpty) {
-                    armorToKeep.add(armor.copy())
-                    player.inventory.removeItem(armor)
-                }
-            }
-        }
-
-        for (i in 0 until player.inventory.containerSize) {
-            val itemStack = player.inventory.getItem(i)
-            if (!itemStack.isEmpty && itemStack.item.builtInRegistryHolder()
-                    .`is`(WitcheryTags.TO_SPIRIT_WORLD_TRANSFERABLE)
-            ) {
-                itemsToKeep.add(player.inventory.removeItem(i, itemStack.count))
-            }
-        }
-
-        return Pair(itemsToKeep, armorToKeep)
-    }
-
-
-    /**
-     * Create sleeping entity from player
-     */
-    private fun createSleepingEntity(player: Player): SleepingPlayerEntity {
-        return PlayerShellEntity.createSleepFromPlayer(player)
-    }
-
-    /**
-     * Restore items that were kept during sleep
-     */
-    private fun restoreKeptItems(player: Player, itemsToKeep: List<ItemStack>, armorToKeep: List<ItemStack>) {
-        for (keep in itemsToKeep) {
-            player.inventory.add(keep.copy())
-        }
-
-        for (armor in armorToKeep) {
-            val slot = player.getEquipmentSlotForItem(armor)
-            player.setItemSlot(slot, armor.copy())
-        }
-    }
-
-    /**
-     * Force load the chunk where the sleeping player is
-     */
-    private fun forceLoadPlayerChunk(player: Player) {
-        if (player.level() is ServerLevel) {
-            val serverLevel = player.level() as ServerLevel
-            val chunk = ChunkPos(player.onPos)
-            serverLevel.setChunkForced(chunk.x, chunk.z, true)
-        }
-    }
 
     /**
      * Calculate dream quality and determine destination dimension
@@ -190,25 +208,5 @@ class BrewOfSleepingItem(color: Int, properties: Properties) : BrewItem(color, p
         return if (player.level().random.nextDouble() < goodDreamChance) WitcheryWorldgenKeys.DREAM else WitcheryWorldgenKeys.NIGHTMARE
     }
 
-    /**
-     * Teleport player to dream dimension
-     */
-    private fun teleportToDreamDimension(player: Player, destinationKey: ResourceKey<Level>) {
-        val destination = player.level().server?.getLevel(destinationKey) ?: return
 
-        val targetX = player.x
-        val targetY = player.y
-        val targetZ = player.z
-
-        val blockPos = BlockPos.containing(targetX, targetY, targetZ)
-        val solidY = if (!destination.getBlockState(blockPos).isSolid) {
-            blockPos.y
-        } else {
-            destination.getHeight(Heightmap.Types.MOTION_BLOCKING, blockPos.x, blockPos.z)
-        }
-
-        if (player is ServerPlayer) {
-            player.teleportTo(destination, targetX, solidY + 1.0, targetZ, player.yRot, player.xRot)
-        }
-    }
 }

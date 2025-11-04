@@ -42,7 +42,9 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         WitcheryBookLangProvider.book(::add)
 
         for (item in WitcheryItems.LANG_HELPER) {
-            if (item == "hags_ring") {
+            if (item == "apple_of_sleeping") {
+                add("item.witchery.apple_of_sleeping", "Apple")
+            } else if (item == "hags_ring") {
                 add("item.witchery.hags_ring", "Hag's Ring")
             } else if (item == "censer_long") {
                 add("item.witchery.censer_long", "Censer")

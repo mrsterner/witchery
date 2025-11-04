@@ -1247,6 +1247,18 @@ class WitcheryRecipeProvider(output: PackOutput, val registriesFuture: Completab
             .unlockedBy("has_nugget", has(Items.GOLD_NUGGET))
             .save(exporter)
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, WitcheryItems.APPLE_OF_SLEEPING.get())
+            .pattern("RST")
+            .pattern("MAM")
+            .pattern("SBS")
+            .define('S', WitcheryItems.MUTANDIS.get())
+            .define('M', WitcheryItems.REEK_OF_MISFORTUNE.get())
+            .define('B', WitcheryItems.BREW_OF_SLEEPING.get())
+            .define('A', Items.APPLE)
+            .define('R', Items.ROTTEN_FLESH)
+            .define('T', Items.SUGAR)
+            .unlockedBy("has_reek", has(WitcheryItems.REEK_OF_MISFORTUNE.get()))
+            .save(exporter)
 
         SimpleCookingRecipeBuilder.smelting(
             Ingredient.of(WitcheryItems.BLOOD_STAINED_WOOL.get()),

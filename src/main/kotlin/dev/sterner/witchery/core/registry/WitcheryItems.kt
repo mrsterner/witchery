@@ -1075,6 +1075,10 @@ object WitcheryItems {
         ArthanaItem(Item.Properties().attributes(SwordItem.createAttributes(Tiers.GOLD, 1, -2.4F)))
     }
 
+    val APPLE_OF_SLEEPING = register("apple_of_sleeping") {
+        AppleOfSleepingItem(Item.Properties().food(Foods.APPLE))
+    }
+
     val CHALICE = register("chalice") {
         ChaliceBlockItem(WitcheryBlocks.CHALICE.get(), Item.Properties())
     }

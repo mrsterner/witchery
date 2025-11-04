@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:apple"
+    },
+    "B": {
+      "item": "witchery:brew_of_sleeping"
+    },
+    "M": {
+      "item": "witchery:reek_of_misfortune"
+    },
+    "R": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "S": {
+      "item": "witchery:mutandis"
+    },
+    "T": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    "RST",
+    "MAM",
+    "SBS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witchery:apple_of_sleeping"
+  }
+}
