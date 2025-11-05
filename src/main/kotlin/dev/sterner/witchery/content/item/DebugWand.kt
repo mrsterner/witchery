@@ -28,8 +28,8 @@ class DebugWand(properties: Properties) : Item(properties) {
                     player.level(),
                     player.position().add(0.0, 0.0, 7.0),
                     targetEntity,
-                    0.15f, // Pull strength
-                    0.15f,  // Fast extension speed
+                    0.15f,
+                    0.15f,
                     chainType = ChainType.SOUL
                 )
             } else {

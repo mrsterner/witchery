@@ -83,7 +83,7 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
         spawnGroupData: SpawnGroupData?
     ): SpawnGroupData? {
         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(WitcheryItems.HUNTSMAN_SPEAR.get()))
-        this.setDropChance(EquipmentSlot.MAINHAND, 0.0f) // Don't drop on death
+        this.setDropChance(EquipmentSlot.MAINHAND, 0.0f)
         this.setHasSpear(true)
 
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)

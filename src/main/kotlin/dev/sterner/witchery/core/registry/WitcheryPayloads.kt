@@ -8,7 +8,7 @@ object WitcheryPayloads {
     fun onRegisterPayloadHandlers(event: RegisterPayloadHandlersEvent) {
         val registrar = event.registrar("1")
 
-        // --- S2C Payloads ---
+        // S2C Payloads
         registrar.playToClient(SyncChainS2CPayload.ID, SyncChainS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
@@ -261,7 +261,7 @@ object WitcheryPayloads {
             payload.handleOnClient()
         }
 
-        // --- C2S Payloads ---
+        // C2S Payloads
         registrar.playToServer(DismountBroomC2SPayload.ID, DismountBroomC2SPayload.STREAM_CODEC) { payload, ctx ->
             payload.handleOnServer(ctx)
         }

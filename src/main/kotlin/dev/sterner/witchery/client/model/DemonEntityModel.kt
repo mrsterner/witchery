@@ -79,14 +79,13 @@ class DemonEntityModel(root: ModelPart) :
             val modelPart: ModelPart = rightArm
             var f = this.attackTime
 
-            body.yRot = Mth.sin(Mth.sqrt(f) * Math.PI.toFloat()) * 0.1f // Reduced from 0.2f
+            body.yRot = Mth.sin(Mth.sqrt(f) * Math.PI.toFloat()) * 0.1f
 
-            rightArm.z = Mth.sin(body.yRot) * 2.5f // Reduced from 5.0f
+            rightArm.z = Mth.sin(body.yRot) * 2.5f
             rightArm.x = -Mth.cos(body.yRot) * 2.5f
             leftArm.z = -Mth.sin(body.yRot) * 2.5f
             leftArm.x = Mth.cos(body.yRot) * 2.5f
 
-            // Apply smoother rotations to arms
             rightArm.yRot += body.yRot * 0.5f
             leftArm.yRot += body.yRot * 0.5f
             leftArm.xRot += body.yRot * 0.5f
@@ -96,12 +95,12 @@ class DemonEntityModel(root: ModelPart) :
             f *= f
             f = 1.0f - f
 
-            val g = Mth.sin(f * Math.PI.toFloat()) * 0.8f // Reduced from 1.2f
+            val g = Mth.sin(f * Math.PI.toFloat()) * 0.8f
             val h = Mth.sin(this.attackTime * Math.PI.toFloat()) * -(head.xRot - 0.5f) * 0.5f
 
             modelPart.xRot -= g + h
             modelPart.yRot += body.yRot
-            modelPart.zRot += Mth.sin(this.attackTime * Math.PI.toFloat()) * -0.2f // Reduced from -0.4f
+            modelPart.zRot += Mth.sin(this.attackTime * Math.PI.toFloat()) * -0.2f
 
              */
         }

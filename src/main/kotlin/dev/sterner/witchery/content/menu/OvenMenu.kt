@@ -62,18 +62,15 @@ class OvenMenu(id: Int, inventory: Inventory, buf: FriendlyByteBuf) :
         resultStack = slotStack.copy()
 
         if (index in RESULT_SLOT..EXTRA_RESULT_SLOT) {
-            // Move from output slots to player inventory
             if (!moveItemStackTo(slotStack, 5, 41, true)) {
                 return ItemStack.EMPTY
             }
             slot.onQuickCraft(slotStack, resultStack)
         } else if (index == INGREDIENT_SLOT || index == FUEL_SLOT) {
-            // Move from machine input slots to player inventory
             if (!moveItemStackTo(slotStack, 5, 41, false)) {
                 return ItemStack.EMPTY
             }
         } else {
-            // Move from player inventory to machine input
             when {
                 isJar(slotStack) -> {
                     if (!moveItemStackTo(slotStack, 1, 2, false)) {

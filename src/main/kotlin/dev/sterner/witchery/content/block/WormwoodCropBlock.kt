@@ -100,7 +100,6 @@ class WormwoodCropBlock(properties: Properties) : DoublePlantBlock(properties.no
         return state.getValue(HALF) == DoubleBlockHalf.LOWER && !this.isMaxAge(state)
     }
 
-    // Yes I stole this, AccessWidener didnt wanna work on NeoForge
     private fun getGrowthSpeed(block: Block, level: BlockGetter, pos: BlockPos): Float {
         var f = 1.0f
         val blockPos = pos.below()

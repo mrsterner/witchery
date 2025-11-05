@@ -10,7 +10,6 @@ import java.util.Map;
 @Mixin(ArgumentTypeInfos.class)
 public interface ArgumentTypeInfosInvoker {
 
-    // Accessor for the private static BY_CLASS map
     @Accessor("BY_CLASS")
     static Map<Class<?>, ArgumentTypeInfo<?, ?>> getByClass() {
         throw new AssertionError();

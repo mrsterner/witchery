@@ -200,7 +200,6 @@ class RitualRecipe(
             tag.put("blockMapping", blockMappingTag)
         }
 
-        // Save the conditions object
         val conditionsTag = CompoundTag()
 
         conditions.celestialConditions.let {

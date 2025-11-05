@@ -8,7 +8,7 @@ import java.util.*
 
 class FocusSummonerGoal(
     private val mob: Mob,
-    private val focusDurationTicks: Int = 20 * 60 // 60 seconds default
+    private val focusDurationTicks: Int = 20 * 60
 ) : Goal() {
 
     private var summonerUUID: UUID? = null

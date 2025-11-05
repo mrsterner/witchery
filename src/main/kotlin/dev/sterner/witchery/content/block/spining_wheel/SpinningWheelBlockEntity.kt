@@ -403,7 +403,7 @@ class SpinningWheelBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             .map { recipeHolder: RecipeHolder<SpinningWheelRecipe?> -> (recipeHolder.value() as SpinningWheelRecipe).cookingTime }
             .orElse(BURN_TIME_STANDARD)
 
-        return cookQuickTime.coerceAtLeast(1) // Ensure the cooking time is at least 1 tick
+        return cookQuickTime.coerceAtLeast(1)
     }
 
     companion object {

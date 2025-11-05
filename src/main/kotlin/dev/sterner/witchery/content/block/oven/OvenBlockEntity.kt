@@ -101,7 +101,6 @@ class OvenBlockEntity(
         val hasInput = !inputStack.isEmpty
         val hasFuel = !fuelStack.isEmpty
 
-        // If the oven is lit or there's fuel and input, proceed
         if (isLit() || hasFuel && hasInput) {
             val ovenRecipe =
                 if (hasInput) quickCheck.getRecipeFor(SingleRecipeInput(inputStack), level).orElse(null) else null
@@ -126,7 +125,6 @@ class OvenBlockEntity(
                 }
             }
 
-            // If the oven is lit and can burn, progress the cooking
             if (isLit() && canBurn(level.registryAccess(), ovenRecipe ?: cookRecipe, items, maxStackSize)) {
                 cookingProgress++
                 if (cookingProgress == cookingTotalTime) {
@@ -225,14 +223,12 @@ class OvenBlockEntity(
             val resultStack = recipe.value().getResultItem(registryAccess)
             val outputStack = inventory[SLOT_RESULT]
 
-            // Handle the main output
             if (outputStack.isEmpty) {
                 inventory[SLOT_RESULT] = resultStack.copy()
             } else if (ItemStack.isSameItemSameComponents(outputStack, resultStack)) {
                 outputStack.grow(1)
             }
 
-            // Special handling for oven recipes with extra output
             if (recipe.value() is OvenCookingRecipe) {
                 val ovenRecipe = recipe.value() as OvenCookingRecipe
                 val extraResultStack = ovenRecipe.extraOutput.copy()
@@ -240,7 +236,7 @@ class OvenBlockEntity(
                 val extraOutputStack = inventory[SLOT_EXTRA_RESULT]
                 val extraOutputChanceIncrease = fumeHoodCount * 0.2 + filteredFumeHoodCount * 0.3
                 if (extraInputStack.test(inventory[SLOT_EXTRA_INPUT]) && level!!.random.nextDouble() > 0.75 - extraOutputChanceIncrease) {
-                    // Handle the extra output
+
                     if (!extraResultStack.isEmpty) {
                         if (extraOutputStack.isEmpty) {
                             inventory[SLOT_EXTRA_RESULT] = extraResultStack.copy()
@@ -264,7 +260,6 @@ class OvenBlockEntity(
 
             }
 
-            // Handle special case for wet sponge and bucket interaction
             if (inputStack.`is`(Blocks.WET_SPONGE.asItem()) && !inventory[SLOT_FUEL].isEmpty && inventory[SLOT_FUEL].`is`(
                     Items.BUCKET
                 )
@@ -272,7 +267,6 @@ class OvenBlockEntity(
                 inventory[SLOT_FUEL] = ItemStack(Items.WATER_BUCKET)
             }
 
-            // Shrink the input stack after processing
             inputStack.shrink(1)
             return true
         } else {
@@ -292,25 +286,21 @@ class OvenBlockEntity(
     private fun getTotalCookTime(level: Level): Int {
         val singleRecipeInput = SingleRecipeInput(getItem(SLOT_INPUT))
 
-        // Get the cooking time for quick cook (smoking) recipes
         val cookQuickTime = quickCookCheck
             .getRecipeFor(singleRecipeInput, level)
             .map { recipeHolder: RecipeHolder<SmokingRecipe?> -> (recipeHolder.value() as SmokingRecipe).cookingTime }
             .orElse(BURN_TIME_STANDARD)
 
-        // Get the cooking time for oven recipes
         val baseCookTime = quickCheck
             .getRecipeFor(singleRecipeInput, level)
             .map { recipeHolder: RecipeHolder<OvenCookingRecipe?> -> (recipeHolder.value() as OvenCookingRecipe).cookingTime }
             .orElse(cookQuickTime)
 
-        // Calculate the speed boost based on fume hoods
         val speedBoost = fumeHoodCount * 0.25 + filteredFumeHoodCount * 0.35
 
-        // Apply the speed boost by reducing the total cooking time
         val finalCookTime = (baseCookTime / (1.0 + speedBoost)).toInt()
 
-        return finalCookTime.coerceAtLeast(1) // Ensure the cooking time is at least 1 tick
+        return finalCookTime.coerceAtLeast(1)
     }
 
     override fun getSlotsForFace(side: Direction): IntArray {
