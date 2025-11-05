@@ -2,12 +2,14 @@ package dev.sterner.witchery.content.item
 
 import dev.sterner.witchery.content.item.curios.HagsRingItem
 import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryTags
 import dev.sterner.witchery.features.hags_ring.VeinMiningTracker
 import dev.sterner.witchery.features.infusion.InfusionHandler
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.tags.BlockTags
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
@@ -39,22 +41,43 @@ class WitchesHandItem(properties: Properties) : Item(properties) {
         val pos = context.clickedPos
         val state = level.getBlockState(pos)
 
-        val hasRing = CuriosApi.getCuriosInventory(player)
-            .map { inv -> inv.findFirstCurio(WitcheryItems.HAGS_RING.get()).isPresent }
+        val hagRingItem = WitcheryItems.HAGS_RING.get()
+
+        val hasMinerRing = CuriosApi.getCuriosInventory(player)
+            .map { inv -> inv.findFirstCurio { it.item == hagRingItem && it.get(WitcheryDataComponents.HAG_RING_TYPE) == WitcheryDataComponents.HagType.MINER }.isPresent }
             .orElse(false)
 
-        if (hasRing && state.`is`(WitcheryTags.VEIN_MINEABLE) && !player.isShiftKeyDown) {
-            if (VeinMiningTracker.isVeinMining(player)) {
-                return InteractionResult.SUCCESS
-            }
+        val hasLumberRing = CuriosApi.getCuriosInventory(player)
+            .map { inv -> inv.findFirstCurio { it.item == hagRingItem && it.get(WitcheryDataComponents.HAG_RING_TYPE) == WitcheryDataComponents.HagType.LUMBER }.isPresent }
+            .orElse(false)
 
-            val oresToBreak = HagsRingItem.gatherConnectedOres(level as ServerLevel, pos, state.block)
+        if (!player.isShiftKeyDown) {
+            if (hasMinerRing && state.`is`(WitcheryTags.VEIN_MINEABLE)) {
+                if (VeinMiningTracker.isVeinMining(player)) {
+                    return InteractionResult.SUCCESS
+                }
 
-            if (oresToBreak.isNotEmpty()) {
-                VeinMiningTracker.startVeinMining(player, oresToBreak)
-                return InteractionResult.SUCCESS
+                val oresToBreak = HagsRingItem.gatherConnectedOres(level as ServerLevel, pos, state.block)
+
+                if (oresToBreak.isNotEmpty()) {
+                    VeinMiningTracker.startVeinMining(player, oresToBreak)
+                    return InteractionResult.SUCCESS
+                }
+            } else if (hasLumberRing && state.`is`(BlockTags.LOGS)) {
+                if (VeinMiningTracker.isVeinMining(player)) {
+                    return InteractionResult.SUCCESS
+                }
+
+                val logsToBreak = HagsRingItem.gatherConnectedLogs(level as ServerLevel, pos, state.block)
+
+                if (logsToBreak.isNotEmpty()) {
+                    VeinMiningTracker.startVeinMining(player, logsToBreak)
+                    return InteractionResult.SUCCESS
+                }
             }
         }
+
+
 
         if (InfusionHandler.canUse(player)) {
             player.startUsingItem(context.hand)

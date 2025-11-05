@@ -6,6 +6,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.data_gen.book.entry.*
 import dev.sterner.witchery.data_gen.book.util.EntryProviders
 import dev.sterner.witchery.data_gen.book.util.advancement
@@ -30,7 +31,7 @@ class WitcheryBrewingCategoryProvider(
             "________y___________________________",
             "_______1______________p_____________",
             "_______e__t_____c___j__n____________",
-            "_____4_v______________m_____________",
+            "___5_4_v______________m_____________",
             "________d_______w___________________",
             "_________a2b______x_________________",
             "________________r___________________",
@@ -178,10 +179,18 @@ class WitcheryBrewingCategoryProvider(
             .requiresAndFollows(brewsIntro)
         addEntry(erosion)
 
-        val hagsMinerRing = BrewInfusionEntryProvider(WitcheryItems.HAGS_RING.get(), "hags_ring_infusion", this)
+        val hagsMinerRing = BrewInfusionEntryProvider(WitcheryItems.HAGS_RING.get().defaultInstance, "hags_ring_infusion", this)
             .generate("4")
             .requiresAndFollows(erosion)
         addEntry(hagsMinerRing)
+
+        val hagRing = WitcheryItems.HAGS_RING.get().defaultInstance
+        hagRing.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.LUMBER)
+
+        val hagsLumberRing = BrewInfusionEntryProvider(hagRing, "hags_ring_infusion_lumber", this)
+            .generate("5")
+            .requiresAndFollows(hagsMinerRing)
+        addEntry(hagsLumberRing)
     }
 
     override fun categoryName(): String {

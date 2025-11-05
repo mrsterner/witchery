@@ -1,0 +1,22 @@
+{
+  "type": "witchery:cauldron_infusion",
+  "altarPower": 5000,
+  "brewInput": {
+    "count": 1,
+    "id": "witchery:brew_of_wasting"
+  },
+  "infusionItem": {
+    "components": {
+      "witchery:hag_ring_type": "miner"
+    },
+    "count": 1,
+    "id": "witchery:hags_ring"
+  },
+  "outputItem": {
+    "components": {
+      "witchery:hag_ring_type": "lumber"
+    },
+    "count": 1,
+    "id": "witchery:hags_ring"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "brewing",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "brewing/hags_ring_infusion"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.brewing.hags_ring_infusion_lumber.description",
+  "hide_while_locked": false,
+  "icon": {
+    "components": {
+      "witchery:hag_ring_type": "lumber"
+    },
+    "item": "witchery:hags_ring"
+  },
+  "name": "book.witchery.guidebook.brewing.hags_ring_infusion_lumber.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "show_title_separator": true,
+      "text": "brewing.hags_ring_infusion_lumber.page.1",
+      "title": "brewing.hags_ring_infusion_lumber.title.1",
+      "use_markdown_in_title": false
+    },
+    {
+      "type": "witchery:cauldron_infusion_recipe",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "recipe_id_1": "witchery:cauldron_infusion/hags_ring_infusion_lumber",
+      "text": "brewing.hags_ring_infusion_lumber.title.1",
+      "title1": "brewing.hags_ring_infusion_lumber",
+      "title2": ""
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "brewing/hags_ring_infusion",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 26,
+  "x": -15,
+  "y": -1
+}

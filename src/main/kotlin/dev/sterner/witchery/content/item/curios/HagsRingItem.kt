@@ -11,6 +11,8 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem
 
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import top.theillusivec4.curios.api.CuriosApi
@@ -40,10 +42,11 @@ class HagsRingItem(properties: Properties) : Item(properties), ICurioItem {
             return ringStack.getOrDefault(WitcheryDataComponents.FORTUNE_LEVEL.get(), 0)
         }
 
-        fun gatherConnectedOres(
+        fun gatherConnectedOfSameTag(
             level: ServerLevel,
             startPos: BlockPos,
-            targetBlock: Block
+            targetBlock: Block,
+            tag: TagKey<Block>
         ): List<BlockPos> {
             val visited = mutableSetOf<BlockPos>()
             val orePositions = mutableListOf<BlockPos>()
@@ -56,7 +59,7 @@ class HagsRingItem(properties: Properties) : Item(properties), ICurioItem {
                 visited.add(pos)
                 val state = level.getBlockState(pos)
 
-                if (state.`is`(WitcheryTags.VEIN_MINEABLE) && state.block == targetBlock) {
+                if (state.`is`(tag) && state.block == targetBlock) {
                     orePositions.add(pos)
 
                     for (dx in -1..1) {
@@ -73,6 +76,22 @@ class HagsRingItem(properties: Properties) : Item(properties), ICurioItem {
             dfs(startPos)
 
             return orePositions.sortedByDescending { it.distSqr(startPos) }
+        }
+
+        fun gatherConnectedOres(
+            level: ServerLevel,
+            startPos: BlockPos,
+            targetBlock: Block
+        ): List<BlockPos> {
+            return gatherConnectedOfSameTag(level, startPos, targetBlock, WitcheryTags.VEIN_MINEABLE)
+        }
+
+        fun gatherConnectedLogs(
+            level: ServerLevel,
+            startPos: BlockPos,
+            targetBlock: Block
+        ): List<BlockPos> {
+            return gatherConnectedOfSameTag(level, startPos, targetBlock, BlockTags.LOGS)
         }
     }
 

@@ -1,6 +1,14 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "item/generated",
   "textures": {
     "layer0": "witchery:item/hags_ring_miner"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "witchery:type": 1
+      },
+      "model": "witchery:item/hags_ring_lumber"
+    }
+  ]
 }

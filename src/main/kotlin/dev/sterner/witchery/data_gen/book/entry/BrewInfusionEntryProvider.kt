@@ -9,8 +9,9 @@ import com.mojang.datafixers.util.Pair
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.data_gen.book.page.BookCauldronInfusionPageModel
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 
-class BrewInfusionEntryProvider(val icon: Item, val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {
+class BrewInfusionEntryProvider(val icon: ItemStack, val id: String, parent: CategoryProviderBase?) : EntryProvider(parent) {
 
     override fun generatePages() {
         this.page(id) {

@@ -370,16 +370,28 @@ object WitcheryCauldronRecipeProvider {
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.MANDRAKE_ROOT.get()))
             .save(exporter, Witchery.id("nether_wart"))
 
-        val hag = WitcheryItems.HAGS_RING.get().defaultInstance
-        hag.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.MINER)
+        val hagMiner = WitcheryItems.HAGS_RING.get().defaultInstance
+        hagMiner.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.MINER)
 
         CauldronInfusionRecipeBuilder.create()
             .setBrewInput(WitcheryItems.BREW_OF_EROSION.get())
             .setInfusionItem(WitcheryItems.GOLD_RING.get())
-            .setOutput(hag)
+            .setOutput(hagMiner)
             .setAltarPower(5000)
             .unlockedBy("has_gold_ring", has(WitcheryItems.GOLD_RING.get()))
             .save(exporter, Witchery.id("hags_ring_infusion"))
+
+
+        val hagLumber = WitcheryItems.HAGS_RING.get().defaultInstance
+        hagLumber.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.LUMBER)
+
+        CauldronInfusionRecipeBuilder.create()
+            .setBrewInput(WitcheryItems.BREW_OF_WASTING .get())
+            .setInfusionItem(hagMiner)
+            .setOutput(hagLumber)
+            .setAltarPower(5000)
+            .unlockedBy("has_hags_ring", has(WitcheryItems.HAGS_RING.get()))
+            .save(exporter, Witchery.id("hags_ring_infusion_lumber"))
     }
 
     fun has(tag: Item): Criterion<InventoryChangeTrigger.TriggerInstance> {

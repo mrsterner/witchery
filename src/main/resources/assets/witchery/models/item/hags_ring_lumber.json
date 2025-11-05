@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "witchery:item/hags_ring_lumber"
+  }
+}

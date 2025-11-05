@@ -1606,7 +1606,17 @@ object WitcheryBookLangProvider {
         add("book.witchery.guidebook.brewing.hags_ring_infusion.description", "First we mine")
         add("brewing.hags_ring_infusion.title.1", "Hag's Ring: Miner")
         add("brewing.hags_ring_infusion", "Hag's Ring: Miner")
-        add("brewing.hags_ring_infusion.page.1", "In an already finished Brew of Erosion. Toss a Golden Ring and infuse the properties of the brew into the ring. Equip it and with a Witch's hand, use it to harvest multiple ores at ones")
+        add("brewing.hags_ring_infusion.page.1", "In an already finished Brew of Erosion. Toss a Golden Ring and infuse the properties of the brew into the ring. Equip it and with a Witch's hand, use it to harvest multiple ores at once")
+
+
+
+        add("book.witchery.guidebook.brewing.hags_ring_infusion_lumber.name", "Hag's Ring: Lumber")
+        add("book.witchery.guidebook.brewing.hags_ring_infusion_lumber.description", "First we mine")
+        add("brewing.hags_ring_infusion_lumber.title.1", "Hag's Ring: Lumber")
+        add("brewing.hags_ring_infusion_lumber", "Hag's Ring: Lumber")
+        add("brewing.hags_ring_infusion_lumber.page.1", "In an already finished Brew of Wasting. Toss a Hag's Ring: Miner and infuse the properties of the brew into the ring. Equip it and with a Witch's hand, use it to harvest multiple logs at once")
+
+
 
         add("book.witchery.guidebook.general.tag_lock.name", "Taglock")
         add("book.witchery.guidebook.general.tag_lock.description", "Only a pinch")

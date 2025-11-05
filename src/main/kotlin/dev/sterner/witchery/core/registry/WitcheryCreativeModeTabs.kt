@@ -156,6 +156,12 @@ object WitcheryCreativeModeTabs {
                     hag.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.MINER)
 
                     output.accept(hag)
+
+                    val hag2 = WitcheryItems.HAGS_RING.get().defaultInstance
+                    hag2.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.LUMBER)
+
+                    output.accept(hag2)
+
                     //output.accept(WitcheryItems.TRENT_EFFIGY.get())
                     output.accept(WitcheryItems.SCARECROW.get())
                     output.accept(WitcheryItems.CLAY_EFFIGY.get())

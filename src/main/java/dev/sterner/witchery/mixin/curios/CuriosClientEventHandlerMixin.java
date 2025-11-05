@@ -41,6 +41,9 @@ public class CuriosClientEventHandlerMixin {
             if (hagType == WitcheryDataComponents.HagType.MINER) {
                 tooltip.add(1, Component.translatable("witchery.hag_type.miner")
                         .setStyle(Style.EMPTY.withColor(new Color(250, 250, 100).getRGB())));
+            } else if (hagType == WitcheryDataComponents.HagType.LUMBER) {
+                tooltip.add(1, Component.translatable("witchery.hag_type.lumber")
+                        .setStyle(Style.EMPTY.withColor(new Color(250, 250, 100).getRGB())));
             }
 
             int fortuneLevel = stack.getOrDefault(WitcheryDataComponents.INSTANCE.getFORTUNE_LEVEL().get(), 0);

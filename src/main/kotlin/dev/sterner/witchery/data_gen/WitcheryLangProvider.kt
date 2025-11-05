@@ -310,6 +310,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         add("witchery.cauldron_infusion.category", "Cauldron Infusion")
 
         add("witchery.hag_type.miner", "Miner's Infusion")
+        add("witchery.hag_type.lumber", "Lumber's Infusion")
         add("witchery.hag_ring.fortune", "Fortune %s")
 
         add("effect.witchery.bear_trap_incapacitated", "Bear Trap Incapacitated")

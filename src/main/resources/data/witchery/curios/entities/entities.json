@@ -2,6 +2,7 @@
   "entities": [
     "minecraft:player"
   ],
+
   "slots": [
     "belt",
     "ring",

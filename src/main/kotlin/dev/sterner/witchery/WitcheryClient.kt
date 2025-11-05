@@ -614,6 +614,14 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             val isUnsheathed = stack.get(WitcheryDataComponents.UNSHEETED.get()) ?: false
             if (isUnsheathed) 1.0f else 0f
         }
+
+        ItemProperties.register(
+            WitcheryItems.HAGS_RING.get(),
+            Witchery.id("type")
+        ) { stack, _, _, _ ->
+            val type = stack.get(WitcheryDataComponents.HAG_RING_TYPE.get())
+            if (type == WitcheryDataComponents.HagType.MINER) 0.0f else 1f
+        }
     }
 
     @Suppress("DEPRECATION")

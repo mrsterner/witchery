@@ -72,7 +72,7 @@ open class BookCauldronInfusionRecipePageRenderer<T : Recipe<*>?>(page: BookCaul
             recipeY + 20 + 18 + 18 + 18 + 3, mouseX, mouseY,recipeHolder.value().brewInput,
         )
 
-        val c = Component.literal("Altar Power: ${recipeHolder.value.altarPower}/s")
+        val c = Component.literal("Altar Power: ${recipeHolder.value.altarPower}")
         val i: Int = Minecraft.getInstance().font.width(c)
         guiGraphics.drawStringWithBackdrop(
             Minecraft.getInstance().font,
