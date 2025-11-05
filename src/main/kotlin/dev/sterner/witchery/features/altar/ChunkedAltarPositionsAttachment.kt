@@ -62,9 +62,26 @@ object ChunkedAltarPositionsAttachment {
 
         val nearbyAltars = mutableListOf<BlockPos>()
 
-        for (x in -chunkRadius..chunkRadius) {
-            for (z in -chunkRadius..chunkRadius) {
-                val chunkPosLong = ChunkPos.asLong(centerChunk.x + x, centerChunk.z + z)
+        for (xOffset in -chunkRadius..chunkRadius) {
+            for (zOffset in -chunkRadius..chunkRadius) {
+                val chunkX = centerChunk.x + xOffset
+                val chunkZ = centerChunk.z + zOffset
+
+                val closestX = (chunkX * 16).coerceAtLeast(pos.x - radius)
+                    .coerceAtMost((chunkX + 1) * 16)
+                    .coerceAtMost(pos.x + radius)
+                val closestZ = (chunkZ * 16).coerceAtLeast(pos.z - radius)
+                    .coerceAtMost((chunkZ + 1) * 16)
+                    .coerceAtMost(pos.z + radius)
+
+                val dx = closestX - pos.x
+                val dz = closestZ - pos.z
+
+                if (dx * dx + dz * dz > radiusSq) {
+                    continue
+                }
+
+                val chunkPosLong = ChunkPos.asLong(chunkX, chunkZ)
                 data.chunkMap[chunkPosLong]?.forEach { altarPos ->
                     if (altarPos.distSqr(pos) <= radiusSq) {
                         nearbyAltars.add(altarPos)
@@ -72,7 +89,6 @@ object ChunkedAltarPositionsAttachment {
                 }
             }
         }
-
         return nearbyAltars
     }
 
