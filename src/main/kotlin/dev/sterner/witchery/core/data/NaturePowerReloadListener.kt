@@ -16,6 +16,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener
 import net.minecraft.tags.TagKey
 import net.minecraft.util.profiling.ProfilerFiller
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import java.util.concurrent.ConcurrentLinkedQueue
 
@@ -43,11 +44,16 @@ object NaturePowerReloadListener {
         var power = NATURE_POWER_VALUES[Either.left(block.block)]?.first
         if (power != null) return power
 
-        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.`is`(it.right().get()) }
-            .toSortedMap { first, second ->
-                (NATURE_POWER_VALUES[second]?.first ?: 0) - (NATURE_POWER_VALUES[first]?.first ?: 0)
-            }.keys
-        if (tags.isNotEmpty()) power = NATURE_POWER_VALUES[tags.first()]?.first
+        val tags = NATURE_POWER_VALUES.filterKeys {
+            it.right().isPresent && block.`is`(it.right().get())
+        }.toSortedMap { first, second ->
+            (NATURE_POWER_VALUES[second]?.first ?: 0) - (NATURE_POWER_VALUES[first]?.first ?: 0)
+        }.keys
+
+        if (tags.isNotEmpty()) {
+            power = NATURE_POWER_VALUES[tags.first()]?.first
+        }
+
         return power
     }
 
@@ -59,12 +65,18 @@ object NaturePowerReloadListener {
         var limit = NATURE_POWER_VALUES[Either.left(block.block)]?.second
         if (limit != null) return Pair(BuiltInRegistries.BLOCK.getKey(block.block), limit)
 
-        val tags = NATURE_POWER_VALUES.filterKeys { it.right().isPresent && block.`is`(it.right().get()) }
-            .toSortedMap { first, second ->
-                (NATURE_POWER_VALUES[second]?.first ?: 0) - (NATURE_POWER_VALUES[first]?.first ?: 0)
-            }.keys
-        if (tags.isNotEmpty()) limit = NATURE_POWER_VALUES[tags.first()]?.second
-        return limit?.let { Pair(tags.first().right().get().location, it) }
+        val tags = NATURE_POWER_VALUES.filterKeys {
+            it.right().isPresent && block.`is`(it.right().get())
+        }.toSortedMap { first, second ->
+            (NATURE_POWER_VALUES[second]?.first ?: 0) - (NATURE_POWER_VALUES[first]?.first ?: 0)
+        }.keys
+
+        if (tags.isNotEmpty()) {
+            limit = NATURE_POWER_VALUES[tags.first()]?.second
+            return limit?.let { Pair(tags.first().right().get().location, it) }
+        }
+
+        return null
     }
 
     private fun addEitherBlockOrTag(either: Either<Block, TagKey<Block>>, power: Int, limit: Int) {
@@ -78,11 +90,15 @@ object NaturePowerReloadListener {
         if (pendingDataProcessed) return
 
         tagQueue.forEach {
-            addEitherBlockOrTag(Either.right(TagKey.create(Registries.BLOCK, it.block)), it.power, it.limit)
+            val tagKey = TagKey.create(Registries.BLOCK, it.block)
+            addEitherBlockOrTag(Either.right(tagKey), it.power, it.limit)
         }
 
         blockQueue.forEach {
-            addEitherBlockOrTag(Either.left(BuiltInRegistries.BLOCK.get(it.block)), it.power, it.limit)
+            val block = BuiltInRegistries.BLOCK.get(it.block)
+            if (block != Blocks.AIR) {
+                addEitherBlockOrTag(Either.left(block), it.power, it.limit)
+            }
         }
 
         pendingDataProcessed = true
@@ -102,12 +118,15 @@ object NaturePowerReloadListener {
             pendingDataProcessed = false
 
             `object`.forEach { (file, element) ->
-                if (element.isJsonArray)
-                    element.asJsonArray.map(JsonElement::getAsJsonObject).forEach { parseJson(it, file) }
-                else if (element.isJsonObject)
+                if (element.isJsonArray) {
+                    element.asJsonArray.map(JsonElement::getAsJsonObject).forEach {
+                        parseJson(it, file)
+                    }
+                } else if (element.isJsonObject) {
                     parseJson(element.asJsonObject, file)
-                else
-                    LOGGER.error("The file $file seems to have neither a JSON object or a JSON array... Skipping...")
+                } else {
+                    LOGGER.error("The file $file has neither JSON object nor array... Skipping...")
+                }
             }
 
             addPending()
@@ -116,60 +135,66 @@ object NaturePowerReloadListener {
         fun parseJson(json: JsonObject, file: ResourceLocation) {
             val tag = json.get("tag")?.asString
             val block = json.get("block")?.asString
+
             if (tag != null) {
-                if (ResourceLocation.tryParse(tag) == null) {
+                val tagLoc = ResourceLocation.tryParse(tag)
+                if (tagLoc == null) {
                     LOGGER.error("Invalid ResourceLocation of $tag in $file")
                     return
                 }
-                tagQueue.add(
-                    Data.TAG_CODEC.decode(JsonOps.INSTANCE, json)
+
+                try {
+                    val data = Data.TAG_CODEC.decode(JsonOps.INSTANCE, json)
                         .getOrThrow(::IllegalArgumentException).first
-                )
+                    tagQueue.add(data)
+                } catch (e: Exception) {
+                    LOGGER.error("Failed to parse tag data from $file: ${e.message}")
+                }
+
             } else if (block != null) {
-                if (ResourceLocation.tryParse(block) == null) {
+                val blockLoc = ResourceLocation.tryParse(block)
+                if (blockLoc == null) {
                     LOGGER.error("Invalid ResourceLocation of $block in $file")
                     return
                 }
-                val data = Data.CODEC.decode(JsonOps.INSTANCE, json)
-                    .getOrThrow(::IllegalArgumentException).first
 
-                val block = BuiltInRegistries.BLOCK.getOptional(data.block)
+                try {
+                    val data = Data.CODEC.decode(JsonOps.INSTANCE, json)
+                        .getOrThrow(::IllegalArgumentException).first
 
-                if (block.isPresent)
-                    blockQueue.add(data)
-                else
-                    LOGGER.error("Invalid Block ${data.block} from file $file!!!! Skipping it...")
-            } else
-                LOGGER.error("JSON missing block or tag in file $file!!!! Skipping it...")
+                    val blockObj = BuiltInRegistries.BLOCK.getOptional(data.block)
+                    if (blockObj.isPresent) {
+                        blockQueue.add(data)
+                    } else {
+                        LOGGER.error("Invalid Block ${data.block} from file $file! Skipping...")
+                    }
+                } catch (e: Exception) {
+                    LOGGER.error("Failed to parse block data from $file: ${e.message}")
+                }
+            } else {
+                LOGGER.error("JSON missing 'block' or 'tag' field in file $file! Skipping...")
+            }
         }
     }
 
     class Data(val block: ResourceLocation, val power: Int, val limit: Int) {
         companion object {
             val CODEC: Codec<Data> =
-                RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Data> ->
+                RecordCodecBuilder.create { instance ->
                     instance.group(
                         ResourceLocation.CODEC.fieldOf("block").forGetter(Data::block),
                         Codec.INT.fieldOf("power").forGetter(Data::power),
                         Codec.INT.fieldOf("limit").forGetter(Data::limit)
-                    ).apply(
-                        instance
-                    ) { name, parentCombinations, mutationChance ->
-                        Data(name, parentCombinations, mutationChance)
-                    }
+                    ).apply(instance, ::Data)
                 }
 
             val TAG_CODEC: Codec<Data> =
-                RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<Data> ->
+                RecordCodecBuilder.create { instance ->
                     instance.group(
                         ResourceLocation.CODEC.fieldOf("tag").forGetter(Data::block),
                         Codec.INT.fieldOf("power").forGetter(Data::power),
                         Codec.INT.fieldOf("limit").forGetter(Data::limit)
-                    ).apply(
-                        instance
-                    ) { name, parentCombinations, mutationChance ->
-                        Data(name, parentCombinations, mutationChance)
-                    }
+                    ).apply(instance, ::Data)
                 }
         }
     }

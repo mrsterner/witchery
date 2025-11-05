@@ -39,8 +39,9 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     WitcheryBlockEntityTypes.ALTAR.get(), AltarBlock.STRUCTURE.get(), pos, state
 ) {
 
-    var powerUpdateQueued = false
-    var augmentUpdateQueued = false
+    private var dirtyBlocks = mutableSetOf<BlockPos>()
+    private var dirtyAugmentBlocks = mutableSetOf<BlockPos>()
+    private var updateCooldown = 0
 
     var currentPower = 0
     var maxPower = 0
@@ -71,8 +72,17 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     var ticks = 0
 
     init {
-        powerUpdateQueued = true
-        augmentUpdateQueued = true
+        markBlockDirty(blockPos)
+    }
+
+    fun markBlockDirty(pos: BlockPos) {
+        dirtyBlocks.add(pos)
+        updateCooldown = 5
+    }
+
+    fun markAugmentDirty(pos: BlockPos) {
+        dirtyAugmentBlocks.add(pos)
+        updateCooldown = 5
     }
 
     override fun onLoad() {
@@ -80,6 +90,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         if (level is ServerLevel && !level!!.isClientSide) {
             ChunkedAltarPositionsAttachment.registerAltar(level as ServerLevel, blockPos)
         }
+        markBlockDirty(blockPos)
     }
 
     override fun setRemoved() {
@@ -236,19 +247,36 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         }
 
         if (powerBoost != prevPowerBoost || range != prevRange) {
-            powerUpdateQueued = true
+            markBlockDirty(blockPos)
         }
     }
 
     override fun tickServer(serverLevel: ServerLevel) {
-        if (powerUpdateQueued) {
-            collectAllLocalNaturePower(serverLevel)
-            powerUpdateQueued = false
-        }
+        if (updateCooldown > 0) {
+            updateCooldown--
 
-        if (augmentUpdateQueued) {
-            augmentAltar(serverLevel)
-            augmentUpdateQueued = false
+            if (updateCooldown == 0) {
+                var needsPowerUpdate = false
+                var needsAugmentUpdate = false
+
+                if (dirtyBlocks.isNotEmpty()) {
+                    needsPowerUpdate = true
+                    dirtyBlocks.clear()
+                }
+
+                if (dirtyAugmentBlocks.isNotEmpty()) {
+                    needsAugmentUpdate = true
+                    dirtyAugmentBlocks.clear()
+                }
+
+                if (needsAugmentUpdate) {
+                    augmentAltar(serverLevel)
+                }
+
+                if (needsPowerUpdate) {
+                    collectAllLocalNaturePower(serverLevel)
+                }
+            }
         }
 
         if (ticks % 20 == 1) {
@@ -329,6 +357,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             if (level !is ServerLevel) return
 
             val nearbyAltars = ChunkedAltarPositionsAttachment.findNearbyAltars(level, event.pos, 32)
+            if (nearbyAltars.isEmpty()) return
 
             val eventPosCenter = event.pos.center
 
@@ -336,13 +365,13 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                 val be = level.getBlockEntity(altarPos) as? AltarBlockEntity ?: continue
 
                 if (be.getLocalAABB().contains(eventPosCenter)) {
-                    be.powerUpdateQueued = true
+                    be.markBlockDirty(event.pos)
 
                     val augmentAABB = be.getLocalAugmentAABB(
                         be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
                     )
                     if (augmentAABB.contains(eventPosCenter)) {
-                        be.augmentUpdateQueued = true
+                        be.markAugmentDirty(event.pos)
                     }
                 }
             }
@@ -353,6 +382,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             if (level !is ServerLevel) return
 
             val nearbyAltars = ChunkedAltarPositionsAttachment.findNearbyAltars(level, event.pos, 32)
+            if (nearbyAltars.isEmpty()) return
 
             val eventPosCenter = event.pos.center
 
@@ -360,13 +390,13 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
                 val be = level.getBlockEntity(altarPos) as? AltarBlockEntity ?: continue
 
                 if (be.getLocalAABB().contains(eventPosCenter)) {
-                    be.powerUpdateQueued = true
+                    be.markBlockDirty(event.pos)
 
                     val augmentAABB = be.getLocalAugmentAABB(
                         be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
                     )
                     if (augmentAABB.contains(eventPosCenter)) {
-                        be.augmentUpdateQueued = true
+                        be.markAugmentDirty(event.pos)
                     }
                 }
             }

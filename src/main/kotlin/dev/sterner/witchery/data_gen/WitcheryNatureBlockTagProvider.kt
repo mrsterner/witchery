@@ -22,9 +22,9 @@ class WitcheryNatureBlockTagProvider(
 ) : JsonCodecProvider<NaturePowerReloadListener.Data>(
     output,
     PackOutput.Target.DATA_PACK,
-    "nature/tag",
+    "nature",
     PackType.SERVER_DATA,
-    NaturePowerReloadListener.Data.CODEC,
+    NaturePowerReloadListener.Data.TAG_CODEC,
     lookupProvider,
     Witchery.MODID,
     existingFileHelper
@@ -32,7 +32,7 @@ class WitcheryNatureBlockTagProvider(
 
 
     override fun getName(): String {
-        return "nature/tag"
+        return "nature_tags"
     }
 
     override fun gather() {
@@ -71,6 +71,10 @@ class WitcheryNatureBlockTagProvider(
         power: Int,
         limit: Int
     ) {
-        unconditional(tag.location, NaturePowerReloadListener.Data(tag.location, power, limit))
+        val fileName = tag.location.path.replace("/", "_")
+        unconditional(
+            Witchery.id(fileName),
+            NaturePowerReloadListener.Data(tag.location, power, limit)
+        )
     }
 }

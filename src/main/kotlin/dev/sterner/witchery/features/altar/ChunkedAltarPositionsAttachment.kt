@@ -67,17 +67,14 @@ object ChunkedAltarPositionsAttachment {
                 val chunkX = centerChunk.x + xOffset
                 val chunkZ = centerChunk.z + zOffset
 
-                val closestX = (chunkX * 16).coerceAtLeast(pos.x - radius)
-                    .coerceAtMost((chunkX + 1) * 16)
-                    .coerceAtMost(pos.x + radius)
-                val closestZ = (chunkZ * 16).coerceAtLeast(pos.z - radius)
-                    .coerceAtMost((chunkZ + 1) * 16)
-                    .coerceAtMost(pos.z + radius)
+                val chunkCenterX = chunkX * 16 + 8
+                val chunkCenterZ = chunkZ * 16 + 8
+                val chunkDx = chunkCenterX - pos.x
+                val chunkDz = chunkCenterZ - pos.z
+                val chunkDistSq = chunkDx * chunkDx + chunkDz * chunkDz
 
-                val dx = closestX - pos.x
-                val dz = closestZ - pos.z
-
-                if (dx * dx + dz * dz > radiusSq) {
+                val maxChunkOffset = 11
+                if (chunkDistSq > (radius + maxChunkOffset) * (radius + maxChunkOffset)) {
                     continue
                 }
 
