@@ -8,13 +8,11 @@ import net.minecraft.client.renderer.texture.AbstractTexture
 import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.client.renderer.texture.HttpTexture
 import net.minecraft.client.renderer.texture.TextureManager
-import net.minecraft.client.resources.PlayerSkin
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.world.entity.LivingEntity
 import java.io.File
 import java.io.FileInputStream
-import java.io.IOException
 import java.util.concurrent.ConcurrentHashMap
 
 object PetrificationTextureManager {
@@ -65,7 +63,7 @@ object PetrificationTextureManager {
         val currentTime = System.currentTimeMillis()
         val toRemove = mutableListOf<ResourceLocation>()
 
-        dynamicTextures.forEach { (location, texture) ->
+        dynamicTextures.forEach { (location, _) ->
             val timestamp = location.path.substringAfter("dynamic/petrified/")
                 .substringBefore("_")
                 .toLongOrNull() ?: 0L
@@ -120,7 +118,7 @@ object PetrificationTextureManager {
 
     }
 
-    public fun getTextureSize(originalTexture: ResourceLocation): Size {
+    fun getTextureSize(originalTexture: ResourceLocation): Size {
         val minecraft = Minecraft.getInstance()
         val resourceManager = minecraft.resourceManager
 

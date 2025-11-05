@@ -83,16 +83,12 @@ import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.features.possession.PossessedDataAttachment
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
-import net.minecraft.client.model.CowModel
-import net.minecraft.client.model.PigModel
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.ItemTags
 import net.minecraft.world.damagesource.DamageTypes
-import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.monster.EnderMan
-import net.minecraft.world.entity.monster.Endermite
 import net.minecraft.world.entity.npc.VillagerTrades
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items

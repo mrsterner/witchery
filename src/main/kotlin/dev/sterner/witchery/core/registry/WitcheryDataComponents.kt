@@ -167,11 +167,6 @@ object WitcheryDataComponents {
         DataComponentType.builder<HagType>().persistent(HagType.CODEC).build()
     })
 
-    val CODEC_LIST: Codec<MutableList<UUID>> = Codec.list(UUIDUtil.CODEC)
-
-    val CODEC_LINKED_LIST: Codec<LinkedList<UUID>> =
-        Codec.list(UUIDUtil.CODEC).xmap(::LinkedList, Lists::newArrayList)
-
     data class DualPotionContents(
         val positive: Optional<PotionContents>,
         val negative: Optional<PotionContents>

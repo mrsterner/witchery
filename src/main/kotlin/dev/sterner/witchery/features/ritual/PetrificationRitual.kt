@@ -3,7 +3,6 @@ package dev.sterner.witchery.features.ritual
 import dev.sterner.witchery.core.api.Ritual
 import dev.sterner.witchery.core.registry.WitcheryDataAttachments
 import dev.sterner.witchery.features.petrification.PetrificationHandler
-import dev.sterner.witchery.features.petrification.PetrifiedEntityAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity

@@ -25,7 +25,6 @@ import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.ContainerData
-import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
@@ -310,11 +309,11 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
         super.saveAdditional(tag, registries)
     }
 
-    override fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider) {
-        super.loadAdditional(pTag, pRegistries)
+    override fun loadAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
+        super.loadAdditional(tag, registries)
 
-        currentPower = pTag.getInt("currentPower")
-        maxPower = pTag.getInt("maxPower")
+        currentPower = tag.getInt("currentPower")
+        maxPower = tag.getInt("maxPower")
     }
 
     fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean {

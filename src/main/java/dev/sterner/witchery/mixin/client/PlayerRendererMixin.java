@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import dev.sterner.witchery.Witchery;
 import dev.sterner.witchery.content.block.coffin.CoffinBlock;
 import dev.sterner.witchery.features.death.DeathTransformationHelper;
 import dev.sterner.witchery.features.petrification.PetrificationTextureManager;
