@@ -178,7 +178,7 @@ object TransformationHandler {
 
     fun tickBat(player: Player) {
 
-        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() == VampireAbility.BAT_FORM.requiredLevel) {
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() >= VampireAbility.BAT_FORM.requiredLevel) {
             if (player.level() is ServerLevel) {
 
                 if (isBat(player)) {

@@ -1,6 +1,5 @@
 package dev.sterner.witchery.features.affliction.ability
 
-import dev.sterner.witchery.client.screen.AbilitySelectionScreen
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.lich.LichdomAbility
@@ -11,15 +10,20 @@ import dev.sterner.witchery.features.death.DeathTransformationHelper
 import dev.sterner.witchery.features.death.DeathTransformationHelper.hasDeathBoots
 import dev.sterner.witchery.network.AfflictionAbilitySelectionC2SPayload
 import dev.sterner.witchery.network.AfflictionAbilityUseC2SPayload
-import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.player.Player
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.fml.loading.FMLEnvironment
 import net.neoforged.neoforge.network.PacketDistributor
 
 object AfflictionAbilityHandler : AbilityHandler {
 
     override val abilityIndex: Int?
-        get(){
-            val player = Minecraft.getInstance().player ?: return null
+        get() {
+            if (FMLEnvironment.dist != Dist.CLIENT) {
+                return null
+            }
+
+            val player = ClientAbilityHandler.getClientPlayer() ?: return null
             return AfflictionPlayerAttachment.getData(player).getAbilityIndex()
         }
 
@@ -130,12 +134,12 @@ object AfflictionAbilityHandler : AbilityHandler {
         }
     }
 
-    fun scroll(minecraft: Minecraft?, scrollDeltaX: Double, scrollDeltaY: Double): Boolean {
-        val player = minecraft?.player ?: return false
-        val abilities = getAbilities(player)
-        if (abilities.isEmpty()) return false
+    fun scroll(scrollDeltaX: Double, scrollDeltaY: Double): Boolean {
+        if (FMLEnvironment.dist != Dist.CLIENT) {
+            return false
+        }
 
-        return AbilityScrollHandler().handleScroll(player, scrollDeltaY, this)
+        return ClientAbilityHandler.handleScroll(scrollDeltaX, scrollDeltaY)
     }
 
     fun getSelectedAbility(player: Player): AfflictionAbility? {
@@ -163,8 +167,10 @@ object AfflictionAbilityHandler : AbilityHandler {
     }
 
     fun openSelectionScreen(player: Player) {
-        if (player.level().isClientSide) {
-            Minecraft.getInstance().setScreen(AbilitySelectionScreen(player))
+        if (!player.level().isClientSide || FMLEnvironment.dist != Dist.CLIENT) {
+            return
         }
+
+        ClientAbilityHandler.openSelectionScreen(player)
     }
 }

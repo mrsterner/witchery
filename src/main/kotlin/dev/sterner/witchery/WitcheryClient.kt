@@ -184,7 +184,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
 
     private fun onMouseScrolled(event: InputEvent.MouseScrollingEvent) {
 
-        var bl = AfflictionAbilityHandler.scroll(Minecraft.getInstance(), event.scrollDeltaX, event.scrollDeltaY)
+        var bl = AfflictionAbilityHandler.scroll(event.scrollDeltaX, event.scrollDeltaY)
         if (UrnPotionSelectionHandler.onMouseScroll(event.scrollDeltaY)) {
             bl = true
         }
