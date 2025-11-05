@@ -529,6 +529,7 @@ object WitcheryRitualRecipeProvider {
 
         RitualRecipeBuilder.create()
             .addInputItem(Items.STONE)
+            .addInputItem(WitcheryItems.CONDENSED_FEAR.get())
             .addInputItem(WitcheryItems.MUTANDIS_EXTREMIS.get())
             .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .setAltarPower(1000)

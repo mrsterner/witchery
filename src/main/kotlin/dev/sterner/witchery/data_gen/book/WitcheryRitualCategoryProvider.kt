@@ -30,7 +30,7 @@ class WitcheryRitualCategoryProvider(
             "__________________________________",
             "______________f__o__p_____________",
             "__________b__k_x__________________",
-            "___________u_l__r_g_______________",
+            "________]__u_l__r_g_______________",
             "__________y__a_q________1234______",
             "______________n__i____j___________",
             "_____________h__________6785______",
@@ -258,6 +258,11 @@ class WitcheryRitualCategoryProvider(
             .generate("f")
             .requiresAndFollows(ritualChalk)
         addEntry(pushMobs)
+
+        val stone = EntryProviders.ritual(this, "stone_ritual", Items.STONE)
+            .generate("]")
+            .requiresAndFollows(ritualChalk)
+        addEntry(stone)
     }
 
     override fun categoryName(): String {

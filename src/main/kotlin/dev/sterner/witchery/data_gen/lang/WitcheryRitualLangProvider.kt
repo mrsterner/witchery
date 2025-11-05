@@ -129,5 +129,7 @@ object WitcheryRitualLangProvider {
         add("witchery:ritual/soul_severance", "Rite of Severed Soul")
         add("witchery:ritual/soul_severance.tooltip", "Will Split you from your flesh, not advised")
 
+        add("witchery:ritual/stone_ritual", "Rite of Petrification")
+        add("witchery:ritual/stone_ritual.tooltip", "Will turn you and others into stone")
     }
 }

@@ -193,7 +193,8 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         add("witchery:brazier_summoning/summon_banshee.tooltip", "Summons a Banshee")
         add("witchery:brazier_summoning/summon_spectre", "Summon Spectre")
         add("witchery:brazier_summoning/summon_spectre.tooltip", "Summons a Spectre")
-
+        add("witchery:brazier_summoning/summon_poltergeist", "Summon Poltergeist")
+        add("witchery.brazier_summoning/summon_poltergeist.tooltip", "Summons a Poltergeist")
 
         add("witchery.too_few_in_coven", "Coven too small")
 
@@ -314,5 +315,6 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         add("witchery.hag_ring.fortune", "Fortune %s")
 
         add("effect.witchery.bear_trap_incapacitated", "Bear Trap Incapacitated")
+
     }
 }

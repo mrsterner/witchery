@@ -800,6 +800,12 @@ object WitcheryBookLangProvider {
         add("ritual.push_mobs.title.1", "Rite of Push Mobs")
         add("ritual.push_mobs.page.1", "Mobs will be pushed away from the ritual center")
 
+
+        add("book.witchery.guidebook.ritual.stone_ritual.name", "Rite of Petrification")
+        add("book.witchery.guidebook.ritual.stone_ritual.description", "Rock and not roll")
+        add("ritual.stone_ritual.title.1", "Rite of Petrification")
+        add("ritual.stone_ritual.page.1", "Every mob in the area will be petrified")
+
         add("book.witchery.guidebook.ritual.set_midnight.name", "Rite of Turn Midnight")
         add("book.witchery.guidebook.ritual.set_midnight.description", "Sun't")
         add("ritual.set_midnight.title.1", "Turn Midnight")
