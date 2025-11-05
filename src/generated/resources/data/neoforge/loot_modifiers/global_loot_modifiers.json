@@ -1,0 +1,19 @@
+{
+  "entries": [
+    "witchery:belladonna_seeds_to_short_grass",
+    "witchery:belladonna_seeds_to_tall_grass",
+    "witchery:mandrake_seeds_to_short_grass",
+    "witchery:mandrake_seeds_to_tall_grass",
+    "witchery:snowbell_seeds_to_short_grass",
+    "witchery:snowbell_seeds_to_tall_grass",
+    "witchery:water_artichoke_seeds_to_short_grass",
+    "witchery:water_artichoke_seeds_to_tall_grass",
+    "witchery:wolfsbane_seeds_to_short_grass",
+    "witchery:wolfsbane_seeds_to_tall_grass",
+    "witchery:toe_from_frog",
+    "witchery:tongue_from_wolf",
+    "witchery:wool_from_bat",
+    "witchery:hand_from_witch"
+  ],
+  "replace": false
+}

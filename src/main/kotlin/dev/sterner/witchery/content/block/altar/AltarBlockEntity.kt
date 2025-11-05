@@ -8,6 +8,7 @@ import dev.sterner.witchery.core.data.AltarAugmentReloadListener
 import dev.sterner.witchery.network.AltarMultiplierSyncS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.util.RenderUtils
+import dev.sterner.witchery.features.altar.ChunkedAltarPositionsAttachment
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -72,6 +73,20 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     init {
         powerUpdateQueued = true
         augmentUpdateQueued = true
+    }
+
+    override fun onLoad() {
+        super.onLoad()
+        if (level is ServerLevel && !level!!.isClientSide) {
+            ChunkedAltarPositionsAttachment.registerAltar(level as ServerLevel, blockPos)
+        }
+    }
+
+    override fun setRemoved() {
+        super.setRemoved()
+        if (level is ServerLevel && !level!!.isClientSide) {
+            ChunkedAltarPositionsAttachment.unregisterAltar(level as ServerLevel, blockPos)
+        }
     }
 
 
@@ -290,21 +305,18 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
     companion object {
 
         fun getClosestAltar(level: ServerLevel, pos: BlockPos, radius: Int): AltarBlockEntity? {
+            val nearbyAltars = ChunkedAltarPositionsAttachment.findNearbyAltars(level, pos, radius)
+
             var closestAltar: AltarBlockEntity? = null
             var closestDistance = Double.MAX_VALUE
 
-            for (x in -radius..radius) {
-                for (y in -radius..radius) {
-                    for (z in -radius..radius) {
-                        val checkPos = pos.offset(x, y, z)
-                        val be = level.getBlockEntity(checkPos)
-                        if (be is AltarBlockEntity) {
-                            val distance = pos.distSqr(checkPos)
-                            if (distance < closestDistance) {
-                                closestDistance = distance
-                                closestAltar = be
-                            }
-                        }
+            for (altarPos in nearbyAltars) {
+                val be = level.getBlockEntity(altarPos)
+                if (be is AltarBlockEntity) {
+                    val distance = pos.distSqr(altarPos)
+                    if (distance < closestDistance) {
+                        closestDistance = distance
+                        closestAltar = be
                     }
                 }
             }
@@ -312,41 +324,25 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             return closestAltar
         }
 
-        private fun findNearbyAltars(level: Level, pos: BlockPos): List<BlockPos> {
-            val radius = 32
-            val altars = mutableListOf<BlockPos>()
-
-            for (x in -radius..radius) {
-                for (y in -radius..radius) {
-                    for (z in -radius..radius) {
-                        val checkPos = pos.offset(x, y, z)
-                        val be = level.getBlockEntity(checkPos)
-                        if (be is AltarBlockEntity) {
-                            altars.add(checkPos)
-                        }
-                    }
-                }
-            }
-
-            return altars
-        }
-
         fun onBlockBreak(event: BlockEvent.BreakEvent) {
             val level = event.level
-            if (level is Level && !level.isClientSide) {
-                val altarPos = findNearbyAltars(level, event.pos)
-                altarPos.forEach { pos ->
-                    val be = level.getBlockEntity(pos)
-                    if (be is AltarBlockEntity) {
-                        if (be.getLocalAABB().contains(event.pos.center)) {
-                            be.powerUpdateQueued = true
+            if (level !is ServerLevel) return
 
-                            if (be.getLocalAugmentAABB(be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-                                    .contains(event.pos.center)
-                            ) {
-                                be.augmentUpdateQueued = true
-                            }
-                        }
+            val nearbyAltars = ChunkedAltarPositionsAttachment.findNearbyAltars(level, event.pos, 32)
+
+            val eventPosCenter = event.pos.center
+
+            for (altarPos in nearbyAltars) {
+                val be = level.getBlockEntity(altarPos) as? AltarBlockEntity ?: continue
+
+                if (be.getLocalAABB().contains(eventPosCenter)) {
+                    be.powerUpdateQueued = true
+
+                    val augmentAABB = be.getLocalAugmentAABB(
+                        be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
+                    )
+                    if (augmentAABB.contains(eventPosCenter)) {
+                        be.augmentUpdateQueued = true
                     }
                 }
             }
@@ -354,20 +350,23 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
 
         fun onBlockPlace(event: BlockEvent.EntityPlaceEvent) {
             val level = event.level
-            if (level is Level && !level.isClientSide) {
-                val altarPos = findNearbyAltars(level, event.pos)
-                altarPos.forEach { pos ->
-                    val be = level.getBlockEntity(pos)
-                    if (be is AltarBlockEntity) {
-                        if (be.getLocalAABB().contains(event.pos.center)) {
-                            be.powerUpdateQueued = true
+            if (level !is ServerLevel) return
 
-                            if (be.getLocalAugmentAABB(be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-                                    .contains(event.pos.center)
-                            ) {
-                                be.augmentUpdateQueued = true
-                            }
-                        }
+            val nearbyAltars = ChunkedAltarPositionsAttachment.findNearbyAltars(level, event.pos, 32)
+
+            val eventPosCenter = event.pos.center
+
+            for (altarPos in nearbyAltars) {
+                val be = level.getBlockEntity(altarPos) as? AltarBlockEntity ?: continue
+
+                if (be.getLocalAABB().contains(eventPosCenter)) {
+                    be.powerUpdateQueued = true
+
+                    val augmentAABB = be.getLocalAugmentAABB(
+                        be.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
+                    )
+                    if (augmentAABB.contains(eventPosCenter)) {
+                        be.augmentUpdateQueued = true
                     }
                 }
             }

@@ -1,0 +1,14 @@
+{
+  "type": "witchery:add_item",
+  "conditions": [
+    {
+      "block": "minecraft:short_grass",
+      "condition": "minecraft:block_state_property"
+    },
+    {
+      "chance": 0.05,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "witchery:belladonna_seeds"
+}

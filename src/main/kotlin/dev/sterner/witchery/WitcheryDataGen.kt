@@ -39,6 +39,7 @@ object WitcheryDataGen {
             WitcheryEntityTypeTagProvider(packOutput, event.lookupProvider, event.existingFileHelper)
         )
         generator.addProvider(true, WitcheryErosionProvider(packOutput, event.lookupProvider, event.existingFileHelper))
+        generator.addProvider(true, WitcheryLootModifierProvider(packOutput, event.lookupProvider))
         generator.addProvider(true, WitcheryFetishProvider(packOutput, event.lookupProvider, event.existingFileHelper))
         generator.addProvider(
             true,

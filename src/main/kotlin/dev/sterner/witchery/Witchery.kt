@@ -58,6 +58,8 @@ class Witchery(modEventBus: IEventBus, modContainer: ModContainer) {
         WitcherySpecialPotionEffects.register(modEventBus)
         WitcheryTarotEffects.register(modEventBus)
 
+        WitcheryLootInjects.LOOT_MODIFIERS.register(modEventBus)
+
         WitcheryPageRendererRegistry.register()
 
         NeoForge.EVENT_BUS.register(WitcheryNeoForgeEvents)

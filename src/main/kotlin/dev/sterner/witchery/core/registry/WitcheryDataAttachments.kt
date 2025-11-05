@@ -5,6 +5,7 @@ import dev.sterner.witchery.features.misc.TeleportQueueLevelAttachment
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntLevelAttachment
+import dev.sterner.witchery.features.altar.ChunkedAltarPositionsAttachment
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.curse.CursePlayerAttachment
 import dev.sterner.witchery.features.familiar.FamiliarLevelAttachment
@@ -50,6 +51,17 @@ object WitcheryDataAttachments {
     val ATTACHMENT_TYPES: DeferredRegister<AttachmentType<*>> =
         DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Witchery.MODID)
 
+
+    @JvmStatic
+    val CHUNKED_ALTAR_POSITIONS_ATTACHMENT: Supplier<AttachmentType<ChunkedAltarPositionsAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "chunked_altar_positions",
+            Supplier {
+                AttachmentType.builder(Supplier { ChunkedAltarPositionsAttachment.Data() })
+                    .serialize(ChunkedAltarPositionsAttachment.Data.DATA_CODEC)
+                    .build()
+            }
+        )
 
     @JvmStatic
     val BINDING_CURSE: Supplier<AttachmentType<BindingRitualAttachment.Data>> =
