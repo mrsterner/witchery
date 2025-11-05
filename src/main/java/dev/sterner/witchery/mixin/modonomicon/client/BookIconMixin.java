@@ -1,4 +1,4 @@
-package dev.sterner.witchery.mixin.modonomicon;
+package dev.sterner.witchery.mixin.modonomicon.client;
 
 import com.klikli_dev.modonomicon.book.BookIcon;
 import net.minecraft.client.gui.GuiGraphics;

@@ -3,6 +3,7 @@ package dev.sterner.witchery.mixin;
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment;
 import dev.sterner.witchery.core.registry.WitcheryTags;
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
+import dev.sterner.witchery.features.petrification.PetrifiedEntityAttachment;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -25,6 +26,10 @@ public abstract class TargetGoalMixin {
 
     @Inject(method = "canAttack", at = @At("HEAD"), cancellable = true)
     private void witchery$dontAttackSummonerOwner(LivingEntity potentialTarget, TargetingConditions targetPredicate, CallbackInfoReturnable<Boolean> cir) {
+        if (PetrifiedEntityAttachment.INSTANCE.getData(potentialTarget).isPetrified()) {
+            cir.setReturnValue(false);
+        }
+
         if (mob.getType().is(WitcheryTags.INSTANCE.getNECROMANCER_SUMMONABLE())) {
             var uuid = EtherealEntityAttachment.getData(mob).getOwnerUUID();
             if (uuid != null) {

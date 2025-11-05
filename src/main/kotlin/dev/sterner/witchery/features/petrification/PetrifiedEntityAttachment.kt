@@ -18,14 +18,19 @@ object PetrifiedEntityAttachment {
         val limbSwing: Float = 0f,
         val limbSwingAmount: Float = 0f,
         val headYaw: Float = 0f,
-        val headPitch: Float = 0f
+        val headPitch: Float = 0f,
+        val yBodyRot: Float = 0f,
+        val breakProgress: Int = 0,
+        val playerPunchCount: Int = 0
     ) {
         fun isPetrified(): Boolean = petrified && petrificationTicks > 0
 
         fun tick(): Data {
             if (!petrified || petrificationTicks <= 0) {
                 return copy(
-                    petrified = false
+                    petrified = false,
+                    breakProgress = 0,
+                    playerPunchCount = 0
                 )
             }
 
@@ -36,18 +41,43 @@ object PetrifiedEntityAttachment {
             )
         }
 
-        fun withPetrification(duration: Int, age: Float, limbSwing: Float, limbSwingAmount: Float, headYaw: Float, headPitch: Float): Data {
+        fun withPetrification(
+            duration: Int,
+            age: Float,
+            limbSwing: Float,
+            limbSwingAmount: Float,
+            headYaw: Float,
+            headPitch: Float,
+            yBodyRot: Float
+        ): Data {
             return copy(
                 petrified = true,
                 petrificationTicks = duration,
                 totalDuration = duration,
-                age,
-                limbSwing,
-                limbSwingAmount,
-                headYaw,
-                headPitch
+                age = age,
+                limbSwing = limbSwing,
+                limbSwingAmount = limbSwingAmount,
+                headYaw = headYaw,
+                headPitch = headPitch,
+                yBodyRot = yBodyRot,
+                breakProgress = 0,
+                playerPunchCount = 0
             )
         }
+
+        fun incrementBreakProgress(): Data {
+            val newProgress = (breakProgress + 1).coerceAtMost(9)
+            return copy(breakProgress = newProgress)
+        }
+
+        fun incrementPunchCount(): Data {
+            return copy(playerPunchCount = playerPunchCount + 1)
+        }
+
+        fun getBreakStage(): Int {
+            return breakProgress.coerceIn(0, 9)
+        }
+
         companion object {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
@@ -58,11 +88,13 @@ object PetrifiedEntityAttachment {
                     Codec.FLOAT.fieldOf("limbSwing").forGetter { it.limbSwing },
                     Codec.FLOAT.fieldOf("limbSwingAmount").forGetter { it.limbSwingAmount },
                     Codec.FLOAT.fieldOf("headYaw").forGetter { it.headYaw },
-                    Codec.FLOAT.fieldOf("headPitch").forGetter { it.headPitch }
+                    Codec.FLOAT.fieldOf("headPitch").forGetter { it.headPitch },
+                    Codec.FLOAT.optionalFieldOf("yBodyRot", 0f).forGetter { it.yBodyRot },
+                    Codec.INT.optionalFieldOf("breakProgress", 0).forGetter { it.breakProgress },
+                    Codec.INT.optionalFieldOf("playerPunchCount", 0).forGetter { it.playerPunchCount }
                 ).apply(instance, ::Data)
             }
         }
-
     }
 
     fun getData(entity: LivingEntity): Data {

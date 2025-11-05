@@ -62,6 +62,9 @@ dev/sterner/witchery/mixin/BlockMixin.java
   else if(entry instanceof CompositeEntryBase composite)
   else if(child instanceof CompositeEntryBase deeperComposite)
 
+dev/sterner/witchery/mixin/BrainMixin.java
+  class BrainMixin
+
 dev/sterner/witchery/mixin/BrushItemMixin.java
   class BrushItemMixin
 
@@ -144,6 +147,16 @@ dev/sterner/witchery/mixin/NearestAttackableTargetGoalMixin.java
 
 dev/sterner/witchery/mixin/PanicGoalMixin.java
   class PanicGoalMixin
+
+dev/sterner/witchery/mixin/PetrifiedEntityMixin.java
+  class PetrifiedEntityMixin
+  int getMaxAirSupply()
+
+dev/sterner/witchery/mixin/PetrifiedLivingMixin.java
+  class PetrifiedLivingMixin
+
+dev/sterner/witchery/mixin/PetrifiedMobMixin.java
+  class PetrifiedMobMixin
 
 dev/sterner/witchery/mixin/PlayerInvoker.java
   EntityDataAccessor<Byte> getPlayerModeCustomisationAccessor()
@@ -239,6 +252,9 @@ dev/sterner/witchery/mixin/client/GuiMixin.java
   class GuiMixin
   boolean onRenderHotbar(GuiGraphics instance, ResourceLocation sprite, int x, int y, int width, int height)
 
+dev/sterner/witchery/mixin/client/HttpTextureAccessor.java
+  File getFile()
+
 dev/sterner/witchery/mixin/client/HumanoidModelMixin.java
   class HumanoidModelMixin
 
@@ -259,6 +275,9 @@ dev/sterner/witchery/mixin/client/LivingEntityRendererMixin.java
   class LivingEntityRendererMixin
   protected LivingEntityRendererMixin(EntityRendererProvider.Context context)
 
+dev/sterner/witchery/mixin/client/LivingEntityRendererPetrifiedMixin.java
+  class LivingEntityRendererPetrifiedMixin
+
 dev/sterner/witchery/mixin/client/LocalPlayerMixin.java
   class LocalPlayerMixin
   new Vec3(0f, old.y, 0f)
@@ -266,6 +285,12 @@ dev/sterner/witchery/mixin/client/LocalPlayerMixin.java
 dev/sterner/witchery/mixin/client/MinecraftMixin.java
   class MinecraftMixin
   void rightClickAir(CallbackInfo ci, @Local ItemStack itemStack, @Local InteractionHand interactionHand)
+
+dev/sterner/witchery/mixin/client/PetrifiedAnimationMixin.java
+  class PetrifiedAnimationMixin
+  void freezeAnimation(T entity, float limbSwing, float limbSwingAmount,
+                                 float ageInTicks, float netHeadYaw, float headPitch,
+                                 CallbackInfo ci)
 
 dev/sterner/witchery/mixin/client/PlayerItemInHandLayerMixin.java
   class PlayerItemInHandLayerMixin
@@ -1635,6 +1660,10 @@ dev/sterner/witchery/content/block/altar/AltarBlockEntity.kt
   fun get(index: Int): Int
   fun set(index: Int, value: Int)
   fun getCount()
+  fun markBlockDirty(pos: BlockPos)
+  fun markAugmentDirty(pos: BlockPos)
+  fun onLoad()
+  fun setRemoved()
   fun getLocalAABB()
   fun collectAllLocalNaturePower(level: ServerLevel)
   fun updateCurrentPower()
@@ -1649,7 +1678,6 @@ dev/sterner/witchery/content/block/altar/AltarBlockEntity.kt
   fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider)
   fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean
   fun getClosestAltar(level: ServerLevel, pos: BlockPos, radius: Int): AltarBlockEntity?
-  fun findNearbyAltars(level: Level, pos: BlockPos): List<BlockPos>
   fun onBlockBreak(event: BlockEvent.BreakEvent)
   fun onBlockPlace(event: BlockEvent.EntityPlaceEvent)
 
@@ -3953,7 +3981,6 @@ dev/sterner/witchery/content/recipe/ritual/RitualRecipe.kt
   class Serializer
   class Celestial
   class Weather
-  object val
   fun matches(input: MultipleItemRecipeInput, level: Level): Boolean
   fun assemble(input: MultipleItemRecipeInput, registries: HolderLookup.Provider): ItemStack
   fun canCraftInDimensions(width: Int, height: Int): Boolean
@@ -4403,7 +4430,7 @@ dev/sterner/witchery/core/data/NaturePowerReloadListener.kt
   class NaturePowerLoader
   class Data
   object NaturePowerReloadListener
-  object or
+  object nor
   fun getPower(block: BlockState): Int?
   fun getLimit(block: BlockState): Pair<ResourceLocation, Int>?
   fun addEitherBlockOrTag(either: Either<Block, TagKey<Block>>, power: Int, limit: Int)
@@ -4451,6 +4478,10 @@ dev/sterner/witchery/core/registry/WitcheryCommands.kt
   fun registerWerewolfCommands(): LiteralArgumentBuilder<CommandSourceStack>
   fun registerCovenCommands(): LiteralArgumentBuilder<CommandSourceStack>
   fun registerTarotCommands(): LiteralArgumentBuilder<CommandSourceStack>
+  fun registerPetrificationCommands(): LiteralArgumentBuilder<CommandSourceStack>
+  fun applyPetrification(ctx: CommandContext<CommandSourceStack>, target: net.minecraft.world.entity.Entity, duration: Int): Int
+  fun removePetrification(ctx: CommandContext<CommandSourceStack>, target: net.minecraft.world.entity.Entity): Int
+  fun checkPetrification(ctx: CommandContext<CommandSourceStack>, target: net.minecraft.world.entity.Entity): Int
   fun applyTarotCard(ctx: CommandContext<CommandSourceStack>, target: ServerPlayer, cardNumber: Int, reversed: Boolean): Int
   fun clearTarotCards(ctx: CommandContext<CommandSourceStack>, target: ServerPlayer): Int
   fun listTarotCards(ctx: CommandContext<CommandSourceStack>): Int
@@ -4529,8 +4560,11 @@ dev/sterner/witchery/core/registry/WitcheryKeyMappings.kt
   object WitcheryKeyMappings
 
 dev/sterner/witchery/core/registry/WitcheryLootInjects.kt
+  class AddItemModifier
   object WitcheryLootInjects
   fun onLootTableLoad(event: LootTableLoadEvent)
+  fun doApply(generatedLoot: ObjectArrayList<ItemStack?>, lootContext: LootContext): ObjectArrayList<ItemStack?>
+  fun codec(): MapCodec<out IGlobalLootModifier?>
 
 dev/sterner/witchery/core/registry/WitcheryMenuTypes.kt
   object WitcheryMenuTypes
@@ -4730,6 +4764,10 @@ dev/sterner/witchery/data_gen/WitcheryLangProvider.kt
   fun formatId(id: ResourceLocation): String
   fun formatId(name: String): String
   fun addTranslations()
+
+dev/sterner/witchery/data_gen/WitcheryLootModifierProvider.kt
+  class WitcheryLootModifierProvider
+  fun start()
 
 dev/sterner/witchery/data_gen/WitcheryLootProvider.kt
   class WitcheryLootProvider
@@ -5644,6 +5682,15 @@ dev/sterner/witchery/features/affliction/werewolf/WerewolfSpecificEventHandler.k
   fun tryForceTurnToWerewolf(player: Player, data: AfflictionPlayerAttachment.Data)
   fun infectPlayer(player: ServerPlayer)
 
+dev/sterner/witchery/features/altar/ChunkedAltarPositionsAttachment.kt
+  class Data
+  object ChunkedAltarPositionsAttachment
+  fun getData(level: ServerLevel): Data
+  fun setData(level: ServerLevel, data: Data)
+  fun registerAltar(level: ServerLevel, pos: BlockPos)
+  fun unregisterAltar(level: ServerLevel, pos: BlockPos)
+  fun findNearbyAltars(level: ServerLevel, pos: BlockPos, radius: Int): List<BlockPos>
+
 dev/sterner/witchery/features/bark_belt/BarkBeltHandler.kt
   object BarkBeltHandler
   fun hurt(livingEntity: LivingEntity?, damageSource: DamageSource, damage: Float): Float
@@ -6223,6 +6270,44 @@ dev/sterner/witchery/features/nightmare/NightmarePlayerAttachment.kt
   fun setData(player: Player, data: Data)
   fun sync(player: Player, data: Data)
 
+dev/sterner/witchery/features/petrification/PetrificationClientHandler.kt
+  object PetrificationClientHandler
+  fun onClientTick(event: ClientTickEvent.Post)
+  fun onWorldUnload(event: LevelEvent.Unload)
+
+dev/sterner/witchery/features/petrification/PetrificationHandler.kt
+  object PetrificationHandler
+  fun petrify(entity: LivingEntity, duration: Int)
+  fun unpetrify(entity: LivingEntity)
+  fun onLivingTick(event: EntityTickEvent.Pre)
+  fun applyPetrificationEffects(entity: LivingEntity)
+  fun removePetrificationEffects(entity: LivingEntity)
+  fun spawnPetrifiedParticles(level: ServerLevel, entity: LivingEntity)
+  fun spawnPetrificationWave(level: ServerLevel, start: Vec3, end: Vec3)
+  fun spawnTransformationParticles(level: ServerLevel, entity: LivingEntity)
+
+dev/sterner/witchery/features/petrification/PetrificationTextureManager.kt
+  object PetrificationTextureManager
+  fun setCurrentEntity(entity: LivingEntity?)
+  fun clearCurrentEntity()
+  fun getPetrifiedTexture(originalTexture: ResourceLocation): ResourceLocation
+  fun loadNativeImage(resourceManager: ResourceManager, location: ResourceLocation): NativeImage?
+  fun clearCache()
+  fun clearOldTextures(maxAge: Long)
+  fun loadPlayerSkinAsNativeImage(skin: HttpTexture): NativeImage?
+  fun copyNativeImage(image: NativeImage): NativeImage
+  fun extractNativeImageFromTextureManager(textureManager: TextureManager, resLoc: ResourceLocation): NativeImage?
+  fun generatePetrifiedTexture(originalTexture: ResourceLocation): ResourceLocation
+
+dev/sterner/witchery/features/petrification/PetrifiedEntityAttachment.kt
+  class Data
+  object PetrifiedEntityAttachment
+  fun isPetrified(): Boolean
+  fun tick(): Data
+  fun withPetrification(duration: Int, age: Float, limbSwing: Float, limbSwingAmount: Float, headYaw: Float, headPitch: Float): Data
+  fun getData(entity: LivingEntity): Data
+  fun setData(entity: LivingEntity, data: Data)
+
 dev/sterner/witchery/features/poppet/ArmorProtectionPoppet.kt
   class ArmorProtectionPoppet
   fun isValidFor(entity: LivingEntity, source: DamageSource?): Boolean
@@ -6381,6 +6466,14 @@ dev/sterner/witchery/features/ritual/BlocksBelowRitual.kt
 
 dev/sterner/witchery/features/ritual/EmptyRitual.kt
   class EmptyRitual
+
+dev/sterner/witchery/features/ritual/PetrificationRitual.kt
+  class PetrificationRitual
+  fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
+  fun onTickRitual(level: Level, pos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
+  fun spawnPetrificationEffects(level: ServerLevel, pos: BlockPos, entities: List<LivingEntity>)
+  fun spawnCompletionEffects(level: ServerLevel, pos: BlockPos)
 
 dev/sterner/witchery/features/ritual/PullMobsRitual.kt
   class PullMobsRitual
@@ -7357,6 +7450,12 @@ dev/sterner/witchery/network/SyncOtherwhereInfusionS2CPayload.kt
 
 dev/sterner/witchery/network/SyncOwlAbilityS2CPayload.kt
   class SyncOwlAbilityS2CPayload
+  fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
+  fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
+  fun handleOnClient()
+
+dev/sterner/witchery/network/SyncPetrificationS2CPayload.kt
+  class SyncPetrificationS2CPayload
   fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
   fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
   fun handleOnClient()

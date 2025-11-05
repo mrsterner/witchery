@@ -77,13 +77,17 @@ import dev.sterner.witchery.features.necromancy.NecroHandler
 import dev.sterner.witchery.features.misc.PotionHandler
 import dev.sterner.witchery.features.misc.TeleportQueueHandler
 import dev.sterner.witchery.features.nightmare.NightmareHandler
+import dev.sterner.witchery.features.petrification.PetrifiedEntityAttachment
 import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.features.possession.PossessedDataAttachment
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
+import net.minecraft.client.model.CowModel
+import net.minecraft.client.model.PigModel
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.tags.ItemTags
 import net.minecraft.world.damagesource.DamageTypes
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
@@ -275,6 +279,26 @@ object WitcheryNeoForgeEvents {
         val entity = event.entity
         val damageSource = event.source
         var damage = event.amount
+        val attacker = damageSource.entity
+
+        if (entity is LivingEntity) {
+            val data = PetrifiedEntityAttachment.getData(entity)
+            if (data.isPetrified()) {
+                if (attacker is LivingEntity) {
+                    val weapon = attacker.mainHandItem
+                    if (!weapon.`is`(ItemTags.PICKAXES)) {
+                        event.amount = 0f
+                        return
+                    }
+                    damage /= 2
+                    event.amount = damage
+                    return
+                } else {
+                    event.amount = 0f
+                    return
+                }
+            }
+        }
 
         if (entity is Player) {
             if (ManifestationPlayerAttachment.getData(entity).manifestationTimer > 0) {

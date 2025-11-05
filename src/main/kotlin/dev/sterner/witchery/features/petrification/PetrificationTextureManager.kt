@@ -40,29 +40,20 @@ object PetrificationTextureManager {
 
         textureCache[cacheKey]?.let { return it }
 
-        try {
-            val petrifiedTexture = generatePetrifiedTexture(originalTexture)
-            textureCache[cacheKey] = petrifiedTexture
-            return petrifiedTexture
-        } catch (e: Exception) {
-            return originalTexture
-        }
+        val petrifiedTexture = generatePetrifiedTexture(originalTexture)
+        textureCache[cacheKey] = petrifiedTexture
+        return petrifiedTexture
     }
 
     private fun loadNativeImage(
         resourceManager: ResourceManager,
         location: ResourceLocation
     ): NativeImage? {
-        return try {
-            val resource = resourceManager.getResource(location).orElse(null) ?: return null
-            resource.open().use { inputStream ->
-                NativeImage.read(inputStream)
-            }
-        } catch (e: Exception) {
-            null
+        val resource = resourceManager.getResource(location).orElse(null) ?: return null
+        return resource.open().use { inputStream ->
+            NativeImage.read(inputStream)
         }
     }
-
 
     fun clearCache() {
         dynamicTextures.values.forEach { it.close() }
@@ -123,6 +114,18 @@ object PetrificationTextureManager {
             is HttpTexture -> loadPlayerSkinAsNativeImage(tex)
             else -> null
         }
+    }
+
+    data class Size(var width: Int, var height: Int){
+
+    }
+
+    public fun getTextureSize(originalTexture: ResourceLocation): Size {
+        val minecraft = Minecraft.getInstance()
+        val resourceManager = minecraft.resourceManager
+
+        val originalImage: NativeImage? = loadNativeImage(resourceManager, originalTexture)
+        return Size(originalImage!!.width, originalImage.height)
     }
 
     private fun generatePetrifiedTexture(originalTexture: ResourceLocation): ResourceLocation {

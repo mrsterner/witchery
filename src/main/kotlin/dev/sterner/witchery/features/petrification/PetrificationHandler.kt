@@ -6,14 +6,20 @@ import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
+import net.minecraft.tags.ItemTags
 import net.minecraft.util.Mth
+import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.Vec3
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent
 import net.neoforged.neoforge.event.tick.EntityTickEvent
 import kotlin.math.cos
 import kotlin.math.sin
@@ -61,7 +67,8 @@ object PetrificationHandler {
             entity.walkAnimation.speed(),
             entity.walkAnimation.position(),
             yaw,
-            pitch
+            pitch,
+            entity.yBodyRot
         )
 
         PetrifiedEntityAttachment.setData(entity, newData)
@@ -81,7 +88,9 @@ object PetrificationHandler {
     fun unpetrify(entity: LivingEntity) {
         val data = PetrifiedEntityAttachment.getData(entity).copy(
             petrified = false,
-            petrificationTicks = 0
+            petrificationTicks = 0,
+            breakProgress = 0,
+            playerPunchCount = 0
         )
         PetrifiedEntityAttachment.setData(entity, data)
 
@@ -95,6 +104,11 @@ object PetrificationHandler {
             1.0f,
             1.5f
         )
+
+        // Spawn break particles
+        if (entity.level() is ServerLevel) {
+            spawnBreakParticles(entity.level() as ServerLevel, entity)
+        }
     }
 
     @SubscribeEvent
@@ -117,6 +131,87 @@ object PetrificationHandler {
             }
         } else {
             removePetrificationEffects(entity)
+        }
+    }
+
+    @SubscribeEvent
+    fun onAttackEntity(event: AttackEntityEvent) {
+        val attacker = event.entity
+        val target = event.target
+
+        if (target !is LivingEntity) return
+
+        val data = PetrifiedEntityAttachment.getData(target)
+        if (!data.isPetrified()) return
+
+        // If player is petrified and punching air (target is themselves somehow), count it
+        if (attacker is Player && target == attacker) {
+            handlePlayerPunch(attacker)
+            event.isCanceled = true
+            return
+        }
+
+        // Check if attacker has pickaxe
+        if (!attacker.mainHandItem.`is`(ItemTags.PICKAXES)) {
+            event.isCanceled = true
+            return
+        }
+    }
+
+    @SubscribeEvent
+    fun onLivingDamage(event: LivingIncomingDamageEvent) {
+        val entity = event.entity as LivingEntity
+        val data = PetrifiedEntityAttachment.getData(entity)
+
+        if (!data.isPetrified()) return
+
+        val attacker = event.source.entity
+
+        if (attacker is LivingEntity && attacker.mainHandItem.`is`(ItemTags.PICKAXES)) {
+
+            val level = entity.level()
+            if (level is ServerLevel) {
+                val newData = data.incrementBreakProgress()
+                PetrifiedEntityAttachment.setData(entity, newData)
+
+                level.playSound(
+                    null,
+                    entity.blockPosition(),
+                    SoundEvents.STONE_HIT,
+                    SoundSource.BLOCKS,
+                    1.0f,
+                    1.0f
+                )
+
+                if (newData.breakProgress >= 5) {
+                    unpetrify(entity)
+                }
+            }
+        } else {
+            event.amount = 0f
+        }
+    }
+
+    fun handlePlayerPunch(player: Player) {
+        val data = PetrifiedEntityAttachment.getData(player)
+        if (!data.isPetrified()) return
+
+        val newData = data.incrementPunchCount()
+        PetrifiedEntityAttachment.setData(player, newData)
+
+        val level = player.level()
+
+        level.playSound(
+            null,
+            player.blockPosition(),
+            SoundEvents.STONE_HIT,
+            SoundSource.PLAYERS,
+            0.5f,
+            0.8f + (newData.playerPunchCount * 0.02f)
+        )
+
+        if (newData.playerPunchCount >= 10) {
+            unpetrify(player)
         }
     }
 
@@ -175,6 +270,30 @@ object PetrificationHandler {
                 1,
                 0.0, -0.1, 0.0,
                 0.1
+            )
+        }
+    }
+
+    private fun spawnBreakParticles(level: ServerLevel, entity: LivingEntity) {
+        val pos = entity.position()
+
+        for (i in 0..20) {
+            val angle = (i / 20.0) * Math.PI * 2
+            val radius = entity.bbWidth * 0.5
+
+            val x = pos.x + cos(angle) * radius
+            val y = pos.y + entity.bbHeight / 2
+            val z = pos.z + sin(angle) * radius
+
+            level.sendParticles(
+                BlockParticleOption(
+                    ParticleTypes.BLOCK,
+                    Blocks.STONE.defaultBlockState()
+                ),
+                x, y, z,
+                3,
+                0.2, 0.2, 0.2,
+                0.15
             )
         }
     }
