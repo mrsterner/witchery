@@ -95,6 +95,7 @@
     "client.BookParentNodeScreenMixin",
     "client.EntityRenderDispatcherMixin",
     "client.GuiMixin",
+    "client.HttpTextureAccessor",
     "client.HumanoidModelMixin",
     "client.InventoryScreenMixin",
     "client.ItemInHandRendererMixin",

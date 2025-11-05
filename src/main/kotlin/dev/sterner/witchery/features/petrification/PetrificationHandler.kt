@@ -1,7 +1,6 @@
 package dev.sterner.witchery.features.petrification
 
 import dev.sterner.witchery.Witchery
-import net.minecraft.client.renderer.entity.LivingEntityRenderer.isEntityUpsideDown
 import net.minecraft.core.particles.BlockParticleOption
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
@@ -54,11 +53,7 @@ object PetrificationHandler {
             yaw = f1 - f
         }
 
-        var pitch: Float = entity.xRot
-        if (isEntityUpsideDown(entity)) {
-            pitch *= -1.0f
-            yaw *= -1.0f
-        }
+        val pitch: Float = entity.xRot
 
         val newData = data.withPetrification(
             duration,

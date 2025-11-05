@@ -72,15 +72,14 @@ object PossessionComponentAttachment {
         companion object {
             val CODEC: Codec<PossessionData> = RecordCodecBuilder.create { instance ->
                 instance.group(
-                    Codec.INT.fieldOf("possessedEntityId").forGetter { it.possessedEntityId },
-                    Codec.STRING.optionalFieldOf("possessedEntityUUID", "")
-                        .xmap(
-                            { if (it.isEmpty()) null else UUID.fromString(it) },
-                            { it?.toString() ?: "" }
-                        ).forGetter { it.possessedEntityUUID },
+                    Codec.INT.optionalFieldOf("possessedEntityId", -1).forGetter { it.possessedEntityId },
+                    Codec.STRING.optionalFieldOf("possessedEntityUUID", "").xmap(
+                        { if (it.isEmpty()) null else UUID.fromString(it) },
+                        { it?.toString() ?: "" }
+                    ).forGetter { it.possessedEntityUUID ?: UUID(0, 0) },
                     Codec.INT.optionalFieldOf("curingTimer", -1).forGetter { it.curingTimer }
                 ).apply(instance) { entityId, uuid, curing ->
-                    PossessionData(entityId, uuid, curing)
+                    PossessionData(entityId, if (uuid == UUID(0, 0)) null else uuid, curing)
                 }
             }
         }

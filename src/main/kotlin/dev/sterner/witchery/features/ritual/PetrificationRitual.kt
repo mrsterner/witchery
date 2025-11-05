@@ -16,7 +16,7 @@ class PetrificationRitual : Ritual("petrification") {
 
     companion object {
         private const val RITUAL_RADIUS = 10.0
-        private const val PETRIFICATION_DURATION = 6000
+        private const val PETRIFICATION_DURATION = 20 * 60
     }
 
     override fun onStartRitual(

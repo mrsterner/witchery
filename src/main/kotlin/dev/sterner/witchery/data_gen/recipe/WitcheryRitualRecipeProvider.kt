@@ -18,6 +18,7 @@ import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.ritual.BestialCallRitual
 import dev.sterner.witchery.features.ritual.BlocksBelowRitual
+import dev.sterner.witchery.features.ritual.PetrificationRitual
 import dev.sterner.witchery.features.ritual.PullMobsRitual
 import dev.sterner.witchery.features.ritual.RainingToadRitual
 import dev.sterner.witchery.features.ritual.SoulSeveranceRitual
@@ -525,5 +526,14 @@ object WitcheryRitualRecipeProvider {
             .setTicks(20)
             .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:fragility", CommandType.END))
             .save(exporter, Witchery.id("fragility"))
+
+        RitualRecipeBuilder.create()
+            .addInputItem(Items.STONE)
+            .addInputItem(WitcheryItems.MUTANDIS_EXTREMIS.get())
+            .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
+            .setAltarPower(1000)
+            .setCustomRitual(PetrificationRitual())
+            .setTicks(20)
+            .save(exporter, Witchery.id("stone_ritual"))
     }
 }

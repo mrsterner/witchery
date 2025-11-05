@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_recipe": {
+      "conditions": {
+        "recipe": "witchery:stone_ritual"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "witchery:stone_ritual"
+    ]
+  }
+}
