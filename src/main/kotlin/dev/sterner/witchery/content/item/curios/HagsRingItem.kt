@@ -1,5 +1,7 @@
 package dev.sterner.witchery.content.item.curios
 
+import com.google.common.collect.HashMultimap
+import com.google.common.collect.Multimap
 import dev.sterner.witchery.core.registry.WitcheryTags
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
@@ -11,11 +13,24 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem
 
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
+import net.minecraft.ChatFormatting
+import net.minecraft.core.Holder
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.BlockTags
 import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.attributes.Attribute
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
+import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.TooltipFlag
+import net.neoforged.neoforge.client.event.RenderTooltipEvent
+import net.neoforged.neoforge.common.NeoForgeMod
 import top.theillusivec4.curios.api.CuriosApi
+import java.awt.Color
+import java.util.UUID
 
 class HagsRingItem(properties: Properties) : Item(properties), ICurioItem {
 
@@ -24,6 +39,40 @@ class HagsRingItem(properties: Properties) : Item(properties), ICurioItem {
         wearer: LivingEntity
     ): Boolean {
         return true
+    }
+
+    override fun getAttributeModifiers(
+        slotContext: SlotContext?,
+        id: ResourceLocation?,
+        stack: ItemStack?
+    ): Multimap<Holder<Attribute?>?, AttributeModifier?>? {
+        val modifiers = HashMultimap.create<Holder<Attribute?>, AttributeModifier>()
+
+        if (stack == null || id == null) return modifiers
+
+        val ringType = stack.get(WitcheryDataComponents.HAG_RING_TYPE)
+
+        if (ringType == WitcheryDataComponents.HagType.REACH) {
+            modifiers.put(
+                Attributes.BLOCK_INTERACTION_RANGE,
+                AttributeModifier(
+                    id,
+                    1.0,
+                    AttributeModifier.Operation.ADD_VALUE
+                )
+            )
+
+            modifiers.put(
+                Attributes.ENTITY_INTERACTION_RANGE,
+                AttributeModifier(
+                    id,
+                    0.2,
+                    AttributeModifier.Operation.ADD_VALUE
+                )
+            )
+        }
+
+        return modifiers
     }
 
     companion object {

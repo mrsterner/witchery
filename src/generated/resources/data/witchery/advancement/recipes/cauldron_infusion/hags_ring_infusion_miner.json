@@ -13,7 +13,7 @@
     },
     "has_recipe": {
       "conditions": {
-        "recipe": "witchery:hags_ring_infusion"
+        "recipe": "witchery:hags_ring_infusion_miner"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "witchery:hags_ring_infusion"
+      "witchery:hags_ring_infusion_miner"
     ]
   }
 }

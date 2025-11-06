@@ -7,16 +7,19 @@
     "children": [
       {
         "type": "modonomicon:entry_read",
-        "entry_id": "brewing/brews"
+        "entry_id": "brewing/brew_of_webs"
       }
     ]
   },
-  "description": "book.witchery.guidebook.brewing.brew_of_wasting.description",
+  "description": "book.witchery.guidebook.brewing.hags_ring_infusion_reach.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "witchery:brew_of_wasting"
+    "components": {
+      "witchery:hag_ring_type": "reach"
+    },
+    "item": "witchery:hags_ring"
   },
-  "name": "book.witchery.guidebook.brewing.brew_of_wasting.name",
+  "name": "book.witchery.guidebook.brewing.hags_ring_infusion_reach.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -25,32 +28,32 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "brewing.brew_of_wasting.page.1",
-      "title": "brewing.brew_of_wasting.title.1",
+      "text": "brewing.hags_ring_infusion_reach.page.1",
+      "title": "brewing.hags_ring_infusion_reach.title.1",
       "use_markdown_in_title": false
     },
     {
-      "type": "witchery:cauldron_brewing_recipe",
+      "type": "witchery:cauldron_infusion_recipe",
       "anchor": "",
       "condition": {
         "type": "modonomicon:none"
       },
-      "recipe_id_1": "witchery:cauldron_brewing/brew_of_wasting",
-      "text": "brewing.brew_of_wasting.title.1",
-      "title1": "brewing.brew_of_wasting",
+      "recipe_id_1": "witchery:cauldron_infusion/hags_ring_infusion_reach",
+      "text": "brewing.hags_ring_infusion_reach.title.1",
+      "title1": "brewing.hags_ring_infusion_reach",
       "title2": ""
     }
   ],
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "brewing/brews",
+      "entry": "brewing/brew_of_webs",
       "line_enabled": true,
       "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 17,
-  "x": -9,
-  "y": -3
+  "sort_number": 26,
+  "x": -11,
+  "y": -2
 }

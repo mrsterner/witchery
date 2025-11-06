@@ -183,7 +183,8 @@ object WitcheryDataComponents {
 
     enum class HagType : StringRepresentable {
         MINER,
-        LUMBER;
+        LUMBER,
+        REACH;
 
         override fun getSerializedName(): String {
             return name.lowercase(Locale.getDefault())

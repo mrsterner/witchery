@@ -3,18 +3,15 @@
   "altarPower": 5000,
   "brewInput": {
     "count": 1,
-    "id": "witchery:brew_of_wasting"
+    "id": "witchery:brew_of_webs"
   },
   "infusionItem": {
-    "components": {
-      "witchery:hag_ring_type": "reach"
-    },
     "count": 1,
-    "id": "witchery:hags_ring"
+    "id": "witchery:gold_ring"
   },
   "outputItem": {
     "components": {
-      "witchery:hag_ring_type": "lumber"
+      "witchery:hag_ring_type": "reach"
     },
     "count": 1,
     "id": "witchery:hags_ring"

@@ -622,6 +622,12 @@ object WitcheryBookLangProvider {
         add("brewing.brew_of_wasting.page.1", "Kills Plants")
         add("book.witchery.guidebook.brewing.brew_of_wasting.description", "Forgot to water the plants")
 
+        add("book.witchery.guidebook.brewing.brew_of_webs.name", "Brew of Webs")
+        add("brewing.brew_of_webs.title.1", "Brew of Webs")
+        add("brewing.brew_of_webs", "Brew of Webs")
+        add("brewing.brew_of_webs.page.1", "Creates Cobweb")
+        add("book.witchery.guidebook.brewing.brew_of_webs.description", "Liquid spider at your own disposal.")
+
         add("book.witchery.guidebook.brewing.brew_of_the_depths.name", "Brew of the Depths")
         add("brewing.brew_of_the_depths.title.1", "Brew of the Depths")
         add("brewing.brew_of_the_depths", "Brew of the Depths")
@@ -1608,20 +1614,23 @@ object WitcheryBookLangProvider {
         add("ritual.blocks_below_gold.title.1", "Blocks Below: Gold")
         add("ritual.blocks_below_gold.page.1", "Will pull gold from the depths below, this will consume the gold below in a cylinder of the ritual circle.")
 
-        add("book.witchery.guidebook.brewing.hags_ring_infusion.name", "Hag's Ring: Miner")
-        add("book.witchery.guidebook.brewing.hags_ring_infusion.description", "First we mine")
-        add("brewing.hags_ring_infusion.title.1", "Hag's Ring: Miner")
-        add("brewing.hags_ring_infusion", "Hag's Ring: Miner")
-        add("brewing.hags_ring_infusion.page.1", "In an already finished Brew of Erosion. Toss a Golden Ring and infuse the properties of the brew into the ring. Equip it and with a Witch's hand, use it to harvest multiple ores at once")
-
-
+        add("book.witchery.guidebook.brewing.hags_ring_infusion_miner.name", "Hag's Ring: Miner")
+        add("book.witchery.guidebook.brewing.hags_ring_infusion_miner.description", "First we mine")
+        add("brewing.hags_ring_infusion_miner.title.1", "Hag's Ring: Miner")
+        add("brewing.hags_ring_infusion_miner", "Hag's Ring: Miner")
+        add("brewing.hags_ring_infusion_miner.page.1", "In an already finished Brew of Erosion. Toss a Hag's Ring: Reacher and infuse the properties of the brew into the ring. Equip it and with a Witch's hand, use it to harvest multiple ores at once")
 
         add("book.witchery.guidebook.brewing.hags_ring_infusion_lumber.name", "Hag's Ring: Lumber")
         add("book.witchery.guidebook.brewing.hags_ring_infusion_lumber.description", "First we mine")
         add("brewing.hags_ring_infusion_lumber.title.1", "Hag's Ring: Lumber")
         add("brewing.hags_ring_infusion_lumber", "Hag's Ring: Lumber")
-        add("brewing.hags_ring_infusion_lumber.page.1", "In an already finished Brew of Wasting. Toss a Hag's Ring: Miner and infuse the properties of the brew into the ring. Equip it and with a Witch's hand, use it to harvest multiple logs at once")
+        add("brewing.hags_ring_infusion_lumber.page.1", "In an already finished Brew of Wasting. Toss a Hag's Ring: Reacher and infuse the properties of the brew into the ring. Equip it and with a Witch's hand, use it to harvest multiple logs at once")
 
+        add("book.witchery.guidebook.brewing.hags_ring_infusion_reach.name", "Hag's Ring: Reacher")
+        add("book.witchery.guidebook.brewing.hags_ring_infusion_reach.description", "First we mine... a bit further away")
+        add("brewing.hags_ring_infusion_reach.title.1", "Hag's Ring: Lumber")
+        add("brewing.hags_ring_infusion_reach", "Hag's Ring: Reacher")
+        add("brewing.hags_ring_infusion_reach.page.1", "In an already finished Brew of Webs. Toss a Golden Ring and infuse the properties of the brew into the ring. Equip it and gain more reach.")
 
 
         add("book.witchery.guidebook.general.tag_lock.name", "Taglock")

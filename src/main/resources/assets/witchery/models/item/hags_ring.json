@@ -6,7 +6,13 @@
   "overrides": [
     {
       "predicate": {
-        "witchery:type": 1
+        "witchery:type": 0.4
+      },
+      "model": "witchery:item/hags_ring_reach"
+    },
+    {
+      "predicate": {
+        "witchery:type": 0.9
       },
       "model": "witchery:item/hags_ring_lumber"
     }

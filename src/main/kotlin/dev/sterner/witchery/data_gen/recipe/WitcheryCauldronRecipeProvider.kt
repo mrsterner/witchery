@@ -372,22 +372,30 @@ object WitcheryCauldronRecipeProvider {
 
         val hagMiner = WitcheryItems.HAGS_RING.get().defaultInstance
         hagMiner.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.MINER)
+        val hagLumber = WitcheryItems.HAGS_RING.get().defaultInstance
+        hagLumber.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.LUMBER)
+        val hagReach = WitcheryItems.HAGS_RING.get().defaultInstance
+        hagReach.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.REACH)
+
+        CauldronInfusionRecipeBuilder.create()
+            .setBrewInput(WitcheryItems.BREW_OF_WEBS.get())
+            .setInfusionItem(WitcheryItems.GOLD_RING.get())
+            .setOutput(hagReach)
+            .setAltarPower(5000)
+            .unlockedBy("has_gold_ring", has(WitcheryItems.GOLD_RING.get()))
+            .save(exporter, Witchery.id("hags_ring_infusion_reach"))
 
         CauldronInfusionRecipeBuilder.create()
             .setBrewInput(WitcheryItems.BREW_OF_EROSION.get())
-            .setInfusionItem(WitcheryItems.GOLD_RING.get())
+            .setInfusionItem(hagReach)
             .setOutput(hagMiner)
             .setAltarPower(5000)
             .unlockedBy("has_gold_ring", has(WitcheryItems.GOLD_RING.get()))
-            .save(exporter, Witchery.id("hags_ring_infusion"))
-
-
-        val hagLumber = WitcheryItems.HAGS_RING.get().defaultInstance
-        hagLumber.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.LUMBER)
+            .save(exporter, Witchery.id("hags_ring_infusion_miner"))
 
         CauldronInfusionRecipeBuilder.create()
             .setBrewInput(WitcheryItems.BREW_OF_WASTING .get())
-            .setInfusionItem(hagMiner)
+            .setInfusionItem(hagReach)
             .setOutput(hagLumber)
             .setAltarPower(5000)
             .unlockedBy("has_hags_ring", has(WitcheryItems.HAGS_RING.get()))

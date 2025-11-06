@@ -11,19 +11,16 @@
       },
       {
         "type": "modonomicon:entry_read",
-        "entry_id": "brewing/brew_of_wasting"
+        "entry_id": "brewing/brew_of_erosion"
       }
     ]
   },
-  "description": "book.witchery.guidebook.brewing.hags_ring_infusion_lumber.description",
+  "description": "book.witchery.guidebook.brewing.hags_ring_infusion_miner.description",
   "hide_while_locked": false,
   "icon": {
-    "components": {
-      "witchery:hag_ring_type": "lumber"
-    },
     "item": "witchery:hags_ring"
   },
-  "name": "book.witchery.guidebook.brewing.hags_ring_infusion_lumber.name",
+  "name": "book.witchery.guidebook.brewing.hags_ring_infusion_miner.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -32,8 +29,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "brewing.hags_ring_infusion_lumber.page.1",
-      "title": "brewing.hags_ring_infusion_lumber.title.1",
+      "text": "brewing.hags_ring_infusion_miner.page.1",
+      "title": "brewing.hags_ring_infusion_miner.title.1",
       "use_markdown_in_title": false
     },
     {
@@ -42,9 +39,9 @@
       "condition": {
         "type": "modonomicon:none"
       },
-      "recipe_id_1": "witchery:cauldron_infusion/hags_ring_infusion_lumber",
-      "text": "brewing.hags_ring_infusion_lumber.title.1",
-      "title1": "brewing.hags_ring_infusion_lumber",
+      "recipe_id_1": "witchery:cauldron_infusion/hags_ring_infusion_miner",
+      "text": "brewing.hags_ring_infusion_miner.title.1",
+      "title1": "brewing.hags_ring_infusion_miner",
       "title2": ""
     }
   ],
@@ -57,13 +54,13 @@
     },
     {
       "draw_arrow": true,
-      "entry": "brewing/brew_of_wasting",
+      "entry": "brewing/brew_of_erosion",
       "line_enabled": true,
       "line_reversed": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 28,
+  "sort_number": 27,
   "x": -13,
-  "y": -3
+  "y": -1
 }

@@ -6,8 +6,11 @@
     "id": "witchery:brew_of_erosion"
   },
   "infusionItem": {
+    "components": {
+      "witchery:hag_ring_type": "reach"
+    },
     "count": 1,
-    "id": "witchery:gold_ring"
+    "id": "witchery:hags_ring"
   },
   "outputItem": {
     "components": {

@@ -312,7 +312,12 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
 
         add("witchery.hag_type.miner", "Miner's Infusion")
         add("witchery.hag_type.lumber", "Lumber's Infusion")
+        add("witchery.hag_type.reach", "Reacher's Infusion")
         add("witchery.hag_ring.fortune", "Fortune %s")
+
+        add("witchery.hags_ring.when_worn", "When worn as ring:")
+        add("witchery.hags_ring.miner.desc", "Use with Witches Hand to vein mine ores")
+        add("witchery.hags_ring.lumber.desc", "Use with Witches Hand to vein mine logs")
 
         add("effect.witchery.bear_trap_incapacitated", "Bear Trap Incapacitated")
 

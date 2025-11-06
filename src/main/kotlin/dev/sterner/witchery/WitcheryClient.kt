@@ -619,8 +619,12 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryItems.HAGS_RING.get(),
             Witchery.id("type")
         ) { stack, _, _, _ ->
-            val type = stack.get(WitcheryDataComponents.HAG_RING_TYPE.get())
-            if (type == WitcheryDataComponents.HagType.MINER) 0.0f else 1f
+            when (stack.get(WitcheryDataComponents.HAG_RING_TYPE.get())) {
+                WitcheryDataComponents.HagType.MINER -> 0.0f
+                WitcheryDataComponents.HagType.LUMBER -> 1.0f
+                WitcheryDataComponents.HagType.REACH -> 0.5f
+                null -> 0.0f
+            }
         }
     }
 

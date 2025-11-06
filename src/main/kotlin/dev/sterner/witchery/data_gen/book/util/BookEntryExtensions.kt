@@ -19,6 +19,20 @@ fun BookEntryModel.requiresAndFollows(parentEntry: BookEntryModel): BookEntryMod
     return this
 }
 
+fun BookEntryModel.requiresAndFollows(parentEntry: BookEntryModel, parentEntry2: BookEntryModel): BookEntryModel {
+    this.withCondition(
+        BookAndConditionModel.create().withChildren(
+            BookEntryReadConditionModel.create()
+                .withEntry(parentEntry.id),
+            BookEntryReadConditionModel.create()
+                .withEntry(parentEntry2.id)
+        )
+    )
+    this.addParent(BookEntryParentModel.create(parentEntry.id).withDrawArrow(true))
+    this.addParent(BookEntryParentModel.create(parentEntry2.id).withDrawArrow(true))
+    return this
+}
+
 fun BookEntryModel.requiresAndFollows(parentEntryId: ResourceLocation): BookEntryModel {
     this.withCondition(
         BookAndConditionModel.create().withChildren(

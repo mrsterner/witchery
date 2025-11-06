@@ -27,16 +27,16 @@ class WitcheryBrewingCategoryProvider(
             "____________________________________",
             "____________________________________",
             "____________________________________",
-            "_________ui3________________________",
-            "________y___________________________",
-            "_______1______________p_____________",
-            "_______e__t_____c___j__n____________",
-            "___5_4_v______________m_____________",
-            "________d_______w___________________",
-            "_________a2b______x_________________",
-            "________________r___________________",
-            "________l_s___g___f_________________",
-            "________________o___________________",
+            "___________ui3______________________",
+            "__________y_________________________",
+            "_____5___d______________p___________",
+            "_______4_7__t_____c___j__n__________",
+            "_____6___v______________m___________",
+            "__________1___e___w_________________",
+            "___________a2b______x_______________",
+            "__________________r_________________",
+            "___________l_s__g___f_______________",
+            "__________________o_________________",
             "____________________________________",
             "____________________________________",
             "____________________________________",
@@ -179,17 +179,29 @@ class WitcheryBrewingCategoryProvider(
             .requiresAndFollows(brewsIntro)
         addEntry(erosion)
 
-        val hagsMinerRing = BrewInfusionEntryProvider(WitcheryItems.HAGS_RING.get().defaultInstance, "hags_ring_infusion", this)
+        val webs = BrewEntryProvider(WitcheryItems.BREW_OF_WEBS.get(), "brew_of_webs", this)
+            .generate("7")
+            .requiresAndFollows(brewsIntro)
+        addEntry(webs)
+
+        val hagLumb = WitcheryItems.HAGS_RING.get().defaultInstance
+        hagLumb.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.LUMBER)
+        val hagReach = WitcheryItems.HAGS_RING.get().defaultInstance
+        hagReach.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.REACH)
+
+        val hagsReachRing = BrewInfusionEntryProvider(hagReach, "hags_ring_infusion_reach", this)
             .generate("4")
-            .requiresAndFollows(erosion)
+            .requiresAndFollows(webs)
+        addEntry(hagsReachRing)
+
+        val hagsMinerRing = BrewInfusionEntryProvider(WitcheryItems.HAGS_RING.get().defaultInstance, "hags_ring_infusion_miner", this)
+            .generate("6")
+            .requiresAndFollows(hagsReachRing, erosion)
         addEntry(hagsMinerRing)
 
-        val hagRing = WitcheryItems.HAGS_RING.get().defaultInstance
-        hagRing.set(WitcheryDataComponents.HAG_RING_TYPE.get(), WitcheryDataComponents.HagType.LUMBER)
-
-        val hagsLumberRing = BrewInfusionEntryProvider(hagRing, "hags_ring_infusion_lumber", this)
+        val hagsLumberRing = BrewInfusionEntryProvider(hagLumb, "hags_ring_infusion_lumber", this)
             .generate("5")
-            .requiresAndFollows(hagsMinerRing)
+            .requiresAndFollows(hagsReachRing, wasting)
         addEntry(hagsLumberRing)
     }
 
