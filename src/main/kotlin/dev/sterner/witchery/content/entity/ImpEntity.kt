@@ -1,11 +1,25 @@
 package dev.sterner.witchery.content.entity
 
+import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
+import dev.sterner.witchery.content.entity.goal.LookAtTradingPlayerGoal
+import dev.sterner.witchery.content.menu.SoulTradingMenu
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
+import dev.sterner.witchery.network.SyncSoulTradeDataS2CPayload
+import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.chat.Component
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.MenuProvider
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.MoverType
 import net.minecraft.world.entity.PathfinderMob
@@ -17,14 +31,23 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation
 import net.minecraft.world.entity.ai.navigation.PathNavigation
+import net.minecraft.world.entity.npc.AbstractVillager
 import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.pathfinder.PathType
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
+import net.neoforged.neoforge.network.PacketDistributor
 
 class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), level) {
+
+    var tradingPlayer: Player? = null
 
     init {
         this.moveControl = FlyingMoveControl(this, 20, true)
@@ -43,11 +66,10 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
         return true
     }
 
-
     override fun registerGoals() {
         goalSelector.addGoal(2, MeleeAttackGoal(this, 1.0, false))
         goalSelector.addGoal(3, WaterAvoidingRandomStrollGoal(this, 1.0))
-
+        goalSelector.addGoal(1, LookAtTradingPlayerGoal(this))
         goalSelector.addGoal(5, RandomStrollGoal(this, 0.8))
         goalSelector.addGoal(8, RandomLookAroundGoal(this))
         goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
@@ -64,6 +86,131 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
         super.registerGoals()
     }
 
+    override fun mobInteract(
+        player: Player,
+        hand: InteractionHand
+    ): InteractionResult {
+        tradingPlayer = player
+        if (!level().isClientSide) {
+            openTradingMenu(player as ServerPlayer)
+        }
+        return super.mobInteract(player, hand)
+    }
+
+    fun ImpEntity.openTradingMenu(player: ServerPlayer) {
+        player.openMenu(object : MenuProvider {
+            override fun createMenu(containerId: Int, inventory: Inventory, player: Player): AbstractContainerMenu? {
+                val buf = FriendlyByteBuf(Unpooled.buffer())
+                buf.writeInt(id)
+                val menu = SoulTradingMenu(containerId, inventory, buf)
+
+                val trades = getAvailableTrades()
+                val souls = findNearbySouls(player as ServerPlayer)
+
+                menu.setTrades(trades)
+                menu.setSouls(souls)
+
+                PacketDistributor.sendToPlayer(
+                    player,
+                    SyncSoulTradeDataS2CPayload(
+                        trades,
+                        souls,
+                        menu.selectedTradeIndex,
+                        menu.selectedSoulIndex,
+                        menu.tradeAmount
+                    )
+                )
+
+                return menu
+            }
+
+            override fun getDisplayName(): Component {
+                return Component.translatable("container.witchery.soul_trade_menu")
+            }
+        }) { buf -> buf.writeInt(id) }
+    }
+
+    fun ImpEntity.getAvailableTrades(): List<SoulTradingMenu.SoulTrade> {
+        return listOf(
+            SoulTradingMenu.SoulTrade(
+                ItemStack(WitcheryItems.DEMON_HEART.get()), 20
+            ),
+            SoulTradingMenu.SoulTrade(
+                ItemStack(Items.DIAMOND), 15
+            ),
+            SoulTradingMenu.SoulTrade(
+                ItemStack(Items.EMERALD), 12
+            ),
+            SoulTradingMenu.SoulTrade(
+                ItemStack(Items.GOLD_INGOT), 8
+            ),
+            SoulTradingMenu.SoulTrade(
+                ItemStack(Items.IRON_INGOT), 5
+            )
+        )
+    }
+
+    fun ImpEntity.findNearbySouls(player: ServerPlayer): List<SoulTradingMenu.SoulData> {
+        val level = player.serverLevel()
+        val souls = mutableListOf<SoulTradingMenu.SoulData>()
+        val searchRadius = 16.0
+        val playerPos = player.blockPosition()
+        val searchBox = AABB(playerPos).inflate(searchRadius)
+
+        val entities = level.getEntitiesOfClass(LivingEntity::class.java, searchBox) { entity ->
+            entity != null && EtherealEntityAttachment.getData(entity).isEthereal
+        }
+
+        for (entity in entities) {
+            val entityType = entity.type.toString()
+
+            souls.add(SoulTradingMenu.SoulData(
+                entityId = entity.id,
+                weight = calculateSoulWeight(entityType),
+                entityType = entityType,
+                isBlockEntity = false
+            ))
+        }
+
+        val minPos = BlockPos(
+            playerPos.x - searchRadius.toInt(),
+            playerPos.y - searchRadius.toInt(),
+            playerPos.z - searchRadius.toInt()
+        )
+        val maxPos = BlockPos(
+            playerPos.x + searchRadius.toInt(),
+            playerPos.y + searchRadius.toInt(),
+            playerPos.z + searchRadius.toInt()
+        )
+
+        for (pos in BlockPos.betweenClosed(minPos, maxPos)) {
+            val blockEntity = level.getBlockEntity(pos) as? SoulCageBlockEntity
+            if (blockEntity != null && blockEntity.hasSoul) {
+                souls.add(SoulTradingMenu.SoulData(
+                    entityId = pos.asLong().toInt(),
+                    weight = 20,
+                    entityType = "minecraft:villager",
+                    isBlockEntity = true
+                ))
+            }
+        }
+
+        return souls
+    }
+
+    fun ImpEntity.calculateSoulWeight(entityType: String): Int {
+        return when {
+            entityType.contains("villager", ignoreCase = true) -> 20
+            entityType.contains("zombie", ignoreCase = true) -> 10
+            entityType.contains("skeleton", ignoreCase = true) -> 10
+            entityType.contains("creeper", ignoreCase = true) -> 12
+            entityType.contains("spider", ignoreCase = true) -> 8
+            entityType.contains("enderman", ignoreCase = true) -> 25
+            entityType.contains("pig", ignoreCase = true) -> 6
+            entityType.contains("cow", ignoreCase = true) -> 6
+            else -> 5
+        }
+    }
 
     companion object {
         fun createAttributes(): AttributeSupplier.Builder {

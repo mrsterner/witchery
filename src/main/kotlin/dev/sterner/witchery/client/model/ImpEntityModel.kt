@@ -77,7 +77,7 @@ class ImpEntityModel(modelPart: ModelPart) :
         left_wing.xRot = -0.2f * (1.0f - j)
         left_wing.yRot = 0.7853982f - g
 
-        body.xRot = j * 0.7853982f
+        body.xRot = -j * 0.7853982f
         m = l * Mth.lerp(j, -1.0471976f, -1.134464f)
         val var10000 = this.root
         var10000.y += cos(i.toDouble()).toFloat() * 0.25f * k

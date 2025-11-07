@@ -27,6 +27,7 @@ import dev.sterner.witchery.client.screen.AltarScreen
 import dev.sterner.witchery.client.screen.DistilleryScreen
 import dev.sterner.witchery.client.screen.HudEditorScreen
 import dev.sterner.witchery.client.screen.OvenScreen
+import dev.sterner.witchery.client.screen.SoulTradingScreen
 import dev.sterner.witchery.client.screen.SpinningWheelScreen
 import dev.sterner.witchery.client.tarot.TarotCardHudRenderer
 import dev.sterner.witchery.client.tooltip.UrnTooltipComponent
@@ -36,6 +37,7 @@ import dev.sterner.witchery.content.item.HunterArmorItem
 import dev.sterner.witchery.content.item.TaglockItem
 import dev.sterner.witchery.content.item.VampireArmorItem
 import dev.sterner.witchery.content.item.WitchesRobesItem
+import dev.sterner.witchery.content.menu.SoulTradingMenu
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
@@ -250,6 +252,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
 
     private fun bindContainerRenderers(event: RegisterMenuScreensEvent) {
         event.register(WitcheryMenuTypes.OVEN_MENU_TYPE.get(), ::OvenScreen)
+        event.register(WitcheryMenuTypes.SOUL_TRADING_MENU_TYPE.get(), ::SoulTradingScreen)
         event.register(WitcheryMenuTypes.ALTAR_MENU_TYPE.get(), ::AltarScreen)
         event.register(WitcheryMenuTypes.DISTILLERY_MENU_TYPE.get(), ::DistilleryScreen)
         event.register(WitcheryMenuTypes.SPINNING_WHEEL_MENU_TYPE.get(), ::SpinningWheelScreen)

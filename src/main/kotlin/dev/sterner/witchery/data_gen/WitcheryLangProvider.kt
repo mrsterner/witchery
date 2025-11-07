@@ -68,6 +68,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
             id?.let { add("witchery:${it.path}", formatId(id)) }
         }
 
+        add("container.witchery.soul_trade_menu", "Soul Trade")
         add("entity.minecraft.villager.witchery.fortune_teller", "Fortune Teller")
         add("minecraft:the_end", "The End")
         add("item.witchery.leonards_urn.potions", "%s/%s Potions")

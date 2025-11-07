@@ -10,16 +10,24 @@ import dev.sterner.witchery.core.registry.WitcheryShaders
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.necromancy.SoulPoolPlayerAttachment
 import dev.sterner.witchery.network.DebugAABBRenderS2CPayload
+import net.minecraft.CrashReport
+import net.minecraft.ReportedException
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.client.resources.model.BakedModel
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemDisplayContext
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.Level
 import net.minecraft.world.phys.AABB
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.api.distmarker.OnlyIn
@@ -28,9 +36,11 @@ import org.joml.Matrix4f
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL11
+import javax.annotation.Nullable
 import kotlin.math.atan
 import kotlin.math.cos
 import kotlin.math.sin
+
 
 @OnlyIn(Dist.CLIENT)
 object RenderUtils {
@@ -84,6 +94,142 @@ object RenderUtils {
         BufferUploader.drawWithShader(bufferBuilder.buildOrThrow())
 
         RenderSystem.disableBlend()
+    }
+
+    fun blitWithAlpha(
+        poseStack: PoseStack,
+        atlasLocation: ResourceLocation?,
+        x: Float,
+        y: Float,
+        uOffset: Float,
+        vOffset: Float,
+        width: Int,
+        height: Int,
+        textureWidth: Int,
+        textureHeight: Int,
+        alpha: Float = 1.0f,
+        color: Int = 0xFFFFFF
+    ) {
+        val red = (color shr 16 and 255) / 255.0f
+        val green = (color shr 8 and 255) / 255.0f
+        val blue = (color and 255) / 255.0f
+
+        RenderSystem.enableBlend()
+        RenderSystem.defaultBlendFunc()
+
+        if (atlasLocation != null) {
+            RenderSystem.setShaderTexture(0, atlasLocation)
+        }
+        RenderSystem.setShader { GameRenderer.getPositionTexColorShader() }
+
+        val matrix4f: Matrix4f = poseStack.last().pose()
+        val bufferBuilder =
+            Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR)
+        val minU = uOffset / textureWidth.toFloat()
+        val maxU = (uOffset + width) / textureWidth.toFloat()
+        val minV = vOffset / textureHeight.toFloat()
+        val maxV = (vOffset + height) / textureHeight.toFloat()
+
+        bufferBuilder.addVertex(matrix4f, x, y, 0f).setColor(red, green, blue, alpha)
+            .setUv(minU, minV)
+        bufferBuilder.addVertex(matrix4f, x, (y + height), 0f).setColor(red, green, blue, alpha)
+            .setUv(minU, maxV)
+        bufferBuilder.addVertex(matrix4f, (x + width), (y + height), 0f)
+            .setColor(red, green, blue, alpha).setUv(maxU, maxV)
+        bufferBuilder.addVertex(matrix4f, (x + width), y, 0f).setColor(red, green, blue, alpha)
+            .setUv(maxU, minV)
+
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow())
+
+        RenderSystem.disableBlend()
+    }
+
+    fun renderItemWithAlpha(guiGraphics: GuiGraphics, stack: ItemStack, x: Float, y: Float, alpha: Float) {
+        val player = Minecraft.getInstance().player
+        val level = Minecraft.getInstance().level
+        this.renderItemWithAlpha(guiGraphics, player, level, stack, x, y, 0, 0, alpha)
+    }
+
+    private fun renderItemWithAlpha(
+        guiGraphics: GuiGraphics,
+        @Nullable entity: LivingEntity?,
+        @Nullable level: Level?,
+        stack: ItemStack,
+        x: Float,
+        y: Float,
+        seed: Int,
+        guiOffset: Int,
+        alpha: Float
+    ) {
+        if (stack.isEmpty) return
+        val client = Minecraft.getInstance()
+        val bakedModel: BakedModel = client.itemRenderer.getModel(stack, level, entity, seed)
+
+        guiGraphics.pose().pushPose()
+        guiGraphics.pose().translate(x + 8.0, y + 8.0, 150.0 + (if (bakedModel.isGui3d) guiOffset else 0))
+
+        try {
+            guiGraphics.pose().scale(16.0f, -16.0f, 16.0f)
+            val flat = !bakedModel.usesBlockLight()
+
+            if (flat) {
+                Lighting.setupForFlatItems()
+            }
+
+            RenderSystem.enableBlend()
+            RenderSystem.defaultBlendFunc()
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha)
+
+            client.itemRenderer.render(
+                stack,
+                ItemDisplayContext.GUI,
+                false,
+                guiGraphics.pose(),
+                guiGraphics.bufferSource(),
+                15728880,
+                OverlayTexture.NO_OVERLAY,
+                bakedModel
+            )
+
+            guiGraphics.flush()
+            RenderSystem.disableBlend()
+
+            if (flat) {
+                Lighting.setupFor3DItems()
+            }
+        } catch (throwable: Throwable) {
+            throw ReportedException(CrashReport.forThrowable(throwable, "Rendering item with alpha"))
+        }
+
+        guiGraphics.pose().popPose()
+    }
+
+    fun drawString(guiGraphics: GuiGraphics, font: Font, text: String?, x: Float, y: Float, z: Float, color: Int, shadow: Boolean): Int {
+        if (text == null) {
+            return 0
+        }
+
+        guiGraphics.pose().pushPose()
+        guiGraphics.pose().translate(0.0f, 0.0f, z)
+
+        val result: Int = font.drawInBatch(
+            text,
+            x,
+            y,
+            color,
+            shadow,
+            guiGraphics.pose().last().pose(),
+            guiGraphics.bufferSource(),
+            Font.DisplayMode.NORMAL,
+            0,
+            15728880,
+            font.isBidirectional()
+        )
+
+        guiGraphics.pose().popPose()
+        guiGraphics.flushIfUnmanaged()
+
+        return result
     }
 
 

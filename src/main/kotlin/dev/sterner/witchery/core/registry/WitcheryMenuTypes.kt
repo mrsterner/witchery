@@ -4,6 +4,7 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.menu.AltarMenu
 import dev.sterner.witchery.content.menu.DistilleryMenu
 import dev.sterner.witchery.content.menu.OvenMenu
+import dev.sterner.witchery.content.menu.SoulTradingMenu
 import dev.sterner.witchery.content.menu.SpinningWheelMenu
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.inventory.MenuType
@@ -21,6 +22,13 @@ object WitcheryMenuTypes {
             OvenMenu(windowId, inventory, data)
         }
     })
+
+    val SOUL_TRADING_MENU_TYPE = MENU_TYPES.register("soul_trading_menu", Supplier {
+        IMenuTypeExtension.create { windowId, inventory, data ->
+            SoulTradingMenu(windowId, inventory, data)
+        }
+    })
+
 
     val ALTAR_MENU_TYPE = MENU_TYPES.register("altar_menu", Supplier {
         IMenuTypeExtension.create(::AltarMenu)

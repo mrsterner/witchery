@@ -145,23 +145,7 @@ object WitcheryPayloads {
             payload.handleOnClient()
         }
 
-        registrar.playToServer(
-            LockInTarotCardsC2SPayload.ID,
-            LockInTarotCardsC2SPayload.STREAM_CODEC
-        ) { payload, context ->
-            context.enqueueWork {
-                payload.handleOnServer(context)
-            }
-        }
 
-        registrar.playToServer(
-            ReadTabletC2SPayload.ID,
-            ReadTabletC2SPayload.STREAM_CODEC
-        ) { payload, context ->
-            context.enqueueWork {
-                payload.handleOnServer(context)
-            }
-        }
         registrar.playToClient(SyncCorruptPoppetS2CPayload.ID, SyncCorruptPoppetS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
@@ -181,6 +165,9 @@ object WitcheryPayloads {
             payload.handleOnClient()
         }
         registrar.playToClient(SyncSoulS2CPayload.ID, SyncSoulS2CPayload.STREAM_CODEC) { payload, _ ->
+            payload.handleOnClient()
+        }
+        registrar.playToClient(SyncSoulTradeDataS2CPayload.ID, SyncSoulTradeDataS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
         registrar.playToClient(SyncOtherBloodS2CPayload.ID, SyncOtherBloodS2CPayload.STREAM_CODEC) { payload, _ ->
@@ -262,6 +249,30 @@ object WitcheryPayloads {
         }
 
         // C2S Payloads
+        registrar.playToServer(
+            LockInTarotCardsC2SPayload.ID,
+            LockInTarotCardsC2SPayload.STREAM_CODEC
+        ) { payload, context ->
+            context.enqueueWork {
+                payload.handleOnServer(context)
+            }
+        }
+        registrar.playToServer(
+            SelectSoulTradeC2SPayload.ID,
+            SelectSoulTradeC2SPayload.STREAM_CODEC
+        ) { payload, context ->
+            context.enqueueWork {
+                payload.handleOnServer(context)
+            }
+        }
+        registrar.playToServer(
+            ReadTabletC2SPayload.ID,
+            ReadTabletC2SPayload.STREAM_CODEC
+        ) { payload, context ->
+            context.enqueueWork {
+                payload.handleOnServer(context)
+            }
+        }
         registrar.playToServer(DismountBroomC2SPayload.ID, DismountBroomC2SPayload.STREAM_CODEC) { payload, ctx ->
             payload.handleOnServer(ctx)
         }
