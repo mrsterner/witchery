@@ -21,7 +21,7 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf)
     var tradeAmount: Int = 1
 
     init {
-        trader = Minecraft.getInstance().level?.getEntity(buf.readVarInt()) as ImpEntity?
+        trader = playerInventory.player.level().getEntity(buf.readInt()) as ImpEntity
 
         for (i in 0..2) {
             for (j in 0..8) {
@@ -98,7 +98,8 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf)
     }
 
     override fun stillValid(player: Player): Boolean {
-        return true //TODO this.trader?.tradingPlayer == player
+        return if (player.level().isClientSide) true
+        else trader?.tradingPlayer == player
     }
 
     override fun removed(player: Player) {

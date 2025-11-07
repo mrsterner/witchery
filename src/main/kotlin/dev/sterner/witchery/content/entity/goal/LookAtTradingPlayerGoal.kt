@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player
 
 class LookAtTradingPlayerGoal(private val imp: ImpEntity) :
     LookAtPlayerGoal(imp, Player::class.java, 8.0f) {
+
     override fun canUse(): Boolean {
         if (this.imp.tradingPlayer != null) {
             this.lookAt = this.imp.tradingPlayer

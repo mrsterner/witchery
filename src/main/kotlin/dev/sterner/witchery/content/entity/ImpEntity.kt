@@ -18,6 +18,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.MenuProvider
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
@@ -90,8 +91,8 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
         player: Player,
         hand: InteractionHand
     ): InteractionResult {
-        tradingPlayer = player
         if (!level().isClientSide) {
+            tradingPlayer = player
             openTradingMenu(player as ServerPlayer)
         }
         return super.mobInteract(player, hand)
@@ -130,22 +131,22 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
         }) { buf -> buf.writeInt(id) }
     }
 
-    fun ImpEntity.getAvailableTrades(): List<SoulTradingMenu.SoulTrade> {
+    fun getAvailableTrades(): List<SoulTradingMenu.SoulTrade> {
         return listOf(
             SoulTradingMenu.SoulTrade(
                 ItemStack(WitcheryItems.DEMON_HEART.get()), 20
             ),
             SoulTradingMenu.SoulTrade(
-                ItemStack(Items.DIAMOND), 15
+                WitcheryItems.TOE_OF_FROG.get().defaultInstance, 5
             ),
             SoulTradingMenu.SoulTrade(
-                ItemStack(Items.EMERALD), 12
+                WitcheryItems.WOOL_OF_BAT.get().defaultInstance, 5
             ),
             SoulTradingMenu.SoulTrade(
-                ItemStack(Items.GOLD_INGOT), 8
+                WitcheryItems.TONGUE_OF_DOG.get().defaultInstance,5
             ),
             SoulTradingMenu.SoulTrade(
-                ItemStack(Items.IRON_INGOT), 5
+                WitcheryItems.OWLETS_WING.get().defaultInstance, 5
             )
         )
     }
@@ -198,16 +199,11 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
         return souls
     }
 
-    fun ImpEntity.calculateSoulWeight(entityType: String): Int {
+    fun calculateSoulWeight(entityType: String): Int {
         return when {
             entityType.contains("villager", ignoreCase = true) -> 20
-            entityType.contains("zombie", ignoreCase = true) -> 10
-            entityType.contains("skeleton", ignoreCase = true) -> 10
-            entityType.contains("creeper", ignoreCase = true) -> 12
-            entityType.contains("spider", ignoreCase = true) -> 8
-            entityType.contains("enderman", ignoreCase = true) -> 25
-            entityType.contains("pig", ignoreCase = true) -> 6
-            entityType.contains("cow", ignoreCase = true) -> 6
+            entityType.contains("pillager", ignoreCase = true) -> 10
+            entityType.contains("vindicator", ignoreCase = true) -> 10
             else -> 5
         }
     }
