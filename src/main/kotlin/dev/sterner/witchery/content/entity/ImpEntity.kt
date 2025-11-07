@@ -171,7 +171,7 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
             if (blockEntity != null && blockEntity.hasSoul) {
                 souls.add(SoulTradingMenu.SoulData(
                     entityId = pos.asLong().toInt(),
-                    weight = 20,
+                    weight = calculateSoulWeight("villager"),
                     entityType = "minecraft:villager",
                     isBlockEntity = true
                 ))
@@ -183,10 +183,10 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
 
     fun calculateSoulWeight(entityType: String): Int {
         return when {
-            entityType.contains("villager", ignoreCase = true) -> 20
-            entityType.contains("pillager", ignoreCase = true) -> 10
-            entityType.contains("vindicator", ignoreCase = true) -> 10
-            else -> 5
+            entityType.contains("villager", ignoreCase = true) -> 200
+            entityType.contains("pillager", ignoreCase = true) -> 100
+            entityType.contains("vindicator", ignoreCase = true) -> 100
+            else -> 50
         }
     }
 
@@ -203,25 +203,25 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
         fun getAvailableTrades(): List<SoulTradingMenu.SoulTrade> {
             return listOf(
                 SoulTradingMenu.SoulTrade(
-                    ItemStack(WitcheryItems.DEMON_HEART.get()), 20
+                    ItemStack(WitcheryItems.DEMON_HEART.get()), 200
                 ),
                 SoulTradingMenu.SoulTrade(
-                    WitcheryItems.TOE_OF_FROG.get().defaultInstance, 5
+                    WitcheryItems.TOE_OF_FROG.get().defaultInstance, 50
                 ),
                 SoulTradingMenu.SoulTrade(
-                    WitcheryItems.WOOL_OF_BAT.get().defaultInstance, 6
+                    WitcheryItems.WOOL_OF_BAT.get().defaultInstance, 60
                 ),
                 SoulTradingMenu.SoulTrade(
-                    WitcheryItems.TONGUE_OF_DOG.get().defaultInstance,5
+                    WitcheryItems.TONGUE_OF_DOG.get().defaultInstance,50
                 ),
                 SoulTradingMenu.SoulTrade(
-                    WitcheryItems.OWLETS_WING.get().defaultInstance, 8
+                    WitcheryItems.OWLETS_WING.get().defaultInstance, 80
                 ),
                 SoulTradingMenu.SoulTrade(
-                    WitcheryItems.ENT_TWIG.get().defaultInstance, 9
+                    WitcheryItems.ENT_TWIG.get().defaultInstance, 90
                 ),
                 SoulTradingMenu.SoulTrade(
-                    WitcheryItems.DEMONS_BLOOD.get().defaultInstance, 10
+                    WitcheryItems.DEMONS_BLOOD.get().defaultInstance, 100
                 )
             )
         }

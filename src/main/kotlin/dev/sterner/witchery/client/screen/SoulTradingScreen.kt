@@ -309,16 +309,19 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
     }
 
     private fun calculateScaleRotation(totalCost: Int, soul: SoulTradingMenu.SoulData?): Float {
-        if (totalCost == 0 && soul == null) return 0f
-        if (totalCost == 0) return -25f
-        if (soul == null) return 25f
-
-        val weightDiff = totalCost - soul.weight
-        val sensitivity = 2.0f
         val maxRotation = 25f
 
-        val rotation = weightDiff * sensitivity
-        return rotation.coerceIn(-maxRotation, maxRotation)
+        if (totalCost == 0 && (soul == null || soul.weight == 0)) return 0f
+
+        val soulWeight = soul?.weight ?: 0
+        val weightDiff = totalCost - soulWeight
+
+        val combinedWeight = (totalCost + soulWeight).coerceAtLeast(1)
+        val normalizedDiff = weightDiff.toFloat() / combinedWeight
+
+        val sensitivity = maxRotation * 2f
+
+        return (normalizedDiff * sensitivity).coerceIn(-maxRotation, maxRotation)
     }
 
 
