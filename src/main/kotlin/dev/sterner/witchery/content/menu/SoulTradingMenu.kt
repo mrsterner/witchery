@@ -2,7 +2,6 @@ package dev.sterner.witchery.content.menu
 
 import dev.sterner.witchery.core.registry.WitcheryMenuTypes
 import dev.sterner.witchery.content.entity.ImpEntity
-import net.minecraft.client.Minecraft
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
@@ -17,12 +16,11 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf,
 
     var availableTrades: List<SoulTrade> = listOf()
     var availableSouls: List<SoulData> = listOf()
-    var selectedTradeIndex: Int = -1
+
+    var selectedTrades: MutableList<SelectedTrade> = mutableListOf()
     var selectedSoulIndex: Int = -1
-    var tradeAmount: Int = 1
 
     init {
-
         for (i in 0..2) {
             for (j in 0..8) {
                 this.addSlot(Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18))
@@ -42,15 +40,6 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf,
         this.availableSouls = souls
     }
 
-    fun selectTrade(index: Int) {
-        if (index >= 0 && index < availableTrades.size) {
-            selectedTradeIndex = index
-            tradeAmount = 1
-        } else {
-            selectedTradeIndex = -1
-        }
-    }
-
     fun selectSoul(index: Int) {
         if (index >= 0 && index < availableSouls.size) {
             selectedSoulIndex = index
@@ -59,26 +48,30 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf,
         }
     }
 
-    fun incrementAmount(shift: Boolean = false) {
-        if (selectedTradeIndex >= 0) {
-            tradeAmount = (tradeAmount + if(shift) 5 else 1).coerceAtMost(64)
+    fun incrementAmount(tradeIndex: Int, shift: Boolean = false) {
+        val selected = selectedTrades.find { it.tradeIndex == tradeIndex }
+        if (selected != null) {
+            selected.amount = (selected.amount + if (shift) 5 else 1).coerceAtMost(64)
+        } else if (selectedTrades.size < 3) {
+            selectedTrades.add(SelectedTrade(tradeIndex, if (shift) 5 else 1))
         }
     }
 
-    fun decrementAmount(shift: Boolean = false) {
-        if (selectedTradeIndex >= 0) {
-            tradeAmount = (tradeAmount - if(shift) 5 else 1).coerceAtLeast(0)
-            if (tradeAmount <= 0) {
-                selectedTradeIndex = -1
-                tradeAmount = 0
+    fun decrementAmount(tradeIndex: Int, shift: Boolean = false) {
+        val selected = selectedTrades.find { it.tradeIndex == tradeIndex } ?: return
+        selected.amount = (selected.amount - if (shift) 5 else 1)
+        if (selected.amount <= 0) selectedTrades.remove(selected)
+    }
+
+    fun getTotalSoulCost(): Int {
+        var total = 0
+        for (selected in selectedTrades) {
+            if (selected.tradeIndex >= 0 && selected.tradeIndex < availableTrades.size) {
+                val trade = availableTrades[selected.tradeIndex]
+                total += trade.soulCost * selected.amount
             }
         }
-    }
-
-    fun getSelectedTrade(): SoulTrade? {
-        return if (selectedTradeIndex >= 0 && selectedTradeIndex < availableTrades.size) {
-            availableTrades[selectedTradeIndex]
-        } else null
+        return total
     }
 
     fun getSelectedSoul(): SoulData? {
@@ -88,9 +81,14 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf,
     }
 
     fun canMakeTrade(): Boolean {
-        val trade = getSelectedTrade() ?: return false
+        if (selectedTrades.isEmpty()) return false
         val soul = getSelectedSoul() ?: return false
-        return soul.weight >= (trade.soulCost * tradeAmount)
+        return soul.weight >= getTotalSoulCost()
+    }
+
+    fun clearSelection() {
+        selectedTrades.clear()
+        selectedSoulIndex = -1
     }
 
     override fun quickMoveStack(player: Player, index: Int): ItemStack {
@@ -98,8 +96,7 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf,
     }
 
     override fun stillValid(player: Player): Boolean {
-        return if (player.level().isClientSide) true
-        else impEntity.tradingPlayer == player
+        return impEntity.tradingPlayer == player
     }
 
     override fun removed(player: Player) {
@@ -121,5 +118,10 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf,
         val weight: Int,
         val entityType: String,
         val isBlockEntity: Boolean
+    )
+
+    data class SelectedTrade(
+        val tradeIndex: Int,
+        var amount: Int
     )
 }

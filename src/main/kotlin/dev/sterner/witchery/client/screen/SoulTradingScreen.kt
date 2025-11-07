@@ -1,13 +1,11 @@
 package dev.sterner.witchery.client.screen
 
-
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.menu.SoulTradingMenu
 import dev.sterner.witchery.core.util.RenderUtils
 import dev.sterner.witchery.network.SelectSoulTradeC2SPayload
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.ImageButton
 import net.minecraft.client.gui.components.WidgetSprites
@@ -19,6 +17,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.player.Inventory
 import net.neoforged.neoforge.network.PacketDistributor
+import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -31,9 +30,9 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
     private var tradeScrollOffset = 0
     private var soulScrollOffset = 0
 
-    private val tradeColumnX = 5
+    private val tradeColumnX = 22
     private val tradeColumnY = 10
-    private val tradeColumnWidth = 18
+    private val tradeColumnWidth = 16
     private val tradeColumnHeight = 65
 
     private val soulColumnX = 145
@@ -61,8 +60,6 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
     private val rotationSpeed = 0.15f
 
     private var isDraggingTradeScroll = false
-    private var tradeScrollStartY = 0.0
-
 
     companion object {
         val INCREMENT_SPRITE: WidgetSprites = WidgetSprites(
@@ -80,33 +77,54 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
         val SCROLLER_SPRITE: ResourceLocation = ResourceLocation.withDefaultNamespace("container/villager/scroller")
     }
 
+    var tradeSlotButtons = mutableSetOf<Pair<ImageButton, ImageButton>>()
+
     init {
-        this.imageWidth = 276
+        this.imageWidth = 176
         this.imageHeight = 166
     }
 
     override fun init() {
         super.init()
+        tradeSlotButtons.clear()
 
-        val plusX = leftPos + 62
-        val plusY = topPos + 70
-        val minusX = leftPos + 82
-        val minusY = topPos + 70
-        val confirmX = leftPos + 102
-        val confirmY = topPos + 70
+        for (slotIndex in 0 until 4) {
+            val slotX = leftPos + 8
+            val slotY = topPos + 10 + slotIndex * 16
 
-        addRenderableWidget(ImageButton(plusX, plusY, 13, 7, INCREMENT_SPRITE) {
-            PacketDistributor.sendToServer(
-                SelectSoulTradeC2SPayload(SelectSoulTradeC2SPayload.Action.INCREMENT_AMOUNT, hasShiftDown(), 0)
-            )
-        })
+            val plusButton = ImageButton(slotX, slotY, 13, 7, INCREMENT_SPRITE) {
+                val index = tradeScrollOffset + slotIndex
+                if (index >= menu.availableTrades.size) return@ImageButton
 
-        addRenderableWidget(ImageButton(minusX, minusY, 13, 7, DECREMENT_SPRITE) {
-            PacketDistributor.sendToServer(
-                SelectSoulTradeC2SPayload(SelectSoulTradeC2SPayload.Action.DECREMENT_AMOUNT, hasShiftDown(), 0)
-            )
-        })
+                PacketDistributor.sendToServer(
+                    SelectSoulTradeC2SPayload(
+                        SelectSoulTradeC2SPayload.Action.INCREMENT_AMOUNT,
+                        hasShiftDown(),
+                        index
+                    )
+                )
+            }
 
+            val minusButton = ImageButton(slotX, slotY + 8, 13, 7, DECREMENT_SPRITE) {
+                val index = tradeScrollOffset + slotIndex
+                if (index >= menu.availableTrades.size) return@ImageButton
+
+                PacketDistributor.sendToServer(
+                    SelectSoulTradeC2SPayload(
+                        SelectSoulTradeC2SPayload.Action.DECREMENT_AMOUNT,
+                        hasShiftDown(),
+                        index
+                    )
+                )
+            }
+
+            addRenderableWidget(plusButton)
+            addRenderableWidget(minusButton)
+            tradeSlotButtons.add(Pair(plusButton, minusButton))
+        }
+
+        val confirmX = leftPos + 125
+        val confirmY = topPos + 54
         addRenderableWidget(ImageButton(confirmX, confirmY, 13, 7, CONFIRM_SPRITE) {
             if (menu.canMakeTrade()) {
                 PacketDistributor.sendToServer(
@@ -114,8 +132,8 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
                 )
             }
         })
-
     }
+
 
     override fun isPauseScreen(): Boolean {
         return false
@@ -124,14 +142,14 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
     override fun containerTick() {
         super.containerTick()
 
-        val trade = menu.getSelectedTrade()
         val soul = menu.getSelectedSoul()
-        targetRotation = calculateScaleRotation(trade, soul)
+        val totalCost = menu.getTotalSoulCost()
+        targetRotation = calculateScaleRotation(totalCost, soul)
 
         val diff = targetRotation - currentRotation
         currentRotation += diff * rotationSpeed
 
-        if (kotlin.math.abs(diff) < 0.01f) {
+        if (abs(diff) < 0.01f) {
             currentRotation = targetRotation
         }
     }
@@ -164,15 +182,16 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
             if (index >= trades.size) break
 
             val trade = trades[index]
-            val x = screenX + tradeColumnX + 3
+            val x = screenX + tradeColumnX
             val y = screenY + tradeColumnY + i * itemSize
 
-            if (index == menu.selectedTradeIndex) {
-                guiGraphics.fill(x, y, x + 16, y + 16, 0xFFFFFFFF.toInt())
-            }
+            val selectedTrade = menu.selectedTrades.find { it.tradeIndex == index }
 
             guiGraphics.renderItem(trade.output, x, y)
-            guiGraphics.renderItemDecorations(font, trade.output, x, y)
+
+            if (selectedTrade != null) {
+                guiGraphics.renderItemDecorations(font, trade.output, x, y, selectedTrade.amount.toString())
+            }
         }
 
         if (trades.size > maxVisible) {
@@ -184,7 +203,6 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
             val scrollProgress = tradeScrollOffset.toFloat() / totalScrollable
 
             val handleY = scrollBarY + (scrollProgress * (scrollBarHeight - scrollHandleHeight)).toInt()
-
             guiGraphics.blitSprite(SCROLLER_SPRITE, scrollBarX, handleY + scrollHandleHeight - 27, 0, 6, 27)
         }
     }
@@ -199,20 +217,14 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
             if (index >= souls.size) break
 
             val soul = souls[index]
-            val x = screenX + soulColumnX + 3
+            val x = screenX + soulColumnX
             val y = screenY + soulColumnY + i * itemSize
-
-            if (index == menu.selectedSoulIndex) {
-                guiGraphics.fill(x, y, x + 16, y + 16, 0xFFFFFFFF.toInt())
-            }
 
             val headIndex = getSoulHeadIndex(BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(soul.entityType)))
             val headU = (headIndex % 8) * 16
             val headV = (headIndex / 8) * 16
 
-            RenderSystem.setShaderTexture(0, soulHeadsTexture)
-            guiGraphics.blit(soulHeadsTexture, x + 1, y, headU.toFloat(), headV.toFloat(), 16, 16, 128, 128)
-            RenderSystem.setShaderTexture(0, texture)
+            RenderUtils.blitWithAlpha(guiGraphics.pose(), soulHeadsTexture, x.toFloat(), y.toFloat(), headU.toFloat(), headV.toFloat(), 16, 16, 128, 128)
         }
 
         if (souls.size > maxVisible) {
@@ -233,7 +245,6 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
 
         guiGraphics.blit(texture, standX, standY, scaleStandX.toFloat(), scaleStandY.toFloat(), scaleStandWidth, scaleStandHeight, 256, 256)
 
-        val trade = menu.getSelectedTrade()
         val soul = menu.getSelectedSoul()
         val rotation = currentRotation + (targetRotation - currentRotation) * partialTick * rotationSpeed
 
@@ -254,26 +265,34 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
         val rightBowlX = (armCenterX + dx * cos(rad) + dy * sin(rad) - sin(rad) * armLength * xSwingFactor).toFloat()
         val rightBowlY = ((armCenterY + dx * sin(rad) - dy * cos(rad)) + (scaleBowlHeight / 2) + 2).toFloat()
 
-        RenderUtils.blitWithAlpha(guiGraphics.pose(), texture, leftBowlX - scaleBowlWidth / 2f, leftBowlY - scaleBowlHeight / 2f, scaleBowlX.toFloat(), scaleBowlY.toFloat(), scaleBowlWidth, scaleBowlHeight, 256, 256)
-        RenderUtils.blitWithAlpha(guiGraphics.pose(), texture, rightBowlX - scaleBowlWidth / 2f, rightBowlY - scaleBowlHeight / 2f, scaleBowlX.toFloat(), scaleBowlY.toFloat(), scaleBowlWidth, scaleBowlHeight, 256, 256)
+        RenderUtils.blitWithAlpha(guiGraphics.pose(), texture, leftBowlX - scaleBowlWidth / 2f, leftBowlY - scaleBowlHeight / 2f, 200f, scaleBowlX.toFloat(), scaleBowlY.toFloat(), scaleBowlWidth, scaleBowlHeight, 256, 256)
+        RenderUtils.blitWithAlpha(guiGraphics.pose(), texture, rightBowlX - scaleBowlWidth / 2f, rightBowlY - scaleBowlHeight / 2f, 200f, scaleBowlX.toFloat(), scaleBowlY.toFloat(), scaleBowlWidth, scaleBowlHeight, 256, 256)
 
-        if (trade != null) {
-            RenderUtils.renderItemWithAlpha(guiGraphics, trade.output, leftBowlX - 8.0f, leftBowlY + 3 - 8f , 1f)
+        val selectedTrades = menu.selectedTrades
+        if (selectedTrades.isNotEmpty()) {
+            val verticalSpacing = 4f
+            val horizontalSpacing = 4f
+            val startY = leftBowlY - 4f
 
-            if (menu.tradeAmount > 1) {
-                val amountText = "x${menu.tradeAmount}"
-                val textWidth = font.width(amountText)
-                RenderUtils.drawString(guiGraphics, font, amountText, (leftBowlX - textWidth / 2 + 4), leftBowlY + 6, 250f,0xFFFFFF, true)
+            for ((idx, selected) in selectedTrades.withIndex().reversed()) {
+                if (selected.tradeIndex < menu.availableTrades.size) {
+                    val trade = menu.availableTrades[selected.tradeIndex]
+
+                    val offsetY = startY - idx * verticalSpacing
+                    val offsetX = leftBowlX - 8f + (idx % 2) * horizontalSpacing - horizontalSpacing / 2f
+
+                    RenderUtils.renderItemWithAlpha(guiGraphics, trade.output, offsetX, offsetY, 1f)
+                    RenderUtils.renderItemDecorations(guiGraphics, font, trade.output, offsetX, offsetY)
+                }
             }
         }
+
 
         if (soul != null) {
             val headIndex = getSoulHeadIndex(BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(soul.entityType)))
             val headU = (headIndex % 8) * 16
             val headV = (headIndex / 8) * 16
-            RenderSystem.setShaderTexture(0, soulHeadsTexture)
-            guiGraphics.blit(soulHeadsTexture, rightBowlX.toInt() - 8, rightBowlY.toInt() + 3, headU.toFloat(), headV.toFloat(), 16, 16, 128, 128)
-            RenderSystem.setShaderTexture(0, texture)
+            RenderUtils.blitWithAlpha(guiGraphics.pose(), soulHeadsTexture, rightBowlX - 8f, rightBowlY - 3f, headU.toFloat(), headV.toFloat(), 16, 16, 128, 128)
         }
     }
 
@@ -289,31 +308,26 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
         poseStack.popPose()
     }
 
-    private fun calculateScaleRotation(trade: SoulTradingMenu.SoulTrade?, soul: SoulTradingMenu.SoulData?): Float {
-        if (trade == null && soul == null) return 0f
-        if (trade == null) return -15f
-        if (soul == null) return 15f
+    private fun calculateScaleRotation(totalCost: Int, soul: SoulTradingMenu.SoulData?): Float {
+        if (totalCost == 0 && soul == null) return 0f
+        if (totalCost == 0) return -25f
+        if (soul == null) return 25f
 
-        val tradeWeight = trade.soulCost * menu.tradeAmount
-        val soulWeight = soul.weight
+        val weightDiff = totalCost - soul.weight
+        val sensitivity = 2.0f
+        val maxRotation = 25f
 
-        val weightDiff = tradeWeight - soulWeight
-        val maxRotation = 15f
-
-        return (weightDiff.toFloat() / 10f).coerceIn(-maxRotation, maxRotation)
+        val rotation = weightDiff * sensitivity
+        return rotation.coerceIn(-maxRotation, maxRotation)
     }
+
 
     private fun getSoulHeadIndex(entityType: EntityType<*>): Int {
         return when (entityType) {
             EntityType.VILLAGER -> 0
-            EntityType.ZOMBIE -> 1
-            EntityType.SKELETON -> 2
-            EntityType.CREEPER -> 3
-            EntityType.SPIDER -> 4
-            EntityType.ENDERMAN -> 5
-            EntityType.PIG -> 6
-            EntityType.COW -> 7
-            else -> 1
+            EntityType.PILLAGER -> 1
+            EntityType.VINDICATOR -> 1
+            else -> 2
         }
     }
 
@@ -323,6 +337,7 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
 
         val trades = menu.availableTrades
         val maxVisible = 4
+
         if (trades.size > maxVisible) {
             val scrollBarX = tradeColumnX + tradeColumnWidth + 2
             val scrollBarY = tradeColumnY
@@ -336,18 +351,6 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
             if (relX in scrollBarX.toDouble()..(scrollBarX + 6.0) &&
                 relY in handleY..(handleY + scrollHandleHeight)) {
                 isDraggingTradeScroll = true
-                tradeScrollStartY = mouseY
-                return true
-            }
-        }
-
-        if (relX >= tradeColumnX && relX <= tradeColumnX + tradeColumnWidth &&
-            relY >= tradeColumnY && relY <= tradeColumnY + tradeColumnHeight) {
-            val index = ((relY - tradeColumnY) / 16).toInt() + tradeScrollOffset
-            if (index < menu.availableTrades.size) {
-                PacketDistributor.sendToServer(
-                    SelectSoulTradeC2SPayload(SelectSoulTradeC2SPayload.Action.SELECT_TRADE, false, index)
-                )
                 return true
             }
         }
@@ -394,7 +397,6 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
         }
         return super.mouseReleased(mouseX, mouseY, button)
     }
-
 
     override fun mouseScrolled(mouseX: Double, mouseY: Double, scrollX: Double, scrollY: Double): Boolean {
         val relX = mouseX - leftPos

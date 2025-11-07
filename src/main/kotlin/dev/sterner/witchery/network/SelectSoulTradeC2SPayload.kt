@@ -5,7 +5,6 @@ import dev.sterner.witchery.content.menu.SoulTradingMenu
 import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.content.entity.ImpEntity
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
-import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
@@ -37,23 +36,16 @@ class SelectSoulTradeC2SPayload(val action: Action, val shift: Boolean, val inde
         val menu = player.containerMenu as? SoulTradingMenu ?: return
 
         when (action) {
-            Action.SELECT_TRADE -> {
-                menu.selectTrade(index)
-                syncMenuData(player, menu)
-            }
             Action.SELECT_SOUL -> {
                 menu.selectSoul(index)
                 syncMenuData(player, menu)
             }
             Action.INCREMENT_AMOUNT -> {
-                menu.incrementAmount(shift)
+                menu.incrementAmount(index, shift)
                 syncMenuData(player, menu)
             }
             Action.DECREMENT_AMOUNT -> {
-                menu.decrementAmount(shift)
-                if (menu.tradeAmount == 0) {
-                    menu.selectTrade(-1)
-                }
+                menu.decrementAmount(index, shift)
                 syncMenuData(player, menu)
             }
             Action.CONFIRM_TRADE -> {
@@ -73,16 +65,15 @@ class SelectSoulTradeC2SPayload(val action: Action, val shift: Boolean, val inde
         val payload = SyncSoulTradeDataS2CPayload(
             menu.availableTrades,
             menu.availableSouls,
-            menu.selectedTradeIndex,
-            menu.selectedSoulIndex,
-            menu.tradeAmount
+            menu.selectedTrades.toList(),
+            menu.selectedSoulIndex
         )
         PacketDistributor.sendToPlayer(player, payload)
     }
 
     private fun executeTrade(player: ServerPlayer, menu: SoulTradingMenu) {
-        val trade = menu.getSelectedTrade() ?: return
         val soul = menu.getSelectedSoul() ?: return
+        if (menu.selectedTrades.isEmpty()) return
 
         val level = player.serverLevel()
         val playerPos = player.blockPosition()
@@ -90,14 +81,14 @@ class SelectSoulTradeC2SPayload(val action: Action, val shift: Boolean, val inde
 
         if (soul.isBlockEntity) {
             val minPos = BlockPos(
-                playerPos.x - searchRadius.toInt(),
-                playerPos.y - searchRadius.toInt(),
-                playerPos.z - searchRadius.toInt()
+                playerPos.x - searchRadius,
+                playerPos.y - searchRadius,
+                playerPos.z - searchRadius
             )
             val maxPos = BlockPos(
-                playerPos.x + searchRadius.toInt(),
-                playerPos.y + searchRadius.toInt(),
-                playerPos.z + searchRadius.toInt()
+                playerPos.x + searchRadius,
+                playerPos.y + searchRadius,
+                playerPos.z + searchRadius
             )
 
             for (pos in BlockPos.betweenClosed(minPos, maxPos)) {
@@ -114,17 +105,19 @@ class SelectSoulTradeC2SPayload(val action: Action, val shift: Boolean, val inde
             }
         }
 
-        val outputStack = trade.output.copy()
-        outputStack.count = menu.tradeAmount
+        for (selected in menu.selectedTrades) {
+            if (selected.tradeIndex >= 0 && selected.tradeIndex < menu.availableTrades.size) {
+                val trade = menu.availableTrades[selected.tradeIndex]
+                val outputStack = trade.output.copy()
+                outputStack.count = selected.amount
 
-        if (!player.inventory.add(outputStack.copy())) {
-            player.drop(outputStack.copy(), false)
+                if (!player.inventory.add(outputStack.copy())) {
+                    player.drop(outputStack.copy(), false)
+                }
+            }
         }
 
-        menu.selectTrade(-1)
-        menu.selectSoul(-1)
-        menu.tradeAmount = 1
-
+        menu.clearSelection()
         updateMenuData(player, menu)
     }
 
@@ -200,7 +193,6 @@ class SelectSoulTradeC2SPayload(val action: Action, val shift: Boolean, val inde
     }
 
     enum class Action {
-        SELECT_TRADE,
         SELECT_SOUL,
         INCREMENT_AMOUNT,
         DECREMENT_AMOUNT,

@@ -61,22 +61,26 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
         return true
     }
 
+    override fun baseTick() {
+        super.baseTick()
+    }
+
     override fun registerGoals() {
         this.goalSelector.addGoal(1, TradeWithPlayerGoal(this))
-        goalSelector.addGoal(2, MeleeAttackGoal(this, 1.0, false))
-        goalSelector.addGoal(3, WaterAvoidingRandomStrollGoal(this, 1.0))
-        goalSelector.addGoal(1, LookAtTradingPlayerGoal(this))
-        goalSelector.addGoal(5, RandomStrollGoal(this, 0.8))
-        goalSelector.addGoal(8, RandomLookAroundGoal(this))
-        goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
-        targetSelector.addGoal(1, HurtByTargetGoal(this))
+        goalSelector.addGoal(3, MeleeAttackGoal(this, 1.0, false))
+        goalSelector.addGoal(4, WaterAvoidingRandomStrollGoal(this, 1.0))
+        goalSelector.addGoal(2, LookAtTradingPlayerGoal(this))
+        goalSelector.addGoal(6, RandomStrollGoal(this, 0.8))
+        goalSelector.addGoal(9, RandomLookAroundGoal(this))
+        goalSelector.addGoal(4, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
+        targetSelector.addGoal(3, HurtByTargetGoal(this))
         targetSelector.addGoal(
-            2, NearestAttackableTargetGoal(
+            4, NearestAttackableTargetGoal(
                 this,
                 Player::class.java, true
             )
         )
-        targetSelector.addGoal(3, NearestAttackableTargetGoal(this, Villager::class.java, true))
+        targetSelector.addGoal(4, NearestAttackableTargetGoal(this, Villager::class.java, true))
 
         super.registerGoals()
     }
@@ -112,9 +116,8 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
                     SyncSoulTradeDataS2CPayload(
                         trades,
                         souls,
-                        menu.selectedTradeIndex,
-                        menu.selectedSoulIndex,
-                        menu.tradeAmount
+                        emptyList(),
+                        -1
                     )
                 )
 
@@ -126,8 +129,6 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
             }
         }) { buf -> buf.writeInt(id) }
     }
-
-
 
     fun ImpEntity.findNearbySouls(player: ServerPlayer): List<SoulTradingMenu.SoulData> {
         val level = player.serverLevel()

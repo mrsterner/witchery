@@ -11,16 +11,14 @@ import net.minecraft.world.item.ItemStack
 class SyncSoulTradeDataS2CPayload(
     val trades: List<SoulTradingMenu.SoulTrade>,
     val souls: List<SoulTradingMenu.SoulData>,
-    val selectedTradeIndex: Int,
-    val selectedSoulIndex: Int,
-    val tradeAmount: Int
+    val selectedTrades: List<SoulTradingMenu.SelectedTrade>,
+    val selectedSoulIndex: Int
 ) : CustomPacketPayload {
 
     constructor(buf: RegistryFriendlyByteBuf) : this(
         readTrades(buf),
         readSouls(buf),
-        buf.readInt(),
-        buf.readInt(),
+        readSelectedTrades(buf),
         buf.readInt()
     )
 
@@ -41,9 +39,13 @@ class SyncSoulTradeDataS2CPayload(
             buf.writeBoolean(soul.isBlockEntity)
         }
 
-        buf.writeInt(selectedTradeIndex)
+        buf.writeInt(selectedTrades.size)
+        for (selected in selectedTrades) {
+            buf.writeInt(selected.tradeIndex)
+            buf.writeInt(selected.amount)
+        }
+
         buf.writeInt(selectedSoulIndex)
-        buf.writeInt(tradeAmount)
     }
 
     fun handleOnClient() {
@@ -52,9 +54,9 @@ class SyncSoulTradeDataS2CPayload(
             val menu = client.player?.containerMenu as? SoulTradingMenu ?: return@execute
             menu.setTrades(trades)
             menu.setSouls(souls)
-            menu.selectedTradeIndex = selectedTradeIndex
+            menu.selectedTrades.clear()
+            menu.selectedTrades.addAll(selectedTrades)
             menu.selectedSoulIndex = selectedSoulIndex
-            menu.tradeAmount = tradeAmount
         }
     }
 
@@ -90,6 +92,17 @@ class SyncSoulTradeDataS2CPayload(
                 souls.add(SoulTradingMenu.SoulData(entityId, weight, entityType, isBlockEntity))
             }
             return souls
+        }
+
+        private fun readSelectedTrades(buf: RegistryFriendlyByteBuf): List<SoulTradingMenu.SelectedTrade> {
+            val size = buf.readInt()
+            val selectedTrades = mutableListOf<SoulTradingMenu.SelectedTrade>()
+            for (i in 0 until size) {
+                val tradeIndex = buf.readInt()
+                val amount = buf.readInt()
+                selectedTrades.add(SoulTradingMenu.SelectedTrade(tradeIndex, amount))
+            }
+            return selectedTrades
         }
     }
 }

@@ -12,11 +12,9 @@ class TradeWithPlayerGoal(private val mob: ImpEntity) : Goal() {
     }
 
     override fun canUse(): Boolean {
-        if (!this.mob.isAlive()) {
+        if (!this.mob.isAlive) {
             return false
-        } else if (this.mob.isInWater()) {
-            return false
-        } else if (!this.mob.onGround()) {
+        } else if (this.mob.isInWater) {
             return false
         } else if (this.mob.hurtMarked) {
             return false
