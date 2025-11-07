@@ -74,12 +74,15 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
         goalSelector.addGoal(9, RandomLookAroundGoal(this))
         goalSelector.addGoal(4, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
         targetSelector.addGoal(3, HurtByTargetGoal(this))
+        /*TODO add demonic contract
         targetSelector.addGoal(
             4, NearestAttackableTargetGoal(
                 this,
                 Player::class.java, true
             )
         )
+
+         */
         targetSelector.addGoal(4, NearestAttackableTargetGoal(this, Villager::class.java, true))
 
         super.registerGoals()
@@ -192,7 +195,8 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
             return createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0)
                 .add(Attributes.FLYING_SPEED, 0.10000000149011612)
-                .add(Attributes.MOVEMENT_SPEED, 0.10000000149011612).add(Attributes.ATTACK_DAMAGE, 2.0)
+                .add(Attributes.MOVEMENT_SPEED, 0.10000000149011612)
+                .add(Attributes.ATTACK_DAMAGE, 2.0)
                 .add(Attributes.FOLLOW_RANGE, 48.0)
         }
 
@@ -205,13 +209,19 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
                     WitcheryItems.TOE_OF_FROG.get().defaultInstance, 5
                 ),
                 SoulTradingMenu.SoulTrade(
-                    WitcheryItems.WOOL_OF_BAT.get().defaultInstance, 5
+                    WitcheryItems.WOOL_OF_BAT.get().defaultInstance, 6
                 ),
                 SoulTradingMenu.SoulTrade(
                     WitcheryItems.TONGUE_OF_DOG.get().defaultInstance,5
                 ),
                 SoulTradingMenu.SoulTrade(
-                    WitcheryItems.OWLETS_WING.get().defaultInstance, 5
+                    WitcheryItems.OWLETS_WING.get().defaultInstance, 8
+                ),
+                SoulTradingMenu.SoulTrade(
+                    WitcheryItems.ENT_TWIG.get().defaultInstance, 9
+                ),
+                SoulTradingMenu.SoulTrade(
+                    WitcheryItems.DEMONS_BLOOD.get().defaultInstance, 10
                 )
             )
         }

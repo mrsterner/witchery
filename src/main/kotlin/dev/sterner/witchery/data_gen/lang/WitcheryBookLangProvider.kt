@@ -754,9 +754,9 @@ object WitcheryBookLangProvider {
         )
 
         add("book.witchery.guidebook.ritual.summon_imp.name", "Summon Imp")
-        add("book.witchery.guidebook.ritual.summon_imp.description", "Not implemented")
+        add("book.witchery.guidebook.ritual.summon_imp.description", "Greedy little thing")
         add("ritual.summon_imp.title.1", "Summon Imp")
-        add("ritual.summon_imp.page.1", "Not implemented")
+        add("ritual.summon_imp.page.1", "Trade souls for goods, souls in any form have to be close by for trading. Different souls have different value.")
 
         add("book.witchery.guidebook.ritual.summon_demon.name", "Summon Demon")
         add("book.witchery.guidebook.ritual.summon_demon.description", "Felt cute, summoned Satan")
