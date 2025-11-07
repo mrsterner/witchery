@@ -26,6 +26,10 @@ public abstract class TargetGoalMixin {
 
     @Inject(method = "canAttack", at = @At("HEAD"), cancellable = true)
     private void witchery$dontAttackSummonerOwner(LivingEntity potentialTarget, TargetingConditions targetPredicate, CallbackInfoReturnable<Boolean> cir) {
+        if (potentialTarget == null) {
+            return;
+        }
+
         if (PetrifiedEntityAttachment.INSTANCE.getData(potentialTarget).isPetrified()) {
             cir.setReturnValue(false);
         }
