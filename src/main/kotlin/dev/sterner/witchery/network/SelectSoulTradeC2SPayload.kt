@@ -117,7 +117,7 @@ class SelectSoulTradeC2SPayload(val action: Action, val shift: Boolean, val inde
         outputStack.count = menu.tradeAmount
 
         if (!player.inventory.add(outputStack)) {
-            player.drop(outputStack, false)
+            player.drop(outputStack.copy(), false)
         }
 
         menu.selectTrade(-1)

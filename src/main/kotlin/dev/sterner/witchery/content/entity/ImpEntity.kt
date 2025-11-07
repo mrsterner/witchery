@@ -2,6 +2,7 @@ package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.content.entity.goal.LookAtTradingPlayerGoal
+import dev.sterner.witchery.content.entity.goal.TradeWithPlayerGoal
 import dev.sterner.witchery.content.menu.SoulTradingMenu
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
@@ -18,12 +19,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.MenuProvider
 import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.EquipmentSlot
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.Mob
-import net.minecraft.world.entity.MoverType
-import net.minecraft.world.entity.PathfinderMob
+import net.minecraft.world.entity.*
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.control.FlyingMoveControl
@@ -32,13 +28,11 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation
 import net.minecraft.world.entity.ai.navigation.PathNavigation
-import net.minecraft.world.entity.npc.AbstractVillager
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.pathfinder.PathType
@@ -68,13 +62,13 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
     }
 
     override fun registerGoals() {
+        this.goalSelector.addGoal(1, TradeWithPlayerGoal(this))
         goalSelector.addGoal(2, MeleeAttackGoal(this, 1.0, false))
         goalSelector.addGoal(3, WaterAvoidingRandomStrollGoal(this, 1.0))
         goalSelector.addGoal(1, LookAtTradingPlayerGoal(this))
         goalSelector.addGoal(5, RandomStrollGoal(this, 0.8))
         goalSelector.addGoal(8, RandomLookAroundGoal(this))
         goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
-        goalSelector.addGoal(4, LookAtPlayerGoal(this, Mob::class.java, 8.0f))
         targetSelector.addGoal(1, HurtByTargetGoal(this))
         targetSelector.addGoal(
             2, NearestAttackableTargetGoal(
