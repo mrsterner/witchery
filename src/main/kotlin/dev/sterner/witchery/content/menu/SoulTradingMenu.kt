@@ -10,10 +10,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.Slot
 import net.minecraft.world.item.ItemStack
 
-class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf) :
+class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf, val impEntity: ImpEntity) :
     AbstractContainerMenu(WitcheryMenuTypes.SOUL_TRADING_MENU_TYPE.get(), id) {
 
-    private var trader: ImpEntity? = null
+    constructor(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf) : this(id, playerInventory, buf, playerInventory.player.level().getEntity(buf.readInt()) as ImpEntity)
+
     var availableTrades: List<SoulTrade> = listOf()
     var availableSouls: List<SoulData> = listOf()
     var selectedTradeIndex: Int = -1
@@ -21,7 +22,6 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf)
     var tradeAmount: Int = 1
 
     init {
-        trader = playerInventory.player.level().getEntity(buf.readInt()) as ImpEntity
 
         for (i in 0..2) {
             for (j in 0..8) {
@@ -99,11 +99,11 @@ class SoulTradingMenu(id: Int, playerInventory: Inventory, buf: FriendlyByteBuf)
 
     override fun stillValid(player: Player): Boolean {
         return if (player.level().isClientSide) true
-        else trader?.tradingPlayer == player
+        else impEntity.tradingPlayer == player
     }
 
     override fun removed(player: Player) {
-        this.trader?.tradingPlayer = null
+        this.impEntity.tradingPlayer = null
         super.removed(player)
     }
 

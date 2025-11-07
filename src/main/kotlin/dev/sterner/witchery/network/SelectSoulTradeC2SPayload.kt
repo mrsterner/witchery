@@ -3,6 +3,7 @@ package dev.sterner.witchery.network
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.menu.SoulTradingMenu
 import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
+import dev.sterner.witchery.content.entity.ImpEntity
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
@@ -116,7 +117,7 @@ class SelectSoulTradeC2SPayload(val action: Action, val shift: Boolean, val inde
         val outputStack = trade.output.copy()
         outputStack.count = menu.tradeAmount
 
-        if (!player.inventory.add(outputStack)) {
+        if (!player.inventory.add(outputStack.copy())) {
             player.drop(outputStack.copy(), false)
         }
 
@@ -128,27 +129,13 @@ class SelectSoulTradeC2SPayload(val action: Action, val shift: Boolean, val inde
     }
 
     private fun updateMenuData(player: ServerPlayer, menu: SoulTradingMenu) {
-        val trades = getAvailableTrades()
+        val trades = ImpEntity.getAvailableTrades()
         val souls = findNearbySouls(player)
 
         menu.setTrades(trades)
         menu.setSouls(souls)
 
         syncMenuData(player, menu)
-    }
-
-    private fun getAvailableTrades(): List<SoulTradingMenu.SoulTrade> {
-        return listOf(
-            SoulTradingMenu.SoulTrade(
-                net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND), 10
-            ),
-            SoulTradingMenu.SoulTrade(
-                net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.EMERALD), 5
-            ),
-            SoulTradingMenu.SoulTrade(
-                net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.GOLD_INGOT), 3
-            )
-        )
     }
 
     private fun findNearbySouls(player: ServerPlayer): List<SoulTradingMenu.SoulData> {

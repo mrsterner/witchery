@@ -211,7 +211,7 @@ class SoulTradingScreen(menu: SoulTradingMenu, inventory: Inventory, title: Comp
             val headV = (headIndex / 8) * 16
 
             RenderSystem.setShaderTexture(0, soulHeadsTexture)
-            guiGraphics.blit(soulHeadsTexture, x, y, headU.toFloat(), headV.toFloat(), 16, 16, 128, 128)
+            guiGraphics.blit(soulHeadsTexture, x + 1, y, headU.toFloat(), headV.toFloat(), 16, 16, 128, 128)
             RenderSystem.setShaderTexture(0, texture)
         }
 

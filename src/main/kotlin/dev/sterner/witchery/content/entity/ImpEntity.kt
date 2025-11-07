@@ -93,17 +93,19 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
     }
 
     fun ImpEntity.openTradingMenu(player: ServerPlayer) {
+        val imp = this@ImpEntity
         player.openMenu(object : MenuProvider {
             override fun createMenu(containerId: Int, inventory: Inventory, player: Player): AbstractContainerMenu? {
                 val buf = FriendlyByteBuf(Unpooled.buffer())
                 buf.writeInt(id)
-                val menu = SoulTradingMenu(containerId, inventory, buf)
+                val menu = SoulTradingMenu(containerId, inventory, buf, imp)
 
                 val trades = getAvailableTrades()
                 val souls = findNearbySouls(player as ServerPlayer)
 
                 menu.setTrades(trades)
                 menu.setSouls(souls)
+                imp.tradingPlayer = player
 
                 PacketDistributor.sendToPlayer(
                     player,
@@ -125,25 +127,7 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
         }) { buf -> buf.writeInt(id) }
     }
 
-    fun getAvailableTrades(): List<SoulTradingMenu.SoulTrade> {
-        return listOf(
-            SoulTradingMenu.SoulTrade(
-                ItemStack(WitcheryItems.DEMON_HEART.get()), 20
-            ),
-            SoulTradingMenu.SoulTrade(
-                WitcheryItems.TOE_OF_FROG.get().defaultInstance, 5
-            ),
-            SoulTradingMenu.SoulTrade(
-                WitcheryItems.WOOL_OF_BAT.get().defaultInstance, 5
-            ),
-            SoulTradingMenu.SoulTrade(
-                WitcheryItems.TONGUE_OF_DOG.get().defaultInstance,5
-            ),
-            SoulTradingMenu.SoulTrade(
-                WitcheryItems.OWLETS_WING.get().defaultInstance, 5
-            )
-        )
-    }
+
 
     fun ImpEntity.findNearbySouls(player: ServerPlayer): List<SoulTradingMenu.SoulData> {
         val level = player.serverLevel()
@@ -209,6 +193,26 @@ class ImpEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.IMP.get(), lev
                 .add(Attributes.FLYING_SPEED, 0.10000000149011612)
                 .add(Attributes.MOVEMENT_SPEED, 0.10000000149011612).add(Attributes.ATTACK_DAMAGE, 2.0)
                 .add(Attributes.FOLLOW_RANGE, 48.0)
+        }
+
+        fun getAvailableTrades(): List<SoulTradingMenu.SoulTrade> {
+            return listOf(
+                SoulTradingMenu.SoulTrade(
+                    ItemStack(WitcheryItems.DEMON_HEART.get()), 20
+                ),
+                SoulTradingMenu.SoulTrade(
+                    WitcheryItems.TOE_OF_FROG.get().defaultInstance, 5
+                ),
+                SoulTradingMenu.SoulTrade(
+                    WitcheryItems.WOOL_OF_BAT.get().defaultInstance, 5
+                ),
+                SoulTradingMenu.SoulTrade(
+                    WitcheryItems.TONGUE_OF_DOG.get().defaultInstance,5
+                ),
+                SoulTradingMenu.SoulTrade(
+                    WitcheryItems.OWLETS_WING.get().defaultInstance, 5
+                )
+            )
         }
     }
 
