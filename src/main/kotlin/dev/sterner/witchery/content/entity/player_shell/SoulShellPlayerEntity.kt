@@ -65,6 +65,7 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
                     enableFlight(player)
                     player.abilities.flying = true
                     player.onUpdateAbilities()
+                    InventorySlots.lockAll(player)
                 }
             }
         }
@@ -85,9 +86,10 @@ class SoulShellPlayerEntity(level: Level) : PlayerShellEntity(WitcheryEntityType
             replaceWithPlayer(player, this)
 
             disableFlight(player)
-            InventorySlots.unlockAll(player)
             player.abilities.flying = false
             player.onUpdateAbilities()
+
+            InventorySlots.unlockAll(player)
 
             AfflictionPlayerAttachment.smartUpdate(player) {
                 withSoulForm(false).withVagrant(false)

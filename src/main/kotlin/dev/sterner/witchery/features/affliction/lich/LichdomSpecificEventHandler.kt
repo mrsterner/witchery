@@ -225,6 +225,8 @@ object LichdomSpecificEventHandler {
             val pool = SoulPoolPlayerAttachment.getData(newPlayer)
             SoulPoolPlayerAttachment.setData(newPlayer, pool.copy(soulPool = currentSouls))
 
+        } else if(AfflictionPlayerAttachment.getData(oldPlayer).isSoulForm()) {
+            InventorySlots.lockAll(newPlayer)
         }
     }
 
@@ -253,6 +255,10 @@ object LichdomSpecificEventHandler {
     fun activateSoulForm(player: ServerPlayer) {
         val shell = PlayerShellEntity.createShellFromPlayer(player)
         player.level().addFreshEntity(shell)
+
+        player.inventory.clearContent()
+        player.inventory.armor.clear()
+        player.inventory.offhand.clear()
 
         AfflictionPlayerAttachment.smartUpdate(player) {
             withSoulForm(true).withVagrant(false)

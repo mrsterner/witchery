@@ -62,10 +62,6 @@ public abstract class PlayerMixin extends LivingEntity  {
         }
     }
 
-    /**
-     * Players' sizes are hardcoded in an immutable enum map.
-     * This injection makes souls smaller when sneaking.
-     */
     @Inject(method = "getDefaultDimensions", at = @At("HEAD"), cancellable = true)
     private void adjustSize(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         Player self = (Player)(Object)this;

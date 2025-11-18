@@ -62,11 +62,22 @@ class SoulSeveranceRitual : Ritual("soul_severance") {
                 target.kill()
                 level.addFreshEntity(deadTargetCopy)
             }
-
-        } else if (target is ServerPlayer) {
-            AfflictionAbilityHandler.addAbilityOnLevelUp(target, LichdomAbility.SOUL_FORM.requiredLevel, AfflictionTypes.LICHDOM, force = true)
-            LichdomSpecificEventHandler.activateSoulForm(target)
+            return true
         }
+
+        if (target is ServerPlayer) {
+            AfflictionAbilityHandler.addAbilityOnLevelUp(
+                target,
+                LichdomAbility.SOUL_FORM.requiredLevel,
+                AfflictionTypes.LICHDOM,
+                force = true
+            )
+
+            LichdomSpecificEventHandler.activateSoulForm(target)
+
+            return true
+        }
+
         return true
     }
 }

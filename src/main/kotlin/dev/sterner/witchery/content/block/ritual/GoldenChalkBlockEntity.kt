@@ -746,30 +746,17 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      * Check if celestial conditions are met (time of day, moon phase)
      */
     private fun hasCelestialCondition(level: Level, recipe: RitualRecipe): Boolean {
-        if (recipe.celestialConditions.isEmpty()) {
-            return true
-        }
+        if (recipe.celestialConditions.isEmpty()) return true
 
-        return when {
-            recipe.celestialConditions.contains(RitualRecipe.Celestial.DAY) ->
-                RitualHelper.isDaytime(level)
-
-            recipe.celestialConditions.contains(RitualRecipe.Celestial.FULL_MOON) ->
-                RitualHelper.isFullMoon(level)
-
-            recipe.celestialConditions.contains(RitualRecipe.Celestial.NEW_MOON) ->
-                RitualHelper.isNewMoon(level)
-
-            recipe.celestialConditions.contains(RitualRecipe.Celestial.NIGHT) ->
-                RitualHelper.isNighttime(level)
-
-            recipe.celestialConditions.contains(RitualRecipe.Celestial.WAXING) ->
-                RitualHelper.isWaxing(level)
-
-            recipe.celestialConditions.contains(RitualRecipe.Celestial.WANING) ->
-                RitualHelper.isWaning(level)
-
-            else -> false
+        return recipe.celestialConditions.any { condition ->
+            when (condition) {
+                RitualRecipe.Celestial.DAY       -> RitualHelper.isDaytime(level)
+                RitualRecipe.Celestial.FULL_MOON -> RitualHelper.isFullMoon(level)
+                RitualRecipe.Celestial.NEW_MOON  -> RitualHelper.isNewMoon(level)
+                RitualRecipe.Celestial.NIGHT     -> RitualHelper.isNighttime(level)
+                RitualRecipe.Celestial.WAXING    -> RitualHelper.isWaxing(level)
+                RitualRecipe.Celestial.WANING    -> RitualHelper.isWaning(level)
+            }
         }
     }
 

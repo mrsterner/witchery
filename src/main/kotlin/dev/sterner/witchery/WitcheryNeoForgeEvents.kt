@@ -414,6 +414,8 @@ object WitcheryNeoForgeEvents {
         if (event.entity is ServerPlayer) {
             val miscData = MiscPlayerAttachment.getData(event.entity)
             MiscPlayerAttachment.setData(event.entity, miscData.copy(hasDeathTeleport = false))
+
+            InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.entity))
         }
     }
 
@@ -431,7 +433,6 @@ object WitcheryNeoForgeEvents {
             InfusionPlayerAttachment.getData(event.original)
         )
 
-        InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.original))
 
         val miscData = MiscPlayerAttachment.getData(event.entity)
         MiscPlayerAttachment.setData(event.entity, miscData.copy(hasDeathTeleport = false))
@@ -442,6 +443,8 @@ object WitcheryNeoForgeEvents {
         BrewOfSleepingItem.respawnPlayer(event.entity)
         CovenPlayerAttachment.setData(event.entity, CovenPlayerAttachment.getData(event.original))
         LifebloodPlayerAttachment.setData(event.entity, LifebloodPlayerAttachment.getData(event.original))
+
+        InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.original))
 
         if (event.entity is ServerPlayer) {
             val serverPlayer = event.entity as ServerPlayer

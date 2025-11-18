@@ -111,7 +111,10 @@ enum class LichdomAbility(
 
                     if (target.getOriginalUUID().orElse(null) == player.uuid) {
                         LichdomSpecificEventHandler.returnToShell(player, target)
-                        AbilityCooldownManager.startCooldown(player, this)
+                        if (AfflictionPlayerAttachment.getData(player).getLichLevel() > 0) {
+                            AbilityCooldownManager.startCooldown(player, this)
+                        }
+
                         true
                     } else {
                         false
@@ -120,7 +123,9 @@ enum class LichdomAbility(
                 is Mob -> {
                     val result = LichdomSpecificEventHandler.attemptPossession(player, target)
                     if (result) {
-                        AbilityCooldownManager.startCooldown(player, this)
+                        if (AfflictionPlayerAttachment.getData(player).getLichLevel() > 0) {
+                            AbilityCooldownManager.startCooldown(player, this)
+                        }
                     }
                     result
                 }
