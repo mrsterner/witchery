@@ -6,12 +6,7 @@
     "G": "witchery:golden_chalk",
     "S": "witchery:ritual_chalk"
   },
-  "commands": [
-    {
-      "type": "end",
-      "command": "time set midnight"
-    }
-  ],
+  "commands": [],
   "conditions": {
     "celestialConditions": [],
     "requireCat": false,
@@ -42,7 +37,7 @@
     "__SSS__"
   ],
   "ritual": {
-    "id": "witchery:empty"
+    "id": "witchery:set_midnight"
   },
   "ticks": 20
 }

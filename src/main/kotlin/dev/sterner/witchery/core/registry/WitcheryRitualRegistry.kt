@@ -19,6 +19,7 @@ import dev.sterner.witchery.features.ritual.ResurrectFamiliarRitual
 import dev.sterner.witchery.features.ritual.RotRitual
 import dev.sterner.witchery.features.ritual.SoulSeveranceRitual
 import dev.sterner.witchery.features.ritual.SoulbindRitual
+import dev.sterner.witchery.features.ritual.TurnNightRitual
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
@@ -68,6 +69,9 @@ object WitcheryRitualRegistry {
         RITUALS.register("soul_severance", Supplier { SoulSeveranceRitual() })
     val PETRIFICATION_RITUAL: DeferredHolder<Ritual, Ritual> = RITUALS.register("petrification", Supplier {
         PetrificationRitual()
+    })
+    val TURN_NIGHT_RITUAL: DeferredHolder<Ritual, Ritual> = RITUALS.register("set_midnight", Supplier {
+        TurnNightRitual()
     })
 
     fun getById(id: ResourceLocation): Ritual? {

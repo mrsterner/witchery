@@ -22,6 +22,7 @@ import dev.sterner.witchery.features.ritual.PetrificationRitual
 import dev.sterner.witchery.features.ritual.PullMobsRitual
 import dev.sterner.witchery.features.ritual.RainingToadRitual
 import dev.sterner.witchery.features.ritual.SoulSeveranceRitual
+import dev.sterner.witchery.features.ritual.TurnNightRitual
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.recipes.RecipeOutput
 import net.minecraft.world.entity.EntityType
@@ -100,7 +101,7 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(WitcheryItems.WOOD_ASH.get())
             .setAltarPower(3000)
             .setTicks(20)
-            .addCommand(CommandType("time set midnight", CommandType.END))
+            .setCustomRitual(TurnNightRitual())
             .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("set_midnight"))
 
