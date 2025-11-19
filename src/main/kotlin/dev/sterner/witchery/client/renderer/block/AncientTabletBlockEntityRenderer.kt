@@ -5,6 +5,7 @@ import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlockEntity
 import dev.sterner.witchery.client.model.AncientTabletModel
+import dev.sterner.witchery.core.registry.WitcheryRenderTypes
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
@@ -30,6 +31,9 @@ class AncientTabletBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
         )
     }
 
+    val textureLocation = Witchery.id("textures/block/ancient_tablet.png")
+    val textureLocationGlow = Witchery.id("textures/block/ancient_tablet_glow.png")
+
     override fun render(
         blockEntity: AncientTabletBlockEntity,
         partialTick: Float,
@@ -38,7 +42,6 @@ class AncientTabletBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
         packedLight: Int,
         packedOverlay: Int
     ) {
-        val textureLocation = Witchery.id("textures/block/ancient_tablet.png")
 
         poseStack.pushPose()
 
@@ -71,7 +74,14 @@ class AncientTabletBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context)
         val vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(textureLocation))
 
         model.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, -1)
+        val glowAlpha = blockEntity.glowAlpha
+        if (glowAlpha > 0f) {
+            val glowConsumer = bufferSource.getBuffer(WitcheryRenderTypes.GLOW.apply(textureLocationGlow))
 
+            val alpha = (glowAlpha * 255).toInt()
+            val color = (alpha shl 24) or 0xFFFFFF
+            model.renderToBuffer(poseStack, glowConsumer, 15728880, packedOverlay, color)
+        }
         poseStack.popPose()
     }
 }

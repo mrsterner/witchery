@@ -29,4 +29,7 @@ object WitcheryShaders {
 
     @JvmField
     var soulCage: ShaderInstance? = null
+
+    @JvmField
+    var glow: ShaderInstance? = null
 }

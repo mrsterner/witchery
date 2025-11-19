@@ -32,10 +32,6 @@ data class ReadTabletC2SPayload(
         val player = ctx.player() as? ServerPlayer ?: return
         val level = player.serverLevel()
 
-        if (!WitcheryUtil.hasAdvancement(player, Witchery.id("necro/1"))) {
-            return
-        }
-
         val infusion = InfusionPlayerAttachment.getData(player)
         if (infusion.type != InfusionType.NECRO) {
             return

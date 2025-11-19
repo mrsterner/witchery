@@ -48,20 +48,29 @@ object TabletGazeTracker {
                 reset()
                 return
             }
-
             if (tablet.getTabletId() == currentTablet && pos == currentPos) {
                 gazeStartTime++
 
+                val progress = (gazeStartTime.toFloat() / REQUIRED_GAZE_TIME).coerceIn(0f, 1f)
+                tablet.updateGlowProgress(progress)
+
                 if (gazeStartTime >= REQUIRED_GAZE_TIME) {
+
                     PacketDistributor.sendToServer(ReadTabletC2SPayload(tablet.getTabletId(), pos))
                     reset()
                 }
             } else {
+                if (currentPos != null) {
+                    (level.getBlockEntity(currentPos) as? AncientTabletBlockEntity)?.resetGlow()
+                }
                 currentTablet = tablet.getTabletId()
                 currentPos = pos
                 gazeStartTime = 0
             }
         } else {
+            if (currentPos != null) {
+                (level.getBlockEntity(currentPos) as? AncientTabletBlockEntity)?.resetGlow()
+            }
             reset()
         }
     }

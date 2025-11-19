@@ -309,6 +309,15 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         ) { shader ->
             WitcheryShaders.soulCage = shader
         }
+        event.registerShader(
+            ShaderInstance(
+                event.resourceProvider,
+                Witchery.id("glow"),
+                DefaultVertexFormat.NEW_ENTITY
+            )
+        ) { shader ->
+            WitcheryShaders.glow = shader
+        }
     }
 
     fun registerClientExtensions(event: RegisterClientExtensionsEvent) {

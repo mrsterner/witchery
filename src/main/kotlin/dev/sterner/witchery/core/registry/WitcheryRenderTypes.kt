@@ -66,6 +66,28 @@ object WitcheryRenderTypes {
             .createCompositeState(true)
     }
 
+    val GLOW = Util.memoize { resourceLocation: ResourceLocation ->
+        val compositeState: RenderType.CompositeState =
+            RenderType.CompositeState.builder()
+                .setShaderState(ShaderStateShard(WitcheryShaders::glow))
+                .setTextureState(TextureStateShard(resourceLocation, false, true))
+                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
+                .createCompositeState(true)
+        create(
+            Witchery.MODID + "glow",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            262144,
+            true,
+            false,
+            compositeState
+        )
+    }
+
     val SOUL_CHAIN = Util.memoize { texture: ResourceLocation ->
         create(
             Witchery.MODID + "soul_chain",
