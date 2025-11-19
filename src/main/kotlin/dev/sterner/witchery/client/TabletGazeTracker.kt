@@ -20,7 +20,7 @@ object TabletGazeTracker {
     private var currentTablet: UUID? = null
     private var currentPos: BlockPos? = null
     private var gazeStartTime: Long = 0
-    private const val REQUIRED_GAZE_TIME = 100L
+    private const val REQUIRED_GAZE_TIME = 20 * 7
     private const val MAX_TABLETS = 3
 
     fun tick() {
