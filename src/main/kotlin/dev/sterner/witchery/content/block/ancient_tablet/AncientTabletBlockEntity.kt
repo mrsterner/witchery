@@ -56,7 +56,7 @@ class AncientTabletBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             }
 
             if (isFadingOut && glowAlpha > 0f) {
-                glowAlpha = Math.max(0f, glowAlpha - 0.02f)
+                glowAlpha = 0f.coerceAtLeast(glowAlpha - 0.01f)
                 if (glowAlpha <= 0f) {
                     isFadingOut = false
                 }
