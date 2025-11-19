@@ -13,10 +13,14 @@ import net.minecraft.data.PackOutput
 import net.minecraft.data.loot.BlockLootSubProvider
 import net.minecraft.data.loot.EntityLootSubProvider
 import net.minecraft.data.loot.LootTableProvider
+import net.minecraft.data.loot.LootTableSubProvider
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ProblemReporter
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.flag.FeatureFlags
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.Items
 import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.block.BedBlock
 import net.minecraft.world.level.block.Block
@@ -35,6 +39,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 import java.util.concurrent.CompletableFuture
+import java.util.function.BiConsumer
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
@@ -44,7 +49,8 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
         packOutput, mutableSetOf(),
         listOf(
             SubProviderEntry({ BlocksLoot(it) }, LootContextParamSets.BLOCK),
-            SubProviderEntry({ EntityLoot(it) }, LootContextParamSets.ENTITY)
+            SubProviderEntry({ EntityLoot(it) }, LootContextParamSets.ENTITY),
+            SubProviderEntry({ ArchaeologyLoot(it) }, LootContextParamSets.CHEST)
         ), provider
     ) {
 
@@ -54,6 +60,28 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
         `problemreporter$collector`: ProblemReporter.Collector
     ) {
 
+    }
+
+    class ArchaeologyLoot(provider: HolderLookup.Provider) :
+        LootTableSubProvider {
+
+        override fun generate(output: BiConsumer<ResourceKey<LootTable>, LootTable.Builder>) {
+            output.accept(
+                ResourceKey.create(
+                    Registries.LOOT_TABLE,
+                    ResourceLocation.fromNamespaceAndPath("witchery", "archaeology/graveyard_dirt")
+                ),
+                LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1f))
+                            .add(LootItem.lootTableItem(Items.BONE).setWeight(1))
+                            .add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1))
+                            .add(LootItem.lootTableItem(WitcheryItems.TORN_PAGE.get()).setWeight(1))
+                            .add(LootItem.lootTableItem(Items.SKELETON_SKULL).setWeight(1))
+                    )
+            )
+        }
     }
 
     class EntityLoot(provider: HolderLookup.Provider) :

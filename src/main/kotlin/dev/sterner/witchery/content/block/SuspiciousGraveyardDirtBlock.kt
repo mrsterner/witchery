@@ -2,12 +2,16 @@ package dev.sterner.witchery.content.block
 
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.particles.BlockParticleOption
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.util.RandomSource
@@ -49,13 +53,24 @@ class SuspiciousGraveyardDirtBlock(
         return RenderShape.MODEL
     }
 
-    public override fun onPlace(
+    override fun onPlace(
         state: BlockState,
         level: Level,
         pos: BlockPos,
         oldState: BlockState,
         movedByPiston: Boolean
     ) {
+        if (level.getBlockEntity(pos) is SuspiciousGraveyardDirtBlockEntity) {
+            val blockEntity = level.getBlockEntity(pos) as SuspiciousGraveyardDirtBlockEntity
+            blockEntity.setLootTable(
+                ResourceKey.create(
+                    Registries.LOOT_TABLE,
+                    Witchery.id("archaeology/graveyard_dirt")
+                ),
+                level.random.nextLong()
+            )
+        }
+
         level.scheduleTick(pos, this, 2)
     }
 

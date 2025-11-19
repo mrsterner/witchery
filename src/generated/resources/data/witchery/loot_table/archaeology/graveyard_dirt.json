@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:bone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:rotten_flesh"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "witchery:torn_page"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:skeleton_skull"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "witchery:archaeology/graveyard_dirt"
+}

@@ -21,7 +21,10 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.storage.loot.LootParams
 import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams
 import net.minecraft.world.phys.Vec3
 import java.util.*
 import kotlin.math.max
@@ -70,16 +73,23 @@ class SuspiciousGraveyardDirtBlockEntity(pos: BlockPos, blockState: BlockState) 
 
     private fun unpackLootTable(player: Player) {
         if (this.level != null && !level!!.isClientSide() && (level!!.server != null) && this.storedItem == ItemStack.EMPTY) {
-            val list = listOf(
-                Items.BONE.defaultInstance,
-                Items.ROTTEN_FLESH.defaultInstance,
-                WitcheryItems.TORN_PAGE.get().defaultInstance,
-                Items.SKELETON_SKULL.defaultInstance
-            )
+            if (this.lootTable != null) {
+                val serverLevel = level as ServerLevel
+                val lootParams = LootParams.Builder(serverLevel)
+                    .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockPos))
+                    .withOptionalParameter(LootContextParams.THIS_ENTITY, player)
+                    .create(LootContextParamSets.CHEST)
 
-            this.storedItem = list[level!!.random.nextInt(list.size - 1)]
-            this.lootTable = null
-            this.setChanged()
+                val lootTable = serverLevel.server.reloadableRegistries().getLootTable(this.lootTable!!)
+                val items = lootTable.getRandomItems(lootParams)
+
+                if (items.isNotEmpty()) {
+                    this.storedItem = items[0]
+                }
+
+                this.lootTable = null
+                this.setChanged()
+            }
         }
     }
 
