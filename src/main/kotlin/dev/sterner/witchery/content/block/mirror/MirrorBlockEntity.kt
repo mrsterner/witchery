@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.npc.AbstractVillager
@@ -24,8 +25,24 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var isSmallMirror = false
     var linkedMirror: GlobalPos? = null
     private var cooldown = 0
+    var mode: Mode = Mode.NONE
 
     private val entityCooldowns = mutableMapOf<Int, Long>()
+
+    enum class Mode : StringRepresentable {
+        NONE,
+        DEMONIC,
+        TELEPORT,
+        POCKET_DIMENSION;
+
+        override fun getSerializedName(): String {
+            return name.lowercase()
+        }
+
+        companion object {
+            val CODEC = StringRepresentable.EnumCodec.STRING.xmap(Mode::valueOf, Mode::name)!!
+        }
+    }
 
     companion object {
         const val TELEPORT_COOLDOWN = 20
@@ -36,6 +53,7 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         super.saveAdditional(tag, registries)
         tag.putBoolean("HasDemon", hasDemon)
         tag.putBoolean("IsSmallMirror", isSmallMirror)
+        tag.putString("Mode", mode.serializedName)
 
         linkedMirror?.let {
             val linkTag = CompoundTag()
@@ -49,6 +67,7 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         super.loadAdditional(tag, registries)
         hasDemon = tag.getBoolean("HasDemon")
         isSmallMirror = tag.getBoolean("IsSmallMirror")
+        mode = Mode.valueOf(tag.getString("Mode"))
 
         if (tag.contains("LinkedMirror")) {
             val linkTag = tag.getCompound("LinkedMirror")
@@ -95,31 +114,32 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         setChanged()
     }
 
-    fun tick() {
-        if (level == null || level!!.isClientSide) return
+    override fun tickServer(serverLevel: ServerLevel) {
 
-        if (cooldown > 0) {
-            cooldown--
-            return
-        }
+        if (mode == Mode.TELEPORT) {
+            if (cooldown > 0) {
+                cooldown--
+                return
+            }
 
-        val currentTime = level!!.gameTime
-        entityCooldowns.entries.removeIf { currentTime - it.value > ENTITY_COOLDOWN }
+            val currentTime = level!!.gameTime
+            entityCooldowns.entries.removeIf { currentTime - it.value > ENTITY_COOLDOWN }
 
-        if (linkedMirror == null) return
+            if (linkedMirror == null) return
 
-        val aabb = getTeleportationAABB()
-        val entities = level!!.getEntitiesOfClass(Entity::class.java, aabb) { entity ->
-            !entityCooldowns.containsKey(entity.id) && canTeleport(entity)
-        }
+            val aabb = getTeleportationAABB()
+            val entities = level!!.getEntitiesOfClass(Entity::class.java, aabb) { entity ->
+                !entityCooldowns.containsKey(entity.id) && canTeleport(entity)
+            }
 
-        for (entity in entities) {
-            if (isSmallMirror) {
-                if (entity is ItemEntity) {
+            for (entity in entities) {
+                if (isSmallMirror) {
+                    if (entity is ItemEntity) {
+                        teleportEntity(entity)
+                    }
+                } else {
                     teleportEntity(entity)
                 }
-            } else {
-                teleportEntity(entity)
             }
         }
     }
