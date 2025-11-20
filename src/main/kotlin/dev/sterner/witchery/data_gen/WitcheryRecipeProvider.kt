@@ -2,7 +2,6 @@ package dev.sterner.witchery.data_gen
 
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.block.phylactery.PhylacteryBlock
-import dev.sterner.witchery.content.recipe.LinkedMirrorRecipe
 import dev.sterner.witchery.content.recipe.PendantDataComponentRecipe
 import dev.sterner.witchery.content.recipe.PotionDataComponentTransferRecipe
 import dev.sterner.witchery.content.recipe.ShapedRecipeWithComponentsBuilder
@@ -80,10 +79,6 @@ class WitcheryRecipeProvider(output: PackOutput, val registriesFuture: Completab
         SpecialRecipeBuilder.special { _: CraftingBookCategory? ->
             TaglockDataComponentTransferRecipe()
         }.save(exporter, "taglock_transfer")
-
-        SpecialRecipeBuilder.special { _: CraftingBookCategory? ->
-            LinkedMirrorRecipe()
-        }.save(exporter, "linked_mirror")
 
         SpecialRecipeBuilder.special { _: CraftingBookCategory? ->
             PotionDataComponentTransferRecipe()

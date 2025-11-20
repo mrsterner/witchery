@@ -1,7 +1,6 @@
 package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
-import dev.sterner.witchery.content.recipe.LinkedMirrorRecipe
 import dev.sterner.witchery.content.recipe.TaglockDataComponentTransferRecipe
 import dev.sterner.witchery.content.recipe.brazier.BrazierPassiveRecipe
 import dev.sterner.witchery.content.recipe.brazier.BrazierSummoningRecipe
@@ -50,10 +49,6 @@ object WitcheryRecipeTypes {
 
     val TAGLOCK_RECIPE_TYPE = RECIPE_TYPES.register(TaglockDataComponentTransferRecipe.NAME, Supplier {
         registerRecipeType<TaglockDataComponentTransferRecipe>(TaglockDataComponentTransferRecipe.NAME)
-    })
-
-    val MIRROR_RECIPE_TYPE = RECIPE_TYPES.register(LinkedMirrorRecipe.NAME, Supplier {
-        registerRecipeType<LinkedMirrorRecipe>(LinkedMirrorRecipe.NAME)
     })
 
     val BRAZIER_SUMMONING_RECIPE_TYPE = RECIPE_TYPES.register(BrazierSummoningRecipe.NAME, Supplier {

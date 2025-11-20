@@ -18,6 +18,7 @@ import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.ritual.BestialCallRitual
 import dev.sterner.witchery.features.ritual.BlocksBelowRitual
+import dev.sterner.witchery.features.ritual.MirrorPairRitual
 import dev.sterner.witchery.features.ritual.PetrificationRitual
 import dev.sterner.witchery.features.ritual.PullMobsRitual
 import dev.sterner.witchery.features.ritual.RainingToadRitual
@@ -457,6 +458,17 @@ object WitcheryRitualRecipeProvider {
             .setTicks(20 * 10)
             .setCustomRitual(RotRitual())
             .save(exporter, Witchery.id("rot"))
+
+        RitualRecipeBuilder.create()
+            .setAltarPower(8000)
+            .addInputItem(Items.GLASS_PANE)
+            .addInputItem(Items.GLASS_PANE)
+            .addInputItem(WitcheryItems.BEAR_TRAP.get())
+            .addInputEntity(WitcheryEntityTypes.DEMON.get())
+            .addSmallPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
+            .setTicks(20 * 1)
+            .setCustomRitual(MirrorPairRitual())
+            .save(exporter, Witchery.id("mirror_pair"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.TAGLOCK.get())

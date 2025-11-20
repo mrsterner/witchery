@@ -21,6 +21,7 @@ import dev.sterner.witchery.features.death.DeathPlayerAttachment
 import dev.sterner.witchery.features.misc.DeathQueueLevelAttachment
 import dev.sterner.witchery.features.ent.EntSpawnLevelAttachment
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
+import dev.sterner.witchery.features.mirror.MirrorRegistryAttachment
 import dev.sterner.witchery.features.misc.HudPlayerAttachment
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
 import dev.sterner.witchery.features.misc.InventoryLockPlayerAttachment
@@ -59,6 +60,17 @@ object WitcheryDataAttachments {
             Supplier {
                 AttachmentType.builder(Supplier { ChunkedAltarPositionsAttachment.Data() })
                     .serialize(ChunkedAltarPositionsAttachment.Data.DATA_CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val MIRROR_REGISTRY_ATTACHMENT: Supplier<AttachmentType<MirrorRegistryAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "mirror_registry",
+            Supplier {
+                AttachmentType.builder(Supplier { MirrorRegistryAttachment.Data() })
+                    .serialize(MirrorRegistryAttachment.Data.DATA_CODEC)
                     .build()
             }
         )

@@ -90,6 +90,10 @@ object WitcheryDataComponents {
         DataComponentType.builder<UUID>().persistent(UUIDUtil.CODEC).build()
     })
 
+    val MIRROR_PAIR_ID = DATA.register("mirror_pair", Supplier {
+        DataComponentType.builder<UUID>().persistent(UUIDUtil.CODEC).build()
+    })
+
     val VAMPIRE_BLOOD = DATA.register("vampire_blood", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
     })

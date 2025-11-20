@@ -1,0 +1,46 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 8000,
+  "altarPowerPerTick": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "S": "witchery:infernal_chalk"
+  },
+  "commands": [],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "minecraft:glass_pane"
+    },
+    {
+      "id": "minecraft:glass_pane"
+    },
+    {
+      "id": "witchery:bear_trap"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "__SSS__",
+    "_S___S_",
+    "S_____S",
+    "S__G__S",
+    "S_____S",
+    "_S___S_",
+    "__SSS__"
+  ],
+  "ritual": {
+    "id": "witchery:linked_mirror"
+  },
+  "ticks": 300
+}

@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
 import java.awt.Color
+import java.util.UUID
+
 
 class MirrorItem(
     block: Block,
@@ -42,19 +44,25 @@ class MirrorItem(
         val stack = context.itemInHand
 
         val success = if (isShiftClick) {
-            context.level.setBlock(context.clickedPos, state, 3)
+            val v = context.level.setBlock(context.clickedPos, state, 3)
+            val be = context.level.getBlockEntity(context.clickedPos)
+            if (be != null && be is MirrorBlockEntity) {
+                be.isSmallMirror = true
+                be.setChanged()
+            }
+            v
         } else {
             super.placeBlock(context, state)
         }
 
         if (success) {
-            val linkedPos = getLinkedPos(stack)
-            if (linkedPos != null) {
+            val pairId = getPairId(stack)
+            if (pairId != null) {
                 val entity = context.level.getBlockEntity(context.clickedPos) as? MirrorBlockEntity
-                entity?.linkToMirror(linkedPos)
+                entity?.putPairId(pairId)
 
                 context.player?.displayClientMessage(
-                    Component.literal("Mirror linked to waystone location!"),
+                    Component.literal("Mirror linked to its pair!"),
                     true
                 )
             }
@@ -69,27 +77,19 @@ class MirrorItem(
         tooltipComponents: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
-        val linkedPos = getLinkedPos(stack)
-        if (linkedPos != null) {
-            val dimension = WaystoneItem.capitalizeString(linkedPos.dimension().location().path)
-            val color = when (dimension) {
-                "The Nether" -> Color(255, 0, 0).rgb
-                "The End" -> Color(255, 0, 255).rgb
-                else -> Color(0, 255, 0).rgb
-            }
-
+        val pairId = getPairId(stack)
+        if (pairId != null) {
             tooltipComponents.add(
-                Component.literal("Linked to: ").withColor(0xFFAA00)
-                    .append(Component.literal(dimension).withColor(color))
+                Component.literal("Paired Mirror").withColor(0xAA00FF)
             )
 
             tooltipComponents.add(
-                Component.literal("Position: ").withColor(0xFFAA00)
-                    .append(Component.literal("${linkedPos.pos().x} ${linkedPos.pos().y} ${linkedPos.pos().z}").withColor(0x55FFFF))
+                Component.literal("Pair ID: ").withColor(0xFFAA00)
+                    .append(Component.literal(pairId.toString().substring(0, 8) + "...").withColor(0x55FFFF))
             )
         } else {
             tooltipComponents.add(
-                Component.literal("Not linked").withColor(0xFF5555)
+                Component.literal("Unpaired Mirror").withColor(0xFF5555)
             )
         }
 
@@ -97,12 +97,12 @@ class MirrorItem(
     }
 
     companion object {
-        fun getLinkedPos(stack: ItemStack): GlobalPos? {
-            return stack.get(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get())
+        fun getPairId(stack: ItemStack): UUID? {
+            return stack.get(WitcheryDataComponents.MIRROR_PAIR_ID.get())
         }
 
-        fun setLinkedPos(stack: ItemStack, pos: GlobalPos) {
-            stack.set(WitcheryDataComponents.GLOBAL_POS_COMPONENT.get(), pos)
+        fun setPairId(stack: ItemStack, pairId: UUID) {
+            stack.set(WitcheryDataComponents.MIRROR_PAIR_ID.get(), pairId)
         }
     }
 }

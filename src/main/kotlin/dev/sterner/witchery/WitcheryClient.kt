@@ -427,6 +427,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         event.registerLayerDefinition(ChainModel.LAYER_LOCATION) { ChainModel.createBodyLayer() }
         event.registerLayerDefinition(AncientTabletModel.LAYER_LOCATION) { AncientTabletModel.createBodyLayer() }
         event.registerLayerDefinition(JarModel.LAYER_LOCATION) { JarModel.createBodyLayer() }
+        event.registerLayerDefinition(MirrorModel.LAYER_LOCATION) { MirrorModel.createBodyLayer() }
         event.registerLayerDefinition(ArmorPoppetModel.LAYER_LOCATION) { ArmorPoppetModel.createBodyLayer() }
         event.registerLayerDefinition(LifeBloodPlantModel.LAYER_LOCATION) { LifeBloodPlantModel.createBodyLayer() }
         event.registerLayerDefinition(HungerPoppetModel.LAYER_LOCATION) { HungerPoppetModel.createBodyLayer() }
@@ -653,6 +654,8 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
 
         val cutoutBlocks = listOf(
             WitcheryBlocks.CENSER,
+            WitcheryBlocks.MIRROR,
+            WitcheryBlocks.MIRROR_COMPONENT,
             WitcheryBlocks.GOLDEN_CHALK_BLOCK,
             WitcheryBlocks.RITUAL_CHALK_BLOCK,
             WitcheryBlocks.INFERNAL_CHALK_BLOCK,

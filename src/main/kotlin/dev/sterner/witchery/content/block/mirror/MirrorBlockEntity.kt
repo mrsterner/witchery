@@ -1,11 +1,15 @@
 package dev.sterner.witchery.content.block.mirror
 
+import dev.sterner.witchery.content.entity.EntEntity.Type
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
+import dev.sterner.witchery.features.mirror.MirrorRegistryAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerLevel
@@ -17,15 +21,34 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.portal.DimensionTransition
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
+import java.util.UUID
+import kotlin.math.cos
+import kotlin.math.sin
 
 class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     MultiBlockCoreEntity(WitcheryBlockEntityTypes.MIRROR.get(), MirrorBlock.STRUCTURE.get(), blockPos, blockState) {
 
     var hasDemon = false
     var isSmallMirror = false
-    var linkedMirror: GlobalPos? = null
-    private var cooldown = 0
+    var pairId: UUID? = null
+    var cachedLinkedMirror: GlobalPos? = null
     var mode: Mode = Mode.NONE
+
+    private val stuckTimers = mutableMapOf<Int, Long>()
+
+    fun resetStuckTimer(entity: Entity) {
+        stuckTimers.remove(entity.id)
+    }
+
+    fun incrementStuckTimer(entity: Entity, amount: Int = 1): Int {
+        val t = (stuckTimers[entity.id] ?: 0) + amount
+        stuckTimers[entity.id] = t
+        return t.toInt()
+    }
+
+    fun getStuckTimer(entity: Entity): Int {
+        return stuckTimers[entity.id]?.toInt() ?: 0
+    }
 
     private val entityCooldowns = mutableMapOf<Int, Long>()
 
@@ -40,13 +63,12 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         }
 
         companion object {
-            val CODEC = StringRepresentable.EnumCodec.STRING.xmap(Mode::valueOf, Mode::name)!!
+            val CODEC: StringRepresentable.EnumCodec<Mode> = StringRepresentable.fromEnum { Mode.entries.toTypedArray() }
         }
     }
 
     companion object {
         const val TELEPORT_COOLDOWN = 20
-        const val ENTITY_COOLDOWN = 100
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
@@ -55,11 +77,8 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putBoolean("IsSmallMirror", isSmallMirror)
         tag.putString("Mode", mode.serializedName)
 
-        linkedMirror?.let {
-            val linkTag = CompoundTag()
-            linkTag.putString("Dimension", it.dimension().location().toString())
-            linkTag.put("Pos", NbtUtils.writeBlockPos(it.pos()))
-            tag.put("LinkedMirror", linkTag)
+        pairId?.let {
+            tag.put("PairId", UUIDUtil.CODEC.encodeStart(NbtOps.INSTANCE, it).result().orElse(null))
         }
     }
 
@@ -67,159 +86,127 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         super.loadAdditional(tag, registries)
         hasDemon = tag.getBoolean("HasDemon")
         isSmallMirror = tag.getBoolean("IsSmallMirror")
-        mode = Mode.valueOf(tag.getString("Mode"))
 
-        if (tag.contains("LinkedMirror")) {
-            val linkTag = tag.getCompound("LinkedMirror")
-            val dimLocation = linkTag.getString("Dimension")
-            val pos = NbtUtils.readBlockPos(linkTag, "Pos").orElse(null)
+        if (tag.contains("Mode")) {
+            mode = Mode.CODEC.parse(NbtOps.INSTANCE, tag.get("Mode")).result().orElse(Mode.NONE)
+        }
 
-            if (pos != null) {
-                val dimension = ResourceKey.create(
-                    net.minecraft.core.registries.Registries.DIMENSION,
-                    net.minecraft.resources.ResourceLocation.parse(dimLocation)
-                )
-                linkedMirror = GlobalPos.of(dimension, pos)
-            }
+        if (tag.contains("PairId")) {
+            pairId = UUIDUtil.CODEC.parse(NbtOps.INSTANCE, tag.get("PairId")).result().orElse(null)
+        }
+    }
+    fun isOnCooldown(entity: Entity): Boolean {
+        val t = level!!.gameTime
+        val last = entityCooldowns[entity.id] ?: return false
+        return t - last < TELEPORT_COOLDOWN
+    }
+
+    fun setCooldown(entity: Entity) {
+        entityCooldowns[entity.id] = level!!.gameTime
+    }
+    override fun onLoad() {
+        super.onLoad()
+
+        if (!level!!.isClientSide && level is ServerLevel && pairId != null) {
+            val globalPos = GlobalPos.of(level!!.dimension(), blockPos)
+            MirrorRegistryAttachment.registerMirror(level as ServerLevel, pairId!!, globalPos)
         }
     }
 
-    fun linkToMirror(targetPos: GlobalPos) {
-        this.linkedMirror = targetPos
-        setChanged()
+    override fun setRemoved() {
+        super.setRemoved()
 
-        val targetLevel = level?.server?.getLevel(targetPos.dimension())
-        if (targetLevel != null) {
-            val targetEntity = targetLevel.getBlockEntity(targetPos.pos())
-            if (targetEntity is MirrorBlockEntity) {
-                targetEntity.linkedMirror = GlobalPos.of(level!!.dimension(), blockPos)
-                targetEntity.setChanged()
-            }
-        }
-    }
+        if (!level!!.isClientSide && level is ServerLevel && pairId != null) {
+            val globalPos = GlobalPos.of(level!!.dimension(), blockPos)
+            val serverLevel = level as ServerLevel
 
-    fun unlinkMirror() {
-        linkedMirror?.let { target ->
-            val targetLevel = level?.server?.getLevel(target.dimension())
-            if (targetLevel != null) {
-                val targetEntity = targetLevel.getBlockEntity(target.pos())
-                if (targetEntity is MirrorBlockEntity) {
-                    targetEntity.linkedMirror = null
-                    targetEntity.setChanged()
-                }
-            }
-        }
+            val pairedMirrorPos = MirrorRegistryAttachment.findPairedMirror(serverLevel, pairId!!, globalPos)
 
-        this.linkedMirror = null
-        setChanged()
-    }
+            MirrorRegistryAttachment.unregisterMirror(serverLevel, globalPos)
 
-    override fun tickServer(serverLevel: ServerLevel) {
-
-        if (mode == Mode.TELEPORT) {
-            if (cooldown > 0) {
-                cooldown--
-                return
-            }
-
-            val currentTime = level!!.gameTime
-            entityCooldowns.entries.removeIf { currentTime - it.value > ENTITY_COOLDOWN }
-
-            if (linkedMirror == null) return
-
-            val aabb = getTeleportationAABB()
-            val entities = level!!.getEntitiesOfClass(Entity::class.java, aabb) { entity ->
-                !entityCooldowns.containsKey(entity.id) && canTeleport(entity)
-            }
-
-            for (entity in entities) {
-                if (isSmallMirror) {
-                    if (entity is ItemEntity) {
-                        teleportEntity(entity)
+            if (pairedMirrorPos != null) {
+                val pairedLevel = level!!.server?.getLevel(pairedMirrorPos.dimension())
+                if (pairedLevel != null) {
+                    val pairedEntity = pairedLevel.getBlockEntity(pairedMirrorPos.pos())
+                    if (pairedEntity is MirrorBlockEntity) {
+                        pairedEntity.mode = Mode.DEMONIC
+                        pairedEntity.hasDemon = true
+                        pairedEntity.setChanged()
                     }
-                } else {
-                    teleportEntity(entity)
                 }
             }
         }
     }
 
-    private fun canTeleport(entity: Entity): Boolean {
-        if (entityCooldowns.containsKey(entity.id)) return false
+    fun putPairId(uuid: UUID) {
+        this.pairId = uuid
+        this.mode = Mode.TELEPORT
+        this.cachedLinkedMirror = null
+        setChanged()
 
-        if (isSmallMirror && entity !is ItemEntity) return false
-
-        return true
-    }
-
-    private fun getTeleportationAABB(): AABB {
-        return if (isSmallMirror) {
-            AABB(blockPos).inflate(0.5)
-        } else {
-            AABB(blockPos).expandTowards(0.0, 1.0, 0.0).inflate(0.5)
+        if (!level!!.isClientSide && level is ServerLevel) {
+            val globalPos = GlobalPos.of(level!!.dimension(), blockPos)
+            MirrorRegistryAttachment.registerMirror(level as ServerLevel, uuid, globalPos)
         }
     }
 
-    private fun teleportEntity(entity: Entity) {
-        val target = linkedMirror ?: return
+    private fun getLinkedMirror(): GlobalPos? {
+        if (pairId == null) return null
+        if (cachedLinkedMirror != null) return cachedLinkedMirror
+
+        if (level is ServerLevel) {
+            val globalPos = GlobalPos.of(level!!.dimension(), blockPos)
+            cachedLinkedMirror = MirrorRegistryAttachment.findPairedMirror(level as ServerLevel, pairId!!, globalPos)
+        }
+
+        return cachedLinkedMirror
+    }
+
+    fun tryTeleportEntity(entity: Entity) {
         val serverLevel = level as? ServerLevel ?: return
 
-        val targetLevel = serverLevel.server.getLevel(target.dimension()) ?: return
-        val targetEntity = targetLevel.getBlockEntity(target.pos()) as? MirrorBlockEntity ?: return
+        val targetPos = getLinkedMirror() ?: return
+        val targetLevel = serverLevel.server.getLevel(targetPos.dimension()) ?: return
 
-        entityCooldowns[entity.id] = serverLevel.gameTime
-        targetEntity.entityCooldowns[entity.id] = targetLevel.gameTime
+        val targetBe = targetLevel.getBlockEntity(targetPos.pos()) as? MirrorBlockEntity ?: return
 
-        val fromFacing = this.blockState.getValue(MirrorBlock.FACING)
-        val toFacing = targetEntity.blockState.getValue(MirrorBlock.FACING)
+        setCooldown(entity)
+        targetBe.setCooldown(entity)
 
-        val targetPos = Vec3.atCenterOf(target.pos())
+        val fromFacing = blockState.getValue(MirrorBlock.FACING)
+        val toFacing = targetBe.blockState.getValue(MirrorBlock.FACING)
 
-        val velocity = entity.deltaMovement
+        val angleDelta = toFacing.toYRot() - fromFacing.toYRot()
+        val rad = Math.toRadians(angleDelta.toDouble())
 
-        val angleFrom = fromFacing.toYRot()
-        val angleTo = toFacing.toYRot()
-
-        val angleDeltaDeg = angleTo - angleFrom
-        val angleDeltaRad = Math.toRadians(angleDeltaDeg.toDouble())
-
-        val sin = kotlin.math.sin(angleDeltaRad)
-        val cos = kotlin.math.cos(angleDeltaRad)
-
-        val rotatedVel = Vec3(
-            velocity.x * cos - velocity.z * sin,
-            velocity.y,
-            velocity.x * sin + velocity.z * cos
+        val vel = entity.deltaMovement
+        val rotated = Vec3(
+            vel.x * cos(rad) - vel.z * sin(rad),
+            vel.y,
+            vel.x * sin(rad) + vel.z * cos(rad)
         )
 
-        val nudgeAmount = 0.1
-        val nudge = Vec3(
-            toFacing.stepX.toDouble() * nudgeAmount,
-            toFacing.stepY.toDouble() * nudgeAmount,
-            toFacing.stepZ.toDouble() * nudgeAmount
-        )
+        val nudge = Vec3(toFacing.normal.x.toDouble(), toFacing.normal.y.toDouble(), toFacing.normal.z.toDouble()).scale(0.1)
+        val finalVel = rotated.add(nudge)
 
-        val finalVelocity = rotatedVel.add(nudge)
+        val tpTarget = Vec3.atCenterOf(targetPos.pos())
 
-        if (entity.level().dimension() != target.dimension()) {
+        if (serverLevel.dimension() != targetPos.dimension()) {
             entity.changeDimension(
                 DimensionTransition(
                     targetLevel,
-                    targetPos,
-                    finalVelocity,
-                    entity.yRot + angleDeltaDeg,
+                    tpTarget,
+                    finalVel,
+                    entity.yRot + angleDelta,
                     entity.xRot,
                     DimensionTransition.DO_NOTHING
                 )
             )
         } else {
-            entity.teleportTo(targetPos.x, targetPos.y, targetPos.z)
-            entity.deltaMovement = finalVelocity
+            entity.teleportTo(tpTarget.x, tpTarget.y, tpTarget.z)
+            entity.deltaMovement = finalVel
             entity.hurtMarked = true
         }
-
-        cooldown = TELEPORT_COOLDOWN
-        targetEntity.cooldown = TELEPORT_COOLDOWN
     }
 
 }

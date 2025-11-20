@@ -10,6 +10,7 @@ import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
 import dev.sterner.witchery.features.ritual.BindingRitual
 import dev.sterner.witchery.features.ritual.BlocksBelowRitual
 import dev.sterner.witchery.features.ritual.EmptyRitual
+import dev.sterner.witchery.features.ritual.MirrorPairRitual
 import dev.sterner.witchery.features.ritual.PetrificationRitual
 import dev.sterner.witchery.features.ritual.PullMobsRitual
 import dev.sterner.witchery.features.ritual.PushMobsRitual
@@ -72,6 +73,9 @@ object WitcheryRitualRegistry {
     })
     val TURN_NIGHT_RITUAL: DeferredHolder<Ritual, Ritual> = RITUALS.register("set_midnight", Supplier {
         TurnNightRitual()
+    })
+    val MIRROR: DeferredHolder<Ritual, Ritual> = RITUALS.register("linked_mirror", Supplier {
+        MirrorPairRitual()
     })
 
     fun getById(id: ResourceLocation): Ritual? {
