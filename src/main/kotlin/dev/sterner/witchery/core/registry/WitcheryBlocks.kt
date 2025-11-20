@@ -26,6 +26,8 @@ import dev.sterner.witchery.content.block.effigy.EffigyCompanionBlock
 import dev.sterner.witchery.content.block.grassper.GrassperBlock
 import dev.sterner.witchery.content.block.life_blood.LifeBloodBlock
 import dev.sterner.witchery.content.block.life_blood.LifeBloodPlantBlock
+import dev.sterner.witchery.content.block.mirror.MirrorBlock
+import dev.sterner.witchery.content.block.mirror.MirrorBlockComponent
 import dev.sterner.witchery.content.block.mushroom_log.MushroomLogBlock
 import dev.sterner.witchery.content.block.mushroom_log.MushroomLogComponent
 import dev.sterner.witchery.content.block.oven.*
@@ -149,6 +151,13 @@ object WitcheryBlocks {
 
     val CAULDRON_COMPONENT = register("cauldron_component") {
         CauldronBlockComponent(
+            Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()
+                .sound(SoundType.METAL)
+        )
+    }
+
+    val MIRROR_COMPONENT = register("mirror_component") {
+        MirrorBlockComponent(
             Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()
                 .sound(SoundType.METAL)
         )
@@ -410,6 +419,10 @@ object WitcheryBlocks {
 
     val DEMON_HEART = register("demon_heart") {
         DemonHeartBlock(Properties.of())
+    }
+
+    val MIRROR = register("mirror") {
+        MirrorBlock()
     }
 
     val INFINITY_EGG = register("infinity_egg") {

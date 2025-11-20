@@ -1,6 +1,7 @@
 package dev.sterner.witchery.core.registry
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.content.recipe.LinkedMirrorRecipe
 import dev.sterner.witchery.content.recipe.PendantDataComponentRecipe
 import dev.sterner.witchery.content.recipe.PotionDataComponentTransferRecipe
 import dev.sterner.witchery.content.recipe.TaglockDataComponentTransferRecipe
@@ -47,6 +48,12 @@ object WitcheryRecipeSerializers {
         RECIPE_SERIALIZERS.register("crafting_special_taglock", Supplier {
             SimpleCraftingRecipeSerializer { TaglockDataComponentTransferRecipe() }
         })
+
+    val MIRROR_RECIPE_SERIALIZER =
+        RECIPE_SERIALIZERS.register("crafting_special_mirror", Supplier {
+            SimpleCraftingRecipeSerializer { LinkedMirrorRecipe() }
+        })
+
 
     val POTION_RECIPE_SERIALIZER =
         RECIPE_SERIALIZERS.register("crafting_special_potion", Supplier {

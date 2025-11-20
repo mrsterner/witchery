@@ -513,6 +513,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         )
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.EFFIGY.get(), ::EffigyBlockEntityRenderer)
         event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.MUSHROOM_LOG.get(), ::MushroomLogBlockEntityRenderer)
+        event.registerBlockEntityRenderer(WitcheryBlockEntityTypes.MIRROR.get(), ::MirrorBlockEntityRenderer)
 
         event.registerEntityRenderer(WitcheryEntityTypes.BROOM.get()) { BroomEntityRenderer(it) }
         event.registerEntityRenderer(WitcheryEntityTypes.CHAIN.get()) { ChainEntityRenderer(it) }

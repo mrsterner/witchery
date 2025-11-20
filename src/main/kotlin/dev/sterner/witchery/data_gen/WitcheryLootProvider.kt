@@ -267,6 +267,8 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
                         it != WitcheryBlocks.CAULDRON_COMPONENT.get() &&
                         it != WitcheryBlocks.EFFIGY_COMPONENT.get() &&
                         it != WitcheryBlocks.MUSHROOM_LOG_COMPONENT.get() &&
+                        it != WitcheryBlocks.MIRROR.get() &&
+                        it != WitcheryBlocks.MIRROR_COMPONENT.get() &&
                         it != WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get() &&
                         it != WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get() &&
                         it != WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get() &&

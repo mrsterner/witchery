@@ -8,6 +8,7 @@ import dev.sterner.witchery.content.block.ancient_tablet.AncientTabletBlock
 import dev.sterner.witchery.content.block.cauldron.WitcheryCauldronBlock
 import dev.sterner.witchery.content.block.distillery.DistilleryBlock
 import dev.sterner.witchery.content.block.effigy.EffigyBlock
+import dev.sterner.witchery.content.block.mirror.MirrorBlock
 import dev.sterner.witchery.content.block.oven.OvenFumeExtensionBlock
 import dev.sterner.witchery.content.block.werewolf_altar.WerewolfAltarBlock
 import dev.sterner.witchery.content.item.*
@@ -528,6 +529,10 @@ object WitcheryItems {
 
     val ANCIENT_TABLET = register("ancient_tablet") {
         MultiBlockItem(WitcheryBlocks.ANCIENT_TABLET.get(), Item.Properties(), AncientTabletBlock.STRUCTURE)
+    }
+
+    val MIRROR = register("mirror") {
+        MirrorItem(WitcheryBlocks.MIRROR.get(), Item.Properties())
     }
 
     val CAULDRON = register("cauldron") {

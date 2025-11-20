@@ -19,6 +19,7 @@ import dev.sterner.witchery.content.block.dream_weaver.DreamWeaverBlockEntity
 import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.content.block.grassper.GrassperBlockEntity
 import dev.sterner.witchery.content.block.life_blood.LifeBloodBlockEntity
+import dev.sterner.witchery.content.block.mirror.MirrorBlockEntity
 import dev.sterner.witchery.content.block.mushroom_log.MushroomLogBlockEntity
 import dev.sterner.witchery.content.block.oven.OvenBlockEntity
 import dev.sterner.witchery.content.block.oven.OvenFumeExtensionBlockEntity
@@ -60,6 +61,7 @@ object WitcheryBlockEntityTypes {
             WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get(),
             WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get(),
             WitcheryBlocks.CAULDRON_COMPONENT.get(),
+            WitcheryBlocks.MIRROR_COMPONENT.get(),
             WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get(),
             WitcheryBlocks.DISTILLERY_COMPONENT.get(),
             WitcheryBlocks.ANCIENT_TABLET_COMPONENT.get(),
@@ -277,5 +279,9 @@ object WitcheryBlockEntityTypes {
 
     val CENSER = reg("censer") {
         BlockEntityType.Builder.of(::CenserBlockEntity, WitcheryBlocks.CENSER.get()).build(null)
+    }
+
+    val MIRROR = reg("mirror") {
+        BlockEntityType.Builder.of(::MirrorBlockEntity, WitcheryBlocks.MIRROR.get()).build(null)
     }
 }
