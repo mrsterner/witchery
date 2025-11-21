@@ -121,7 +121,6 @@ class MirrorBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         }
 
         val wallPos = pos.relative(facing.opposite)
-        println(wallPos)
         MirrorStuckPlayerAttachment.setWallPos(level, entity.uuid, wallPos)
 
         if (dot < -0.6) {

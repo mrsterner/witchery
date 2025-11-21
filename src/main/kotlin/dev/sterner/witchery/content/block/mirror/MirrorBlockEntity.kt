@@ -192,10 +192,10 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
             toFacing.normal.z.toDouble()
         )
 
-        val tpTarget = Vec3.atCenterOf(targetPos.pos()).add(exitFacingVec.scale(0.35))
+        val tpTarget = Vec3.atCenterOf(targetPos.pos()).add(exitFacingVec.scale(0.05))
 
         val launchSpeed = if (entity is ItemEntity) 0.5 else 0.3
-        val launchVel = exitFacingVec.scale(launchSpeed)
+        val launchVel = exitFacingVec.multiply(launchSpeed, 0.0, launchSpeed)
 
         if (serverLevel.dimension() != targetPos.dimension()) {
             entity.changeDimension(
@@ -211,7 +211,7 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         } else {
             entity.teleportTo(tpTarget.x, tpTarget.y, tpTarget.z)
             entity.yRot = newYRot
-            entity.setDeltaMovement(launchVel)
+            entity.deltaMovement = launchVel
             entity.hurtMarked = true
 
             if (entity is ServerPlayer) {

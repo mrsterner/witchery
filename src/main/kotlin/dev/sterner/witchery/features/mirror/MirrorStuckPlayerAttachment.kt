@@ -37,16 +37,16 @@ object MirrorStuckPlayerAttachment {
     fun setWallPos(level: Level, uuid: UUID, wallPos: BlockPos) {
         if (level !is ServerLevel) return
 
-        val data = getData(level)
-        val existing = data.entries.firstOrNull { it.uuid == uuid }
+        val data = getData(level).entries.toMutableList()
+        val existing = data.firstOrNull { it.uuid == uuid }
 
         if (existing != null) {
             existing.wallPos = wallPos
         } else {
-            data.entries.toMutableList() += DataEntry(uuid, wallPos)
+            data.add(DataEntry(uuid, wallPos))
         }
 
-        setData(level, data)
+        setData(level, Data(data))
     }
 
     fun removeEntry(level: Level, uuid: UUID) {
