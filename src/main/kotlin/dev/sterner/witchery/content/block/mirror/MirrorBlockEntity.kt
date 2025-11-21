@@ -1,29 +1,25 @@
 package dev.sterner.witchery.content.block.mirror
 
-import dev.sterner.witchery.content.entity.EntEntity.Type
+import dev.sterner.witchery.WitcheryConfig
+import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
+import dev.sterner.witchery.features.infusion.InfusionType
+import dev.sterner.witchery.features.mirror.MirrorRegistryAttachment
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
-import dev.sterner.witchery.features.mirror.MirrorRegistryAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.HolderLookup
-import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtOps
-import net.minecraft.nbt.NbtUtils
-import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.item.ItemEntity
-import net.minecraft.world.entity.npc.AbstractVillager
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.portal.DimensionTransition
-import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 import java.util.UUID
-import kotlin.math.cos
-import kotlin.math.sin
 
 class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     MultiBlockCoreEntity(WitcheryBlockEntityTypes.MIRROR.get(), MirrorBlock.STRUCTURE.get(), blockPos, blockState) {
@@ -32,23 +28,8 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var isSmallMirror = false
     var pairId: UUID? = null
     var cachedLinkedMirror: GlobalPos? = null
-    var mode: Mode = Mode.NONE
-
-    private val stuckTimers = mutableMapOf<Int, Long>()
-
-    fun resetStuckTimer(entity: Entity) {
-        stuckTimers.remove(entity.id)
-    }
-
-    fun incrementStuckTimer(entity: Entity, amount: Int = 1): Int {
-        val t = (stuckTimers[entity.id] ?: 0) + amount
-        stuckTimers[entity.id] = t
-        return t.toInt()
-    }
-
-    fun getStuckTimer(entity: Entity): Int {
-        return stuckTimers[entity.id]?.toInt() ?: 0
-    }
+    private var cacheValidUntil: Long = 0
+    var mode: Mode = Mode.TELEPORT
 
     private val entityCooldowns = mutableMapOf<Int, Long>()
 
@@ -58,17 +39,17 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         TELEPORT,
         POCKET_DIMENSION;
 
-        override fun getSerializedName(): String {
-            return name.lowercase()
-        }
-
-        companion object {
-            val CODEC: StringRepresentable.EnumCodec<Mode> = StringRepresentable.fromEnum { Mode.entries.toTypedArray() }
-        }
+        override fun getSerializedName(): String = name.lowercase()
     }
 
     companion object {
         const val TELEPORT_COOLDOWN = 20
+        const val CACHE_DURATION = 100L
+    }
+
+    override fun onLoad() {
+        super.onLoad()
+        registerInRegistry()
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
@@ -76,63 +57,49 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         tag.putBoolean("HasDemon", hasDemon)
         tag.putBoolean("IsSmallMirror", isSmallMirror)
         tag.putString("Mode", mode.serializedName)
-
-        pairId?.let {
-            tag.put("PairId", UUIDUtil.CODEC.encodeStart(NbtOps.INSTANCE, it).result().orElse(null))
-        }
+        pairId?.let { tag.putUUID("PairId", it) }
     }
 
     override fun loadAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         super.loadAdditional(tag, registries)
         hasDemon = tag.getBoolean("HasDemon")
         isSmallMirror = tag.getBoolean("IsSmallMirror")
-
         if (tag.contains("Mode")) {
-            mode = Mode.CODEC.parse(NbtOps.INSTANCE, tag.get("Mode")).result().orElse(Mode.NONE)
+            mode = Mode.valueOf(tag.getString("Mode").uppercase())
         }
-
         if (tag.contains("PairId")) {
-            pairId = UUIDUtil.CODEC.parse(NbtOps.INSTANCE, tag.get("PairId")).result().orElse(null)
+            pairId = tag.getUUID("PairId")
         }
     }
+
     fun isOnCooldown(entity: Entity): Boolean {
-        val t = level!!.gameTime
-        val last = entityCooldowns[entity.id] ?: return false
-        return t - last < TELEPORT_COOLDOWN
+        val currentTime = level?.gameTime ?: return false
+        val lastTeleport = entityCooldowns[entity.id] ?: return false
+        return currentTime - lastTeleport < TELEPORT_COOLDOWN
     }
 
-    fun setCooldown(entity: Entity) {
-        entityCooldowns[entity.id] = level!!.gameTime
-    }
-    override fun onLoad() {
-        super.onLoad()
-
-        if (!level!!.isClientSide && level is ServerLevel && pairId != null) {
-            val globalPos = GlobalPos.of(level!!.dimension(), blockPos)
-            MirrorRegistryAttachment.registerMirror(level as ServerLevel, pairId!!, globalPos)
-        }
+    private fun setCooldown(entity: Entity) {
+        entityCooldowns[entity.id] = level?.gameTime ?: 0
     }
 
-    override fun setRemoved() {
-        super.setRemoved()
-
-        if (!level!!.isClientSide && level is ServerLevel && pairId != null) {
+    override fun onBreak(player: Player) {
+        super.onBreak(player)
+        if (level?.isClientSide == false && level is ServerLevel && pairId != null) {
             val globalPos = GlobalPos.of(level!!.dimension(), blockPos)
             val serverLevel = level as ServerLevel
 
-            val pairedMirrorPos = MirrorRegistryAttachment.findPairedMirror(serverLevel, pairId!!, globalPos)
-
+            val pairedMirrorPos = getLinkedMirror()
             MirrorRegistryAttachment.unregisterMirror(serverLevel, globalPos)
 
-            if (pairedMirrorPos != null) {
-                val pairedLevel = level!!.server?.getLevel(pairedMirrorPos.dimension())
-                if (pairedLevel != null) {
-                    val pairedEntity = pairedLevel.getBlockEntity(pairedMirrorPos.pos())
-                    if (pairedEntity is MirrorBlockEntity) {
-                        pairedEntity.mode = Mode.DEMONIC
-                        pairedEntity.hasDemon = true
-                        pairedEntity.setChanged()
-                    }
+            pairedMirrorPos?.let { targetPos ->
+                val pairedLevel = serverLevel.server.getLevel(targetPos.dimension())
+                val pairedEntity = pairedLevel?.getBlockEntity(targetPos.pos()) as? MirrorBlockEntity
+                pairedEntity?.apply {
+                    mode = Mode.DEMONIC
+                    hasDemon = true
+                    pairId = null
+                    cachedLinkedMirror = null
+                    setChanged()
                 }
             }
         }
@@ -142,33 +109,73 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         this.pairId = uuid
         this.mode = Mode.TELEPORT
         this.cachedLinkedMirror = null
+        this.cacheValidUntil = 0
         setChanged()
+        registerInRegistry()
+    }
 
-        if (!level!!.isClientSide && level is ServerLevel) {
+    private fun registerInRegistry() {
+        if (level is ServerLevel && pairId != null) {
             val globalPos = GlobalPos.of(level!!.dimension(), blockPos)
-            MirrorRegistryAttachment.registerMirror(level as ServerLevel, uuid, globalPos)
+            MirrorRegistryAttachment.registerMirror(level as ServerLevel, pairId!!, globalPos)
         }
     }
 
     private fun getLinkedMirror(): GlobalPos? {
-        if (pairId == null) return null
-        if (cachedLinkedMirror != null) return cachedLinkedMirror
+        if (pairId == null || mode != Mode.TELEPORT) return null
+
+        val currentTime = level?.gameTime ?: 0
+
+        if (cachedLinkedMirror != null && currentTime < cacheValidUntil) {
+            return cachedLinkedMirror
+        }
 
         if (level is ServerLevel) {
             val globalPos = GlobalPos.of(level!!.dimension(), blockPos)
-            cachedLinkedMirror = MirrorRegistryAttachment.findPairedMirror(level as ServerLevel, pairId!!, globalPos)
+            cachedLinkedMirror = MirrorRegistryAttachment.findPairedMirror(
+                level as ServerLevel,
+                pairId!!,
+                globalPos
+            )
+            cacheValidUntil = currentTime + CACHE_DURATION
         }
 
         return cachedLinkedMirror
     }
 
+    fun canEntityTeleport(entity: Entity): Boolean {
+        if (entity is Player) {
+            if (WitcheryConfig.REQUIRE_GHOST_OF_LIGHT_INFUSION.get()) {
+                val infusion = InfusionPlayerAttachment.getData(entity)
+                return infusion.type == InfusionType.LIGHT
+            }
+        }
+        return true
+    }
+
     fun tryTeleportEntity(entity: Entity) {
+        if (mode != Mode.TELEPORT) return
+        if (!canEntityTeleport(entity)) return
+
         val serverLevel = level as? ServerLevel ?: return
+
+        pairId?.let { id ->
+            val globalPos = GlobalPos.of(serverLevel.dimension(), blockPos)
+            val data = MirrorRegistryAttachment.getData(serverLevel)
+            if (data.entries.none { it.pos == globalPos }) {
+                MirrorRegistryAttachment.registerMirror(serverLevel, id, globalPos)
+            }
+        }
 
         val targetPos = getLinkedMirror() ?: return
         val targetLevel = serverLevel.server.getLevel(targetPos.dimension()) ?: return
-
         val targetBe = targetLevel.getBlockEntity(targetPos.pos()) as? MirrorBlockEntity ?: return
+
+        if (targetBe.pairId != this.pairId) {
+            cachedLinkedMirror = null
+            cacheValidUntil = 0
+            return
+        }
 
         setCooldown(entity)
         targetBe.setCooldown(entity)
@@ -176,37 +183,41 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val fromFacing = blockState.getValue(MirrorBlock.FACING)
         val toFacing = targetBe.blockState.getValue(MirrorBlock.FACING)
 
-        val angleDelta = toFacing.toYRot() - fromFacing.toYRot()
-        val rad = Math.toRadians(angleDelta.toDouble())
+        val angleDelta = toFacing.toYRot() - fromFacing.toYRot() + 180f
+        val newYRot = (entity.yRot + angleDelta) % 360f
 
-        val vel = entity.deltaMovement
-        val rotated = Vec3(
-            vel.x * cos(rad) - vel.z * sin(rad),
-            vel.y,
-            vel.x * sin(rad) + vel.z * cos(rad)
+        val exitFacingVec = Vec3(
+            toFacing.normal.x.toDouble(),
+            toFacing.normal.y.toDouble(),
+            toFacing.normal.z.toDouble()
         )
 
-        val nudge = Vec3(toFacing.normal.x.toDouble(), toFacing.normal.y.toDouble(), toFacing.normal.z.toDouble()).scale(0.1)
-        val finalVel = rotated.add(nudge)
+        val tpTarget = Vec3.atCenterOf(targetPos.pos()).add(exitFacingVec.scale(0.35))
 
-        val tpTarget = Vec3.atCenterOf(targetPos.pos())
+        val launchSpeed = if (entity is ItemEntity) 0.5 else 0.3
+        val launchVel = exitFacingVec.scale(launchSpeed)
 
         if (serverLevel.dimension() != targetPos.dimension()) {
             entity.changeDimension(
                 DimensionTransition(
                     targetLevel,
                     tpTarget,
-                    finalVel,
-                    entity.yRot + angleDelta,
+                    launchVel,
+                    newYRot,
                     entity.xRot,
                     DimensionTransition.DO_NOTHING
                 )
             )
         } else {
             entity.teleportTo(tpTarget.x, tpTarget.y, tpTarget.z)
-            entity.deltaMovement = finalVel
+            entity.yRot = newYRot
+            entity.setDeltaMovement(launchVel)
             entity.hurtMarked = true
+
+            if (entity is ServerPlayer) {
+                entity.fallDistance = 0f
+                entity.connection.teleport(tpTarget.x, tpTarget.y, tpTarget.z, newYRot, entity.xRot)
+            }
         }
     }
-
 }

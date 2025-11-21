@@ -22,6 +22,7 @@ import dev.sterner.witchery.features.misc.DeathQueueLevelAttachment
 import dev.sterner.witchery.features.ent.EntSpawnLevelAttachment
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
 import dev.sterner.witchery.features.mirror.MirrorRegistryAttachment
+import dev.sterner.witchery.features.mirror.MirrorStuckPlayerAttachment
 import dev.sterner.witchery.features.misc.HudPlayerAttachment
 import dev.sterner.witchery.features.necromancy.EtherealEntityAttachment
 import dev.sterner.witchery.features.misc.InventoryLockPlayerAttachment
@@ -71,6 +72,17 @@ object WitcheryDataAttachments {
             Supplier {
                 AttachmentType.builder(Supplier { MirrorRegistryAttachment.Data() })
                     .serialize(MirrorRegistryAttachment.Data.DATA_CODEC)
+                    .build()
+            }
+        )
+
+    @JvmStatic
+    val MIRROR_STUCK_ATTACHMENT: Supplier<AttachmentType<MirrorStuckPlayerAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "mirror_stuck",
+            Supplier {
+                AttachmentType.builder(Supplier { MirrorStuckPlayerAttachment.Data() })
+                    .serialize(MirrorStuckPlayerAttachment.Data.DATA_CODEC)
                     .build()
             }
         )

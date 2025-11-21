@@ -23,12 +23,12 @@ class MirrorBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     override fun getRenderBoundingBox(blockEntity: MirrorBlockEntity): AABB {
         val pos = blockEntity.blockPos
         return AABB(
-            pos.x - 0.0,
-            pos.y - 0.0,
-            pos.z - 0.0,
-            pos.x + 0.0,
-            pos.y + 1.0,
-            pos.z + 0.0
+            pos.x - 0.1,
+            pos.y - 0.1,
+            pos.z - 0.1,
+            pos.x + 0.1,
+            pos.y + 1.1,
+            pos.z + 0.1
         )
     }
 

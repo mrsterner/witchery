@@ -159,7 +159,7 @@ object WitcheryBlocks {
     val MIRROR_COMPONENT = register("mirror_component") {
         MirrorBlockComponent(
             Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()
-                .sound(SoundType.METAL).noOcclusion()
+                .sound(SoundType.METAL).noOcclusion().noCollission()
         )
     }
 
@@ -423,7 +423,7 @@ object WitcheryBlocks {
 
     val MIRROR = register("mirror") {
         MirrorBlock(Properties.ofFullCopy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()
-            .sound(SoundType.METAL).noOcclusion())
+            .sound(SoundType.METAL).noOcclusion().noCollission())
     }
 
     val INFINITY_EGG = register("infinity_egg") {

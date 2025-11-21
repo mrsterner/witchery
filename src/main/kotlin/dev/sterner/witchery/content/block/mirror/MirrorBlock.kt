@@ -1,16 +1,14 @@
 package dev.sterner.witchery.content.block.mirror
 
 import dev.sterner.witchery.content.block.WitcheryBaseEntityBlock
-import dev.sterner.witchery.content.block.effigy.EffigyBlockEntity
 import dev.sterner.witchery.content.item.MirrorItem
 import dev.sterner.witchery.core.api.multiblock.MultiBlockHorizontalDirectionStructure
 import dev.sterner.witchery.core.api.multiblock.MultiBlockStructure
 import dev.sterner.witchery.core.registry.WitcheryBlocks
-import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.features.mirror.MirrorStuckPlayerAttachment
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
@@ -33,27 +31,17 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.function.Supplier
 
-
 class MirrorBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) {
 
     init {
         this.registerDefaultState(
-            this.stateDefinition
-                .any()
-                .setValue<Direction?, Direction?>(DoorBlock.FACING, Direction.NORTH)
+            this.stateDefinition.any().setValue(FACING, Direction.NORTH)
         )
     }
 
-    override fun getRenderShape(state: BlockState): RenderShape {
-        return RenderShape.ENTITYBLOCK_ANIMATED
-    }
+    override fun getRenderShape(state: BlockState): RenderShape = RenderShape.ENTITYBLOCK_ANIMATED
 
-    override fun newBlockEntity(
-        pos: BlockPos,
-        state: BlockState
-    ): BlockEntity? {
-        return MirrorBlockEntity(pos, state)
-    }
+    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = MirrorBlockEntity(pos, state)
 
     override fun getCloneItemStack(
         state: BlockState,
@@ -63,12 +51,9 @@ class MirrorBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         player: Player
     ): ItemStack {
         val stack = WitcheryItems.MIRROR.get().defaultInstance
-        val be = level.getBlockEntity(pos)
-        if (be is MirrorBlockEntity && be.pairId != null) {
-            MirrorItem.setPairId(stack, be.pairId!!)
-            return stack
-        }
-        return super.getCloneItemStack(state, target, level, pos, player)
+        val be = level.getBlockEntity(pos) as? MirrorBlockEntity
+        be?.pairId?.let { MirrorItem.setPairId(stack, it) }
+        return stack
     }
 
     override fun playerDestroy(
@@ -81,16 +66,9 @@ class MirrorBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
     ) {
         if (blockEntity is MirrorBlockEntity && !level.isClientSide && !player.isCreative && !player.isSpectator) {
             val itemStack = WitcheryItems.MIRROR.get().defaultInstance
-            if (blockEntity.pairId != null) {
-                MirrorItem.setPairId(itemStack, blockEntity.pairId!!)
-            }
-            val itemEntity = ItemEntity(
-                level,
-                pos.x + 0.5,
-                pos.y + 0.5,
-                pos.z + 0.5,
-                itemStack
-            )
+            blockEntity.pairId?.let { MirrorItem.setPairId(itemStack, it) }
+
+            val itemEntity = ItemEntity(level, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, itemStack)
             itemEntity.setDefaultPickUpDelay()
             level.addFreshEntity(itemEntity)
         }
@@ -101,7 +79,7 @@ class MirrorBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
         val blockPos = context.clickedPos
         val level = context.level
         return if (blockPos.y < level.maxBuildHeight - 1 && level.getBlockState(blockPos.above()).canBeReplaced(context)) {
-            this.defaultBlockState().setValue(DoorBlock.FACING, context.horizontalDirection.opposite)
+            this.defaultBlockState().setValue(FACING, context.horizontalDirection.opposite)
         } else {
             null
         }
@@ -109,58 +87,67 @@ class MirrorBlock(properties: Properties) : WitcheryBaseEntityBlock(properties) 
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
         super.createBlockStateDefinition(builder)
-        builder.add(DoorBlock.FACING)
+        builder.add(FACING)
     }
 
-    override fun entityInside(
-        state: BlockState,
-        level: Level,
-        pos: BlockPos,
-        entity: Entity
-    ) {
-        if (level.isClientSide) return
-        val be = level.getBlockEntity(pos) as? MirrorBlockEntity ?: return
+    override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
 
-        if (be.mode != MirrorBlockEntity.Mode.TELEPORT) return
+        val shape = state.getShape(level, pos)
+        val entityBox = entity.boundingBox
+        val shapeWorld = shape.bounds().move(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
 
-        if (be.isOnCooldown(entity)) return
+        if (!entityBox.intersects(shapeWorld)) return
 
         entity.makeStuckInBlock(state, Vec3(0.25, 0.05, 0.25))
 
-        val stuckTicks = be.incrementStuckTimer(entity)
+        if (level.isClientSide) return
 
-        if (stuckTicks >= 20) {
-            be.tryTeleportEntity(entity)
-            be.resetStuckTimer(entity)
+        val be = level.getBlockEntity(pos) as? MirrorBlockEntity ?: return
+        if (be.mode != MirrorBlockEntity.Mode.TELEPORT) return
+        if (be.isOnCooldown(entity)) return
+        if (!be.canEntityTeleport(entity)) return
+
+        val facing = state.getValue(FACING)
+        val facingVec = Vec3(facing.stepX.toDouble(), 0.0, facing.stepZ.toDouble())
+        val mirrorCenter = Vec3.atCenterOf(pos)
+        val toEntity = entity.position().subtract(mirrorCenter)
+        val dot = toEntity.dot(facingVec)
+
+        if (entity is ItemEntity) {
+            if (dot < -0.3) {
+                be.tryTeleportEntity(entity)
+            }
+            return
         }
 
-        super.entityInside(state, level, pos, entity)
+        val wallPos = pos.relative(facing.opposite)
+        println(wallPos)
+        MirrorStuckPlayerAttachment.setWallPos(level, entity.uuid, wallPos)
+
+        if (dot < -0.6) {
+            be.tryTeleportEntity(entity)
+            MirrorStuckPlayerAttachment.removeEntry(level, entity.uuid)
+        }
     }
 
-
     override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
-        val direction = state.getValue(FACING)
-
-        return when (direction) {
+        return when (state.getValue(FACING)) {
             Direction.SOUTH -> SOUTH_AABB
-            Direction.WEST ->  WEST_AABB
+            Direction.WEST -> WEST_AABB
             Direction.NORTH -> NORTH_AABB
             else -> EAST_AABB
         }
     }
 
     companion object {
-
         val STRUCTURE: Supplier<MultiBlockHorizontalDirectionStructure> =
-            Supplier<MultiBlockHorizontalDirectionStructure> {
-                (MultiBlockHorizontalDirectionStructure.of(
+            Supplier {
+                MultiBlockHorizontalDirectionStructure.of(
                     MultiBlockStructure.StructurePiece(
-                        0,
-                        1,
-                        0,
+                        0, 1, 0,
                         WitcheryBlocks.MIRROR_COMPONENT.get().defaultBlockState()
                     )
-                ))
+                )
             }
 
         val FACING: DirectionProperty = HorizontalDirectionalBlock.FACING

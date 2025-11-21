@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.block.mirror.MirrorBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryDataAttachments
-import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.server.level.ServerLevel
@@ -41,13 +40,14 @@ object MirrorRegistryAttachment {
     @JvmStatic
     fun unregisterMirror(level: ServerLevel, pos: GlobalPos) {
         val data = getData(level)
+
+        val removedEntry = data.entries.find { it.pos == pos }
         val updatedEntries = data.entries.filter { it.pos != pos }
 
         setData(level, Data(updatedEntries))
 
-        val removedPairId = data.entries.find { it.pos == pos }?.pairId
-        if (removedPairId != null) {
-            updateLoadedMirrorsForPair(level, removedPairId, updatedEntries)
+        if (removedEntry != null) {
+            updateLoadedMirrorsForPair(level, removedEntry.pairId, updatedEntries)
         }
     }
 
@@ -58,12 +58,12 @@ object MirrorRegistryAttachment {
             val pairedPos: GlobalPos? = pairEntries.firstOrNull { it.pos != entry.pos }?.pos
 
             val targetLevel = level.server.getLevel(entry.pos.dimension())
-            if (targetLevel == null) continue
-
-            val be = targetLevel.getBlockEntity(entry.pos.pos())
-            if (be is MirrorBlockEntity) {
-                be.cachedLinkedMirror = pairedPos
-                be.setChanged()
+            if (targetLevel != null) {
+                val be = targetLevel.getBlockEntity(entry.pos.pos())
+                if (be is MirrorBlockEntity) {
+                    be.cachedLinkedMirror = pairedPos
+                    be.setChanged()
+                }
             }
         }
     }
@@ -77,18 +77,6 @@ object MirrorRegistryAttachment {
         }
 
         return pairedMirror?.pos
-    }
-
-    @JvmStatic
-    fun getMirrorPairId(level: ServerLevel, pos: GlobalPos): UUID? {
-        val data = getData(level)
-        return data.entries.find { it.pos == pos }?.pairId
-    }
-
-    @JvmStatic
-    fun getAllMirrorsWithPairId(level: ServerLevel, pairId: UUID): List<GlobalPos> {
-        val data = getData(level)
-        return data.entries.filter { it.pairId == pairId }.map { it.pos }
     }
 
     data class Data(val entries: List<MirrorEntry> = listOf()) {

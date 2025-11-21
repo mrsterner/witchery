@@ -38,7 +38,7 @@ class MirrorModel(root: ModelPart) :
         packedOverlay: Int,
         color: Int
     ) {
-
+        single.render(poseStack, vertexConsumer, packedLight, packedOverlay, color)
     }
 
     companion object {

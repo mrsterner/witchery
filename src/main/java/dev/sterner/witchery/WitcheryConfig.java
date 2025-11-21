@@ -11,7 +11,11 @@ public class WitcheryConfig {
             .comment("Enable curses. When disabled, rituals that apply curses will not function.")
             .define("enableCurses", true);
 
-/*
+    public static final ModConfigSpec.BooleanValue REQUIRE_GHOST_OF_LIGHT_INFUSION = BUILDER
+            .comment("Require Ghost of the Light infusion to use mirror teleportation. When enabled, only players with this infusion can teleport through mirrors.")
+            .define("requireGhostOfLightInfusion", false);
+
+    /*
     public static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
             .comment("Whether to log the dirt block on common setup")
             .define("logDirtBlock", true);
