@@ -11,11 +11,13 @@ import net.minecraft.core.GlobalPos
 import net.minecraft.core.UUIDUtil
 import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.alchemy.PotionContents
 import net.minecraft.world.item.component.ItemContainerContents
+import net.minecraft.world.item.component.ResolvableProfile
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.*
 import java.util.function.Supplier
@@ -46,6 +48,28 @@ object WitcheryDataComponents {
     val EXPIRED_TAGLOCK = DATA.register("expired_taglock", Supplier {
         DataComponentType.builder<Boolean>().persistent(Codec.BOOL).build()
     })
+
+    val VAMPIRIC_TARGET_PROFILE =
+        DATA.register("vampiric_target_profile", Supplier {
+            DataComponentType.builder<ResolvableProfile>()
+                .persistent(ResolvableProfile.CODEC)
+                .networkSynchronized(ResolvableProfile.STREAM_CODEC)
+                .build()
+        })
+
+    val VAMPIRIC_TARGET_NAME = DATA.register("vampiric_target_name", Supplier {
+            DataComponentType.builder<String>()
+                .persistent(Codec.STRING)
+                .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                .build()
+        })
+
+    val VAMPIRIC_TARGET_ID = DATA.register("vampiric_target_id",  Supplier {
+            DataComponentType.builder<String>()
+                .persistent(Codec.STRING)
+                .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                .build()
+        })
 
     val TIMESTAMP = DATA.register("timestamp", Supplier {
         DataComponentType.builder<Long>().persistent(Codec.LONG).build()

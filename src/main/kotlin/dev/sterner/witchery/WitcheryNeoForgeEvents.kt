@@ -1,8 +1,5 @@
 package dev.sterner.witchery
 
-import dev.sterner.witchery.core.api.event.ChainEvent
-import dev.sterner.witchery.core.api.event.SleepingEvent
-import dev.sterner.witchery.core.api.schedule.TickTaskScheduler
 import dev.sterner.witchery.content.block.altar.AltarBlockEntity
 import dev.sterner.witchery.content.block.brazier.BrazierBlockEntity
 import dev.sterner.witchery.content.block.coffin.CoffinBlock
@@ -14,68 +11,42 @@ import dev.sterner.witchery.content.block.soul_cage.SoulCageBlockEntity
 import dev.sterner.witchery.content.entity.CovenWitchEntity
 import dev.sterner.witchery.content.item.CaneSwordItem
 import dev.sterner.witchery.content.item.WineGlassItem
-import dev.sterner.witchery.content.item.curios.BitingBeltItem
 import dev.sterner.witchery.content.item.brew.BrewOfSleepingItem
+import dev.sterner.witchery.content.item.curios.BitingBeltItem
 import dev.sterner.witchery.content.worldgen.WitcheryWorldgenKeys
-import dev.sterner.witchery.core.data.AltarAugmentReloadListener
-import dev.sterner.witchery.core.data.BloodPoolReloadListener
-import dev.sterner.witchery.core.data.ErosionReloadListener
-import dev.sterner.witchery.core.data.FetishEffectReloadListener
-import dev.sterner.witchery.core.data.InfiniteCenserReloadListener
-import dev.sterner.witchery.core.data.NaturePowerReloadListener
-import dev.sterner.witchery.core.data.PotionDataReloadListener
-import dev.sterner.witchery.features.misc.BindingRitualAttachment
-import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
-import dev.sterner.witchery.features.misc.DeathQueueLevelAttachment
-import dev.sterner.witchery.features.misc.InventoryLockPlayerAttachment
-import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment
-import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
-import dev.sterner.witchery.features.misc.UnderWaterBreathPlayerAttachment
-import dev.sterner.witchery.core.registry.WitcheryCommands
-import dev.sterner.witchery.core.registry.WitcheryItems
-import dev.sterner.witchery.core.registry.WitcheryLootInjects
-import dev.sterner.witchery.core.registry.WitcherySpecialPotionEffects
-import dev.sterner.witchery.core.registry.WitcheryStructureInjects
-import dev.sterner.witchery.core.registry.WitcheryTarotEffects
-import dev.sterner.witchery.core.registry.WitcheryVillagers
+import dev.sterner.witchery.core.api.event.ChainEvent
+import dev.sterner.witchery.core.api.event.SleepingEvent
+import dev.sterner.witchery.core.api.schedule.TickTaskScheduler
+import dev.sterner.witchery.core.data.*
+import dev.sterner.witchery.core.registry.*
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
-import dev.sterner.witchery.features.curse.CurseOfFragility
+import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.features.affliction.event.AfflictionEventHandler
 import dev.sterner.witchery.features.affliction.event.AfflictionHandler
-import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireSpecificEventHandler
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfSpecificEventHandler
-import dev.sterner.witchery.features.curse.CurseHandler
-import dev.sterner.witchery.features.familiar.FamiliarHandler
-import dev.sterner.witchery.features.infusion.InfernalInfusionHandler
-import dev.sterner.witchery.features.infusion.InfusionHandler
-import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
-import dev.sterner.witchery.features.infusion.LightInfusionHandler
-import dev.sterner.witchery.features.infusion.OtherwhereInfusionHandler
 import dev.sterner.witchery.features.bark_belt.BarkBeltHandler
 import dev.sterner.witchery.features.blood.BloodPoolHandler
+import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.coven.CovenDialogue
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
+import dev.sterner.witchery.features.curse.CurseHandler
+import dev.sterner.witchery.features.curse.CurseOfFragility
 import dev.sterner.witchery.features.death.DeathEquipmentEventHandler
 import dev.sterner.witchery.features.death.DeathPlayerAttachment
-import dev.sterner.witchery.features.misc.DreamWeaverHandler
 import dev.sterner.witchery.features.ent.EntSpawningHandler
+import dev.sterner.witchery.features.familiar.FamiliarHandler
 import dev.sterner.witchery.features.hags_ring.VeinMiningTracker
 import dev.sterner.witchery.features.hunter.HunterArmorDefenseHandler
+import dev.sterner.witchery.features.infusion.*
 import dev.sterner.witchery.features.lifeblood.LifebloodHandler
 import dev.sterner.witchery.features.lifeblood.LifebloodPlayerAttachment
-import dev.sterner.witchery.features.misc.EquipmentHandler
-import dev.sterner.witchery.features.misc.HudPlayerAttachment
-import dev.sterner.witchery.features.misc.LecternHandler
-import dev.sterner.witchery.features.misc.MiscPlayerAttachment
-import dev.sterner.witchery.features.spirit_world.ManifestationHandler
+import dev.sterner.witchery.features.misc.*
 import dev.sterner.witchery.features.mutandis.MutandisHandler
 import dev.sterner.witchery.features.necromancy.NecroHandler
-import dev.sterner.witchery.features.misc.PotionHandler
-import dev.sterner.witchery.features.misc.TeleportQueueHandler
 import dev.sterner.witchery.features.nightmare.NightmareHandler
 import dev.sterner.witchery.features.petrification.PetrifiedEntityAttachment
 import dev.sterner.witchery.features.poppet.PoppetHandler
@@ -83,6 +54,9 @@ import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment
 import dev.sterner.witchery.features.possession.PossessedDataAttachment
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment
 import dev.sterner.witchery.features.ritual.BindSpectralCreaturesRitual
+import dev.sterner.witchery.features.spirit_world.ManifestationHandler
+import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment
+import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.ItemTags
@@ -102,14 +76,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent
-import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent
-import net.neoforged.neoforge.event.entity.living.LivingConversionEvent
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
-import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent
-import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
-import net.neoforged.neoforge.event.entity.living.MobEffectEvent
+import net.neoforged.neoforge.event.entity.living.*
 import net.neoforged.neoforge.event.entity.player.*
 import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent
@@ -217,6 +184,15 @@ object WitcheryNeoForgeEvents {
     }
 
     @SubscribeEvent
+    fun onLivingBreathe(event: LivingBreatheEvent){
+        val entity = event.entity
+        val data = VoodooPoppetLivingEntityAttachment.getPoppetData(entity)
+        if (data.isUnderWater) {
+            event.setCanBreathe(false)
+        }
+    }
+
+    @SubscribeEvent
     fun onLivingTick(event: EntityTickEvent.Post) {
         val entity = event.entity
         if (entity !is LivingEntity) return
@@ -247,7 +223,6 @@ object WitcheryNeoForgeEvents {
         NecroHandler.tickLiving(entity)
         if (entity is Player) {
             TarotPlayerAttachment.serverTick(entity)
-
         }
         BindingRitualAttachment.tick(entity)
     }
@@ -271,12 +246,12 @@ object WitcheryNeoForgeEvents {
 
     @SubscribeEvent
     fun onLivingHurt(event: LivingIncomingDamageEvent) {
-        EquipmentHandler.babaYagaHit(event, event.entity, event.source, event.amount)
-
         val entity = event.entity
         val damageSource = event.source
         var damage = event.amount
         val attacker = damageSource.entity
+
+        EquipmentHandler.babaYagaHit(event, entity, damageSource, damage)
 
         if (entity is LivingEntity) {
             val data = PetrifiedEntityAttachment.getData(entity)
@@ -307,12 +282,9 @@ object WitcheryNeoForgeEvents {
         if (damageSource.entity is Player) {
             val attacker = damageSource.entity as Player
             val wereData = AfflictionPlayerAttachment.getData(attacker)
-
             if (wereData.getWerewolfLevel() > 0) {
                 if (TransformationHandler.isWolf(attacker) || TransformationHandler.isWerewolf(attacker)) {
-                    damage = WerewolfSpecificEventHandler.modifyWerewolfDamage(
-                        attacker, entity, damage
-                    )
+                    damage = WerewolfSpecificEventHandler.modifyWerewolfDamage(attacker, entity, damage)
                 }
             }
         }
@@ -329,7 +301,7 @@ object WitcheryNeoForgeEvents {
             val barkMitigated = BarkBeltHandler.hurt(entity, damageSource, damage)
             damage = barkMitigated.coerceAtMost(damage)
 
-            if (damage > 0f) {
+            if (damage > 0f && entity is Player) {
                 damage = PoppetHandler.onLivingHurt(entity, damageSource, damage)
             }
         } else if (isVamp) {
@@ -360,6 +332,7 @@ object WitcheryNeoForgeEvents {
 
         event.amount = damage
     }
+
 
     @SubscribeEvent
     fun onLivingHurt(event: LivingDamageEvent.Post) {

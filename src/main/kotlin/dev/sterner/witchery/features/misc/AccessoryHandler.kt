@@ -51,12 +51,10 @@ object AccessoryHandler {
     }
 
     /**
-     * Damages a poppet in the curio slots and removes it if it breaks
+     * Removes a specified poppet from the accessory (Curio) slots of a living entity.
      */
-    fun damageCurioPoppet(livingEntity: LivingEntity, item: Item, damageAmount: Int): Boolean {
-        if (livingEntity !is Player) {
-            return false
-        }
+    fun removeAccessory(livingEntity: LivingEntity, item: Item): Boolean {
+        if (livingEntity !is Player) return false
 
         val curioInventory = CuriosApi.getCuriosInventory(livingEntity).orElse(null) ?: return false
         val equippedCurios = curioInventory.equippedCurios
@@ -66,12 +64,7 @@ object AccessoryHandler {
             if (!itemStack.isEmpty && itemStack.`is`(item)) {
                 val profile = itemStack.get(DataComponents.PROFILE)
                 if (profile?.gameProfile == livingEntity.gameProfile) {
-                    itemStack.damageValue += damageAmount
-
-                    if (itemStack.damageValue >= itemStack.maxDamage) {
-                        equippedCurios.setStackInSlot(slotIndex, ItemStack.EMPTY)
-                    }
-
+                    equippedCurios.setStackInSlot(slotIndex, ItemStack.EMPTY)
                     return true
                 }
             }
@@ -79,6 +72,7 @@ object AccessoryHandler {
 
         return false
     }
+
 
     /**
      * Checks if a specified item exists in the accessory slots of a living entity without considering profile matching or consuming it.

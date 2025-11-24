@@ -10,7 +10,6 @@ import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.damagesource.DamageTypes
@@ -26,9 +25,6 @@ import java.util.UUID
 object PoppetHandler {
 
     fun onLivingHurt(entity: LivingEntity, damageSource: DamageSource, remainingDamage: Float): Float {
-        if (entity !is Player) return remainingDamage
-
-        var modifiedDamage = remainingDamage
 
         when {
             damageSource.`is`(DamageTypes.STARVE) -> {
@@ -39,6 +35,8 @@ object PoppetHandler {
                 }
             }
         }
+
+        var modifiedDamage = remainingDamage
 
         WitcheryPoppetRegistry.VAMPIRIC.get().let { vampiricPoppet ->
             modifiedDamage = vampiricPoppet.handleDamage(entity, damageSource, modifiedDamage)
@@ -53,62 +51,6 @@ object PoppetHandler {
         return modifiedDamage
     }
 
-    private fun handleVoodooPoppet(attacker: Player, victim: LivingEntity, damage: Float): Float {
-        val (voodooPoppet, location) = findPoppet(victim, WitcheryPoppetRegistry.VOODOO.get())
-
-        if (voodooPoppet != null && location != null) {
-            val damageMultiplier = if (victim is Player && !WitcheryApi.isWitchy(victim)) {
-                0.15f
-            } else {
-                0.5f
-            }
-
-            val bonusDamage = damage * damageMultiplier
-
-            when (location) {
-                PoppetLocation.ACCESSORY -> {
-                    voodooPoppet.damageValue += voodooPoppet.maxDamage / 10
-                    if (voodooPoppet.damageValue >= voodooPoppet.maxDamage) {
-                        AccessoryHandler.checkPoppet(attacker, voodooPoppet.item)
-                    }
-                }
-
-                PoppetLocation.INVENTORY -> {
-                    voodooPoppet.damageValue += voodooPoppet.maxDamage / 10
-                    if (voodooPoppet.damageValue >= voodooPoppet.maxDamage) {
-                        voodooPoppet.shrink(1)
-                    }
-                }
-
-                PoppetLocation.WORLD -> {
-                    if (attacker.level() is ServerLevel) {
-                        val level = attacker.level() as ServerLevel
-                        val poppetData = PoppetLevelAttachment.getPoppetData(level)
-
-                        val blockPoppet = poppetData.poppetDataMap.find {
-                            it.poppetItemStack == voodooPoppet && isPoppetBoundToLiving(it.poppetItemStack, victim)
-                        }
-
-                        if (blockPoppet != null) {
-                            voodooPoppet.damageValue += voodooPoppet.maxDamage / 10
-                            if (voodooPoppet.damageValue >= voodooPoppet.maxDamage) {
-                                blockPoppet.poppetItemStack.shrink(1)
-                                PoppetLevelAttachment.updatePoppetItem(
-                                    level,
-                                    blockPoppet.blockPos,
-                                    blockPoppet.poppetItemStack
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-
-            return bonusDamage
-        }
-
-        return 0f
-    }
 
     fun onLivingDeath(event: LivingDeathEvent, livingEntity: LivingEntity?, damageSource: DamageSource?) {
         if (livingEntity !is Player || WitcheryApi.isInSpiritWorld(livingEntity)) {
@@ -224,63 +166,39 @@ object PoppetHandler {
         source: DamageSource?,
         damagePoppet: Int = 0
     ): ItemStack? {
-        val (accessoryFound, accessoryItem) = AccessoryHandler.checkPoppet(owner, poppetType.item)
 
-        if (accessoryFound && accessoryItem != null) {
-            val isBound = isPoppetBoundToLiving(accessoryItem, owner)
-            if (isBound) {
-                val result = accessoryItem.copy()
-                if (damagePoppet > 0) {
-                    AccessoryHandler.damageCurioPoppet(owner, poppetType.item, damagePoppet)
+        val (accessoryFound, accessoryItem) = AccessoryHandler.checkPoppet(owner, poppetType.item)
+        if (accessoryFound && accessoryItem != null && isPoppetBoundToLiving(accessoryItem, owner)) {
+            if (damagePoppet > 0 && owner.level() is ServerLevel) {
+                accessoryItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, null) { _ ->
+                    AccessoryHandler.removeAccessory(owner, poppetType.item)
                 }
-                return result
             }
+            return accessoryItem.copy()
         }
 
         if (owner is Player) {
             for (hand in InteractionHand.entries) {
                 val handItem = owner.getItemInHand(hand)
-                if (handItem.`is`(poppetType.item)) {
-                    val isBound = isPoppetBoundToLiving(handItem, owner)
-                    if (isBound) {
-                        val result = handItem.copy()
-                        if (damagePoppet > 0) {
-                            if (owner.level() is ServerLevel && owner is ServerPlayer) {
-                                handItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, owner) {
-                                    owner.setItemInHand(hand, ItemStack.EMPTY)
-                                }
-                            } else {
-                                handItem.damageValue += damagePoppet
-                                if (handItem.damageValue >= handItem.maxDamage) {
-                                    owner.setItemInHand(hand, ItemStack.EMPTY)
-                                }
-                            }
+                if (handItem.`is`(poppetType.item) && isPoppetBoundToLiving(handItem, owner)) {
+                    if (damagePoppet > 0 && owner.level() is ServerLevel) {
+                        handItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, null) { _ ->
+                            owner.setItemInHand(hand, ItemStack.EMPTY)
                         }
-                        return result
                     }
+                    return handItem.copy()
                 }
             }
 
             for (i in 0 until owner.inventory.containerSize) {
                 val invItem = owner.inventory.getItem(i)
-                if (invItem.`is`(poppetType.item)) {
-                    val isBound = isPoppetBoundToLiving(invItem, owner)
-                    if (isBound) {
-                        val result = invItem.copy()
-                        if (damagePoppet > 0) {
-                            if (owner.level() is ServerLevel && owner is ServerPlayer) {
-                                invItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, owner) {
-                                    owner.inventory.setItem(i, ItemStack.EMPTY)
-                                }
-                            } else {
-                                invItem.damageValue += damagePoppet
-                                if (invItem.damageValue >= invItem.maxDamage) {
-                                    owner.inventory.setItem(i, ItemStack.EMPTY)
-                                }
-                            }
+                if (invItem.`is`(poppetType.item) && isPoppetBoundToLiving(invItem, owner)) {
+                    if (damagePoppet > 0 && owner.level() is ServerLevel) {
+                        invItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, null) { _ ->
+                            owner.inventory.setItem(i, ItemStack.EMPTY)
                         }
-                        return result
                     }
+                    return invItem.copy()
                 }
             }
         }
@@ -288,27 +206,84 @@ object PoppetHandler {
         if (owner.level() is ServerLevel) {
             val level = owner.level() as ServerLevel
             val poppetData = PoppetLevelAttachment.getPoppetData(level)
-
             val blockPoppet = poppetData.poppetDataMap.find {
-                val isCorrectItem = it.poppetItemStack.`is`(poppetType.item)
-                val isBound = isPoppetBoundToLiving(it.poppetItemStack, owner)
-                isCorrectItem && isBound
+                it.poppetItemStack.`is`(poppetType.item) && isPoppetBoundToLiving(it.poppetItemStack, owner)
             }
 
             if (blockPoppet != null) {
-                val result = blockPoppet.poppetItemStack.copy()
                 if (damagePoppet > 0) {
-                    blockPoppet.poppetItemStack.hurtAndBreak(damagePoppet, level, null) {
+                    blockPoppet.poppetItemStack.hurtAndBreak(damagePoppet, level, null) { _ ->
                         poppetData.poppetDataMap.remove(blockPoppet)
                     }
                 }
                 PoppetLevelAttachment.updatePoppetItem(level, blockPoppet.blockPos, blockPoppet.poppetItemStack)
-                return result
+                return blockPoppet.poppetItemStack.copy()
             }
         }
 
         return null
     }
+
+    private fun handleVoodooPoppet(attacker: Player, victim: LivingEntity, damage: Float): Float {
+        val (voodooPoppet, location) = findPoppet(victim, WitcheryPoppetRegistry.VOODOO.get())
+
+        if (voodooPoppet != null && location != null) {
+            val damageMultiplier = if (victim is Player && !WitcheryApi.isWitchy(victim)) {
+                0.15f
+            } else {
+                0.5f
+            }
+
+            val bonusDamage = damage * damageMultiplier
+            val durabilityDamage = voodooPoppet.maxDamage / 10
+
+            when (location) {
+                PoppetLocation.ACCESSORY -> {
+                    if (attacker.level() is ServerLevel) {
+                        voodooPoppet.hurtAndBreak(durabilityDamage, attacker.level() as ServerLevel, null) { _ ->
+                            AccessoryHandler.checkPoppet(attacker, voodooPoppet.item)
+                        }
+                    }
+
+                }
+
+                PoppetLocation.INVENTORY -> {
+                    if (attacker.level() is ServerLevel) {
+                        voodooPoppet.hurtAndBreak(durabilityDamage, attacker.level() as ServerLevel, null) { _ ->
+                            voodooPoppet.shrink(1)
+                        }
+                    }
+                }
+
+                PoppetLocation.WORLD -> {
+                    if (attacker.level() is ServerLevel) {
+                        val level = attacker.level() as ServerLevel
+                        val poppetData = PoppetLevelAttachment.getPoppetData(level)
+
+                        val blockPoppet = poppetData.poppetDataMap.find {
+                            it.poppetItemStack == voodooPoppet && isPoppetBoundToLiving(it.poppetItemStack, victim)
+                        }
+
+                        if (blockPoppet != null) {
+                            blockPoppet.poppetItemStack.hurtAndBreak(durabilityDamage, level, null) { _ ->
+                                blockPoppet.poppetItemStack.shrink(1)
+                            }
+                            PoppetLevelAttachment.updatePoppetItem(
+                                level,
+                                blockPoppet.blockPos,
+                                blockPoppet.poppetItemStack
+                            )
+                        }
+                    }
+                }
+            }
+
+            return bonusDamage
+        }
+
+        return 0f
+    }
+
 
     /**
      * Checks if a poppet is bound to the specified living entity.
@@ -339,6 +314,12 @@ object PoppetHandler {
                 val handItem = owner.getItemInHand(hand)
                 if (handItem.`is`(poppetType.item) && isPoppetBoundToLiving(handItem, owner)) {
                     return Pair(handItem, PoppetLocation.INVENTORY)
+                }
+            }
+
+            for (item in owner.inventory.items) {
+                if (item.`is`(poppetType.item) && isPoppetBoundToLiving(item, owner)) {
+                    return Pair(item, PoppetLocation.INVENTORY)
                 }
             }
         }

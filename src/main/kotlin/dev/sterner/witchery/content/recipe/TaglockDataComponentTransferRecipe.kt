@@ -16,39 +16,106 @@ import net.minecraft.world.level.Level
 class TaglockDataComponentTransferRecipe : CustomRecipe(CraftingBookCategory.MISC) {
 
     override fun matches(input: CraftingInput, level: Level): Boolean {
+        var hasTaglock = false
+        var hasPoppet = false
+
         for (item in input.items()) {
             if (item.`is`(WitcheryItems.TAGLOCK.get())) {
-                return true
+                hasTaglock = true
+            }
+            if (item.item is PoppetItem) {
+                hasPoppet = true
             }
         }
-        return false
+
+        return hasTaglock && hasPoppet
     }
 
     override fun assemble(input: CraftingInput, registries: HolderLookup.Provider): ItemStack {
         var poppetItem: ItemStack? = null
-        var taglockItem: ItemStack? = null
+        val taglockItems = mutableListOf<ItemStack>()
 
         for (item in input.items()) {
             if (item.item is PoppetItem) {
                 poppetItem = item.copy()
             } else if (item.`is`(WitcheryItems.TAGLOCK.get())) {
-                taglockItem = item.copy()
+                taglockItems.add(item.copy())
             }
         }
 
-        if (poppetItem != null && taglockItem != null) {
-            poppetItem.set(DataComponents.PROFILE, taglockItem.get(DataComponents.PROFILE))
-            poppetItem.set(
-                WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(),
-                taglockItem.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get())
-            )
-            poppetItem.set(
-                WitcheryDataComponents.ENTITY_ID_COMPONENT.get(),
-                taglockItem.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-            )
+        if (poppetItem == null || taglockItems.isEmpty()) {
+            return ItemStack.EMPTY
         }
 
-        return poppetItem ?: ItemStack.EMPTY
+        val isVampiricPoppet = poppetItem.`is`(WitcheryItems.VAMPIRIC_POPPET.get())
+
+        if (isVampiricPoppet && taglockItems.size == 2) {
+            val positions = mutableMapOf<Int, ItemStack>()
+
+            for (i in 0 until input.size()) {
+                val item = input.getItem(i)
+                if (item.`is`(WitcheryItems.TAGLOCK.get())) {
+                    positions[i] = item
+                } else if (item.item is PoppetItem) {
+                    positions[i] = item
+                }
+            }
+
+            val sortedPositions = positions.entries.sortedBy { it.key }
+            var ownerTaglock: ItemStack? = null
+            var targetTaglock: ItemStack? = null
+
+            for (entry in sortedPositions) {
+                val item = entry.value
+                if (item.`is`(WitcheryItems.TAGLOCK.get())) {
+                    if (ownerTaglock == null) {
+                        ownerTaglock = item
+                    } else if (targetTaglock == null) {
+                        targetTaglock = item
+                    }
+                }
+            }
+
+            if (ownerTaglock != null && targetTaglock != null) {
+                poppetItem.set(DataComponents.PROFILE, ownerTaglock.get(DataComponents.PROFILE))
+                poppetItem.set(
+                    WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(),
+                    ownerTaglock.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get())
+                )
+                poppetItem.set(
+                    WitcheryDataComponents.ENTITY_ID_COMPONENT.get(),
+                    ownerTaglock.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+                )
+
+                poppetItem.set(
+                    WitcheryDataComponents.VAMPIRIC_TARGET_PROFILE.get(),
+                    targetTaglock.get(DataComponents.PROFILE)
+                )
+                poppetItem.set(
+                    WitcheryDataComponents.VAMPIRIC_TARGET_NAME.get(),
+                    targetTaglock.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get())
+                )
+                poppetItem.set(
+                    WitcheryDataComponents.VAMPIRIC_TARGET_ID.get(),
+                    targetTaglock.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+                )
+            }
+
+            return poppetItem
+        }
+
+        val taglockItem = taglockItems.first()
+        poppetItem.set(DataComponents.PROFILE, taglockItem.get(DataComponents.PROFILE))
+        poppetItem.set(
+            WitcheryDataComponents.ENTITY_NAME_COMPONENT.get(),
+            taglockItem.get(WitcheryDataComponents.ENTITY_NAME_COMPONENT.get())
+        )
+        poppetItem.set(
+            WitcheryDataComponents.ENTITY_ID_COMPONENT.get(),
+            taglockItem.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
+        )
+
+        return poppetItem
     }
 
     override fun canCraftInDimensions(width: Int, height: Int): Boolean {
