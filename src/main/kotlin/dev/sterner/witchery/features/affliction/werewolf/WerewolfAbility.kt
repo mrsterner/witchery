@@ -41,6 +41,8 @@ enum class WerewolfAbility(
             )
             player.hurtMarked = true
 
+            AbilityCooldownManager.startCooldown(player, this)
+
             val searchBox = player.boundingBox
                 .expandTowards(lookVec.scale(3.0))
                 .inflate(1.0, 0.5, 1.0)
@@ -148,6 +150,8 @@ enum class WerewolfAbility(
                     0.0
                 )
             }
+
+            AbilityCooldownManager.startCooldown(player, this)
 
             player.level().playSound(
                 null,
