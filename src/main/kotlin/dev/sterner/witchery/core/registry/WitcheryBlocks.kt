@@ -1197,16 +1197,13 @@ object WitcheryBlocks {
                 .noCollission()
                 .strength(100.0f)
                 .noLootTable()
+                .liquid()
         ) {
             override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
                 if (entity is LivingEntity) {
                     entity.addEffect(MobEffectInstance(MobEffects.REGENERATION, 20 * 2, 0))
                 }
                 super.entityInside(state, level, pos, entity)
-            }
-
-            override fun getFluidState(state: BlockState): FluidState {
-                return WitcheryFluids.FLOWING_SPIRIT_STILL.get().getSource(false)
             }
         }
     }

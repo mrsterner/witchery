@@ -207,7 +207,9 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             override fun getFlowingTexture() =
                 ResourceLocation.fromNamespaceAndPath(MODID, "block/flowing_spirit_flowing")
 
-            override fun getTintColor() = 0xAAFFFF
+            override fun getTintColor(): Int {
+                return 0xFFAAFFFF.toInt()
+            }
 
             override fun getOverlayTexture() =
                 ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_overlay")
