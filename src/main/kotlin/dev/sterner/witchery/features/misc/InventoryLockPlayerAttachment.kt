@@ -37,6 +37,11 @@ object InventoryLockPlayerAttachment {
         setData(player, Data(emptySet()))
     }
 
+    fun sync(player: ServerPlayer) {
+        val data = getData(player)
+        sync(player, data)
+    }
+
     fun lockSlot(player: Player, slot: Int) {
         val data = getData(player)
         val newLockedSlots = data.lockedSlots.toMutableSet().apply { add(slot) }

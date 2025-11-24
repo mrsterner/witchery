@@ -384,81 +384,90 @@ object WitcheryNeoForgeEvents {
     }
 
     @SubscribeEvent
-    fun onPlayerTeleport(event: EntityTeleportEvent){
+    fun onPlayerTeleportDim(event: PlayerEvent.PlayerChangedDimensionEvent) {
+        val player = event.entity as? ServerPlayer ?: return
 
-    }
-
-    @SubscribeEvent
-    fun onPlayerTeleportDim(event: PlayerEvent.PlayerChangedDimensionEvent){
-
-        if (event.entity is ServerPlayer) {
-            val serverPlayer = event.entity as ServerPlayer
-            serverPlayer.server.execute {
-                val currentData = AfflictionPlayerAttachment.getData(serverPlayer)
-                AfflictionPlayerAttachment.syncFull(serverPlayer, currentData)
-
-                if (currentData.getVampireLevel() > 0) {
-                    val bloodData = BloodPoolLivingEntityAttachment.getData(serverPlayer)
-                    BloodPoolLivingEntityAttachment.setData(serverPlayer, bloodData)
-                }
-            }
-
-            PossessionComponentAttachment.syncToClient(event.entity as ServerPlayer)
-            PossessedDataAttachment.syncToClient(event.entity)
+        player.server.execute {
+            syncAfflictionData(player)
+            syncVampireBloodData(player)
+            PossessionComponentAttachment.syncToClient(player)
+            PossessedDataAttachment.syncToClient(player)
         }
-
     }
 
     @SubscribeEvent
     fun onPlayerRespawn(event: PlayerEvent.PlayerRespawnEvent) {
-        if (event.entity is ServerPlayer) {
-            val miscData = MiscPlayerAttachment.getData(event.entity)
-            MiscPlayerAttachment.setData(event.entity, miscData.copy(hasDeathTeleport = false))
+        val player = event.entity as? ServerPlayer ?: return
 
-            InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.entity))
-        }
+        LichdomSpecificEventHandler.resetDeathTeleport(player)
+        InventoryLockPlayerAttachment.sync(player)
     }
 
     @SubscribeEvent
     fun onPlayerClone(event: PlayerEvent.Clone) {
-        val oldData = AfflictionPlayerAttachment.getData(event.original)
-
-        val newData = oldData.withAbilityIndex(-1)
-        AfflictionPlayerAttachment.setData(event.entity, newData, sync = false)
-
-        VampireSpecificEventHandler.respawn(event.original, event.entity, event.isWasDeath)
-        LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
-
-        InfusionPlayerAttachment.setData(
-            event.entity,
-            InfusionPlayerAttachment.getData(event.original)
-        )
-
-
-        val miscData = MiscPlayerAttachment.getData(event.entity)
-        MiscPlayerAttachment.setData(event.entity, miscData.copy(hasDeathTeleport = false))
-
-        DeathPlayerAttachment.setData(event.entity, DeathPlayerAttachment.getData(event.original))
-
-        PhylacteryBlockEntity.onPlayerLoad(event.entity)
-        BrewOfSleepingItem.respawnPlayer(event.entity)
-        CovenPlayerAttachment.setData(event.entity, CovenPlayerAttachment.getData(event.original))
-        LifebloodPlayerAttachment.setData(event.entity, LifebloodPlayerAttachment.getData(event.original))
-
-        InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.original))
+        clonePlayerData(event.original, event.entity, event.isWasDeath)
 
         if (event.entity is ServerPlayer) {
-            val serverPlayer = event.entity as ServerPlayer
-            serverPlayer.server.execute {
-                val currentData = AfflictionPlayerAttachment.getData(serverPlayer)
-                AfflictionPlayerAttachment.syncFull(serverPlayer, currentData)
-
-                if (currentData.getVampireLevel() > 0) {
-                    val bloodData = BloodPoolLivingEntityAttachment.getData(serverPlayer)
-                    BloodPoolLivingEntityAttachment.setData(serverPlayer, bloodData)
-                }
+            event.entity.server?.execute {
+                syncAfflictionData(event.entity as ServerPlayer)
+                syncVampireBloodData(event.entity as ServerPlayer)
             }
         }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent) {
+        val player = event.entity as? ServerPlayer ?: return
+
+        syncAllPlayerData(player)
+    }
+
+    private fun syncAfflictionData(player: ServerPlayer) {
+        val data = AfflictionPlayerAttachment.getData(player)
+        AfflictionPlayerAttachment.syncFull(player, data)
+    }
+
+    private fun syncVampireBloodData(player: ServerPlayer) {
+        val afflictionData = AfflictionPlayerAttachment.getData(player)
+        if (afflictionData.getVampireLevel() > 0) {
+            val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+            BloodPoolLivingEntityAttachment.setData(player, bloodData)
+        }
+    }
+
+    private fun clonePlayerData(original: Player, clone: Player, wasDeath: Boolean) {
+        val oldAfflictionData = AfflictionPlayerAttachment.getData(original)
+        AfflictionPlayerAttachment.setData(clone, oldAfflictionData.withAbilityIndex(-1), sync = false)
+
+        VampireSpecificEventHandler.respawn(original, clone, wasDeath)
+        LichdomSpecificEventHandler.respawn(clone, original, wasDeath)
+
+        InfusionPlayerAttachment.setData(clone, InfusionPlayerAttachment.getData(original))
+        DeathPlayerAttachment.setData(clone, DeathPlayerAttachment.getData(original))
+        CovenPlayerAttachment.setData(clone, CovenPlayerAttachment.getData(original))
+        LifebloodPlayerAttachment.setData(clone, LifebloodPlayerAttachment.getData(original))
+        InventoryLockPlayerAttachment.setData(clone, InventoryLockPlayerAttachment.getData(original))
+
+        LichdomSpecificEventHandler.resetDeathTeleport(clone as ServerPlayer)
+
+        PhylacteryBlockEntity.onPlayerLoad(clone)
+        BrewOfSleepingItem.respawnPlayer(clone)
+    }
+
+    private fun syncAllPlayerData(player: ServerPlayer) {
+        val afflictionData = AfflictionPlayerAttachment.getData(player)
+        AfflictionPlayerAttachment.setData(player, afflictionData, sync = true)
+
+        if (afflictionData.getVampireLevel() > 0) {
+            val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+            BloodPoolLivingEntityAttachment.setData(player, bloodData)
+        }
+
+        HudPlayerAttachment.sync(player, HudPlayerAttachment.getData(player))
+        DeathPlayerAttachment.setData(player, DeathPlayerAttachment.getData(player))
+        InventoryLockPlayerAttachment.setData(player, InventoryLockPlayerAttachment.getData(player))
+        LifebloodPlayerAttachment.setData(player, LifebloodPlayerAttachment.getData(player))
+        TarotPlayerAttachment.sync(player, TarotPlayerAttachment.getData(player))
     }
 
     @SubscribeEvent
@@ -483,26 +492,6 @@ object WitcheryNeoForgeEvents {
     private fun onLivingConversion(event: LivingConversionEvent.Post) {
         PossessedDataAttachment.onMobConverted(event.entity, event.outcome)
     }
-
-    @SubscribeEvent(priority = EventPriority.LOW)
-    fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent) {
-        if (event.entity is ServerPlayer) {
-            val player = event.entity
-            val afflictionData = AfflictionPlayerAttachment.getData(player)
-            AfflictionPlayerAttachment.setData(player, afflictionData, sync = true)
-
-            if (afflictionData.getVampireLevel() > 0) {
-                val bloodData = BloodPoolLivingEntityAttachment.getData(player)
-                BloodPoolLivingEntityAttachment.setData(player, bloodData)
-            }
-            HudPlayerAttachment.sync(player as ServerPlayer, HudPlayerAttachment.getData(player))
-            DeathPlayerAttachment.setData(player, DeathPlayerAttachment.getData(player))
-            InventoryLockPlayerAttachment.setData(event.entity, InventoryLockPlayerAttachment.getData(event.entity))
-            LifebloodPlayerAttachment.setData(event.entity, LifebloodPlayerAttachment.getData(event.entity))
-            TarotPlayerAttachment.sync(player, TarotPlayerAttachment.getData(player))
-        }
-    }
-
 
     @SubscribeEvent
     fun onInteractEntity(event: PlayerInteractEvent.EntityInteract) {

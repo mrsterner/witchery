@@ -1,10 +1,10 @@
 {
   "type": "witchery:ritual",
-  "altarPower": 8000,
+  "altarPower": 6000,
   "altarPowerPerTick": 0,
   "blockMapping": {
     "G": "witchery:golden_chalk",
-    "S": "witchery:infernal_chalk"
+    "L": "witchery:infernal_chalk"
   },
   "commands": [],
   "conditions": {
@@ -15,13 +15,18 @@
   },
   "covenCount": 0,
   "floatingItemOutput": false,
-  "inputEntities": [],
+  "inputEntities": [
+    "witchery:demon"
+  ],
   "inputItems": [
     {
       "id": "minecraft:glass_pane"
     },
     {
       "id": "minecraft:glass_pane"
+    },
+    {
+      "id": "witchery:whiff_of_magic"
     },
     {
       "id": "witchery:bear_trap"
@@ -31,16 +36,24 @@
   "outputEntities": [],
   "outputItems": [],
   "pattern": [
-    "__SSS__",
-    "_S___S_",
-    "S_____S",
-    "S__G__S",
-    "S_____S",
-    "_S___S_",
-    "__SSS__"
+    "_____LLLLL_____",
+    "___LL_____LL___",
+    "__L_________L__",
+    "_L___________L_",
+    "_L___________L_",
+    "L_____________L",
+    "L_____________L",
+    "L______G______L",
+    "L_____________L",
+    "L_____________L",
+    "_L___________L_",
+    "_L___________L_",
+    "__L_________L__",
+    "___LL_____LL___",
+    "_____LLLLL_____"
   ],
   "ritual": {
     "id": "witchery:linked_mirror"
   },
-  "ticks": 300
+  "ticks": 20
 }

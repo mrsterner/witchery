@@ -1,6 +1,5 @@
 package dev.sterner.witchery.client.renderer.block
 
-import com.mojang.blaze3d.platform.Window
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -9,9 +8,6 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.MirrorModel
 import dev.sterner.witchery.content.block.mirror.MirrorBlockEntity
 import dev.sterner.witchery.core.registry.WitcheryRenderTypes
-import net.minecraft.client.Camera
-import net.minecraft.client.Minecraft
-import net.minecraft.client.model.SkullModel
 import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
@@ -21,29 +17,21 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
-import net.minecraft.world.phys.Vec3
 import org.joml.Matrix4f
-import org.joml.Matrix4fStack
-import org.joml.Vector4f
+import org.lwjgl.opengl.GL11
 
 class MirrorBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<MirrorBlockEntity> {
 
     private val model = MirrorModel(ctx.bakeLayer(MirrorModel.LAYER_LOCATION))
-    private val zombieHeadModel = SkullModel.createHumanoidHeadLayer().bakeRoot()
     private val texture = Witchery.id("textures/block/mirror.png")
-    private val zombieHeadTexture = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/zombie/zombie.png")
-    private val darkStoneTexture = ResourceLocation.fromNamespaceAndPath("minecraft","textures/block/stone.png")
+    private val portalTexture = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/stone.png")
 
     override fun getRenderBoundingBox(blockEntity: MirrorBlockEntity): AABB {
         val pos = blockEntity.blockPos
         return AABB(
-            pos.x - 1.0,
-            pos.y - 1.0,
-            pos.z - 1.0,
-            pos.x + 2.0,
-            pos.y + 3.0,
-            pos.z + 2.0
+            pos.x - 1.0, pos.y - 1.0, pos.z - 1.0,
+            pos.x + 2.0, pos.y + 3.0, pos.z + 2.0
         )
     }
 
@@ -108,8 +96,9 @@ class MirrorBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
         packedOverlay: Int,
         dirYRot: Float
     ) {
-        val minecraft = Minecraft.getInstance()
-        val window = minecraft.window
+        if (bufferSource is MultiBufferSource.BufferSource) {
+            bufferSource.endBatch()
+        }
 
         poseStack.pushPose()
         poseStack.translate(0.5, 0.0, 0.5)
@@ -133,316 +122,141 @@ class MirrorBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
                 -1
             )
         }
-        poseStack.popPose()
 
-        val scissorBounds = calculateMirrorScissorBounds(
-            blockEntity,
-            dirYRot,
-            blockEntity.isSmallMirror,
-            window
-        )
-
-        if (scissorBounds != null) {
-            if (bufferSource is MultiBufferSource.BufferSource) {
-                bufferSource.endBatch()
-            }
-
-            RenderSystem.enableScissor(
-                scissorBounds.x,
-                scissorBounds.y,
-                scissorBounds.width,
-                scissorBounds.height
-            )
-
-            try {
-                renderMirrorRoom(
-                    blockEntity,
-                    poseStack,
-                    bufferSource,
-                    packedLight,
-                    dirYRot
-                )
-
-                if (bufferSource is MultiBufferSource.BufferSource) {
-                    bufferSource.endBatch()
-                }
-            } finally {
-                RenderSystem.disableScissor()
-            }
-        }
-    }
-
-    private fun calculateMirrorScissorBounds(
-        blockEntity: MirrorBlockEntity,
-        facingYRot: Float,
-        isSmall: Boolean,
-        window: Window
-    ): ScissorBounds? {
-        val minecraft = Minecraft.getInstance()
-        val camera = minecraft.gameRenderer.mainCamera
-        val projectionMatrix = RenderSystem.getProjectionMatrix()
-        val modelViewStack = RenderSystem.getModelViewStack()
-
-        val pos = blockEntity.blockPos
-
-        val (minX, maxX, minY, maxY, mirrorZ) = if (isSmall) {
-            Tuple5(
-                -13.0 / 16.0,
-                1.0 / 16.0,
-                -14.0 / 16.0,
-                0.0 / 16.0,
-                -1.0 / 16.0
-            )
-        } else {
-            Tuple5(
-                -7.0 / 16.0,
-                7.0 / 16.0,
-                -31.0 / 16.0,
-                -1.0 / 16.0,
-                -8.0 / 16.0
-            )
+        if (bufferSource is MultiBufferSource.BufferSource) {
+            bufferSource.endBatch()
         }
 
-        val worldCenterX = pos.x + 0.5
-        val worldCenterY = pos.y
-        val worldCenterZ = pos.z + 0.5
-
-        val offsetX = if (isSmall) 6.0 / 16.0 else 0.0
-        val offsetY = if (isSmall) 23.0 / 16.0 else 0.0
-        val offsetZ = if (isSmall) -7.0 / 16.0 else 0.0
-
-        val corners = mutableListOf<Vec3>()
-
-        val angle = Math.toRadians(-facingYRot.toDouble())
-        val cos = kotlin.math.cos(angle)
-        val sin = kotlin.math.sin(angle)
-
-        for (x in listOf(minX, maxX)) {
-            for (y in listOf(minY, maxY)) {
-                val scaledX = -x + offsetX
-                val scaledY = -y + offsetY
-                val scaledZ = mirrorZ + offsetZ
-
-                val rotX = scaledX * cos - scaledZ * sin
-                val rotZ = scaledX * sin + scaledZ * cos
-
-                corners.add(
-                    Vec3(
-                        worldCenterX + rotX,
-                        worldCenterY + scaledY,
-                        worldCenterZ + rotZ
-                    )
-                )
-            }
-        }
-
-        val screenCorners = corners.mapNotNull { worldPos ->
-            projectToScreen(worldPos, camera, projectionMatrix, modelViewStack, window)
-        }
-
-        if (screenCorners.isEmpty()) return null
-
-        val allBehindCamera = screenCorners.all { it.z < 0 }
-        if (allBehindCamera) return null
-
-        if (screenCorners.isEmpty()) return null
-
-        val minScreenX = (screenCorners.minOf { it.x }.toInt()).coerceAtLeast(0)
-        val minScreenY = (screenCorners.minOf { it.y }.toInt()).coerceAtLeast(0)
-        val maxScreenX = (screenCorners.maxOf { it.x }.toInt()).coerceAtMost(window.width)
-        val maxScreenY = (screenCorners.maxOf { it.y }.toInt()).coerceAtMost(window.height)
-
-        val width = (maxScreenX - minScreenX).coerceAtLeast(1)
-        val height = (maxScreenY - minScreenY).coerceAtLeast(1)
-
-        return ScissorBounds(
-            minScreenX,
-            window.height - maxScreenY,
-            width,
-            height
-        )
-    }
-
-    private fun projectToScreen(
-        worldPos: Vec3,
-        camera: Camera,
-        projectionMatrix: Matrix4f,
-        modelViewStack: Matrix4fStack,
-        window: Window
-    ): Vec3? {
-        val cameraPos = camera.position
-        val relativePos = worldPos.subtract(cameraPos)
-
-        val clipSpace = Vector4f(
-            relativePos.x.toFloat(),
-            relativePos.y.toFloat(),
-            relativePos.z.toFloat(),
-            1.0f
-        )
-
-        clipSpace.mul(modelViewStack)
-        clipSpace.mul(projectionMatrix)
-
-        val w = clipSpace.w()
-
-        clipSpace.div(w)
-
-        val screenX = (clipSpace.x() + 1.0f) * 0.5f * window.width
-        val screenY = (1.0f - clipSpace.y()) * 0.5f * window.height
-
-        return Vec3(screenX.toDouble(), screenY.toDouble(), w.toDouble())
-    }
-
-    private fun renderMirrorRoom(
-        blockEntity: MirrorBlockEntity,
-        poseStack: PoseStack,
-        bufferSource: MultiBufferSource,
-        packedOverlay: Int,
-        facingYRot: Float
-    ) {
+        RenderSystem.enableCull()
         poseStack.pushPose()
+        poseStack.translate(0.0, -2.0, -1.0)
 
-        poseStack.translate(0.5, 0.0, 0.5)
-        poseStack.mulPose(Axis.YP.rotationDegrees(-facingYRot))
-        poseStack.scale(-1f, -1f, 1f)
+        RenderSystem.enableDepthTest()
+        RenderSystem.depthFunc(GL11.GL_LEQUAL)
 
-        if (blockEntity.isSmallMirror) {
-            poseStack.translate(6.0 / 16.0, 23.0 / 16.0, -7.0 / 16.0)
+        renderPortalEffect(blockEntity, poseStack, bufferSource)
+
+        poseStack.popPose()
+
+        if (bufferSource is MultiBufferSource.BufferSource) {
+            bufferSource.endBatch()
         }
-
-        val mirrorZ = if (blockEntity.isSmallMirror) -1.0 / 16.0 else -8.0 / 16.0
-
-        val yOffset = -2.0
-        val zOffset = 0.5
-
-        poseStack.translate(0.0, yOffset, mirrorZ + zOffset)
-
-        renderRoomWalls(poseStack, bufferSource)
-
-        renderZombieHead(
-            poseStack,
-            bufferSource,
-            packedOverlay
-        )
 
         poseStack.popPose()
     }
 
-    private fun renderRoomWalls(
+    private fun renderPortalEffect(
+        blockEntity: MirrorBlockEntity,
         poseStack: PoseStack,
         bufferSource: MultiBufferSource
     ) {
-        poseStack.pushPose()
-
-        val buffer = bufferSource.getBuffer(RenderType.entitySolid(darkStoneTexture))
+        val buffer = bufferSource.getBuffer(WitcheryRenderTypes.MIRROR_PORTAL.apply(portalTexture))
         val pose = poseStack.last()
         val matrix = pose.pose()
-        val normal = pose
 
-        val hw = 0.5f
-        val depth = 1.0f
-        val height = 2.0f
+        val (x1, x2, y1, y2, z) = if (blockEntity.isSmallMirror) {
+            Tuple5(-7.0f / 16.0f, 7.0f / 16.0f, 9.0f / 16.0f, 23.0f / 16.0f, 1.0f / 16.0f)
+        } else {
+            Tuple5(-7.0f / 16.0f, 7.0f / 16.0f, 1.0f / 16.0f, 31.0f / 16.0f, 8.0f / 16.0f)
+        }
 
-        val darkLight = LightTexture.pack(3, 3)
+        val depth = 1.5f
+        val segments = 12
 
-        addQuad(
-            buffer, matrix, normal,
-            -hw, 0f, -depth,
-            hw, 0f, -depth,
-            hw, height, -depth,
-            -hw, height, -depth,
-            0f, 0f, 1f, 1f,
-            darkLight, OverlayTexture.NO_OVERLAY
-        )
+        val time = System.currentTimeMillis() / 1000.0f
 
-        addQuad(
-            buffer, matrix, normal,
-            -hw, 0f, 0f,
-            -hw, 0f, -depth,
-            -hw, height, -depth,
-            -hw, height, 0f,
-            0f, 1f, 1f, 0f,
-            darkLight, OverlayTexture.NO_OVERLAY
-        )
+        for (i in 0 until segments) {
+            val t = i.toFloat() / segments.toFloat()
+            val nextT = (i + 1).toFloat() / segments.toFloat()
 
-        addQuad(
-            buffer, matrix, normal,
-            hw, 0f, -depth,
-            hw, 0f, 0f,
-            hw, height, 0f,
-            hw, height, -depth,
-            0f, 1f, 1f, 0f,
-            darkLight, OverlayTexture.NO_OVERLAY
-        )
+            val currentZ = z - t * depth
+            val nextZ = z - nextT * depth
 
-        addQuad(
-            buffer, matrix, normal,
-            -hw, 0f, 0f,
-            hw, 0f, 0f,
-            hw, 0f, -depth,
-            -hw, 0f, -depth,
-            0f, 0f, 1f, 1f,
-            darkLight, OverlayTexture.NO_OVERLAY
-        )
+            val scale = 1.0f - t * 0.3f
+            val nextScale = 1.0f - nextT * 0.3f
 
-        addQuad(
-            buffer, matrix, normal,
-            -hw, height, -depth,
-            hw, height, -depth,
-            hw, height, 0f,
-            -hw, height, 0f,
-            0f, 0f, 1f, 1f,
-            darkLight, OverlayTexture.NO_OVERLAY
-        )
+            val currentX1 = x1 * scale
+            val currentX2 = x2 * scale
+            val currentY1 = y1 + (y2 - y1) * (1.0f - scale) * 0.5f
+            val currentY2 = y2 - (y2 - y1) * (1.0f - scale) * 0.5f
 
-        poseStack.popPose()
+            val nextX1 = x1 * nextScale
+            val nextX2 = x2 * nextScale
+            val nextY1 = y1 + (y2 - y1) * (1.0f - nextScale) * 0.5f
+            val nextY2 = y2 - (y2 - y1) * (1.0f - nextScale) * 0.5f
+
+            val uvOffset = t * 2.0f + time * 0.5f
+            val nextUvOffset = nextT * 2.0f + time * 0.5f
+
+            val alpha = (255 * (1.0f - t * 0.7f)).toInt().coerceIn(0, 255)
+
+            addVerticalQuad(
+                buffer, matrix, pose,
+                currentX1, currentY2, currentZ,
+                currentX1, currentY1, currentZ,
+                nextX1, nextY1, nextZ,
+                nextX1, nextY2, nextZ,
+                uvOffset, nextUvOffset, alpha
+            )
+
+            addVerticalQuad(
+                buffer, matrix, pose,
+                currentX2, currentY1, currentZ,
+                currentX2, currentY2, currentZ,
+                nextX2, nextY2, nextZ,
+                nextX2, nextY1, nextZ,
+                uvOffset, nextUvOffset, alpha
+            )
+
+            addVerticalQuad(
+                buffer, matrix, pose,
+                currentX2, currentY2, currentZ,
+                currentX1, currentY2, currentZ,
+                nextX1, nextY2, nextZ,
+                nextX2, nextY2, nextZ,
+                uvOffset, nextUvOffset, alpha
+            )
+
+            addVerticalQuad(
+                buffer, matrix, pose,
+                currentX1, currentY1, currentZ,
+                currentX2, currentY1, currentZ,
+                nextX2, nextY1, nextZ,
+                nextX1, nextY1, nextZ,
+                uvOffset, nextUvOffset, alpha
+            )
+        }
+
+        val endZ = z - depth
+        val endScale = 1.0f - 0.3f
+        val endX1 = x1 * endScale
+        val endX2 = x2 * endScale
+        val endY1 = y1 + (y2 - y1) * (1.0f - endScale) * 0.5f
+        val endY2 = y2 - (y2 - y1) * (1.0f - endScale) * 0.5f
+
+        buffer.addVertex(matrix, endX1, endY1, endZ).setColor(20, 20, 40, 255).setUv(0f, 0f)
+            .setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightTexture.FULL_BRIGHT).setNormal(pose, 0f, 0f, 1f)
+        buffer.addVertex(matrix, endX2, endY1, endZ).setColor(20, 20, 40, 255).setUv(1f, 0f)
+            .setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightTexture.FULL_BRIGHT).setNormal(pose, 0f, 0f, 1f)
+        buffer.addVertex(matrix, endX2, endY2, endZ).setColor(20, 20, 40, 255).setUv(1f, 1f)
+            .setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightTexture.FULL_BRIGHT).setNormal(pose, 0f, 0f, 1f)
+        buffer.addVertex(matrix, endX1, endY2, endZ).setColor(20, 20, 40, 255).setUv(0f, 1f)
+            .setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightTexture.FULL_BRIGHT).setNormal(pose, 0f, 0f, 1f)
     }
 
-    private fun renderZombieHead(
-        poseStack: PoseStack,
-        bufferSource: MultiBufferSource,
-        packedOverlay: Int
-    ) {
-        poseStack.pushPose()
-
-        poseStack.translate(0.0, 1.0, -0.5)
-
-        val time = (System.currentTimeMillis() % 36000) / 100.0f
-        poseStack.mulPose(Axis.YP.rotationDegrees(time * 2.0f))
-
-        val bob = kotlin.math.sin(time * 0.1) * 0.05
-        poseStack.translate(0.0, bob, 0.0)
-
-        val scale = 0.5f
-        poseStack.scale(scale, scale, scale)
-
-        val buffer = bufferSource.getBuffer(
-            WitcheryRenderTypes.MIRROR_PORTAL.apply(zombieHeadTexture)
-        )
-
-        zombieHeadModel.render(
-            poseStack,
-            buffer,
-            LightTexture.FULL_BRIGHT,
-            packedOverlay,
-            -1
-        )
-
-        poseStack.popPose()
-    }
-
-    private fun addQuad(
+    private fun addVerticalQuad(
         buffer: VertexConsumer,
         matrix: Matrix4f,
-        normal: PoseStack.Pose,
+        pose: PoseStack.Pose,
         x1: Float, y1: Float, z1: Float,
         x2: Float, y2: Float, z2: Float,
         x3: Float, y3: Float, z3: Float,
         x4: Float, y4: Float, z4: Float,
-        u1: Float, v1: Float, u2: Float, v2: Float,
-        light: Int,
-        overlay: Int
+        uvOffset: Float,
+        nextUvOffset: Float,
+        alpha: Int
     ) {
+
         val v1x = x2 - x1
         val v1y = y2 - y1
         val v1z = z2 - z1
@@ -461,47 +275,19 @@ class MirrorBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
             nz /= length
         }
 
-        buffer.addVertex(matrix, x1, y1, z1)
-            .setColor(255, 255, 255, 255)
-            .setUv(u1, v1)
-            .setOverlay(overlay)
-            .setLight(light)
-            .setNormal(normal, nx, ny, nz)
-
-        buffer.addVertex(matrix, x2, y2, z2)
-            .setColor(255, 255, 255, 255)
-            .setUv(u2, v1)
-            .setOverlay(overlay)
-            .setLight(light)
-            .setNormal(normal, nx, ny, nz)
-
-        buffer.addVertex(matrix, x3, y3, z3)
-            .setColor(255, 255, 255, 255)
-            .setUv(u2, v2)
-            .setOverlay(overlay)
-            .setLight(light)
-            .setNormal(normal, nx, ny, nz)
-
-        buffer.addVertex(matrix, x4, y4, z4)
-            .setColor(255, 255, 255, 255)
-            .setUv(u1, v2)
-            .setOverlay(overlay)
-            .setLight(light)
-            .setNormal(normal, nx, ny, nz)
+        buffer.addVertex(matrix, x1, y1, z1).setColor(255, 255, 255, alpha)
+            .setUv(0f, uvOffset).setOverlay(OverlayTexture.NO_OVERLAY)
+            .setLight(LightTexture.FULL_BRIGHT).setNormal(pose, nx, ny, nz)
+        buffer.addVertex(matrix, x2, y2, z2).setColor(255, 255, 255, alpha)
+            .setUv(1f, uvOffset).setOverlay(OverlayTexture.NO_OVERLAY)
+            .setLight(LightTexture.FULL_BRIGHT).setNormal(pose, nx, ny, nz)
+        buffer.addVertex(matrix, x3, y3, z3).setColor(255, 255, 255, alpha)
+            .setUv(1f, nextUvOffset).setOverlay(OverlayTexture.NO_OVERLAY)
+            .setLight(LightTexture.FULL_BRIGHT).setNormal(pose, nx, ny, nz)
+        buffer.addVertex(matrix, x4, y4, z4).setColor(255, 255, 255, alpha)
+            .setUv(0f, nextUvOffset).setOverlay(OverlayTexture.NO_OVERLAY)
+            .setLight(LightTexture.FULL_BRIGHT).setNormal(pose, nx, ny, nz)
     }
 
-    data class ScissorBounds(
-        val x: Int,
-        val y: Int,
-        val width: Int,
-        val height: Int
-    )
-
-    data class Tuple5(
-        val v1: Double,
-        val v2: Double,
-        val v3: Double,
-        val v4: Double,
-        val v5: Double
-    )
+    data class Tuple5(val v1: Float, val v2: Float, val v3: Float, val v4: Float, val v5: Float)
 }

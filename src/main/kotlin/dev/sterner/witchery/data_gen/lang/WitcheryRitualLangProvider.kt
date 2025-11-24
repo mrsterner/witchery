@@ -131,5 +131,8 @@ object WitcheryRitualLangProvider {
 
         add("witchery:ritual/stone_ritual", "Rite of Petrification")
         add("witchery:ritual/stone_ritual.tooltip", "Will turn you and others into stone")
+
+        add("witchery:ritual/mirror_pair", "Rite of Mirror Magic")
+        add("witchery:ritual/mirror_pair.tooltip", "Creates two linked mirrors")
     }
 }

@@ -45,26 +45,95 @@ float snoise(vec2 v) {
     return 130.0 * dot(m, g);
 }
 
+// 3D noise function for volumetric effects
+float snoise3d(vec3 v) {
+    return snoise(v.xy + v.z * 0.5) * 0.5 + snoise(v.yz + v.x * 0.3) * 0.5;
+}
+
 void main() {
     float time = GameTime * 1000.0;
 
-    vec4 color = texture(Sampler0, texCoord0) * vertexColor;
+    // Calculate view direction for parallax effect
+    vec3 viewDir = normalize(vertexPosition.xyz);
+    vec2 parallaxOffset = viewDir.xy * 0.1;
 
-    vec3 etherealTint = vec3(0.4, 0.5, 0.7);
+    // Create depth layers - simulate looking into a 3D space
+    vec3 depthColor = vec3(0.0);
+    float totalWeight = 0.0;
 
-    float noise1 = snoise(texCoord0 * 3.0 + time * 0.02) * 0.5 + 0.5;
-    float noise2 = snoise(texCoord0 * 5.0 - time * 0.015) * 0.5 + 0.5;
+    // Multiple depth layers create the illusion of 3D space
+    for (int layer = 0; layer < 8; layer++) {
+        float depth = float(layer) / 8.0;
+        float depthZ = depth * 2.0; // 0 to 2 units deep
 
-    vec3 tintedColor = mix(color.rgb, color.rgb * etherealTint, 0.4 + noise1 * 0.2);
+        // Parallax offset increases with depth
+        vec2 layerUV = texCoord0 + parallaxOffset * depth * 2.0;
 
+        // Create 3D coordinates for this depth layer
+        vec3 coord3d = vec3(layerUV * 2.0, depthZ - time * 0.05);
+
+        // Multiple noise octaves for detail
+        float noise1 = snoise3d(coord3d * 2.0 + time * 0.02) * 0.5 + 0.5;
+        float noise2 = snoise3d(coord3d * 4.0 - time * 0.015) * 0.5 + 0.5;
+        float noise3 = snoise3d(coord3d * 8.0 + time * 0.01) * 0.5 + 0.5;
+
+        // Combine noise for swirling effect
+        float combinedNoise = noise1 * 0.5 + noise2 * 0.3 + noise3 * 0.2;
+
+        // Color varies by depth - deeper = darker/more blue
+        vec3 layerColor = mix(
+        vec3(0.2, 0.3, 0.5), // Deep blue
+        vec3(0.6, 0.7, 0.9), // Light ethereal
+        combinedNoise
+        );
+
+        // Fade out distant layers for depth fog
+        float depthFade = exp(-depth * 1.5);
+        float weight = depthFade * (combinedNoise * 0.5 + 0.5);
+
+        depthColor += layerColor * weight;
+        totalWeight += weight;
+    }
+
+    // Normalize accumulated color
+    depthColor /= max(totalWeight, 0.001);
+
+    // Add swirling particle effects
+    vec2 particleUV = texCoord0 * 3.0;
+    float particles = 0.0;
+    for (int i = 0; i < 4; i++) {
+        float angle = float(i) * 1.5708 + time * 0.1; // 90 degree offsets, rotating
+        vec2 offset = vec2(cos(angle), sin(angle)) * 0.5;
+        float particle = snoise(particleUV + offset + time * 0.03);
+        particles += max(0.0, particle - 0.7) * 5.0; // Only bright spots
+    }
+
+    // Add glowing particles to depth
+    depthColor += vec3(0.5, 0.6, 0.8) * particles * 0.3;
+
+    // Edge glow effect - brighter at edges
+    vec2 edgeUV = texCoord0 * 2.0 - 1.0; // -1 to 1
+    float edgeDist = length(edgeUV);
+    float edgeGlow = smoothstep(0.5, 1.0, edgeDist) * 0.3;
+    depthColor += vec3(0.4, 0.5, 0.7) * edgeGlow;
+
+    // Add some texture from Sampler0 for variety
+    vec4 texColor = texture(Sampler0, texCoord0 * 0.5 + time * 0.01);
+    depthColor = mix(depthColor, texColor.rgb * vec3(0.4, 0.5, 0.7), 0.2);
+
+    // Apply fog based on vertex distance
     float fogFactor = smoothstep(FogStart, FogEnd, vertexDistance);
-    vec3 finalColor = mix(tintedColor, FogColor.rgb, fogFactor * 0.6);
+    vec3 finalColor = mix(depthColor, FogColor.rgb, fogFactor * 0.4);
 
-    float glow = (noise1 + noise2) * 0.1;
-    finalColor += etherealTint * glow;
+    // Pulsing glow effect
+    float pulse = sin(time * 0.05) * 0.5 + 0.5;
+    finalColor += vec3(0.3, 0.4, 0.6) * pulse * 0.1;
 
-    float lightIntensity = max(dot(normalize(vertexNormal), vec3(0.0, 1.0, 0.5)), 0.3);
-    finalColor *= lightIntensity;
+    // Overall brightness and contrast adjustment
+    finalColor = pow(finalColor, vec3(0.9)) * 1.3;
 
-    fragColor = vec4(finalColor, color.a * 0.9);
+    // Alpha with some variation for ethereal transparency
+    float alpha = 0.85 + snoise(texCoord0 * 5.0 + time * 0.02) * 0.1;
+
+    fragColor = vec4(finalColor, alpha * vertexColor.a);
 }
