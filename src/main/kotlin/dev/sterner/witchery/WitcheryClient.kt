@@ -318,6 +318,15 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         ) { shader ->
             WitcheryShaders.glow = shader
         }
+        event.registerShader(
+            ShaderInstance(
+                event.resourceProvider,
+                Witchery.id("mirror_portal"),
+                DefaultVertexFormat.NEW_ENTITY
+            )
+        ) { shaderInstance ->
+            WitcheryShaders.mirrorPortal = shaderInstance
+        }
     }
 
     fun registerClientExtensions(event: RegisterClientExtensionsEvent) {

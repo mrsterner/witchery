@@ -88,6 +88,26 @@ object WitcheryRenderTypes {
         )
     }
 
+    val MIRROR_PORTAL = Util.memoize { texture: ResourceLocation ->
+        create(
+            Witchery.MODID + "mirror_portal",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            262144,
+            true,
+            true,
+            RenderType.CompositeState.builder()
+                .setShaderState(ShaderStateShard(WitcheryShaders::mirrorPortal))
+                .setTextureState(TextureStateShard(texture, false, false))
+                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
+                .createCompositeState(true)
+        )
+    }
+
     val SOUL_CHAIN = Util.memoize { texture: ResourceLocation ->
         create(
             Witchery.MODID + "soul_chain",

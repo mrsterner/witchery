@@ -32,4 +32,7 @@ object WitcheryShaders {
 
     @JvmField
     var glow: ShaderInstance? = null
+
+    @JvmStatic
+    var mirrorPortal: ShaderInstance? = null
 }

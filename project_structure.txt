@@ -148,6 +148,9 @@ dev/sterner/witchery/mixin/NearestAttackableTargetGoalMixin.java
 dev/sterner/witchery/mixin/PanicGoalMixin.java
   class PanicGoalMixin
 
+dev/sterner/witchery/mixin/PetrifiedDamageMixin.java
+  class PetrifiedDamageMixin
+
 dev/sterner/witchery/mixin/PetrifiedEntityMixin.java
   class PetrifiedEntityMixin
   int getMaxAirSupply()
@@ -277,6 +280,7 @@ dev/sterner/witchery/mixin/client/LivingEntityRendererMixin.java
 
 dev/sterner/witchery/mixin/client/LivingEntityRendererPetrifiedMixin.java
   class LivingEntityRendererPetrifiedMixin
+  protected LivingEntityRendererPetrifiedMixin(EntityRendererProvider.Context context)
 
 dev/sterner/witchery/mixin/client/LocalPlayerMixin.java
   class LocalPlayerMixin
@@ -314,6 +318,8 @@ dev/sterner/witchery/mixin/client/WorldOpenFlowsMixin.java
 dev/sterner/witchery/mixin/curios/CuriosClientEventHandlerMixin.java
   class CuriosClientEventHandlerMixin
   new Color(250, 250, 100)
+  else if(hagType == WitcheryDataComponents.HagType.LUMBER)
+  else if(hagType == WitcheryDataComponents.HagType.REACH)
   new Color(150, 255, 150)
 
 dev/sterner/witchery/mixin/guardvillagers/GuardMixin.java
@@ -330,7 +336,7 @@ dev/sterner/witchery/mixin/modonomicon/BookCategoryNodeScreenMixin.java
 dev/sterner/witchery/mixin/modonomicon/BookContentRendererMixin.java
   class BookContentRendererMixin
 
-dev/sterner/witchery/mixin/modonomicon/BookIconMixin.java
+dev/sterner/witchery/mixin/modonomicon/client/BookIconMixin.java
   class BookIconMixin
 
 dev/sterner/witchery/mixin/possession/BrainMixin.java
@@ -809,6 +815,11 @@ dev/sterner/witchery/client/model/MandrakeEntityModel.kt
   fun renderToBuffer(poseStack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
   fun createBodyLayer(): LayerDefinition
 
+dev/sterner/witchery/client/model/MirrorModel.kt
+  class MirrorModel
+  fun renderToBuffer(poseStack: PoseStack, vertexConsumer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
+  fun createBodyLayer(): LayerDefinition
+
 dev/sterner/witchery/client/model/MushroomLogModel.kt
   class MushroomLogModel
   fun renderToBuffer(poseStack: PoseStack, vertexConsumer: VertexConsumer, packedLight: Int, packedOverlay: Int, color: Int)
@@ -1043,6 +1054,11 @@ dev/sterner/witchery/client/renderer/block/GrassperBlockEntityRenderer.kt
 dev/sterner/witchery/client/renderer/block/LifeBloodBlockEntityRenderer.kt
   class LifeBloodBlockEntityRenderer
   fun render(blockEntity: LifeBloodBlockEntity, partialTick: Float, poseStack: PoseStack, bufferSource: MultiBufferSource, packedLight: Int, packedOverlay: Int)
+
+dev/sterner/witchery/client/renderer/block/MirrorBlockEntityRenderer.kt
+  class MirrorBlockEntityRenderer
+  fun getRenderBoundingBox(blockEntity: MirrorBlockEntity): AABB
+  fun render(blockEntity: MirrorBlockEntity, partialTick: Float, poseStack: PoseStack, bufferSource: MultiBufferSource, packedLight: Int, packedOverlay: Int)
 
 dev/sterner/witchery/client/renderer/block/MushroomLogBlockEntityRenderer.kt
   class MushroomLogBlockEntityRenderer
@@ -1344,6 +1360,25 @@ dev/sterner/witchery/client/screen/OvenScreen.kt
   class OvenScreen
   fun isPauseScreen(): Boolean
   fun renderBg(guiGraphics: GuiGraphics, partialTick: Float, mouseX: Int, mouseY: Int)
+  fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float)
+
+dev/sterner/witchery/client/screen/SoulTradingScreen.kt
+  class SoulTradingScreen
+  fun init()
+  fun isPauseScreen(): Boolean
+  fun containerTick()
+  fun renderBg(guiGraphics: GuiGraphics, partialTick: Float, mouseX: Int, mouseY: Int)
+  fun renderLabels(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int)
+  fun renderTradeColumn(guiGraphics: GuiGraphics, screenX: Int, screenY: Int, mouseX: Int, mouseY: Int)
+  fun renderSoulColumn(guiGraphics: GuiGraphics, screenX: Int, screenY: Int, mouseX: Int, mouseY: Int)
+  fun renderScale(guiGraphics: GuiGraphics, screenX: Int, screenY: Int, partialTick: Float)
+  fun renderRotatedArm(guiGraphics: GuiGraphics, centerX: Int, centerY: Int, rotation: Float)
+  fun calculateScaleRotation(totalCost: Int, soul: SoulTradingMenu.SoulData?): Float
+  fun getSoulHeadIndex(entityType: EntityType<*>): Int
+  fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean
+  fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, dragX: Double, dragY: Double): Boolean
+  fun mouseReleased(mouseX: Double, mouseY: Double, button: Int): Boolean
+  fun mouseScrolled(mouseX: Double, mouseY: Double, scrollX: Double, scrollY: Double): Boolean
   fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float)
 
 dev/sterner/witchery/client/screen/SpinningWheelScreen.kt
@@ -1675,7 +1710,7 @@ dev/sterner/witchery/content/block/altar/AltarBlockEntity.kt
   fun augmentAltar(level: ServerLevel)
   fun tickServer(serverLevel: ServerLevel)
   fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
-  fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider)
+  fun loadAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
   fun consumeAltarPower(amount: Int, simulate: Boolean): Boolean
   fun getClosestAltar(level: ServerLevel, pos: BlockPos, radius: Int): AltarBlockEntity?
   fun onBlockBreak(event: BlockEvent.BreakEvent)
@@ -1698,6 +1733,8 @@ dev/sterner/witchery/content/block/ancient_tablet/AncientTabletBlock.kt
 dev/sterner/witchery/content/block/ancient_tablet/AncientTabletBlockEntity.kt
   class AncientTabletBlockEntity
   fun getTabletId(): UUID
+  fun updateGlowProgress(progress: Float)
+  fun resetGlow()
   fun tick(level: Level, pos: BlockPos, blockState: BlockState)
   fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
   fun loadAdditional(pTag: CompoundTag, pRegistries: HolderLookup.Provider)
@@ -2116,6 +2153,42 @@ dev/sterner/witchery/content/block/life_blood/LifeBloodPlantBlock.kt
   fun useWithoutItem(blockState: BlockState, level: Level, blockPos: BlockPos, player: Player, blockHitResult: BlockHitResult): InteractionResult
   fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity?
   fun getRenderShape(state: BlockState): RenderShape
+
+dev/sterner/witchery/content/block/mirror/MirrorBlock.kt
+  class MirrorBlock
+  fun getRenderShape(state: BlockState): RenderShape
+  fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity
+  fun getCloneItemStack(state: BlockState, target: HitResult, level: LevelReader, pos: BlockPos, player: Player): ItemStack
+  fun playerDestroy(level: Level, player: Player, pos: BlockPos, state: BlockState, blockEntity: BlockEntity?, tool: ItemStack)
+  fun getStateForPlacement(context: BlockPlaceContext): BlockState?
+  fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>)
+  fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity)
+  fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape
+
+dev/sterner/witchery/content/block/mirror/MirrorBlockComponent.kt
+  class MirrorBlockComponent
+  fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState
+  fun canBeReplaced(state: BlockState, fluid: Fluid): Boolean
+  fun canBeReplaced(state: BlockState, useContext: BlockPlaceContext): Boolean
+  fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>)
+  fun getRenderShape(state: BlockState): RenderShape
+  fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape
+
+dev/sterner/witchery/content/block/mirror/MirrorBlockEntity.kt
+  class MirrorBlockEntity
+  class Mode
+  fun getSerializedName(): String
+  fun onLoad()
+  fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
+  fun loadAdditional(tag: CompoundTag, registries: HolderLookup.Provider)
+  fun isOnCooldown(entity: Entity): Boolean
+  fun setCooldown(entity: Entity)
+  fun onBreak(player: Player)
+  fun putPairId(uuid: UUID)
+  fun registerInRegistry()
+  fun getLinkedMirror(): GlobalPos?
+  fun canEntityTeleport(entity: Entity): Boolean
+  fun tryTeleportEntity(entity: Entity)
 
 dev/sterner/witchery/content/block/mushroom_log/MushroomLogBlock.kt
   class MushroomLogBlock
@@ -2847,8 +2920,14 @@ dev/sterner/witchery/content/entity/ImpEntity.kt
   class ImpEntity
   fun isOnFire(): Boolean
   fun fireImmune(): Boolean
+  fun baseTick()
   fun registerGoals()
+  fun mobInteract(player: Player, hand: InteractionHand): InteractionResult
+  fun createMenu(containerId: Int, inventory: Inventory, player: Player): AbstractContainerMenu?
+  fun getDisplayName(): Component
+  fun calculateSoulWeight(entityType: String): Int
   fun createAttributes(): AttributeSupplier.Builder
+  fun getAvailableTrades(): List<SoulTradingMenu.SoulTrade>
   fun createNavigation(level: Level): PathNavigation
   fun travel(travelVector: Vec3)
   fun checkFallDamage(y: Double, onGround: Boolean, state: BlockState, pos: BlockPos)
@@ -3094,6 +3173,10 @@ dev/sterner/witchery/content/entity/goal/LookAtPosGoal.kt
   fun requiresUpdateEveryTick(): Boolean
   fun tick()
 
+dev/sterner/witchery/content/entity/goal/LookAtTradingPlayerGoal.kt
+  class LookAtTradingPlayerGoal
+  fun canUse(): Boolean
+
 dev/sterner/witchery/content/entity/goal/NightHuntGoal.kt
   class NightHuntGoal
   fun canUse(): Boolean
@@ -3123,6 +3206,12 @@ dev/sterner/witchery/content/entity/goal/ScytheThrowGoal.kt
   fun stop()
   fun requiresUpdateEveryTick(): Boolean
   fun tick()
+
+dev/sterner/witchery/content/entity/goal/TradeWithPlayerGoal.kt
+  class TradeWithPlayerGoal
+  fun canUse(): Boolean
+  fun start()
+  fun stop()
 
 dev/sterner/witchery/content/entity/goal/VampireEscapeSunGoal.kt
   class VampireEscapeSunGoal
@@ -3358,6 +3447,15 @@ dev/sterner/witchery/content/item/LifebloodBerryItem.kt
   class LifebloodBerryItem
   fun finishUsingItem(stack: ItemStack, level: Level, livingEntity: LivingEntity): ItemStack
   fun appendHoverText(stack: ItemStack, context: TooltipContext, tooltipComponents: MutableList<Component>, tooltipFlag: TooltipFlag)
+
+dev/sterner/witchery/content/item/MirrorItem.kt
+  class MirrorItem
+  fun canPlace(context: BlockPlaceContext, state: BlockState): Boolean
+  fun canSuperPlace(context: BlockPlaceContext, state: BlockState): Boolean
+  fun placeBlock(context: BlockPlaceContext, state: BlockState): Boolean
+  fun appendHoverText(stack: ItemStack, context: TooltipContext, tooltipComponents: MutableList<Component>, tooltipFlag: TooltipFlag)
+  fun getPairId(stack: ItemStack): UUID?
+  fun setPairId(stack: ItemStack, pairId: UUID)
 
 dev/sterner/witchery/content/item/MutandisItem.kt
   class MutandisItem
@@ -3617,9 +3715,12 @@ dev/sterner/witchery/content/item/curios/DreamweaverCharmItem.kt
 dev/sterner/witchery/content/item/curios/HagsRingItem.kt
   class HagsRingItem
   fun makesPiglinsNeutral(stack: ItemStack, wearer: LivingEntity): Boolean
+  fun getAttributeModifiers(slotContext: SlotContext?, id: ResourceLocation?, stack: ItemStack?): Multimap<Holder<Attribute?>?, AttributeModifier?>?
   fun getFortuneLevel(player: Player): Int
-  fun gatherConnectedOres(level: ServerLevel, startPos: BlockPos, targetBlock: Block): List<BlockPos>
+  fun gatherConnectedOfSameTag(level: ServerLevel, startPos: BlockPos, targetBlock: Block, tag: TagKey<Block>): List<BlockPos>
   fun dfs(pos: BlockPos)
+  fun gatherConnectedOres(level: ServerLevel, startPos: BlockPos, targetBlock: Block): List<BlockPos>
+  fun gatherConnectedLogs(level: ServerLevel, startPos: BlockPos, targetBlock: Block): List<BlockPos>
   fun canEquipFromUse(slotContext: SlotContext, stack: ItemStack): Boolean
 
 dev/sterner/witchery/content/item/curios/MoonCharmItem.kt
@@ -3675,6 +3776,25 @@ dev/sterner/witchery/content/menu/OvenMenu.kt
   fun getBurnProgress(): Float
   fun getLitProgress(): Float
   fun isLit(): Boolean
+
+dev/sterner/witchery/content/menu/SoulTradingMenu.kt
+  class SoulTradingMenu
+  class SoulTrade
+  class SoulData
+  class SelectedTrade
+  fun setTrades(trades: List<SoulTrade>)
+  fun setSouls(souls: List<SoulData>)
+  fun selectSoul(index: Int)
+  fun incrementAmount(tradeIndex: Int, shift: Boolean)
+  fun decrementAmount(tradeIndex: Int, shift: Boolean)
+  fun getTotalSoulCost(): Int
+  fun getSelectedSoul(): SoulData?
+  fun canMakeTrade(): Boolean
+  fun clearSelection()
+  fun quickMoveStack(player: Player, index: Int): ItemStack
+  fun stillValid(player: Player): Boolean
+  fun removed(player: Player)
+  fun canTakeItemForPickAll(stack: ItemStack, slot: Slot): Boolean
 
 dev/sterner/witchery/content/menu/SpinningWheelMenu.kt
   class SpinningWheelMenu
@@ -4658,6 +4778,12 @@ dev/sterner/witchery/core/util/BoatTypeHelper.kt
 dev/sterner/witchery/core/util/RenderUtils.kt
   object RenderUtils
   fun blitWithAlpha(poseStack: PoseStack, atlasLocation: ResourceLocation?, x: Int, y: Int, uOffset: Float, vOffset: Float, width: Int, height: Int, textureWidth: Int, textureHeight: Int, alpha: Float, color: Int)
+  fun blitWithAlpha(poseStack: PoseStack, atlasLocation: ResourceLocation?, x: Float, y: Float, uOffset: Float, vOffset: Float, width: Int, height: Int, textureWidth: Int, textureHeight: Int, alpha: Float, color: Int)
+  fun blitWithAlpha(poseStack: PoseStack, atlasLocation: ResourceLocation?, x: Float, y: Float, z: Float, uOffset: Float, vOffset: Float, width: Int, height: Int, textureWidth: Int, textureHeight: Int, alpha: Float, color: Int)
+  fun renderItemWithAlpha(guiGraphics: GuiGraphics, stack: ItemStack, x: Float, y: Float, alpha: Float)
+  fun renderItemWithAlpha(guiGraphics: GuiGraphics, @Nullable entity: LivingEntity?, @Nullable level: Level?, stack: ItemStack, x: Float, y: Float, seed: Int, guiOffset: Int, alpha: Float)
+  fun renderItemDecorations(guiGraphics: GuiGraphics, font: Font, stack: ItemStack, x: Float, y: Float)
+  fun drawString(guiGraphics: GuiGraphics, font: Font, text: String?, x: Float, y: Float, z: Float, color: Int, shadow: Boolean): Int
   fun innerRenderBlood(guiGraphics: GuiGraphics, living: LivingEntity, y: Int, x: Int)
   fun innerRenderBlood(guiGraphics: GuiGraphics, maxBlood: Int, bloodPool: Int, y: Int, x: Int)
   fun innerRenderSouls(guiGraphics: GuiGraphics, player: Player, y: Int, x: Int)
@@ -4771,9 +4897,11 @@ dev/sterner/witchery/data_gen/WitcheryLootModifierProvider.kt
 
 dev/sterner/witchery/data_gen/WitcheryLootProvider.kt
   class WitcheryLootProvider
+  class ArchaeologyLoot
   class EntityLoot
   class BlocksLoot
   fun validate(writableregistry: WritableRegistry<LootTable?>, validationcontext: ValidationContext, `problemreporter$collector`: ProblemReporter.Collector)
+  fun generate(output: BiConsumer<ResourceKey<LootTable>, LootTable.Builder>)
   fun getKnownEntityTypes(): Stream<EntityType<*>?>
   fun generate()
   fun getKnownBlocks(): Iterable<Block?>
@@ -5462,9 +5590,15 @@ dev/sterner/witchery/features/affliction/ability/AfflictionAbilityHandler.kt
   fun updateAbilityIndex(player: Player, index: Int)
   fun addAbilityOnLevelUp(player: Player, newLevel: Int, affliction: AfflictionTypes, force: Boolean)
   fun updateSelectedAbilities(player: Player, abilities: List<String>)
-  fun scroll(minecraft: Minecraft?, scrollDeltaX: Double, scrollDeltaY: Double): Boolean
+  fun scroll(scrollDeltaX: Double, scrollDeltaY: Double): Boolean
   fun getSelectedAbility(player: Player): AfflictionAbility?
   fun useSelectedAbility(player: Player): Boolean
+  fun openSelectionScreen(player: Player)
+
+dev/sterner/witchery/features/affliction/ability/ClientAbilityHandler.kt
+  object ClientAbilityHandler
+  fun getClientPlayer(): Player?
+  fun handleScroll(scrollDeltaX: Double, scrollDeltaY: Double): Boolean
   fun openSelectionScreen(player: Player)
 
 dev/sterner/witchery/features/affliction/event/AfflictionClientEventHandler.kt
@@ -6081,6 +6215,27 @@ dev/sterner/witchery/features/lifeblood/LifebloodPlayerAttachment.kt
   fun addPoints(amount: Int): Data
   fun removePoints(amount: Int): Data
 
+dev/sterner/witchery/features/mirror/MirrorRegistryAttachment.kt
+  class Data
+  class MirrorEntry
+  object MirrorRegistryAttachment
+  fun getData(level: ServerLevel): Data
+  fun setData(level: ServerLevel, data: Data)
+  fun registerMirror(level: ServerLevel, pairId: UUID, pos: GlobalPos)
+  fun unregisterMirror(level: ServerLevel, pos: GlobalPos)
+  fun updateLoadedMirrorsForPair(level: ServerLevel, pairId: UUID, allEntries: List<MirrorEntry>)
+  fun findPairedMirror(level: ServerLevel, pairId: UUID, currentPos: GlobalPos): GlobalPos?
+
+dev/sterner/witchery/features/mirror/MirrorStuckPlayerAttachment.kt
+  class Data
+  class DataEntry
+  object MirrorStuckPlayerAttachment
+  fun getData(serverLevel: Level): Data
+  fun setData(level: Level, data: Data)
+  fun hasWallPos(level: Level, pos: BlockPos): Boolean
+  fun setWallPos(level: Level, uuid: UUID, wallPos: BlockPos)
+  fun removeEntry(level: Level, uuid: UUID)
+
 dev/sterner/witchery/features/misc/AccessoryHandler.kt
   class for
   object AccessoryHandler
@@ -6280,13 +6435,18 @@ dev/sterner/witchery/features/petrification/PetrificationHandler.kt
   fun petrify(entity: LivingEntity, duration: Int)
   fun unpetrify(entity: LivingEntity)
   fun onLivingTick(event: EntityTickEvent.Pre)
+  fun onAttackEntity(event: AttackEntityEvent)
+  fun onLivingDamage(event: LivingIncomingDamageEvent)
+  fun handlePlayerPunch(player: Player)
   fun applyPetrificationEffects(entity: LivingEntity)
   fun removePetrificationEffects(entity: LivingEntity)
   fun spawnPetrifiedParticles(level: ServerLevel, entity: LivingEntity)
+  fun spawnBreakParticles(level: ServerLevel, entity: LivingEntity)
   fun spawnPetrificationWave(level: ServerLevel, start: Vec3, end: Vec3)
   fun spawnTransformationParticles(level: ServerLevel, entity: LivingEntity)
 
 dev/sterner/witchery/features/petrification/PetrificationTextureManager.kt
+  class Size
   object PetrificationTextureManager
   fun setCurrentEntity(entity: LivingEntity?)
   fun clearCurrentEntity()
@@ -6297,6 +6457,7 @@ dev/sterner/witchery/features/petrification/PetrificationTextureManager.kt
   fun loadPlayerSkinAsNativeImage(skin: HttpTexture): NativeImage?
   fun copyNativeImage(image: NativeImage): NativeImage
   fun extractNativeImageFromTextureManager(textureManager: TextureManager, resLoc: ResourceLocation): NativeImage?
+  fun getTextureSize(originalTexture: ResourceLocation): Size
   fun generatePetrifiedTexture(originalTexture: ResourceLocation): ResourceLocation
 
 dev/sterner/witchery/features/petrification/PetrifiedEntityAttachment.kt
@@ -6304,7 +6465,10 @@ dev/sterner/witchery/features/petrification/PetrifiedEntityAttachment.kt
   object PetrifiedEntityAttachment
   fun isPetrified(): Boolean
   fun tick(): Data
-  fun withPetrification(duration: Int, age: Float, limbSwing: Float, limbSwingAmount: Float, headYaw: Float, headPitch: Float): Data
+  fun withPetrification(duration: Int, age: Float, limbSwing: Float, limbSwingAmount: Float, headYaw: Float, headPitch: Float, yBodyRot: Float): Data
+  fun incrementBreakProgress(): Data
+  fun incrementPunchCount(): Data
+  fun getBreakStage(): Int
   fun getData(entity: LivingEntity): Data
   fun setData(entity: LivingEntity, data: Data)
 
@@ -6467,6 +6631,10 @@ dev/sterner/witchery/features/ritual/BlocksBelowRitual.kt
 dev/sterner/witchery/features/ritual/EmptyRitual.kt
   class EmptyRitual
 
+dev/sterner/witchery/features/ritual/MirrorPairRitual.kt
+  class MirrorPairRitual
+  fun onEndRitual(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity)
+
 dev/sterner/witchery/features/ritual/PetrificationRitual.kt
   class PetrificationRitual
   fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
@@ -6529,6 +6697,10 @@ dev/sterner/witchery/features/ritual/SoulSeveranceRitual.kt
 dev/sterner/witchery/features/ritual/SoulbindRitual.kt
   class SoulbindRitual
   fun onStartRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity): Boolean
+
+dev/sterner/witchery/features/ritual/TurnNightRitual.kt
+  class TurnNightRitual
+  fun onEndRitual(level: Level, blockPos: BlockPos, goldenChalkBlockEntity: GoldenChalkBlockEntity)
 
 dev/sterner/witchery/features/spirit_world/ManifestationHandler.kt
   object ManifestationHandler
@@ -7256,6 +7428,18 @@ dev/sterner/witchery/network/RefreshDimensionsS2CPayload.kt
   fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
   fun handleOnClient(ctx: IPayloadContext)
 
+dev/sterner/witchery/network/SelectSoulTradeC2SPayload.kt
+  class SelectSoulTradeC2SPayload
+  class Action
+  fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
+  fun write(buf: RegistryFriendlyByteBuf)
+  fun handleOnServer(ctx: IPayloadContext)
+  fun syncMenuData(player: ServerPlayer, menu: SoulTradingMenu)
+  fun executeTrade(player: ServerPlayer, menu: SoulTradingMenu)
+  fun updateMenuData(player: ServerPlayer, menu: SoulTradingMenu)
+  fun findNearbySouls(player: ServerPlayer): List<SoulTradingMenu.SoulData>
+  fun calculateSoulWeight(entityType: String): Int
+
 dev/sterner/witchery/network/SelectUrnPotionC2SPayload.kt
   class SelectUrnPotionC2SPayload
   fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
@@ -7424,6 +7608,12 @@ dev/sterner/witchery/network/SyncManifestationS2CPayload.kt
   fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
   fun handleOnClient()
 
+dev/sterner/witchery/network/SyncMirrorStuckS2CPayload.kt
+  class SyncMirrorStuckS2CPayload
+  fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
+  fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
+  fun handleOnClient()
+
 dev/sterner/witchery/network/SyncMiscS2CPayload.kt
   class SyncMiscS2CPayload
   fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
@@ -7484,6 +7674,15 @@ dev/sterner/witchery/network/SyncSoulS2CPayload.kt
   fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
   fun write(friendlyByteBuf: RegistryFriendlyByteBuf)
   fun handleOnClient()
+
+dev/sterner/witchery/network/SyncSoulTradeDataS2CPayload.kt
+  class SyncSoulTradeDataS2CPayload
+  fun type(): CustomPacketPayload.Type<out CustomPacketPayload>
+  fun write(buf: RegistryFriendlyByteBuf)
+  fun handleOnClient()
+  fun readTrades(buf: RegistryFriendlyByteBuf): List<SoulTradingMenu.SoulTrade>
+  fun readSouls(buf: RegistryFriendlyByteBuf): List<SoulTradingMenu.SoulData>
+  fun readSelectedTrades(buf: RegistryFriendlyByteBuf): List<SoulTradingMenu.SelectedTrade>
 
 dev/sterner/witchery/network/SyncTarotS2CPayload.kt
   class SyncTarotS2CPayload
