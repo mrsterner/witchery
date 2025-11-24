@@ -6,6 +6,7 @@ import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -37,6 +38,24 @@ public class ItemEntityMixin {
         }
 
         if (targetSlot != -1 && InventoryLockPlayerAttachment.INSTANCE.isSlotLocked(player, targetSlot)) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "setUnderwaterMovement", at = @At("HEAD"), cancellable = true)
+    private void witchery$preventPoppetFloat(CallbackInfo ci) {
+        var self = (ItemEntity) (Object) this;
+        var stack = self.getItem();
+
+        if (stack.is(WitcheryItems.INSTANCE.getVOODOO_POPPET().get())) {
+            var vec = self.getDeltaMovement();
+
+            self.setDeltaMovement(new Vec3(
+                    vec.x * 0.95,
+                    vec.y - 0.01,
+                    vec.z * 0.95
+            ));
+
             ci.cancel();
         }
     }
