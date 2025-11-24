@@ -506,7 +506,7 @@ dev/sterner/witchery/WitcheryClient.kt
   fun onRegisterFluidExtensions(event: RegisterClientExtensionsEvent)
   fun getStillTexture()
   fun getFlowingTexture()
-  fun getTintColor()
+  fun getTintColor(): Int
   fun getOverlayTexture()
   fun onRenderHud(event: RenderGuiEvent.Post)
   fun onTooltipComponentFactories(event: RegisterClientTooltipComponentFactoriesEvent)
@@ -547,7 +547,10 @@ dev/sterner/witchery/WitcheryNeoForgeEvents.kt
   fun onPlayerTick(event: PlayerTickEvent.Post)
   fun onEquipmentChange(event: LivingEquipmentChangeEvent)
   fun onPlayerRespawn(event: PlayerEvent.PlayerRespawnEvent)
+  fun onPlayerTeleport(event: PlayerEvent.PlayerChangedDimensionEvent)
   fun onPlayerClone(event: PlayerEvent.Clone)
+  fun onPlayerLogin(event: PlayerEvent.PlayerLoggedInEvent)
+  fun restorePossession(player: ServerPlayer)
   fun finalizeMobSpawn(event: FinalizeSpawnEvent)
   fun onLivingConversion(event: LivingConversionEvent.Post)
   fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent)
@@ -1057,8 +1060,18 @@ dev/sterner/witchery/client/renderer/block/LifeBloodBlockEntityRenderer.kt
 
 dev/sterner/witchery/client/renderer/block/MirrorBlockEntityRenderer.kt
   class MirrorBlockEntityRenderer
+  class ScissorBounds
+  class Tuple5
   fun getRenderBoundingBox(blockEntity: MirrorBlockEntity): AABB
   fun render(blockEntity: MirrorBlockEntity, partialTick: Float, poseStack: PoseStack, bufferSource: MultiBufferSource, packedLight: Int, packedOverlay: Int)
+  fun renderNormalMirror(blockEntity: MirrorBlockEntity, poseStack: PoseStack, bufferSource: MultiBufferSource, packedLight: Int, packedOverlay: Int, dirYRot: Float)
+  fun renderDemonMirror(blockEntity: MirrorBlockEntity, poseStack: PoseStack, bufferSource: MultiBufferSource, packedLight: Int, packedOverlay: Int, dirYRot: Float)
+  fun calculateMirrorScissorBounds(blockEntity: MirrorBlockEntity, facingYRot: Float, isSmall: Boolean, window: Window): ScissorBounds?
+  fun projectToScreen(worldPos: Vec3, camera: Camera, projectionMatrix: Matrix4f, modelViewStack: Matrix4fStack, window: Window): Vec3?
+  fun renderMirrorRoom(blockEntity: MirrorBlockEntity, poseStack: PoseStack, bufferSource: MultiBufferSource, packedOverlay: Int, facingYRot: Float)
+  fun renderRoomWalls(poseStack: PoseStack, bufferSource: MultiBufferSource)
+  fun renderZombieHead(poseStack: PoseStack, bufferSource: MultiBufferSource, packedOverlay: Int)
+  fun addQuad(buffer: VertexConsumer, matrix: Matrix4f, normal: PoseStack.Pose, x1: Float, y1: Float, z1: Float, x2: Float, y2: Float, z2: Float, x3: Float, y3: Float, z3: Float, x4: Float, y4: Float, z4: Float, u1: Float, v1: Float, u2: Float, v2: Float, light: Int, overlay: Int)
 
 dev/sterner/witchery/client/renderer/block/MushroomLogBlockEntityRenderer.kt
   class MushroomLogBlockEntityRenderer
@@ -4580,7 +4593,6 @@ dev/sterner/witchery/core/registry/WitcheryBlocks.kt
   fun register(name: String, addLang: Boolean, item: Supplier<T>): DeferredHolder<Block, T>
   fun createStrippableLog(stripped: Supplier<out RotatedPillarBlock>, properties: Properties)
   fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity)
-  fun getFluidState(state: BlockState): FluidState
 
 dev/sterner/witchery/core/registry/WitcheryBrazierRegistry.kt
   object WitcheryBrazierRegistry
@@ -4650,26 +4662,29 @@ dev/sterner/witchery/core/registry/WitcheryFlammability.kt
   object WitcheryFlammability
 
 dev/sterner/witchery/core/registry/WitcheryFluids.kt
-  class FlowingSpirit
-  class Source
+  class SpiritFluid
   class Flowing
+  class Source
   object WitcheryFluids
   fun register(eventBus: IEventBus)
   fun getFluidType(): FluidType
-  fun getSource(): Fluid
   fun getFlowing(): Fluid
+  fun getSource(): Fluid
+  fun getBucket(): Item
+  fun getDripParticle(): ParticleOptions?
   fun canConvertToSource(level: Level): Boolean
+  fun beforeDestroyingBlock(level: LevelAccessor, pos: BlockPos, state: BlockState)
+  fun getSlopeFindDistance(level: LevelReader): Int
+  fun createLegacyBlock(state: FluidState): BlockState
+  fun isSame(fluid: Fluid): Boolean
   fun getDropOff(level: LevelReader): Int
   fun getTickDelay(level: LevelReader): Int
-  fun getSlopeFindDistance(level: LevelReader): Int
+  fun canBeReplacedWith(fluidState: FluidState, blockReader: BlockGetter, pos: BlockPos, fluid: Fluid, direction: Direction): Boolean
   fun getExplosionResistance(): Float
-  fun getBucket(): Item
-  fun canBeReplacedWith(level: FluidState, blockGetter: BlockGetter, pos: BlockPos, fluid: Fluid, direction: Direction): Boolean
-  fun createFluidStateDefinition(builder: StateDefinition.Builder<Fluid, FluidState>)
-  fun isSource(state: FluidState): Boolean
+  fun getPickupSound(): Optional<SoundEvent>
+  fun createFluidStateDefinition(builder: StateDefinition.Builder<Fluid?, FluidState?>)
   fun getAmount(state: FluidState): Int
-  fun createLegacyBlock(state: FluidState): BlockState
-  fun beforeDestroyingBlock(level: LevelAccessor, pos: BlockPos, state: BlockState)
+  fun isSource(state: FluidState): Boolean
 
 dev/sterner/witchery/core/registry/WitcheryItems.kt
   object WitcheryItems
@@ -6597,6 +6612,7 @@ dev/sterner/witchery/features/possession/PossessionComponentAttachment.kt
   fun serverTick()
   fun completeCuring(player: ServerPlayer)
   fun startCuring()
+  fun ensureHostSynced(player: ServerPlayer)
   fun cure(event: LivingEntityUseItemEvent.Finish)
   fun dropEquipment(possessed: LivingEntity, player: ServerPlayer)
   fun get(player: Player): PossessionComponent

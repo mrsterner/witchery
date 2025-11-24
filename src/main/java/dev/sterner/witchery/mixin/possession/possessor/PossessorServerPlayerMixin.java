@@ -37,7 +37,7 @@ public abstract class PossessorServerPlayerMixin extends Player {
     @Unique
     public void witchery$setResurrectionEntity(Mob secondLife) {
         CompoundTag tag = new CompoundTag();
-        if (secondLife.saveAsPassenger(tag)) {
+        if (witchery$saveAsPassenger(secondLife, tag)) {
             witchery$setResurrectionEntity(tag);
         }
     }
@@ -48,26 +48,27 @@ public abstract class PossessorServerPlayerMixin extends Player {
     }
 
     @Unique
-    public void witchery$spawnResurrectionEntity() {
-        if (this.witchery$possessedEntityTag != null) {
-            Entity formerPossessed = EntityType.loadEntityRecursive(
-                    this.witchery$possessedEntityTag,
-                    level(),
-                    Function.identity()
-            );
+    private void witchery$spawnResurrectionEntity() {
+        if (witchery$possessedEntityTag == null) return;
 
-            if (formerPossessed instanceof Mob host) {
-                host.copyPosition(this);
-                if (level().addFreshEntity(host)) {
-                    if (PossessionComponentAttachment.INSTANCE.get(this).startPossessing(host)) {
+        Entity formerPossessed = EntityType.loadEntityRecursive(
+                this.witchery$possessedEntityTag,
+                level(),
+                Function.identity()
+        );
 
-                    }
-                }
+        if (formerPossessed instanceof Mob host) {
+            host.copyPosition(this);
+
+            if (level().addFreshEntity(host)) {
+                PossessionComponentAttachment.INSTANCE.get((ServerPlayer)(Object)this).startPossessing(host);
             }
-
-            this.witchery$possessedEntityTag = null;
         }
+
+        this.witchery$possessedEntityTag = null;
     }
+
+
 
     @Unique
     private void witchery$setResurrectionEntity(@Nullable CompoundTag serializedSecondLife) {
@@ -86,12 +87,14 @@ public abstract class PossessorServerPlayerMixin extends Player {
 
     @Unique
     private void witchery$prepareDimensionChange() {
-        Mob currentHost = PossessionComponentAttachment.INSTANCE.get(this).getHost();
+        Mob currentHost = PossessionComponentAttachment.INSTANCE.get((ServerPlayer)(Object)this).getHost();
         if (currentHost != null && !currentHost.isRemoved()) {
-            this.witchery$setResurrectionEntity(currentHost);
+            witchery$setResurrectionEntity(currentHost);
+            PossessionComponentAttachment.INSTANCE.get((ServerPlayer)(Object)this).stopPossessing(false);
             currentHost.remove(Entity.RemovalReason.UNLOADED_WITH_PLAYER);
         }
     }
+
 
     @Inject(method = "changeDimension", at = @At(value = "RETURN"))
     private void witchery$changeDimension(DimensionTransition teleportTarget, CallbackInfoReturnable<Entity> cir) {
@@ -152,13 +155,13 @@ public abstract class PossessorServerPlayerMixin extends Player {
 
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
     private void witchery$addAdditionalSaveData(CompoundTag tag, CallbackInfo info) {
-        Entity possessedEntity = PossessionComponentAttachment.INSTANCE.get(this).getHost();
+        Mob possessedEntity = PossessionComponentAttachment.INSTANCE.get(this).getHost();
 
         if (possessedEntity != null) {
-            Entity possessedEntityVehicle = possessedEntity.getRootVehicle();
             CompoundTag possessedRoot = new CompoundTag();
             CompoundTag serializedPossessed = new CompoundTag();
-            possessedEntityVehicle.saveWithoutId(serializedPossessed);
+
+            witchery$saveAsPassenger(possessedEntity, serializedPossessed);
             possessedRoot.put("PossessedEntity", serializedPossessed);
             possessedRoot.putUUID("PossessedUUID", possessedEntity.getUUID());
             tag.put("PossessedRoot", possessedRoot);
@@ -167,6 +170,18 @@ public abstract class PossessorServerPlayerMixin extends Player {
             possessedRoot.put("PossessedEntity", this.witchery$possessedEntityTag);
             possessedRoot.putUUID("PossessedUUID", this.witchery$possessedEntityTag.getUUID("UUID"));
             tag.put("PossessedRoot", possessedRoot);
+        }
+    }
+
+    @Unique
+    public boolean witchery$saveAsPassenger(Mob possessedEntity, CompoundTag compound) {
+        String s = possessedEntity.getEncodeId();
+        if (s != null) {
+            compound.putString("id", s);
+            possessedEntity.saveWithoutId(compound);
+            return true;
+        } else {
+            return false;
         }
     }
 }

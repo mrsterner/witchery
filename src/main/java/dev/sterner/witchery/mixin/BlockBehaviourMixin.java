@@ -50,9 +50,6 @@ public class BlockBehaviourMixin {
             CallbackInfoReturnable<VoxelShape> cir
     ) {
         if (level instanceof Level lvl) {
-            MirrorStuckPlayerAttachment.getData(lvl).getEntries().stream().filter(it -> it.getWallPos() == pos).findFirst().ifPresent(it -> {
-                System.out.println("Removing collision behind mirror");
-            });
 
             if (MirrorStuckPlayerAttachment.INSTANCE.hasWallPos(lvl, pos) ||
                     MirrorStuckPlayerAttachment.INSTANCE.hasWallPos(lvl, pos.below())) {

@@ -101,6 +101,7 @@ import net.neoforged.neoforge.event.LootTableLoadEvent
 import net.neoforged.neoforge.event.RegisterCommandsEvent
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent
 import net.neoforged.neoforge.event.entity.living.LivingConversionEvent
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
@@ -410,6 +411,32 @@ object WitcheryNeoForgeEvents {
     }
 
     @SubscribeEvent
+    fun onPlayerTeleport(event: EntityTeleportEvent){
+
+    }
+
+    @SubscribeEvent
+    fun onPlayerTeleportDim(event: PlayerEvent.PlayerChangedDimensionEvent){
+
+        if (event.entity is ServerPlayer) {
+            val serverPlayer = event.entity as ServerPlayer
+            serverPlayer.server.execute {
+                val currentData = AfflictionPlayerAttachment.getData(serverPlayer)
+                AfflictionPlayerAttachment.syncFull(serverPlayer, currentData)
+
+                if (currentData.getVampireLevel() > 0) {
+                    val bloodData = BloodPoolLivingEntityAttachment.getData(serverPlayer)
+                    BloodPoolLivingEntityAttachment.setData(serverPlayer, bloodData)
+                }
+            }
+
+            PossessionComponentAttachment.syncToClient(event.entity as ServerPlayer)
+            PossessedDataAttachment.syncToClient(event.entity)
+        }
+
+    }
+
+    @SubscribeEvent
     fun onPlayerRespawn(event: PlayerEvent.PlayerRespawnEvent) {
         if (event.entity is ServerPlayer) {
             val miscData = MiscPlayerAttachment.getData(event.entity)
@@ -427,6 +454,7 @@ object WitcheryNeoForgeEvents {
         AfflictionPlayerAttachment.setData(event.entity, newData, sync = false)
 
         VampireSpecificEventHandler.respawn(event.original, event.entity, event.isWasDeath)
+        LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
 
         InfusionPlayerAttachment.setData(
             event.entity,
@@ -438,7 +466,7 @@ object WitcheryNeoForgeEvents {
         MiscPlayerAttachment.setData(event.entity, miscData.copy(hasDeathTeleport = false))
 
         DeathPlayerAttachment.setData(event.entity, DeathPlayerAttachment.getData(event.original))
-        LichdomSpecificEventHandler.respawn(event.entity, event.original, event.isWasDeath)
+
         PhylacteryBlockEntity.onPlayerLoad(event.entity)
         BrewOfSleepingItem.respawnPlayer(event.entity)
         CovenPlayerAttachment.setData(event.entity, CovenPlayerAttachment.getData(event.original))

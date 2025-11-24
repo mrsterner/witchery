@@ -1,8 +1,12 @@
 package dev.sterner.witchery.network
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.features.curse.CursePlayerAttachment
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment
+import dev.sterner.witchery.network.SyncCurseS2CPayload
 import net.minecraft.client.Minecraft
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtOps
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
@@ -10,43 +14,47 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 
 class SyncPossessionComponentS2CPayload(
-    val playerId: Int,
-    val data: PossessionComponentAttachment.PossessionData
+    val nbt: CompoundTag
 ) : CustomPacketPayload {
 
-    constructor(buf: RegistryFriendlyByteBuf) : this(
-        buf.readInt(),
-        PossessionComponentAttachment.PossessionData(
-            buf.readInt(),
-            if (buf.readBoolean()) buf.readUUID() else null
-        )
-    )
+    constructor(friendlyByteBuf: RegistryFriendlyByteBuf) : this(friendlyByteBuf.readNbt()!!)
+
+    constructor(player: Player, data: PossessionComponentAttachment.PossessionData) : this(CompoundTag().apply {
+        putUUID("Id", player.uuid)
+        PossessionComponentAttachment.PossessionData.CODEC.encodeStart(NbtOps.INSTANCE, data).resultOrPartial().let {
+            put("data", it.get())
+        }
+    })
+
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> = TYPE
 
     fun write(buf: RegistryFriendlyByteBuf) {
-        buf.writeInt(playerId)
-        buf.writeInt(data.possessedEntityId)
-        buf.writeBoolean(data.possessedEntityUUID != null)
-        data.possessedEntityUUID?.let { buf.writeUUID(it) }
+        buf.writeNbt(nbt)
     }
 
     fun handleOnClient() {
         val client = Minecraft.getInstance()
         val level = client.level ?: return
 
-        val entity = level.getEntity(playerId)
-        if (entity is Player) {
-            client.execute {
-                PossessionComponentAttachment.setPossessionData(entity, data)
+        val id = nbt.getUUID("Id")
 
-                if (entity == client.player) {
-                    val possessedEntity = if (data.possessedEntityId != -1) {
-                        level.getEntity(data.possessedEntityId)
+        val player = client.level?.getPlayerByUUID(id)
+        val dataTag = nbt.getCompound("data")
+        val data = PossessionComponentAttachment.PossessionData.CODEC.parse(NbtOps.INSTANCE, dataTag).resultOrPartial()
+
+
+        if (player is Player && data.isPresent) {
+            client.execute {
+                PossessionComponentAttachment.setPossessionData(player, data.get())
+
+                if (player == client.player) {
+                    val possessedEntity = if (data.get().possessedEntityId != -1) {
+                        level.getEntity(data.get().possessedEntityId)
                     } else null
 
                     if (client.options.cameraType.isFirstPerson) {
-                        updateCamera(client.player, possessedEntity ?: entity)
+                        updateCamera(client.player, possessedEntity ?: player)
                     }
                 }
             }

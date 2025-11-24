@@ -56,7 +56,7 @@ object PossessionComponentAttachment {
         if (player is ServerPlayer) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                 player,
-                SyncPossessionComponentS2CPayload(player.id, getPossessionData(player))
+                SyncPossessionComponentS2CPayload(player, getPossessionData(player))
             )
         }
     }
@@ -88,13 +88,17 @@ object PossessionComponentAttachment {
     class PossessionComponent(private val player: Player) {
         private var possessedEntity: Mob? = null
 
+        fun getPlayer(): Player {
+            return player
+        }
+
         fun isPossessionOngoing(): Boolean {
             return this.possessedEntity != null
         }
 
         fun isReadyForPossession(): Boolean {
             return player.level().isClientSide ||
-                    (!player.isSpectator && AfflictionPlayerAttachment.getData(player).isSoulForm())
+                    (!player.isSpectator)
         }
 
         fun startPossessing(host: Mob): Boolean {
@@ -102,14 +106,16 @@ object PossessionComponentAttachment {
                 return false
             }
 
-
             val result = PossessionEvents.PossessionAttempted(host, player)
             NeoForge.EVENT_BUS.post(result)
             if (result.isCanceled) {
                 return false
             }
 
-            val possessable = host as? Possessable ?: return false
+            val possessable = host as? Possessable
+            if (possessable == null) {
+                return false
+            }
 
             if (!possessable.canBePossessedBy(player)) {
                 return false
@@ -122,9 +128,7 @@ object PossessionComponentAttachment {
 
                 for (slot in EquipmentSlot.entries) {
                     val stuff: ItemStack = host.getItemBySlot(slot)
-                    if (stuff.isEmpty) {
-                        continue
-                    }
+                    if (stuff.isEmpty) continue
                     if (!player.getItemBySlot(slot).isEmpty) {
                         player.spawnAtLocation(stuff, 0.5f)
                     } else {
@@ -132,6 +136,7 @@ object PossessionComponentAttachment {
                     }
                     host.setItemSlot(slot, ItemStack.EMPTY)
                 }
+
                 for (effect in host.activeEffects) {
                     player.addEffect(MobEffectInstance(effect))
                 }
@@ -144,27 +149,33 @@ object PossessionComponentAttachment {
             }
 
             this.possessedEntity = host
+
             val data = getPossessionData(player)
             data.possessedEntityId = host.id
             data.possessedEntityUUID = host.uuid
             data.curingTimer = -1
             setPossessionData(player, data)
+
             possessable.setPossessor(player)
 
             player.copyPosition(host)
             player.refreshDimensions()
 
             host.playAmbientSound()
-
             host.setPersistenceRequired()
 
             val event = PossessionEvents.PossessionStateChange(player, host)
             NeoForge.EVENT_BUS.post(event)
+
             return true
         }
 
+
         fun stopPossessing(transfer: Boolean = !player.isCreative) {
-            val host = getHost() ?: return
+            val host = getHost()
+            if (host == null) {
+                return
+            }
 
             resetState()
             (host as Possessable).setPossessor(null)
@@ -188,7 +199,9 @@ object PossessionComponentAttachment {
             }
         }
 
+
         fun getHost(): Mob? {
+
             val data = getPossessionData(player)
             if (!data.isPossessing()) {
                 return null
@@ -199,21 +212,26 @@ object PossessionComponentAttachment {
             }
 
             val level = player.level()
+
             val entity = level.getEntity(data.possessedEntityId)
             if (entity is Mob && entity is Possessable) {
                 possessedEntity = entity
                 return entity
             }
 
-            if (data.possessedEntityUUID != null && level is ServerLevel) {
-                val entityByUUID = level.getEntity(data.possessedEntityUUID!!)
-                if (entityByUUID is Mob && entityByUUID is Possessable) {
-                    startPossessing(entityByUUID)
-                    return entityByUUID
+            if (possessedEntity?.isRemoved == true) {
+
+                resetState()
+                if (data.possessedEntityUUID != null && level is ServerLevel) {
+                    val entityByUUID = level.getEntity(data.possessedEntityUUID!!)
+                    if (entityByUUID is Mob && entityByUUID is Possessable) {
+                        startPossessing(entityByUUID)
+                        return entityByUUID
+                    }
                 }
+
             }
 
-            resetState()
             return null
         }
 

@@ -215,10 +215,6 @@ object LichdomSpecificEventHandler {
                 SoulPoolPlayerAttachment.Data(soulData.maxSouls, 50)
             )
 
-            AfflictionPlayerAttachment.smartUpdate(newPlayer) {
-                withSoulForm(false)
-            }
-
             val currentSouls = LichdomSoulPoolHandler.getCurrentSouls(newPlayer as ServerPlayer)
             LichdomSoulPoolHandler.setMaxSouls(newPlayer, lichLevel)
 
