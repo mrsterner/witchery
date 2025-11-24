@@ -18,6 +18,9 @@
     "witchery:mandrake_seeds": {
       "chance": 0.3
     },
+    "witchery:snowbell_seeds": {
+      "chance": 0.5
+    },
     "witchery:rowan_berries": {
       "chance": 0.5
     },
