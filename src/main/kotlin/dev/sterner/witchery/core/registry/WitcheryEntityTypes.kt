@@ -50,7 +50,7 @@ object WitcheryEntityTypes {
             { _: EntityType<InsanityEntity>, level: Level ->
                 InsanityEntity(level)
             }, MobCategory.MONSTER
-        ).sized(0.6f, 1.8f).build(Witchery.id("insanity").toString())
+        ).sized(0.75f, 2.0f).build(Witchery.id("insanity").toString())
     })
 
     val AREA_EFFECT_CLOUD =

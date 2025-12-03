@@ -2,6 +2,7 @@ package dev.sterner.witchery.client.renderer.entity
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
+import dev.sterner.witchery.client.layer.InsanityEndermanEyesLayer
 import dev.sterner.witchery.content.entity.InsanityEntity
 import net.minecraft.client.model.CreeperModel
 import net.minecraft.client.model.EntityModel
@@ -12,6 +13,8 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
+import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 
@@ -28,6 +31,11 @@ class InsanityEntityRenderer(ctx: EntityRendererProvider.Context) :
     private val zombieTexture = ResourceLocation.withDefaultNamespace("textures/entity/zombie/zombie.png")
     private val skeletonTexture = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/skeleton.png")
     private val endermanTexture = ResourceLocation.withDefaultNamespace("textures/entity/enderman/enderman.png")
+    private val endermanEyesTexture = ResourceLocation.withDefaultNamespace("textures/entity/enderman/enderman_eyes.png")
+
+    init {
+        addLayer(InsanityEndermanEyesLayer(this))
+    }
 
     private class DummyModel : EntityModel<InsanityEntity>() {
         override fun setupAnim(
@@ -99,6 +107,62 @@ class InsanityEntityRenderer(ctx: EntityRendererProvider.Context) :
                 leftArm.xRot = Mth.cos(limbSwing * 0.6662f) * 2.0f * limbSwingAmount * 0.5f
                 rightLeg.xRot = Mth.cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
                 leftLeg.xRot = Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
+
+
+                this.head.visible = true
+                this.body.xRot = 0.0F
+                this.body.y = -14.0F
+                this.body.z = -0.0F
+                this.rightLeg.xRot -= 0.0F
+                this.leftLeg.xRot -= 0.0F
+                this.rightArm.xRot *= 0.5F
+                this.leftArm.xRot *= 0.5F
+                this.rightLeg.xRot *= 0.5F
+                this.leftLeg.xRot *= 0.5F
+
+                if (this.rightArm.xRot > 0.4F) {
+                    this.rightArm.xRot = 0.4F
+                }
+
+                if (this.leftArm.xRot > 0.4F) {
+                    this.leftArm.xRot = 0.4F
+                }
+
+                if (this.rightArm.xRot < -0.4F) {
+                    this.rightArm.xRot = -0.4F
+                }
+
+                if (this.leftArm.xRot < -0.4F) {
+                    this.leftArm.xRot = -0.4F
+                }
+
+                if (this.rightLeg.xRot > 0.4F) {
+                    this.rightLeg.xRot = 0.4F
+                }
+
+                if (this.leftLeg.xRot > 0.4F) {
+                    this.leftLeg.xRot = 0.4F
+                }
+
+                if (this.rightLeg.xRot < -0.4F) {
+                    this.rightLeg.xRot = -0.4F
+                }
+
+                if (this.leftLeg.xRot < -0.4F) {
+                    this.leftLeg.xRot = -0.4F
+                }
+
+                this.rightLeg.z = 0.0F
+                this.leftLeg.z = 0.0F
+                this.rightLeg.y = -5.0F
+                this.leftLeg.y = -5.0F
+                this.head.z = -0.0F
+                this.head.y = -13.0F
+
+                this.head.y -= 5.0F
+
+                this.rightArm.setPos(-5.0F, -12.0F, 0.0F)
+                this.leftArm.setPos(5.0F, -12.0F, 0.0F)
             }
 
             override fun renderToBuffer(
@@ -137,6 +201,25 @@ class InsanityEntityRenderer(ctx: EntityRendererProvider.Context) :
         insanityModel.let { currentModel ->
             model = currentModel
             super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight)
+
+            if (entity.entityData.get(InsanityEntity.DATA_MIMIC) == "enderman") {
+                val vertexConsumer = buffer.getBuffer(RenderType.eyes(endermanEyesTexture))
+                currentModel.renderToBuffer(poseStack, vertexConsumer, 15728640, OverlayTexture.NO_OVERLAY)
+
+                if (entity.isAggressive && entity.level().isClientSide) {
+                    if (entity.level().random.nextFloat() < 0.3f) {
+                        entity.level().addParticle(
+                            ParticleTypes.PORTAL,
+                            entity.x + (entity.level().random.nextDouble() - 0.5) * entity.bbWidth,
+                            entity.y + entity.level().random.nextDouble() * entity.bbHeight,
+                            entity.z + (entity.level().random.nextDouble() - 0.5) * entity.bbWidth,
+                            (entity.level().random.nextDouble() - 0.5) * 2.0,
+                            -entity.level().random.nextDouble(),
+                            (entity.level().random.nextDouble() - 0.5) * 2.0
+                        )
+                    }
+                }
+            }
         }
     }
 

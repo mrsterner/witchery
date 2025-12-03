@@ -3,7 +3,11 @@ package dev.sterner.witchery.features.curse
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
+import dev.sterner.witchery.features.coven.CovenHandler
 import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 
@@ -22,6 +26,24 @@ class CurseOfInsanity : Curse() {
                 val insanityEntity = WitcheryEntityTypes.INSANITY.get().create(level)
                 insanityEntity?.moveTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
                 insanityEntity?.let { level.addFreshEntity(it) }
+            }
+        }
+
+        val covenSize = if (level is ServerLevel) {
+            CovenHandler.getActiveCovenSize(player, player.blockPosition())
+        } else {
+            0
+        }
+
+        val hasCovenBoost = covenSize >= 3
+
+        if (hasCovenBoost) {
+            if (level.gameTime % (20 * 30) == 0L && level.random.nextFloat() < 0.4f) {
+                playInsanitySounds(level, player)
+            }
+        } else {
+            if (level.gameTime % (20 * 90) == 0L && level.random.nextFloat() < 0.3f) {
+                playInsanitySounds(level, player)
             }
         }
     }
@@ -56,5 +78,43 @@ class CurseOfInsanity : Curse() {
         }
 
         return if (positions.isNotEmpty()) positions[random.nextInt(positions.size)] else null
+    }
+
+    private fun playInsanitySounds(level: Level, player: Player) {
+        if (!level.isClientSide) {
+            val soundType = level.random.nextInt(5)
+            val offsetX = (level.random.nextDouble() - 0.5) * 16
+            val offsetZ = (level.random.nextDouble() - 0.5) * 16
+            val soundPos = player.blockPosition().offset(offsetX.toInt(), 0, offsetZ.toInt())
+
+            val soundEvent = when (soundType) {
+                0 -> SoundEvents.CREEPER_PRIMED
+                1 -> SoundEvents.ENDERMAN_SCREAM
+                2 -> {
+                    if (level.dimension() == Level.NETHER) {
+                        SoundEvents.GHAST_SCREAM
+                    } else {
+                        SoundEvents.CREEPER_PRIMED
+                    }
+                }
+                3 -> {
+                    if (player.blockPosition().y < 0) {
+                        SoundEvents.WARDEN_ROAR
+                    } else {
+                        SoundEvents.ENDERMAN_SCREAM
+                    }
+                }
+                else -> SoundEvents.AMBIENT_CAVE.value()
+            }
+
+            level.playSound(
+                null,
+                soundPos,
+                soundEvent,
+                SoundSource.HOSTILE,
+                0.8f,
+                0.8f + level.random.nextFloat() * 0.4f
+            )
+        }
     }
 }

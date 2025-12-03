@@ -17,6 +17,7 @@
     "DamageSourcesInvoker",
     "DoorBlockMixin",
     "EnderManMixin",
+    "EntityAccessor",
     "EntityMixin",
     "FireBlockMixin",
     "FoodDataMixin",
