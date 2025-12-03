@@ -37,7 +37,7 @@ class CurseArgumentType : ArgumentType<Curse> {
         val input = builder.remaining
 
         WitcheryCurseRegistry.CURSES_REGISTRY.entrySet().forEach { curse ->
-            val curseId = curse.key.toString()
+            val curseId = curse.key!!.location().toString()
             if (curseId.startsWith(input)) {
                 builder.suggest(curseId)
             }
