@@ -10,6 +10,8 @@ import net.minecraft.world.level.Level
 class CurseOfMisfortune : Curse() {
 
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
+        if(level.isClientSide) return
+
         if (level.gameTime % 80 == 0L) {
             val effectChance = if (WitcheryApi.isWitchy(player)) {
                 0.01
@@ -18,9 +20,9 @@ class CurseOfMisfortune : Curse() {
             }
 
             val effectDuration = if (WitcheryApi.isWitchy(player)) {
-                20 * 2
+                20 * 8
             } else {
-                20 * 1
+                20 * 5
             }
 
             if (level.random.nextDouble() < effectChance) {
