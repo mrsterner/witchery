@@ -348,7 +348,6 @@ object WitcheryNeoForgeEvents {
         }
     }
 
-
     @SubscribeEvent
     fun onLivingHurt(event: LivingDamageEvent.Post) {
         CurseHandler.onHurt(event.entity, event.source, event.originalDamage)
