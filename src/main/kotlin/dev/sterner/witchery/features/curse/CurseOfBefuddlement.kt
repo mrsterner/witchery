@@ -15,6 +15,8 @@ class CurseOfBefuddlement : Curse() {
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
         super.onTickCurse(level, player, catBoosted)
 
+        if(level.isClientSide) return
+
         val effectivenessMultiplier = getEffectivenessMultiplier(player)
 
         val baseInterval = if (WitcheryApi.isWitchy(player)) {
@@ -25,7 +27,7 @@ class CurseOfBefuddlement : Curse() {
 
         if (level.gameTime % baseInterval == 0L) {
             val nauseaChance = 0.3f * effectivenessMultiplier
-            val confusionDuration = (20 * 2 * effectivenessMultiplier).toInt()
+            val confusionDuration = (20 * 6 * effectivenessMultiplier).toInt()
 
             if (level.random.nextFloat() < nauseaChance) {
                 player.addEffect(MobEffectInstance(MobEffects.CONFUSION, confusionDuration, 0))
