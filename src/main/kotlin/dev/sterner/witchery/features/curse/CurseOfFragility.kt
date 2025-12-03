@@ -25,6 +25,10 @@ class CurseOfFragility : Curse() {
 
     companion object {
         fun modifyDamage(player: Player, damage: Float): Float {
+            if (player.isDeadOrDying || player.isSpectator || player.abilities.invulnerable) {
+                return damage
+            }
+
             if (!CurseHandler.hasCurse(player, WitcheryCurseRegistry.FRAGILITY.get())) {
                 return damage
             }

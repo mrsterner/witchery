@@ -249,7 +249,18 @@ object WitcheryNeoForgeEvents {
         val entity = event.entity
         val damageSource = event.source
         var damage = event.amount
+        val originalDamage = damage
         val attacker = damageSource.entity
+
+        if (entity.isDeadOrDying || (entity is Player && (entity.isSpectator || entity.abilities.invulnerable))) {
+            return
+        }
+
+        if (!event.amount.isFinite()) return
+
+        if (event.amount >= Float.MAX_VALUE / 2f) {
+            return
+        }
 
         EquipmentHandler.babaYagaHit(event, entity, damageSource, damage)
 
@@ -330,7 +341,11 @@ object WitcheryNeoForgeEvents {
             damage = LifebloodHandler.handleDamage(entity, damageSource, damage)
         }
 
-        event.amount = damage
+        if (damage.isInfinite()) {
+            event.amount = originalDamage
+        } else {
+            event.amount = damage
+        }
     }
 
 

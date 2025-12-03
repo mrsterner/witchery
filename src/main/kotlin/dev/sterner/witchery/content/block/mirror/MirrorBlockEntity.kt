@@ -29,7 +29,7 @@ class MirrorBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var pairId: UUID? = null
     var cachedLinkedMirror: GlobalPos? = null
     private var cacheValidUntil: Long = 0
-    var mode: Mode = Mode.DEMONIC
+    var mode: Mode = Mode.TELEPORT
 
     private val entityCooldowns = mutableMapOf<Int, Long>()
 

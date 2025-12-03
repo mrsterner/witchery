@@ -1,26 +1,34 @@
 package dev.sterner.witchery.client.renderer.block
 
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.*
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.math.Axis
 import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.client.model.MirrorModel
 import dev.sterner.witchery.content.block.mirror.MirrorBlockEntity
-import net.minecraft.client.renderer.GameRenderer
+import dev.sterner.witchery.core.registry.WitcheryRenderTypes
+import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
-import java.util.function.Supplier
-
+import net.minecraft.world.phys.Vec3
+import org.joml.Matrix4f
+import org.joml.Vector3f
+import org.joml.Vector4f
 
 class MirrorBlockEntityRenderer(ctx: BlockEntityRendererProvider.Context) :
     BlockEntityRenderer<MirrorBlockEntity> {
 
     private val model = MirrorModel(ctx.bakeLayer(MirrorModel.LAYER_LOCATION))
     private val texture = Witchery.id("textures/block/mirror.png")
+    private val portalTexture = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/stone.png")
 
     override fun getRenderBoundingBox(blockEntity: MirrorBlockEntity): AABB {
         val pos = blockEntity.blockPos

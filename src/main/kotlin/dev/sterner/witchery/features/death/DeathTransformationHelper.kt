@@ -42,10 +42,9 @@ object DeathTransformationHelper {
         if (currentData.isDeath != shouldBeDeath) {
             DeathPlayerAttachment.setData(player, currentData.copy(isDeath = shouldBeDeath))
         }
-        if (!shouldBeDeath) {
+        if (!shouldBeDeath && currentData.isDeath) {
             if (AfflictionAbilityHandler.abilityIndex != -1) {
                 AfflictionAbilityHandler.setAbilityIndex(player, -1)
-                player.inventory.selected = 0
             }
         }
     }
