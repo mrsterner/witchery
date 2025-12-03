@@ -77,6 +77,10 @@ class MirrorItem(
         tooltipComponents: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
+        tooltipComponents.add(
+            Component.literal("NOT YET COMPLETELY IMPLEMENTED").withColor(Color.RED.rgb)
+        )
+
         val pairId = getPairId(stack)
         if (pairId != null) {
             tooltipComponents.add(
