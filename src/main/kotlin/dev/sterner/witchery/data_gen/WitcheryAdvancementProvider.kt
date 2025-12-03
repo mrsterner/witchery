@@ -49,8 +49,7 @@ class WitcheryAdvancementProvider(
             tarotAdvancement.parent(root).save(consumer, "witchery:tarot")
             soulAdvancement.parent(root).save(consumer, "witchery:soul")
 
-            // Example for repetitive advancements
-            val vamp1 = makeVampTornPageAdvancement("1", null, consumer)
+            val vamp1 = makeVampTornPageAdvancement("1", root, consumer)
             val vamp2 = makeVampTornPageAdvancement("2", vamp1, consumer)
             val vamp3 = makeVampTornPageAdvancement("3", vamp2, consumer)
             val vamp4 = makeVampTornPageAdvancement("4", vamp3, consumer)
@@ -60,7 +59,7 @@ class WitcheryAdvancementProvider(
             val vamp8 = makeVampTornPageAdvancement("8", vamp7, consumer)
             makeVampTornPageAdvancement("9", vamp8, consumer)
 
-            val were1 = makeWerewolfAltarAdvancement("1", null, consumer)
+            val were1 = makeWerewolfAltarAdvancement("1", root, consumer)
             val were2 = makeWerewolfAltarAdvancement("2", were1, consumer)
             val were3 = makeWerewolfAltarAdvancement("3", were2, consumer)
             val were4 = makeWerewolfAltarAdvancement("4", were3, consumer)
@@ -70,7 +69,7 @@ class WitcheryAdvancementProvider(
             val were8 = makeWerewolfAltarAdvancement("8", were7, consumer)
             makeWerewolfAltarAdvancement("9", were8, consumer)
 
-            val necro1 = makeNecroRuinPageAdvancement("1", null, consumer)
+            val necro1 = makeNecroRuinPageAdvancement("1", root, consumer)
             val necro2 = makeNecroRuinPageAdvancement("2", necro1, consumer)
             val necro3 = makeNecroRuinPageAdvancement("3", necro2, consumer)
             makeNecroRuinPageAdvancement("4", necro3, consumer)

@@ -1648,5 +1648,7 @@ object WitcheryBookLangProvider {
         add("general.poppet.title.1", "Poppet")
         add("general.poppet.page.1", "Craft together with a Taglock to bind to a player or creature. If the poppet dont require to be in the owners inventory you can place it in the world.")
 
+        add("book.witchery.guidebook.general.fume_expansion.name", "Fume Expansion")
+        add("book.witchery.guidebook.general.fume_expansion.description", "Fumecatchers")
     }
 }

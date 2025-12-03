@@ -1,4 +1,5 @@
 {
+  "parent": "witchery:root",
   "criteria": {
     "impossible_1": {
       "trigger": "minecraft:impossible"
