@@ -35,6 +35,7 @@ import dev.sterner.witchery.features.coven.CovenDialogue
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.features.curse.CurseOfFragility
+import dev.sterner.witchery.features.curse.CursePlayerAttachment
 import dev.sterner.witchery.features.death.DeathEquipmentEventHandler
 import dev.sterner.witchery.features.death.DeathPlayerAttachment
 import dev.sterner.witchery.features.ent.EntSpawningHandler
@@ -463,7 +464,7 @@ object WitcheryNeoForgeEvents {
         InventoryLockPlayerAttachment.setData(clone, InventoryLockPlayerAttachment.getData(original))
 
         LichdomSpecificEventHandler.resetDeathTeleport(clone as ServerPlayer)
-
+        CursePlayerAttachment.setData(clone, CursePlayerAttachment.getData(original))
         PhylacteryBlockEntity.onPlayerLoad(clone)
         BrewOfSleepingItem.respawnPlayer(clone)
     }

@@ -11,13 +11,17 @@ class CurseOfOverheating : Curse() {
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
         val biome = level.getBiome(player.blockPosition())
 
-        if (biome.`is`(BiomeTags.IS_SAVANNA) || biome.`is`(BiomeTags.IS_NETHER) || biome.`is`(BiomeTags.HAS_DESERT_PYRAMID)) {
-            val fireTicks = if (WitcheryApi.isWitchy(player)) {
-                20
-            } else {
-                5
+        if (player.level().canSeeSky(player.blockPosition()) && player.level().isDay) {
+            if (biome.`is`(BiomeTags.IS_SAVANNA) || biome.`is`(BiomeTags.IS_NETHER) || biome.`is`(BiomeTags.HAS_DESERT_PYRAMID)) {
+                val fireTicks = if (WitcheryApi.isWitchy(player)) {
+                    40
+                } else {
+                    20
+                }
+
+                player.remainingFireTicks = fireTicks
             }
-            player.remainingFireTicks = fireTicks
+
         }
 
         super.onTickCurse(level, player, catBoosted)

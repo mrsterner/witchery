@@ -2,28 +2,36 @@ package dev.sterner.witchery.features.curse
 
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.WitcheryApi
+import net.minecraft.core.Direction
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 
 class CurseOfSinking : Curse() {
 
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
-        if (player.isInWater) {
-            val sinkMultiplier = if (WitcheryApi.isWitchy(player)) {
-                1.0
-            } else {
-                0.3
-            }
-
-            if (player.deltaMovement.y > -0.1) {
-                player.deltaMovement = player.deltaMovement.add(0.0, -0.03 * sinkMultiplier, 0.0)
-            }
-
-            if (player.deltaMovement.y > 0) {
-                val slowdownFactor = 0.92 + (0.08 * (1.0 - sinkMultiplier))
-                player.deltaMovement = player.deltaMovement.multiply(1.0, slowdownFactor, 1.0)
-            }
+        if (!player.isInWaterOrRain) {
+            super.onTickCurse(level, player, catBoosted)
+            return
         }
+
+        val isWitch = WitcheryApi.isWitchy(player)
+
+        var sinkStrength = if (isWitch) 0.06 else 0.03
+
+        if (level.isRainingAt(player.blockPosition())) {
+            sinkStrength *= 1.3
+        }
+
+        val motion = player.deltaMovement
+
+        val newY = (motion.y - sinkStrength).coerceAtLeast(-0.5)
+
+        val resistedY = if (motion.y > 0) {
+            motion.y * if (isWitch) 0.5 else 0.75
+        } else newY
+
+        player.deltaMovement = motion.multiply(0.9, 1.0, 0.9)
+            .with(Direction.Axis.Y, resistedY)
 
         super.onTickCurse(level, player, catBoosted)
     }

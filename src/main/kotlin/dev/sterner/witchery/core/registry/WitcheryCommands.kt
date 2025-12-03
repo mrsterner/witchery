@@ -27,6 +27,7 @@ import dev.sterner.witchery.features.affliction.vampire.VampireLeveling.levelToB
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
 import dev.sterner.witchery.features.coven.CovenHandler
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
+import dev.sterner.witchery.features.curse.CursePlayerAttachment
 import dev.sterner.witchery.features.infusion.InfusionHandler
 import dev.sterner.witchery.features.infusion.InfusionPlayerAttachment
 import dev.sterner.witchery.features.infusion.InfusionType
@@ -253,6 +254,41 @@ object WitcheryCommands {
                             )
                     )
             )
+            .then(
+                Commands.literal("get")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .executes { ctx ->
+                                val player = EntityArgument.getPlayer(ctx, "player")
+                                val curseData = CursePlayerAttachment.getData(player).playerCurseList
+
+                                val message = if (curseData.isEmpty()) {
+                                    Component.literal("No curses on ${player.name.string}")
+                                } else {
+                                    val curseNames = curseData.joinToString(", ") { curse ->
+                                        WitcheryCurseRegistry.CURSES_REGISTRY[curse.curseId]?.javaClass?.simpleName
+                                            ?: curse.curseId.toString()
+                                    }
+                                    Component.literal("Curses on ${player.name.string}: $curseNames")
+                                }
+
+                                ctx.source.sendSuccess({ message }, false)
+                                1
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("clear")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .executes { ctx ->
+                                val player = EntityArgument.getPlayer(ctx, "player")
+                                CurseHandler.removeAllCurses(player)
+                                1
+                            }
+                    )
+            )
+
     }
 
     private fun registerLichdomCommands(): LiteralArgumentBuilder<CommandSourceStack> {

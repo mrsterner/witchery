@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.neoforged.neoforge.common.NeoForge
 
 object CurseHandler {
+
     /**
      * Tries to add a curse to a player. Triggers the on curse event if succeeded. Replaces the same curse.
      * @param player The target to be cursed
@@ -31,6 +32,7 @@ object CurseHandler {
         catBoosted: Boolean,
         duration: Int = 24000
     ): Boolean {
+
         val result = CurseEvent.Added(player, sourcePlayer, curse, catBoosted)
         NeoForge.EVENT_BUS.post(result)
         if (result.isCanceled) {
@@ -46,16 +48,16 @@ object CurseHandler {
                 NeoForge.EVENT_BUS.post(CurseEvent.Added(sourcePlayer, sourcePlayer, curse, catBoosted))
                 return false
             }
-
         }
 
         val data = CursePlayerAttachment.getData(player).playerCurseList.toMutableList()
         val existingCurse = data.find { it.curseId == curse }
-        val newCurseData = CursePlayerAttachment.PlayerCurseData(curse, duration = adjustedDuration, catBoosted = catBoosted)
 
         if (existingCurse != null) {
             data.remove(existingCurse)
         }
+
+        val newCurseData = CursePlayerAttachment.PlayerCurseData(curse, duration = adjustedDuration, catBoosted = catBoosted)
         data.add(newCurseData)
 
         CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(data))
@@ -68,6 +70,7 @@ object CurseHandler {
 
         return true
     }
+
 
     /**
      * Removes a curse from the player while also triggering the onRemoved effect of the curse.
@@ -155,18 +158,20 @@ object CurseHandler {
         while (iterator.hasNext()) {
             val curseData = iterator.next()
 
-            if (curseData.duration == 0) {
-                curseData.duration -= 1
-                dataModified = true
+            if (curseData.duration > 0) {
 
                 WitcheryCurseRegistry.CURSES_REGISTRY[curseData.curseId]?.onTickCurse(
                     player.level(),
                     player,
                     curseData.catBoosted
                 )
+
+                curseData.duration -= 1
+                dataModified = true
             }
 
-            if (curseData.duration == 0) {
+            if (curseData.duration <= 0) {
+
                 WitcheryCurseRegistry.CURSES_REGISTRY[curseData.curseId]?.onRemoved(
                     player.level(),
                     player,
